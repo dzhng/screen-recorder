@@ -1,0 +1,187 @@
+{
+  "archive": "outputs.tar.xz",
+  "archiveBytes": 1200272,
+  "archiveSha256": "5306fdbd9a3015dd450f3c4b18017dcb9381f19f5df0b1822a494caf71b50737",
+  "members": [
+    {
+      "path": "process-1/context.wav",
+      "bytes": 480092,
+      "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+    },
+    {
+      "path": "process-1/external-file-phrase-context.wav",
+      "bytes": 710458,
+      "sha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4"
+    },
+    {
+      "path": "process-1/external-file-phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    },
+    {
+      "path": "process-1/external-file-word-context.wav",
+      "bytes": 526138,
+      "sha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640"
+    },
+    {
+      "path": "process-1/external-file-word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "process-1/external-file.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-1/manifest.json",
+      "bytes": 10025,
+      "sha256": "c03f7c6e16ad6fa3386837307bb1ff562508c3700f29bfb754ca343b58e1d9e8"
+    },
+    {
+      "path": "process-1/past-project-phrase-context.wav",
+      "bytes": 710458,
+      "sha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4"
+    },
+    {
+      "path": "process-1/past-project-phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    },
+    {
+      "path": "process-1/past-project-word-context.wav",
+      "bytes": 526138,
+      "sha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640"
+    },
+    {
+      "path": "process-1/past-project-word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "process-1/past-project.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-1/reference.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-1/same-take-phrase-context.wav",
+      "bytes": 710458,
+      "sha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4"
+    },
+    {
+      "path": "process-1/same-take-phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    },
+    {
+      "path": "process-1/same-take-word-context.wav",
+      "bytes": 526138,
+      "sha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640"
+    },
+    {
+      "path": "process-1/same-take-word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "process-1/same-take.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-2/context.wav",
+      "bytes": 480092,
+      "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+    },
+    {
+      "path": "process-2/external-file-phrase-context.wav",
+      "bytes": 710458,
+      "sha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4"
+    },
+    {
+      "path": "process-2/external-file-phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    },
+    {
+      "path": "process-2/external-file-word-context.wav",
+      "bytes": 526138,
+      "sha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640"
+    },
+    {
+      "path": "process-2/external-file-word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "process-2/external-file.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-2/manifest.json",
+      "bytes": 10029,
+      "sha256": "a6830b0d8bfa46fa43a63a71061c1b163c7701b0b21441ed6b0dabc736d0d0f7"
+    },
+    {
+      "path": "process-2/past-project-phrase-context.wav",
+      "bytes": 710458,
+      "sha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4"
+    },
+    {
+      "path": "process-2/past-project-phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    },
+    {
+      "path": "process-2/past-project-word-context.wav",
+      "bytes": 526138,
+      "sha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640"
+    },
+    {
+      "path": "process-2/past-project-word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "process-2/past-project.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-2/reference.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "path": "process-2/same-take-phrase-context.wav",
+      "bytes": 710458,
+      "sha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4"
+    },
+    {
+      "path": "process-2/same-take-phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    },
+    {
+      "path": "process-2/same-take-word-context.wav",
+      "bytes": 526138,
+      "sha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640"
+    },
+    {
+      "path": "process-2/same-take-word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "process-2/same-take.wav",
+      "bytes": 480092,
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    }
+  ]
+}

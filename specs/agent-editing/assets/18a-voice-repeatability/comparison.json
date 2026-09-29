@@ -1,0 +1,230 @@
+{
+  "passed": true,
+  "processes": 2,
+  "generationsPerProcess": 6,
+  "comparison": "Complete WAV and complete raw PCM equality, same format; no numerical tolerance.",
+  "rows": [
+    {
+      "name": "reference",
+      "frozenWavSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "frozenPcmSha256": "8966bd6810eb352f2b015522bab1183a7edc1ed6f10119cba0583ee5ab27afb8",
+      "frozenPcmBytes": 480000,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+          "pcmSha256": "8966bd6810eb352f2b015522bab1183a7edc1ed6f10119cba0583ee5ab27afb8",
+          "pcmBytes": 480000,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+          "pcmSha256": "8966bd6810eb352f2b015522bab1183a7edc1ed6f10119cba0583ee5ab27afb8",
+          "pcmBytes": 480000,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "context",
+      "frozenWavSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+      "frozenPcmSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "frozenPcmBytes": 480000,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+          "pcmSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+          "pcmBytes": 480000,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+          "pcmSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+          "pcmBytes": 480000,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "same-take-word",
+      "frozenWavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "frozenPcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+      "frozenPcmBytes": 84480,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+          "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+          "pcmBytes": 84480,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+          "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+          "pcmBytes": 84480,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "same-take-phrase",
+      "frozenWavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "frozenPcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+      "frozenPcmBytes": 322560,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+          "pcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+          "pcmBytes": 322560,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+          "pcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+          "pcmBytes": 322560,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "external-file-word",
+      "frozenWavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "frozenPcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+      "frozenPcmBytes": 84480,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+          "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+          "pcmBytes": 84480,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+          "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+          "pcmBytes": 84480,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "external-file-phrase",
+      "frozenWavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "frozenPcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+      "frozenPcmBytes": 322560,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+          "pcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+          "pcmBytes": 322560,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+          "pcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+          "pcmBytes": 322560,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "past-project-word",
+      "frozenWavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "frozenPcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+      "frozenPcmBytes": 84480,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+          "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+          "pcmBytes": 84480,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+          "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+          "pcmBytes": 84480,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    },
+    {
+      "name": "past-project-phrase",
+      "frozenWavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "frozenPcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+      "frozenPcmBytes": 322560,
+      "runs": [
+        {
+          "process": 1,
+          "wavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+          "pcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+          "pcmBytes": 322560,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        },
+        {
+          "process": 2,
+          "wavSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+          "pcmSha256": "43274d91126a378998479d91e5f49a173d8ccb8f0aa80bca174e25635888bcb2",
+          "pcmBytes": 322560,
+          "sameFormat": true,
+          "exactPCM": true,
+          "exactWAV": true
+        }
+      ],
+      "processesExact": true
+    }
+  ],
+  "limits": [
+    "Same bytes copied to three origin paths, not managed origin retention.",
+    "No listening, voice identity, continuity, quality or production-entry acceptance.",
+    "Clean process means new Python process; OS/Metal caches not purged.",
+    "Repeatability observed on these fixed cases and this verified environment only; output bytes still own replay."
+  ]
+}
