@@ -30,3 +30,5 @@ Build order: composition, core, protocol, service, CLI. Focused checks are core
 scratch locations as provenance. The existing denoise-scale harness remains the
 owner of fresh complete scale setup and preparation; this receipt pass does not
 introduce an alternate editor or renderer harness owner.
+
+[Combined-root verification](root-verification.json) confirms build and the core/service/CLI response and replay checks. `root-verification.tar.gz` retains logs.

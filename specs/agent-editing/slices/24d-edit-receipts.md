@@ -1,6 +1,7 @@
 # 24d — One committed document in public edit receipts
 
 Status: public 10,000-clip receipt delivery and replay verified.
+Dependencies: [24c](24c-edit-batch-work.md).
 [Evidence](../assets/24d-edit-receipts/README.md).
 
 `revision.document` is the single public document owner. Edit receipts retain
