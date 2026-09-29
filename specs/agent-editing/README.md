@@ -17,9 +17,10 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: restore the exact registered voice runtime from retained local
-sources and verify public preparation in durable storage. In parallel, identify
-the remaining bounded-query memory cases beyond timeline inspection.
+Current pickup: profile the cached waveform-query latency failure in the existing
+two-/four-hour duration-memory cohort, preserving the original budget and samples.
+The [exact voice runtime](assets/19d-runtime-recovery/README.md) is restored in
+durable storage and passes public preparation/restart under unchanged identities.
 [Deep/wide learned routing](slices/24v-learned-routing-scale.md) is verified for
 its short cohort, using the original run and its saved-publication continuation. Public durable
 [voice generation](slices/19f-public-voice-jobs.md), measured controls and retained

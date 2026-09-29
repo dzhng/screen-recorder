@@ -15,6 +15,10 @@ file contents, modes, relative symlinks and inventory digest were checked exactl
 Existing input files were cloned with distinct inodes; no writable hardlinks or
 full-copy fallback were used.
 
+[Root verification](root-verification.json) independently checks both runtime trees
+and both model copies against registered hashes, modes and links, confirms separate
+runtime-file inodes, and rehashes the complete evidence archive.
+
 ## Reconstruction provenance
 
 The pinned Python base, repository entry/profile/pins and local uv cache provide

@@ -1,0 +1,21 @@
+{
+  "runtimeEntriesPerTree": 11428,
+  "runtimeFilesPerTree": 10036,
+  "runtimeBytesPerTree": 488274953,
+  "sourceAndManagedExact": true,
+  "noRuntimeFileHardlinks": true,
+  "modelFilesPerTree": 14,
+  "modelBytesPerTree": 2516143009,
+  "modelSourceAndManagedExact": true,
+  "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+  "sourcePath": "/Users/david/.cache/screen-recorder/prepared-sources/voice-runtime-3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+  "managedPath": "/Users/david/.cache/screen-recorder/verification/voice-runtime-3f20d26c/home/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+  "integratedCommit": "09a8953e",
+  "archive": {
+    "sha256": "8f5480804befec9a7ab3e40bda675894680b969e279499aadb2ab40bd2d38ab2",
+    "members": 30,
+    "expandedBytes": 13406647,
+    "allHashesVerified": true
+  },
+  "scope": "Independent source and managed file hashes/modes/links checked against registered inventory; public preparation/restart evidence retained from isolated service. No additional inference or production change."
+}

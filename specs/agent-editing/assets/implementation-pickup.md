@@ -37,15 +37,16 @@ Historical workers and measurements retain their own identities below.
   audio parity and numerical controls pass; earlier failures remain retained.
   [Adoption evidence](19d-voice-adoption/README.md) and root checks distinguish
   execution correctness from parent listening acceptance. The prepared home
-  `/tmp/screenrec-19d-repaired-managed/home` was restored and released after19f,
-  but is absent at root's subsequent integration check. Revalidate/recover exact
-  prerequisites from durable sources before another live voice run; archived
-  evidence remains intact. Scratch paths are not durable model distribution.
+  The former `/tmp/screenrec-19d-repaired-managed/home` disappeared after19f.
+  [Exact recovery](19d-runtime-recovery/README.md) restored the registered runtime
+  under `~/.cache/screen-recorder/prepared-sources/voice-runtime-3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001`.
+  The ready durable home is `~/.cache/screen-recorder/verification/voice-runtime-3f20d26c/home`;
+  public preparation/restart and root source/managed inventory rehashes pass.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
   [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
   saved replay, stable explicit origins, queued restart and model-free transfer of
-  generated/reference audio. Prepared-package-transfer now owns exact runtime recovery;
-  capture-pause-recovery is investigating remaining bounded-query memory after24v.
+  generated/reference audio. Prepared-package-transfer is released after recovery;
+  capture-pause-recovery owns the waveform duration-memory/latency cohort after24v.
   Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
