@@ -1,6 +1,7 @@
 import { validateComposition, projectToSource } from "@screenrec/composition";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
+import { backup } from "node:sqlite";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { Catalog } from "./catalog.js";
@@ -10,11 +11,11 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const run of cleanup.splice(0).reverse()) await run();
 });
-async function setup() {
+async function setup({ memory = false } = {}) {
   const home = await mkdtemp(join(tmpdir(), "screenrec-projects-"));
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const path = join(home, "catalog.sqlite");
-  const catalog = new Catalog(path);
+  const catalog = new Catalog(memory ? ":memory:" : path);
   cleanup.push(async () => catalog.close());
   const assets = new AssetStore(catalog, home);
   await assets.recover();
@@ -238,7 +239,8 @@ test("deletion fences reads and replayed edits, survives restart, and retains cr
 });
 
 test("large deleted histories retire in restartable pages without losing the tombstone", async () => {
-  const { store, catalog } = await setup();
+  const fixture = await setup({ memory: true });
+  let { store, catalog } = fixture;
   const created = store.create({ requestId: "paged", canvas });
   let head = created.revision.id;
   for (let i = 0; i < 1500; i++) {
@@ -248,17 +250,46 @@ test("large deleted histories retire in restartable pages without losing the tom
       operations: [{ operation: "canvas.set", canvas: { width: 200 + i } }],
     }).revision.id;
   }
+  // Exercise deletion on disk without charging setup for 1,500 independent durable commits.
+  await backup(catalog.catalog, fixture.path);
+  const reopen = () => {
+    catalog.close();
+    catalog = new Catalog(fixture.path);
+    store = new ProjectStore(catalog, new AssetStore(catalog, fixture.home));
+  };
+  cleanup.push(async () => catalog.close());
+  reopen();
+  expect(
+    catalog.catalog.prepare("SELECT COUNT(*) AS count FROM project_revisions").get()!.count,
+  ).toBe(1501);
+  expect(catalog.catalog.prepare("SELECT COUNT(*) AS count FROM project_undo").get()!.count).toBe(
+    1500,
+  );
+  expect(
+    catalog.catalog.prepare("SELECT COUNT(*) AS count FROM project_requests").get()!.count,
+  ).toBe(1500);
+  expect(store.revision(created.project.projectId).id).toBe(head);
   const id = created.project.projectId;
   store.markDeleting(id);
-  let complete = false;
+  let complete = false,
+    restarted = false;
   while (!complete) {
     const before = Number(catalog.catalog.prepare("SELECT total_changes() AS count").get()!.count);
     complete = store.finishDeletionPage(id);
     const after = Number(catalog.catalog.prepare("SELECT total_changes() AS count").get()!.count);
     // Empty-media histories must not retire thousands of rows in one blocking transaction.
     expect(after - before).toBeLessThanOrEqual(1024);
-    if (!complete) expect(store.deletionsPage().projectIds).toEqual([id]);
+    expect(after - before).toBeGreaterThan(0);
+    if (!complete) {
+      if (!restarted) {
+        reopen();
+        restarted = true;
+        expect(store.isDeleting(id)).toBe(true);
+      }
+      expect(store.deletionsPage().projectIds).toEqual([id]);
+    }
   }
+  expect(restarted).toBe(true);
   expect(store.deletionsPage().projectIds).toEqual([]);
   expect(store.isDeleting(id)).toBe(true);
   expect(store.create({ requestId: "paged", canvas })).toEqual(created);
