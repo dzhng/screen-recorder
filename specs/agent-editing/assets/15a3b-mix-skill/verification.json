@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "splitPCMBytes": 1920000,
+  "splitPCMByteExact": true,
+  "sourceExpandedDryByteExact": true,
+  "skillSha256": "97c6c97922d3379a62ec74b3c4d9aa0117f248b8e5f918489de78b39e29f29d8",
+  "nativeSha256": "7ae9f9c82085bcf4d5f6b936267d9a3c24e8304bc8650f7493f4326155056945",
+  "model": "gpt-6-luna",
+  "scope": "fresh public CLI skill use; not listening/whole25 acceptance",
+  "skillStructure": "frontmatter unchanged; bundled validator unavailable because PyYAML is missing",
+  "archiveFiles": 83,
+  "archiveSha256": "a5748647a0be578fb48659e627dbebe0474657fbb1ca4b0fdd9940322aa66ab2",
+  "serviceStopped": true
+}

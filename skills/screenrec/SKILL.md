@@ -130,6 +130,10 @@ microseconds. Preserve returned `window` and `evaluationRange` when changing an
 existing step. Structural edits retain its original clock, so re-read the edited
 settings instead of rebuilding the curve from a preview range. For gain changes,
 compare bounded dry/after-step/processed WAVs before judging level or joins.
+For denoise strength, use its advertised mix control and ordinary keys. A zero
+mix restores the immediate upstream audio; it does not mute the clip. Keep one
+continuous processor through a fade instead of inserting bypasses that change
+learned state, and inspect both dry neighbors and the processed transition.
 
 For a simple fade or uniform zoom, discover the `fade`/`zoom` variants in
 `edit.apply`. Choose explicit start/end values and an anchor window. Fade requires

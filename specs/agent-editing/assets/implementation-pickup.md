@@ -2,19 +2,28 @@
 
 The full editor goal remains active; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
-catalog format is19 and source policy is native-source-v2. The combined worker is
-`/tmp/screenrec-24l-root-native` (release), SHA256
-`45203b2845a2560562953555eccee1c3ed3bc45c44b2c7ec28ede584e38b8ca2`.
+catalog format is19, source policy is native-source-v2 and produced audio/movie
+policies arev9/v19. The combined worker is
+`helpers/mac/.build/debug/screenrec-native`, SHA256
+`7ae9f9c82085bcf4d5f6b936267d9a3c24e8304bc8650f7493f4326155056945`.
 Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
 
+- **Denoise transitions15a3b:** integrated. Combined244 composition/31 native
+  audio/preparation tests and50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
+  independently preserves the complete split PCM and dry-source samples. No
+  listening or retiming acceptance is inferred.
+- **Decoder work24n:** delegate owns `codex/decoder-scale` in the reused
+  capture-pause-recovery worktree. Actual PCM decoding is bounded, but descriptor
+  reads can amplify to the whole source. Telemetry is being banked separately;
+  diagnose resource-loading requests before changing the input owner.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
   Continue actual decoded-work measurement and remaining query families/history.
 - **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
-  needs about3GiB more free disk. Run its measured preflight before restoring PCM.
+  still lacks the free disk required by its measured preflight. Run its measured preflight before restoring PCM.
   No large restore or repeated DSP has run. The prerequisite worktree is
   `/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder`.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.

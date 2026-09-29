@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; matched encoded samples preserve trajectory/clocks with documented edge/color loss; continuous playback remains unverified. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; explicit fade/zoom conveniences have scoped public delivery evidence; delivered retime+gain, denoise transitions and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
+Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; matched encoded samples preserve trajectory/clocks with documented edge/color loss; continuous playback remains unverified. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; explicit fade/zoom conveniences have scoped public delivery evidence; [unit-rate denoise transitions](15a3b-denoise-transitions.md) are verified; delivered retime+gain and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
 
 ## Contract
 

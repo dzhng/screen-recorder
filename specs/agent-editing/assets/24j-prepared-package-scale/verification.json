@@ -54,5 +54,11 @@
     }
   ],
   "rootMetadataPassed": true,
-  "rootReview": "Two harness findings corrected; followup no actionable defects. Full transfer remains unverified."
+  "rootReview": "Two harness findings corrected; followup no actionable defects. Full transfer remains unverified.",
+  "subsequentExecutorCheck": {
+    "scope": "v9 producer schema still reconstructs original v8 recipe; full transfer remains unrun",
+    "artifact": "v9-metadata.json.gz",
+    "sha256": "49bec37388964a5f7abf8974e35adb1514a6903a9d5fb1fa6ba5679ac356cbfd",
+    "exactOriginalRecipe": true
+  }
 }

@@ -45,3 +45,7 @@ losslessly in the evidence archive. [Verification metadata](verification.json) a
 archive and names its scope. No device, playback, download, retiming enablement
 or subjective quality assessment occurred. Parent denoise/speech and editor
 acceptance remain open.
+
+[Combined-root verification](root-verification.json) repeats all50 public checks
+with the merged native worker and passes244 composition plus31 native audio and
+preparation tests. Fresh product-skill validation is tracked separately.

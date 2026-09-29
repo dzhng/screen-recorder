@@ -1,6 +1,6 @@
 # 15a — Adopt verified noise reduction in processing stacks
 
-Status: [native-entry parity](./15a1-denoise-entry-parity.md) and scoped [public prepared consumers](./15a2-denoise-prepared-consumers.md) verified. The [unit-rate combined public join](./15a3a-unit-rate-combined.md) is verified; broader combined/retiming and listening acceptance remain open. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
+Status: [native-entry parity](./15a1-denoise-entry-parity.md) and scoped [public prepared consumers](./15a2-denoise-prepared-consumers.md) verified. The [unit-rate combined public join](./15a3a-unit-rate-combined.md) and [explicit mix transitions](15a3b-denoise-transitions.md) are verified; broader combined/retiming and listening acceptance remain open. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
 
 ## Contract
 

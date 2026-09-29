@@ -19,13 +19,13 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Implement [explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
-in parallel with scale review. Reuse ordinary scalar keys and prepared state.
+[Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
+now passes the combined public/native journey and [fresh agent skill use](assets/15a3b-mix-skill/README.md).
 
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
    [prepared-package transfer](slices/24j-prepared-package-scale.md), measured decoder work and remaining query families/history.
    The exact two-hour recipe has been reconstructed against its original hash;
-   transfer preflight needs about3GiB more free disk. Do not restore multi-GB PCM
+   available disk is insufficient for its transfer preflight. Do not restore multi-GB PCM
    before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
    is verified, including changed learned settings refusing stale audio after adoption.
 2. [Capture rollout](slices/20d-capture-publication.md) is verified for its
@@ -263,7 +263,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a2e — Selected input and ordered consumer isolation](slices/15a2e-state-isolation.md)
 - [x] [15a2f — Independent learned state per channel](slices/15a2f-independent-channels.md)
 - [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
-- [ ] [15a3b — Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
+- [x] [15a3b — Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
 - [x] [15a3a — Public unit-rate combined temporal processing](slices/15a3a-unit-rate-combined.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)

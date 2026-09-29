@@ -74,3 +74,6 @@ full-wet bytes. Original v8 retained preparations remain readable under their
 recorded policy, verified by actual historical package adoption and playback with
 processing capability unavailable. Numerical agreement does not close parent
 listening, retiming or complete-editor acceptance.
+
+[Fresh agent skill use](../assets/15a3b-mix-skill/README.md) passes public discovery,
+curve authoring, taps, exact split preservation and historical/undo inspection.

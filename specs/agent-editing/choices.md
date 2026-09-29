@@ -3520,3 +3520,12 @@ alternating fresh-process trials per duration. Report sampled resident peaks and
 growth above startup, using medians without hiding individual variation. This
 resolves the plan's unspecified measurement method for timeline queries; it does
 not establish memory behavior for other query families or native decoding.
+
+## 15a3b — Version produced mixes while retaining old preparations (sound, high confidence)
+
+Adding mix curves changes what the composition executor understands, even though
+the learned model itself is unchanged. Advance produced audio/movie identities
+tov9/v19 while keeping the fixed model identity. Previously prepared audio keeps
+its recorded policy and remains readable through the existing retained-result
+owner. Omitted mix preserves the old full-wet samples; its new execution receipt
+truthfully identifies the new executor rather than pretending it was the old one.

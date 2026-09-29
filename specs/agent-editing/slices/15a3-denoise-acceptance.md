@@ -9,3 +9,8 @@ Preserve the parent’s complete contract: post-retime placement and combined ov
 The user preferred the learned candidate and reported no obvious artifacts in four unfamiliar short clips, but could not understand the words. That is not intelligibility or word-retention acceptance. Do not ask the preference again or repeat cropped unknown-word QA. Protected speech, consonants/onsets/ends, pumping/metallic/echo and naturalness remain listening judgments. Future user material must use complete meaningful sentences from the user's recording with one clear question. Numeric parity, waveform/ASR, silence or absent feedback cannot replace listening.
 
 Retain complete matched media and exact identities for scoped independent assessment. Any new visual evidence needs the repository screenshot-critique gate; no sparse-frame or numeric-audio proxy for playback/listening. Close only the gates actually observed; the [parent](./15a-noise-processing.md) remains the full acceptance authority.
+
+[15a3b](15a3b-denoise-transitions.md) now verifies explicit unit-rate mix curves,
+dry neighbors, preserved state, ordered learned stages and retained consumers.
+This resolves that scoped transition requirement; accepted retiming and remaining
+listening/state evidence still gate the complete parent.
