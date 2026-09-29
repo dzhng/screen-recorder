@@ -1,0 +1,12 @@
+{
+  "commit": "493d6c86",
+  "serviceBuildExitCode": 0,
+  "serviceTestsExitCode": 0,
+  "serviceTests": 12,
+  "ordinaryPublicJourneyExitCode": 0,
+  "ordinaryPublicJourneyPassed": true,
+  "retainedFixtureHashesVerified": 14,
+  "workerSHA256": "8ca6e7a3f403b6298340ad9a131bf4742980a568e819ac3016f1d3386ecec20d",
+  "archiveSHA256": "a2e594a52d393b5b28240f468948799dcf5723f571fd4b4e80dfc747806ec6a0",
+  "scope": "Combined root ordinary audio/gain/movie, retry and historical restart journey. Same native worker; no new DSP, model or listening claim."
+}

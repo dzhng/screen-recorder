@@ -47,8 +47,11 @@ verified mono sources and their structural dual-mono mixes.
   and executes the frozen adapter through the existing mixer and prepared owner.
   [Combined-root evidence](15a2d-linked-runtime/root-verification.json) covers full
   frozen PCM, ordered state, public preparation/movie/export, real cancellation
-  and retained reads with execution unavailable. Next extend selected-input/tap
-  isolation, temporal treatment, independent channels and portable prepared use.
+  and retained reads with execution unavailable. The later absent-field wire
+  regression now has [ordinary-render confirmation](15a2d-linked-runtime/wire-absence-root.json);
+  plain audio/movie requests retain strict framing and render again. Next extend
+  selected-input/tap isolation, temporal treatment, independent channels and
+  portable prepared use.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires
   explicit local model preparation, without edit-time downloads. Full independent
   channel policy and listening acceptance remain open.
