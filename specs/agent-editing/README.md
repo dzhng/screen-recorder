@@ -23,7 +23,8 @@ Implement [explicit denoise strength and transitions](slices/15a3b-denoise-trans
 in parallel with scale review. Reuse ordinary scalar keys and prepared state.
 
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
-   [prepared-package transfer](slices/24j-prepared-package-scale.md), wide routing and queue/cancellation interactions.
+   [prepared-package transfer](slices/24j-prepared-package-scale.md), warm1080p preview,
+   measured decoder work and controlled duration-doubling memory.
    The exact two-hour recipe has been reconstructed against its original hash;
    transfer preflight needs about3GiB more free disk. Do not restore multi-GB PCM
    before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
@@ -32,10 +33,9 @@ in parallel with scale review. Reuse ordinary scalar keys and prepared state.
    prerecorded scope, including both-role pause and absent/torn-terminal recovery
    in [20d8](slices/20d8-pause-terminal-boundaries.md). Physical camera acceptance
    and installed cutover remain separate.
-3. [Independent processing batches](slices/24i-processing-batches.md) now complete
-   the previously timed-out 1,000-operation edit within its unchanged deadline,
-   preserving exact edit receipts and PCM. Continue [general scale](slices/24-scale.md)
-   with wide routing and queue/cancellation interactions. The complete two-hour learned workload,
+3. [Routed scale](slices/24k-routing-scale.md) now passes500/10,000 occurrence
+   placement, bounded250-row inspection, exact late PCM and queue/cancellation
+   checks on the combined root. The complete two-hour learned workload,
    combined fragmented-source/history package, and bounded public job inspection
    now pass their scoped gates. Continue speech/denoise/retiming/voice acceptance,
    then remaining camera, package, cutover and autonomous workflow gates. Every
@@ -304,6 +304,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24h — Bounded public job inspection](slices/24h-job-inspection.md)
 - [x] [24i — Independent processing batches](slices/24i-processing-batches.md)
 - [ ] [24j — Complete two-hour prepared-package transfer](slices/24j-prepared-package-scale.md)
+- [x] [24k — Routed placement and bounded queued reads](slices/24k-routing-scale.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

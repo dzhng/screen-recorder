@@ -9,11 +9,9 @@ Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
 
-- **Routing scale24k:** the delegate is reviewing changes in
-  `/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder`, branch
-  `codex/routing-scale`. Public500/10,000 occurrence tests exposed and now pass
-  placement and cached timeline budgets in that checkout. Root integration remains
-  pending; no broad scale or real in-flight native cancellation claim follows.
+- **Routing scale24k:** integrated and reverified on root, including89 composition
+  and30 core tests and the full scoped public journey. Continue warm1080p preview,
+  actual decoded-work measurement and controlled duration-doubling memory.
 - **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
   needs about3GiB more free disk. Run its measured preflight before restoring PCM.
   No large restore or repeated DSP has run. The prerequisite worktree is

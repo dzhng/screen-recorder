@@ -32,3 +32,6 @@ The absent-source loop performs no source IO and advances within the existing
 Pending scene work prevents readiness; later evidence publication changes pinned
 dependencies. A missing file behind a published pointer still takes the ordinary
 error path, so absence of publication is not confused with corrupt retained data.
+
+[Combined-root verification](root-verification.json) reruns the public journey
+after integration; the complete report is retained in `root-public.json.gz`.

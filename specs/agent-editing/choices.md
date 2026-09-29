@@ -3484,3 +3484,20 @@ Keep learned state continuous through zero mix so fading back in does not start
 a new acoustic history. The accepted plan required strength automation but left
 its parameter and arithmetic unspecified; explicit blend avoids inventing a
 model tuning control that the fixed adapter does not provide.
+
+## 24k — Reuse state ownership to batch independent placements (sound, high confidence)
+
+Adding many clips to a project with ordinary gain previously repeated full project
+validation for every clip. The existing state owner already distinguishes processors
+whose input membership changes shared learned state. Use that same classification
+to batch independent placements; keep stateful normalization scalar. This avoids
+a gain-only exception and preserves ordered receipts and the earliest invalid edit.
+
+## 24k — Skip sources known to have no published events (sound, high confidence)
+
+Thousands of imported clips may have editorial cuts but no capture or scene
+evidence. Their missing source rows cannot contribute events, so skip those lanes
+without spending the source-read budget. Keep publication dependencies pinned:
+later evidence invalidates the query, and a missing file behind a published pointer
+still fails normally. The existing10,000-occurrence bound contains this traversal;
+no larger page budget, cache or timeout is introduced.
