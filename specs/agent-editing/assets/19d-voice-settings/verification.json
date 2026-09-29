@@ -1,0 +1,10 @@
+{
+  "independentReview": "No actionable correctness issues; reviewer extracted archive, independently verified both tranches and all member hashes; no inference rerun",
+  "archiveSha256": "28cae90536c956fdc866ca1648945008c711724009870b75f6163e8a3be17f54",
+  "archiveMembersVerified": 60,
+  "terminationOfflineVerification": true,
+  "controlsOfflineVerification": true,
+  "falseEosMutationRejected": true,
+  "productionChanges": false,
+  "publicEnvelopeAdopted": false
+}

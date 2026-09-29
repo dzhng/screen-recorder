@@ -1,0 +1,302 @@
+[
+  {
+    "file": "screenrec-19d-settings/attempts.json",
+    "bytes": 4014,
+    "sha256": "74b0ebcd679b590d155971a24b0d30100f6e3ce2cd6d90a4ba8ac34d069b63d5"
+  },
+  {
+    "file": "screenrec-19d-settings/effective-clamp.json",
+    "bytes": 2399,
+    "sha256": "da836a1b6641c1158c28b42770b7464c86bb6254de8c7c1d4bdf1e9f245bdbe5"
+  },
+  {
+    "file": "screenrec-19d-settings/effective-clamp.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-settings/effective-clamp.request.json",
+    "bytes": 444,
+    "sha256": "c59aed78666effd715e4807a01bc32b9f5cf2a613eaaacc6e42f521570b4b08f"
+  },
+  {
+    "file": "screenrec-19d-settings/effective-clamp.wav",
+    "bytes": 322618,
+    "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-phrase.json",
+    "bytes": 2401,
+    "sha256": "99d13d29e7d08f0dd0d702467f24bb006c9fbd26567b9f8df527ef6dcfde776d"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-phrase.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-phrase.request.json",
+    "bytes": 445,
+    "sha256": "98a7c96fa022d652ab20c69b6288153723fdbaee1ad5fbab0d788ed3ee866b2b"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-phrase.wav",
+    "bytes": 322618,
+    "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-word.json",
+    "bytes": 2375,
+    "sha256": "8e6b186cbfa90b81eceafce6bb58fe1378350c649fcc19c0b4fe6526a7fdc9c3"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-word.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-word.request.json",
+    "bytes": 420,
+    "sha256": "36a27b8e28e04bb7944d82373ec23ae9c735b325780c881542b16ea8f8bc69ea"
+  },
+  {
+    "file": "screenrec-19d-settings/frozen-word.wav",
+    "bytes": 84538,
+    "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+  },
+  {
+    "file": "screenrec-19d-settings/sentence.json",
+    "bytes": 2411,
+    "sha256": "083c92cefbca0328000459f692c339bd23aabdb8f3cf864a36fa1e4f5770c3b1"
+  },
+  {
+    "file": "screenrec-19d-settings/sentence.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-settings/sentence.request.json",
+    "bytes": 456,
+    "sha256": "ec7c7deff86b08bb111723c9506b6b226deb20589b59eb5bf603aafdc3e7f3c5"
+  },
+  {
+    "file": "screenrec-19d-settings/sentence.wav",
+    "bytes": 268858,
+    "sha256": "d756ef0430e2b97e84351188a87fa8b14c815b872ff700a8ee2c626b69f2cd2d"
+  },
+  {
+    "file": "screenrec-19d-settings/token-cap.json",
+    "bytes": 2319,
+    "sha256": "c08a1bc0b9f73001a62f80167a9ee4a657f697f61bdb3ef763bf6057eb7ab8ab"
+  },
+  {
+    "file": "screenrec-19d-settings/token-cap.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-settings/token-cap.request.json",
+    "bytes": 454,
+    "sha256": "d0224dcdc283ff28bd10e8eea5a68b1dbe70e650bf5ae702f2691edc4f15fa5f"
+  },
+  {
+    "file": "screenrec-19d-settings/token-cap.wav",
+    "bytes": 7738,
+    "sha256": "f567e039be9692b2d4722450031a37706f6b50dfaedb3771d6d0b9fbf76f6930"
+  },
+  {
+    "file": "screenrec-19d-settings/verification.json",
+    "bytes": 4398,
+    "sha256": "4744fd6d403224924d579ee7178efbec18b8cdfcb71dee16675358836497922f"
+  },
+  {
+    "file": "screenrec-19d-controls/attempts.json",
+    "bytes": 6224,
+    "sha256": "4cb64e4644749ba8e2fe1d0792c8e8ded0f214dc2aea18bfe89e6a07429e4eb7"
+  },
+  {
+    "file": "screenrec-19d-controls/greedy.json",
+    "bytes": 2406,
+    "sha256": "5670d2649c4f0499c3b958e6b52690f3474a7695b9137dd9e123ec2b1e8da15c"
+  },
+  {
+    "file": "screenrec-19d-controls/greedy.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/greedy.request.json",
+    "bytes": 454,
+    "sha256": "d3ac67d59840b2b132bcf29d67808c1df5446c3446ae869f1c6713921ff5ee2c"
+  },
+  {
+    "file": "screenrec-19d-controls/greedy.wav",
+    "bytes": 437818,
+    "sha256": "0033a5aab1e0093eab506cc689877d6a8edca92fc90232efb734d81b9ccaf238"
+  },
+  {
+    "file": "screenrec-19d-controls/language-auto.json",
+    "bytes": 2404,
+    "sha256": "58f90587f01e9d68118ab0a5d2cf853437274fe55873f5db6f360905c07f8731"
+  },
+  {
+    "file": "screenrec-19d-controls/language-auto.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/language-auto.request.json",
+    "bytes": 453,
+    "sha256": "0b042ad089195e09087260056b616f879d266327ff4739c2bd1d85677c063eb2"
+  },
+  {
+    "file": "screenrec-19d-controls/language-auto.wav",
+    "bytes": 268858,
+    "sha256": "6642ce23b1aa5e5488118589c46eb348ee9efc81aa211201115a9b042e2f8274"
+  },
+  {
+    "file": "screenrec-19d-controls/penalty.json",
+    "bytes": 2409,
+    "sha256": "d76b4998184f5662e98e01ae0817910df380d2023477f53d2be0f1a916005bae"
+  },
+  {
+    "file": "screenrec-19d-controls/penalty.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/penalty.request.json",
+    "bytes": 455,
+    "sha256": "2d5e50d79d3be527efad4ebb3def0de0cfc31e19c9bc8d117b12ecb6e9fc57c6"
+  },
+  {
+    "file": "screenrec-19d-controls/penalty.wav",
+    "bytes": 268858,
+    "sha256": "d756ef0430e2b97e84351188a87fa8b14c815b872ff700a8ee2c626b69f2cd2d"
+  },
+  {
+    "file": "screenrec-19d-controls/seed-replay.json",
+    "bytes": 2412,
+    "sha256": "dcab7832132dcd6e88669edaa58f3816c4bcb899ae0cc041c130c996f42a198a"
+  },
+  {
+    "file": "screenrec-19d-controls/seed-replay.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/seed-replay.request.json",
+    "bytes": 456,
+    "sha256": "05d3c41449bcf1ec11394559b5fdc905d77cb30961c6631503747602aafe12b3"
+  },
+  {
+    "file": "screenrec-19d-controls/seed-replay.wav",
+    "bytes": 483898,
+    "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd"
+  },
+  {
+    "file": "screenrec-19d-controls/seed.json",
+    "bytes": 2412,
+    "sha256": "1d37f6fd6a9f4d1bdcb942bcd41cee9bb6a1db801b1f833eb6ec78bb97196abf"
+  },
+  {
+    "file": "screenrec-19d-controls/seed.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/seed.request.json",
+    "bytes": 456,
+    "sha256": "05d3c41449bcf1ec11394559b5fdc905d77cb30961c6631503747602aafe12b3"
+  },
+  {
+    "file": "screenrec-19d-controls/seed.wav",
+    "bytes": 483898,
+    "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-disabled.json",
+    "bytes": 2423,
+    "sha256": "a4cec51a647950a4ad8f8ecd1623e2fda0014b47a169bd310669f6dc80bb4654"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-disabled.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-disabled.request.json",
+    "bytes": 455,
+    "sha256": "79bf1b2194283e7fab1ff8454383c64bc4170d724cdacb05f4547549db621e29"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-disabled.wav",
+    "bytes": 245822,
+    "sha256": "31fa650ebdd3379c5056ef4c4050161cf431a84b29b5c9dc295d25c55c1edb81"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-one.json",
+    "bytes": 2409,
+    "sha256": "e05860188e8ead5057667c33bbf59e8ce290919341188aec1fedb80e66366c10"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-one.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-one.request.json",
+    "bytes": 455,
+    "sha256": "0794a7b2b1267836e16bb873410a2b7ea76bf65e843ed560e3b2273ac55eab48"
+  },
+  {
+    "file": "screenrec-19d-controls/top-k-one.wav",
+    "bytes": 437818,
+    "sha256": "0033a5aab1e0093eab506cc689877d6a8edca92fc90232efb734d81b9ccaf238"
+  },
+  {
+    "file": "screenrec-19d-controls/top-p.json",
+    "bytes": 2410,
+    "sha256": "5db12cabb8fa543e5d4e319f64459029607d1766484978c0c1435221560598d8"
+  },
+  {
+    "file": "screenrec-19d-controls/top-p.log",
+    "bytes": 498,
+    "sha256": "1c5c8f447589578a39cbafce74e3ff15f1f4f77eedcd05341bc93b39d30a42a3"
+  },
+  {
+    "file": "screenrec-19d-controls/top-p.request.json",
+    "bytes": 456,
+    "sha256": "2c02068f74f55c525a251fa21f032189c3ea9d6e19c672ed7b8706dc69d3a99f"
+  },
+  {
+    "file": "screenrec-19d-controls/top-p.wav",
+    "bytes": 268858,
+    "sha256": "f313e12e99228f2c7385beeb8f09c022e297829acfff6eaebf1f5635ba4c0692"
+  },
+  {
+    "file": "screenrec-19d-controls/verification.json",
+    "bytes": 6799,
+    "sha256": "9aae4f3eeed84a066c5e39f306512b36af2f09abf957e799f74c264cdffd1e51"
+  },
+  {
+    "file": "settings-used.py",
+    "bytes": 6717,
+    "sha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a"
+  },
+  {
+    "file": "first-tranche-controller.py",
+    "bytes": 2458,
+    "sha256": "30b17330b6582a3cf5e0d6c833d2550ed25c78cec5f31cff104354b10cf78cef"
+  },
+  {
+    "file": "control-tranche-controller.py",
+    "bytes": 2544,
+    "sha256": "8b1cf8345f39d295c36f7c63b468470916b7dacd6317e99ccecc22ca57404540"
+  },
+  {
+    "file": "false-eos-mutation.log",
+    "bytes": 3376,
+    "sha256": "4bded720fc4bacfe3f37524b13dec2c1db68d8bc9e614c0572fd3d28a85be8f0"
+  }
+]

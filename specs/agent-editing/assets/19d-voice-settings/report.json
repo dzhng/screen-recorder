@@ -1,0 +1,756 @@
+{
+  "scope": "Observed termination and thirteen bounded settings trials; no public envelope, naturalness or RTF acceptance",
+  "sentence": "Okay, so this is the recorder workbench.",
+  "sourceCommit": "132308d4",
+  "trials": [
+    {
+      "id": "effective-clamp",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "This is available at no cost.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 42,
+        "generatedCodes": 42,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+        "frames": 80640,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 3.36,
+        "resultTokens": [
+          42
+        ],
+        "mlxPeakBytes": 6417070521
+      },
+      "processSeconds": 3.670409957994707,
+      "peakResidentBytes": 2756231168,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "frozen-phrase",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "This is available at no cost.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 42,
+        "generatedCodes": 42,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+        "frames": 80640,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 3.36,
+        "resultTokens": [
+          42
+        ],
+        "mlxPeakBytes": 6417072569
+      },
+      "processSeconds": 3.8989195419708267,
+      "peakResidentBytes": 2757427200,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "frozen-word",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "paid",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 11,
+        "generatedCodes": 11,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+        "frames": 21120,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 0.88,
+        "resultTokens": [
+          11
+        ],
+        "mlxPeakBytes": 5986196049
+      },
+      "processSeconds": 6.8308903749566525,
+      "peakResidentBytes": 2756083712,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "sentence",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 35,
+        "generatedCodes": 35,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "d756ef0430e2b97e84351188a87fa8b14c815b872ff700a8ee2c626b69f2cd2d",
+        "frames": 67200,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 2.8,
+        "resultTokens": [
+          35
+        ],
+        "mlxPeakBytes": 6167279593
+      },
+      "processSeconds": 3.4725054999580607,
+      "peakResidentBytes": 2757001216,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "token-cap",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 1,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 1,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "token-budget",
+        "step": 0,
+        "generatedCodes": 1,
+        "effectiveMaxTokens": 1
+      },
+      "output": {
+        "sha256": "f567e039be9692b2d4722450031a37706f6b50dfaedb3771d6d0b9fbf76f6930",
+        "frames": 1920,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 0.08,
+        "resultTokens": [
+          1
+        ],
+        "mlxPeakBytes": 5701216725
+      },
+      "processSeconds": 2.8626037500798702,
+      "peakResidentBytes": 2756542464,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "greedy",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 57,
+        "generatedCodes": 57,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "0033a5aab1e0093eab506cc689877d6a8edca92fc90232efb734d81b9ccaf238",
+        "frames": 109440,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 4.56,
+        "resultTokens": [
+          57
+        ],
+        "mlxPeakBytes": 6290381889
+      },
+      "processSeconds": 4.10343004099559,
+      "peakResidentBytes": 2754052096,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "language-auto",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "auto",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "auto",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 35,
+        "generatedCodes": 35,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "6642ce23b1aa5e5488118589c46eb348ee9efc81aa211201115a9b042e2f8274",
+        "frames": 67200,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 2.8,
+        "resultTokens": [
+          35
+        ],
+        "mlxPeakBytes": 6167298025
+      },
+      "processSeconds": 3.461654666927643,
+      "peakResidentBytes": 2756296704,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "penalty",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.8,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.8,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 35,
+        "generatedCodes": 35,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "d756ef0430e2b97e84351188a87fa8b14c815b872ff700a8ee2c626b69f2cd2d",
+        "frames": 67200,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 2.8,
+        "resultTokens": [
+          35
+        ],
+        "mlxPeakBytes": 6167281641
+      },
+      "processSeconds": 3.4089802080998197,
+      "peakResidentBytes": 2754576384,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "seed-replay",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 19
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 63,
+        "generatedCodes": 63,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd",
+        "frames": 120960,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 5.04,
+        "resultTokens": [
+          63
+        ],
+        "mlxPeakBytes": 6473230457
+      },
+      "processSeconds": 4.673431167029776,
+      "peakResidentBytes": 2757230592,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "seed",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 19
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 63,
+        "generatedCodes": 63,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd",
+        "frames": 120960,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 5.04,
+        "resultTokens": [
+          63
+        ],
+        "mlxPeakBytes": 6473230457
+      },
+      "processSeconds": 5.454046875005588,
+      "peakResidentBytes": 2757722112,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "top-k-disabled",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 0,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 0,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 32,
+        "generatedCodes": 32,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "31fa650ebdd3379c5056ef4c4050161cf431a84b29b5c9dc295d25c55c1edb81",
+        "frames": 61441,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 2.5600416666666668,
+        "resultTokens": [
+          32
+        ],
+        "mlxPeakBytes": 6060238629
+      },
+      "processSeconds": 3.411640750011429,
+      "peakResidentBytes": 2754707456,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "top-k-one",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 1,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 1,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 57,
+        "generatedCodes": 57,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "0033a5aab1e0093eab506cc689877d6a8edca92fc90232efb734d81b9ccaf238",
+        "frames": 109440,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 4.56,
+        "resultTokens": [
+          57
+        ],
+        "mlxPeakBytes": 6290398365
+      },
+      "processSeconds": 4.16936604201328,
+      "peakResidentBytes": 2755936256,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    },
+    {
+      "id": "top-p",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 0.8,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 0.8,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 35,
+        "generatedCodes": 35,
+        "effectiveMaxTokens": 256
+      },
+      "output": {
+        "sha256": "f313e12e99228f2c7385beeb8f09c022e297829acfff6eaebf1f5635ba4c0692",
+        "frames": 67200,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 2.8,
+        "resultTokens": [
+          35
+        ],
+        "mlxPeakBytes": 6167281657
+      },
+      "processSeconds": 4.067441667080857,
+      "peakResidentBytes": 2757427200,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      }
+    }
+  ],
+  "sourceFilterSemantics": {
+    "mainVocabulary": 3072,
+    "residualVocabulary": 2048,
+    "topK": "Enabled separately per book only when 0 < k < vocabulary, and bypassed by temperature <= 0",
+    "topP": "Enabled only when 0 < p < 1, and bypassed by temperature <= 0",
+    "repetition": "First book only, recent64 generated IDs; ICL max(requested,1.5)"
+  },
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+}
