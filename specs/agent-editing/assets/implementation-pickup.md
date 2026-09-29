@@ -144,3 +144,14 @@ perceptual claim follows. Fresh independent `codex review --uncommitted` is live
 in the22b worktree, exec session41913, log `/tmp/screenrec-22b-review.log`. It has
 run the36 focused tests with one native-dependent skip; poll this exact handle
 before restarting. Lifetime regression and current-root integration remain open.
+
+22b review session41913 completed with two confirmed findings: invalid raw test tap
+(corrected to dry), and unpinned produced-mode jobs that could adopt later retained
+output. The worktree now persists explicit null for produced selection and a
+resource ID for retained selection; automatic resolution is admission-only.
+Audio and preview execution preserve that decision, including legacy omitted
+internal fields as produced. A delivery-failure regression covers both modes and
+checks the retained FD closes while saved output stays readable.38 focused tests
+pass (one native-dependent skip) and core typecheck passes. Before integration,
+add the preview/export pinning regression, rerun public delivery after this fix,
+and obtain review follow-up. Review/test logs are retained in22b assets.
