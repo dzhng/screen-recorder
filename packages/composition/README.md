@@ -134,7 +134,11 @@ instructions are stored once; members select their own ordered prefixes, and
 dependencies refer to connected domains rather than shared keys. Parent extents
 follow structural audio contributions, while the temporal owner resolves authored
 activation independently of missing source support. No old graph or prepared
-cache defines that meaning. The [state/window checkpoint](../../specs/agent-editing/slices/15a2b-parent-state-windows.md)
-admits RNNoise metadata with execution unavailable. `stateKey` is preserved
-clip-only engine metadata, not a caller-supplied grouping control; channel/native
-execution and prepared-consumer acceptance remain separate work.
+cache defines that meaning. `stateKey` is engine-owned continuity metadata, not a
+caller-supplied grouping control. Execution availability comes from the native
+capability and input requirements; authoring alone never proves a processor ran.
+The [native state executor](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift)
+uses independent learned state per output channel and publishes only complete paired
+results through the existing prepared-audio owner. The
+[consumer plan](../../specs/agent-editing/slices/15a2-denoise-prepared-consumers.md)
+separates verified numerical delivery from remaining quality and scale acceptance.
