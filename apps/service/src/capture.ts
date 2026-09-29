@@ -1,4 +1,4 @@
-import { mkdir, rm } from "node:fs/promises";
+import { mkdir, readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
   isSettled,
@@ -347,6 +347,26 @@ export class CaptureService {
     if (current.state !== "canceled") {
       const report = await this.endNativeCapture(current);
       if (report) current = this.report(report);
+      else {
+        const recovered = await this.readRecoveredSource(current);
+        if (recovered.captured || recovered.durationUs > 0)
+          current = this.settleRecovered(current, recovered);
+        else {
+          const entries = await readdir(sourceDirectory(this.home, current.recordingId)).catch(
+            (error: NodeJS.ErrnoException) => {
+              if (error.code === "ENOENT") return [];
+              throw error;
+            },
+          );
+          if (entries.length > 0)
+            throw new CatalogError(
+              "CAPTURE_RECOVERY_UNRESOLVED",
+              "Source bytes remain but recovery could not prove their outcome",
+              { recordingId },
+              true,
+            );
+        }
+      }
       // A cancel that joined finalization can receive a finished take. The catalog's terminal
       // rule refuses that cancellation, preserving media for an explicit library deletion.
       current = this.author(current, { state: "canceled" });
@@ -365,6 +385,12 @@ export class CaptureService {
   }
 
   private async reconcile(recording: Recording): Promise<Recording> {
+    return this.settleRecovered(recording, await this.readRecoveredSource(recording));
+  }
+
+  private async readRecoveredSource(
+    recording: Recording,
+  ): Promise<ReturnType<typeof readRecovery>> {
     const recovered = await this.worker(
       "media.recover",
       {
@@ -373,7 +399,13 @@ export class CaptureService {
       { signal: this.lifetime.signal },
     );
     if (!recovered.ok) throw fromNative(recovered);
-    const { durationUs, captured } = readRecovery(recovered.data);
+    return readRecovery(recovered.data);
+  }
+
+  private settleRecovered(
+    recording: Recording,
+    { durationUs, captured }: ReturnType<typeof readRecovery>,
+  ): Recording {
     return this.author(recording, {
       state: "interrupted",
       reason:

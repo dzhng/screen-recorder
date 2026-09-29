@@ -488,3 +488,80 @@ test.each(["complete", "interrupted"] as const)(
     }
   },
 );
+
+test.each(["media", "empty", "failed", "ambiguous"] as const)(
+  "cancel after native forgot take preserves finished media=%s",
+  async (mode) => {
+    const finished = mode !== "empty";
+    const home = await mkdtemp("/tmp/screenrec-cancel-missed-report-");
+    const store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
+    const recording = store.allocate().recording;
+    if (finished)
+      store.ingestLifecycle(recording.recordingId, {
+        sourceId: recording.sourceId,
+        sequence: 1,
+        state: "finalizing",
+      });
+    const source = join(home, "recordings", recording.recordingId, "source");
+    await mkdir(source, { recursive: true });
+    const sentinel = join(source, "sentinel");
+    if (finished) await writeFile(sentinel, "canonical media whose terminal report was lost");
+    const service = new CaptureService(
+      store,
+      home,
+      async () => ({
+        ok: false,
+        error: { code: "INVALID_STATE", message: "No take held", retryable: false, details: {} },
+      }),
+      async () => {
+        if (mode === "failed")
+          return {
+            ok: false,
+            error: {
+              code: "MEDIA_WORKER_FAILED",
+              message: "Unknown physical prefix",
+              retryable: true,
+              details: {},
+            },
+          };
+        return {
+          ok: true,
+          data: {
+            durationUs: mode === "media" ? 1234 : 0,
+            journal: mode === "media" ? { header: { sessionID: recording.sourceId } } : null,
+          },
+        };
+      },
+    );
+    try {
+      if (finished) {
+        const result = await service.cancel(recording.recordingId).catch((error: unknown) => error);
+        expect(await readFile(sentinel, "utf8")).toBe(
+          "canonical media whose terminal report was lost",
+        );
+        expect(result).toMatchObject({
+          code:
+            mode === "failed"
+              ? "MEDIA_WORKER_FAILED"
+              : mode === "ambiguous"
+                ? "CAPTURE_RECOVERY_UNRESOLVED"
+                : "INVALID_STATE",
+        });
+        expect(store.get(recording.recordingId)).toMatchObject(
+          mode !== "media"
+            ? { state: "finalizing", sourceDurationUs: null }
+            : { state: "interrupted", sourceDurationUs: 1234 },
+        );
+      } else {
+        expect(await service.cancel(recording.recordingId)).toMatchObject({ state: "canceled" });
+      }
+    } finally {
+      await service.close();
+      store.close();
+      await rm(home, { recursive: true, force: true });
+    }
+  },
+);

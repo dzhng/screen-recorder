@@ -120,3 +120,9 @@ optional cleanup distinct from capture failure. Ordinary schema1 remains enabled
 actual prerecorded NativeCapture/writer/publisher, typed unavailable roles, recovery
 budgets, recording-domain package closure and layout rollout remain required. The physical input
 seam must include cursor acquisition and preserve existing start teardown/geometry.
+
+
+[Missed-terminal cancellation evidence](../assets/20d-cancel-recovery/README.md)
+requires recovery before cancellation when native has forgotten the take. Any
+recoverable or ambiguous remaining source bytes survive; only proved absence permits
+canceled deletion. Explicit library deletion remains a separate authority.
