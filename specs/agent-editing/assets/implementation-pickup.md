@@ -26,16 +26,22 @@ Historical workers and measurements retain their own identities below.
   Root reverified all11,427 bundle entries and21 archive members. Preserve
   `/private/tmp/screenrec-19b-relocation/bundle` for common preparation work;
   its model is separate, and no public readiness/distribution claim follows.
-  Common preparation19c is active in the reused two-hour-package-transfer worktree
-  on `codex/common-model-preparation`; settings19d is active in capture-pause-recovery
-  on `codex/voice-settings`. Coordinate actual inference between those owners.
-  The exact pinned model is hash-restored at
-  `/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519`;
-  use this explicit source rather than the missing temporary path.
-  Fifteen control/termination trials are integrated, including identical-WAV
-  EOS/budget boundary cases. Measured public envelope and typed adoption remain. Excerpts19e and public jobs19f
-  follow. The native19e probe preserves canonical PCM but rewrites WAV headers;
-  explicit24kHz mono conversion is still missing. Public generation/listening open.
+  Common preparation19c is integrated; root155 native-enabled focused tests pass.
+  Its complete public managed-copy journey preserves both frozen voice outputs
+  and all306 inherited ASR words/timings. The same-size runtime mutation control
+  refuses altered bytes. Preparation uses independent bounded copies, not COW.
+  The exact pinned model source is
+  `/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519`.
+  Settings19d is active in capture-pause-recovery on `codex/voice-settings`.
+  The measured512-code combined corner and short-reference/temperature probes pass;
+  typed public controls and parent listening acceptance remain open.
+  New entry controls will receive a distinct immutable registration, not retarget
+  the private checkpoint's ID. Excerpts19e is active in prepared-package-transfer;
+  its finite conversion19e1 and shared asset staging prerequisites are integrated.
+  Candidate native worker there has SHA256
+  `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
+  the root binary remains frozen8a until coordinated integration. Root reproduced
+  a complete converted WAV through the candidate wire entry exactly.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
@@ -45,8 +51,7 @@ Historical workers and measurements retain their own identities below.
 - **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
   recipe, late PCM and newly authored receiver edit/undo survive donor removal
   with processing unavailable. No missing original history is inferred.
-  Its clean prepared-package-transfer worktree is reused for finite canonical
-  PCM conversion19e1; build there without replacing the root frozen worker.
+  Its prepared-package-transfer worktree now owns public excerpts19e.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.

@@ -1,0 +1,37 @@
+{
+  "workerSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+  "request": {
+    "id": "root-finite",
+    "operation": "media.convertSelectedAudio",
+    "params": {
+      "source": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-finite-root-5hqe3ssg/source.wav",
+      "output": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-finite-root-5hqe3ssg/result.wav",
+      "sampleRate": 24000,
+      "channels": 1
+    }
+  },
+  "receipt": {
+    "data": {
+      "bytes": 21928,
+      "channelPolicy": "preserve",
+      "contextPolicy": "complete-selected-pcm-zero-origin",
+      "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-finite-root-5hqe3ssg/result.wav",
+      "implementationId": "native-finite-pcm-v1",
+      "input": {
+        "channels": 1,
+        "frames": 8193,
+        "sampleRate": 44100
+      },
+      "mediaType": "audio/wav",
+      "output": {
+        "channels": 1,
+        "frames": 4458,
+        "sampleRate": 24000
+      }
+    },
+    "id": "root-finite",
+    "ok": true
+  },
+  "completeWavSha256": "70092486305b2010846f818fcac6e881fba804170786dfb7f24657601a687c47",
+  "matchedFrozenOutput": true
+}

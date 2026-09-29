@@ -3663,3 +3663,21 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   Defaults and chosen origin identities cannot mutate underneath deduplication.
   **Verdict: sound; confidence high.** It preserves saved-byte authority and the
   existing queue identity rather than adding a request-ID database.
+
+## Local model preparation capacity reserve
+
+- **When:** common model preparation19c (`6bc4717a`).
+- **Choice:** before copying each pinned model/runtime file, require that file’s
+  size plus512 MiB free on the destination filesystem. For example, a2 GiB model
+  file is refused with a retryable storage error if only2.2 GiB remains; freeing
+  space lets the same explicit preparation run again. Installation uses an
+  independent bounded copy, after Node’s clone operation was observed unsupported.
+- **Gap:** the plan required truthful capacity and cancellation but did not select
+  a free-space reserve. This is a conservative admission policy, not an assertion
+  that other processes cannot consume the remaining space.
+- **Reach:** local preparation may refuse before the disk is literally full;
+  ordinary inspection and synthesis never start an implicit installation.
+- **Verdict:** sound, because bounded independent copies preserve source isolation
+  and leave some operating space without claiming guaranteed capacity.
+- **Confidence:** medium; the reserve is a reversible operational choice and can
+  be revisited with measurements on other hosts.

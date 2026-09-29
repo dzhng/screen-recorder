@@ -17,19 +17,21 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations only; the installed app has not switched engines.
 
-Current pickup: implement [common model preparation](slices/19c-common-model-preparation.md)
-and independently measure [supported voice settings](slices/19d-voice-settings.md).
-The [settings/termination experiment](assets/19d-voice-settings/README.md)
-passes its scoped15 trials; the [resource experiment](assets/19d-voice-envelope/README.md)
-exceeds the memory target at1,024 output tokens. The combined512-token candidate
-and public controls remain open.
-The private entry and [runtime relocation](slices/19b-voice-runtime-relocation.md)
-are verified; the retained runtime bundle is an explicit local artifact, not a
-public installer. Reuse existing model/jobs/assets owners. [Retained excerpts](slices/19e-retained-audio-excerpts.md)
-then feed [public durable generation](slices/19f-public-voice-jobs.md). Keep the
-whole parent19 contextual/listening gate and all other open slices in scope.
-The [shared asset publication prerequisite](assets/19e-asset-publication/README.md)
-passes focused and public preparation/package gates; public excerpts remain open.
+Current pickup: implement [measured voice controls](slices/19d-voice-settings.md)
+and [retained audio excerpts](slices/19e-retained-audio-excerpts.md) in parallel,
+then [public durable generation](slices/19f-public-voice-jobs.md).
+[Common model preparation](slices/19c-common-model-preparation.md) passes the
+public local-adoption journey, frozen voice parity and existing ASR preservation.
+The [combined512-code resource corner](assets/19d-voice-corner/README.md) and
+[short-reference/numeric probes](assets/19d-voice-admission/README.md) pass their
+scoped gates; the earlier1,024-code memory failure remains retained. Typed controls
+are not yet public. Preserve whole parent19 contextual/listening acceptance.
+
+[Finite selected PCM conversion](slices/19e1-finite-audio-conversion.md) and
+[shared asset publication](assets/19e-asset-publication/README.md) pass their
+prerequisites. Root retains the frozen8a native worker for current voice checks;
+use the isolated candidate named in the pickup for the new conversion operation.
+No public installer, voice generation or excerpt operation is claimed yet.
 
 Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
 speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open
@@ -287,9 +289,9 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [x] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)
 - [x] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
-- [ ] [19c — Common local model preparation](slices/19c-common-model-preparation.md)
+- [x] [19c — Common local model preparation](slices/19c-common-model-preparation.md)
 - [ ] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
-- [ ] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
+- [x] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
 - [ ] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
 - [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.

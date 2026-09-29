@@ -1,0 +1,30 @@
+{
+  "19c-model-preparation": {
+    "archiveSha256": "2b364976f97329098f7c9e4039cfc309501de43fa340999c3891905ca735a69f",
+    "verifiedMembers": 46
+  },
+  "19d-voice-corner": {
+    "archiveSha256": "bb2e77bb43aafdb67a7c39ffcf1b2ee58a38553d68d26bd3d1ae8528337a9313",
+    "verifiedMembers": 7
+  },
+  "19d-voice-admission": {
+    "archiveSha256": "d2fd0a578e1e97ba561a0f4897f45854ae1783a061808aca20686825a34fb15f",
+    "verifiedMembers": 26
+  },
+  "19e1-finite-audio-conversion": {
+    "archiveSha256": "92f79a996380d3d093badb02fd2a344662570bc56f665b3f8bcb2df0291394cc",
+    "verifiedMembers": 1779
+  },
+  "combinedRootChecks": {
+    "builds": [
+      "core",
+      "protocol",
+      "service",
+      "CLI"
+    ],
+    "nativeEnabledFocusedTests": 155,
+    "skipped": 0,
+    "sourceIdentitiesMatchManifest": true,
+    "nativeRootUnchanged": true
+  }
+}
