@@ -1,6 +1,6 @@
 # 20 — Prove screen and camera timing
 
-Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; real ten-minute capture and physical interruption gates remain unverified. Dependencies: [00](./00-corpus.md).
+Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is the next offline-buildable prerequisite; real ten-minute capture and physical interruption gates remain unverified. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
