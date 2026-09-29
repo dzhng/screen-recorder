@@ -1,0 +1,17 @@
+{
+  "commit": "6b0c71af",
+  "workerSHA256": "7ae65717b5a41f1dedf090f955bd127ce8f33b55b852dcc7af58d8b6cae721be",
+  "buildExit": 0,
+  "actualOrphanCases": 2,
+  "focusedCoreTests": 52,
+  "publicProjectPassed": true,
+  "verifiedArtifactFiles": 45,
+  "archiveSHA256": "729ddf667a28d613e995110503c9de8d95549ef4823406e4a41ba1927c843767",
+  "files": {
+    "0-acquisition-lifetime-root-build.log": "9b18aa49d1762ac804a5fb528fa9ea8d0b9fbdb20638066225d3619f99ccfe4e",
+    "1-acquisition-lifetime-root-orphan.log": "2de21d33fa2637173fb7918bf6c6d551538f3562444114481671ef9a8c413843",
+    "2-acquisition-lifetime-root-core.log": "2575495f1de66a94c6988c48fc0999f850fa6e9ddd52e964885b473de9b24329",
+    "3-report.json": "d5f0379f9ade67ec900039a4f6da73ab13c3318b72fd06b452ae6138a48bc2f9"
+  },
+  "scope": "Combined-root acquisition native-child ownership, exact preservation while busy, cleanup after child exit and public canonical package preservation. No recording-source cleanup or large-work deadline claim."
+}

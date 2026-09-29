@@ -3042,3 +3042,16 @@ serialization to implementation. The64 MiB plan bound leaves room above the meas
 enriched projects can still refuse explicitly. This is a transport bound, not a
 promise that every10,000-clip project fits. Existing attempt locks/cleanup own the file,
 and the native file check does not claim arbitrary parent directories are immutable.
+
+### Acquisition recovery waits for native work (sound, medium confidence)
+
+If the service dies during source verification, its native child can keep reading
+and writing. Acquisition recovery now takes an exclusive lease on the acquisition
+root before deleting files, references or pending rows; native work inherits a
+shared lease. The plan required safe recovery but did not select lease scope.
+A root lease deliberately delays unrelated acquisition cleanup too, because the
+existing recovery transaction spans the whole owner, including reservations without
+files. Startup reports retryable ACQUISITION_BUSY instead of polling or deleting
+live work. Once the child exits, ordinary recovery proceeds. This reuses the existing
+directory and adds no lockfile registry. Package verification carries both its input
+workspace lease and acquisition staging lease because they protect different files.

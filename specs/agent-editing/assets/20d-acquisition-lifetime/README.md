@@ -11,3 +11,5 @@ Package adoption also lends its existing workspace lifetime alongside the acquis
 The focused test stops actual native source verification and metadata probing at the existing syscall barrier, kills the owner process and opens the same catalog in a fresh owner. Recovery refuses while preserving the exact rows and journal. After the orphan exits, recovery finishes and removes the pending portable reservation. A mutation removing exclusive recovery admission demonstrates the original failure: cleanup completes while the child is stopped, removing its journal and reservation.
 
 [verification.json](verification.json) retains red/green receipts and logs. The ordinary acquisition regression and public canonical project relocation/adoption remain green. These checks establish lifetime and cleanup behavior, not an expanded media deadline. Source verification's separate large-work budget remains the next checkpoint.
+
+[Combined-root verification](root-verification.json) repeats the actual orphan, core and public project gates with the integrated worker.

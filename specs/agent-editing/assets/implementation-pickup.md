@@ -39,9 +39,11 @@ with independent state per output channel. Listening acceptance remains open.
   exact PCM, immutable proof/clock verification and relocation/restart pass.
   [Recording-domain packages](20d-recording-package/README.md) now have
   [combined-root confirmation](20d-recording-package/root-verification.json), including
-  retained-page verification and native workspace lifetime inheritance. Next prove
-  large-work operation budgets and check remaining acquisition-workspace lifetime
-  paths. Existing consumer interval limits remain separate integration gates.
+  retained-page verification and native workspace lifetime inheritance. [Acquisition native-child lifetime](20d-acquisition-lifetime/README.md) now has
+  [combined-root orphan/restart verification](20d-acquisition-lifetime/root-verification.json).
+  Next prove large-work source budgets and protect recording-source generation
+  cleanup. The100k canonical probe also exceeds the response-frame bound; that
+  metadata delivery gap remains separate from the measured source-verification timeout. Existing consumer interval limits remain separate integration gates.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.
 - **Denoise input/runtime:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
