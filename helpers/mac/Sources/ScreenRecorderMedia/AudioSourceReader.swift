@@ -17,6 +17,7 @@ package final class AudioSourceReader {
     private var origin: ExactTime?
     private var position: Int64 = 0
     private var end: Int64 = 0
+    private var openedEnd: Int64 = 0
     private var intervalStart: Int64 = 0
     private var packetStart: Int64 = 0
     private var nextPacketStart: Int64 = 0
@@ -43,10 +44,10 @@ package final class AudioSourceReader {
     package func begin(origin: ExactTime, at start: Int64, end: Int64) throws {
         // Nearby selections in the same physical run can share a decoded packet. A mask does
         // not establish a new sample origin; seek again when the run or bounded scan changes.
-        if reader == nil || self.origin?.equals(origin) != true || start < packetStart
-            || Int128(start) - Int128(position) > Int128(sampleRate) {
+        if end > start && (reader == nil || self.origin?.equals(origin) != true || start < packetStart
+            || Int128(start) - Int128(position) > Int128(sampleRate)) {
             self.origin = origin
-            try open(at: start)
+            try open(at: start, through: end)
         }
         self.position = start
         self.end = end
@@ -64,7 +65,7 @@ package final class AudioSourceReader {
         return CMTime(value: inside.partialValue, timescale: 1_000_000)
     }
 
-    private func open(at start: Int64) throws {
+    private func open(at start: Int64, through demandEnd: Int64) throws {
         reader?.cancelReading()
         pending = nil
         let opened: AVAssetReader
@@ -78,7 +79,13 @@ package final class AudioSourceReader {
         // discards this bounded context before any selected samples reach the converter.
         let first = max(0, start - Int64(packetFrames) * 2)
         let seek = try Self.seekTime(origin: origin!, frame: first, sampleRate: sampleRate)
-        opened.timeRange = CMTimeRange(start: seek, duration: .positiveInfinity)
+        let limit = try Self.seekTime(origin: origin!, frame: demandEnd, sampleRate: sampleRate)
+        let duration = limit.value.subtractingReportingOverflow(seek.value)
+        guard !duration.overflow, duration.partialValue > 0 else {
+            throw NativeFailure.decodeFailed("Audio demand exceeds finite reader range capacity.")
+        }
+        opened.timeRange = CMTimeRange(start: seek,
+            duration: CMTime(value: duration.partialValue, timescale: seek.timescale))
         packetStart = first
         nextPacketStart = first
         expectedStamp = CMTime(value: try ExactTime(seek).sample(sampleRate),
@@ -100,6 +107,7 @@ package final class AudioSourceReader {
             if let detail = input.failure { throw detail }
             throw NativeFailure.decodeFailed("Cannot start audio reader.")
         }
+        openedEnd = demandEnd
         self.reader = opened
         self.output = output
     }
@@ -126,11 +134,17 @@ package final class AudioSourceReader {
             guard let sample = pending else {
                 if let detail = input.failure { throw detail }
                 if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
+                // A later selection can reuse pending PCM, then extend only after exhausting
+                // the prior finite demand. This is not the codec's premature-tail retry.
+                if reader?.status == .completed, openedEnd < end, position >= openedEnd {
+                    try open(at: position, through: end)
+                    continue
+                }
                 // A completed AAC reader can stop before its declared end while a seek still
                 // returns the real tail. Retry only once, at the exact next sample, never padding.
                 if reader?.status == .completed, !reopened, position > intervalStart, position < end {
                     reopened = true
-                    try open(at: position)
+                    try open(at: position, through: end)
                     continue
                 }
                 return nil

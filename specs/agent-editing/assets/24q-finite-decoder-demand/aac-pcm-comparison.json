@@ -1,0 +1,23 @@
+[
+  {
+    "case": "tail",
+    "bytes": 768000,
+    "equal": true,
+    "baseline": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "candidate": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a"
+  },
+  {
+    "case": "last20ms",
+    "bytes": 7680,
+    "equal": true,
+    "baseline": "64d97f2ed2316aef67a44d6ed37c75ccab5000aa352f3183bafb49d3067b1e85",
+    "candidate": "64d97f2ed2316aef67a44d6ed37c75ccab5000aa352f3183bafb49d3067b1e85"
+  },
+  {
+    "case": "short-full",
+    "bytes": 352800,
+    "equal": true,
+    "baseline": "f6992d85a94fe7ea9cdc1797b9c6f7f60ed871189b125c0cd2236a68d47603e1",
+    "candidate": "f6992d85a94fe7ea9cdc1797b9c6f7f60ed871189b125c0cd2236a68d47603e1"
+  }
+]

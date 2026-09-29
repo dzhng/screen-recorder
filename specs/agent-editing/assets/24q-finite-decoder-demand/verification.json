@@ -1,0 +1,12 @@
+{
+  "base": "43c113fa",
+  "baselineWorkerSHA256": "a75f3ecdb5dc8829f33dc84f9234cf7fbefe4623c2840a54d51dfc1fac62ab19",
+  "candidateWorkerSHA256": "dedea79a05db7b481b3679b096f4fcb7db3ca2758df1056bf348c6450fa730ce",
+  "releaseBuild": "swift build -c release --package-path helpers/mac --product screenrec-native",
+  "sourceOwner": "release and debug passed",
+  "captureOwner": "prerecorded native publication debug passed; release test optimizer assertion retained",
+  "nativeWire": "5 tests passed",
+  "mix": "music-and-replacement complete gate passed",
+  "scale": "16 cases with enforced unchanged read-ahead bound passed",
+  "independentReview": "no actionable defects; positive AAC retry execution remains unverified"
+}

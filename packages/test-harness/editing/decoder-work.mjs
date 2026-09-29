@@ -417,7 +417,10 @@ try {
         { source: sparse, asset: sparseAsset, probe: sparseProbe, stream: sparseStream },
       );
       assert.deepEqual(sparseResult.pcm, marker);
-      assert(sparseResult.receipt.sourceWork.decoded[0].frames <= rate);
+      assert(
+        sparseResult.receipt.sourceWork.decoded[0].frames <= 960 + 3,
+        "PCM decoding exceeds selected frames, two lookbehind frames and one endpoint cell",
+      );
       const readBytes = sparseResult.receipt.sourceWork.descriptorReadBytes;
       const passed = readBytes <= evidence.readAhead.maximumBytes;
       evidence.readAhead.observations.push({ second, readBytes, passed });

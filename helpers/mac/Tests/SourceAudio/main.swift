@@ -345,7 +345,7 @@ precondition(
     lateWave.samples
         == Array(fullLong.samples[Int(late.sampleRange.start) * 2..<Int(late.sampleRange.end) * 2]))
 precondition(
-    late.decodedFrames <= 48_000, "Late window decoded a source prefix: \(late.decodedFrames)")
+    late.decodedFrames <= late.frames + 3, "PCM demand exceeded two lookbehind frames and one endpoint cell: \(late.decodedFrames)")
 print("Late 20ms window decoded \(late.decodedFrames) native frames from a 60-second source")
 // Descriptor accounting is independent of whether an inspection-byte budget applies.
 let descriptorFile = try FileHandle(forReadingFrom: longSource)
@@ -424,3 +424,61 @@ precondition(!remaining.contains(where: { $0.hasPrefix(".screenrec-output-") }))
 print(
     "Source windows passed \(cases) full/range comparisons, dual stream mono/stereo, physical/acquisition gaps and poison isolation; unsupported rate/channel count refused. Evidence: \(directory.path)"
 )
+
+// Repeated demands preserve native sample identity while extending finite reader coverage.
+let reuseInput = try MediaInput(url: longSource)
+let reuseTrack = try await reuseInput.asset.loadTracks(withMediaType: .audio)[0]
+@MainActor func reuseReader() -> AudioSourceReader {
+    AudioSourceReader(input: reuseInput, asset: reuseInput.asset, track: reuseTrack,
+        sampleRate: 48_000, packetFrames: 1, channels: 2)
+}
+func verifySelection(_ decoder: AudioSourceReader, _ start: Int64, _ end: Int64, originUs: Int64 = 0) throws {
+    try decoder.begin(origin: ExactTime(Int128(originUs)), at: start, end: end)
+    var values: [Float] = []
+    while let buffer = try decoder.next() {
+        values.append(contentsOf: UnsafeBufferPointer(start: buffer.floatChannelData![0], count: Int(buffer.frameLength) * 2))
+    }
+    let originFrame = originUs * 48_000 / 1_000_000
+    precondition(values == Array(fullLong.samples[Int(originFrame + start) * 2..<Int(originFrame + end) * 2]))
+}
+let shared = reuseReader()
+for pair: (Int64, Int64) in [(0, 0), (0, 100), (100, 200), (199, 220), (220, 220), (220, 230), (2, 4), (230, 300), (96_000, 96_013)] {
+    try verifySelection(shared, pair.0, pair.1)
+}
+let contiguous = reuseReader()
+try verifySelection(contiguous, 0, 100)
+try verifySelection(contiguous, 100, 200)
+let isolatedA = reuseReader(), isolatedB = reuseReader()
+try verifySelection(isolatedA, 0, 100)
+try verifySelection(isolatedB, 100, 200)
+precondition(contiguous.decodedFrames < isolatedA.decodedFrames + isolatedB.decodedFrames,
+    "Contiguous extension discarded reusable pending PCM")
+print("PASS finite demand reuse across contiguous, overlap, empty, backwards and gapped ranges; shared \(contiguous.decodedFrames) vs independent \(isolatedA.decodedFrames + isolatedB.decodedFrames) decoded frames")
+
+let emptyOrigin = reuseReader()
+try verifySelection(emptyOrigin, 0, 100)
+try verifySelection(emptyOrigin, 100, 100, originUs: 1_000_000)
+try verifySelection(emptyOrigin, 100, 200)
+try verifySelection(emptyOrigin, 0, 0, originUs: 1_000_000)
+try verifySelection(emptyOrigin, 0, 100, originUs: 1_000_000)
+try verifySelection(emptyOrigin, 100, 100)
+try verifySelection(emptyOrigin, 100, 200, originUs: 1_000_000)
+let shortPhysical = reuseReader()
+for count: Int64 in [20, 10] {
+    try shortPhysical.begin(origin: ExactTime(0), at: 2_880_000 - count, end: 2_880_000 + count)
+    var samples: [Float] = []
+    while let buffer = try shortPhysical.next() {
+        samples.append(contentsOf: UnsafeBufferPointer(start: buffer.floatChannelData![0], count: Int(buffer.frameLength) * 2))
+    }
+    precondition(samples == Array(fullLong.samples.suffix(Int(count) * 2)))
+    precondition(!shortPhysical.reachedSelectionEnd)
+    let decoded = shortPhysical.decodedFrames
+    let exhausted = try shortPhysical.next()
+    precondition(exhausted == nil)
+    precondition(shortPhysical.decodedFrames == decoded, "Premature EOF kept reopening without progress")
+}
+try shortPhysical.begin(origin: ExactTime(0), at: 2_880_000, end: 2_880_030)
+let stillExhausted = try shortPhysical.next()
+precondition(stillExhausted == nil)
+precondition(!shortPhysical.reachedSelectionEnd)
+print("PASS zero-demand origin changes preserve next source address; premature finite EOF never pads or loops across later demands")
