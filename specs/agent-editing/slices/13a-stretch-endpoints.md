@@ -1,6 +1,6 @@
 # 13a — Preserve selected speech at stretch endpoints
 
-Status: Signalsmith numerical candidate reproduced; full-support plots, request-specific admission and guarded real-speech auditions prepared. Independent listening, protected whole-word labels and accepted short-speech treatment remain OPEN. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) integrates stretching.
+Status: Signalsmith numerical candidate reproduced; full-support plots, request-specific admission and guarded real-speech auditions prepared. Independent listening, protected whole-word labels and accepted short-speech treatment remain OPEN. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) enables public stretching. The isolated [native parity prerequisite](13b-native-stretch-parity.md) may preserve the frozen recipe without claiming this acceptance.
 
 The [pinned Signalsmith experiment](../assets/13a-signalsmith/README.md) passes
 the measured count/pitch/source-isolation cases with explicit upstream endpoint

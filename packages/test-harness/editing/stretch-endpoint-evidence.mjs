@@ -23,7 +23,7 @@ mkdirSync(destination, { recursive: true });
 const hash = b => createHash('sha256').update(b).digest('hex');
 const reportPath = join(root, 'specs/agent-editing/assets/13a-support-review/report.json');
 const corrected = JSON.parse(readFileSync(reportPath));
-const vendor = join(root, 'packages/test-harness/editing/stretch/vendor');
+const vendor = join(root, 'helpers/stretch/Sources/CSignalsmith/vendor');
 const dependency = JSON.parse(readFileSync(join(vendor, 'sources.json')));
 for (const file of dependency.files)
   assert.equal(hash(readFileSync(join(vendor, file.path))), file.sha256);
@@ -32,7 +32,7 @@ assert.equal(hash(readFileSync(cpp)), corrected.cppSha256);
 const run = (command, args) =>
   execFileSync(command, args, { timeout: 60000, maxBuffer: 40 * 1024 * 1024 });
 const executable = join(destination, 'signalsmith');
-run('clang++', ['-std=c++17', '-O2', '-I', vendor, cpp, '-o', executable]);
+run('clang++', ['-std=c++17', '-O2', '-I', join(vendor, '..'), cpp, '-o', executable]);
 const evidence = {
   protocol: 1,
   correctedReportSha256: hash(readFileSync(reportPath)),

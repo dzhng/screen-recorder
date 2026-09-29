@@ -20,7 +20,7 @@ execFileSync(
     "-std=c++17",
     "-O2",
     "-I",
-    join(root, "packages/test-harness/editing/stretch/vendor"),
+    join(root, "helpers/stretch/Sources/CSignalsmith"),
     source,
     "-o",
     executable,

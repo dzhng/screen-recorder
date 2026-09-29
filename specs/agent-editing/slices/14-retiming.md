@@ -6,6 +6,9 @@ Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-projec
 
 Linked and independent audio/video retiming works through public editing and rendering, using the accepted stretch implementation.
 
+The isolated [native parity prerequisite](13b-native-stretch-parity.md) can proceed
+against frozen numerical evidence without enabling public retiming or closing13a.
+
 Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
 
 ## Seam and ownership

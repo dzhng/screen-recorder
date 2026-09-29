@@ -15,13 +15,13 @@ mkdirSync(out, { recursive: true });
 const run = (name, args, input) =>
   execFileSync(name, args, { input, timeout: 60000, maxBuffer: 40 * 1024 * 1024 });
 const hash = (b) => createHash("sha256").update(b).digest("hex");
-const vendor = join(root, "packages/test-harness/editing/stretch/vendor");
+const vendor = join(root, "helpers/stretch/Sources/CSignalsmith/vendor");
 const dependency = JSON.parse(readFileSync(join(vendor, "sources.json")));
 for (const file of dependency.files)
   assert.equal(hash(readFileSync(join(vendor, file.path))), file.sha256);
 const cpp = join(root, "packages/test-harness/editing/stretch/Signalsmith.cpp"),
   executable = join(out, "signalsmith");
-run("clang++", ["-std=c++17", "-O2", "-I", vendor, cpp, "-o", executable]);
+run("clang++", ["-std=c++17", "-O2", "-I", join(vendor, ".."), cpp, "-o", executable]);
 const baseline = JSON.parse(readFileSync(join(reference, "report.json")));
 function wav(path, bytes) {
   const h = Buffer.alloc(44);

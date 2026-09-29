@@ -59,11 +59,11 @@ speech, output zero padding, wrapper crossfade or post-hoc duration crop. A sepa
 it is not treated as the exact mode's missing audio or an identity oracle.
 
 The minimal unmodified headers and both MIT notices are frozen in the research
-runner's [vendor directory](../../../../packages/test-harness/editing/stretch/vendor).
-[The dependency manifest](../../../../packages/test-harness/editing/stretch/vendor/sources.json)
+shared [vendor directory](../../../../helpers/stretch/Sources/CSignalsmith/vendor).
+[The dependency manifest](../../../../helpers/stretch/Sources/CSignalsmith/vendor/sources.json)
 pins both Git commits, included-file hashes and backend. The MIT notices must
-accompany copies/substantial portions if the code is later distributed. No product
-target currently links these headers.
+accompany copies/substantial portions if the code is later distributed. The isolated native parity package now shares those unchanged headers; no app
+target links it. Frozen reports retain their historical paths.
 
 [Rubber Band's integration documentation](https://breakfastquay.com/rubberband/integration.html)
 describes offline timing management, but its [distribution options](https://breakfastquay.com/rubberband/license.html)
