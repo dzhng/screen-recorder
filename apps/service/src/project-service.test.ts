@@ -64,6 +64,73 @@ async function setup(worker: MediaWorker) {
   }
   return { home, path, service, call, job };
 }
+test("audio preparation pins its revision and reuses failed work until explicit retry", async () => {
+  let attempts = 0;
+  const f = await setup(async (operation) => {
+    if (operation === "storage.clearRenderWorkspace") return { ok: true, data: { removed: true } };
+    expect(operation).toBe("media.mixCompositionAudio");
+    attempts++;
+    return {
+      ok: false,
+      error: { code: "MEDIA_WORKER_UNAVAILABLE", message: "offline", retryable: true, details: {} },
+    };
+  });
+  const created = await f.call("project.create", {
+    requestId: "prepare",
+    canvas: {
+      width: 16,
+      height: 16,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const initial = created.data as { project: { projectId: string }; revision: { id: string } };
+  const edited = await f.call("edit.apply", {
+    projectId: initial.project.projectId,
+    expectedRevisionId: initial.revision.id,
+    requestId: "silence",
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "audio" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "audio" },
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000 } },
+        },
+      },
+    ],
+  });
+  if (!edited.ok) throw new Error(JSON.stringify(edited));
+  const selection = {
+    projectId: initial.project.projectId,
+    revisionId: (edited.data as { revision: { id: string } }).revision.id,
+  };
+  const pending = await f.call("audio.prepare", selection);
+  expect(pending.ok).toBe(true);
+  if (!pending.ok) return;
+  expect(pending.data).toMatchObject(selection);
+  const { jobId } = pending.data as { jobId: string };
+  await f.job(jobId, "failed");
+  const failed = await f.call("audio.prepare", selection);
+  expect(failed).toMatchObject({
+    ok: true,
+    data: { ...selection, state: "failed", jobId, retryable: true, published: null },
+  });
+  expect(attempts).toBe(1);
+  expect(await f.call("job.retry", { jobId })).toMatchObject({ ok: true, data: { jobId } });
+  await f.job(jobId, "failed");
+  expect(attempts).toBe(2);
+  expect(await f.call("revision.get", selection)).toMatchObject({
+    ok: true,
+    data: { revision: { id: selection.revisionId } },
+  });
+  expect(await f.call("audio.prepare", { projectId: selection.projectId })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PARAMS" },
+  });
+});
 test("failed probe retries through the shared job and publishes immutable media once", async () => {
   let attempts = 0;
   const f = await setup(async () =>

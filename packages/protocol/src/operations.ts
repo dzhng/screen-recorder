@@ -764,6 +764,15 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Explicitly retry failed preview rendering for the same pinned revision. Failed source dependencies require processing.retry.",
     ),
   z
+    .object({
+      operation: z.literal("audio.prepare"),
+      params: project.extend({ revisionId: id }).strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly prepare the full processed audio output of a pinned project revision as a retained lossless 48kHz stereo asset. Does not change the document or current revision. Returns readiness/jobId and a published audio receipt with assetId; use asset.get to discover its stream and existing audio/waveform/spectrogram inspection. Repeat the exact selection to reuse work; failed/canceled work requires explicit job.retry, and job.cancel drains an attempt. Unavailable processors or retiming refuse before admission; no model is downloaded. This prepares only the full output domain, not an arbitrary clip or range.",
+    ),
+  z
     .object({ operation: z.literal("audio.get"), params: audioParams })
     .strict()
     .describe(

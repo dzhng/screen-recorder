@@ -45,7 +45,8 @@ See the [implementation pickup](assets/implementation-pickup.md) for exact check
    checks using existing assets, queue publication and revision references.
    [Portable unit-rate/gain PCM](assets/14a-prepared-portable/README.md) now preserves
    current/history receipts and bounded reads without the original executor; the
-   public preparation command and DSP integrations remain open.
+   [public preparation command](assets/14a-public-preparation/README.md) is verified;
+   model-dependent DSP integrations remain open.
    The [retained RNNoise proof](assets/12c-prepared-output/README.md) establishes
    scoped selection/state behavior, not speech quality or production readiness.
    Continue 08 codec/rate/narration, 12/12b speech evidence, 12c/15a protected speech,

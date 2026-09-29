@@ -145,6 +145,7 @@ export async function operate(
       case "project.get":
       case "project.list":
       case "edit.apply":
+      case "audio.prepare":
       case "processing.get":
       case "output.capabilities":
       case "processing.capabilities":

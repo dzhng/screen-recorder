@@ -51,9 +51,9 @@ transactions and durability are unchanged.
 ## Remaining acceptance
 
 16 still needs delivered retime/gain and15a denoise transitions plus animated
-encoded evidence. Fade/zoom conveniences already have public/skill proof.14a has
-exact retained unit-rate/gain PCM and portable receipts, but no public prepare
-command or model-dependent DSP adoption. Follow08/11 audio conformance,12/12b
+encoded evidence. Fade/zoom conveniences already have public/skill proof.14a now has exact retained unit-rate/gain PCM, portable receipts and public
+`audio.prepare`/retained-asset inspection, verified by native CLI/MCP and fresh
+skill use. Model-dependent DSP adoption remains open. Follow08/11 audio conformance,12/12b
 speech evidence,12c/15a protected denoise,13/13a/14 stretch and18/19 voice joins;
 then camera20/21, remaining22 closure, cutover23, scale24 and autonomous25.
 Segmentation remains a future placeholder.

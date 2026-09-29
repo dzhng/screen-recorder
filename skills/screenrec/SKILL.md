@@ -97,6 +97,16 @@ not an inherited override. Authored settings with execution unavailable are not
 processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
+To retain a lossless processed mix, call `audio.prepare` with an explicit project
+and revision. It prepares the full output without editing the project. Pin that
+selection while polling; use `job.get/retry/cancel` for its attempts rather than
+expecting a repeated request to restart failed or canceled work. Read the published
+audio asset ID, discover its stream with `asset.get`, then inspect it through the
+ordinary audio/waveform/spectrogram operations. Unavailable processing still
+refuses; preparation does not make an unverified denoiser or retimer executable.
+Preserve the preparation receipt's unavailable-support information; rendered zero
+samples do not by themselves prove recorded silence.
+
 For animated processors, use the supported number-or-curve fields in the existing
 stack. Clip curves default to normalized clip time; parent curves use project
 microseconds. Preserve returned `window` and `evaluationRange` when changing an

@@ -1,6 +1,6 @@
 # 14a — Durable prepared audio shared by retiming and processors
 
-Status: core lifecycle and [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md) verified; public preparation/processing consumers and actual model-dependent output remain open. Dependencies: 02a, 04,
+Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Actual model-dependent processing consumers and output remain open. Dependencies: 02a, 04,
 05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
 RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
 
@@ -68,7 +68,32 @@ then publishes its new local file identity, adopted revision/resource references
 and queue receipt atomically. Public relocation preserves current and historical
 unit-rate/gain results after donor removal; retained reads need no renderer or
 model. The [portable evidence](../assets/14a-prepared-portable/README.md) separates
-these owner-level checks from unbuilt public preparation and DSP integration.
+these owner-level checks from the separately verified public preparation and
+unbuilt DSP integration.
+
+The public preparation entry point is `audio.prepare` with required `projectId`
+and `revisionId`. It prepares the full processed output domain at the existing
+48kHz stereo float-WAV rendition. Explicit revision selection makes repeat calls
+address the same recipe without changing the composition or silently following a
+new head. No additional request-intent registry is needed: the queue already keys
+work by pinned revision and complete compiled recipe.
+
+Return the pinned selection, ordinary readiness/job ID and published prepared
+receipt. Use existing `job.get/retry/cancel` for attempts; repeated preparation must
+not restart failed or canceled work. The prepared result is an ordinary retained
+asset: `asset.get` discovers its stream, and existing `audio.get`, waveform and
+spectrogram selectors inspect it without a new delivery owner. Historical assets
+remain readable after newer edits and relocation. An unresolved processor/retime
+requirement refuses before admission; this public vertical does not advertise
+RNNoise/stretch readiness or introduce caller-provided recipes.
+
+Verify actual CLI/MCP preparation, exact native unit-rate/gain PCM, repeat identity,
+unchanged revision/head, inspection through the prepared asset, historical/restart
+reads, and explicit failure/retry/cancel with no automatic restart. Existing owner
+and package gates remain authoritative for fencing, bounded late reads and
+portable receipt publication. Agent-visible schemas/help/skill must describe the
+supported output domain and limits, rather than implying arbitrary target/DSP
+support from the command name.
 
 Then 14 and 15a bind accepted typed recipes and native executors to this owner,
 with production-entry parity against the frozen reproductions. Clip-level state
@@ -80,8 +105,7 @@ cannot advertise those processors as ready.
 
 The [retained evidence](../assets/14a-prepared-audio/README.md) records actual native
 unit-rate, split and constant-gain output, bounded reads after restart, lifecycle
-tests and the broad-suite verification limits. The core owner is exercised through
-the production native renderer but is not yet registered as a public preparation
-command. Package export now retains supported prepared receipts through the existing owner.
+tests and the broad-suite verification limits. The public command and ordinary retained-asset inspection now exercise the
+production native renderer through the existing owner. Package export now retains supported prepared receipts through the existing owner.
 Actual model-dependent output, scale/deletion acceptance and public processor
 integration remain required before closure.

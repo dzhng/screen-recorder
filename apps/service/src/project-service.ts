@@ -766,6 +766,22 @@ export async function startProjectService(options: { home: string; worker?: Medi
               },
             };
           }
+          case "audio.prepare": {
+            const prepared = preparedAudio.request(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...operation.params,
+                ...prepared,
+                published: prepared.published
+                  ? {
+                      generation: prepared.published.generation,
+                      audio: JSON.parse(prepared.published.result),
+                    }
+                  : null,
+              },
+            };
+          }
           case "audio.get":
           case "audio.retry": {
             const params = operation.params;

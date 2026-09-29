@@ -2529,3 +2529,18 @@ its ordinary append-only revision sequence from that selected moment.
   and does not conceal a demonstrated edit defect. Reversible through explicit
   encoding settings. **Confidence:** Medium, because acceptable loss depends on
   content and viewing conditions beyond this corpus.
+
+## Public prepared audio
+
+- **Choice:** Require an explicit revision for `audio.prepare`, returning the
+  shared job state and a retained audio asset. If an agent edits the project while
+  a preparation runs, polling the old selection still means the original recipe;
+  it never quietly switches to the new head. The existing queue keys that work,
+  so there is no additional request-intent table.
+- **Gap:** The storage prerequisite required public consumers but did not name
+  their entry point or define whether a missing revision follows current state.
+- **Reach:** Existing job retry/cancel and asset/audio/acoustic inspection consume
+  the result. The initial command names only the verified full processed output
+  domain; it does not imply arbitrary target preparation or accepted DSP.
+- **Verdict:** Sound: explicit pinning and reuse of existing owners keep the API
+  small and retries predictable. **Confidence:** High.
