@@ -12,6 +12,10 @@ The [deletion fixture audit](../assets/24-deletion-fixture/README.md) separates
 real edits, disk-backed deletion and restart assertions at the original deadline;
 it does not establish broader scale acceptance.
 
+[Compiled-plan transport](24a-compiled-plan-delivery.md) preserves control-frame limits
+for large audio/movie requests. It does not remove the separately reproduced active-mixer
+occurrence/work limits or establish long-output scale.
+
 ## Contract
 
 Large projects retain bounded inspection, targeted preview cost, cancellation and storage behavior.

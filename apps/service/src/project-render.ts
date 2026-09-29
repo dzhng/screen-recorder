@@ -1,3 +1,4 @@
+import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
 import { nativeProcessing } from "./native-processing.js";
 import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
@@ -30,6 +31,28 @@ export async function nativeRNNoise(worker: MediaWorker): Promise<string | undef
     return undefined;
   }
 }
+/** Large compiled plans share the attempt lifetime; control framing stays bounded. */
+async function executeComposition(
+  worker: MediaWorker,
+  operation: "media.mixCompositionAudio" | "media.renderCompositionMovie",
+  params: Record<string, unknown> & { output: string },
+  options: NonNullable<Parameters<MediaWorker>[2]>,
+) {
+  options.signal?.throwIfAborted();
+  // Validate strict JSON before choosing a transport, including omitted optional fields.
+  const frame = encodeJsonLine({ id: `worker-${operation}`, operation, params }, 64 * 1024 ** 2);
+  if (frame.length <= REQUEST_FRAME_BYTES) return worker(operation, params, options);
+  const planFile = join(dirname(params.output), "composition-plan.json");
+  const handle = await open(planFile, "wx", 0o600);
+  try {
+    await handle.writeFile(JSON.stringify(params), { signal: options.signal });
+  } finally {
+    await handle.close();
+  }
+  options.signal?.throwIfAborted();
+  return worker(operation, { planFile }, options);
+}
+
 function statePayload(
   window: Parameters<ProjectAudioRenderer["render"]>[0]["window"],
   identity?: string,
@@ -153,7 +176,8 @@ export function projectMovieRenderer(
           }
           signal.throwIfAborted();
           const file = join(directory, "movie.mp4");
-          const response = await execute(
+          const response = await executeComposition(
+            execute,
             "media.renderCompositionMovie",
             {
               output: file,
@@ -211,7 +235,8 @@ export function projectAudioRenderer(
         signal,
         async (file, execute) =>
           nativeResult(
-            await execute(
+            await executeComposition(
+              execute,
               "media.mixCompositionAudio",
               {
                 output: file,

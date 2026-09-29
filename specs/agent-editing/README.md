@@ -277,6 +277,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
+- [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

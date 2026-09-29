@@ -65,7 +65,10 @@ with independent state per output channel. Listening acceptance remains open.
   bypass/history. [Independent channels](15a2f-independent-channels/README.md) and
   [learned package transfer](14a-learned-portable/README.md) now pass their scoped
   native/public combined-root checks. Next complete successful long-output scaling,
-  temporal and retiming gates.
+  temporal and retiming gates. The500-occurrence run exposed whole-plan native
+  admission/work limits; the active-mixer correction owns those. Root
+  [compiled-plan delivery](24a-compiled-plan/README.md) now removes the separate
+  control-message size obstacle without enlarging control frames.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires
   explicit local model preparation, without edit-time downloads. Spatial channel quality and
   protected-speech listening acceptance remain open.

@@ -31,7 +31,8 @@ enum CompositionMovieOperation {
         let encodedAudio: EncodedAudio?
         let bytes: Int
     }
-    static func execute(_ params: [String: Any]) async throws -> Result {
+    static func execute(_ input: [String: Any]) async throws -> Result {
+        let params = try WireRequest.compositionParameters(input)
         guard let audioObject = params["audio"] as? [String: Any] else {
             throw NativeFailure("INVALID_REQUEST", "A compiled audio schedule is required.")
         }

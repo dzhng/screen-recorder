@@ -3029,3 +3029,16 @@ open. Verification borrows the existing workspace lock into native workers so a
 service restart cannot remove their working files. This introduces no second clock,
 cleanup owner or ready store. [Detailed decisions](assets/20d-recording-package/choices.md)
 record the preserved legacy and deadline boundaries.
+
+### Large compiled plans use the existing render workspace (sound, medium confidence)
+
+A long project can have a small preview yet need a large learned-processing input
+plan. Raising the control-message limit would widen every operation. Instead, the
+service keeps small composition plans inline and puts larger ones in the render
+attempt's private directory. Native reads the same plan fields with the same strict
+validator; no second timeline or request meaning appears. The compiler contract left
+serialization to implementation. The64 MiB plan bound leaves room above the measured
+17.4 MB basic10,000-occurrence fixture while keeping native admission finite; heavily
+enriched projects can still refuse explicitly. This is a transport bound, not a
+promise that every10,000-clip project fits. Existing attempt locks/cleanup own the file,
+and the native file check does not claim arbitrary parent directories are immutable.

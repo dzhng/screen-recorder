@@ -1,0 +1,95 @@
+{
+  "baseCommit": "54ce6434",
+  "workerSHA256": "7ae65717b5a41f1dedf090f955bd127ce8f33b55b852dcc7af58d8b6cae721be",
+  "checks": {
+    "audioExact": true,
+    "movieDecodedExact": true,
+    "cancelCleanup": true,
+    "invalidCleanup": true,
+    "workspaceEmpty": true
+  },
+  "focusedServiceTests": 13,
+  "nativeTests": 1,
+  "serviceBuildExit": 0,
+  "nativeBuildExit": 0,
+  "independentReview": "No actionable defects; reviewer fresh Swift build blocked, root native build passed.",
+  "archiveSHA256": "e833bccde468b79df0e63174f4671ef2253ce0ff0d8c6452ba54d98377ffe57e",
+  "artifacts": [
+    {
+      "path": "compiled-render-red.log",
+      "bytes": 1586,
+      "sha256": "f2517159e8321a47b17a7af516f95a89bb472a2b44e413f2e5aa735153e78440"
+    },
+    {
+      "path": "compiled-plan-native-red.log",
+      "bytes": 1144,
+      "sha256": "20a65d9ac5b6576de2123a0d4ad43a91d1d45b0dbf241d6823eb9e91ddeb02b8"
+    },
+    {
+      "path": "compiled-plan-native-green.log",
+      "bytes": 211,
+      "sha256": "fb3a7caaca30159c8f21ee7aee7225421f637c69b5da8e4814e54bdd8a22bb76"
+    },
+    {
+      "path": "compiled-plan-focused.log",
+      "bytes": 522,
+      "sha256": "4b99a2d7f90aebe22913586ef82fda86fa0cf7acff8b6932823419b90b5f0a89"
+    },
+    {
+      "path": "compiled-plan-review.log",
+      "bytes": 99810,
+      "sha256": "b87def0181f717c580627a420f5088d35f4288238e0777eb6a71b95c30f28273"
+    },
+    {
+      "path": "compiled-plan-native-build.log",
+      "bytes": 1565,
+      "sha256": "d4fd3d66b7adf64402ec55a59b79dfff8f1528fe1595cdf6693faf20202b038a"
+    },
+    {
+      "path": "compiled-plan-service-build.log",
+      "bytes": 785,
+      "sha256": "adc60f32708f42162c86487face0f069363aa3aa2c2809136f6e6204691940c9"
+    },
+    {
+      "path": "compiled-plan-render-red.log",
+      "bytes": 1243,
+      "sha256": "ad591baf002700076c797ce5d7818b2a8df250526a38a4d2c594e35d9ffaa609"
+    },
+    {
+      "path": "screenrec-scale-size.json",
+      "bytes": 529,
+      "sha256": "aac3d879267d7d46680d6da1abf1e5ff2244adfb87b569f8ebca7e0c759c8e39"
+    },
+    {
+      "path": "screenrec-scale-size.mjs",
+      "bytes": 2033,
+      "sha256": "8f848664d3a718e7af4e0d7969f3815c69f559c726e82d1a2b4e21286a8554e0"
+    },
+    {
+      "path": "1.mp4",
+      "bytes": 3445,
+      "sha256": "3e13f2521fbe686b8e4dd45426d9d2ea195de489dc0e2397f7e6a339fc4b52ed"
+    },
+    {
+      "path": "report.json",
+      "bytes": 1080,
+      "sha256": "32e71c2a816a42d55723044c028f236d6fdde2996d1a5e72f3eb9ab7fa7ac3b3"
+    },
+    {
+      "path": "8000.wav",
+      "bytes": 16896,
+      "sha256": "f783c2164e43081acbae352aedd0d43c5d41d59fc2548ac14da50c3213117d01"
+    },
+    {
+      "path": "1.wav",
+      "bytes": 16896,
+      "sha256": "f783c2164e43081acbae352aedd0d43c5d41d59fc2548ac14da50c3213117d01"
+    },
+    {
+      "path": "8000.mp4",
+      "bytes": 3445,
+      "sha256": "d42e0bdec69c789670031a4b29ac5c524bac2934e464ce7c0a78f0f121900efb"
+    }
+  ],
+  "scope": "Bounded compiled plan transport, exact short native audio/movie parity and attempt cleanup; not500/10000-occurrence scale or listening acceptance."
+}
