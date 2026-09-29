@@ -33,7 +33,9 @@ remaining [23](slices/23-cutover.md) matrix, installed switch or old-owner remov
 [Matched export recovery](slices/23b-export-recovery-preservation.md) also passes
 actual lost-reply/restart and concurrent replay on both services; reuse its proof.
 
-Remaining priorities are speech/denoise and stretch acceptance toward12b/14/15a,
+In parallel, run the already accepted12d filler cut through managed public editing,
+delivered audio and undo. Reuse the exact candidate; full speech timing and
+inventory acceptance remain separate. Remaining priorities are speech/denoise and stretch acceptance toward12b/14/15a,
 then16; measured physical20→21; final23 cutover, post-cutover24 scale and25 autonomous
 workflow. The [audio-domain limits](assets/acceptance-maintenance/audio-domain.md)
 remain explicit. Generic22, full-history transfer24u, scoped learned routing24v,

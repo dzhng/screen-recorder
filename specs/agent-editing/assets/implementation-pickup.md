@@ -92,7 +92,8 @@ Historical workers and measurements retain their own identities below.
   preserves both real postcommit receipts and file identities through reply loss,
   restart and concurrent replay. Root verified all380 archived members and five
   saved movie hashes without rerunning services. Saved homes remain retained;
-  prepared-package-transfer is doing a read-only remaining-audio priority audit.
+  prepared-package-transfer now owns the accepted12d filler cut through managed
+  public editing/rendering/undo; its initial priority audit identified that real gap.
 - **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is now being implemented in capture-pause-recovery. Its physical input stop,
   camera media closure and audio publication share existing termination ordering;

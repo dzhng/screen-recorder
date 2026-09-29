@@ -1,5 +1,17 @@
 # Remaining audio acceptance
 
+The next buildable workflow is the user-accepted complete-sentence filler cut
+through managed public edits, delivered audio and undo, using the existing
+[12d candidate](../12d-complete-sentence/README.md). Its native excerpt proof does
+not yet establish that project workflow. Preserve the exact accepted treatment;
+this does not select a speech engine or close the full filler/repetition inventory.
+
+Public stretching still lacks its execution binding and remains gated by13a.
+Once accepted, implement14 through the existing prepared-audio owner and use one
+combined retime/gain/denoise journey for the dependent integration claims. The
+remaining denoise and generated-voice quality judgments do not justify repeating
+completed model preparation, channel/state, portability or scale cohorts.
+
 The read-only [mixing/inspection audit](audio-inspection.md) separates finite
 codec/rate and real-narration gaps from mechanisms already verified. The
 [stretch audit](stretch.md) distinguishes binding preservation requirements from
