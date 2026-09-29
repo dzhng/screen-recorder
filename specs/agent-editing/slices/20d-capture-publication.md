@@ -106,9 +106,7 @@ not support. Keep any justified work deadline specific to these operations.
 
 [Canonical admission evidence](../assets/20d-canonical-admission/README.md) now binds
 acquisition support and project-package readiness/adoption to native-verified R,
-immutable canonical bytes and actual media metadata. Recording-domain processed
-package inventory/revalidation remains the next admission pickup; packed writer
-activation still waits on that path and the lifecycle/large-work gates above.
+immutable canonical bytes and actual media metadata. [Recording-package evidence](../assets/20d-recording-package/README.md) extends that same admission owner to processed-package assembly and readiness, binding the retained audio pages as well as raw evidence. Packed writer activation still waits on the lifecycle/large-work gates above and actual callback/recovery integration.
 
 
 [Stop continuation evidence](../assets/20d-stop-continuation/README.md) verifies
@@ -118,7 +116,7 @@ termination and service owners. Native-proved finalizing after an unanswered sta
 must not trigger recovery of still-owned media. CaptureResult.cleanupFailure keeps
 optional cleanup distinct from capture failure. Ordinary schema1 remains enabled;
 actual prerecorded NativeCapture/writer/publisher, typed unavailable roles, recovery
-budgets, recording-domain package closure and layout rollout remain required. The physical input
+budgets and layout rollout remain required. The physical input
 seam must include cursor acquisition and preserve existing start teardown/geometry.
 
 
@@ -132,3 +130,4 @@ canceled deletion. Explicit library deletion remains a separate authority.
 actual NativeCapture and writer with prerecorded video through the package-only
 input boundary, preserving production selection/geometry/observation order. The
 full controller/audio publication/admission gate remains open until activation.
+

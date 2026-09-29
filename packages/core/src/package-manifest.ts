@@ -214,6 +214,7 @@ const role = z.enum([
   "narration",
   "system",
   "journal",
+  "publication",
   "revision",
   "source",
   "scenes",
@@ -278,7 +279,7 @@ export function validateManifest(
     names = new Set<string>(),
     directories = new Set<string>();
   const expectedRoot = (entry: z.infer<typeof inventorySchema>) =>
-    ["video", "narration", "system", "journal"].includes(entry.role)
+    ["video", "narration", "system", "journal", "publication"].includes(entry.role)
       ? "source"
       : entry.role === "revision"
         ? "revisions"
@@ -318,6 +319,11 @@ export function validateManifest(
     journal: "capture.journal.jsonl",
   };
   for (const entry of manifest.inventory) {
+    if (
+      entry.role === "publication" &&
+      !["source/narration.publication.json", "source/system.publication.json"].includes(entry.path)
+    )
+      invalid("Unexpected canonical publication member name");
     if (
       entry.role in sourceNames &&
       entry.path !== `source/${sourceNames[entry.role as keyof typeof sourceNames]}`
@@ -410,7 +416,7 @@ export function validateManifest(
       invalid("Edited transcript does not project the source transcript");
   }
   for (const entry of manifest.inventory) {
-    if (["video", "narration", "system", "journal", "document"].includes(entry.role))
+    if (["video", "narration", "system", "journal", "publication", "document"].includes(entry.role))
       used.add(entry.path);
     if (!used.has(entry.path)) invalid("Unreferenced package member");
   }

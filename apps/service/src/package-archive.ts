@@ -27,7 +27,11 @@ export const packageOutputBytes = 128 * 1024 ** 2;
 export type PackageArchiveOptions<T extends ArchiveManifest> = {
   validate: ArchiveManifestValidator<T>;
   mediaPaths?: (manifest: T) => readonly string[];
-  inspect?: (retained: RetainedPackage<T>, signal?: AbortSignal) => Promise<void>;
+  inspect?: (
+    retained: RetainedPackage<T>,
+    signal: AbortSignal | undefined,
+    lifetime: { readonly fd: number },
+  ) => Promise<void>;
   signal?: AbortSignal;
   limits?: ArchiveLimits;
   timeoutMs?: number;
@@ -134,7 +138,7 @@ export async function openPackageArchive<T extends ArchiveManifest>(
     throw error;
   }
   try {
-    await options.inspect?.(retained, options.signal);
+    await options.inspect?.(retained, options.signal, workspace.handle);
   } catch (error) {
     await retained.close();
     throw error;

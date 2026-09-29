@@ -107,7 +107,7 @@ export class ProjectPackages {
         worker: this.owners.worker,
         delivery: this.owners.delivery,
         validate: validateProjectPackage,
-        inspect: async (context, signal = new AbortController().signal) => {
+        inspect: async (context, signal = new AbortController().signal, lifetime) => {
           for (const entry of context.manifest.resources) {
             if (entry.kind !== "acquisition") continue;
             const leases: ReturnType<typeof context.files.open>[] = [];
@@ -152,7 +152,7 @@ export class ProjectPackages {
                 }),
               ) as PortableAcquisitionFiles;
               await this.owners.acquisitions.verifyPortable(entry.acquisition, files, signal, {
-                exportSource: sourceExporter(this.owners.worker),
+                exportSource: sourceExporter(this.owners.worker, lifetime),
                 assetFiles,
                 assets: new Map(
                   context.manifest.resources.flatMap((value) =>

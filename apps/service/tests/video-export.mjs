@@ -3,9 +3,12 @@ import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { admitArchive } from "../dist/archive-input.js";
 import { openPackageArchive } from "../dist/package-archive.js";
+import { validatePackageSource } from "../dist/package-source.js";
+import { validateManifest } from "@screenrec/core/package-manifest";
 import { callLocal } from "@screenrec/client";
 import { launchReady, socketPath, waitFor } from "../../macos/tests/harness.mjs";
 import assert from "node:assert/strict";
+import { fstatSync } from "node:fs";
 import { randomUUID, createHash } from "node:crypto";
 import { fork, spawnSync } from "node:child_process";
 import {
@@ -14,10 +17,12 @@ import {
   mkdir,
   readFile,
   writeFile,
+  appendFile,
   rm,
   readdir,
   stat,
   rename,
+  copyFile,
   chmod,
   realpath,
 } from "node:fs/promises";
@@ -87,13 +92,20 @@ async function fixture(
   t,
   wrap = (value) => value,
   existing,
-  { warm = true, admission = true } = {},
+  { warm = true, admission = true, canonicalSource } = {},
 ) {
   const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-video-export-"));
   const output = existing?.output ?? (await mkdtemp("/tmp/screenrec-video-destination-"));
+  const canonicalHeader = canonicalSource
+    ? JSON.parse(
+        (await readFile(join(canonicalSource, "capture.journal.jsonl"), "utf8")).split("\n")[0],
+      ).data
+    : null;
+  let allocatedIds = 0;
   const store = new RevisionStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
-    newId: randomUUID,
+    newId: () =>
+      canonicalHeader && ++allocatedIds === 2 ? canonicalHeader.sessionID : randomUUID(),
   });
   const take = existing ? store.get(existing.recordingId) : store.allocate().recording;
   if (!existing) {
@@ -102,7 +114,7 @@ async function fixture(
       sequence: 1,
       state: "interrupted",
       reason: "generated",
-      sourceDurationUs: 2000000,
+      sourceDurationUs: canonicalSource ? 3000000 : 2000000,
     });
     const source = join(home, "recordings", take.recordingId, "source");
     await mkdir(source, { recursive: true, mode: 0o700 });
@@ -115,7 +127,7 @@ async function fixture(
         "-f",
         "lavfi",
         "-i",
-        "color=c=gray:s=160x90:r=1:d=2",
+        canonicalSource ? "color=c=gray:s=160x96:r=1:d=3" : "color=c=gray:s=160x90:r=1:d=2",
         "-an",
         "-c:v",
         "libx264",
@@ -136,6 +148,24 @@ async function fixture(
     await writeFile(
       join(source, "capture.journal.jsonl"),
       rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
+    );
+  }
+  if (canonicalSource) {
+    const source = join(home, "recordings", take.recordingId, "source");
+    for (const name of ["capture.journal.jsonl", "narration.mov", "narration.publication.json"])
+      await copyFile(join(canonicalSource, name), join(source, name));
+    const journal = join(source, "capture.journal.jsonl");
+    const count = (await readFile(journal, "utf8")).trimEnd().split("\n").length;
+    const geometry = journalRows({
+      sourceId: take.sourceId,
+      width: 160,
+      height: 96,
+      samples: [],
+      pauses: [],
+    }).filter((row) => ["geometry", "displaySpace"].includes(row.event));
+    await appendFile(
+      journal,
+      geometry.map((row, i) => JSON.stringify({ sequence: count + i + 1, ...row }) + "\n").join(""),
     );
   }
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
@@ -2241,6 +2271,11 @@ if (process.argv[2] === "crash-owner") {
         archive,
         { directory: await (await import("node:fs/promises")).realpath(directory), handle },
         native,
+        {
+          validate: validateManifest,
+          inspect: (context, signal = new AbortController().signal, lifetime) =>
+            validatePackageSource(context, native, signal, lifetime),
+        },
       );
       assert.equal(context.manifest.transcript, "unavailable:no_narration");
       assert.equal(context.manifest.snapshot.revisionId, requested.snapshot.revisionId);
@@ -2497,6 +2532,177 @@ if (process.argv[2] === "crash-owner") {
     }, 30_000);
     return { packages, opened };
   }
+  test("canonical recording package retains native proof and verifies source pages before readiness", async (t) => {
+    const input = await mkdtemp("/tmp/canonical-recording-input-");
+    t.after(() => rm(input, { recursive: true, force: true }));
+    const extracted = spawnSync("tar", [
+      "-xzf",
+      resolve("specs/agent-editing/assets/20d-canonical-admission/evidence.tar.gz"),
+      "-C",
+      input,
+      "canonical-input",
+    ]);
+    assert.equal(extracted.status, 0, extracted.stderr.toString());
+    const verificationLifetimes = [];
+    const f = await fixture(
+      t,
+      (worker) => async (operation, request, options) => {
+        if (operation === "media.sourceEvidence" && request.directory.includes("/verify-")) {
+          const lifetime = options.descriptors.at(-1);
+          assert(
+            fstatSync(lifetime).isDirectory(),
+            "native verification retains its workspace lifetime",
+          );
+          verificationLifetimes.push(request.directory);
+        }
+        return worker(operation, request, options);
+      },
+      undefined,
+      {
+        warm: false,
+        canonicalSource: join(input, "canonical-input"),
+      },
+    );
+    const created = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "canonical.zip",
+    });
+    await f.jobs.idle();
+    const done = f.exports.status(created.exportId);
+    assert.equal(done.state, "committed", JSON.stringify(done));
+    const manifestResult = spawnSync("unzip", ["-p", done.output, "manifest.json"], {
+      encoding: "utf8",
+    });
+    assert.equal(manifestResult.status, 0);
+    const manifest = JSON.parse(manifestResult.stdout);
+    assert(
+      manifest.inventory.some(
+        (entry) =>
+          entry.path === "source/narration.publication.json" && entry.role === "publication",
+      ),
+    );
+    await rm(join(f.home, "recordings", f.take.recordingId, "source"), { recursive: true });
+    const { packages, opened } = await openPackage(t, f, done.output);
+    assert.equal(opened.state, "ready", JSON.stringify(opened));
+    assert(verificationLifetimes.some((path) => path.includes("opened-packages")));
+    assert(verificationLifetimes.some((path) => !path.includes("opened-packages")));
+    const request = {
+      packageHandle: opened.packageHandle,
+      track: "narration",
+      range: { startUs: 0, endUs: 3000000 },
+    };
+    packages.audio(opened.packageHandle).request(request);
+    await f.jobs.idle();
+    const ready = packages.audio(opened.packageHandle).request(request);
+    assert.equal(ready.state, "ready", JSON.stringify(ready));
+    const read = packages.audio(opened.packageHandle).openRead(ready.published.audio);
+    const wave = Buffer.alloc(read.bytes);
+    try {
+      let position = 0;
+      while (position < wave.length) {
+        const count = read.read(wave.subarray(position), position);
+        assert(count > 0);
+        position += count;
+      }
+    } finally {
+      read.release();
+    }
+    const wavePath = join(f.output, "canonical.wav");
+    await writeFile(wavePath, wave);
+    const decoded = spawnSync("ffmpeg", ["-v", "error", "-i", wavePath, "-f", "f32le", "-"], {
+      maxBuffer: 4 * 1024 * 1024,
+    });
+    assert.equal(decoded.status, 0, decoded.stderr.toString());
+    const expected = Buffer.alloc(144000 * 4);
+    for (let i = 0; i < 96000; i++) {
+      const at = 4800 + (i < 32768 ? i : 50000 + i - 32768);
+      const value = (((i * 97) % 1009) - 504) / 1024;
+      expected.writeFloatLE(value, at * 4);
+    }
+    assert.equal(decoded.stdout.length, expected.length);
+    assert(
+      decoded.stdout.equals(expected),
+      "Complete retained mono PCM must match original sample identities",
+    );
+    const refusals = [];
+    for (const variant of ["missing-proof", "layout-downgrade", "audio-pages"]) {
+      const directory = join(input, variant);
+      await mkdir(directory);
+      const extracted = spawnSync("unzip", ["-q", done.output, "-d", directory]);
+      assert.equal(extracted.status, 0, extracted.stderr.toString());
+      const manifestPath = join(directory, "manifest.json");
+      const forged = JSON.parse(await readFile(manifestPath));
+      const update = async (path, value) => {
+        const body = JSON.stringify(value);
+        await writeFile(join(directory, path), body);
+        const entry = forged.inventory.find((entry) => entry.path === path);
+        entry.bytes = Buffer.byteLength(body);
+        entry.sha256 = sha(body);
+      };
+      if (variant !== "audio-pages") {
+        await rm(join(directory, "source/narration.publication.json"));
+        forged.inventory = forged.inventory.filter(
+          (entry) => entry.path !== "source/narration.publication.json",
+        );
+        if (variant === "layout-downgrade") {
+          const path = "evidence/source/metadata.json",
+            metadata = JSON.parse(await readFile(join(directory, path)));
+          metadata.receipt.header.schemaVersion = 1;
+          delete metadata.receipt.publications;
+          await update(path, metadata);
+        }
+      } else {
+        const pagesPath = "evidence/source/pages.json",
+          pages = JSON.parse(await readFile(join(directory, pagesPath)));
+        const descriptor = pages.indexes.narration[0],
+          path = `evidence/source/${descriptor.file}`;
+        const rows = JSON.parse(await readFile(join(directory, path))),
+          data = JSON.parse(rows[0].content);
+        data.endUs -= 100;
+        rows[0].content = JSON.stringify(data);
+        await update(path, rows);
+        const member = forged.inventory.find((entry) => entry.path === path);
+        descriptor.bytes = member.bytes;
+        descriptor.sha256 = member.sha256;
+        await update(pagesPath, pages);
+      }
+      await writeFile(manifestPath, JSON.stringify(forged));
+      const archive = await realpath(f.output).then((path) => join(path, `${variant}.zip`));
+      const zipped = spawnSync("zip", ["-qr", archive, "."], { cwd: directory });
+      assert.equal(zipped.status, 0, zipped.stderr.toString());
+      const admission = await packages.open(archive);
+      const status = await waitFor(() => {
+        const status = packages.status(admission.id);
+        return ["ready", "failed"].includes(status.state) && status;
+      }, 30000);
+      refusals.push({ variant, ...status });
+      if (process.env.SCREENREC_CANONICAL_RECORDING_OUTPUT) {
+        await mkdir(process.env.SCREENREC_CANONICAL_RECORDING_OUTPUT, { recursive: true });
+        await copyFile(
+          archive,
+          join(process.env.SCREENREC_CANONICAL_RECORDING_OUTPUT, `${variant}.zip`),
+        );
+        await writeFile(
+          join(process.env.SCREENREC_CANONICAL_RECORDING_OUTPUT, "refusals.json"),
+          JSON.stringify(refusals, null, 2),
+        );
+      }
+      assert.equal(status.state, "failed", `${variant}: ${JSON.stringify(status)}`);
+      assert.equal(status.packageHandle, null);
+    }
+    if (process.env.SCREENREC_CANONICAL_RECORDING_OUTPUT) {
+      const output = process.env.SCREENREC_CANONICAL_RECORDING_OUTPUT;
+      await mkdir(output, { recursive: true });
+      await copyFile(done.output, join(output, "canonical.zip"));
+      await copyFile(wavePath, join(output, "canonical.wav"));
+      await writeFile(join(output, "manifest.json"), JSON.stringify(manifest, null, 2));
+      await writeFile(join(output, "audio.json"), JSON.stringify(ready, null, 2));
+      await writeFile(join(output, "refusals.json"), JSON.stringify(refusals, null, 2));
+    }
+  });
   test("narrated package pins its transcript and reopens with the library's transcript reads", async (t) => {
     const f = await fixture(t, undefined, undefined, { warm: false });
     await narrate(f);

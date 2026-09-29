@@ -9,7 +9,10 @@ import type { SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { nativeResult, type MediaWorker } from "./worker.js";
 
 /** Native verifies canonical bytes through the admitted inode, never a reopened donor path. */
-export function sourceExporter(worker: MediaWorker): SourceExporter {
+export function sourceExporter(
+  worker: MediaWorker,
+  lifetime?: { readonly fd: number },
+): SourceExporter {
   return async (directory, output, signal, canonical) => {
     const handles: FileHandle[] = [];
     const inputs: Record<string, string> = {};
@@ -34,7 +37,7 @@ export function sourceExporter(worker: MediaWorker): SourceExporter {
               await worker(
                 "media.probe",
                 { path: "/dev/fd/3" },
-                { signal, descriptors: [file.fd] },
+                { signal, descriptors: [file.fd, ...(lifetime ? [lifetime.fd] : [])] },
               ),
             ),
           );
@@ -53,7 +56,10 @@ export function sourceExporter(worker: MediaWorker): SourceExporter {
             output,
             ...(canonical === undefined ? {} : { canonical: inputs }),
           },
-          { signal, descriptors: handles.map((file) => file.fd) },
+          {
+            signal,
+            descriptors: [...handles.map((file) => file.fd), ...(lifetime ? [lifetime.fd] : [])],
+          },
         ),
       ) as SourceEvidenceReceipt;
     } finally {

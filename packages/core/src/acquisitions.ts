@@ -1,3 +1,7 @@
+import {
+  verifySourceEvidence,
+  sourcePublicationMembers as publicationMembers,
+} from "./source-admission.js";
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
@@ -16,14 +20,12 @@ import { Catalog, CatalogError } from "./catalog.js";
 import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
 import {
   validateSourceReceipt,
-  sourceEvidenceRecords,
   type SourceEvidenceMetadata,
   type SourceEvidenceStore,
 } from "./evidence.js";
 import type { SourceExporter } from "./processing.js";
 import { ResourceReferences, type ResourceOwner } from "./references.js";
 
-const publicationMembers = ["narration.publication.json", "system.publication.json"] as const;
 const members = [
   "capture.journal.jsonl",
   "video.mov",
@@ -398,46 +400,15 @@ export class AcquisitionImporter {
         };
       }
     }
-    const directory = join(this.directory, `verify-${randomUUID()}`);
-    const sourceDirectory = join(directory, "source");
-    await mkdir(sourceDirectory, { recursive: true, mode: 0o700 });
-    const output = join(directory, "source.jsonl");
-    try {
-      for (const [name, file] of [
-        ["capture.journal.jsonl", files.journal],
-        ...Object.entries(acquisition.receipt.publications ?? {}).map(([role, proof]) => {
-          const name = `${role}.publication.json` as (typeof publicationMembers)[number];
-          const file = files[name];
-          if (
-            !file ||
-            file.bytes !== Number(proof.receipt.bytes) ||
-            file.sha256 !== proof.receipt.sha256
-          )
-            throw new CatalogError("INVALID_PACKAGE", "Publication proof differs from inventory");
-          return [name, file] as const;
-        }),
-      ] as const) {
-        await copyImportedFile(file.path, join(sourceDirectory, name), signal, file, 268_435_456);
-      }
-      const derived = await native.exportSource(sourceDirectory, output, signal, canonical);
-      const { file: _file, ...receipt } = derived;
-      const handle = await open(output, constants.O_RDONLY | constants.O_NOFOLLOW);
-      try {
-        const digest = await hashFile(handle, derived.bytes, signal);
-        if (
-          digest.sha256 !== files.normalized.sha256 ||
-          !isDeepStrictEqual(receipt, acquisition.receipt)
-        )
-          throw new CatalogError(
-            "INVALID_PACKAGE",
-            "Canonical verification differs from retained evidence",
-          );
-      } finally {
-        await handle.close();
-      }
-      const audio = new Map<string, { startUs: number; endUs: number }[]>();
-      for await (const row of sourceEvidenceRecords(output, derived, signal)) {
-        if (row.event !== "audioAcquired") continue;
+    const audio = new Map<string, { startUs: number; endUs: number }[]>();
+    await verifySourceEvidence({
+      directory: this.directory,
+      receipt: acquisition.receipt,
+      files,
+      canonical,
+      exportSource: native.exportSource,
+      signal,
+      audio: (row) => {
         const interval = JSON.parse(row.content) as {
           role: string;
           startUs: number;
@@ -448,21 +419,19 @@ export class AcquisitionImporter {
           throw new CatalogError("LIMIT_EXCEEDED", "Capture acquisition interval limit exceeded");
         intervals.push(interval);
         audio.set(interval.role, intervals);
+      },
+    });
+    for (const binding of acquisition.bindings) {
+      const asset = native.assets.get(binding.assetId);
+      if (!asset) throw new CatalogError("INVALID_PACKAGE", "Missing bound asset metadata");
+      for (const role of binding.sourceRoles) {
+        const expected = this.binding(asset, role, audio.get(role) ?? []);
+        if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Acquisition binding differs from verified source evidence",
+          );
       }
-      for (const binding of acquisition.bindings) {
-        const asset = native.assets.get(binding.assetId);
-        if (!asset) throw new CatalogError("INVALID_PACKAGE", "Missing bound asset metadata");
-        for (const role of binding.sourceRoles) {
-          const expected = this.binding(asset, role, audio.get(role) ?? []);
-          if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
-            throw new CatalogError(
-              "INVALID_PACKAGE",
-              "Acquisition binding differs from verified source evidence",
-            );
-        }
-      }
-    } finally {
-      await rm(directory, { recursive: true, force: true });
     }
   }
 

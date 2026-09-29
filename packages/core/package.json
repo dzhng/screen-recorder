@@ -271,6 +271,10 @@
     "./project-window": {
       "types": "./dist/project-window.d.ts",
       "default": "./dist/project-window.js"
+    },
+    "./source-admission": {
+      "types": "./dist/source-admission.d.ts",
+      "default": "./dist/source-admission.js"
     }
   },
   "scripts": {

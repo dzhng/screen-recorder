@@ -1,3 +1,4 @@
+import { validatePackageSource } from "./package-source.js";
 import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
@@ -57,7 +58,12 @@ import {
   type PackageManifest,
   type PackageSnapshot,
 } from "@screenrec/core/package-manifest";
-import { fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
+import {
+  IdentifiedFiles,
+  fileIdentity,
+  O_NOFOLLOW_ANY,
+  type FileIdentity,
+} from "@screenrec/core/files";
 import { nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 import { writeArchive } from "./archive-write.js";
@@ -264,6 +270,10 @@ export async function assemblePackage(
   const selections = [
     { source: "source/video.mov", target: "source/video.mov" },
     { source: "source/capture.journal.jsonl", target: "source/capture.journal.jsonl" },
+    ...Object.keys(source.receipt.publications ?? {}).map((role) => ({
+      source: `source/${role}.publication.json`,
+      target: `source/${role}.publication.json`,
+    })),
     {
       source: `evidence/source/${source.generation}/observations.jsonl`,
       target: "evidence/source/normalized.jsonl",
@@ -397,6 +407,8 @@ export async function assemblePackage(
   for (const path of Object.values(packageDocumentPaths)) add(path, "document");
   add("source/video.mov", "video");
   add("source/capture.journal.jsonl", "journal");
+  for (const role of Object.keys(source.receipt.publications ?? {}))
+    add(`source/${role}.publication.json`, "publication");
   if (system) add("source/system.mov", "system");
   if (narration) add(portableNarration, "narration");
   for (const item of history) add(item.path, "revision");
@@ -522,6 +534,12 @@ export async function assemblePackage(
   };
   const body = JSON.stringify(manifest);
   validateManifest(body, revisionContents, archiveLimits);
+  const admitted = new IdentifiedFiles(input.directory, plan);
+  try {
+    await validatePackageSource({ manifest, files: admitted }, owners.worker, signal, input.handle);
+  } finally {
+    admitted.close();
+  }
   await writeFile(join(input.directory, "manifest.json"), body, { flag: "wx", signal });
   await inspect("manifest.json");
   const planBody = JSON.stringify(plan);

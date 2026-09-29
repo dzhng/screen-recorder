@@ -1,3 +1,4 @@
+import { validatePackageSource } from "./package-source.js";
 import { openPackageParent } from "./package-workspace.js";
 import { validateManifest } from "@screenrec/core/package-manifest";
 import { validatePackageTranscript } from "./package-transcript.js";
@@ -81,7 +82,10 @@ export class PackageInspection {
               manifest.inventory
                 .filter((member) => ["video", "system", "narration"].includes(member.role))
                 .map((member) => member.path),
-            inspect: validatePackageTranscript,
+            inspect: async (context, signal = new AbortController().signal, lifetime) => {
+              await validatePackageSource(context, this.options.worker, signal, lifetime);
+              await validatePackageTranscript(context, signal);
+            },
             parent: { directory, handle },
           });
           this.parent = handle;

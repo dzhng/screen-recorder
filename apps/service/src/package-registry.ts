@@ -86,7 +86,11 @@ export class PackageRegistry<T extends ArchiveManifest = ReturnType<typeof valid
       parent: { directory: string; handle: FileHandle };
       validate: ArchiveManifestValidator<T>;
       mediaPaths?: (manifest: T) => readonly string[];
-      inspect?: (retained: RetainedPackage<T>, signal?: AbortSignal) => Promise<void>;
+      inspect?: (
+        retained: RetainedPackage<T>,
+        signal: AbortSignal | undefined,
+        lifetime: { readonly fd: number },
+      ) => Promise<void>;
       jobs: JobQueue;
       worker: MediaWorker;
       delivery: DerivativeDelivery;

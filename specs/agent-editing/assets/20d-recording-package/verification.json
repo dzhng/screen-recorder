@@ -1,0 +1,328 @@
+{
+  "scope": "Recording processed-package canonical proof inventory and shared admission; no writer activation",
+  "baseCommit": "c344765c",
+  "worker": {
+    "path": "/tmp/screenrec-canonical-admission-native",
+    "sha256": "fe5f39ea4fa4fd3dc989e4591e46acfe4d65662ad000f4c12a557da2f6c1c9e1",
+    "retainedIn": "../20d-canonical-admission/evidence.tar.gz"
+  },
+  "gates": {
+    "cliBuild": "passed",
+    "core": {
+      "files": 4,
+      "tests": 52,
+      "passed": true
+    },
+    "recording": {
+      "tests": 5,
+      "passed": true
+    },
+    "projectPublicRegression": true,
+    "missingReadyHookMutation": "fails: missing-proof package became ready",
+    "lifetimeDescriptorMutation": "fails: native verification lacks directory lifetime descriptor",
+    "restoredLifetimeGate": "passed",
+    "independentReview": "one lifetime finding corrected; follow-up no actionable findings"
+  },
+  "commands": [
+    "bunx turbo build --filter=@screenrec/cli",
+    "bunx vitest run packages/core/src/acquisitions.test.ts packages/core/src/evidence.test.ts packages/core/src/assets.test.ts packages/core/src/project-package.test.ts --maxWorkers=2",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native SCREENREC_CANONICAL_RECORDING_OUTPUT=EMPTY node --test --test-name-pattern='canonical recording package|complete no-narration package|narrated.*package|source changes during descriptor' apps/service/tests/video-export.mjs",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node packages/test-harness/editing/capture-canonical-admission.mjs --out EMPTY --fixture EXTRACTED/canonical-input"
+  ],
+  "sourceHashes": {
+    "packages/core/src/source-admission.ts": "dea999bfa15ea12d789cb86a382b1e81ce7145c302730c2b9e622fa89e205457",
+    "packages/core/src/acquisitions.ts": "8fcac92a0ab79c939c3d969e46fd6b9e6fe1810ef2857efff9be43ec92ffc987",
+    "apps/service/src/package-source.ts": "21a7e586d49722036e47844c8aca4f13fd4fa51aacda13d949001d41cc997063",
+    "apps/service/src/package-assembly.ts": "85f9fe874c58647f1f5ac69973320dd0950c0e22b86c6a1e2a52849ed31416b7",
+    "apps/service/src/packages.ts": "3f40ae634a664e17e6188f9e5aa829c438c67de33fd1ef5eeed567b6a58d450d",
+    "apps/service/src/source-export.ts": "1e4afbd12ace6397d05a3aad11298766490a57f6e7b0dfcd1d1c56cf68d47bb7",
+    "apps/service/src/package-archive.ts": "b82a9c8d2326acc6905a8f740a46c54f57976d41d4c6dd14889a4c5a338dbf71",
+    "apps/service/src/package-registry.ts": "6b90062448e05ab8e88ff2358ff48eec1df643ca129c94d37cb7407568949c42",
+    "apps/service/src/project-packages.ts": "c68469b229cbcfb555dc7b2aeb5bafd7059fe3a5c9f1d3bc9dc47b4f2594a7df",
+    "packages/core/src/package-manifest.ts": "105f6960c4100e93c1c147e04210e08289dda572710efe2ed155505a2c25eaa8",
+    "apps/service/tests/video-export.mjs": "be6c2b51518fb8d1f35589162a140db5f093145f5ea7c64baf69e9043b0a1efb"
+  },
+  "artifacts": [
+    {
+      "path": "recording-green/audio-pages.zip",
+      "bytes": 24529,
+      "sha256": "5e8eea1d9b5ffdf39358452d596a5c9a4f4087cb70f50eedd5105ac0ecde2e3a"
+    },
+    {
+      "path": "recording-green/audio.json",
+      "bytes": 2803,
+      "sha256": "402be09700721368a701c3a280a8085f9ff086ecf68ee40ba907fa5f92b78346"
+    },
+    {
+      "path": "recording-green/canonical.wav",
+      "bytes": 580096,
+      "sha256": "9ae705f8edbfc3dc8a4773983ac978bd18c9790986c629e51aff9f8706d6df5f"
+    },
+    {
+      "path": "recording-green/canonical.zip",
+      "bytes": 423677,
+      "sha256": "df295f42f204835779245e78be77f3bd44845669a51904aea4ecb77be1721e7f"
+    },
+    {
+      "path": "recording-green/layout-downgrade.zip",
+      "bytes": 23754,
+      "sha256": "8c5efd6bc2849ad408ce7b35f1c9acf582d07d2524a1f0af5bc11b9c8985e631"
+    },
+    {
+      "path": "recording-green/manifest.json",
+      "bytes": 9569,
+      "sha256": "462f645bcc2f7c075611cdeb35138e4a8f33eca5d6cd64ef60beec2b73497552"
+    },
+    {
+      "path": "recording-green/missing-proof.zip",
+      "bytes": 23887,
+      "sha256": "b1323edbe92f31ee452f48e1103dac50c75ae8d985e3a13ded50b21b62b76944"
+    },
+    {
+      "path": "recording-green/refusals.json",
+      "bytes": 769,
+      "sha256": "c30612e520e348d97a735e05c863025b81d3a1691aefa39a55dab1a2fbb90b31"
+    },
+    {
+      "path": "readiness-mutation-red/missing-proof.zip",
+      "bytes": 23901,
+      "sha256": "5f2b10f4d226c282440d7d18f51c0344cc9f0c1859589c5bcdf1f230750c281a"
+    },
+    {
+      "path": "readiness-mutation-red/refusals.json",
+      "bytes": 247,
+      "sha256": "99858c56c8c0b434a100389e3117fa7a6bf31f2e3fbe8617e4498a8b76c3014d"
+    },
+    {
+      "path": "project-regression/acquisition.json",
+      "bytes": 2391,
+      "sha256": "698882ea95fdd2a5cfd8927c0783b71df521754fb8c1cc7bbe9483225e7a4199"
+    },
+    {
+      "path": "project-regression/adopted.json",
+      "bytes": 511,
+      "sha256": "f766e8ffda7ed78942a0c9087658d18c88c8321b78baebe7f27b34481e5352fb"
+    },
+    {
+      "path": "project-regression/asset.json",
+      "bytes": 1032,
+      "sha256": "4670bb73eca224a413b3bfb3c955ad2d2703d409835a6cca6671ad7d19bbb4fb"
+    },
+    {
+      "path": "project-regression/canonical.zip",
+      "bytes": 591191,
+      "sha256": "bbfcb77f83f505a8f2f4d8ff387156d0843421225e6e48da91cf26d690e84116"
+    },
+    {
+      "path": "project-regression/invalid-clock.json",
+      "bytes": 220,
+      "sha256": "2ff9898fec3b9057862af81858d9beccf7d05cf4a8118dced8354fd6b30516d2"
+    },
+    {
+      "path": "project-regression/invalid-clock.zip",
+      "bytes": 18555,
+      "sha256": "d824702cff40dd683942a5e90374684fbe69ebf4418246f18848cde3bae70cb1"
+    },
+    {
+      "path": "project-regression/invalid-layout.json",
+      "bytes": 196,
+      "sha256": "76ca0d217f3344a1da986d98dd0c60b086f336218e806272ad34cc1db7d9fa4c"
+    },
+    {
+      "path": "project-regression/invalid-layout.zip",
+      "bytes": 17785,
+      "sha256": "2bc0072c636a74d427f4b46df06627ae4c0bf767f13918c6515f973541362d20"
+    },
+    {
+      "path": "project-regression/invalid-package.json",
+      "bytes": 213,
+      "sha256": "c34787bbd9aaa359f8efeed31ff43e0c5369d8436215f7cc4939fd0ddffa6efc"
+    },
+    {
+      "path": "project-regression/invalid-proof.zip",
+      "bytes": 18552,
+      "sha256": "f651e2dee736c2494f95aa07bd6d55cff50a7c60832269d2588e4d589b8157fa"
+    },
+    {
+      "path": "project-regression/mask-comparison.json",
+      "bytes": 179,
+      "sha256": "3f07d1c7d13668cc11d534ad45dd6255d1528966e2181c94f1947e6e8d2016f5"
+    },
+    {
+      "path": "project-regression/missing-proof.json",
+      "bytes": 1271,
+      "sha256": "b9165e6ecd8e4bc601e0dfb1f4edde8ac26abca41b787c79045e59c505819243"
+    },
+    {
+      "path": "project-regression/native-exact-mask.json",
+      "bytes": 502,
+      "sha256": "bd0a3dab544e1c8aed2c31f46e1288ba77c33f7909bb5916dd72374c99c8bd6e"
+    },
+    {
+      "path": "project-regression/native-exact-mask.request.json",
+      "bytes": 504,
+      "sha256": "b003762aafa9f42041798e76e55699686610369a6734a9628ab121719a6b4ad0"
+    },
+    {
+      "path": "project-regression/native-exact-mask.wav",
+      "bytes": 457024,
+      "sha256": "fee9ef18c12ed06fa7da3be705daf2cdfb1aa836baaa403f8528bffe8a7c275c"
+    },
+    {
+      "path": "project-regression/one-us-mask.json",
+      "bytes": 1530,
+      "sha256": "66a0a59b806376d77640d6f60287ee8918188e7dcf22ab3eaa9dbd50307cab1d"
+    },
+    {
+      "path": "project-regression/one-us-mask.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/physical-full.json",
+      "bytes": 1410,
+      "sha256": "03b5be4a8e4588af92f726a3a0cb718df66bc65d2133a5fc3a69cfd458b1d802"
+    },
+    {
+      "path": "project-regression/physical-full.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/project-full.json",
+      "bytes": 2016,
+      "sha256": "fbd609364926eeec95862759fb3654d538a3ce5a16184b065a206d759a54973b"
+    },
+    {
+      "path": "project-regression/project-full.wav",
+      "bytes": 909952,
+      "sha256": "0a96cc849623ceb86423c7aaeb01ba2b4f256373307fe4c32d2a18632b352118"
+    },
+    {
+      "path": "project-regression/relocated-project.json",
+      "bytes": 2024,
+      "sha256": "dfac2f546d336d916cc76e7e876f57a7672978b95fb42ddc940a8456184193f4"
+    },
+    {
+      "path": "project-regression/relocated-project.wav",
+      "bytes": 909952,
+      "sha256": "0a96cc849623ceb86423c7aaeb01ba2b4f256373307fe4c32d2a18632b352118"
+    },
+    {
+      "path": "project-regression/report.json",
+      "bytes": 6017,
+      "sha256": "4d860f568b80cc3cafae787c5eeeb729b79bf181fc7e55400a69ab5d7ee73bc6"
+    },
+    {
+      "path": "project-regression/restarted-source.json",
+      "bytes": 1538,
+      "sha256": "0997b20eec5b2049690e5e83531360fbf6daaf1b992668d9f1ec19a0bfb0ef3c"
+    },
+    {
+      "path": "project-regression/restarted-source.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/revision.json",
+      "bytes": 4690,
+      "sha256": "3a42e6afbcf000a55ac218563d7d6bef4bc262167d5d80d8658f06dc8937c4f2"
+    },
+    {
+      "path": "project-regression/source-full.json",
+      "bytes": 1530,
+      "sha256": "cabed8ca7c578d697fdd32531010a90282fb7943117add4788b841f702462715"
+    },
+    {
+      "path": "project-regression/source-full.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/source-late.json",
+      "bytes": 1457,
+      "sha256": "65132364d357aa666322d947284fdc4a98087aac8249497d31417c6e0e5d189c"
+    },
+    {
+      "path": "project-regression/source-late.wav",
+      "bytes": 23212,
+      "sha256": "a98c12d4a9aabc913ed951daf76d9d2a3c3405e2e3db473766385fc5d0236778"
+    },
+    {
+      "path": "project-regression/source-tail.json",
+      "bytes": 1459,
+      "sha256": "56a3baf62bc69ded268eea8d578756fd45096dbb4aa1c9c2ca3591aa50f2011a"
+    },
+    {
+      "path": "project-regression/source-tail.wav",
+      "bytes": 15424,
+      "sha256": "5531f396074e630e85d3ebd0d521602bfe39eeb3dac6bffbfedf03cf992253ad"
+    },
+    {
+      "path": "logs/recording-canonical-first.log",
+      "bytes": 1955,
+      "sha256": "37bd82a0022b6ed75871977c3522f0de295c249a0e00dd2ec0a0cd3880f27001"
+    },
+    {
+      "path": "logs/recording-canonical-second.log",
+      "bytes": 481,
+      "sha256": "ae268e25fc8dc5201bb2c927fade4747f50b9a7c71905f9399e61a26b2ec580d"
+    },
+    {
+      "path": "logs/recording-canonical-red.log",
+      "bytes": 1297,
+      "sha256": "9b5ab947ca613ff847f72eb992d6b992eed1c001f1b1c83b359cb0d6a4efab81"
+    },
+    {
+      "path": "logs/recording-canonical-lifetime-green.log",
+      "bytes": 816,
+      "sha256": "6930d8ed96d450353131c2d886c65ce233b9b0d8abffd497f824b5d777e5b908"
+    },
+    {
+      "path": "logs/recording-canonical-core.log",
+      "bytes": 900,
+      "sha256": "2071a762161770804afb8d211e1dc86fb24c4ecd4058c3e4711818d7a9a807e2"
+    },
+    {
+      "path": "logs/recording-lifetime-red.log",
+      "bytes": 1949,
+      "sha256": "95927197f73cce011d7c7eecbc489aa1b443ba1adbc5439eb51183eb070a1383"
+    },
+    {
+      "path": "logs/recording-lifetime-restored.log",
+      "bytes": 395,
+      "sha256": "6159bbc15a2d3756cc91e03ed39e70293f1c559d9f727c5c8244af6c1230062d"
+    },
+    {
+      "path": "logs/recording-lifetime-restored-build.log",
+      "bytes": 956,
+      "sha256": "eddec55ba8e9b249d58979d99b1c360162557768414c9ed6c090e420635c0eff"
+    },
+    {
+      "path": "logs/recording-canonical-project-lifetime.log",
+      "bytes": 169,
+      "sha256": "d12b7a9c366436d264ecad361fe4e417691a36c7336d099e9029354d897f6761"
+    },
+    {
+      "path": "logs/recording-canonical-review.log",
+      "bytes": 184112,
+      "sha256": "bbfb4faa76a8056543c142e067418a1bd2ccf1edfc9af8cd430628c3f5a45ec2"
+    },
+    {
+      "path": "logs/recording-canonical-review2.log",
+      "bytes": 198499,
+      "sha256": "30eff000f202867f28a84a5d7cd2a9c13ed5fc520b862acf04ca65135d267f56"
+    }
+  ],
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 297936,
+    "sha256": "2141ff5674a96fac542bf5d3f68b1aaa834f539ffe337e130c5c6c1100a36370"
+  },
+  "limits": [
+    "Speech prerequisite is a fixture stub, no new model inference/listening/codec claim",
+    "Directory-FD propagation gate is not a new process-death test",
+    "Existing short worker deadlines remain; no full-scale fragmented readiness claim",
+    "Initial fixture/oracle errors retained as harness-domain evidence; failed stereo-oracle waveform was not retained in this leaf"
+  ]
+}

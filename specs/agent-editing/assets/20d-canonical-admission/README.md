@@ -45,8 +45,8 @@ whole native-frame gaps, not an invented public one-microsecond capability.
 ## Remaining rollout
 
 This closes canonical acquisition and **project-package** admission only. The separate
-recording-domain processed-package inventory/inspection path still needs the same
-receipt closure and revalidation before packed writer activation. Stop/recovery
+recording-domain processed-package inventory/inspection path is covered by the
+subsequent [recording package checkpoint](../20d-recording-package/README.md). Stop/recovery
 continuation, typed zero-represented outcomes, actual callback/layout activation and
 large-work operation-specific deadlines remain owned by 20d. Source verification now
 consumes native work during package readiness, including legacy journal dispatch;
