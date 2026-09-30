@@ -4475,3 +4475,89 @@ capture masks internally while enforcing normalized source domains at inputs.
 - **Verdict:** sound; gain is explicit, unclipped and reversible, with both levels
   retained and perceptual acceptance still separate.
 - **Confidence:** high.
+
+## Protected-sentence sample alignment (2026-09-30)
+
+**When:** protected-sentence audition packet, 2026-09-30.
+
+**The choice:** Align presentation endpoints to the recording file's sample grid.
+For this sentence, the source clock includes the recording's 48,675-microsecond
+origin. Starting exactly at 72 seconds therefore lands between two audio samples
+after subtracting that origin. Public source extraction rounds down while the
+project's sample selection starts at the next sample, producing a one-sample shift.
+The packet instead starts 8,675 microseconds later and moves the ending by the same
+amount. Both routes then select the exact same samples for the same 2.7-second
+sentence, while retaining the ASR-proposed beginning and ending with margins.
+
+**The gap:** The requested complete sentence did not prescribe exact presentation
+endpoints or which discrete sample should represent a fractional boundary.
+
+**The reach:** This fixes only the listening packet's selection. It neither changes
+production rounding nor supplies independent word boundaries. Future annotations
+must retain the actual origin and the appropriate clock instead of copying these
+presentation margins as word labels.
+
+**Verdict:** Sound. Exact matched input makes the denoise comparison easier to
+assess without silently shifting one reference. No added gain or waveform edit is
+needed. The original remains available for the user to assess the proposed crop.
+
+**Confidence:** High.
+
+## Authored stereo container encoding (2026-09-30)
+
+**When:** protected-sentence authored stereo follow-up, 2026-09-30.
+
+**The choice:** Use the existing FFmpeg encoder to wrap explicitly authored
+Float32 samples in a WAV file. The sentence's original samples are copied into the
+left channel; the right gets exactly half each sample's amplitude. The encoder
+receives those already interleaved samples at their original rate and writes
+Float32 WAV. A complete sample comparison proves the encoded file retains the
+exact declared channels before it reaches the public import and project workflow.
+
+**The gap:** The requested stereo control prescribed channel gains and public
+processing, but did not prescribe how to create the source WAV container.
+
+**The reach:** This evidence assembler requires the already installed encoder,
+whose binary hash and actual arguments are retained. It adds no production
+format writer or dependency installation. Future reproduction can verify the
+encoded samples rather than assume an encoder preserves them.
+
+**Verdict:** Sound. Reusing an existing encoder avoids another maintained WAV
+writer, while all-frame equality prevents an unnoticed encoding or gain change.
+
+**Confidence:** High.
+
+## Known-noise listening fixture (2026-09-30)
+
+- **When:** known-added-noise complete-sentence packet.
+- **Choice:** combine existing steady-noise and transient-noise policies in one
+  complete sentence. A listener who hears the original “The sample offer says
+  this is free” can compare the same words with explicitly added hum, hiss and
+  brief bursts, then RNNoise. The recipe uses the earlier 10 dB aggregate ratio and
+  20 ms triangular bursts. Independent channel seeds/phases make the noise stereo
+  without turning the mono source into purported real spatial capture. Repeating
+  the old tiny unfamiliar excerpts would obscure what words should survive.
+- **Gap:** the plan requires steady and transient noise but does not prescribe
+  their combined levels or a complete-sentence presentation.
+- **Reach:** this is one declared fixture recipe, with no product default or new
+  noise engine. The unchanged clean reference remains separately authoritative;
+  listening and real stereo quality stay separate from mechanism checks.
+- **Verdict:** sound; uses the existing noise ratio and complete familiar words
+  while preserving exact duration and original speech before additive noise.
+- **Confidence:** high.
+
+- **When:** explicit RMS comparison aid.
+- **Choice:** provide a separately labeled gain-only diagnostic matching the
+  unchanged clean sentence's RMS, the average signal-energy level. If RNNoise
+  reduces the candidate's level, a listener can judge words with that level
+  difference compensated while the raw noisy and processed files remain available.
+  Matching the noisier whole mixture instead would also compensate for energy
+  deliberately added by this fixture. Neither calculation measures perceived
+  loudness or justifies an automatic editing policy.
+- **Gap:** the plan requires raw and separately matched surfaces without choosing
+  the matching anchor for a known-added-noise utterance.
+- **Reach:** the saved raw public output remains untouched. The extra copy uses
+  only explicit offline Float32 gain; future edits do not inherit normalization.
+- **Verdict:** sound; controls a declared comparison variable while retaining
+  raw gain and clipping evidence and reporting the copy's provenance.
+- **Confidence:** high.

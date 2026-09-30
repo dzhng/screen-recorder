@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: frozen user-preferred RNNoise has measured timing and retained-output state evidence. Scoped production execution, independent mono/stereo lanes and mix transitions are verified through [15a](15a-noise-processing.md); protected speech, spatial listening and post-retime acceptance remain open. Dependencies: [00](./00-corpus.md).
+Status: frozen user-preferred RNNoise has measured timing and retained-output state evidence. Scoped production execution, independent mono/stereo lanes and mix transitions are verified through [15a](15a-noise-processing.md); The [current user verdicts](../assets/listening-review-2026-09-30.md) pass the exact familiar post-retime output, different complete protected sentence and authored half-level stereo balance. The [known-added-noise complete sentence](../assets/15a3-noisy-sentence/README.md) awaits listening; broader quality remains open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

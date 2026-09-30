@@ -14,12 +14,12 @@
       "sha256": "5c81378c54dd49d26855b0a16638fdefcfa0660fa69ba9262586a8812965bee5"
     },
     "README-stereo.md": {
-      "bytes": 2706,
-      "sha256": "9b6c05df512dad0426df142931c300a3bf325cb704b755157317de8aa1abca67"
+      "sha256": "b05573bd610d84b853ab06cbf21f733d4da8b9ccca405a201b220bc1fb983b9a",
+      "bytes": 3060
     },
     "stereo-choices.md": {
-      "bytes": 1229,
-      "sha256": "cd91deda14c68a676bda4ccd8eea011a3700f78badab4742c11e44f4b604f4cf"
+      "sha256": "a32384106ac8e2c2d70c2ea064ee568cd61fcc596621748e91f1c8183b2cd2f1",
+      "bytes": 151
     },
     "stereo-manifest.json": {
       "bytes": 3910,
@@ -36,6 +36,20 @@
     "candidate-stereo.wav": {
       "bytes": 1040896,
       "sha256": "1f48a774880f4c1c311a0ae40d6cb527bac39a5e0c8b24a6a9128c9baa1a822a"
+    }
+  },
+  "documentationMaintenance": {
+    "date": "2026-09-30",
+    "reason": "Actual user verdicts and canonical choice banking changed only Markdown; original assembly document hashes retained here. Runtime, recipe, measurements, receipts and media hashes remain unchanged.",
+    "assemblyDocumentHashes": {
+      "README-stereo.md": {
+        "bytes": 2706,
+        "sha256": "9b6c05df512dad0426df142931c300a3bf325cb704b755157317de8aa1abca67"
+      },
+      "stereo-choices.md": {
+        "bytes": 1229,
+        "sha256": "cd91deda14c68a676bda4ccd8eea011a3700f78badab4742c11e44f4b604f4cf"
+      }
     }
   }
 }

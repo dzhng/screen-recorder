@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "Root public mixture/noise source,dry,one-RNNoise replay; complete frozen media and noise-component hashes exact. Offline matched diagnostic hash also exact. No hearing, labels or naturally recorded spatial claim.",
+  "frames": 129600,
+  "knownAddedNoiseDb": 9.999999999033044,
+  "allSixCLIMCPDeliveriesExact": true,
+  "metrics": {
+    "reusedCleanProcessed": {
+      "path": "../15a3-protected-sentence/candidate.wav",
+      "sha256": "f3479c98cd2dbee88da1b4781ef0d5ea51f34d2b1beed7da56931f204d6d4eb6"
+    },
+    "noiseOnlyAttenuationDb": -34.866373789922555,
+    "cleanReferenceOnlyErrorRms": 0.0056149309987039665,
+    "mixtureErrorRelativeToInputNoiseDb": 4.28124170943324,
+    "outputSensitivityRelativeToInputNoiseDb": -8.94172150904457,
+    "interpretation": "Noise-only attenuation is not residual noise in speech. Clean-reference change and mixture error include original ambience/speech changes; neither proves word retention or perceived noise reduction."
+  },
+  "matchedGainDb": 2.334855824966983
+}

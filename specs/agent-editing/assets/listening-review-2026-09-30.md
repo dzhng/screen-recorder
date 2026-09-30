@@ -34,3 +34,36 @@ This closes the exact three auditions, not broader denoise/spatial coverage,
 independent speech-boundary labels, the ambience source/loop gate or physical
 capture acceptance. No audio was changed or played automatically while recording
 this evidence.
+
+## Complete protected sentence and authored stereo
+
+The user answered the new complete-sentence comparison (“The sample offer says
+this is free,” including starts and endings): **“Yes, clear and natural.”**
+The separate stereo-headphone balance/naturalness answer was **“Yes, balance and
+voice sound good.”** These accept the exact mono-reference/duplicated-stereo
+denoise pair and the explicitly authored left-original/right-half-level pair.
+They do not approve naturally recorded spatial fields, the separate known-added-
+noise packet, precise acoustic word labels or the pending earlier room-tone loop.
+
+| Accepted comparison | File | SHA-256 |
+| --- | --- | --- |
+| Original sentence | [original.wav](15a3-protected-sentence/original.wav) | `b2b31731a63b3bc973a5fd11661f4b7c3f5384416949a97029c3b0a6043fb05c` |
+| Denoised sentence | [candidate.wav](15a3-protected-sentence/candidate.wav) | `f3479c98cd2dbee88da1b4781ef0d5ea51f34d2b1beed7da56931f204d6d4eb6` |
+| Authored stereo original | [original-stereo.wav](15a3-protected-sentence/original-stereo.wav) | `458a3c6f28cda0fbaa3ad26942fd157147e423aeff6f7ee98c14f2ec9ffc7aa1` |
+| Denoised authored stereo | [candidate-stereo.wav](15a3-protected-sentence/candidate-stereo.wav) | `1f48a774880f4c1c311a0ae40d6cb527bac39a5e0c8b24a6a9128c9baa1a822a` |
+
+## Complete sentence with known added noise
+
+The user answered the level-matched comparison with declared hum, hiss and brief
+noise bursts: **“Yes, clearer noise floor and natural words.”** This accepts the
+exact pair below for audible noise reduction and clear, natural retained words.
+The comparison copy applies only the declared offline Float32 gain; the raw public
+RNNoise output remains retained separately. This verdict supplies the remaining
+known-noise hearing case in the finite12c/15a3 matrix. It does not establish
+independent word-boundary labels or approve the pending room-tone source/loop.
+
+| Comparison surface | File | SHA-256 |
+| --- | --- | --- |
+| Noisy original | [mixture-source.wav](15a3-noisy-sentence/mixture-source.wav) | `1f10f930f13757d717f16176c2a59a32c2d983875656d5749be970d91fdb2f9a` |
+| Accepted level-matched denoised copy | [mixture-processed-matched.wav](15a3-noisy-sentence/mixture-processed-matched.wav) | `cde8d135f31eec1a8b1a2be1d79ebfc4acb1a1abe1ee0b3dcdb088db7340d2eb` |
+| Raw public denoised output | [mixture-processed.wav](15a3-noisy-sentence/mixture-processed.wav) | `50530aa33f8895be422db026fb4c8bd060482964ef904e2a42293984148eb010` |

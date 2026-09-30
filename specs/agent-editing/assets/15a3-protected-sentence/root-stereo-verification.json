@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "scope": "Root actual public source/dry/RNNoise replay; complete authored original/candidate WAV hashes match frozen stereo packet. No hearing or naturally recorded spatial-field claim.",
+  "frames": 129600,
+  "sourceAndDryExact": true,
+  "leftMatchesFrozenMonoCandidateExact": true,
+  "channelMeasurements": {
+    "lanes": [
+      {
+        "inputRms": 0.010994900229709365,
+        "outputRms": 0.008444158618022014,
+        "rmsGain": 0.7680068433185978,
+        "fittedGain": 0.6645176536666731,
+        "residualRmsAfterFittedGain": 0.0042334049636745105
+      },
+      {
+        "inputRms": 0.005497450114854682,
+        "outputRms": 0.004254202101082094,
+        "rmsGain": 0.7738500599735862,
+        "fittedGain": 0.6728663562661823,
+        "residualRmsAfterFittedGain": 0.0021012544655768023
+      }
+    ],
+    "inputRightToLeftRms": 0.5,
+    "outputRightToLeftRms": 0.503804143612666,
+    "authority": "Whole-file numeric energy and fitted-gain residuals only; no perceived channel balance, spatial fidelity or speech-quality verdict."
+  }
+}

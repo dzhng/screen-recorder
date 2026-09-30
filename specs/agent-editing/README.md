@@ -35,7 +35,10 @@ passes independent PCM and matched full/range AAC checks. The [native](assets/15
 [public](assets/15a3e-follow-learned-public/root-verification.json) follow-pitch
 learned joins and [follow movie delivery](assets/15a3f-follow-learned-movie/README.md)
 now pass. The familiar post-retime denoise audition has the linked user pass;
-resolve broader speech/denoise quality gates without repeating accepted auditions or passed joins. Numerical evidence never substitutes for hearing.
+The [different protected sentence](assets/15a3-protected-sentence/README.md) and
+[authored stereo balance](assets/15a3-protected-sentence/README-stereo.md) have also
+passed user review; the [known-added-noise case](assets/15a3-noisy-sentence/README.md)
+awaits listening. Resolve broader quality without repeating accepted auditions or passed joins. Numerical evidence never substitutes for hearing.
 
 Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
 [retimed curves](assets/16-retimed-curves/root-verification.json) and

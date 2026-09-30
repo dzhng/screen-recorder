@@ -1,7 +1,8 @@
 # Complete sentence with known added noise
 
-**Listening pending.** The sentence is “The sample offer says this is free.”
-Its unchanged [clean baseline](../15a3-protected-sentence/original.wav) is the
+**Listening accepted.** The [user verdict](../listening-review-2026-09-30.md)
+passes this exact pair for a clearer noise floor and natural words. The sentence is “The sample offer says this is free.”
+Its unchanged [unmodified baseline](../15a3-protected-sentence/original.wav) is the
 existing public extraction from the user's recording. Wording and boundaries
 remain inherited ASR proposals, not independent labels.
 
@@ -29,7 +30,7 @@ attenuation separately; it is not a listening surface or evidence of residual
 noise inside speech.
 
 The diagnostic copy applies only Float32 gain after the saved raw candidate,
-offline. Its gain is 1.308406796 (+2.334856dB), targeting the unchanged clean
+offline. Its gain is 1.308406796 (+2.334856dB), targeting the unchanged baseline
 sentence's RMS rather than the noisy mixture's RMS. This is an explicit review
 aid, with no public-delivery, perceived-loudness or product-normalization claim.
 Raw candidate and authored noisy-input levels remain unchanged and unnormalized.
@@ -44,7 +45,8 @@ naturalness or perceived noise improvement. No subjective pass threshold is fitt
 
 [Compressed public receipts](receipts.json.gz) retain full requests and MCP audio
 payloads. Compressed Float32 noise input/output preserve the measured components.
-[Independent reconstruction and review](review.json) checks complete source/dry
+[Independent reconstruction and review](review.json) and the
+[root public replay](root-verification.json) check complete source/dry
 PCM, authored-noise recipe, gain-only diagnostic, hashes, finite samples and raw
 metrics. The setup initially needed links to already installed workspace
 dependencies; nothing was installed. Codex CLI review was unavailable because its
@@ -57,7 +59,9 @@ worker:
 SCREENREC_NATIVE=/tmp/screenrec-03d-native-build/debug/screenrec-native node specs/agent-editing/assets/15a3-noisy-sentence/assemble.mjs --out /tmp/noisy-sentence-fresh
 ```
 
-This packet supplies a known-noise listening case. It does not close broader
-12c/15a3 quality, independent word labels, other speakers/material, real spatial
-acceptance or uninterrupted whole-take history. No model preparation, new engine,
+This packet supplies the accepted known-noise listening case in12c/15a3’s
+finite acceptance matrix. The linked user verdict closes that hearing gate;
+its technical measurements alone cannot do so or establish independent word labels or a naturally captured spatial
+field. The frozen clean/reference-only, channel, state and whole-output cases
+retain their own evidence; this review adds no new speaker requirement. No model preparation, new engine,
 capture, playback, generated voice or production change occurs.

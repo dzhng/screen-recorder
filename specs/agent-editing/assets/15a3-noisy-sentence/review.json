@@ -33,16 +33,16 @@
   },
   "artifactFiles": {
     "README.md": {
-      "bytes": 3884,
-      "sha256": "6d4efa407a933a097d5d31ce9a97f129a7fb666ae1f64306e65507d6ac44aa8c"
+      "sha256": "97b49ad6e82fd689635ad20115a89d7d0a11f9762e07e7e8795624e8b97c4e32",
+      "bytes": 4278
     },
     "assemble.mjs": {
       "bytes": 12425,
       "sha256": "faf818e67028792f1ec8cc529655b95c94f3a4ea0c6bcfb4c0409d4cac1a98e8"
     },
     "choices.md": {
-      "bytes": 2254,
-      "sha256": "8484c0b05ed296aa3408563475425a9ad124bfb47162069a80212085c1a09cbf"
+      "sha256": "f0a839c04b4ce938f7a30062cb3a822992f87bd365f789c7267f499c065744e8",
+      "bytes": 146
     },
     "manifest.json": {
       "bytes": 6198,
@@ -71,6 +71,20 @@
     "receipts.json.gz": {
       "bytes": 6153695,
       "sha256": "f3884dd1f6634c82dcc78695655cf15bdd18fe46262d786bdbaca57d4d5c4e86"
+    }
+  },
+  "documentationMaintenance": {
+    "date": "2026-09-30",
+    "reason": "Actual user verdicts and canonical choice banking changed only Markdown; original assembly document hashes retained here. Runtime, recipe, measurements, receipts and media hashes remain unchanged.",
+    "assemblyDocumentHashes": {
+      "README.md": {
+        "bytes": 3884,
+        "sha256": "6d4efa407a933a097d5d31ce9a97f129a7fb666ae1f64306e65507d6ac44aa8c"
+      },
+      "choices.md": {
+        "bytes": 2254,
+        "sha256": "8484c0b05ed296aa3408563475425a9ad124bfb47162069a80212085c1a09cbf"
+      }
     }
   }
 }

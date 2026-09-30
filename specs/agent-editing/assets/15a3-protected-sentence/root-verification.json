@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "scope": "Root integration through actual public operations; original and candidate complete WAV hashes match the frozen packet. No hearing, boundary-label or spatial verdict.",
+  "sourceOriginUs": 48675,
+  "sourceRange": {
+    "startUs": 72008675,
+    "endUs": 74708675
+  },
+  "frames": 129600,
+  "checks": {
+    "publicRouteReplay": true,
+    "originalHashExact": true,
+    "candidateHashExact": true,
+    "everyDryStereoSampleExact": true,
+    "candidateDiffersFromDry": true
+  }
+}
