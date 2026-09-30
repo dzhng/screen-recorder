@@ -88,3 +88,8 @@ existing non-blocking review workflow. Silence is not evidence of audio quality.
 
 If no tested mechanism passes, record a failed gate and reslice the unresolved
 preparation seam. Do not silently narrow the feature to whole-phrase speed changes.
+
+The [familiar internal-join pair](../assets/13a-familiar-internal-join/README.md)
+slows only the middle of the same complete sentence, preserving both neighbors
+exactly. It is presented for the distinct local-transition listening gate; its
+authored ASR-gap boundaries do not establish independent word labels.
