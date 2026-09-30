@@ -148,12 +148,18 @@ Loops are explicit repeated occurrences. Reverse playback and arbitrary continuo
 speed curves are not required by the accepted workflow; do not invent them in a
 renderer or foreclose a later typed extension.
 
-The core compiler owns rounding: project frame `k` samples at
-`floor(k * 1_000_000 * fps.denominator / fps.numerator)`. A range clip maps this
-to `source.startUs + floor((t - placement.startUs) * sourceDuration / projectDuration)`.
-Select the source presentation interval containing that time, not an assumed
-source frame number. At a half-open cut boundary, the following clip wins. Preserve
-source hold/gap/presentation evidence. A hold uses its explicit source time.
+The core compiler owns one exact frame clock: frame `k` executes at
+`k * 1_000_000 * fps.denominator / fps.numerator` rational microseconds. Integer
+`sampleAtUs` and visible interval boundaries are its floored labels, not execution
+instants. Global range-preview phase remains on those frame cells. Clip/ancestor
+membership, dependency admission and visual processing all use the exact instant.
+A range clip maps it affinely to the exact source time, without intermediate
+rounding. Select the physical source presentation interval containing that time,
+not an assumed source frame number. At a half-open cut boundary, the following
+clip wins. Preserve source hold/gap/presentation evidence; a hold uses its explicit
+source time. [14f](slices/14f-exact-picture-sampling.md) implements this correction;
+[the retained old-rule failure](assets/14f-picture-clock/README.md) demonstrates why
+flooring execution time itself duplicates and skips matching-rate pictures.
 
 Audio assets may retain fractional native-rate metadata, but current audio execution
 requires finite integral native rates from 1 through 192000 Hz in every reported

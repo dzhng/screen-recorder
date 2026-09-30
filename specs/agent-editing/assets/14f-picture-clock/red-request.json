@@ -1,0 +1,174 @@
+{
+  "id": "frame29",
+  "operation": "media.renderCompositionFrame",
+  "params": {
+    "output": "/tmp/screenrec-public-retiming-tracer5/frame29-native-replay.png",
+    "frame": {
+      "index": 29,
+      "sampleAtUs": 966666,
+      "visibleRange": {
+        "startUs": 999999,
+        "endUs": 1000000
+      },
+      "layers": [
+        {
+          "clipId": "clip:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:5",
+          "trackId": "track:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:0",
+          "assetId": "f9f8229538b5aa6897e5fd0676f59825290dcb62d063bb6e94318fdfe85f4942",
+          "streamId": "track:1",
+          "kind": "video",
+          "sourceUs": 966666,
+          "availability": "available",
+          "width": 640,
+          "height": 360
+        }
+      ],
+      "visual": [
+        {
+          "target": {
+            "kind": "clip",
+            "id": "clip:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:5"
+          },
+          "inputs": [],
+          "operations": [
+            {
+              "kind": "clamp",
+              "x": 0.5,
+              "y": 0.5,
+              "width": 639,
+              "height": 359
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 640,
+                  "y": 0
+                },
+                {
+                  "x": 640,
+                  "y": 360
+                },
+                {
+                  "x": 0,
+                  "y": 360
+                }
+              ],
+              "width": 640,
+              "height": 360
+            }
+          ]
+        },
+        {
+          "target": {
+            "kind": "track",
+            "id": "track:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:0"
+          },
+          "inputs": [
+            {
+              "kind": "clip",
+              "id": "clip:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:5"
+            }
+          ],
+          "operations": []
+        },
+        {
+          "target": {
+            "kind": "output"
+          },
+          "inputs": [
+            {
+              "kind": "track",
+              "id": "track:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:0"
+            }
+          ],
+          "operations": []
+        }
+      ]
+    },
+    "canvas": {
+      "width": 640,
+      "height": 360,
+      "fps": {
+        "numerator": 30,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "profile": "h264-rec709",
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:5"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:0"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:5"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:5442c757bc3e0b5fdf7f6119d6ebb6fa5ca97a5341cbd5fbdbaddcdb94538765:0"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "f9f8229538b5aa6897e5fd0676f59825290dcb62d063bb6e94318fdfe85f4942",
+        "streamId": "track:1",
+        "path": "/tmp/screenrec-public-retiming-tracer5/source.mov",
+        "originUs": 0
+      }
+    ],
+    "fonts": [],
+    "maxLongEdge": 640
+  }
+}

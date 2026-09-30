@@ -1,0 +1,19 @@
+{
+  "rootIntegrationCommit": "9713020f",
+  "passed": true,
+  "checks": {
+    "repeatCLIAndMCP": true,
+    "canceledReplyNotPublished": true,
+    "noImplicitRetry": true,
+    "explicitRetry": true,
+    "exactHistoricalRestart": true,
+    "unchangedPinnedRevision": true,
+    "headPreservedAcrossRetry": true,
+    "retryAfterHeadAdvance": true,
+    "recipeBoundToNativeReceipts": true
+  },
+  "reportSha256": "6fae8fd523196c3a042daf4b14fc6263af7f70af3c3aab055d2a54a752e557b0",
+  "archivedMembers": 19,
+  "workerSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "scope": "Root independently reran --retime lifecycle on mergedsources using unchanged14e worker; actualpublicationcancel/pinnedretry/historicalPCM pass. No in-flight DSP cancellation claim."
+}

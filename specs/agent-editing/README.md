@@ -25,8 +25,9 @@ prerequisite](assets/14-bounded-stretch/README.md) is integrated and root-verifi
 [14d pitch-follow](slices/14d-pitch-follow.md) pass their scoped PCM/technical gates.
 The many-run descriptor repair is verified. Native14e format/policy admission is
 integrated with async service admission. [Public audio](assets/14e-public-accepted-audio/README.md)
-preserves all four accepted outputs; next exercise synchronized video/audio
-delivery and independent retiming. Preserve full retained runs across
+preserves all four accepted outputs. The video journey found a unit-rate picture
+sampling defect: first complete [14f exact sampling](slices/14f-exact-picture-sampling.md),
+then finish synchronized video/audio delivery and independent retiming. Preserve full retained runs across
 pure splits and short views. Native scratch stays request-scoped; durable final
 audio stays with the existing prepared-audio/job/asset owners.
 
@@ -161,6 +162,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
   - [x] [14c — Linked stereo stretch](slices/14c-stereo-stretch.md)
   - [x] [14d — Explicit pitch follow](slices/14d-pitch-follow.md)
   - [ ] [14e — Public retiming delivery](slices/14e-public-retiming.md)
+  - [ ] [14f — Exact picture sampling](slices/14f-exact-picture-sampling.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [x] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)

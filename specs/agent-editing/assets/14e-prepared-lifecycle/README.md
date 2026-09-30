@@ -33,3 +33,6 @@ No new production mutation is claimed here; the queue's cancellation/publication
 regressions remain the owner of that guard. This packet does not establish package
 recovery, capability-unavailable reuse, pitch-follow quality, or in-flight native
 DSP cancellation.
+
+[Root integration](root-verification.json) independently reran the retime lifecycle
+on merged sources and verified every retained archive member.

@@ -1,0 +1,24 @@
+{
+  "workerSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "queryUs": 999999,
+  "projectFrameIndex": 29,
+  "labelUs": 966666,
+  "exactExecutionUs": {
+    "numerator": 2900000,
+    "denominator": 3
+  },
+  "oldSelectedPhysicalSample": {
+    "originUs": 0,
+    "timescale": 15360,
+    "value": "14336"
+  },
+  "oldContract": "Floor project frame instant and source instant, then select exact physical containing interval.",
+  "correction": "Use exact frame execution instant for mapping and physical membership; labels remain derived integers.",
+  "fixtures": [
+    {
+      "path": "assets/source.mov",
+      "sha256": "f9f8229538b5aa6897e5fd0676f59825290dcb62d063bb6e94318fdfe85f4942",
+      "bytes": 1603938
+    }
+  ]
+}

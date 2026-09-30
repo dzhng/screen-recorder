@@ -1,7 +1,8 @@
 # 14e — Deliver linked and independent retiming publicly
 
 Status: native recipe/format admission and JS/core/service wiring are implemented;
-combined public journey and parent14 acceptance remain pending. Dependencies:14b,
+combined public journey found the [14f picture sampling defect](14f-exact-picture-sampling.md);
+parent14 acceptance remains pending. Dependencies:14b,
 14c and14d. Parent14 owns final acceptance.
 
 ## Contract and seam
@@ -110,3 +111,8 @@ post-await abandonment race, and the exposed mutable snapshot. [Public accepted-
 passes complete PCM comparisons for all four accepted selections, including split
 and range reads. Linked video/movie/package delivery remains the parent pickup;
 no new perceptual acceptance is inferred.
+
+[Prepared retime lifecycle](../assets/14e-prepared-lifecycle/README.md) verifies
+post-native-reply cancellation without publication, pinned retry after a newer
+edit, and exact historical prepared reads after restart. It does not claim
+in-flight DSP cancellation.

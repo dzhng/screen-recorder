@@ -40,7 +40,9 @@ worker `/tmp/screenrec-native-14e/debug/screenrec-native` has SHA256
 admission and stale identity refusal. Async core/service admission is integrated;
 root reran64 focused tests with one existing skip. [Public audio delivery](14e-public-accepted-audio/README.md)
 now matches all four accepted selections through20 full/split/range outputs.
-Next verify linked video/audio and independent retiming in capture-pause-recovery.
+The video journey in capture-pause-recovery exposed [14f exact picture sampling](../slices/14f-exact-picture-sampling.md):
+floored project times select an earlier physical picture even at unit rate. Repair
+that clock seam before accepting video; continue independent lifecycle checks.
 Public video/package delivery remains open;
 no per-run durable cache or second timeline was introduced.
 

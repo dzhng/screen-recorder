@@ -4083,3 +4083,23 @@ product behavior or listening scope.
   work identity across state-only clips and split edits; retained PCM reads skip
   preparation cost. **Verdict:** sound; collision and split-control regressions
   prove both sides. **Confidence:** high.
+
+
+## Exact execution time behind frame labels
+
+- **When:**14f correction discovered by the public14e frame-counter journey.
+- **Choice:** keep integer labels for project frame cells, but evaluate content at
+  the exact rational frame instant owned by the compiler. Map that exact time into
+  source media and use physical presentation membership. For example,30fps frame29
+  samples at29/30seconds, even though its integer label is966666us.
+- **Gap:** the original rounding rule specified an integer execution instant but
+  never measured identity preservation against fractional physical timestamps.
+- **Reach:** clip/effect/pointer membership and picture/source receipts must follow
+  the same exact instant; frame/movie cache identities change. Audio sampling and
+  the accepted stretch recipe stay unchanged. A decoder epsilon or rounding source
+  timestamps would hide the defect and corrupt boundary evidence.
+- **Verdict:** sound correction; the old rule demonstrably selects only80 of120
+  pictures in a matching30fps source. Integer frame-cell labels remain derived
+  projections of one clock, not an independently adjustable timeline.
+- **Confidence:** high in the contract; implementation acceptance requires the
+  native counter, fractional membership, pointer and full/range gates in14f.
