@@ -1,0 +1,76 @@
+{
+  "technicalPassed": true,
+  "independentInputRecipeMaxError": 0.0,
+  "independentNoiseRecipeHashMatches": true,
+  "sourceDryExact": true,
+  "frames": 129600,
+  "sampleRate": 48000,
+  "channels": 2,
+  "fullMcpPayloadsVerified": 6,
+  "metricsRecomputed": {
+    "noiseOnlyAttenuationDb": -34.866373789922164,
+    "cleanReferenceOnlyErrorRms": 0.005614930998703802,
+    "mixtureErrorRelativeToInputNoiseDb": 4.2812417094333,
+    "outputSensitivityRelativeToInputNoiseDb": -8.941721509044866
+  },
+  "diagnosticGainExact": true,
+  "diagnosticRms": 0.010994900230099178,
+  "allSamplesFiniteUnclipped": true,
+  "sourceAndBaselineCandidateUnchanged": true,
+  "hearing": "Not performed; word retention, naturalness and noise reduction remain pending listening.",
+  "review": {
+    "shape": "One fixed authored-noise sentence using existing public transport/service owners; no generic fixture framework or production surface.",
+    "diff": "Input grid, unsigned seeded noise, explicit scope and separate diagnostic gain reviewed.",
+    "docs": "One leaf README points to authoritative clean baseline and retained recipes/receipts; no parent handoff edited.",
+    "lint": "oxlint clean",
+    "codexReview": "Unavailable: configured gpt-6.1-sol is unsupported for the CLI ChatGPT account (HTTP400). No model override or retry.",
+    "scope": "Independent Python reconstruction/rehash checks retained outputs; no hearing or new C parity claim.",
+    "localLinks": {
+      "checked": 10,
+      "missing": []
+    },
+    "formatter": "oxfmt check passed"
+  },
+  "artifactFiles": {
+    "README.md": {
+      "bytes": 3884,
+      "sha256": "6d4efa407a933a097d5d31ce9a97f129a7fb666ae1f64306e65507d6ac44aa8c"
+    },
+    "assemble.mjs": {
+      "bytes": 12425,
+      "sha256": "faf818e67028792f1ec8cc529655b95c94f3a4ea0c6bcfb4c0409d4cac1a98e8"
+    },
+    "choices.md": {
+      "bytes": 2254,
+      "sha256": "8484c0b05ed296aa3408563475425a9ad124bfb47162069a80212085c1a09cbf"
+    },
+    "manifest.json": {
+      "bytes": 6198,
+      "sha256": "e7bf635a8379cedee71401629c733d0cec61af6230b3dae0f731ea7381f95fb0"
+    },
+    "mixture-processed-matched.wav": {
+      "bytes": 1036844,
+      "sha256": "cde8d135f31eec1a8b1a2be1d79ebfc4acb1a1abe1ee0b3dcdb088db7340d2eb"
+    },
+    "mixture-processed.wav": {
+      "bytes": 1040896,
+      "sha256": "50530aa33f8895be422db026fb4c8bd060482964ef904e2a42293984148eb010"
+    },
+    "mixture-source.wav": {
+      "bytes": 1040896,
+      "sha256": "1f10f930f13757d717f16176c2a59a32c2d983875656d5749be970d91fdb2f9a"
+    },
+    "noise-component.f32.gz": {
+      "bytes": 946703,
+      "sha256": "7686bd0f440efc29ff79b4dc41b1a5e56bc554dfb12662209f6356c58753f9a3"
+    },
+    "noise-processed.f32.gz": {
+      "bytes": 961006,
+      "sha256": "8ead4d81d7b826ec4ba9cd2b770908f3a44a22cbe8132efde1cf551bbd82cd6a"
+    },
+    "receipts.json.gz": {
+      "bytes": 6153695,
+      "sha256": "f3884dd1f6634c82dcc78695655cf15bdd18fe46262d786bdbaca57d4d5c4e86"
+    }
+  }
+}

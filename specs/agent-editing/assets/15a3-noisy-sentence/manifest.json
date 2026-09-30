@@ -1,0 +1,156 @@
+{
+  "passed": true,
+  "listening": "pending",
+  "deliveries": {
+    "mixture-source": {
+      "sha256": "1f10f930f13757d717f16176c2a59a32c2d983875656d5749be970d91fdb2f9a",
+      "pcmSha256": "e4c9d7a826ccade1952a882bf6bf7345d849c062b81c633eef71dca64a975c64",
+      "frames": 129600,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "rms": 0.011480866783145034,
+      "peak": 0.0898100808262825,
+      "clippedSamples": 0
+    },
+    "mixture-dry": {
+      "sha256": "1f10f930f13757d717f16176c2a59a32c2d983875656d5749be970d91fdb2f9a",
+      "pcmSha256": "e4c9d7a826ccade1952a882bf6bf7345d849c062b81c633eef71dca64a975c64",
+      "frames": 129600,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "rms": 0.011480866783145034,
+      "peak": 0.0898100808262825,
+      "clippedSamples": 0
+    },
+    "mixture-processed": {
+      "sha256": "50530aa33f8895be422db026fb4c8bd060482964ef904e2a42293984148eb010",
+      "pcmSha256": "15478927c1db3d6153ae4bb6c5489e5d74609d51586b5cc610402c5f473268d6",
+      "frames": 129600,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "rms": 0.008403273555928925,
+      "peak": 0.07776881754398346,
+      "clippedSamples": 0
+    },
+    "noise-source": {
+      "sha256": "b282bf39ca58596c559e5389ad600a04dcf5d3e53fd833d79590fc6063d9c875",
+      "pcmSha256": "f187f7706477744a9d384905f0835a993aa31978a974a940b5db712ca2d9b688",
+      "frames": 129600,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "rms": 0.003476892737606169,
+      "peak": 0.011788067407906055,
+      "clippedSamples": 0
+    },
+    "noise-dry": {
+      "sha256": "b282bf39ca58596c559e5389ad600a04dcf5d3e53fd833d79590fc6063d9c875",
+      "pcmSha256": "f187f7706477744a9d384905f0835a993aa31978a974a940b5db712ca2d9b688",
+      "frames": 129600,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "rms": 0.003476892737606169,
+      "peak": 0.011788067407906055,
+      "clippedSamples": 0
+    },
+    "noise-processed": {
+      "sha256": "04399791f0f996d8f4418d05e99fcfb529e504f53a0767c6b55a377bfd3f39c7",
+      "pcmSha256": "53be99d28fded43762e177f8b449122ee845b70e2e0746fba6e791932a84ae25",
+      "frames": 129600,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "rms": 0.00006278741502113955,
+      "peak": 0.004552430473268032,
+      "clippedSamples": 0
+    }
+  },
+  "text": "The sample offer says this is free.",
+  "textAuthority": "Inherited ASR; no independent word labels.",
+  "source": {
+    "path": "../15a3-protected-sentence/original.wav",
+    "sha256": "b2b31731a63b3bc973a5fd11661f4b7c3f5384416949a97029c3b0a6043fb05c",
+    "frames": 129600,
+    "sampleRate": 48000
+  },
+  "workerSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "assemblerSha256": "faf818e67028792f1ec8cc529655b95c94f3a4ea0c6bcfb4c0409d4cac1a98e8",
+  "noiseRecipe": {
+    "seed": [
+      20903,
+      20904
+    ],
+    "generator": "xorshift32; denominator4294967295; per-channel advancing sequence",
+    "steady": "0.7*sin(2*pi*60*f/48000 + channel*pi/2) + 0.3*white",
+    "bursts": {
+      "startFrames": [
+        24000,
+        72000,
+        120000
+      ],
+      "frames": 960,
+      "envelope": "1-abs(2*j/959-1)",
+      "amplitude": 1
+    },
+    "scale": 0.006600752948047133,
+    "aggregateSnrDb": 9.999999999033044,
+    "policy": "Existing matched-noise10dB policy; clean samples/gain untouched. Authored noise only, not a real stereo capture."
+  },
+  "components": {
+    "clean": {
+      "pcmSha256": "7bd928248319c8cca15608d1dfcb411dca122f0e311188866e30fd95eb9cba43",
+      "rms": 0.010994900229709661,
+      "peak": 0.08792244642972946,
+      "clippedSamples": 0
+    },
+    "noise": {
+      "pcmSha256": "f187f7706477744a9d384905f0835a993aa31978a974a940b5db712ca2d9b688",
+      "rms": 0.003476892737606169,
+      "peak": 0.011788067407906055,
+      "clippedSamples": 0
+    },
+    "mixture": {
+      "pcmSha256": "e4c9d7a826ccade1952a882bf6bf7345d849c062b81c633eef71dca64a975c64",
+      "rms": 0.011480866783145034,
+      "peak": 0.0898100808262825,
+      "clippedSamples": 0
+    }
+  },
+  "runtimes": {
+    "apps/cli/dist/main.js": "c59e8a3929f7ade8492db7dc1cd701e819773a979c2d368767e24dac99c3f7ee",
+    "apps/service/dist/project-service.js": "b2b42761d046d35adb4c738adce7200d4b18ac90ab7f91bc577a650e5f79d077",
+    "packages/core/dist/audio.js": "4e0530e0bf93ea77b2658ee1804559d93c2afc25c009c6e3ff82ab8f7cf2a61e",
+    "packages/composition/dist/index.js": "545277dbba07d6714dbfbe7023fafbf1e55afd32b52c9b446425e7e0b94a2f08"
+  },
+  "implementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2",
+  "metrics": {
+    "reusedCleanProcessed": {
+      "path": "../15a3-protected-sentence/candidate.wav",
+      "sha256": "f3479c98cd2dbee88da1b4781ef0d5ea51f34d2b1beed7da56931f204d6d4eb6"
+    },
+    "noiseOnlyAttenuationDb": -34.866373789922555,
+    "cleanReferenceOnlyErrorRms": 0.0056149309987039665,
+    "mixtureErrorRelativeToInputNoiseDb": 4.28124170943324,
+    "outputSensitivityRelativeToInputNoiseDb": -8.94172150904457,
+    "interpretation": "Noise-only attenuation is not residual noise in speech. Clean-reference change and mixture error include original ambience/speech changes; neither proves word retention or perceived noise reduction."
+  },
+  "loudnessMatched": {
+    "path": "mixture-processed-matched.wav",
+    "sha256": "cde8d135f31eec1a8b1a2be1d79ebfc4acb1a1abe1ee0b3dcdb088db7340d2eb",
+    "pcmSha256": "e0cb074f2da924a65bba1fec1bbe1c8fa434283794d7b16f3163c4736f7ac665",
+    "frames": 129600,
+    "sampleRate": 48000,
+    "channels": 2,
+    "rms": 0.01099490023009968,
+    "peak": 0.10175324976444244,
+    "clippedSamples": 0,
+    "gain": 1.3084067960577357,
+    "gainDb": 2.334855824966983,
+    "targetRms": 0.010994900229709661,
+    "authority": "Offline diagnostic Float32 gain only, matching underlying clean sentence RMS, not noisy mixture RMS. No product normalization or processing default. Raw candidate remains unchanged; this copy has no CLI/MCP delivery claim."
+  }
+}
