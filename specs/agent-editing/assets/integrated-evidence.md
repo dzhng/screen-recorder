@@ -33,8 +33,9 @@
   unchanged complete PCM through visual-only edits, history, restart and fractional
   delivery; listening and encoded quality remain separate.
 - [Mixed compressed rates and acoustic axes](08-11-rate-conformance/README.md)
-  pass their named clock/arithmetic/image gates. One AAC cross-invocation float
-  mismatch remains unresolved; its failed report and verification limits stay visible.
+  pass their named clock/arithmetic/image gates. Historical AAC float mismatches
+  remain retained with unknown cause; the [current-worker mixed full/range check](08-current-acceptance/README.md)
+  passes exact PCM. Source repeatability and mixed-output equality are separate proofs.
 - [Physical-segment audio](08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.

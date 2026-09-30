@@ -17,12 +17,20 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: the [selected-device probe](slices/20e-selected-device-probe.md)
-is implemented and offline-verified, including durable camera gap recovery and
-public source reads. Prepare the separately authorized app identity/device discovery
-and concrete physical20 request using its [follow-up](assets/20e-selected-device-probe/follow-up.md).
-No live device/permission action or recording has run. Production webcam21 still
-requires the physical clock proof.
+Current pickup: fix the large-project move-batch delay found while checking
+spectrogram duration memory. A public batch of 500 moves on 10,000 clips exceeded
+its unchanged 15-second deadline but committed afterward. Preserve that request and
+receipt; [independent edit batching](slices/24c-edit-batch-work.md) currently
+optimizes additions, not moves. Preserve sequential validation and first-error
+semantics: later moves can repair an earlier overlap, so distinct clip IDs alone
+do not prove independence. The four-hour spectrogram case is retained; the matched
+two-hour measurement has not run. Do not repeat the completed case.
+
+The [selected-device probe](slices/20e-selected-device-probe.md) is implemented and
+offline-verified. Authorization to sign the prepared copy, read permission status
+and list devices is pending; see its [follow-up](assets/20e-selected-device-probe/follow-up.md).
+No live device/permission action or recording has run. Actual recording needs its
+own concrete request, and production webcam21 requires the physical clock proof.
 
 [Retained-recording preservation](slices/23a-recording-project-preservation.md)
 is verified through full source PCM, all transcript words, full exports and an
