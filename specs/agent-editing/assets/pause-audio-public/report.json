@@ -1,0 +1,422 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "checks": {
+    "gap": {
+      "noImplicitFillOrProcessing": true,
+      "exactRetainedPCM": true,
+      "mapping": [
+        {
+          "sourceUs": [
+            0,
+            1500000
+          ],
+          "projectUs": [
+            0,
+            1500000
+          ]
+        },
+        {
+          "sourceUs": [
+            1500000,
+            3000000
+          ],
+          "projectUs": [
+            2000000,
+            3500000
+          ]
+        }
+      ],
+      "resamplingJoinInfluenceFrames": 0,
+      "protectedJoinGuardFrames": 0
+    },
+    "room": {
+      "occurrences": [
+        {
+          "startUs": 1500000,
+          "endUs": 1750000
+        },
+        {
+          "startUs": 1700000,
+          "endUs": 1950000
+        },
+        {
+          "startUs": 1900000,
+          "endUs": 2000000
+        }
+      ],
+      "gain": 0.5,
+      "authoredFades": [
+        {
+          "i": 0,
+          "range": {
+            "startUs": 1500000,
+            "endUs": 1510000
+          },
+          "from": 0,
+          "to": 1
+        },
+        {
+          "i": 0,
+          "range": {
+            "startUs": 1700000,
+            "endUs": 1750000
+          },
+          "from": 1,
+          "to": 0
+        },
+        {
+          "i": 1,
+          "range": {
+            "startUs": 1700000,
+            "endUs": 1750000
+          },
+          "from": 0,
+          "to": 1
+        },
+        {
+          "i": 1,
+          "range": {
+            "startUs": 1900000,
+            "endUs": 1950000
+          },
+          "from": 1,
+          "to": 0
+        },
+        {
+          "i": 2,
+          "range": {
+            "startUs": 1900000,
+            "endUs": 1950000
+          },
+          "from": 0,
+          "to": 1
+        },
+        {
+          "i": 2,
+          "range": {
+            "startUs": 1990000,
+            "endUs": 2000000
+          },
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "maxSampleError": 9.361732188073457e-10,
+      "exactRetainedPCM": true,
+      "resamplingJoinInfluenceFrames": 0,
+      "speechAbsentByFixtureConstruction": true
+    },
+    "undoAndRender": {
+      "roomUndoExact": true,
+      "gapUndoExact": true,
+      "immutableSource": true,
+      "movieDurationUs": 3500000,
+      "exportMatchesPreview": true
+    }
+  },
+  "nativeSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+  "extraction": {
+    "assetId": "1d73523d040a744faa74117ebc6bc732436e59186896573af38cd519fa79e1c9",
+    "streamId": "track:1",
+    "sampleRate": 48000,
+    "channels": 2,
+    "frames": 12000,
+    "durationUs": 250000,
+    "origin": {
+      "kind": "extraction",
+      "selection": {
+        "kind": "source",
+        "assetId": "1f4a56d9a9519b4c67d35398ecdd980470fda5dd812dcc86199f74b1eba977a7",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 250000
+        },
+        "sampleRange": {
+          "start": 0,
+          "end": 12000
+        },
+        "supportDigest": "8a2e98aa455dffbae9d089405ef2f7bde8b4910347b883a2096f62386d2753a1",
+        "unavailable": []
+      },
+      "selectionImplementationId": "native-source-audio-v4",
+      "input": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 12000
+      },
+      "output": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 12000
+      },
+      "conversion": {
+        "implementationId": "native-finite-pcm-v1",
+        "channelPolicy": "preserve",
+        "contextPolicy": "complete-selected-pcm-zero-origin"
+      }
+    }
+  },
+  "revisions": {
+    "baselineRevision": "ff5512c7-653f-454f-9b6a-29100b5ab211",
+    "gapRevision": "7f5ad92d-5491-47f7-a5ba-e90509edff45",
+    "filledRevision": "6b83e7bc-1aff-4628-9125-9677391f7d51"
+  },
+  "export": {
+    "bytes": 91277,
+    "destination": {
+      "dev": "16777230",
+      "ino": "329954215"
+    },
+    "file": {
+      "dev": "16777230",
+      "ino": "329954473"
+    },
+    "leaf": "export.mp4",
+    "sha256": "f06bcee6555f4cac04a751e9e3e83d372579081cf10562a2cf524b22ff2bb5e1",
+    "stage": {
+      "dev": "16777230",
+      "ino": "329954470"
+    }
+  },
+  "limits": "Synthetic mechanical journey only. Real voice listening, independent picture scope and selected RNNoise pause branch remain unverified. No policy preference selected."
+}
