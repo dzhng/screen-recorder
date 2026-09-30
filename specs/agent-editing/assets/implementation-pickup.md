@@ -249,11 +249,13 @@ retirement ownership, not a new garbage collector.
 
 ## Remaining acceptance and user feedback
 
-Follow the [audio/stretch audit](acceptance-maintenance/README.md):08/11 finite
-conformance,12/12b speech,12c/15a denoise,13/13a/14 stretch,18/19 voice; then physical
-camera20/21, cutover23, scale24 and autonomous25. Generic22 closure is verified.16 still needs
-delivered retime/gain and full journeys; unit-rate15a transitions are verified. Segmentation stays a future
-placeholder. These checkpoints do not establish physical capture or installed-app cutover.
+The [current checklist](../README.md#global-checklist) owns completion; the
+[audio/stretch audit](acceptance-maintenance/README.md) records historical checkpoints.
+08/11,13/14,16 and generic22 acceptance are verified. [18's fixed voice matrix](../slices/18-voice-reproduction.md)
+is accepted;19 retains its speech-free ambience/loop gate. Remaining speech/denoise
+quality precedes physical20/21, cutover23, final24 and autonomous25. Segmentation
+stays a future placeholder. Isolated checkpoints do not establish physical capture
+or installed-app cutover.
 
 Current AAC source-repeat provenance is corrected in the
 [archived-byte reinspection](08-11-rate-conformance/aac-repeat-reinspection.md).
@@ -284,10 +286,11 @@ from their recording, the original alongside, and one clear question.
 The earlier fragment-based listening check does not establish word clarity. Complete protected-word
 labels and listening cannot be inferred from ASR, waveform support, byte equality
 or still images. [Voice boundary timing](18-voice-boundary-timing/README.md) retains
-numerical/visual evidence and a sample-exact accepted ending; the shortened entrance
-remains unaccepted. Registered execution readiness is verified in19d; public
-durable generation has its separate19f gate. Reuse existing14a lifecycle
-owners after speech recipes earn their required acceptance.
+numerical/visual evidence; the [user review](listening-review-2026-09-30.md) accepts
+the current shortened entrance and word context while rejecting the source pause
+as speech-free. Registered execution readiness and public durable generation are
+verified in19d/19f. Reuse existing14a lifecycle owners; do not transfer scoped
+voice approval to unreviewed ambience or speech-processing recipes.
 
 ## Recent integrated evidence
 
@@ -307,9 +310,8 @@ The [familiar denoise comparison](12c-familiar-sentence/README.md) now has a use
 PASS for complete-sentence word clarity/naturalness. The
 [familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
 and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
-these comparisons again. Local joins, independently protected-word labels,
-short-speech treatment, spatial/other-material denoise and dependent integration
-remain separate requirements.
+these comparisons again. Independent protected-word labels, spatial/other-material
+denoise and the dependent speech/denoise acceptance remain separate requirements.
 
 
 The [complete-sentence filler journey](12d-complete-sentence/README.md) now

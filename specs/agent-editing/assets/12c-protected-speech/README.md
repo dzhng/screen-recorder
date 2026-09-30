@@ -13,8 +13,8 @@ Future user comparisons should use complete meaningful sentences from the user's
 recording with one clear listening question. Do not re-present this crop packet
 as required user QA.
 A [complete familiar sentence](../12c-familiar-sentence/README.md) now provides
-original/processed public outputs for optional future review; it has no listening
-verdict.
+original/processed public outputs and its exact user word-clarity/naturalness
+pass. That scoped verdict does not close the broader material/spatial gate.
 
 The original two short pairs remain below as archived evidence; other files
 provide optional technical context:

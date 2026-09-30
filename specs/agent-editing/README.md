@@ -196,7 +196,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17c — Literal text clips](slices/17c-literal-text.md)
 - [x] [17d — Occurrence-specific transcript seeding](slices/17d-transcript-seeding.md)
 - [x] [17 — Text and attached captions](slices/17-text-captions.md)
-- [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
+- [x] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [x] [18a — Frozen voice repeatability across fresh processes](slices/18a-voice-repeatability.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [x] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)

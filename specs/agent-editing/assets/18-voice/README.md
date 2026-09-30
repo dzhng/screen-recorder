@@ -1,9 +1,12 @@
 # Local reference speech reproduction
 
-Status: the pinned candidate runs offline and meets the observed warm speed and
-memory targets. **Slice 18 is not accepted:** requested-word correctness,
-pronunciation, identity, delivery and splice listening remain unverified. No
-production generation endpoint or asset admission is implemented by this probe.
+Historical reproduction checkpoint: the pinned candidate runs offline and meets
+the observed warm speed and memory targets. The limitations below describe this
+initial direct-concatenation probe. Current [slice18 acceptance](../../slices/18-voice-reproduction.md)
+combines later lexical/visual evidence and the user's exact contextual verdict;
+[19f](../../slices/19f-public-voice-jobs.md) owns public durable generation and
+asset admission. The rejected source pause leaves19's ambience gate open. These
+later results do not approve this initial probe's rejected raw joins.
 
 The [manifest](manifest.json) owns the six measured runs, model file hashes,
 dependencies, reference selection, desired texts and output hashes. The

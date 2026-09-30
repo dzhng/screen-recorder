@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. The [user review](../assets/listening-review-2026-09-30.md) accepts the current word context and [120ms shorter phrase entrance](../assets/18-voice-phrase-lead/README.md), whose ending remains sample-exact. The source pause contains an audible voice blip; its speech-free ambience gate remains open under19. Managed origin retention is verified by [retained excerpts](19e-retained-audio-excerpts.md) and [durable voice jobs](19f-public-voice-jobs.md). [Current phrase timing figures](../assets/18-voice-boundary-timing/README.md) now pass calibrated numerical and independent visual checks; the [current word timing figures](../assets/18-word-boundary-timing/README.md) also pass. Both current candidates have calibrated entrance/exit evidence, independent visual review and the linked scoped listening pass; broader acceptance must not be inferred from these exact auditions. Dependencies: [00](./00-corpus.md).
+Status: complete for the fixed word/phrase reproduction matrix. Frozen offline runtime/performance, lexical correctness, calibrated splice visuals and the [current user listening verdict](../assets/listening-review-2026-09-30.md) supply its acceptance. Preserve the accepted word context and [shorter phrase](../assets/18-voice-phrase-lead/README.md), including its sample-exact accepted ending; speaker-only mode remains rejected. Managed reference-origin retention is verified through [19e](19e-retained-audio-excerpts.md) and [19f](19f-public-voice-jobs.md). The rejected source pause leaves speech-free ambience and loop acceptance open under [19](19-voice-assets.md); approval of these exact contexts does not approve other source regions or recipes. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -48,5 +48,15 @@ This evidence closes only the ASR lexical cross-check; the later linked user
 review owns the exact current candidates’ listening disposition. Missing required outputs fail the probe.
 
 The historical [acceptance handoff audit](../assets/18-voice-handoff/audit.md) retains earlier dispositions. Its pending entrance/word judgments are superseded by the linked user review; no regeneration is needed.
+
+The [fixed matrix](../../../packages/test-harness/editing/voice/cases.json) contains
+one word and one phrase across three reference-origin paths. The original runs
+used copies of the same reference, producing identical bytes for each text;
+the later managed origin gates establish retention rather than new speakers.
+Earlier audible identity feedback and the accepted contextual corrections supply
+the scoped delivery/splice assessment. [Phrase](../assets/18-voice-boundary-timing/README.md)
+and [word](../assets/18-word-boundary-timing/README.md) boundary figures retain
+the independent visual verdicts. This is the fixed candidate's acceptance, not a
+general voice-quality guarantee or closure of19's ambience workflow.
 
 [Clean-process repeatability](18a-voice-repeatability.md) now matches all frozen main-candidate WAV/PCM in two fresh offline processes with unchanged identities. It does not establish cold-cache behavior, independent reference origins or quality acceptance. The private [entry checkpoint](19a-voice-entry-parity.md) preserves those bytes before durable integration.

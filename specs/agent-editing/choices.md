@@ -4423,3 +4423,23 @@ capture masks internally while enforcing normalized source domains at inputs.
   when using the extracted shared real-source helper.
 - **Verdict:** sound; corrects a proven stale expectation and strengthens checks.
 - **Confidence:** high.
+
+## Scope of reference-speech acceptance (2026-09-30)
+
+- **When:** listening-gate maintenance after the user's accepted word/phrase auditions.
+- **Choice:** close18's fixed reproduction while keeping19's ambience workflow open.
+  The user hears the generated word and corrected phrase in their recorded context
+  and says they sound good. The same review hears a brief voice sound in the pause
+  selected for background ambience. That permits preserving those exact accepted
+  replacements, but does not permit treating the pause as clean background for
+  future edits. The alternative would either reopen accepted voice work because
+  a separate source-region check failed, or mistakenly approve arbitrary looping
+  of speech-contaminated room tone.
+- **Gap:** the plan did not prescribe how one review spanning accepted contextual
+  replacements and a rejected ambience source should resolve the two parent slices.
+- **Reach:** later agents inherit the fixed voice runtime/output acceptance and
+  leave its media untouched;19 still needs independent clean-region and loop-seam
+  evidence. Larger voice/text matrices are future coverage, not invented18 gates.
+- **Verdict:** sound; distinguishes acceptance of particular delivered replacements
+  from approval of a reusable background source without weakening either contract.
+- **Confidence:** high.
