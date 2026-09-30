@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile, writeFile, readdir } from "node:fs/promises";
-import { join } from "node:path";
+import { extname, join } from "node:path";
 import { gunzipSync } from "node:zlib";
-import { hash, poll, root } from "./source-evidence-fixture.mjs";
+import { hash, poll, root, run } from "./source-evidence-fixture.mjs";
 import { waveHeader } from "./audio-project-fixture.mjs";
 
 /** The accepted public follow snapshot supplies a frozen input to the learned oracle. */
@@ -49,42 +49,80 @@ export async function denoiseFollow({
     frozenPCM: receipt.pcmSha256,
     frozenRevision,
   });
-  const opened = await call("package.open", { path: packagePath });
-  const ready = await poll(
-    () => call("package.status", { admissionId: opened.id }),
-    (value) => value.state === "ready",
-    "follow package",
-  );
-  const adopted = await poll(
-    () =>
-      call("package.adopt", {
-        packageHandle: ready.packageHandle,
-        requestId: "follow-adopt",
-      }),
-    (value) => value.state === "ready",
-    "follow adoption",
-  );
-  await call("package.close", { admissionId: opened.id });
-  const projectId = adopted.result.projectId;
-  const history = await call("revision.history", { projectId });
-  assert.equal(history.nextCursor, null);
-  const historical = history.revisions.find(
-    (revision) => revision.ordinal === frozenRevision.ordinal,
-  );
-  assert(historical);
-  assert.deepEqual(historical.document, frozenRevision.document);
-  const restored = await call(
-    "edit.restore",
+  // The archive supplies authenticated original bytes, never old admission metadata.
+  const document = frozenRevision.document;
+  assert.deepEqual(document.groups, []);
+  assert(document.clips.every((clip) => clip.placement.kind === "project" && !clip.acquisitionId));
+  const imports = [];
+  for (const assetId of new Set(document.clips.map((clip) => clip.assetId))) {
+    const original = frozenReport.inputs.find((input) => input.sha256 === assetId);
+    assert(original, "Frozen clip must reference authenticated original media");
+    const member = `assets/${assetId}${extname(original.path)}`;
+    const { stdout: bytes } = await run("unzip", ["-p", packagePath, member], {
+      encoding: "buffer",
+      maxBuffer: 32 * 1024 ** 2,
+      timeout: 30000,
+    });
+    assert.equal(hash(bytes), original.sha256);
+    const path = join(out, `follow-original-${assetId}${extname(original.path)}`);
+    await writeFile(path, bytes);
+    const pending = await call("asset.import", { path, requestId: `follow-import-${assetId}` });
+    const imported = await poll(
+      () => call("job.get", { jobId: pending.jobId }),
+      (value) => value.state === "ready",
+      "follow original admission",
+    );
+    assert.equal(imported.result.assetId, assetId);
+    imports.push({ assetId, member, bytes: bytes.length, sha256: hash(bytes) });
+  }
+  const made = await call("project.create", {
+    requestId: "follow-reauthor",
+    canvas: document.canvas,
+  });
+  const projectId = made.project.projectId;
+  const operations = [
+    ...document.tracks.map(({ id, ...track }) => ({ operation: "track.add", label: id, track })),
+    ...document.clips.map(({ id, trackId, ...clip }) => ({
+      operation: "place",
+      label: id,
+      clip: { ...clip, trackId: { label: trackId } },
+    })),
+    ...document.syncGroups.map(({ id, clipIds }) => ({
+      operation: "link",
+      label: id,
+      clipIds: clipIds.map((label) => ({ label })),
+    })),
+    ...document.processing.map(({ target, steps }) => ({
+      operation: "processing.set",
+      target: { ...target, ...(target.id ? { id: { label: target.id } } : {}) },
+      steps: steps.map(({ id, ...step }) => ({ ...step, label: id })),
+    })),
+  ];
+  const authored = await call(
+    "edit.apply",
     {
       projectId,
-      expectedRevisionId: adopted.result.revisionId,
-      targetRevisionId: historical.id,
-      requestId: "follow-restore",
+      expectedRevisionId: made.revision.id,
+      requestId: "follow-reauthor-document",
+      operations,
     },
     { transport: "mcp" },
   );
-  assert.deepEqual(restored.document, frozenRevision.document);
-  const drySelection = { projectId, revisionId: restored.id };
+  const revision = authored.revision;
+  const identities = new Map(
+    Object.entries(authored.edit.labels).map(([oldId, newId]) => [newId, oldId]),
+  );
+  assert.equal(identities.size, Object.keys(authored.edit.labels).length);
+  const normalized = JSON.parse(
+    JSON.stringify(revision.document, (_key, value) => identities.get(value) ?? value),
+  );
+  assert.deepEqual(
+    normalized,
+    document,
+    "Public reauthoring changed more than generated identities",
+  );
+  record.reauthoring = { imports, identities: authored.edit.labels, revision, exactDocument: true };
+  const drySelection = { projectId, revisionId: revision.id };
   const target = { kind: "output" };
   const tap = { target, point: { kind: "processed" } };
   const range = { startUs: 0, endUs: 4500000 };
@@ -99,7 +137,7 @@ export async function denoiseFollow({
     "edit.apply",
     {
       projectId,
-      expectedRevisionId: restored.id,
+      expectedRevisionId: revision.id,
       requestId: "follow-learned",
       operations: [
         {
@@ -130,7 +168,7 @@ export async function denoiseFollow({
   await projectAudio(selection, tap, "follow-full", expected, 2, range);
   const prepared = await prepare(selection);
   await inspect(prepared, 3250000, 4250000, "follow-prepared-excerpt", 1, expected, 2);
-  const followClip = restored.document.clips.find((clip) => clip.pitch === "follow");
+  const followClip = revision.document.clips.find((clip) => clip.pitch === "follow");
   assert(followClip);
   let witness;
   for (const file of (await readdir(join(out, "native"))).filter((name) =>
