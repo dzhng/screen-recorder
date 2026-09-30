@@ -3,5 +3,6 @@
   "diff": "Copied artifact identities verified. Both reference crops exactly match original PCM ranges. Candidate unedited rest verified byte-identical; selected output matches scratch excluded-source poison and selected-only runs.",
   "docs": "Two separate rubrics distinguish independent word containment from short-word naturalness. Proposed ASR-origin text and authored boundaries remain unverified. Root owns upward spec links and human verdicts.",
   "choices": "Root delegated exact spans, rate, engine and existing pitch gate; no additional product decision.",
-  "verdict": "Clean evidence packet; no independent word-label or listening acceptance claimed"
+  "verdict": "Clean evidence packet; no independent word-label or listening acceptance claimed",
+  "annotationReference": "Full-context reference contains only two half-second digital silences at authored cutpoints; every original source segment verified identical and exact mapping retained. Rubric asks containment only, never naturalness."
 }

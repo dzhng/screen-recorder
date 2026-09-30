@@ -4,13 +4,16 @@ This packet separates two judgments. Machine-transcript gap midpoints proposed
 the selection; no independent word-containment or listening verdict is claimed.
 The complete reference sentence is “Okay, so this is the recorder workbench.”
 
-1. Compare [the original sentence](original.wav) with the exact untouched
-   [opening span](protected-opening-reference.wav) and
-   [ending span](protected-ending-reference.wav). **Does the opening contain all
-   of “Okay,” including its beginning and ending, and does the ending contain all
-   of “recorder workbench”?** Confirm each separately, or name what is cut off.
-   These spans are the untouched neighbors of the existing internal phrase edit;
-   confirmation would establish containment, not sample-exact phoneme boundaries.
+1. Listen to the [full sentence with two deliberate pauses](boundary-annotation-reference.wav):
+   “Okay” | “so this is the” | “recorder workbench.” **Do both pauses fall between
+   complete words, leaving each of those three groups intact?** Name any cut-off
+   word. This is an annotation reference, not a naturalness candidate: exactly
+   500ms of digital silence was inserted at each proposed boundary. Every
+   original sample otherwise remains unchanged and in order. Confirmation would
+   establish conservative whole-word containment, not sample-exact phoneme edges.
+   [The mapping](annotation-reference.json) records the inserted silences and
+   source-to-output segments. The separate [opening](protected-opening-reference.wav)
+   and [ending](protected-ending-reference.wav) spans remain for provenance.
 2. Compare the original with [the short-word candidate](short-word-slower-0.8x.wav).
    Only the proposed complete “Okay,” including explicitly selected surrounding
    context, slows to 0.8×; everything after it retains its original samples.

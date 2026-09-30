@@ -1,0 +1,58 @@
+{
+  "purpose": "Annotation reference only, NOT a naturalness candidate",
+  "boundaryAuthority": "Authored inherited-ASR gap midpoints; complete-word containment UNVERIFIED",
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "outputFrames": 279360,
+  "outputSha256": "2ee22d4bc7f87891e92966553e9f19723f56d48fd1c9d8c8e0079a780f3d0919",
+  "silenceRangesFrames": [
+    [
+      22560,
+      46560
+    ],
+    [
+      115680,
+      139680
+    ]
+  ],
+  "segments": [
+    {
+      "source": [
+        0,
+        22560
+      ],
+      "output": [
+        0,
+        22560
+      ],
+      "proposedText": "Okay"
+    },
+    {
+      "source": [
+        22560,
+        91680
+      ],
+      "output": [
+        46560,
+        115680
+      ],
+      "proposedText": "so this is the"
+    },
+    {
+      "source": [
+        91680,
+        231360
+      ],
+      "output": [
+        139680,
+        279360
+      ],
+      "proposedText": "recorder workbench"
+    }
+  ],
+  "checks": {
+    "allOriginalSamplesUnchanged": true,
+    "onlyTwoHalfSecondDigitalSilencesAdded": true
+  },
+  "policy": "No fades, gain, stretch or hidden context; every original PCM sample retained in order",
+  "scriptSha256": "3508610c2a6f7af0653a3934c431ab5b140af631aba4e50c33e43004718f4430"
+}
