@@ -33,3 +33,9 @@ review began; the failure log is retained without changing configuration.
 source snapshots and offline results. `verification.json` records binary/source
 identities. This pass does not claim to fix the separate camera recovery decoder
 hang; its original samples and raw/candidate files remain retained.
+
+[Root integration](root-verification.json) matches all six source snapshots to the
+combined tree, verifies all30 members across stop/diagnostic archives and both
+built binaries, and reruns the offline stop gate successfully. The ten-second
+fallback can still end a long camera publication; this is verified stop wiring,
+not a claim that physical camera recovery or full probe shutdown now passes.

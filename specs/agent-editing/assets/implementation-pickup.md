@@ -12,7 +12,7 @@ Historical workers and measurements retain their own identities below.
 
 The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
 integrated and root-verified. The earlier batch pass is released; capture-pause-recovery now owns the real
-selected-probe stop fix and recovery diagnosis below. Root dist was preserved through
+selected-probe recovery diagnosis below; stop wiring is integrated. Root dist was preserved through
 measurement; root source now includes the move fix, so rebuild JavaScript before
 new execution. Frozen root8a and candidate2c native workers remain unchanged.
 
@@ -26,8 +26,9 @@ not resolve those dependencies. The real camera/screen/microphone take has compl
 and stopped; never restart recording from the prior READY. All three standalone
 files pass ordinary import and bounded source decoding. See
 [physical import evidence](20-physical-import/README.md). Root owns fixture retention
-and parent docs; capture-pause-recovery owns app-retained graceful probe stop and
-bounded diagnosis of the existing private candidate’s blocked decode. No new
+and parent docs; app-retained graceful probe stop is integrated and root-verified
+offline. Capture-pause-recovery owns bounded diagnosis of the existing private
+candidate’s mapped-timestamp mismatch (ordinal3181) and original blocked decode. No new
 recording or media re-generation is needed for those fixes. Public import and the
 initial recovery processes are terminal; the latter was stopped without claiming
 canonical publication. Frozen binaries and original fixture bytes remain unchanged.

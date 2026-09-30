@@ -1,0 +1,27 @@
+{
+  "archives": [
+    {
+      "archive": "graceful-stop",
+      "members": 22,
+      "sha256": "b23816c23a1efc2beeb71b693a146b8cbad746a861debb5f9e606ec6f6dce923"
+    },
+    {
+      "archive": "candidate-reader",
+      "members": 8,
+      "sha256": "e4abb55d3273251518bb01749673bff624ccf7a234d6b08b34605e9cda01d78f"
+    }
+  ],
+  "sourceFilesMatched": [
+    "apps/macos/Sources/ScreenRecorder/CaptureProbe.swift",
+    "apps/macos/Sources/ScreenRecorder/main.swift",
+    "helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+    "helpers/mac/Tests/CameraReproduction/main.swift",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureStopTests.swift",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift"
+  ],
+  "offlineStopGate": {
+    "command": "SCREENREC_SELECTED_STOP_OUTPUT=/tmp/screenrec-root-selected-stop /tmp/screenrec-probe-stop-build/debug/ScreenRecorderCaptureTests",
+    "exitCode": 0
+  },
+  "scope": "Offline selected-probe lifecycle plus source/build identities. No new device capture or installed-app change. Existing ten-second quit fallback and unfinished camera recovery remain limitations."
+}
