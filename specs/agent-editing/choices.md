@@ -4107,3 +4107,33 @@ product behavior or listening scope.
   projections of one clock, not an independently adjustable timeline.
 - **Confidence:** high in the contract; implementation acceptance requires the
   native counter, fractional membership, pointer and full/range gates in14f.
+
+
+## Slice16 continuous playback evidence
+
+- **When:** muted playback probe, integrated788030bc.
+- **Choice:** observe the frames a muted offscreen player delivers at the current
+  host-clock time. For example, a three-second movie must actually advance and
+  finish; merely decoding its frames cannot pass. Compare256 interior pixels from
+  each delivered frame with the offline frame at exactly the same timestamp.
+  This small spatial grid keeps polling cheap; it cannot establish every pixel
+  equal, screen presentation, audible quality or perceived smoothness.
+- **Gap:** the plan required playback and landmarks without prescribing how to
+  observe them without interrupting the person's desktop.
+- **Reach:** later checks may reuse this bounded execution probe, but must retain
+  separate authoring, full-image and perceptual gates.
+- **Verdict:** sound; it observes actual player execution and rejects readiness-only
+  and wrong-frame controls without installing or showing a player.
+- **Confidence:** high.
+
+- **When:** same playback probe.
+- **Choice:** allow three seconds for first output, then require progress within
+  the longest decoded frame interval (including the final tail) plus250ms. If the
+  player pauses without sending a stall notification, the probe still fails.
+  The allowance accounts for the probe being briefly descheduled on this host.
+- **Gap:** bounded playback was required, but its test-environment allowances were
+  unspecified.
+- **Reach:** these are explicit probe limits, not a smoothness standard or a
+  production timeout. A future environment must justify changes to them.
+- **Verdict:** sound; an actual paused-player control fails the new progress gate.
+- **Confidence:** medium; this host-specific allowance is deliberately limited in scope.

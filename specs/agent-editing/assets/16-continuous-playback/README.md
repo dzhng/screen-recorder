@@ -44,3 +44,6 @@ This is **muted offscreen continuous playback evidence**. It does not establish
 physical display presentation, human-perceived smoothness, audible quality,
 audio/video synchronization, installed-player behavior or complete slice16
 acceptance. No capture, app installation or native product rebuild is involved.
+
+[Independent root replay](root-linked.json.gz) repeats all135 linked frames with
+exact sampled RGB, bounded forward progress and completion on integrated sources.
