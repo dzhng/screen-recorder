@@ -1,6 +1,6 @@
 # 20 — Prove screen and camera timing
 
-Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is verified offline; a real user-shortened take is retained under [fixtures](../../../fixtures/screen-camera-timing/README.md), with ordinary import verified. Graceful probe stop is offline-verified; candidate recovery exposed a real picture-timing defect. [Physical-event evidence](../assets/20-physical-sync/README.md) matches flashes/beeps, but camera visibility and measurement uncertainty do not establish the one-frame bound. Physical timing and interruption acceptance remain open. Dependencies: [00](./00-corpus.md).
+Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is verified offline; a real user-shortened take is retained under [fixtures](../../../fixtures/screen-camera-timing/README.md), with ordinary import verified. Graceful probe stop is offline-verified; [20e2](20e2-camera-presentation.md) corrects camera admission/presentation and verifies saved-take recovery. [Physical-event evidence](../assets/20-physical-sync/README.md) matches flashes/beeps, but camera visibility and measurement uncertainty do not establish the one-frame bound. Physical timing and interruption acceptance remain open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

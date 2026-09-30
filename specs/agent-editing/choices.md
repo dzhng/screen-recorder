@@ -3872,7 +3872,7 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 
 ## Separate acquired picture ordering from display duration
 
-- **When:** real-capture audit and20e2 correction; implementation remains pending.
+- **When:** real-capture audit and20e2 correction, integrated in d40f8eb3.
 - **Choice being corrected:** the probe treated a callback's reported duration as
   both the next-picture admission boundary and an authoritative outage boundary.
   In the actual take, a picture arrived33.33ms after the previous one, whose
@@ -3890,3 +3890,20 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   and its observations; already rejected pictures cannot be recovered.
 - **Confidence:** high, supported by exact callback chronology and the existing
   native variable-frame-rate consumer. Physical sync acceptance stays separate.
+
+## Fence saved camera results by their presentation policy
+
+- **When:**20e2 publication/replay integration.
+- **Choice:** a durable recovery receipt must explicitly identify native bounded
+  presentation. The same raw file and callback log previously produced a movie
+  with invented nominal-duration holes. Matching those inputs alone cannot make
+  that older output a valid result of the corrected policy.
+- **Gap:** existing content identities protected file integrity, but did not say
+  which interpretation of camera presentation had been verified.
+- **Reach:** older receipts lacking the policy identity refuse without modifying
+  any source or canonical output. Newly verified results keep the existing
+  identity-based replay and atomic publication. This adds result provenance,
+  not a format migration or protocol-negotiation mechanism.
+- **Verdict:** sound; preserved bytes cannot be silently promoted into evidence
+  for a different presentation contract.
+- **Confidence:** high; the real failed candidates demonstrate the distinction.

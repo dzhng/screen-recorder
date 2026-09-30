@@ -10,21 +10,22 @@ Historical workers and measurements retain their own identities below.
 
 ## Current pickup
 
-Implement [20e2](../slices/20e2-camera-presentation.md) in the existing capture
-owners. Retained callbacks prove thousands of forward pictures were rejected by
-comparing their start to the previous nominal duration endpoint. Acquisition
-ordering and native display duration must be separate. The old nominal-gap
-assumption is superseded; exact acquired PTS/pixel and bounded support checks stay.
-Capture-pause-recovery owns this correction. Its alternate writer draft is
-unadopted; [failed controls](20e-selected-device-probe/recovery-reader/README.md)
-remain evidence. No new recording or restoration of rejected pixels is implied.
+[20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
+Acquired timestamps now determine admission independently of nominal duration;
+native display support is bounded by the actual first/terminal picture. The saved
+take recovers4428 exact pictures. [Evidence](20e-camera-presentation/README.md)
+retains final sources, regression reds/greens and public source/preview checks.
+Root rehashed312 members and200 source identities, then reran cadence, media,
+replay and stop checks. Capture-pause-recovery has completed this pass.
 
-The stopped take is retained under `fixtures/screen-camera-timing` with actual
-media in Git LFS. [Ordinary import](20-physical-import/README.md) passes;
-[physical-event analysis](20-physical-sync/README.md) cannot establish the one-frame
-bound or whole-take camera coverage. Graceful probe stop is offline-verified.
-Root owns fixture retention, parent docs and integration. Frozen root8a and
-candidate2c native workers stay unchanged; isolated scratch builds only.
+Next audit/resolve13a's remaining evidence, including the pending
+[familiar internal-join listening comparison](13a-familiar-internal-join/README.md).
+Do not repeat accepted whole-sentence or lifecycle cohorts. Physical20 still lacks
+its stated camera duration/precision proof; [measured limitations](20-physical-sync/README.md)
+and the10-second quit fallback remain explicit. No new capture is authorized.
+Original media and historical rejected callbacks remain in the Git LFS fixture;
+rejected pixels cannot be recovered. Frozen root8a/candidate2c and the installed
+app remain unchanged; use isolated builds for future native changes.
 
 The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
 integrated and root-verified. Root source includes the move fix; rebuild JavaScript

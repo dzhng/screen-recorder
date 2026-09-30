@@ -1,0 +1,18 @@
+{
+  "implementationCommit": "d40f8eb3",
+  "archiveMembersVerified": 312,
+  "matchingSourceIdentities": 200,
+  "matchingBinaryIdentities": 3,
+  "finalAndConsumedMoviesRehashed": true,
+  "equalPacketRecords": 4428,
+  "streamAndPacketEqualityException": "container creation_time only",
+  "focusedRootChecks": [
+    "actual acquired cadence and all observed overlap magnitudes; exact endpoint565044us",
+    "shared ingress, camera offset/pause and canonical microphone",
+    "content identity and presentation policy replay/refusal; partial recovery",
+    "graceful stop ordering and delayed-start wake"
+  ],
+  "testBinarySha256": "a5221dd19171cf2f0c170c3f3e1a4fa907660f541c8ec4acf54359d1e71f5d0d",
+  "frozenNativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "scope": "Offline camera admission/presentation and saved-take recovery; no new capture, physical-sync acceptance or installation."
+}

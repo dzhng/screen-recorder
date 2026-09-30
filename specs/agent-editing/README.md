@@ -17,20 +17,22 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: implement [ordered camera acquisition and native display support](slices/20e2-camera-presentation.md).
-The real take exposed thousands of valid forward callbacks rejected because their
-nominal durations overlapped the next timestamp. Correct this upstream loss and
-the unsupported per-callback gap inference before further writer experiments.
-Capture-pause-recovery owns the existing seam. Originals remain in
-[fixtures](../../fixtures/screen-camera-timing/README.md); their already rejected
-pixels cannot be reconstructed. No new capture is authorized or needed for this
-code correction. [Graceful stop](assets/20e-selected-device-probe/graceful-stop/README.md)
-is offline-verified; [ordinary import](assets/20-physical-import/README.md) passes.
-The [failed recovery controls](assets/20e-selected-device-probe/recovery-reader/README.md)
-remain preserved; no alternate writer or reader is adopted.
+Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
+starting with the [meaningful internal-join pair](assets/13a-familiar-internal-join/README.md)
+and a focused audit of what evidence each remaining gate requires. The pair's
+listening question is pending; do not repeat accepted whole-sentence auditions.
+[Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
+ordered callbacks survive, native display support is bounded correctly, and the
+saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified
+312 archive members/200 source identities and reran the focused native checks.
+
+Originals remain in [fixtures](../../fixtures/screen-camera-timing/README.md);
+already rejected pixels cannot be reconstructed. No new capture is authorized.
 [Physical-event analysis](assets/20-physical-sync/README.md) does not establish the
-one-frame bound or whole-take camera coverage. Remaining speech/stretch acceptance,
-webcam integration and installed cutover retain their full scope.
+one-frame bound or whole-take camera coverage. The existing10-second quit fallback
+also precedes the measured28-second recovery, so physical graceful-quit acceptance
+remains separate. No installed app or frozen worker was replaced. Webcam integration,
+remaining quality gates and installed cutover retain their full scope.
 
 The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
 is integrated: the unchanged 500-operation request now completes in 281 ms with exact
@@ -216,7 +218,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [x] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
-- [ ] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
+- [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
