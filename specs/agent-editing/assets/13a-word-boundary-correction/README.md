@@ -3,7 +3,10 @@
 The user reports that the previous first pause splits “Okay.” This reference moves
 only that first pause 180.125 ms later, into a measured lower-energy region. The
 second pause stays unchanged. A low-energy region is not proof of a word boundary;
-this candidate requires listening before any corrected stretch selection is made.
+[The user accepts the revised pause placement](listening.json), while reporting
+the digital-silence pauses as abrupt. This does not accept a natural editorial
+join or either background-audio treatment. Corrected stretch selections still
+need their own verification.
 
 Listen to [the revised reference](boundary-reference.wav). Does the first pause now
 follow the complete “Okay,” and does the second sit between “the” and “recorder”?
@@ -22,4 +25,5 @@ this new candidate or establish the old selections as whole-word edits.
 
 Independent read-only verification confirms the WAV/header identities, exact
 source samples, coordinate maps, both inserted silences and numerical energy
-measurements. This is mechanical verification only; word containment is pending.
+measurements. Mechanical checks and the scoped placement verdict are separate
+from speech naturalness and background-continuity acceptance.

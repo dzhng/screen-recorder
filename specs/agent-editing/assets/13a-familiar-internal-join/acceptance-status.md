@@ -6,12 +6,12 @@ as natural. Those verdicts remain attached to their bytes. The subsequent
 splits “Okay.” Neither selection therefore establishes the proposed whole-word
 labels. The short-word coverage requirement is still open.
 
-First judge the [revised full-sentence paused reference](../13a-word-boundary-correction/README.md).
-It moves the first proposed cut later based on measured signal energy; the second
-cut is unchanged. Energy and ASR are candidate-selection aids, not linguistic
-proof. After both boundaries are confirmed, render the required corrected
-short-word and internal-rate comparisons. Do not ask the user to accept the old
-rate files under the disproven word labels.
+The user accepts the [revised paused reference's placement](../13a-word-boundary-correction/listening.json).
+Its digital-silence discontinuity is explicitly not an accepted editorial
+pause treatment. Now render the corrected short-word and internal-rate selections;
+old media keep their own verdicts and are not proof for the changed selection.
+The user's background-audio preference is represented by independent room-tone
+and noise-reduction workflows in the contracts and live journey inventory.
 
 Exact sample preservation, count, tone pitch, source isolation and native parity
 remain banked. Missing word labels do not invalidate those mechanical results.

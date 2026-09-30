@@ -1,0 +1,7 @@
+{
+  "verdict": "PASS for revised pause placement only",
+  "candidateSha256": "984e1ef8b9e48053b495fab3980583b724b8059f0849e2db889de46e26f789a1",
+  "userReply": "ok pause is at the right place now, although it's so abrupt, I feel like it either needs the same background noise in the pause, or background noise from the clip should be removed all together",
+  "scope": "Placement accepted; abrupt noise discontinuity reported. Deliberate digital-silence reference is not accepted as an editorial pause treatment or a naturalness candidate. Corrected stretch selections still require their own verification.",
+  "editorialPolicy": "User requests independently available tools for room-tone fill and denoising, not an automatic choice between them."
+}

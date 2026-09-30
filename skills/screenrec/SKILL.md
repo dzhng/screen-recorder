@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, retain independent audio excerpts or generate durable replacement speech, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, retain independent audio excerpts, maintain ambience across pauses, or generate durable replacement speech, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
 ---
 
 # Screenrec
@@ -141,6 +141,17 @@ Inspect the retained asset before deleting a donor project. Its provenance remai
 historical after donor deletion; identical bytes can have several origins, so never
 infer one from the asset ID or silently choose another origin. Missing-support
 metadata remains evidence, even if filtering spreads neighbors into selected zeroes.
+
+For an inserted pause or replacement, keep ambience treatment an explicit editorial
+choice. To retain background sound, inspect a quiet source range, acquire it with
+`audio.extract` when independent retention is needed, then place it as an ordinary
+audio layer. Fill longer intervals with explicit repeated occurrences; set gain
+and overlap fades deliberately. Low waveform energy or absent transcript words do
+not certify speech-free room tone. Extraction does not separate noise from speech.
+To reduce background noise instead, choose the processing target and supported
+noise-reduction settings through the existing stack. Neither workflow implies the
+other: do not automatically denoise, add ambience, or switch policy when a sample
+is unsuitable. Verify the requested treatment in context and preserve originals.
 
 For replacement speech, discover `voice.generate` and the registered model's
 `generationProfile` through `model.list`. Supply a retained mono24k Float32

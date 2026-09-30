@@ -19,12 +19,14 @@ verified public operations; the installed app has not switched engines.
 
 Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
 preserving the accepted [internal0.8× join](assets/13a-familiar-internal-join/README.md).
-The user's [boundary check failed](assets/13a-short-word/boundary-listening.json):
-the first cut splits “Okay.” Earlier naturalness passes remain scoped to their
-exact bytes; complete-word short-speech coverage is not established. Correct
-and verify the first boundary using the [revised paused reference](assets/13a-word-boundary-correction/README.md)
-before rendering corrected short-word/internal-rate selections. Do not request old
-clips1/2 as proof of whole-word editing.14 remains gated on13a acceptance.
+The [revised boundary placement](assets/13a-word-boundary-correction/listening.json)
+is accepted. The user reports that its deliberate digital-silence pauses sound
+abrupt and requires independent room-tone-fill and noise-reduction tools, with no
+automatic policy choice. Existing extraction, composition/fades and noise stacks
+supply those primitives; [journeys](journeys.md) now names both pause workflows.
+Their full pause-specific listening acceptance is not claimed. Next render the
+corrected short-word/internal-rate selections using the revised boundaries,
+without promoting the old naturalness passes to new media.14 remains gated on13a.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified
