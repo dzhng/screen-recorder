@@ -1,0 +1,218 @@
+{
+  "nativeSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "cases": [
+    {
+      "name": "accepted-a",
+      "sourceSha256": "53da1582ea82e3d6bb4ba16d9f7c75f978f838d28dd1f1e05b501bb0a5aeccc7",
+      "rate": 48000,
+      "frames": 246478,
+      "exactEndUs": {
+        "numerator": 15404875,
+        "denominator": 3
+      },
+      "admittedEndUs": 5134958,
+      "lastSample": 0.005455852951854467,
+      "completePCMHash": "ad4af5fe6fa3e27ab647825976adbb91bd9c46253912d635e25e5740f4df5c86",
+      "rawFrames": 246477,
+      "extractedFrames": 246478,
+      "physical": {
+        "channels": 1,
+        "decodedEnd": {
+          "flags": 1,
+          "timescale": 48000,
+          "value": "246478"
+        },
+        "decodedFirst": {
+          "flags": 1,
+          "timescale": 48000,
+          "value": "0"
+        },
+        "decodedFrames": 246478,
+        "rate": 48000,
+        "segments": [
+          {
+            "empty": false,
+            "mediaDuration": {
+              "flags": 1,
+              "timescale": 48000,
+              "value": "246478"
+            },
+            "mediaStart": {
+              "flags": 1,
+              "timescale": 1,
+              "value": "0"
+            },
+            "targetEnd": {
+              "flags": 1,
+              "timescale": 48000,
+              "value": "246478"
+            },
+            "targetStart": {
+              "flags": 1,
+              "timescale": 1,
+              "value": "0"
+            }
+          }
+        ],
+        "trackEnd": {
+          "flags": 1,
+          "timescale": 48000,
+          "value": "246478"
+        },
+        "trackStart": {
+          "flags": 1,
+          "timescale": 1,
+          "value": "0"
+        }
+      },
+      "physicalEqualsCompletePCM": true,
+      "rawIsExactPrefix": true,
+      "extractionEqualsCompletePCM": true
+    },
+    {
+      "name": "44100-round-down",
+      "sourceSha256": "f431e6502df4fe5a8ca6beca048533879d54b4b9e05c883826788d0749794f72",
+      "rate": 44100,
+      "frames": 44117,
+      "exactEndUs": {
+        "numerator": 441170000,
+        "denominator": 441
+      },
+      "admittedEndUs": 1000385,
+      "lastSample": 0.8125,
+      "completePCMHash": "75515aef0bde4adc815e0fcd69308c4bfed835038e1b57b38d6fb96fc66fe901",
+      "rawFrames": 44116,
+      "extractedFrames": 44117,
+      "physical": {
+        "channels": 1,
+        "decodedEnd": {
+          "flags": 1,
+          "timescale": 44100,
+          "value": "44117"
+        },
+        "decodedFirst": {
+          "flags": 1,
+          "timescale": 44100,
+          "value": "0"
+        },
+        "decodedFrames": 44117,
+        "rate": 44100,
+        "segments": [
+          {
+            "empty": false,
+            "mediaDuration": {
+              "flags": 1,
+              "timescale": 44100,
+              "value": "44117"
+            },
+            "mediaStart": {
+              "flags": 1,
+              "timescale": 1,
+              "value": "0"
+            },
+            "targetEnd": {
+              "flags": 1,
+              "timescale": 44100,
+              "value": "44117"
+            },
+            "targetStart": {
+              "flags": 1,
+              "timescale": 1,
+              "value": "0"
+            }
+          }
+        ],
+        "trackEnd": {
+          "flags": 1,
+          "timescale": 44100,
+          "value": "44117"
+        },
+        "trackStart": {
+          "flags": 1,
+          "timescale": 1,
+          "value": "0"
+        }
+      },
+      "physicalEqualsCompletePCM": true,
+      "rawIsExactPrefix": true,
+      "extractionEqualsCompletePCM": true
+    },
+    {
+      "name": "44100-round-up",
+      "sourceSha256": "0a8abcdf95e364f5b109bea9f69ecaa0623a4675bb1d9475d6fcaf78f4beabc4",
+      "rate": 44100,
+      "frames": 44116,
+      "exactEndUs": {
+        "numerator": 441160000,
+        "denominator": 441
+      },
+      "admittedEndUs": 1000363,
+      "lastSample": 0.8125,
+      "completePCMHash": "4a974d1bfe27068e5902a7e8da9592e6ca159a762709abe600ed58caee178bd5",
+      "rawFrames": 44116,
+      "extractedFrames": 44116,
+      "physical": {
+        "channels": 1,
+        "decodedEnd": {
+          "flags": 1,
+          "timescale": 44100,
+          "value": "44116"
+        },
+        "decodedFirst": {
+          "flags": 1,
+          "timescale": 44100,
+          "value": "0"
+        },
+        "decodedFrames": 44116,
+        "rate": 44100,
+        "segments": [
+          {
+            "empty": false,
+            "mediaDuration": {
+              "flags": 1,
+              "timescale": 44100,
+              "value": "44116"
+            },
+            "mediaStart": {
+              "flags": 1,
+              "timescale": 1,
+              "value": "0"
+            },
+            "targetEnd": {
+              "flags": 1,
+              "timescale": 44100,
+              "value": "44116"
+            },
+            "targetStart": {
+              "flags": 1,
+              "timescale": 1,
+              "value": "0"
+            }
+          }
+        ],
+        "trackEnd": {
+          "flags": 1,
+          "timescale": 44100,
+          "value": "44116"
+        },
+        "trackStart": {
+          "flags": 1,
+          "timescale": 1,
+          "value": "0"
+        }
+      },
+      "physicalEqualsCompletePCM": true,
+      "rawIsExactPrefix": true,
+      "extractionEqualsCompletePCM": true
+    }
+  ],
+  "runtimeHashes": {
+    "packages/core/dist/assets.js": "ed1142eee376a933eff6afab75fc212d98241f728c0ba939aa145cac74c82c36",
+    "packages/core/dist/audio-inspection.js": "564d0862b8017bbd704d6220c42fff317e5208cd0de5973ddc0567726cf3c268",
+    "packages/core/dist/audio-extraction.js": "a5b43d614b705b4c35acaa5855d04936815765d0ead3ec7a7404d0a1f3ec96ec",
+    "packages/core/dist/source-selection.js": "9d37e168f095b5e7b0551abaaa607ae766e2e27ec9ba25ddeb9e744898fea899",
+    "apps/service/dist/worker.js": "d7fa4fa15a3e7243c719a4fd89641e74f4a1bbbba2af774f73d79ff29c8b46f5"
+  },
+  "measuredRunnerSha256": "18f520a808932abf0a5a2e9f1e52fb66f88b8e72840a7d3d880ad240b7ea0a25",
+  "physicalProbeSha256": "7591f68e7293f24f3c439440bb3dd440c19063dccdca9692bb3b13b9084bbd82"
+}
