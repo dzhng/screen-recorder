@@ -1,0 +1,1155 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "job.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "revision.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "checks": {
+    "baseline": {
+      "receipt": {
+        "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+        "revisionId": "3eb578e3-a150-43cc-9885-e1bbf3105560",
+        "range": {
+          "startUs": 0,
+          "endUs": 1250000
+        },
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "ef584cb0-f7b2-4908-9968-d2289ad0b12c",
+        "published": {
+          "generation": 1,
+          "audio": {
+            "file": "/private/tmp/sr-prepared-public-VldJ4A/library/cache/derived/8ea15fb5-df04-4f63-8bf0-c7d8453659ea.cache",
+            "bytes": 484096,
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 60000,
+            "peak": 0.33954575657844543,
+            "clippedSamples": 0,
+            "maximumBlockFrames": 8192,
+            "peakResidentBytes": 26034176,
+            "decoderContext": {
+              "policy": "bounded-current-retained-run",
+              "sampleRate": 48000,
+              "maximumPrerollFrames": 0,
+              "maximumTailFrames": 0
+            },
+            "unavailable": [
+              {
+                "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+                "ranges": []
+              }
+            ],
+            "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+            "preparedResourceId": null,
+            "range": {
+              "startUs": 0,
+              "endUs": 1250000
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-audio-v9",
+            "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+            "revisionId": "3eb578e3-a150-43cc-9885-e1bbf3105560",
+            "mediaType": "audio/wav",
+            "layout": "stereo",
+            "sampleRange": {
+              "start": 0,
+              "end": 60000
+            },
+            "cacheId": "8ea15fb5-df04-4f63-8bf0-c7d8453659ea"
+          }
+        },
+        "delivery": {
+          "token": "c2c52a5c-6fe1-43ff-94b5-8cca8849746c",
+          "bytes": 484096,
+          "expiresAt": 1790754772809
+        }
+      },
+      "pcmSha256": "ba05ced10d11ffa4244ca78c9b1c36f62d7773d70c7b7cf05daee9f7a6be69d0",
+      "frames": 60000
+    },
+    "ordinaryMovie": {
+      "audio": {
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "frames": 60000,
+        "maximumBlockFrames": 8192,
+        "peak": 0.33954575657844543,
+        "peakResidentBytes": 45924352,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 384000,
+              "frames": 48000,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+            "ranges": []
+          }
+        ]
+      },
+      "bytes": 34188,
+      "codec": "h264",
+      "durationUs": 1250000,
+      "encodedAudio": {
+        "channels": 2,
+        "durationTimescale": 6000000,
+        "durationValue": 7500000,
+        "sampleRate": 48000
+      },
+      "encodedVideo": {
+        "level": "3.0",
+        "profile": "high"
+      },
+      "file": "/private/tmp/sr-prepared-public-VldJ4A/library/cache/derived/a7824659-7c03-43e2-9cb0-1acd3663b514.cache",
+      "frameCount": 38,
+      "height": 16,
+      "mediaType": "video/mp4",
+      "peakResidentBytes": 45989888,
+      "settings": {
+        "container": "mp4",
+        "video": {
+          "codec": "h264",
+          "encoder": {
+            "hardware": "auto",
+            "id": null,
+            "gpu": null
+          },
+          "color": "rec709",
+          "rateControl": {
+            "mode": "average",
+            "bitrate": 8000000
+          },
+          "profile": "high",
+          "level": "auto",
+          "keyframeInterval": 120,
+          "keyframeIntervalSeconds": 2,
+          "frameReordering": false,
+          "entropy": "cabac",
+          "temporalCompression": true,
+          "openGop": false,
+          "prioritizeSpeed": false,
+          "powerEfficient": false,
+          "dataRateLimits": [],
+          "bufferDurationSeconds": null,
+          "initialBufferDelayPercent": null,
+          "spatialAdaptiveQuantization": true,
+          "lookAheadFrames": null,
+          "nonDroppableFrameRate": null,
+          "minimumQuantizer": null,
+          "maximumQuantizer": null
+        },
+        "audio": {
+          "codec": "aac",
+          "sampleRate": 48000,
+          "layout": "stereo",
+          "rateControl": {
+            "mode": "constant",
+            "bitrate": 192000
+          },
+          "quality": "high"
+        }
+      },
+      "width": 16,
+      "preparedResourceId": null,
+      "range": {
+        "startUs": 0,
+        "endUs": 1250000
+      },
+      "implementationId": "native-composition-movie-v19",
+      "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+      "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+      "revisionId": "3eb578e3-a150-43cc-9885-e1bbf3105560",
+      "cacheId": "a7824659-7c03-43e2-9cb0-1acd3663b514"
+    },
+    "original": {
+      "exactPCM": true,
+      "pcmSha256": "ba05ced10d11ffa4244ca78c9b1c36f62d7773d70c7b7cf05daee9f7a6be69d0",
+      "frames": 60000,
+      "waveformReady": true,
+      "assetId": "7a5180e7c89e48ce9eddb784c28f800fc6c39e5603cce695ae801e7cbd1f768b"
+    },
+    "retryIdentity": {
+      "beforeCancel": {
+        "jobId": "334f819e-0b50-40d4-8424-4a624a79bbe1",
+        "attemptId": "7f219198-b23d-4244-b17c-6b63aaa41b11",
+        "artifact": "prepared-audio",
+        "lane": "heavy",
+        "state": "running",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "003be978c4f9b49580421bd9453344429b6f236b8b8d93894a6e80562fcf0c0f",
+        "target": {
+          "kind": "project",
+          "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+          "revisionId": "1506a8b8-a3f9-48a2-b4b9-e6a57f6a2e10"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": null
+      },
+      "canceled": {
+        "jobId": "334f819e-0b50-40d4-8424-4a624a79bbe1",
+        "attemptId": "7f219198-b23d-4244-b17c-6b63aaa41b11",
+        "artifact": "prepared-audio",
+        "lane": "heavy",
+        "state": "canceled",
+        "reason": "canceled",
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "003be978c4f9b49580421bd9453344429b6f236b8b8d93894a6e80562fcf0c0f",
+        "target": {
+          "kind": "project",
+          "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+          "revisionId": "1506a8b8-a3f9-48a2-b4b9-e6a57f6a2e10"
+        },
+        "retryable": true,
+        "errorDetails": null,
+        "result": null
+      },
+      "retried": {
+        "jobId": "334f819e-0b50-40d4-8424-4a624a79bbe1",
+        "attemptId": "1a8c9f27-2877-443d-ba2d-913ad8c6a013",
+        "artifact": "prepared-audio",
+        "lane": "heavy",
+        "state": "ready",
+        "reason": null,
+        "generation": 2,
+        "errorCode": null,
+        "inputSha256": "003be978c4f9b49580421bd9453344429b6f236b8b8d93894a6e80562fcf0c0f",
+        "target": {
+          "kind": "project",
+          "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+          "revisionId": "1506a8b8-a3f9-48a2-b4b9-e6a57f6a2e10"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": {
+          "bytes": 484096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 60000,
+          "peak": 0.16977287828922272,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 26329088,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+            }
+          ],
+          "resourceId": "[\"594c3500-78a6-412b-a3bb-26ab00a4559d\",\"1a8c9f27-2877-443d-ba2d-913ad8c6a013\"]",
+          "assetId": "f50a8b83d662866ef8ada481e7b45937a36111a2ffb23a6bc7042bf901ce0e77",
+          "identity": {
+            "device": "16777230",
+            "inode": "330228368",
+            "modifiedNs": "1790754745867846950",
+            "changedNs": "1790754745906245106"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 60000
+          }
+        }
+      }
+    },
+    "gain": {
+      "exactPCM": true,
+      "pcmSha256": "37a2a33fbf27d0f099aa43d8c8d6777aa6b79b6bc946a410e8391fb19dd6997a",
+      "frames": 60000,
+      "waveformReady": true,
+      "assetId": "f50a8b83d662866ef8ada481e7b45937a36111a2ffb23a6bc7042bf901ce0e77"
+    },
+    "historical-after-restart": {
+      "exactPCM": true,
+      "pcmSha256": "b81ffb8d0fd37c5d78a74523e8483dbd15607c6f7a12d2491c3c8819076c9006",
+      "frames": 12000,
+      "waveformReady": true,
+      "assetId": "7a5180e7c89e48ce9eddb784c28f800fc6c39e5603cce695ae801e7cbd1f768b"
+    },
+    "nativeRecipes": [
+      {
+        "file": "mix-0.json",
+        "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+        "range": {
+          "start": 0,
+          "end": 60000
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "frames": 60000
+      },
+      {
+        "file": "mix-1.json",
+        "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+        "range": {
+          "start": 0,
+          "end": 60000
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "frames": 60000
+      },
+      {
+        "file": "mix-3.json",
+        "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+        "range": {
+          "start": 0,
+          "end": 60000
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+              }
+            ],
+            "steps": [
+              {
+                "id": "processingStep:69f02efe1f5d42b70b6509aa1dc92079af381d5b7b528aab072d1a5a7d81e387:0",
+                "enabled": true,
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.5,
+                  "active": [
+                    {
+                      "start": 0,
+                      "end": 60000
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "frames": 60000
+      },
+      {
+        "file": "mix-4.json",
+        "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+        "range": {
+          "start": 0,
+          "end": 60000
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "track:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:0"
+              }
+            ],
+            "steps": [
+              {
+                "id": "processingStep:69f02efe1f5d42b70b6509aa1dc92079af381d5b7b528aab072d1a5a7d81e387:0",
+                "enabled": true,
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.5,
+                  "active": [
+                    {
+                      "start": 0,
+                      "end": 60000
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "frames": 60000
+      }
+    ],
+    "lifecycle": {
+      "repeatCLIAndMCP": true,
+      "canceledReplyNotPublished": true,
+      "noImplicitRetry": true,
+      "explicitRetry": true,
+      "exactHistoricalRestart": true,
+      "unchangedPinnedRevision": true,
+      "headPreservedAcrossRetry": true,
+      "retryAfterHeadAdvance": true,
+      "recipeBoundToNativeReceipts": true
+    }
+  },
+  "receipts": [
+    {
+      "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+      "revisionId": "3eb578e3-a150-43cc-9885-e1bbf3105560",
+      "state": "ready",
+      "jobId": "fb341ca7-5742-44f1-8dcc-061c48207c25",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 1,
+        "audio": {
+          "bytes": 484096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 60000,
+          "peak": 0.33954575657844543,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 26083328,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+            }
+          ],
+          "resourceId": "[\"594c3500-78a6-412b-a3bb-26ab00a4559d\",\"92d06245-a108-4401-a63f-23069eb133d5\"]",
+          "assetId": "7a5180e7c89e48ce9eddb784c28f800fc6c39e5603cce695ae801e7cbd1f768b",
+          "identity": {
+            "device": "16777230",
+            "inode": "330228291",
+            "modifiedNs": "1790754743700528397",
+            "changedNs": "1790754743743263798"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 60000
+          }
+        }
+      }
+    },
+    {
+      "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+      "revisionId": "1506a8b8-a3f9-48a2-b4b9-e6a57f6a2e10",
+      "state": "ready",
+      "jobId": "334f819e-0b50-40d4-8424-4a624a79bbe1",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 2,
+        "audio": {
+          "bytes": 484096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 60000,
+          "peak": 0.16977287828922272,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 26329088,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+            }
+          ],
+          "resourceId": "[\"594c3500-78a6-412b-a3bb-26ab00a4559d\",\"1a8c9f27-2877-443d-ba2d-913ad8c6a013\"]",
+          "assetId": "f50a8b83d662866ef8ada481e7b45937a36111a2ffb23a6bc7042bf901ce0e77",
+          "identity": {
+            "device": "16777230",
+            "inode": "330228368",
+            "modifiedNs": "1790754745867846950",
+            "changedNs": "1790754745906245106"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 60000
+          }
+        }
+      }
+    },
+    {
+      "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+      "revisionId": "3eb578e3-a150-43cc-9885-e1bbf3105560",
+      "state": "ready",
+      "jobId": "fb341ca7-5742-44f1-8dcc-061c48207c25",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 1,
+        "audio": {
+          "bytes": 484096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 60000,
+          "peak": 0.33954575657844543,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 26083328,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+            }
+          ],
+          "resourceId": "[\"594c3500-78a6-412b-a3bb-26ab00a4559d\",\"92d06245-a108-4401-a63f-23069eb133d5\"]",
+          "assetId": "7a5180e7c89e48ce9eddb784c28f800fc6c39e5603cce695ae801e7cbd1f768b",
+          "identity": {
+            "device": "16777230",
+            "inode": "330228291",
+            "modifiedNs": "1790754743700528397",
+            "changedNs": "1790754743743263798"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 60000
+          }
+        }
+      }
+    },
+    {
+      "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+      "revisionId": "1506a8b8-a3f9-48a2-b4b9-e6a57f6a2e10",
+      "state": "ready",
+      "jobId": "334f819e-0b50-40d4-8424-4a624a79bbe1",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 2,
+        "audio": {
+          "bytes": 484096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 60000,
+          "peak": 0.16977287828922272,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 26329088,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+            }
+          ],
+          "resourceId": "[\"594c3500-78a6-412b-a3bb-26ab00a4559d\",\"1a8c9f27-2877-443d-ba2d-913ad8c6a013\"]",
+          "assetId": "f50a8b83d662866ef8ada481e7b45937a36111a2ffb23a6bc7042bf901ce0e77",
+          "identity": {
+            "device": "16777230",
+            "inode": "330228368",
+            "modifiedNs": "1790754745867846950",
+            "changedNs": "1790754745906245106"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 60000
+          }
+        }
+      }
+    },
+    {
+      "projectId": "594c3500-78a6-412b-a3bb-26ab00a4559d",
+      "revisionId": "3eb578e3-a150-43cc-9885-e1bbf3105560",
+      "state": "ready",
+      "jobId": "fb341ca7-5742-44f1-8dcc-061c48207c25",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 1,
+        "audio": {
+          "bytes": 484096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 60000,
+          "peak": 0.33954575657844543,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 26083328,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:13893e9d3f94bd8952cb0bae7aaa6e4a4ba35885e26d7bd268b9dfb8347ff2d3:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+            }
+          ],
+          "resourceId": "[\"594c3500-78a6-412b-a3bb-26ab00a4559d\",\"92d06245-a108-4401-a63f-23069eb133d5\"]",
+          "assetId": "7a5180e7c89e48ce9eddb784c28f800fc6c39e5603cce695ae801e7cbd1f768b",
+          "identity": {
+            "device": "16777230",
+            "inode": "330228291",
+            "modifiedNs": "1790754743700528397",
+            "changedNs": "1790754743743263798"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 60000
+          }
+        }
+      }
+    }
+  ],
+  "nativeSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "scope": "Public preserve-pitch preparation lifecycle: post-native-reply cancellation, pinned retry and restart; PCM compared with public baseline for storage/gain only, no quality or in-flight DSP cancellation claim.",
+  "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+}

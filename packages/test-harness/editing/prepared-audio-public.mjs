@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, writeFile, rm, realpath } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile, rm, realpath, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
+import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 import { writeSourceWave, sourcePeriod } from "./audio-project-fixture.mjs";
 
-const { values } = parseArgs({ options: { out: { type: "string" } } });
+const { values } = parseArgs({ options: { out: { type: "string" }, retime: { type: "boolean" } } });
+const retime = Boolean(values.retime),
+  durationUs = retime ? 1250000 : 1000000;
+const frames = (durationUs * 48000) / 1000000;
 assert(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-prepared-public-"));
@@ -13,15 +17,19 @@ await mkdir(out);
 const report = {
   passed: false,
   trace: [],
+  ...(retime ? { exchanges: [] } : {}),
   checks: {},
   receipts: [],
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
-  scope:
-    "public full-output unit-rate/gain preparation; no stretch, denoise or speech-quality claim",
+  scope: retime
+    ? "Public preserve-pitch preparation lifecycle: post-native-reply cancellation, pinned retry and restart; PCM compared with public baseline for storage/gain only, no quality or in-flight DSP cancellation claim."
+    : "public full-output unit-rate/gain preparation; no stretch, denoise or speech-quality claim",
 };
-const service = new JourneyService(home, report),
+const nativeEvidence = retime ? join(out, "native") : undefined;
+const service = new JourneyService(home, report, nativeEvidence),
   call = service.call.bind(service);
-const period = sourcePeriod(0);
+let baselinePCM = sourcePeriod(0);
+let retimeImplementationId;
 async function prepare(selection) {
   const result = await poll(
     () => call("audio.prepare", selection),
@@ -38,13 +46,13 @@ async function inspect(prepared, gain, name) {
   const asset = await call("asset.get", { assetId: audio.assetId });
   const stream = asset.streams.find((value) => value.kind === "audio");
   assert(stream);
-  assert.equal(audio.frames, 48000);
-  assert.deepEqual(audio.sampleRange, { start: 0, end: 48000 });
-  const startUs = name === "historical-after-restart" ? 750000 : 0;
+  assert.equal(audio.frames, frames);
+  assert.deepEqual(audio.sampleRange, { start: 0, end: frames });
+  const startUs = name === "historical-after-restart" ? durationUs - 250000 : 0;
   const selection = {
     assetId: asset.id,
     streamId: stream.id,
-    range: { startUs, endUs: 1000000 },
+    range: { startUs, endUs: durationUs },
   };
   await poll(
     () => call("audio.get", selection),
@@ -57,7 +65,7 @@ async function inspect(prepared, gain, name) {
     encoding: "buffer",
     maxBuffer: 1024 * 1024,
   });
-  const expected = Buffer.from(period.subarray(((startUs * 48000) / 1000000) * 8));
+  const expected = Buffer.from(baselinePCM.subarray(((startUs * 48000) / 1000000) * 8));
   for (let at = 0; at < expected.length; at += 4)
     expected.writeFloatLE(Math.fround(expected.readFloatLE(at) * gain), at);
   assert.deepEqual(decoded.stdout, expected);
@@ -69,12 +77,19 @@ async function inspect(prepared, gain, name) {
   assert(wave.published);
   report.checks[name] = {
     exactPCM: true,
+    pcmSha256: hash(decoded.stdout),
     frames: expected.length / 8,
     waveformReady: true,
     assetId: asset.id,
   };
 }
 try {
+  if (retime) {
+    const capabilities = nativeResult(await mediaWorker()("media.audioCapabilities", {}));
+    assert.equal(typeof capabilities.retime, "string");
+    retimeImplementationId = capabilities.retime;
+    report.retimeImplementationId = retimeImplementationId;
+  }
   await service.start();
   const source = join(home, "source.wav");
   await writeSourceWave(source, { source: 0, seconds: 1 });
@@ -115,13 +130,53 @@ try {
       },
     ],
   });
-  const original = { projectId, revisionId: placed.revision.id };
+  const authored = retime
+    ? await call(
+        "edit.apply",
+        {
+          projectId,
+          expectedRevisionId: placed.revision.id,
+          requestId: "stretch",
+          operations: [
+            {
+              operation: "retime",
+              clipIds: [placed.edit.labels.clip],
+              durationUs,
+              scope: "selected",
+              ripple: "none",
+              pitch: "preserve",
+            },
+          ],
+        },
+        { transport: "mcp" },
+      )
+    : placed;
+  const original = { projectId, revisionId: authored.revision.id };
+  if (retime) {
+    const baseline = await poll(
+      () => call("audio.get", original, { transport: "mcp" }),
+      (value) => value.state === "ready",
+      "public retimed baseline",
+    );
+    assert.equal(baseline.published.audio.frames, frames);
+    assert.equal(baseline.published.audio.retimeImplementationId, retimeImplementationId);
+    const path = join(out, "baseline.wav");
+    await call("audio.get", original, { output: path });
+    baselinePCM = (
+      await run("ffmpeg", ["-v", "error", "-i", path, "-f", "f32le", "-"], {
+        encoding: "buffer",
+        maxBuffer: 1024 * 1024,
+      })
+    ).stdout;
+    assert.equal(baselinePCM.length, frames * 8);
+    report.checks.baseline = { receipt: baseline, pcmSha256: hash(baselinePCM), frames };
+  }
   const ordinaryMovie = await poll(
     () => call("preview.get", original, { output: join(out, "ordinary-movie.mp4") }),
     (value) => value.state === "ready",
     "ordinary movie with no state prerequisites",
   );
-  assert.equal(ordinaryMovie.published.preview.durationUs, 1000000);
+  assert.equal(ordinaryMovie.published.preview.durationUs, durationUs);
   report.checks.ordinaryMovie = ordinaryMovie.published.preview;
   const first = await prepare(original);
   await inspect(first, 1, "original");
@@ -136,7 +191,7 @@ try {
         steps: [
           {
             enabled: true,
-            window: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+            window: { kind: "project", range: { startUs: 0, endUs: durationUs } },
             processor: { type: "gain", gain: 0.5 },
           },
         ],
@@ -147,53 +202,96 @@ try {
   const blocked = await service.arm("media.mixCompositionAudio");
   const pending = await call("audio.prepare", selection);
   await blocked();
+  const beforeCancel = await call("job.get", { jobId: pending.jobId });
   await call("job.cancel", { jobId: pending.jobId });
   const canceled = await call("job.get", { jobId: pending.jobId });
   assert.equal(canceled.state, "canceled");
   assert.equal(canceled.result, null);
-  await call("audio.prepare", selection);
+  const canceledPreparation = await call("audio.prepare", selection);
+  assert.equal(canceledPreparation.published, null);
   assert.deepEqual(await call("job.get", { jobId: pending.jobId }), canceled);
-  await call("job.retry", { jobId: pending.jobId });
+  const later = retime
+    ? await call(
+        "edit.apply",
+        {
+          projectId,
+          expectedRevisionId: selection.revisionId,
+          requestId: "advance-head",
+          operations: [{ operation: "canvas.set", canvas: { width: 32 } }],
+        },
+        { transport: "mcp" },
+      )
+    : gained;
+  await call("job.retry", { jobId: pending.jobId }, retime ? { transport: "mcp" } : {});
   const second = await prepare(selection);
   assert.equal(second.jobId, pending.jobId);
+  const retried = await call("job.get", { jobId: pending.jobId });
+  assert.deepEqual(retried.target, beforeCancel.target);
+  assert.equal(retried.inputSha256, beforeCancel.inputSha256);
+  assert.notEqual(retried.attemptId, beforeCancel.attemptId);
+  assert.equal(retried.generation, beforeCancel.generation + 1);
+  report.checks.retryIdentity = { beforeCancel, canceled, retried };
   assert.notEqual(second.published.audio.assetId, first.published.audio.assetId);
   await inspect(second, 0.5, "gain");
   assert.deepEqual(await call("revision.get", selection), { projectId, revision: gained.revision });
-  assert.equal((await call("project.get", { projectId })).currentRevisionId, selection.revisionId);
+  assert.equal((await call("project.get", { projectId })).currentRevisionId, later.revision.id);
   assert.deepEqual(await prepare(original), first);
   await service.stop();
   await service.start();
   assert.deepEqual(await prepare(selection), second);
   assert.deepEqual(await prepare(original), first);
   await inspect(first, 1, "historical-after-restart");
-  const unavailable = await call("edit.apply", {
-    projectId,
-    expectedRevisionId: selection.revisionId,
-    requestId: "retime",
-    operations: [
-      {
-        operation: "retime",
-        clipIds: [placed.edit.labels.clip],
-        durationUs: 500000,
-        scope: "selected",
-        ripple: "none",
-      },
-    ],
-  });
-  const refusal = await call(
-    "audio.prepare",
-    { projectId, revisionId: unavailable.revision.id },
-    { error: true },
-  );
-  assert.equal(refusal.code, "NOT_READY");
+  if (!retime) {
+    const unavailable = await call("edit.apply", {
+      projectId,
+      expectedRevisionId: selection.revisionId,
+      requestId: "retime",
+      operations: [
+        {
+          operation: "retime",
+          clipIds: [placed.edit.labels.clip],
+          durationUs: 500000,
+          scope: "selected",
+          ripple: "none",
+        },
+      ],
+    });
+    const refusal = await call(
+      "audio.prepare",
+      { projectId, revisionId: unavailable.revision.id },
+      { error: true },
+    );
+    assert.equal(refusal.code, "NOT_READY");
+  } else {
+    const mixes = [];
+    for (const file of (await readdir(nativeEvidence))
+      .filter((name) => /^mix-/.test(name))
+      .sort()) {
+      const mix = JSON.parse(await readFile(join(nativeEvidence, file), "utf8"));
+      assert.equal(mix.request.retimeImplementationId, retimeImplementationId);
+      assert.equal(mix.response.ok, true);
+      mixes.push({
+        file,
+        retimeImplementationId,
+        range: mix.request.range,
+        processing: mix.request.processing,
+        frames: mix.response.data.frames,
+      });
+    }
+    assert.equal(mixes.length, 4);
+    report.checks.nativeRecipes = mixes;
+  }
   report.checks.lifecycle = {
     repeatCLIAndMCP: true,
     canceledReplyNotPublished: true,
     noImplicitRetry: true,
     explicitRetry: true,
     exactHistoricalRestart: true,
-    unchangedRevisionAndHead: true,
-    unresolvedRetimeRefused: true,
+    unchangedPinnedRevision: true,
+    headPreservedAcrossRetry: true,
+    ...(retime
+      ? { retryAfterHeadAdvance: true, recipeBoundToNativeReceipts: true }
+      : { unchangedRevisionAndHead: true, unresolvedRetimeRefused: true }),
   };
   report.passed = true;
 } finally {

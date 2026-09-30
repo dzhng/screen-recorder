@@ -1,0 +1,39 @@
+{
+  "sourceCommit": "ee4787d9e2b796422f1195cc45da342e0217eb4b",
+  "harnessChange": "Adds --retime; committed with this evidence.",
+  "nativeSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "sources": [
+    {
+      "path": "packages/test-harness/editing/prepared-audio-public.mjs",
+      "sha256": "7100b60d1a3a4d29bd22c1127bd46aae610dab29cbd3fe89ef44871908c18708"
+    },
+    {
+      "path": "packages/test-harness/editing/source-evidence-fixture.mjs",
+      "sha256": "473ff9c8abb505f973d4b99ac981dfdaa2054c39bf611d50880f512a06741f95"
+    },
+    {
+      "path": "packages/test-harness/editing/source-acquisition-service.mjs",
+      "sha256": "81b02f351a45b4f6e24605dcb36cb5aa7b678a48868cbcf98d88cfdc362d3f0a"
+    },
+    {
+      "path": "packages/test-harness/editing/audio-project-fixture.mjs",
+      "sha256": "33188123789c921c9e7d4b573b72e3529795aac0491caf02a579dd6c5e1b8f08"
+    },
+    {
+      "path": "packages/core/src/prepared-audio.ts",
+      "sha256": "397882189e7623c6e09a078bf33811376b42e2df685ef044706e961aebf99d65"
+    },
+    {
+      "path": "packages/core/src/jobs.ts",
+      "sha256": "91746b7a876316d33e99f55dbb8fb6d49a11f9e284a9708327705afcf6ee9b03"
+    },
+    {
+      "path": "apps/service/src/project-render.ts",
+      "sha256": "5aa45f6ef6f0f08ba8ef2bf4e9466c39da9eaad48a9a39ce0cc0ec9c9fb0fbde"
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "sha256": "06c241298b349bc3f28b102c441e93cec86cb9a4bd8d72e4391120ee16563ad0"
+    }
+  ]
+}
