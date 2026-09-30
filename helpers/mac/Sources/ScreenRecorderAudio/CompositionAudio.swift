@@ -28,6 +28,7 @@ public struct CompositionAudioReport: Codable, Sendable {
             var frames: Int64
             var float32Bytes: Int64
         }
+        let preparedRetimeRuns: Int
         let decoded: [Decoded]
         let descriptorReadBytes: Int64
         let descriptorDeliveredBytes: Int64
@@ -65,18 +66,36 @@ public enum CompositionAudio {
         let sourceStart: Int64
         let sourceEnd: Int64
         let project: Plan.Samples
+        let inputFrames: Int64
     }
     private static func retainedContexts(
         _ ranges: [Plan.Context], source: SourceTrack,
-        offset: ExactTime
+        clip: Plan.Clip
     ) throws -> [Context] {
+        let selected = clip.source.range!
+        let sourceDuration = try selected.endUs.subtract(selected.startUs)
+        let projectDuration = try clip.placement.endUs.subtract(clip.placement.startUs)
+        func mapped(_ time: ExactTime) throws -> Int64 {
+            let delta = try time.subtract(selected.startUs)
+            func product(_ a: Int128, _ b: Int128) throws -> Int128 {
+                let value = a.multipliedReportingOverflow(by: b)
+                guard !value.overflow else { throw invalid("Retiming exceeds exact arithmetic capacity.") }
+                return value.partialValue
+            }
+            let factor = ExactTime(try product(projectDuration.numerator, sourceDuration.denominator),
+                try product(projectDuration.denominator, sourceDuration.numerator))
+            let scaled = ExactTime(try product(delta.numerator, factor.numerator),
+                try product(delta.denominator, factor.denominator))
+            return try scaled.subtract(ExactTime(-clip.placement.startUs.numerator,
+                clip.placement.startUs.denominator)).sample(rate)
+        }
         var result: [Context] = []
         var previous = ExactTime(0)
         for compiled in ranges {
             let range = compiled.source
             guard compiled.sampleRange.valid,
-                compiled.sampleRange.start == (try range.startUs.subtract(offset).sample(rate)),
-                compiled.sampleRange.end == (try range.endUs.subtract(offset).sample(rate))
+                compiled.sampleRange.start == (try mapped(range.startUs)),
+                compiled.sampleRange.end == (try mapped(range.endUs))
             else {
                 throw invalid("Context sample bounds disagree with its source/project mapping.")
             }
@@ -100,13 +119,13 @@ public enum CompositionAudio {
                 let sourceStart = try rawStart.subtract(occupied.nativeOrigin).sample(source.sampleRate, nearest: true)
                 let sourceEnd = try rawEnd.subtract(occupied.nativeOrigin).sample(source.sampleRate, ceil: true)
                 let project = Plan.Samples(
-                    start: max(compiled.sampleRange.start, try start.subtract(offset).sample(rate)),
-                    end: min(compiled.sampleRange.end, try end.subtract(offset).sample(rate)))
+                    start: max(compiled.sampleRange.start, try mapped(start)),
+                    end: min(compiled.sampleRange.end, try mapped(end)))
                 if sourceEnd > sourceStart, project.end > project.start {
                     result.append(
                         Context(
                             origin: occupied.nativeOrigin, sourceStart: sourceStart, sourceEnd: sourceEnd,
-                            project: project))
+                            project: project, inputFrames: try end.sample(rate) - start.sample(rate)))
                 }
             }
         }
@@ -118,12 +137,14 @@ public enum CompositionAudio {
         var decoder: AudioSourceReader?
         let contexts: [Context]
         let intervals: [Plan.Samples]
+        let prepared: [PreparedRetime]
         var index = 0
         var conversion: ConvertedAudioInterval?
         var nextPosition: Int64?
         var maximumPreroll: Int64 = 0
         var maximumTail: Int64 = 0
-        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples], sources: Sources) {
+        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples], sources: Sources, prepared: [PreparedRetime] = []) {
+            self.prepared = prepared
             self.sources = sources
             self.source = source
             self.contexts = contexts
@@ -151,6 +172,14 @@ public enum CompositionAudio {
                 if interval.start >= end { break }
                 let first = max(position, interval.start)
                 let last = min(end, interval.end)
+                if !prepared.isEmpty {
+                    guard let run = prepared.first(where: { first >= $0.range.start && last <= $0.range.end }) else {
+                        throw invalid("Prepared retiming does not cover readable support.")
+                    }
+                    try run.mix(into: &samples, at: Int(first - position), position: first, count: Int(last - first))
+                    if interval.end <= end { index += 1; continue }
+                    break
+                }
                 if conversion == nil {
                     let desired = first
                     var divisor = source.sampleRate
@@ -211,6 +240,7 @@ public enum CompositionAudio {
 
     final class Sources {
         var opened: [[String]: SourceTrack] = [:]
+        var retimed: [RetimeKey: PreparedRetime] = [:]
         private var decoded: [Int: CompositionAudioReport.SourceWork.Decoded] = [:]
         func record(frames: Int64, rate: Int, channels: Int) {
             guard frames > 0 else { return }
@@ -230,7 +260,7 @@ public enum CompositionAudio {
                     descriptors += 1
                 } else { unknown += 1 }
             }
-            return .init(decoded: decoded.values.sorted { $0.sampleRate < $1.sampleRate },
+            return .init(preparedRetimeRuns: retimed.count, decoded: decoded.values.sorted { $0.sampleRate < $1.sampleRate },
                 descriptorReadBytes: read, descriptorDeliveredBytes: delivered,
                 descriptorInputs: descriptors, unknownReadInputs: unknown)
         }
@@ -386,10 +416,10 @@ public enum CompositionAudio {
             guard duration.numerator > 0, placementDuration.numerator > 0 else {
                 throw invalid("Source and placement ranges must be positive.")
             }
-            guard duration.equals(placementDuration) else {
-                throw NativeFailure("NOT_READY", "Rate-changing audio requires prepared retiming.")
+            let retiming = !duration.equals(placementDuration)
+            if retiming && clip.pitch != "preserve" {
+                throw NativeFailure("NOT_READY", "Follow-pitch retiming is not accepted.")
             }
-            let offset = try range.startUs.subtract(clip.placement.startUs)
             let source: SourceTrack
             if let existing = sources.opened[[assetId, streamId]] {
                 source = existing
@@ -404,7 +434,21 @@ public enum CompositionAudio {
                 throw NativeFailure(
                     "UNSUPPORTED_FORMAT", "Audio needs an explicit map for more than two channels.")
             }
-            let contexts = try retainedContexts(clip.context, source: source, offset: offset)
+            let contexts = try retainedContexts(clip.context, source: source, clip: clip)
+            var prepared: [PreparedRetime] = []
+            if retiming {
+                guard source.channels == 1 else { throw NativeFailure("NOT_READY", "Retiming requires accepted mono input.") }
+                for context in contexts {
+                    let key = RetimeKey(assetId: assetId, streamId: streamId, source: source, context: context)
+                    if let existing = sources.retimed[key] { prepared.append(existing) }
+                    else {
+                        let run = try PreparedRetime(source: source, context: context,
+                            parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent(), sources: sources)
+                        sources.retimed[key] = run
+                        prepared.append(run)
+                    }
+                }
+            }
             let occupied = contexts.map(\.project)
             var readable: [Plan.Samples] = []
             var cursor = 0
@@ -437,7 +481,7 @@ public enum CompositionAudio {
             }
             missing.append(.init(clipId: clip.clipId, ranges: absent))
             inputs[clip.clipId] = Input(
-                source: source, contexts: contexts, intervals: readable, sources: sources)
+                source: source, contexts: contexts, intervals: readable, sources: sources, prepared: prepared)
         }
         let byTarget = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($0.element.target, $0.offset) })
         let children = nodes.map { $0.inputs.compactMap { byTarget[$0] } }
@@ -629,7 +673,7 @@ public enum CompositionAudio {
                             firstStep = 0
                             if node.target.kind == "clip", let id = node.target.id {
                                 if liveInputs.contains(index), inputs[index] == nil, let template = graph.inputs[id] {
-                                    inputs[index] = Input(source: template.source, contexts: template.contexts, intervals: template.intervals, sources: graph.sources)
+                                    inputs[index] = Input(source: template.source, contexts: template.contexts, intervals: template.intervals, sources: graph.sources, prepared: template.prepared)
                                 }
                                 if liveInputs.contains(index), let input = inputs[index] {
                                     try input.mix(into: &samples, position: position, count: count)

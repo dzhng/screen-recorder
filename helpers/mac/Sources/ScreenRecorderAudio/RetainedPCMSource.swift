@@ -80,7 +80,7 @@ public final class RetainedPCMSource: AudioPCMSource {
             peakResidentBytes: ProcessResources.peakResidentBytes(),
             decoderContext: .init(policy: "bounded-current-retained-run", sampleRate: 48_000,
                                   maximumPrerollFrames: 0, maximumTailFrames: 0),
-            sourceWork: .init(decoded: [], descriptorReadBytes: 0, descriptorDeliveredBytes: 0,
+            sourceWork: .init(preparedRetimeRuns: 0, decoded: [], descriptorReadBytes: 0, descriptorDeliveredBytes: 0,
                               descriptorInputs: 0, unknownReadInputs: 1), unavailable: unavailable)
     }
     public func write(to output: URL) async throws -> CompositionAudioResult {
