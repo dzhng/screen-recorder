@@ -220,3 +220,38 @@ test("renderers without a preparation owner do not advertise executable pointer 
     projectCapabilities({ implementationId: "fixture-picture" }).find((p) => p.type === "pointer"),
   ).toMatchObject({ execution: false, implementationId: null });
 });
+
+test("pointer admission uses fractional clip membership instead of frame labels", () => {
+  const document = {
+    ...base,
+    canvas: { ...base.canvas, fps: { numerator: 30, denominator: 1 } },
+    clips: [
+      {
+        ...base.clips[0],
+        placement: {
+          kind: "project",
+          range: { startUs: { numerator: 166666, denominator: 5 }, endUs: 33334 },
+        },
+      },
+    ],
+  };
+  const model = validateComposition(document, assets, [
+    {
+      id: "capture",
+      bindings: [{ assetId: selection.assetId, streamId: selection.streamId, available: [bounds] }],
+    },
+  ]);
+  const compiler = createCompiler(model, "fractional-pointer");
+  const pointerOps = (startUs: number) =>
+    [...compiler.frames({ startUs, endUs: startUs + 1 })][0]!.visual
+      .flatMap((node) => node.operations)
+      .filter((op) => op.kind === "pointer");
+  expect(pointerOps(33333)).toEqual([
+    { kind: "pointer", stepId: "pointer", trailUs: 100000, geometryPrefix: [] },
+  ]);
+  expect(sources(document, [bounds], { startUs: 33333, endUs: 33334 })).toEqual([selection]);
+  expect(pointerOps(0)).toEqual([]);
+  expect(sources(document, [bounds], { startUs: 0, endUs: 1 })).toEqual([]);
+  expect(pointerOps(66666)).toEqual([]);
+  expect(sources(document, [bounds], { startUs: 66666, endUs: 66667 })).toEqual([]);
+});

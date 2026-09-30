@@ -1182,3 +1182,37 @@ test("separate pointer histories share the render-attempt occurrence budget", as
     },
   );
 });
+
+test("sampled exact pointer membership precedes the integer observation cutoff", async () => {
+  const f = await fixture([geometry(), point(0, 20), point(1, 80)]);
+  const boundary = { value: "3", timescale: 5000000 };
+  await withPresentation(
+    createOriginalRevision(2, "fixture"),
+    [
+      { ...presentationRecord(0, 1, 0), end: boundary },
+      { ...presentationRecord(1, 2, 1), start: boundary, sampleTime: boundary },
+    ],
+    async (presentation) => {
+      const history = new PresentationPointerHistory(
+        { ...f, presentation },
+        signal(),
+        pointerHistoryBudget({ maxEvents: 100, maxSamples: 10 }),
+      );
+      try {
+        const before = await history.sample(
+          0,
+          { numerator: 1, denominator: Number.MAX_SAFE_INTEGER },
+          0,
+        );
+        expect(before.record).toMatchObject({ sampleTime: exact(0) });
+        const after = await history.sample(0, { numerator: 7, denominator: 10 }, 0);
+        expect(after.record).toMatchObject({ sampleTime: boundary });
+        if (after.inspection.kind !== "picture") throw Error("Expected picture");
+        expect(after.inspection.plan.requestedSourceUs).toBe(0);
+        expect(after.inspection.plan.overlay.pointer).toEqual({ atSourceUs: 0, x: 20, y: 20 });
+      } finally {
+        await history.close();
+      }
+    },
+  );
+});

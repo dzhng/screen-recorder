@@ -282,7 +282,7 @@ export function projectMovieRenderer(
   admissionSignal: AbortSignal = new AbortController().signal,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v19",
+    implementationId: "native-composition-movie-v20",
     ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
@@ -413,7 +413,7 @@ export function projectFrameRenderer(
   pointers?: PointerOwners,
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v14",
+    implementationId: "native-composition-picture-v15",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
       const { window, assets, fonts, output, maxLongEdge } = request;

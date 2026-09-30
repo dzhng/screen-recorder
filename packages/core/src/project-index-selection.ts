@@ -192,13 +192,14 @@ export async function selectProjectIndex(input: {
               const frame =
                 side === "after" ||
                 (neighbors.after &&
-                  compare(fromTime(neighbors.after.sampleAtUs), mapped.project) === 0)
+                  compare(fromTime(compiler.frameTime(neighbors.after.index)), mapped.project) ===
+                    0)
                   ? neighbors.after
                   : neighbors.before;
               if (
                 !frame ||
-                compare(fromTime(frame.sampleAtUs), fragment.project.start) < 0 ||
-                compare(fromTime(frame.sampleAtUs), fragment.project.end) >= 0
+                compare(fromTime(compiler.frameTime(frame.index)), fragment.project.start) < 0 ||
+                compare(fromTime(compiler.frameTime(frame.index)), fragment.project.end) >= 0
               )
                 continue;
               add(frame, {

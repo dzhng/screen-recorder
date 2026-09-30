@@ -7,6 +7,8 @@ import {
   compare,
   fromTime,
   toTime,
+  floor,
+  subtract,
   type createCompiler,
   type ProcessingInstruction,
   type CompiledFrame,
@@ -37,7 +39,7 @@ export type PreparedPointers = { file: string; bytes: number; records: number; s
 /** Admit source history only if an enabled pointer can contribute to an actual sampled frame. */
 export function compositionPointerSources(input: {
   model: ValidatedComposition;
-  compiler: Pick<ReturnType<typeof createCompiler>, "frameBoundary">;
+  compiler: Pick<ReturnType<typeof createCompiler>, "frameBoundary" | "frameTime">;
   processing: readonly ProcessingInstruction[];
   range: { startUs: number; endUs: number };
 }): SourceSelection[] {
@@ -67,7 +69,7 @@ export function compositionPointerSources(input: {
   const first =
     boundary.after?.sampleAtUs === input.range.startUs ? boundary.after : boundary.before;
   if (!first) return [];
-  const start = fromTime(first.sampleAtUs),
+  const start = fromTime(input.compiler.frameTime(first.index)),
     end = fromTime(input.range.endUs);
   const sources = new Map<string, SourceSelection>();
   for (const resolved of input.model.clips) {
@@ -93,7 +95,7 @@ export function compositionPointerSources(input: {
       if (
         !sample ||
         sample.sampleAtUs >= input.range.endUs ||
-        compare(fromTime(sample.sampleAtUs), span.end) >= 0
+        compare(fromTime(input.compiler.frameTime(sample.index)), span.end) >= 0
       )
         continue;
       const selection = {
@@ -287,8 +289,12 @@ export async function prepareCompositionPointers(
               );
               samplers.set(key, sampler);
             }
-            const captureUs = layer.sourceUs - held.plan.sourceToAssetOffsetUs;
-            const sampled = await sampler.sample(0, captureUs, op.trailUs);
+            const capture = subtract(
+              fromTime(layer.sourceUs),
+              fromTime(held.plan.sourceToAssetOffsetUs),
+            );
+            const captureUs = floor(capture);
+            const sampled = await sampler.sample(0, toTime(capture), op.trailUs);
             const context = {
               ...base,
               ...identity,

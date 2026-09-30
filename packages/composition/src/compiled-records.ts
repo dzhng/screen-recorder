@@ -5,6 +5,7 @@ import {
   selectionRangeSchema,
   processingTargetSchema,
   textSourceSchema,
+  timeValueSchema,
 } from "./schema.js";
 
 const id = z.string().min(1);
@@ -37,7 +38,7 @@ export const compiledFrameSchema = z
           kind: z.literal("video"),
           assetId: id,
           streamId: id,
-          sourceUs: index,
+          sourceUs: timeValueSchema,
           ...layerIdentity,
         }),
         z.strictObject({ kind: z.literal("image"), assetId: id, streamId: id, ...layerIdentity }),

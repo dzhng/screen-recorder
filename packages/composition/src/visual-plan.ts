@@ -4,6 +4,7 @@ import type { ValidatedComposition } from "./model.js";
 import type { ProcessingInstruction } from "./processing-plan.js";
 import type { CompiledFrame } from "./compiled-records.js";
 import type { VisualOperation } from "./pointer.js";
+import type { TimeValue } from "./schema.js";
 import { CompositionError } from "./errors.js";
 
 /** Flattening domains are fixed by target ownership, never inferred from child bounds. */
@@ -13,7 +14,7 @@ export function visualPlanner(
 ) {
   const clips = new Map(model.clips.map((clip) => [clip.clip.id, clip]));
   const canvas = model.document.canvas;
-  return (plan: ProcessingInstruction[], atUs: number): CompiledFrame["visual"] =>
+  return (plan: ProcessingInstruction[], atUs: TimeValue): CompiledFrame["visual"] =>
     plan
       .filter((node) => node.mediaKind !== "audio")
       .map((node) => {

@@ -7,7 +7,7 @@ import { processingScalars } from "./processing.js";
 import type { Geometry } from "./geometry.js";
 import type { ValidatedComposition, ExactRange } from "./model.js";
 import type { ProcessingInstruction } from "./processing-plan.js";
-import type { Anchor, ProcessingStep, ProcessingTarget, ScalarCurve } from "./schema.js";
+import type { Anchor, ProcessingStep, ProcessingTarget, ScalarCurve, TimeValue } from "./schema.js";
 
 export type CompiledProcessingInstruction = Omit<ProcessingInstruction, "steps"> & {
   steps: readonly {
@@ -105,7 +105,7 @@ export function temporalProcessing(model: ValidatedComposition) {
     target: ProcessingTarget,
     slot: string,
     value: number | ScalarCurve,
-    at: number,
+    at: TimeValue,
   ) {
     return typeof value === "number" && !step.window
       ? value
@@ -183,12 +183,12 @@ export function temporalProcessing(model: ValidatedComposition) {
         }),
       }));
     },
-    opacity(step: ProcessingStep, target: ProcessingTarget, at: number) {
+    opacity(step: ProcessingStep, target: ProcessingTarget, at: TimeValue) {
       return step.processor.type === "opacity"
         ? scalar(step, target, "opacity", step.processor.opacity, at)
         : null;
     },
-    geometry(step: ProcessingStep, target: ProcessingTarget, at: number): Geometry | null {
+    geometry(step: ProcessingStep, target: ProcessingTarget, at: TimeValue): Geometry | null {
       if (step.processor.type !== "geometry") return null;
       const { scale, rect, crop, pivot, rotationDeg, ...rest } = step.processor;
       const resolved = Object.fromEntries(

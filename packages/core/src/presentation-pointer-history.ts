@@ -1,3 +1,4 @@
+import { fromTime, timeValueSchema, type TimeValue } from "@screenrec/composition";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, SourceTrailRead } from "./evidence.js";
@@ -11,6 +12,7 @@ import {
   comparePresentationTimes as compare,
   microsecondTime,
   type PresentationTime,
+  type PresentationInstant,
 } from "./presentation-time.js";
 
 type Input = {
@@ -63,7 +65,7 @@ export class PresentationPointerHistory {
   private current: PresentationRecord | undefined;
   private reset: PointerResetFloor = { atSourceUs: 0, allowAtBoundary: true, reason: "kept_start" };
   private geometryEpoch: number | undefined;
-  private last: PresentationTime | undefined;
+  private last: PresentationInstant | undefined;
   private count = 0;
   private busy = false;
   private closed = false;
@@ -158,7 +160,7 @@ export class PresentationPointerHistory {
     )
       this.reset = next;
   }
-  private async inspect(at: PresentationTime, trailUs: number) {
+  private async inspect<T extends PresentationInstant>(at: T, trailUs: number) {
     const record = this.current!;
     const result = await this.pointer.atEvent(record, at, this.reset, trailUs);
     if (
@@ -210,15 +212,20 @@ export class PresentationPointerHistory {
       }
     });
   }
-  sample(spanIndex: number, sourceUs: number, trailUs: number) {
+  sample(spanIndex: number, sourceUs: TimeValue, trailUs: number) {
     return this.exclusive(async () => {
       const span = this.input.presentation.spans[spanIndex];
+      const parsed = timeValueSchema.safeParse(sourceUs);
+      const time = parsed.success ? fromTime(parsed.data) : null;
+      const at: PresentationInstant | null = time
+        ? { value: String(time.numerator), timescale: time.denominator * 1000000n }
+        : null;
       if (
         !Number.isSafeInteger(spanIndex) ||
-        !Number.isSafeInteger(sourceUs) ||
+        !at ||
         !span ||
-        sourceUs < span.startUs ||
-        sourceUs >= span.endUs ||
+        compare(at, microsecondTime(span.startUs)) < 0 ||
+        compare(at, microsecondTime(span.endUs)) >= 0 ||
         !Number.isSafeInteger(trailUs) ||
         trailUs < 0 ||
         trailUs > trailPolicy.maximumUs
@@ -228,7 +235,6 @@ export class PresentationPointerHistory {
           "Pointer sample requires a retained source instant and bounded explicit trail",
         );
       this.budget.sample();
-      const at = microsecondTime(sourceUs);
       if (this.last && compare(at, this.last) < 0) await this.restart();
       for (;;) {
         const next = await this.peek();

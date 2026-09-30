@@ -10,7 +10,7 @@ import { planVisualTrail, type TrailScene, type PointerResetFloor } from "./trai
 import {
   comparePresentationTimes,
   floorMicroseconds,
-  type PresentationTime,
+  type PresentationInstant,
 } from "./presentation-time.js";
 import type { TimeRange } from "./timeline.js";
 
@@ -77,7 +77,7 @@ export class PresentationPointer {
   /** Exact event membership stays separate from the integer observation-query cutoff. */
   atEvent(
     record: PresentationRecord,
-    at: PresentationTime,
+    at: PresentationInstant,
     resetFloor: PointerResetFloor,
     trailUs = 0,
   ) {
@@ -101,7 +101,7 @@ export class PresentationPointer {
     record: PresentationRecord,
     sourceUs: number,
     resetFloor?: PointerResetFloor,
-    eventTime?: PresentationTime,
+    eventTime?: PresentationInstant,
     trailUs = 0,
   ) {
     const spanIndex = record.spanIndex;

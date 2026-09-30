@@ -70,11 +70,11 @@ test("range frames preserve the full project phase and source clock", () => {
       frame.layers[0]?.kind === "video" ? frame.layers[0].sourceUs : undefined,
     ]),
   ).toEqual([
-    [1, 33366, 533366],
-    [2, 66733, 566733],
+    [1, 33366, { numerator: 1600100, denominator: 3 }],
+    [2, 66733, { numerator: 1700200, denominator: 3 }],
     [3, 100100, 600100],
-    [4, 133466, 633466],
-    [5, 166833, 666833],
+    [4, 133466, { numerator: 1900400, denominator: 3 }],
+    [5, 166833, { numerator: 2000500, denominator: 3 }],
   ]);
 });
 
@@ -249,7 +249,7 @@ test("two-hour requests are lazy and late repeated clips do not replay earlier f
       frame.layers[0]?.kind === "video" ? frame.layers[0].sourceUs : undefined,
     ]),
   ).toEqual([
-    [215783, 7199959433, "repeat-7199", 1459433],
+    [215783, 7199959433, "repeat-7199", { numerator: 4378300, denominator: 3 }],
     [215784, 7199992800, "repeat-7199", 1492800],
   ]);
   expect(
@@ -525,8 +525,8 @@ test("partial first frames retain their old source and exact visible coverage", 
       frame.layers[0]?.kind === "video" ? frame.layers[0].sourceUs : undefined,
     ]),
   ).toEqual([
-    [1, 33366, { startUs: 50001, endUs: 66733 }, "old", 533366],
-    [2, 66733, { startUs: 66733, endUs: 70000 }, "new", 816733],
+    [1, 33366, { startUs: 50001, endUs: 66733 }, "old", { numerator: 1600100, denominator: 3 }],
+    [2, 66733, { startUs: 66733, endUs: 70000 }, "new", { numerator: 2450200, denominator: 3 }],
   ]);
   expect(window.manifest.sources.map((source) => source.clipId)).toEqual(["old", "new"]);
   expect(
@@ -1112,7 +1112,7 @@ test("picture inspection retains the globally visible frame without requiring un
     index: 1,
     sampleAtUs: 33366,
     visibleRange: { startUs: 50001, endUs: 50030 },
-    layers: [{ clipId: "c", sourceUs: 533366 }],
+    layers: [{ clipId: "c", sourceUs: { numerator: 1600100, denominator: 3 } }],
   });
   expect(picture.manifest.sources.map((source) => source.clipId)).toEqual(["c"]);
   expect(picture.manifest.requirements).toEqual([
@@ -1127,11 +1127,11 @@ test("picture inspection retains the globally visible frame without requiring un
   ).toThrow("Video inspection requires a video target");
 });
 
-test("frame boundaries compare exact edits with actual floor-timestamp pictures", () => {
+test("frame boundaries compare exact execution times while retaining integer labels", () => {
   const compiler = createCompiler(validateComposition(document, assets), "revision");
   expect(compiler.frameBoundary({ numerator: 66733, denominator: 2 })).toEqual({
-    before: { index: 1, sampleAtUs: 33366, visibleRange: { startUs: 33366, endUs: 66733 } },
-    after: { index: 2, sampleAtUs: 66733, visibleRange: { startUs: 66733, endUs: 100100 } },
+    before: { index: 0, sampleAtUs: 0, visibleRange: { startUs: 0, endUs: 33366 } },
+    after: { index: 1, sampleAtUs: 33366, visibleRange: { startUs: 33366, endUs: 66733 } },
   });
   expect(compiler.frameBoundary(33366)).toEqual({
     before: { index: 0, sampleAtUs: 0, visibleRange: { startUs: 0, endUs: 33366 } },
@@ -1203,6 +1203,10 @@ test("empty projects and submicrosecond frame periods preserve compiler sampling
     [1, 0],
     [3, 1],
   ]);
+  expect(compiler.frameBoundary({ numerator: 1, denominator: 4 })).toEqual({
+    before: null,
+    after: { index: 1, sampleAtUs: 0, visibleRange: { startUs: 0, endUs: 1 } },
+  });
   expect(compiler.frameBoundary(1)).toEqual({
     before: { index: 1, sampleAtUs: 0, visibleRange: { startUs: 0, endUs: 1 } },
     after: { index: 3, sampleAtUs: 1, visibleRange: { startUs: 1, endUs: 2 } },
@@ -1267,4 +1271,142 @@ test("empty tap planning validates target, media kind and named step without a r
       "video",
     ),
   ).toThrow("Unknown step");
+});
+
+test("matching CFR source identity uses exact frame time through splits and short ranges", () => {
+  const input = structuredClone(document);
+  input.canvas.fps = { numerator: 30, denominator: 1 };
+  input.clips[0]!.source = { kind: "range", range: { startUs: 0, endUs: 1000000 } };
+  const compiler = createCompiler(validateComposition(input, assets), "exact");
+  const full = [...compiler.frames({ startUs: 0, endUs: 1000000 })];
+  expect(full.slice(0, 4).map((frame) => frame.layers[0])).toMatchObject([
+    { sourceUs: 0 },
+    { sourceUs: { numerator: 100000, denominator: 3 } },
+    { sourceUs: { numerator: 200000, denominator: 3 } },
+    { sourceUs: 100000 },
+  ]);
+  const late = [...compiler.frames({ startUs: 999999, endUs: 1000000 })][0]!;
+  expect(late).toMatchObject({
+    index: 29,
+    sampleAtUs: 966666,
+    layers: [{ sourceUs: { numerator: 2900000, denominator: 3 } }],
+  });
+  expect(compiler.frameTime(late.index)).toEqual({ numerator: 2900000, denominator: 3 });
+  const split = applyBatch(
+    input,
+    [{ operation: "split", clipIds: ["c"], atUs: 33333, scope: "selected" }],
+    { assets, namespace: "exact-split" },
+  );
+  const splitCompiler = createCompiler(validateComposition(split.document, assets), "split");
+  const identities = (frames: typeof full) =>
+    frames.map((frame) => [
+      frame.index,
+      frame.sampleAtUs,
+      frame.layers.map((layer) => (layer.kind === "video" ? layer.sourceUs : null)),
+    ]);
+  expect(identities([...splitCompiler.frames({ startUs: 0, endUs: 1000000 })])).toEqual(
+    identities(full),
+  );
+  expect(identities([...splitCompiler.frames({ startUs: 50001, endUs: 50002 })])).toEqual(
+    identities([full[1]!]),
+  );
+});
+
+test("fractional clip and processor starts include the exact sampled instant", () => {
+  const input = structuredClone(document);
+  input.canvas.fps = { numerator: 30, denominator: 1 };
+  const startUs = { numerator: 166666, denominator: 5 };
+  const range = { startUs, endUs: 100000 };
+  input.clips[0]!.source = { kind: "range", range };
+  input.clips[0]!.placement = { kind: "project", range };
+  input.processing = [
+    {
+      target: { kind: "clip", id: "c" },
+      steps: [
+        {
+          id: "opacity",
+          enabled: true,
+          window: { kind: "project", range },
+          processor: { type: "opacity", opacity: 0.5 },
+        },
+        {
+          id: "scale",
+          enabled: true,
+          window: { kind: "project", range },
+          processor: { type: "geometry", scale: { x: 2, y: 2 } },
+        },
+      ],
+    },
+  ];
+  const compiler = createCompiler(validateComposition(input, assets), "fractional");
+  const window = compiler.videoWindow({
+    range: { startUs: 33333, endUs: 33334 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  expect(window.manifest.sources.map((source) => source.clipId)).toEqual(["c"]);
+  const frame = [...window.frames()][0]!;
+  expect(frame).toMatchObject({
+    index: 1,
+    sampleAtUs: 33333,
+    layers: [
+      { clipId: "c", sourceUs: { numerator: 100000, denominator: 3 }, availability: "available" },
+    ],
+  });
+  const operations = frame.visual.flatMap((node) => node.operations);
+  expect(operations).toContainEqual({ kind: "opacity", opacity: 0.5 });
+  expect(operations).toContainEqual({ kind: "affine", matrix: [2, 0, 0, 2, -320, -240] });
+  expect(compiler.frameBoundary(startUs).after?.index).toBe(1);
+  expect([...compiler.frames({ startUs: 0, endUs: 1 })][0]!.layers).toEqual([]);
+});
+
+test("exact retimed source holes also exclude attached descendants", () => {
+  const input = structuredClone(document);
+  input.canvas.fps = { numerator: 30, denominator: 1 };
+  input.tracks = [
+    { id: "v", kind: "video", order: 0 },
+    { id: "child", kind: "video", order: 1 },
+  ];
+  input.clips = [
+    {
+      id: "c",
+      trackId: "v",
+      assetId: "asset",
+      streamId: "video",
+      source: { kind: "range", range: { startUs: 0, endUs: 300000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 100000 } },
+    },
+    {
+      id: "child",
+      trackId: "child",
+      assetId: "child",
+      streamId: "video",
+      source: { kind: "range", range: { startUs: 0, endUs: 300000 } },
+      placement: { kind: "content", clipId: "c", sourceRange: { startUs: 0, endUs: 300000 } },
+    },
+  ];
+  const media = [
+    {
+      ...assets[0]!,
+      streams: [
+        {
+          ...assets[0]!.streams[0]!,
+          available: [
+            { startUs: 0, endUs: 100000 },
+            { startUs: 200000, endUs: 2000000 },
+          ],
+        },
+      ],
+    },
+    { ...assets[0]!, id: "child" },
+  ];
+  const compiler = createCompiler(validateComposition(input, media), "hole");
+  expect([...compiler.frames({ startUs: 33333, endUs: 33334 })][0]!.layers).toMatchObject([
+    { clipId: "c", sourceUs: 100000, availability: "source-unavailable" },
+    { clipId: "child", sourceUs: 100000, availability: "anchor-unavailable" },
+  ]);
+  expect([...compiler.frames({ startUs: 66666, endUs: 66667 })][0]!.layers).toMatchObject([
+    { clipId: "c", sourceUs: 200000, availability: "available" },
+    { clipId: "child", sourceUs: 200000, availability: "available" },
+  ]);
 });

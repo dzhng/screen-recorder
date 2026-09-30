@@ -1,7 +1,7 @@
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { createHash } from "node:crypto";
 import { afterEach, expect, test } from "vitest";
-import type { CompiledFrame } from "@screenrec/composition";
+import { floor, fromTime, type CompiledFrame } from "@screenrec/composition";
 import { validateProjectFrameReceipt } from "./frame-inspection.js";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -204,8 +204,12 @@ async function append(
             assetId: layer.assetId,
             streamId: layer.streamId,
             requestedSourceUs: layer.sourceUs,
-            actualSourceUs: layer.sourceUs,
-            sample: { value: String(layer.sourceUs), timescale: 1000000, originUs: 0 },
+            actualSourceUs: floor(fromTime(layer.sourceUs)),
+            sample: {
+              value: String(floor(fromTime(layer.sourceUs))),
+              timescale: 1000000,
+              originUs: 0,
+            },
           }
         : {
             kind: "video",

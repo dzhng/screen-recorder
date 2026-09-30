@@ -1,7 +1,7 @@
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectComposition } from "./project-window.js";
 import { selectSource } from "./source-selection.js";
-import type { CompiledFrame } from "@screenrec/composition";
+import { floor, fromTime, type CompiledFrame } from "@screenrec/composition";
 import { afterEach } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -169,7 +169,8 @@ export async function fixture(
                 const originUs = bindings.find(
                   (b) => b.assetId === layer.assetId && b.streamId === layer.streamId,
                 )!.originUs;
-                const actualSourceUs = Math.floor(layer.sourceUs / 200000) * 200000;
+                const actualSourceUs =
+                  Math.floor(floor(fromTime(layer.sourceUs)) / 200000) * 200000;
                 return {
                   ...picture,
                   status: "available",

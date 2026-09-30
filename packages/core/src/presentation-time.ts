@@ -8,7 +8,11 @@ export const presentationTimeSchema = z.strictObject({
   timescale: integer.min(1).max(2_147_483_647),
 });
 export type PresentationTime = z.infer<typeof presentationTimeSchema>;
-export function comparePresentationTimes(a: PresentationTime, b: PresentationTime) {
+/** Runtime comparisons also accept exact compiler instants beyond physical clock scales. */
+export type PresentationInstant = Omit<PresentationTime, "timescale"> & {
+  timescale: number | bigint;
+};
+export function comparePresentationTimes(a: PresentationInstant, b: PresentationInstant) {
   const delta = BigInt(a.value) * BigInt(b.timescale) - BigInt(b.value) * BigInt(a.timescale);
   return delta < 0n ? -1 : delta > 0n ? 1 : 0;
 }
@@ -16,12 +20,12 @@ export const microsecondTime = (value: number): PresentationTime => ({
   value: String(value),
   timescale: 1_000_000,
 });
-export const roundedMicroseconds = (time: PresentationTime) =>
+export const roundedMicroseconds = (time: PresentationInstant) =>
   Number(
     (BigInt(time.value) * 2_000_000n + BigInt(time.timescale)) / (2n * BigInt(time.timescale)),
   );
 
-export const floorMicroseconds = (time: PresentationTime) =>
+export const floorMicroseconds = (time: PresentationInstant) =>
   Number((BigInt(time.value) * 1_000_000n) / BigInt(time.timescale));
-export const ceilMicroseconds = (time: PresentationTime) =>
+export const ceilMicroseconds = (time: PresentationInstant) =>
   Number((BigInt(time.value) * 1_000_000n + BigInt(time.timescale) - 1n) / BigInt(time.timescale));

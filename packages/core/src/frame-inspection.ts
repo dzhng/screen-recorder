@@ -2,6 +2,9 @@ import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import {
   compiledFrameSchema,
+  timeValueSchema,
+  compare,
+  fromTime,
   fontReferenceSchema,
   processingTapSchema,
   type ProcessingTap,
@@ -98,14 +101,14 @@ const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
           kind: z.literal("video"),
           status: z.literal("unavailable"),
           ...selectedPicture,
-          requestedSourceUs: time,
+          requestedSourceUs: timeValueSchema,
           reason: z.string().min(1),
         }),
         z.strictObject({
           kind: z.literal("video"),
           status: z.literal("available"),
           ...selectedPicture,
-          requestedSourceUs: time,
+          requestedSourceUs: timeValueSchema,
           actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
           sample: z.object({
             value: z.string().regex(/^-?\d+$/),
@@ -876,7 +879,7 @@ function checkPictureReceipt(
         picture.kind !== layer.kind ||
         (picture.kind === "video" &&
           layer.kind === "video" &&
-          picture.requestedSourceUs !== layer.sourceUs) ||
+          compare(fromTime(picture.requestedSourceUs), fromTime(layer.sourceUs)) !== 0) ||
         (layer.availability !== "available" &&
           (picture.status !== "unavailable" || picture.reason !== layer.availability)) ||
         (layer.availability !== "available" && picture.status === "available")

@@ -14,6 +14,7 @@ import {
   floorMicroseconds,
   microsecondTime,
   type PresentationTime,
+  type PresentationInstant,
 } from "./presentation-time.js";
 import type { TimeRange } from "./timeline.js";
 
@@ -95,7 +96,7 @@ export async function planVisualTrail(
     identity: EvidenceIdentity;
     scene: TrailScene;
     resetFloor?: PointerResetFloor;
-    presentationClock?: { at: PresentationTime; sampleTime: PresentationTime };
+    presentationClock?: { at: PresentationInstant; sampleTime: PresentationTime };
     readScene: (
       at: number,
       trailUs: number,

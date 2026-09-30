@@ -422,3 +422,45 @@ test("windowed opacity retains both neighboring pictures and respects the reques
   const dry = await select(f, () => null, { target: { kind: "output" }, point: { kind: "dry" } });
   expect(dry.map((value) => value.sampleAtUs)).toEqual([0, 5000000, 10000000, 11966666]);
 });
+
+test("scene membership uses exact frame time when its label precedes a fractional clip start", async () => {
+  const f = fixture([
+    {
+      id: "c",
+      trackId: "v",
+      assetId: "asset",
+      streamId: "video",
+      source: { kind: "range", range: { startUs: 1, endUs: 1000001 } },
+      placement: {
+        kind: "project",
+        range: {
+          startUs: { numerator: 166666, denominator: 5 },
+          endUs: { numerator: 5166666, denominator: 5 },
+        },
+      },
+    },
+  ]);
+  const result = await select(f, () => ({
+    generation: "fractional",
+    chunks: [sceneChunk(0, 1, 1)],
+  }));
+  const sides = result.flatMap((candidate) =>
+    candidate.reasons
+      .filter((reason) => reason.kind === "scene")
+      .map((reason) => ({ index: candidate.index, sampleAtUs: candidate.sampleAtUs, reason })),
+  );
+  expect(sides).toMatchObject([
+    {
+      index: 1,
+      sampleAtUs: 33333,
+      reason: {
+        kind: "scene",
+        side: "after",
+        clipId: "c",
+        generation: "fractional",
+        observedSourceUs: 1,
+        projectAtUs: { numerator: 166666, denominator: 5 },
+      },
+    },
+  ]);
+});

@@ -1,3 +1,4 @@
+import { floor, fromTime } from "@screenrec/composition";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
@@ -42,10 +43,10 @@ const renderer: ProjectFrameRenderer = {
           assetId: layer.assetId,
           streamId: layer.streamId,
           requestedSourceUs: layer.sourceUs,
-          actualSourceUs: layer.sourceUs,
+          actualSourceUs: floor(fromTime(layer.sourceUs)),
           sample: {
             value: String(
-              layer.sourceUs +
+              floor(fromTime(layer.sourceUs)) +
                 assets.find(
                   (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
                 )!.originUs,
@@ -336,4 +337,23 @@ test("public visibility projection cannot hide a native receipt with the wrong r
   await f.jobs.idle();
   expect(f.frames.request(request)).toMatchObject({ state: "failed", published: null });
   expect(f.cache.bytes).toBe(0);
+});
+
+test("project frame receipts preserve rational source requests with integer labels", async () => {
+  const f = await fixture();
+  const revision = f.projects.revision(f.projectId);
+  f.projects.apply(f.projectId, {
+    requestId: "cfr",
+    expectedRevisionId: revision.id,
+    operations: [{ operation: "canvas.set", canvas: { fps: { numerator: 30, denominator: 1 } } }],
+  });
+  const request = { projectId: f.projectId, atUs: 999999 };
+  f.frames.request(request);
+  await f.jobs.idle();
+  const ready = f.frames.request(request);
+  expect(ready.state).toBe("ready");
+  expect(ready.published!.frame).toMatchObject({
+    frame: { index: 29, sampleAtUs: 966666, visibleRange: { startUs: 966666, endUs: 1000000 } },
+    pictures: [{ requestedSourceUs: { numerator: 2900000, denominator: 3 } }],
+  });
 });

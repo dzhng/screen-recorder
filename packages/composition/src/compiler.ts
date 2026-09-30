@@ -14,7 +14,7 @@ import {
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
 import { resolvedClip, sourceTime, type ValidatedComposition } from "./model.js";
-import { compare, floor, ceil, fromTime, toTime, type Rational } from "./rational.js";
+import { compare, fromTime, toTime, rational, type Rational } from "./rational.js";
 import {
   isMediaClip,
   rangeSchema,
@@ -53,10 +53,13 @@ function frameClock(fps: Fraction) {
   const numerator = BigInt(fps.numerator),
     denominator = 1000000n * BigInt(fps.denominator);
   return {
-    timeAt: (index: bigint) => (index * denominator) / numerator,
-    // Floor timestamps make an exact integer boundary slightly earlier than k * period.
-    indexAt: (time: bigint) => ((time + 1n) * numerator + denominator - 1n) / denominator - 1n,
-    firstAtOrAfter: (time: number) => (BigInt(time) * numerator + denominator - 1n) / denominator,
+    labelAt: (index: bigint) => (index * denominator) / numerator,
+    exactTimeAt: (index: bigint) => rational(index * denominator, numerator),
+    // Display-cell selection uses floor labels, including skipped empty cells.
+    indexAtLabel: (time: bigint) => ((time + 1n) * numerator + denominator - 1n) / denominator - 1n,
+    firstAtOrAfter: (time: Rational) =>
+      (time.numerator * numerator + time.denominator * denominator - 1n) /
+      (time.denominator * denominator),
   };
 }
 
@@ -65,8 +68,8 @@ function frameTiming(
   index: bigint,
   range: Range,
 ): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> {
-  const sampleAtUs = safeInteger(clock.timeAt(index));
-  const next = clock.timeAt(index + 1n);
+  const sampleAtUs = safeInteger(clock.labelAt(index));
+  const next = clock.labelAt(index + 1n);
   return {
     index: safeInteger(index),
     sampleAtUs,
@@ -143,12 +146,11 @@ function compileSchedules(
     },
     *frames(input: Range): Generator<CompiledFrame> {
       const range = checkedRange(input);
-      let index = clock.indexAt(BigInt(range.startUs));
+      let index = clock.indexAtLabel(BigInt(range.startUs));
       for (;;) {
-        const timestamp = clock.timeAt(index);
+        const timestamp = clock.labelAt(index);
         if (timestamp >= BigInt(range.endUs)) return;
-        const atUs = safeInteger(timestamp);
-        const at = fromTime(atUs);
+        const at = clock.exactTimeAt(index);
         const layers: CompiledFrame["layers"] = [];
         const active = query(at);
         for (const value of active) {
@@ -179,7 +181,7 @@ function compileSchedules(
             streamId: clip.streamId,
             ...(value.stream!.kind === "image"
               ? { kind: "image" as const }
-              : { kind: "video" as const, sourceUs: floor(sourceTime(value, at)) }),
+              : { kind: "video" as const, sourceUs: toTime(sourceTime(value, at)) }),
             availability:
               anchor === undefined || compare(anchor.start, at) > 0
                 ? "anchor-unavailable"
@@ -190,7 +192,7 @@ function compileSchedules(
             height: value.stream!.kind === "audio" ? 0 : value.stream!.height,
           });
         }
-        const nextTimestamp = clock.timeAt(index + 1n);
+        const nextTimestamp = clock.labelAt(index + 1n);
         yield {
           ...frameTiming(clock, index, range),
           layers,
@@ -200,10 +202,10 @@ function compileSchedules(
               tap,
               "video",
             ),
-            atUs,
+            toTime(at),
           ),
         };
-        index = clock.indexAt(nextTimestamp);
+        index = clock.indexAtLabel(nextTimestamp);
       }
     },
   };
@@ -220,11 +222,11 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
   const clock = frameClock(model.document.canvas.fps);
   const contexts = audioContexts(model);
   function contributors(range: Range, sampleRate = 48000) {
-    const leading = clock.indexAt(BigInt(range.startUs));
+    const leading = clock.indexAtLabel(BigInt(range.startUs));
     const candidates = new Map(
       query(fromTime(range.startUs), fromTime(range.endUs)).map((value) => [value.clip.id, value]),
     );
-    for (const value of query(fromTime(safeInteger(clock.timeAt(leading)))))
+    for (const value of query(clock.exactTimeAt(leading)))
       if (value.track.kind === "video") candidates.set(value.clip.id, value);
     return [...candidates.values()]
       .filter((value) => {
@@ -239,11 +241,11 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
               sampleAt(value.range.end, sampleRate),
             )
           );
-        const first = clock.firstAtOrAfter(ceil(value.range.start));
-        const sample = clock.timeAt(first > leading ? first : leading);
+        const first = clock.firstAtOrAfter(value.range.start);
+        const sampleIndex = clock.indexAtLabel(clock.labelAt(first > leading ? first : leading));
+        const sample = clock.exactTimeAt(sampleIndex);
         return (
-          sample < BigInt(range.endUs) &&
-          compare(fromTime(safeInteger(sample)), value.range.end) < 0
+          clock.labelAt(sampleIndex) < BigInt(range.endUs) && compare(sample, value.range.end) < 0
         );
       })
       .sort((a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start));
@@ -384,22 +386,36 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       const tap = processingTapSchema.parse(input);
       return temporal.boundaries(processing(model.clips, tap, "video")).map(toTime);
     },
-    /** Neighbors of an exact boundary in the existing integer-microsecond picture clock. */
+    /** Authoritative execution instant; frame descriptors keep integer display labels. */
+    frameTime(index: number): TimeValue {
+      if (!Number.isSafeInteger(index) || index < 0)
+        throw new CompositionError(
+          "INVALID_TIME",
+          "Frame index must be a nonnegative safe integer",
+        );
+      return toTime(clock.exactTimeAt(BigInt(index)));
+    },
+    /** Exact execution neighbors, represented by the existing integer frame-cell labels. */
     frameBoundary(at: TimeValue) {
       const parsed = timeValueSchema.safeParse(at);
       if (!parsed.success || compare(fromTime(parsed.data), fromTime(model.durationUs)) > 0)
         throw new CompositionError("INVALID_TIME", "Frame boundary must be within the project");
-      const threshold = ceil(fromTime(parsed.data));
+      const threshold = fromTime(parsed.data);
       const picture = (
         index: bigint,
       ): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> | null => {
-        const sample = clock.timeAt(index);
+        const sample = clock.labelAt(index);
         if (sample >= BigInt(model.durationUs)) return null;
         return frameTiming(clock, index, { startUs: 0, endUs: model.durationUs });
       };
+      const first = clock.firstAtOrAfter(threshold);
+      const after = clock.indexAtLabel(clock.labelAt(first));
       return {
-        before: threshold === 0 ? null : picture(clock.indexAt(BigInt(threshold - 1))),
-        after: picture(clock.indexAt(clock.timeAt(clock.firstAtOrAfter(threshold)))),
+        before:
+          clock.labelAt(first) === 0n
+            ? null
+            : picture(clock.indexAtLabel(clock.labelAt(first) - 1n)),
+        after: picture(after),
       };
     },
     /** Validate target and step scope without inventing a render range for an empty project. */
