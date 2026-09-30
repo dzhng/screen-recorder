@@ -3,8 +3,8 @@
 Status: native implementation and scoped technical verification pass. Root reran
 45 follow checks and14 preserve checks, including the300-run descriptor repair.
 The [fractional-rate feasibility probe](../assets/14d-follow-feasibility/README.md)
-explains the converter decision; production evidence is being retained in this
-checkpoint. No new perceptual acceptance is inferred. Public binding/delivery
+explains the converter decision; [production evidence](../assets/14d-pitch-follow/README.md)
+retains native reports and measured cross-run float variation. No new perceptual acceptance is inferred. Public binding/delivery
 remain14e. Dependencies:14b request-local retained-run preparation.
 
 ## Contract and seam

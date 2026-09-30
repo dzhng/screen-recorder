@@ -74,7 +74,14 @@ Prepared request snapshots and returned submission settings are copies; caller
 mutation cannot alter the private pin after validation. Admission ownership above
 applies to audio, preparation, acoustic inspection and previews.
 
-## JS/core/service verification
+## Verification evidence
+
+[Native admission](../assets/14e-native-admission/README.md) retains48 actual Wire
+checks, linked-stereo reference parity and follow/preserve regressions. Root
+verified all151 members across the14d/14e native archives and their39 committed
+source identities.
+
+### JS/core/service
 
 - Build and core/service type checks passed.
 - Service plus affected core cohort: 22 files, 223 passed, three existing skips.

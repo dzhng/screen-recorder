@@ -1,0 +1,13 @@
+{
+  "native14d": {
+    "archiveMembers": 71,
+    "reports": 3,
+    "committedSources": 17
+  },
+  "native14e": {
+    "archiveMembers": 80,
+    "reports": 7,
+    "committedSources": 22
+  },
+  "validation": "All archived member hashes, report hashes and source hashes at their recorded commits match. Root public20output audio proof independently executes the same14e Wire worker. Root earlier isolated14d build reran45follow+14preserve checks. No redundant native14e build claimed."
+}
