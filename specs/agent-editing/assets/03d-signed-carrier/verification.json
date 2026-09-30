@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "scope": "Canonical signed carrier only; admission cutover not yet performed.",
+  "compositionTests": 258,
+  "nativePureAndDefaultPassed": true,
+  "negativeSelectionMutationFailed": true,
+  "rootFocusedTSAndNativeReplayPassed": true,
+  "independentRootCodeReview": "clean",
+  "cliReview": "Configured model unsupported; independent root review substituted.",
+  "nativeTestBinarySha256": "11d2dca2ac09f0ec7fdb08cc7ae4536714e5928a51ac881a7e5b4973903c304a",
+  "sources": {
+    "packages/composition/src/rational.ts": "9978c219bedfa80665b829f7d055df1d48f01fd40776e6b1eb4879026addcdb3",
+    "packages/composition/src/schema.ts": "c13fd4ab58a64cbdf1ca81d2d456e7318550f4c58e0e25770317cd113d0710ca",
+    "packages/composition/src/rational.test.ts": "3e404f0bed757fb0c0ec327614d0b58da59e392db2ec0d700fc96ae5d2c4a570",
+    "helpers/mac/Sources/ScreenRecorderMedia/ExactTime.swift": "0698fcd92fa12367540993fac694924acf8cbbc1c92be4a508bb2afdaa07fb4a",
+    "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift": "9b0d1f9da60e356cb0da8c13c163ef3b3d7c56e26bea12457426a5ac3e295251",
+    "helpers/mac/Tests/CompositionAudio/main.swift": "47e9728461e784e59b580e8715e14b9b77dc3a366a4e8a02c48193adb12baeea"
+  },
+  "logs": {
+    "review.log.gz": "8d29c5ac53d9dcf446aa58b0b619af44e871e25c4d7caba511642bbceb327904",
+    "ts.log.gz": "3b4be3244614ae0b18e8a0ed32e19766226d05fbb42e30fd5913bfb13b16b771",
+    "native-mutation.log.gz": "944eba44c850d7395ce77095dd885defa3048ff906267970c6bc5cc92670c697",
+    "native-default.log.gz": "b3d7edcec58cf9ef3e5dff27839baea946978c67d626cd32638382255fc251aa",
+    "native.log.gz": "0308b8b021f80317fede61ca45100786e34351e3b64bab2f1ddae1deef4aea6d",
+    "types.log.gz": "b7ecc63a4efc72f690446bcda4493224e3ce2bb2807f419e495931be01ee8576"
+  }
+}

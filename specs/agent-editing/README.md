@@ -18,8 +18,8 @@ requirement below remains in scope. Read [contracts](contracts.md),
 verified public operations; the installed app has not switched engines.
 
 Current pickup is the [03d exact admission correction](slices/03d-exact-media-admission.md),
-whose physical-authority evidence now matches complete decoded PCM. Finish the
-canonical signed carrier, then the atomic consumer cutover. Continue
+whose physical-authority and signed-carrier passes are verified. Integrate and
+verify the atomic native/TypeScript consumer cutover, then targeted preservation. Continue
 [15a3 post-retime quality](slices/15a3-denoise-acceptance.md),
 with [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
