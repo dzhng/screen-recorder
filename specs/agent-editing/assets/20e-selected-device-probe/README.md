@@ -103,3 +103,7 @@ media. Reviews and exact invocation receipts are retained in the archive.
 [Graceful-stop correction](graceful-stop/README.md) follows the real selected take:
 app quit now reaches shared finalization, with offline regression evidence and
 physical/AppKit limitations explicit. Camera decoder recovery is separate.
+
+[Saved candidate diagnostic](candidate-reader/README.md) completes in isolation
+but reveals a mapped-timestamp mismatch; it neither explains the original hang
+nor earns camera publication. Original inputs and refusal remain retained.

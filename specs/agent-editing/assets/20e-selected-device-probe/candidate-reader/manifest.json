@@ -1,0 +1,42 @@
+[
+  {
+    "path": "Reader.swift",
+    "bytes": 2331,
+    "sha256": "88f87593f532a1c0bd12b4c386bca1966cb93a2ccbff46566c45a956bd3f255a"
+  },
+  {
+    "path": "SampleTiming.swift",
+    "bytes": 3364,
+    "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+  },
+  {
+    "path": "build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "mapping-comparison.json",
+    "bytes": 654,
+    "sha256": "84d6adc93a826c902cc0be3cef800767f571567d2fa0aa6583757707d425b4d5"
+  },
+  {
+    "path": "report.json",
+    "bytes": 841,
+    "sha256": "14d6f63071a0fdad3a98bc7f791baad78bf90dce70806ef1115523759404bc04"
+  },
+  {
+    "path": "run.py",
+    "bytes": 1653,
+    "sha256": "1ab1e007cf72ef3781e7ed55a02f8500ab39fc436c58e08fcef52cfbe5b46c04"
+  },
+  {
+    "path": "stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "trace.jsonl",
+    "bytes": 1542471,
+    "sha256": "216d80833eaa1377d07bc426a1a9f2cd01ac2cd0e38cfa05d8589a4e65e52f9c"
+  }
+]

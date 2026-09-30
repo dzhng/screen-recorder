@@ -1,0 +1,10 @@
+{
+  "archiveSha256": "e4abb55d3273251518bb01749673bff624ccf7a234d6b08b34605e9cda01d78f",
+  "members": 8,
+  "readerSha256": "cbfac349a9381f2b9ca3400620531b2e338cbe9a9d42f885dcf8b46b770ea454",
+  "buildCommand": "swiftc -parse-as-library helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift /tmp/screenrec-camera-reader-diagnostic/Reader.swift -o /tmp/screenrec-camera-reader-diagnostic/reader",
+  "runCommand": "python3 /tmp/screenrec-camera-reader-diagnostic/run.py",
+  "processTerminal": true,
+  "runtimeAttempts": 1,
+  "productionChanges": false
+}
