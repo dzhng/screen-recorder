@@ -1,0 +1,2435 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.segments",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "cases": [
+    {
+      "name": "internal-slower-0.8x",
+      "durationUs": 1574844,
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 106798
+          }
+        }
+      ],
+      "plans": {
+        "full": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.8x/full.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 246478
+          },
+          "receipt": {
+            "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+            "revisionId": "15ad1496-d973-48f0-94df-2edae02aa8cc",
+            "range": {
+              "startUs": 0,
+              "endUs": 5134969
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "8188a9a5-d73a-49e8-b78b-6ded6e00474f",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/77fda9a2-51e9-4d66-b717-6a26395e69a4.cache",
+                "bytes": 1975920,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 246478,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 29114368,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:9ac926628037407a2d93bf2d78912f2b138eb1deaf3e8c5f3e109dcff5c177f4:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:21c96f4457c4fcf214d1403e5fb0e3db67051a194588c74a022175e5b1bab0cf:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:b6101be43f5f8dea5e2b6cc435d554b8cd6b2cadf9cd49eddea6a03e5b14c47a:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 5134969
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+                "revisionId": "15ad1496-d973-48f0-94df-2edae02aa8cc",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 246478
+                },
+                "cacheId": "77fda9a2-51e9-4d66-b717-6a26395e69a4"
+              }
+            },
+            "delivery": {
+              "token": "232a1496-c140-4ac7-9c3d-96679791f073",
+              "bytes": 1975920,
+              "expiresAt": 1790754140133
+            }
+          },
+          "sha256": "7aa99584016fdac1a726dfbc4bf7a166606e9bbcb5d8f74c476957b383a5e502"
+        },
+        "split": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.8x/split.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 246478
+          },
+          "receipt": {
+            "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+            "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+            "range": {
+              "startUs": 0,
+              "endUs": 5134969
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "1ecf8926-21cc-4ab8-a2ed-92f459ba521a",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/5a26e1fe-5784-4b99-8165-36fe30cb46a1.cache",
+                "bytes": 1975920,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 246478,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 29163520,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:9ac926628037407a2d93bf2d78912f2b138eb1deaf3e8c5f3e109dcff5c177f4:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:21c96f4457c4fcf214d1403e5fb0e3db67051a194588c74a022175e5b1bab0cf:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:35a5630eea7d2837ff8ec2c172e67c698d3e68c7587c40463086afd5df7d458c:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:b6101be43f5f8dea5e2b6cc435d554b8cd6b2cadf9cd49eddea6a03e5b14c47a:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 5134969
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+                "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 246478
+                },
+                "cacheId": "5a26e1fe-5784-4b99-8165-36fe30cb46a1"
+              }
+            },
+            "delivery": {
+              "token": "c45ef2ba-e759-4fec-83fc-079e70726a0b",
+              "bytes": 1975920,
+              "expiresAt": 1790754140499
+            }
+          },
+          "sha256": "7aa99584016fdac1a726dfbc4bf7a166606e9bbcb5d8f74c476957b383a5e502"
+        },
+        "short": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.8x/short.json",
+          "sampleRange": {
+            "start": 69050,
+            "end": 70010
+          },
+          "receipt": {
+            "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+            "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+            "range": {
+              "startUs": 1438547,
+              "endUs": 1458547
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "25a06ef1-5156-43c6-b869-397e5cd6d04a",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/33ed1d51-1601-4283-866f-34f83b3e80da.cache",
+                "bytes": 11776,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 960,
+                "peak": 0.041650913655757904,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 960,
+                "peakResidentBytes": 25935872,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:35a5630eea7d2837ff8ec2c172e67c698d3e68c7587c40463086afd5df7d458c:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 1438547,
+                  "endUs": 1458547
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+                "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 69050,
+                  "end": 70010
+                },
+                "cacheId": "33ed1d51-1601-4283-866f-34f83b3e80da"
+              }
+            },
+            "delivery": {
+              "token": "b556e40b-1a16-4d09-a4a9-f8581fb3c90c",
+              "bytes": 11776,
+              "expiresAt": 1790754140755
+            }
+          },
+          "sha256": "a39c3b81981fe57de2a6cc8a680511fd0557135ab6a4216372713cb5e2360936"
+        },
+        "left": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.8x/left.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 69002
+          },
+          "receipt": {
+            "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+            "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+            "range": {
+              "startUs": 0,
+              "endUs": 1437547
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "3ed70446-4797-443c-a209-14ad59461bff",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/454ce3ec-880a-43d8-b9a3-afafecc3caf9.cache",
+                "bytes": 556112,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 69002,
+                "peak": 0.08276484906673431,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 26378240,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:9ac926628037407a2d93bf2d78912f2b138eb1deaf3e8c5f3e109dcff5c177f4:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:21c96f4457c4fcf214d1403e5fb0e3db67051a194588c74a022175e5b1bab0cf:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1437547
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+                "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 69002
+                },
+                "cacheId": "454ce3ec-880a-43d8-b9a3-afafecc3caf9"
+              }
+            },
+            "delivery": {
+              "token": "cbe61a35-2ea9-4349-b25e-993c68f66ba7",
+              "bytes": 556112,
+              "expiresAt": 1790754140981
+            }
+          },
+          "sha256": "628ec7a95e3755d6adf86c4e9a83eb468f7c6e4fd1cfdcb2f922b7759c3859f0"
+        },
+        "right": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.8x/right.json",
+          "sampleRange": {
+            "start": 69002,
+            "end": 246478
+          },
+          "receipt": {
+            "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+            "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+            "range": {
+              "startUs": 1437547,
+              "endUs": 5134969
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "3bad8a86-8d2e-47ca-8823-81b9c8972905",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/07ad0619-d74e-41f7-aa05-917aac29f56c.cache",
+                "bytes": 1423904,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 177476,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 28999680,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:35a5630eea7d2837ff8ec2c172e67c698d3e68c7587c40463086afd5df7d458c:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:b6101be43f5f8dea5e2b6cc435d554b8cd6b2cadf9cd49eddea6a03e5b14c47a:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 1437547,
+                  "endUs": 5134969
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "bb392e33-556b-4567-a20f-b1d9c84ea8bb",
+                "revisionId": "ea055d9d-c938-495c-8639-408e423ec1ad",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 69002,
+                  "end": 246478
+                },
+                "cacheId": "07ad0619-d74e-41f7-aa05-917aac29f56c"
+              }
+            },
+            "delivery": {
+              "token": "8235f5d7-8ab2-4003-9d96-428330a89d39",
+              "bytes": 1423904,
+              "expiresAt": 1790754141314
+            }
+          },
+          "sha256": "6872baf211a0a3dacffa4ad0a265c98621d1efdb6d376b00c39e64fdfb27e781"
+        }
+      },
+      "publicRevision": "15ad1496-d973-48f0-94df-2edae02aa8cc",
+      "exactAcceptedSampleCount": true,
+      "pureSplitKeepsFullRun": true,
+      "shortQueryKeepsFullRun": true,
+      "nativePCMVerified": false,
+      "publicPCMVerified": true
+    },
+    {
+      "name": "internal-slower-0.9x",
+      "durationUs": 1399861,
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 98399
+          }
+        }
+      ],
+      "plans": {
+        "full": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.9x/full.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 238079
+          },
+          "receipt": {
+            "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+            "revisionId": "75b0546b-7d5e-43ca-9fd7-0a4fcf5450c7",
+            "range": {
+              "startUs": 0,
+              "endUs": 4959986
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "8a67def9-4c67-403d-8651-4ffde3d73ac3",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/f9083e32-c30b-4e39-a090-e91ac0c2f13d.cache",
+                "bytes": 1908728,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 238079,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 29032448,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:b0aceea78172fb4aa58a7ec639afa93f9f2eb3e634d32be39dc0b2e46ecc75fb:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:0966dcebb1c46e8ff05c29c0a69cc8f1fc6b02a693f8f5389e073035e5086f32:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:39344df73561bb90149a9d5cd7c96f540145e0012e4add258653ab2966479b9e:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 4959986
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+                "revisionId": "75b0546b-7d5e-43ca-9fd7-0a4fcf5450c7",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 238079
+                },
+                "cacheId": "f9083e32-c30b-4e39-a090-e91ac0c2f13d"
+              }
+            },
+            "delivery": {
+              "token": "156fbc7a-c1da-4907-931e-6fe8181dab99",
+              "bytes": 1908728,
+              "expiresAt": 1790754142100
+            }
+          },
+          "sha256": "d2d66cc76c6fa7da0497f9d5ecacc38bd6f675a7a37f4d26306004ceb73a3c47"
+        },
+        "split": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.9x/split.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 238079
+          },
+          "receipt": {
+            "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+            "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+            "range": {
+              "startUs": 0,
+              "endUs": 4959986
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "91296516-9ef0-424e-8d05-c70d45ebf2d0",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/73d027bf-36c0-49d9-9680-526ffee96c65.cache",
+                "bytes": 1908728,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 238079,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 29147136,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:b0aceea78172fb4aa58a7ec639afa93f9f2eb3e634d32be39dc0b2e46ecc75fb:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:0966dcebb1c46e8ff05c29c0a69cc8f1fc6b02a693f8f5389e073035e5086f32:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:18441b09e98a2d828109ce65a4217a956a3315bc84c170fdad08b748b0143bd1:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:39344df73561bb90149a9d5cd7c96f540145e0012e4add258653ab2966479b9e:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 4959986
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+                "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 238079
+                },
+                "cacheId": "73d027bf-36c0-49d9-9680-526ffee96c65"
+              }
+            },
+            "delivery": {
+              "token": "998348db-ce7c-40cd-8b01-4a691e7fb74d",
+              "bytes": 1908728,
+              "expiresAt": 1790754142457
+            }
+          },
+          "sha256": "d2d66cc76c6fa7da0497f9d5ecacc38bd6f675a7a37f4d26306004ceb73a3c47"
+        },
+        "short": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.9x/short.json",
+          "sampleRange": {
+            "start": 64850,
+            "end": 65810
+          },
+          "receipt": {
+            "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+            "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+            "range": {
+              "startUs": 1351055,
+              "endUs": 1371055
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "3b31abea-18c4-47ed-a285-059e9d908722",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/69cf2d22-6610-4db7-abca-79181eb0c67f.cache",
+                "bytes": 11776,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 960,
+                "peak": 0.03916359692811966,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 960,
+                "peakResidentBytes": 25804800,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:18441b09e98a2d828109ce65a4217a956a3315bc84c170fdad08b748b0143bd1:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 1351055,
+                  "endUs": 1371055
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+                "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 64850,
+                  "end": 65810
+                },
+                "cacheId": "69cf2d22-6610-4db7-abca-79181eb0c67f"
+              }
+            },
+            "delivery": {
+              "token": "d20676f6-7d28-45fd-b1fb-543f3c9f6b8a",
+              "bytes": 11776,
+              "expiresAt": 1790754142710
+            }
+          },
+          "sha256": "1536c3e9c96030aae3b943410dffb784aa71085f506f24e66ec8d32fb1e94b68"
+        },
+        "left": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.9x/left.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 64802
+          },
+          "receipt": {
+            "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+            "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+            "range": {
+              "startUs": 0,
+              "endUs": 1350055
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "1149bc95-0db5-43b1-8a44-456cd87af787",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/7c34972c-67bb-4753-b918-8a2c08b6033c.cache",
+                "bytes": 522512,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 64802,
+                "peak": 0.08276484906673431,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 26296320,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:b0aceea78172fb4aa58a7ec639afa93f9f2eb3e634d32be39dc0b2e46ecc75fb:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:0966dcebb1c46e8ff05c29c0a69cc8f1fc6b02a693f8f5389e073035e5086f32:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1350055
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+                "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 64802
+                },
+                "cacheId": "7c34972c-67bb-4753-b918-8a2c08b6033c"
+              }
+            },
+            "delivery": {
+              "token": "d8270d78-bee0-4d86-abf1-73e27397f0cf",
+              "bytes": 522512,
+              "expiresAt": 1790754142934
+            }
+          },
+          "sha256": "2f4b6501766f258c9d9ef9ffe455852378256596d0060c30d2c2baf41e04607e"
+        },
+        "right": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-slower-0.9x/right.json",
+          "sampleRange": {
+            "start": 64802,
+            "end": 238079
+          },
+          "receipt": {
+            "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+            "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+            "range": {
+              "startUs": 1350055,
+              "endUs": 4959986
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "7a1fab9d-0497-4a3d-9738-272e803d66a2",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/51de6cef-8083-4222-a4f6-fc6dd9976f3b.cache",
+                "bytes": 1390312,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 173277,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 28966912,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:18441b09e98a2d828109ce65a4217a956a3315bc84c170fdad08b748b0143bd1:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:39344df73561bb90149a9d5cd7c96f540145e0012e4add258653ab2966479b9e:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 1350055,
+                  "endUs": 4959986
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "2988076e-891b-454b-9459-11bb97d8db0c",
+                "revisionId": "4e256ead-b5ba-4f10-9599-b430f27b1b39",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 64802,
+                  "end": 238079
+                },
+                "cacheId": "51de6cef-8083-4222-a4f6-fc6dd9976f3b"
+              }
+            },
+            "delivery": {
+              "token": "336516ec-6065-40da-bed2-9c9c8c1b2b4c",
+              "bytes": 1390312,
+              "expiresAt": 1790754143267
+            }
+          },
+          "sha256": "c432dd56ad5cd8b5e3ca4ada202b06d60d3894c64837244aeb757c0d03d492d2"
+        }
+      },
+      "publicRevision": "75b0546b-7d5e-43ca-9fd7-0a4fcf5450c7",
+      "exactAcceptedSampleCount": true,
+      "pureSplitKeepsFullRun": true,
+      "shortQueryKeepsFullRun": true,
+      "nativePCMVerified": false,
+      "publicPCMVerified": true
+    },
+    {
+      "name": "internal-faster-1.25x",
+      "durationUs": 1007900,
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 79585
+          }
+        }
+      ],
+      "plans": {
+        "full": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-faster-1.25x/full.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 219265
+          },
+          "receipt": {
+            "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+            "revisionId": "d8feca47-22a7-4e5f-b8ce-749792738e7e",
+            "range": {
+              "startUs": 0,
+              "endUs": 4568025
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "5caf737d-bd3d-4241-bd66-6cb9d628bc0e",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/d84b6817-6456-4a3c-b9f2-287a9d370b25.cache",
+                "bytes": 1758216,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 219265,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 29097984,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:52c3eb428fe2637cd2377a0a61a3bdb63bd815b89f7c5f480bd3d18ef029d088:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:93387f6f47a53e18b72cfb7af6fcfb39f722dda5926ffeeae267a615a3a50679:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:3b300d8fe47428ae8737096d35fa9054e943e9bfec2f2c1e32bf42e9963c9eb6:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 4568025
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+                "revisionId": "d8feca47-22a7-4e5f-b8ce-749792738e7e",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 219265
+                },
+                "cacheId": "d84b6817-6456-4a3c-b9f2-287a9d370b25"
+              }
+            },
+            "delivery": {
+              "token": "44ba6d74-a15e-407e-8ab5-6abe523845cf",
+              "bytes": 1758216,
+              "expiresAt": 1790754144040
+            }
+          },
+          "sha256": "4bbfcb6812ff67bcc1b24228d63b8a7e3f4e7bdadcee89cd91b270018dcb0439"
+        },
+        "split": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-faster-1.25x/split.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 219265
+          },
+          "receipt": {
+            "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+            "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+            "range": {
+              "startUs": 0,
+              "endUs": 4568025
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "2dcdcce2-339e-43fb-8e7a-c3f9b1b70cbf",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/f9b611e0-9a0d-4d20-a440-8b56a3a6542d.cache",
+                "bytes": 1758216,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 219265,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 29179904,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:52c3eb428fe2637cd2377a0a61a3bdb63bd815b89f7c5f480bd3d18ef029d088:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:93387f6f47a53e18b72cfb7af6fcfb39f722dda5926ffeeae267a615a3a50679:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:109bdf4804f31355eb911ad410a19738a04117c0fce028fc83cdee6b6cefc67e:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:3b300d8fe47428ae8737096d35fa9054e943e9bfec2f2c1e32bf42e9963c9eb6:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 4568025
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+                "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 219265
+                },
+                "cacheId": "f9b611e0-9a0d-4d20-a440-8b56a3a6542d"
+              }
+            },
+            "delivery": {
+              "token": "fc2e9110-6c47-4e60-859c-184a16064a0c",
+              "bytes": 1758216,
+              "expiresAt": 1790754144393
+            }
+          },
+          "sha256": "4bbfcb6812ff67bcc1b24228d63b8a7e3f4e7bdadcee89cd91b270018dcb0439"
+        },
+        "short": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-faster-1.25x/short.json",
+          "sampleRange": {
+            "start": 55443,
+            "end": 56403
+          },
+          "receipt": {
+            "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+            "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+            "range": {
+              "startUs": 1155075,
+              "endUs": 1175075
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "d6612d8f-9264-478f-acba-9d09fae807df",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/7e1c55dc-32ba-4705-8853-92ac1be77ca3.cache",
+                "bytes": 11776,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 960,
+                "peak": 0.0237015038728714,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 960,
+                "peakResidentBytes": 25837568,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:109bdf4804f31355eb911ad410a19738a04117c0fce028fc83cdee6b6cefc67e:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 1155075,
+                  "endUs": 1175075
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+                "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 55443,
+                  "end": 56403
+                },
+                "cacheId": "7e1c55dc-32ba-4705-8853-92ac1be77ca3"
+              }
+            },
+            "delivery": {
+              "token": "014f913f-1fe5-48af-b71a-ea51f91d093b",
+              "bytes": 11776,
+              "expiresAt": 1790754144643
+            }
+          },
+          "sha256": "d656c28799999bcabe1aca2ca5a76db92120cacb34a441d7d85d54952a6c100a"
+        },
+        "left": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-faster-1.25x/left.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 55395
+          },
+          "receipt": {
+            "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+            "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+            "range": {
+              "startUs": 0,
+              "endUs": 1154075
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "3a800b2d-29ba-4165-bb9b-89ae8922a714",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/d87eea46-5fca-454e-8159-357697e742e4.cache",
+                "bytes": 447256,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 55395,
+                "peak": 0.08276484906673431,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 26329088,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:52c3eb428fe2637cd2377a0a61a3bdb63bd815b89f7c5f480bd3d18ef029d088:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:93387f6f47a53e18b72cfb7af6fcfb39f722dda5926ffeeae267a615a3a50679:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1154075
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+                "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 55395
+                },
+                "cacheId": "d87eea46-5fca-454e-8159-357697e742e4"
+              }
+            },
+            "delivery": {
+              "token": "f40daf9b-f2fd-4127-8c4c-e68d69269d88",
+              "bytes": 447256,
+              "expiresAt": 1790754144867
+            }
+          },
+          "sha256": "aca87e93b1c7314cffeebe68fb3bb92b7bce5bd906ca0d46f8d08e02165fb94f"
+        },
+        "right": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/internal-faster-1.25x/right.json",
+          "sampleRange": {
+            "start": 55395,
+            "end": 219265
+          },
+          "receipt": {
+            "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+            "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+            "range": {
+              "startUs": 1154075,
+              "endUs": 4568025
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "9c80a9e2-a9eb-4b66-8ea8-6b276bff76fd",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/15ca66a4-f128-492c-bd67-83dcaa7fa38d.cache",
+                "bytes": 1315056,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 163870,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 28983296,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:109bdf4804f31355eb911ad410a19738a04117c0fce028fc83cdee6b6cefc67e:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:3b300d8fe47428ae8737096d35fa9054e943e9bfec2f2c1e32bf42e9963c9eb6:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 1154075,
+                  "endUs": 4568025
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "426e4b4c-498e-4c92-94b2-48a798f15e4f",
+                "revisionId": "2481ebc7-ef95-4477-aa68-82237a37d4e6",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 55395,
+                  "end": 219265
+                },
+                "cacheId": "15ca66a4-f128-492c-bd67-83dcaa7fa38d"
+              }
+            },
+            "delivery": {
+              "token": "5dcebbe4-ea0f-4d00-ab71-700fc5c28b46",
+              "bytes": 1315056,
+              "expiresAt": 1790754145197
+            }
+          },
+          "sha256": "176a31b43ef896139ec0737e5f2ccb46fbb5915884ac60e0ddfecaebb96de0d8"
+        }
+      },
+      "publicRevision": "d8feca47-22a7-4e5f-b8ce-749792738e7e",
+      "exactAcceptedSampleCount": true,
+      "pureSplitKeepsFullRun": true,
+      "shortQueryKeepsFullRun": true,
+      "nativePCMVerified": false,
+      "publicPCMVerified": true
+    },
+    {
+      "name": "opening-slower-0.8x",
+      "durationUs": 812656,
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 650125
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 39007
+          }
+        }
+      ],
+      "plans": {
+        "full": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/opening-slower-0.8x/full.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 239161
+          },
+          "receipt": {
+            "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+            "revisionId": "95f13277-578b-4d49-a1d5-70ab0fbe3d8a",
+            "range": {
+              "startUs": 0,
+              "endUs": 4982531
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "08fc17ba-ed65-4e5a-96c4-b0fd8b7ef5a2",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/338ada8e-d855-4e05-b975-b40d0dff76f5.cache",
+                "bytes": 1917384,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 239161,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 30326784,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:fed3079a0b7387df75b06cb516bf4e49b82aa7ed17433dcb656af8838f0a8c8d:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:25e979b7a96e27cb417facf5ceb3950d52885323c4f08ba5b0e96115c5f7e7fd:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 4982531
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+                "revisionId": "95f13277-578b-4d49-a1d5-70ab0fbe3d8a",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 239161
+                },
+                "cacheId": "338ada8e-d855-4e05-b975-b40d0dff76f5"
+              }
+            },
+            "delivery": {
+              "token": "2ea54c1a-7164-417f-a847-91bccda8524b",
+              "bytes": 1917384,
+              "expiresAt": 1790754145884
+            }
+          },
+          "sha256": "96e4710a98acf731f5b55bfe0381e3453d422223145b6ac14c8d7e975de1070e"
+        },
+        "split": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/opening-slower-0.8x/split.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 239161
+          },
+          "receipt": {
+            "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+            "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+            "range": {
+              "startUs": 0,
+              "endUs": 4982531
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "3c084ab4-f220-4f4a-be1a-ab1f6e11b678",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/f0319f18-3484-4ee1-8f9a-695e391bcf78.cache",
+                "bytes": 1917384,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 239161,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 30392320,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:fed3079a0b7387df75b06cb516bf4e49b82aa7ed17433dcb656af8838f0a8c8d:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:e2a66770d6548931045087e22fe1147ad2df9c537a5207fdfefb2b71e4a50425:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:25e979b7a96e27cb417facf5ceb3950d52885323c4f08ba5b0e96115c5f7e7fd:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 4982531
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+                "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 239161
+                },
+                "cacheId": "f0319f18-3484-4ee1-8f9a-695e391bcf78"
+              }
+            },
+            "delivery": {
+              "token": "5ad926a2-89bd-4bd0-b381-b75667aed9bb",
+              "bytes": 1917384,
+              "expiresAt": 1790754146244
+            }
+          },
+          "sha256": "96e4710a98acf731f5b55bfe0381e3453d422223145b6ac14c8d7e975de1070e"
+        },
+        "short": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/opening-slower-0.8x/short.json",
+          "sampleRange": {
+            "start": 19551,
+            "end": 20511
+          },
+          "receipt": {
+            "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+            "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+            "range": {
+              "startUs": 407328,
+              "endUs": 427328
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "cd988be3-4ef3-499c-828f-5c664e6e9ddb",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/b167aae8-fb91-4b75-a240-bf2526bc2424.cache",
+                "bytes": 11776,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 960,
+                "peak": 0.039259228855371475,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 960,
+                "peakResidentBytes": 25149440,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:e2a66770d6548931045087e22fe1147ad2df9c537a5207fdfefb2b71e4a50425:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 407328,
+                  "endUs": 427328
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+                "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 19551,
+                  "end": 20511
+                },
+                "cacheId": "b167aae8-fb91-4b75-a240-bf2526bc2424"
+              }
+            },
+            "delivery": {
+              "token": "90e63278-40e0-4c43-80e7-b1d1397356f0",
+              "bytes": 11776,
+              "expiresAt": 1790754146501
+            }
+          },
+          "sha256": "deb62faebda4901d84ac18b5a630babfef49df267f35722e95be1b550a0b288f"
+        },
+        "left": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/opening-slower-0.8x/left.json",
+          "sampleRange": {
+            "start": 0,
+            "end": 19503
+          },
+          "receipt": {
+            "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+            "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+            "range": {
+              "startUs": 0,
+              "endUs": 406328
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "4221277b-38c3-4504-81d1-348c682f2436",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/a8434d6e-3d29-40ce-8fdd-b03a21d6eabd.cache",
+                "bytes": 160120,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 19503,
+                "peak": 0.04313282296061516,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 25280512,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:fed3079a0b7387df75b06cb516bf4e49b82aa7ed17433dcb656af8838f0a8c8d:1",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 0,
+                  "endUs": 406328
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+                "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 0,
+                  "end": 19503
+                },
+                "cacheId": "a8434d6e-3d29-40ce-8fdd-b03a21d6eabd"
+              }
+            },
+            "delivery": {
+              "token": "c58221f7-ed41-4e73-a508-17b8e2d30fb9",
+              "bytes": 160120,
+              "expiresAt": 1790754146733
+            }
+          },
+          "sha256": "a63b771dd3195e594f2903e9e4a6c067461fe3cb1a573d357fd9ac2a8f5f2def"
+        },
+        "right": {
+          "path": "/tmp/screenrec-root-public-retime-ad-final/opening-slower-0.8x/right.json",
+          "sampleRange": {
+            "start": 19503,
+            "end": 239161
+          },
+          "receipt": {
+            "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+            "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+            "range": {
+              "startUs": 406328,
+              "endUs": 4982531
+            },
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "091854ef-d7c2-4eee-9367-f587740f8d3d",
+            "published": {
+              "generation": 1,
+              "audio": {
+                "file": "/private/tmp/sr-retime-authoring-MkK73T/library/cache/derived/c05aba2a-e5ac-4d46-a60a-ffd6eb0f5081.cache",
+                "bytes": 1761360,
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 219658,
+                "peak": 0.2365003377199173,
+                "clippedSamples": 0,
+                "maximumBlockFrames": 8192,
+                "peakResidentBytes": 30392320,
+                "decoderContext": {
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000,
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0
+                },
+                "unavailable": [
+                  {
+                    "clipId": "clip:e2a66770d6548931045087e22fe1147ad2df9c537a5207fdfefb2b71e4a50425:0",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:25e979b7a96e27cb417facf5ceb3950d52885323c4f08ba5b0e96115c5f7e7fd:0",
+                    "ranges": []
+                  }
+                ],
+                "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+                "preparedResourceId": null,
+                "range": {
+                  "startUs": 406328,
+                  "endUs": 4982531
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-audio-v9",
+                "projectId": "dff0d78b-ba7b-441a-89a4-2f74f7f11e25",
+                "revisionId": "517a555a-32bf-4584-8193-22ec1d66a6c2",
+                "mediaType": "audio/wav",
+                "layout": "stereo",
+                "sampleRange": {
+                  "start": 19503,
+                  "end": 239161
+                },
+                "cacheId": "c05aba2a-e5ac-4d46-a60a-ffd6eb0f5081"
+              }
+            },
+            "delivery": {
+              "token": "31ecc432-80c7-4013-a711-169a7ad99242",
+              "bytes": 1761360,
+              "expiresAt": 1790754147071
+            }
+          },
+          "sha256": "e62d31ebc405cd49a4a22b45c814c55f7acf16e06ba4c3cc5204a0a8c1c3cd10"
+        }
+      },
+      "publicRevision": "95f13277-578b-4d49-a1d5-70ab0fbe3d8a",
+      "exactAcceptedSampleCount": true,
+      "pureSplitKeepsFullRun": true,
+      "shortQueryKeepsFullRun": true,
+      "nativePCMVerified": false,
+      "publicPCMVerified": true
+    }
+  ],
+  "nativeSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "scope": "Public integer-duration authoring and delivered audio.get PCM against accepted A-D files.",
+  "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+}

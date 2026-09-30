@@ -10,9 +10,18 @@ import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js"
 import { readAudioWaveFile } from "../../core/dist/audio-wave.js";
 
 const { values } = parseArgs({
-  options: { out: { type: "string" }, renderer: { type: "string" } },
+  options: {
+    out: { type: "string" },
+    renderer: { type: "string" },
+    "public-audio": { type: "boolean" },
+  },
 });
 assert(values.out && process.env.SCREENREC_NATIVE);
+assert(
+  !(values.renderer && values["public-audio"]),
+  "Choose direct native or public audio execution",
+);
+const rendersAudio = Boolean(values.renderer || values["public-audio"]);
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-retime-authoring-"));
 await mkdir(out);
@@ -22,8 +31,9 @@ const report = {
   exchanges: [],
   cases: [],
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
-  scope:
-    "Public integer-duration authoring and compiler plans; native rendering is a separate prerequisite entry, not public capability adoption.",
+  scope: values["public-audio"]
+    ? "Public integer-duration authoring and delivered audio.get PCM against accepted A-D files."
+    : "Public integer-duration authoring and compiler plans; native rendering is a separate prerequisite entry, not public capability adoption.",
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);
@@ -50,7 +60,7 @@ async function pcm(path) {
   return bytes.subarray(info.dataOffset, info.dataOffset + info.dataBytes);
 }
 try {
-  if (values.renderer) {
+  if (rendersAudio) {
     const capabilities = nativeResult(await mediaWorker()("media.audioCapabilities", {}));
     assert.equal(typeof capabilities.retime, "string");
     report.retimeImplementationId = capabilities.retime;
@@ -202,9 +212,25 @@ try {
         });
         plans[variant].receipt = JSON.parse(result.stdout);
         plans[variant].sha256 = hash(await readFile(output));
+      } else if (values["public-audio"]) {
+        const selection = {
+          projectId,
+          revisionId: variant === "full" ? base.id : revision.id,
+          range: window.manifest.range,
+        };
+        plans[variant].receipt = await poll(
+          () => call("audio.get", selection, { transport: "mcp" }),
+          (v) => v.state === "ready",
+          name + "/" + variant,
+        );
+        const attachment = report.exchanges.at(-1).response.content.find((v) => v.type === "audio");
+        assert(attachment, "Ready MCP audio must include its playable attachment");
+        await call("audio.get", selection, { output });
+        plans[variant].sha256 = hash(await readFile(output));
+        assert.equal(hash(Buffer.from(attachment.data, "base64")), plans[variant].sha256);
       }
     }
-    if (values.renderer) {
+    if (rendersAudio) {
       const acceptedWave = await readFile(join(accepted, candidate.path));
       assert.equal(
         hash(acceptedWave),
@@ -237,6 +263,7 @@ try {
       pureSplitKeepsFullRun: true,
       shortQueryKeepsFullRun: true,
       nativePCMVerified: Boolean(values.renderer),
+      publicPCMVerified: Boolean(values["public-audio"]),
     });
   }
   report.passed = true;

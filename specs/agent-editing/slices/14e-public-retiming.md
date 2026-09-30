@@ -70,23 +70,9 @@ audit-choices passes. Missing perceptual evidence stays explicit; accepted mono
 listening must not be repeated as a substitute for a different policy.
 
 
-## Implemented admission invariant
-
-A new produced retime request pins its revision and recipe before awaiting native
-metadata validation. Native owns physical source intersections and exact sample
-admission. The queue remains synchronous: after validation, its existing catalog
-transaction rechecks owner/lifecycle state and commits the preview plus export
-intent together. Waiting export recovery resumes only its exact admitted preview;
-explicit replay/retry may validate a missing dependency asynchronously. Final retry
-admission rechecks abandonment after every await.
-
-Existing jobs, published derivatives and retained prepared PCM do not repeat native
-metadata admission. Produced audio/preview identities include the bound retime
-recipe, while retained delivery keeps the stored PCM identity. Preparation deadlines
-charge distinct full input/output contexts across query and state prerequisites;
-canonical exact rate prevents fractional-rate collisions without charging pure
-splits twice. Returned preview snapshots and submission results cannot mutate the
-private validated pin.
+Prepared request snapshots and returned submission settings are copies; caller
+mutation cannot alter the private pin after validation. Admission ownership above
+applies to audio, preparation, acoustic inspection and previews.
 
 ## JS/core/service verification
 
@@ -113,6 +99,7 @@ private validated pin.
   No broad-suite success is claimed.
 
 Independent review found and resolved exact-rate deadline undercounting, retry's
-post-await abandonment race, and the exposed mutable snapshot. Combined native
-waveform/movie/package delivery, perceptual acceptance, and public journey evidence
-belong to the parent pickup; this pass does not claim them complete.
+post-await abandonment race, and the exposed mutable snapshot. [Public accepted-audio delivery](../assets/14e-public-accepted-audio/README.md) now
+passes complete PCM comparisons for all four accepted selections, including split
+and range reads. Linked video/movie/package delivery remains the parent pickup;
+no new perceptual acceptance is inferred.

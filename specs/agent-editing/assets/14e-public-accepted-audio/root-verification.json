@@ -1,0 +1,28 @@
+{
+  "integrationCommit": "33ed4475",
+  "focusedTests": {
+    "passed": 64,
+    "skipped": 1,
+    "files": 5
+  },
+  "exports": {
+    "passed": 14,
+    "failed": 0
+  },
+  "publicAudio": {
+    "cases": 4,
+    "deliveredOutputs": 20,
+    "actualExchanges": 99,
+    "scope": "Final33ed4475 integration with permanent MCP/CLI attachment equality."
+  },
+  "workers": [
+    {
+      "path": "helpers/mac/.build/debug/screenrec-native",
+      "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+      "sha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3"
+    }
+  ]
+}

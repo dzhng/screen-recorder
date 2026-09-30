@@ -1,0 +1,26 @@
+{
+  "integrationCommit": "33ed4475",
+  "harnessChange": "Adds --public-audio and permanent MCP/CLI attachment equality; committed with this evidence.",
+  "sources": [
+    {
+      "path": "packages/test-harness/editing/retiming-authoring.mjs",
+      "sha256": "61bb810dba119300b46099f50b917b1fa1c1bb0fc6aba84a6c1fe46a69a08bb2"
+    },
+    {
+      "path": "packages/core/src/project-window.ts",
+      "sha256": "7c7f65f80d42fd2e4c3b7ece200ac340759abd8c30ae6a56c53a16e39d662ead"
+    },
+    {
+      "path": "packages/core/src/audio-inspection.ts",
+      "sha256": "5321225c41fd441cc0a5ab8ed3175c660abe780c8a7e6429e370c2d82678d6a9"
+    },
+    {
+      "path": "apps/service/src/project-render.ts",
+      "sha256": "5aa45f6ef6f0f08ba8ef2bf4e9466c39da9eaad48a9a39ce0cc0ec9c9fb0fbde"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift",
+      "sha256": "cc6758594eb2a41531e5750f465464897bc8bf8ac38560f41a2bb01213dcd393"
+    }
+  ]
+}

@@ -37,9 +37,11 @@ Native14e metadata admission and recipe binding are integrated. The isolated Wir
 worker `/tmp/screenrec-native-14e/debug/screenrec-native` has SHA256
 `e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595`;
 48 actual Wire checks cover joint stereo consumption, policy/format/physical-run
-admission and stale identity refusal. Async core/service admission is finishing in
-prepared-package-transfer. Next integrate it and verify the combined public
-linked video/audio and independent-retiming journey. Public delivery remains open;
+admission and stale identity refusal. Async core/service admission is integrated;
+root reran64 focused tests with one existing skip. [Public audio delivery](14e-public-accepted-audio/README.md)
+now matches all four accepted selections through20 full/split/range outputs.
+Next verify linked video/audio and independent retiming in capture-pause-recovery.
+Public video/package delivery remains open;
 no per-run durable cache or second timeline was introduced.
 
 Physical20 still lacks its stated camera duration/precision proof. The
