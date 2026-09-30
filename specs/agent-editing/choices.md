@@ -3942,3 +3942,31 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   does not introduce its own definition of an acquired picture.
 - **Confidence:** high; the remaining limits and original fixture identity are
   explicit, and no further user recording is needed for this scoped evidence.
+
+## Verify background treatments without prescribing an editing style
+
+- **When:** public pause workflow integration.
+- **Choice:** a synthetic source has a known ambience-only section and a separate
+  harmonic foreground. Explicit edits insert silence, fill it with retained audio,
+  or apply selected noise reduction in independent revisions. Matching sample
+  rates allow exact preservation checks without borrowing a boundary tolerance.
+- **Gap:** the user required flexible tools and practical skill guidance; an
+  arbitrary real quiet passage would not establish that the donor lacks speech.
+- **Reach:** the test proves composition, scope, mix and undo mechanics. It cannot
+  prove natural speech, a preferred noise policy or source separation. Overlaps
+  use ordinary separate tracks under the existing track contract.
+- **Verdict:** sound; explicit alternatives remain independently usable, with
+  listening acceptance kept separate from the signal oracle.
+- **Confidence:** high; this directly follows the user's stated product principle.
+
+## Retain full transport evidence only when the journey requests it
+
+- **When:** pause workflow evidence review.
+- **Choice:** the shared test harness snapshots requests and raw CLI/MCP replies
+  before assertions when the report opts into exchanges. Ordinary callers retain
+  compact reports; scale tests do not accumulate every payload unintentionally.
+- **Gap:** summary traces could not show exactly what public requests executed.
+- **Reach:** reviewers can inspect actual calls, including refusals, without a new
+  transport or production logging policy. No public API is added.
+- **Verdict:** sound; evidence fidelity improves without changing runtime behavior.
+- **Confidence:** high; opt-in recording confines resource costs to the test.

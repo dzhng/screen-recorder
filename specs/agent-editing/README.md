@@ -24,7 +24,11 @@ is accepted. The user reports that its deliberate digital-silence pauses sound
 abrupt and requires independent room-tone-fill and noise-reduction tools, with no
 automatic policy choice. Existing extraction, composition/fades and noise stacks
 supply those primitives; [journeys](journeys.md) now names both pause workflows.
-Their full pause-specific listening acceptance is not claimed. The
+The [public pause workflow](assets/pause-audio-public/README.md) now verifies both
+explicit ambience fill and selected noise reduction on a synthetic fixture,
+including exact untouched PCM, bypass/undo and preview/export. Root reran the
+combined journey and verified23 archive members/80 exchanges. Real-voice
+continuity and independent video scope remain unverified. The
 [corrected short-word/internal-rate selections](assets/13a-corrected-selections/README.md)
 now pass numerical/source-isolation checks and await the A–D listening verdict.
 Do not promote old naturalness passes to new media.14 remains gated on13a.

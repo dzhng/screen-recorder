@@ -15,6 +15,28 @@ Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
 
 Composition retime operations resolve durations/attachments; shared jobs prepare exact-identity stretched derivatives; native consumes independent plans. Adopt the frozen recipe accepted by slices 13 and 13a without a new audio timeline.
 
+## Integration constraints from the existing owners
+
+Reuse composition's retained audio contexts as the candidate stretch domains.
+They already join contiguous source/project support with the same asset, stream,
+rate and pitch across pure splits. Verify a matched-input split and a short query
+against that complete run before wiring execution: preparing each visible clip
+independently would create extra stretch endpoints. No persistent lineage or
+second timeline is justified by this seam.
+
+Core window readiness currently refuses retiming, and native composition rejects
+unequal source/placement durations. Bind an accepted implementation through the
+existing capability/requirement path and prepared-audio owner. Preparation runs
+before clip stacks, and retained project-sample reads must replace the current
+unit-rate-only context assumption. Include prerequisite work in existing worker
+deadlines; do not introduce another derivative queue or cache registry.
+
+The isolated parity adapter's mono48k,60-second arrays and fixed transpose are
+research constraints, not product limits. Stereo behavior, bounded long-run
+preparation/cancellation and explicit pitch-follow execution require their own
+verification. Do not downmix, independently process channels or widen admission
+silently. These checks supplement, rather than replace,13a listening acceptance.
+
 ## Work and review surface
 
 Run clip stacks after exact retime/pitch preparation. Use the single core prepared-derivative owner shared with other processors. Retime changes invalidate affected downstream output; source evidence remains raw. Test post-retime processing and pure-split preservation together.

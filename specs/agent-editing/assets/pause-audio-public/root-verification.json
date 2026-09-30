@@ -1,0 +1,159 @@
+{
+  "status": "PASS mechanical public pause workflows on merged root",
+  "commits": [
+    "04215371",
+    "7c14264a"
+  ],
+  "archiveMembersVerified": 23,
+  "actualExchangesVerified": 80,
+  "harnessSnapshotsEqualMergedTree": true,
+  "rootRun": "/tmp/screenrec-pause-root-integrated",
+  "rootReportSha256": "613f05bbb29010817891c3c044a79f31679b8ecd3ebdf9c645f06bfbe45dd6d4",
+  "checks": {
+    "gap": {
+      "noImplicitFillOrProcessing": true,
+      "exactRetainedPCM": true,
+      "mapping": [
+        {
+          "sourceUs": [
+            0,
+            1500000
+          ],
+          "projectUs": [
+            0,
+            1500000
+          ]
+        },
+        {
+          "sourceUs": [
+            1500000,
+            3000000
+          ],
+          "projectUs": [
+            2000000,
+            3500000
+          ]
+        }
+      ],
+      "resamplingJoinInfluenceFrames": 0,
+      "protectedJoinGuardFrames": 0
+    },
+    "room": {
+      "occurrences": [
+        {
+          "startUs": 1500000,
+          "endUs": 1750000
+        },
+        {
+          "startUs": 1700000,
+          "endUs": 1950000
+        },
+        {
+          "startUs": 1900000,
+          "endUs": 2000000
+        }
+      ],
+      "gain": 0.5,
+      "authoredFades": [
+        {
+          "i": 0,
+          "range": {
+            "startUs": 1500000,
+            "endUs": 1510000
+          },
+          "from": 0,
+          "to": 1
+        },
+        {
+          "i": 0,
+          "range": {
+            "startUs": 1700000,
+            "endUs": 1750000
+          },
+          "from": 1,
+          "to": 0
+        },
+        {
+          "i": 1,
+          "range": {
+            "startUs": 1700000,
+            "endUs": 1750000
+          },
+          "from": 0,
+          "to": 1
+        },
+        {
+          "i": 1,
+          "range": {
+            "startUs": 1900000,
+            "endUs": 1950000
+          },
+          "from": 1,
+          "to": 0
+        },
+        {
+          "i": 2,
+          "range": {
+            "startUs": 1900000,
+            "endUs": 1950000
+          },
+          "from": 0,
+          "to": 1
+        },
+        {
+          "i": 2,
+          "range": {
+            "startUs": 1990000,
+            "endUs": 2000000
+          },
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "maxSampleError": 9.361732188073457e-10,
+      "exactRetainedPCM": true,
+      "resamplingJoinInfluenceFrames": 0,
+      "speechAbsentByFixtureConstruction": true
+    },
+    "rnnoise": {
+      "capability": {
+        "execution": true,
+        "implementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
+      },
+      "verified": true,
+      "target": {
+        "kind": "track",
+        "id": "track:bbbb80ed1b5e582cb92cbf3658b19c93e856813ed9e3e2b49d2875b78f8d2af1:0"
+      },
+      "window": {
+        "kind": "project",
+        "range": {
+          "startUs": 1000000,
+          "endUs": 2500000
+        }
+      },
+      "fullWetDiffersFromDry": true,
+      "preparedEqualsOrdinary": true,
+      "halfMixExact": true,
+      "protectedNeighborsExact": true,
+      "bypassAndUndoExact": true,
+      "noAddedLayers": true,
+      "immutableSourcePCM": true,
+      "durationUs": 3500000,
+      "oracle": "Declared frozen adapter identity and independently calculated public dry/wet mix contract; not independent RNNoise inference parity or acoustic quality"
+    },
+    "undoAndRender": {
+      "roomUndoExact": true,
+      "gapUndoExact": true,
+      "immutableSource": true,
+      "movieDurationUs": 3500000,
+      "exportMatchesPreview": true
+    }
+  },
+  "limitations": [
+    "Synthetic harmonic fixture, not real-voice listening",
+    "No independent RNNoise inference parity claim",
+    "No independent video edit scope"
+  ],
+  "buildNote": "Initial broad build invoked native release compilation; stopped on discovery. Frozen root debug8a and candidate2c hashes unchanged. Explicit service/CLI JavaScript build passed."
+}

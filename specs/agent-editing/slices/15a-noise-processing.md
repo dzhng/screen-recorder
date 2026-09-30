@@ -67,3 +67,9 @@ Do not port or simplify the winning DSP until production parity is proven. Inter
 buffering and worker organization are delegated within the measured recipe;
 editorial defaults, source preservation and audible quality are not. Update status,
 evidence and the README handoff; absent listening cannot be recorded as acceptance.
+
+The [public pause workflow](../assets/pause-audio-public/README.md) verifies an
+explicit track/window RNNoise choice across an inserted gap, exact wet/dry mix,
+unchanged neighbors, prepared delivery, bypass/undo and no implicit ambience
+layer. Synthetic signals establish mechanics only; real speech and post-retime
+acceptance remain separate.

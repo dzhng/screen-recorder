@@ -55,3 +55,7 @@ Reproduce with a prebuilt compatible JavaScript checkout and explicit frozen wor
 ```sh
 SCREENREC_NATIVE=/absolute/path/to/screenrec-native node packages/test-harness/editing/pause-audio.mjs --out /tmp/new-pause-evidence
 ```
+
+[Root integration](root-verification.json) verifies all archived members and both
+merged harness snapshots, then reruns the public workflow successfully using the
+unchanged frozen worker. Its recorded limitations remain binding.
