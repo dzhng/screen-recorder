@@ -1,0 +1,96 @@
+{
+  "sourceBase": "1a5a54bb81a1119a9c1f54d8353aab8b4b60d35c",
+  "scope": "Read-only replay of the exact four public A authoring requests against their recorded service responses; no service or DSP rerun",
+  "operationsExact": true,
+  "returnValuesExact": true,
+  "operations": [
+    {
+      "id": "place",
+      "operations": [
+        {
+          "operation": "track.add",
+          "label": "audio",
+          "track": {
+            "kind": "audio",
+            "order": 0
+          }
+        },
+        {
+          "operation": "place",
+          "label": "clip",
+          "clip": {
+            "trackId": {
+              "label": "audio"
+            },
+            "assetId": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 4820000
+              }
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 4820000
+              }
+            },
+            "pitch": "preserve"
+          }
+        }
+      ],
+      "transport": "cli"
+    },
+    {
+      "id": "split-650125",
+      "operations": [
+        {
+          "operation": "split",
+          "clipIds": [
+            "clip:211c55e78be3a5dcab458fe98e812efd64a931a719642e5bafd20b36ecb60a0b:1"
+          ],
+          "atUs": 650125,
+          "scope": "selected"
+        }
+      ],
+      "transport": "cli"
+    },
+    {
+      "id": "split-1910000",
+      "operations": [
+        {
+          "operation": "split",
+          "clipIds": [
+            "clip:520d76d212d2962070beffe02b020536a7bafe08cffb73c7d43e37f16416cfcc:0"
+          ],
+          "atUs": 1910000,
+          "scope": "selected"
+        }
+      ],
+      "transport": "cli"
+    },
+    {
+      "id": "retime",
+      "operations": [
+        {
+          "operation": "retime",
+          "clipIds": [
+            "clip:520d76d212d2962070beffe02b020536a7bafe08cffb73c7d43e37f16416cfcc:0"
+          ],
+          "durationUs": 1574844,
+          "scope": "selected",
+          "pitch": "preserve",
+          "ripple": {
+            "trackIds": [
+              "track:211c55e78be3a5dcab458fe98e812efd64a931a719642e5bafd20b36ecb60a0b:0"
+            ]
+          }
+        }
+      ],
+      "transport": "mcp"
+    }
+  ]
+}

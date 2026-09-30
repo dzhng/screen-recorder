@@ -1,0 +1,238 @@
+{
+  "passed": true,
+  "listening": "pending",
+  "scope": "Original familiar source through the accepted public retime edits, then whole-output RNNoise only. No listening, gain, normalization, fades, additional trims or playback.",
+  "transcript": "Okay, so this is the recorder workbench.",
+  "acceptedReference": {
+    "path": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/13a-corrected-selections/internal-slower-0.8x.wav",
+    "sha256": "53da1582ea82e3d6bb4ba16d9f7c75f978f838d28dd1f1e05b501bb0a5aeccc7",
+    "pcmSha256": "ad4af5fe6fa3e27ab647825976adbb91bd9c46253912d635e25e5740f4df5c86",
+    "sampleRate": 48000,
+    "channels": 1,
+    "frames": 246478
+  },
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "workerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "assemblerSha256": "c945f0a283720c1d37f7bdbc18cce42f3a224d59f567548fc930de8f206dfab7",
+  "authoringOwnerSha256": "c180df7cf5b548629d0a55bf86b8b013462fb22070280f19fec3ecd2a01bbe97",
+  "dryStereoDuplicationExact": true,
+  "processedCReferenceExact": true,
+  "candidate": {
+    "selection": {
+      "projectId": "538232ee-280f-4b53-bf2d-0f69ab8fbe99",
+      "revisionId": "89ea7bfc-c287-4055-8ec7-7fbef054697e"
+    },
+    "ready": {
+      "projectId": "538232ee-280f-4b53-bf2d-0f69ab8fbe99",
+      "revisionId": "89ea7bfc-c287-4055-8ec7-7fbef054697e",
+      "range": {
+        "startUs": 0,
+        "endUs": 5134969
+      },
+      "tap": {
+        "target": {
+          "kind": "output"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "657e96e4-e193-44a4-8116-5eeaeef3235c",
+      "published": {
+        "generation": 1,
+        "audio": {
+          "file": "/private/tmp/screenrec-post-retime-familiar-IwotKV/library/cache/derived/f82fbc0a-4a96-419e-8b49-27a33473c9af.cache",
+          "bytes": 1975920,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 246478,
+          "peak": 0.178970068693161,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 32243712,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:211c55e78be3a5dcab458fe98e812efd64a931a719642e5bafd20b36ecb60a0b:1",
+              "ranges": []
+            },
+            {
+              "clipId": "clip:520d76d212d2962070beffe02b020536a7bafe08cffb73c7d43e37f16416cfcc:0",
+              "ranges": []
+            },
+            {
+              "clipId": "clip:cc1c2a7fd657708f16f7382f4c3ed56c0e34d1976b1d122e8154cdf26ca61fb9:0",
+              "ranges": []
+            }
+          ],
+          "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+          "preparedResourceId": null,
+          "range": {
+            "startUs": 0,
+            "endUs": 5134969
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-audio-v9",
+          "projectId": "538232ee-280f-4b53-bf2d-0f69ab8fbe99",
+          "revisionId": "89ea7bfc-c287-4055-8ec7-7fbef054697e",
+          "mediaType": "audio/wav",
+          "layout": "stereo",
+          "sampleRange": {
+            "start": 0,
+            "end": 246478
+          },
+          "cacheId": "f82fbc0a-4a96-419e-8b49-27a33473c9af"
+        }
+      },
+      "delivery": {
+        "token": "891711b5-352e-4b2a-bd45-3a07fb89a246",
+        "bytes": 1975920,
+        "expiresAt": 1790759745431
+      },
+      "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-gihYVf/excerpt.wav"
+    },
+    "sha256": "a441f5e54c67ce1b341c9b334fe6b24c61b9a842079928a8a27d5eef803d8cb3",
+    "pcmSha256": "dc4db6e2945a089d130e2a38bc71132a4208509e3f0d32af885d7280842f9d2f",
+    "frames": 246478,
+    "channels": 2,
+    "mcpMatchesCLI": true,
+    "file": "candidate.wav"
+  },
+  "dry": {
+    "selection": {
+      "projectId": "538232ee-280f-4b53-bf2d-0f69ab8fbe99",
+      "revisionId": "2d18c026-1046-4276-9fe5-b4ba4a77410d"
+    },
+    "ready": {
+      "projectId": "538232ee-280f-4b53-bf2d-0f69ab8fbe99",
+      "revisionId": "2d18c026-1046-4276-9fe5-b4ba4a77410d",
+      "range": {
+        "startUs": 0,
+        "endUs": 5134969
+      },
+      "tap": {
+        "target": {
+          "kind": "output"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "f4d363d0-9403-40b7-8e2d-3ca27309b510",
+      "published": {
+        "generation": 1,
+        "audio": {
+          "file": "/private/tmp/screenrec-post-retime-familiar-IwotKV/library/cache/derived/40412e3f-2abd-4d6e-9143-b7699632f97a.cache",
+          "bytes": 1975920,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 246478,
+          "peak": 0.2365003377199173,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 28934144,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:211c55e78be3a5dcab458fe98e812efd64a931a719642e5bafd20b36ecb60a0b:1",
+              "ranges": []
+            },
+            {
+              "clipId": "clip:520d76d212d2962070beffe02b020536a7bafe08cffb73c7d43e37f16416cfcc:0",
+              "ranges": []
+            },
+            {
+              "clipId": "clip:cc1c2a7fd657708f16f7382f4c3ed56c0e34d1976b1d122e8154cdf26ca61fb9:0",
+              "ranges": []
+            }
+          ],
+          "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+          "preparedResourceId": null,
+          "range": {
+            "startUs": 0,
+            "endUs": 5134969
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-audio-v9",
+          "projectId": "538232ee-280f-4b53-bf2d-0f69ab8fbe99",
+          "revisionId": "2d18c026-1046-4276-9fe5-b4ba4a77410d",
+          "mediaType": "audio/wav",
+          "layout": "stereo",
+          "sampleRange": {
+            "start": 0,
+            "end": 246478
+          },
+          "cacheId": "40412e3f-2abd-4d6e-9143-b7699632f97a"
+        }
+      },
+      "delivery": {
+        "token": "24635179-4a5c-4def-a8c4-f7e35c702fcf",
+        "bytes": 1975920,
+        "expiresAt": 1790759744410
+      },
+      "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-fq0tzk/excerpt.wav"
+    },
+    "sha256": "7aa99584016fdac1a726dfbc4bf7a166606e9bbcb5d8f74c476957b383a5e502",
+    "pcmSha256": "62a943375f471d57c6866eb8f34bd425a4ad6cd7ac7d7c467db0a5721986c1ad",
+    "frames": 246478,
+    "channels": 2,
+    "mcpMatchesCLI": true
+  },
+  "reference": "../13a-corrected-selections/internal-slower-0.8x.wav",
+  "channelRelationship": "Accepted A is mono. Public project dry is exactly that mono PCM copied equally to left and right, with no gain. Candidate is the corresponding independently processed stereo output.",
+  "files": {
+    "README.md": {
+      "bytes": 2563,
+      "sha256": "446e97b872653282b29715f20d5101ee23a7fdb84a7d1ce6c9590cb5590d415d"
+    },
+    "assemble.mjs": {
+      "bytes": 6550,
+      "sha256": "c945f0a283720c1d37f7bdbc18cce42f3a224d59f567548fc930de8f206dfab7"
+    },
+    "candidate.wav": {
+      "bytes": 1975920,
+      "sha256": "a441f5e54c67ce1b341c9b334fe6b24c61b9a842079928a8a27d5eef803d8cb3"
+    },
+    "helper-parity.json": {
+      "bytes": 2417,
+      "sha256": "7460658bee2cb767d2caa7542e96b1a33da84cc7ff546a060e895492e92c07f4"
+    },
+    "receipts.json.gz": {
+      "bytes": 6814,
+      "sha256": "8f993e136320c0b48b7ff2989445883c3cf36116fe194fa31e21d4f8efad16af"
+    }
+  },
+  "authoringExtractionParity": "helper-parity.json",
+  "review": "Independent root code/docs review clean. Listening remains pending."
+}
