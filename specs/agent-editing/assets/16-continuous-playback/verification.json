@@ -1,0 +1,75 @@
+{
+  "sourceCommit": "c651fdb8",
+  "publicDeliveryReportSHA256": "369de4404eab44599ad147242f5cfed2d95c5ec947c681b4925e53bb4588f93c",
+  "nativeSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "probeSourceSHA256": "273790f28236990ea2e1279a40a22b985d1da6cf6ccee25716efd6b7f10b9a3c",
+  "cohorts": [
+    {
+      "case": "linked",
+      "report": "linked/report.json.gz",
+      "reportSHA256": "c0c8ed240ec138207afbc70ca8750114a562134596f6e5e07d1b40d3a8d431cf",
+      "movieSHA256": "faffa2800b88b4f65a22ea4d506248639f509b97f60b617d21373e4cc0c9e2d7",
+      "durationSeconds": 4.5,
+      "wallDurationSeconds": 4.702036875001795,
+      "observedFrameCount": 135,
+      "decodedFrameCount": 135,
+      "maximumRGBLandmarkError": 0,
+      "maximumOutputGapSeconds": 0.14760058333922643,
+      "outputGapLimitSeconds": 0.2833340000000002
+    },
+    {
+      "case": "independent",
+      "report": "independent/report.json.gz",
+      "reportSHA256": "f02e908517e2d551117070136dfbefd2dc33d2eb192cdd24d0ade6490df86e3f",
+      "movieSHA256": "479a0753bffa4b8cce5c4b78b95163e6190c6dbb7c429a2424f2bdefe3a2964b",
+      "durationSeconds": 4.5,
+      "wallDurationSeconds": 4.7046476250034175,
+      "observedFrameCount": 135,
+      "decodedFrameCount": 135,
+      "maximumRGBLandmarkError": 0,
+      "maximumOutputGapSeconds": 0.1491992500014021,
+      "outputGapLimitSeconds": 0.2833340000000002
+    },
+    {
+      "case": "zoom-full",
+      "report": "zoom-full/report.json.gz",
+      "reportSHA256": "cadab1ac08b6660ed2b8f5c9fb99aca38e628cc509025e476d277179e38c8b1c",
+      "movieSHA256": "fb9a087e2b8e0d4b6c1de4978b13521671bce6bf4497b1e7074af5a6a232ff21",
+      "durationSeconds": 3,
+      "wallDurationSeconds": 3.1963390833334415,
+      "observedFrameCount": 90,
+      "decodedFrameCount": 90,
+      "maximumRGBLandmarkError": 0,
+      "maximumOutputGapSeconds": 0.14043358333583456,
+      "outputGapLimitSeconds": 0.2833340000000002
+    },
+    {
+      "case": "zoom-range",
+      "report": "zoom-range/report.json.gz",
+      "reportSHA256": "40e937133fa3c355b44846de455f9880a4fffd0f4e0fd215b4f55e36f4365712",
+      "movieSHA256": "322969d0d5f6e5c036fb40c62dc439355cfa07f3a3b3ca343406792423dba32b",
+      "durationSeconds": 0.830026,
+      "wallDurationSeconds": 1.023507541664003,
+      "observedFrameCount": 25,
+      "decodedFrameCount": 25,
+      "maximumRGBLandmarkError": 0,
+      "maximumOutputGapSeconds": 0.13970700000209035,
+      "outputGapLimitSeconds": 0.28333400000000003
+    }
+  ],
+  "review": {
+    "shape": "Single-purpose bounded harness, no dependencies or production code changes.",
+    "code": "Root independent review identified missing explicit forward-progress bound and missing-report diagnostic masking; both fixed, three negative controls discriminate expected failures. Root reviewed final progress-bound code and runner fix; no remaining blocking finding.",
+    "docs": "Evidence names actual offscreen player output and explicitly excludes physical display, smoothness, listening, A/V synchronization and full-slice acceptance. Parent owns slice/handoff link.",
+    "codexCLI": "Attempted default codex review --uncommitted; account rejected configured gpt-6.1-sol. No independent CLI verdict claimed."
+  },
+  "checks": [
+    "Swift standalone compilation",
+    "Node syntax check",
+    "Focused oxlint and oxfmt",
+    "Actual linked and independent playback",
+    "Readiness-only, paused and wrong-frame negative controls",
+    "Actual moved/retimed/split zoom full and ranged movie playback"
+  ],
+  "zoomPublicDeliveryReportSHA256": "7c85bc20cad3bedcc5d71f71957f79a2af8532db65d095a41980d42495807f31"
+}
