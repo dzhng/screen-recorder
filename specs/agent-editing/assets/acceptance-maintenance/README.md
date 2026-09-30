@@ -16,11 +16,11 @@ stated local-personal contracts. Their existing evidence covers fenced publicati
 CLI/MCP, retained consumers, channel/state execution and build preflight/notices.
 Post-retime/quality gates belong to14/15a3; external redistribution remains unverified.
 
-Public stretching still lacks its execution binding and remains gated by13a.
-Once accepted, implement14 through the existing prepared-audio owner and use one
-combined retime/gain/denoise journey for the dependent integration claims. The
-remaining denoise and generated-voice quality judgments do not justify repeating
-completed model preparation, channel/state, portability or scale cohorts.
+[Public retiming](../14e-public-retiming/root-review.md) now passes with the frozen
+accepted audio and exact picture clock. Continue the combined retime/gain/denoise
+and animated-gain/zoom joins in15a3/16. Remaining denoise and generated-voice quality
+judgments do not justify repeating completed preparation, channel/state,
+portability or scale cohorts.
 
 The read-only [mixing/inspection audit](audio-inspection.md) separates finite
 codec/rate and real-narration gaps from mechanisms already verified. The

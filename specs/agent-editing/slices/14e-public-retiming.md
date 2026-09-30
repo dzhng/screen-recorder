@@ -1,9 +1,10 @@
 # 14e — Deliver linked and independent retiming publicly
 
-Status: native recipe/format admission and JS/core/service wiring are implemented;
-combined public journey found the [14f picture sampling defect](14f-exact-picture-sampling.md);
-parent14 acceptance remains pending. Dependencies:14b,
-14c and14d. Parent14 owns final acceptance.
+Status: verified. Native admission, public linked/independent media, attachments,
+source evidence, preparation and retained-package delivery pass after14f.
+[Root acceptance](../assets/14e-public-retiming/root-review.md) retains227 actual
+CLI/MCP exchanges, complete encoded counters and independently repeated results.
+Dependencies:14b,14c and14d. Parent14 owns the accepted-audio scope.
 
 ## Contract and seam
 
@@ -109,7 +110,7 @@ source identities.
 Independent review found and resolved exact-rate deadline undercounting, retry's
 post-await abandonment race, and the exposed mutable snapshot. [Public accepted-audio delivery](../assets/14e-public-accepted-audio/README.md) now
 passes complete PCM comparisons for all four accepted selections, including split
-and range reads. Linked video/movie/package delivery remains the parent pickup;
+and range reads. [Linked video/movie/package delivery](../assets/14e-public-retiming/root-review.md) also passes;
 no new perceptual acceptance is inferred.
 
 [Prepared retime lifecycle](../assets/14e-prepared-lifecycle/README.md) verifies

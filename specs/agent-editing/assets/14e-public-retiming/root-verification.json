@@ -1,0 +1,369 @@
+{
+  "integrationCommit": "c651fdb8",
+  "nativeWorkerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "harnessSha256": "225a1a6a62b21d22a8a87d4419ca8ff6b66bcf7b5cb394af5a81af98e687e934",
+  "passed": true,
+  "actualExchanges": 227,
+  "encodedFrames": 135,
+  "frameCaptures": 18,
+  "allCapturedRgbHashesMatchFreshlyCritiquedRun": true,
+  "failures": [],
+  "fractionalShortPreview": {
+    "range": {
+      "startUs": 1600011,
+      "endUs": 1680037
+    },
+    "projectFrames": [
+      48,
+      49,
+      50
+    ],
+    "counters": [
+      44,
+      45,
+      46
+    ],
+    "allAttachmentMarkersPresent": true
+  },
+  "independentVideo": {
+    "before": {
+      "frames": 135,
+      "rgbSha256": "2942a31a3b69fc25215b9e94aa7ae3341d764bf30fa546c10b91c5b6e896f123"
+    },
+    "after": {
+      "frames": 135,
+      "rgbSha256": "2942a31a3b69fc25215b9e94aa7ae3341d764bf30fa546c10b91c5b6e896f123"
+    }
+  },
+  "checks": {
+    "tinyActualNativeAdmission": {
+      "refusals": [
+        {
+          "operation": "audio.prepare",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        },
+        {
+          "operation": "audio.get",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        },
+        {
+          "operation": "preview.get",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        },
+        {
+          "operation": "export.create",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        }
+      ],
+      "admittedJobs": 0,
+      "observation": "Read-only isolated catalog; all mutations used public transports"
+    },
+    "linkedPcmCountsAndEventTiming": true,
+    "exactVideoCounterSequence": true,
+    "fullSplitSubrangePcm": true,
+    "pureSplitPcmAndCutEvidence": true,
+    "repeatedOccurrence": true,
+    "piecewiseRateChange": true,
+    "explicitUnlinkAndIndependentPlaneReplacement": true,
+    "postRetimeGain": true,
+    "explicitIndependentFollow": true,
+    "preparedReuseInvalidation": true,
+    "sourceBytesAndEvidenceUnchanged": true,
+    "publicCancellationRetry": true,
+    "retainedPackagePlaybackWithoutRetimeProcessing": true
+  },
+  "archivedFilesVerified": 9,
+  "visualMembers": [
+    {
+      "path": "reference/before.png",
+      "bytes": 46339,
+      "sha256": "0baa9708e0fd9b2f2e0ca0b35a3aec5a3c8a48b4abfd92f6c810b978388876b2"
+    },
+    {
+      "path": "reference/end.png",
+      "bytes": 46615,
+      "sha256": "25a51bb1262a135bb72b96442115e47fceffca8f516012e18244b3196ba6addb"
+    },
+    {
+      "path": "reference/event-one.png",
+      "bytes": 47131,
+      "sha256": "5ffe91fbda60e3ddca96646798f0486ee7379dae1222e806e002683027aeacf9"
+    },
+    {
+      "path": "reference/event-two.png",
+      "bytes": 46490,
+      "sha256": "221cd6acea53244aabf6e3ea9d3c5629751f8c5157109481f97977b16fc46dd2"
+    },
+    {
+      "path": "reference/start.png",
+      "bytes": 46704,
+      "sha256": "89331d597989c6bb38d90108f6519664fd9b4bc45f72d24f2420727b90d7ab5e"
+    },
+    {
+      "path": "reference/tail-event.png",
+      "bytes": 46416,
+      "sha256": "5c296e2da9ecfa42246a004a0d71bffa2eee245b96b9f16dacd12613d6359e8d"
+    },
+    {
+      "path": "candidate/before.png",
+      "bytes": 53483,
+      "sha256": "07e2c15a5663c9ab698f0dc37080c12be6d24d195d24a5e05b4b95aae8fc1eec"
+    },
+    {
+      "path": "candidate/end.png",
+      "bytes": 53489,
+      "sha256": "5d597809c792a5deba845b1ae6bff146c2f5a96409e465d1cc5b14bf32583a62"
+    },
+    {
+      "path": "candidate/event-one.png",
+      "bytes": 54953,
+      "sha256": "5eaa2266813ff7e772294f7842a6810c11b385e8037a14c8b2055f9f145493f9"
+    },
+    {
+      "path": "candidate/event-two.png",
+      "bytes": 53362,
+      "sha256": "7a4b8a5781c8030de206e29fbc8f6b281b3adbae91ba550616ad0936155a9b49"
+    },
+    {
+      "path": "candidate/start.png",
+      "bytes": 53714,
+      "sha256": "19315390bccaa4ca4d79f6fafa5fce9da7f38d83212a96d3f3b00dca26ce7ba9"
+    },
+    {
+      "path": "candidate/tail-event.png",
+      "bytes": 53350,
+      "sha256": "3853874d1a56d1d2b8550d9e512b45d3ab84f3f26f24f315bf3a698b8e734e39"
+    },
+    {
+      "path": "neutral/01-crops.png",
+      "bytes": 32250,
+      "sha256": "3691722f848a4525f5d8dd38cda8559e2082bac58c27a74b46fb355dd2027f94"
+    },
+    {
+      "path": "neutral/01-full.png",
+      "bytes": 38133,
+      "sha256": "3ef4600c88764b78a840700e9f8b6cf8f382bf4e7b9d1c77ff1b8dc7e0ec5721"
+    },
+    {
+      "path": "neutral/02-crops.png",
+      "bytes": 33303,
+      "sha256": "3db43445eccf291c3e74ee3fccf13334868a2af3edf71ac992cec3427c042bc2"
+    },
+    {
+      "path": "neutral/02-full.png",
+      "bytes": 38454,
+      "sha256": "8fc5c41ad68b6d8ca016d9a6bd85a555f0d04505297c41346363b5afc3433a7f"
+    },
+    {
+      "path": "neutral/03-crops.png",
+      "bytes": 33787,
+      "sha256": "9c1ea5159d8b3e6c1dd23724d87daab4b5cd64b84167cccf2c700320c3b48b0b"
+    },
+    {
+      "path": "neutral/03-full.png",
+      "bytes": 38627,
+      "sha256": "0278fa1aaba921c0404ce0fbf1b0d320203114383699f54d32468e930de30770"
+    },
+    {
+      "path": "neutral/04-crops.png",
+      "bytes": 33449,
+      "sha256": "f99b1c6f4f074c132758be3a7d805c44ee636b79d2cca71a8c809e8fc5e049b5"
+    },
+    {
+      "path": "neutral/04-full.png",
+      "bytes": 38826,
+      "sha256": "85cd9719fc9596e38c1d550cda7aadeadca9801f5e7ca5538e12b9bd9e16b52d"
+    },
+    {
+      "path": "neutral/05-crops.png",
+      "bytes": 33213,
+      "sha256": "3f7a05a7b8773cb903e824998793fcceebe73593821638d366e3d74f68623ae9"
+    },
+    {
+      "path": "neutral/05-full.png",
+      "bytes": 37801,
+      "sha256": "a989f73fcdefdfa64492b6b270925e400d0f906dc4d488ce552c09b73152cd7d"
+    },
+    {
+      "path": "neutral/06-crops.png",
+      "bytes": 33212,
+      "sha256": "efe6e17c82c7baba5de79644958635e9f1eedc05936d6a5ad9626304db415bad"
+    },
+    {
+      "path": "neutral/06-full.png",
+      "bytes": 38111,
+      "sha256": "3006c216e782106ace7f845282bcdd24eba076d4be87174a4c4d037d3c143024"
+    },
+    {
+      "path": "neutral/07-crops.png",
+      "bytes": 34394,
+      "sha256": "7cea516dc8ed51ecde2443913ab97db57e1541deadf35d9eab98c36361597727"
+    },
+    {
+      "path": "neutral/07-full.png",
+      "bytes": 39077,
+      "sha256": "87bf52a98a7710d2522a2ae575380b182f3de7ee42b838b667f89a9f4bbfa331"
+    },
+    {
+      "path": "neutral/08-crops.png",
+      "bytes": 33795,
+      "sha256": "f530034a15c5f3a8d6418625daf15c3baa513b6f9f9a52728ff3b944ae916920"
+    },
+    {
+      "path": "neutral/08-full.png",
+      "bytes": 37945,
+      "sha256": "38388fce90ac9be502bb68c0f698748ac5b49083f33c0007a03dd2c3c8fd405d"
+    },
+    {
+      "path": "neutral/09-crops.png",
+      "bytes": 34259,
+      "sha256": "9928a4c972c08fac46f54def04c874482037727c63a25e624b4d1bfc7aec9d1c"
+    },
+    {
+      "path": "neutral/09-full.png",
+      "bytes": 38055,
+      "sha256": "b583e2f1cacae6da376518b38ea42990b9985927cf98757e0642b32051fc0133"
+    },
+    {
+      "path": "neutral/10-crops.png",
+      "bytes": 33142,
+      "sha256": "78d2f9a9c9574a969f291ad864b883c86587738638ddf91958e9b6b3ce90c497"
+    },
+    {
+      "path": "neutral/10-full.png",
+      "bytes": 38826,
+      "sha256": "85cd9719fc9596e38c1d550cda7aadeadca9801f5e7ca5538e12b9bd9e16b52d"
+    },
+    {
+      "path": "neutral/11-crops.png",
+      "bytes": 30770,
+      "sha256": "a937ca45fc9949a2a2ff93551b9463343e24a8590b593dfca9fe1a36097d1e05"
+    },
+    {
+      "path": "neutral/11-full.png",
+      "bytes": 38784,
+      "sha256": "969bbf52f9cf84e7b5d6b8d56959ab8df5f3bb4cc7f0a6b6671388ba171bb491"
+    },
+    {
+      "path": "neutral/12-crops.png",
+      "bytes": 31862,
+      "sha256": "121004aab758d96f38618c9f08e4bc9ed966fad17b24f44bcd13ecb90df0cdad"
+    },
+    {
+      "path": "neutral/12-full.png",
+      "bytes": 38784,
+      "sha256": "969bbf52f9cf84e7b5d6b8d56959ab8df5f3bb4cc7f0a6b6671388ba171bb491"
+    },
+    {
+      "path": "neutral/13-crops.png",
+      "bytes": 33711,
+      "sha256": "c50fa030bf21516fc2c4e648cb73ed99655b95e0c41cad84c6bbb6c3e23023dd"
+    },
+    {
+      "path": "neutral/13-full.png",
+      "bytes": 38703,
+      "sha256": "be9d459f54f91ad3534403ac93c835888725e49588b725fe70b1d87cc0c34709"
+    },
+    {
+      "path": "neutral/14-crops.png",
+      "bytes": 32179,
+      "sha256": "a6bb9216d0df2d28c0272925a81657eda6e00402e31b67f9e5597493c83ec45d"
+    },
+    {
+      "path": "neutral/14-full.png",
+      "bytes": 37981,
+      "sha256": "98e540a5d8b377d30f6a0319b5c82d0274b9fd8522dca95f50ee39b1f7076f00"
+    },
+    {
+      "path": "neutral/15-crops.png",
+      "bytes": 33182,
+      "sha256": "8a26d111fba132f0c94e461eef9131f96d1cdf757a42f4ed9811bb0dc5880bd8"
+    },
+    {
+      "path": "neutral/15-full.png",
+      "bytes": 38040,
+      "sha256": "aeccf074f25aacb2387dcff23fd46f130713caec93fe49fa7b541ab15a99dcb0"
+    },
+    {
+      "path": "neutral/16-crops.png",
+      "bytes": 32577,
+      "sha256": "9dfcb395530d5aa0953b1346e7525d3e66071408548b2aafcf26f004712570ca"
+    },
+    {
+      "path": "neutral/16-full.png",
+      "bytes": 38079,
+      "sha256": "7f4309b0c047b48d485f53bcd3535456f3b0a3dd394cdb03928a910b731c84d2"
+    },
+    {
+      "path": "neutral/17-crops.png",
+      "bytes": 32423,
+      "sha256": "b231e704e569a3e3135a9160fd5f83ba3e441e61b173aa0983491f65581e64ad"
+    },
+    {
+      "path": "neutral/17-full.png",
+      "bytes": 38392,
+      "sha256": "ce534c68963bb7cfacd307801d44aa389266343a41800a74c599c6f64ed96b17"
+    },
+    {
+      "path": "neutral/18-crops.png",
+      "bytes": 32720,
+      "sha256": "4ccef40b6b95ab18b017e97d3c5bd556cc0d22205c7abf276c6617db3d7ebcc9"
+    },
+    {
+      "path": "neutral/18-full.png",
+      "bytes": 38254,
+      "sha256": "e9b58ccb670735c25d3318322450aa785627cd703ecb67b1b80e82c109d0b4e7"
+    },
+    {
+      "path": "neutral/full-set-1.png",
+      "bytes": 154974,
+      "sha256": "b60357b63e848e674381be132217c12d42967dfb4be036a948a0634a26794dae"
+    },
+    {
+      "path": "neutral/full-set-2.png",
+      "bytes": 164423,
+      "sha256": "22b514c6daafcd5b70421387908e0fb2c6ec5e52efea3265238bd9c3accc7888"
+    },
+    {
+      "path": "neutral/full-set-3.png",
+      "bytes": 173876,
+      "sha256": "67aef58b64334ceea2c38d0a4781c6f244c03d83dca98b4466954983e474cd78"
+    },
+    {
+      "path": "panels.json",
+      "bytes": 6134,
+      "sha256": "7825b84f39bf13d35e89758eb989925c1439667c65f62df94508376a640656a7"
+    },
+    {
+      "path": "crops.json",
+      "bytes": 735,
+      "sha256": "c8dca9120f048121ea95161678420939c119e13957fc7d7fed38164ffc84c031"
+    },
+    {
+      "path": "comparison/visual-parity-diff.json",
+      "bytes": 23350,
+      "sha256": "bb349f18e9786b03ecdf419fbbef77311283820d5e3e9f7046b86b9a0ee0046c"
+    }
+  ],
+  "rootReportSha256": "369de4404eab44599ad147242f5cfed2d95c5ec947c681b4925e53bb4588f93c"
+}

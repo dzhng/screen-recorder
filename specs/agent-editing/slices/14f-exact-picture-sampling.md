@@ -1,12 +1,11 @@
 # 14f — Preserve the exact picture sampling instant
 
-Status: a public14e frame-counter probe exposed a clock-design defect. The current
-floor-to-microsecond contract makes a matching30fps unit-rate source repeat and
-skip pictures. Before implementation, independent audit confirmed the decoder
-faithfully follows the old request; this is a compiler/execution contract repair.
+Status: verified. Exact rational execution fixes the retained unit-rate29→28
+counter defect. [Native/core evidence](../assets/14f-picture-clock/README.md) and
+[complete public acceptance](../assets/14e-public-retiming/root-review.md) cover
+physical membership, pointer receipts, all135 encoded counters, fractional-range
+phase and unchanged accepted audio. Fresh visual review passes its timing scope.
 Dependencies: existing composition frame phase and native presentation membership.
-Public14e video acceptance waits for this fix. [The retained red](../assets/14f-picture-clock/README.md)
-includes the actual picture, request/reply and source-clock analysis.
 
 ## One clock, explicit labels
 

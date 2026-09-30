@@ -3,7 +3,7 @@
 The full editor goal remains active; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
 catalog format is19, source policy is native-source-v2 and produced audio/movie
-policies arev9/v19. The combined worker is
+policies arev9/v20; picture policy isv15. The historical frozen worker is
 `helpers/mac/.build/debug/screenrec-native`, SHA256
 `8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186`.
 Historical workers and measurements retain their own identities below.
@@ -40,11 +40,18 @@ worker `/tmp/screenrec-native-14e/debug/screenrec-native` has SHA256
 admission and stale identity refusal. Async core/service admission is integrated;
 root reran64 focused tests with one existing skip. [Public audio delivery](14e-public-accepted-audio/README.md)
 now matches all four accepted selections through20 full/split/range outputs.
-The video journey in capture-pause-recovery exposed [14f exact picture sampling](../slices/14f-exact-picture-sampling.md):
-floored project times select an earlier physical picture even at unit rate. Repair
-that clock seam before accepting video; continue independent lifecycle checks.
-Public video/package delivery remains open;
-no per-run durable cache or second timeline was introduced.
+[14f exact picture sampling](../slices/14f-exact-picture-sampling.md) and the
+[complete public journey](14e-public-retiming/root-review.md) now pass. The current
+isolated worker is `/tmp/screenrec-exact-native-14f-build/debug/screenrec-native`,
+SHA256 `0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76`.
+Root independently repeated the complete journey, including every encoded frame,
+fractional-range phase, independent audio-only edits and receiver retained reads.
+All accepted A–D PCM remains identical. No per-run durable cache was introduced.
+
+Current parallel work: capture-pause-recovery owns16 retimed gain/zoom delivery;
+prepared-package-transfer owns15a3 combined post-retime temporal denoise; a separate
+probe measures muted continuous playback. Root integrates and reviews. Other-material,
+spatial and protected-speech quality stay open; do not infer listening from PCM.
 
 Physical20 still lacks its stated camera duration/precision proof. The
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)

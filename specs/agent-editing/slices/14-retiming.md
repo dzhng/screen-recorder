@@ -1,6 +1,11 @@
 # 14 — Integrate independent and linked retiming
 
-Status: native14b–14d technical gates pass; native14e recipe/format admission is integrated and async core/service admission is in final verification. Combined public synchronized delivery remains open. The [bounded mono preparation](../assets/14-bounded-stretch/README.md) retains accepted-byte, endpoint, scale and cancellation/error-cleanup proof. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
+Status: verified through public linked and independent retiming, exact picture
+sampling, accepted-audio parity, preparation lifecycle and retained package delivery.
+[Root acceptance](../assets/14e-public-retiming/root-review.md) records the complete
+journey and scoped visual verdict. Animated gain/zoom and combined denoise joins
+remain owned by16/15a3; no additional listening or physical acceptance is inferred.
+Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
 
 [Integrated root verification](../assets/14-bounded-stretch/root-verification.md)
 reran all34 checks and descriptor contracts from isolated merged-tree builds.
@@ -48,7 +53,7 @@ silently. These checks supplement, rather than replace,13a listening acceptance.
 
 ## Committed passes
 
-Public retiming remains gated until the following seams are verified. The bounded
+The following seams are verified together by the public acceptance journey. The bounded
 mono file prerequisite is banked in the Status evidence; it is not a public limit.
 
 - [14b — Retained-run preparation](14b-retained-retime-preparation.md): native mono

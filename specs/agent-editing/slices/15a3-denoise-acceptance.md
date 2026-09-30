@@ -14,3 +14,15 @@ Retain complete matched media and exact identities for scoped independent assess
 dry neighbors, preserved state, ordered learned stages and retained consumers.
 This resolves that scoped transition requirement; accepted retiming and remaining
 listening/state evidence still gate the complete parent.
+
+## Current technical pickup
+
+Accepted retiming14 makes the combined temporal join dependency-ready. Extend the
+existing public denoise harness with a scoped post-retime fixture: familiar bed plus
+an accepted preserve-pitch excerpt, explicit upstream gain and parent windowed
+RNNoise with a zero-mix interval. Independently check the retimed dry stem, Float32
+mix/gain and frozen learned result before comparing delivered PCM. Read a late
+range before full output to expose lost state, then verify split, reordered stack,
+bypass/undo/history, prepared consumers and retained transfer. Preserve the existing
+unit-rate cohort. This technical fixture makes no new listening claim and does
+not close other-material/spatial/protected-speech or follow-pitch denoise acceptance.

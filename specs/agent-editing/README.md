@@ -17,30 +17,30 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup is [14 retiming](slices/14-retiming.md).13/13a are accepted for the
-frozen recipe and exact corrected A–D selections. The [bounded mono file
-prerequisite](assets/14-bounded-stretch/README.md) is integrated and root-verified.
-[14b retained native preparation](slices/14b-retained-retime-preparation.md),
-[14c linked stereo](slices/14c-stereo-stretch.md), and
-[14d pitch-follow](slices/14d-pitch-follow.md) pass their scoped PCM/technical gates.
-The many-run descriptor repair is verified. Native14e format/policy admission is
-integrated with async service admission. [Public audio](assets/14e-public-accepted-audio/README.md)
-preserves all four accepted outputs. The video journey found a unit-rate picture
-sampling defect: first complete [14f exact sampling](slices/14f-exact-picture-sampling.md),
-then finish synchronized video/audio delivery and independent retiming. Preserve full retained runs across
-pure splits and short views. Native scratch stays request-scoped; durable final
-audio stays with the existing prepared-audio/job/asset owners.
+Current pickup is the remaining [16 animation](slices/16-keyframes.md) and
+[15a3 post-retime processing](slices/15a3-denoise-acceptance.md) joins. Public
+[14 retiming](slices/14-retiming.md), including exact picture sampling, is verified:
+accepted audio remains identical, linked and independent video/audio delivery
+passes, and retained packages work with processing unavailable. Reuse the
+[root acceptance](assets/14e-public-retiming/root-review.md).
+
+Verify animated gain across retimed clocks and moved/retimed/split zoom through
+complete encoded delivery. Separately measure muted continuous playback; decoded
+frames alone do not establish it. In parallel, verify combined post-retime gain
+and windowed RNNoise with independent PCM/state oracles. These technical gates do
+not establish remaining speech quality or physical acceptance. Preserve full
+retained runs across pure splits and short views; use existing preparation owners.
 
 Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
 prepared runtimes and frozen worker identities. Do not replace the installed app
 or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
-After retiming, resolve remaining speech/denoise gates toward12b/15a and the
+Resolve remaining speech/denoise gates toward12b/15a and the
 dependent16 checks; then physical20→21, final23 cutover, post-cutover24 scale and25
 autonomous workflow. The checklist is authoritative; the overview diagram is not
-a scheduling graph. No dependency-ready consumer pass was found in12b/15a/19/23
-without its missing quality, retiming or physical prerequisite. Do not repeat
+a scheduling graph. Further12b/19/23 consumer acceptance retains its missing quality or physical
+prerequisite. Do not repeat
 passed cohorts instead of resolving those requirements.
 
 [Integrated evidence](assets/integrated-evidence.md) is the compact index for
@@ -157,12 +157,12 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [x] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)
-- [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
+- [x] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
   - [x] [14b — Retained-run native preparation](slices/14b-retained-retime-preparation.md)
   - [x] [14c — Linked stereo stretch](slices/14c-stereo-stretch.md)
   - [x] [14d — Explicit pitch follow](slices/14d-pitch-follow.md)
-  - [ ] [14e — Public retiming delivery](slices/14e-public-retiming.md)
-  - [ ] [14f — Exact picture sampling](slices/14f-exact-picture-sampling.md)
+  - [x] [14e — Public retiming delivery](slices/14e-public-retiming.md)
+  - [x] [14f — Exact picture sampling](slices/14f-exact-picture-sampling.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [x] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)

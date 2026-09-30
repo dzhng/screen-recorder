@@ -4097,7 +4097,11 @@ product behavior or listening scope.
 - **Reach:** clip/effect/pointer membership and picture/source receipts must follow
   the same exact instant; frame/movie cache identities change. Audio sampling and
   the accepted stretch recipe stay unchanged. A decoder epsilon or rounding source
-  timestamps would hide the defect and corrupt boundary evidence.
+  timestamps would hide the defect and corrupt boundary evidence. Native uses
+  the existing ExactTime owner to compare requests with physical support; a query
+  need not fit CMTime's limited timescale merely to choose an existing picture.
+  Reader seeks may start earlier, and integer cursor history uses a floored
+  observation cutoff only after the exact source-to-capture mapping.
 - **Verdict:** sound correction; the old rule demonstrably selects only80 of120
   pictures in a matching30fps source. Integer frame-cell labels remain derived
   projections of one clock, not an independently adjustable timeline.

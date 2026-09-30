@@ -27,3 +27,11 @@ A second early harness expectation atquery1750000us was wrong: frame52 samples a
 is correct there. Comparing to the query instant rather than the selected frame
 instant had incorrectly expected48. This oracle correction is separate from the
 real29→28 failure and is not counted as a production fix.
+
+The [native prerequisite](native/verification.json) now selects all30 matching-CFR
+pictures, exact rational boundaries, large-denominator queries and pointer support.
+The existing native frame/movie/pointer suites also pass. Its [frame29](native/frame29.png)
+retains the corrected direct native result. [Core verification](core/verification.json)
+records the integrated default-timeout gates and discriminating clock mutations.
+[Complete public acceptance](../14e-public-retiming/root-review.md) now verifies
+compiler-to-movie delivery and final visual review. The archives retain raw results.

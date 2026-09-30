@@ -1,0 +1,134 @@
+{
+  "sourceCommit": "f6a079c3",
+  "upstreamCommit": "1f8ae358",
+  "sources": [
+    {
+      "path": "apps/service/src/project-render.ts",
+      "sha256": "00288bdb2b48a8fe31c1a871dcb3f37f89e3406a233f472d295bfb2c499765e3"
+    },
+    {
+      "path": "packages/composition/src/compiled-records.ts",
+      "sha256": "b242733172f4a7e349ba9ab232d0182ab13a018b8e485fe64cfcdf0b50eeb537"
+    },
+    {
+      "path": "packages/composition/src/compiler.test.ts",
+      "sha256": "4ffd33b996de92bb58b53c98b782f692c0537b06e4a93d46ae046b57d8cd603c"
+    },
+    {
+      "path": "packages/composition/src/compiler.ts",
+      "sha256": "b5973e0bb32433c881a38a1103c603173fc228613b2cb62f653df37701042e44"
+    },
+    {
+      "path": "packages/composition/src/temporal-processing.ts",
+      "sha256": "31772b137543032504315597fea0e8cb444a82c984c367cf2ffb3f4e1c1d1bfe"
+    },
+    {
+      "path": "packages/composition/src/visual-plan.ts",
+      "sha256": "b207446857a34dc393e0fa2eb2cae3dbe6751af56b4c31ea43806396128940bd"
+    },
+    {
+      "path": "packages/core/src/composition-pointer.test.ts",
+      "sha256": "57d6944e611e31728518c03d3d106881c22073db0902def36fc3801fa2f88959"
+    },
+    {
+      "path": "packages/core/src/composition-pointer.ts",
+      "sha256": "0ae857e306997c1e208e7a8b7e8cab7b48ac1eb251e014abb4382acf29e4488d"
+    },
+    {
+      "path": "packages/core/src/frame-inspection.test.ts",
+      "sha256": "f03cfa0addeabe7f16d0c5ba369a77e7f955e83352a0e3429baf5989985cc161"
+    },
+    {
+      "path": "packages/core/src/frame-inspection.ts",
+      "sha256": "4e086057ecb47824b43b279138d09e788b3246a0064a5768c9adb19ca1105305"
+    },
+    {
+      "path": "packages/core/src/index-processing.fixture.ts",
+      "sha256": "91713b692ecb3885e20517ea3f21074ac9746745f7218294a56488c21a876e2a"
+    },
+    {
+      "path": "packages/core/src/presentation-pointer-history.ts",
+      "sha256": "ce07d27d5e3729af526eff9e9b6cb6b7c30cce6949aa694e3d505bcfffeaf24f"
+    },
+    {
+      "path": "packages/core/src/presentation-pointer.ts",
+      "sha256": "0a09e45156418bf459759db395850e611b79308e2301799b8c69b8ae9e21c0a8"
+    },
+    {
+      "path": "packages/core/src/presentation-time.ts",
+      "sha256": "3a95fd148a5acf05cf3af51d1d3958864eefd50ec04e492b15ba996a62a128e5"
+    },
+    {
+      "path": "packages/core/src/project-index-selection.test.ts",
+      "sha256": "0e23d7a97d7de8fe4da1093bc83eb979b1512956e4347db059b7bcd14b0884a2"
+    },
+    {
+      "path": "packages/core/src/project-index-selection.ts",
+      "sha256": "4560a843199c46f1795bb6d8540c5eef2130ff6c7c501fd665ba7c561c98fbc4"
+    },
+    {
+      "path": "packages/core/src/project-index.test.ts",
+      "sha256": "ca184588d3500e3aa17feb6dec0b80f7faa8d1906f3d4c06d4bf4f5dd6990d39"
+    },
+    {
+      "path": "packages/core/src/trails.test.ts",
+      "sha256": "c4bd5c2c485dd653c21e7cc46becc37d23d3ec3f3a6a981e0bf77b8912ad1990"
+    },
+    {
+      "path": "packages/core/src/trails.ts",
+      "sha256": "d24f737c585cffb909ef0c7e59eefda19bba93d9aac05370b53ba85a49310810"
+    }
+  ],
+  "rootTests": {
+    "files": 29,
+    "passed": 345,
+    "failed": 0,
+    "durationSeconds": 2.62,
+    "maxWorkers": 4,
+    "timeout": "Original default5seconds; no gate widened"
+  },
+  "build": "Selective service/CLI dependency build,6packages passed; no native/app install",
+  "earlierDiagnostic": "Agent observed contended5s timeouts in the exhaustive retimed-insertion edit case and trails schedule/cancellation case, then ran15s diagnostics. Root29-file345-test default5s rerun above is the acceptance evidence; no committed deadline was widened.",
+  "independentReview": "No actionable findings;200 exact boundary cases independently checked, including submicrosecond frame periods.",
+  "publicAcceptedAudio": {
+    "cases": 4,
+    "outputs": 20,
+    "mcpCliAttachmentsMatch": true,
+    "completeAcceptedPcmMatches": true,
+    "workerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+    "report": "accepted-audio-regression.json",
+    "reportSha256": "d1e1ac450058e39564ab525587eb780013431bf85b48ac76a74df4f5b76582bb"
+  },
+  "mutationEvidence": [
+    {
+      "path": "screenrec-root-14f-default-gates.log",
+      "bytes": 1570,
+      "sha256": "55672f2d44cada8e4b7350304f9a72fe24e32f65715810535deb11df858fa2b0"
+    },
+    {
+      "path": "14f-clock-mutation.log",
+      "bytes": 4173,
+      "sha256": "025036c4dc63cb3c35e3c6676dd68fd216d3a54a561d6f28898691ea07bd0dd5"
+    },
+    {
+      "path": "14f-pointer-mutation.log",
+      "bytes": 1740,
+      "sha256": "0d83d4a27193160ceaee4911a9788681f31b356ad2f2a587818c2ac0bb8e57ef"
+    },
+    {
+      "path": "14f-boundary-mutation.log",
+      "bytes": 1591,
+      "sha256": "b0f33313818fd34b4b8057f8b91db59224b65a866ddc3850c5b3df0ed766980a"
+    },
+    {
+      "path": "14f-receipt-mutation.log",
+      "bytes": 1334,
+      "sha256": "27c943627c496824b536e3177f3228f11795a2993b17ef253e4bc39c7f87ef6d"
+    },
+    {
+      "path": "14f-index-mutation.log",
+      "bytes": 1806,
+      "sha256": "bc6708146bc4662a38e2b181898e33be95c66d853fc97e2235913a897a2f478f"
+    }
+  ]
+}

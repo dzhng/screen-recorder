@@ -237,9 +237,16 @@ full/range equality, move/split/trim preservation, whole-curve refusal and movie
 preview/export wiring. Compare an independent analytic envelope and source PCM,
 not merely another render through the same compiler. Measure actual mixer cost and
 preserve the constant baseline. Retimed phase is checked through the edit reducer;
-delivered retime+gain PCM remains a dependency of slice14 and must retain its
-current NOT_READY result until stretching is accepted. This does not close
-denoise transitions or the full-slice journey gate.
+delivered retime+gain PCM is the current follow-up now that14 is verified.
+Replace the obsolete NOT_READY harness expectation with complete preserve/follow
+PCM against independent analytic envelopes for normalized/content/project clocks.
+Retain fractional activation, full/split/range equality and unchanged duration.
+
+The remaining visual journey uses moving counter footage through move, retime and
+split, with a fixed project-anchor control and complete encoded-frame trajectory
+checks. A separate bounded muted AVPlayer probe must observe actual playback
+progress and completion. Decode-only evidence cannot close that gate; muted
+execution does not establish human-perceived smoothness or audio quality.
 
 
 The [gain evidence](../assets/16-gain/README.md) retains actual debug/release native

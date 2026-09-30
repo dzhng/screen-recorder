@@ -1,0 +1,93 @@
+{
+  "sourceCommit": "b3f57817",
+  "upstreamCommit": "ef2d9ba1",
+  "worker": "/tmp/screenrec-exact-native-14f-build/debug/screenrec-native",
+  "workerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "sources": [
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift",
+      "sha256": "f1ba2ca505c90f690a68cfba639764027ed637463ae0525922df041b28ae98d6"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/PreparedPointers.swift",
+      "sha256": "28c90c3bbed18219348403009ded0d2967fa9bf6f59da155f8533b28eb30d1ca"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/PresentationSource.swift",
+      "sha256": "f1d1f3ecda91d56679379b1e4e495d01cb5e19310b060bc75c9751f043865e62"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderMedia/ExactTime.swift",
+      "sha256": "47f92f8349d0491b71da307f09970f67f84d325ce87073fc7ad3eed362c7740a"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/ExactPresentationTests.swift",
+      "sha256": "3841188b918931f4e62768ae7d61b3c4e2e39ef67e2c84dd5bf7fb700d55f12f"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift",
+      "sha256": "ed95c2c2ef2390bb8d808567c4057888cb44195544b30cb3fada1a33d478be5f"
+    }
+  ],
+  "evidenceMembers": [
+    {
+      "path": "focused.log",
+      "bytes": 147,
+      "sha256": "0abe0d9c6b3f3bfccaf89b737684540ceaa921320b9dccad77062637a1f0de66"
+    },
+    {
+      "path": "full-frames.log",
+      "bytes": 2849,
+      "sha256": "2479d9ee99d8be23279a867b87fb46941576d60044af0bf68055e17eab59434b"
+    },
+    {
+      "path": "composition-movie.log",
+      "bytes": 2348,
+      "sha256": "2c462d59b18c954f06037dfebd0897715d08a6d86ae2495ffef7f68d3cd468f7"
+    },
+    {
+      "path": "native-smoke.log",
+      "bytes": 1419,
+      "sha256": "e5510296e96889391eaf6a164dc48b2ee806832834e4f35a0f1be974e2fd6fad"
+    },
+    {
+      "path": "build.log",
+      "bytes": 569,
+      "sha256": "ec7b081c878ac7b51023ea7cbf4ece0e466c6f31bedc79a92aa0282e2eda7cb0"
+    },
+    {
+      "path": "before-integer-response.json",
+      "bytes": 1875,
+      "sha256": "f521b189019f273521b00ad5d27caedaddef8d4f9986fa0d54f232d84d33fe69"
+    },
+    {
+      "path": "after-exact-response.json",
+      "bytes": 1933,
+      "sha256": "387c3e499527fe69ca1fad237b595e1b9e654f61ec3b68b15074e86bd5cd2596"
+    },
+    {
+      "path": "pointer-native/movie-1050001-reference.json",
+      "bytes": 202,
+      "sha256": "7be12b31f8b2a589577663253d9ed5522363a28a310f011cf0fb52dbaead409f"
+    },
+    {
+      "path": "pointer-native/report.json",
+      "bytes": 53201,
+      "sha256": "0a2dc38f184caa484ae51a628278b85019d5a960f24e88612adf4781968b0582"
+    },
+    {
+      "path": "pointer-native/legacy-matched-difference.json",
+      "bytes": 61,
+      "sha256": "df48197c2522418ab9e8df1a03a4c8efd704baf322bafbfac63717c03fb11511"
+    },
+    {
+      "path": "pointer-native/movie-0-reference.json",
+      "bytes": 199,
+      "sha256": "c751c4138d4ab0faa04101b8c90f7a1d448a58b83db2454e934e767bfde5259e"
+    }
+  ],
+  "scope": "Native exact physical membership, full existing frame suite, movie/pointer integration and14native smoke checks. Source fields supplied directly to native for this prerequisite; combined compiler/public and final visual acceptance still pending.",
+  "independentCodeReview": "Root reviewed exact interval selection, rational receipts, earlier seek, reader reuse and pointer cutoff validation. No remaining blocking finding.",
+  "codexCliReview": "Previously configured model refused by account; no CLI review verdict inferred.",
+  "frame29Sha256": "a091348d5cf9fa597df73b6271479913846bd3bda73b35a7db754d7f04585b27"
+}

@@ -130,3 +130,8 @@ voice listening acceptance (18/19), cutover (23), scale (24) and autonomous acce
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,
 choices and the active pickup; the global checklist is the completion boundary.
+
+- [Public retiming](14e-public-retiming/root-review.md) preserves all accepted A–D
+  PCM and verifies linked/independent video/audio, exact picture sampling,
+  attachments and retained receiver delivery. Animated gain/zoom and combined
+  temporal denoise remain16/15a3; acoustic retime conformance remains11.
