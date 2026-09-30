@@ -59,3 +59,8 @@ permissions, installation, signing, playback or downloads occurred. All experime
 children were reaped. Large generated movies remain at the paths and hashes in the
 archive's external-media inventory; compact media, logs, sources and the bounded
 reproduction launcher are retained in the archive.
+
+[Root integration](root-verification.json) verifies every archive member, all
+retained source snapshots against the merged tree, original and generated media
+identities, and the final executable. Default offline and graceful-stop checks
+pass again; the unchanged long measurement is reused rather than rerendered.

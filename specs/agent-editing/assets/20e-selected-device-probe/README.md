@@ -107,3 +107,8 @@ physical/AppKit limitations explicit. Camera decoder recovery is separate.
 [Saved candidate diagnostic](candidate-reader/README.md) completes in isolation
 but reveals a mapped-timestamp mismatch; it neither explains the original hang
 nor earns camera publication. Original inputs and refusal remain retained.
+
+[Prerecorded stop at camera scale](stop-scale/README.md) measures the actual
+selected-probe stop-to-durable-result path with the retained movie. It verifies
+full camera publication and keeps physical drain, microphone and AppKit quit
+acceptance separate.

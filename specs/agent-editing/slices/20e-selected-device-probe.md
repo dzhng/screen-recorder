@@ -98,3 +98,8 @@ writer closes an outstanding pause afterward. The lifecycle above resolves that
 finding. A failure-only closure result keeps camera evidence from replacing
 production screen/microphone metadata; finalization errors are cached outcomes,
 not reasons to repeat media closure on publication retry.
+
+[Prerecorded stop measurement](../assets/20e-selected-device-probe/stop-scale/README.md)
+verifies accumulated-media closure beyond the quit fallback using actual native
+writers and publication. It adds no physical capture, AppKit termination verdict
+or shutdown-policy change.

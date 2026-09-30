@@ -3924,3 +3924,21 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   are explicit, and containment is judged separately from naturalness.
 - **Confidence:** high; complete familiar sentences follow the user's requested
   listening workflow and avoid unexplained isolated word fragments.
+
+## Measure accumulated camera closure without acquiring another take
+
+- **When:**20e prerecorded stop measurement.
+- **Choice:** replay the retained camera movie at its timestamps through the
+  existing injected input and real capture writers, then measure stop through
+  durable publication. The camera and microphone are never activated.
+- **Gap:** offline recovery timing could not establish how long the normal stop
+  operation takes, and another physical recording is not authorized.
+- **Reach:** this test can demonstrate a slow but successful finalizer. It cannot
+  establish live device drain, microphone work or app termination. The result
+  does not select a replacement timeout or close those separate gates.
+- **Verdict:** sound; the measurement advances the known lifecycle question
+  without inventing physical evidence or changing shutdown policy. Empty-edit
+  samples are excluded using the existing production timing owner, so the test
+  does not introduce its own definition of an acquired picture.
+- **Confidence:** high; the remaining limits and original fixture identity are
+  explicit, and no further user recording is needed for this scoped evidence.

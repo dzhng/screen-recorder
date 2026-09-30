@@ -1,0 +1,35 @@
+{
+  "status": "verified on merged root",
+  "implementationCommit": "97fa0074",
+  "archiveSha256": "4a3f011f332ff748dfe303ed965e75a88cd7bf08e814b40897305ecbc84c931f",
+  "archiveMembersVerified": 124,
+  "sourceSnapshotsEqualMergedTree": 25,
+  "completeHelperAndAppTreeEqualsDelegateCommit": "90d6ec0bfaa65d37ceb431568c787e5fe707eedd",
+  "binary": {
+    "path": "/tmp/screenrec-20e-stop-scale-build/arm64-apple-macosx/debug/ScreenRecorderCaptureTests",
+    "bytes": 31181920,
+    "sha256": "7007fc7e14544fdc0d90471f2437b857887129ab1a39ba2b5af8a0fac60ef29e"
+  },
+  "originalFixtureIdentityVerified": {
+    "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+    "bytes": 424848170,
+    "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+  },
+  "externalMediaIdentitiesVerified": 4,
+  "rootChecks": {
+    "defaultOfflineSuite": "PASS exit0",
+    "selectedGracefulStop": "PASS exit0",
+    "selectedGracefulStopLog": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-root-stop-check-j2qwjz5u/test.log"
+  },
+  "longRun": {
+    "reusedWithoutRerender": true,
+    "offeredAndRepresentedPictures": 4428,
+    "stopToDurableResultSeconds": 26.914832583,
+    "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c"
+  },
+  "limitations": [
+    "Prerecorded startup delivery and immediate simulated drain",
+    "No microphone, live callback shutdown or AppKit termination proof",
+    "No shutdown-policy or installed-app change"
+  ]
+}

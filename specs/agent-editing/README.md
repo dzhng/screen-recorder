@@ -33,9 +33,13 @@ saved take recovers all4428 readable pictures with exact PTS/pixels. Root verifi
 Originals remain in [fixtures](../../fixtures/screen-camera-timing/README.md);
 already rejected pixels cannot be reconstructed. No new capture is authorized.
 [Physical-event analysis](assets/20-physical-sync/README.md) does not establish the
-one-frame bound or whole-take camera coverage. The existing10-second quit fallback
-also precedes the measured28-second recovery, so physical graceful-quit acceptance
-remains separate. No installed app or frozen worker was replaced. Webcam integration,
+one-frame bound or whole-take camera coverage. The
+[prerecorded stop measurement](assets/20e-selected-device-probe/stop-scale/README.md)
+preserves all4428 pictures and takes26.915 seconds from stop to durable result,
+exceeding the existing10-second quit fallback. Root verified all124 archive
+members/25 source snapshots and reran default and stop checks. This measures
+accumulated-media closure with simulated drain; physical/AppKit shutdown remains
+unverified and no timeout policy changed. No installed app or frozen worker was replaced. Webcam integration,
 remaining quality gates and installed cutover retain their full scope.
 
 The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)

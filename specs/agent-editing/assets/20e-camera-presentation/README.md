@@ -52,7 +52,11 @@ acceptance. The [stop contract](../20e-selected-device-probe/graceful-stop/READM
 intentionally permits interrupted, recoverable originals at that deadline. The
 28-second observation measures offline recovery, not live closure; it does not
 justify increasing the timeout. The service's recovery budget covers a different
-operation and media set, so it is not a reusable live-camera shutdown bound. No generic reader, codec/color admission, audio owner or production
+operation and media set, so it is not a reusable live-camera shutdown bound.
+A subsequent [prerecorded stop measurement](../20e-selected-device-probe/stop-scale/README.md)
+now measures the selected-probe stop path itself. It confirms legitimate
+accumulated-media closure can exceed the fallback, while retaining the separate
+physical/AppKit limitations and unchanged shutdown policy. No generic reader, codec/color admission, audio owner or production
 camera API changed. The abandoned sparse-edit experiments remain historical evidence.
 
 The first consumer script incorrectly asserted absolute timestamps against a
