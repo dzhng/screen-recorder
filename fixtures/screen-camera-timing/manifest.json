@@ -1,0 +1,72 @@
+{
+  "capture": "real physical Mac screen / iPhone camera / MacBook microphone",
+  "purpose": [
+    "cross-source synchronization",
+    "ordinary arbitrary-source asset import"
+  ],
+  "userRequestedStopAfterSeconds": 200,
+  "termination": "SIGTERM sent at user request; raw fragmented media and journals retained, terminal capture publication was not emitted. Recovery is separate.",
+  "sources": [
+    {
+      "path": "request.json",
+      "bytes": 329,
+      "sha256": "c311173dbf79ae4a261b13e04dcedda0786648718f77788683c869a72a639682"
+    },
+    {
+      "path": "timestamps.jsonl",
+      "bytes": 15128168,
+      "sha256": "ff2a43b0a6f22f378d977b17e9c6e8d2eb8790a9cd3e797aed075feb3d079ec5"
+    },
+    {
+      "path": "camera/camera.raw.mov",
+      "bytes": 424848170,
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+    },
+    {
+      "path": "camera/capture.journal.jsonl",
+      "bytes": 376,
+      "sha256": "98cd1cdf5a6635b710aadeb2f76885099d0dc5e0430ee74f7b41911b3ff8f7b4"
+    },
+    {
+      "path": "screen/video.mov",
+      "bytes": 113175651,
+      "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+    },
+    {
+      "path": "screen/narration.packed.mov",
+      "bytes": 48799617,
+      "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+    },
+    {
+      "path": "screen/capture.journal.jsonl",
+      "bytes": 5711774,
+      "sha256": "69a4823541d140e93b260a39c195325e3e156cfc8a904defeb96876b790b3169"
+    }
+  ],
+  "capturePermissions": "User explicitly authorized this take and fixture retention.",
+  "mediaStorage": "Large media and raw timestamp observations retained locally in this fixture directory; manifest and instructions tracked in Git.",
+  "observedMedia": {
+    "camera": {
+      "startSeconds": 4.147523,
+      "durationSeconds": 246.00058,
+      "width": 1920,
+      "height": 1080,
+      "codec": "H264",
+      "color": "709"
+    },
+    "screen": {
+      "durationSeconds": 251.031809,
+      "width": 3024,
+      "height": 1964,
+      "codec": "H264"
+    },
+    "microphone": {
+      "durationSeconds": 251.008,
+      "sampleRate": 48000,
+      "channels": 1,
+      "codec": "Float32 PCM"
+    }
+  },
+  "publicImportVerification": "../../specs/agent-editing/assets/20-physical-import/report.json",
+  "recovery": "Separate camera canonical-recovery attempt stopped after repeated samples showed a blocking candidate decode read; no published canonical camera receipt."
+}

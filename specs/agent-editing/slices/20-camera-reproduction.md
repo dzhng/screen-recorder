@@ -1,6 +1,6 @@
 # 20 — Prove screen and camera timing
 
-Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is verified offline; real ten-minute capture and physical interruption gates remain unverified. Dependencies: [00](./00-corpus.md).
+Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is verified offline; a real user-shortened take is retained under [fixtures](../../../fixtures/screen-camera-timing/README.md), with ordinary import verified. Graceful probe stop and candidate recovery exposed real defects; physical timing and interruption acceptance remain unverified. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -33,11 +33,13 @@ that checkpoint, use explicit selected camera/microphone/screen identities and a
 authorized capture identity for the shared flash/audible-event take. Keep one
 declared initial alignment; do not fit away residual drift or flatten the sources.
 The [audit](../assets/20a-offline-clock/planning-audit.md) names required user setup,
-permissions, ten minutes of active capture and separate interruption scenarios.
+permissions and separate interruption scenarios. The user subsequently chose roughly200seconds
+for this physical take; retain the shorter observed scope rather than requiring
+another ten-minute handheld recording.
 
 ## Acceptance
 
-Real ten-minute screen/camera/audio take has measured relative drift within one output frame after declared initial-offset alignment. Exercise interrupted camera, missing microphone, pause/resume and non-zero capture offsets. Confirm clean separate source media and recoverable partial results.
+The real screen/camera/audio take (at least200seconds, per the user’s revised duration) has measured relative drift within one output frame after declared initial-offset alignment. Do not extrapolate its measured drift to ten minutes. Exercise interrupted camera, missing microphone, pause/resume and non-zero capture offsets. Confirm clean separate source media and recoverable partial results.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 

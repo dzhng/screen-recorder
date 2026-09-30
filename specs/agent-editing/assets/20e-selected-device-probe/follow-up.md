@@ -1,4 +1,4 @@
-# Physical follow-up — discovery complete, capture pending
+# Physical follow-up — real take retained
 
 Reviewable scratch assembly: `/tmp/screenrec-20e-reviewed-app/ScreenRecorder.app`.
 Its Info.plist says `com.david.screenrec`; executable SHA256 is
@@ -79,3 +79,15 @@ emits numbered flashes/beeps but starts no recording; its scheduling timestamps
 are not an alignment oracle. The exact request is retained in discovery.json and
 `/tmp/screenrec-20e-live-probe/capture-request.json`. Wait for the user's READY to
 start that concrete capture; no capture authorization is inferred from discovery.
+
+The user subsequently replied READY and requested fixture retention for arbitrary
+source imports. Capture ran, then the user shortened it to roughly200seconds and
+asked to stop. The originals are retained in
+[fixtures](../../../../fixtures/screen-camera-timing/README.md); no recording is
+running and no further user holding/setup is needed for the current code work.
+The originally scheduled five-minute pause was not reached. The probe did not
+finalize on app quit, so retained media is an interrupted fragmented take. Ordinary
+imports succeed; separate canonical recovery blocked during candidate decoding.
+[The current evidence](../20-physical-import/README.md) owns these findings.
+The earlier READY/request instructions above describe the completed historical
+request, not authorization to start another recording.

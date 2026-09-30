@@ -17,14 +17,16 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: resolve the remaining speech/stretch listening and physical-capture
-acceptance before adopting their dependent execution paths. The
-[selected-device probe](slices/20e-selected-device-probe.md) is offline-verified;
-authorized signing, permission-status reads and source discovery are now complete;
-all required grants already exist. Its [follow-up](assets/20e-selected-device-probe/follow-up.md)
-contains the validated iPhone/display/MacBook-microphone request and timing page.
-Wait for READY to start the concrete physical take. No recording has run;
-production webcam21 still requires the physical clock proof.
+Current pickup: repair graceful stop and candidate decoding exposed by the real
+[screen/camera fixture](../../fixtures/screen-camera-timing/README.md). The user
+authorized capture and fixture retention, then shortened the requested take to
+roughly200seconds. Recording is stopped and originals are retained. Ordinary
+import of camera, screen and microphone plus sampled frame/audio decoding passes;
+[the evidence](assets/20-physical-import/README.md) separates that result from
+unfinished canonical recovery and physical synchronization. Reuse this take;
+do not ask the user to hold the phone again for these code fixes. Capture-pause-recovery
+owns the stop fix and bounded recovery diagnosis. Remaining speech/stretch
+acceptance and downstream webcam integration retain their existing scope.
 
 The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
 is integrated: the unchanged 500-operation request now completes in 281 ms with exact

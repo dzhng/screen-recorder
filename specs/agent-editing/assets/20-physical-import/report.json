@@ -1,0 +1,1068 @@
+{
+  "passed": true,
+  "home": "/tmp/screenrec-physical-import-library-HLKJYK",
+  "native": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+  "sources": [
+    {
+      "name": "camera",
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+      "bytes": 424848170,
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+      "streams": [
+        {
+          "streamId": "track:1",
+          "kind": "video",
+          "segments": [
+            {
+              "ordinal": 0,
+              "startUs": -4147523,
+              "endUs": 0,
+              "empty": true
+            },
+            {
+              "ordinal": 1,
+              "startUs": 0,
+              "endUs": 246000580,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 246000580
+            }
+          ],
+          "inspections": [
+            {
+              "label": "early",
+              "params": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 4920011,
+                "maxLongEdge": 960
+              },
+              "status": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 4920011,
+                "maxLongEdge": 960,
+                "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "41aca402-8c1f-4cc0-9fee-1363ab4eef82",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/41a48f26-6fe6-473e-9f39-ec6f53cb0a10.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 540,
+                    "sourceWidth": 1920,
+                    "sourceHeight": 1080,
+                    "bytes": 466993,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 4920011,
+                    "actualSourceUs": 4876770,
+                    "sample": {
+                      "value": "9024293",
+                      "timescale": 1000000,
+                      "endValue": "9090963",
+                      "endTimescale": 1000000,
+                      "originUs": 4147523
+                    },
+                    "atUs": 4920011,
+                    "maxLongEdge": 960,
+                    "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "41a48f26-6fe6-473e-9f39-ec6f53cb0a10"
+                  }
+                },
+                "delivery": {
+                  "token": "88bf4473-0af2-4039-83bc-ab7ca3cb9d8c",
+                  "bytes": 466993,
+                  "expiresAt": 1790732327887
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-lD2Ehm/frame.png"
+              },
+              "delivered": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 4920011,
+                "maxLongEdge": 960,
+                "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "41aca402-8c1f-4cc0-9fee-1363ab4eef82",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/41a48f26-6fe6-473e-9f39-ec6f53cb0a10.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 540,
+                    "sourceWidth": 1920,
+                    "sourceHeight": 1080,
+                    "bytes": 466993,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 4920011,
+                    "actualSourceUs": 4876770,
+                    "sample": {
+                      "value": "9024293",
+                      "timescale": 1000000,
+                      "endValue": "9090963",
+                      "endTimescale": 1000000,
+                      "originUs": 4147523
+                    },
+                    "atUs": 4920011,
+                    "maxLongEdge": 960,
+                    "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "41a48f26-6fe6-473e-9f39-ec6f53cb0a10"
+                  }
+                },
+                "delivery": {
+                  "token": "9693bd69-dbcb-49b0-9587-4b34dbbaf3c2",
+                  "bytes": 466993,
+                  "expiresAt": 1790732328050
+                },
+                "output": "/tmp/screenrec-physical-import-1/camera-track-1-early.png"
+              },
+              "output": "/tmp/screenrec-physical-import-1/camera-track-1-early.png",
+              "sha256": "b1b54069c770757c22c829c1fe1707391bfb6d960c0b56350991a929e4fc86d5"
+            },
+            {
+              "label": "middle",
+              "params": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 123000289,
+                "maxLongEdge": 960
+              },
+              "status": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 123000289,
+                "maxLongEdge": 960,
+                "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "4a94a71a-f81a-4786-94dc-f48afa53dbe4",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/3d71b39d-7436-4b8a-b5ee-8c16b0a06124.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 540,
+                    "sourceWidth": 1920,
+                    "sourceHeight": 1080,
+                    "bytes": 483060,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 123000289,
+                    "actualSourceUs": 122952830,
+                    "sample": {
+                      "value": "127100353",
+                      "timescale": 1000000,
+                      "endValue": "127167023",
+                      "endTimescale": 1000000,
+                      "originUs": 4147523
+                    },
+                    "atUs": 123000289,
+                    "maxLongEdge": 960,
+                    "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "3d71b39d-7436-4b8a-b5ee-8c16b0a06124"
+                  }
+                },
+                "delivery": {
+                  "token": "adc026d3-208e-4fea-a685-01b283bc4aa5",
+                  "bytes": 483060,
+                  "expiresAt": 1790732328611
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-1nRAMm/frame.png"
+              },
+              "delivered": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 123000289,
+                "maxLongEdge": 960,
+                "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "4a94a71a-f81a-4786-94dc-f48afa53dbe4",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/3d71b39d-7436-4b8a-b5ee-8c16b0a06124.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 540,
+                    "sourceWidth": 1920,
+                    "sourceHeight": 1080,
+                    "bytes": 483060,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 123000289,
+                    "actualSourceUs": 122952830,
+                    "sample": {
+                      "value": "127100353",
+                      "timescale": 1000000,
+                      "endValue": "127167023",
+                      "endTimescale": 1000000,
+                      "originUs": 4147523
+                    },
+                    "atUs": 123000289,
+                    "maxLongEdge": 960,
+                    "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "3d71b39d-7436-4b8a-b5ee-8c16b0a06124"
+                  }
+                },
+                "delivery": {
+                  "token": "2e1dfa78-ea86-4f9c-8c06-18808667f50e",
+                  "bytes": 483060,
+                  "expiresAt": 1790732328779
+                },
+                "output": "/tmp/screenrec-physical-import-1/camera-track-1-middle.png"
+              },
+              "output": "/tmp/screenrec-physical-import-1/camera-track-1-middle.png",
+              "sha256": "5badae5515313c19873946607c3a8ae9f56d5a3f0731c234845abdbe8d5a803e"
+            },
+            {
+              "label": "late",
+              "params": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 241080567,
+                "maxLongEdge": 960
+              },
+              "status": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 241080567,
+                "maxLongEdge": 960,
+                "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "8220fe8d-2d2f-4046-a387-5b35ed5ff18e",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/d7d95485-d0c6-492f-971a-62e5dd0fc6f4.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 540,
+                    "sourceWidth": 1920,
+                    "sourceHeight": 1080,
+                    "bytes": 354943,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 241080567,
+                    "actualSourceUs": 241033520,
+                    "sample": {
+                      "value": "245181043",
+                      "timescale": 1000000,
+                      "endValue": "245247713",
+                      "endTimescale": 1000000,
+                      "originUs": 4147523
+                    },
+                    "atUs": 241080567,
+                    "maxLongEdge": 960,
+                    "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "d7d95485-d0c6-492f-971a-62e5dd0fc6f4"
+                  }
+                },
+                "delivery": {
+                  "token": "26f6f50b-346b-4766-8938-8e87cbc39329",
+                  "bytes": 354943,
+                  "expiresAt": 1790732329352
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-xVnsED/frame.png"
+              },
+              "delivered": {
+                "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                "streamId": "track:1",
+                "atUs": 241080567,
+                "maxLongEdge": 960,
+                "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "8220fe8d-2d2f-4046-a387-5b35ed5ff18e",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/d7d95485-d0c6-492f-971a-62e5dd0fc6f4.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 540,
+                    "sourceWidth": 1920,
+                    "sourceHeight": 1080,
+                    "bytes": 354943,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 241080567,
+                    "actualSourceUs": 241033520,
+                    "sample": {
+                      "value": "245181043",
+                      "timescale": 1000000,
+                      "endValue": "245247713",
+                      "endTimescale": 1000000,
+                      "originUs": 4147523
+                    },
+                    "atUs": 241080567,
+                    "maxLongEdge": 960,
+                    "supportDigest": "735a38561a84557baab20e86a7fa3e02b7ce9b5f7d7bb08f70be2d3a9c9d70e4",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "d7d95485-d0c6-492f-971a-62e5dd0fc6f4"
+                  }
+                },
+                "delivery": {
+                  "token": "87243dee-afae-4795-9c88-68afb28dfe80",
+                  "bytes": 354943,
+                  "expiresAt": 1790732329531
+                },
+                "output": "/tmp/screenrec-physical-import-1/camera-track-1-late.png"
+              },
+              "output": "/tmp/screenrec-physical-import-1/camera-track-1-late.png",
+              "sha256": "91cb35f1f366e1975b79a048c493a3bba7c2388e22212102d9bb8cce625d73e3"
+            }
+          ]
+        }
+      ],
+      "import": {
+        "jobId": "61541f14-3029-4f4b-bffb-33b09df9f433",
+        "attemptId": "6bf0c8aa-93c8-4fc6-9f55-1f824ab56862",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "state": "running",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "0c048429a42e573f1da9b04f8a2e86686326b51900e196d6fb011766e422eeef",
+        "target": {
+          "kind": "import",
+          "importId": "22cc9aee-d20c-4f37-9b0a-0c9ba0fbce7b"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": null
+      },
+      "job": {
+        "jobId": "61541f14-3029-4f4b-bffb-33b09df9f433",
+        "attemptId": "6bf0c8aa-93c8-4fc6-9f55-1f824ab56862",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "state": "ready",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "0c048429a42e573f1da9b04f8a2e86686326b51900e196d6fb011766e422eeef",
+        "target": {
+          "kind": "import",
+          "importId": "22cc9aee-d20c-4f37-9b0a-0c9ba0fbce7b"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": {
+          "assetId": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+        }
+      },
+      "asset": {
+        "originUs": 4147523,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "avc1",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 246000580,
+            "width": 1920,
+            "height": 1080,
+            "orientedWidth": 1920,
+            "orientedHeight": 1080,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 1920,
+              "height": 1080
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "colorPrimaries": "ITU_R_709_2",
+            "transferFunction": "ITU_R_709_2",
+            "ycbcrMatrix": "ITU_R_709_2",
+            "samples": {
+              "count": 4428,
+              "firstPtsUs": 0,
+              "lastPtsUs": 245933910,
+              "minDurationUs": 33330,
+              "maxDurationUs": 965420
+            },
+            "segmentCount": 2
+          }
+        ],
+        "id": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+        "bytes": 424848170,
+        "createdAt": "2026-09-30T01:38:16.946Z",
+        "fileName": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805.mov"
+      }
+    },
+    {
+      "name": "screen",
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/screen/video.mov",
+      "bytes": 113175651,
+      "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+      "streams": [
+        {
+          "streamId": "track:1",
+          "kind": "video",
+          "segments": [
+            {
+              "ordinal": 0,
+              "startUs": 0,
+              "endUs": 251031809,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 251031809
+            }
+          ],
+          "inspections": [
+            {
+              "label": "early",
+              "params": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 5020636,
+                "maxLongEdge": 960
+              },
+              "status": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 5020636,
+                "maxLongEdge": 960,
+                "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "4613e72e-c30c-42e3-8ef9-b6aae2d2561c",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/3b576cf2-5184-4fc0-95de-c57854fdf451.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 623,
+                    "sourceWidth": 3024,
+                    "sourceHeight": 1964,
+                    "bytes": 152430,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 5020636,
+                    "actualSourceUs": 5016634,
+                    "sample": {
+                      "value": "5016634",
+                      "timescale": 1000000,
+                      "endValue": "5058301",
+                      "endTimescale": 1000000,
+                      "originUs": 0
+                    },
+                    "atUs": 5020636,
+                    "maxLongEdge": 960,
+                    "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "3b576cf2-5184-4fc0-95de-c57854fdf451"
+                  }
+                },
+                "delivery": {
+                  "token": "ca99ca30-6fcf-40ae-896e-5ba763500045",
+                  "bytes": 152430,
+                  "expiresAt": 1790732331652
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-USDaVi/frame.png"
+              },
+              "delivered": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 5020636,
+                "maxLongEdge": 960,
+                "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "4613e72e-c30c-42e3-8ef9-b6aae2d2561c",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/3b576cf2-5184-4fc0-95de-c57854fdf451.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 623,
+                    "sourceWidth": 3024,
+                    "sourceHeight": 1964,
+                    "bytes": 152430,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 5020636,
+                    "actualSourceUs": 5016634,
+                    "sample": {
+                      "value": "5016634",
+                      "timescale": 1000000,
+                      "endValue": "5058301",
+                      "endTimescale": 1000000,
+                      "originUs": 0
+                    },
+                    "atUs": 5020636,
+                    "maxLongEdge": 960,
+                    "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "3b576cf2-5184-4fc0-95de-c57854fdf451"
+                  }
+                },
+                "delivery": {
+                  "token": "ed2cd652-3b2d-423e-a412-7addf864461f",
+                  "bytes": 152430,
+                  "expiresAt": 1790732331831
+                },
+                "output": "/tmp/screenrec-physical-import-1/screen-track-1-early.png"
+              },
+              "output": "/tmp/screenrec-physical-import-1/screen-track-1-early.png",
+              "sha256": "d1010a7e4c5b0d38947d3d6e708e33a17aab7e7d76b3870a3cd868f56c8c9549"
+            },
+            {
+              "label": "middle",
+              "params": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 125515904,
+                "maxLongEdge": 960
+              },
+              "status": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 125515904,
+                "maxLongEdge": 960,
+                "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "4b96139a-2f16-478e-9815-8afbee18b9e0",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/29e02c1d-5a49-4055-aa88-44b5c6edae39.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 623,
+                    "sourceWidth": 3024,
+                    "sourceHeight": 1964,
+                    "bytes": 160378,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 125515904,
+                    "actualSourceUs": 125495053,
+                    "sample": {
+                      "value": "125495053",
+                      "timescale": 1000000,
+                      "endValue": "125536719",
+                      "endTimescale": 1000000,
+                      "originUs": 0
+                    },
+                    "atUs": 125515904,
+                    "maxLongEdge": 960,
+                    "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "29e02c1d-5a49-4055-aa88-44b5c6edae39"
+                  }
+                },
+                "delivery": {
+                  "token": "30110d83-a76a-498f-9fa8-b1f6bf83a3ea",
+                  "bytes": 160378,
+                  "expiresAt": 1790732332420
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-gR1wsF/frame.png"
+              },
+              "delivered": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 125515904,
+                "maxLongEdge": 960,
+                "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "4b96139a-2f16-478e-9815-8afbee18b9e0",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/29e02c1d-5a49-4055-aa88-44b5c6edae39.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 623,
+                    "sourceWidth": 3024,
+                    "sourceHeight": 1964,
+                    "bytes": 160378,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 125515904,
+                    "actualSourceUs": 125495053,
+                    "sample": {
+                      "value": "125495053",
+                      "timescale": 1000000,
+                      "endValue": "125536719",
+                      "endTimescale": 1000000,
+                      "originUs": 0
+                    },
+                    "atUs": 125515904,
+                    "maxLongEdge": 960,
+                    "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "29e02c1d-5a49-4055-aa88-44b5c6edae39"
+                  }
+                },
+                "delivery": {
+                  "token": "c6837a63-815e-4f9d-ae6e-5d4894b39b9f",
+                  "bytes": 160378,
+                  "expiresAt": 1790732332583
+                },
+                "output": "/tmp/screenrec-physical-import-1/screen-track-1-middle.png"
+              },
+              "output": "/tmp/screenrec-physical-import-1/screen-track-1-middle.png",
+              "sha256": "dc9682b76a2702c37038c1b074066624cfefcc23b1f7c06deb94ccd83a3cb3c2"
+            },
+            {
+              "label": "late",
+              "params": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 246011171,
+                "maxLongEdge": 960
+              },
+              "status": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 246011171,
+                "maxLongEdge": 960,
+                "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "17bb9975-893c-4919-b5f8-c766589fbaed",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/651b4158-5504-444a-9c55-80b0db09c83c.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 623,
+                    "sourceWidth": 3024,
+                    "sourceHeight": 1964,
+                    "bytes": 180142,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 246011171,
+                    "actualSourceUs": 245998505,
+                    "sample": {
+                      "value": "245998505",
+                      "timescale": 1000000,
+                      "endValue": "246031838",
+                      "endTimescale": 1000000,
+                      "originUs": 0
+                    },
+                    "atUs": 246011171,
+                    "maxLongEdge": 960,
+                    "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "651b4158-5504-444a-9c55-80b0db09c83c"
+                  }
+                },
+                "delivery": {
+                  "token": "6f0d4eb8-bb52-4325-91ad-a1bc463769d9",
+                  "bytes": 180142,
+                  "expiresAt": 1790732333149
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-79UJJd/frame.png"
+              },
+              "delivered": {
+                "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                "streamId": "track:1",
+                "atUs": 246011171,
+                "maxLongEdge": 960,
+                "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                "implementationId": "native-source-picture-v4",
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "17bb9975-893c-4919-b5f8-c766589fbaed",
+                "published": {
+                  "generation": 1,
+                  "frame": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/651b4158-5504-444a-9c55-80b0db09c83c.cache",
+                    "mediaType": "image/png",
+                    "width": 960,
+                    "height": 623,
+                    "sourceWidth": 3024,
+                    "sourceHeight": 1964,
+                    "bytes": 180142,
+                    "decodedSamples": 1,
+                    "readerOpens": 1,
+                    "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 246011171,
+                    "actualSourceUs": 245998505,
+                    "sample": {
+                      "value": "245998505",
+                      "timescale": 1000000,
+                      "endValue": "246031838",
+                      "endTimescale": 1000000,
+                      "originUs": 0
+                    },
+                    "atUs": 246011171,
+                    "maxLongEdge": 960,
+                    "supportDigest": "ca502c87323e52bfdc5d05cdd21d63e8f98fc5c61bf10379087a208c2a2c2a64",
+                    "implementationId": "native-source-picture-v4",
+                    "cacheId": "651b4158-5504-444a-9c55-80b0db09c83c"
+                  }
+                },
+                "delivery": {
+                  "token": "e77d91ea-2195-424c-a877-09c9495ed0d7",
+                  "bytes": 180142,
+                  "expiresAt": 1790732333306
+                },
+                "output": "/tmp/screenrec-physical-import-1/screen-track-1-late.png"
+              },
+              "output": "/tmp/screenrec-physical-import-1/screen-track-1-late.png",
+              "sha256": "8cb9598cf580b096d98f3072161df2c68d6bf8f269ece2c8d6d6e5d7f003f5d1"
+            }
+          ]
+        }
+      ],
+      "import": {
+        "jobId": "4fc464c9-9a1b-491f-b127-52dd3547330a",
+        "attemptId": "f49b28cb-9866-471a-a878-905bfe68d3a3",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "state": "running",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "26aeb16437271f0fef3fa4fa7f634079068318471be922c3462491e6c6697759",
+        "target": {
+          "kind": "import",
+          "importId": "aed8189b-23c5-433c-aeab-cb0b734b4916"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": null
+      },
+      "job": {
+        "jobId": "4fc464c9-9a1b-491f-b127-52dd3547330a",
+        "attemptId": "f49b28cb-9866-471a-a878-905bfe68d3a3",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "state": "ready",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "26aeb16437271f0fef3fa4fa7f634079068318471be922c3462491e6c6697759",
+        "target": {
+          "kind": "import",
+          "importId": "aed8189b-23c5-433c-aeab-cb0b734b4916"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": {
+          "assetId": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+        }
+      },
+      "asset": {
+        "originUs": 0,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "avc1",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 251031809,
+            "width": 3024,
+            "height": 1964,
+            "orientedWidth": 3024,
+            "orientedHeight": 1964,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 3024,
+              "height": 1964
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "samples": {
+              "count": 7359,
+              "firstPtsUs": 0,
+              "lastPtsUs": 250998476,
+              "minDurationUs": 8333,
+              "maxDurationUs": 108332
+            },
+            "segmentCount": 1
+          }
+        ],
+        "id": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+        "bytes": 113175651,
+        "createdAt": "2026-09-30T01:38:20.320Z",
+        "fileName": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c.mov"
+      }
+    },
+    {
+      "name": "microphone",
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/screen/narration.packed.mov",
+      "bytes": 48799617,
+      "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+      "streams": [
+        {
+          "streamId": "track:1",
+          "kind": "audio",
+          "segments": [
+            {
+              "ordinal": 0,
+              "startUs": 0,
+              "endUs": 251008000,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 251008000
+            }
+          ],
+          "inspections": [
+            {
+              "params": {
+                "assetId": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+                "streamId": "track:1",
+                "range": {
+                  "startUs": 120503999,
+                  "endUs": 130503999
+                }
+              },
+              "status": {
+                "assetId": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+                "streamId": "track:1",
+                "range": {
+                  "startUs": 120503999,
+                  "endUs": 130503999
+                },
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "2226f40d-5165-4927-bdfe-deaaa9182717",
+                "published": {
+                  "generation": 1,
+                  "audio": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/f12dd532-12a1-4f84-82f2-350b1d927715.cache",
+                    "mediaType": "audio/wav",
+                    "bytes": 1924096,
+                    "sampleRate": 48000,
+                    "channels": 1,
+                    "layout": "mono",
+                    "range": {
+                      "startUs": 120503999,
+                      "endUs": 130503999
+                    },
+                    "sampleRange": {
+                      "start": 5784191,
+                      "end": 6264191
+                    },
+                    "frames": 480000,
+                    "decodedFrames": 480003,
+                    "unavailable": [],
+                    "assetId": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+                    "streamId": "track:1",
+                    "supportDigest": "aec14168e89a218a118f62ea74ac7fe5314ac382b8595ec46c0be5d7ca5d5dd6",
+                    "implementationId": "native-source-audio-v4",
+                    "cacheId": "f12dd532-12a1-4f84-82f2-350b1d927715"
+                  }
+                },
+                "delivery": {
+                  "token": "44407ba1-01f8-4d0a-95d6-3b5a1ceda7ac",
+                  "bytes": 1924096,
+                  "expiresAt": 1790732334519
+                },
+                "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-mFaLEL/excerpt.wav"
+              },
+              "delivered": {
+                "assetId": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+                "streamId": "track:1",
+                "range": {
+                  "startUs": 120503999,
+                  "endUs": 130503999
+                },
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "2226f40d-5165-4927-bdfe-deaaa9182717",
+                "published": {
+                  "generation": 1,
+                  "audio": {
+                    "file": "/private/tmp/screenrec-physical-import-library-HLKJYK/library/cache/derived/f12dd532-12a1-4f84-82f2-350b1d927715.cache",
+                    "mediaType": "audio/wav",
+                    "bytes": 1924096,
+                    "sampleRate": 48000,
+                    "channels": 1,
+                    "layout": "mono",
+                    "range": {
+                      "startUs": 120503999,
+                      "endUs": 130503999
+                    },
+                    "sampleRange": {
+                      "start": 5784191,
+                      "end": 6264191
+                    },
+                    "frames": 480000,
+                    "decodedFrames": 480003,
+                    "unavailable": [],
+                    "assetId": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+                    "streamId": "track:1",
+                    "supportDigest": "aec14168e89a218a118f62ea74ac7fe5314ac382b8595ec46c0be5d7ca5d5dd6",
+                    "implementationId": "native-source-audio-v4",
+                    "cacheId": "f12dd532-12a1-4f84-82f2-350b1d927715"
+                  }
+                },
+                "delivery": {
+                  "token": "59baacdc-6644-41c4-9403-a1c78d9337c3",
+                  "bytes": 1924096,
+                  "expiresAt": 1790732334676
+                },
+                "output": "/tmp/screenrec-physical-import-1/microphone-track-1.wav"
+              },
+              "output": "/tmp/screenrec-physical-import-1/microphone-track-1.wav",
+              "sha256": "d3f4c07983b3271c7d7a5f452809d43795d752e8b30636c58018bce971d39a35",
+              "pcm": {
+                "encoding": 3,
+                "channels": 1,
+                "sampleRate": 48000,
+                "bits": 32,
+                "frames": 480000,
+                "durationSeconds": 10,
+                "channel": [
+                  {
+                    "peak": 0.03022768348455429,
+                    "rms": 0.003328987406074863
+                  }
+                ]
+              },
+              "hasNonzeroAudio": true
+            }
+          ]
+        }
+      ],
+      "import": {
+        "jobId": "ebdcd97c-6d88-4b47-9045-ce7ece26e3ce",
+        "attemptId": "58473eee-1c80-431a-ab31-0540e57b0b6c",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "state": "running",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "18ea0b94d433f537ca15e81882f6bb85d38d44f3590b673d6fe03d1851cdd2db",
+        "target": {
+          "kind": "import",
+          "importId": "cecf4e1a-965d-4d5a-a350-b209eed75b8e"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": null
+      },
+      "job": {
+        "jobId": "ebdcd97c-6d88-4b47-9045-ce7ece26e3ce",
+        "attemptId": "58473eee-1c80-431a-ab31-0540e57b0b6c",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "state": "ready",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "18ea0b94d433f537ca15e81882f6bb85d38d44f3590b673d6fe03d1851cdd2db",
+        "target": {
+          "kind": "import",
+          "importId": "cecf4e1a-965d-4d5a-a350-b209eed75b8e"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": {
+          "assetId": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+        }
+      },
+      "asset": {
+        "originUs": 0,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "audio",
+            "codec": "lpcm",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 251008000,
+            "sampleRate": 48000,
+            "channels": 1,
+            "segmentCount": 1
+          }
+        ],
+        "id": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+        "bytes": 48799617,
+        "createdAt": "2026-09-30T01:38:23.681Z",
+        "fileName": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70.mov"
+      }
+    }
+  ],
+  "failures": []
+}

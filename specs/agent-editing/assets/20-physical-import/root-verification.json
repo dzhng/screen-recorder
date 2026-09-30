@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "sourceHashesRechecked": [
+    {
+      "path": "fixtures/screen-camera-timing/camera/camera.raw.mov",
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+      "bytes": 424848170
+    },
+    {
+      "path": "fixtures/screen-camera-timing/screen/video.mov",
+      "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c",
+      "bytes": 113175651
+    },
+    {
+      "path": "fixtures/screen-camera-timing/screen/narration.packed.mov",
+      "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70",
+      "bytes": 48799617
+    }
+  ],
+  "archiveSha256": "44e2c57c437a59f8cbcc7e8c5e21624e36d438775a388fd1344d5fcb27d05d19",
+  "scope": "Original files unchanged; ordinary import and sampled decoding, not physical sync or canonical recovery."
+}

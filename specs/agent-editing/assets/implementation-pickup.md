@@ -11,8 +11,8 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
-integrated and root-verified. Capture-pause-recovery is released; all owned service,
-native, build and review handles are terminal. Root dist was preserved through
+integrated and root-verified. The earlier batch pass is released; capture-pause-recovery now owns the real
+selected-probe stop fix and recovery diagnosis below. Root dist was preserved through
 measurement; root source now includes the move fix, so rebuild JavaScript before
 new execution. Frozen root8a and candidate2c native workers remain unchanged.
 
@@ -21,10 +21,16 @@ pass: speech recipe adoption needs its unresolved timing/quality evidence,
 post-retime processing needs accepted stretching, contextual generated-voice
 quality needs listening, and installed cutover needs its unfinished capture and
 editing prerequisites. Repeating their passed lifecycle/portability cohorts does
-not resolve those dependencies. Device discovery/signing completed with all required grants already authorized.
-The physical follow-up retains the validated concrete take and timing page; wait
-for user READY before recording. Reuse the installed app where applicable, but its
-verified executable does not contain this new capture dispatcher.
+not resolve those dependencies. The real camera/screen/microphone take has completed and is retained under
+`fixtures/screen-camera-timing`. The user explicitly shortened it to roughly200seconds
+and stopped; never restart recording from the prior READY. All three standalone
+files pass ordinary import and bounded source decoding. See
+[physical import evidence](20-physical-import/README.md). Root owns fixture retention
+and parent docs; capture-pause-recovery owns app-retained graceful probe stop and
+bounded diagnosis of the existing private candidate’s blocked decode. No new
+recording or media re-generation is needed for those fixes. Public import and the
+initial recovery processes are terminal; the latter was stopped without claiming
+canonical publication. Frozen binaries and original fixture bytes remain unchanged.
 
 ## Execution context and scoped evidence
 
