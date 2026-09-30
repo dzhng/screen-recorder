@@ -180,8 +180,8 @@ export const streamSchema = z.discriminatedUnion("kind", [
       kind: z.literal("audio"),
       sampleRate: z.number().finite().positive().optional(),
       channels: z.int().positive().optional(),
-      bounds: rangeSchema,
-      available: z.array(rangeSchema),
+      bounds: selectionRangeSchema,
+      available: z.array(selectionRangeSchema),
     })
     .strict(),
   z
@@ -199,8 +199,8 @@ export const streamSchema = z.discriminatedUnion("kind", [
         })
         .strict()
         .optional(),
-      bounds: rangeSchema,
-      available: z.array(rangeSchema),
+      bounds: selectionRangeSchema,
+      available: z.array(selectionRangeSchema),
     })
     .strict(),
 ]);
@@ -208,7 +208,7 @@ export const acquisitionContextSchema = z
   .object({
     id,
     bindings: z.array(
-      z.object({ assetId: id, streamId: id, available: z.array(rangeSchema) }).strict(),
+      z.object({ assetId: id, streamId: id, available: z.array(selectionRangeSchema) }).strict(),
     ),
   })
   .strict();

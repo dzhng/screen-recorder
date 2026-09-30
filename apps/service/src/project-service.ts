@@ -275,7 +275,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       project: { projects, renderer: audioRenderer, prepared: preparedAudio },
       sourceRenderer: {
-        implementationId: "native-source-audio-v4",
+        implementationId: "native-source-audio-v5",
         render: async (request, signal) =>
           withRenderedFile(
             worker,
@@ -366,7 +366,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       asset: {
         assets,
         acquisitions,
-        implementationId: "native-source-scenes-v3",
+        implementationId: "native-source-scenes-v4",
         retained: (assetId, generation) =>
           indexes?.retainsSourceScenes(assetId, generation) ?? false,
         sample: async (request, signal) =>
@@ -431,7 +431,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
       sourceRenderer: {
-        implementationId: "native-source-picture-v4",
+        implementationId: "native-source-picture-v5",
         render: async (request, signal) =>
           withRenderedFile(
             worker,

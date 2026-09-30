@@ -1,4 +1,15 @@
-import { rational } from "@screenrec/composition";
+import {
+  rational,
+  subtract,
+  fromTime,
+  add,
+  compare,
+  round,
+  ceil,
+  type TimeValue,
+  type SignedTimeValue,
+  type SelectionRange,
+} from "@screenrec/composition";
 import { isDeepStrictEqual } from "node:util";
 import type { CompositionAssetBinding } from "./project-window.js";
 import type { TimeRange } from "./timeline.js";
@@ -26,13 +37,13 @@ export type SourceVisualPoint = { requestedSourceUs: number; continuousFromPrevi
 );
 export type SourceVisualRequest = {
   asset: CompositionAssetBinding;
-  available: readonly TimeRange[];
+  available: readonly SelectionRange[];
   atSourceUs: number[];
 };
 export type SourceVisualObservations = {
   assetId: string;
   streamId: string;
-  originUs: number;
+  originUs: SignedTimeValue;
   sourceWidth: number;
   sourceHeight: number;
   samples: SourceVisualPoint[];
@@ -74,26 +85,28 @@ export function compareSceneSampleClocks(a: SceneSampleClock, b: SceneSampleCloc
     right = BigInt(b.value) * BigInt(a.timescale);
   return left < right ? -1 : left > right ? 1 : 0;
 }
-export function sceneSampleSourceTime(sample: SceneSampleClock, originUs: number) {
-  const { start, scale } = stamp(sample);
-  return rational(start * 1000000n - BigInt(originUs) * scale, scale);
+export function sceneSampleSourceTime(
+  sample: Pick<SceneSampleClock, "value" | "timescale"> &
+    Partial<Pick<SceneSampleClock, "endValue" | "endTimescale">>,
+  originUs: SignedTimeValue,
+) {
+  return subtract(
+    rational(BigInt(sample.value) * 1000000n, BigInt(sample.timescale)),
+    fromTime(originUs),
+  );
 }
 export function validateSceneSampleClock(
   sample: SceneSampleClock,
   requestedSourceUs: number,
   actualSourceUs: number,
-  originUs: number,
+  originUs: SignedTimeValue,
 ) {
   const { start, scale, end, endScale } = stamp(sample);
-  const at = BigInt(requestedSourceUs) + BigInt(originUs);
-  const numerator = start * 1000000n,
-    abs = numerator < 0n ? -numerator : numerator;
-  const rounded =
-    (abs / scale + ((abs % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n);
+  const at = add(fromTime(requestedSourceUs), fromTime(originUs));
   if (
-    start * 1000000n > at * scale ||
-    end * 1000000n <= at * endScale ||
-    rounded - BigInt(originUs) !== BigInt(actualSourceUs)
+    compare(rational(start * 1000000n, scale), at) > 0 ||
+    compare(rational(end * 1000000n, endScale), at) <= 0 ||
+    round(sceneSampleSourceTime(sample, originUs)) !== actualSourceUs
   )
     invalid("Visual sample does not contain its request");
 }
@@ -104,7 +117,9 @@ function validate(point: SourceVisualPoint, request: SourceVisualRequest, index:
   )
     invalid("Visual observations changed the requested grid");
   const acquired = request.available.find(
-    (s) => s.startUs <= point.requestedSourceUs && point.requestedSourceUs < s.endUs,
+    (s) =>
+      compare(fromTime(s.startUs), fromTime(point.requestedSourceUs)) <= 0 &&
+      compare(fromTime(point.requestedSourceUs), fromTime(s.endUs)) < 0,
   );
   if (point.status === "unavailable") {
     if (
@@ -128,19 +143,28 @@ function validate(point: SourceVisualPoint, request: SourceVisualRequest, index:
     invalid("First observation cannot claim predecessor continuity");
   if (index > 0 && point.continuousFromPrevious) {
     const previous = request.atSourceUs[index - 1]!;
-    const before = request.available.findIndex((s) => s.startUs <= previous && previous < s.endUs);
+    const before = request.available.findIndex(
+      (s) =>
+        compare(fromTime(s.startUs), fromTime(previous)) <= 0 &&
+        compare(fromTime(previous), fromTime(s.endUs)) < 0,
+    );
     const current = request.available.indexOf(acquired);
     if (before < 0) invalid("Visual continuity crosses acquisition gap");
     for (let i = before; i < current; i++) {
-      if (request.available[i]!.endUs !== request.available[i + 1]!.startUs)
+      if (
+        compare(
+          fromTime(request.available[i]!.endUs),
+          fromTime(request.available[i + 1]!.startUs),
+        ) !== 0
+      )
         invalid("Visual continuity crosses acquisition gap");
     }
   }
 }
 
 /** Each batch repeats its retained endpoint, so continuity never includes an already-consumed gap. */
-export function sourceSceneSampleTimes(range: TimeRange, durationUs: number) {
-  const grid = sceneSampleTimes(range, { startUs: 0, endUs: durationUs });
+export function sourceSceneSampleTimes(range: TimeRange, durationUs: TimeValue) {
+  const grid = sceneSampleTimes(range, { startUs: 0, endUs: ceil(fromTime(durationUs)) });
   return [range.startUs, ...grid.filter((at) => at > range.startUs)];
 }
 
@@ -157,7 +181,7 @@ export class SelectedSourceSceneAnalysis {
   } = {};
   constructor(
     private readonly source: Omit<SourceVisualRequest, "atSourceUs">,
-    private readonly durationUs: number,
+    private readonly durationUs: TimeValue,
     private readonly sampler: SourceVisualSampler,
   ) {}
 
@@ -171,7 +195,7 @@ export class SelectedSourceSceneAnalysis {
     if (
       observed.assetId !== request.asset.assetId ||
       observed.streamId !== request.asset.streamId ||
-      observed.originUs !== request.asset.originUs ||
+      compare(fromTime(observed.originUs), fromTime(request.asset.originUs)) !== 0 ||
       observed.samples.length !== atSourceUs.length ||
       !Number.isSafeInteger(observed.sourceWidth) ||
       observed.sourceWidth < 1 ||

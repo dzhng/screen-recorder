@@ -1,3 +1,13 @@
+import {
+  fromTime,
+  compare,
+  toTime,
+  toSignedTime,
+  add,
+  subtract,
+  type SignedTimeValue,
+  type TimeValue,
+} from "@screenrec/composition";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { SceneProcessing } from "./scene-processing.js";
 import { SourceSceneRead } from "./scene-source-read.js";
@@ -30,7 +40,11 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
-async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {}) {
+async function fixture({
+  durationUs = 1000,
+  originUs = 500,
+  scenes = false,
+}: { durationUs?: TimeValue; originUs?: SignedTimeValue; scenes?: boolean } = {}) {
   const home = await mkdtemp("/tmp/project-evidence-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -118,7 +132,7 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
         streamId,
         available,
         sourceRoles: [streamId === "video" ? "video" : "narration"],
-        sourceToAssetOffsetUs: -originUs,
+        sourceToAssetOffsetUs: toSignedTime(subtract(fromTime(0), fromTime(originUs))),
         supportBasis: "physical",
       })),
     };
@@ -194,8 +208,8 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
       const available =
         request.track.streamId === "narrow"
           ? request.track.available.map((source) => ({
-              startUs: source.startUs + 100,
-              endUs: source.endUs - 100,
+              startUs: toTime(add(fromTime(source.startUs), fromTime(100))),
+              endUs: toTime(subtract(fromTime(source.endUs), fromTime(100))),
             }))
           : request.track.available;
       const transcribed = available.map((source, ordinal) => ({
@@ -206,7 +220,11 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
           request.track.streamId === "empty"
             ? []
             : [100, 400, 800]
-                .filter((start) => start >= source.startUs && start + 100 <= source.endUs)
+                .filter(
+                  (start) =>
+                    compare(fromTime(start), fromTime(source.startUs)) >= 0 &&
+                    compare(fromTime(start + 100), fromTime(source.endUs)) <= 0,
+                )
                 .map((start, i) => ({
                   text: ["one", "two", "three"][i]!,
                   source: { startUs: start, endUs: start + 100 },
@@ -259,22 +277,29 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
         readerOpens: 1,
         decodedSamples: request.atSourceUs.length,
         samples: request.atSourceUs.map((at, i) => {
-          if (!request.available.some((r) => r.startUs <= at && r.endUs > at))
+          if (
+            !request.available.some(
+              (r) =>
+                compare(fromTime(r.startUs), fromTime(at)) <= 0 &&
+                compare(fromTime(r.endUs), fromTime(at)) > 0,
+            )
+          )
             return {
               requestedSourceUs: at,
               status: "unavailable",
               reason: "outside_support",
               continuousFromPrevious: false,
             };
+          const stamp = add(fromTime(at), fromTime(originUs));
           return {
             requestedSourceUs: at,
             status: "available",
             actualSourceUs: at,
             sample: {
-              value: String((at + originUs) * 5 - (at ? 2 : 0)),
-              timescale: 5000000,
-              endValue: String((at + originUs + 1) * 5),
-              endTimescale: 5000000,
+              value: String(stamp.numerator * 5n - (at ? 2n : 0n) * stamp.denominator),
+              timescale: Number(stamp.denominator) * 5000000,
+              endValue: String((stamp.numerator + stamp.denominator) * 5n),
+              endTimescale: Number(stamp.denominator) * 5000000,
             },
             width: 1,
             height: 1,
@@ -282,7 +307,9 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
             continuousFromPrevious:
               i > 0 &&
               request.available.some(
-                (r) => r.startUs <= request.atSourceUs[i - 1]! && r.endUs > at,
+                (r) =>
+                  compare(fromTime(r.startUs), fromTime(request.atSourceUs[i - 1]!)) <= 0 &&
+                  compare(fromTime(r.endUs), fromTime(at)) > 0,
               ),
           };
         }),
@@ -1579,4 +1606,37 @@ test("known-unavailable source prefixes do not delay ready editorial cuts", asyn
   expect(first.page!.nextCursor).not.toBeNull();
   expect(first.coverage).toMatchObject({ cuts: { state: "ready", basis: "revision" } });
   expect(first.dependencies.every((dependency) => dependency.state === "unavailable")).toBe(true);
+});
+
+test("fractional capture mapping stays exact through integer filtering and project projection", async () => {
+  const f = await fixture({
+    originUs: { numerator: 1, denominator: 3 },
+    durationUs: { numerator: 2001, denominator: 2 },
+  });
+  const capture = await f.capture([
+    cursorSample(1),
+    cursorSample(2),
+    { event: "pause", data: { atSourceUs: 1, elapsedPauseUs: 77 } },
+  ]);
+  const selection = { assetId: f.asset.id, streamId: "video", acquisitionId: capture.id };
+  expect(
+    f.captureRead.cursor({ ...selection, sourceRange: { startUs: 0, endUs: 1 } }).page!.rows,
+  ).toMatchObject([{ captureAtUs: 1, sourceAtUs: { numerator: 2, denominator: 3 } }]);
+  expect(
+    f.captureRead.cursor({ ...selection, sourceRange: { startUs: 1, endUs: 2 } }).page!.rows,
+  ).toMatchObject([{ captureAtUs: 2, sourceAtUs: { numerator: 5, denominator: 3 } }]);
+  const input = f.create([
+    { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+    capturedClip(f.asset.id, capture.id, "first", "v", 0, 1500),
+  ]);
+  for (let attempt = 0; attempt < 4; attempt++) {
+    if ((await f.evidence.events(input)).page) break;
+    await f.jobs.idle();
+  }
+  const result = await f.evidence.events(input);
+  expect(result.page!.rows.find((row) => row.kind === "pause")).toMatchObject({
+    captureAtUs: 1,
+    sourceAtUs: { numerator: 2, denominator: 3 },
+    projectAtUs: 1,
+  });
 });

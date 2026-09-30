@@ -1,3 +1,14 @@
+import {
+  signedTimeValueSchema,
+  timeValueSchema,
+  selectionRangeSchema,
+  fromTime,
+  compare,
+  round,
+  type SelectionRange,
+  type SignedTimeValue,
+  type TimeValue,
+} from "@screenrec/composition";
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
 import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
@@ -23,8 +34,8 @@ export type SpeechTranscriptionRequest = {
   track: {
     source: string;
     streamId?: string;
-    sourceOffsetUs: number;
-    available: TimeRange[];
+    sourceOffsetUs: SignedTimeValue;
+    available: SelectionRange[];
   };
   output: string;
 };
@@ -40,7 +51,7 @@ export type SpeechTranscriptionReceipt = {
   };
   segments: {
     ordinal: number;
-    source: TimeRange;
+    source: SelectionRange;
     state: "transcribed" | "skipped";
     reason?: "too_short" | undefined;
     wordCount: number;
@@ -90,7 +101,7 @@ export const portableTranscriptSchema = z
         streamId: engineLabel,
         acquisitionId: z.uuid().optional(),
         supportDigest: engineLabel,
-        durationUs: portableInteger,
+        durationUs: timeValueSchema,
       })
       .transform(({ acquisitionId, ...source }) => ({
         ...source,
@@ -99,7 +110,7 @@ export const portableTranscriptSchema = z
     engine: transcriptEngineSchema,
     track: z.strictObject({
       streamId: engineLabel,
-      sourceOffsetUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+      sourceOffsetUs: signedTimeValueSchema,
     }),
     segmentCount: portableInteger.max(10000),
     wordCount: portableInteger,
@@ -132,10 +143,14 @@ export type TranscriptIdentity = Readonly<{
   generation: string;
 }>;
 export type TranscriptSource = Readonly<
-  { durationUs: number } & (
-    | { kind: "recording"; sourceGeneration: string }
-    | { kind: "asset"; streamId: string; acquisitionId?: string; supportDigest: string }
-  )
+  | { kind: "recording"; sourceGeneration: string; durationUs: number }
+  | {
+      kind: "asset";
+      streamId: string;
+      acquisitionId?: string;
+      supportDigest: string;
+      durationUs: TimeValue;
+    }
 >;
 type TranscriptDetails = {
   engine: TranscriptEngine;
@@ -173,7 +188,11 @@ export function recordingTranscriptIdentity(
 }
 export function recordingTranscript(metadata: TranscriptMetadata): RecordingTranscriptMetadata {
   const { owner, source, track, ...details } = metadata;
-  if (owner.kind !== "recording" || source.kind !== "recording")
+  if (
+    owner.kind !== "recording" ||
+    source.kind !== "recording" ||
+    typeof track.sourceOffsetUs !== "number"
+  )
     throw new CatalogError("INVALID_EVIDENCE", "Recording transcript requires a recording source");
   return {
     ...details,
@@ -246,7 +265,7 @@ const receiptSchema = z.object({
     .array(
       z.object({
         ordinal: time,
-        source: range,
+        source: selectionRangeSchema,
         state: z.enum(["transcribed", "skipped"]),
         reason: z.literal("too_short").optional(),
         wordCount: time,
@@ -257,7 +276,7 @@ const receiptSchema = z.object({
 });
 const lineSchema = z.object({
   ordinal: time,
-  source: range,
+  source: selectionRangeSchema,
   state: z.enum(["transcribed", "skipped"]),
   reason: z.literal("too_short").optional(),
   words: z.array(
@@ -316,7 +335,7 @@ export class TranscriptStore implements TranscriptRecords {
       ) STRICT;
       CREATE TABLE IF NOT EXISTS transcript_segments (
         ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
-        startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,state TEXT NOT NULL,reason TEXT,
+        startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,source TEXT NOT NULL,state TEXT NOT NULL,reason TEXT,
         PRIMARY KEY(ownerKind,ownerId,generation,ordinal)
       ) STRICT;
       CREATE TABLE IF NOT EXISTS transcript_words (
@@ -450,7 +469,16 @@ export class TranscriptStore implements TranscriptRecords {
         }[]
       ).map((row) => [row.segment, row.count]),
     );
-    const segments = this.segmentRecords(value, { limit: 10001 });
+    const segments = this.store.catalog
+      .prepare(
+        `SELECT ordinal,source,state,reason FROM transcript_segments WHERE ${where} ORDER BY ordinal LIMIT 10001`,
+      )
+      .all(...ownerIdentity(value.owner), value.generation) as {
+      ordinal: number;
+      source: string;
+      state: "transcribed" | "skipped";
+      reason: "too_short" | null;
+    }[];
     if (segments.length !== value.segmentCount)
       throw new CatalogError(
         "INVALID_STORAGE",
@@ -468,7 +496,7 @@ export class TranscriptStore implements TranscriptRecords {
       wordCount: value.wordCount,
       segments: segments.map((segment) => ({
         ordinal: segment.ordinal,
-        source: { startUs: segment.startUs, endUs: segment.endUs },
+        source: selectionRangeSchema.parse(JSON.parse(segment.source)),
         state: segment.state,
         ...(segment.reason === null ? {} : { reason: segment.reason }),
         wordCount: counts.get(segment.ordinal) ?? 0,
@@ -666,8 +694,7 @@ export class TranscriptStore implements TranscriptRecords {
     signal.throwIfAborted();
     if (
       source.kind !== owner.kind ||
-      !Number.isSafeInteger(source.durationUs) ||
-      source.durationUs < 0 ||
+      !timeValueSchema.safeParse(source.durationUs).success ||
       (source.kind === "asset" &&
         (sourceId !== ownerId || source.streamId !== request.track.streamId))
     )
@@ -690,19 +717,22 @@ export class TranscriptStore implements TranscriptRecords {
     // segment is any ordered, nonempty part of one acquired interval; time between segments was not read.
     let words = 0,
       interval = 0,
-      readUs = 0;
+      readUs: TimeValue = 0;
     for (const [ordinal, segment] of receipt.segments.entries()) {
       if (segment.ordinal !== ordinal)
         invalid("Transcription segment ordinals must be unique and ordered");
-      while (interval < available.length && available[interval]!.endUs <= segment.source.startUs)
+      while (
+        interval < available.length &&
+        compare(fromTime(available[interval]!.endUs), fromTime(segment.source.startUs)) <= 0
+      )
         interval++;
       const acquired = available[interval];
       if (
-        segment.source.startUs < readUs ||
-        segment.source.endUs <= segment.source.startUs ||
+        compare(fromTime(segment.source.startUs), fromTime(readUs)) < 0 ||
+        compare(fromTime(segment.source.endUs), fromTime(segment.source.startUs)) <= 0 ||
         !acquired ||
-        segment.source.startUs < acquired.startUs ||
-        segment.source.endUs > acquired.endUs ||
+        compare(fromTime(segment.source.startUs), fromTime(acquired.startUs)) < 0 ||
+        compare(fromTime(segment.source.endUs), fromTime(acquired.endUs)) > 0 ||
         (segment.state === "skipped") !== (segment.reason === "too_short") ||
         (segment.state === "skipped" && segment.wordCount !== 0)
       )
@@ -740,7 +770,7 @@ export class TranscriptStore implements TranscriptRecords {
         receipt.segments.length,
       );
     const insertSegment = this.store.catalog.prepare(
-      "INSERT INTO transcript_segments VALUES(?,?,?,?,?,?,?,?)",
+      "INSERT INTO transcript_segments VALUES(?,?,?,?,?,?,?,?,?)",
     );
     const insertWord = this.store.catalog.prepare(
       "INSERT INTO transcript_words VALUES(?,?,?,?,?,?,?,?,?,?,?)",
@@ -756,8 +786,9 @@ export class TranscriptStore implements TranscriptRecords {
             ownerId,
             generation,
             segment.ordinal,
-            segment.source.startUs,
-            segment.source.endUs,
+            round(fromTime(segment.source.startUs)),
+            round(fromTime(segment.source.endUs)),
+            JSON.stringify(segment.source),
             segment.state,
             segment.reason ?? null,
           );
@@ -799,24 +830,25 @@ export class TranscriptStore implements TranscriptRecords {
       if (
         !segment ||
         line.data.ordinal !== segment.ordinal ||
-        line.data.source.startUs !== segment.source.startUs ||
-        line.data.source.endUs !== segment.source.endUs ||
+        !isDeepStrictEqual(line.data.source, segment.source) ||
         line.data.state !== segment.state ||
         line.data.reason !== segment.reason ||
         line.data.words.length !== segment.wordCount
       )
         invalid("Raw transcript segment differs from its receipt");
       segments.push(segment);
+      const observed = {
+        startUs: round(fromTime(segment.source.startUs)),
+        endUs: round(fromTime(segment.source.endUs)),
+      };
       for (const word of line.data.words) {
         const { source } = word;
         if (source.endUs < source.startUs) invalid("Transcript word range is reversed");
-        if (source.startUs < segment.source.startUs || source.endUs > segment.source.endUs)
+        if (source.startUs < observed.startUs || source.endUs > observed.endUs)
           invalid("Transcript word lies outside its segment");
         const instant = source.startUs === source.endUs;
         // A zero-width word at the interval end keeps its microsecond inside the interval.
-        const startUs = instant
-          ? Math.min(source.startUs, segment.source.endUs - 1)
-          : source.startUs;
+        const startUs = instant ? Math.min(source.startUs, observed.endUs - 1) : source.startUs;
         const endUs = instant ? startUs + 1 : source.endUs;
         if (startUs < previousStartUs) invalid("Transcript words must be ordered by start");
         // A word's span is what a cut removes and what an excerpt plays, so two words may not
@@ -880,8 +912,12 @@ export class TranscriptStore implements TranscriptRecords {
     }
 
     const gaps = transcriptGaps(
-      receipt.segments.map(({ source, state }) => ({ ...source, state })),
-      durationUs,
+      receipt.segments.map(({ source, state }) => ({
+        startUs: round(fromTime(source.startUs)),
+        endUs: round(fromTime(source.endUs)),
+        state,
+      })),
+      round(fromTime(durationUs)),
     );
     signal.throwIfAborted();
     return this.store.transaction(() => {
@@ -1054,7 +1090,7 @@ export function transcriptGaps(
   for (const segment of segments) {
     if (atUs < segment.startUs)
       gaps.push({ startUs: atUs, endUs: segment.startUs, reason: "not_acquired" });
-    if (segment.state === "skipped")
+    if (segment.state === "skipped" && segment.startUs < segment.endUs)
       gaps.push({ startUs: segment.startUs, endUs: segment.endUs, reason: "too_short" });
     atUs = segment.endUs;
   }

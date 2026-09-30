@@ -11,7 +11,14 @@ import {
   type OperationResult,
 } from "@screenrec/protocol";
 import { CatalogError } from "@screenrec/core/catalog";
-import type { TimeRange } from "@screenrec/core/timeline";
+import {
+  subtract,
+  fromTime,
+  rational,
+  divide,
+  ceil,
+  type SelectionRange,
+} from "@screenrec/composition";
 
 /**
  * Where the packaged app's native worker executable is. The app is the one owner of that path:
@@ -23,18 +30,25 @@ const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
 export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 
 /** Budget selected output, including silence, without charging for discarded source prefixes. */
-export function renderWindowDeadlineMs(range: TimeRange): number {
+export function renderWindowDeadlineMs(range: SelectionRange): number {
   return Math.min(
     MAX_MEDIA_TIMEOUT_MS,
-    30_000 + 2 * Math.ceil((range.endUs - range.startUs) / 1000),
+    30_000 +
+      2 * ceil(divide(subtract(fromTime(range.endUs), fromTime(range.startUs)), rational(1000n))),
   );
 }
 
 /** Ten minutes covers a cold model load and verifying its files; inference gets twice the narration
  * the request plans to read. */
-export function transcriptionDeadlineMs(available: readonly TimeRange[]): number {
-  const narrationUs = available.reduce((total, range) => total + range.endUs - range.startUs, 0);
-  return Math.min(MAX_MEDIA_TIMEOUT_MS, 600_000 + Math.ceil((2 * narrationUs) / 1000));
+export function transcriptionDeadlineMs(available: readonly SelectionRange[]): number {
+  // Timeout estimates project each run before summing, keeping varied native timescales bounded.
+  const narrationUs = available.reduce(
+    (total, range) =>
+      total + BigInt(ceil(subtract(fromTime(range.endUs), fromTime(range.startUs)))),
+    0n,
+  );
+  const budget = 600_000n + (2n * narrationUs + 999n) / 1000n;
+  return Number(budget < BigInt(MAX_MEDIA_TIMEOUT_MS) ? budget : BigInt(MAX_MEDIA_TIMEOUT_MS));
 }
 
 export type MediaWorker = (

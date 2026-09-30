@@ -1,3 +1,4 @@
+import { fromTime, ceil, type SignedTimeValue, type SelectionRange } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
 import { setImmediate } from "node:timers/promises";
 import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
@@ -8,7 +9,7 @@ import { selectionPolicy } from "./selection.js";
 
 /** Raw pictures have no cursor overlay; presentation samples, not nearest frames, anchor changes. */
 export const sourceIndexPolicy = {
-  id: "source-presentation-selection-v1",
+  id: "source-presentation-selection-v2",
   coverageUs: selectionPolicy.coverageUs,
 };
 export type SourceIndexReason =
@@ -18,7 +19,7 @@ export type SourceIndexReason =
       side: "before" | "after";
       observedSourceUs: number;
       sample: SceneSampleClock;
-      originUs: number;
+      originUs: SignedTimeValue;
     };
 type Point = SourceSceneChunk["coverage"][number];
 export type SourceIndexRequest = { requestedSourceUs: number; support: TimeRange } & (
@@ -151,4 +152,14 @@ export async function* selectSourceIndex(
   signal?.throwIfAborted();
   edges(Infinity);
   yield* flush(Infinity);
+}
+
+/** Integer point-query coverage; physical support remains authoritative at frame admission. */
+export function sourceIndexQueryRanges(support: readonly SelectionRange[]): TimeRange[] {
+  return support
+    .map((range) => ({
+      startUs: ceil(fromTime(range.startUs)),
+      endUs: ceil(fromTime(range.endUs)),
+    }))
+    .filter((range) => range.startUs < range.endUs);
 }

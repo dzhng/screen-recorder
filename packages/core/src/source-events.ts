@@ -1,3 +1,4 @@
+import { ceil, sourceAvailability } from "@screenrec/composition";
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { compare, fromTime, intervalIndex } from "@screenrec/composition";
@@ -110,13 +111,13 @@ export class SourceEvents {
       ...(input.acquisitionId === undefined ? {} : { acquisitionId: input.acquisitionId }),
     });
     const context = this.resolve(selected.selection, "events", input.cursor === undefined);
-    const range = input.sourceRange ?? { startUs: 0, endUs: selected.durationUs },
+    const range = input.sourceRange ?? { startUs: 0, endUs: ceil(fromTime(selected.durationUs)) },
       limit = input.limit ?? 100;
     if (
       !Number.isSafeInteger(range.startUs) ||
       !Number.isSafeInteger(range.endUs) ||
       range.startUs < 0 ||
-      range.endUs > selected.durationUs ||
+      range.endUs > ceil(fromTime(selected.durationUs)) ||
       range.startUs >= range.endUs
     )
       throw new CatalogError("INVALID_RANGE", "Event range must be within the selected stream");
@@ -165,12 +166,7 @@ export class SourceEvents {
       sourceRange: range,
       ...(input.cursor === undefined
         ? {
-            available: support(fromTime(range.startUs), fromTime(range.endUs))
-              .map((r) => ({
-                startUs: Math.max(range.startUs, r.startUs),
-                endUs: Math.min(range.endUs, r.endUs),
-              }))
-              .sort((a, b) => a.startUs - b.startUs),
+            available: sourceAvailability(selected.track.available, [range]),
           }
         : {}),
       page:

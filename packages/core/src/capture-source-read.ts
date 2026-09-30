@@ -1,6 +1,18 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
-import { intervalIndex, fromTime } from "@screenrec/composition";
+import {
+  intervalIndex,
+  fromTime,
+  toTime,
+  toSignedTime,
+  subtract,
+  add,
+  compare,
+  ceil,
+  sourceAvailability,
+  type TimeValue,
+  type SignedTimeValue,
+} from "@screenrec/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
@@ -31,15 +43,15 @@ export type CaptureCoverage = {
 export type CaptureContext = {
   selection: SourceSelection;
   domain: CaptureDomain;
-  durationUs: number;
-  sourceToAssetOffsetUs: number;
+  durationUs: TimeValue;
+  sourceToAssetOffsetUs: SignedTimeValue;
   supportDigest: string;
   evidence: SourceEvidenceMetadata | null;
   coverage: CaptureCoverage[];
 };
 export type CaptureRow = {
   kind: PointKind;
-  sourceAtUs: number;
+  sourceAtUs: TimeValue;
   captureAtUs: number;
   sourceSequence: number;
   observation: Record<string, unknown>;
@@ -140,12 +152,19 @@ export class CaptureSourceRead {
         coverage: context.coverage,
       });
     const selected = selectSource(this.assets, this.acquisitions, selection);
-    const clockOffsetUs = context.sourceToAssetOffsetUs - selected.track.sourceOffsetUs;
+    const clockOffsetUs = toSignedTime(
+      subtract(fromTime(context.sourceToAssetOffsetUs), fromTime(selected.track.sourceOffsetUs)),
+    );
     const span = {
-      startUs: selected.stream.bounds.startUs - context.sourceToAssetOffsetUs,
-      endUs: selected.stream.bounds.endUs - context.sourceToAssetOffsetUs,
+      startUs: ceil(
+        subtract(fromTime(selected.stream.bounds.startUs), fromTime(context.sourceToAssetOffsetUs)),
+      ),
+      endUs: ceil(
+        subtract(fromTime(selected.stream.bounds.endUs), fromTime(context.sourceToAssetOffsetUs)),
+      ),
     };
     if (
+      typeof clockOffsetUs !== "number" ||
       !Number.isSafeInteger(clockOffsetUs) ||
       !Number.isSafeInteger(span.startUs) ||
       !Number.isSafeInteger(span.endUs) ||
@@ -176,8 +195,14 @@ export class CaptureSourceRead {
       .filter((c) => c.state === "ready")
       .map((c) => c.kind as PointKind);
     const captureRange = {
-      startUs: Math.max(0, range.startUs - context.sourceToAssetOffsetUs),
-      endUs: Math.max(0, range.endUs - context.sourceToAssetOffsetUs),
+      startUs: Math.max(
+        0,
+        ceil(subtract(fromTime(range.startUs), fromTime(context.sourceToAssetOffsetUs))),
+      ),
+      endUs: Math.max(
+        0,
+        ceil(subtract(fromTime(range.endUs), fromTime(context.sourceToAssetOffsetUs))),
+      ),
     };
     for (const kind of kinds) {
       const position = state[kind];
@@ -187,12 +212,18 @@ export class CaptureSourceRead {
         position.done = true;
         const completion = context.evidence.receipt.completion;
         if (completion?.state === "interrupted") {
-          const source = BigInt(completion.durationUs) + BigInt(context.sourceToAssetOffsetUs);
-          if (source > BigInt(range.startUs) && source <= BigInt(range.endUs)) {
+          const source = add(
+            fromTime(completion.durationUs),
+            fromTime(context.sourceToAssetOffsetUs),
+          );
+          if (
+            compare(source, fromTime(range.startUs)) > 0 &&
+            compare(source, fromTime(range.endUs)) <= 0
+          ) {
             position.done = false;
             position.row = {
               kind,
-              sourceAtUs: Number(source),
+              sourceAtUs: toTime(source),
               captureAtUs: completion.durationUs,
               sourceSequence: completion.sequence,
               observation: {
@@ -226,7 +257,7 @@ export class CaptureSourceRead {
       const captureAtUs = row.sourceUs!;
       position.row = {
         kind,
-        sourceAtUs: captureAtUs + context.sourceToAssetOffsetUs,
+        sourceAtUs: toTime(add(fromTime(captureAtUs), fromTime(context.sourceToAssetOffsetUs))),
         captureAtUs,
         sourceSequence: row.sequence,
         observation: JSON.parse(row.content),
@@ -237,7 +268,7 @@ export class CaptureSourceRead {
       .filter((row): row is CaptureRow => !!row)
       .sort(
         (a, b) =>
-          a.sourceAtUs - b.sourceAtUs ||
+          compare(fromTime(a.sourceAtUs), fromTime(b.sourceAtUs)) ||
           a.sourceSequence - b.sourceSequence ||
           a.kind.localeCompare(b.kind),
       )[0];
@@ -260,7 +291,7 @@ export class CaptureSourceRead {
       ...(input.acquisitionId === undefined ? {} : { acquisitionId: input.acquisitionId }),
     };
     const context = this.resolve(selection, domain);
-    const range = input.sourceRange ?? { startUs: 0, endUs: context.durationUs };
+    const range = input.sourceRange ?? { startUs: 0, endUs: ceil(fromTime(context.durationUs)) };
     const limit = input.limit ?? (domain === "events" ? 100 : 1000),
       maximum = domain === "events" ? 500 : 5000;
     if (
@@ -268,7 +299,7 @@ export class CaptureSourceRead {
       !Number.isSafeInteger(range.endUs) ||
       range.startUs < 0 ||
       range.endUs <= range.startUs ||
-      range.endUs > context.durationUs
+      range.endUs > ceil(fromTime(context.durationUs))
     )
       throw new CatalogError(
         "INVALID_RANGE",
@@ -313,12 +344,7 @@ export class CaptureSourceRead {
       ...selection,
       ...(input.cursor === undefined
         ? {
-            available: available(fromTime(range.startUs), fromTime(range.endUs))
-              .map((value) => ({
-                startUs: Math.max(value.startUs, range.startUs),
-                endUs: Math.min(value.endUs, range.endUs),
-              }))
-              .sort((a, b) => a.startUs - b.startUs),
+            available: sourceAvailability(selected.track.available, [range]),
           }
         : {}),
       state: ready ? "ready" : "unavailable",

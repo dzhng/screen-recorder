@@ -1,3 +1,11 @@
+import {
+  round,
+  fromTime,
+  add,
+  subtract,
+  type SignedTimeValue,
+  type TimeValue,
+} from "@screenrec/composition";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -16,7 +24,13 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
-async function fixture() {
+async function fixture(
+  timing: { originUs: SignedTimeValue; startUs: TimeValue; endUs: TimeValue } = {
+    originUs: 250000,
+    startUs: 100,
+    endUs: 1000,
+  },
+) {
   const home = await mkdtemp("/tmp/asset-transcript-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -25,15 +39,15 @@ async function fixture() {
   const path = join(home, "external.mov");
   await writeFile(path, "two audio streams and one picture");
   const asset = await assets.import(path, { kind: "import" }, async () => ({
-    originUs: 250000,
+    originUs: timing.originUs,
     streams: ["track:1", "track:2", "track:3"].map((id) => ({
       id,
       kind: id === "track:3" ? "video" : "audio",
       codec: "fixture",
       decodable: true,
-      startUs: 100,
-      endUs: 1000,
-      segments: [{ startUs: 100, endUs: 1000, empty: false }],
+      startUs: timing.startUs,
+      endUs: timing.endUs,
+      segments: [{ startUs: timing.startUs, endUs: timing.endUs, empty: false }],
     })),
   }));
   let modelDigest = "a".repeat(64);
@@ -100,7 +114,10 @@ async function fixture() {
         words: [
           {
             text: request.track.streamId!,
-            source: { startUs: source.startUs + 10, endUs: source.endUs - 10 },
+            source: {
+              startUs: round(add(fromTime(source.startUs), fromTime(10))),
+              endUs: round(subtract(fromTime(source.endUs), fromTime(10))),
+            },
             confidence: 0.8,
           },
         ],
@@ -494,4 +511,50 @@ test("portable transcripts preserve historical model recipes independently of re
   await receiver.processing.cleanup(new AbortController().signal);
   expect(receiver.transcripts.portableGenerations(receiver.asset.id)).toHaveLength(2);
   expect(receiver.requests).toEqual([]);
+});
+
+test("fractional decoded segments survive portable receipts while words keep observation labels", async () => {
+  const timing = {
+    originUs: { numerator: 1, denominator: 3 },
+    startUs: { numerator: 201, denominator: 2 },
+    endUs: { numerator: 2001, denominator: 2 },
+  };
+  const donor = await fixture(timing),
+    receiver = await fixture(timing);
+  donor.processing.prepareSource(donor.selection);
+  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+  const value = donor.transcripts.portableGenerations(donor.asset.id)[0]!;
+  const receipt = donor.transcripts.portableReceipt(value);
+  expect(receipt.segments[0]!.source).toEqual({ startUs: timing.startUs, endUs: timing.endUs });
+  expect(donor.transcripts.segmentRecords(value, { limit: 5 })).toMatchObject([
+    { startUs: 101, endUs: 1001 },
+  ]);
+  expect(donor.transcripts.wordRecords(value, { limit: 5 })).toMatchObject([
+    { startUs: 111, endUs: 991 },
+  ]);
+  expect(value.track.sourceOffsetUs).toEqual({ numerator: -1, denominator: 3 });
+  receiver.models.state = "absent";
+  const input = donor.processing.portable(value);
+  const stage = await receiver.transcripts.stagePortable(
+    value,
+    receipt,
+    donor.transcripts.portableFile(value),
+    {
+      ...value.track,
+      source: receiver.assets.path(receiver.asset.id),
+      available: input.available,
+    },
+    new AbortController().signal,
+  );
+  try {
+    receiver.catalog.transaction(() => {
+      stage.publish();
+      receiver.processing.adoptPublication(stage.metadata, input.available, input.publication);
+    });
+    expect(receiver.transcripts.portableReceipt(value).segments).toEqual(receipt.segments);
+    expect(receiver.processing.publishedSource(receiver.selection).state).toBe("ready");
+    expect(receiver.requests).toEqual([]);
+  } finally {
+    await stage.close();
+  }
 });

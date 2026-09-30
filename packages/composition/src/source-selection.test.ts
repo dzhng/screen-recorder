@@ -96,3 +96,50 @@ test("holds treat gap and occupied endpoints as half-open on repeated media", ()
     [{ start: { numerator: 2n, denominator: 1n }, end: { numerator: 3n, denominator: 1n } }],
   );
 });
+
+test("admitted fractional support survives normalized acquisition intersection", () => {
+  const half = (numerator: number) => ({ numerator, denominator: 2 });
+  const model = validateComposition(
+    {
+      ...base,
+      clips: [
+        {
+          id: "exact",
+          trackId: "v",
+          assetId: "asset",
+          streamId: "v",
+          acquisitionId: "a",
+          source: { kind: "range", range: { startUs: 0, endUs: half(21) } },
+          placement: { kind: "project", range: { startUs: 0, endUs: half(21) } },
+        },
+      ],
+    },
+    [
+      {
+        ...assets[0],
+        streams: [
+          {
+            ...assets[0]!.streams[0],
+            bounds: { startUs: 0, endUs: half(21) },
+            available: [
+              { startUs: 0, endUs: half(19) },
+              { startUs: 10, endUs: half(21) },
+            ],
+          },
+        ],
+      },
+    ],
+    [
+      {
+        id: "a",
+        bindings: [
+          { assetId: "asset", streamId: "v", available: [{ startUs: half(1), endUs: half(21) }] },
+        ],
+      },
+    ],
+  );
+  expect(model.clips[0]!.available).toEqual([
+    { start: { numerator: 1n, denominator: 2n }, end: { numerator: 19n, denominator: 2n } },
+    { start: { numerator: 10n, denominator: 1n }, end: { numerator: 21n, denominator: 2n } },
+  ]);
+});

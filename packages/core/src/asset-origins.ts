@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { voiceReceiptSchema } from "./voice-types.js";
-import { processingTapSchema, rangeSchema } from "@screenrec/composition";
+import { processingTapSchema, rangeSchema, selectionRangeSchema } from "@screenrec/composition";
 
 const integer = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const sampleRange = z.strictObject({ start: integer, end: integer });
@@ -18,10 +18,10 @@ export const extractionOriginSchema = z.strictObject({
       assetId: id,
       streamId: id,
       acquisitionId: id.optional(),
-      range: rangeSchema,
+      range: selectionRangeSchema,
       sampleRange,
       supportDigest: id,
-      unavailable: z.array(rangeSchema),
+      unavailable: z.array(selectionRangeSchema),
     }),
     z.strictObject({
       kind: z.literal("project"),

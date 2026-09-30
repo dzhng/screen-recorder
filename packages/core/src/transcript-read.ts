@@ -1,3 +1,4 @@
+import { round, fromTime } from "@screenrec/composition";
 import { z } from "zod";
 import { CatalogError } from "./catalog.js";
 import { comparePageKeys, type PageBound } from "./ordered-pages.js";
@@ -470,10 +471,10 @@ export class SourceTranscriptRead {
         !Number.isSafeInteger(range.endUs) ||
         range.startUs < 0 ||
         range.endUs <= range.startUs ||
-        range.endUs > this.metadata.source.durationUs)
+        range.endUs > round(fromTime(this.metadata.source.durationUs)))
     )
       throw new CatalogError("INVALID_RANGE", "Range must be inside the source duration");
-    const span = range ?? { startUs: 0, endUs: this.metadata.source.durationUs };
+    const span = range ?? { startUs: 0, endUs: round(fromTime(this.metadata.source.durationUs)) };
     const { records, more, after } = this.traversal.page(
       [span],
       count,

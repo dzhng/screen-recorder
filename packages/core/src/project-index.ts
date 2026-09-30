@@ -1,3 +1,4 @@
+import { signedTimeValueSchema } from "@screenrec/composition";
 import { z } from "zod";
 import { timeValueSchema } from "@screenrec/composition";
 import { sourceSceneClockSchema } from "./source-scene-chunks.js";
@@ -75,7 +76,7 @@ export const portableProjectIndexRecordSchema = z.discriminatedUnion("kind", [
               projectAtUs: timeValueSchema,
               side: z.enum(["before", "after"]),
               sample: sourceSceneClockSchema,
-              originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+              originUs: signedTimeValueSchema,
             }),
             z.strictObject({
               kind: z.enum(["first", "last", "coverage"]),

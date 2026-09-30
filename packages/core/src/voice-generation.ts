@@ -1,3 +1,4 @@
+import { rational, toTime } from "@screenrec/composition";
 import { createHash } from "node:crypto";
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -302,7 +303,7 @@ export class VoiceGenerationJobs {
         frames: receipt.frames,
         sampleRate: receipt.sampleRate,
         channels: receipt.channels,
-        durationUs: receipt.durationUs,
+        durationUs: toTime(rational(BigInt(actual.frames) * 1000000n, BigInt(actual.sampleRate))),
         origin,
       };
       const publication = staged;

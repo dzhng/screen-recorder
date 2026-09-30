@@ -1,5 +1,6 @@
 import {
   outputSettingsSchema,
+  selectionRangeSchema,
   compositionSchema,
   mediaClipSchema,
   editOperationSchema,
@@ -178,7 +179,9 @@ const projectAudioParams = project
     tap: processingTapSchema.optional(),
   })
   .strict();
-const sourceAudioParams = sourceSelection.extend({ range: audioRange.optional() }).strict();
+const sourceAudioParams = sourceSelection
+  .extend({ range: selectionRangeSchema.optional() })
+  .strict();
 const extractedAudioRendition = z.strictObject({
   sampleRate: z.int().min(1).max(192000),
   channels: z.union([z.literal(1), z.literal(2)]),

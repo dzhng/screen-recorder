@@ -1,3 +1,4 @@
+import { fromTime, sampleAt, compare, type TimeValue } from "@screenrec/composition";
 import { AcousticInspection, type AcousticRenderer } from "./acoustic-inspection.js";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
@@ -25,8 +26,8 @@ const renderer: SourceAudioRenderer = {
     signal.throwIfAborted();
     const sampleRate = 48000,
       channels = 2;
-    const start = Math.floor((range.startUs * sampleRate) / 1e6),
-      end = Math.floor((range.endUs * sampleRate) / 1e6);
+    const start = sampleAt(fromTime(range.startUs), sampleRate),
+      end = sampleAt(fromTime(range.endUs), sampleRate);
     const bytes = Buffer.alloc(44 + (end - start) * channels * 4);
     bytes.write("RIFF");
     bytes.writeUInt32LE(bytes.length - 8, 4);
@@ -43,12 +44,14 @@ const renderer: SourceAudioRenderer = {
     const unavailable = [];
     let at = range.startUs;
     for (const part of source.available) {
-      if (part.endUs <= at) continue;
-      if (part.startUs >= range.endUs) break;
-      if (part.startUs > at) unavailable.push({ startUs: at, endUs: part.startUs });
-      at = Math.min(range.endUs, part.endUs);
+      if (compare(fromTime(part.endUs), fromTime(at)) <= 0) continue;
+      if (compare(fromTime(part.startUs), fromTime(range.endUs)) >= 0) break;
+      if (compare(fromTime(part.startUs), fromTime(at)) > 0)
+        unavailable.push({ startUs: at, endUs: part.startUs });
+      at = compare(fromTime(range.endUs), fromTime(part.endUs)) < 0 ? range.endUs : part.endUs;
     }
-    if (at < range.endUs) unavailable.push({ startUs: at, endUs: range.endUs });
+    if (compare(fromTime(at), fromTime(range.endUs)) < 0)
+      unavailable.push({ startUs: at, endUs: range.endUs });
     await writeFile(output, bytes, { flag: "wx" });
     return {
       file: output,
@@ -68,7 +71,7 @@ const renderer: SourceAudioRenderer = {
 async function fixture(
   render = renderer,
   budget?: number,
-  durationUs = 1000000,
+  durationUs: TimeValue = 1000000,
   sampleRate = 48000,
   raster?: AcousticRenderer,
 ) {
@@ -532,7 +535,7 @@ test("cached spectral jobs preserve full versus ranged measurements and survive 
   );
 });
 
-test("audio context keeps source selection and rounds outward without crossing source extent", async () => {
+test("audio context keeps source selection and expands to exact sample boundaries within source extent", async () => {
   const f = await fixture();
   const input = {
     ...f.selection,
@@ -540,7 +543,10 @@ test("audio context keeps source selection and rounds outward without crossing s
     range: { startUs: 333333, endUs: 533337 },
   };
   const context = f.inspection.context(input, { start: 15967, end: 25632 });
-  expect(context.selection).toEqual({ ...input, range: { startUs: 332646, endUs: 534000 } });
+  expect(context.selection).toEqual({
+    ...input,
+    range: { startUs: { numerator: 1995875, denominator: 6 }, endUs: 534000 },
+  });
   expect(context.sampleClock).toMatchObject({ sampleRange: { start: 15967, end: 25632 } });
   const pending = await f.inspection.request(context.selection);
   await f.jobs.idle();
@@ -767,4 +773,39 @@ test("nonintegral admitted sample rates remain renderer admission, not an unstru
   });
   expect((await f.waveform.request({ ...f.selection, bucketFrames: 1 })).state).toBe("failed");
   expect(renders).toBe(1);
+});
+
+test("exact admitted endpoints drive full and late audio while explicit integer floor stays shorter", async () => {
+  const endUs = { numerator: 15404875, denominator: 3 };
+  const f = await fixture(renderer, undefined, endUs);
+  const full = f.inspection.recipe(f.selection);
+  expect(full.selection.range).toEqual({ startUs: 100000, endUs });
+  expect(full.sampleClock?.sampleRange).toEqual({ start: 4800, end: 246478 });
+  const requested = await f.inspection.request(f.selection);
+  await f.jobs.idle();
+  expect((await f.inspection.request(f.selection)).published?.audio).toMatchObject({
+    range: { startUs: 100000, endUs },
+    frames: 241678,
+    unavailable: [],
+  });
+  expect(f.jobs.job(requested.jobId!).state).toBe("ready");
+  const late = f.inspection.recipe({ ...f.selection, range: { startUs: 5134000, endUs } });
+  expect(late.sampleClock?.sampleRange).toEqual({ start: 246432, end: 246478 });
+  const floor = f.inspection.recipe({
+    ...f.selection,
+    range: { startUs: 5134000, endUs: 5134958 },
+  });
+  expect(floor.sampleClock?.sampleRange).toEqual({ start: 246432, end: 246477 });
+  expect(() =>
+    f.inspection.recipe({ ...f.selection, range: { startUs: 5134000, endUs: 5134959 } }),
+  ).toThrow(expect.objectContaining({ code: "INVALID_RANGE" }));
+  expect(
+    f.inspection.context(
+      { ...f.selection, range: { startUs: 5134000, endUs } },
+      { start: 246430, end: 246480 },
+    ).selection.range,
+  ).toEqual({
+    startUs: { numerator: 15401875, denominator: 3 },
+    endUs,
+  });
 });

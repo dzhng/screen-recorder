@@ -1,3 +1,4 @@
+import type { TimeValue } from "./schema.js";
 import { resolveComposition, type ValidatedComposition } from "./model.js";
 import { subtract } from "./rational.js";
 import { rippleTimeline } from "./ripple.js";
@@ -6,7 +7,7 @@ import { transformSelection } from "./transform.js";
 export function retimeClips(
   model: ValidatedComposition,
   selected: readonly string[],
-  timing: { durationUs: number; pitch: "preserve" | "follow" },
+  timing: { durationUs: TimeValue; pitch: "preserve" | "follow" },
   scope: "linked" | "selected",
   tracks: readonly string[] | "none",
   allocate: (kind: "syncGroup") => string,

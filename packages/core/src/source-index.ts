@@ -1,3 +1,12 @@
+import { sourceIndexQueryRanges } from "./source-index-selection.js";
+import {
+  signedTimeValueSchema,
+  fromTime,
+  compare,
+  toSignedTime,
+  subtract,
+  ceil,
+} from "@screenrec/composition";
 import { SourceIndexStillness, sourceIndexPoints } from "./source-index-equality.js";
 import { z } from "zod";
 import { sourceSceneClockSchema } from "./source-scene-chunks.js";
@@ -90,7 +99,7 @@ export const portableSourceIndexRecordSchema = z.discriminatedUnion("kind", [
               side: z.enum(["before", "after"]),
               observedSourceUs: portableTime,
               sample: sourceSceneClockSchema,
-              originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+              originUs: signedTimeValueSchema,
             }),
           ]),
         )
@@ -180,7 +189,7 @@ export function sourceIndexDomain(
         identity.maxLongEdge > 8192
       )
         invalid("Source index identity does not match published scenes");
-      return source.durationUs;
+      return ceil(fromTime(source.durationUs));
     },
     candidate(identity, candidate, frame, path) {
       const source = selected(identity);
@@ -189,7 +198,7 @@ export function sourceIndexDomain(
       validateSourceFrameGeometry(frame, source.stream, identity.maxLongEdge);
       if (
         !Number.isSafeInteger(candidate.requestedSourceUs) ||
-        !source.track.available.some(
+        !sourceIndexQueryRanges(source.track.available).some(
           (r) => r.startUs === candidate.support.startUs && r.endUs === candidate.support.endUs,
         ) ||
         candidate.requestedSourceUs < candidate.support.startUs ||
@@ -200,7 +209,10 @@ export function sourceIndexDomain(
         frame.acquisitionId !== identity.acquisitionId ||
         frame.supportDigest !== source.supportDigest ||
         frame.implementationId !== identity.implementationId ||
-        frame.sample.originUs !== -source.track.sourceOffsetUs ||
+        compare(
+          fromTime(frame.sample.originUs),
+          subtract(fromTime(0), fromTime(source.track.sourceOffsetUs)),
+        ) !== 0 ||
         frame.maxLongEdge !== identity.maxLongEdge ||
         frame.atUs !== candidate.requestedSourceUs ||
         frame.requestedSourceUs !== candidate.requestedSourceUs
@@ -210,7 +222,7 @@ export function sourceIndexDomain(
         frame.sample,
         candidate.requestedSourceUs,
         frame.actualSourceUs,
-        -source.track.sourceOffsetUs,
+        toSignedTime(subtract(fromTime(0), fromTime(source.track.sourceOffsetUs))),
       );
     },
     coverage(identity, candidate, coverage, admission) {
@@ -225,7 +237,7 @@ export function sourceIndexDomain(
         if (candidate) invalid("Unavailable index coverage cannot name an image");
         if (coverage.basis === "support") {
           if (
-            selected(identity).track.available.some(
+            sourceIndexQueryRanges(selected(identity).track.available).some(
               (r) => r.startUs < coverage.source.endUs && r.endUs > coverage.source.startUs,
             )
           )

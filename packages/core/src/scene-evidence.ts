@@ -1,3 +1,12 @@
+import {
+  signedTimeValueSchema,
+  timeValueSchema,
+  toSignedTime,
+  subtract,
+  ceil,
+  type SignedTimeValue,
+  type TimeValue,
+} from "@screenrec/composition";
 import { z } from "zod";
 import { ResourceReferences } from "./references.js";
 import { isDeepStrictEqual } from "node:util";
@@ -33,16 +42,16 @@ export function sceneGenerationResource(
 ): string {
   return JSON.stringify([...ownerIdentity(identity.owner), identity.generation]);
 }
-export type SceneSource = { durationUs: number } & (
-  | { kind: "recording" }
+export type SceneSource =
+  | { kind: "recording"; durationUs: number }
   | {
       kind: "asset";
+      durationUs: TimeValue;
       streamId: string;
       acquisitionId?: string;
       supportDigest: string;
-      originUs: number;
-    }
-);
+      originUs: SignedTimeValue;
+    };
 export type RecordingSceneEvidenceIdentity = {
   recordingId: string;
   sourceId: string;
@@ -74,8 +83,8 @@ export const portableSceneMetadataSchema = z
         streamId: z.string().min(1).max(256),
         acquisitionId: z.uuid().optional(),
         supportDigest: z.string().min(1).max(256),
-        originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
-        durationUs: portableCount.positive(),
+        originUs: signedTimeValueSchema,
+        durationUs: timeValueSchema,
       })
       .transform(({ acquisitionId, ...source }) => ({
         ...source,
@@ -133,7 +142,7 @@ export function sourceSceneDescriptor(
     ...(selected.selection.acquisitionId === undefined
       ? {}
       : { acquisitionId: selected.selection.acquisitionId }),
-    originUs: selected.track.sourceOffsetUs === 0 ? 0 : -selected.track.sourceOffsetUs,
+    originUs: toSignedTime(subtract(fromTime(0), fromTime(selected.track.sourceOffsetUs))),
     supportDigest: selected.supportDigest,
     durationUs: selected.durationUs,
   };
@@ -185,7 +194,7 @@ function metadata(row: Generation): SceneEvidenceMetadata {
     ownerKind,
     ownerId,
     source,
-    durationUs,
+    durationUs: _durationUs,
     throughUs: _throughUs,
     complete: _complete,
     lastComparison: _lastComparison,
@@ -196,7 +205,7 @@ function metadata(row: Generation): SceneEvidenceMetadata {
     ownerKind === "recording"
       ? { kind: "recording", recordingId: ownerId }
       : { kind: "asset", assetId: ownerId };
-  return { ...details, owner, source: { ...JSON.parse(source), durationUs } };
+  return { ...details, owner, source: JSON.parse(source) };
 }
 /** Scene resets are the boundary comparisons; chunks do not store a second copy. */
 export function sceneBoundaries(chunk: Pick<SceneChunkReport, "comparisons">) {
@@ -282,7 +291,7 @@ export function normalizeSceneChunk(
 export type SceneBoundary = {
   ordinal: number;
   actualSourceUs: number;
-  sample: (import("./source-scenes.js").SceneSampleClock & { originUs: number }) | null;
+  sample: (import("./source-scenes.js").SceneSampleClock & { originUs: SignedTimeValue }) | null;
 };
 export type SceneBoundaryCursor = Pick<SceneBoundary, "ordinal" | "actualSourceUs">;
 type ScenePageRequest = { identity: SceneEvidenceIdentity; afterStartUs?: number; limit?: number };
@@ -447,7 +456,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       const ready = this.get(expected);
       if (
         !ready ||
-        ready.throughUs !== expected.source.durationUs ||
+        ready.throughUs !== ceil(fromTime(expected.source.durationUs)) ||
         count !== expected.chunkCount ||
         !isDeepStrictEqual(metadata(ready), expected)
       )
@@ -502,7 +511,8 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
     source: SceneSource,
     report: SceneChunkReport | SourceSceneChunk,
   ): void {
-    const { durationUs, ...descriptor } = source;
+    // Integer coverage bounds the query grid; the source descriptor retains physical duration.
+    const durationUs = ceil(fromTime(source.durationUs));
     if (
       !integer(durationUs) ||
       durationUs < 1 ||
@@ -550,7 +560,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
         )
         .run(
           ...key(identity),
-          JSON.stringify(descriptor),
+          JSON.stringify(source),
           durationUs,
           report.sourceWidth,
           report.sourceHeight,
@@ -640,7 +650,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       !integer(range.startUs) ||
       !integer(range.endUs) ||
       range.startUs >= range.endUs ||
-      range.endUs > metadata.source.durationUs ||
+      range.endUs > ceil(fromTime(metadata.source.durationUs)) ||
       !integer(limit) ||
       limit < 1 ||
       limit > 100 ||
@@ -675,7 +685,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
     limit?: number;
   }) {
     const metadata = this.readMetadata(identity);
-    const window = range ?? { startUs: 0, endUs: metadata.source.durationUs };
+    const window = range ?? { startUs: 0, endUs: ceil(fromTime(metadata.source.durationUs)) };
     if (
       !integer(limit) ||
       limit < 1 ||
@@ -683,7 +693,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       !integer(window.startUs) ||
       !integer(window.endUs) ||
       window.startUs >= window.endUs ||
-      window.endUs > metadata.source.durationUs ||
+      window.endUs > ceil(fromTime(metadata.source.durationUs)) ||
       (after && (!integer(after.ordinal) || !Number.isSafeInteger(after.actualSourceUs)))
     )
       throw new CatalogError("INVALID_PARAMS", "Invalid scene boundary page");

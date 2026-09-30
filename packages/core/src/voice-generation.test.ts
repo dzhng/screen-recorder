@@ -1,3 +1,4 @@
+import { rational, toTime } from "@screenrec/composition";
 import { afterEach, expect, test } from "vitest";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
@@ -32,7 +33,7 @@ function wave(frames: number, value = 0.125) {
   for (let at = 44; at < bytes.length; at += 4) bytes.writeFloatLE(value, at);
   return bytes;
 }
-async function fixture() {
+async function fixture(outputFrames = 6000) {
   const home = await realpath(await mkdtemp("/tmp/voice-jobs-"));
   let available = true,
     reads = 0,
@@ -71,7 +72,7 @@ async function fixture() {
     const probe = async (path: string) => {
       const data = await readFile(path),
         frames = (data.length - 44) / 4;
-      const duration = Math.floor((frames * 1000000) / 24000);
+      const duration = toTime(rational(BigInt(frames) * 1000000n, 24000n));
       return {
         originUs: 0,
         streams: [
@@ -122,7 +123,7 @@ async function fixture() {
         executions++;
         if (failure) throw failure;
         const reference = await readFile(request.reference),
-          output = wave(6000, 0.25);
+          output = wave(outputFrames, 0.25);
         await writeFile(request.output, output);
         const settings = resolveVoiceSettings(request.generation, request.seed);
         const receipt: VoiceReceipt = {
@@ -130,8 +131,8 @@ async function fixture() {
           sha256: hash(output),
           sampleRate: 24000,
           channels: 1,
-          frames: 6000,
-          durationUs: 250000,
+          frames: outputFrames,
+          durationUs: Math.round((outputFrames * 1000000) / 24000),
           referenceSha256: hash(reference),
           referenceFrames: (reference.length - 44) / 4,
           runtimeRevision: model.pins.runtimeRevision,
@@ -384,4 +385,13 @@ test("reordered record keys in a selected generated origin replay the stored req
   );
   expect((await f.current.owner.request(input)).jobId).toBe(first.status.jobId);
   expect(f.counts()).toEqual(before);
+});
+
+test("published generated duration is exact while the frozen worker duration stays an observation label", async () => {
+  const f = await fixture(6001),
+    { result } = await complete(f);
+  expect(result.durationUs).toEqual({ numerator: 750125, denominator: 3 });
+  expect(f.current.assets.get(result.assetId).streams[0]!.endUs).toEqual(result.durationUs);
+  expect(result.origin.receipt.durationUs).toBe(250042);
+  expect((await readFile(f.current.assets.path(result.assetId))).length).toBe(44 + 6001 * 4);
 });

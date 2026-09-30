@@ -72,3 +72,14 @@ export function toSignedTime(value: Rational): SignedTimeValue {
   const result = serializedFraction(value, true);
   return result.denominator === 1 ? result.numerator : result;
 }
+
+/** Observation labels use nearest microsecond, with half values away from zero. */
+export function round(value: Rational): number {
+  const magnitude = value.numerator < 0n ? -value.numerator : value.numerator;
+  const whole =
+    magnitude / value.denominator +
+    (2n * (magnitude % value.denominator) >= value.denominator ? 1n : 0n);
+  if (whole > BigInt(Number.MAX_SAFE_INTEGER))
+    throw new CompositionError("INVALID_TIME", "Observed time exceeds safe-integer precision");
+  return Number(value.numerator < 0n ? -whole : whole);
+}

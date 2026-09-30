@@ -1,3 +1,4 @@
+import { fromTime, sampleAt, ceil, multiply, rational } from "@screenrec/composition";
 import type { waveformBuckets } from "./audio-wave.js";
 import type { spectralWindows } from "./audio-spectrum.js";
 import type { AcousticArtifact } from "./acoustic-inspection.js";
@@ -31,10 +32,10 @@ function missingSamples(ranges: AcousticMetadata["unavailable"], sampleRate: num
   for (const entry of ranges) {
     if ("ranges" in entry) spans.push(...entry.ranges);
     else {
-      const rate = BigInt(sampleRate);
+      const rate = rational(BigInt(sampleRate), 1_000_000n);
       spans.push({
-        start: Number((BigInt(entry.startUs) * rate) / 1_000_000n),
-        end: Number((BigInt(entry.endUs) * rate + 999_999n) / 1_000_000n),
+        start: sampleAt(fromTime(entry.startUs), sampleRate),
+        end: ceil(multiply(fromTime(entry.endUs), rate)),
       });
     }
   }

@@ -1,3 +1,13 @@
+import {
+  selectionRangeSchema,
+  sampleAt,
+  fromTime,
+  toTime,
+  rational,
+  compare,
+  type TimeValue,
+  type SelectionRange,
+} from "@screenrec/composition";
 import { createHash } from "node:crypto";
 import { readAudioWaveFile } from "./audio-wave.js";
 import { isDeepStrictEqual } from "node:util";
@@ -30,18 +40,22 @@ const receiptSchema = z.object({
   sampleRate: integer.min(1).max(192000),
   channels: z.union([z.literal(1), z.literal(2)]),
   layout: z.enum(["mono", "stereo"]),
-  range: rangeSchema,
+  range: selectionRangeSchema,
   sampleRange: z.object({ start: integer, end: integer }),
   frames: integer,
   decodedFrames: integer,
-  unavailable: z.array(rangeSchema),
+  unavailable: z.array(selectionRangeSchema),
 });
 export type SourceAudioResult = z.infer<typeof receiptSchema>;
-export type SourceAudioInput = SourceSelection & { range?: TimeRange | undefined };
+export type SourceAudioInput = SourceSelection & { range?: SelectionRange | undefined };
 export type SourceAudioRenderer = {
   implementationId: string;
   render(
-    request: { source: ReturnType<typeof selectSource>["track"]; range: TimeRange; output: string },
+    request: {
+      source: ReturnType<typeof selectSource>["track"];
+      range: SelectionRange;
+      output: string;
+    },
     signal: AbortSignal,
   ): Promise<unknown>;
 };
@@ -53,7 +67,7 @@ export type SourceAudioArtifact = SourceAudioResult &
   };
 const optionsSchema = z.strictObject({
   selection: sourceSelectionSchema,
-  range: rangeSchema,
+  range: selectionRangeSchema,
   supportDigest: z.string(),
   implementationId: z.string().min(1),
 });
@@ -120,17 +134,20 @@ const artifact = "audio";
 function invalid(message: string): never {
   throw new CatalogError("INVALID_RESPONSE", message);
 }
-const sample = (us: number, rate: number) => Number((BigInt(us) * BigInt(rate)) / 1_000_000n);
-function unavailable(range: TimeRange, support: readonly TimeRange[]) {
-  const gaps: TimeRange[] = [];
-  let at = range.startUs;
+const sample = (us: TimeValue, rate: number) => sampleAt(fromTime(us), rate);
+function unavailable(range: SelectionRange, support: readonly SelectionRange[]) {
+  const gaps: SelectionRange[] = [];
+  let at = fromTime(range.startUs);
+  const end = fromTime(range.endUs);
   for (const part of support) {
-    if (part.endUs <= at) continue;
-    if (part.startUs >= range.endUs) break;
-    if (part.startUs > at) gaps.push({ startUs: at, endUs: part.startUs });
-    at = Math.min(range.endUs, part.endUs);
+    const start = fromTime(part.startUs),
+      through = fromTime(part.endUs);
+    if (compare(through, at) <= 0) continue;
+    if (compare(start, end) >= 0) break;
+    if (compare(start, at) > 0) gaps.push({ startUs: toTime(at), endUs: toTime(start) });
+    at = compare(end, through) < 0 ? end : through;
   }
-  if (at < range.endUs) gaps.push({ startUs: at, endUs: range.endUs });
+  if (compare(at, end) < 0) gaps.push({ startUs: toTime(at), endUs: range.endUs });
   return gaps;
 }
 
@@ -160,8 +177,10 @@ export class MediaAudioInspection {
     const source = selectSource(this.owners.assets, this.owners.acquisitions, selection);
     if (source.stream.kind !== "audio")
       throw new CatalogError("UNSUPPORTED_MEDIA", "Audio inspection requires an audio stream");
-    const parsed = rangeSchema.safeParse(range === undefined ? source.stream.bounds : range);
-    if (!parsed.success || parsed.data.endUs > source.durationUs)
+    const parsed = selectionRangeSchema.safeParse(
+      range === undefined ? source.stream.bounds : range,
+    );
+    if (!parsed.success || compare(fromTime(parsed.data.endUs), fromTime(source.durationUs)) > 0)
       throw new CatalogError(
         "INVALID_RANGE",
         "Audio range must lie within the selected source duration",
@@ -176,10 +195,9 @@ export class MediaAudioInspection {
       stream.sampleRate > 0 &&
       stream.channels !== undefined
     ) {
-      const rate = BigInt(stream.sampleRate);
       const frames =
-        (BigInt(parsed.data.endUs) * rate) / 1_000_000n -
-        (BigInt(parsed.data.startUs) * rate) / 1_000_000n;
+        BigInt(sample(parsed.data.endUs, stream.sampleRate)) -
+        BigInt(sample(parsed.data.startUs, stream.sampleRate));
       const minimumBytes = frames * BigInt(stream.channels) * 4n + 44n;
       if (minimumBytes > BigInt(Number.MAX_SAFE_INTEGER))
         throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
@@ -227,7 +245,11 @@ export class MediaAudioInspection {
   }
   /** Surrounding analysis samples use the same pinned selector, masks and native audio owner. */
   context(input: MediaAudioInput, requested: { start: number; end: number }) {
-    const recipe = this.recipe(input),
+    const plan =
+      "projectId" in input
+        ? { domain: "project" as const, recipe: this.projectRecipe(input) }
+        : { domain: "source" as const, recipe: this.sourceRecipe(input) };
+    const recipe = plan.recipe,
       clock = recipe.sampleClock;
     if (!clock)
       throw new CatalogError(
@@ -244,18 +266,34 @@ export class MediaAudioInspection {
         "INVALID_RANGE",
         "Audio context must contain the requested sample range",
       );
-    const rate = BigInt(clock.sampleRate);
-    const us = (frame: number) => Number((BigInt(frame) * 1_000_000n + rate - 1n) / rate);
     const start = Math.max(0, requested.start);
     const end = Math.min(sample(recipe.durationUs, clock.sampleRate), requested.end);
+    if (plan.domain === "project") {
+      const recipe = plan.recipe;
+      const us = (frame: number) =>
+        Number(
+          (BigInt(frame) * 1_000_000n + BigInt(clock.sampleRate) - 1n) / BigInt(clock.sampleRate),
+        );
+      return this.recipe({
+        ...recipe.selection,
+        range: {
+          startUs: Math.min(recipe.selection.range.startUs, us(start)),
+          endUs: Math.max(recipe.selection.range.endUs, Math.min(recipe.durationUs, us(end))),
+        },
+      });
+    }
+    const at = rational(BigInt(start) * 1_000_000n, BigInt(clock.sampleRate));
+    const through = rational(BigInt(end) * 1_000_000n, BigInt(clock.sampleRate));
+    const selected = plan.recipe.selection.range;
     return this.recipe({
-      ...recipe.selection,
+      ...plan.recipe.selection,
       range: {
-        startUs: Math.min(recipe.selection.range.startUs, us(start)),
-        endUs: Math.max(recipe.selection.range.endUs, Math.min(recipe.durationUs, us(end))),
+        startUs: compare(at, fromTime(selected.startUs)) < 0 ? toTime(at) : selected.startUs,
+        endUs: compare(through, fromTime(selected.endUs)) > 0 ? toTime(through) : selected.endUs,
       },
     });
   }
+
   private requestSource(input: SourceAudioInput) {
     const { options, identity } = this.sourceRecipe(input);
     const { assets, acquisitions, jobs, cache } = this.owners;

@@ -1,3 +1,4 @@
+import type { SignedTimeValue } from "@screenrec/composition";
 import {
   createCompiler,
   documentAssetIds,
@@ -28,7 +29,7 @@ export type CompositionAssetBinding = {
   assetId: string;
   streamId: string;
   path: string;
-  originUs: number;
+  originUs: SignedTimeValue;
 };
 
 export type AudioWindowInput = {

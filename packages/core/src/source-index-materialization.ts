@@ -1,3 +1,4 @@
+import { ceil, fromTime, type TimeValue, type SelectionRange } from "@screenrec/composition";
 import { SourceIndexStillness, sourceIndexPoints } from "./source-index-equality.js";
 import { waitForIndexFrame, retainIndexFrame } from "./index-frame.js";
 import { CatalogError } from "./catalog.js";
@@ -12,10 +13,11 @@ import type {
 } from "./source-index.js";
 import {
   sourceIndexChunks,
+  sourceIndexQueryRanges,
   selectSourceIndex,
   type SourceIndexRequest,
 } from "./source-index-selection.js";
-import type { TimeRange } from "./timeline.js";
+
 type Resolved = { request: SourceIndexRequest } & (
   | { ordinal: number; frame: SourceFrameArtifact }
   | {
@@ -27,7 +29,7 @@ type Resolved = { request: SourceIndexRequest } & (
 /** A heavy index attempt waits only on existing frame-lane jobs, then retains their leased bytes. */
 export async function materializeSourceIndex(
   identity: SourceIndexIdentity,
-  source: { durationUs: number; support: readonly TimeRange[] },
+  source: { durationUs: TimeValue; support: readonly SelectionRange[] },
   owners: {
     index: ScreenshotIndexStore<SourceIndexRecords>;
     records: SceneEvidenceStore;
@@ -136,7 +138,7 @@ export async function materializeSourceIndex(
   try {
     index.begin(identity);
     for await (const request of selectSourceIndex(
-      source.support,
+      sourceIndexQueryRanges(source.support),
       sourceIndexChunks(records, identity.scenes, signal),
       signal,
     )) {
@@ -150,7 +152,7 @@ export async function materializeSourceIndex(
       previous = current;
     }
     if (previous) await cover(previous, previous.request.support.endUs);
-    await cover(undefined, source.durationUs);
+    await cover(undefined, ceil(fromTime(source.durationUs)));
     signal.throwIfAborted();
     return await index.finish(identity, signal);
   } catch (error) {

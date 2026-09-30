@@ -1,3 +1,4 @@
+import type { TimeValue } from "./schema.js";
 import { clipGraph } from "./clip-graph.js";
 import { CompositionError } from "./errors.js";
 import { placementForRange, type ValidatedComposition } from "./model.js";
@@ -17,7 +18,7 @@ import { isMediaClip, type Clip } from "./schema.js";
 export function transformSelection(
   model: ValidatedComposition,
   selected: readonly string[],
-  timing: { atUs?: number; durationUs?: number; pitch?: "preserve" | "follow" },
+  timing: { atUs?: number; durationUs?: TimeValue; pitch?: "preserve" | "follow" },
   scope: "linked" | "selected",
   allocate: (kind: "syncGroup") => string,
   tracks: readonly { clipId: string; trackId: string }[],
@@ -55,7 +56,7 @@ export function transformSelection(
 export function transformClips(
   model: ValidatedComposition,
   affected: ReadonlySet<string>,
-  timing: { atUs?: number; durationUs?: number; pitch?: "preserve" | "follow" },
+  timing: { atUs?: number; durationUs?: TimeValue; pitch?: "preserve" | "follow" },
   tracks: readonly { clipId: string; trackId: string }[],
   detachRoots: boolean,
 ) {

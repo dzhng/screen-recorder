@@ -54,25 +54,14 @@ const ripple = z.union([
   z.literal("none"),
   z.object({ trackIds: z.array(reference).min(1) }).strict(),
 ]);
-const placement = z.discriminatedUnion("kind", [
-  anchorSchema.options[0].safeExtend({ range: rangeSchema }),
-  z
-    .object({ ...anchorSchema.options[1].shape, clipId: reference, sourceRange: rangeSchema })
-    .strict(),
-  z.object({ ...anchorSchema.options[2].shape, clipId: reference }).strict(),
-]);
 const placedMedia = mediaClipSchema.omit({ id: true }).extend({
   trackId: reference,
-  placement,
-  source: z.discriminatedUnion("kind", [
-    mediaClipSchema.shape.source.options[0].extend({ range: rangeSchema }),
-    mediaClipSchema.shape.source.options[1],
-  ]),
+  placement: exactAnchor,
 });
 const placedClip = z.union([
   placedMedia,
   textClipSchema.omit({ id: true }).extend({ trackId: reference, placement: exactAnchor }),
-  silenceClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
+  silenceClipSchema.omit({ id: true }).extend({ trackId: reference, placement: exactAnchor }),
 ]);
 const transition = {
   target: processingTarget,
@@ -153,7 +142,9 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
     })
     .strict(),
   z.object({ operation: z.literal("detach"), clipIds: z.array(reference).min(1) }).strict(),
-  z.object({ operation: z.literal("reanchor"), clipId: reference, placement }).strict(),
+  z
+    .object({ operation: z.literal("reanchor"), clipId: reference, placement: exactAnchor })
+    .strict(),
   z
     .object({
       operation: z.literal("move"),
@@ -804,7 +795,10 @@ export function applyBatch(
             const resized = retimeClips(
               resolveComposition(next, model.assets, model.acquisitions),
               [resolve(operation.clipId, "clip")],
-              { durationUs: source.endUs - source.startUs, pitch: operation.pitch ?? "preserve" },
+              {
+                durationUs: toTime(subtract(fromTime(source.endUs), fromTime(source.startUs))),
+                pitch: operation.pitch ?? "preserve",
+              },
               "selected",
               operation.ripple!.trackIds.map((id) => resolve(id, "track")),
               allocate,

@@ -1,3 +1,4 @@
+import { fromTime, compare, type TimeValue } from "@screenrec/composition";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -14,7 +15,7 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const fn of cleanup.splice(0).reverse()) await fn();
 });
-async function fixture(durationUs = 1000000) {
+async function fixture(durationUs: TimeValue = 1000000) {
   const home = await mkdtemp("/tmp/source-scene-processing-");
   const path = join(home, "catalog.sqlite");
   let catalog = new Catalog(path),
@@ -61,7 +62,13 @@ async function fixture(durationUs = 1000000) {
       readerOpens: 1,
       decodedSamples: request.atSourceUs.length,
       samples: request.atSourceUs.map((at, i) => {
-        if (!request.available.some((r) => r.startUs <= at && at < r.endUs))
+        if (
+          !request.available.some(
+            (r) =>
+              compare(fromTime(r.startUs), fromTime(at)) <= 0 &&
+              compare(fromTime(at), fromTime(r.endUs)) < 0,
+          )
+        )
           return {
             requestedSourceUs: at,
             status: "unavailable",
@@ -84,7 +91,11 @@ async function fixture(durationUs = 1000000) {
           rgbBase64: Buffer.alloc(3, Math.floor(at / 200000) % 2 ? 255 : 0).toString("base64"),
           continuousFromPrevious:
             prior !== undefined &&
-            request.available.some((r) => r.startUs <= prior && r.endUs > at),
+            request.available.some(
+              (r) =>
+                compare(fromTime(r.startUs), fromTime(prior)) <= 0 &&
+                compare(fromTime(r.endUs), fromTime(at)) > 0,
+            ),
         };
       }),
     };
@@ -452,4 +463,22 @@ test("portable scene cancellation and rollback clean pending rows while retained
   references.release("scene-generation", owner);
   await receiver.processing.cleanup(new AbortController().signal);
   expect(receiver.evidence.portableGenerations(receiver.asset.id)).toEqual([]);
+});
+
+test("scene query completion does not replace the retained fractional physical duration", async () => {
+  const durationUs = { numerator: 400001, denominator: 2 };
+  const f = await fixture(durationUs);
+  f.processing.prepareSource(f.selection);
+  await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");
+  const status = f.processing.sourceStatus(f.selection),
+    metadata = status.published!.evidence;
+  expect(metadata.source.durationUs).toEqual(durationUs);
+  expect(f.requests[0]!.atSourceUs).toEqual([0, 200000]);
+  expect(f.evidence.sourcePage({ identity: metadata }).chunks[0]).toMatchObject({
+    durationUs,
+    range: { startUs: 0, endUs: 200001 },
+  });
+  await f.reopen();
+  expect(f.processing.publishedSource(f.selection)).toEqual(status);
+  expect(f.requests).toHaveLength(1);
 });

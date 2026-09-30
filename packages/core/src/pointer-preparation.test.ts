@@ -26,6 +26,7 @@ async function fixture(budget: number) {
     acquisitions.intent(identity.owner.acquisitionId);
   });
   const importer = new AcquisitionImporter(catalog, acquisitions, assets, evidence, home);
+  await importer.recover(new AbortController().signal);
   const cache = new DerivedCache(
     catalog,
     home,

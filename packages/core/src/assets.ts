@@ -1,3 +1,10 @@
+import {
+  signedTimeValueSchema,
+  timeValueSchema,
+  fromTime,
+  compare,
+  type SelectionRange,
+} from "@screenrec/composition";
 import { assetOriginSchema, type AssetProvenance } from "./asset-origins.js";
 export type { AssetProvenance } from "./asset-origins.js";
 import { isDeepStrictEqual } from "node:util";
@@ -14,19 +21,19 @@ import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from ".
 const integer = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const positive = integer.positive();
 const segment = z.object({
-  startUs: integer,
-  endUs: integer,
+  startUs: signedTimeValueSchema,
+  endUs: signedTimeValueSchema,
   empty: z.boolean(),
-  mediaStartUs: integer.optional(),
-  mediaDurationUs: integer.nonnegative().optional(),
+  mediaStartUs: signedTimeValueSchema.optional(),
+  mediaDurationUs: timeValueSchema.optional(),
 });
 const stream = z.object({
   id: z.string().min(1),
   kind: z.enum(["image", "video", "audio", "unsupported"]),
   codec: z.string(),
   decodable: z.boolean(),
-  startUs: integer.optional(),
-  endUs: integer.optional(),
+  startUs: timeValueSchema.optional(),
+  endUs: timeValueSchema.optional(),
   // Up to 100,000 occupied runs plus inter-run, leading and trailing empty segments.
   segments: z
     .array(segment)
@@ -65,7 +72,7 @@ const stream = z.object({
 });
 export const mediaProbeSchema = z
   .object({
-    originUs: integer,
+    originUs: signedTimeValueSchema,
     streams: z.array(stream).max(256),
     fontFaces: z
       .array(
@@ -688,8 +695,7 @@ export class AssetStore {
             if (
               item.startUs === undefined ||
               item.endUs === undefined ||
-              item.startUs < 0 ||
-              item.endUs <= item.startUs ||
+              compare(fromTime(item.endUs), fromTime(item.startUs)) <= 0 ||
               !item.segments?.length
             )
               throw new CatalogError(
@@ -753,16 +759,23 @@ export function compositionAsset(asset: Asset): CompositionAsset {
             height: stream.orientedHeight!,
           },
         ];
-      const available: { startUs: number; endUs: number }[] = [];
+      const available: SelectionRange[] = [];
       for (const segment of [...stream.segments!]
         .filter((s) => !s.empty)
-        .sort((a, b) => a.startUs - b.startUs)) {
-        const startUs = Math.max(stream.startUs!, segment.startUs),
-          endUs = Math.min(stream.endUs!, segment.endUs);
-        if (startUs >= endUs) continue;
+        .sort((a, b) => compare(fromTime(a.startUs), fromTime(b.startUs)))) {
+        const startUs =
+            compare(fromTime(stream.startUs!), fromTime(segment.startUs)) > 0
+              ? stream.startUs!
+              : segment.startUs,
+          endUs =
+            compare(fromTime(stream.endUs!), fromTime(segment.endUs)) < 0
+              ? stream.endUs!
+              : segment.endUs;
+        if (compare(fromTime(startUs), fromTime(endUs)) >= 0) continue;
         const last = available.at(-1);
-        if (last && startUs <= last.endUs) last.endUs = Math.max(last.endUs, endUs);
-        else available.push({ startUs, endUs });
+        if (last && compare(fromTime(startUs), fromTime(last.endUs)) <= 0) {
+          if (compare(fromTime(endUs), fromTime(last.endUs)) > 0) last.endUs = endUs;
+        } else available.push({ startUs, endUs });
       }
       return [
         {

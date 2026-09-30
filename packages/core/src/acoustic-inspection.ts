@@ -1,3 +1,4 @@
+import { selectionRangeSchema, sourceAvailability } from "@screenrec/composition";
 import { isDeepStrictEqual } from "node:util";
 import { writeFile } from "node:fs/promises";
 import { z } from "zod";
@@ -24,7 +25,7 @@ const waveformOptions = z.strictObject({
 const spectrumOptions = waveformOptions.omit({ bucketFrames: true, policy: true }).extend({
   fftFrames: z.int().positive(),
   hopFrames: z.int().positive(),
-  range: z.strictObject({ startUs: z.int().nonnegative(), endUs: z.int().positive() }),
+  range: selectionRangeSchema,
   sampleRange: z.strictObject({ start: z.int().nonnegative(), end: z.int().positive() }),
   policy: z.literal("spectrum-density-v1"),
 });
@@ -441,12 +442,7 @@ export class AcousticInspection {
               .filter((span) => span.start < span.end),
           }));
         } else {
-          description.unavailable = description.unavailable
-            .map((span) => ({
-              startUs: Math.max(span.startUs, options.range.startUs),
-              endUs: Math.min(span.endUs, options.range.endUs),
-            }))
-            .filter((span) => span.startUs < span.endUs);
+          description.unavailable = sourceAvailability(description.unavailable, [options.range]);
         }
         measurements = { ...result, density: Array.from(result.density) };
         analysis = {

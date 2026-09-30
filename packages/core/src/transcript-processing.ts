@@ -1,3 +1,4 @@
+import { fromTime, compare, type SelectionRange } from "@screenrec/composition";
 import { z } from "zod";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
@@ -29,7 +30,7 @@ import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
 
 const artifact = "transcript";
 // Native PCM decoding is an execution input, separate from portable transcript schema policy.
-const decoderExecution = "native-audio-v4";
+const decoderExecution = "native-audio-v5";
 
 export type PortableTranscriptPublication = z.infer<typeof retainedPublicationSchema>;
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
@@ -272,7 +273,8 @@ export class TranscriptProcessing {
     });
     if (
       !isDeepStrictEqual(sourceDescriptor(selected), value.source) ||
-      selected.track.sourceOffsetUs !== value.track.sourceOffsetUs ||
+      compare(fromTime(selected.track.sourceOffsetUs), fromTime(value.track.sourceOffsetUs)) !==
+        0 ||
       selected.track.streamId !== value.track.streamId
     )
       throw new CatalogError(
@@ -282,7 +284,7 @@ export class TranscriptProcessing {
     return selected;
   }
   portable(value: PortableTranscript): {
-    available: TimeRange[];
+    available: SelectionRange[];
     publication: PortableTranscriptPublication | null;
   } {
     const selected = this.portableSelection(value);
@@ -305,7 +307,7 @@ export class TranscriptProcessing {
   }
   adoptPublication(
     metadata: TranscriptMetadata,
-    available: TimeRange[],
+    available: SelectionRange[],
     publication: PortableTranscriptPublication | null,
   ): void {
     const value = portableTranscript(metadata),

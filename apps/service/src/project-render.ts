@@ -218,7 +218,7 @@ export function projectPointerHistoryRenderer(
   workspace: string,
 ): PointerHistoryRenderer {
   return {
-    implementationId: "native-pointer-presentation-v1",
+    implementationId: "native-pointer-presentation-v2",
     render: async (request, signal) =>
       (await withRenderedFile(
         worker,
@@ -282,7 +282,7 @@ export function projectMovieRenderer(
   admissionSignal: AbortSignal = new AbortController().signal,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v20",
+    implementationId: "native-composition-movie-v21",
     ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
@@ -371,7 +371,7 @@ export function projectAudioRenderer(
   admissionSignal: AbortSignal = new AbortController().signal,
 ): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v9",
+    implementationId: "native-composition-audio-v10",
     ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     render: async ({ window, assets, output, prepared }, signal) =>
       withRenderedFile(
@@ -413,7 +413,7 @@ export function projectFrameRenderer(
   pointers?: PointerOwners,
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v15",
+    implementationId: "native-composition-picture-v16",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
       const { window, assets, fonts, output, maxLongEdge } = request;

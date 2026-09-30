@@ -3,6 +3,8 @@ import { expect, test } from "vitest";
 import {
   SelectedSourceSceneAnalysis,
   sceneSampleSourceTime,
+  validateSceneSampleClock,
+  sourceSceneSampleTimes,
   type SourceVisualPoint,
   type SourceVisualSampler,
 } from "./source-scenes.js";
@@ -284,4 +286,21 @@ test("long physical timestamps reduce before safe public fraction conversion", (
       ),
     ),
   ).toBe(1000000000000);
+});
+
+test("physical frame membership subtracts the shared fractional origin before label projection", () => {
+  const sample = { value: "3", timescale: 5000000, endValue: "8", endTimescale: 5000000 };
+  const origin = { numerator: 2, denominator: 5 };
+  expect(toTime(sceneSampleSourceTime(sample, origin))).toEqual({ numerator: 1, denominator: 5 });
+  expect(() => validateSceneSampleClock(sample, 1, 0, origin)).not.toThrow();
+  expect(() => validateSceneSampleClock(sample, 1, 1, origin)).toThrow(/contain/);
+  expect(() => validateSceneSampleClock(sample, 0, 0, origin)).toThrow(/contain/);
+  expect(() => validateSceneSampleClock(sample, 2, 0, origin)).toThrow(/contain/);
+  const negative = { value: "1", timescale: 3000000, endValue: "4", endTimescale: 3000000 };
+  expect(() =>
+    validateSceneSampleClock(negative, 0, -1, { numerator: 5, denominator: 6 }),
+  ).not.toThrow();
+  expect(
+    sourceSceneSampleTimes({ startUs: 0, endUs: 200001 }, { numerator: 400001, denominator: 2 }),
+  ).toEqual([0, 200000]);
 });

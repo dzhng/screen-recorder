@@ -1,3 +1,4 @@
+import { signedTimeValueSchema, timeValueSchema, fromTime, compare } from "@screenrec/composition";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
@@ -77,8 +78,8 @@ const schema = z.strictObject({
   assetId: z.string().min(1),
   streamId: z.string().min(1),
   range: z.strictObject({ startUs: time, endUs: time }),
-  durationUs: time.positive(),
-  originUs: integer,
+  durationUs: timeValueSchema,
+  originUs: signedTimeValueSchema,
   sourceWidth: time.positive().max(8192),
   sourceHeight: time.positive().max(8192),
   coverage: z.array(coverage).max(52),
@@ -105,8 +106,8 @@ export function normalizeSourceSceneChunk(
   if (
     chunk.assetId !== assetId ||
     chunk.streamId !== source.streamId ||
-    chunk.originUs !== source.originUs ||
-    chunk.durationUs !== source.durationUs
+    compare(fromTime(chunk.originUs), fromTime(source.originUs)) !== 0 ||
+    compare(fromTime(chunk.durationUs), fromTime(source.durationUs)) !== 0
   )
     invalid("Scene chunk changed its selected source");
   const times = sourceSceneSampleTimes(chunk.range, chunk.durationUs);

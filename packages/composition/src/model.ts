@@ -88,15 +88,15 @@ export function intersectAll(a: readonly ExactRange[], b: readonly ExactRange[])
   }
   return result;
 }
-/** Integer source-clock support shared by composition and direct source inspection. */
+/** Exact source-clock support shared by composition and direct source inspection. */
 export function sourceAvailability(
-  physical: readonly Range[],
-  acquisition?: readonly Range[],
-): Range[] {
+  physical: readonly SelectionRange[],
+  acquisition?: readonly SelectionRange[],
+): SelectionRange[] {
   if (acquisition === undefined) return physical.map((range) => ({ ...range }));
   return intersectAll(physical.map(exact), acquisition.map(exact)).map((range) => ({
-    startUs: floor(range.start),
-    endUs: floor(range.end),
+    startUs: toTime(range.start),
+    endUs: toTime(range.end),
   }));
 }
 function unique<T extends { id: string }>(values: readonly T[], kind: string): Map<string, T> {
@@ -215,8 +215,8 @@ export function validateSourceSelection(
   } else {
     if (stream.kind === "image") invalid(`Still images require a hold source: ${clipId}`);
     if (
-      compare(fromTime(source.range.startUs), integer(stream.bounds.startUs)) < 0 ||
-      compare(fromTime(source.range.endUs), integer(stream.bounds.endUs)) > 0
+      compare(fromTime(source.range.startUs), fromTime(stream.bounds.startUs)) < 0 ||
+      compare(fromTime(source.range.endUs), fromTime(stream.bounds.endUs)) > 0
     )
       invalid(`Selected range exceeds source bounds: ${clipId}`);
   }
@@ -237,9 +237,9 @@ export function resolveComposition(
   const document = documentResult.data,
     assets = assetResult.data,
     acquisitions = acquisitionResult.data;
-  const contexts = new Map<string, Map<string, Map<string, Range[]>>>();
+  const contexts = new Map<string, Map<string, Map<string, SelectionRange[]>>>();
   for (const context of unique(acquisitions, "acquisition").values()) {
-    const bindings = new Map<string, Map<string, Range[]>>();
+    const bindings = new Map<string, Map<string, SelectionRange[]>>();
     contexts.set(context.id, bindings);
     for (const binding of context.bindings) {
       let streams = bindings.get(binding.assetId);
@@ -248,10 +248,11 @@ export function resolveComposition(
         invalid(
           `Duplicate acquisition binding: ${context.id}/${binding.assetId}/${binding.streamId}`,
         );
-      let through = 0;
+      let through = fromTime(0);
       for (const range of binding.available) {
-        if (range.startUs < through) invalid(`Invalid acquisition availability: ${context.id}`);
-        through = range.endUs;
+        if (compare(fromTime(range.startUs), through) < 0)
+          invalid(`Invalid acquisition availability: ${context.id}`);
+        through = fromTime(range.endUs);
       }
       streams.set(binding.streamId, binding.available);
     }
@@ -264,11 +265,14 @@ export function resolveComposition(
     streams.set(asset.id, unique(asset.streams, "stream"));
     for (const stream of asset.streams)
       if (stream.kind !== "image") {
-        let through = stream.bounds.startUs;
+        let through = fromTime(stream.bounds.startUs);
         for (const range of stream.available) {
-          if (range.startUs < through || range.endUs > stream.bounds.endUs)
+          if (
+            compare(fromTime(range.startUs), through) < 0 ||
+            compare(fromTime(range.endUs), fromTime(stream.bounds.endUs)) > 0
+          )
             invalid(`Invalid source availability: ${asset.id}/${stream.id}`);
-          through = range.endUs;
+          through = fromTime(range.endUs);
         }
       }
   }
@@ -293,13 +297,13 @@ export function resolveComposition(
     }
   }
   const resolved = new Map<string, ResolvedClip>();
-  const supportByStream = new Map<Stream, Map<Range[] | undefined, ExactRange[]>>();
+  const supportByStream = new Map<Stream, Map<SelectionRange[] | undefined, ExactRange[]>>();
   for (let next = 0; next < ready.length; next++) {
     const clip = ready[next]!;
     const track = tracks.get(clip.trackId);
     if (!track) invalid(`Unknown track: ${clip.trackId}`);
     let stream: Stream | null = null;
-    let acquisition: Range[] | undefined;
+    let acquisition: SelectionRange[] | undefined;
     if (isMediaClip(clip)) {
       const found = streams.get(clip.assetId)?.get(clip.streamId);
       if (!found) invalid(`Unknown source: ${clip.assetId}/${clip.streamId}`);

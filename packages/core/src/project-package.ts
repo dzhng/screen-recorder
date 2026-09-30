@@ -7,6 +7,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import {
   documentAcquisitionIds,
+  selectionRangeSchema,
   documentAssetIds,
   validateComposition,
 } from "@screenrec/composition";
@@ -80,16 +81,7 @@ const resourceSchema = z.discriminatedUnion("kind", [
   z.strictObject({
     kind: z.literal("transcript-generation"),
     metadata: portableTranscriptSchema,
-    available: z
-      .array(
-        z
-          .strictObject({
-            startUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
-            endUs: z.int().positive().max(Number.MAX_SAFE_INTEGER),
-          })
-          .refine((range) => range.startUs < range.endUs),
-      )
-      .max(100000),
+    available: z.array(selectionRangeSchema).max(100000),
     publication: retainedPublicationSchema.nullable(),
     receipt: z.strictObject({
       bytes: z
@@ -288,7 +280,7 @@ export function transcriptMemberPath(
 }
 const manifestSchema = z.strictObject({
   format: z.literal("screenrec-project"),
-  version: z.literal(2),
+  version: z.literal(3),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
   references: projectSnapshotReferencesSchema,
@@ -353,7 +345,7 @@ export function projectPackageManifest(
 ): ProjectPackageManifest {
   return {
     format: "screenrec-project",
-    version: 2,
+    version: 3,
     project: snapshot.project,
     undo: snapshot.undo,
     references: snapshot.references,
@@ -380,10 +372,10 @@ export function parseProjectPackageManifest(
     typeof value === "object" &&
     "format" in value &&
     value.format === "screenrec-project" &&
-    (!("version" in value) || value.version !== 2)
+    (!("version" in value) || value.version !== 3)
   )
     throw new CatalogError("INVALID_PACKAGE", "Unsupported project package version", {
-      supportedVersion: 2,
+      supportedVersion: 3,
     });
   const parsed = manifestSchema.safeParse(value);
   if (!parsed.success) invalid("Invalid project manifest");

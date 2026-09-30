@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { fromTime, rational, subtract, toSignedTime, toTime } from "./rational.js";
+import { fromTime, rational, round, subtract, toSignedTime, toTime } from "./rational.js";
 import {
   signedTimeValueSchema,
   selectionRangeSchema,
@@ -55,4 +55,11 @@ test("wire values are canonical, safe and domain restricted", () => {
   ]) {
     expect(() => toSignedTime(value)).toThrow();
   }
+});
+
+test("observation labels round exact signed halves away from zero", () => {
+  expect([-3n, -1n, 0n, 1n, 3n].map((n) => round(rational(n, 2n)))).toEqual([-2, -1, 0, 1, 2]);
+  expect(round(rational(-1n, 3n))).toBe(0);
+  expect(round(rational(1n, 3n))).toBe(0);
+  expect(() => round(rational(BigInt(Number.MAX_SAFE_INTEGER) * 2n + 1n, 2n))).toThrow(/precision/);
 });

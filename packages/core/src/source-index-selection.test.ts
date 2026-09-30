@@ -1,6 +1,10 @@
 import { expect, test } from "vitest";
 import type { SourceSceneChunk } from "./source-scene-chunks.js";
-import { selectSourceIndex, type SourceIndexRequest } from "./source-index-selection.js";
+import {
+  selectSourceIndex,
+  sourceIndexQueryRanges,
+  type SourceIndexRequest,
+} from "./source-index-selection.js";
 const clock = (start: number, end: number) => ({
   value: String(start + 1250000),
   timescale: 1000000,
@@ -204,4 +208,18 @@ test("dense support edges stop at the shared pending-work budget", async () => {
   await expect(
     collect(support, [chunk([point(0, 0, 200000), point(200000, 200000, 400000)])]),
   ).rejects.toThrow("Too many source screenshot requests");
+});
+
+test("source index edges query only integer points inside exact support", async () => {
+  const queries = sourceIndexQueryRanges([
+    { startUs: { numerator: 1, denominator: 3 }, endUs: { numerator: 10, denominator: 3 } },
+    { startUs: { numerator: 13, denominator: 3 }, endUs: { numerator: 14, denominator: 3 } },
+    { startUs: 6, endUs: 8 },
+  ]);
+  expect(queries).toEqual([
+    { startUs: 1, endUs: 4 },
+    { startUs: 6, endUs: 8 },
+  ]);
+  const result = pictures(await collect(queries, []));
+  expect(result.map((row) => row.requestedSourceUs)).toEqual([1, 3, 6, 7]);
 });

@@ -50,6 +50,9 @@ export {
   toSignedTime,
   floor,
   ceil,
+  round,
+  add,
+  multiply,
   subtract,
   divide,
 } from "./rational.js";

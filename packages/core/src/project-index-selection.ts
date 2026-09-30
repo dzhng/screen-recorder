@@ -1,3 +1,4 @@
+import { type SignedTimeValue } from "@screenrec/composition";
 import { setImmediate } from "node:timers/promises";
 import {
   createCompiler,
@@ -39,7 +40,7 @@ export type ProjectIndexReason =
       projectAtUs: TimeValue;
       side: "before" | "after";
       sample: SceneSampleClock;
-      originUs: number;
+      originUs: SignedTimeValue;
     }
   | { kind: "first" | "last" | "coverage"; projectAtUs: TimeValue }
   | { kind: "processing"; projectAtUs: TimeValue; side: "before" | "after" }

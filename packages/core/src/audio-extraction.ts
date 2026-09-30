@@ -1,3 +1,4 @@
+import { rational, toTime, type TimeValue } from "@screenrec/composition";
 import { z } from "zod";
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -56,7 +57,7 @@ export type ExtractedAudio = {
   sampleRate: number;
   channels: 1 | 2;
   frames: number;
-  durationUs: number;
+  durationUs: TimeValue;
   origin: ExtractionOrigin;
 };
 
@@ -316,8 +317,8 @@ export class AudioExtraction {
         assetId: staged.asset.id,
         streamId: stream.id,
         ...origin.output,
-        durationUs: Number(
-          (BigInt(origin.output.frames) * 1000000n) / BigInt(origin.output.sampleRate),
+        durationUs: toTime(
+          rational(BigInt(origin.output.frames) * 1000000n, BigInt(origin.output.sampleRate)),
         ),
         origin,
       };

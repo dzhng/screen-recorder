@@ -1,4 +1,13 @@
 import {
+  signedTimeValueSchema,
+  fromTime,
+  toTime,
+  toSignedTime,
+  subtract,
+  compare,
+  type SignedTimeValue,
+} from "@screenrec/composition";
+import {
   verifySourceEvidence,
   sourcePublicationMembers as publicationMembers,
 } from "./source-admission.js";
@@ -61,7 +70,7 @@ export type Acquisition = {
   journal: { fileName: string; bytes: number; sha256: string };
   bindings: (AcquisitionContext["bindings"][number] & {
     sourceRoles: ("video" | "narration" | "system")[];
-    sourceToAssetOffsetUs: number;
+    sourceToAssetOffsetUs: SignedTimeValue;
     supportBasis: "physical" | "captured-audio";
   })[];
 };
@@ -83,11 +92,7 @@ export const portableAcquisitionSchema = z
               .array(z.enum(["video", "narration", "system"]))
               .min(1)
               .max(3),
-            sourceToAssetOffsetUs: z
-              .number()
-              .int()
-              .min(Number.MIN_SAFE_INTEGER)
-              .max(Number.MAX_SAFE_INTEGER),
+            sourceToAssetOffsetUs: signedTimeValueSchema,
             supportBasis: z.enum(["physical", "captured-audio"]),
           })
           .strict(),
@@ -810,14 +815,11 @@ export class AcquisitionImporter {
     if (sourceRole !== "video") {
       available = [];
       for (const interval of intervals) {
-        const startUs = Math.max(0, interval.startUs - asset.originUs);
-        const endUs = interval.endUs - asset.originUs;
-        if (!Number.isSafeInteger(startUs) || !Number.isSafeInteger(endUs))
-          throw new CatalogError(
-            "UNSUPPORTED_MEDIA",
-            "Capture timing exceeds the normalized source clock",
-          );
-        if (startUs < endUs) available.push({ startUs, endUs });
+        const start = subtract(fromTime(interval.startUs), fromTime(asset.originUs));
+        const end = subtract(fromTime(interval.endUs), fromTime(asset.originUs));
+        const clippedStart = compare(start, fromTime(0)) < 0 ? fromTime(0) : start;
+        if (compare(clippedStart, end) < 0)
+          available.push({ startUs: toTime(clippedStart), endUs: toTime(end) });
         if (available.length > 100_000)
           throw new CatalogError("LIMIT_EXCEEDED", "Capture acquisition interval limit exceeded");
       }
@@ -827,7 +829,7 @@ export class AcquisitionImporter {
       streamId: stream.id,
       available,
       sourceRoles: [sourceRole],
-      sourceToAssetOffsetUs: asset.originUs === 0 ? 0 : -asset.originUs,
+      sourceToAssetOffsetUs: toSignedTime(subtract(fromTime(0), fromTime(asset.originUs))),
       supportBasis: sourceRole === "video" ? "physical" : "captured-audio",
     };
   }

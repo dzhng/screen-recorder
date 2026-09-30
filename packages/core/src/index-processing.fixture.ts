@@ -1,7 +1,7 @@
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectComposition } from "./project-window.js";
 import { selectSource } from "./source-selection.js";
-import { floor, fromTime, type CompiledFrame } from "@screenrec/composition";
+import { floor, fromTime, add, compare, type CompiledFrame } from "@screenrec/composition";
 import { afterEach } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -176,7 +176,7 @@ export async function fixture(
                   status: "available",
                   actualSourceUs,
                   sample: {
-                    value: String(actualSourceUs + originUs),
+                    value: String(floor(add(fromTime(actualSourceUs), fromTime(originUs)))),
                     timescale: 1000000,
                     originUs,
                   },
@@ -204,9 +204,9 @@ export async function fixture(
             requestedSourceUs: atUs,
             actualSourceUs: start,
             sample: {
-              value: String(start + asset.originUs),
+              value: String(floor(add(fromTime(start), fromTime(asset.originUs)))),
               timescale: 1000000,
-              endValue: String(start + 200000 + asset.originUs),
+              endValue: String(floor(add(fromTime(start + 200000), fromTime(asset.originUs)))),
               endTimescale: 1000000,
               originUs: asset.originUs,
             },
@@ -241,7 +241,11 @@ export async function fixture(
             decodedSamples: 1,
             readerOpens: 1,
             samples: request.atSourceUs.map((at, i) => {
-              const range = request.available.find((r) => r.startUs <= at && at < r.endUs);
+              const range = request.available.find(
+                (r) =>
+                  compare(fromTime(r.startUs), fromTime(at)) <= 0 &&
+                  compare(fromTime(at), fromTime(r.endUs)) < 0,
+              );
               if (!range || options.empty)
                 return {
                   requestedSourceUs: at,
@@ -266,7 +270,9 @@ export async function fixture(
                   3,
                   options.changingScenes && (start / 200000) % 2 ? 255 : 0,
                 ).toString("base64"),
-                continuousFromPrevious: i > 0 && request.atSourceUs[i - 1]! >= range.startUs,
+                continuousFromPrevious:
+                  i > 0 &&
+                  compare(fromTime(request.atSourceUs[i - 1]!), fromTime(range.startUs)) >= 0,
               };
             }),
           };

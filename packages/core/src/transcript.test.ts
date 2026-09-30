@@ -1,3 +1,4 @@
+import { fromTime, round, subtract, compare, type SelectionRange } from "@screenrec/composition";
 import { afterEach, expect, test } from "vitest";
 import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -23,10 +24,7 @@ afterEach(async () => {
 type Word = { text: string; startUs: number; endUs: number };
 /** A merged word as native writes it to raw.jsonl: engine seconds beside its source range. */
 type RawWord = { text: string; source: { startUs: number; endUs: number } };
-type Line = { ordinal: number; source: { startUs: number; endUs: number }; state: string } & Record<
-  string,
-  unknown
->;
+type Line = { ordinal: number; source: SelectionRange; state: string } & Record<string, unknown>;
 const script: Word[] = [
   { text: "Um,", startUs: 1_000_000, endUs: 1_300_000 },
   { text: "hello", startUs: 1_400_000, endUs: 1_900_000 },
@@ -136,10 +134,15 @@ async function fixture(options: Options = {}) {
         void options.hold!.then(resolve);
       });
     const lines: Line[] = (options.occupied ?? request.track.available).map((interval, ordinal) => {
-      if (interval.endUs - interval.startUs < 200_000)
+      if (
+        compare(subtract(fromTime(interval.endUs), fromTime(interval.startUs)), fromTime(200_000)) <
+        0
+      )
         return { ordinal, source: interval, state: "skipped", reason: "too_short", words: [] };
       const words = (options.script ?? script).filter(
-        (word) => word.startUs >= interval.startUs && word.endUs <= interval.endUs,
+        (word) =>
+          compare(fromTime(word.startUs), fromTime(interval.startUs)) >= 0 &&
+          compare(fromTime(word.endUs), fromTime(interval.endUs)) <= 0,
       );
       return {
         ordinal,
@@ -150,8 +153,8 @@ async function fixture(options: Options = {}) {
         tokenTimings: words.map((word) => ({ token: word.text, startTime: word.startUs / 1e6 })),
         words: words.map((word, index) => ({
           text: word.text,
-          startSeconds: (word.startUs - interval.startUs) / 1e6,
-          endSeconds: (word.endUs - interval.startUs) / 1e6,
+          startSeconds: round(subtract(fromTime(word.startUs), fromTime(interval.startUs))) / 1e6,
+          endSeconds: round(subtract(fromTime(word.endUs), fromTime(interval.startUs))) / 1e6,
           confidence: index === 0 ? null : 0.75,
           source: { startUs: word.startUs, endUs: word.endUs },
         })),

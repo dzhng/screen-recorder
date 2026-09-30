@@ -1,3 +1,4 @@
+import { add, fromTime, toTime } from "@screenrec/composition";
 import { fileIdentity } from "./files.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { CaptureSourceRead } from "./capture-source-read.js";
@@ -708,10 +709,49 @@ test.each(["layout", "duplicate-role", "support"] as const)(
     const binding = forged.bindings.find((row) => row.sourceRoles.includes("narration"))!;
     if (change === "layout") forged.receipt.header = { ...forged.receipt.header, schemaVersion: 1 };
     if (change === "duplicate-role") forged.bindings.push(structuredClone(binding));
-    if (change === "support") binding.available[0]!.startUs += 1;
+    if (change === "support")
+      binding.available[0]!.startUs = toTime(
+        add(fromTime(binding.available[0]!.startUs), fromTime(1)),
+      );
     await expect(
       f.importer.verifyPortable(forged, files, signal(), await portableNative(f)),
     ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
     await f.importer.verifyPortable(pinned.acquisition, files, signal(), await portableNative(f));
   },
 );
+
+test("integer capture evidence maps into exact normalized acquisition support", async () => {
+  const f = await fixture(),
+    intent = await f.admit();
+  const value = await f.importer.executeImport(
+    intent.acquisitionId,
+    "exact",
+    {
+      ...f.native,
+      probe: async (path) => ({
+        ...(await f.native.probe(path)),
+        originUs: { numerator: 199, denominator: 2 },
+      }),
+    },
+    signal(),
+  );
+  const binding = value.bindings.find((row) => row.sourceRoles.includes("narration"))!;
+  expect(binding.sourceToAssetOffsetUs).toEqual({ numerator: -199, denominator: 2 });
+  expect(binding.available).toEqual([
+    { startUs: { numerator: 1, denominator: 2 }, endUs: { numerator: 81, denominator: 2 } },
+    { startUs: { numerator: 121, denominator: 2 }, endUs: { numerator: 201, denominator: 2 } },
+  ]);
+  const selected = selectSource(f.assets, f.acquisitions, {
+    assetId: binding.assetId,
+    streamId: binding.streamId,
+    acquisitionId: value.id,
+  });
+  expect(selected.track.available).toEqual([
+    binding.available[0],
+    { startUs: { numerator: 121, denominator: 2 }, endUs: 100 },
+  ]);
+  expect(f.evidence.audio(value.evidence, "narration", { startUs: 0, endUs: 300 })).toEqual([
+    { startUs: 100, endUs: 140 },
+    { startUs: 160, endUs: 200 },
+  ]);
+});

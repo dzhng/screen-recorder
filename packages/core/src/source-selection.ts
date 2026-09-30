@@ -1,6 +1,12 @@
 import { createHash } from "node:crypto";
 import type { z } from "zod";
-import { mediaClipSchema, sourceAvailability } from "@screenrec/composition";
+import {
+  mediaClipSchema,
+  sourceAvailability,
+  toSignedTime,
+  subtract,
+  fromTime,
+} from "@screenrec/composition";
 import { compositionAsset, type Asset, type AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
@@ -63,7 +69,7 @@ export function selectSourceMetadata(
     track: {
       source: path,
       streamId: stream.id,
-      sourceOffsetUs: -asset.originUs,
+      sourceOffsetUs: toSignedTime(subtract(fromTime(0), fromTime(asset.originUs))),
       available,
     },
   };

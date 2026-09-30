@@ -669,3 +669,62 @@ test("portable physical rows commit atomically, preserve optional fields and rej
     await changed.close();
   }
 });
+
+test("admission discovery and portable metadata retain one signed origin and fractional support", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "exact.wav");
+  await writeFile(path, "exact physical fixture");
+  const half = (numerator: number) => ({ numerator, denominator: 2 });
+  const segments = [
+    { startUs: half(-3), endUs: 0, empty: true },
+    {
+      startUs: half(11),
+      endUs: half(21),
+      empty: false,
+      mediaStartUs: half(-1),
+      mediaDurationUs: 5,
+    },
+    { startUs: 0, endUs: half(9), empty: false, mediaStartUs: 0, mediaDurationUs: half(9) },
+  ];
+  const admitted = await store.import(path, { kind: "import" }, async () => ({
+    originUs: half(-7),
+    streams: [
+      {
+        id: "a",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: half(21),
+        segments,
+        sampleRate: 48000,
+        channels: 1,
+      },
+    ],
+  }));
+  expect(store.describe(admitted.id)).toMatchObject({
+    originUs: half(-7),
+    streams: [{ endUs: half(21) }],
+  });
+  expect(store.segments(admitted.id, "a").segments).toEqual(
+    segments.map((segment, ordinal) => ({ ...segment, ordinal })),
+  );
+  expect(compositionAsset(admitted).streams[0]).toMatchObject({
+    bounds: { startUs: 0, endUs: half(21) },
+    available: [
+      { startUs: 0, endUs: half(9) },
+      { startUs: half(11), endUs: half(21) },
+    ],
+  });
+  const receiver = await setup();
+  const staged = await receiver.store.stagePortable(
+    store.portable(admitted.id),
+    store.path(admitted.id),
+    new AbortController().signal,
+  );
+  try {
+    expect(staged.publish()).toEqual(admitted);
+  } finally {
+    await staged.close();
+  }
+});

@@ -1,4 +1,4 @@
-import { floor, fromTime } from "@screenrec/composition";
+import { floor, fromTime, add } from "@screenrec/composition";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
@@ -46,10 +46,17 @@ const renderer: ProjectFrameRenderer = {
           actualSourceUs: floor(fromTime(layer.sourceUs)),
           sample: {
             value: String(
-              floor(fromTime(layer.sourceUs)) +
-                assets.find(
-                  (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
-                )!.originUs,
+              floor(
+                add(
+                  fromTime(floor(fromTime(layer.sourceUs))),
+                  fromTime(
+                    assets.find(
+                      (asset) =>
+                        asset.assetId === layer.assetId && asset.streamId === layer.streamId,
+                    )!.originUs,
+                  ),
+                ),
+              ),
             ),
             timescale: 1000000,
             originUs: assets.find(

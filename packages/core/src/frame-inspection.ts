@@ -1,8 +1,16 @@
+import { sceneSampleSourceTime } from "./source-scenes.js";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import {
   compiledFrameSchema,
   timeValueSchema,
+  signedTimeValueSchema,
+  add,
+  subtract,
+  toSignedTime,
+  rational,
+  round,
+  type SelectionRange,
   compare,
   fromTime,
   fontReferenceSchema,
@@ -113,7 +121,7 @@ const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
           sample: z.object({
             value: z.string().regex(/^-?\d+$/),
             timescale: z.int().positive(),
-            originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+            originUs: signedTimeValueSchema,
           }),
         }),
       ]),
@@ -189,7 +197,7 @@ const sourceReceiptSchema = pictureDeliverySchema.extend({
       .max(21)
       .regex(/^-?\d+$/),
     endTimescale: z.int().positive(),
-    originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    originUs: signedTimeValueSchema,
   }),
 });
 const sourceImageSelectionSchema = sourceSelectionSchema.omit({ acquisitionId: true });
@@ -254,7 +262,7 @@ export type SourceFrameRenderer = {
   render(
     request: {
       asset: CompositionAssetBinding;
-      available: { startUs: number; endUs: number }[];
+      available: SelectionRange[];
       atUs: number;
       maxLongEdge: number;
       output: string;
@@ -411,11 +419,12 @@ export class MediaFrameInspection {
       supportDigest: source.supportDigest,
       implementationId: this.owners.sourceRenderer.implementationId,
     });
-    if (!parsed.success || input.atUs >= source.durationUs)
+    if (!parsed.success || compare(fromTime(input.atUs), fromTime(source.durationUs)) >= 0)
       throw new CatalogError("INVALID_RANGE", "Picture time must lie within the source duration");
-    const contains = (range: { startUs: number; endUs: number }) =>
-      range.startUs <= input.atUs && input.atUs < range.endUs;
-    const reason = !(source.stream.available ?? [source.stream.bounds]).some(contains)
+    const contains = (range: SelectionRange) =>
+      compare(fromTime(range.startUs), fromTime(input.atUs)) <= 0 &&
+      compare(fromTime(input.atUs), fromTime(range.endUs)) < 0;
+    const reason = !source.stream.available.some(contains)
       ? "physical_gap"
       : !source.track.available.some(contains)
         ? "acquisition_excluded"
@@ -424,7 +433,7 @@ export class MediaFrameInspection {
       assetId: source.selection.assetId,
       streamId: source.selection.streamId,
       path: source.track.source,
-      originUs: -source.track.sourceOffsetUs,
+      originUs: toSignedTime(subtract(fromTime(0), fromTime(source.track.sourceOffsetUs))),
     };
     return { source, options: parsed.data, asset, reason };
   }
@@ -604,8 +613,7 @@ export class MediaFrameInspection {
         end = BigInt(sample.endValue),
         scale = BigInt(sample.timescale),
         endScale = BigInt(sample.endTimescale);
-      const at = BigInt(plan.options.atUs) + BigInt(plan.asset.originUs);
-      const rounded = roundedSampleUs(sample);
+      const at = add(fromTime(plan.options.atUs), fromTime(plan.asset.originUs));
       const metadata = this.owners.assets
         .get(plan.asset.assetId)
         .streams.find((stream) => stream.id === plan.asset.streamId)!;
@@ -613,10 +621,10 @@ export class MediaFrameInspection {
         value.assetId !== plan.asset.assetId ||
         value.streamId !== plan.asset.streamId ||
         value.requestedSourceUs !== plan.options.atUs ||
-        sample.originUs !== plan.asset.originUs ||
-        rounded - BigInt(sample.originUs) !== BigInt(value.actualSourceUs) ||
-        start * 1000000n > at * scale ||
-        end * 1000000n <= at * endScale
+        compare(fromTime(sample.originUs), fromTime(plan.asset.originUs)) !== 0 ||
+        round(sceneSampleSourceTime(sample, sample.originUs)) !== value.actualSourceUs ||
+        compare(rational(start * 1000000n, scale), at) > 0 ||
+        compare(rational(end * 1000000n, endScale), at) <= 0
       )
         throw new CatalogError(
           "INVALID_RESPONSE",
@@ -793,15 +801,6 @@ export class MediaFrameInspection {
   }
 }
 
-function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
-  const numerator = BigInt(sample.value) * 1000000n,
-    scale = BigInt(sample.timescale);
-  const absolute = numerator < 0n ? -numerator : numerator;
-  return (
-    (absolute / scale + ((absolute % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n)
-  );
-}
-
 type PicturePlan = Pick<ReturnType<typeof projectWindow>, "window" | "assets" | "frameBoundary">;
 type PictureReceipt = z.infer<typeof projectReceiptSchema>;
 function inspectedFrame(frame: CompiledFrame, plan: PicturePlan): PictureReceipt["frame"] {
@@ -892,12 +891,14 @@ function checkPictureReceipt(
       (picture) =>
         picture.kind === "video" &&
         picture.status === "available" &&
-        (roundedSampleUs(picture.sample) - BigInt(picture.sample.originUs) !==
-          BigInt(picture.actualSourceUs) ||
-          picture.sample.originUs !==
+        (round(sceneSampleSourceTime(picture.sample, picture.sample.originUs)) !==
+          picture.actualSourceUs ||
+          !isDeepStrictEqual(
+            picture.sample.originUs,
             plan.assets.find(
               (asset) => asset.assetId === picture.assetId && asset.streamId === picture.streamId,
-            )?.originUs),
+            )?.originUs,
+          )),
     )
   )
     throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");

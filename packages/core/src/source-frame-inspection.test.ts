@@ -1,3 +1,4 @@
+import { add, fromTime } from "@screenrec/composition";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
@@ -23,6 +24,8 @@ const renderer: SourceFrameRenderer = {
     const bytes = Buffer.from(`selected ${asset.streamId}`);
     await writeFile(output, bytes, { flag: "wx" });
     const actualSourceUs = Math.floor(atUs / 100000) * 100000;
+    const sampleStart = add(fromTime(actualSourceUs), fromTime(asset.originUs));
+    const timescale = Number(sampleStart.denominator) * 1000000;
     return {
       file: output,
       mediaType: "image/png",
@@ -31,10 +34,10 @@ const renderer: SourceFrameRenderer = {
       requestedSourceUs: atUs,
       actualSourceUs,
       sample: {
-        value: String(actualSourceUs + asset.originUs),
-        timescale: 1000000,
-        endValue: String(actualSourceUs + asset.originUs + 100000),
-        endTimescale: 1000000,
+        value: String(sampleStart.numerator),
+        timescale,
+        endValue: String(sampleStart.numerator + 100000n * sampleStart.denominator),
+        endTimescale: timescale,
         originUs: asset.originUs,
       },
       width: 64,

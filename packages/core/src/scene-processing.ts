@@ -1,3 +1,4 @@
+import { ceil, fromTime } from "@screenrec/composition";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { join } from "node:path";
@@ -375,10 +376,20 @@ export class SceneProcessing {
     signal: AbortSignal,
   ) {
     try {
-      for (let startUs = 0; startUs < source.durationUs; startUs += scenePolicy.maximumRangeUs) {
+      for (
+        let startUs = 0;
+        startUs < ceil(fromTime(source.durationUs));
+        startUs += scenePolicy.maximumRangeUs
+      ) {
         signal.throwIfAborted();
         const analyzed = await analysis.analyze(
-          { startUs, endUs: Math.min(startUs + scenePolicy.maximumRangeUs, source.durationUs) },
+          {
+            startUs,
+            endUs: Math.min(
+              startUs + scenePolicy.maximumRangeUs,
+              ceil(fromTime(source.durationUs)),
+            ),
+          },
           signal,
         );
         this.evidence.append(identity, source, analyzed);
