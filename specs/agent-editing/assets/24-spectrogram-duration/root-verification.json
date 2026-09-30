@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "exactRequestOperations": 500,
+  "durableRequestId": "spectrogram-move-0",
+  "completeDocumentEqual": true,
+  "completeEditReceiptEqual": true,
+  "plotBytesPerCase": 1166400,
+  "plotSha256": "2d1494d7d49fe9f3c4219d53b8280ccd610a8ff86937bee4f2419344a18d5172",
+  "comparison": {
+    "peakRatio": 1.171474090223042,
+    "growthRatio": 1.2584764148019587
+  },
+  "scope": "Saved outputs and actual durable request rechecked independently; no service, edit or spectrogram execution repeated.",
+  "runtimeFilesRehashed": 182,
+  "runtimeDifferences": [
+    "packages/composition/dist/edits.js",
+    "apps/service/dist/voice-pins.js",
+    "apps/cli/dist/media.js"
+  ],
+  "archive": {
+    "sha256": "447a42a02e8d183a214fce5c2b9a54e77ff9f231b4b28395fc13385f7f407a89",
+    "members": 57,
+    "expandedBytes": 501728899
+  },
+  "integration": {
+    "commit": "799039c9",
+    "compositionTests": 253,
+    "typecheck": "passed",
+    "sourceFilesMatched": 3
+  }
+}

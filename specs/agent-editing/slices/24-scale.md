@@ -15,8 +15,12 @@ resolves the sparse read-ahead failure; [container identification](24p-audio-for
 preserves descriptor-backed audio admission. [Combined document/history transfer](24u-package-history-scale.md)
 and [short deep/wide learned routing](24v-learned-routing-scale.md) pass their scoped
 gates. [Waveform duration memory](24w-waveform-duration-memory.md) now passes
-after removing redundant ownership-only document reads. Other query families and
-final post-cutover budgets stay open. The retained300-second audio streaming gate now passes unchanged in
+after removing redundant ownership-only document reads. The matched
+[spectrogram duration-memory check](../assets/24-spectrogram-duration/README.md)
+also passes, retaining identical PCM/densities/plot pixels and the disclosed
+edit-module runtime difference. Its setup exposed and fixed repeated whole-project
+work in ordered clip moves; root composition checks and archived-output verification
+pass. Other query families and final post-cutover budgets stay open. The retained300-second audio streaming gate now passes unchanged in
 [24s](24s-audio-stream-budget.md), including its original debug deadline, sampled
 accuracy and memory assertions. The earlier87.209s diagnostic remains retained;
 no causal speedup or concurrent-load immunity is inferred. The inherited storage

@@ -17,20 +17,22 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: fix the large-project move-batch delay found while checking
-spectrogram duration memory. A public batch of 500 moves on 10,000 clips exceeded
-its unchanged 15-second deadline but committed afterward. Preserve that request and
-receipt; [independent edit batching](slices/24c-edit-batch-work.md) currently
-optimizes additions, not moves. Preserve sequential validation and first-error
-semantics: later moves can repair an earlier overlap, so distinct clip IDs alone
-do not prove independence. The four-hour spectrogram case is retained; the matched
-two-hour measurement has not run. Do not repeat the completed case.
-
-The [selected-device probe](slices/20e-selected-device-probe.md) is implemented and
-offline-verified. Authorization to sign the prepared copy, read permission status
-and list devices is pending; see its [follow-up](assets/20e-selected-device-probe/follow-up.md).
+Current pickup: resolve the remaining speech/stretch listening and physical-capture
+acceptance before adopting their dependent execution paths. The
+[selected-device probe](slices/20e-selected-device-probe.md) is offline-verified;
+authorization to sign the prepared copy, read permission status and list devices
+is pending in its [follow-up](assets/20e-selected-device-probe/follow-up.md).
 No live device/permission action or recording has run. Actual recording needs its
 own concrete request, and production webcam21 requires the physical clock proof.
+
+The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
+is integrated: the unchanged 500-operation request now completes in 281 ms with exact
+original document/receipt parity, and the matched duration-memory comparison passes.
+Root reran 253 composition tests/typecheck and verified all 57 archive members.
+The historical timeout and measured runtime differences remain explicit; reuse this
+proof. No further dependency-ready consumer pass was found in 12b/15a/19/23 without
+missing quality, retiming or capture acceptance. Do not repeat passed cohorts to
+substitute for those prerequisites.
 
 [Retained-recording preservation](slices/23a-recording-project-preservation.md)
 is verified through full source PCM, all transcript words, full exports and an

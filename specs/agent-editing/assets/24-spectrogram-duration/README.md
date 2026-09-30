@@ -82,3 +82,8 @@ opinion (verdict retained in `checks/independent-review.md`). Shape review kept 
 editor and existing exact algebra; no cache, generic move framework or alternate
 validation owner was introduced. Broader parent24 and post-cutover acceptance
 remain open.
+
+[Root integration verification](root-verification.json) records all 57 member
+hashes checked, three source snapshots matched to the integrated files, all 253
+composition tests and type checking passed, and independent saved-output/runtime
+checks. No additional media run was used for integration.

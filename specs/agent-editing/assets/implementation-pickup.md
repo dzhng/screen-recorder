@@ -8,14 +8,13 @@ policies arev9/v19. The combined worker is
 `8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186`.
 Historical workers and measurements retain their own identities below.
 
-## Active pass
+## Current pickup
 
-Capture-pause-recovery owns the selected-move batching fix identified during the
-matched spectrogram duration-memory check. The four-hour case completed; the
-first two-hour setup batch timed out after 15 seconds but durably committed. Keep
-that red and completed case. No two-hour memory comparison is earned yet.
-Coordinate runtime builds before resuming the remaining case; root 8a and candidate 2c
-stay frozen. Root owns the parent checklist and handoff.
+The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
+integrated and root-verified. Capture-pause-recovery is released; all owned service,
+native, build and review handles are terminal. Root dist was preserved through
+measurement; root source now includes the move fix, so rebuild JavaScript before
+new execution. Frozen root8a and candidate2c native workers remain unchanged.
 
 A read-only audit of 12b, 15a, 19 and 23 found no additional dependency-ready consumer
 pass: speech recipe adoption needs its unresolved timing/quality evidence,
@@ -184,7 +183,7 @@ retiming and broad channel/long-input acceptance remain open.
 [Discovery](25-discovery-references/README.md) exposes full settings with shared
 CLI/MCP schemas and writable inputs. Its fresh consumer also used capabilities,
 so it is not a help-only proof. Animated-gain skill use passed; its service stopped.
-Coordinate current runtime use with the active pass above. Neither consumer tolerances nor numerical PCM checks prove listening.
+Coordinate current runtime use with the current pickup above. Neither consumer tolerances nor numerical PCM checks prove listening.
 
 [Static appearance](09b-encoded-appearance/acceptance.md) distinguishes codec loss
 from exact geometry/timing. [Animated appearance](16-animated-appearance/README.md)
