@@ -1,14 +1,13 @@
 # 03d — Preserve exact admitted media support
 
-Status: pass1 physical authority verified by [independent replay](../assets/03d-physical-authority/root-verification.json); [pass2 carrier](../assets/03d-signed-carrier/verification.json) verified; pass3 atomic consumer cutover in progress. Original public red is retained in
-[03d evidence](../assets/03d-exact-admission-red/README.md). No physical-admission production cutover yet.
+Status: verified isolated consumer cutover and targeted preservation. [Public evidence](../assets/03d-consumer-cutover/public-verification.json) covers exact48/44.1k raw/project/prepared/portable delivery and fractional mixed A/V support. [Preservation](../assets/03d-consumer-cutover/README.md) retains accepted PCM, frames, compiler evidence and review. [Physical authority](../assets/03d-physical-authority/root-verification.json), [signed carrier](../assets/03d-signed-carrier/verification.json) and [original red](../assets/03d-exact-admission-red/README.md) remain authenticated. Installed cutover and listening gates are unchanged.
 Dependencies: existing03a exact edits and14f physical sample membership. This
 amends the integer-admission restriction, without reopening their accepted proofs.
 
 ## Contract and counterexample
 
-The accepted A contains246478 mono48k frames, ending at15404875/3µs. Admission
-currently reports5134958µs; exact public placement refuses its fraction, ceiling
+The accepted A contains246478 mono48k frames, ending at15404875/3µs. The retained pre-correction admission
+reports5134958µs; exact public placement refuses its fraction, ceiling
 placement exceeds admitted bounds, and the explicit floor selects246477 frames.
 The last omitted sample is nonzero. The floor rule is correct for that explicit
 selection; metadata and public authoring prevent asking for the actual whole.
@@ -149,7 +148,7 @@ composition audio/picture/movie and dependent acoustic/prepared recipe owners;
 bump only identities whose execution semantics change, including integer fixtures
 whose exact physical mapping can change without a different request payload.
 Advance the existing catalog and editable-project-package format fences atomically
-(currently19 and2) so old rounded admission cannot masquerade as exact integer facts.
+(catalog20 and editable-package3) so old rounded admission cannot masquerade as exact integer facts.
 No per-asset version or silent re-probe is needed. New runtime explicitly refuses old
 catalogs/packages; frozen old runtimes retain access to their untouched libraries.
 Within the new format, verified retained bytes remain readable under their recorded

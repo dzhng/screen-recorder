@@ -17,9 +17,8 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup is the [03d exact admission correction](slices/03d-exact-media-admission.md),
-whose physical-authority and signed-carrier passes are verified. Integrate and
-verify the atomic native/TypeScript consumer cutover, then targeted preservation. Continue
+[03d exact admission](slices/03d-exact-media-admission.md) is verified, including
+fresh-format portable delivery and unchanged accepted outputs. Current pickup is
 [15a3 post-retime quality](slices/15a3-denoise-acceptance.md),
 with [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
@@ -135,7 +134,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
 - [x] [02 — Immutable asset admission](slices/02-assets.md)
 - [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
-- [ ] [03d — Preserve exact admitted media support](slices/03d-exact-media-admission.md)
+- [x] [03d — Preserve exact admitted media support](slices/03d-exact-media-admission.md)
 - [x] [03 — Structural edits and attachments](slices/03-edits.md)
 - [x] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
 - [x] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)

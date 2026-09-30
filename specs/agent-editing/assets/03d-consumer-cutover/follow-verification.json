@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "mainCommit": "57688126",
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "harnessSha256": "96b5306c16311fd23f6a4ca66c093228b87529e20c5a8580be6581d47e12f6d3",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "reportSha256": "ec50ffa9d595bdfc61708e0a61e90acf001081aeb24e10f24c950b2e86591a54",
+  "checks": {
+    "follow-dry": {
+      "frames": 216000,
+      "sha256": "12f0e3e5f045e498b19c583efcf04238cb07f6b8c1042cf7d6e3d3a6cb1d913d",
+      "exactPCM": true,
+      "matchesFrozenFile": true
+    },
+    "follow-late-before-full": {
+      "frames": 24000,
+      "sha256": "6e2039995081765f5cabe3483509c2753f0e4f979737837de149d5b894a28ae4",
+      "exactPCM": true,
+      "matchesFrozenFile": true
+    },
+    "follow-full": {
+      "frames": 216000,
+      "sha256": "46b1c62f38619f71b33597ccabc0421fc30e77604a8cd0774a7703a84a39d7fa",
+      "exactPCM": true,
+      "matchesFrozenFile": true
+    },
+    "follow-prepared-excerpt": {
+      "frames": 48000,
+      "sha256": "9ddd9ae23589ad96c16d835705841b033cd017fa2fb2877a14f4ffe212e89b5b",
+      "exactPCM": true,
+      "matchesFrozenFile": true
+    }
+  },
+  "scope": "Public follow into learned ordinary/prepared audio from authenticated14e dry PCM; no new movie, listening or quality claim."
+}

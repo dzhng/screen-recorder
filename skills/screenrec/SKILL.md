@@ -99,6 +99,10 @@ Use `asset.get` to discover immutable stream headers and each stream's
 returned ordinal and empty gap. Follow the complete `nextCursor` until null; a
 cursor belongs to its asset and stream. Headers never embed partial segment arrays.
 These rows describe source media, not project time or newly inferred capture support.
+Preserve returned fractional bounds and signed origins exactly when placing or
+replacing media. To request complete raw audio, omit its range or use the discovered
+exact bounds; flooring an endpoint can omit a final sample, and ceiling can exceed
+support. Never independently zero streams that share a physical origin.
 
 For imported speech, select the returned `assetId` and audio `streamId` explicitly
 when requesting a source transcript; include `acquisitionId` only when you intend
@@ -407,9 +411,10 @@ as complete.
 - Parse the JSON envelope even on a nonzero exit. `--output` writes delivered
   media or JSON evidence to a file or directory according to the operation.
 - Edit ranges are half-open in the expected revision and selected anchor domain.
-  Text placements also accept exact reduced fractional microseconds; preserve
-  returned fractional endpoints instead of rounding. Other command coordinates
-  remain integer microseconds. Source and edited playback timestamps differ
+  Media and text source/placement ranges accept exact reduced fractional
+  microseconds; preserve returned endpoints instead of rounding. Point queries,
+  holds and curve-key coordinates remain integer microseconds. Source and edited
+  playback timestamps differ
   after cuts; use the reported mapping and retained fragments.
 - For operations accepting `params.requestId`, reuse it with identical arguments
   when retrying an uncertain write. A new intended mutation or recomputed edit

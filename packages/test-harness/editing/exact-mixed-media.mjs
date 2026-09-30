@@ -47,7 +47,10 @@ export async function verifyMixedMedia({ service, report, out, audio }) {
         { ...selected, limit: 1, ...(cursor ? { cursor } : {}) },
         { transport: "mcp" },
       );
-      segments.push(...page.segments.map(({ ordinal: _ordinal, ...segment }) => segment));
+      for (const { ordinal, ...segment } of page.segments) {
+        assert.equal(ordinal, segments.length);
+        segments.push(segment);
+      }
       cursor = page.nextCursor;
       assert(segments.length <= stream.segments.length, "Segment paging failed to advance");
     } while (cursor);

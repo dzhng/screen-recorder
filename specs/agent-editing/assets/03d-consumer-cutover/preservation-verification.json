@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "checks": {
+    "gain": {
+      "cases": 6,
+      "allFrozenPCMHashesMatch": true,
+      "maximumPcmError": 0
+    },
+    "zoom": {
+      "directPictures": 20,
+      "movieFrames": 295,
+      "allFrozenPictureAndDecodedMovieHashesMatch": true
+    },
+    "acoustic": {
+      "pitchModes": 2,
+      "fullAndRangePCMMatchesFrozen": true,
+      "plotChangesOnlyIdentityHeaders": [
+        {
+          "name": "02-waveform.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "03-spectrogram.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "04-waveform.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "05-spectrogram.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "09-waveform.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "10-spectrogram.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "11-waveform.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            70,
+            67,
+            633,
+            95
+          ]
+        },
+        {
+          "name": "12-spectrogram.png",
+          "size": [
+            1240,
+            710
+          ],
+          "changedBounds": [
+            64,
+            67,
+            633,
+            95
+          ]
+        }
+      ]
+    },
+    "accepted": {
+      "cases": 4,
+      "allFullSplitJoinedAndShortPCMChecksPass": true
+    }
+  },
+  "scope": "Targeted exact-admission preservation. No new listening or playback verdict."
+}

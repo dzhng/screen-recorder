@@ -1,0 +1,11 @@
+{
+  "xcode-repro": {
+    "exitCode": -11
+  },
+  "aggregate-debug": {
+    "exitCode": 0
+  },
+  "aggregate-release": {
+    "exitCode": 0
+  }
+}

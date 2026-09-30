@@ -1,5 +1,9 @@
 # Integrated evidence index
 
+- [Exact admitted media](03d-consumer-cutover/README.md) preserves fractional physical
+  support through public source/project/prepared/portable consumers, including mixed
+  A/V origins and gaps. Frozen accepted PCM and decoded pictures remain identical.
+
 - [Source sampling cells](15-sampling-cells/README.md) and
   [finished-canvas PNG delivery](15-composed-border/README.md) preserve edges
   through the shared executor, with retained red/green controls and scoped review.

@@ -2,10 +2,10 @@
 
 The full editor goal remains active; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
-catalog format is19, source policy is native-source-v2 and produced audio/movie
-policies arev9/v20; picture policy isv15. The historical frozen worker is
-`helpers/mac/.build/debug/screenrec-native`, SHA256
-`8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186`.
+catalog/package formats are fenced by their existing owners; [03d](../slices/03d-exact-media-admission.md)
+preserves exact physical media facts. The current isolated worker is
+`/tmp/screenrec-03d-native-build/debug/screenrec-native`, SHA256
+`45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773`.
 Historical workers and measurements retain their own identities below.
 
 ## Current pickup
@@ -41,8 +41,8 @@ admission and stale identity refusal. Async core/service admission is integrated
 root reran64 focused tests with one existing skip. [Public audio delivery](14e-public-accepted-audio/README.md)
 now matches all four accepted selections through20 full/split/range outputs.
 [14f exact picture sampling](../slices/14f-exact-picture-sampling.md) and the
-[complete public journey](14e-public-retiming/root-review.md) now pass. The current
-isolated worker is `/tmp/screenrec-exact-native-14f-build/debug/screenrec-native`,
+[complete public journey](14e-public-retiming/root-review.md) now pass. The frozen14f
+worker is `/tmp/screenrec-exact-native-14f-build/debug/screenrec-native`,
 SHA256 `0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76`.
 Root independently repeated the complete journey, including every encoded frame,
 fractional-range phase, independent audio-only edits and receiver retained reads.
@@ -54,7 +54,9 @@ root-verified. The [preserve-pitch combined temporal15a3 join](15a3c-post-retime
 also passes independent PCM, late state and matched full/range AAC checks.
 [Retimed acoustic conformance11](11-retimed-acoustic/README.md) also passes; prepared-package-transfer owns
 the narrow independent-C follow-pitch learned check against retained14d media.
-Public follow-pitch combined acceptance and speech/spatial quality stay open.
+[Public follow-pitch learned joins](15a3e-follow-learned-public/root-verification.json)
+pass; speech/spatial quality remains open. [03d preservation](03d-consumer-cutover/README.md)
+records fresh-format reauthoring with identical frozen dry/processed bytes.
 
 Physical20 still lacks its stated camera duration/precision proof. The
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)

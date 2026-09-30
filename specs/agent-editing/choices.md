@@ -4244,3 +4244,47 @@ plus existing integer query columns, so portable receipts do not reconstruct
 physical authority from rounded labels. Promote the existing native audio range
 owner into Media instead of creating another range/decoder. Preserve signed
 capture masks internally while enforcing normalized source domains at inputs.
+
+- **When:**03d native consumer cutover.
+- **Choice:** pass the existing source-selection value directly into asynchronous
+  audio readers. When a source has a fractional offset, expanding that value into
+  separate arguments exposes an installed Swift compiler fault: caller and callee
+  disagree about where an array lives. Keeping the source path, stream, offset and
+  available ranges together removes the forwarding overload and makes the reader
+  consume the same selection its caller already owns. Reordering arguments or
+  adding a special box would preserve two competing interfaces.
+- **Gap:** the plan did not anticipate a compiler calling-convention failure.
+- **Reach:** native readers now have one selection input; no compiler installation,
+  build flag or permanent workaround layer is required.
+- **Verdict:** sound; the aggregate is the natural existing owner, and standalone
+  compiler controls plus actual source decoding distinguish this from data repair.
+- **Confidence:** high.
+
+- **When:**03d result-duration and scheduling review.
+- **Choice:** derive an extracted or generated audio file's published duration from
+  its verified frame count and rate. A6001-frame file at24kHz lasts750125/3µs;
+  the voice worker's250042µs label remains an internal observation rather than
+  defining the admitted audio. Separately, a job's waiting budget rounds frame
+  costs upward to whole milliseconds under the existing cap. That budget controls
+  how long to wait, never which samples to select.
+- **Gap:** the plan required exact physical authority without naming these two
+  downstream uses of a duration number.
+- **Reach:** callers may receive a fractional duration while worker labels and
+  timers remain integers; consumers must preserve their distinct meanings.
+- **Verdict:** sound; verified bytes determine media support and timeouts remain
+  conservative scheduling estimates. No model or DSP policy changes.
+- **Confidence:** high.
+
+- **When:**03d preservation across the fresh-format boundary.
+- **Choice:** reconstruct the frozen follow project through current public edits
+  after extracting and authenticating its original media. For example, the old
+  package's linked clips are recreated with new IDs, then the whole document is
+  compared after normalizing only those IDs. Accepting or relabeling the old
+  manifest would bypass the refusal that keeps rounded old metadata out.
+- **Gap:** the plan required both format refusal and frozen-output preservation;
+  the old fixture previously depended on adopting an old package.
+- **Reach:** the fixture preserves editorial meaning and original media without
+  introducing a migration path. Its complete dry and processed bytes stay pinned.
+- **Verdict:** sound; public reauthoring tests the new format while old artifacts
+  retain their historical identity and evidence.
+- **Confidence:** high.

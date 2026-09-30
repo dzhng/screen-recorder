@@ -131,14 +131,16 @@ their actual rate/layout and full-track source extraction can preserve them.
 
 ## One time model
 
-Text placement accepts exact reduced fractional endpoints, including transcript
-seeding after retime or partial-word selection. The planned [03d correction](slices/03d-exact-media-admission.md)
-extends this same representation to admitted physical facts and public media
-source/placement ranges. Until03d lands those two surfaces still narrow to integers,
-which loses a final sample for some imported sources. Point queries and capture
-observations retain integer interfaces. Physical origin and signed segment metadata
-must remain exact through mapping before observation-label projection; clip
-selections remain nonnegative.
+Text and media source/placement ranges preserve exact reduced fractional
+microseconds, including imported physical endpoints and transcript seeding after
+retime or partial-word selection. [03d](slices/03d-exact-media-admission.md) owns
+physical-admission preservation. Point queries and capture observations retain
+integer interfaces. Physical origin and signed segment metadata remain exact
+through mapping before observation-label projection; clip selections remain
+nonnegative. Omitted raw audio ranges select the stream's exact support. Explicit
+integer endpoints keep their literal meaning, even when they exclude a final
+sample. Extraction and generated-voice duration receipts derive from verified
+frame count and sample rate, rather than rounded worker labels.
 Stored selection/placement endpoints also accept reduced fractions of a microsecond
 when an edit requires them. Whole values stay numbers; fractions require safe-integer
 components and denominator greater than one. Reject unrepresentable results rather

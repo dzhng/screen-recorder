@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "dryStereoDuplicationExact": true,
+  "processedCReferenceExact": true,
+  "candidateFileMatchesFrozen": true,
+  "candidateSha256": "a441f5e54c67ce1b341c9b334fe6b24c61b9a842079928a8a27d5eef803d8cb3",
+  "listening": "pending; unchanged from frozen candidate"
+}

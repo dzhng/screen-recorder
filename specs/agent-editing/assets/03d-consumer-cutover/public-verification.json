@@ -1,0 +1,188 @@
+{
+  "passed": true,
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "harnessSha256": "48c3518648dfe902994b2cdb7094f2291005a630785b6acd93265f06abd9af46",
+  "publicChecks": 22,
+  "allCompletePCMCompared": true,
+  "portableExactMetadata": true,
+  "mixedMedia": {
+    "passed": true,
+    "fixtureSha256": "8ec081d04343a83fd705cc145584681c05eb9856a4852c2c7c1819fe9c295ef2",
+    "originUs": {
+      "numerator": 1000001,
+      "denominator": 3
+    },
+    "framePairs": 4,
+    "sceneComparisons": 7,
+    "sceneBoundaries": 0
+  },
+  "checks": {
+    "mixed-raw-late": {
+      "frames": 28927,
+      "pcmSha256": "3e4c7f5b92c631afe6f93064a0d4aec5f9fba45f67d694538de83c99ebbe31dc",
+      "sampleRate": 48000,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "mixed-raw-full": {
+      "frames": 52817,
+      "pcmSha256": "338a5602b57e5372369702ef170b63505b14e3c4e4681b333ea1bf3e2c9315f3",
+      "sampleRate": 48000,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "accepted-a-late-before-full": {
+      "frames": 16,
+      "pcmSha256": "c84eddd3ef5246dfc1471de6b23e7492b1432c7e5fe0e6a6f11d39448f720360",
+      "sampleRate": 48000,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "accepted-a-default-full": {
+      "frames": 246478,
+      "pcmSha256": "ad4af5fe6fa3e27ab647825976adbb91bd9c46253912d635e25e5740f4df5c86",
+      "sampleRate": 48000,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "accepted-a-exact-full": {
+      "frames": 246478,
+      "pcmSha256": "ad4af5fe6fa3e27ab647825976adbb91bd9c46253912d635e25e5740f4df5c86",
+      "sampleRate": 48000,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "accepted-a-explicit-floor": {
+      "frames": 246477,
+      "pcmSha256": "c05952f3b878d9b411028e8171ebae174f5a957a4a5fae88d83bc2609e9a0156",
+      "sampleRate": 48000,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "accepted-a-extraction": {
+      "frames": 246478,
+      "pcmSha256": "ad4af5fe6fa3e27ab647825976adbb91bd9c46253912d635e25e5740f4df5c86",
+      "completePCMCompared": true
+    },
+    "44100-round-down-late-before-full": {
+      "frames": 16,
+      "pcmSha256": "bd31027e67f308480fae99516796d9c5302b3ef8202e65c0ac314d7e0635df6c",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-down-default-full": {
+      "frames": 44117,
+      "pcmSha256": "75515aef0bde4adc815e0fcd69308c4bfed835038e1b57b38d6fb96fc66fe901",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-down-exact-full": {
+      "frames": 44117,
+      "pcmSha256": "75515aef0bde4adc815e0fcd69308c4bfed835038e1b57b38d6fb96fc66fe901",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-down-explicit-floor": {
+      "frames": 44116,
+      "pcmSha256": "a1c7d7d15e5592a6acb7b60d3129518e7e4b4707a6f7e3ca01a21b5852bce1fa",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-down-extraction": {
+      "frames": 44117,
+      "pcmSha256": "75515aef0bde4adc815e0fcd69308c4bfed835038e1b57b38d6fb96fc66fe901",
+      "completePCMCompared": true
+    },
+    "44100-round-up-late-before-full": {
+      "frames": 16,
+      "pcmSha256": "33b6b6cff475451a5a1f1f3eb662dec38b032871e3a5d88d3fb14a22b76fe86f",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-up-default-full": {
+      "frames": 44116,
+      "pcmSha256": "4a974d1bfe27068e5902a7e8da9592e6ca159a762709abe600ed58caee178bd5",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-up-exact-full": {
+      "frames": 44116,
+      "pcmSha256": "4a974d1bfe27068e5902a7e8da9592e6ca159a762709abe600ed58caee178bd5",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-up-explicit-floor": {
+      "frames": 44115,
+      "pcmSha256": "16cd2eadada6c02da8b9c2b71d3415d988e68da83c4e9f60b890d739d1a686a9",
+      "sampleRate": 44100,
+      "channels": 1,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "44100-round-up-extraction": {
+      "frames": 44116,
+      "pcmSha256": "4a974d1bfe27068e5902a7e8da9592e6ca159a762709abe600ed58caee178bd5",
+      "completePCMCompared": true
+    },
+    "project-late-before-full": {
+      "frames": 6958,
+      "pcmSha256": "7c606bf05125267c386bd73a5c122dd3897a9a5ecf7aa10be990892e6f074bf7",
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "project-full": {
+      "frames": 246958,
+      "pcmSha256": "5e105bc778a90dbd8acb1db23013fcc803e937659556dcb2c4bf4da3a4d04683",
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "project-split": {
+      "frames": 246958,
+      "pcmSha256": "5e105bc778a90dbd8acb1db23013fcc803e937659556dcb2c4bf4da3a4d04683",
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "project-replaced": {
+      "frames": 246958,
+      "pcmSha256": "5e105bc778a90dbd8acb1db23013fcc803e937659556dcb2c4bf4da3a4d04683",
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    },
+    "portable-exact-full": {
+      "frames": 246958,
+      "pcmSha256": "5e105bc778a90dbd8acb1db23013fcc803e937659556dcb2c4bf4da3a4d04683",
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true,
+      "completePCMCompared": true
+    }
+  }
+}
