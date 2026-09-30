@@ -6,12 +6,14 @@ import ScreenRecorderMedia
 package struct ProbeCameraFrame: Codable {
     let ordinal: Int
     let start: ProbeTime
-    let end: ProbeTime
-    func range(scale: Int32) throws -> CMTimeRange {
-        guard start.timescale > 0, end.timescale > 0, start.epoch == 0, end.epoch == 0,
-            start.value >= 0, end.time > start.time else { throw ProbeCameraMedia.invalid("Invalid rational camera interval.") }
+    let nominalEnd: ProbeTime
+    private enum CodingKeys: String, CodingKey { case ordinal, start; case nominalEnd = "end" }
+    // Callback duration supplies provenance and the final endpoint, not inter-picture availability.
+    func acquisitionRange(scale: Int32) throws -> CMTimeRange {
+        guard start.timescale > 0, nominalEnd.timescale > 0, start.epoch == 0, nominalEnd.epoch == 0,
+            start.value >= 0, nominalEnd.time > start.time else { throw ProbeCameraMedia.invalid("Invalid rational camera interval.") }
         let first = CMTimeConvertScale(start.time, timescale: scale, method: .roundHalfAwayFromZero)
-        let last = CMTimeConvertScale(end.time, timescale: scale, method: .roundHalfAwayFromZero)
+        let last = CMTimeConvertScale(nominalEnd.time, timescale: scale, method: .roundHalfAwayFromZero)
         guard last > first else { throw ProbeCameraMedia.invalid("Camera interval cannot fit its writer timescale.") }
         return CMTimeRange(start: first, end: last)
     }
@@ -19,7 +21,9 @@ package struct ProbeCameraFrame: Codable {
 
 /// The probe's only canonical camera closure/replay owner. Raw files and observations stay retained.
 package enum ProbeCameraMedia {
+    package enum Presentation: String, Codable { case nativeBounded = "native-bounded" }
     package struct Receipt: Codable {
+        package let presentation: Presentation
         package let raw: CaptureMediaIdentity
         package let observations: CaptureMediaIdentity
         package let closed: CaptureMediaIdentity?
@@ -85,6 +89,7 @@ package enum ProbeCameraMedia {
         let reader: AVAssetReader
         let output: AVAssetReaderTrackOutput
         let scale: Int32
+        private(set) var lastEnd = CMTime.invalid
         init(url: URL) async throws {
             asset = AVURLAsset(url: url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
             guard let track = try await asset.loadTracks(withMediaType: .video).first else { throw invalid("No camera video track.") }
@@ -100,7 +105,10 @@ package enum ProbeCameraMedia {
         func next() throws -> CMSampleBuffer? {
             while let sample = output.copyNextSampleBuffer() {
                 try Task.checkCancellation()
-                if assetEnd(ofSamplePresentedAt: sample.presentationTimeStamp, in: segments, of: track) != nil { return sample }
+                if let end = assetEnd(ofSamplePresentedAt: sample.presentationTimeStamp, in: segments, of: track) {
+                    lastEnd = end
+                    return sample
+                }
             }
             guard reader.status == .completed else { throw reader.error ?? invalid("Camera decoder ended incompletely.") }
             return nil
@@ -174,14 +182,14 @@ package enum ProbeCameraMedia {
         }
         let mapping = try Mapping(observationURL)
         let raw = try await Pictures(url: rawURL)
-        var support: [CMTimeRange] = []; var rawHash = SHA256(); var diagnostics: [String] = []
+        var support: CMTimeRange?; var rawHash = SHA256(); var diagnostics: [String] = []
         var represented = 0
-        var previousMappedEnd: CMTime?
+        var previousMappedStart: CMTime?
         if closed == nil { diagnostics.append("unsealedRaw") }
         while let frame = try mapping.next() {
-            let range = try frame.range(scale: raw.scale)
-            guard previousMappedEnd.map({ $0 <= range.start }) ?? true else { throw invalid("Camera intervals overlap.") }
-            previousMappedEnd = range.end
+            let range = try frame.acquisitionRange(scale: raw.scale)
+            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
+            previousMappedStart = frame.start.time
             let sample: CMSampleBuffer?
             do { sample = try raw.next() }
             catch is CancellationError { throw CancellationError() }
@@ -190,11 +198,11 @@ package enum ProbeCameraMedia {
             guard sample.presentationTimeStamp == range.start else { throw invalid("Raw picture does not match its exact mapped ordinal.") }
             try digest(sample, into: &rawHash, scale: raw.scale)
             represented += 1
-            if let last = support.last, last.end == range.start {
-                support[support.count - 1] = CMTimeRange(start: last.start, end: range.end)
-            } else { support.append(range) }
+            // Native video holds each acquired picture until the next. Only the final
+            // physically decoded frame supplies the conservative terminal endpoint.
+            support = CMTimeRange(start: support?.start ?? range.start, end: CMTimeMinimum(range.end, raw.lastEnd))
         }
-        guard !support.isEmpty else { throw invalid("No physically verified camera prefix.") }
+        guard let support else { throw invalid("No physically verified camera prefix.") }
         if represented == mapping.frames {
             do { if try raw.next() != nil { diagnostics.append("unmappedRawTail") } }
             catch is CancellationError { throw CancellationError() }
@@ -202,44 +210,48 @@ package enum ProbeCameraMedia {
         }
         // Validate the remaining journal even when the physical payload ended early.
         while let frame = try mapping.next() {
-            let range = try frame.range(scale: raw.scale)
-            guard previousMappedEnd.map({ $0 <= range.start }) ?? true else { throw invalid("Camera intervals overlap.") }
-            previousMappedEnd = range.end
+            _ = try frame.acquisitionRange(scale: raw.scale)
+            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
+            previousMappedStart = frame.start.time
         }
         if mapping.torn { diagnostics.append("tornMappingTail") }
+        guard merged(raw.segments.map(\.asset)).contains(where: { $0.start <= support.start && $0.end >= support.end }) else {
+            throw invalid("Raw camera presentation does not cover its bounded acquired prefix.")
+        }
         let pictureHash = hex(rawHash.finalize())
         let file = try NewFile(at: canonicalURL.path, assembledAs: "camera.mov")
         // Keep failed candidates for diagnosis/recovery; raw media and mapping are never removed.
         let composition = AVMutableComposition()
         guard let track = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else { throw invalid("Cannot construct canonical camera track.") }
         track.naturalTimeScale = raw.scale
-        var pieces: [AVCompositionTrackSegment] = []; var previous = CMTime.zero
-        for range in support {
-            if range.start > previous { pieces.append(AVCompositionTrackSegment(timeRange: CMTimeRange(start: previous, end: range.start))) }
-            pieces.append(AVCompositionTrackSegment(url: rawURL, trackID: raw.track.trackID, sourceTimeRange: range, targetTimeRange: range))
-            previous = range.end
+        track.preferredTransform = try await raw.track.load(.preferredTransform)
+        var pieces: [AVCompositionTrackSegment] = []
+        if support.start > .zero {
+            pieces.append(AVCompositionTrackSegment(timeRange: CMTimeRange(start: .zero, end: support.start)))
         }
+        pieces.append(AVCompositionTrackSegment(url: rawURL, trackID: raw.track.trackID,
+            sourceTimeRange: support, targetTimeRange: support))
         try track.validateSegments(pieces); track.segments = pieces
         guard let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough) else { throw invalid("Cannot export camera edit list.") }
         try await export.export(to: file.url, as: .mov)
         try Task.checkCancellation()
         let candidate = try await Pictures(url: file.url)
-        guard merged(candidate.segments.map(\.asset)) == support else { throw invalid("Canonical camera support differs from accepted mapping.") }
+        guard merged(candidate.segments.map(\.asset)) == [support] else { throw invalid("Canonical camera support differs from accepted mapping.") }
         var candidateHash = SHA256()
         let replay = try Mapping(observationURL)
         for _ in 0..<represented {
             guard let frame = try replay.next() else { throw invalid("Camera mapping changed during verification.") }
-            let range = try frame.range(scale: raw.scale)
+            let range = try frame.acquisitionRange(scale: raw.scale)
             guard let sample = try candidate.next(), sample.presentationTimeStamp == range.start else { throw invalid("Canonical camera picture order changed.") }
             try digest(sample, into: &candidateHash, scale: raw.scale)
         }
         guard try candidate.next() == nil, hex(candidateHash.finalize()) == pictureHash else { throw invalid("Canonical camera pixels changed.") }
         try unchanged()
-        let receipt = Receipt(raw: rawIdentity, observations: observationIdentity, closed: closed,
+        let receipt = Receipt(presentation: .nativeBounded, raw: rawIdentity, observations: observationIdentity, closed: closed,
             canonical: try CaptureMediaIdentity.read(file.url),
             candidate: file.url.deletingLastPathComponent().lastPathComponent + "/" + file.url.lastPathComponent,
-            representedFrames: represented, firstUs: CMTimeConvertScale(support[0].start, timescale: 1000000, method: .roundHalfAwayFromZero).value,
-            endUs: CMTimeConvertScale(support.last!.end, timescale: 1000000, method: .roundHalfAwayFromZero).value,
+            representedFrames: represented, firstUs: CMTimeConvertScale(support.start, timescale: 1000000, method: .roundHalfAwayFromZero).value,
+            endUs: CMTimeConvertScale(support.end, timescale: 1000000, method: .roundHalfAwayFromZero).value,
             pictureSHA256: pictureHash, diagnostics: diagnostics)
         try lease.synchronize()
         try save(receipt, to: receiptURL)

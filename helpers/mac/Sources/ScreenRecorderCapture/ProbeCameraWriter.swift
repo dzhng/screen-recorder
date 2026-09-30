@@ -10,7 +10,7 @@ package final class ProbeCameraWriter {
     private var journal: CaptureJournal?
     private var first: Int64?
     private var end: Int64 = 0
-    private var endTime: CMTime?
+    private var lastAcceptedTime: CMTime?
     private var frames = 0
     private var dropped = 0
     private var omitted = 0
@@ -72,10 +72,10 @@ package final class ProbeCameraWriter {
         guard let input, input.isReadyForMoreMediaData else {
             dropped += 1; return (.init(disposition: "backpressure", sourceUs: nil), nil)
         }
-        // Subtract the common integer origin/pause shift before comparing rational frame endpoints.
+        // Acquisition order uses exact PTS; callback duration does not bound native frame presentation.
         let sourceTime = CMTimeSubtract(sample.presentationTimeStamp, CMTime(value: host - source, timescale: 1_000_000))
-        guard sourceTime >= .zero, endTime == nil || sourceTime >= endTime! else {
-            omitted += 1; return (.init(disposition: "overlapping-or-reordered", sourceUs: nil), nil)
+        guard sourceTime >= .zero, lastAcceptedTime == nil || sourceTime > lastAcceptedTime! else {
+            omitted += 1; return (.init(disposition: "duplicate-or-reordered", sourceUs: nil), nil)
         }
         let retimed = try ProbeClockIngress.retime(sample, to: sourceTime, duration: duration)
         guard input.append(retimed) else { throw writer?.error ?? CaptureFailure("WRITE_FAILED", "Camera append failed.") }
@@ -84,9 +84,9 @@ package final class ProbeCameraWriter {
             try journal?.recordTrackStarted(role: "video", file: "video.mov", firstSourceUs: source,
                 sampleRate: nil, channelCount: nil)
         }
-        let frame = ProbeCameraFrame(ordinal: frames, start: ProbeTime(sourceTime), end: ProbeTime(CMTimeAdd(sourceTime, duration)))
-        endTime = frame.end.time
-        end = CMTimeConvertScale(endTime!, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
+        let frame = ProbeCameraFrame(ordinal: frames, start: ProbeTime(sourceTime), nominalEnd: ProbeTime(CMTimeAdd(sourceTime, duration)))
+        lastAcceptedTime = sourceTime
+        end = CMTimeConvertScale(frame.nominalEnd.time, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
         frames += 1
         return (.init(disposition: "accepted", sourceUs: source), frame)
     }

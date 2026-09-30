@@ -3,6 +3,7 @@ import CryptoKit
 import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
+import ScreenRecorderFrames
 import ScreenRecorderWire
 import ScreenCaptureKit
 
@@ -44,8 +45,10 @@ func runSelectedCaptureMediaTests(output: String, corpus: String) async throws {
     precondition(recoveredVideo.failure == nil && recoveredVideo.decodeReachedEnd
         && (recoveredVideo.decodedSamples ?? 0) > 0)
     precondition(recoveredVideo.intervals.first?.startUs == 200000)
-    precondition(recoveredVideo.intervals.count > 1, "Sparse camera callbacks must retain an actual decoded gap")
+    precondition(recoveredVideo.intervals.count == 1, "Sparse camera callbacks must retain native presentation holds")
     try JSONEncoder().encode(recovered).write(to: root.appendingPathComponent("camera-recovery.json"))
+    _ = try await assertProbePresentation(directory: folder.appendingPathComponent("camera"),
+        observations: folder.appendingPathComponent("timestamps.jsonl"))
     let receipt = try JSONDecoder().decode(CaptureAudioPublication.Receipt.self,
         from: Data(contentsOf: folder.appendingPathComponent("narration.publication.json")))
     var hash = SHA256(); hash.update(data: Data("screenrec.capture-pcm.v1\0".utf8))
@@ -113,14 +116,17 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
     let source = root.appendingPathComponent(sourcePath == nil ? "input.mov" : "input.mp4")
     if let sourcePath { try FileManager.default.copyItem(atPath: sourcePath, toPath: source.path) }
-    else { try await RecoveryFixture.writeVariableDurationVideo(to: source, timesUs: [0], endUs: 100000) }
+    else { try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: (0..<24).map { Int64($0) * 100000 }, endUs: 2400000) }
     let asset = AVURLAsset(url: source)
     let track = try await asset.loadTracks(withMediaType: .video).first!
     let reader = try AVAssetReader(asset: asset)
     let decoded = AVAssetReaderTrackOutput(track: track,
         outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
     reader.add(decoded); precondition(reader.startReading())
-    let image = decoded.copyNextSampleBuffer()!
+    var images: [CMSampleBuffer] = []
+    while images.count < (sourcePath == nil ? 24 : 1), let image = decoded.copyNextSampleBuffer() { images.append(image) }
+    let image = images[0]
     reader.cancelReading()
     // Convert every timestamp and endpoint, including multiple timing entries, at a non-unit rate.
     var clock: CMTimebase?
@@ -161,14 +167,34 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     let camera = try ProbeCameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: 60)
     let ingress = try ProbeClockIngress(writer: writer, camera: camera, observations: root.appendingPathComponent("observations.jsonl"), failure: { _ in preconditionFailure("Unexpected probe failure") })
     var receipts: [CaptureWriter.IngressReceipt] = []
-    for i in (sourcePath == nil ? [0,1,2,2] : [0,1,3,3]) {
-        let sample = try captureFixtureRetimed(image, at: CMTimeAdd(origin, CMTime(value: Int64(i), timescale: 60)),
-            duration: CMTime(value: 1, timescale: 60))
+    let duration = sourcePath == nil ? CMTime(value: 3334, timescale: 100000) : CMTime(value: 1, timescale: 60)
+    var cadence = (sourcePath == nil ? [0,3333,6667,6667,6666,10000] : [0,1,3,3])
+        .map { CMTime(value: Int64($0), timescale: sourcePath == nil ? 100000 : 60) }
+    // Each magnitude observed in the real take is exercised against this writer's
+    // evolving accepted PTS. Historical dropped-frame counts are not an oracle.
+    if sourcePath == nil {
+        let overlaps = [16670,10,32170,16280,400,20,330,190,780,30,40,370,560,540]
+            .map { CMTime(value: Int64($0), timescale: 1000000) }
+            + [CMTime(value: 10, timescale: 3000000)]
+        for overlap in overlaps { cadence.append(CMTimeSubtract(CMTimeAdd(cadence.last!, duration), overlap)) }
+    }
+    let expectedDispositions = sourcePath == nil
+        ? ["accepted","accepted","accepted","duplicate-or-reordered","duplicate-or-reordered","accepted"]
+            + Array(repeating: "accepted", count: cadence.count - 6)
+        : ["accepted","accepted","accepted","duplicate-or-reordered"]
+    for (index, time) in cadence.enumerated() {
+        let picture = sourcePath == nil ? images[index] : image
+        let sample = try captureFixtureRetimed(picture, at: CMTimeAdd(origin, time), duration: duration)
         receipts.append(writer.queue.sync { ingress.accept(sample, role: .camera, from: CMClockGetHostTimeClock())! })
         try await Task.sleep(for: .milliseconds(10))
     }
     try JSONEncoder().encode(receipts).write(to: root.appendingPathComponent("receipts.json"))
-    precondition(receipts.map(\.disposition) == ["accepted","accepted","accepted","overlapping-or-reordered"])
+    precondition(receipts.map(\.disposition) == expectedDispositions,
+        "Ordered acquired PTS must survive nominal duration overlap: \(receipts)")
+    for (index, receipt) in receipts.enumerated() where receipt.disposition == "accepted" {
+        precondition(receipt.sourceUs == CMTimeConvertScale(cadence[index], timescale: 1000000,
+            method: .roundHalfAwayFromZero).value)
+    }
     // A later dropped callback must not append behind a torn row after ingress has failed.
     let stoppedURL = root.appendingPathComponent("stopped-observations.jsonl")
     let stoppedIngress = try ProbeClockIngress(writer: writer, camera: camera,
@@ -190,6 +216,78 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     precondition(reason == nil)
     let result = try JSONDecoder().decode(CaptureResult.self,
         from: Data(contentsOf: root.appendingPathComponent("camera/capture-result.json")))
-    precondition(result.tracks[0].samples == 3 && result.tracks[0].omittedSamples == 1 && result.durationUs == (sourcePath == nil ? 50000 : 66667))
-    print("PASS multi-entry 2x clock endpoints; rational60fps three accepted pictures and exact duplicate refusal; endpoint \(result.durationUs)us")
+    let expectedEnd = try await assertProbePresentation(directory: root.appendingPathComponent("camera"),
+        observations: root.appendingPathComponent("observations.jsonl"))
+    precondition(result.tracks[0].samples == expectedDispositions.filter { $0 == "accepted" }.count
+        && result.tracks[0].omittedSamples == (sourcePath == nil ? 2 : 1)
+        && result.durationUs == expectedEnd)
+    print("PASS multi-entry 2x clock endpoints; exact ordered acquired pictures, observed nominal overlaps and duplicate/backward refusal; endpoint \(result.durationUs)us")
+}
+
+
+/// Exercise the same retained-picture selector as ordinary movie rendering, independently
+/// of the publication verifier. Native display support holds a picture between acquired PTS.
+private func assertProbePresentation(directory: URL, observations: URL) async throws -> Int64 {
+    struct Timestamp: Decodable { let value: Int64; let timescale: Int32 }
+    struct Frame: Decodable { let start: Timestamp; let end: Timestamp }
+    let rows = try String(contentsOf: observations, encoding: .utf8).split(separator: "\n")
+    let frames = try rows.compactMap { line -> Frame? in
+        let row = try JSONSerialization.jsonObject(with: Data(line.utf8)) as! [String: Any]
+        guard let frame = row["cameraFrame"] else { return nil }
+        return try JSONDecoder().decode(Frame.self, from: JSONSerialization.data(withJSONObject: frame))
+    }
+    let ranges = frames.map { frame in
+        CMTimeRange(start: CMTimeConvertScale(CMTime(value: frame.start.value, timescale: frame.start.timescale),
+            timescale: 1000000, method: .roundHalfAwayFromZero),
+            end: CMTimeConvertScale(CMTime(value: frame.end.value, timescale: frame.end.timescale),
+                timescale: 1000000, method: .roundHalfAwayFromZero))
+    }
+    let first = ranges.first!.start
+    let rawAsset = AVURLAsset(url: directory.appendingPathComponent("camera.raw.mov"))
+    let rawTrack = try await rawAsset.loadTracks(withMediaType: .video).first!
+    let occupied = SourceSegment.occupied(of: try await rawTrack.load(.segments))
+    let physicalEnd = assetEnd(ofSamplePresentedAt: ranges.last!.start, in: occupied, of: rawTrack)!
+    let terminal = CMTimeMinimum(ranges.last!.end, physicalEnd)
+    let raw = try await PresentationSource(source: directory.appendingPathComponent("camera.raw.mov"),
+        streamId: nil, startUs: nil)
+    let canonical = try await PresentationSource(source: directory.appendingPathComponent("video.mov"),
+        streamId: nil, startUs: nil)
+    var points = ranges.map { $0.start.value }
+    for pair in zip(ranges, ranges.dropFirst()) {
+        points.append((pair.0.start.value + pair.1.start.value) / 2)
+        points.append(pair.1.start.value - 1)
+    }
+    if first.value > 0 { points.append(first.value - 1) }
+    points += [terminal.value - 1, terminal.value, terminal.value + 1]
+    func pixels(_ buffer: CVPixelBuffer) -> Data {
+        CVPixelBufferLockBaseAddress(buffer, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(buffer, .readOnly) }
+        var bytes = Data()
+        for row in 0..<CVPixelBufferGetHeight(buffer) {
+            bytes.append(Data(bytes: CVPixelBufferGetBaseAddress(buffer)!.advanced(by: row * CVPixelBufferGetBytesPerRow(buffer)),
+                count: CVPixelBufferGetWidth(buffer) * 4))
+        }
+        return bytes
+    }
+    for point in Set(points).sorted() {
+        let at = CMTime(value: point, timescale: 1000000)
+        guard at >= first && at < terminal else {
+            do {
+                let outside = try canonical.selection(at: at, end: CMTimeAdd(terminal, CMTime(value: 1, timescale: 1)))
+                precondition(outside.buffer == nil && outside.sampleTime == nil, "Camera appeared outside bounded presentation")
+            } catch let failure as NativeFailure { precondition(failure.code == "UNAVAILABLE") }
+            continue
+        }
+        let selected: PresentationSource.Selection
+        do { selected = try canonical.selection(at: at, end: terminal) }
+        catch { throw CaptureFailure("PRESENTATION_TEST", "Canonical point \(point): \(error)") }
+        let expected = ranges.last { $0.start <= at }!.start
+        let original: PresentationSource.Selection
+        do { original = try raw.selection(at: at, end: terminal) }
+        catch { throw CaptureFailure("PRESENTATION_TEST", "Raw point \(point): \(error)") }
+        precondition(selected.sampleTime == expected && original.sampleTime == expected,
+            "Native presentation did not retain the preceding acquired picture")
+        precondition(pixels(selected.buffer!) == pixels(original.buffer!), "Held camera picture changed pixels")
+    }
+    return CMTimeConvertScale(terminal, timescale: 1000000, method: .roundHalfAwayFromZero).value
 }

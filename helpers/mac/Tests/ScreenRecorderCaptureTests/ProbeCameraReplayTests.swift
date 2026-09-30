@@ -44,6 +44,19 @@ func runProbeCameraReplayTests(source: String, output: String) async throws {
     precondition(actualIdentity == first.canonical)
     try record(linked, at: replay)
 
+    for policy in [nil, "nominal-gaps"] as [String?] {
+        let historical = try fixture(policy ?? "missing-presentation")
+        let receiptURL = historical.appendingPathComponent("camera/camera.publication.json")
+        var old = try JSONSerialization.jsonObject(with: Data(contentsOf: receiptURL)) as! [String: Any]
+        old["presentation"] = policy
+        try JSONSerialization.data(withJSONObject: old).write(to: receiptURL)
+        let members = ["camera/video.mov", "camera/camera.raw.mov", "timestamps.jsonl", "camera/camera.publication.json"]
+        let identities = try members.map { try CaptureMediaIdentity.read(historical.appendingPathComponent($0)) }
+        try await refused(historical)
+        let after = try members.map { try CaptureMediaIdentity.read(historical.appendingPathComponent($0)) }
+        precondition(after == identities, "Unsupported presentation receipt changed retained bytes")
+    }
+
     let conflict = try fixture("conflict")
     let conflictingPath = conflict.appendingPathComponent("camera/video.mov")
     try Data("other output".utf8).write(to: conflictingPath, options: .atomic)
