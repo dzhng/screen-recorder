@@ -70,7 +70,11 @@ correction;03d closes only after the public preservation gate.
    probe, composition context, source selection, physical availability and all
    shared-origin consumers together. Include SourceTrack/audio offsets, raw
    SourceAudio range/context/sample accounting, frame/visual/scene/index evidence,
-   acquisition mapping and PreparedPointers. Omitted raw range resolves to exact
+   acquisition mapping and PreparedPointers, selected-source speech/transcript ranges
+   and acoustic context/receipt handling. AudioPCMStream readable intervals must
+   preserve exact physical support before speech decoding; project word/capture
+   labels remain integer observations after mapping. Use controlled inference
+   responses for this clock contract, with no model research. Omitted raw range resolves to exact
    support; explicit integer ranges retain their meaning. Public media place/replace
    reuse selection/anchor schemas, including rational replacement ripple duration.
    Retain integer point commands, holds and curve keys. Update affected executor
@@ -104,7 +108,11 @@ checkpoint. A staged metadata producer with rounded adapters is forbidden.
   while integer labels follow mapping.
 - Reuse accepted A–D,14 physical counterexamples/origin/gap,15a3 learned joins,
  11 acoustic and16 preview/export evidence for targeted preservation. Full/late
-  parity, prepared bytes and matched export remain required. Visual evidence, if
+  parity, prepared bytes and matched export remain required. If a frozen cohort
+  itself embeds rounded physical origin/support, preserve its old result as evidence
+  and pin the intended correction against exact native facts; do not blindly repin
+  a changed output or claim parity. Unaffected accepted samples stay byte-exact.
+  Visual evidence, if
   produced, requires compare-screenshots against frozen references and an unprimed
   screenshot-critique as the last visual check. It cannot establish listening.
 
