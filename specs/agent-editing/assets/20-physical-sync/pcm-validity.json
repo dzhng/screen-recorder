@@ -1,0 +1,16 @@
+{
+  "streamCodec": "pcm_f32le",
+  "channels": 1,
+  "sampleRate": 48000,
+  "journalAppends": 23823,
+  "allAppendFrames": [
+    512
+  ],
+  "contiguousPhysicalAndDeclaredFrames": true,
+  "payloadBytes": 48789504,
+  "journalFrames": 12197376,
+  "physicalSeconds": 254.112,
+  "nativeAdmittedFrames": 12048384,
+  "excludedTrailingFrames": 148992,
+  "note": "Single audio stream identification from completed fixture ffprobe; physical payload counts from bounded top-level box traversal; source hashes in summary."
+}

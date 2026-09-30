@@ -1,0 +1,1077 @@
+{
+  "method": "Screen160x90 grayscale grid fixed cells28,29,36,37 >150; groups <=0.3s. Camera160x90 lower-half48cell grid rises>60 against preceding local baseline; peak>90, strong clear-window flashes2\u201316 only. Mic float32 physical payload, 10ms windows every sixth48k sample, 1kHz energy fraction>.5 RMS>.0001 for>=30ms;700/1300Hz controls. Journal maps physical sample to declared sample plus142041us phase; zero gaps.",
+  "calibration": "Exactly first matching event per comparison; no slope/time warp/median refit.",
+  "coordinateCaveat": "Visual times are ffmpeg -copyts showinfo PTS. Camera first decoded PTS4.470163 differs from native origin4.147523; screen firstdecoded0.025 differs from native0. Absolute offsets include decoder timeline interpretation and are not product playback latency.",
+  "cameraVisibility": "Strong repeatable patch2\u201316 (~8.66\u201378.66s screen), marker increasingly clips;17\u201325 and38\u201340 are sliver-only supplementary candidates, not included in calibration/drift summary. Remaining camera interval lacks validated visible marker. Candidate30/46 rejected as movement/white-page ambiguity.",
+  "cameraVsScreen": {
+    "calibrationEvent": 2,
+    "initialOffsetSeconds": 0.38863500000000073,
+    "initialOffsetBracket": [
+      0.3219650000000005,
+      0.4219679999999997
+    ],
+    "matches": [
+      {
+        "number": 2,
+        "cameraPts": 9.046913,
+        "screenPts": 8.658278,
+        "offsetSeconds": 0.38863500000000073,
+        "offsetBracket": [
+          0.3219650000000005,
+          0.4219679999999997
+        ],
+        "residualSeconds": 0.0,
+        "residualBracket": [
+          0,
+          0
+        ]
+      },
+      {
+        "number": 3,
+        "cameraPts": 14.013973,
+        "screenPts": 13.658247,
+        "offsetSeconds": 0.35572600000000065,
+        "offsetBracket": [
+          0.2890560000000004,
+          0.3890589999999996
+        ],
+        "residualSeconds": -0.03290900000000008,
+        "residualBracket": [
+          -0.13291199999999925,
+          0.0670939999999991
+        ]
+      },
+      {
+        "number": 4,
+        "cameraPts": 19.014373,
+        "screenPts": 18.649883,
+        "offsetSeconds": 0.36449,
+        "offsetBracket": [
+          0.33115000000000094,
+          0.3978229999999989
+        ],
+        "residualSeconds": -0.02414500000000075,
+        "residualBracket": [
+          -0.09081799999999873,
+          0.07585799999999843
+        ]
+      },
+      {
+        "number": 5,
+        "cameraPts": 24.048103,
+        "screenPts": 23.674852,
+        "offsetSeconds": 0.3732509999999998,
+        "offsetBracket": [
+          0.30658099999999777,
+          0.41491700000000264
+        ],
+        "residualSeconds": -0.015384000000000952,
+        "residualBracket": [
+          -0.1153870000000019,
+          0.09295200000000214
+        ]
+      },
+      {
+        "number": 6,
+        "cameraPts": 28.981833,
+        "screenPts": 28.641488,
+        "offsetSeconds": 0.3403450000000028,
+        "offsetBracket": [
+          0.3070050000000002,
+          0.37367800000000173
+        ],
+        "residualSeconds": -0.048289999999997946,
+        "residualBracket": [
+          -0.11496299999999948,
+          0.05171300000000123
+        ]
+      },
+      {
+        "number": 7,
+        "cameraPts": 34.015563,
+        "screenPts": 33.641458,
+        "offsetSeconds": 0.37410500000000013,
+        "offsetBracket": [
+          0.3074349999999981,
+          0.4074379999999991
+        ],
+        "residualSeconds": -0.014530000000000598,
+        "residualBracket": [
+          -0.11453300000000155,
+          0.08547299999999858
+        ]
+      },
+      {
+        "number": 8,
+        "cameraPts": 39.015963,
+        "screenPts": 38.674761,
+        "offsetSeconds": 0.34120200000000267,
+        "offsetBracket": [
+          0.27453200000000066,
+          0.3745350000000016
+        ],
+        "residualSeconds": -0.04743299999999806,
+        "residualBracket": [
+          -0.147435999999999,
+          0.052570000000001116
+        ]
+      },
+      {
+        "number": 9,
+        "cameraPts": 44.016363,
+        "screenPts": 43.641398,
+        "offsetSeconds": 0.374964999999996,
+        "offsetBracket": [
+          0.3082950000000011,
+          0.40829799999999494
+        ],
+        "residualSeconds": -0.013670000000004734,
+        "residualBracket": [
+          -0.11367299999999858,
+          0.08633299999999444
+        ]
+      },
+      {
+        "number": 10,
+        "cameraPts": 49.016763,
+        "screenPts": 48.633035,
+        "offsetSeconds": 0.38372799999999785,
+        "offsetBracket": [
+          0.35038800000000236,
+          0.4170609999999968
+        ],
+        "residualSeconds": -0.004907000000002881,
+        "residualBracket": [
+          -0.07157999999999731,
+          0.0950959999999963
+        ]
+      },
+      {
+        "number": 11,
+        "cameraPts": 53.983823,
+        "screenPts": 53.633004,
+        "offsetSeconds": 0.3508190000000013,
+        "offsetBracket": [
+          0.2841489999999993,
+          0.38415200000000027
+        ],
+        "residualSeconds": -0.037815999999999406,
+        "residualBracket": [
+          -0.13781900000000036,
+          0.06218699999999977
+        ]
+      },
+      {
+        "number": 12,
+        "cameraPts": 59.050893,
+        "screenPts": 58.657973,
+        "offsetSeconds": 0.3929200000000037,
+        "offsetBracket": [
+          0.3262500000000017,
+          0.44292000000000087
+        ],
+        "residualSeconds": 0.004285000000002981,
+        "residualBracket": [
+          -0.09571799999999797,
+          0.12095500000000037
+        ]
+      },
+      {
+        "number": 13,
+        "cameraPts": 64.017953,
+        "screenPts": 63.649608,
+        "offsetSeconds": 0.36834500000000503,
+        "offsetBracket": [
+          0.3016749999999959,
+          0.4183440000000047
+        ],
+        "residualSeconds": -0.0202899999999957,
+        "residualBracket": [
+          -0.12029300000000376,
+          0.09637900000000421
+        ]
+      },
+      {
+        "number": 14,
+        "cameraPts": 69.018353,
+        "screenPts": 68.674577,
+        "offsetSeconds": 0.3437760000000054,
+        "offsetBracket": [
+          0.2771060000000034,
+          0.37710900000000436
+        ],
+        "residualSeconds": -0.04485899999999532,
+        "residualBracket": [
+          -0.14486199999999627,
+          0.05514400000000386
+        ]
+      },
+      {
+        "number": 15,
+        "cameraPts": 74.018753,
+        "screenPts": 73.65788,
+        "offsetSeconds": 0.360872999999998,
+        "offsetBracket": [
+          0.294202999999996,
+          0.39420700000000863
+        ],
+        "residualSeconds": -0.02776200000000273,
+        "residualBracket": [
+          -0.12776500000000368,
+          0.07224200000000813
+        ]
+      },
+      {
+        "number": 16,
+        "cameraPts": 79.052483,
+        "screenPts": 78.657848,
+        "offsetSeconds": 0.39463499999999385,
+        "offsetBracket": [
+          0.32796499999999185,
+          0.43630100000000027
+        ],
+        "residualSeconds": 0.005999999999993122,
+        "residualBracket": [
+          -0.09400300000000783,
+          0.11433599999999977
+        ]
+      }
+    ],
+    "maxAbsMeasuredResidualSeconds": 0.048289999999997946,
+    "endpointResidualSeconds": 0.005999999999993122,
+    "worstResidualBracket": [
+      -0.147435999999999,
+      0.12095500000000037
+    ],
+    "screenIntervalSeconds": [
+      8.658278,
+      78.657848
+    ]
+  },
+  "microphoneVsScreen": {
+    "calibrationEvent": 1,
+    "initialOffsetSeconds": -0.05793500000000007,
+    "initialOffsetBracket": [
+      -0.06793499999999986,
+      0.010397999999999463
+    ],
+    "matches": [
+      {
+        "number": 1,
+        "microphoneJournalTime": 3.642041,
+        "screenPts": 3.699976,
+        "offsetSeconds": -0.05793500000000007,
+        "offsetBracket": [
+          -0.06793499999999986,
+          0.010397999999999463
+        ],
+        "residualSeconds": 0.0,
+        "residualBracket": [
+          0,
+          0
+        ]
+      },
+      {
+        "number": 2,
+        "microphoneJournalTime": 8.632041000000001,
+        "screenPts": 8.658278,
+        "offsetSeconds": -0.02623699999999829,
+        "offsetBracket": [
+          -0.036236999999998076,
+          0.017096000000000444
+        ],
+        "residualSeconds": 0.03169800000000178,
+        "residualBracket": [
+          -0.04663499999999754,
+          0.0850310000000003
+        ]
+      },
+      {
+        "number": 3,
+        "microphoneJournalTime": 13.622041000000001,
+        "screenPts": 13.658247,
+        "offsetSeconds": -0.036205999999998184,
+        "offsetBracket": [
+          -0.04620599999999797,
+          0.0071270000000005496
+        ],
+        "residualSeconds": 0.021729000000001886,
+        "residualBracket": [
+          -0.056603999999997434,
+          0.0750620000000004
+        ]
+      },
+      {
+        "number": 4,
+        "microphoneJournalTime": 18.632040999999997,
+        "screenPts": 18.649883,
+        "offsetSeconds": -0.01784200000000169,
+        "offsetBracket": [
+          -0.027842000000003253,
+          0.02549099999999882
+        ],
+        "residualSeconds": 0.04009299999999838,
+        "residualBracket": [
+          -0.038240000000002716,
+          0.09342599999999868
+        ]
+      },
+      {
+        "number": 5,
+        "microphoneJournalTime": 23.632040999999997,
+        "screenPts": 23.674852,
+        "offsetSeconds": -0.04281100000000393,
+        "offsetBracket": [
+          -0.05281100000000549,
+          0.008855000000000501
+        ],
+        "residualSeconds": 0.01512399999999614,
+        "residualBracket": [
+          -0.06320900000000496,
+          0.07679000000000036
+        ]
+      },
+      {
+        "number": 6,
+        "microphoneJournalTime": 28.622041,
+        "screenPts": 28.641488,
+        "offsetSeconds": -0.019446999999999548,
+        "offsetBracket": [
+          -0.02944700000000111,
+          0.023886000000000962
+        ],
+        "residualSeconds": 0.03848800000000052,
+        "residualBracket": [
+          -0.039845000000000574,
+          0.09182100000000082
+        ]
+      },
+      {
+        "number": 7,
+        "microphoneJournalTime": 33.622040999999996,
+        "screenPts": 33.641458,
+        "offsetSeconds": -0.019417000000004236,
+        "offsetBracket": [
+          -0.029417000000002247,
+          0.02391599999999272
+        ],
+        "residualSeconds": 0.03851799999999583,
+        "residualBracket": [
+          -0.03981500000000171,
+          0.09185099999999258
+        ]
+      },
+      {
+        "number": 8,
+        "microphoneJournalTime": 38.632041,
+        "screenPts": 38.674761,
+        "offsetSeconds": -0.04271999999999565,
+        "offsetBracket": [
+          -0.05271999999999366,
+          0.0006130000000013069
+        ],
+        "residualSeconds": 0.01521500000000442,
+        "residualBracket": [
+          -0.06311799999999312,
+          0.06854800000000116
+        ]
+      },
+      {
+        "number": 9,
+        "microphoneJournalTime": 43.632041,
+        "screenPts": 43.641398,
+        "offsetSeconds": -0.009357000000001392,
+        "offsetBracket": [
+          -0.019356999999999402,
+          0.033975999999995565
+        ],
+        "residualSeconds": 0.04857799999999868,
+        "residualBracket": [
+          -0.029754999999998866,
+          0.10191099999999542
+        ]
+      },
+      {
+        "number": 10,
+        "microphoneJournalTime": 48.632041,
+        "screenPts": 48.633035,
+        "offsetSeconds": -0.0009939999999986071,
+        "offsetBracket": [
+          -0.010993999999996618,
+          0.04233899999999835
+        ],
+        "residualSeconds": 0.05694100000000146,
+        "residualBracket": [
+          -0.02139199999999608,
+          0.1102739999999982
+        ]
+      },
+      {
+        "number": 11,
+        "microphoneJournalTime": 53.622040999999996,
+        "screenPts": 53.633004,
+        "offsetSeconds": -0.01096300000000383,
+        "offsetBracket": [
+          -0.02096300000000184,
+          0.032369999999993126
+        ],
+        "residualSeconds": 0.04697199999999624,
+        "residualBracket": [
+          -0.031361000000001304,
+          0.10030499999999298
+        ]
+      },
+      {
+        "number": 12,
+        "microphoneJournalTime": 58.632041,
+        "screenPts": 58.657973,
+        "offsetSeconds": -0.0259319999999974,
+        "offsetBracket": [
+          -0.03593199999999541,
+          0.03406799999999777
+        ],
+        "residualSeconds": 0.03200300000000267,
+        "residualBracket": [
+          -0.046329999999994875,
+          0.10200299999999762
+        ]
+      },
+      {
+        "number": 13,
+        "microphoneJournalTime": 63.632041,
+        "screenPts": 63.649608,
+        "offsetSeconds": -0.017566999999999666,
+        "offsetBracket": [
+          -0.027566999999997677,
+          0.04243199999999803
+        ],
+        "residualSeconds": 0.040368000000000404,
+        "residualBracket": [
+          -0.03796499999999714,
+          0.11036699999999788
+        ]
+      },
+      {
+        "number": 14,
+        "microphoneJournalTime": 68.632041,
+        "screenPts": 68.674577,
+        "offsetSeconds": -0.04253599999999835,
+        "offsetBracket": [
+          -0.05253600000000347,
+          0.0007970000000057098
+        ],
+        "residualSeconds": 0.015399000000001717,
+        "residualBracket": [
+          -0.06293400000000293,
+          0.06873200000000557
+        ]
+      },
+      {
+        "number": 15,
+        "microphoneJournalTime": 73.632041,
+        "screenPts": 73.65788,
+        "offsetSeconds": -0.02583900000000483,
+        "offsetBracket": [
+          -0.035839000000009946,
+          0.01749500000001092
+        ],
+        "residualSeconds": 0.03209599999999524,
+        "residualBracket": [
+          -0.04623700000000941,
+          0.08543000000001078
+        ]
+      },
+      {
+        "number": 16,
+        "microphoneJournalTime": 78.632041,
+        "screenPts": 78.657848,
+        "offsetSeconds": -0.025807000000000357,
+        "offsetBracket": [
+          -0.03580700000000547,
+          0.02585900000001118
+        ],
+        "residualSeconds": 0.03212799999999971,
+        "residualBracket": [
+          -0.04620500000000494,
+          0.09379400000001104
+        ]
+      },
+      {
+        "number": 17,
+        "microphoneJournalTime": 83.632041,
+        "screenPts": 83.632817,
+        "offsetSeconds": -0.0007760000000018863,
+        "offsetBracket": [
+          -0.010776000000007002,
+          0.034224000000008914
+        ],
+        "residualSeconds": 0.057158999999998183,
+        "residualBracket": [
+          -0.021174000000006465,
+          0.10215900000000877
+        ]
+      },
+      {
+        "number": 18,
+        "microphoneJournalTime": 88.62204100000001,
+        "screenPts": 88.632785,
+        "offsetSeconds": -0.010743999999988318,
+        "offsetBracket": [
+          -0.020743999999993434,
+          0.032589000000015744
+        ],
+        "residualSeconds": 0.04719100000001175,
+        "residualBracket": [
+          -0.031141999999992898,
+          0.1005240000000156
+        ]
+      },
+      {
+        "number": 19,
+        "microphoneJournalTime": 93.62204100000001,
+        "screenPts": 93.64942,
+        "offsetSeconds": -0.027378999999996267,
+        "offsetBracket": [
+          -0.03737900000000138,
+          0.02428700000001527
+        ],
+        "residualSeconds": 0.030556000000003802,
+        "residualBracket": [
+          -0.04777700000000085,
+          0.09222200000001513
+        ]
+      },
+      {
+        "number": 20,
+        "microphoneJournalTime": 98.632041,
+        "screenPts": 98.682721,
+        "offsetSeconds": -0.050679999999999836,
+        "offsetBracket": [
+          -0.06068000000000495,
+          0.0009860000000116997
+        ],
+        "residualSeconds": 0.0072550000000002335,
+        "residualBracket": [
+          -0.07107800000000442,
+          0.06892100000001156
+        ]
+      },
+      {
+        "number": 21,
+        "microphoneJournalTime": 103.62204100000001,
+        "screenPts": 103.641023,
+        "offsetSeconds": -0.01898199999999406,
+        "offsetBracket": [
+          -0.028981999999999175,
+          -0.00064899999998147
+        ],
+        "residualSeconds": 0.03895300000000601,
+        "residualBracket": [
+          -0.03937999999999864,
+          0.06728600000001839
+        ]
+      },
+      {
+        "number": 22,
+        "microphoneJournalTime": 108.632041,
+        "screenPts": 108.640995,
+        "offsetSeconds": -0.008954000000002793,
+        "offsetBracket": [
+          -0.01895400000000791,
+          0.034382000000007906
+        ],
+        "residualSeconds": 0.04898099999999728,
+        "residualBracket": [
+          -0.029352000000007372,
+          0.10231700000000776
+        ]
+      },
+      {
+        "number": 23,
+        "microphoneJournalTime": 113.62204100000001,
+        "screenPts": 113.632627,
+        "offsetSeconds": -0.010585999999989326,
+        "offsetBracket": [
+          -0.020585999999994442,
+          0.024414000000021474
+        ],
+        "residualSeconds": 0.047349000000010744,
+        "residualBracket": [
+          -0.030983999999993905,
+          0.09234900000002133
+        ]
+      },
+      {
+        "number": 24,
+        "microphoneJournalTime": 118.632041,
+        "screenPts": 118.661762,
+        "offsetSeconds": -0.029720999999995,
+        "offsetBracket": [
+          -0.03972100000000012,
+          0.013612000000009061
+        ],
+        "residualSeconds": 0.02821400000000507,
+        "residualBracket": [
+          -0.05011899999999958,
+          0.08154700000000892
+        ]
+      },
+      {
+        "number": 25,
+        "microphoneJournalTime": 123.632041,
+        "screenPts": 123.670064,
+        "offsetSeconds": -0.03802299999999548,
+        "offsetBracket": [
+          -0.04802300000000059,
+          0.013643000000001848
+        ],
+        "residualSeconds": 0.019912000000004593,
+        "residualBracket": [
+          -0.058421000000000056,
+          0.0815780000000017
+        ]
+      },
+      {
+        "number": 26,
+        "microphoneJournalTime": 128.63204100000002,
+        "screenPts": 128.670033,
+        "offsetSeconds": -0.03799199999997427,
+        "offsetBracket": [
+          -0.047991999999965174,
+          0.005336999999997261
+        ],
+        "residualSeconds": 0.0199430000000258,
+        "residualBracket": [
+          -0.05838999999996464,
+          0.07327199999999712
+        ]
+      },
+      {
+        "number": 27,
+        "microphoneJournalTime": 133.622041,
+        "screenPts": 133.670003,
+        "offsetSeconds": -0.047962000000012495,
+        "offsetBracket": [
+          -0.0579620000000034,
+          0.012037999999989779
+        ],
+        "residualSeconds": 0.009972999999987575,
+        "residualBracket": [
+          -0.06836000000000286,
+          0.07997299999998964
+        ]
+      },
+      {
+        "number": 28,
+        "microphoneJournalTime": 138.622041,
+        "screenPts": 138.678305,
+        "offsetSeconds": -0.05626399999999876,
+        "offsetBracket": [
+          -0.06626399999998966,
+          -0.004598000000015645
+        ],
+        "residualSeconds": 0.0016710000000013103,
+        "residualBracket": [
+          -0.07666199999998913,
+          0.06333699999998421
+        ]
+      },
+      {
+        "number": 29,
+        "microphoneJournalTime": 143.622041,
+        "screenPts": 143.678275,
+        "offsetSeconds": -0.05623400000001766,
+        "offsetBracket": [
+          -0.06623400000000856,
+          -0.012900999999999385
+        ],
+        "residualSeconds": 0.001700999999982411,
+        "residualBracket": [
+          -0.07663200000000803,
+          0.05503400000000047
+        ]
+      },
+      {
+        "number": 30,
+        "microphoneJournalTime": 148.63204100000002,
+        "screenPts": 148.653244,
+        "offsetSeconds": -0.02120299999998565,
+        "offsetBracket": [
+          -0.031202999999976555,
+          0.022130000000004202
+        ],
+        "residualSeconds": 0.03673200000001442,
+        "residualBracket": [
+          -0.04160099999997602,
+          0.09006500000000406
+        ]
+      },
+      {
+        "number": 31,
+        "microphoneJournalTime": 153.622041,
+        "screenPts": 153.66988,
+        "offsetSeconds": -0.0478390000000104,
+        "offsetBracket": [
+          -0.057839000000001306,
+          -0.004506000000020549
+        ],
+        "residualSeconds": 0.010095999999989669,
+        "residualBracket": [
+          -0.06823700000000077,
+          0.06342899999997931
+        ]
+      },
+      {
+        "number": 32,
+        "microphoneJournalTime": 158.63204100000002,
+        "screenPts": 158.64485,
+        "offsetSeconds": -0.012808999999975867,
+        "offsetBracket": [
+          -0.022808999999966773,
+          0.03885800000000472
+        ],
+        "residualSeconds": 0.0451260000000242,
+        "residualBracket": [
+          -0.033206999999966236,
+          0.10679300000000458
+        ]
+      },
+      {
+        "number": 33,
+        "microphoneJournalTime": 163.63204100000002,
+        "screenPts": 163.661486,
+        "offsetSeconds": -0.02944499999998129,
+        "offsetBracket": [
+          -0.0394449999999722,
+          0.01388800000000856
+        ],
+        "residualSeconds": 0.028490000000018778,
+        "residualBracket": [
+          -0.04984299999997166,
+          0.08182300000000842
+        ]
+      },
+      {
+        "number": 34,
+        "microphoneJournalTime": 168.63204100000002,
+        "screenPts": 168.669789,
+        "offsetSeconds": -0.03774799999999345,
+        "offsetBracket": [
+          -0.04774799999998436,
+          0.005585999999993874
+        ],
+        "residualSeconds": 0.020187000000006616,
+        "residualBracket": [
+          -0.05814599999998382,
+          0.07352099999999373
+        ]
+      },
+      {
+        "number": 35,
+        "microphoneJournalTime": 173.63204100000002,
+        "screenPts": 173.669759,
+        "offsetSeconds": -0.03771799999998393,
+        "offsetBracket": [
+          -0.047717999999974836,
+          0.005616000000003396
+        ],
+        "residualSeconds": 0.02021700000001614,
+        "residualBracket": [
+          -0.0581159999999743,
+          0.07355100000000325
+        ]
+      },
+      {
+        "number": 36,
+        "microphoneJournalTime": 178.63204100000002,
+        "screenPts": 178.669729,
+        "offsetSeconds": -0.03768799999997441,
+        "offsetBracket": [
+          -0.047687999999965314,
+          0.0056460000000129185
+        ],
+        "residualSeconds": 0.02024700000002566,
+        "residualBracket": [
+          -0.05808599999996478,
+          0.07358100000001278
+        ]
+      },
+      {
+        "number": 37,
+        "microphoneJournalTime": 183.622041,
+        "screenPts": 183.669699,
+        "offsetSeconds": -0.047658000000012635,
+        "offsetBracket": [
+          -0.05765800000000354,
+          -0.004325000000022783
+        ],
+        "residualSeconds": 0.010276999999987435,
+        "residualBracket": [
+          -0.068056000000003,
+          0.06360999999997707
+        ]
+      },
+      {
+        "number": 38,
+        "microphoneJournalTime": 188.63204100000002,
+        "screenPts": 188.653004,
+        "offsetSeconds": -0.020962999999994736,
+        "offsetBracket": [
+          -0.03096299999998564,
+          0.030704000000014275
+        ],
+        "residualSeconds": 0.036972000000005334,
+        "residualBracket": [
+          -0.041360999999985104,
+          0.09863900000001413
+        ]
+      },
+      {
+        "number": 39,
+        "microphoneJournalTime": 193.63204100000002,
+        "screenPts": 193.661309,
+        "offsetSeconds": -0.029267999999973426,
+        "offsetBracket": [
+          -0.03926799999996433,
+          0.014065000000016425
+        ],
+        "residualSeconds": 0.028667000000026643,
+        "residualBracket": [
+          -0.049665999999963795,
+          0.08200000000001628
+        ]
+      },
+      {
+        "number": 40,
+        "microphoneJournalTime": 198.63204100000002,
+        "screenPts": 198.665447,
+        "offsetSeconds": -0.03340599999998517,
+        "offsetBracket": [
+          -0.043405999999976075,
+          0.009928000000002157
+        ],
+        "residualSeconds": 0.0245290000000149,
+        "residualBracket": [
+          -0.05380399999997554,
+          0.07786300000000201
+        ]
+      },
+      {
+        "number": 41,
+        "microphoneJournalTime": 203.63204100000002,
+        "screenPts": 203.673751,
+        "offsetSeconds": -0.04170999999999481,
+        "offsetBracket": [
+          -0.05170999999998571,
+          0.00995600000001673
+        ],
+        "residualSeconds": 0.016225000000005263,
+        "residualBracket": [
+          -0.062107999999985175,
+          0.07789100000001659
+        ]
+      },
+      {
+        "number": 42,
+        "microphoneJournalTime": 208.622041,
+        "screenPts": 208.657056,
+        "offsetSeconds": -0.03501500000001556,
+        "offsetBracket": [
+          -0.045015000000006467,
+          0.00831799999997429
+        ],
+        "residualSeconds": 0.02291999999998451,
+        "residualBracket": [
+          -0.05541300000000593,
+          0.07625299999997415
+        ]
+      },
+      {
+        "number": 43,
+        "microphoneJournalTime": 213.622041,
+        "screenPts": 213.673693,
+        "offsetSeconds": -0.05165199999999004,
+        "offsetBracket": [
+          -0.061651999999980944,
+          0.008346999999986338
+        ],
+        "residualSeconds": 0.0062830000000100306,
+        "residualBracket": [
+          -0.07204999999998041,
+          0.0762819999999862
+        ]
+      },
+      {
+        "number": 44,
+        "microphoneJournalTime": 218.63204100000002,
+        "screenPts": 218.681997,
+        "offsetSeconds": -0.04995599999998035,
+        "offsetBracket": [
+          -0.059955999999971255,
+          -0.006622999999990498
+        ],
+        "residualSeconds": 0.00797900000001972,
+        "residualBracket": [
+          -0.07035399999997072,
+          0.06131200000000936
+        ]
+      },
+      {
+        "number": 45,
+        "microphoneJournalTime": 223.622041,
+        "screenPts": 223.661135,
+        "offsetSeconds": -0.039094000000005735,
+        "offsetBracket": [
+          -0.04909399999999664,
+          0.012571999999977379
+        ],
+        "residualSeconds": 0.018840999999994335,
+        "residualBracket": [
+          -0.059491999999996104,
+          0.08050699999997724
+        ]
+      },
+      {
+        "number": 46,
+        "microphoneJournalTime": 228.63204100000002,
+        "screenPts": 228.661106,
+        "offsetSeconds": -0.02906499999997436,
+        "offsetBracket": [
+          -0.039064999999965266,
+          0.01426800000001549
+        ],
+        "residualSeconds": 0.02887000000002571,
+        "residualBracket": [
+          -0.04946299999996473,
+          0.08220300000001535
+        ]
+      },
+      {
+        "number": 47,
+        "microphoneJournalTime": 233.622041,
+        "screenPts": 233.669411,
+        "offsetSeconds": -0.0473700000000008,
+        "offsetBracket": [
+          -0.057369999999991705,
+          -0.020703000000025895
+        ],
+        "residualSeconds": 0.01056499999999927,
+        "residualBracket": [
+          -0.06776799999999117,
+          0.04723199999997396
+        ]
+      },
+      {
+        "number": 48,
+        "microphoneJournalTime": 238.63204100000002,
+        "screenPts": 238.644382,
+        "offsetSeconds": -0.012340999999992164,
+        "offsetBracket": [
+          -0.02234099999998307,
+          0.03932600000001685
+        ],
+        "residualSeconds": 0.045594000000007906,
+        "residualBracket": [
+          -0.03273899999998253,
+          0.1072610000000167
+        ]
+      },
+      {
+        "number": 49,
+        "microphoneJournalTime": 243.622041,
+        "screenPts": 243.673519,
+        "offsetSeconds": -0.05147800000000302,
+        "offsetBracket": [
+          -0.061477999999993926,
+          -0.00814500000001317
+        ],
+        "residualSeconds": 0.0064569999999970484,
+        "residualBracket": [
+          -0.07187599999999339,
+          0.05978999999998669
+        ]
+      },
+      {
+        "number": 50,
+        "microphoneJournalTime": 248.622041,
+        "screenPts": 248.64849,
+        "offsetSeconds": -0.02644900000001371,
+        "offsetBracket": [
+          -0.03644900000000462,
+          0.01688399999997614
+        ],
+        "residualSeconds": 0.03148599999998636,
+        "residualBracket": [
+          -0.04684700000000408,
+          0.084818999999976
+        ]
+      }
+    ],
+    "maxAbsMeasuredResidualSeconds": 0.057158999999998183,
+    "endpointResidualSeconds": 0.03148599999998636,
+    "worstResidualBracket": [
+      -0.07833299999999932,
+      0.11036699999999788
+    ],
+    "screenIntervalSeconds": [
+      3.699976,
+      248.64849
+    ]
+  },
+  "controls": {
+    "700": {
+      "aboveThreshold10msWindows": 0
+    },
+    "1300": {
+      "aboveThreshold10msWindows": 0
+    },
+    "audioOffCadenceEvents": [],
+    "full48kVerification": {
+      "count": 50,
+      "min1000HzFraction": 0.8902413818280512,
+      "max7000HzFraction": 6.604919976396599e-05,
+      "max9000HzFraction": 4.169219608312318e-05
+    }
+  },
+  "audioJournal": {
+    "phaseSeconds": 0.142041,
+    "appendCount": 23823,
+    "gaps": 0,
+    "rawPayloadFrames": 12197376,
+    "rawPayloadSeconds": 254.112,
+    "nativeAdmittedSeconds": 251.008,
+    "excludedBeyondAdmittedEvent": 51,
+    "admittedPackedFrameEndExclusive": 12048384,
+    "unadmittedTrailingFrames": 148992,
+    "unadmittedTrailingSeconds": 3.104,
+    "admittedPackedSourceTimeEndExclusive": 251.150041,
+    "mapping": "Admitted packed frames [0,12048384); physical payload [0,12197376). Journal-derived source time is packedFrame/48000 +0.142041. Match51 starts beyond admitted packed frame end and is excluded."
+  },
+  "conclusion": "Physical flashes and beeps correspond; this resolution does not prove <=33ms residual bound. Camera evidence covers only70s strong-visibility span, not whole take.",
+  "identities": [
+    {
+      "name": "camera",
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+      "bytes": 424848170,
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+    },
+    {
+      "name": "screen",
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/screen/video.mov",
+      "bytes": 113175651,
+      "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+    },
+    {
+      "name": "microphone",
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/screen/narration.packed.mov",
+      "bytes": 48799617,
+      "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+    }
+  ],
+  "limitations": [
+    "No pixel-level change or audio onset exactness beyond detector bins is claimed.",
+    "Camera candidates are pattern-associated with numbered screen events, not OCR of every camera numeral.",
+    "Native capture canonical recovery was interrupted; this analysis uses retained fragmented originals.",
+    "First50 stream-copy detections were spot-checked against direct-mdat analysis; complete equality was not independently asserted before direct analysis replaced scratch report."
+  ]
+}
