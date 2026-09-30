@@ -4236,3 +4236,11 @@ old runtime/library evidence remains untouched, while new runtime refuses old
 metadata rather than silently trusting it. Retained-byte worker independence applies
 inside the current format. Normalized acquisition bindings become exact after
 mapping from integer capture evidence; capture observations themselves stay integer.
+
+03d projection choices are sound with high confidence: preserve exact mapped
+capture events through project projection; keep integer query grids and word labels
+as explicit projections. Speech segment rows retain their exact physical range
+plus existing integer query columns, so portable receipts do not reconstruct
+physical authority from rounded labels. Promote the existing native audio range
+owner into Media instead of creating another range/decoder. Preserve signed
+capture masks internally while enforcing normalized source domains at inputs.

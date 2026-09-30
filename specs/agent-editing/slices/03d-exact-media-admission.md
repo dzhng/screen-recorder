@@ -116,6 +116,30 @@ checkpoint. A staged metadata producer with rounded adapters is forbidden.
   produced, requires compare-screenshots against frozen references and an unprimed
   screenshot-critique as the last visual check. It cannot establish listening.
 
+## Projection and shared range ownership
+
+Promote the native audio Selection range into the existing Media module as one
+ExactRange owner for source audio/frame/speech support; remove the nested owner,
+without an alias or duplicate decoder. Capture TimeSpan remains integer input and
+observation data. Preserve existing signed internal capture availability masks;
+normalized public source selections remain nonnegative at their boundary owners.
+
+Integer point-query grids within exact [start,end) use [ceil(start),ceil(end)).
+Observation labels use nearest-half-away only after exact origin subtraction.
+Native PresentationSource already compares ExactTime; integer reader start is a
+seek hint and need not become an alternate physical clock. Capture events carry
+exact mapped sourceAtUs internally through project projection, even though their
+captureAtUs observations remain integer.
+
+Raw speech segment.source records the exact decoded physical range. Persist that
+canonical range in the existing transcript segment row, with integer start/end
+columns explicitly derived for querying; portableReceipt reconstructs the exact
+range. Validate physical containment before projecting labels. Words/gaps remain
+integer observations; validate them against the projected segment. Native word
+labels add the actual interval origin to the model offset before one final rounding;
+inspect the model timing authority rather than adding an independent clock.
+Deterministic fractional-half-boundary and portable-receipt proofs own this change.
+
 ## Identity and retained data
 
 Asset IDs remain byte hashes. Existing stage reuses admitted metadata and portable
