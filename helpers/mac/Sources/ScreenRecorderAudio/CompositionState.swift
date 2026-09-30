@@ -62,7 +62,13 @@ extension CompositionAudio {
         }
     }
 
-    static func prepareState(_ plan: Plan, sources: Sources) async throws -> PreparedState? {
+    struct StatePreparation {
+        let state: Plan.State
+        let nodes: [CompositionProcessing.Target: [CompositionProcessing]]
+        let order: [Int]
+        let graph: Graph
+    }
+    static func resolveState(_ plan: Plan, sources: Sources) async throws -> StatePreparation? {
         guard let state = plan.state else { return nil }
         guard state.implementationId == rnnoiseImplementation, !state.domains.isEmpty,
             state.domains.count <= 20_000, state.domains.reduce(0, { $0 + $1.members.count }) <= 20_000, state.formats.count <= 10_000 else {
@@ -154,7 +160,13 @@ extension CompositionAudio {
                 throw NativeFailure("NOT_READY", "RNNoise requires verified mono or stereo provenance matching the opened stream.")
             }
         }
-        let prepared = try PreparedState(parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent())
+        return StatePreparation(state: state, nodes: nodes, order: order, graph: graph)
+    }
+
+    static func prepareState(_ resolution: StatePreparation?, output: String) async throws -> PreparedState? {
+        guard let resolution else { return nil }
+        let state = resolution.state, nodes = resolution.nodes, order = resolution.order, graph = resolution.graph
+        let prepared = try PreparedState(parent: URL(fileURLWithPath: output).deletingLastPathComponent())
         for index in order {
             let domain = state.domains[index]
             try Task.checkCancellation()

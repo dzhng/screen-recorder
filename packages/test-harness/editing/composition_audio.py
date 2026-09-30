@@ -7,9 +7,11 @@ import struct
 import resource
 import subprocess
 
+RETIME_IMPLEMENTATION = "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+
 def time(frame):
     value = Fraction(frame * 1_000_000, 48000)
-    return {'numerator': value.numerator, 'denominator': value.denominator}
+    return value.numerator if value.denominator == 1 else {'numerator': value.numerator, 'denominator': value.denominator}
 
 def span(start, end): return {'start': start, 'end': end}
 def selection(start, end): return {'startUs': time(start), 'endUs': time(end)}
@@ -25,7 +27,7 @@ def plan(clips, start, end, path):
     nodes += [{'target': {'kind': 'track', 'id': 't'}, 'mediaKind': 'audio',
         'inputs': [n['target'] for n in nodes], 'steps': []}]
     nodes += [{'target': {'kind': 'output'}, 'mediaKind': 'output', 'inputs': [nodes[-1]['target']], 'steps': []}]
-    return {'range': span(start, end), 'clips': clips, 'processing': nodes,
+    return {'retimeImplementationId': RETIME_IMPLEMENTATION, 'range': span(start, end), 'clips': clips, 'processing': nodes,
         'assets': [{'assetId': 'a', 'streamId': 'track:1', 'path': str(path), 'originUs': 0}]}
 
 def pcm(wav):

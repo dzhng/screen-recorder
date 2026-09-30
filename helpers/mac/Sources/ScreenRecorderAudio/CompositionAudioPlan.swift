@@ -11,10 +11,11 @@ public struct CompositionAudioPlan: Codable, Sendable {
     public let processing: [CompositionProcessing]
     public let assets: [CompositionAsset]
     public let state: State?
+    public let retimeImplementationId: String?
 
     public init(
         output: String, range: Samples, clips: [Clip], processing: [CompositionProcessing],
-        assets: [CompositionAsset], state: State? = nil
+        assets: [CompositionAsset], state: State? = nil, retimeImplementationId: String? = nil
     ) {
         self.output = output
         self.range = range
@@ -22,6 +23,7 @@ public struct CompositionAudioPlan: Codable, Sendable {
         self.processing = processing
         self.assets = assets
         self.state = state
+        self.retimeImplementationId = retimeImplementationId
     }
 
     public struct Samples: Codable, Sendable, Equatable {

@@ -31,7 +31,7 @@ public enum NativeWire {
                     }
                     return ["platform": "macos"]
                 }, unexpected: { NativeFailure("INVALID_REQUEST", $0.localizedDescription) }),
-            "media.audioCapabilities": media { _ in ["rnnoise": CompositionAudio.rnnoiseImplementation] },
+            "media.audioCapabilities": media { _ in ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation] },
             "media.outputCapabilities": media { _ in try OutputSettings.inventory() },
             "media.probe": media { try json(await ProbeOperation.execute($0)) },
             "media.frame": media { try json(await FrameOperation.execute($0)) },
@@ -43,6 +43,7 @@ public enum NativeWire {
             "media.renderCompositionVideo": media { try json(await CompositionVideoOperation.execute($0)) },
             "media.renderMovie": media { try json(await MovieOperation.execute($0)) },
             "media.renderCompositionMovie": media { try json(await CompositionMovieOperation.execute($0)) },
+            "media.validateCompositionAudio": media { try await CompositionAudioOperation.validate($0) },
             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
             "media.sourceVisualSamples": media { try json(await SourceVisualSamplesOperation.execute($0)) },
             "media.acousticImage": media { try json(AcousticImageOperation.execute($0)) },

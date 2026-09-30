@@ -11,6 +11,7 @@ enum CompositionMovieOperation {
         let clips: [CompositionAudioPlan.Clip]
         let state: CompositionAudioPlan.State?
         let retained: RetainedAudioInput?
+        let retimeImplementationId: String?
     }
     struct EncodedAudio: Encodable {
         let sampleRate: Int
@@ -53,6 +54,10 @@ enum CompositionMovieOperation {
                 "INVALID_REQUEST", "Audio and video windows must share one project range.")
         }
         try request.validateOutput(hasAudio: schedule.range.start != schedule.range.end)
+        let audioPlan = CompositionAudioPlan(output: request.output, range: schedule.range,
+            clips: schedule.clips, processing: request.processing, assets: request.assets,
+            state: schedule.state, retimeImplementationId: schedule.retimeImplementationId)
+        try CompositionAudio.validateRetimeImplementation(schedule.retimeImplementationId)
         let audio: (any AudioPCMSource)?
         var generated: CompositionAudio.Stream?
         var retained: RetainedPCMSource?
@@ -66,11 +71,7 @@ enum CompositionMovieOperation {
             retained = try input.open(expected: schedule.range)
             audio = retained
         } else {
-            generated = try await CompositionAudio.open(
-                .init(
-                    output: request.output,
-                    range: schedule.range, clips: schedule.clips,
-                    processing: request.processing, assets: request.assets, state: schedule.state))
+            generated = try await CompositionAudio.open(audioPlan)
             audio = generated
         }
         let output = try NewFile(at: request.output, assembledAs: "movie.mp4")

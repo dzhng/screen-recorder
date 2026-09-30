@@ -139,14 +139,17 @@ public enum CompositionAudio {
         var decoder: AudioSourceReader?
         let contexts: [Context]
         let intervals: [Plan.Samples]
-        let prepared: [PreparedRetime]
+        var prepared: [PreparedRetime]
+        let retimeRecipe: (assetId: String, streamId: String, pitch: String)?
         var index = 0
         var conversion: ConvertedAudioInterval?
         var nextPosition: Int64?
         var maximumPreroll: Int64 = 0
         var maximumTail: Int64 = 0
-        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples], sources: Sources, prepared: [PreparedRetime] = []) {
+        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples], sources: Sources,
+             prepared: [PreparedRetime] = [], retimeRecipe: (assetId: String, streamId: String, pitch: String)? = nil) {
             self.prepared = prepared
+            self.retimeRecipe = retimeRecipe
             self.sources = sources
             self.source = source
             self.contexts = contexts
@@ -243,6 +246,8 @@ public enum CompositionAudio {
     final class Sources {
         var opened: [[String]: SourceTrack] = [:]
         var retimed: [RetimeKey: PreparedRetime] = [:]
+        var validatedRetime = Set<RetimeKey>()
+        var retimeFormats = Set<[String]>()
         private var decoded: [Int: CompositionAudioReport.SourceWork.Decoded] = [:]
         func record(frames: Int64, rate: Int, channels: Int) {
             guard frames > 0 else { return }
@@ -429,22 +434,19 @@ public enum CompositionAudio {
                     available: [TimeSpan(startUs: 0, endUs: TimeSpan.maximumMicroseconds)])
                 sources.opened[[assetId, streamId]] = source
             }
+            if retiming, sources.retimeFormats.insert([assetId, streamId]).inserted {
+                try SourceTrack.validateWindowFormats(try await source.track.load(.formatDescriptions))
+            }
             guard source.channels <= 2 else {
                 throw NativeFailure(
                     "UNSUPPORTED_FORMAT", "Audio needs an explicit map for more than two channels.")
             }
             let contexts = try retainedContexts(clip.context, source: source, clip: clip)
-            var prepared: [PreparedRetime] = []
             if retiming {
-                guard clip.pitch == "follow" || source.channels == 1 else { throw NativeFailure("NOT_READY", "Pitch-preserving retiming requires accepted mono input.") }
                 for context in contexts {
                     let key = RetimeKey(assetId: assetId, streamId: streamId, source: source, context: context, pitch: clip.pitch)
-                    if let existing = sources.retimed[key] { prepared.append(existing) }
-                    else {
-                        let run = try PreparedRetime(source: source, context: context, pitch: clip.pitch,
-                            parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent(), sources: sources)
-                        sources.retimed[key] = run
-                        prepared.append(run)
+                    if sources.validatedRetime.insert(key).inserted {
+                        try validateRetime(source: source, context: context, pitch: clip.pitch)
                     }
                 }
             }
@@ -480,7 +482,8 @@ public enum CompositionAudio {
             }
             missing.append(.init(clipId: clip.clipId, ranges: absent))
             inputs[clip.clipId] = Input(
-                source: source, contexts: contexts, intervals: readable, sources: sources, prepared: prepared)
+                source: source, contexts: contexts, intervals: readable, sources: sources,
+                retimeRecipe: retiming ? (assetId, streamId, clip.pitch) : nil)
         }
         let byTarget = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($0.element.target, $0.offset) })
         let children = nodes.map { $0.inputs.compactMap { byTarget[$0] } }
@@ -499,9 +502,13 @@ public enum CompositionAudio {
     }
 
     public static func open(_ plan: CompositionAudioPlan) async throws -> Stream {
+        try validateRetimeBinding(plan)
         let sources = Sources()
-        let prepared = try await prepareState(plan, sources: sources)
+        let state = try await resolveState(plan, sources: sources)
         let graph = try await graph(plan, sources: sources)
+        if let state { try prepareRetime(state.graph, parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent()) }
+        try prepareRetime(graph, parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent())
+        let prepared = try await prepareState(state, output: plan.output)
         return graph.stream(range: plan.range, target: graph.nodes.last!.target, prepared: prepared, reportSourceWork: true)
     }
 

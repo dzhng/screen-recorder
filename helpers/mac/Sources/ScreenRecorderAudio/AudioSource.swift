@@ -144,7 +144,7 @@ struct SourceTrack {
         return Int(rate)
     }
 
-    private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
+    static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
         var signature: [Double]?
         for description in descriptions {
             guard let value = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee,
@@ -188,12 +188,10 @@ final class ConvertedAudioInterval {
     private var exhausted = false
     private var paddingFrames: Int
 
-    init(
-        source: SourceTrack, decoder: AudioSourceReader, origin: ExactTime, start: Int64,
-        outputRate: Int, owed: Int64, support: InputSupport = .outputDuration(limit: nil),
-        playbackRate: ExactTime = ExactTime(1)
-    ) throws {
-        sourceInput = source.input
+    /// Validates exact source demand and the platform format without decoding PCM.
+    static func configuration(source: SourceTrack, start: Int64, outputRate: Int,
+        owed: Int64, support: InputSupport, playbackRate: ExactTime
+    ) throws -> (converter: AVAudioConverter, format: AVAudioFormat, end: Int64, padding: Int) {
         func product(_ a: Int128, _ b: Int128) throws -> Int128 {
             let result = a.multipliedReportingOverflow(by: b)
             guard !result.overflow else { throw NativeFailure.decodeFailed("Audio rate exceeds exact arithmetic capacity.") }
@@ -242,7 +240,21 @@ final class ConvertedAudioInterval {
         guard let padding = Int(exactly: max(0, Int128(owed) - covered)) else {
             throw NativeFailure.decodeFailed("Audio quantization padding exceeds native capacity.")
         }
-        paddingFrames = padding
+        return (converter, excerptFormat, end, padding)
+    }
+
+    init(
+        source: SourceTrack, decoder: AudioSourceReader, origin: ExactTime, start: Int64,
+        outputRate: Int, owed: Int64, support: InputSupport = .outputDuration(limit: nil),
+        playbackRate: ExactTime = ExactTime(1)
+    ) throws {
+        sourceInput = source.input
+        let configuration = try Self.configuration(source: source, start: start, outputRate: outputRate,
+            owed: owed, support: support, playbackRate: playbackRate)
+        let converter = configuration.converter
+        let excerptFormat = configuration.format
+        let end = configuration.end
+        paddingFrames = configuration.padding
         try decoder.begin(origin: origin, at: start, end: end)
         let openedInput = ConversionInput(reader: decoder)
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
