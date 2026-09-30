@@ -216,6 +216,231 @@
       "state": "ready"
     },
     {
+      "operation": "processing.capabilities",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "edit.undo",
       "transport": "cli",
       "ok": true
@@ -345,6 +570,33 @@
       "resamplingJoinInfluenceFrames": 0,
       "speechAbsentByFixtureConstruction": true
     },
+    "rnnoise": {
+      "capability": {
+        "execution": true,
+        "implementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
+      },
+      "verified": true,
+      "target": {
+        "kind": "track",
+        "id": "track:00e814b111ad4c36a1a80adb0ca98ddb50cf26465ec662f24a9b79a61dd71d4e:0"
+      },
+      "window": {
+        "kind": "project",
+        "range": {
+          "startUs": 1000000,
+          "endUs": 2500000
+        }
+      },
+      "fullWetDiffersFromDry": true,
+      "preparedEqualsOrdinary": true,
+      "halfMixExact": true,
+      "protectedNeighborsExact": true,
+      "bypassAndUndoExact": true,
+      "noAddedLayers": true,
+      "immutableSourcePCM": true,
+      "durationUs": 3500000,
+      "oracle": "Declared frozen adapter identity and independently calculated public dry/wet mix contract; not independent RNNoise inference parity or acoustic quality"
+    },
     "undoAndRender": {
       "roomUndoExact": true,
       "gapUndoExact": true,
@@ -397,26 +649,82 @@
     }
   },
   "revisions": {
-    "baselineRevision": "ff5512c7-653f-454f-9b6a-29100b5ab211",
-    "gapRevision": "7f5ad92d-5491-47f7-a5ba-e90509edff45",
-    "filledRevision": "6b83e7bc-1aff-4628-9125-9677391f7d51"
+    "baselineRevision": "e9b872dc-d5d6-42c9-874f-9892d056cdae",
+    "gapRevision": "5ff2eef2-d669-43ee-bb0c-958a12cbdb75",
+    "filledRevision": "f19f6bcb-fae2-4244-ab5a-866fa6cc6a28"
   },
   "export": {
     "bytes": 91277,
     "destination": {
       "dev": "16777230",
-      "ino": "329954215"
+      "ino": "329961251"
     },
     "file": {
       "dev": "16777230",
-      "ino": "329954473"
+      "ino": "329961502"
     },
     "leaf": "export.mp4",
-    "sha256": "f06bcee6555f4cac04a751e9e3e83d372579081cf10562a2cf524b22ff2bb5e1",
+    "sha256": "66416bab9e26d62b783c8c83ca3389a98a31e814dede3c2b137aba9c4f4c2c80",
     "stage": {
       "dev": "16777230",
-      "ino": "329954470"
+      "ino": "329961499"
     }
   },
-  "limits": "Synthetic mechanical journey only. Real voice listening, independent picture scope and selected RNNoise pause branch remain unverified. No policy preference selected."
+  "rnnoisePreparation": {
+    "projectId": "4db33f63-578a-424e-a3b2-e4c37341e963",
+    "revisionId": "5c14ce33-b1d4-46ae-bb2a-d3756548b227",
+    "state": "ready",
+    "jobId": "88a1debb-111b-4927-9ecb-035f94b63a77",
+    "reason": null,
+    "retryable": false,
+    "published": {
+      "generation": 1,
+      "audio": {
+        "bytes": 1348096,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 168000,
+        "peak": 0.18168972432613373,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 31621120,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:00e814b111ad4c36a1a80adb0ca98ddb50cf26465ec662f24a9b79a61dd71d4e:1",
+            "ranges": []
+          },
+          {
+            "clipId": "clip:3cab5c0c1b50052091a769fedb48936cbb59ac14f6f53c026fb1904c61a7ec96:0",
+            "ranges": []
+          }
+        ],
+        "dependencies": [
+          {
+            "kind": "asset",
+            "id": "1f4a56d9a9519b4c67d35398ecdd980470fda5dd812dcc86199f74b1eba977a7"
+          }
+        ],
+        "resourceId": "[\"4db33f63-578a-424e-a3b2-e4c37341e963\",\"6bef4f45-6175-4591-a1e3-fa3db8bacb92\"]",
+        "assetId": "02bafe9accf7501611f7712a16ba9c9c4aeac866b1d7a87d019a8ee33dc0623a",
+        "identity": {
+          "device": "16777230",
+          "inode": "329961552",
+          "modifiedNs": "1790748132667619105",
+          "changedNs": "1790748132727448237"
+        },
+        "sampleRange": {
+          "start": 0,
+          "end": 168000
+        }
+      }
+    }
+  },
+  "limits": "Synthetic mechanical journey only. Real voice listening and independent picture scope remain unverified. RNNoise status is reported separately; inference parity and acoustic quality are not claimed. No policy preference selected.",
+  "exchangesArtifact": "exchanges.json"
 }

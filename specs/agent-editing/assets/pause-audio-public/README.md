@@ -25,13 +25,28 @@ export commits the selected revision and matches the preview bytes. The picture
 is a plain canvas: independent audio/video edit scope was not exercised.
 
 [evidence.zip](evidence.zip) retains the source, PCM comparisons, rendered preview,
-export, receipts, service log, exact harness snapshot and per-member SHA-256 manifest.
+export, receipts, service log, exact harness snapshots and per-member SHA-256 manifest.
+`exchanges.json` keeps the actual request/options and complete CLI JSON envelope or
+MCP tool reply for every public call, captured before assertion/caller mutation.
+The shared harness captures these only when a journey opts in, so ordinary and
+scale journeys retain their existing compact reporting.
 A temporary mutation made public gap insertion add one extra millisecond; the
 retained-length assertion rejected the additional 48 stereo frames. The generated
 JavaScript was restored before the final passing run. No native build ran.
 
-Real-voice listening, loop naturalness and a pause-specific selected RNNoise branch
-remain unverified. These fixture gain/fade choices are neither recommendations nor
+The independent RNNoise branch begins again at the silent-gap revision. Public
+capabilities advertise the already-linked fixed recipe; no model preparation or
+native build is required. The caller selects a narration-track window across the
+pause. Prepared and ordinary PCM match, dry inspection preserves the silent-gap
+baseline, an explicit half-wet mix matches the independently calculated Float32
+blend, and samples outside the selected window remain exact. Bypass and undo
+return the exact silent gap, the source stays immutable, and no room-tone tracks
+or clips are added. The processed movie retains the project duration.
+
+This checks the advertised adapter identity and public mix/scope contract, not
+independent RNNoise inference parity: the historical standalone C oracle was not
+available and was not rebuilt. Real-voice listening and loop naturalness remain
+unverified. These fixture gain/fade/mix choices are neither recommendations nor
 product defaults, and this evidence does not select between ambience fill, noise
 reduction and deliberate silence.
 

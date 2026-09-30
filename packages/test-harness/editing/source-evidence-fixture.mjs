@@ -96,9 +96,12 @@ export class JourneyService {
     this.started = true;
   }
   async call(operation, params, { transport = "cli", error = false, output } = {}) {
-    const response =
+    const request = this.report.exchanges
+      ? structuredClone({ operation, params, transport, error, output })
+      : undefined;
+    const reply =
       transport === "mcp"
-        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        ? await this.mcp.callTool({ name: operation, arguments: params })
         : await cliReply([
             join(root, "apps/cli/dist/main.js"),
             operation,
@@ -108,6 +111,8 @@ export class JourneyService {
             JSON.stringify(params),
             ...(output ? ["--output", output] : []),
           ]);
+    this.report.exchanges?.push({ request, response: structuredClone(reply) });
+    const response = transport === "mcp" ? reply.structuredContent : reply;
     assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
     this.report.trace.push({
       operation,

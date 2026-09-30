@@ -14,6 +14,7 @@ await mkdir(out);
 const report = {
   passed: false,
   trace: [],
+  exchanges: [],
   checks: {},
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
 };
@@ -292,6 +293,126 @@ try {
       })
     ).id;
   assert.deepEqual(await audio("undo-room"), silent);
+  const capability = (await call("processing.capabilities", {})).find((v) => v.type === "rnnoise");
+  report.checks.rnnoise = {
+    capability: {
+      execution: capability?.execution ?? false,
+      implementationId: capability?.implementationId ?? null,
+    },
+    verified: false,
+  };
+  if (capability?.execution) {
+    assert.equal(
+      capability.implementationId,
+      "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2",
+    );
+    const target = { kind: "track", id: placed.edit.labels.narration };
+    const window = { kind: "project", range: { startUs: 1000000, endUs: 2500000 } };
+    const noise = await edit(
+      "selected-noise",
+      [
+        {
+          operation: "processing.set",
+          target,
+          steps: [{ enabled: true, window, processor: { type: "rnnoise", mix: 1 } }],
+        },
+      ],
+      "mcp",
+    );
+    assert.deepEqual(noise.revision.document.clips, gap.revision.document.clips);
+    assert.deepEqual(noise.revision.document.tracks, gap.revision.document.tracks);
+    const prepared = await poll(
+      () => call("audio.prepare", { projectId, revisionId }),
+      (v) => v.state === "ready",
+      "selected RNNoise",
+    );
+    report.rnnoisePreparation = prepared;
+    const wet = await audio("noise-wet");
+    assert.equal(wet.length, silent.length);
+    assert(!wet.equals(silent), "The fixture must distinguish RNNoise from bypass");
+    assert.deepEqual(wet.subarray(0, rate * stride), silent.subarray(0, rate * stride));
+    assert.deepEqual(wet.subarray(rate * 2.5 * stride), silent.subarray(rate * 2.5 * stride));
+    const preparedAsset = await call("asset.get", { assetId: prepared.published.audio.assetId });
+    assert.deepEqual(
+      await audio("noise-prepared", {
+        assetId: preparedAsset.id,
+        streamId: preparedAsset.streams.find((v) => v.kind === "audio").id,
+      }),
+      wet,
+    );
+    assert.deepEqual(
+      await audio("noise-dry", { projectId, revisionId, tap: { target, point: { kind: "dry" } } }),
+      silent,
+    );
+    const stack = await call("processing.get", { projectId, revisionId, target });
+    assert.deepEqual(
+      stack.steps.map(({ processor, window, enabled }) => ({ processor, window, enabled })),
+      [{ processor: { type: "rnnoise", mix: 1 }, window, enabled: true }],
+    );
+    await edit("noise-half", [
+      {
+        operation: "processing.set",
+        target,
+        steps: stack.steps.map((step) => ({ ...step, processor: { type: "rnnoise", mix: 0.5 } })),
+      },
+    ]);
+    const half = await audio("noise-half");
+    const expected = Buffer.alloc(silent.length);
+    for (let at = 0; at < expected.length; at += 4)
+      expected.writeFloatLE(
+        Math.fround(0.5 * silent.readFloatLE(at) + 0.5 * wet.readFloatLE(at)),
+        at,
+      );
+    assert.deepEqual(half, expected);
+    const noisePreview = await poll(
+      () => call("preview.get", { projectId, revisionId }),
+      (v) => v.state === "ready",
+      "noise preview",
+    );
+    assert.equal(noisePreview.published.preview.durationUs, 3500000);
+    await call("preview.get", { projectId, revisionId }, { output: join(out, "noise-half.mp4") });
+    await edit(
+      "noise-bypass",
+      [
+        {
+          operation: "processing.set",
+          target,
+          steps: stack.steps.map((step) => ({ ...step, enabled: false })),
+        },
+      ],
+      "mcp",
+    );
+    assert.deepEqual(await audio("noise-bypass"), silent);
+    for (let n = 0; n < 3; n++)
+      revisionId = (
+        await call("edit.undo", {
+          projectId,
+          expectedRevisionId: revisionId,
+          requestId: `undo-noise-${n}`,
+        })
+      ).id;
+    assert.deepEqual(await audio("undo-noise"), silent);
+    assert.deepEqual(
+      await audio("source-after-noise", { assetId: asset.id, streamId: asset.streams[0].id }),
+      sourcePCM,
+    );
+    Object.assign(report.checks.rnnoise, {
+      verified: true,
+      target,
+      window,
+      fullWetDiffersFromDry: true,
+      preparedEqualsOrdinary: true,
+      halfMixExact: true,
+      protectedNeighborsExact: true,
+      bypassAndUndoExact: true,
+      noAddedLayers: true,
+      immutableSourcePCM: true,
+      durationUs: 3500000,
+      oracle:
+        "Declared frozen adapter identity and independently calculated public dry/wet mix contract; not independent RNNoise inference parity or acoustic quality",
+    });
+  }
+
   revisionId = (
     await call("edit.undo", { projectId, expectedRevisionId: revisionId, requestId: "undo-gap" })
   ).id;
@@ -305,11 +426,16 @@ try {
     exportMatchesPreview: true,
   };
   report.limits =
-    "Synthetic mechanical journey only. Real voice listening, independent picture scope and selected RNNoise pause branch remain unverified. No policy preference selected.";
+    "Synthetic mechanical journey only. Real voice listening and independent picture scope remain unverified. RNNoise status is reported separately; inference parity and acoustic quality are not claimed. No policy preference selected.";
   report.passed = true;
 } finally {
   await service.stop();
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  const { exchanges, ...summary } = report;
+  await writeFile(join(out, "exchanges.json"), JSON.stringify(exchanges, null, 2));
+  await writeFile(
+    join(out, "report.json"),
+    JSON.stringify({ ...summary, exchangesArtifact: "exchanges.json" }, null, 2),
+  );
   await writeFile(join(out, "service.log"), service.logs.join(""));
   await rm(home, { recursive: true, force: true });
 }
