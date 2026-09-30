@@ -1,0 +1,24 @@
+{
+  "commands": [
+    {
+      "command": "python3 specs/agent-editing/assets/13a-visual-clarity/recover.py",
+      "result": "64 original hashes matched; only frozen isolated endpoint outputs reconstructed"
+    },
+    {
+      "command": "uv run --offline --with matplotlib==3.10.8 --with numpy==2.3.5 python specs/agent-editing/assets/13a-visual-clarity/plot.py",
+      "result": "10 images, 79 hash-checked PCM receipts, cached matplotlib 3.10.8 / numpy 2.3.5; no dependency downloads"
+    },
+    {
+      "command": "codex review (scoped read-only custom prompt)",
+      "result": "Unavailable: configured gpt-6.1-sol rejected for signed-in account, HTTP 400; no verdict"
+    }
+  ],
+  "finalChecks": {
+    "recoveredPCMHashes": 64,
+    "plotHashes": 10,
+    "cropHashes": 3,
+    "scriptHash": true,
+    "existingEvidenceChanged": false
+  },
+  "review": "Fresh full-image review plus corrected-crop adversarial integrating-agent inspection; see review.md"
+}

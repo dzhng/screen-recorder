@@ -1,0 +1,1030 @@
+{
+  "cppSha256": "edefb8f3aac5cea1fb6118b1bca0dd1475ac47b0252103bdca348d1cfb802bc0",
+  "source": "../13a-endpoint-verification/evidence.json",
+  "outputs": [
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-0-0.8-leading-exact.f32.gz",
+      "sha256": "eb10c24327a747799a1141cc137ee495f3f7495c2d18487316e39daab14f7171",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00469646,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-0-0.8-leading-tail.f32.gz",
+      "sha256": "fcc6864cf375f804a93259e54da34f715f985500860b44b9f9ff98d922bf98ca",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00633183,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-0-0.8-trailing-exact.f32.gz",
+      "sha256": "f7d9bd51c1c3bf582121db2a3400c43e7338d4f4c3c310f2ef35fad89aa5b4bb",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.0063575,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-0-0.8-trailing-tail.f32.gz",
+      "sha256": "1667c986594df12f4694272404cb4f488113bc84f44a976f0690b82cc64c3b6f",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00657504,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-0-0.9-leading-exact.f32.gz",
+      "sha256": "e277d48d52639ef770da72af31fc4b0099cfedb053427fd046b6719d6a2a041f",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00536892,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-0-0.9-leading-tail.f32.gz",
+      "sha256": "36622aecb6c6cae08fe9a7ffce140b74b1288355e92a186d01ce7125229b34ce",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00557479,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-0-0.9-trailing-exact.f32.gz",
+      "sha256": "39007f4c02f789090038baf09375c0aaee66d9de8d0e25b8726dc1eefeb8d3c9",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00478308,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-0-0.9-trailing-tail.f32.gz",
+      "sha256": "da5f0eac43926588c322549ab8e11d43c495fe3c3f111203e67d75949bb2f447",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00590575,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-0-1-leading-exact.f32.gz",
+      "sha256": "c52ccd81d322a94ef1d81c94afb4e23f4d022c30d464d22a6c935018856661ea",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 3.791e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-0-1-leading-tail.f32.gz",
+      "sha256": "09ea5aaaaa14a997bc523ed6ab980fe65792cc48e4029bc2f552944366168092",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00358121,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-0-1-trailing-exact.f32.gz",
+      "sha256": "5b10c85d6113ebfbb0289a4a9ba65e45bdc84857dc4a24128239928dea87b0b8",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.209e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-0-1-trailing-tail.f32.gz",
+      "sha256": "249556df0d209db7a4be6df62a55f7eb2529386644afa43b06430b72a3c020d1",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00369708,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-0-1.25-leading-exact.f32.gz",
+      "sha256": "16c5be96d5505d2851712c1dfa839634385c06a5da4ceb0da7499aadc63f21a4",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00317492,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-0-1.25-leading-tail.f32.gz",
+      "sha256": "8a5a67821332525dac73268c5d7c49eedb01b821c44a16f450934ec36cd9c947",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00339246,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-0-1.25-trailing-exact.f32.gz",
+      "sha256": "e123dfcbad946b960b75b62488a34fe267bb4a8c916c21ae5f6f85445858b57a",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00333429,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-0-1.25-trailing-tail.f32.gz",
+      "sha256": "5a0a5c109750f32233f9b9f96a32342485547ba179c47f316b91f4dda1801394",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.0035505,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-1-0.8-leading-exact.f32.gz",
+      "sha256": "1cd3e6a3a8bda7998f8c60c838390c4de6bb4a11555d2168a946ad62b150e3f5",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00483496,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-1-0.8-leading-tail.f32.gz",
+      "sha256": "9775e167597f5edc742262f8f644d1784811ce9ed0e43de93db758c4107a7a75",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00507704,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-1-0.8-trailing-exact.f32.gz",
+      "sha256": "d3b0356d727c363d333103cb9922d4ea00c9299cfcee03135f4a8d5ad9f4ab8e",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00515538,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-1-0.8-trailing-tail.f32.gz",
+      "sha256": "d1371964d5e8095b7bd569950e96385c40e9feb3fff38eb1b23d4152c9fe0baa",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00539775,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-1-0.9-leading-exact.f32.gz",
+      "sha256": "eacb15dee5b3142c58f943e95be2a0a2a134a2350b97fd5ecf226f2824c1ac1c",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00435096,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-1-0.9-leading-tail.f32.gz",
+      "sha256": "8347c077e7353ac4d3a5d5f480b12cd9e81fa12492cae3d622958fad7e058e99",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00452425,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-1-0.9-trailing-exact.f32.gz",
+      "sha256": "e637bd85f6796087b145ece99be5bdace01c9e7ab23d3241105d98c853887a69",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00458779,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-1-0.9-trailing-tail.f32.gz",
+      "sha256": "1da1d40ca49472100f9112cb1105b28f22bca8e5bd8adaad7bdf1e6693bf653e",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00471537,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-1-1-leading-exact.f32.gz",
+      "sha256": "802c21f3d13ee5267276616164498ece3606a6cfa5e96867b7d42af757addc8d",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.208e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-1-1-leading-tail.f32.gz",
+      "sha256": "1c9915e364919ac9f066860f66e6451d9b504af9c9b72d8c1177cbd09de3647f",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00331446,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-1-1-trailing-exact.f32.gz",
+      "sha256": "f4d7998317cb1202edf69533c250971a57f7e817d54aabcc8942d0e883f18ce5",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.167e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-1-1-trailing-tail.f32.gz",
+      "sha256": "78ba3fe7f6cb21f90af0424af031018facb6f05406f3b66bc2e9febba8c744e8",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00356712,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-1-1.25-leading-exact.f32.gz",
+      "sha256": "b668d533f7e888fbca7090785da1da08867c59c602b9e2495dca7ef783d3c27b",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00308392,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-1-1.25-leading-tail.f32.gz",
+      "sha256": "471db4f33fcae9dfa726e337ef5da48517a21e2cdae25e5991dd37f4a82febc5",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00317654,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-1-1.25-trailing-exact.f32.gz",
+      "sha256": "670257978d2b0d1c0c61fcd945996d5dc820054b6b78b507a21fb9b6e509347a",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00322592,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-1-1.25-trailing-tail.f32.gz",
+      "sha256": "f23f7d03ce74f039a3e5a1ae1186763e9e3bcca4f159a7fddb57cdc78a1edbdf",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00343283,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-17-0.8-leading-exact.f32.gz",
+      "sha256": "e67d92276e7f7ccd329385fd18a626c744bce846b286cc0f3ba774b4f6cc523c",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00475733,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-17-0.8-leading-tail.f32.gz",
+      "sha256": "a1d8a979b2d7f06113813c7ef5455eed85de3994ca70f09af9425813e611e602",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00492933,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-17-0.8-trailing-exact.f32.gz",
+      "sha256": "4b8ff5e5c015147033abd77bd5bc891c9be9ebfdb02a85d606535e4cec517c72",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00668967,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-17-0.8-trailing-tail.f32.gz",
+      "sha256": "6f3a0eb7f1c48d2cd6c542efdc6e8722b97de184e668df3b2fe1648647c95e2e",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00522004,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-17-0.9-leading-exact.f32.gz",
+      "sha256": "5a870268d8da83b02f8ce28fb49a0a159e0d9016b191364749b591fef8086d27",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00422842,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-17-0.9-leading-tail.f32.gz",
+      "sha256": "c9c2169132169ceb328dcac8fb6fde4a907fa228c2d05e8114e78ecedc432c56",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.0043955,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-17-0.9-trailing-exact.f32.gz",
+      "sha256": "f71f285ab3a2df36aa93f9d77f5d1b2407184ebe97b86ef0afc899daa6038d8e",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00576617,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-17-0.9-trailing-tail.f32.gz",
+      "sha256": "70d3bb9d531bacf461eb70972375f085635c43f0beb022ef34acedf5975a19a7",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00492992,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-17-1-leading-exact.f32.gz",
+      "sha256": "61e632b7f59b44e4131ad7910f4faed7ee62ed91abdeed228fdc826fde94bca2",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.333e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-17-1-leading-tail.f32.gz",
+      "sha256": "fbe0f7a6dab232f2e9e20885ddf88f90f7eaee5219a41d7062bc398ba597ab0e",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00345788,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-17-1-trailing-exact.f32.gz",
+      "sha256": "e1d8b9f5bde5257ee72c7f7cd6ab87d5b95c57d17aeb0715de0a0df42632f1f9",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.25e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-17-1-trailing-tail.f32.gz",
+      "sha256": "8b60c14b1146feec678f668ee33ea39849960be5b7295297fba1e32238698172",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00366804,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-17-1.25-leading-exact.f32.gz",
+      "sha256": "a567131e69d3c4c36d021f3de9274b6dbc686645dba12de8a1b2e1218fe81b2a",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00320004,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-17-1.25-leading-tail.f32.gz",
+      "sha256": "1e19d70da817d226ffd84338b5037fbf38096aee865ac9c6237f9c415e4cd9b0",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00326487,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-17-1.25-trailing-exact.f32.gz",
+      "sha256": "92a6a0c5ccfb2105656b4b58503687af07c9137e5a8e4dc977e5e79616d20123",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00328696,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-17-1.25-trailing-tail.f32.gz",
+      "sha256": "3075ca1ad850ec3dfd9288004eefa62e030296b3862b8c9f4400fb844d457caf",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00346788,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-137-0.8-leading-exact.f32.gz",
+      "sha256": "4b6c977d5076883e405f2fa7ae3366da8a27e5bce4f8d109eb45e4fc82a28db8",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00468821,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-137-0.8-leading-tail.f32.gz",
+      "sha256": "94f35ca44cfcdf1fc9caf9d0591e942ea368d2e6ac8d96d4e551cec11dc4973f",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00494008,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-137-0.8-trailing-exact.f32.gz",
+      "sha256": "95e0399e176c53ca56165a0c7f8ecedf54da454582f42fd89277eb22e1691b91",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.00502888,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-137-0.8-trailing-tail.f32.gz",
+      "sha256": "bfca95b195b9dcaa681b7c447c72795927201c717882bb28e5ad570bb790ae15",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.00522146,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-137-0.9-leading-exact.f32.gz",
+      "sha256": "e7b6fdb03ad8d6370f8f7b386fe9486d5c89cd5e8f344dfe50b6714481523769",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00425346,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-137-0.9-leading-tail.f32.gz",
+      "sha256": "d146d7efebefc7be92eca0fdae097d94421cacebeff0cf5e8d7841ccd1602ebf",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00438754,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-137-0.9-trailing-exact.f32.gz",
+      "sha256": "c7298d6ccfd546dc2f7f118c7568c1bfae3cb10d2517d431c96a16328e3e1552",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.00444083,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-137-0.9-trailing-tail.f32.gz",
+      "sha256": "476a96bbc17e670565c8437d607ed3c9a71f8c526f97dbe95c05114300519a7b",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.00466171,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-137-1-leading-exact.f32.gz",
+      "sha256": "45625f2d094ef3924260193c02a886be77bb6c256e4d10a111ca8dcabd61a8d3",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.083e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-137-1-leading-tail.f32.gz",
+      "sha256": "b403e49f29e5e35bd00db9da5e2348d8fa7fc52d3b5b8a0324fbb09ad3f7221d",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00330392,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-137-1-trailing-exact.f32.gz",
+      "sha256": "9bbfed9386bc39b71d551a9dc03a07fe95adf6fb8bce812b18090216f27e083d",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 4.125e-06,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-137-1-trailing-tail.f32.gz",
+      "sha256": "81b26e416fbeabdffe69b2f01047f5700f977a7f3dd828ada8ddafca97847b28",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.00356158,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-exact.f32",
+      "retainedPath": "pcm/endpoints-137-1.25-leading-exact.f32.gz",
+      "sha256": "b26fa1f94dea1ebda4a67e06d68c4be7789b7561b8a5f0c02edaf562cceb2aff",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00307283,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-tail.f32",
+      "retainedPath": "pcm/endpoints-137-1.25-leading-tail.f32.gz",
+      "sha256": "cf074d91cced9279e977dbe3974683d30a6d83e068ca7be1fae2b0bc930b9b39",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00315596,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-exact.f32",
+      "retainedPath": "pcm/endpoints-137-1.25-trailing-exact.f32.gz",
+      "sha256": "ec5167ad6eccd8e98857fb86511c88fc00a377d0ce05141e47d20a098682cd4c",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.00315883,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "originalPath": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-tail.f32",
+      "retainedPath": "pcm/endpoints-137-1.25-trailing-tail.f32.gz",
+      "sha256": "caf9e40c7235e3ad95997cc019e21a13df1386c8117dbd8168aebb65fc8a4afc",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.00335637,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      }
+    }
+  ]
+}

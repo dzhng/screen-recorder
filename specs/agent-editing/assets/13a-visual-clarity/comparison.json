@@ -1,0 +1,114 @@
+[
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/clean-whole-utterance-joins.png",
+    "candidate": "clean-whole-utterance-guards.png",
+    "priorSize": [
+      1620,
+      1350
+    ],
+    "candidateSize": [
+      1800,
+      1350
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/endpoint-phase-0.png",
+    "candidate": "endpoint-phase-0.png",
+    "priorSize": [
+      2565,
+      1620
+    ],
+    "candidateSize": [
+      2700,
+      1800
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/endpoint-phase-1.png",
+    "candidate": "endpoint-phase-1.png",
+    "priorSize": [
+      2565,
+      1620
+    ],
+    "candidateSize": [
+      2700,
+      1800
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/endpoint-phase-137.png",
+    "candidate": "endpoint-phase-137.png",
+    "priorSize": [
+      2565,
+      1620
+    ],
+    "candidateSize": [
+      2700,
+      1800
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/endpoint-phase-17.png",
+    "candidate": "endpoint-phase-17.png",
+    "priorSize": [
+      2565,
+      1620
+    ],
+    "candidateSize": [
+      2700,
+      1800
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/phrase-0-joins.png",
+    "candidate": "phrase-0-guards.png",
+    "priorSize": [
+      1620,
+      1350
+    ],
+    "candidateSize": [
+      1800,
+      1350
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/phrase-3-joins.png",
+    "candidate": "phrase-3-guards.png",
+    "priorSize": [
+      1620,
+      1350
+    ],
+    "candidateSize": [
+      1800,
+      1350
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  },
+  {
+    "prior": "specs/agent-editing/assets/13a-endpoint-verification/plots/tone-shared-scale.png",
+    "candidate": "tone-endpoints.png",
+    "priorSize": [
+      1620,
+      1755
+    ],
+    "candidateSize": [
+      1800,
+      1950
+    ],
+    "bytesDiffer": true,
+    "comparison": "Different framing/layout; pixel distance would conflate layout with signal. Inspect full images and enlarged panels."
+  }
+]
