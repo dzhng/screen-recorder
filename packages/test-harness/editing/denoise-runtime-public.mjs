@@ -1,3 +1,4 @@
+import { denoiseFollow } from "./denoise-follow.mjs";
 import { denoisePostRetime } from "./denoise-post-retime.mjs";
 import { denoiseTransitions } from "./denoise-transitions.mjs";
 import { createDenoiseReference } from "./denoise-reference.mjs";
@@ -16,14 +17,17 @@ const { values } = parseArgs({
     source: { type: "string" },
     reference: { type: "string" },
     "post-retime": { type: "boolean" },
+    follow: { type: "boolean" },
   },
 });
 assert(
   values.out &&
-    (values.source || values["post-retime"]) &&
+    (values.source || values["post-retime"] || values.follow) &&
     values.reference &&
     process.env.SCREENREC_NATIVE,
 );
+assert(!(values["post-retime"] && values.follow), "Choose one fixture mode");
+const captured = values["post-retime"] || values.follow;
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-denoise-public-"));
 await mkdir(out);
@@ -31,21 +35,19 @@ const denoise = createDenoiseReference(resolve(values.reference), out);
 const report = {
   passed: false,
   trace: [],
-  ...(values["post-retime"] ? { exchanges: [] } : {}),
+  ...(captured ? { exchanges: [] } : {}),
   checks: {},
   receipts: [],
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   referenceSha256: hash(await readFile(resolve(values.reference))),
-  scope: values["post-retime"]
-    ? "Public post-retime overlap, held gain and windowed RNNoise mix-state integration; exact numerical delivery only, no listening, spatial, other-material or pitch-follow claim."
-    : "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
+  scope: values.follow
+    ? "Public follow into learned ordinary/prepared audio from authenticated14e dry PCM; no new movie, listening or quality claim."
+    : values["post-retime"]
+      ? "Public post-retime overlap, held gain and windowed RNNoise mix-state integration; exact numerical delivery only, no listening, spatial, other-material or pitch-follow claim."
+      : "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
 };
-const service = new JourneyService(
-    home,
-    report,
-    values["post-retime"] ? join(out, "native") : undefined,
-  ),
+const service = new JourneyService(home, report, captured ? join(out, "native") : undefined),
   call = service.call.bind(service);
 const expected = gunzipSync(
   await readFile(
@@ -868,6 +870,8 @@ try {
       report,
       out,
     });
+  else if (values.follow)
+    await denoiseFollow({ call, prepare, inspect, projectAudio, denoise, report, out });
   else await unitRateJourney();
   report.passed = true;
 } finally {

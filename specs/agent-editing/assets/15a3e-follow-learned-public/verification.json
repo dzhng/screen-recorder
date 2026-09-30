@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "scope": "Public follow into learned ordinary/prepared audio from authenticated14e dry PCM; no new movie, listening or quality claim.",
+  "nativeSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "publicPCMChecks": 4,
+  "publicExchanges": 31,
+  "inputs": {
+    "packageSha256": "84139bc32bc634f05f152b82f8324005affa3c6226c2a7920f10be481f7ec19e",
+    "dryFileSha256": "12f0e3e5f045e498b19c583efcf04238cb07f6b8c1042cf7d6e3d3a6cb1d913d",
+    "reportSha256": "369de4404eab44599ad147242f5cfed2d95c5ec947c681b4925e53bb4588f93c",
+    "revisionId": "a6cbfa37-7d58-43b4-a450-e96cd5d9e459"
+  },
+  "frozenPCM": "fc43219a0500aaea5c6ec20aa9002a767b520d4b9b547fac74cbfa5fd179733a",
+  "lateState": {
+    "file": "mix-1.json",
+    "followOnlyInState": true,
+    "preparedRetimeRuns": 1
+  },
+  "lateMCPMatchesCLI": true,
+  "resetAtLateDiffers": true,
+  "commands": [
+    "SCREENREC_NATIVE=/tmp/screenrec-exact-native-14f-build/debug/screenrec-native node packages/test-harness/editing/denoise-runtime-public.mjs --follow --reference /Users/david/.cache/screen-recorder/test-prerequisites/rnnoise-api-697657e249b1 --out /tmp/screenrec-public-follow-learned-final"
+  ],
+  "harnesses": {
+    "denoise-follow.mjs": "1bb0231643001942f9e1b9491b9edc8f5da6eff1473249f58dccc93ac711bb71",
+    "denoise-runtime-public.mjs": "96b5306c16311fd23f6a4ca66c093228b87529e20c5a8580be6581d47e12f6d3",
+    "denoise-reference.mjs": "d8c1df5bf21826f10160c11ce671c236fff106a4d30aa6262c26a65ee58cc8ab",
+    "source-evidence-fixture.mjs": "473ff9c8abb505f973d4b99ac981dfdaa2054c39bf611d50880f512a06741f95"
+  },
+  "checks": {
+    "wrongResetExpectation": "failed after dry parity; restored final mode passed",
+    "defaultUnitRateJourney": "byte-identical",
+    "focusedOxlint": "passed",
+    "focusedOxfmt": "passed",
+    "nodeSyntax": "passed both edited modules",
+    "gitDiffCheck": "passed"
+  },
+  "files": {
+    "retained-package.zip": "84139bc32bc634f05f152b82f8324005affa3c6226c2a7920f10be481f7ec19e",
+    "follow-dry.wav.gz": "96e77ac14e06490d81e6aeeb0254b7d67ba6b6aaabbcb268b86fb884697801d2",
+    "inputs.json": "9247ce51094625bcf9bb83d1407b082940d01d7a7124179782696e0112f9ac48",
+    "evidence.tar.xz": "498ad66d850c5c068520bb6a1951001f5b7fe8aa478ca04d6c96a05280bce952",
+    "manifest.json": "96572e738086041005e7427a2aaef69a870909d67794d790c593de1257aeb515"
+  }
+}

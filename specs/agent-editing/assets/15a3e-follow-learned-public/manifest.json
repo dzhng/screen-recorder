@@ -1,0 +1,248 @@
+[
+  {
+    "path": "final/follow-dry.wav",
+    "bytes": 1732096,
+    "sha256": "12f0e3e5f045e498b19c583efcf04238cb07f6b8c1042cf7d6e3d3a6cb1d913d",
+    "storedAs": "final/follow-dry.wav"
+  },
+  {
+    "path": "final/follow-expected-lane-0-input.f32",
+    "bytes": 864000,
+    "sha256": "91c0fed290905fbb49783b54e138ed79930d9d16baf4cdb12d5c4d83ec9b76d1",
+    "storedAs": "final/follow-expected-lane-0-input.f32"
+  },
+  {
+    "path": "final/follow-expected-lane-0-raw.f32",
+    "bytes": 867840,
+    "sha256": "b8de7bb29ab35e92de42165f142f9f9a3d917191a4433c34e1b68c537d6780c2",
+    "storedAs": "final/follow-expected-lane-0-raw.f32"
+  },
+  {
+    "path": "final/follow-expected-lane-1-input.f32",
+    "bytes": 864000,
+    "sha256": "f596842aa355990be0c9590e8316ca8dcf4ec061bd2e1d945211fbeb0aeec2d6",
+    "storedAs": "final/follow-expected-lane-1-input.f32"
+  },
+  {
+    "path": "final/follow-expected-lane-1-raw.f32",
+    "bytes": 867840,
+    "sha256": "cfbc69234a7ba64f37b1fad10f273f4d08df6acf8258c416bccd8418042c4a95",
+    "storedAs": "final/follow-expected-lane-1-raw.f32"
+  },
+  {
+    "path": "final/follow-expected.f32",
+    "bytes": 1728000,
+    "sha256": "ddcf9e3c04b1aebe5a2af6d1880d75db737f41989f3852a1427c7ff3998a6f09",
+    "storedAs": "final/follow-expected.f32"
+  },
+  {
+    "path": "final/follow-full.wav",
+    "bytes": 1732096,
+    "sha256": "46b1c62f38619f71b33597ccabc0421fc30e77604a8cd0774a7703a84a39d7fa",
+    "storedAs": "final/follow-full.wav"
+  },
+  {
+    "path": "final/follow-late-before-full.wav",
+    "bytes": 196096,
+    "sha256": "6e2039995081765f5cabe3483509c2753f0e4f979737837de149d5b894a28ae4",
+    "storedAs": "final/follow-late-before-full.wav"
+  },
+  {
+    "path": "final/follow-prepared-excerpt.wav",
+    "bytes": 388096,
+    "sha256": "9ddd9ae23589ad96c16d835705841b033cd017fa2fb2877a14f4ffe212e89b5b",
+    "storedAs": "final/follow-prepared-excerpt.wav"
+  },
+  {
+    "path": "final/follow-reset-control-lane-0-input.f32",
+    "bytes": 144000,
+    "sha256": "e778a5f302f3307b4f4f7c28d6622e01a153f4193f88537de76f0964d1d30cb0",
+    "storedAs": "final/follow-reset-control-lane-0-input.f32"
+  },
+  {
+    "path": "final/follow-reset-control-lane-0-raw.f32",
+    "bytes": 147840,
+    "sha256": "e940fe7fb1268c858c5fe3218637e306a5f46a477c2e94d98fb046d30e6969e0",
+    "storedAs": "final/follow-reset-control-lane-0-raw.f32"
+  },
+  {
+    "path": "final/follow-reset-control-lane-1-input.f32",
+    "bytes": 144000,
+    "sha256": "e5d0b66706aa1d1c99d5a80538af177065f38703b2088b1637d0824e6269a187",
+    "storedAs": "final/follow-reset-control-lane-1-input.f32"
+  },
+  {
+    "path": "final/follow-reset-control-lane-1-raw.f32",
+    "bytes": 147840,
+    "sha256": "aac4598bebda1132b6e2190a23e9c2b55f9b00baccdb37f5f760257bea636a21",
+    "storedAs": "final/follow-reset-control-lane-1-raw.f32"
+  },
+  {
+    "path": "final/native/audio-4-request.json",
+    "bytes": 455,
+    "sha256": "7391d1fa99777e477bb6fc009bee5c3d1566301386b2489d3a4437cb57199923",
+    "storedAs": "final/native/audio-4-request.json"
+  },
+  {
+    "path": "final/native/audio-4-response.json",
+    "bytes": 457,
+    "sha256": "29c938500739a3c8541bb5eef4a84a96f9e5b4b08faad3307c2f73e5f8915348",
+    "storedAs": "final/native/audio-4-response.json"
+  },
+  {
+    "path": "final/native/mix-0.json",
+    "bytes": 4269,
+    "sha256": "42e6471d3a52b5bd361be584212cce7a7e57471551b88de368dfdd7c54225759",
+    "storedAs": "final/native/mix-0.json"
+  },
+  {
+    "path": "final/native/mix-1.json",
+    "bytes": 6562,
+    "sha256": "8bb457306fe2180d657b53f8f4564776a81b2e151cebac158ff09a0a03f9c7c7",
+    "storedAs": "final/native/mix-1.json"
+  },
+  {
+    "path": "final/native/mix-2.json",
+    "bytes": 8392,
+    "sha256": "bc1577013bc66ab15631e3ec7167ff94c15b2eec2acf7db36c7d0c845589a646",
+    "storedAs": "final/native/mix-2.json"
+  },
+  {
+    "path": "final/native/mix-3.json",
+    "bytes": 8392,
+    "sha256": "2c859756f6511493b65d4dac67f0dbbbd2e69cb850401f5b431bfae7965c40c0",
+    "storedAs": "final/native/mix-3.json"
+  },
+  {
+    "path": "final/report.json",
+    "bytes": 567990,
+    "sha256": "45e90a7fb90968dd6d681d50bd7aadf5fbd8ded5a6795df142aec69e97934868",
+    "storedAs": "final/report.json"
+  },
+  {
+    "path": "final/service.log",
+    "bytes": 169,
+    "sha256": "4c8ec7f065eeb84d9e51feea667258fd801a6412fc4a8effc99c4a3671ab88cc",
+    "storedAs": "final/service.log"
+  },
+  {
+    "path": "wrong-reset/follow-dry.wav",
+    "bytes": 1732096,
+    "sha256": "12f0e3e5f045e498b19c583efcf04238cb07f6b8c1042cf7d6e3d3a6cb1d913d",
+    "storedAs": "final/follow-dry.wav"
+  },
+  {
+    "path": "wrong-reset/follow-expected-lane-0-input.f32",
+    "bytes": 864000,
+    "sha256": "91c0fed290905fbb49783b54e138ed79930d9d16baf4cdb12d5c4d83ec9b76d1",
+    "storedAs": "final/follow-expected-lane-0-input.f32"
+  },
+  {
+    "path": "wrong-reset/follow-expected-lane-0-raw.f32",
+    "bytes": 867840,
+    "sha256": "b8de7bb29ab35e92de42165f142f9f9a3d917191a4433c34e1b68c537d6780c2",
+    "storedAs": "final/follow-expected-lane-0-raw.f32"
+  },
+  {
+    "path": "wrong-reset/follow-expected-lane-1-input.f32",
+    "bytes": 864000,
+    "sha256": "f596842aa355990be0c9590e8316ca8dcf4ec061bd2e1d945211fbeb0aeec2d6",
+    "storedAs": "final/follow-expected-lane-1-input.f32"
+  },
+  {
+    "path": "wrong-reset/follow-expected-lane-1-raw.f32",
+    "bytes": 867840,
+    "sha256": "cfbc69234a7ba64f37b1fad10f273f4d08df6acf8258c416bccd8418042c4a95",
+    "storedAs": "final/follow-expected-lane-1-raw.f32"
+  },
+  {
+    "path": "wrong-reset/follow-expected.f32",
+    "bytes": 1728000,
+    "sha256": "ddcf9e3c04b1aebe5a2af6d1880d75db737f41989f3852a1427c7ff3998a6f09",
+    "storedAs": "final/follow-expected.f32"
+  },
+  {
+    "path": "wrong-reset/follow-late-before-full.wav",
+    "bytes": 196096,
+    "sha256": "6e2039995081765f5cabe3483509c2753f0e4f979737837de149d5b894a28ae4",
+    "storedAs": "final/follow-late-before-full.wav"
+  },
+  {
+    "path": "wrong-reset/follow-reset-control-lane-0-input.f32",
+    "bytes": 144000,
+    "sha256": "e778a5f302f3307b4f4f7c28d6622e01a153f4193f88537de76f0964d1d30cb0",
+    "storedAs": "final/follow-reset-control-lane-0-input.f32"
+  },
+  {
+    "path": "wrong-reset/follow-reset-control-lane-0-raw.f32",
+    "bytes": 147840,
+    "sha256": "e940fe7fb1268c858c5fe3218637e306a5f46a477c2e94d98fb046d30e6969e0",
+    "storedAs": "final/follow-reset-control-lane-0-raw.f32"
+  },
+  {
+    "path": "wrong-reset/follow-reset-control-lane-1-input.f32",
+    "bytes": 144000,
+    "sha256": "e5d0b66706aa1d1c99d5a80538af177065f38703b2088b1637d0824e6269a187",
+    "storedAs": "final/follow-reset-control-lane-1-input.f32"
+  },
+  {
+    "path": "wrong-reset/follow-reset-control-lane-1-raw.f32",
+    "bytes": 147840,
+    "sha256": "aac4598bebda1132b6e2190a23e9c2b55f9b00baccdb37f5f760257bea636a21",
+    "storedAs": "final/follow-reset-control-lane-1-raw.f32"
+  },
+  {
+    "path": "wrong-reset/native/mix-0.json",
+    "bytes": 4269,
+    "sha256": "0291538a54ef6f5c25d6d48c4ed762dec9bbe6a1ea77dd1a28dc036381040467",
+    "storedAs": "wrong-reset/native/mix-0.json"
+  },
+  {
+    "path": "wrong-reset/native/mix-1.json",
+    "bytes": 6562,
+    "sha256": "507a5afe1f644d50153ef6854a5d238ff1e608d18d8d9f2b5335306ac27d4097",
+    "storedAs": "wrong-reset/native/mix-1.json"
+  },
+  {
+    "path": "wrong-reset/report.json",
+    "bytes": 261286,
+    "sha256": "c8f81c9783fdf6621b7985d16db76e9215dbd2e05d662cd7da4ceeb9a178baf0",
+    "storedAs": "wrong-reset/report.json"
+  },
+  {
+    "path": "wrong-reset/service.log",
+    "bytes": 169,
+    "sha256": "9b043791fa1883d1cab562e928e43902e4cf2adc615790008657ffa3e57ec8dc",
+    "storedAs": "wrong-reset/service.log"
+  },
+  {
+    "path": "wrong-reset/run.log",
+    "bytes": 1051,
+    "sha256": "516052794c71905d86e96f82bea8edb4319f0a513d3aed094400f46ca139f218",
+    "storedAs": "wrong-reset/run.log"
+  },
+  {
+    "path": "sources/denoise-follow.mjs",
+    "bytes": 6446,
+    "sha256": "1bb0231643001942f9e1b9491b9edc8f5da6eff1473249f58dccc93ac711bb71",
+    "storedAs": "sources/denoise-follow.mjs"
+  },
+  {
+    "path": "sources/denoise-runtime-public.mjs",
+    "bytes": 30559,
+    "sha256": "96b5306c16311fd23f6a4ca66c093228b87529e20c5a8580be6581d47e12f6d3",
+    "storedAs": "sources/denoise-runtime-public.mjs"
+  },
+  {
+    "path": "sources/denoise-reference.mjs",
+    "bytes": 1628,
+    "sha256": "d8c1df5bf21826f10160c11ce671c236fff106a4d30aa6262c26a65ee58cc8ab",
+    "storedAs": "sources/denoise-reference.mjs"
+  },
+  {
+    "path": "sources/source-evidence-fixture.mjs",
+    "bytes": 7995,
+    "sha256": "473ff9c8abb505f973d4b99ac981dfdaa2054c39bf611d50880f512a06741f95",
+    "storedAs": "sources/source-evidence-fixture.mjs"
+  }
+]
