@@ -12,6 +12,7 @@ private final class TrackWriter {
     let channelCount: UInt32?
     let pcm: CapturePCM?
     var first: Int64?
+    var lastAcceptedUs: Int64?
     var end: Int64?
     var samples = 0
     var physicalFrames: Int64 = 0
@@ -269,6 +270,11 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
         _ stream: SCStream, didOutputSampleBuffer sample: CMSampleBuffer,
         of type: SCStreamOutputType
     ) {
+        ingest(sample, of: type)
+    }
+
+    /// Ordered ingress shared by normal SCStream delivery and the clock measurement probe.
+    package func ingest(_ sample: CMSampleBuffer, of type: SCStreamOutputType) {
         guard !finishing, failure == nil, sample.isValid, CMSampleBufferDataIsReady(sample) else {
             return
         }
@@ -402,6 +408,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             let firstAppend = track.first == nil
             // Media acceptance cannot be rolled back if the following journal write fails.
             track.first = track.first ?? sourceUs
+            track.lastAcceptedUs = sourceUs
             track.end = max(track.end ?? 0, endUs)
             track.samples += 1
             if let placement {
@@ -430,6 +437,32 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             failure = reason
             onFailure(reason)
         }
+    }
+
+    package struct IngressState {
+        package let clock: CaptureClock
+        package let accepting: Bool
+    }
+    /// Read only on queue; a clock alone does not carry the writer's sealed/failure gate.
+    package var ingressState: IngressState {
+        IngressState(clock: clock, accepting: !finishing && failure == nil)
+    }
+    package struct IngressReceipt: Codable {
+        package let disposition: String
+        package let sourceUs: Int64?
+    }
+    package func ingestObserved(_ sample: CMSampleBuffer, of type: SCStreamOutputType) -> IngressReceipt {
+        let role = type == .screen ? "video" : (type == .microphone ? "narration" : "system")
+        let before = tracks[role]?.samples ?? 0
+        let previousDropped = dropped[role, default: 0]
+        let previousOmitted = omitted[role, default: 0]
+        let accepting = ingressState.accepting
+        ingest(sample, of: type)
+        let disposition = (tracks[role]?.samples ?? 0) > before ? "accepted"
+            : !accepting ? "sealed-or-failed" : dropped[role, default: 0] > previousDropped ? "backpressure"
+            : omitted[role, default: 0] > previousOmitted ? "outside-support" : "invalid-or-unusable"
+        return IngressReceipt(disposition: disposition,
+            sourceUs: disposition == "accepted" ? tracks[role]?.lastAcceptedUs : nil)
     }
 
     package func finish(failure externalFailure: CaptureFailure?) async -> CaptureResult {

@@ -13,6 +13,14 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     let source: URL
     let refusesAfterDelivery: Bool
     var stops = 0
+    var finalizations = 0
+    var discards = 0
+    var finalClock: CaptureClock?
+    var companionFailure: CaptureFailure?
+    var probeDirectory: URL?
+    var probeMaximumRows = 5_000_000
+    var probe: ProbeClockIngress?
+    var finalCameraSample: CMSampleBuffer?
     var onFailure: (@Sendable (CaptureFailure) -> Void)?
     var audio: URL?
     var omittedAudioBuffer: Int?
@@ -37,6 +45,11 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     func start(writer: CaptureWriter, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
         checkInterruption: () throws -> Void) async throws {
         self.onFailure = onFailure
+        if let probeDirectory {
+            let camera = try ProbeCameraWriter(directory: probeDirectory.appendingPathComponent("camera"), framesPerSecond: 30)
+            probe = try ProbeClockIngress(writer: writer, camera: camera,
+                observations: probeDirectory.appendingPathComponent("timestamps.jsonl"), failure: onFailure, maximumRows: probeMaximumRows)
+        }
         let asset = AVURLAsset(url: source)
         let track = try await asset.loadTracks(withMediaType: .video).first!
         let reader = try AVAssetReader(asset: asset)
@@ -59,12 +72,35 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             pauseBounds = (began["hostUs"] as! Int64, ended["hostUs"] as! Int64)
             origin = pauseBounds!.start - 800_000
         }
+        var sourceClock: CMClockOrTimebase = CMClockGetHostTimeClock()
+        if probe != nil {
+            var base: CMTimebase?
+            precondition(CMTimebaseCreateWithSourceClock(allocator: kCFAllocatorDefault,
+                sourceClock: CMClockGetHostTimeClock(), timebaseOut: &base) == noErr)
+            precondition(CMTimebaseSetRateAndAnchorTime(base!, rate: 1.0002,
+                anchorTime: time(microseconds: 7000000), immediateSourceTime: time(microseconds: origin)) == noErr)
+            sourceClock = base!
+        }
+        func rawProbeSample(_ host: CMSampleBuffer) throws -> CMSampleBuffer {
+            try captureFixtureRetimed(host, at: CMSyncConvertTime(host.presentationTimeStamp,
+                from: CMClockGetHostTimeClock(), to: sourceClock))
+        }
         while let sample = output.copyNextSampleBuffer() {
             let timed = try captureFixtureRetimed(sample,
                 at: CMTimeAdd(time(microseconds: origin), sample.presentationTimeStamp))
             let attachments = CMSampleBufferGetSampleAttachmentsArray(timed, createIfNecessary: true)! as NSArray
             (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
-            writer.queue.sync { writer.stream(stream, didOutputSampleBuffer: timed, of: .screen) }
+            finalCameraSample = timed
+            writer.queue.sync {
+                if let probe {
+                    if writer.ingressState.clock.originUs == nil {
+                        probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
+                    }
+                    probe.accept(try! rawProbeSample(timed), role: .screen, from: sourceClock)
+                    let delayed = try! captureFixtureRetimed(timed, at: CMTimeAdd(timed.presentationTimeStamp, time(microseconds: 200000)))
+                    probe.accept(try! rawProbeSample(delayed), role: .camera, from: sourceClock)
+                } else { writer.stream(stream, didOutputSampleBuffer: timed, of: .screen) }
+            }
             try checkInterruption()
             if refusesAfterDelivery { throw CaptureFailure("INPUT_START_FAILED", "Prerecorded partial start") }
         }
@@ -85,7 +121,10 @@ final class PrerecordedCaptureInput: CaptureInputSession {
                     if index != omittedAudioBuffer {
                         let raw = try captureFixtureRetimed(sample,
                             at: CMTimeAdd(time(microseconds: origin + 100001), sample.presentationTimeStamp))
-                        writer.queue.sync { writer.stream(stream, didOutputSampleBuffer: raw, of: role) }
+                        writer.queue.sync {
+                            if let probe { probe.accept(try! rawProbeSample(raw), role: .microphone, from: sourceClock) }
+                            else { writer.stream(stream, didOutputSampleBuffer: raw, of: role) }
+                        }
                         if role == audioRoles.first {
                             let format = CMAudioFormatDescriptionGetStreamBasicDescription(sample.formatDescription!)!.pointee
                             expectedRate = Int64(format.mSampleRate)
@@ -122,10 +161,26 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             if waitUs > 0 { try await Task.sleep(for: .microseconds(waitUs)) }
         }
     }
+    func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure? {
+        finalizations += 1; finalClock = clock
+        if let probe {
+            try? probe.close()
+            return await probe.camera.finish(clock: clock, failure: failure ?? companionFailure, observations: probe.observationURL)
+        }
+        return companionFailure
+    }
+    func discardMedia() async {
+        discards += 1
+        probe?.camera.discard()
+        try? probe?.close()
+    }
     func startCursorSampling(writer: CaptureWriter) {}
     func observeDeviceLoss(onFailure: @escaping @Sendable (CaptureFailure) -> Void) {}
     func stop() async -> CaptureFailure? {
         stops += 1
+        if let probe, let finalCameraSample {
+            probe.writer.queue.sync { probe.accept(finalCameraSample, role: .camera, from: CMClockGetHostTimeClock()) }
+        }
         stopEntered.release()
         if holdStop { await releaseStop.wait() }
         return nil

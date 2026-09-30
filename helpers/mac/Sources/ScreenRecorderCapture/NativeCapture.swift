@@ -106,6 +106,7 @@ public final class NativeCapture {
             }
         } catch {
             _ = await prepared.stop()
+            await prepared.discardMedia()
             input = nil
             sink = nil
             throw (error as? CaptureFailure) ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
@@ -164,8 +165,11 @@ public final class NativeCapture {
                 sink.seal()
                 let inputFailure = await input?.stop()
                 failure = failure ?? inputFailure
+                let finished = await sink.finish(failure: failure)
+                let finalClock = sink.queue.sync { sink.ingressState.clock }
+                let companionFailure = await input?.finalizeMedia(clock: finalClock, failure: finished.failure)
+                closedResult = finished.withFailure(companionFailure)
                 input = nil
-                closedResult = await sink.finish(failure: failure)
             }
             guard let closedResult else { throw CaptureFailure("INVALID_STATE", "Writer did not close.") }
             var result = try await publish(closedResult, from: sink)
@@ -255,6 +259,7 @@ public final class NativeCapture {
             state = .finalizing
             if closedResult == nil { sink.cancel() }
             _ = await input?.stop()
+            await input?.discardMedia()
             input = nil
             outputSize = nil
             self.sink = nil

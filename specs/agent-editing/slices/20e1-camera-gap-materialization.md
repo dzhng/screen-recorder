@@ -1,8 +1,10 @@
 # 20e1 — Verify camera gap materialization
 
-Status: scoped retained-file edit-list/membership feasibility verified;
-[evidence](../assets/20e1-camera-gap-materialization/README.md). Durable mapping/replay
-and positive public color-admitted source remain unverified. Owning contract: [20e](20e-selected-device-probe.md).
+Status: retained-file mechanism plus durable mapping/replay verified;
+[implementation evidence](../assets/20e-selected-device-probe/README.md). A separate
+unchanged709 input passes public source consumers; the original SMPTE-C refusal
+remains preserved in the [feasibility evidence](../assets/20e1-camera-gap-materialization/README.md).
+Owning contract: [20e](20e-selected-device-probe.md).
 Dependencies: [20d](20d-capture-publication.md)'s verified canonical publication primitives.
 
 ## Question and retained failure
@@ -67,7 +69,7 @@ Missing physical tail may publish only its verified prefix, never guessed suppor
 One prepared publication receipt binds input identities, closure identity, represented
 prefix, support/picture verification, canonical identity and its private candidate
 locator. Persist it before linking the verified candidate to `video.mov`, using
-NewFile's no-replacement primitive. Replay verifies the existing canonical identity
+NewFile's no-replacement primitive. Replay verifies the existing canonical content identity
 or resumes that exact retained candidate; conflicts never overwrite another file.
 Cancellation/failure keeps raw bytes and mapping. No generalized recovery framework,
 new production camera role, audio-publication branch or alternate state machine is
@@ -76,7 +78,7 @@ audio publication, with earlier failures taking precedence.
 
 Offline checks must cover normal sparse publication, exact rational60fps boundaries,
 repeat publication, interrupted receipt/link boundary, changed inputs/output conflict,
-truncated raw, torn mapping, missing mapping after an accepted raw frame, canceled
+truncated raw (truthful refusal when no physical prefix is decodable), torn mapping, missing mapping after an accepted raw frame, canceled
 work and recovered prefix. The physical input layer remains unexecuted. Public
 SMPTE-C refusal remains an explicit separate admitted-source gate: passthrough must
 preserve color metadata and may not retag or relax VideoColorPolicy.

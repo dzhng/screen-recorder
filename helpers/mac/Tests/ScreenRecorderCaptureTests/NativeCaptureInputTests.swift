@@ -14,6 +14,7 @@ func runNativeCaptureInputTests() async throws {
     try await RecoveryFixture.writeVariableDurationVideo(to: source,
         timesUs: [0, 100_000, 200_000], endUs: 300_000)
     let failed = PrerecordedCaptureInput(source: source, refusesAfterDelivery: true)
+    failed.probeDirectory = root.appendingPathComponent("failed")
     let healthy = PrerecordedCaptureInput(source: source)
     var inputs = [failed, healthy]
     let capture = NativeCapture(prepareInput: { _ in inputs.removeFirst() })
@@ -23,18 +24,26 @@ func runNativeCaptureInputTests() async throws {
     }
     do { try await capture.start(request("failed")); preconditionFailure("Partial input must refuse") }
     catch let error as CaptureFailure { precondition(error.code == "INPUT_START_FAILED") }
-    precondition(failed.stops == 1 && capture.deviceState == "idle")
+    precondition(failed.stops == 1 && failed.discards == 1 && failed.finalizations == 0 && capture.deviceState == "idle")
     try await capture.start(request("healthy"))
     failed.onFailure?(CaptureFailure("STALE_DEVICE_LOSS", "Old input callback"))
     await Task.yield()
     precondition(capture.deviceState == "recording")
+    try capture.pause()
     let result = try await capture.stop()
     precondition(result.state == "complete" && result.failure == nil && healthy.stops == 1)
+    precondition(healthy.finalizations == 1 && healthy.discards == 0 && healthy.finalClock?.isPaused == false)
     precondition(result.cursor.sampled == 0, "Prerecorded input cannot acquire the live cursor")
     let recovered = try await MediaRecovery.recover(directory: root.appendingPathComponent("healthy").path)
     precondition(recovered.journalFailure == nil)
     precondition(recovered.durationUs == result.durationUs && result.durationUs >= 300_000)
     precondition(capture.deviceState == "idle")
+    let discarded = PrerecordedCaptureInput(source: source)
+    discarded.probeDirectory = root.appendingPathComponent("discarded")
+    let discardedCapture = NativeCapture(prepareInput: { _ in discarded })
+    try await discardedCapture.start(request("discarded"))
+    await discardedCapture.discard()
+    precondition(discarded.stops == 1 && discarded.discards == 1 && discarded.finalizations == 0)
     print("PASS actual NativeCapture closes prerecorded writer, tears down partial input, ignores stale generation, and acquires no live cursor")
 }
 
@@ -100,6 +109,7 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
                         .write(to: folder.appendingPathComponent("publication-error.json"))
                     throw error
                 }
+                precondition(input.finalizations == 1 && input.discards == 0, "Publication retry must not refinalize companion media")
                 precondition(retried.state == (mode == "unreadable-packed" ? "interrupted" : "complete"))
                 try JSONEncoder().encode(retried).write(to: folder.appendingPathComponent("capture-result.json"))
                 capture = nil

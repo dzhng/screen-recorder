@@ -31,6 +31,17 @@ func runCaptureProbe(_ arguments: [String]) async {
     }
     do {
         switch arguments.first {
+        case "selected-devices":
+            guard arguments.count >= 2 && arguments.count <= 3 else {
+                throw CaptureFailure("INVALID_REQUEST", "Pass selected-device action and optional request path.")
+            }
+            let data = try await SelectedCaptureProbe.run(action: arguments[1],
+                requestPath: arguments.count == 3 ? arguments[2] : nil)
+            FileHandle.standardOutput.write(data + Data([10]))
+            if arguments[1] == "capture" {
+                let result = try JSONDecoder().decode(CaptureResult.self, from: data)
+                finishProbe(result.failure == nil ? 0 : 1)
+            }
         case "fixture-window":
             fixtureWindow = makeCaptureFixtureWindow()
             try emit(["windowID": fixtureWindow!.windowNumber])

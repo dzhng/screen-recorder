@@ -154,3 +154,13 @@ public struct CaptureResult: Codable, Sendable {
     public let systemAudioScope: String
     public let cursor: CursorStats
 }
+
+// Companion measurement media can fail a take without changing its production track schema.
+extension CaptureResult {
+    package func withFailure(_ other: CaptureFailure?) -> CaptureResult {
+        guard failure == nil, let reason = other else { return self }
+        return CaptureResult(state: "interrupted", source: source, width: width, height: height,
+            durationUs: durationUs, hostOriginUs: hostOriginUs, pauses: pauses, tracks: tracks,
+            failure: reason, systemAudioScope: systemAudioScope, cursor: cursor, cleanupFailure: cleanupFailure)
+    }
+}

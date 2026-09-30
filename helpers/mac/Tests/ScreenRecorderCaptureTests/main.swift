@@ -1,6 +1,14 @@
 import Foundation
 
-if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_PROBE_REPLAY_OUTPUT"] {
+  try await runProbeCameraReplayTests(source: ProcessInfo.processInfo.environment["SCREENREC_PROBE_REPLAY_INPUT"] ?? "", output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_FRAME_OUTPUT"] {
+  try await runProbeFrameBoundary(output: output, sourcePath: ProcessInfo.processInfo.environment["SCREENREC_SELECTED_ADMITTED_SOURCE"])
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_PROBE_OUTPUT"] {
+  try runSelectedCaptureRequestTests()
+  try await runSelectedCaptureMediaTests(output: output,
+    corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "")
+} else if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   runCaptureJournalLeaseChild(directory: CommandLine.arguments[1])
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_NATIVE_PUBLICATION_OUTPUT"] {
   try await runNativeCapturePublicationProbe(output: output,
@@ -33,6 +41,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
 {
   try await runCaptureAudioGapProbe(output: output, corpus: corpus)
 } else {
+  try runSelectedCaptureRequestTests()
   try await runFractionalRecoveryDurationTest()
   try await runCaptureDurationTests()
   try await runNativeCaptureInputTests()

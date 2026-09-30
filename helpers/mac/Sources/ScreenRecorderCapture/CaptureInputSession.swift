@@ -3,7 +3,7 @@ import CoreGraphics
 import Foundation
 @preconcurrency import ScreenCaptureKit
 
-/// Owns physical input and observations only; media closure and publication outlive this session.
+/// Acquires inputs; NativeCapture orders physical drain and optional companion-media closure.
 @MainActor
 package protocol CaptureInputSession: AnyObject {
     var width: Int { get }
@@ -14,6 +14,13 @@ package protocol CaptureInputSession: AnyObject {
     func startCursorSampling(writer: CaptureWriter)
     func observeDeviceLoss(onFailure: @escaping @Sendable (CaptureFailure) -> Void)
     func stop() async -> CaptureFailure?
+    func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure?
+    func discardMedia() async
+}
+
+extension CaptureInputSession {
+    package func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure? { nil }
+    package func discardMedia() async {}
 }
 
 @MainActor
@@ -26,6 +33,8 @@ package final class ScreenCaptureInput: CaptureInputSession {
     private let filter: SCContentFilter
     private let crop: CGRect?
     private let microphone: AVCaptureDevice?
+    package var probeOutput: (any SCStreamOutput)?
+    package var probeFramesPerSecond: Int?
     private var streams: [SCStream] = []
     private var delegate: CaptureStreamDelegate?
     private var microphoneObserver: NSObjectProtocol?
@@ -139,7 +148,7 @@ package final class ScreenCaptureInput: CaptureInputSession {
         let config = SCStreamConfiguration()
         config.width = width
         config.height = height
-        config.minimumFrameInterval = CMTime(value: 1, timescale: 30)
+        config.minimumFrameInterval = CMTime(value: 1, timescale: Int32(probeFramesPerSecond ?? 30))
         config.queueDepth = 3
         config.showsCursor = false
         config.showMouseClicks = false
@@ -153,9 +162,9 @@ package final class ScreenCaptureInput: CaptureInputSession {
         config.captureMicrophone = request.microphone
         config.microphoneCaptureDeviceID = microphone?.uniqueID
         let video = SCStream(filter: filter, configuration: config, delegate: delegate)
-        try video.addStreamOutput(writer, type: .screen, sampleHandlerQueue: writer.queue)
+        try video.addStreamOutput(probeOutput ?? writer, type: .screen, sampleHandlerQueue: writer.queue)
         if request.microphone {
-            try video.addStreamOutput(writer, type: .microphone, sampleHandlerQueue: writer.queue)
+            try video.addStreamOutput(probeOutput ?? writer, type: .microphone, sampleHandlerQueue: writer.queue)
         }
         var prepared = [video]
         if request.systemAudio {

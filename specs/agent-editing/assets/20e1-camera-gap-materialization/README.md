@@ -57,11 +57,10 @@ directory. The archive retains hashes for executable, linked objects, owner sour
 and frozen native worker. The experiment's exit1 precedes the approved owner
 reinspection's exit0; it must not be relabeled as an initially passing public gate.
 
-Next: review a streamed, durable camera mapping and the same closure/replay owner
-before implementation, then prove interrupted recovery/publication and an actually
-admitted positive source. No persistent authorization token, production camera
-schema, second audio writer, live action, installation or permission prompt follows
-from this result.
+The subsequent [offline implementation](../20e-selected-device-probe/README.md)
+verifies durable mapping/replay and a separate unchanged709 input through public
+source consumers. This retained SMPTE-C candidate remains refused. Neither result
+authorizes a physical action or closes parent20/21.
 
 Independent Codex artifact-only review rehashed all88 archive members and checked
 complete pixel/timestamp comparisons and18 membership rows against the reports:

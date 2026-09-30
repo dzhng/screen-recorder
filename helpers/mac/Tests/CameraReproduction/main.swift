@@ -70,7 +70,10 @@ private func documentedClocks(_ screen: SCStream, _ camera: AVCaptureSession) ->
 struct CameraReproduction {
   static func main() async {
     do {
-      if CommandLine.arguments.count == 3 && CommandLine.arguments[1] == "--sparse-storage" {
+      if CommandLine.arguments.count == 3 && CommandLine.arguments[1] == "--selected-validate" {
+        let data = try await SelectedCaptureProbe.run(action: "validate", requestPath: CommandLine.arguments[2])
+        try FileHandle.standardOutput.write(contentsOf: data + Data([10]))
+      } else if CommandLine.arguments.count == 3 && CommandLine.arguments[1] == "--sparse-storage" {
         try await runSparseStorageProbe(request: CommandLine.arguments[2])
       } else {
         try await run()
