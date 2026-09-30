@@ -9,7 +9,8 @@ labels. The short-word coverage requirement is still open.
 The user accepts the [revised paused reference's placement](../13a-word-boundary-correction/listening.json).
 Its digital-silence discontinuity is explicitly not an accepted editorial
 pause treatment. The [corrected selections](../13a-corrected-selections/README.md)
-are now rendered and numerically verified; their A–D listening check is pending.
+are rendered and numerically verified; the user explicitly passes all four
+[corrected A–D comparisons](../13a-corrected-selections/listening.json).
 Old media keep their own verdicts and are not proof for the changed selection.
 The user's background-audio preference is represented by independent room-tone
 and noise-reduction workflows in the contracts and live journey inventory.

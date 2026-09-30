@@ -1,0 +1,31 @@
+{
+  "userReply": "all pass",
+  "rubric": "Words complete and joins natural for corrected-boundary clips A\u2013D",
+  "scope": "These four exact corrected selections only. No denoise/room-tone policy, stereo/long-duration behavior or public retiming integration acceptance inferred.",
+  "candidates": [
+    {
+      "label": "A",
+      "path": "internal-slower-0.8x.wav",
+      "sha256": "53da1582ea82e3d6bb4ba16d9f7c75f978f838d28dd1f1e05b501bb0a5aeccc7",
+      "verdict": "PASS"
+    },
+    {
+      "label": "B",
+      "path": "internal-slower-0.9x.wav",
+      "sha256": "7976c41a5baee64364d2d0e29b0e245edd9e2289bf7cb4f365e716668d1fd5f7",
+      "verdict": "PASS"
+    },
+    {
+      "label": "C",
+      "path": "internal-faster-1.25x.wav",
+      "sha256": "e7f503076395887d6add5ea9dd526bce0832c8713d1696e3cef8df7872d12821",
+      "verdict": "PASS"
+    },
+    {
+      "label": "D",
+      "path": "opening-slower-0.8x.wav",
+      "sha256": "e4b6feb207be322940eca8ff59d1bfe479ca15f46f442d32652b823694df6bb0",
+      "verdict": "PASS"
+    }
+  ]
+}

@@ -36,3 +36,8 @@ Independent read-only verification rehashed retained files and owners, checked
 the original/selected/poison PCM and all unchanged spans, and remeasured tone
 pitch through the existing estimator. All checks pass; listening stays pending
 for each of the four changed files.
+
+The user replied **all pass** to the corrected A–D word-completeness and natural-join
+rubric. [The listening record](listening.json) pins all four verdicts to exact file
+hashes. This supersedes pending listening status in the historical numerical
+report; it does not accept untested settings or public integration.

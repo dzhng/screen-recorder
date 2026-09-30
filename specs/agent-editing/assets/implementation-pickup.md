@@ -19,8 +19,8 @@ Root rehashed312 members and200 source identities, then reran cadence, media,
 replay and stop checks. Capture-pause-recovery has completed this pass.
 
 Next resolve13a's [corrected-boundary candidates](13a-corrected-selections/README.md).
-Their A–D listening check is pending; old naturalness passes stay attached to old
-media. The user accepts revised boundary placement but leaves room-tone fill and
+Their A–D listening check now passes explicitly; old naturalness passes stay
+attached to old media. The user accepts revised boundary placement but leaves room-tone fill and
 noise reduction as independent editorial choices. The new pause workflows use
 existing public primitives and must preserve that choice.
 

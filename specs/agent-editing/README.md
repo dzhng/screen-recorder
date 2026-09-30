@@ -30,8 +30,12 @@ including exact untouched PCM, bypass/undo and preview/export. Root reran the
 combined journey and verified23 archive members/80 exchanges. Real-voice
 continuity and independent video scope remain unverified. The
 [corrected short-word/internal-rate selections](assets/13a-corrected-selections/README.md)
-now pass numerical/source-isolation checks and await the A–D listening verdict.
-Do not promote old naturalness passes to new media.14 remains gated on13a.
+now pass numerical/source-isolation checks and [A–D listening](assets/13a-corrected-selections/listening.json).
+Preserve these exact selections and the frozen recipe. Next reconcile13a
+acceptance evidence, then implement14 through retained audio contexts and the
+existing prepared-audio owner. Stereo, long-run/cancellation, pitch-follow and
+public linked/unlinked delivery remain unverified; do not turn research bounds
+into product restrictions.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified
