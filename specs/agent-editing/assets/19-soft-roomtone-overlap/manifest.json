@@ -1,0 +1,54 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 3130,
+      "sha256": "33f57dfd0545bc308b452ec33412377f8c435fcb473ec43f5381f3c6a90239ce"
+    },
+    "assemble.mjs": {
+      "bytes": 10694,
+      "sha256": "69fa51681e6dd0ceda29ed95e7dfe496c426d2ef0a3ad61ede6795b420ec8838"
+    },
+    "choices.md": {
+      "bytes": 2432,
+      "sha256": "4986561ed969ac8b48767d2981c38187d9c5cc9bb481cebf592a6af27c062bdb"
+    },
+    "exchanges.json.gz": {
+      "bytes": 7058405,
+      "sha256": "e8d2aff4ee2cb0944903d1c95889b54dc3666bc83251926091e19b3f02407e83"
+    },
+    "loop-monitor-plus24db.wav": {
+      "bytes": 2308096,
+      "sha256": "674f8b5f7f800876e561ba4479e5350f77c9410732789459cfba273235547771"
+    },
+    "loop.wav": {
+      "bytes": 2308096,
+      "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55"
+    },
+    "oracle-control.json": {
+      "bytes": 819,
+      "sha256": "07b7a8af1a7fb0f7c5456688732c4d240e1732d3b47efb4359b6f5fb3bbce514"
+    },
+    "report.json": {
+      "bytes": 122912,
+      "sha256": "36ba640f79665b625b741dff09f0a893db0d0a5dd53e52c684f4c1508e2b46bd"
+    },
+    "review.md": {
+      "bytes": 1880,
+      "sha256": "e8c9f4c258bf4b99b4ee0d7cf9546c4fff21a7fdb002a3ecb38c23e677a82f72"
+    },
+    "service.log": {
+      "bytes": 169,
+      "sha256": "77844f1e19c5810809364f65ffdb8897db0c3afdc64cd7d782f223edb462656c"
+    }
+  },
+  "preservedEarlierPacket": {
+    "assemble.mjs": "8c6178984e582f337677ceeec8882d99172a8da57fc77545dcad3f49c7414f7b",
+    "exchanges.json.gz": "55d630b2bcd0ed1274a8bcc04c2beb5c887d50ae910428791dfb3bfa7660dc42",
+    "loop-monitor-plus24db.wav": "23bbe8eebcb57f8410daefb1ba2418621abac20ae473bf3710c79b598b3d5493",
+    "loop.wav": "1619ff735b564740fb58f7b546f928853515e93c7cb2e8aa9e3daa3e12344dec",
+    "manifest.json": "449777c09e5187cecd97b9208697e6693f586655f7f4f1194d919178546cd081",
+    "report.json": "3f57776ac5a2123c58ed6e179b3b8960376ce7329d99c17adb1248727c97fe36",
+    "source-region-stereo.wav": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+    "source-region.wav": "adeda280ae0359de7aa624c52600c92572b9fd89434a0277731c2339d9c9e8d1"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "purpose": "Confirm complete PCM assertion can reject an incorrect oracle rather than accepting delivered bytes by construction.",
+  "productionChanged": false,
+  "mutation": "Scratch oracle multiplies every admitted gain by1.01; complementary-weight assertion disabled only in scratch to reach full PCM assertion.",
+  "expectedExit": 1,
+  "actualExit": 1,
+  "failure": "Complete PCM mismatch0.00007281377408345328",
+  "tolerance": 1e-07,
+  "mutatedAssemblerSha256": "6689ef249ecf77fb88e3e06cd3664246bc1f4d0e949a40a2f24244cbfded8e0d",
+  "normalLoopSha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55",
+  "mutatedOracleStillReceivedUnchangedPublicLoop": true,
+  "restoredFinalAssemblerSha256": "69fa51681e6dd0ceda29ed95e7dfe496c426d2ef0a3ad61ede6795b420ec8838",
+  "restoredPublicPass": true
+}

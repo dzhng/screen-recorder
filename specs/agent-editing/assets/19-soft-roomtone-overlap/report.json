@@ -1,0 +1,5212 @@
+{
+  "passed": true,
+  "listening": "pending",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "deliveries": {
+    "source-dry": {
+      "sha256": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+      "pcmSha256": "5a38eaa64fffa07e51ace1ca7b6c1ac21bfbfa3b831fcad2c23f0dda523415f3",
+      "frames": 24000,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true
+    },
+    "loop": {
+      "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55",
+      "pcmSha256": "fec8a456e9443250b3c940ec9cf22f149dd4732f1e6d9343f53f0f9007cf740c",
+      "frames": 288000,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true
+    },
+    "loop-monitor-plus24db": {
+      "sha256": "674f8b5f7f800876e561ba4479e5350f77c9410732789459cfba273235547771",
+      "pcmSha256": "b5783a2a6f1c992e06a783760b58d56b9a75cfb54f5c6bc5be4a37323591ce9a",
+      "frames": 288000,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true
+    },
+    "loop-undo-gain": {
+      "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55",
+      "pcmSha256": "fec8a456e9443250b3c940ec9cf22f149dd4732f1e6d9343f53f0f9007cf740c",
+      "frames": 288000,
+      "sampleRate": 48000,
+      "channels": 2,
+      "mcpMatchesCLI": true
+    }
+  },
+  "source": {
+    "path": "/private/tmp/screenrec-protected-sentence-audition-20260930/specs/agent-editing/assets/19-clean-roomtone/source-region-stereo.wav",
+    "sha256": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+    "provenance": "../19-clean-roomtone/report.json"
+  },
+  "workerSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "assemblerSha256": "69fa51681e6dd0ceda29ed95e7dfe496c426d2ef0a3ad61ede6795b420ec8838",
+  "runtime": {
+    "node": "v24.14.0",
+    "files": {
+      "apps/cli/dist/main.js": "c59e8a3929f7ade8492db7dc1cd701e819773a979c2d368767e24dac99c3f7ee",
+      "apps/service/dist/project-service.js": "b2b42761d046d35adb4c738adce7200d4b18ac90ab7f91bc577a650e5f79d077",
+      "apps/service/dist/worker.js": "e740005682937b36cb9376dd1e16c12a74dceb7eb243ead5d0f30fbef9707fdf",
+      "packages/core/dist/projects.js": "d24b0f24373f95d66f8bf320415ddf84fd82d093902938675b5e7d94e76cd1b2",
+      "packages/core/dist/audio.js": "4e0530e0bf93ea77b2658ee1804559d93c2afc25c009c6e3ff82ab8f7cf2a61e",
+      "packages/core/dist/audio-wave.js": "12452c5685bd4982069ca36dd3740de90379ebe3d9aeda33ba0b154a5605f7c6",
+      "packages/test-harness/editing/source-evidence-fixture.mjs": "290cee7ef453be66b54162abd89eb5eee77c63bd50581be94126bad3e749af67",
+      "packages/test-harness/editing/source-acquisition-service.mjs": "81b02f351a45b4f6e24605dcb36cb5aa7b678a48868cbcf98d88cfdc362d3f0a"
+    }
+  },
+  "scope": "Same retained region, longer authored equal-power overlaps. Speech-free character and seams require new independent listening; no auditory fix is claimed.",
+  "checks": {
+    "drySourcePCMExact": true,
+    "immutableSource": true,
+    "immutableWorker": true,
+    "occurrences": [
+      {
+        "startUs": 0,
+        "endUs": 500000
+      },
+      {
+        "startUs": 300000,
+        "endUs": 800000
+      },
+      {
+        "startUs": 600000,
+        "endUs": 1100000
+      },
+      {
+        "startUs": 900000,
+        "endUs": 1400000
+      },
+      {
+        "startUs": 1200000,
+        "endUs": 1700000
+      },
+      {
+        "startUs": 1500000,
+        "endUs": 2000000
+      },
+      {
+        "startUs": 1800000,
+        "endUs": 2300000
+      },
+      {
+        "startUs": 2100000,
+        "endUs": 2600000
+      },
+      {
+        "startUs": 2400000,
+        "endUs": 2900000
+      },
+      {
+        "startUs": 2700000,
+        "endUs": 3200000
+      },
+      {
+        "startUs": 3000000,
+        "endUs": 3500000
+      },
+      {
+        "startUs": 3300000,
+        "endUs": 3800000
+      },
+      {
+        "startUs": 3600000,
+        "endUs": 4100000
+      },
+      {
+        "startUs": 3900000,
+        "endUs": 4400000
+      },
+      {
+        "startUs": 4200000,
+        "endUs": 4700000
+      },
+      {
+        "startUs": 4500000,
+        "endUs": 5000000
+      },
+      {
+        "startUs": 4800000,
+        "endUs": 5300000
+      },
+      {
+        "startUs": 5100000,
+        "endUs": 5600000
+      },
+      {
+        "startUs": 5400000,
+        "endUs": 5900000
+      },
+      {
+        "startUs": 5700000,
+        "endUs": 6000000
+      }
+    ],
+    "admittedCurves": [
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 10000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 308333,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 316667,
+          "value": 0.9914445196536407,
+          "interpolation": "linear"
+        },
+        {
+          "at": 325000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 333333,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 341667,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 350000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 358333,
+          "value": 0.8968738994386981,
+          "interpolation": "linear"
+        },
+        {
+          "at": 366667,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 375000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 383333,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 391667,
+          "value": 0.7518380813130936,
+          "interpolation": "linear"
+        },
+        {
+          "at": 400000,
+          "value": 0.7071067811865476,
+          "interpolation": "linear"
+        },
+        {
+          "at": 408333,
+          "value": 0.6593477834098226,
+          "interpolation": "linear"
+        },
+        {
+          "at": 416667,
+          "value": 0.6087593520124466,
+          "interpolation": "linear"
+        },
+        {
+          "at": 425000,
+          "value": 0.5555702330196023,
+          "interpolation": "linear"
+        },
+        {
+          "at": 433333,
+          "value": 0.5000022672474919,
+          "interpolation": "linear"
+        },
+        {
+          "at": 441667,
+          "value": 0.44228634221013896,
+          "interpolation": "linear"
+        },
+        {
+          "at": 450000,
+          "value": 0.38268343236508984,
+          "interpolation": "linear"
+        },
+        {
+          "at": 458333,
+          "value": 0.321441944359342,
+          "interpolation": "linear"
+        },
+        {
+          "at": 466667,
+          "value": 0.25881651631373404,
+          "interpolation": "linear"
+        },
+        {
+          "at": 475000,
+          "value": 0.19509032201612853,
+          "interpolation": "linear"
+        },
+        {
+          "at": 483333,
+          "value": 0.130528787816182,
+          "interpolation": "linear"
+        },
+        {
+          "at": 491667,
+          "value": 0.06540051684136687,
+          "interpolation": "linear"
+        },
+        {
+          "at": 500000,
+          "value": 6.123233995736766e-17,
+          "interpolation": "linear"
+        }
+      ],
+      [
+        {
+          "at": 0,
+          "value": 0,
+          "interpolation": "linear"
+        },
+        {
+          "at": 8333,
+          "value": 0.06540051684136679,
+          "interpolation": "linear"
+        },
+        {
+          "at": 16667,
+          "value": 0.1305287878161817,
+          "interpolation": "linear"
+        },
+        {
+          "at": 25000,
+          "value": 0.19509032201612825,
+          "interpolation": "linear"
+        },
+        {
+          "at": 33333,
+          "value": 0.258816516313734,
+          "interpolation": "linear"
+        },
+        {
+          "at": 41667,
+          "value": 0.3214419443593419,
+          "interpolation": "linear"
+        },
+        {
+          "at": 50000,
+          "value": 0.3826834323650898,
+          "interpolation": "linear"
+        },
+        {
+          "at": 58333,
+          "value": 0.4422863422101389,
+          "interpolation": "linear"
+        },
+        {
+          "at": 66667,
+          "value": 0.5000022672474917,
+          "interpolation": "linear"
+        },
+        {
+          "at": 75000,
+          "value": 0.5555702330196022,
+          "interpolation": "linear"
+        },
+        {
+          "at": 83333,
+          "value": 0.6087593520124465,
+          "interpolation": "linear"
+        },
+        {
+          "at": 91667,
+          "value": 0.6593477834098224,
+          "interpolation": "linear"
+        },
+        {
+          "at": 100000,
+          "value": 0.7071067811865475,
+          "interpolation": "linear"
+        },
+        {
+          "at": 108333,
+          "value": 0.7518380813130934,
+          "interpolation": "linear"
+        },
+        {
+          "at": 116667,
+          "value": 0.7933549340222107,
+          "interpolation": "linear"
+        },
+        {
+          "at": 125000,
+          "value": 0.8314696123025452,
+          "interpolation": "linear"
+        },
+        {
+          "at": 133333,
+          "value": 0.8660240947845318,
+          "interpolation": "linear"
+        },
+        {
+          "at": 141667,
+          "value": 0.896873899438698,
+          "interpolation": "linear"
+        },
+        {
+          "at": 150000,
+          "value": 0.9238795325112867,
+          "interpolation": "linear"
+        },
+        {
+          "at": 158333,
+          "value": 0.9469292879653083,
+          "interpolation": "linear"
+        },
+        {
+          "at": 166667,
+          "value": 0.9659265038724337,
+          "interpolation": "linear"
+        },
+        {
+          "at": 175000,
+          "value": 0.9807852804032304,
+          "interpolation": "linear"
+        },
+        {
+          "at": 183333,
+          "value": 0.9914445196536406,
+          "interpolation": "linear"
+        },
+        {
+          "at": 191667,
+          "value": 0.9978590944601758,
+          "interpolation": "linear"
+        },
+        {
+          "at": 200000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 290000,
+          "value": 1,
+          "interpolation": "linear"
+        },
+        {
+          "at": 300000,
+          "value": 0,
+          "interpolation": "linear"
+        }
+      ]
+    ],
+    "maxSampleError": 5.940271686002974e-10,
+    "gainSquareBound": 0.001070709613529389,
+    "maxGainSquareError": 0.0010707096125295301,
+    "diagnosticGainDb": 24,
+    "diagnosticPeak": 0.11540257930755615,
+    "maxGainError": 7.450580596923828e-9,
+    "undoGainExact": true,
+    "speechFree": "pending listening",
+    "loopSeams": "pending listening"
+  }
+}
