@@ -6,6 +6,10 @@ Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verif
 
 Establish a measured shared-clock strategy for simultaneous screen, camera and microphone capture before integrating webcam support.
 
+The [digest cost audit](../assets/20e-camera-digest-components/README.md) preserves
+full-picture parity in two isolated release publications. Their context-specific
+latency still exceeds ten seconds; no new production fix or physical pass follows.
+
 ## Seam and ownership
 
 Feature-owned native capture reproduction using ScreenCaptureKit and AVCaptureSession candidates. Emit separate source tracks plus timing observations; no presenter layout is baked into captured pixels.
@@ -56,4 +60,3 @@ If clocks cannot be reconciled directly, reproduce explicit measured source offs
 Delegated: Native capture synchronization mechanism selected by measurements. Separate sources, truthful gaps and existing recording controls are fixed.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-

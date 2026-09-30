@@ -4781,3 +4781,16 @@ annotation tool, not editorial approval or product APIs. Sound because a prior
 confirmation cannot silently cover newly changed marks and a save error does
 not discard listening work. The delegated [UI audit](assets/12d-marking-page-ui/choices.md)
 retains the full rationale.
+
+### Diagnostic movie evidence retains exact date patches — sound, high confidence
+
+When: camera digest cost audit, 2026-09-30. Two temporary canonical movies were
+verified byte for byte against an already retained base. Only six container date
+fields differed. The audit stores those exact date bytes and both observed full
+file hashes; replacing those fields in the retained base reproduces each hash
+exactly. The temporary copies were then removed, freeing test scratch space.
+The plan did not choose storage for this new diagnostic evidence. This preserves
+the actual observed files without keeping duplicate large movies on the nearly
+full disk. Future verification must use the pinned base and recorded patches;
+no image, time, codec or production publication policy is changed. Sound because
+full equality and reconstruction were proven before cleanup.

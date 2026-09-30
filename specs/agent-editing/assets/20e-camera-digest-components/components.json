@@ -1,0 +1,147 @@
+{
+  "scope": "Diagnostic first128-picture raw prefix only",
+  "sourceSha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0",
+  "prefixHashParity": true,
+  "rows": [
+    {
+      "frames": 128,
+      "geometry": [
+        {
+          "height": 1080,
+          "stride": 7680,
+          "width": 1920
+        }
+      ],
+      "picturePrefixSha256": "cc42d539888d5fa5662f308fa25124fc77aa3d8a373749944479ec2d7854c177",
+      "pixelBytes": 1061683200,
+      "scope": "First128 raw decoded pictures only; no export/capture/playback; no whole-publication or live-stop acceptance",
+      "shaUpdateCalls": 128,
+      "timeScale": 1000000,
+      "timestampEndpoints": [
+        0,
+        7176930
+      ],
+      "timingSeconds": {
+        "decode": 0.020982077,
+        "lock": 0.000145743,
+        "metadata": 0.000313204,
+        "pixels": 0.329413662,
+        "total": 0.358199292,
+        "unlock": 0.000152664
+      },
+      "mode": "debug"
+    },
+    {
+      "frames": 128,
+      "geometry": [
+        {
+          "height": 1080,
+          "stride": 7680,
+          "width": 1920
+        }
+      ],
+      "picturePrefixSha256": "cc42d539888d5fa5662f308fa25124fc77aa3d8a373749944479ec2d7854c177",
+      "pixelBytes": 1061683200,
+      "scope": "First128 raw decoded pictures only; no export/capture/playback; no whole-publication or live-stop acceptance",
+      "shaUpdateCalls": 128,
+      "timeScale": 1000000,
+      "timestampEndpoints": [
+        0,
+        7176930
+      ],
+      "timingSeconds": {
+        "decode": 0.022684751,
+        "lock": 0.000192173,
+        "metadata": 0.00014492,
+        "pixels": 0.336771298,
+        "total": 0.367815875,
+        "unlock": 0.00020625
+      },
+      "mode": "release"
+    },
+    {
+      "frames": 128,
+      "geometry": [
+        {
+          "height": 1080,
+          "stride": 7680,
+          "width": 1920
+        }
+      ],
+      "picturePrefixSha256": "cc42d539888d5fa5662f308fa25124fc77aa3d8a373749944479ec2d7854c177",
+      "pixelBytes": 1061683200,
+      "scope": "First128 raw decoded pictures only; no export/capture/playback; no whole-publication or live-stop acceptance",
+      "shaUpdateCalls": 128,
+      "timeScale": 1000000,
+      "timestampEndpoints": [
+        0,
+        7176930
+      ],
+      "timingSeconds": {
+        "decode": 0.025409798,
+        "lock": 0.000229288,
+        "metadata": 0.000181829,
+        "pixels": 0.342592543,
+        "total": 0.376399917,
+        "unlock": 0.000334582
+      },
+      "mode": "release"
+    },
+    {
+      "frames": 128,
+      "geometry": [
+        {
+          "height": 1080,
+          "stride": 7680,
+          "width": 1920
+        }
+      ],
+      "picturePrefixSha256": "cc42d539888d5fa5662f308fa25124fc77aa3d8a373749944479ec2d7854c177",
+      "pixelBytes": 1061683200,
+      "scope": "First128 raw decoded pictures only; no export/capture/playback; no whole-publication or live-stop acceptance",
+      "shaUpdateCalls": 128,
+      "timeScale": 1000000,
+      "timestampEndpoints": [
+        0,
+        7176930
+      ],
+      "timingSeconds": {
+        "decode": 0.027256875,
+        "lock": 0.000275748,
+        "metadata": 0.000803414,
+        "pixels": 0.349962746,
+        "total": 0.386603875,
+        "unlock": 0.000397666
+      },
+      "mode": "debug"
+    }
+  ],
+  "debugMeans": {
+    "decode": 0.024119476,
+    "lock": 0.00021074549999999998,
+    "metadata": 0.000558309,
+    "pixels": 0.339688204,
+    "total": 0.37240158349999997,
+    "unlock": 0.000275165
+  },
+  "releaseMeans": {
+    "decode": 0.0240472745,
+    "lock": 0.0002107305,
+    "metadata": 0.0001633745,
+    "pixels": 0.3396819205,
+    "total": 0.372107896,
+    "unlock": 0.000270416
+  },
+  "providerMeansSeconds": {
+    "cryptokit": 0.533358333,
+    "commoncrypto": 0.595839625
+  },
+  "productionChangeSelected": false,
+  "dispositions": {
+    "extraRowCoalescing": "Already one pixel SHA update per actual contiguous1920x1080 picture; no remaining row-loop amplification in sampled case",
+    "decoderCopyAndLock": "Measured lock/unlock too small to explain archived digest cost; disabling copies cannot honestly promise ten seconds",
+    "buildMode": "Prefix debug/release does not provide a speedup; full release publication still to be calibrated",
+    "hashProvider": "Same complete synthetic byte stream hashes identically, but CommonCrypto offers no measured speedup; no swap justified",
+    "skipFramesOrDigest": "Rejected: would weaken accepted full-picture verification"
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "scope": "Two offline current-owner release publications; no live-stop, physical timing or installed cutover acceptance",
+  "hardwareContext": "Near-full disk observed after runs; do not infer release-versus-prior-debug causation or a broad latency guarantee",
+  "trials": [
+    {
+      "measurement": {
+        "frames": 4428,
+        "passed": true,
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "publicationSeconds": 75.486619334
+      },
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publication-release-build-20260930/release/CameraPublicationBenchmark",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publication-release-20260930/release-1/result"
+        ],
+        "binarySha256": "a9153d97f63c17c6eea12240ec7ba55dff4ab14852c32953e5a8b8ba52bb1a14",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 64379,
+        "exitCode": 0,
+        "launcherSeconds": 76.48073624999961,
+        "peakRssBytes": 140607488
+      },
+      "receipt": {
+        "endUs": 246167243,
+        "raw": {
+          "bytes": "413607110",
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0"
+        },
+        "presentation": "native-bounded",
+        "candidate": ".screenrec-output-99E1259C-1C56-45E1-BA67-C64223449412/camera.mov",
+        "closed": {
+          "bytes": "97",
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd"
+        },
+        "diagnostics": [],
+        "canonical": {
+          "bytes": "413524069",
+          "sha256": "e0ac73d37571a49de1d89c946fdea7ce27557588f625bc56389e1f6b294cac5a"
+        },
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "observations": {
+          "bytes": "4097649",
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321"
+        },
+        "representedFrames": 4428,
+        "firstUs": 200000
+      },
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.718953042,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.718953042
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 38.162169292,
+          "digestSeconds": 29.915823205,
+          "cumulativeSeconds": 38.881122334
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 4.7605801660000004,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 43.6417025
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 30.990611167,
+          "digestSeconds": 28.298802798,
+          "cumulativeSeconds": 74.632313667
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 0.851696083,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 75.48400975
+        }
+      ]
+    },
+    {
+      "measurement": {
+        "frames": 4428,
+        "passed": true,
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "publicationSeconds": 81.019638458
+      },
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publication-release-build-20260930/release/CameraPublicationBenchmark",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publication-release-20260930/release-2/result"
+        ],
+        "binarySha256": "a9153d97f63c17c6eea12240ec7ba55dff4ab14852c32953e5a8b8ba52bb1a14",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 65035,
+        "exitCode": 0,
+        "launcherSeconds": 81.36224474999472,
+        "peakRssBytes": 136429568
+      },
+      "receipt": {
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "raw": {
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0",
+          "bytes": "413607110"
+        },
+        "observations": {
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321",
+          "bytes": "4097649"
+        },
+        "canonical": {
+          "sha256": "e66b87808dc55c937c4d238e2e4326d77f67df7909b62f965706b19176ad0ab6",
+          "bytes": "413524069"
+        },
+        "representedFrames": 4428,
+        "diagnostics": [],
+        "closed": {
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd",
+          "bytes": "97"
+        },
+        "candidate": ".screenrec-output-BD5B58F8-6075-4991-9B92-E3745898B232/camera.mov",
+        "firstUs": 200000,
+        "endUs": 246167243,
+        "presentation": "native-bounded"
+      },
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.283125666,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.283125666
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 38.479255417,
+          "digestSeconds": 33.92294274,
+          "cumulativeSeconds": 38.762381083
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 9.648505667,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 48.41088675
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 31.189587458,
+          "digestSeconds": 29.008532988,
+          "cumulativeSeconds": 79.600474208
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 1.41634075,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 81.016814958
+        }
+      ]
+    }
+  ],
+  "meanPublicationSeconds": 78.25312889599999,
+  "meanTimedDigestSeconds": 60.5730508655,
+  "tenSecondTargetPassed": false,
+  "sourceBodyMatchesCurrentRoot": true,
+  "fullPictureAndClockParity": true,
+  "canonicalDateOnlyComparison": "canonical-normalization.json",
+  "exactCanonicalReconstruction": "canonical-reconstruction.json",
+  "ownedResultTreesRemoved": true,
+  "productionChangeSelected": false
+}

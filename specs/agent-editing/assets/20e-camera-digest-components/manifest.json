@@ -1,0 +1,392 @@
+{
+  "scope": "Diagnostic evidence only; no new production/physical/stop acceptance",
+  "artifacts": [
+    {
+      "file": "README.md",
+      "bytes": 3906,
+      "sha256": "bc60bc7ae0ccf920e4a0b239fe93848235f588fa74967d24c4a0b105d1ecc072"
+    },
+    {
+      "file": "canonical-normalization.json",
+      "bytes": 8132,
+      "sha256": "2c1092a8e6db62668ed856721b57615ccaab5f075e7c63d9ba9a1da1f7bb9bfd"
+    },
+    {
+      "file": "canonical-reconstruction.json",
+      "bytes": 2020,
+      "sha256": "9a312930acf5e612afce1ae75a25339cf8dfb2856fb214199f3f98bc15c50aa3"
+    },
+    {
+      "file": "components.json",
+      "bytes": 4494,
+      "sha256": "fae44c516939eacddda7283cafe0f47876cc9669713f94bcc0efb53470126d01"
+    },
+    {
+      "file": "evidence.tar.xz",
+      "bytes": 79412,
+      "sha256": "d656afe6124fe572460406e1ad5047ea1a09a700ebf99b224579eb1603e4930f"
+    },
+    {
+      "file": "release-publication.json",
+      "bytes": 6132,
+      "sha256": "eed7a3d5eddb009a9ebbcdf7408051f3e7c17d9a1275e97be8d1c2db25fab761"
+    },
+    {
+      "file": "root-verification.json",
+      "bytes": 2001,
+      "sha256": "d6a401953cfef219c6c87cd97b8026a27c53aaf311097e0655574404cce53c7c"
+    }
+  ],
+  "archiveMembers": [
+    {
+      "path": "evidence/components/components.swift",
+      "bytes": 3413,
+      "sha256": "09ba46a1b56ea6d223c55c8643cdf86117320ed2ab24e2e107a1b1b66a7fb50a"
+    },
+    {
+      "path": "evidence/components/debug-1.json",
+      "bytes": 665,
+      "sha256": "10691b0427f30ccd75c8f21f6c9fea2b154e1a48a748d8e2cb586cdbd519d4f5"
+    },
+    {
+      "path": "evidence/components/debug-2.json",
+      "bytes": 665,
+      "sha256": "2ec992d9cd80ed38b5babb9a599d220e1c7fb84feb34ce3b4ffa6941bf5a9df6"
+    },
+    {
+      "path": "evidence/components/provider-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/components/providers.json",
+      "bytes": 1251,
+      "sha256": "4bae38132b94d99816837a1f3b9480647ed5fbebfbadb229c52fb8a6ff6c8c7e"
+    },
+    {
+      "path": "evidence/components/providers.swift",
+      "bytes": 1209,
+      "sha256": "a61ff85075a6220da74a8a29b67960195d0a9f817d39d1b5842caa3d9d519cab"
+    },
+    {
+      "path": "evidence/components/release-1.json",
+      "bytes": 665,
+      "sha256": "aceeb97af60492e7a3e7708bb46918eb9147cceaeabf5449e22aa3dda0da81f8"
+    },
+    {
+      "path": "evidence/components/release-2.json",
+      "bytes": 667,
+      "sha256": "1b1f851e8f6581c2e2a04997af426d8ff9f1f3bf469298a7f79ea91ad02d9d55"
+    },
+    {
+      "path": "evidence/components/review.md",
+      "bytes": 2449,
+      "sha256": "86ed2ab31d9e6a16e070696bc1dc43856125b4a8ed42d2c66e49697b4be7f5ca"
+    },
+    {
+      "path": "evidence/components/summary.json",
+      "bytes": 4494,
+      "sha256": "fae44c516939eacddda7283cafe0f47876cc9669713f94bcc0efb53470126d01"
+    },
+    {
+      "path": "evidence/publication/Package.swift",
+      "bytes": 363,
+      "sha256": "243baa47c48a29da357d2924e364ee70605ff277859ab3fb283d9f924bdd7bf6"
+    },
+    {
+      "path": "evidence/publication/Sources/CameraPublicationBenchmark/ProbeCameraPixelPublicationTests.swift",
+      "bytes": 3355,
+      "sha256": "99bf4db46164fefd1afc96b8faa9f8fad4b151935988b87a4ed2612dfb80fe4e"
+    },
+    {
+      "path": "evidence/publication/Sources/CameraPublicationBenchmark/main.swift",
+      "bytes": 2118,
+      "sha256": "9bc43999b3243c1d739847d0595893233fdb2bae6e810225a3edea6abbbb47bd"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift",
+      "bytes": 23857,
+      "sha256": "fb87c5c85b8d1c4be5aac7e190495e20eb538fd18dd7e4aee525acd84292d0aa"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureAudioPublication.swift",
+      "bytes": 20966,
+      "sha256": "468c81667ef89068dbd2b87a1a2d89f993cf725f9f341e3f95c094f5b2a4f1e3"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureClock.swift",
+      "bytes": 7697,
+      "sha256": "cf149b216739060494499b97110931e1d60cc0aeb4f4310693f28b97b52af346"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureExclusion.swift",
+      "bytes": 1179,
+      "sha256": "80774ca7a86a7b82d072d201a2e1891fa642d4296bcba6797f6d84b9432b6a26"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureGeneration.swift",
+      "bytes": 464,
+      "sha256": "a8bec021dd514fc3d55f693f9f3b02e5952304cd46150eb2259e94db2f98e00d"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureInputSession.swift",
+      "bytes": 12342,
+      "sha256": "c341cbde18eff789e7e3ea56c8e2d378a18d5220b3da86af0bf282944b117c44"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureJournal.swift",
+      "bytes": 33058,
+      "sha256": "966ad7634ba2265cdd23524fb7901645e6612ab2d414021008b9c6b276fe1dce"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureJournalLease.swift",
+      "bytes": 5007,
+      "sha256": "dca292503b892375da4622a0d41b06eb9b919a24eb29200cec87c35851e5fe6f"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CapturePCM.swift",
+      "bytes": 6629,
+      "sha256": "1ccd07f8535e42296bb1978f9d847a115027ea2bcac4360748695aa9b2cb07f0"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureTermination.swift",
+      "bytes": 1162,
+      "sha256": "c1e4daac4a36b4cf6de60036bda1b870b9c350e9e72ba83910b5b011afb8a0f5"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureTypes.swift",
+      "bytes": 6124,
+      "sha256": "0fad5f11cf27290d03984646fa21070b2bd305095bc867fc2a31e0a099f33837"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CaptureWriter.swift",
+      "bytes": 27998,
+      "sha256": "949b720916cd19ffbdbd5f546b12f050e7f92ba805e784389342b0396e189415"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/CursorGeometry.swift",
+      "bytes": 21105,
+      "sha256": "078a6edea8e0ac6bac3be0f50f346ddb0e550066e647b9ca64e49a3aeed3d821"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/HeldTailFrame.swift",
+      "bytes": 4567,
+      "sha256": "ec3a3c953efe6349a5fe31d75007aaf5d8bed0c35652c9a00f3ff82e73468acf"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/JournalPCM.swift",
+      "bytes": 4556,
+      "sha256": "3f9bf60d4a7014c749271b8ec563816f5d2a8849fe607fb46f0873288837e804"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/NativeCapture.swift",
+      "bytes": 13156,
+      "sha256": "faa88bb21132ec8bb6611cd2dfa4ce2462f04448ab276d8d44472f5705ccf80b"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/PCMContainerTime.swift",
+      "bytes": 1585,
+      "sha256": "da67ba33dc2257bd64f3a5ee88927be90aabe80f2a06d561d59d083f01bf6d6e"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/ProbeCameraMedia.swift",
+      "bytes": 17325,
+      "sha256": "02084fc37e9550bd0d653717db3396fbe0d7c8196785e75e2e5bd14d54a5fa4f"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/ProbeCameraWriter.swift",
+      "bytes": 8995,
+      "sha256": "0f03bf4f3b2511d56abbdebf945db93ca7f432d14d27e5662b3d65481fdde7e7"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/ProbeClockIngress.swift",
+      "bytes": 9130,
+      "sha256": "f36765663baefd706165a019f19ae4847bfb7bcee380f99e7ea798ac130566ae"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+      "bytes": 16045,
+      "sha256": "4a596226b6cbc5945da283240c3daa251e57267af47c7588a02e165416a22f80"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderCapture/SelectedCaptureRequest.swift",
+      "bytes": 3932,
+      "sha256": "13fcaac33f588b4bb944eea8ee733f52fde6dcdc427097765341a20956138d16"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/AudioSourceReader.swift",
+      "bytes": 9246,
+      "sha256": "b5e3597563f242616d40f3d1acb083761189d0a2ebc5859ab55d4f7ce53efe9e"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/CompositionAsset.swift",
+      "bytes": 356,
+      "sha256": "476ac84ce713677f7f6f224c9f927e029e2db52a611dc8bcb01d267f972ab65b"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/CompositionProcessing.swift",
+      "bytes": 1594,
+      "sha256": "379184261dfd28dd3e43dc6fa09a617757b2cf032f23dfc6aa4847d69951643c"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/DescriptorAudioType.swift",
+      "bytes": 4572,
+      "sha256": "c5afe4755917274add5bbbe67464cf7b5866618aa6ab7a268217599747df2f77"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/ExactRange.swift",
+      "bytes": 3093,
+      "sha256": "03a66858dd978d2c097f57295a355fcbf1b84d206e99fb9a58e5c65b5f116dd0"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/ExactTime.swift",
+      "bytes": 8410,
+      "sha256": "dab2c730deb23755afa6b48bf6195515f28dd2fa23f3bd0287fd0caf87d83a08"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/FontFile.swift",
+      "bytes": 1971,
+      "sha256": "66d8ad10b2be5eb2767a3586915e30a51919c2190b582e70c05e94d9c0a343c8"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/FontProbe.swift",
+      "bytes": 1594,
+      "sha256": "0ec09fce93cb1edad991f2b11e7aae25605ef3f7ed87366ba05f46ecc7f45a17"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/MediaInput.swift",
+      "bytes": 11346,
+      "sha256": "b749fa4404417abe557a3a93f637f8091489d819dead849b811363331c4f40a1"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/MediaProbe.swift",
+      "bytes": 9566,
+      "sha256": "068bf915122503383ef8f5a0ea466f6513c1806fef2f7f3d80d826d981dd9d6c"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/NativeFailure.swift",
+      "bytes": 924,
+      "sha256": "f1bd1d2d2d0054f0332e0beddb3813610caee74fefa15e0d6191d8d88dface24"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/OutputFile.swift",
+      "bytes": 6879,
+      "sha256": "988395df260ad7e569665d04d211550e18b7f584c46eda062450eb63620e9556"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/ProcessResources.swift",
+      "bytes": 380,
+      "sha256": "9369096425832a6a433926aad68804116f430e9518c23e5f3a92172be89c6844"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/SampleTiming.swift",
+      "bytes": 3364,
+      "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/ScalarProgram.swift",
+      "bytes": 4611,
+      "sha256": "31c3fcb425e50d2db40f67637a13cbf36b23d9781cf7006d8a572c6009078086"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/StillImageSource.swift",
+      "bytes": 3640,
+      "sha256": "ad1f087ca97cf0bcb56ca9a6047d6e69fc97562bfc6c18a8954827e8caa2f66d"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/TimeSpan.swift",
+      "bytes": 3250,
+      "sha256": "295003ddcc92365d9b67e3075fc4e4735b989e79054c00f7b1c89c8ea9aaf36d"
+    },
+    {
+      "path": "evidence/publication/Sources/ScreenRecorderMedia/VideoDisplay.swift",
+      "bytes": 2733,
+      "sha256": "8461a048b39772ec6aa5bca1091049a49ec0fae2a1e7709b7aeced253efb3012"
+    },
+    {
+      "path": "evidence/publication/build.log",
+      "bytes": 446,
+      "sha256": "8b1e3eded9590bfa5acde5812565349d3ce97b9b57a117ae26dc3e4b3d577641"
+    },
+    {
+      "path": "evidence/publication/canonical-normalization.json",
+      "bytes": 8132,
+      "sha256": "2c1092a8e6db62668ed856721b57615ccaab5f075e7c63d9ba9a1da1f7bb9bfd"
+    },
+    {
+      "path": "evidence/publication/canonical-reconstruction.json",
+      "bytes": 2020,
+      "sha256": "9a312930acf5e612afce1ae75a25339cf8dfb2856fb214199f3f98bc15c50aa3"
+    },
+    {
+      "path": "evidence/publication/cleanup.json",
+      "bytes": 291,
+      "sha256": "23600366257121bfd2f76ac1d15102dc961764ffe28174e27d5eefaedc0b1629"
+    },
+    {
+      "path": "evidence/publication/normalize-mov.py",
+      "bytes": 1738,
+      "sha256": "70c3ec69325e9fbdd6e31690387310ac5d3671b19cffac4e993a5814f1c33cb9"
+    },
+    {
+      "path": "evidence/publication/release-1/execution.json",
+      "bytes": 499,
+      "sha256": "f947e84fb6ab82e3d346bd73a402e3e2042ff8474d6ccb893f82f45f83bd05f1"
+    },
+    {
+      "path": "evidence/publication/release-1/measurement.json",
+      "bytes": 173,
+      "sha256": "6ed0302da741a51b41ca007c1a43e3794c893cd2f59b44e2e451b1ae0eb4ad1e"
+    },
+    {
+      "path": "evidence/publication/release-1/receipt.json",
+      "bytes": 699,
+      "sha256": "aae4af3d9989962bee9b0d7ef93bc5a6cc8bf62f0d0e45ee6236074ce723cac8"
+    },
+    {
+      "path": "evidence/publication/release-1/run.log",
+      "bytes": 593,
+      "sha256": "69696bb8d382d52e2593af07bd6de40d13a0bfd88cb0e8656acf7244208ec32b"
+    },
+    {
+      "path": "evidence/publication/release-2/execution.json",
+      "bytes": 499,
+      "sha256": "8b1f84d8ecbda7d75d9704ac0e1824c803fc4a26eb605d4c6d292f53be0446dc"
+    },
+    {
+      "path": "evidence/publication/release-2/measurement.json",
+      "bytes": 173,
+      "sha256": "08e2bbec66ff49d1a6f4a333db122dbf2438634891c632faee90b9399e065e0a"
+    },
+    {
+      "path": "evidence/publication/release-2/receipt.json",
+      "bytes": 699,
+      "sha256": "d472a2d8e46876dcecb048b362c1c368c11a02a10c00b59bb39687a595929b9f"
+    },
+    {
+      "path": "evidence/publication/release-2/run.log",
+      "bytes": 586,
+      "sha256": "5042fbd40cebac8b3b1cda3ce03f2ce4b00a6f458dc184f04e7f216a8dc2b6ea"
+    },
+    {
+      "path": "evidence/publication/run.py",
+      "bytes": 1148,
+      "sha256": "0df58516e624706c619fcd83e57bacc733bd33ce480c28ac966cb4348a4108ca"
+    },
+    {
+      "path": "evidence/publication/source-scope.json",
+      "bytes": 6610,
+      "sha256": "1f70326017dc7941fc2ed2baed798a0ff982e1114d2edf6a9ec9cbb00cb66b85"
+    },
+    {
+      "path": "evidence/publication/summary.json",
+      "bytes": 6132,
+      "sha256": "eed7a3d5eddb009a9ebbcdf7408051f3e7c17d9a1275e97be8d1c2db25fab761"
+    },
+    {
+      "path": "evidence/runtimes.json",
+      "bytes": 1455,
+      "sha256": "4cf694514bec46a9f7a57e685de00627fd4cca8f0e5dcf55e21c4f4c7aebd00c"
+    }
+  ]
+}

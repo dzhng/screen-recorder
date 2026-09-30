@@ -1,0 +1,54 @@
+{
+  "scope": "Root diagnostic evidence review only, no production/physical/live-stop pass",
+  "checks": {
+    "currentSourceOwnersMatched": 40,
+    "twoExactCanonicalReconstructionsRecomputed": true,
+    "localLinksResolved": 340,
+    "allDiagnosticSessionsTerminal": true,
+    "ownedProbeBuildAndMovieScratchRemoved": true,
+    "frozenWorkerSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "review": {
+    "shape": "No production code/schema/queue/cache/dependency/provider or deadline change; bounded scratch probes and existing publisher only",
+    "diff": "Same ordered visible-pixel stream, exact source hashes and complete native digests; only timing instrumentation in scratch copied owner",
+    "docs": "Prefix/provider measurements remain diagnostic; full release timings are near-full-disk-context failures, not relative speed claims; exact canonical patches retain observed bytes before owned scratch cleanup",
+    "choices": "Exact date-patch evidence storage audited sound, no production optimization selected"
+  },
+  "remaining": "Actual speech labels and physical/cutover gates remain open",
+  "diagnosticBuildRecipes": {
+    "componentDebug": [
+      "swiftc",
+      "-Onone",
+      "components.swift",
+      "-o",
+      "debug-probe"
+    ],
+    "componentRelease": [
+      "swiftc",
+      "-O",
+      "components.swift",
+      "-o",
+      "release-probe"
+    ],
+    "providers": [
+      "swiftc",
+      "-O",
+      "providers.swift",
+      "-o",
+      "providers-probe"
+    ],
+    "fullPublication": [
+      "swift",
+      "build",
+      "--package-path",
+      "/tmp/screenrec-camera-publication-release-20260930",
+      "--scratch-path",
+      "/tmp/screenrec-camera-publication-release-build-20260930",
+      "--configuration",
+      "release",
+      "--product",
+      "CameraPublicationBenchmark"
+    ],
+    "retention": "Exact source snapshot and bounded runner in archive; rebuild only in new scratch paths, never replace frozen worker"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "scope": "Reconstruct exact observed temporary canonical files from unchanged retained base plus these six date fields; all other bytes were directly compared",
+  "base": {
+    "path": "/tmp/screenrec-20e-stop-scale-verified/result/take/camera/video.mov",
+    "bytes": 413524069,
+    "sha256": "2548a8a017e24ce770603d2d8938a02290f0e7fe0802b37e7cbc9e6bd89f408f"
+  },
+  "records": [
+    {
+      "canonicalSha256": "e0ac73d37571a49de1d89c946fdea7ce27557588f625bc56389e1f6b294cac5a",
+      "bytes": 413524069,
+      "patches": [
+        {
+          "offset": 413439456,
+          "bytes": 4,
+          "hex": "e6e33e91"
+        },
+        {
+          "offset": 413439460,
+          "bytes": 4,
+          "hex": "e6e33e96"
+        },
+        {
+          "offset": 413439572,
+          "bytes": 4,
+          "hex": "e6e33e91"
+        },
+        {
+          "offset": 413439576,
+          "bytes": 4,
+          "hex": "e6e33e96"
+        },
+        {
+          "offset": 413439788,
+          "bytes": 4,
+          "hex": "e6e33e91"
+        },
+        {
+          "offset": 413439792,
+          "bytes": 4,
+          "hex": "e6e33e96"
+        }
+      ],
+      "virtualReconstructionVerified": true
+    },
+    {
+      "canonicalSha256": "e66b87808dc55c937c4d238e2e4326d77f67df7909b62f965706b19176ad0ab6",
+      "bytes": 413524069,
+      "patches": [
+        {
+          "offset": 413439456,
+          "bytes": 4,
+          "hex": "e6e33edd"
+        },
+        {
+          "offset": 413439460,
+          "bytes": 4,
+          "hex": "e6e33ee7"
+        },
+        {
+          "offset": 413439572,
+          "bytes": 4,
+          "hex": "e6e33edd"
+        },
+        {
+          "offset": 413439576,
+          "bytes": 4,
+          "hex": "e6e33ee7"
+        },
+        {
+          "offset": 413439788,
+          "bytes": 4,
+          "hex": "e6e33edd"
+        },
+        {
+          "offset": 413439792,
+          "bytes": 4,
+          "hex": "e6e33ee7"
+        }
+      ],
+      "virtualReconstructionVerified": true
+    }
+  ]
+}
