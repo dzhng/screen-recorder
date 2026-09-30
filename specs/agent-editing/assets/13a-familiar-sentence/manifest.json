@@ -62,5 +62,17 @@
       "sha256": "b9e0a999a3425622ca6101ee54d2902cdfa9c3b313c82d690bbcbe60cfd60fac",
       "pcmSha256": "20e997d90838e94d0689b94144bb12a13e9e4de63ff37357cf5d24edfa425619"
     }
+  ],
+  "listeningReviews": [
+    {
+      "reviewer": "user",
+      "answer": "1 - pass. 0.9x feels more \"echoy\", but not a dealbreaker\n2 - pass",
+      "scope": "Complete familiar sentence at0.9x and1.25x: intelligibility/naturalness accepted, with slight echo at0.9x explicitly tolerated. Existing0.8x acceptance retained. Does not annotate word times or accept local joins/short selections.",
+      "comparison": [
+        "original.wav",
+        "slower-0.9x.wav",
+        "faster-1.25x.wav"
+      ]
+    }
   ]
 }

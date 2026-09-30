@@ -18,8 +18,8 @@ bundle inventory and signature display are retained in the archive.
 Root prepared a byte-identical, unsigned working copy at
 `/tmp/screenrec-20e-live-probe/ScreenRecorder.app` and verified its three file hashes.
 The existing `Screen Recorder Local` signing identity was found with the repository’s
-read-only `--find` action. Authorization is pending to sign this copy, inspect its
-permission status and list sources. The reviewed assembly above remains frozen.
+read-only `--find` action. The user explicitly approved signing this copy, inspecting permission status and
+listing sources. These actions have not run yet. The reviewed assembly above remains frozen.
 No new certificate, installation or capture is included in that proposed step.
 
 After that explicit authorization and signature verification, the source-list
@@ -53,3 +53,13 @@ That request file has deliberately not been created with guessed IDs. Capture
 refuses missing grants and never prompts or falls back to another device. Later
 physical interruption/permission cases remain parent20 work; the offline proof
 neither runs nor waives them.
+
+The user's installed app was subsequently inspected read-only at
+`/Users/david/Applications/Screen Recorder.app`. It is signed by the same local
+identity but uses bundle ID `com.david.screenrec.personal` (the prepared probe
+uses `com.david.screenrec`). Its executable SHA256 is
+`6f03ce2833497d8d1e5715b8837a7925b5bc4c5015fb56b0b4e766561fb1aa39`;
+it lacks the selected-device dispatcher markers. Do not assume its permission
+grants apply to the differently identified probe. The user wants the installed
+app reused wherever it supports the relevant test, with minimal extra machinery.
+No installed-app replacement or actual recording was authorized by this approval.

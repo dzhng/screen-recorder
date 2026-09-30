@@ -20,8 +20,8 @@ verified public operations; the installed app has not switched engines.
 Current pickup: resolve the remaining speech/stretch listening and physical-capture
 acceptance before adopting their dependent execution paths. The
 [selected-device probe](slices/20e-selected-device-probe.md) is offline-verified;
-authorization to sign the prepared copy, read permission status and list devices
-is pending in its [follow-up](assets/20e-selected-device-probe/follow-up.md).
+the user approved signing the prepared copy, reading permission status and listing
+devices; execution is still pending as recorded in its [follow-up](assets/20e-selected-device-probe/follow-up.md).
 No live device/permission action or recording has run. Actual recording needs its
 own concrete request, and production webcam21 requires the physical clock proof.
 
@@ -60,7 +60,8 @@ remaining scope; overview graph groupings are not the scheduling dependency grap
 
 Listening comparisons use complete meaningful sentences from the user's recording,
 with the original alongside and one clear purpose. The user accepted the familiar
-0.8× sentence and the complete-sentence filler cut; each verdict has its recorded
+0.8×,0.9× and1.25× sentences (slight0.9× echo tolerated), the familiar denoised
+sentence, and the complete-sentence filler cut; each verdict has its recorded
 narrow scope. Numerical parity does not replace missing listening or physical
 capture evidence. Segmentation remains a separate future placeholder.
 

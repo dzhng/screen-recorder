@@ -9,8 +9,10 @@ reference is the existing 1–6 second extraction retained by the voice reproduc
 - [Same sentence with learned noise reduction](learned.wav)
 
 The comparison is for whether words and naturalness survive processing. It does
-not repeat the already-settled filter preference question. No action on this packet
-is required, and no listening acceptance is inferred from its creation.
+not repeat the already-settled filter preference question. The user subsequently answered “2 - pass” to the matched complete-sentence
+rubric: words remain clear and speech natural without swallowed consonants, metallic
+sound or pumping. This is listening acceptance for these exact files; lower volume
+alone was explicitly excluded as a failure. The manifest records the verdict.
 
 Both files were produced through actual public CLI/MCP operations: asset import,
 project placement, preparation and complete audio delivery. The shared renderer
@@ -28,5 +30,5 @@ when run with the built native worker and CLI/service, for example:
 SCREENREC_NATIVE="$PWD/helpers/mac/.build/debug/screenrec-native" node specs/agent-editing/assets/12c-familiar-sentence/assemble.mjs /tmp/new-sentence-comparison
 ```
 
-No audio was played automatically. Protected speech, timing labels and broader
+No audio was played automatically. Other material, independent timing labels and broader
 quality remain open in the [parent acceptance](../../slices/15a3-denoise-acceptance.md).

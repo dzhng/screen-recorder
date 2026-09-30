@@ -21,7 +21,9 @@ pass: speech recipe adoption needs its unresolved timing/quality evidence,
 post-retime processing needs accepted stretching, contextual generated-voice
 quality needs listening, and installed cutover needs its unfinished capture and
 editing prerequisites. Repeating their passed lifecycle/portability cohorts does
-not resolve those dependencies. The device-discovery question remains pending.
+not resolve those dependencies. Device discovery/signing is now authorized but unexecuted; the user requests reuse
+of the installed app wherever applicable. See the physical follow-up for the
+verified installed/probe identity difference.
 
 ## Execution context and scoped evidence
 
@@ -120,10 +122,10 @@ not resolve those dependencies. The device-discovery question remains pending.
   [Physical follow-up](20e-selected-device-probe/follow-up.md) pins the reviewable
   app and uninvoked commands. Its ad-hoc linker signature is not a verified TCC
   identity. Existing local signing identity discovery found “Screen Recorder Local”
-  read-only; signing, launch, device discovery, permission actions and capture remain
-  separately unauthorized. The byte-identical working copy at
+  read-only; signing, launch for status and device discovery are now authorized but unexecuted.
+  Permission prompts and recording remain separate. The byte-identical working copy at
   `/tmp/screenrec-20e-live-probe/ScreenRecorder.app` is prepared for a concrete
-  signing/status/discovery authorization request. Parent20/21 stays open.
+  signing/status/discovery step. Parent20/21 stays open.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.
@@ -251,13 +253,13 @@ includes changed learned settings refusing stale retained audio and undo restori
 it. [24j](../slices/24j-prepared-package-scale.md) retains exact original two-hour
 recipe authentication and full public transfer with exact complete retained audio.
 
-A complete familiar sentence was presented for optional denoise word/naturalness
-feedback. No answer has arrived; listening remains unverified.
-
-A [familiar stretch packet](13a-familiar-sentence/README.md) now supplies the same
-complete selection at1x,0.8x,0.9x and1.25x. Native file checks and an independent
-byte-for-byte reproduction pass. The user accepts its complete0.8× sentence as clear and natural; see the packet
-for the exact scope. Other rates, joins, labels and13a/14 integration remain open.
+The [familiar denoise comparison](12c-familiar-sentence/README.md) now has a user
+PASS for complete-sentence word clarity/naturalness. The
+[familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
+and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
+these comparisons again. Local joins, independently protected-word labels,
+short-speech treatment, spatial/other-material denoise and dependent integration
+remain separate requirements.
 
 
 The [complete-sentence filler journey](12d-complete-sentence/README.md) now

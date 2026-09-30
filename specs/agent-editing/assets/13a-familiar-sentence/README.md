@@ -23,9 +23,11 @@ rendering. [manifest.json](manifest.json) pins every output; the same script in 
 fresh directory reproduces them with the frozen native parity executable. This
 is new listening material, not a new engine experiment or a public operation.
 
-The user compared the original with the0.8× version on2026-09-29 and answered
-“Clear and natural.” This accepts clarity/naturalness for this complete sentence
-at that rate. It supplies no independent word-edge timings and does not establish
-other rates, whole-word joins, short-speech treatment or production channel/state
-integration. Public retiming remains disabled until the remaining13a/14 gates
-pass. No audio played automatically.
+The user accepted the complete sentence at0.8× as “Clear and natural.” In the
+subsequent matched0.9×/1.25× rubric they answered “1 - pass. 0.9x feels more
+"echoy", but not a dealbreaker.” Both additional rates pass that sentence's
+word-clarity/naturalness check; retain the tolerated0.9× echo rather than claiming
+artifact-free output. These judgments do not supply word-edge timings or establish
+local joins, short-speech treatment or production channel/state integration.
+Public retiming still follows the remaining13a/14 requirements. No audio played
+automatically. The manifest preserves both listening responses and file identities.

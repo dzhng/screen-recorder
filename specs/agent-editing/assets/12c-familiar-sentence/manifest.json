@@ -23,5 +23,16 @@
   ],
   "gain": "Unity in both paths; no loudness matching or normalization",
   "processing": "Same public48k stereo pipeline, empty output stack versus frozen learned processor",
-  "qualityAcceptance": "Not established; no audition performed during assembly"
+  "qualityAcceptance": "Not established; no audition performed during assembly",
+  "listeningReviews": [
+    {
+      "reviewer": "user",
+      "answer": "1 - pass. 0.9x feels more \"echoy\", but not a dealbreaker\n2 - pass",
+      "scope": "Complete familiar sentence with learned denoise: clear words and natural speech accepted against original. Does not establish other speakers/material, spatial processing, or post-retime combinations.",
+      "comparison": [
+        "original.wav",
+        "learned.wav"
+      ]
+    }
+  ]
 }

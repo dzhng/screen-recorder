@@ -1,6 +1,6 @@
 # 15a3 — Combined, temporal and protected-speech acceptance
 
-Status: open. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a2](./15a2-denoise-prepared-consumers.md), accepted retiming [14](./14-retiming.md), temporal [16](./16-keyframes.md), remaining [12c](./12c-noise-reproduction.md) listening/state evidence.
+Status: open; the [familiar complete-sentence denoise comparison](../assets/12c-familiar-sentence/README.md) now has a user pass for word clarity and naturalness. Other-material/spatial and post-retime acceptance remain open. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a2](./15a2-denoise-prepared-consumers.md), accepted retiming [14](./14-retiming.md), temporal [16](./16-keyframes.md), remaining [12c](./12c-noise-reproduction.md) listening/state evidence.
 
 [15a3a](15a3a-unit-rate-combined.md) handles the dependency-ready unit-rate public temporal/combined join; it does not enable post-retime DSP or close the listening gate.
 
