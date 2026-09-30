@@ -256,3 +256,60 @@ test("deadline distinguishes exact rates sharing sample contexts while pure spli
   ]);
   expect(audioDeadline(window)).toBe(renderWindowDeadlineMs({ startUs: 0, endUs: 800000000 }));
 });
+
+test("fractional frame-duration preparation receives a conservative bounded deadline", () => {
+  const duration = { numerator: 15404875, denominator: 3 };
+  const model = validateComposition(
+    {
+      canvas: {
+        width: 16,
+        height: 16,
+        fps: { numerator: 30, denominator: 1 },
+        background: "#000000ff",
+      },
+      tracks: [{ id: "audio", kind: "audio", order: 0 }],
+      groups: [],
+      syncGroups: [],
+      clips: [
+        {
+          id: "voice",
+          trackId: "audio",
+          assetId: "source",
+          streamId: "audio",
+          source: { kind: "range", range: { startUs: 0, endUs: duration } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 6000000 } },
+          pitch: "preserve",
+        },
+      ],
+      processing: [
+        {
+          target: { kind: "output" },
+          steps: [{ id: "noise", enabled: true, processor: { type: "rnnoise" } }],
+        },
+      ],
+    },
+    [
+      {
+        id: "source",
+        streams: [
+          {
+            id: "audio",
+            kind: "audio",
+            sampleRate: 48000,
+            channels: 1,
+            bounds: { startUs: 0, endUs: duration },
+            available: [{ startUs: 0, endUs: duration }],
+          },
+        ],
+      },
+    ],
+  );
+  const window = createCompiler(model, "fractional").audioWindow({
+    range: { startUs: 0, endUs: 6000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  // Query + state + retime output each cost six seconds; input is 246478 / 48000 seconds.
+  expect(audioDeadline(window)).toBe(30000 + 2 * Math.ceil(18000 + 246478 / 48));
+  expect(audioDeadline(window, true)).toBe(42000);
+});

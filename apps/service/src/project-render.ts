@@ -10,7 +10,12 @@ import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/pro
 import type { ProjectFrameRenderer } from "@screenrec/core/frame-inspection";
 import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
 import { withRenderAttempt, withRenderedFile } from "./render.js";
-import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker.js";
+import {
+  MAX_MEDIA_TIMEOUT_MS,
+  renderWindowDeadlineMs,
+  nativeResult,
+  type MediaWorker,
+} from "./worker.js";
 
 import type {
   PointerPreparation,
@@ -204,13 +209,12 @@ export function audioDeadline(window: AudioWindowInput["window"], retained = fal
       }
     }
   }
-  return renderWindowDeadlineMs({
-    startUs: 0,
-    endUs:
-      window.manifest.range.endUs -
-      window.manifest.range.startUs +
-      (Number(preparationFrames) * 1000000) / 48000,
-  });
+  // Preparation is measured in frames; only its scheduling budget rounds up to milliseconds.
+  const preparationMs = Number((preparationFrames * 1000n + 47999n) / 48000n);
+  return Math.min(
+    MAX_MEDIA_TIMEOUT_MS,
+    renderWindowDeadlineMs(window.manifest.range) + 2 * preparationMs,
+  );
 }
 type PointerOwners = { preparation: PointerPreparation; evidence: SourceEvidenceReader };
 export function projectPointerHistoryRenderer(
