@@ -33,8 +33,8 @@
   },
   "artifactFiles": {
     "README.md": {
-      "sha256": "97b49ad6e82fd689635ad20115a89d7d0a11f9762e07e7e8795624e8b97c4e32",
-      "bytes": 4278
+      "sha256": "2251f55ef4c3105502e7c7a8c8f40e6b71e2bb40fb8344bc7f6fd4f1ac33ed57",
+      "bytes": 4446
     },
     "assemble.mjs": {
       "bytes": 12425,

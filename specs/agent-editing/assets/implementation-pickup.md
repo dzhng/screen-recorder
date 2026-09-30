@@ -62,10 +62,12 @@ the narrow independent-C follow-pitch learned check against retained14d media.
 pass; the finite denoise acceptance above supplies its scoped quality verdicts. [03d preservation](03d-consumer-cutover/README.md)
 records fresh-format reauthoring with identical frozen dry/processed bytes.
 
-Physical20 still lacks its stated camera duration/precision proof. The
+Physical20 still lacks its stated camera duration/precision proof. The historical
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)
-preserves4428 pictures and takes26.915 seconds through actual media closure,
-exceeding the10-second fallback; live input drain/AppKit termination remain
+preserved4428 pictures and took26.915 seconds through actual media closure. The
+[bounded hashing pass](20e-camera-picture-hashing/README.md) removes per-row copies
+while preserving the exact picture digests; fresh offline publication is faster
+but still exceeds ten seconds. Live input drain/AppKit termination remain
 unverified. No new capture is authorized. Original media and historical rejected
 callbacks remain in the Git LFS fixture. Root8a, candidate2c and the installed app
 remain frozen; use isolated builds for future native changes.

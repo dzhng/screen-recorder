@@ -1,5 +1,9 @@
 # Integrated evidence index
 
+- [Camera picture hashing](20e-camera-picture-hashing/README.md) preserves all decoded
+  pictures while reducing offline publication work. The ten-second/live-stop and
+  physical synchronization gates remain open.
+
 - [Populated events/cursor duration](24y-source-event-duration/README.md) passes
   complete clock/payload/provenance and unchanged latency/memory checks. Exact
   lost-reply replay preserves one edit; SDK default capacity remains disclosed.

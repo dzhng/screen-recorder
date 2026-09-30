@@ -56,7 +56,10 @@ passed cohorts instead of resolving those requirements.
 verified preservation, processing, transfer, capture replay and scale checkpoints.
 Their owning slices retain limitations. In particular, prerecorded camera
 recovery/stop evidence does not establish the physical one-frame timing bound,
-whole-take coverage or live shutdown; installed cutover stays unverified.
+whole-take coverage or live shutdown; installed cutover stays unverified. The
+[bounded camera hashing pass](assets/20e-camera-picture-hashing/README.md) preserves
+complete decoded-picture checks and reduces offline publication work, but still
+exceeds the ten-second stop boundary.
 
 Listening comparisons use complete meaningful sentences from the user's recording,
 with the original alongside and one clear purpose. The user accepted the familiar

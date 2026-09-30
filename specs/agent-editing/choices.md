@@ -4632,3 +4632,41 @@ is included without adding a production test hook or parallel digest abstraction
   strict red and independently verifies the complete remainder without weakening
   production decoded-picture checks.
 - **Confidence:** medium.
+
+## Finite denoise acceptance reconciliation (2026-09-30)
+
+- **When:** final12c/15a3/15a evidence reconciliation.
+- **Choice:** Close the named local denoise matrix when the exact meaningful
+  sentence, post-retime, authored stereo and known-noise hearing cases pass,
+  alongside the retained execution proofs. A listener now accepts the complete
+  words and channel balance; public/native checks separately prove duration,
+  selection, state, order, history and delivery. Independent word-boundary marks
+  needed for accurate cuts and speech-free ambience needed for looping keep their
+  own gates. The alternative would ask for extra speakers or naturally recorded
+  stereo without an explicit requirement, or pretend these verdicts supply cut
+  labels and loop approval.
+- **Gap:** The plan named the quality cases without prescribing how to reconcile
+  later complete-sentence verdicts with historical cropped-packet pending states.
+- **Reach:** Later passes inherit the frozen accepted implementation and exact
+  media verdicts, without repeating hearing or transferring approval to arbitrary
+  inputs.12/12d and19 remain independently accountable for their missing evidence.
+- **Verdict:** sound; it satisfies the finite named denoise requirements without
+  weakening independent cut accuracy, ambience or installed acceptance.
+- **Confidence:** high.
+
+- **When:** executable reproduction pointers in the same reconciliation.
+- **Choice:** Point planned denoise probes at the existing frame/native/public
+  runners that already perform the required work. An agent following the plan
+  reaches executable owners and pinned receipts rather than a nonexistent proposed
+  filename. A forwarding file would add another maintained entry point while
+  repeating the same operation.
+- **Gap:** Planned names preceded the implemented harness organization; no public
+  consumer depends on those speculative filenames.
+- **Reach:** Future reproduction uses the actual contract owners and their evidence;
+  this creates no compatibility shim, duplicate engine or new API.
+- **Verdict:** sound; preserves runnable verification while deleting stale planning
+  instructions.
+- **Confidence:** high.
+
+One documentation discretion: the acceptance ledger is the canonical index;
+historical experiments retain their scoped limitations and refer to later verdicts.
