@@ -1,3 +1,4 @@
+import { denoisePostRetime } from "./denoise-post-retime.mjs";
 import { denoiseTransitions } from "./denoise-transitions.mjs";
 import { createDenoiseReference } from "./denoise-reference.mjs";
 import assert from "node:assert/strict";
@@ -10,9 +11,19 @@ import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs"
 import { waveHeader } from "./audio-project-fixture.mjs";
 
 const { values } = parseArgs({
-  options: { out: { type: "string" }, source: { type: "string" }, reference: { type: "string" } },
+  options: {
+    out: { type: "string" },
+    source: { type: "string" },
+    reference: { type: "string" },
+    "post-retime": { type: "boolean" },
+  },
 });
-assert(values.out && values.source && values.reference && process.env.SCREENREC_NATIVE);
+assert(
+  values.out &&
+    (values.source || values["post-retime"]) &&
+    values.reference &&
+    process.env.SCREENREC_NATIVE,
+);
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-denoise-public-"));
 await mkdir(out);
@@ -20,15 +31,21 @@ const denoise = createDenoiseReference(resolve(values.reference), out);
 const report = {
   passed: false,
   trace: [],
+  ...(values["post-retime"] ? { exchanges: [] } : {}),
   checks: {},
   receipts: [],
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   referenceSha256: hash(await readFile(resolve(values.reference))),
-  scope:
-    "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
+  scope: values["post-retime"]
+    ? "Public post-retime overlap, held gain and windowed RNNoise mix-state integration; exact numerical delivery only, no listening, spatial, other-material or pitch-follow claim."
+    : "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
 };
-const service = new JourneyService(home, report),
+const service = new JourneyService(
+    home,
+    report,
+    values["post-retime"] ? join(out, "native") : undefined,
+  ),
   call = service.call.bind(service);
 const expected = gunzipSync(
   await readFile(
@@ -466,8 +483,7 @@ async function combinedTemporal(asset) {
   record.restored = selection();
   record.prefixSha256 = hash(prefix);
 }
-try {
-  await service.start();
+async function unitRateJourney() {
   const imported = await call("asset.import", {
     requestId: "source",
     path: resolve(values.source),
@@ -838,6 +854,21 @@ try {
     retainedPCMWithExecutorUnavailable: true,
     newPreparationRefusedWithoutCapability: true,
   };
+}
+try {
+  await service.start();
+  if (values["post-retime"])
+    await denoisePostRetime({
+      call,
+      prepare,
+      inspect,
+      projectAudio,
+      movieDelivery,
+      denoise,
+      report,
+      out,
+    });
+  else await unitRateJourney();
   report.passed = true;
 } finally {
   delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;

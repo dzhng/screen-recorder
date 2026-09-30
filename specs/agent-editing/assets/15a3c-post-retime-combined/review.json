@@ -1,0 +1,31 @@
+{
+  "verdict": "clean",
+  "productionChanges": false,
+  "shape": "One fixture mode in the existing public runner; independent arithmetic and movie reference setup are local to its fixture module. Existing C adapter, preparation helpers and delivery owners are reused.",
+  "diff": "Root independently reviewed the stem/prefix/learned checks and late-state witness, then identified missing movie audio-content proof. Matched full/range independent reference AAC and wrong-order sensitivity were added; root reviewed that section with no further blocking finding.",
+  "docs": "Packet states numerical scope and lossy-encode limits. Parent agent owns active-plan and quality-gate status links.",
+  "choices": [
+    {
+      "choice": "Reuse accepted preserve-pitch excerpt and familiar sentence in one five-second overlap",
+      "reason": "Pins stretch independently and joins the existing learned state/window/zero-mix contracts without adding listening or other-material claims."
+    },
+    {
+      "choice": "Run late ordinary audio before full preparation",
+      "reason": "Captured state membership proves the completed retimed occurrence still supplies learned history."
+    },
+    {
+      "choice": "Match independently encoded unit-rate reference audio for each movie range",
+      "reason": "Tests actual movie audio, avoids invalid lossy-to-lossless equality and full-crop/range AAC assumptions."
+    },
+    {
+      "choice": "Keep default unit-rate journey unchanged",
+      "reason": "A separate narrow mode adds post-retime evidence without duplicating established coverage or broadening its acceptance."
+    }
+  ],
+  "checks": [
+    "Composition/core/protocol/service/CLI TypeScript builds passed before final replay.",
+    "Final narrow public replay passed with final source hashes.",
+    "Focused oxlint, oxfmt and git diff --check passed."
+  ],
+  "independentCLIReview": "Previously unavailable because configured Codex model was rejected by account; parent explicitly instructed not to retry or override. Root supplied independent review."
+}

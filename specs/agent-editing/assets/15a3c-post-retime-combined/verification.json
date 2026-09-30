@@ -1,0 +1,68 @@
+{
+  "passed": true,
+  "nativeSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "scope": "Public post-retime overlap, held gain and windowed RNNoise mix-state integration; exact numerical delivery only, no listening, spatial, other-material or pitch-follow claim.",
+  "publicPCMChecks": 14,
+  "publicExchanges": 113,
+  "harnesses": {
+    "denoise-runtime-public.mjs": "65f21a5dd9d46bc0859010c4a78cdb6ff2f6faf14b2c4443af3038d3c1c48e80",
+    "denoise-post-retime.mjs": "e41c19fd57c5b2401fd45854872ef966ae738d52274802f7658178de55c5708c",
+    "denoise-reference.mjs": "d8c1df5bf21826f10160c11ce671c236fff106a4d30aa6262c26a65ee58cc8ab"
+  },
+  "sources": [
+    {
+      "path": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/specs/agent-editing/assets/12c-familiar-sentence/original.wav",
+      "sha256": "ce6e823447e5b739216543b2b33ec040cc51cff9f70138cf1b3666b8bd2d8b58",
+      "channels": 2,
+      "frames": 240000
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/specs/agent-editing/assets/13a-corrected-selections/original.wav",
+      "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+      "channels": 1,
+      "frames": 231360
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/specs/agent-editing/assets/13a-corrected-selections/internal-slower-0.8x.wav",
+      "sha256": "53da1582ea82e3d6bb4ba16d9f7c75f978f838d28dd1f1e05b501bb0a5aeccc7",
+      "channels": 1,
+      "frames": 246478
+    }
+  ],
+  "recipes": {
+    "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+    "rnnoise": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
+  },
+  "lateStatePreparation": {
+    "file": "mix-4.json",
+    "preparedRetimeRuns": 1,
+    "retimedInputOnlyInState": true
+  },
+  "matchedAAC": {
+    "full": {
+      "decodedBytes": 1924608,
+      "sha256": "11ee1ce63bf8655ee3c7f32f91a27c278d06b74dffd5178ebc616e955e8791a1",
+      "exact": true
+    },
+    "range": {
+      "decodedBytes": 769536,
+      "sha256": "ab6cbe35e2b737ad0893b6cc8eaf614f57a290256a1c69b808f25b3b12e8f1c2",
+      "exact": true
+    }
+  },
+  "wrongOrderAACDiffers": true,
+  "exportByteIdenticalToFullPreview": true,
+  "wrongPrefixSensitivity": "failed after independent stem and bed passed; oracle expectation mutation only",
+  "commands": [
+    "SCREENREC_NATIVE=/tmp/screenrec-exact-native-14f-build/debug/screenrec-native node packages/test-harness/editing/denoise-runtime-public.mjs --post-retime --reference /Users/david/.cache/screen-recorder/test-prerequisites/rnnoise-api-697657e249b1 --out /tmp/screenrec-post-retime-denoise-aac-matched",
+    "node_modules/.bin/oxlint packages/test-harness/editing/denoise-post-retime.mjs packages/test-harness/editing/denoise-runtime-public.mjs",
+    "node_modules/.bin/oxfmt --check packages/test-harness/editing/denoise-post-retime.mjs packages/test-harness/editing/denoise-runtime-public.mjs",
+    "git diff --check"
+  ],
+  "archive": {
+    "path": "evidence.tar.xz",
+    "sha256": "1399598e04c34e2133737ec75b5747662a1be9a9616a31afa825cc1bd192117f",
+    "manifestSha256": "b266281df2e6a2c5b23dccc57989e5b9fc2352fe9b9e95faa460361d2533a965"
+  }
+}
