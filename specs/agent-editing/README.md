@@ -17,7 +17,7 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
+Current pickup: integrate accepted stretching through14,
 preserving the accepted [internal0.8× join](assets/13a-familiar-internal-join/README.md).
 The [revised boundary placement](assets/13a-word-boundary-correction/listening.json)
 is accepted. The user reports that its deliberate digital-silence pauses sound
@@ -31,11 +31,14 @@ combined journey and verified23 archive members/80 exchanges. Real-voice
 continuity and independent video scope remain unverified. The
 [corrected short-word/internal-rate selections](assets/13a-corrected-selections/README.md)
 now pass numerical/source-isolation checks and [A–D listening](assets/13a-corrected-selections/listening.json).
-Preserve these exact selections and the frozen recipe. Next reconcile13a
-acceptance evidence, then implement14 through retained audio contexts and the
-existing prepared-audio owner. Stereo, long-run/cancellation, pitch-follow and
-public linked/unlinked delivery remain unverified; do not turn research bounds
-into product restrictions.
+Preserve these exact selections and the frozen recipe. The [visual evidence supplement](assets/13a-visual-clarity/README.md) closes the
+remaining readability findings, so13/13a are accepted. Implement14 through retained
+audio contexts and the existing prepared-audio owner. The [bounded mono file proof](assets/14-bounded-stretch/README.md) preserves
+accepted hashes and ten-minute pointer parity with fixed-page memory, including
+cancellation/failure cleanup; public deadlines remain unverified. Proceed with
+[14b retained-run native preparation](slices/14b-retained-retime-preparation.md) and
+[14c linked stereo](slices/14c-stereo-stretch.md) in parallel, then14d pitch-follow
+and14e public binding. Do not turn research bounds into product restrictions.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified
@@ -186,10 +189,14 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [ ] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
-- [ ] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
-- [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
+- [x] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
+- [x] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
+  - [ ] [14b — Retained-run native preparation](slices/14b-retained-retime-preparation.md)
+  - [ ] [14c — Linked stereo stretch](slices/14c-stereo-stretch.md)
+  - [ ] [14d — Explicit pitch follow](slices/14d-pitch-follow.md)
+  - [ ] [14e — Public retiming delivery](slices/14e-public-retiming.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [x] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)

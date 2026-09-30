@@ -18,11 +18,19 @@ retains final sources, regression reds/greens and public source/preview checks.
 Root rehashed312 members and200 source identities, then reran cadence, media,
 replay and stop checks. Capture-pause-recovery has completed this pass.
 
-Next resolve13a's [corrected-boundary candidates](13a-corrected-selections/README.md).
-Their A–D listening check now passes explicitly; old naturalness passes stay
-attached to old media. The user accepts revised boundary placement but leaves room-tone fill and
-noise reduction as independent editorial choices. The new pause workflows use
-existing public primitives and must preserve that choice.
+13/13a are accepted: corrected A–D listening passes remain tied to exact files,
+and [visual clarity](13a-visual-clarity/README.md) closes the prior plot findings.
+The user leaves room-tone fill and noise reduction as independent editorial choices;
+the [public pause workflows](pause-audio-public/README.md) preserve that scope.
+
+The [bounded mono preparation](14-bounded-stretch/README.md) is integrated. Root
+rebuilt both parity tools in isolated scratch and reran all34 checks plus descriptor
+contracts successfully; root8a, candidate2c and frozen StretchParity1cf hashes are
+unchanged. Next run [14b](../slices/14b-retained-retime-preparation.md) native
+retained preparation in capture-pause-recovery and [14c](../slices/14c-stereo-stretch.md)
+coupled stereo in prepared-package-transfer concurrently.14d pitch-follow follows
+14b;14e binds public capabilities/deadlines and delivery. Public retiming remains
+gated. No per-run durable cache or second timeline is needed.
 
 Physical20 still lacks its stated camera duration/precision proof. The
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)

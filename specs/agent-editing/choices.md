@@ -4004,3 +4004,9 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   processor success from publication without widening public capabilities.
 - **Confidence:** high; explicit ownership fits the existing preparation model
   and failure checks cover partial output, aliases and existing destinations.
+
+## Stretch evidence presentation
+
+The [audited evidence choices](assets/13a-visual-clarity/choices.md) retain exact
+recovered PCM and separate diagnostic traces/source guards. They change no
+product behavior or listening scope.

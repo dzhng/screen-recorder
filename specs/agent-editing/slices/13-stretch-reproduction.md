@@ -1,14 +1,11 @@
 # 13 — Reproduce pitch-preserving stretch
 
-Status: numerical reproduction implemented; quality gate NOT accepted. Dependencies: [00](./00-corpus.md).
+Status: accepted through the frozen Signalsmith exact reproduction and [13a endpoint/local-speech acceptance](13a-stretch-endpoints.md). Dependencies: [00](./00-corpus.md). The user accepts the named whole-sentence and corrected local-rate renditions; numerical pitch, exact count and excluded-source checks pass. [14](14-retiming.md) owns production adoption and additional execution policies.
 
-The [frozen experiment](../assets/13-stretch/README.md) establishes pitch, exact
-retained sample counts and excluded-source isolation. Native tail/endpoint
-handling and speech/listening acceptance remain open; slice 14 must not adopt
-the diagnostic crop. Candidate visual evidence and real-speech auditions are
-tracked in [13a](./13a-stretch-endpoints.md); independent listening remains open. The bounded
-context experiment rejected a universal padding/latency crop;
-[13a](./13a-stretch-endpoints.md) owns endpoint treatment before integration.
+The [original experiment](../assets/13-stretch/README.md) remains diagnostic
+evidence, including its failed universal padding/latency crop. It is not the
+implementation to adopt. The accepted recipe and selection identities live in
+[13a](13a-stretch-endpoints.md); preserve them through production-entry parity.
 
 ## Contract
 

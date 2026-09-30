@@ -1,6 +1,6 @@
 # 13a — Preserve selected speech at stretch endpoints
 
-Status: Signalsmith numerical candidate reproduced; full-support plots, request-specific admission and guarded real-speech auditions prepared. The user accepts clarity/naturalness of the [complete familiar sentence at0.8×,0.9× and1.25×](../assets/13a-familiar-sentence/README.md), with slight0.9× echo explicitly tolerated. The [familiar internal0.8× join](../assets/13a-familiar-internal-join/listening.json) is also accepted. The [opening0.8× candidate](../assets/13a-short-word/listening.json) sounded complete and natural, but the subsequent [boundary check failed](../assets/13a-short-word/boundary-listening.json): its cut splits “Okay.” The [revised placement](../assets/13a-word-boundary-correction/listening.json) is accepted; the [corrected selections](../assets/13a-corrected-selections/README.md) now pass count, pitch, identity and source-isolation checks. The user now accepts all four [corrected A–D renditions](../assets/13a-corrected-selections/listening.json) for complete words and natural joins. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) enables public stretching. The isolated [native parity prerequisite](13b-native-stretch-parity.md) may preserve the frozen recipe without claiming this acceptance.
+Status: accepted for the frozen Signalsmith exact recipe and named source selections. Numerical count/pitch, full impulse support, identity and excluded-source checks pass. The user accepts the familiar complete sentences and all four [corrected A–D local selections](../assets/13a-corrected-selections/listening.json) for complete words and natural joins. The [visual supplement](../assets/13a-visual-clarity/README.md) resolves the earlier readability findings; its [review](../assets/13a-visual-clarity/review.md) distinguishes fresh full-image review from corrected-crop fallback inspection. [Root verification](../assets/13a-visual-clarity/root-verification.md) checked all86 retained artifacts and64 reconstructed PCM hashes. Dependencies: [13](./13-stretch-reproduction.md). [14](./14-retiming.md) now owns production integration, stereo, long-run preparation and explicit pitch-follow verification. Acceptance does not establish arbitrary tiny selections or automatic boundary expansion.
 
 The [pinned Signalsmith experiment](../assets/13a-signalsmith/README.md) passes
 the measured count/pitch/source-isolation cases with explicit upstream endpoint
@@ -18,8 +18,8 @@ The [endpoint verification pass](../assets/13a-endpoint-verification/README.md)
 recovers hash-verified isolated outputs, tests admission boundaries separately
 from pitch quality, and prepares real-speech joins with explicitly authored guards.
 Its whole-utterance control has transcript provenance but no word times.
-Listening, independently protected whole-word joins and short-speech acceptance
-remain open; original reports/media remain historical evidence.
+Its then-pending listening and word-containment gates are resolved by the corrected
+selection packet linked above; original reports/media remain historical evidence.
 
 The [short-input alternative experiment](../assets/13a-short-capability/README.md)
 finds a tone improvement with Rubber Band R3 short windows, but worse isolated
@@ -50,17 +50,13 @@ Reproduce with a fresh scratch directory:
 node packages/test-harness/editing/stretch-endpoints.mjs /tmp/stretch-endpoints-fresh
 ```
 
-The current numerical candidate is the pinned Signalsmith exact recipe. Next judge
-the [real-speech auditions](../assets/13a-endpoint-verification/README.md) and add
-independent protected whole-word labels at both joins. Request admission must use
-the actual selected/output counts and recipe, separate from quality acceptance.
-The short-window probe does not authorize automatic window switching or a global
-minimum duration. Keep the fixed pitch gate and selected-source contract.
-
-The [familiar complete sentence](../assets/13a-familiar-sentence/README.md) supplies
-clearly labeled original/slower/faster material for optional listening without
-repeating unfamiliar word-fragment QA. Its numerical/native-file checks do not
-establish word retention or naturalness, and do not enable public retiming.
+The accepted implementation is the pinned Signalsmith exact recipe. Adopt it
+through the shared preparation owner with matched-input parity. Request admission
+uses actual selected/output counts and the recipe, separately from quality
+acceptance. The short-window probe does not authorize automatic window switching
+or a global minimum duration. Keep the fixed pitch gate and selected-source
+contract. The corrected placement protects complete word groups; the earlier
+cut that split “Okay” remains a failed historical selection.
 
 ## Acceptance
 

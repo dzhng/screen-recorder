@@ -2,6 +2,9 @@
 
 Status: public integration not started; isolated [bounded mono preparation](../assets/14-bounded-stretch/README.md) passes accepted-byte, endpoint, scale and cancellation/error-cleanup gates. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
 
+[Integrated root verification](../assets/14-bounded-stretch/root-verification.md)
+reran all34 checks and descriptor contracts from isolated merged-tree builds.
+
 ## Contract
 
 Linked and independent audio/video retiming works through public editing and rendering, using the accepted stretch implementation.
@@ -13,7 +16,10 @@ Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
 
 ## Seam and ownership
 
-Composition retime operations resolve durations/attachments; shared jobs prepare exact-identity stretched derivatives; native consumes independent plans. Adopt the frozen recipe accepted by slices 13 and 13a without a new audio timeline.
+Composition retime operations resolve durations and attachments. Native requests
+prepare exact retained-run scratch before processing; shared jobs publish durable
+full-output audio through the existing prepared owner. Adopt the frozen recipe
+accepted by13/13a without a new audio timeline.
 
 ## Integration constraints from the existing owners
 
@@ -40,6 +46,27 @@ output with bounded pages and cancellable file access; its [proof and limits](..
 do not establish public worker cancellation deadlines. Stereo behavior and
 explicit pitch-follow execution require their own verification. Do not downmix, independently process channels or widen admission
 silently. These checks supplement, rather than replace,13a listening acceptance.
+
+## Committed passes
+
+Public retiming remains gated until the following seams are verified. The bounded
+mono file prerequisite is banked in the Status evidence; it is not a public limit.
+
+- [14b — Retained-run preparation](14b-retained-retime-preparation.md): native mono
+  execution shared by normal and state-prerequisite graphs, plus actual integer
+  edit-duration/count mapping.
+- [14c — Linked stereo preserve](14c-stereo-stretch.md): coupled channel execution;
+  can proceed independently of14b in the isolated stretch package.
+- [14d — Explicit pitch follow](14d-pitch-follow.md): bounded rate conversion over
+  the same retained run, after14b.
+- [14e — Public delivery](14e-public-retiming.md): capability/admission and deadline
+  binding, then linked/unlinked CLI/MCP delivery and synchronization acceptance.
+
+These share existing owners. Native run scratch is request-scoped; durable final
+output still belongs to PreparedAudioStore/JobQueue/AssetStore. Collect distinct
+runs across both requested clips and state inputs before preparing either graph.
+Short views retain the full run and must budget its work. Output counts come from
+absolute compiler sample boundaries, not independent duration rounding.
 
 ## Work and review surface
 

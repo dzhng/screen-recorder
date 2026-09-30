@@ -34,8 +34,8 @@ selection; it does not establish arbitrary tiny selections or automatic expansio
 
 Independent read-only verification rehashed retained files and owners, checked
 the original/selected/poison PCM and all unchanged spans, and remeasured tone
-pitch through the existing estimator. All checks pass; listening stays pending
-for each of the four changed files.
+pitch through the existing estimator. All numerical checks pass; the listening verdicts below apply to the four
+exact changed files.
 
 The user replied **all pass** to the corrected A–D word-completeness and natural-join
 rubric. [The listening record](listening.json) pins all four verdicts to exact file
