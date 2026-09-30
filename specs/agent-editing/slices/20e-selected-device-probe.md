@@ -1,8 +1,11 @@
 # 20e — Prepare selected-device clock reproduction
 
-Status: offline implementation and scoped verification complete; [evidence](../assets/20e-selected-device-probe/README.md).
-[20e1](20e1-camera-gap-materialization.md)'s durable gap publication/replay and a
-separate admitted709 source control pass. No physical capture authorized or performed.
+Status: offline implementation verified; [evidence](../assets/20e-selected-device-probe/README.md).
+A user-authorized physical take is retained in [fixtures](../../../fixtures/screen-camera-timing/README.md);
+its [physical timing analysis](../assets/20-physical-sync/README.md) does not close
+parent20 acceptance. [20e2](20e2-camera-presentation.md) supersedes20e1's nominal-gap
+policy and verifies saved-take recovery plus public consumers. No further capture
+is authorized.
 Dependencies: [20a](20a-offline-clock.md), [20b](20b-exact-capture-audio.md),
 [20c](20c-sparse-capture-materialization.md), [20d](20d-capture-publication.md).
 

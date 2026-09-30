@@ -48,7 +48,11 @@ The historical rejected pictures are unrecoverable; this does not claim correcte
 acquisition of the saved take. Physical synchronization, a new live take, and
 installed-app activation are not verified. Recovery exceeds the app's existing
 10-second quit fallback, so these results do not close physical graceful-quit
-acceptance. No generic reader, codec/color admission, audio owner or production
+acceptance. The [stop contract](../20e-selected-device-probe/graceful-stop/README.md)
+intentionally permits interrupted, recoverable originals at that deadline. The
+28-second observation measures offline recovery, not live closure; it does not
+justify increasing the timeout. The service's recovery budget covers a different
+operation and media set, so it is not a reusable live-camera shutdown bound. No generic reader, codec/color admission, audio owner or production
 camera API changed. The abandoned sparse-edit experiments remain historical evidence.
 
 The first consumer script incorrectly asserted absolute timestamps against a
