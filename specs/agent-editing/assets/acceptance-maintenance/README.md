@@ -11,6 +11,11 @@ The exact current-worker AAC full/range case passes; the historical discrepancy
 remains retained with unknown cause. Source-only repeatability is separate. Reuse
 these completed mixing/rate/recovery/drift cohorts.
 
+The shared preparation owner14a and typed learned consumers15a2 also meet their
+stated local-personal contracts. Their existing evidence covers fenced publication,
+CLI/MCP, retained consumers, channel/state execution and build preflight/notices.
+Post-retime/quality gates belong to14/15a3; external redistribution remains unverified.
+
 Public stretching still lacks its execution binding and remains gated by13a.
 Once accepted, implement14 through the existing prepared-audio owner and use one
 combined retime/gain/denoise journey for the dependent integration claims. The

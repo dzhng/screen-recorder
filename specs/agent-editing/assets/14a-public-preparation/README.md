@@ -30,4 +30,7 @@ The final native report compares all48000 frames of both original and gained
 output and a12000-frame historical excerpt after restart. All comparisons are
 exact. Tests, build, types and lint pass; full worker identity is in the report.
 The fresh trial's externally owned scratch service was stopped after completion.
-Actual model-dependent DSP and full scale acceptance remain open in14a.
+Subsequent [typed learned consumers](../../slices/15a2-denoise-prepared-consumers.md)
+and [successful long output](../../slices/24f-successful-learned-scale.md) now
+provide their separate evidence. Remaining stretch binding, quality and broader
+scale stay with14/15a/24, not this completed public preparation checkpoint.

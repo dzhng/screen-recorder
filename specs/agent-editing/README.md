@@ -39,7 +39,7 @@ accepted lossless PCM. Full speech timing and inventory acceptance remain separa
 then16; measured physical20→21; final23 cutover, post-cutover24 scale and25 autonomous
 workflow. Independent mixing08 is verified through its named contract evidence; the
 [audio-domain limits](assets/acceptance-maintenance/audio-domain.md) remain explicit. Generic22, full-history transfer24u, scoped learned routing24v,
-waveform memory24w and public voice jobs19f are banked; do not repeat those passed
+waveform memory24w, prepared-audio lifecycle14a, typed learned consumers15a2 and public voice jobs19f are banked; do not repeat those passed
 cohorts. Parent18/19 pronunciation, identity, contextual joins and listening stay open.
 
 Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
@@ -152,10 +152,10 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
-- [ ] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
+- [x] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
 - [x] [15a1 — Frozen learned native-entry parity](slices/15a1-denoise-entry-parity.md)
-- [ ] [15a2 — Typed learned state and prepared consumers](slices/15a2-denoise-prepared-consumers.md)
+- [x] [15a2 — Typed learned state and prepared consumers](slices/15a2-denoise-prepared-consumers.md)
 - [x] [15a2a — Revision-owned clip state domains](slices/15a2a-state-domains.md)
 - [x] [15a2b — Structural parent domains and authored activation](slices/15a2b-parent-state-windows.md)
 - [x] [15a2c — State input bindings and channel provenance](slices/15a2c-state-input-bindings.md)

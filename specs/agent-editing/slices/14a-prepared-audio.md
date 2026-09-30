@@ -1,8 +1,8 @@
 # 14a — Durable prepared audio shared by retiming and processors
 
-Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Linked learned processing now uses this owner through [15a2d–f](15a2f-independent-channels.md); [learned package transfer](../assets/14a-learned-portable/README.md) verifies retained delivery separately from DSP quality. The [two-hour learned workload](24f-successful-learned-scale.md) now verifies successful long output. Stretch binding, broader scale coverage and full listening acceptance remain open. Dependencies: 02a, 04,
-05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
-RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
+Status: verified for the shared durable preparation/publication and consumer contract. [Core lifecycle](../assets/14a-prepared-audio/README.md), [public CLI/MCP preparation](../assets/14a-public-preparation/README.md), [unit-rate portability](../assets/14a-prepared-portable/README.md), [learned portability](../assets/14a-learned-portable/README.md), [typed learned consumers](15a2-denoise-prepared-consumers.md) and [successful long output](24f-successful-learned-scale.md) supply its named gates. Accepted stretch binding belongs to14; processor quality belongs to15a. Neither is inferred from this storage checkpoint. Dependencies: 02a, 04, 05, 08 and 22a.
+This storage/publication prerequisite does not depend on accepting RNNoise or
+stretch quality; actual DSP adoption remains gated by12c/13a.
 
 ## Contract and owners
 
@@ -111,4 +111,4 @@ production native renderer through the existing owner. Package export now retain
 The linked learned runtime and portable retained results are verified in their
 scoped leaves. Successful long-output scaling is verified in [24f](24f-successful-learned-scale.md).
 Accepted stretch binding and the remaining processor/listening combinations stay
-with their owning slices before full closure.
+with14/15a. They do not keep this verified storage/publication owner open.
