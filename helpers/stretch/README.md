@@ -22,6 +22,13 @@ The input descriptor must remain immutable; the output is an empty, distinct
 read/write scratch file. The caller owns descriptors, removes partial output on
 any error and publishes only after success. No preparation owner is added here.
 
+Stereo interleaved files use one upstream instance with both channels. This keeps
+its shared energy analysis and interchannel phase coupling; two mono processors
+would produce different audio. Offsets and counts remain frames, not channel
+samples. The [stereo proof](../../specs/agent-editing/assets/14c-stereo-stretch/README.md)
+pins complete outputs to a direct planar upstream reference and measures the
+upstream channel differences without claiming new listening acceptance.
+
 Cancellation is checked at page transfers, including validation and synthesis,
 and errors escape the synchronous call through the C boundary. This bounds
 adapter work between checks, not operating-system IO latency or every internal
@@ -48,7 +55,7 @@ second worker protocol. The research source remains byte-identical; runner inclu
 paths use this C target's parent so its original vendor include still resolves.
 
 Later public adoption must bind accepted recipe identity through the existing
-execution manifest and reuse PreparedAudioStore, JobQueue and AssetStore. Mono
-parity does not establish stereo policy, public preparation ownership, arbitrary
-rate cancellation latency or new listening acceptance. No recorded response to an audition is not proof
+execution manifest and reuse PreparedAudioStore, JobQueue and AssetStore. Numerical
+parity does not establish public preparation ownership, arbitrary rate cancellation
+latency or stereo listening acceptance. No recorded response to an audition is not proof
 that the audio was unheard.

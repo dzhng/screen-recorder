@@ -4010,3 +4010,20 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 The [audited evidence choices](assets/13a-visual-clarity/choices.md) retain exact
 recovered PCM and separate diagnostic traces/source guards. They change no
 product behavior or listening scope.
+
+## Keep the stereo reference independent of file addressing
+
+- **When:**14c isolated stereo prerequisite.
+- **Choice:** compare the interleaved file implementation with the same vendored
+  engine using complete planar channel vectors, and pin the complete reference
+  outputs. Measure correlated-channel differences as upstream behavior rather
+  than introducing a perfect-coherence promise.
+- **Gap:** the plan required direct linked-reference parity but did not specify
+  how the oracle should avoid sharing the file-layout implementation's mistakes.
+- **Reach:** exact equality can expose channel stride/order errors and replacing
+  linked processing with independent mono engines. It does not establish new
+  perceptual acceptance or improve upstream's measured channel residuals.
+- **Verdict:** sound; deliberately different access layouts provide an independent
+  execution oracle while preserving the mandated DSP and all mono acceptance.
+- **Confidence:** high; the negative independent-mono control distinguishes the
+  forbidden alternative without changing the reference or its tolerances.

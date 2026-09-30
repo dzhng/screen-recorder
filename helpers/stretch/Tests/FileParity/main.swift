@@ -51,9 +51,9 @@ func run() throws {
     print("PASS same-inode aliases, invalid, read-only, append and nonempty descriptors; source bytes and descriptor positions preserved")
     return
   }
-  guard args.count == 7 || args.count == 8,
+  guard args.count == 8 || args.count == 9,
     let first = Int64(args[3]), let count = Int(args[4]), let wanted = Int(args[5]),
-    let cancelAfter = Int(args[6]) else { throw ProofFailure.arguments }
+    let cancelAfter = Int(args[6]), let channels = Int(args[7]) else { throw ProofFailure.arguments }
   let destination = args[2]
   let temporary = destination + ".partial"
   let input = open(args[1], O_RDONLY)
@@ -65,7 +65,7 @@ func run() throws {
   var checks = 0
   try SignalsmithProcessor.processFile(
     inputFD: input, firstFrame: first, inputFrames: count, outputFD: output,
-    outputFrames: wanted, sampleRate: 48000, channels: 1
+    outputFrames: wanted, sampleRate: 48000, channels: channels
   ) {
     checks += 1
     if cancelAfter > 0 && checks == cancelAfter {
@@ -75,7 +75,7 @@ func run() throws {
       throw CancellationError()
     }
     // Inject a real write failure after partial processing, not a mocked status.
-    if args.count == 8 && checks == cancelAfter * -1 { close(output); output = -1 }
+    if args.count == 9 && checks == cancelAfter * -1 { close(output); output = -1 }
   }
   guard link(temporary, destination) == 0 else { throw ProofFailure.output }
   print("{\"frames\":\(wanted),\"checks\":\(checks)}")

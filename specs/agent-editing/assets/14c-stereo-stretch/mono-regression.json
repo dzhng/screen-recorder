@@ -1,0 +1,640 @@
+{
+  "workerSha256": "74a6cf9b2a2283a5fa9070219bd5b96717948054671614e5b872be089789527a",
+  "pointerSha256": "2b469b6a4e0884a11c7a4538b9ca3e8fce0a3525a5816fc68c7a900095834862",
+  "controlSha256": "8ccde3c800895b5ba67db7142f517baa1072619089f4779801af5b2bd620bc36",
+  "checks": [
+    {
+      "case": "internal-slower-0.8x",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/internal-slower-0.8x.f32",
+        "31206",
+        "60474",
+        "75592",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":75592,\"checks\":151}\n",
+      "stderr": "        0.27 real         0.00 user         0.00 sys\n             6848512  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 620  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   9  involuntary context switches\n           164727810  instructions retired\n            36798354  cycles elapsed\n             2425240  peak memory footprint\n",
+      "maxRSSBytes": 6848512,
+      "sha256": "c37b23ae75b93ba3a451e453c40487fe1484a38944e51a2f209f7071afd769bf"
+    },
+    {
+      "case": "internal-slower-0.9x",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/internal-slower-0.9x.f32",
+        "31206",
+        "60474",
+        "67193",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":67193,\"checks\":145}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  15  involuntary context switches\n           150194199  instructions retired\n            33833468  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "8a93003295350dd686048f09b90c83d881a95d5a19d5fe2410b4f9c43c1088c2"
+    },
+    {
+      "case": "internal-faster-1.25x",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/internal-faster-1.25x.f32",
+        "31206",
+        "60474",
+        "48379",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":48379,\"checks\":130}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  45  involuntary context switches\n           122112396  instructions retired\n            30703573  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "fb62342ff3cab527e0e76d83d24852a0cda2b77e9d5aeac2c47772c97c801fea"
+    },
+    {
+      "case": "opening-slower-0.8x",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/opening-slower-0.8x.f32",
+        "0",
+        "31206",
+        "39007",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":39007,\"checks\":82}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  14  involuntary context switches\n           102935478  instructions retired\n            26507404  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "b69883046e89ab9401e210d57f6b102b209a849b5ff51cfb2bcdbc9fad87eaf2"
+    },
+    {
+      "case": "endpoint-0-0.8",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-0.8-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  13  involuntary context switches\n           188420691  instructions retired\n            36288839  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "76c8782659414bc7d66570f0cf3b3af8299e071f258ae577e4d85cc92dded51c"
+    },
+    {
+      "case": "endpoint-0-0.9",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-0.9-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6848512  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 620  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  20  involuntary context switches\n           172651950  instructions retired\n            33466742  cycles elapsed\n             2425240  peak memory footprint\n",
+      "maxRSSBytes": 6848512,
+      "sha256": "ac8179db746b0160c5f3b1a31dd7d08c2bd0b442509ebe9b5bbd00aa573b1cfe"
+    },
+    {
+      "case": "endpoint-0-1",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-1-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   7  involuntary context switches\n            40361215  instructions retired\n            13041229  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5"
+    },
+    {
+      "case": "endpoint-0-1.25",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-1.25-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-0-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  17  involuntary context switches\n           136085259  instructions retired\n            28120867  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "2c5157fa3b75756f248c40150469c408fa3022fe16c33bf3cf6f3b358fe00b8f"
+    },
+    {
+      "case": "endpoint-1-0.8",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-0.8-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  27  involuntary context switches\n           188440183  instructions retired\n            37334842  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "21a90cc92d63ebeeb8a52de52a1b2fcfe940d5e9a930cefdffe1d680a931ab59"
+    },
+    {
+      "case": "endpoint-1-0.9",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-0.9-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6848512  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 620  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  10  involuntary context switches\n           172522382  instructions retired\n            33848133  cycles elapsed\n             2425240  peak memory footprint\n",
+      "maxRSSBytes": 6848512,
+      "sha256": "f8c8b8461bc1654765e6d68462b6f4322a3e4abb9106876d91ac6b2006bdf8e4"
+    },
+    {
+      "case": "endpoint-1-1",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-1-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  10  involuntary context switches\n            40276354  instructions retired\n            13225157  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c"
+    },
+    {
+      "case": "endpoint-1-1.25",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-1.25-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-1-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  45  involuntary context switches\n           136480219  instructions retired\n            29185157  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "5bdc281e630a361fdc8a5488be3b4fbe411d884634e0c50d866290bfeadbd883"
+    },
+    {
+      "case": "endpoint-17-0.8",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-0.8-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  18  involuntary context switches\n           188462289  instructions retired\n            36746861  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "7d9a81c0e2bb794a4d4527c5704f24c6b03300317792ff9a222379c6d0b5e2df"
+    },
+    {
+      "case": "endpoint-17-0.9",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-0.9-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  10  involuntary context switches\n           172677355  instructions retired\n            34971623  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "df33cd8ded7a85758db43397ee368a3032cae3f229ea2f195bd2dc013033ff4c"
+    },
+    {
+      "case": "endpoint-17-1",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-1-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   9  involuntary context switches\n            40442665  instructions retired\n            13094795  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb"
+    },
+    {
+      "case": "endpoint-17-1.25",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-1.25-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-17-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  23  involuntary context switches\n           136157495  instructions retired\n            28084338  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "c5a92465ecf00871462bde8bb414c8dc97cc40adff725b0979e2cbc73a4cd457"
+    },
+    {
+      "case": "endpoint-137-0.8",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-0.8-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  23  involuntary context switches\n           188541452  instructions retired\n            37257685  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "da0df89208bf88bcf7b6aee391fe26e562a707d74fd0a65ac6b6d4af3ee9a732"
+    },
+    {
+      "case": "endpoint-137-0.9",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-0.9-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  14  involuntary context switches\n           172653565  instructions retired\n            33463291  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "ee04d83792f7fb3d7a30da3b0b2a3926c059fe29091536e8ef4b7d64e5edd32c"
+    },
+    {
+      "case": "endpoint-137-1",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-1-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  41  involuntary context switches\n            40962672  instructions retired\n            15830224  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919"
+    },
+    {
+      "case": "endpoint-137-1.25",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-1.25-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/endpoint-137-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  10  involuntary context switches\n           136095769  instructions retired\n            28561166  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "d776656059864a4cdd1003e5e269c23252b3d4de55107177f54d96239e33f5f7"
+    },
+    {
+      "case": "excluded-poison",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/poison-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/excluded-poison.f32",
+        "31206",
+        "60474",
+        "75592",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":75592,\"checks\":151}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  12  involuntary context switches\n           163956522  instructions retired\n            36135526  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "c37b23ae75b93ba3a451e453c40487fe1484a38944e51a2f209f7071afd769bf"
+    },
+    {
+      "case": "identity-bits",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/identity-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/identity-bits.f32",
+        "0",
+        "12000",
+        "12000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":12000,\"checks\":23}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   8  involuntary context switches\n            31487277  instructions retired\n            11914363  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "efab4b10c011828257348174e2e03e06de346fc8ada7720d15806d018321d647"
+    },
+    {
+      "case": "scale-60",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-60-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-60.f32",
+        "0",
+        "2880000",
+        "3600000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":3600000,\"checks\":6865}\n",
+      "stderr": "        0.30 real         0.28 user         0.01 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 623  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                 252  involuntary context switches\n          6101975522  instructions retired\n          1081826442  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "cc216b1f7a0a14db92b6ec8ce59f0577329fb67460d940b047a4a44470489b0b",
+      "pointerControl": {
+        "args": [
+          "/usr/bin/time",
+          "-l",
+          "/private/tmp/stretch-stereo-proof/mono-regression/pointer-control",
+          "/private/tmp/stretch-stereo-proof/mono-regression/scale-60-input.f32",
+          "/private/tmp/stretch-stereo-proof/mono-regression/scale-60-pointer.f32",
+          "0",
+          "2880000",
+          "3600000"
+        ],
+        "stderr": "        0.48 real         0.28 user         0.00 sys\n            28311552  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                1899  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   1  voluntary context switches\n                 398  involuntary context switches\n          5587492586  instructions retired\n          1005076142  cycles elapsed\n            27869544  peak memory footprint\n",
+        "exact": true
+      }
+    },
+    {
+      "case": "scale-600",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "0",
+        "1"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":36000000,\"checks\":68569}\n",
+      "stderr": "        3.14 real         2.93 user         0.13 sys\n             6848512  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 620  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  22  voluntary context switches\n                7457  involuntary context switches\n         60815916621  instructions retired\n         10971936712  cycles elapsed\n             2425240  peak memory footprint\n",
+      "maxRSSBytes": 6848512,
+      "sha256": "4b3bb100cf2c7d95bb94ac48e38ba1bd798bbc728b9e518e2448d5fdcf50ece8",
+      "pointerControl": {
+        "args": [
+          "/usr/bin/time",
+          "-l",
+          "/private/tmp/stretch-stereo-proof/mono-regression/pointer-control",
+          "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+          "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-pointer.f32",
+          "0",
+          "28800000",
+          "36000000"
+        ],
+        "stderr": "        2.54 real         2.40 user         0.08 sys\n           261603328  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               16138  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  31  voluntary context switches\n                6099  involuntary context switches\n         55782369752  instructions retired\n         10193754705  cycles elapsed\n           261276176  peak memory footprint\n",
+        "exact": true
+      }
+    },
+    {
+      "case": "cancel-before",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/cancel-before.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "1",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":false}\n",
+      "stderr": "CancellationError()\n        0.00 real         0.00 user         0.00 sys\n             6356992  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 595  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  11  involuntary context switches\n            28062727  instructions retired\n            12895867  cycles elapsed\n             1819032  peak memory footprint\n",
+      "maxRSSBytes": 6356992
+    },
+    {
+      "case": "cancel-validation",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/cancel-validation.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "100",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":false}\n",
+      "stderr": "CancellationError()\n        0.00 real         0.00 user         0.00 sys\n             6373376  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 596  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  12  involuntary context switches\n            37400764  instructions retired\n            12390242  cycles elapsed\n             1819032  peak memory footprint\n",
+      "maxRSSBytes": 6373376
+    },
+    {
+      "case": "cancel-energy",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/cancel-energy.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "18000",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":false}\n",
+      "stderr": "CancellationError()\n        0.07 real         0.05 user         0.02 sys\n             7176192  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 645  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                 508  involuntary context switches\n          1745291380  instructions retired\n           308482798  cycles elapsed\n             2605488  peak memory footprint\n",
+      "maxRSSBytes": 7176192
+    },
+    {
+      "case": "cancel-synthesis",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/cancel-synthesis.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "40000",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":true}\n",
+      "stderr": "CancellationError()\n        0.88 real         0.80 user         0.05 sys\n             7192576  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 646  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  19  voluntary context switches\n                1297  involuntary context switches\n         19728986728  instructions retired\n          3503312138  cycles elapsed\n             2621872  peak memory footprint\n",
+      "maxRSSBytes": 7192576
+    },
+    {
+      "case": "io-synthesis",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/io-synthesis.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "-40000",
+        "1",
+        "close-output"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "ioFailed\n        0.87 real         0.79 user         0.05 sys\n             7127040  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 642  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  15  voluntary context switches\n                2784  involuntary context switches\n         19739116657  instructions retired\n          3570781960  cycles elapsed\n             2556312  peak memory footprint\n",
+      "maxRSSBytes": 7127040
+    },
+    {
+      "case": "unrepresentable-seek",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/scale-600-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/unrepresentable-seek.f32",
+        "0",
+        "2000000",
+        "1",
+        "0",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "unsupportedSelection\n        0.00 real         0.00 user         0.00 sys\n             7094272  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 640  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  17  involuntary context switches\n           124587412  instructions retired\n            30485085  cycles elapsed\n             2556312  peak memory footprint\n",
+      "maxRSSBytes": 7094272
+    },
+    {
+      "case": "unsupported",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/unsupported.f32",
+        "0",
+        "1",
+        "2",
+        "0",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "unsupportedSelection\n        0.00 real         0.00 user         0.00 sys\n             7094272  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 640  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  23  involuntary context switches\n            30732984  instructions retired\n            15937881  cycles elapsed\n             2556312  peak memory footprint\n",
+      "maxRSSBytes": 7094272
+    },
+    {
+      "case": "short-source",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/short-source.f32",
+        "231359",
+        "2",
+        "3",
+        "0",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "invalidCount\n        0.00 real         0.00 user         0.00 sys\n             6258688  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 589  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  10  involuntary context switches\n            27414783  instructions retired\n            12809009  cycles elapsed\n             1737088  peak memory footprint\n",
+      "maxRSSBytes": 6258688
+    },
+    {
+      "case": "overflow-offset",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/source.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/overflow-offset.f32",
+        "9223372036854775807",
+        "2",
+        "3",
+        "0",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "invalidCount\n        0.00 real         0.00 user         0.00 sys\n             6242304  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 588  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  12  involuntary context switches\n            27506203  instructions retired\n            12276924  cycles elapsed\n             1720704  peak memory footprint\n",
+      "maxRSSBytes": 6242304
+    },
+    {
+      "case": "nonfinite",
+      "args": [
+        "/private/tmp/stretch-stereo-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-stereo-proof/mono-regression/nonfinite-input.f32",
+        "/private/tmp/stretch-stereo-proof/mono-regression/nonfinite.f32",
+        "0",
+        "231361",
+        "231360",
+        "0",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "nonfinite\n        0.00 real         0.00 user         0.00 sys\n             6356992  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 595  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  37  involuntary context switches\n            38778343  instructions retired\n            17005814  cycles elapsed\n             1802624  peak memory footprint\n",
+      "maxRSSBytes": 6356992
+    }
+  ],
+  "descriptorContracts": "PASS same-inode aliases, invalid, read-only, append and nonempty descriptors; source bytes and descriptor positions preserved\n",
+  "passed": true
+}

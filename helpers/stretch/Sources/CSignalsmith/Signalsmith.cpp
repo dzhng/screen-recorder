@@ -14,7 +14,7 @@ extern "C" ScreenrecStretchStatus screenrec_stretch_exact(
     } else {
       const float *inputs[] = {input};
       float *outputs[] = {output};
-      if (!screenrec::stretchExact(inputs, inputFrames, outputs, outputFrames)) return SCREENREC_STRETCH_UNSUPPORTED;
+      if (!screenrec::stretchExact(inputs, inputFrames, outputs, outputFrames, 1)) return SCREENREC_STRETCH_UNSUPPORTED;
     }
     for (int32_t i = 0; i < outputFrames; ++i)
       if (!std::isfinite(output[i])) return SCREENREC_STRETCH_NONFINITE;

@@ -1,6 +1,6 @@
 import CSignalsmith
 
-/// Bounded mono parity adapter. Selection and publication belong to its caller.
+/// Exact stretch adapters. Selection and publication belong to its caller.
 public enum SignalsmithProcessor {
   public enum Failure: Error, Equatable {
     case unsupportedFormat, invalidCount, unsupportedSelection, nonfinite, processingFailed, ioFailed
@@ -29,19 +29,20 @@ public enum SignalsmithProcessor {
 
   /// Writes to a caller-owned empty, readable/writable regular scratch file.
   /// The caller must discard it on every error and publish only after success.
+  /// Samples are interleaved; offsets and counts address frames, not channel samples.
   /// Input must remain immutable throughout the synchronous call. Descriptors stay open.
   public static func processFile(
     inputFD: Int32, firstFrame: Int64, inputFrames: Int, outputFD: Int32,
     outputFrames: Int, sampleRate: Int, channels: Int,
     checkCancellation: () throws -> Void = {}
   ) throws {
-    guard sampleRate == 48_000, channels == 1 else { throw Failure.unsupportedFormat }
+    guard sampleRate == 48_000, channels == 1 || channels == 2 else { throw Failure.unsupportedFormat }
     guard inputFrames > 0, inputFrames <= Int(Int32.max),
       outputFrames > 0, outputFrames <= Int(Int32.max) else { throw Failure.invalidCount }
     try withoutActuallyEscaping(checkCancellation) { check in
       let cancellation = CancellationCheck(check)
       let status = screenrec_stretch_exact_file(
-        inputFD, firstFrame, Int32(inputFrames), outputFD, Int32(outputFrames),
+        inputFD, firstFrame, Int32(inputFrames), outputFD, Int32(outputFrames), Int32(channels),
         { context in
           let state = Unmanaged<CancellationCheck>.fromOpaque(context!).takeUnretainedValue()
           do { try state.check(); return 0 }

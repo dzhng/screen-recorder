@@ -1,6 +1,10 @@
 # 14c — Preserve stereo with linked stretch channels
 
-Status: not started. Dependencies: the bounded mono file seam; independent of14b.
+Status: isolated technical prerequisite complete. [The retained proof](../assets/14c-stereo-stretch/README.md)
+verifies one coupled stereo engine, exact mono preservation, selected-source
+isolation, bounded memory and cancellation/error cleanup. Public admission remains
+with14e; no stereo listening acceptance is claimed. Dependencies: the bounded mono
+file seam; independent of14b.
 
 ## Contract and seam
 

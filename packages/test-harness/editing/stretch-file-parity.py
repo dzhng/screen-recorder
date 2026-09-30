@@ -25,7 +25,7 @@ report = {'workerSha256' : sha(worker.read_bytes()), 'pointerSha256': sha(pointe
 
 def call(name, path, start, count, wanted, cancel=0, failure=None, inject=False):
     dest = out / (name + '.f32')
-    args = [str(worker), str(path), str(dest), str(start), str(count), str(wanted), str(cancel)]
+    args = [str(worker), str(path), str(dest), str(start), str(count), str(wanted), str(cancel), '1']
     if inject:
         args.append('close-output')
     result = subprocess.run(['/usr/bin/time', '-l', *args], text=True, capture_output=True, timeout=90)
@@ -118,7 +118,7 @@ call('nonfinite', nonfinite, 0, len(pcm)//4+1, len(pcm)//4, failure='nonfinite')
 # An existing destination must survive the publication attempt unchanged.
 preserved = out / 'existing.f32'
 preserved.write_bytes(b'existing-output')
-result = subprocess.run([str(worker), str(input_path), str(preserved), '0', '12000', '12000', '0'], capture_output=True, timeout=30)
+result = subprocess.run([str(worker), str(input_path), str(preserved), '0', '12000', '12000', '0', '1'], capture_output=True, timeout=30)
 assert result.returncode == 1 and preserved.read_bytes() == b'existing-output'
 assert not Path(str(preserved)+'.partial').exists()
 assert input_path.read_bytes() == pcm

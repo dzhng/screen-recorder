@@ -1,0 +1,52 @@
+{
+  "baseCommit": "bd62d8f8ec7f37b5043ac9bae0d742db542cc87b",
+  "files": [
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Exact.h",
+      "sha256": "de2dab45b889a10ed14e6c41e5c36712b3ec490368b9be2e0978a396cb27639a"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Paged.cpp",
+      "sha256": "6b8ddbbddde4ffc07b6032fa9da108ee919efd3d9887356235575eaf41701c99"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp",
+      "sha256": "ca95b7c8cfa435fc2ccdd932139445ec3e0f922eaacbf9fdaa7de629908e6ff2"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h",
+      "sha256": "c9a01d610e2aeac0e7c28317f5368e3165fc89d6263c498735b132902a387bab"
+    },
+    {
+      "path": "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift",
+      "sha256": "1d8408af196397ce107f3f52372d7aea3f29565589225d9a93c73ca34a3ec363"
+    },
+    {
+      "path": "helpers/stretch/Tests/FileParity/main.swift",
+      "sha256": "12f30754d12d8ee187657d28e6ea7f5c741a7179f82bb0698f3d3b7575620724"
+    },
+    {
+      "path": "packages/test-harness/editing/stretch-stereo-parity.py",
+      "sha256": "bccca3ed060f50cbf803fced3a98b48c90167ccbf3cb146d05d32d667e9f4c27"
+    },
+    {
+      "path": "packages/test-harness/editing/stretch/linked-reference.cpp",
+      "sha256": "541a3b9c1303ce99b574607ceb538d656f713feafd901840d299a9b04e0bf913"
+    },
+    {
+      "path": "packages/test-harness/editing/stretch-file-parity.py",
+      "sha256": "7dd4fbe88265ff2306c9b3739acf2824abef25b315a06681dbb799f07baaef06"
+    },
+    {
+      "path": "specs/agent-editing/assets/14c-stereo-stretch/reference.json",
+      "sha256": "6a739b78dfd6038fc630b905c4a325b561b5e21e1571d1f04b6af4a183fe1519"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/vendor/sources.json",
+      "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+    }
+  ],
+  "frozenListeningWorkerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "vendorChanged": false,
+  "monoRecipeChanged": false
+}

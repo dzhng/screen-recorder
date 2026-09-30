@@ -1,0 +1,45 @@
+[
+  {
+    "attempt": "before-stereo-admission",
+    "verdict": "expected refusal",
+    "args": [
+      "/tmp/stretch-stereo-proof/baseline/release/StretchFileParity",
+      "/tmp/stretch-stereo-proof/correlated.f32",
+      "/tmp/stretch-stereo-proof/correlated-before.f32",
+      "137",
+      "95606",
+      "119507",
+      "0",
+      "2"
+    ],
+    "exitCode": 1,
+    "stderr": "unsupportedFormat\n"
+  },
+  {
+    "attempt": "initial correlated comparison",
+    "verdict": "invalid auxiliary ideal-coherence threshold",
+    "directReferenceByteEquality": true,
+    "expectedMaximumLaneDifference": 1e-05,
+    "observedMaximumLaneDifference": 0.0005315914750099182,
+    "correction": "Preserve exact upstream behavior; retain channel-difference telemetry without a new perfect-coherence promise."
+  },
+  {
+    "attempt": "linked direct reference establishment",
+    "verdict": "keep",
+    "passed": true,
+    "cases": 23
+  },
+  {
+    "attempt": "independent mono negative control",
+    "verdict": "distinguished",
+    "linkedSha256": "f1280997c79ce97298dd389e12a443fdd7aaca5cdf4384a662e75603f2ca5971",
+    "independentSha256": "bc91a8b1270f23fdf8a289c7c5d94900cfb2592d3af72d2ec9251dc1e7ac7f14",
+    "maxDifference": 0.0968945287168026
+  },
+  {
+    "attempt": "swap output channel lanes",
+    "verdict": "caught",
+    "exitCode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/stretch-stereo-parity.py\", line 86, in <module>\n    dest = matched(f'{name}-{n}-{d}', path, first, count, wanted)\n  File \"/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/stretch-stereo-parity.py\", line 60, in matched\n    assert chunk == b.read(len(chunk)), name+' differs from linked upstream'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: correlated-5-4 differs from linked upstream\n"
+  }
+]
