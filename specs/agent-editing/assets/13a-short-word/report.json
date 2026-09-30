@@ -1,0 +1,119 @@
+{
+  "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/13a-endpoint-verification/auditions/phrase-0-reference.wav",
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+  "workerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "text": "Okay, so this is the recorder workbench.",
+  "boundaryAuthority": "Explicitly authored inherited-ASR gaps; proposed word containment only, no independent annotation or listening verdict",
+  "protectedReferenceSpans": [
+    {
+      "path": "protected-opening-reference.wav",
+      "frames": [
+        0,
+        22560
+      ],
+      "proposedText": "Okay"
+    },
+    {
+      "path": "protected-ending-reference.wav",
+      "frames": [
+        91680,
+        231360
+      ],
+      "proposedText": "recorder workbench"
+    }
+  ],
+  "shortSpeech": {
+    "proposedText": "Okay",
+    "selectedFrames": [
+      0,
+      22560
+    ],
+    "sourceFileRangeUs": [
+      1050000,
+      1520000
+    ],
+    "speed": {
+      "numerator": 4,
+      "denominator": 5
+    },
+    "outputSelectedFrames": 28200,
+    "outputContextFrames": 237000,
+    "joinSeconds": 0.5875,
+    "admission": "Actual frozen-worker request succeeded; no fallback/preset switch",
+    "checks": {
+      "exactCount": true,
+      "finite": true,
+      "unchangedRest": true,
+      "excludedSourcePoisonIdentical": true,
+      "selectedOnlyIdentical": true
+    },
+    "retimedPcmSha256": "f78315ebeba593cb1a7d1cab14986535ed7da4f8236619c7f1ec9bf9cb21a1ac"
+  },
+  "tone": {
+    "inputFrames": 22560,
+    "outputFrames": 28200,
+    "pitch": {
+      "expectedHz": 120,
+      "crossingCount": 35,
+      "minimumCrossings": 3,
+      "measuredRange": {
+        "startFrame": 7051,
+        "endFrame": 21150
+      },
+      "status": "measured",
+      "hz": 119.99951998277675,
+      "errorPercent": 0.0004000143527083111
+    },
+    "measurementSourceSha256": "b297665ba3d1010f2c15d259ca487059f38a2a2ad05e79269d03edff626d44d0"
+  },
+  "policy": "Explicit selected PCM only; no added context, padding, fade, gain, new model/build or public adoption",
+  "listening": "UNVERIFIED; containment and short-word quality await independent judgment",
+  "files": [
+    {
+      "path": "original.wav",
+      "bytes": 925484,
+      "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+    },
+    {
+      "path": "protected-opening-reference.wav",
+      "bytes": 90284,
+      "sha256": "40673bdc2f008fa2ce4c7392d3d36c4da8ab8381253bc6c7533ef948638a25ea"
+    },
+    {
+      "path": "protected-ending-reference.wav",
+      "bytes": 558764,
+      "sha256": "5b45a52898e64aed02e387e429ba1ad567db6fea12599d82e0fad177a7ad29eb"
+    },
+    {
+      "path": "short-word-slower-0.8x.wav",
+      "bytes": 948044,
+      "sha256": "082cf7da73b160dee4ee12a887179f5b53b7088b888c6e91fd4d1e2a1c1be220"
+    },
+    {
+      "path": "tone-input.f32",
+      "bytes": 90240,
+      "sha256": "055856dbd8b3d5f2167098e859552bab0e64dd21e5661b049436da9cc4a2493b"
+    },
+    {
+      "path": "tone-output.f32",
+      "bytes": 112800,
+      "sha256": "c283cc4a692e69c1b5039b72ea75e16f33efc4eeb8e09c8c7172f175364428d2"
+    },
+    {
+      "path": "render.mjs",
+      "bytes": 4982,
+      "sha256": "c2a99cb80bb2d9a6fcb8e30a31637558243e5241e71a3a58cc4f8431711553cc"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1508,
+      "sha256": "9ae9c3ed71320bf539a62caff0885134004ba2201fff840aa05e9f6681615571"
+    },
+    {
+      "path": "pitch.json",
+      "bytes": 237,
+      "sha256": "65c758bce3f25c358a85bc9a624f708459a133c17fe3f3981d4194a08e96dd62"
+    }
+  ]
+}

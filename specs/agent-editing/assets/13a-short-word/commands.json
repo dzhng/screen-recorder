@@ -1,0 +1,58 @@
+[
+  {
+    "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+    "args": [
+      "/private/tmp/screenrec-short-word-1/input.f32",
+      "/private/tmp/screenrec-short-word-1/short-word.f32",
+      "0",
+      "22560",
+      "28200",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":28200}\n",
+    "stderr": ""
+  },
+  {
+    "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+    "args": [
+      "/private/tmp/screenrec-short-word-1/poison-input.f32",
+      "/private/tmp/screenrec-short-word-1/short-word-poison.f32",
+      "0",
+      "22560",
+      "28200",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":28200}\n",
+    "stderr": ""
+  },
+  {
+    "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+    "args": [
+      "/private/tmp/screenrec-short-word-1/selected.f32",
+      "/private/tmp/screenrec-short-word-1/short-word-selected-only.f32",
+      "0",
+      "22560",
+      "28200",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":28200}\n",
+    "stderr": ""
+  },
+  {
+    "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+    "args": [
+      "/private/tmp/screenrec-short-word-1/tone-input.f32",
+      "/private/tmp/screenrec-short-word-1/tone-output.f32",
+      "0",
+      "22560",
+      "28200",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":28200}\n",
+    "stderr": ""
+  }
+]

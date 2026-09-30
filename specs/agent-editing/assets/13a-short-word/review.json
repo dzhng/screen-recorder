@@ -1,0 +1,7 @@
+{
+  "shape": "Scoped evidence only; frozen processor and existing pitch measurement remain owners, no production policy added.",
+  "diff": "Copied artifact identities verified. Both reference crops exactly match original PCM ranges. Candidate unedited rest verified byte-identical; selected output matches scratch excluded-source poison and selected-only runs.",
+  "docs": "Two separate rubrics distinguish independent word containment from short-word naturalness. Proposed ASR-origin text and authored boundaries remain unverified. Root owns upward spec links and human verdicts.",
+  "choices": "Root delegated exact spans, rate, engine and existing pitch gate; no additional product decision.",
+  "verdict": "Clean evidence packet; no independent word-label or listening acceptance claimed"
+}

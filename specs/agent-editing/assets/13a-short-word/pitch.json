@@ -1,0 +1,12 @@
+{
+  "expectedHz": 120,
+  "crossingCount": 35,
+  "minimumCrossings": 3,
+  "measuredRange": {
+    "startFrame": 7051,
+    "endFrame": 21150
+  },
+  "status": "measured",
+  "hz": 119.99951998277675,
+  "errorPercent": 0.0004000143527083111
+}
