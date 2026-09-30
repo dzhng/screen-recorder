@@ -1,0 +1,8 @@
+{
+  "archiveSha256": "e7cac5f3fa2a6a30f90753e42792d9bc939c569bf5b3908afb2aea642a88e19d",
+  "members": 33,
+  "nativeProductionChange": false,
+  "readerSource": "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift",
+  "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVMovieTrack.h:271",
+  "allProcessesTerminal": true
+}
