@@ -1,0 +1,268 @@
+[
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x.f32",
+      "31206",
+      "91680",
+      "75592",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":75592}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-poison-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-poison.f32",
+      "31206",
+      "91680",
+      "75592",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":75592}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-selected-only-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-selected-only.f32",
+      "0",
+      "60474",
+      "75592",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":75592}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-tone-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.8x-tone.f32",
+      "0",
+      "60474",
+      "75592",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":75592}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x.f32",
+      "31206",
+      "91680",
+      "67193",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":67193}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-poison-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-poison.f32",
+      "31206",
+      "91680",
+      "67193",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":67193}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-selected-only-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-selected-only.f32",
+      "0",
+      "60474",
+      "67193",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":67193}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-tone-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-slower-0.9x-tone.f32",
+      "0",
+      "60474",
+      "67193",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":67193}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x.f32",
+      "31206",
+      "91680",
+      "48379",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":48379}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-poison-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-poison.f32",
+      "31206",
+      "91680",
+      "48379",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":48379}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-selected-only-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-selected-only.f32",
+      "0",
+      "60474",
+      "48379",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":48379}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-tone-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/internal-faster-1.25x-tone.f32",
+      "0",
+      "60474",
+      "48379",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":48379}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x.f32",
+      "0",
+      "31206",
+      "39007",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":39007}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-poison-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-poison.f32",
+      "0",
+      "31206",
+      "39007",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":39007}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-selected-only-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-selected-only.f32",
+      "0",
+      "31206",
+      "39007",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":39007}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-tone-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/opening-slower-0.8x-tone.f32",
+      "0",
+      "31206",
+      "39007",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":39007}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/identity-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/identity.f32",
+      "31206",
+      "91680",
+      "60474",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":60474}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/identity-poison-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/identity-poison.f32",
+      "31206",
+      "91680",
+      "60474",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":60474}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/private/tmp/screenrec-corrected-selections-1/identity-selected-only-input.f32",
+      "/private/tmp/screenrec-corrected-selections-1/identity-selected-only.f32",
+      "0",
+      "60474",
+      "60474",
+      "48000"
+    ],
+    "exitCode": 0,
+    "stdout": "{\"frames\":60474}\n",
+    "stderr": ""
+  }
+]

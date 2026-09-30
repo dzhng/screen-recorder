@@ -1,0 +1,243 @@
+{
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "workerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "clockOwnerSha256": "bed959eceb0dda2ba9aa96203bbdc150ef486708203b1c256192352f42454525",
+  "pitchOwnerSha256": "b297665ba3d1010f2c15d259ca487059f38a2a2ad05e79269d03edff626d44d0",
+  "boundaryReferenceSha256": "984e1ef8b9e48053b495fab3980583b724b8059f0849e2db889de46e26f789a1",
+  "boundaryAuthority": "User accepted revised paused-reference placement; no sample-exact phonetic edge claim",
+  "sampleRate": 48000,
+  "identityExact": true,
+  "results": [
+    {
+      "path": "internal-slower-0.8x.wav",
+      "sourceFrames": [
+        31206,
+        91680
+      ],
+      "rate": {
+        "numerator": 4,
+        "denominator": 5
+      },
+      "declaredOutput": {
+        "name": "internal-slower-0.8x",
+        "start": 31206,
+        "end": 106798,
+        "frames": 75592
+      },
+      "outputFrames": 246478,
+      "joinsSeconds": [
+        0.650125,
+        2.2249583333333334
+      ],
+      "selectedPcmSha256": "c37b23ae75b93ba3a451e453c40487fe1484a38944e51a2f209f7071afd769bf",
+      "tonePitch": {
+        "expectedHz": 120,
+        "crossingCount": 94,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 18899,
+          "endFrame": 56694
+        },
+        "status": "measured",
+        "hz": 120.00030176282725,
+        "errorPercent": 0.00025146902271622196
+      },
+      "checks": {
+        "exactCount": true,
+        "finite": true,
+        "unchangedPrefix": true,
+        "unchangedSuffix": true,
+        "excludedPoisonIdentical": true,
+        "selectedOnlyIdentical": true
+      }
+    },
+    {
+      "path": "internal-slower-0.9x.wav",
+      "sourceFrames": [
+        31206,
+        91680
+      ],
+      "rate": {
+        "numerator": 9,
+        "denominator": 10
+      },
+      "declaredOutput": {
+        "name": "internal-slower-0.9x",
+        "start": 31206,
+        "end": 98399,
+        "frames": 67193
+      },
+      "outputFrames": 238079,
+      "joinsSeconds": [
+        0.650125,
+        2.0499791666666667
+      ],
+      "selectedPcmSha256": "8a93003295350dd686048f09b90c83d881a95d5a19d5fe2410b4f9c43c1088c2",
+      "tonePitch": {
+        "expectedHz": 120,
+        "crossingCount": 84,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 16799,
+          "endFrame": 50394
+        },
+        "status": "measured",
+        "hz": 120.00004563705598,
+        "errorPercent": 3.80308799785567e-05
+      },
+      "checks": {
+        "exactCount": true,
+        "finite": true,
+        "unchangedPrefix": true,
+        "unchangedSuffix": true,
+        "excludedPoisonIdentical": true,
+        "selectedOnlyIdentical": true
+      }
+    },
+    {
+      "path": "internal-faster-1.25x.wav",
+      "sourceFrames": [
+        31206,
+        91680
+      ],
+      "rate": {
+        "numerator": 5,
+        "denominator": 4
+      },
+      "declaredOutput": {
+        "name": "internal-faster-1.25x",
+        "start": 31206,
+        "end": 79585,
+        "frames": 48379
+      },
+      "outputFrames": 219265,
+      "joinsSeconds": [
+        0.650125,
+        1.6580208333333333
+      ],
+      "selectedPcmSha256": "fb62342ff3cab527e0e76d83d24852a0cda2b77e9d5aeac2c47772c97c801fea",
+      "tonePitch": {
+        "expectedHz": 120,
+        "crossingCount": 60,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 12095,
+          "endFrame": 36284
+        },
+        "status": "measured",
+        "hz": 120.00003396837108,
+        "errorPercent": 2.8306975896619235e-05
+      },
+      "checks": {
+        "exactCount": true,
+        "finite": true,
+        "unchangedPrefix": true,
+        "unchangedSuffix": true,
+        "excludedPoisonIdentical": true,
+        "selectedOnlyIdentical": true
+      }
+    },
+    {
+      "path": "opening-slower-0.8x.wav",
+      "sourceFrames": [
+        0,
+        31206
+      ],
+      "rate": {
+        "numerator": 4,
+        "denominator": 5
+      },
+      "declaredOutput": {
+        "name": "opening-slower-0.8x",
+        "start": 0,
+        "end": 39007,
+        "frames": 39007
+      },
+      "outputFrames": 239161,
+      "joinsSeconds": [
+        0.0,
+        0.8126458333333333
+      ],
+      "selectedPcmSha256": "b69883046e89ab9401e210d57f6b102b209a849b5ff51cfb2bcdbc9fad87eaf2",
+      "tonePitch": {
+        "expectedHz": 120,
+        "crossingCount": 49,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 9752,
+          "endFrame": 29255
+        },
+        "status": "measured",
+        "hz": 120.00000459941225,
+        "errorPercent": 3.8328435314483045e-06
+      },
+      "checks": {
+        "exactCount": true,
+        "finite": true,
+        "unchangedPrefix": true,
+        "unchangedSuffix": true,
+        "excludedPoisonIdentical": true,
+        "selectedOnlyIdentical": true
+      }
+    }
+  ],
+  "policy": "Same frozen recipe and exact selections; no inserted pauses, denoise, ambience, gain, fades or hidden context",
+  "listening": "PENDING for these changed selections; prior files keep their own verdicts",
+  "files": [
+    {
+      "path": "commands.json",
+      "bytes": 8041,
+      "sha256": "722a65e7ff89fbbdfb4ceaa4f33decf55fa24851dabf49aca37a6489557c7fcd"
+    },
+    {
+      "path": "internal-faster-1.25x-tone.f32",
+      "bytes": 193516,
+      "sha256": "473ba2207f10f0e6130b008e2a728c47b5096f9b3112a1de0a657769d9a13a49"
+    },
+    {
+      "path": "internal-faster-1.25x.wav",
+      "bytes": 877104,
+      "sha256": "e7f503076395887d6add5ea9dd526bce0832c8713d1696e3cef8df7872d12821"
+    },
+    {
+      "path": "internal-slower-0.8x-tone.f32",
+      "bytes": 302368,
+      "sha256": "3e84af4d339c2a7ba316d748b56227fa138292cc1a51b57b93290c682d6923f4"
+    },
+    {
+      "path": "internal-slower-0.8x.wav",
+      "bytes": 985956,
+      "sha256": "53da1582ea82e3d6bb4ba16d9f7c75f978f838d28dd1f1e05b501bb0a5aeccc7"
+    },
+    {
+      "path": "internal-slower-0.9x-tone.f32",
+      "bytes": 268772,
+      "sha256": "de35a9c520b804782e1085401c9150e734ad264f8c3f001d0af2e887417a6ac8"
+    },
+    {
+      "path": "internal-slower-0.9x.wav",
+      "bytes": 952360,
+      "sha256": "7976c41a5baee64364d2d0e29b0e245edd9e2289bf7cb4f365e716668d1fd5f7"
+    },
+    {
+      "path": "opening-slower-0.8x-tone.f32",
+      "bytes": 156028,
+      "sha256": "4f2343fa48563d2127e351bdf8369e905597763727cca5085ad52db0fd53a9ea"
+    },
+    {
+      "path": "opening-slower-0.8x.wav",
+      "bytes": 956688,
+      "sha256": "e4b6feb207be322940eca8ff59d1bfe479ca15f46f442d32652b823694df6bb0"
+    },
+    {
+      "path": "original.wav",
+      "bytes": 925484,
+      "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+    },
+    {
+      "path": "render.py",
+      "bytes": 6009,
+      "sha256": "af099b152d735e6148481e2323092269442740b07dcd862a080b0c3a541f0aff"
+    }
+  ]
+}

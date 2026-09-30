@@ -24,9 +24,10 @@ is accepted. The user reports that its deliberate digital-silence pauses sound
 abrupt and requires independent room-tone-fill and noise-reduction tools, with no
 automatic policy choice. Existing extraction, composition/fades and noise stacks
 supply those primitives; [journeys](journeys.md) now names both pause workflows.
-Their full pause-specific listening acceptance is not claimed. Next render the
-corrected short-word/internal-rate selections using the revised boundaries,
-without promoting the old naturalness passes to new media.14 remains gated on13a.
+Their full pause-specific listening acceptance is not claimed. The
+[corrected short-word/internal-rate selections](assets/13a-corrected-selections/README.md)
+now pass numerical/source-isolation checks and await the A–D listening verdict.
+Do not promote old naturalness passes to new media.14 remains gated on13a.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified

@@ -18,14 +18,19 @@ retains final sources, regression reds/greens and public source/preview checks.
 Root rehashed312 members and200 source identities, then reran cadence, media,
 replay and stop checks. Capture-pause-recovery has completed this pass.
 
-Next audit/resolve13a's remaining evidence, including the accepted
-[familiar internal-join listening comparison](13a-familiar-internal-join/README.md).
-Do not repeat accepted whole-sentence or lifecycle cohorts. Physical20 still lacks
-its stated camera duration/precision proof; [measured limitations](20-physical-sync/README.md)
-and the10-second quit fallback remain explicit. No new capture is authorized.
-Original media and historical rejected callbacks remain in the Git LFS fixture;
-rejected pixels cannot be recovered. Frozen root8a/candidate2c and the installed
-app remain unchanged; use isolated builds for future native changes.
+Next resolve13a's [corrected-boundary candidates](13a-corrected-selections/README.md).
+Their A–D listening check is pending; old naturalness passes stay attached to old
+media. The user accepts revised boundary placement but leaves room-tone fill and
+noise reduction as independent editorial choices. The new pause workflows use
+existing public primitives and must preserve that choice.
+
+Physical20 still lacks its stated camera duration/precision proof. The
+[prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)
+preserves4428 pictures and takes26.915 seconds through actual media closure,
+exceeding the10-second fallback; live input drain/AppKit termination remain
+unverified. No new capture is authorized. Original media and historical rejected
+callbacks remain in the Git LFS fixture. Root8a, candidate2c and the installed app
+remain frozen; use isolated builds for future native changes.
 
 The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
 integrated and root-verified. Root source includes the move fix; rebuild JavaScript
