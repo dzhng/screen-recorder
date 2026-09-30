@@ -30,6 +30,13 @@ const native = mediaWorker();
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const observations = [];
 const worker = async (operation, params, options) => {
+  if (fixture.allowedOperations) {
+    assert.ok(
+      fixture.allowedOperations.includes(operation),
+      `Unexpected native work: ${operation}`,
+    );
+    appendFileSync(fixture.operationsFile, JSON.stringify({ operation }) + "\n");
+  }
   if (operation !== "speech.transcribe") return native(operation, params, options);
   options.signal.throwIfAborted();
   assert.deepEqual(Object.keys(params.track).sort(), [
@@ -63,7 +70,9 @@ const worker = async (operation, params, options) => {
   );
   const raw = await readFile(expected.rawFile);
   assert.equal(hash(raw), expected.rawSha256);
-  const retained = JSON.parse(await readFile(expected.receiptFile, "utf8")).data;
+  const receipt = await readFile(expected.receiptFile);
+  if (expected.receiptSha256) assert.equal(hash(receipt), expected.receiptSha256);
+  const retained = JSON.parse(receipt).data;
   assert.equal(retained.output.sha256, hash(raw));
   assert.deepEqual(
     retained.segments.map((segment) => segment.source),
