@@ -39,3 +39,40 @@ The [original panel](../../../recording-for-ai/assets/speech/boundaries/sheet-0.
 and [text-only trial](../12-alignment-text-coverage/README.md) retain their separate
 roles. Generation decodes the actual fixture PCM without speaker playback; no
 model, production behavior or annotation was changed.
+
+## Annotation integrity
+
+The existing [boundary harness](../../../../packages/test-harness/speech-boundaries.mjs)
+keeps a human mark at its absolute source time when a compatible candidate's
+reported endpoint changes. Newly drawn packets bind narration bytes by SHA-256
+and the acquired source-clock origin. A locator-only move preserves this identity.
+Reuse also requires the same boundary ID, side and exact word text; dropping or
+reassigning a marked boundary refuses before decoding or overwriting panels/marks.
+No absent mark is inferred from a candidate.
+
+An annotated legacy packet without bound source identity cannot safely be redrawn
+in place. Use a fresh output directory, then explicitly rebind human annotations
+only after independently checking their source and word identity. Existing
+`--score` remains available on frozen legacy packets and does not redraw them.
+The original committed marks, panels and scores are unchanged.
+
+The [CLI regression](../../../../packages/test-harness/speech-boundaries.test.mjs)
+uses the retained workbench numbers with synthetic rendering input, not new speech
+ground truth. The mark stays at 5,643,675µs when the candidate endpoint moves from
+5,648,675µs to 5,088,675µs: its displayed offset becomes +555ms instead of retaining
+−5ms and silently moving the reference. The [original red](annotation-red.txt)
+demonstrates that failure; the [green run](annotation-green.txt) includes unchanged
+timestamp/pixel preservation, locator relocation, incompatible source/origin/word,
+missing-boundary and unbound-legacy refusal, plus unchanged legacy scoring and the
+existing scorer tests. Every refusal leaves existing panel and mark bytes intact.
+
+This fixes evidence handling, not the actual frozen workbench dispute: those
+historical marks did not undergo the incompatible redraw. Audible word identity,
+independent labels and the failing timing gate remain unresolved. No model,
+listening, capture, native build or new annotation was used.
+
+Shape/diff/docs review retained the existing owner without a new annotation
+registry or versioned schema. Formatter, lint and local-link checks pass.
+[Independent Codex reviews](annotation-review.txt.gz) found no actionable regression
+and reran the CLI regression successfully, including the streaming-hash follow-up. This pass changes annotation metadata
+handling; it does not change spectrogram rendering or claim new visual acceptance.

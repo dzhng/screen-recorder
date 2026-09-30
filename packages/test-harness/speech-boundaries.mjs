@@ -15,11 +15,20 @@
 // with silence after. A boundary inside connected speech has no moment anybody can point at, by
 // eye or by ear, so nothing here pretends to measure one.
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { deflateSync } from "node:zlib";
+import { createHash } from "node:crypto";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const { values } = parseArgs({
@@ -168,6 +177,44 @@ for (const [index, row] of acquired.slice(1).entries()) {
   if (gapUs > 2_000) throw new Error(`narration has a ${gapUs}µs gap at ${row.data.startUs}µs`);
 }
 const originUs = started.data.firstSourceUs;
+const narration = join(values.fixture, "narration.mov");
+const narrationHash = createHash("sha256");
+for await (const chunk of createReadStream(narration)) narrationHash.update(chunk);
+const narrationSha256 = narrationHash.digest("hex");
+const previous = existsSync(marksPath) ? JSON.parse(readFileSync(marksPath, "utf8")) : undefined;
+const kept = new Map();
+if (previous) {
+  const marked = previous.boundaries.filter((row) => row.markedOffsetMs !== null);
+  const refuse = (reason) => {
+    throw new Error(
+      `Cannot reuse annotations: ${reason}. Use a fresh output directory; rebind human marks only after independently checking their source and word identity.`,
+    );
+  };
+  if (
+    marked.length &&
+    (previous.narrationSha256 !== narrationSha256 || previous.originUs !== originUs)
+  )
+    refuse(
+      "narration bytes or acquired origin differ, or the old annotated packet has no bound source identity",
+    );
+  const current = new Map(boundaries.map((row) => [`${row.id}:${row.side}`, row]));
+  if (current.size !== boundaries.length) refuse("duplicate current boundary identities");
+  for (const row of marked) {
+    const key = `${row.id}:${row.side}`,
+      boundary = current.get(key);
+    if (kept.has(key) || !boundary || boundary.text !== row.text)
+      refuse(`marked boundary ${key} is missing, ambiguous or names a different word`);
+    const absoluteUs = row.reportedUs + row.markedOffsetMs * 1000;
+    if (
+      !Number.isFinite(row.markedOffsetMs) ||
+      !Number.isSafeInteger(absoluteUs) ||
+      !Number.isSafeInteger(boundary.reportedUs)
+    )
+      refuse(`marked boundary ${key} has an invalid time`);
+    // Human evidence stays at its source time when the candidate's blue line moves.
+    kept.set(key, (absoluteUs - boundary.reportedUs) / 1000);
+  }
+}
 
 const scratch = mkdtempSync("/tmp/scr-boundaries-");
 let samples;
@@ -354,15 +401,14 @@ for (let sheet = 0; sheet < sheets; sheet++) {
 
 // A mark is a millisecond offset from the blue line: negative when the speech begins or ends
 // before the transcript says, positive when it does so after. `null` is "not marked yet".
-const previous = existsSync(marksPath) ? JSON.parse(readFileSync(marksPath, "utf8")) : undefined;
-const kept = new Map(
-  previous?.boundaries?.map((row) => [`${row.id}:${row.side}`, row.markedOffsetMs]) ?? [],
-);
 writeFileSync(
   marksPath,
   JSON.stringify(
     {
-      narration: join(values.fixture, "narration.mov"),
+      ...previous,
+      narration,
+      narrationSha256,
+      originUs,
       transcript: values.transcript,
       usPerPixel,
       windowMs: Number(values.window),

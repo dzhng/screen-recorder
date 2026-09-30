@@ -53,5 +53,12 @@ acceptance. The larger OS footprint remains separately reported.
 
 [The complete-sentence packet](12d-complete-sentence-cleanup.md) replaces the
 cropped filler presentation while preserving its original evidence. It verifies
-an explicit cut and exact retained PCM; independent labels and join quality
-remain open.
+one explicit cut accepted by the user as clear and natural, now reproduced exactly
+through managed public CLI/MCP editing, preview/export and undo. Independent
+labels, other joins and the broader cleanup acceptance remain open.
+
+The [boundary redraw owner](../assets/12-boundary-context/README.md#annotation-integrity)
+now preserves absolute human mark times when compatible candidate timestamps move,
+and refuses incompatible reuse before overwriting evidence. This corrects a tool
+integrity hazard; it does not resolve the frozen workbench disagreement or improve
+the recorded speech timing scores.
