@@ -1,0 +1,109 @@
+{
+  "sourceCommit": "02b88c5c",
+  "nativeSourceCommit": "ef2d9ba1",
+  "compilerSourceCommit": "1f8ae358",
+  "nativeWorkerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "harnessSha256": "225a1a6a62b21d22a8a87d4419ca8ff6b66bcf7b5cb394af5a81af98e687e934",
+  "runtime": "v24.14.0",
+  "originalReportSha256": "3252e57b229cbc28d1732ee54c910bc301255eee79d773224a17dbcdbca05327",
+  "redOriginalReportSha256": "246cf5fcf572e686fd598cbac7f68a31557ddbda0744fdab19f1f3b08df1f401",
+  "redProjection": "Strings longer than 10000 characters replaced with UTF-8 length and SHA-256; source report preserved externally. Final report already replaces MCP media blobs with decoded-byte length/hash.",
+  "passed": true,
+  "frameCaptures": 18,
+  "encodedFrames": 135,
+  "checks": {
+    "tinyActualNativeAdmission": {
+      "refusals": [
+        {
+          "operation": "audio.prepare",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        },
+        {
+          "operation": "audio.get",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        },
+        {
+          "operation": "preview.get",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        },
+        {
+          "operation": "export.create",
+          "error": {
+            "code": "NOT_READY",
+            "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+            "retryable": false,
+            "details": {}
+          }
+        }
+      ],
+      "admittedJobs": 0,
+      "observation": "Read-only isolated catalog; all mutations used public transports"
+    },
+    "linkedPcmCountsAndEventTiming": true,
+    "exactVideoCounterSequence": true,
+    "fullSplitSubrangePcm": true,
+    "pureSplitPcmAndCutEvidence": true,
+    "repeatedOccurrence": true,
+    "piecewiseRateChange": true,
+    "explicitUnlinkAndIndependentPlaneReplacement": true,
+    "postRetimeGain": true,
+    "explicitIndependentFollow": true,
+    "preparedReuseInvalidation": true,
+    "sourceBytesAndEvidenceUnchanged": true,
+    "publicCancellationRetry": true,
+    "retainedPackagePlaybackWithoutRetimeProcessing": true
+  },
+  "files": {
+    "README.md": {
+      "bytes": 5059,
+      "sha256": "d91136f67d687f3cd9f7d3d59ca9aaaf3d351ff8cc1905f8eed50a1f5104d87e"
+    },
+    "before-picture-fix-report.json.gz": {
+      "bytes": 78454,
+      "sha256": "ed982a433d99ace642fc40272e9a639da2e677e9ac89771f8224429e63f6721e"
+    },
+    "before-side-by-side.png": {
+      "bytes": 73128,
+      "sha256": "85488b408350cec37a095a2cc283ba1284e8f1e80e30f20e2af4a6e337cd7735"
+    },
+    "event-one-side-by-side.png": {
+      "bytes": 74881,
+      "sha256": "04d27b209fa31550c027027d4405b70527e206161d8a037e5624ecd752041854"
+    },
+    "event-two-side-by-side.png": {
+      "bytes": 72690,
+      "sha256": "a4fb4cc8fbb90b15a1c9cef974df9d9e78e0e988eabee34e87b427b6e1b172a4"
+    },
+    "linked-preview.mp4": {
+      "bytes": 343442,
+      "sha256": "3c520369f501e3f6027c94e7aee8241589e50703e408b7f8be1ee5b0747fe190"
+    },
+    "render-visual-evidence.py": {
+      "bytes": 3488,
+      "sha256": "1254676fd003f4170a299d09c2516cfff740b1f1158db3b4849872b9ea10a053"
+    },
+    "report.json.gz": {
+      "bytes": 94810,
+      "sha256": "bd6265c2381dcbb17f2ed64c797867ad9ae1037ecfb84ce907ac39d01ec8a49a"
+    },
+    "visual-evidence.tar.xz": {
+      "bytes": 2096276,
+      "sha256": "cd50c1cc232a6ad916913e6f382c8290e302f24685a0ebfc626319d680e015f6"
+    }
+  }
+}
