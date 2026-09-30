@@ -3,5 +3,7 @@
   "userReply": "pass",
   "candidateSha256": "90f5ba9b2e36080ead033ea3f2284fcf7d1d93b811847080c5482df0d3b0f448",
   "rubric": "Every word stays clear and both transitions around the slowed \u201cso this is the\u201d sound natural.",
-  "scope": "This complete-sentence internal 0.8x comparison only. Independent word-boundary labels, other local rates and useful short speech remain separate."
+  "scope": "This complete-sentence internal 0.8x comparison only. Independent word-boundary labels, other local rates and useful short speech remain separate.",
+  "additionalUserFeedback": "Previously slowed version was echoey; this one sounds better.",
+  "comparisonScope": "Same frozen stretch engine/recipe; this candidate changes only the internal selected phrase at0.8x. Earlier tolerated echo was reported for the whole-sentence0.9x comparison. No echo-reduction filter or algorithm change is established."
 }
