@@ -1,0 +1,18 @@
+{
+  "integrationCommit": "cb2dbc57",
+  "passed": true,
+  "gainCases": 6,
+  "gainMaximumPcmError": 0,
+  "encodedFrames": 295,
+  "directPictures": 20,
+  "allGainAndPictureAndDecodedMovieHashesMatchReviewedEvidence": true,
+  "authenticatedArchiveMembers": {
+    "visual": 358,
+    "controls": 13
+  },
+  "reports": {
+    "root-gain-report.json.gz": "f96f3a53bf0982f376d6136dc738d628e81aea8832ccbc2ff3a62ac36213640a",
+    "root-zoom-report.json.gz": "69a4aa7c69cd0659369bfb61a0099ceacb4626f9ab2829a4e57902bed31069cd"
+  },
+  "review": "Root read both focused harnesses, dispatch cleanup and shared fixture; required complete range error measurements and shared geometry/events. All followups resolved. Root inspected all20 direct captures in4full sheets; counters and markers legible, expected geometries preserved. Independent fresh critic and actual muted playback are linked from original evidence."
+}

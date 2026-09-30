@@ -1,6 +1,6 @@
 # 15a3 — Combined, temporal and protected-speech acceptance
 
-Status: open; the [familiar complete-sentence denoise comparison](../assets/12c-familiar-sentence/README.md) now has a user pass for word clarity and naturalness. Other-material/spatial and post-retime acceptance remain open. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a2](./15a2-denoise-prepared-consumers.md), accepted retiming [14](./14-retiming.md), temporal [16](./16-keyframes.md), remaining [12c](./12c-noise-reproduction.md) listening/state evidence.
+Status: open; the [familiar complete-sentence denoise comparison](../assets/12c-familiar-sentence/README.md) now has a user pass for word clarity and naturalness. The [preserve-pitch combined temporal join](../assets/15a3c-post-retime-combined/root-verification.json) is verified. Other-material/spatial, protected-speech and remaining post-retime quality acceptance stay open. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a2](./15a2-denoise-prepared-consumers.md), accepted retiming [14](./14-retiming.md), temporal [16](./16-keyframes.md), remaining [12c](./12c-noise-reproduction.md) listening/state evidence.
 
 [15a3a](15a3a-unit-rate-combined.md) handles the dependency-ready unit-rate public temporal/combined join; it does not enable post-retime DSP or close the listening gate.
 
@@ -15,14 +15,17 @@ dry neighbors, preserved state, ordered learned stages and retained consumers.
 This resolves that scoped transition requirement; accepted retiming and remaining
 listening/state evidence still gate the complete parent.
 
-## Current technical pickup
+## Post-retime technical evidence
 
-Accepted retiming14 makes the combined temporal join dependency-ready. Extend the
-existing public denoise harness with a scoped post-retime fixture: familiar bed plus
-an accepted preserve-pitch excerpt, explicit upstream gain and parent windowed
-RNNoise with a zero-mix interval. Independently check the retimed dry stem, Float32
-mix/gain and frozen learned result before comparing delivered PCM. Read a late
-range before full output to expose lost state, then verify split, reordered stack,
-bypass/undo/history, prepared consumers and retained transfer. Preserve the existing
-unit-rate cohort. This technical fixture makes no new listening claim and does
-not close other-material/spatial/protected-speech or follow-pitch denoise acceptance.
+The [combined preserve-pitch packet](../assets/15a3c-post-retime-combined/README.md)
+and independent root replay verify the accepted dry stem, Float32 overlapping
+mix/gain and frozen learned result. Late-before-full reads retain finished retimed
+input in learned history. Split, reordered stack, bypass/undo/history, prepared
+reads and matched full/range AAC delivery pass. The established unit-rate cohort
+remains unchanged. This technical fixture makes no new listening claim.
+
+Current technical pickup is a narrowly authenticated follow-pitch learned check
+against retained14d input/output and the independent C adapter. Do not round its
+rational clocks merely to force a public fixture. Public follow-pitch combined
+acceptance remains separate until matched evidence exists. Other-material,
+spatial, protected-speech and post-retime listening remain open.

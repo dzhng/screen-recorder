@@ -133,5 +133,8 @@ choices and the active pickup; the global checklist is the completion boundary.
 
 - [Public retiming](14e-public-retiming/root-review.md) preserves all accepted A–D
   PCM and verifies linked/independent video/audio, exact picture sampling,
-  attachments and retained receiver delivery. Animated gain/zoom and combined
-  temporal denoise remain16/15a3; acoustic retime conformance remains11.
+  attachments and retained receiver delivery. [Retimed gain/zoom](16-retimed-curves/root-verification.json),
+  [muted playback](16-continuous-playback/README.md), and the
+  [preserve-pitch combined denoise join](15a3c-post-retime-combined/root-verification.json)
+  also pass. Remaining follow-pitch/quality scope stays15a3; acoustic retime
+  conformance is finishing11 review.

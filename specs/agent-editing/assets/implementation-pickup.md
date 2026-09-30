@@ -48,10 +48,13 @@ Root independently repeated the complete journey, including every encoded frame,
 fractional-range phase, independent audio-only edits and receiver retained reads.
 All accepted A–D PCM remains identical. No per-run durable cache was introduced.
 
-Current parallel work: capture-pause-recovery owns16 retimed gain/zoom delivery;
-prepared-package-transfer owns15a3 combined post-retime temporal denoise; a separate
-probe measures muted continuous playback. Root integrates and reviews. Other-material,
-spatial and protected-speech quality stay open; do not infer listening from PCM.
+[Retimed gain/zoom16](16-retimed-curves/root-verification.json) and
+[muted offscreen playback](16-continuous-playback/README.md) are integrated and
+root-verified. The [preserve-pitch combined temporal15a3 join](15a3c-post-retime-combined/root-verification.json)
+also passes independent PCM, late state and matched full/range AAC checks.
+Root is finishing11 retimed acoustic conformance; prepared-package-transfer owns
+the narrow independent-C follow-pitch learned check against retained14d media.
+Public follow-pitch combined acceptance and speech/spatial quality stay open.
 
 Physical20 still lacks its stated camera duration/precision proof. The
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)

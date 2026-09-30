@@ -4137,3 +4137,79 @@ product behavior or listening scope.
   production timeout. A future environment must justify changes to them.
 - **Verdict:** sound; an actual paused-player control fails the new progress gate.
 - **Confidence:** medium; this host-specific allowance is deliberately limited in scope.
+
+
+## Retimed curves and combined learned delivery
+
+- **When:**16 retimed curve verification, integrated7465290b.
+- **Choice:** judge compressed animation timing using the source counter and the
+  four edges of an asymmetric landmark, with a two-pixel edge bound fixed before
+  rendering. A wrong curve phase moves the landmark beyond that bound. Small
+  codec color changes are measured separately rather than treated as a moved
+  picture or accepted as strict color fidelity.
+- **Gap:** the plan required encoded trajectory conformance without prescribing a
+  pixel classifier or raster-edge allowance.
+- **Reach:** this fixture's geometry verdict cannot establish text quality, color
+  fidelity or perceived smoothness on other material.
+- **Verdict:** sound; complete frame coverage and wrong-phase/source controls make
+  the timing question discriminating, while color limits remain visible.
+- **Confidence:** medium.
+
+- **When:** same curve verification.
+- **Choice:** multiply independently calculated gain envelopes by the already
+  verified dry retimed PCM. For example, slowing a passage first changes its
+  samples; this check then asks whether each one receives the right gain at the
+  right clock phase. Reimplementing stretch inside the gain oracle would obscure
+  that question and create another version of the algorithm.
+- **Gap:** the plan required an independent envelope without fixing its input oracle.
+- **Reach:** dry retiming acceptance remains a separate prerequisite; the gain
+  check does not silently certify its own source samples.
+- **Verdict:** sound; all samples and deliberately wrong envelopes are checked.
+- **Confidence:** high.
+
+- **When:**16/15a3c focused public verification.
+- **Choice:** add small named cases behind existing harness entry points, retaining
+  their established default cohorts. A developer checking a new retimed curve or
+  combined effect can run just that case. The obsolete expectation that retiming
+  is refused is removed because successful delivery now owns that contract.
+- **Gap:** the spec did not prescribe how to extend its verification runners.
+- **Reach:** this adds test-maintenance surfaces, no product setting or alternate
+  execution path. Shared counter media keeps one dimensions/event owner.
+- **Verdict:** sound; each case exercises public operations without re-running
+  unrelated accepted cohorts.
+- **Confidence:** high.
+
+- **When:**16 evidence integration.
+- **Choice:** keep the exact movie files used by the independent playback check,
+  even when a later render produces identical decoded pictures with different
+  container creation metadata. Record both identities and decoded equality.
+- **Gap:** the plan did not specify which duplicate render should be retained.
+- **Reach:** playback provenance stays auditable; a new file cannot silently inherit
+  another file's playback verdict.
+- **Verdict:** sound; preserves the actual observed artifact.
+- **Confidence:** high.
+
+- **When:**15a3c post-retime combined verification, integratedcb2dbc57.
+- **Choice:** reuse the accepted slowed excerpt and familiar sentence as an
+  overlapping technical fixture. First require its dry stem to match retained
+  samples, then calculate the mix/gain independently and process that result with
+  the frozen C reference. Request a late window before full preparation so a
+  completed earlier clip still has to contribute learned history.
+- **Gap:** the spec required the combined join but did not choose its fixture.
+- **Reach:** the overlap tests execution and state; it is not a new listening task
+  and does not extend either original speech-quality verdict.
+- **Verdict:** sound; keeps previously accepted media as the upstream authority
+  while exposing missing state and ordering.
+- **Confidence:** high.
+
+- **When:** same combined verification, after independent review.
+- **Choice:** verify movie audio against AAC made from the independent expected
+  PCM in a plain unit-rate project, matching each requested range and setting.
+  A two-second range is compared with a separately encoded two-second reference,
+  because cropping a full AAC file need not produce identical codec tails.
+- **Gap:** preview/export equality alone did not show that either contained the
+  correct audio, and the spec did not prescribe a lossy-codec oracle.
+- **Reach:** the comparison verifies delivery through the existing encoder; it
+  does not equate lossy AAC with lossless PCM or establish audible quality.
+- **Verdict:** sound; matched full/range decodes agree and wrong-order AAC differs.
+- **Confidence:** high.

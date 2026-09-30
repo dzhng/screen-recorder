@@ -1,6 +1,13 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; matched encoded samples preserve trajectory/clocks with documented edge/color loss; [muted offscreen continuous playback](../assets/16-continuous-playback/README.md) is verified; physical display and perceived smoothness are not inferred. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; explicit fade/zoom conveniences have scoped public delivery evidence; [unit-rate denoise transitions](15a3b-denoise-transitions.md) are verified; delivered retime+gain and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
+Status: verified for supported scalar curves and explicit fade/zoom conveniences.
+[Retimed gain/zoom](../assets/16-retimed-curves/root-verification.json) and
+[muted continuous playback](../assets/16-continuous-playback/README.md) close the
+remaining delivery joins. Independent root replay preserves all reviewed PCM and
+pictures. Encoded edge/color loss remains measured; physical display, perceived
+smoothness and audio quality are not inferred. Unit-rate denoise transitions are
+verified in15a3b; broader denoise acceptance belongs to15a3.
+Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
 
 ## Contract
 
@@ -138,7 +145,7 @@ failed attempts and reviews. [Retained-index integration](../assets/16-opacity-i
 now proves tap-aware boundary selection, direct/retained PNG equality and fresh
 visual review. The service/native projection is shared with direct worker harnesses;
 no authoring easing is sent for native reinterpretation. Gain has its own delivery
-gate below; denoise transitions and full-slice journeys stay open.
+gate below; denoise transitions have their own15a3b evidence, and the final retimed journey is linked in Status.
 
 ## Animated zoom vertical
 
@@ -181,7 +188,7 @@ is no additional translation object. Each scalar uses the same step window and
 retained clock, but keeps its own curve program. Full-curve values must stay finite,
 and sampled geometry still passes the numeric compiler's existing precision checks.
 The remaining crop/dimension/pivot fields share that clock as described below.
-Gain and explicit conveniences have separate scoped evidence; denoise transitions remain open.
+Gain and explicit conveniences have separate scoped evidence; denoise transitions are verified in15a3b.
 
 [Public pose evidence](../assets/16-pose/README.md) retains exact animated/static
 frames and move/split/trim/window preservation, plus independent pivot/angle
@@ -237,14 +244,13 @@ full/range equality, move/split/trim preservation, whole-curve refusal and movie
 preview/export wiring. Compare an independent analytic envelope and source PCM,
 not merely another render through the same compiler. Measure actual mixer cost and
 preserve the constant baseline. Retimed phase is checked through the edit reducer;
-delivered retime+gain PCM is the current follow-up now that14 is verified.
-Replace the obsolete NOT_READY harness expectation with complete preserve/follow
-PCM against independent analytic envelopes for normalized/content/project clocks.
-Retain fractional activation, full/split/range equality and unchanged duration.
+[Delivered retime+gain](../assets/16-retimed-curves/README.md) now matches independent
+analytic envelopes across preserve/follow and normalized/content/project clocks.
+Fractional activation, full/split/range equality and unchanged duration pass.
 
-The remaining visual journey uses moving counter footage through move, retime and
+The verified visual journey uses moving counter footage through move, retime and
 split, with a fixed project-anchor control and complete encoded-frame trajectory
-checks. A separate bounded muted AVPlayer probe must observe actual playback
+checks. A separate bounded muted AVPlayer probe observes actual playback
 progress and completion. Decode-only evidence cannot close that gate; muted
 execution does not establish human-perceived smoothness or audio quality.
 

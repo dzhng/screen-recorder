@@ -1,0 +1,26 @@
+{
+  "integrationCommit": "cb2dbc57",
+  "passed": true,
+  "PCMChecks": 14,
+  "actualExchanges": 113,
+  "authenticatedManifestEntries": 101,
+  "rootReportSha256": "bfc3f81061a6143ec564aaa9038542b82ee8d589d616ffa66d86e44bbb05c6ca",
+  "matchedAAC": {
+    "full": {
+      "decodedBytes": 1924608,
+      "sha256": "11ee1ce63bf8655ee3c7f32f91a27c278d06b74dffd5178ebc616e955e8791a1",
+      "exact": true
+    },
+    "range": {
+      "decodedBytes": 769536,
+      "sha256": "ab6cbe35e2b737ad0893b6cc8eaf614f57a290256a1c69b808f25b3b12e8f1c2",
+      "exact": true
+    }
+  },
+  "lateStatePreparation": {
+    "file": "mix-4.json",
+    "preparedRetimeRuns": 1,
+    "retimedInputOnlyInState": true
+  },
+  "review": "Root independently reviewed independent dry/sum/prefix/C-state oracles and added matched AAC reference proof after discovering the original movie gate checked only container equality. Integrated narrow replay passes. This closes scoped preserve-pitch combined temporal execution, not listening, other material, spatial quality, or public pitch-follow learned acceptance."
+}

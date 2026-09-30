@@ -17,19 +17,18 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup is the remaining [16 animation](slices/16-keyframes.md) and
-[15a3 post-retime processing](slices/15a3-denoise-acceptance.md) joins. Public
-[14 retiming](slices/14-retiming.md), including exact picture sampling, is verified:
-accepted audio remains identical, linked and independent video/audio delivery
-passes, and retained packages work with processing unavailable. Reuse the
-[root acceptance](assets/14e-public-retiming/root-review.md).
+Current pickup is [15a3 post-retime processing](slices/15a3-denoise-acceptance.md),
+with acoustic retime conformance11 finishing review. Public14 retiming and16
+animated gain/zoom are verified, including complete encoded-frame checks and muted
+offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post-retime-combined/root-verification.json)
+passes independent PCM and matched full/range AAC checks. Continue the narrow
+follow-pitch learned check against retained14d evidence, then resolve remaining
+speech/denoise quality gates. Numerical evidence never substitutes for hearing.
 
-Verify animated gain across retimed clocks and moved/retimed/split zoom through
-complete encoded delivery. Separately measure muted continuous playback; decoded
-frames alone do not establish it. In parallel, verify combined post-retime gain
-and windowed RNNoise with independent PCM/state oracles. These technical gates do
-not establish remaining speech quality or physical acceptance. Preserve full
-retained runs across pure splits and short views; use existing preparation owners.
+Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
+[retimed curves](assets/16-retimed-curves/root-verification.json) and
+[playback evidence](assets/16-continuous-playback/README.md). Preserve full retained
+runs across splits and short views; use existing preparation owners.
 
 Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
 prepared runtimes and frozen worker identities. Do not replace the installed app
@@ -179,7 +178,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a3a — Public unit-rate combined temporal processing](slices/15a3a-unit-rate-combined.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
-- [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
+- [x] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
 - [x] [17a — Explicit font and text layout reproduction](slices/17a-text-layout.md)
 - [x] [17b — Immutable font admission](slices/17b-font-admission.md)
 - [x] [17c — Literal text clips](slices/17c-literal-text.md)
