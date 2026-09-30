@@ -18,7 +18,7 @@ requirement below remains in scope. Read [contracts](contracts.md),
 verified public operations; the installed app has not switched engines.
 
 Current pickup is [15a3 post-retime processing](slices/15a3-denoise-acceptance.md),
-with acoustic retime conformance11 finishing review. Public14 retiming and16
+with [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
 offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post-retime-combined/root-verification.json)
 passes independent PCM and matched full/range AAC checks. Continue the narrow
@@ -148,7 +148,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
 - [x] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
-- [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
+- [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [ ] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)

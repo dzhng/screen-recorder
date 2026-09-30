@@ -2,7 +2,7 @@
 
 [Source/project rate-axis evidence](../assets/08-11-rate-conformance/README.md) covers public 44.1k source and 48k project PCM/buckets/images, with scoped fresh visual review; it does not establish listening or low-amplitude waveform readability.
 
-Status: cached waveform JSON jobs and [actual public CLI/MCP delivery](../assets/11-waveform-public/README.md) are verified. [Public acoustic images and spectral lifecycle](../assets/11-acoustic-lifecycle/README.md) are verified; [fresh image-based skill use](../assets/11-acoustic-skill/README.md) also passes; future retimed conformance remains. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
+Status: cached waveform JSON jobs and [actual public CLI/MCP delivery](../assets/11-waveform-public/README.md) are verified. [Public acoustic images and spectral lifecycle](../assets/11-acoustic-lifecycle/README.md) are verified; [fresh image-based skill use](../assets/11-acoustic-skill/README.md) also passes; [retimed conformance](../assets/11-retimed-acoustic/README.md) also passes with independent PCM/DFT checks and fresh visual review. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
 
 Dependencies: [11a](./11a-audio-delivery.md).
 
@@ -21,8 +21,8 @@ The [core waveform reducer](../../../packages/core/src/audio-wave.ts) owns sampl
 Timestamped waveform images derive from pinned waveform evidence; the bounded
 spectral reducer and labeled images share the same acoustic lifecycle. The public
 and fresh-agent evidence linked above verifies those surfaces and their axes.
-Energy suggestions remain optional heuristics. Retimed conformance and listening
-remain separate from these completed mechanisms.
+Energy suggestions remain optional heuristics. Retimed conformance is verified separately below; listening
+remains outside these numerical and visual verdicts.
 
 The [cached waveform owner](../../../packages/core/src/acoustic-inspection.ts) uses the audio owner's canonical recipe and existing jobs/cache. A surviving waveform needs retained audio provenance, not resident PCM bytes. Rebuilding missing waveform data holds a PCM lease during reduction, then permits PCM eviction before waveform publication. Audio-generation changes fence publication; an explicit waveform retry retries its single audio prerequisite, while ordinary reads preserve terminal failures. JSON has an independent byte ceiling and preserves unavailable-support metadata rather than pretending missing capture context is silence. [Lifecycle evidence](../assets/11-waveform-jobs/README.md) covers the core boundary; it does not replace public delivery acceptance.
 
@@ -77,3 +77,14 @@ The [headless raster evidence](../assets/11-acoustic-raster/README.md) covers im
 ## Public image journey checkpoint
 
 [Actual public acoustic evidence](../assets/11-public-acoustic-images/README.md) verifies CLI/MCP waveform and spectrogram PNG delivery, independent source/project measurements and pixels, all nested processing taps, outside-view missing FFT context, cancellation/retry, history, restart and temporary sidecar cleanup. The later fresh-agent product-use proof is linked in the status; speech/listening acceptance remains separate.
+
+
+## Retimed conformance
+
+[The public retimed fixture](../assets/11-retimed-acoustic/README.md) verifies
+preserve/follow pitch, repeated occurrences, fractional ranges and pure splits.
+Complete delivered PCM owns the independent bucket values and spectral oracle;
+localized transient columns discriminate time offsets that steady tones cannot.
+Both transports return the same artifacts. Fresh visual review passes axis and
+panel readability, retaining small boundary markers and faint-feature limitations.
+The earlier fresh-agent navigation proof remains applicable; no agent heard audio.

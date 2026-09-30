@@ -1,3 +1,4 @@
+import { verifyAcousticRetiming } from "./acoustic-retiming.mjs";
 import { verifyAcousticRateAxes } from "./acoustic-rate-axes.mjs";
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
@@ -8,7 +9,7 @@ import { JourneyService, acquisitionDonor, hash, poll, run } from "./source-evid
 
 const { values } = parseArgs({ options: { out: { type: "string" }, fixture: { type: "string" } } });
 assert.ok(process.env.SCREENREC_NATIVE, "Use a frozen native worker");
-assert.ok(!values.fixture || values.fixture === "tones-and-clicks");
+assert.ok(!values.fixture || ["tones-and-clicks", "retimed-tones"].includes(values.fixture));
 // Analytically authored tones/clicks: no speech model or subjective listening claim.
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "acoustic-evidence-"));
 await mkdir(out, { recursive: true });
@@ -173,11 +174,9 @@ async function verifyImages(waveform, spectrum, gain) {
   }
 }
 
-try {
+async function unitRateJourney() {
   const source = join(out, "reference.wav");
   await writeFile(source, wave);
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
-  await service.start();
   const imported = await call("asset.import", { requestId: "acoustic-source", path: source });
   await poll(
     () => call("job.get", { jobId: imported.jobId }),
@@ -477,6 +476,16 @@ try {
   report.checks.renderWorkspaceClean = true;
   if (process.env.SCREENREC_ACOUSTIC_RATES)
     report.checks.rateAxes = await verifyAcousticRateAxes({ out, call, delivered });
+}
+
+try {
+  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  await service.start();
+  if (values.fixture === "retimed-tones") {
+    report.checks.retiming = await verifyAcousticRetiming({ out, call, delivered, pixels });
+  } else {
+    await unitRateJourney();
+  }
   report.passed = true;
 } finally {
   try {

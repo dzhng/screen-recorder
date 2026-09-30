@@ -52,7 +52,7 @@ All accepted A–D PCM remains identical. No per-run durable cache was introduce
 [muted offscreen playback](16-continuous-playback/README.md) are integrated and
 root-verified. The [preserve-pitch combined temporal15a3 join](15a3c-post-retime-combined/root-verification.json)
 also passes independent PCM, late state and matched full/range AAC checks.
-Root is finishing11 retimed acoustic conformance; prepared-package-transfer owns
+[Retimed acoustic conformance11](11-retimed-acoustic/README.md) also passes; prepared-package-transfer owns
 the narrow independent-C follow-pitch learned check against retained14d media.
 Public follow-pitch combined acceptance and speech/spatial quality stay open.
 

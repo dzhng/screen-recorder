@@ -65,7 +65,7 @@
   [fresh image-based skill use](11-acoustic-skill/README.md) pass. Preserve
   [touching-support continuity](11a-touching-support/README.md), exact
   lossless counts/bytes and the documented bounded AAC seek difference.
-  [11 acoustic inspection](../slices/11-audio-inspection.md) still needs retiming conformance.
+  [Retimed acoustic conformance](11-retimed-acoustic/README.md) now verifies repeated preserve/follow occurrences, split/range PCM and independently checked axes.
 - The [complete-sentence filler candidate](12d-complete-sentence/README.md)
   has user acceptance for clear neighboring words and a natural join; independent
   word-boundary labels and the broader cleanup inventory remain open.
@@ -136,5 +136,5 @@ choices and the active pickup; the global checklist is the completion boundary.
   attachments and retained receiver delivery. [Retimed gain/zoom](16-retimed-curves/root-verification.json),
   [muted playback](16-continuous-playback/README.md), and the
   [preserve-pitch combined denoise join](15a3c-post-retime-combined/root-verification.json)
-  also pass. Remaining follow-pitch/quality scope stays15a3; acoustic retime
-  conformance is finishing11 review.
+  also pass. Remaining follow-pitch/quality scope stays15a3; [acoustic retime
+  conformance](11-retimed-acoustic/README.md) also passes.

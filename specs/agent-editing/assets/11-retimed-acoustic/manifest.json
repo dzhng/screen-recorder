@@ -1,0 +1,427 @@
+[
+  {
+    "path": "reviewed/02-waveform.png",
+    "bytes": 83496,
+    "sha256": "6ce0ef2afb473bcba6929b209124ae2b7b47ffbb391f35d158805d1b7c71c820"
+  },
+  {
+    "path": "reviewed/03-spectrogram.png",
+    "bytes": 108870,
+    "sha256": "2959a23f8aaa1c578e820d01906b98f070a70845cd21df03f65ee87f46a88000"
+  },
+  {
+    "path": "reviewed/04-waveform.png",
+    "bytes": 87704,
+    "sha256": "1d58883eb85245251600a5a47525766bb2cf47ae0fdfe4cfb5f1c9ad4d88f2ca"
+  },
+  {
+    "path": "reviewed/05-spectrogram.png",
+    "bytes": 107329,
+    "sha256": "4f0310110c9cfae2893c4225467eafd68e5481c33d7231587e9325dcd08dc9e2"
+  },
+  {
+    "path": "reviewed/09-waveform.png",
+    "bytes": 76121,
+    "sha256": "cde7e30b53477fdac1a6c7b81bb5c798868c47f53d083a0043f766990d3e4fb2"
+  },
+  {
+    "path": "reviewed/10-spectrogram.png",
+    "bytes": 95475,
+    "sha256": "9bfa3d9316731322f97cb84dcf55990a688132680ef0ec69af5ed64b73d2bd07"
+  },
+  {
+    "path": "reviewed/11-waveform.png",
+    "bytes": 79232,
+    "sha256": "112be04dbd0ca95ebe602ba0fb5defb4149a966af5a2670c0dd5db37dcce5410"
+  },
+  {
+    "path": "reviewed/12-spectrogram.png",
+    "bytes": 96820,
+    "sha256": "a0a517393dbd171d53f707147a8a0a601cbf2a9665da6532633f722b8d3c4353"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-absdiff.png",
+    "bytes": 35332,
+    "sha256": "a7d1d9392189aeabd9ba120081e2cbd12b7a13e8e4ff5371d9ac8556be487e56"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-candidate-edges.png",
+    "bytes": 110008,
+    "sha256": "50d3512201ec7e74aa2c3c4f1d25377016a1a83006030db6a232994ec498b0d1"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-candidate-gray.png",
+    "bytes": 109333,
+    "sha256": "ae2f0544292675a28d396ccc199a3a05505a7592008ca8261775732b903476ec"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-current-edges.png",
+    "bytes": 131532,
+    "sha256": "c0bf6d51ff62b0aabab7a8a5322295db615606f3f0e56707cc4c1bcbaa9ed7c1"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-current-gray.png",
+    "bytes": 117030,
+    "sha256": "7406c2a6fd503aa0d150e857fff0730e9e62b964074d80d9fae2ffd2b087c659"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-edge-diff.png",
+    "bytes": 55297,
+    "sha256": "7a3036a4f2d28ae38b2aa79e684eff4a430ea270fc13774c28db5b0d9d049d7a"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-pixelmatch.png",
+    "bytes": 72098,
+    "sha256": "45ec907a6a6e18a0fb99e38df0e6f9be056813d6d545a96af601e53c522aecbf"
+  },
+  {
+    "path": "reviewed/comparison/full-spectrum-side-by-side.png",
+    "bytes": 227107,
+    "sha256": "f0aaf8f41a33a2d32f4e722b7280e1f593ba7c5c5a6fe96c9a817782331db0ab"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-absdiff.png",
+    "bytes": 38785,
+    "sha256": "55c3f2d68f5d5c719a0c876ecff5f001c69d6fa9dd24807934091e27c419cfe5"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-candidate-edges.png",
+    "bytes": 87364,
+    "sha256": "ec8c1d07d377429bf83604bf691083f97f887c33cb843aa5aea3d2ea48f30b34"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-candidate-gray.png",
+    "bytes": 95003,
+    "sha256": "11bf8ddaaf5de3dfbb18873a029aeb8585ff109cdd8116aa5d8f1b93ecf4df29"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-current-edges.png",
+    "bytes": 94720,
+    "sha256": "317fbf9d7ad2033c4c07454b0d57aaa5c3856d6343f48647893c22f3be9e9a44"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-current-gray.png",
+    "bytes": 101977,
+    "sha256": "6ce40426e8e520060eebeb9e83d73acc0f9899b8745c4034ed558a9b2e1b7b84"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-edge-diff.png",
+    "bytes": 30402,
+    "sha256": "8811847f4f0e0207d63f6b26f698c14ce0e29638ef99929828a8b1db519f57dc"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-pixelmatch.png",
+    "bytes": 63003,
+    "sha256": "ef83bec266e4f9f76d3f33aa600105e18f13fc4262bd244858c9b0fb80100644"
+  },
+  {
+    "path": "reviewed/comparison/full-wave-side-by-side.png",
+    "bytes": 196339,
+    "sha256": "de8e2bebdf01f3fae1fc4a61f969aa145616bfba764b1ac88a406c2b68787602"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-absdiff.png",
+    "bytes": 32225,
+    "sha256": "3dd148b50eb090779a4be9f0f3995f73705f0ac6f8107141f979a18de4060d20"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-candidate-edges.png",
+    "bytes": 108934,
+    "sha256": "cfed9088bd50ca1058341d7c187b7ca09ae93105e0ba994d4bb4879de4378de6"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-candidate-gray.png",
+    "bytes": 108179,
+    "sha256": "dcd8108ad653ee90550638706489176be494594102d27f14a06c66b6dc49190e"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-current-edges.png",
+    "bytes": 130747,
+    "sha256": "32732aaf82d66314614bb530c61924b4883513859ce25096c3382a9a15f7b4b6"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-current-gray.png",
+    "bytes": 114099,
+    "sha256": "db8251421e6a0c577f6c3facfc8546677871a0f676d77904a572ca69397acdc2"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-edge-diff.png",
+    "bytes": 53270,
+    "sha256": "ff111acc5ba50fbbdea1d7f6adc4586b5bf67473c3f26ebfa2576abf6c8fec7b"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-pixelmatch.png",
+    "bytes": 71007,
+    "sha256": "e852b1af7a0b08d0e6a9628b375c249051245dcc26f6094401ab0c8adce6f160"
+  },
+  {
+    "path": "reviewed/comparison/range-spectrum-side-by-side.png",
+    "bytes": 222539,
+    "sha256": "c93332f35b3e221a45987f8ec88ea9f1b6f711ff03d96bbfed301161828fe17c"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-absdiff.png",
+    "bytes": 39885,
+    "sha256": "c844773a0c5b8ea1417deb07d30d30254987f8ff50566c54f525954010c10602"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-candidate-edges.png",
+    "bytes": 88111,
+    "sha256": "856e3879fbfb991c80d3f38a45628c674de47c91e3d6bd26822523aef66fa5e5"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-candidate-gray.png",
+    "bytes": 95792,
+    "sha256": "b5a690261c05c6ccbbc21189522d4b00a2a71037d7bf988ef13c9acf5ccf4655"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-current-edges.png",
+    "bytes": 94362,
+    "sha256": "5123f993103e1b6914dae9dfae874cb9d564a1330d776baeba0f7b6c62140b56"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-current-gray.png",
+    "bytes": 101953,
+    "sha256": "6c05be0b0604fc88e434950a80bdff8a37d226016fc5e1a12c3e5995c2937564"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-edge-diff.png",
+    "bytes": 29208,
+    "sha256": "4b0ffb186af5ca9eaf4237296a3f2233a737d936839cb76ea25c2a47014185c9"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-pixelmatch.png",
+    "bytes": 64414,
+    "sha256": "c0c7b9cf8105bdb2b9a1dde1e36d542f578ccd01c7d41a3316d4b7f8c7ae349d"
+  },
+  {
+    "path": "reviewed/comparison/range-wave-side-by-side.png",
+    "bytes": 196411,
+    "sha256": "d8233143f2dc7417e5104e3f564a36b31b1c05c43866f20eca1379c5185b1104"
+  },
+  {
+    "path": "reviewed/full-set-1.png",
+    "bytes": 225288,
+    "sha256": "59ef2a01b1ae8345b0e79ff2ddc83f7ecc4f8c72fa5e116a049517250e730431"
+  },
+  {
+    "path": "reviewed/full-set-2.png",
+    "bytes": 193622,
+    "sha256": "f125ecc24f9fecaa8b5e6d5e273aca1c2f460b57227153f25f27cd120143706e"
+  },
+  {
+    "path": "reviewed/neutral/01-axes-panels-2x.png",
+    "bytes": 34554,
+    "sha256": "f3469eddf3d7034473130470c7ddc447620577c7d302540ec9441644b0d9fc6b"
+  },
+  {
+    "path": "reviewed/neutral/01-full.png",
+    "bytes": 64824,
+    "sha256": "155e139dc92658d697c86736ef9053374526b1ae4d88cbaaf84f605bbd92cb16"
+  },
+  {
+    "path": "reviewed/neutral/02-axes-panels-2x.png",
+    "bytes": 52523,
+    "sha256": "7404abf980df986699470d801a779de7162513777e6b92504302e4baeb1c7802"
+  },
+  {
+    "path": "reviewed/neutral/02-full.png",
+    "bytes": 85514,
+    "sha256": "2f9410f4b07e9391af0003039a27377e0cffe8efea18449c347015bee108bfc9"
+  },
+  {
+    "path": "reviewed/neutral/03-axes-panels-2x.png",
+    "bytes": 40464,
+    "sha256": "cd7c2235c84efa77b93f4a1008dc2b1097f8f5d5b839229c29a979c99174d0d5"
+  },
+  {
+    "path": "reviewed/neutral/03-full.png",
+    "bytes": 68860,
+    "sha256": "56de6e5815e3f6e960f498aaf1ea9c3a8dd6b2b54c51b6d8eb0fa25bc886cc57"
+  },
+  {
+    "path": "reviewed/neutral/04-axes-panels-2x.png",
+    "bytes": 51682,
+    "sha256": "e807752c79d1fc512ce6a6163489c6b697b0eb9ed544715ff031bf9540273b20"
+  },
+  {
+    "path": "reviewed/neutral/04-full.png",
+    "bytes": 84874,
+    "sha256": "af8d0afc39e115f0684839a9fdcf126bb9c1c4f3b89d63359ce5c8425a08c6c2"
+  },
+  {
+    "path": "reviewed/neutral/05-axes-panels-2x.png",
+    "bytes": 27326,
+    "sha256": "7131c396b3e3909aebb551b4246f12070878d1fcdc70306b930f045568c52605"
+  },
+  {
+    "path": "reviewed/neutral/05-full.png",
+    "bytes": 58715,
+    "sha256": "3027e7f4d27d21cb28b9ee0f3f9c135ddd04cf7d287bc8598652626937f89a2d"
+  },
+  {
+    "path": "reviewed/neutral/06-axes-panels-2x.png",
+    "bytes": 41262,
+    "sha256": "4f101b8754688a71a9f14a0fec954945049b143b56cc9fc477cf87a3b6a87f8e"
+  },
+  {
+    "path": "reviewed/neutral/06-full.png",
+    "bytes": 74813,
+    "sha256": "570776b2ca2d3f1396abb48175008bfb71009bf6fea2d948806905b412894bb6"
+  },
+  {
+    "path": "reviewed/neutral/07-axes-panels-2x.png",
+    "bytes": 31278,
+    "sha256": "a71a0375efb28750f6b78e99acf15b9b84dedd0f3552cb2051b9b3dd8be9c8b0"
+  },
+  {
+    "path": "reviewed/neutral/07-full.png",
+    "bytes": 62060,
+    "sha256": "ccfe2492cd442c496183a656987af8d22638e9302950c68f7b3f96603d53b034"
+  },
+  {
+    "path": "reviewed/neutral/08-axes-panels-2x.png",
+    "bytes": 42927,
+    "sha256": "f36af7755d85c7a8dc28fa02d794ea7b34f354b725cbb3e66a7b3ed8c35ba231"
+  },
+  {
+    "path": "reviewed/neutral/08-full.png",
+    "bytes": 76923,
+    "sha256": "31f90d2d455ecac2ab10a8059a2f3f86fbe6adfe75b89c05486ac37559969962"
+  },
+  {
+    "path": "reviewed/report.json",
+    "bytes": 55703,
+    "sha256": "8a64b4ddaf918d19159a113eb087afc0672f96cb2d6a36c42f6e110b3627bb1f"
+  },
+  {
+    "path": "reviewed/visual-map.json",
+    "bytes": 569,
+    "sha256": "a10f8120ae98b46f80b4e4619258cee1e38b6525297846f63799c335e0aedf71"
+  },
+  {
+    "path": "reviewed/comparison/visual-parity-diff.json",
+    "bytes": 9534,
+    "sha256": "5300190b7943254a637842374ea9b6fa77b3d33fc66637ba6386c681b1bc69b6"
+  },
+  {
+    "path": "final/00-waveform.json",
+    "bytes": 260617,
+    "sha256": "d621043ce751028120be7f636249efc5034f8fcf736ee112f53663330048b58e"
+  },
+  {
+    "path": "final/01-waveform.json",
+    "bytes": 201929,
+    "sha256": "d537e78a71b7f3d112308ea7f939d7ea8ed6475a59fdd69e6c9660e2d25a68f2"
+  },
+  {
+    "path": "final/02-waveform.png",
+    "bytes": 83531,
+    "sha256": "d1071feb42b7f78dfc84f11ee82f5bcd37a69accb01c3d3d965e143136db5b68"
+  },
+  {
+    "path": "final/03-spectrogram.png",
+    "bytes": 108913,
+    "sha256": "4bad9d48da02160f40d3e57fdfc8b4d327547c958be28f8ae1c6d170535ec224"
+  },
+  {
+    "path": "final/04-waveform.png",
+    "bytes": 88405,
+    "sha256": "49053c5a80b74490a969170099bc125a5df88c8d069e4154072f27033f2f837f"
+  },
+  {
+    "path": "final/05-spectrogram.png",
+    "bytes": 106455,
+    "sha256": "a5c694abea547fbcf287418dbbc66ae0bce236b2d48b24c363a8fcd6f505166f"
+  },
+  {
+    "path": "final/06-waveform.json",
+    "bytes": 260714,
+    "sha256": "1b347e176a67f729aa5b9fb4e6d3fa72a0c02b52113f0c7f480df733f7dd834e"
+  },
+  {
+    "path": "final/07-waveform.json",
+    "bytes": 260351,
+    "sha256": "5074d13ae5ef7b1ff7dd3b4bbbf789cb53d1b56df2d552811772e03b365a2324"
+  },
+  {
+    "path": "final/08-waveform.json",
+    "bytes": 201732,
+    "sha256": "a667b74236fdfd2fd6d3d7a6d1f45d80c85fe06236f9998cac79a2a91808a8d2"
+  },
+  {
+    "path": "final/09-waveform.png",
+    "bytes": 75788,
+    "sha256": "0f2d79768dce9ddc498addd436aca135885c399a453b3a694a2c401d0060b966"
+  },
+  {
+    "path": "final/10-spectrogram.png",
+    "bytes": 95150,
+    "sha256": "30c43b2fd575ce0f43d1397eb0a8f7f8a372ff7d5e9545733bcc75af85c074d3"
+  },
+  {
+    "path": "final/11-waveform.png",
+    "bytes": 78793,
+    "sha256": "5e9de7273a8ba6c00feab3fa958ce53439996a7d8c69d24459c919c50313b94f"
+  },
+  {
+    "path": "final/12-spectrogram.png",
+    "bytes": 95762,
+    "sha256": "b4f8dca1546e89ace78ffadffd182f3a6a9d99751ecb36ec5fed2512530c3536"
+  },
+  {
+    "path": "final/13-waveform.json",
+    "bytes": 260448,
+    "sha256": "45c8f529654f3c82b81a12802fc230b5f6ec71a0d5c22e7fcb566e63b98a05c7"
+  },
+  {
+    "path": "final/follow-full.wav",
+    "bytes": 1924096,
+    "sha256": "4135dfc09225d80d417b77dbc2c6332dfc0ebe858ea765e04343505351dddf2a"
+  },
+  {
+    "path": "final/follow-range.wav",
+    "bytes": 1488896,
+    "sha256": "4b773f3df853b58a523bc880086529e462d4e87e1c6ebdf0b30e325538f1c2c1"
+  },
+  {
+    "path": "final/follow-split.wav",
+    "bytes": 1924096,
+    "sha256": "4135dfc09225d80d417b77dbc2c6332dfc0ebe858ea765e04343505351dddf2a"
+  },
+  {
+    "path": "final/preserve-full.wav",
+    "bytes": 1924096,
+    "sha256": "c435c991e6ca724f08c8455dca30c0bf3a9e29fc9f4cbdaf2c0f13fe560af10c"
+  },
+  {
+    "path": "final/preserve-range.wav",
+    "bytes": 1488896,
+    "sha256": "c6a451d83932a663ef820a1773a815c3262f8a9c53039f9b3c892305c62c049e"
+  },
+  {
+    "path": "final/preserve-split.wav",
+    "bytes": 1924096,
+    "sha256": "c435c991e6ca724f08c8455dca30c0bf3a9e29fc9f4cbdaf2c0f13fe560af10c"
+  },
+  {
+    "path": "final/report.json",
+    "bytes": 58836,
+    "sha256": "a431b9f8593a725236534e4b0f0ebe268e31e1a8a390b83eee3c0fadd57f9d49"
+  },
+  {
+    "path": "final/retimed-reference.wav",
+    "bytes": 768044,
+    "sha256": "2212d485e3886a72fa1310f40901e7c0701d45974d4d5fcdee1bcc7b6137d7e7"
+  },
+  {
+    "path": "final/service.log",
+    "bytes": 169,
+    "sha256": "5751ce88f8ff88b8fbe7043fe7ff6101373e639dea4d53ab04883a428caaf547"
+  },
+  {
+    "path": "code-review/cli-review.log",
+    "bytes": 2842,
+    "sha256": "bd1ad9a746b586475120bd6a1f1e8abfbc51eb1550b1c26e35d62926542956c3"
+  }
+]

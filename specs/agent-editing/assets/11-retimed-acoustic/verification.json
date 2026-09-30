@@ -1,0 +1,375 @@
+{
+  "passed": true,
+  "sourceBase": "07b6da45",
+  "nativeSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "sources": {
+    "packages/test-harness/editing/audio-evidence.mjs": "4f2307e70aa997e4766e5760f5c680ef2138daf170bf8a4e56cad16b5b58e503",
+    "packages/test-harness/editing/acoustic-retiming.mjs": "e96d8dea15cd44987dfe8d2af08d8befd8137147ec3cf2a67f3677c271b3c94d"
+  },
+  "sourceWaveSha256": "2212d485e3886a72fa1310f40901e7c0701d45974d4d5fcdee1bcc7b6137d7e7",
+  "cases": [
+    {
+      "pitch": "preserve",
+      "selection": {
+        "projectId": "32867a12-eca4-44cd-a602-7d3fa3354359",
+        "revisionId": "78ed4c0c-ce49-4dd2-8fc2-57ea4913529e"
+      },
+      "fullSha256": "c435c991e6ca724f08c8455dca30c0bf3a9e29fc9f4cbdaf2c0f13fe560af10c",
+      "rangeSha256": "c6a451d83932a663ef820a1773a815c3262f8a9c53039f9b3c892305c62c049e",
+      "frames": 240000,
+      "repeatedPCM": true,
+      "fullRangePCM": true,
+      "fullRangeBuckets": true,
+      "splitPCMAndBuckets": true,
+      "incorrectPartialFlagsRejected": true,
+      "images": [
+        {
+          "view": "full",
+          "waveform": "02-waveform.png",
+          "spectrum": "03-spectrogram.png",
+          "transientChecks": [
+            {
+              "expectedSample": 30000,
+              "actualPeakSample": 29997,
+              "expectedX": 226.46,
+              "spectralCenter": 29952,
+              "spectralX": 226.784,
+              "spectralSignal": 100,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 90000,
+              "actualPeakSample": 90215,
+              "expectedX": 497.54,
+              "spectralCenter": 90368,
+              "spectralX": 498.656,
+              "spectralSignal": 91,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 150000,
+              "actualPeakSample": 149997,
+              "expectedX": 766.46,
+              "spectralCenter": 149760,
+              "spectralX": 765.92,
+              "spectralSignal": 68,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 210000,
+              "actualPeakSample": 210215,
+              "expectedX": 1037.54,
+              "spectralCenter": 210176,
+              "spectralX": 1037.792,
+              "spectralSignal": 106,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            }
+          ],
+          "toneChecks": [
+            {
+              "seconds": 1,
+              "channel": 0,
+              "hz": 1875,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 329.9375,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 1,
+              "channel": 1,
+              "hz": 3750,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 559.875,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 0,
+              "hz": 1875,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 329.9375,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 1,
+              "hz": 3750,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 559.875,
+              "wrongPitchRejected": true
+            }
+          ]
+        },
+        {
+          "view": "range",
+          "waveform": "04-waveform.png",
+          "spectrum": "05-spectrogram.png",
+          "transientChecks": [
+            {
+              "expectedSample": 30000,
+              "actualPeakSample": 29997,
+              "expectedX": 172.77306034482757,
+              "spectralCenter": 29952,
+              "spectralX": 173.192025862069,
+              "spectralSignal": 100,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 90000,
+              "actualPeakSample": 90215,
+              "expectedX": 523.3075431034483,
+              "spectralCenter": 90368,
+              "spectralX": 524.7506465517241,
+              "spectralSignal": 91,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 150000,
+              "actualPeakSample": 149997,
+              "expectedX": 871.0489224137931,
+              "spectralCenter": 149760,
+              "spectralX": 870.3506465517241,
+              "spectralSignal": 68,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            }
+          ],
+          "toneChecks": [
+            {
+              "seconds": 1,
+              "channel": 0,
+              "hz": 1875,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 329.9375,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 1,
+              "channel": 1,
+              "hz": 3750,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 559.875,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 0,
+              "hz": 1875,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 329.9375,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 1,
+              "hz": 3750,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 559.875,
+              "wrongPitchRejected": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pitch": "follow",
+      "selection": {
+        "projectId": "fe2eaf03-f020-4103-b194-53c06d5afe26",
+        "revisionId": "16c60912-c253-4d66-b8f1-e65e68e88806"
+      },
+      "fullSha256": "4135dfc09225d80d417b77dbc2c6332dfc0ebe858ea765e04343505351dddf2a",
+      "rangeSha256": "4b773f3df853b58a523bc880086529e462d4e87e1c6ebdf0b30e325538f1c2c1",
+      "frames": 240000,
+      "repeatedPCM": true,
+      "fullRangePCM": true,
+      "fullRangeBuckets": true,
+      "splitPCMAndBuckets": true,
+      "incorrectPartialFlagsRejected": true,
+      "images": [
+        {
+          "view": "full",
+          "waveform": "09-waveform.png",
+          "spectrum": "10-spectrogram.png",
+          "transientChecks": [
+            {
+              "expectedSample": 30000,
+              "actualPeakSample": 30298,
+              "expectedX": 228.62,
+              "spectralCenter": 30464,
+              "spectralX": 229.08800000000002,
+              "spectralSignal": 80,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 90000,
+              "actualPeakSample": 90298,
+              "expectedX": 498.62,
+              "spectralCenter": 90368,
+              "spectralX": 498.656,
+              "spectralSignal": 100,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 150000,
+              "actualPeakSample": 150298,
+              "expectedX": 768.6199999999999,
+              "spectralCenter": 150272,
+              "spectralX": 768.2239999999999,
+              "spectralSignal": 103,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 210000,
+              "actualPeakSample": 210298,
+              "expectedX": 1038.62,
+              "spectralCenter": 210176,
+              "spectralX": 1037.792,
+              "spectralSignal": 97,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            }
+          ],
+          "toneChecks": [
+            {
+              "seconds": 1,
+              "channel": 0,
+              "hz": 1500,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 332.75,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 1,
+              "channel": 1,
+              "hz": 3000,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 565.5,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 0,
+              "hz": 1500,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 332.75,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 1,
+              "hz": 3000,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 565.5,
+              "wrongPitchRejected": true
+            }
+          ]
+        },
+        {
+          "view": "range",
+          "waveform": "11-waveform.png",
+          "spectrum": "12-spectrogram.png",
+          "transientChecks": [
+            {
+              "expectedSample": 30000,
+              "actualPeakSample": 30298,
+              "expectedX": 175.56616379310344,
+              "spectralCenter": 30464,
+              "spectralX": 176.17133620689657,
+              "spectralSignal": 80,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 90000,
+              "actualPeakSample": 90298,
+              "expectedX": 524.7040948275862,
+              "spectralCenter": 90368,
+              "spectralX": 524.7506465517241,
+              "spectralSignal": 100,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            },
+            {
+              "expectedSample": 150000,
+              "actualPeakSample": 150298,
+              "expectedX": 873.842025862069,
+              "spectralCenter": 150272,
+              "spectralX": 873.3299568965517,
+              "spectralSignal": 103,
+              "spectralWrongTime": 0,
+              "wrongTimeRejected": true
+            }
+          ],
+          "toneChecks": [
+            {
+              "seconds": 1,
+              "channel": 0,
+              "hz": 1500,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 332.75,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 1,
+              "channel": 1,
+              "hz": 3000,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 565.5,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 0,
+              "hz": 1500,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 332.75,
+              "wrongPitchRejected": true
+            },
+            {
+              "seconds": 3.5,
+              "channel": 1,
+              "hz": 3000,
+              "expectedIntensity": 118,
+              "actualIntensity": 118,
+              "expectedY": 565.5,
+              "wrongPitchRejected": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publicTraceEntries": 110,
+  "defaultJourneyBodyUnchanged": true,
+  "allReviewedAxesPanelsFootersMatchFinalRunPixels": true,
+  "reviewedHeaderDifference": "Final run has fresh project/revision/job IDs; complete axes, plot regions, channel labels and footers are byte-identical to fresh-reviewed images. Original reviewed headers and both actual reports are retained.",
+  "archiveSha256": "3dff3a4f8b133fa2f122d98a3954e6caa9b4d0816994e697d89fa9a3f78690a9",
+  "manifestSha256": "e0838cfcd75a52b2eb657a6f2f3797c5efd5157eeb6367324c9f67c0b8dc0bae",
+  "archiveMembers": 85,
+  "visualReview": "Fresh agent inspected all8 full images and8 corresponding2x crops. No blocking defect; tiny orange boundary indicators and faint central spectral features are preserved readability limitations. Root inspected both complete4-image sheets and full-size waveform/spectrum.",
+  "previewCheckpoint": "Opened two full sets at2026-09-30 08:56:28 UTC, closed after09:02 UTC without additional feedback. No listening inferred."
+}
