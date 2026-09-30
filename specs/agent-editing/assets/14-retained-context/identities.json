@@ -1,0 +1,35 @@
+{
+  "checks": "Pure compiler proof only",
+  "sources": [
+    {
+      "path": "packages/composition/src/audio-context.ts",
+      "sha256": "5d24f6d79c5780bb3fa95c1561779b41daa7554c81068ebae0061391f74a56b2"
+    },
+    {
+      "path": "packages/composition/src/sample-clock.ts",
+      "sha256": "bed959eceb0dda2ba9aa96203bbdc150ef486708203b1c256192352f42454525"
+    },
+    {
+      "path": "packages/composition/src/compiler.ts",
+      "sha256": "9c91f37be2b324c2c5ce3033acfd078bdc6be4dda7e829440ff4c01e35d3f84b"
+    },
+    {
+      "path": "packages/composition/src/partition.ts",
+      "sha256": "2241250f258940a4cf6c133e7a7703406b0398648ecefea0c1d9e674c0248c1b"
+    },
+    {
+      "path": "packages/composition/src/edits.ts",
+      "sha256": "91c509b01660424d69efaada96c36745b58ea2ffecbf9cf619cecc93577698af"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "probe.ts",
+      "sha256": "3df2c2b6e40bebf99c810a7bf86fc647bd076df1562d4a7f13353b6ad14266b0"
+    },
+    {
+      "path": "report.json",
+      "sha256": "1f9f472dd1fd26875a614e07e9439be735080bae8f38e760b27a3e7c360c35f7"
+    }
+  ]
+}

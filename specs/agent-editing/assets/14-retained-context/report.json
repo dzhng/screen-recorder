@@ -1,0 +1,279 @@
+{
+  "scope": "Pure compiler context proof only; no native retiming or acoustic acceptance",
+  "base": [
+    {
+      "clipId": "voice",
+      "trackId": "a",
+      "sampleRange": {
+        "start": 31206,
+        "end": 106798
+      },
+      "placement": {
+        "startUs": 650125,
+        "endUs": {
+          "numerator": 8899875,
+          "denominator": 4
+        }
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "asset",
+        "streamId": "audio",
+        "range": {
+          "startUs": 650125,
+          "endUs": 1910000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 106798
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 31206,
+          "end": 106798
+        }
+      ]
+    }
+  ],
+  "divided": [
+    {
+      "clipId": "voice",
+      "trackId": "a",
+      "sampleRange": {
+        "start": 31206,
+        "end": 59259
+      },
+      "placement": {
+        "startUs": 650125,
+        "endUs": 1234567
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "asset",
+        "streamId": "audio",
+        "range": {
+          "startUs": 650125,
+          "endUs": {
+            "numerator": 5588393,
+            "denominator": 5
+          }
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 106798
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 31206,
+          "end": 59259
+        }
+      ]
+    },
+    {
+      "clipId": "clip:split:0",
+      "trackId": "a",
+      "sampleRange": {
+        "start": 59259,
+        "end": 106798
+      },
+      "placement": {
+        "startUs": 1234567,
+        "endUs": {
+          "numerator": 8899875,
+          "denominator": 4
+        }
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "asset",
+        "streamId": "audio",
+        "range": {
+          "startUs": {
+            "numerator": 5588393,
+            "denominator": 5
+          },
+          "endUs": 1910000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 106798
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 59259,
+          "end": 106798
+        }
+      ]
+    }
+  ],
+  "window": [
+    {
+      "clipId": "clip:split:0",
+      "trackId": "a",
+      "sampleRange": {
+        "start": 72000,
+        "end": 76800
+      },
+      "placement": {
+        "startUs": 1234567,
+        "endUs": {
+          "numerator": 8899875,
+          "denominator": 4
+        }
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "asset",
+        "streamId": "audio",
+        "range": {
+          "startUs": {
+            "numerator": 5588393,
+            "denominator": 5
+          },
+          "endUs": 1910000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 106798
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 72000,
+          "end": 76800
+        }
+      ]
+    }
+  ],
+  "cutParts": [
+    {
+      "clipId": "voice",
+      "trackId": "a",
+      "sampleRange": {
+        "start": 31206,
+        "end": 57600
+      },
+      "placement": {
+        "startUs": 650125,
+        "endUs": 1200000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "asset",
+        "streamId": "audio",
+        "range": {
+          "startUs": 650125,
+          "endUs": 1090025
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 650125,
+            "endUs": 1090025
+          },
+          "sampleRange": {
+            "start": 31206,
+            "end": 57600
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 31206,
+          "end": 57600
+        }
+      ]
+    },
+    {
+      "clipId": "clip:cut:0",
+      "trackId": "a",
+      "sampleRange": {
+        "start": 62400,
+        "end": 106798
+      },
+      "placement": {
+        "startUs": 1300000,
+        "endUs": {
+          "numerator": 8899875,
+          "denominator": 4
+        }
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "asset",
+        "streamId": "audio",
+        "range": {
+          "startUs": 1170025,
+          "endUs": 1910000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 1170025,
+            "endUs": 1910000
+          },
+          "sampleRange": {
+            "start": 62400,
+            "end": 106798
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 62400,
+          "end": 106798
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "sameFullRunAfterSplit": true,
+    "sameFullRunInShortWindow": true,
+    "gapBreaksRun": true,
+    "correctedCandidateOutputCount": 75592
+  },
+  "caveat": "Exact rational model endpoint; public retime duration uses integer microseconds and needs separate production mapping verification."
+}

@@ -21,7 +21,10 @@ Reuse composition's retained audio contexts as the candidate stretch domains.
 They already join contiguous source/project support with the same asset, stream,
 rate and pitch across pure splits. Verify a matched-input split and a short query
 against that complete run before wiring execution: preparing each visible clip
-independently would create extra stretch endpoints. No persistent lineage or
+independently would create extra stretch endpoints. The [bounded compiler check](../assets/14-retained-context/README.md) confirms
+identical full-run contexts for the corrected selection after a pure split and
+short query, while an actual removal breaks support. Native output equality and
+public integer-duration authoring remain unverified. No persistent lineage or
 second timeline is justified by this seam.
 
 Core window readiness currently refuses retiming, and native composition rejects
