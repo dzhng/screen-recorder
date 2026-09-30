@@ -1,6 +1,6 @@
 # 15a — Adopt verified noise reduction in processing stacks
 
-Status: [native-entry parity](./15a1-denoise-entry-parity.md) and scoped [public prepared consumers](./15a2-denoise-prepared-consumers.md) verified. The [unit-rate combined public join](./15a3a-unit-rate-combined.md) and [explicit mix transitions](15a3b-denoise-transitions.md) are verified; [preserve-pitch combined temporal delivery](../assets/15a3c-post-retime-combined/root-verification.json) is also verified. [Public follow-pitch learned joins](../assets/15a3e-follow-learned-public/root-verification.json) also pass. Remaining listening acceptance stays with15a3. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
+Status: complete for local typed RNNoise execution and the finite acceptance matrix. [Acceptance evidence](../assets/denoise-acceptance/README.md) links native-entry parity, shared prepared/state consumers, combined preserve/follow-pitch preview/export, explicit transitions, portability and exact user quality verdicts. Installed cutover, final scale and autonomous workflow remain slices 23/24/25. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
 
 ## Contract
 
@@ -9,9 +9,8 @@ using the same revision, preparation, inspection, preview and export paths.
 
 Shared preparation owner: [14a](./14a-prepared-audio.md) already verifies durable
 publication, public preparation and portable unit-rate/gain assets. Reuse that
-owner; scoped RNNoise execution, retained consumers and portability are verified through15a2. Complete acceptance remains this parent’s work.
-The [protected-speech packet](../assets/12c-protected-speech/README.md) is a
-listening/annotation handoff, not acceptance or processor readiness.
+owner; scoped RNNoise execution, retained consumers and portability are verified through15a2. The acceptance evidence records the complete parent matrix.
+The [early protected-speech packet](../assets/12c-protected-speech/README.md) retains historical unaccepted crops; later complete-sentence verdicts supply the quality evidence.
 
 ## Seam and ownership
 
@@ -34,11 +33,7 @@ missing dependencies, cancel/retry/restart and publication fencing. Implement dr
 and after-instance inspection taps through the same plan, including waveform and
 spectrogram consumers already supplied by 11. Keep raw source reads unchanged.
 
-Create this planned probe:
-
-```sh
-node packages/test-harness/editing/processing.mjs --case ordered-denoise --transport both
-```
+The existing [public denoise runner](../../../packages/test-harness/editing/denoise-runtime-public.mjs) owns default, combined, transition, post-retime and follow cases through CLI/MCP. Its linked evidence records the pinned worker/reference arguments and complete delivered artifacts.
 
 ## Acceptance
 
@@ -71,5 +66,4 @@ evidence and the README handoff; absent listening cannot be recorded as acceptan
 The [public pause workflow](../assets/pause-audio-public/README.md) verifies an
 explicit track/window RNNoise choice across an inserted gap, exact wet/dry mix,
 unchanged neighbors, prepared delivery, bypass/undo and no implicit ambience
-layer. Synthetic signals establish mechanics only; real speech and post-retime
-acceptance remain separate.
+layer. Synthetic signals establish mechanics only; the accepted real-speech and post-retime cases remain separately linked in the parent evidence.

@@ -12,11 +12,7 @@ Historical workers and measurements retain their own identities below.
 
 The [user review](listening-review-2026-09-30.md) accepts the exact post-retime
 denoise, shorter phrase entrance and word context. The source pause contains a
-voice blip; select and audition a clean region from existing audio before closing
-19’s speech-free ambience/loop gate. The different protected sentence and authored stereo case now have user passes;
-the [known-noise sentence](15a3-noisy-sentence/README.md) is the remaining concrete
-denoise audition. Independent speech labels and physical capture gates remain;
-do not repeat accepted auditions.
+voice blip; resolve19’s speech-free ambience/loop verdict before closing that gate. The [earlier selected region and loop](19-clean-roomtone/README.md) are ready but unanswered. The [finite denoise acceptance](denoise-acceptance/README.md) includes the protected sentence, authored stereo and known-noise passes. Independent speech labels and physical capture gates remain; do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;
@@ -63,7 +59,7 @@ also passes independent PCM, late state and matched full/range AAC checks.
 [Retimed acoustic conformance11](11-retimed-acoustic/README.md) also passes; prepared-package-transfer owns
 the narrow independent-C follow-pitch learned check against retained14d media.
 [Public follow-pitch learned joins](15a3e-follow-learned-public/root-verification.json)
-pass; speech/spatial quality remains open. [03d preservation](03d-consumer-cutover/README.md)
+pass; the finite denoise acceptance above supplies its scoped quality verdicts. [03d preservation](03d-consumer-cutover/README.md)
 records fresh-format reauthoring with identical frozen dry/processed bytes.
 
 Physical20 still lacks its stated camera duration/precision proof. The
@@ -254,8 +250,7 @@ retirement ownership, not a new garbage collector.
 The [current checklist](../README.md#global-checklist) owns completion; the
 [audio/stretch audit](acceptance-maintenance/README.md) records historical checkpoints.
 08/11,13/14,16 and generic22 acceptance are verified. [18's fixed voice matrix](../slices/18-voice-reproduction.md)
-is accepted;19 retains its speech-free ambience/loop gate. Remaining speech/denoise
-quality precedes physical20/21, cutover23, final24 and autonomous25. Segmentation
+and the frozen local denoise matrix are accepted;19 retains its speech-free ambience/loop gate. Independent speech-cleanup labels precede12b; physical20/21, cutover23, final24 and autonomous25 remain. Segmentation
 stays a future placeholder. Isolated checkpoints do not establish physical capture
 or installed-app cutover.
 
@@ -312,8 +307,7 @@ The [familiar denoise comparison](12c-familiar-sentence/README.md) now has a use
 PASS for complete-sentence word clarity/naturalness. The
 [familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
 and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
-these comparisons again. Independent protected-word labels, spatial/other-material
-denoise and the dependent speech/denoise acceptance remain separate requirements.
+these comparisons again. The finite denoise matrix is accepted; independent protected-word boundaries, filler/repetition inventory and dependent12b cleanup adoption remain open.
 
 
 The [complete-sentence filler journey](12d-complete-sentence/README.md) now

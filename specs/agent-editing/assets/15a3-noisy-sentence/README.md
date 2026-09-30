@@ -59,8 +59,7 @@ worker:
 SCREENREC_NATIVE=/tmp/screenrec-03d-native-build/debug/screenrec-native node specs/agent-editing/assets/15a3-noisy-sentence/assemble.mjs --out /tmp/noisy-sentence-fresh
 ```
 
-This packet supplies the accepted known-noise listening case in12c/15a3’s
-finite acceptance matrix. The linked user verdict closes that hearing gate;
+This packet supplies the accepted known-noise listening case in the [finite denoise matrix](../denoise-acceptance/README.md). Assembly manifests/reviews retain their original creation-time pending listening state and file hashes; the later user verdict owns acceptance. The linked user verdict closes that hearing gate;
 its technical measurements alone cannot do so or establish independent word labels or a naturally captured spatial
 field. The frozen clean/reference-only, channel, state and whole-output cases
 retain their own evidence; this review adds no new speaker requirement. No model preparation, new engine,

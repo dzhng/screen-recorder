@@ -100,8 +100,7 @@
   neither establishes protected speech quality or a production state policy.
   [Matched noise controls](12c-matched-noise/README.md) expose a strong
   attenuation/reference-distortion tradeoff. [Clean-reference and level controls](12c-clean-reference/README.md)
-  extend it. The user prefers the learned audition; carry RNNoise forward while
-  protected phonemes, joins and broader listening remain open.
+  extend it. The user prefers the learned audition; the later [finite denoise acceptance](denoise-acceptance/README.md) supplies protected-word/channel/noise listening and production state evidence. These earlier controls retain their measured scope.
   [Transient noise](12c-transient-noise/README.md) and
   [channel relations](12c-channel-relations/README.md) extend measured
   coverage without selecting a stereo policy. [Range-origin evidence](12c-range-origin/README.md)
@@ -145,7 +144,7 @@ failure. Numerical checks cannot close listening or physical-camera acceptance.
 [Early encoding trials](06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
 the later [output quality study](09b-output-quality/README.md) selects an
 editable balanced default. [Fixed reference-speech reproduction](../slices/18-voice-reproduction.md)
-is accepted;19 retains the speech-free ambience/loop gate. Remaining speech/denoise,
+and [frozen local denoise](denoise-acceptance/README.md) are accepted;19 retains the speech-free ambience/loop gate. Remaining speech cleanup,
 camera (20/21), cutover (23), scale (24) and autonomous acceptance (25) follow the
 [current checklist](../README.md#global-checklist). No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,

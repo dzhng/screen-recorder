@@ -68,9 +68,8 @@ CLI/MCP media and lifecycle journeys; [fresh-agent interpretation](assets/10d-fr
 now correctly distinguishes authored boundaries, displayed frame intervals and gaps.
 [Raw PNG/JPEG inspection](assets/10d-source-image-public/README.md) passes public
 delivery, lifecycle and fresh skill use; [project image composition](assets/10d-project-image-public/README.md)
-and [combined renderer preservation](assets/10d-joint-preservation/README.md) also pass. Speech/noise
-processing, animation and subjective listening remain pending. Rows below
-describe the full acceptance requirement; their owning slice evidence records progress.
+and [combined renderer preservation](assets/10d-joint-preservation/README.md) also pass. Speech
+cleanup timing and19 ambience listening remain pending. The [finite denoise matrix](assets/denoise-acceptance/README.md) is accepted, including its exact protected-word/channel/noise auditions. Rows below describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |
 | --- | --- | --- |

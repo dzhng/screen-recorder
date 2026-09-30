@@ -1,5 +1,11 @@
 # Protected-speech review packet
 
+Historical checkpoint: scope and pending statements below describe this packet
+when recorded. The [current denoise acceptance](../denoise-acceptance/README.md)
+combines later complete-sentence user verdicts and production evidence. Original
+measurements, failed controls and unaccepted cropped-word observations remain
+unchanged; they do not form an additional implementation pickup.
+
 This packet makes the remaining word/onset/end review concrete. It does **not**
 repeat the candidate-choice question: the user's [learned-filter preference](../12c-matched-noise/audition/README.md)
 stands. No audio was auditioned during assembly, and no speech-quality verdict or

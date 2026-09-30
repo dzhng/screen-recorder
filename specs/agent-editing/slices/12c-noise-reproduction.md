@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: frozen user-preferred RNNoise has measured timing and retained-output state evidence. Scoped production execution, independent mono/stereo lanes and mix transitions are verified through [15a](15a-noise-processing.md); The [current user verdicts](../assets/listening-review-2026-09-30.md) pass the exact familiar post-retime output, different complete protected sentence and authored half-level stereo balance. The [known-added-noise complete sentence](../assets/15a3-noisy-sentence/README.md) awaits listening; broader quality remains open. Dependencies: [00](./00-corpus.md).
+Status: complete for the frozen local RNNoise implementation and finite acceptance matrix. [Acceptance evidence](../assets/denoise-acceptance/README.md) joins timing/state/control measurements, public integration and the [exact user listening verdicts](../assets/listening-review-2026-09-30.md), including protected starts/ends, authored stereo and known added noise. The original failed controls and unfavorable waveform measurements remain retained. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -25,11 +25,7 @@ and transient-noise findings. Record code/model/license/runtime/input hashes,
 preparation, parameters, raw outputs, latency/tails, context/reset policy,
 resource measurements and separately labeled loudness-matched auditions.
 
-Create this planned probe:
-
-```sh
-node packages/test-harness/editing/denoise-reproduction.mjs --fixture narration-noise
-```
+Reproduction uses the existing [frame/timing runner](../../../packages/test-harness/editing/rnnoise-timing.py), [native-entry parity](../../../packages/test-harness/editing/denoise-entry-parity.py) and [public execution runner](../../../packages/test-harness/editing/denoise-runtime-public.mjs). Their evidence owners retain pinned inputs, commands and expected bytes; no additional probe wrapper is needed.
 
 ## Acceptance
 
@@ -55,7 +51,11 @@ are fixed by [processing](../processing.md) and [verification](../verification.m
 Update status, frozen evidence, limitations and the README handoff before ending.
 
 
-## Measured checkpoints and next pickup
+## Historical measured checkpoints
+
+The scope limitations below describe each checkpoint when recorded. Current
+combined acceptance is owned by the linked acceptance evidence; these historical
+experiments do not supply another implementation queue or reopening of user passes.
 
 The [conventional baseline](../assets/12c-denoise-baseline/README.md) and
 [state probe](../assets/12c-denoise-state/README.md) exposed hidden delay and

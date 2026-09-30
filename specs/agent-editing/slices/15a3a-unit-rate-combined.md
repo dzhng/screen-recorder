@@ -2,8 +2,7 @@
 
 Status: verified; [evidence](../assets/15a3a-unit-rate-combined/README.md). Dependencies: [15a2](15a2-denoise-prepared-consumers.md),
 [15a2f](15a2f-independent-channels.md), existing scalar/time contracts from16.
-This is a dependency-ready part of [15a3](15a3-denoise-acceptance.md); post-retime
-execution and protected-speech/spatial listening remain open.
+This checkpoint supplies unit-rate combined execution to the completed [15a3](15a3-denoise-acceptance.md) matrix; later post-retime and protected-speech/channel verdicts remain separate evidence.
 
 One public trace joins newly authored parent membership, overlapping contributions,
 upstream gain automation, an explicit learned activation window, ordered edits and

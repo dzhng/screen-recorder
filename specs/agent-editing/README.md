@@ -19,7 +19,7 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs. Current pickup is
-[19 ambience sourcing](slices/19-voice-assets.md): the
+[19 ambience acceptance](slices/19-voice-assets.md): the
 [user review](assets/listening-review-2026-09-30.md) accepts the exact post-retime
 denoise, shorter phrase entrance and word context, but hears speech in the source pause.
 The [earlier region and public loop](assets/19-clean-roomtone/README.md) are ready
@@ -30,15 +30,10 @@ independent exact-result, latency/memory and generation checks. Preserve those
 scoped passes; remaining labels/listening/physical gates need their actual evidence.
 The [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) is verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
-offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post-retime-combined/root-verification.json)
-passes independent PCM and matched full/range AAC checks. The [native](assets/15a3d-follow-learned-native/root-verification.json) and
-[public](assets/15a3e-follow-learned-public/root-verification.json) follow-pitch
-learned joins and [follow movie delivery](assets/15a3f-follow-learned-movie/README.md)
-now pass. The familiar post-retime denoise audition has the linked user pass;
-The [different protected sentence](assets/15a3-protected-sentence/README.md) and
-[authored stereo balance](assets/15a3-protected-sentence/README-stereo.md) have also
-passed user review; the [known-added-noise case](assets/15a3-noisy-sentence/README.md)
-awaits listening. Resolve broader quality without repeating accepted auditions or passed joins. Numerical evidence never substitutes for hearing.
+offscreen playback. The [frozen local denoise matrix](assets/denoise-acceptance/README.md) is accepted,
+including protected starts/ends, authored stereo balance and the known-added-noise
+comparison. Its technical and exact listening evidence remain distinct; preserve
+accepted outputs and do not repeat those auditions.
 
 Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
 [retimed curves](assets/16-retimed-curves/root-verification.json) and
@@ -50,9 +45,8 @@ prepared runtimes and frozen worker identities. Do not replace the installed app
 or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
-Resolve actual12/12d speech labels and15a3 denoise quality toward12b/15a;
-preserve the accepted18 contextual auditions and resolve19 speech-free ambience/loop
-acceptance. Then physical20→21,
+Resolve actual12/12d speech labels toward12b; preserve accepted denoise and18
+contextual outputs, and resolve19 speech-free ambience/loop acceptance. Then physical20→21,
 final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
 a scheduling graph. Further12b/19/23 consumer acceptance retains its missing quality or physical
 prerequisite. Do not repeat
@@ -168,7 +162,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
-- [ ] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
+- [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
 - [x] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [x] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
@@ -181,7 +175,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
   - [x] [14f — Exact picture sampling](slices/14f-exact-picture-sampling.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [x] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
-- [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
+- [x] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
 - [x] [15a1 — Frozen learned native-entry parity](slices/15a1-denoise-entry-parity.md)
 - [x] [15a2 — Typed learned state and prepared consumers](slices/15a2-denoise-prepared-consumers.md)
 - [x] [15a2a — Revision-owned clip state domains](slices/15a2a-state-domains.md)
@@ -190,7 +184,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a2d — Linked mono state execution](slices/15a2d-linked-denoise-runtime.md)
 - [x] [15a2e — Selected input and ordered consumer isolation](slices/15a2e-state-isolation.md)
 - [x] [15a2f — Independent learned state per channel](slices/15a2f-independent-channels.md)
-- [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
+- [x] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
 - [x] [15a3b — Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
 - [x] [15a3a — Public unit-rate combined temporal processing](slices/15a3a-unit-rate-combined.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)

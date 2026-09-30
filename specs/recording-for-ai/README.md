@@ -15,9 +15,8 @@ editing correction, [exact media admission](../agent-editing/slices/03d-exact-me
 is verified in the isolated service with capture/evidence clock preservation.
 The [populated source-event duration check](../agent-editing/slices/24y-source-event-duration.md)
 also passes its isolated query gates. The new editor’s current pickup is the
-remaining ambience/label and broader quality evidence before physical capture
-acceptance and cutover. Its [latest user review](../agent-editing/assets/listening-review-2026-09-30.md)
-accepts the exact three contextual auditions but rejects the pause as speech-free.
+remaining ambience and independent speech-label evidence before physical capture
+acceptance and cutover. Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.
 The editor now has an [earlier room-tone loop candidate](../agent-editing/assets/19-clean-roomtone/README.md)
 ready for listening; its fixed reference-speech reproduction gate is accepted. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces

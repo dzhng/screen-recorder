@@ -1,5 +1,11 @@
 # Independent clean-speech control
 
+Historical checkpoint: scope and pending statements below describe this packet
+when recorded. The [current denoise acceptance](../denoise-acceptance/README.md)
+combines later complete-sentence user verdicts and production evidence. Original
+measurements, failed controls and unaccepted cropped-word observations remain
+unchanged; they do not form an additional implementation pickup.
+
 The frozen RNNoise recipe behaves differently on an independent clean-speech
 reference: mixture error is lower than the added-noise baseline, and reference
 correlation is much higher than on the original recording. Matching this utterance

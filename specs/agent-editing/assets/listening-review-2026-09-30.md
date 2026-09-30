@@ -30,9 +30,9 @@ prove loop continuity separately. No new capture is authorized.
 | Original context for 2/3 | [context.wav](18-voice/context.wav) | `779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45` |
 | 4. Rejected as speech-free room tone | [pause.wav](18-voice-roomtone/pause.wav) | `00b967c105e8acb9bbcf867439cdaf4301bf2d906801d9d1dbb2529f32b79658` |
 
-This closes the exact three auditions, not broader denoise/spatial coverage,
-independent speech-boundary labels, the ambience source/loop gate or physical
-capture acceptance. No audio was changed or played automatically while recording
+This first review closes its exact three auditions. Later sections record the
+remaining finite denoise cases; independent speech-boundary labels, the ambience
+source/loop gate and physical capture acceptance remain separate. No audio was changed or played automatically while recording
 this evidence.
 
 ## Complete protected sentence and authored stereo
@@ -42,8 +42,9 @@ this is free,” including starts and endings): **“Yes, clear and natural.”*
 The separate stereo-headphone balance/naturalness answer was **“Yes, balance and
 voice sound good.”** These accept the exact mono-reference/duplicated-stereo
 denoise pair and the explicitly authored left-original/right-half-level pair.
-They do not approve naturally recorded spatial fields, the separate known-added-
-noise packet, precise acoustic word labels or the pending earlier room-tone loop.
+Their verdicts apply to those exact pairs; the known-noise case has its separate
+verdict below. Precise acoustic word labels and the earlier room-tone loop remain
+unverified. No arbitrary spatial-field guarantee follows from this channel case.
 
 | Accepted comparison | File | SHA-256 |
 | --- | --- | --- |

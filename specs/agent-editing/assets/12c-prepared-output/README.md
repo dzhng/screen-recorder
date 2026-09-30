@@ -1,5 +1,11 @@
 # Retained learned output over compiled selection
 
+Historical checkpoint: scope and pending statements below describe this packet
+when recorded. The [current denoise acceptance](../denoise-acceptance/README.md)
+combines later complete-sentence user verdicts and production evidence. Original
+measurements, failed controls and unaccepted cropped-word observations remain
+unchanged; they do not form an additional implementation pickup.
+
 Preparing the currently selected target once, then reading its retained result,
 preserves the tested pure split and excludes poisoned neighbors. Native compiled
 selection reproduces the frozen learned input and output exactly. A late positional

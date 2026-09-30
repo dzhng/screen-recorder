@@ -30,8 +30,7 @@ The [compressed receipts](receipts.json.gz) retain public requests, processing s
 readiness and delivery metadata. The manifest binds source, worker, assembler,
 selected built JavaScript entry points and complete delivered files. Existing
 [independent RNNoise parity](../15a3e-follow-learned-public/README.md) remains separate
-evidence; this packet runs no new C reference comparison. The linked verdict supplies scoped listening acceptance; no other-material/spatial
-acceptance or independent protected-word label is inferred.
+evidence; this packet runs no new C reference comparison. The linked verdict supplies scoped listening acceptance; the [complete denoise matrix](../denoise-acceptance/README.md) combines the other exact cases. No independent protected-word boundary label is inferred.
 The source, installed app and frozen workers remain unchanged. No capture, model
 preparation, downloads or automatic playback is performed.
 

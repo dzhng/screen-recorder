@@ -1,7 +1,7 @@
 # 15a3b — Explicit denoise strength and transitions
 
 Status: verified scoped unit-rate numeric contract; [evidence](../assets/15a3b-denoise-transitions/README.md). Dependencies: [15a3a](15a3a-unit-rate-combined.md), [16b](16b-scalar-program.md).
-Parent15a/16 keep retiming, speech quality and complete journeys open.
+The completed [denoise matrix](../assets/denoise-acceptance/README.md) and16 supply retiming/quality evidence separately; final installed/autonomous acceptance remains23/25 work.
 
 ## Contract and API
 
