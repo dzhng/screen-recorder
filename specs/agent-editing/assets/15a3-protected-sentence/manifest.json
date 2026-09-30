@@ -1,0 +1,338 @@
+{
+  "passed": true,
+  "listening": "pending",
+  "source": "fixtures/narrated-workbench/narration.mov",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "workerSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "assemblerSha256": "770fc7f0bdbd1a31a9459f97ef45091dc143e54decac92f10ee45010458853eb",
+  "sourceOriginUs": 48675,
+  "sourceRange": {
+    "startUs": 72008675,
+    "endUs": 74708675
+  },
+  "text": "The sample offer says this is free.",
+  "textAuthority": "Inherited ASR only; no independent word boundaries or listening pass.",
+  "annotation": {
+    "sha256": "f17e3bb721c24637a6c0e650511d2853f0c42497d903c6ca953d0bb3a80aaa00",
+    "words": [
+      {
+        "type": "word",
+        "id": "w160",
+        "ordinal": 160,
+        "text": "the",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 72288675,
+          "endUs": 72608675
+        },
+        "confidence": 0.99853516,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 72288675,
+              "endUs": 72608675
+            },
+            "playback": {
+              "startUs": 72288675,
+              "endUs": 72608675
+            }
+          }
+        ]
+      },
+      {
+        "type": "word",
+        "id": "w161",
+        "ordinal": 161,
+        "text": "sample",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 72608675,
+          "endUs": 73008675
+        },
+        "confidence": 0.9991862,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 72608675,
+              "endUs": 73008675
+            },
+            "playback": {
+              "startUs": 72608675,
+              "endUs": 73008675
+            }
+          }
+        ]
+      },
+      {
+        "type": "word",
+        "id": "w162",
+        "ordinal": 162,
+        "text": "offer",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 73088675,
+          "endUs": 73408675
+        },
+        "confidence": 0.70996094,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 73088675,
+              "endUs": 73408675
+            },
+            "playback": {
+              "startUs": 73088675,
+              "endUs": 73408675
+            }
+          }
+        ]
+      },
+      {
+        "type": "word",
+        "id": "w163",
+        "ordinal": 163,
+        "text": "says",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 73488675,
+          "endUs": 73728675
+        },
+        "confidence": 0.99780273,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 73488675,
+              "endUs": 73728675
+            },
+            "playback": {
+              "startUs": 73488675,
+              "endUs": 73728675
+            }
+          }
+        ]
+      },
+      {
+        "type": "word",
+        "id": "w164",
+        "ordinal": 164,
+        "text": "this",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 73808675,
+          "endUs": 73968675
+        },
+        "confidence": 0.9921875,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 73808675,
+              "endUs": 73968675
+            },
+            "playback": {
+              "startUs": 73808675,
+              "endUs": 73968675
+            }
+          }
+        ]
+      },
+      {
+        "type": "word",
+        "id": "w165",
+        "ordinal": 165,
+        "text": "is",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 73968675,
+          "endUs": 74128675
+        },
+        "confidence": 0.99365234,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 73968675,
+              "endUs": 74128675
+            },
+            "playback": {
+              "startUs": 73968675,
+              "endUs": 74128675
+            }
+          }
+        ]
+      },
+      {
+        "type": "word",
+        "id": "w166",
+        "ordinal": 166,
+        "text": "free.",
+        "kind": "speech",
+        "sourceRange": {
+          "startUs": 74128675,
+          "endUs": 74528675
+        },
+        "confidence": 0.9938151,
+        "segment": 0,
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 74128675,
+              "endUs": 74528675
+            },
+            "playback": {
+              "startUs": 74128675,
+              "endUs": 74528675
+            }
+          }
+        ]
+      }
+    ],
+    "preceding": {
+      "type": "word",
+      "id": "w159",
+      "ordinal": 159,
+      "text": "identify",
+      "kind": "speech",
+      "sourceRange": {
+        "startUs": 70608675,
+        "endUs": 71648675
+      },
+      "confidence": 1,
+      "segment": 0,
+      "partial": false,
+      "fragments": [
+        {
+          "source": {
+            "startUs": 70608675,
+            "endUs": 71648675
+          },
+          "playback": {
+            "startUs": 70608675,
+            "endUs": 71648675
+          }
+        }
+      ]
+    },
+    "following": {
+      "type": "word",
+      "id": "w167",
+      "ordinal": 167,
+      "text": "You",
+      "kind": "speech",
+      "sourceRange": {
+        "startUs": 74768675,
+        "endUs": 74928675
+      },
+      "confidence": 1,
+      "segment": 0,
+      "partial": false,
+      "fragments": [
+        {
+          "source": {
+            "startUs": 74768675,
+            "endUs": 74928675
+          },
+          "playback": {
+            "startUs": 74768675,
+            "endUs": 74928675
+          }
+        }
+      ]
+    },
+    "leadingMarginUs": 280000,
+    "trailingMarginUs": 180000
+  },
+  "processing": "Whole-output RNNoise only; no gain, retime, normalization, fades, voice generation or ambience fill.",
+  "runtimes": {
+    "apps/cli/dist/main.js": "c59e8a3929f7ade8492db7dc1cd701e819773a979c2d368767e24dac99c3f7ee",
+    "apps/service/dist/project-service.js": "b2b42761d046d35adb4c738adce7200d4b18ac90ab7f91bc577a650e5f79d077",
+    "packages/core/dist/audio.js": "4e0530e0bf93ea77b2658ee1804559d93c2afc25c009c6e3ff82ab8f7cf2a61e",
+    "packages/composition/dist/index.js": "545277dbba07d6714dbfbe7023fafbf1e55afd32b52c9b446425e7e0b94a2f08"
+  },
+  "rnnoiseCapability": {
+    "type": "rnnoise",
+    "execution": true,
+    "implementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
+  },
+  "importedRange": {
+    "startUs": 71960000,
+    "endUs": 74660000
+  },
+  "dryStereoDuplicationExact": true,
+  "edgeLevels": {
+    "leading": {
+      "frames": 2400,
+      "rmsDbFS": -43.17347467292422,
+      "peakDbFS": -34.709897270211066,
+      "authority": "Numerical edge level only; it cannot prove silence or word boundaries."
+    },
+    "trailing": {
+      "frames": 2400,
+      "rmsDbFS": -51.52470506041893,
+      "peakDbFS": -43.99687152306684,
+      "authority": "Numerical edge level only; it cannot prove silence or word boundaries."
+    }
+  },
+  "changedPCM": true,
+  "receipts": {
+    "original": {
+      "selection": {
+        "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 71960000,
+          "endUs": 74660000
+        }
+      },
+      "sha256": "b2b31731a63b3bc973a5fd11661f4b7c3f5384416949a97029c3b0a6043fb05c",
+      "pcmSha256": "2ba07a1c17640418e2cc69d16be11504f0c09da7bd62ce45e4c999b72d73548a",
+      "frames": 129600,
+      "channels": 1,
+      "sampleRate": 48000,
+      "mcpMatchesCLI": true
+    },
+    "dry": {
+      "selection": {
+        "projectId": "3c1be196-f21d-4a10-a51b-ee421639ad36",
+        "revisionId": "1ccc5fba-8a7d-4cc5-a465-94d2ae136369",
+        "range": {
+          "startUs": 0,
+          "endUs": 2700000
+        }
+      },
+      "sha256": "2682069589708cb655cef5f7b2431d26c509977870f950f2abbf0b054d7686b8",
+      "pcmSha256": "7bd928248319c8cca15608d1dfcb411dca122f0e311188866e30fd95eb9cba43",
+      "frames": 129600,
+      "channels": 2,
+      "sampleRate": 48000,
+      "mcpMatchesCLI": true
+    },
+    "candidate": {
+      "selection": {
+        "projectId": "3c1be196-f21d-4a10-a51b-ee421639ad36",
+        "revisionId": "7ba4cc0f-94f0-4066-b9ad-fcab1d15ad72",
+        "range": {
+          "startUs": 0,
+          "endUs": 2700000
+        }
+      },
+      "sha256": "f3479c98cd2dbee88da1b4781ef0d5ea51f34d2b1beed7da56931f204d6d4eb6",
+      "pcmSha256": "069f229726dc49859867e02b04eb5a8373fa661b14a5ed8c95c2655ac220d50a",
+      "frames": 129600,
+      "channels": 2,
+      "sampleRate": 48000,
+      "mcpMatchesCLI": true
+    }
+  }
+}

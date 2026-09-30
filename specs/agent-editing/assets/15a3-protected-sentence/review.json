@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "scope": "Focused listening packet assembly, public source and project audio, one existing RNNoise recipe. No hearing or independent word-boundary verdict.",
+  "repeatedCompleteDeliveryHashesExact": true,
+  "review": {
+    "shape": "Existing public harness and PCM parser reused; no production, dependency or API changes. Dry proof file stays scratch rather than duplicating the original.",
+    "diff": "Origin, clocks, discrete-frame alignment, all-frame dry parity, same-duration processing and both delivery transports checked.",
+    "docs": "Presentation proposal and listening/label limitations remain explicit; all packet links resolve."
+  },
+  "files": {
+    "assemble.mjs": {
+      "sha256": "770fc7f0bdbd1a31a9459f97ef45091dc143e54decac92f10ee45010458853eb",
+      "bytes": 8144
+    },
+    "README.md": {
+      "sha256": "d31511988bd9d846f229902abda3b32973cddef7d04fa77e0f350ac605f253ea",
+      "bytes": 2865
+    },
+    "choices.md": {
+      "sha256": "a5876da13c4c081aecf5446f58eaeccdce969bcaf21c135429093318e7e10086",
+      "bytes": 1480
+    },
+    "manifest.json": {
+      "sha256": "aeab62bdaebfc5fb0e8ee3ffafc5adfaff0e26a4494eff7cf1aaeede4a68e283",
+      "bytes": 8939
+    },
+    "receipts.json.gz": {
+      "sha256": "f7d502396b07a98d3dde62f6c0de442066d38645c8a4d0ecff3dbdb29191fa8a",
+      "bytes": 7297
+    },
+    "original.wav": {
+      "sha256": "b2b31731a63b3bc973a5fd11661f4b7c3f5384416949a97029c3b0a6043fb05c",
+      "bytes": 522496
+    },
+    "candidate.wav": {
+      "sha256": "f3479c98cd2dbee88da1b4781ef0d5ea51f34d2b1beed7da56931f204d6d4eb6",
+      "bytes": 1040896
+    }
+  }
+}
