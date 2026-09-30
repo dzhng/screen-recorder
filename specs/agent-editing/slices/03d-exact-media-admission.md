@@ -40,7 +40,10 @@ integer documents as the exact subset, with no migration or compatibility shim.
 MediaProbe subtracts the exact earliest occupied origin, not separately rounded
 values. core/assets validates and stores those facts. compositionAsset owns
 physical-support canonicalization using exact sort/intersection/union;
-sourceAvailability owns intersection with integer acquisition masks. model consumes
+sourceAvailability owns intersection with normalized exact acquisition bindings.
+Original capture evidence intervals remain integer; mapping through a fractional
+origin makes persisted asset-clock binding availability exact nonnegative and
+sourceToAssetOffsetUs signed exact. model consumes
 these ranges without reconstructing support. No second support registry.
 
 ## Committed passes
@@ -113,8 +116,17 @@ cutover. Never silently re-probe old entries. Trace source-audio/scenes/index,
 composition audio/picture/movie and dependent acoustic/prepared recipe owners;
 bump only identities whose execution semantics change, including integer fixtures
 whose exact physical mapping can change without a different request payload.
-New production must not hit an old changed-meaning cache. Verified retained bytes
-remain readable under their recorded identity without invoking the new worker.
+Advance the existing catalog and editable-project-package format fences atomically
+(currently19 and2) so old rounded admission cannot masquerade as exact integer facts.
+No per-asset version or silent re-probe is needed. New runtime explicitly refuses old
+catalogs/packages; frozen old runtimes retain access to their untouched libraries.
+Within the new format, verified retained bytes remain readable under their recorded
+identity without invoking the new worker. Standalone media re-import is fresh
+admission, not metadata migration. Frozen old-package public harnesses must either
+remain old-runtime preservation checks or reauthor the identical composition from
+the frozen original media/operation recipe in a fresh catalog, proving dry parity;
+never relabel an old manifest to evade the boundary. New production must not hit
+an old changed-meaning cache.
 No old-catalog migration, new asset kind, second clock, whole-source sentinel,
 ceil padding, N+1 output, epsilon or independent stream-zeroing is allowed.
 

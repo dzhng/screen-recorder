@@ -4228,3 +4228,11 @@ would leave the same loss there. No compatibility migration, new clock, whole-fi
 sentinel, ceil padding or new DSP research is approved. Original red and accepted
 quality media remain immutable; the listening audition uses the already verified
 original-source retime route and is independent of this defect.
+
+The fresh-format boundary uses the existing catalog and editable-package version
+fences, because rounded old integers are indistinguishable from exact new integers
+inside an asset. This is sound with high confidence under the no-migration plan:
+old runtime/library evidence remains untouched, while new runtime refuses old
+metadata rather than silently trusting it. Retained-byte worker independence applies
+inside the current format. Normalized acquisition bindings become exact after
+mapping from integer capture evidence; capture observations themselves stay integer.
