@@ -39,7 +39,7 @@ type ProjectCheckpoint =
   | (EvidenceCheckpoint<ProjectEventPosition> & { kind: "events" });
 export type { ProjectEventRow } from "./project-events.js";
 export type { ProjectTranscriptRow, ProjectTranscriptMatch } from "./project-transcript.js";
-export type EvidencePlan = ReturnType<ProjectEvidenceInspection["plan"]>;
+export type EvidencePagePlan = ReturnType<ProjectEvidenceInspection["pagePlan"]>;
 
 const artifact = "project.evidence";
 const policy = (domain: Query["domain"]) =>
@@ -135,7 +135,7 @@ export class ProjectEvidenceInspection {
     }
   >();
 
-  private plan(input: QueryInput, allowEmpty = false) {
+  private query(input: QueryInput, allowEmpty = false) {
     const project = this.options.projects.get(input.projectId);
     const revisionId = input.revisionId ?? project.currentRevisionId;
     const key = JSON.stringify([input.projectId, revisionId]);
@@ -177,15 +177,10 @@ export class ProjectEvidenceInspection {
     const trackIds = [...new Set(input.trackIds ?? eligible)].sort();
     if (trackIds.some((id) => !eligibleIds.has(id)))
       throw new CatalogError("INVALID_PARAMS", "Tracks are not applicable to this evidence domain");
-    const occurrences = empty ? [] : projection.window({ range: parsed.data, trackIds });
-    if (occurrences.length > 10000)
-      throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 10000 occurrences");
     const cuts =
       empty || domain !== "events"
         ? []
         : (context.cuts ??= createProjectCuts(model)).window({ range: parsed.data, trackIds });
-    if (cuts.length > 20000)
-      throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 20000 cuts");
     if (input.text !== undefined) transcriptSearchTerms(input.text);
     const query: Query = {
       domain,
@@ -196,13 +191,18 @@ export class ProjectEvidenceInspection {
       trackIds,
       policy: policy(domain),
     };
-    return { query, queryDigest: digest(query), projection, occurrences, cuts };
+    return { query, queryDigest: digest(query), projection, cuts };
   }
-  private dependencies(
-    occurrences: SourceWindowOccurrence[],
-    prepare: boolean,
-    domain: Query["domain"],
-  ): Dependency[] {
+  private plan(input: QueryInput, allowEmpty = false) {
+    const plan = this.query(input, allowEmpty);
+    const occurrences =
+      plan.query.range.endUs === 0
+        ? []
+        : plan.projection.window({ range: plan.query.range, trackIds: plan.query.trackIds });
+    if (occurrences.length > 10000)
+      throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 10000 occurrences");
+    if (plan.cuts.length > 20000)
+      throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 20000 cuts");
     const selections = new Map<string, SourceSelection>();
     for (const value of occurrences) {
       const selection = {
@@ -214,41 +214,68 @@ export class ProjectEvidenceInspection {
     }
     if (selections.size > 1024)
       throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 1024 sources");
-    return [...selections]
-      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-      .map(([, selection]) => {
-        if (domain === "events" || domain === "cursor") {
-          if (!this.options.events)
-            throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
-          const capture = this.options.events.resolve(selection, domain, prepare);
-          const ready = capture.coverage.some((value) => value.state === "ready");
-          return {
-            selection,
-            transcript: null,
-            capture,
-            state:
-              capture.scene && !["ready", "unavailable"].includes(capture.scene.state)
-                ? capture.scene.state
-                : ready
-                  ? "ready"
-                  : "unavailable",
-            reason: ready ? null : capture.coverage[0]!.reason,
-            retryable: capture.scene?.retryable ?? false,
-            jobId: capture.scene?.jobId ?? null,
-          };
+    return {
+      ...plan,
+      occurrences,
+      selections: [...selections]
+        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+        .map(([, selection]) => selection),
+    };
+  }
+  private pagePlan(input: QueryInput, allowEmpty: boolean) {
+    const plan = this.query(input, allowEmpty);
+    const occurrences = new Map<string, SourceWindowOccurrence>();
+    return {
+      ...plan,
+      occurrence: (clipId: string) => {
+        let clip = occurrences.get(clipId);
+        if (!clip) {
+          clip = plan.projection.inverse(clipId, plan.query.range) ?? undefined;
+          if (!clip) throw changed();
+          occurrences.set(clipId, clip);
         }
-        const status = prepare
-          ? this.options.transcripts.publishedSource(selection)
-          : this.options.transcripts.sourceStatus(selection);
+        return clip;
+      },
+    };
+  }
+  private dependencies(
+    selections: readonly SourceSelection[],
+    prepare: boolean,
+    domain: Query["domain"],
+  ): Dependency[] {
+    return selections.map((selection) => {
+      if (domain === "events" || domain === "cursor") {
+        if (!this.options.events)
+          throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
+        const capture = this.options.events.resolve(selection, domain, prepare);
+        const ready = capture.coverage.some((value) => value.state === "ready");
         return {
           selection,
-          transcript: status.published?.transcript ?? null,
-          state: status.published ? "ready" : status.state,
-          reason: status.published ? null : status.reason,
-          retryable: status.published ? false : status.retryable,
-          jobId: status.jobId,
+          transcript: null,
+          capture,
+          state:
+            capture.scene && !["ready", "unavailable"].includes(capture.scene.state)
+              ? capture.scene.state
+              : ready
+                ? "ready"
+                : "unavailable",
+          reason: ready ? null : capture.coverage[0]!.reason,
+          retryable: capture.scene?.retryable ?? false,
+          jobId: capture.scene?.jobId ?? null,
         };
-      });
+      }
+      const status = prepare
+        ? this.options.transcripts.publishedSource(selection)
+        : this.options.transcripts.sourceStatus(selection);
+      return {
+        selection,
+        transcript: status.published?.transcript ?? null,
+        state: status.published ? "ready" : status.state,
+        reason: status.published ? null : status.reason,
+        retryable: status.published ? false : status.retryable,
+        jobId: status.jobId,
+      };
+    });
   }
   private pins(dependencies: Dependency[]) {
     return dependencies.map(({ selection, transcript, state, reason, capture }) =>
@@ -266,7 +293,7 @@ export class ProjectEvidenceInspection {
   }
   request(input: QueryInput) {
     const plan = this.plan(input),
-      dependencies = this.dependencies(plan.occurrences, true, plan.query.domain);
+      dependencies = this.dependencies(plan.selections, true, plan.query.domain);
     const pending = dependencies.filter((dependency) =>
       dependency.capture
         ? !!dependency.capture.scene &&
@@ -315,7 +342,7 @@ export class ProjectEvidenceInspection {
       { ...input.query, projectId: job.target.projectId, revisionId: job.target.revisionId },
       true,
     );
-    const dependencies = this.dependencies(plan.occurrences, false, plan.query.domain);
+    const dependencies = this.dependencies(plan.selections, false, plan.query.domain);
     if (
       digest(this.pins(dependencies)) !== input.pins ||
       digest(plan.query) !== digest(input.query)
@@ -474,7 +501,7 @@ export class ProjectEvidenceInspection {
         policy(input.domain ?? (input.text === undefined ? "transcript" : "transcript.search"))
       )
         throw changed();
-      const plan = this.plan(
+      const plan = this.pagePlan(
         {
           ...input,
           revisionId: cursor?.revisionId ?? manifest.query.revisionId,
@@ -488,11 +515,13 @@ export class ProjectEvidenceInspection {
         (cursor && cursor.queryDigest !== plan.queryDigest)
       )
         throw changed();
+      const selections = manifest.dependencies.map(({ selection }) => selection);
+      const expectedPins = digest(this.pins(manifest.dependencies));
       const validate = () => {
         this.options.projects.get(input.projectId);
         if (
-          digest(this.pins(this.dependencies(plan.occurrences, false, plan.query.domain))) !==
-          digest(this.pins(manifest.dependencies))
+          digest(this.pins(this.dependencies(selections, false, plan.query.domain))) !==
+          expectedPins
         )
           throw changed();
       };

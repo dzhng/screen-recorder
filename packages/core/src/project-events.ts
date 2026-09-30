@@ -15,7 +15,7 @@ import {
   type SourceEventRow,
 } from "./source-events.js";
 import { compareKey, mergeHeads, type EvidenceKey } from "./evidence-merge.js";
-import type { EvidenceManifest, EvidencePlan, EvidenceCheckpoint } from "./project-evidence.js";
+import type { EvidenceManifest, EvidencePagePlan, EvidenceCheckpoint } from "./project-evidence.js";
 import { sourceSelectionKey } from "./source-selection.js";
 type ProjectSourceEventRow = SourceEventRow & {
   clipId: string;
@@ -45,12 +45,11 @@ export const initialProjectEvents = (): ProjectEventPosition => ({
 });
 export function mergeEvents(
   manifest: EvidenceManifest,
-  plan: EvidencePlan,
+  plan: EvidencePagePlan,
   state: EvidenceCheckpoint<ProjectEventPosition>,
   limit: number,
   reader: SourceEvents,
 ) {
-  const clips = new Map(plan.occurrences.map((clip) => [clip.clipId, clip]));
   const dependencies = new Map(
     manifest.dependencies.map((d) => [sourceSelectionKey(d.selection), d.capture!]),
   );
@@ -76,7 +75,7 @@ export function mergeEvents(
     }
     while (position.clip < ids.length) {
       if (budget.remaining <= 0) return undefined;
-      const clip = clips.get(ids[position.clip]!)!,
+      const clip = plan.occurrence(ids[position.clip]!),
         context = dependencies.get(sourceSelectionKey(clip))!;
       // Dependency pins remain checked by the read owner. No source scan is needed when
       // neither source owner has published evidence; those clips cannot contribute a row.

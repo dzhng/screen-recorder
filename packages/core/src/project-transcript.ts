@@ -16,7 +16,7 @@ import {
 import type { TranscriptMetadata, TranscriptRecords } from "./transcript.js";
 import { foldWord } from "./word-kind.js";
 import { mergeHeads, compareKey, type EvidenceKey } from "./evidence-merge.js";
-import type { EvidenceManifest, EvidencePlan, EvidenceCheckpoint } from "./project-evidence.js";
+import type { EvidenceManifest, EvidencePagePlan, EvidenceCheckpoint } from "./project-evidence.js";
 import { sourceSelectionKey as selectionKey } from "./source-selection.js";
 const scanBudget = 128;
 const range = (value: ExactRange): SelectionRange => ({
@@ -75,12 +75,11 @@ export function initialTranscript(): TranscriptPosition {
 
 export function mergeTranscript(
   manifest: EvidenceManifest,
-  plan: EvidencePlan,
+  plan: EvidencePagePlan,
   state: EvidenceCheckpoint<TranscriptPosition>,
   limit: number,
   records: TranscriptRecords,
 ) {
-  const occurrences = new Map(plan.occurrences.map((clip) => [clip.clipId, clip]));
   const dependencies = new Map(
     manifest.dependencies.map((dependency) => [selectionKey(dependency.selection), dependency]),
   );
@@ -147,7 +146,7 @@ export function mergeTranscript(
     const track = state.tracks[index]!,
       clips = manifest.tracks[index]!.clipIds;
     while (track.clip < clips.length) {
-      const clip = occurrences.get(clips[track.clip]!)!;
+      const clip = plan.occurrence(clips[track.clip]!);
       const transcript = dependencies.get(selectionKey(clip))!.transcript;
       if (!track.pending && !track.done) {
         if (budget-- <= 0) return false;
@@ -190,7 +189,7 @@ export function mergeTranscript(
       }
       if (budget-- <= 0) return false;
       const nextClip = clips[track.clip + 1];
-      if (nextClip && compare(clip.project.end, occurrences.get(nextClip)!.project.start) !== 0)
+      if (nextClip && compare(clip.project.end, plan.occurrence(nextClip).project.start) !== 0)
         track.suffix = [];
       track.clip++;
       track.gap = 0;

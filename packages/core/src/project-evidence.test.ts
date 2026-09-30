@@ -142,16 +142,26 @@ async function fixture({
     return value;
   }
   const records = new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions));
-  const reads: { source: string; rows: number; limit: number }[] = [];
+  const reads: { source: string; generation: string; rows: number; limit: number }[] = [];
   const observed: TranscriptRecords = {
     wordRecords(identity, query) {
       const rows = records.wordRecords(identity, query);
-      reads.push({ source: identity.sourceId, rows: rows.length, limit: query.limit });
+      reads.push({
+        source: identity.sourceId,
+        generation: identity.generation,
+        rows: rows.length,
+        limit: query.limit,
+      });
       return rows;
     },
     gapRecords(identity, query) {
       const rows = records.gapRecords(identity, query);
-      reads.push({ source: identity.sourceId, rows: rows.length, limit: query.limit });
+      reads.push({
+        source: identity.sourceId,
+        generation: identity.generation,
+        rows: rows.length,
+        limit: query.limit,
+      });
       return rows;
     },
   };
@@ -611,40 +621,57 @@ test("ancestor acquisition gaps remain explicit and original words stay partial 
   expect(rows[2]).toMatchObject({ type: "gap", sourceRange: { startUs: 450, endUs: 475 } });
 });
 
-test("generation changes during checkpoint publication reject the page instead of returning stale continuation", async () => {
-  const f = await fixture();
-  const input = f.create([track("a"), clip(f.asset.id, "speech", "a", 0, 1000)]);
-  await f.ready(input);
-  let published!: () => void, release!: () => void;
-  const publishedPromise = new Promise<void>((resolve) => {
-    published = resolve;
-  });
-  const releasePromise = new Promise<void>((resolve) => {
-    release = resolve;
-  });
-  const publish = f.cache.publish.bind(f.cache);
-  // Hold the completed real cache write before get can validate and return its continuation.
-  f.cache.publish = async (id) => {
-    const result = await publish(id);
-    published();
-    await releasePromise;
-    return result;
-  };
-  const pending = f.evidence.get({ ...input, limit: 1 });
-  try {
-    await publishedPromise;
-    const source = f.transcripts.sourceStatus({ assetId: f.asset.id, streamId: "speech" });
-    f.jobs.regenerate(source.jobId!, f.jobs.job(source.jobId!).generation);
-    await f.jobs.idle();
-    expect(
-      f.transcripts.sourceStatus({ assetId: f.asset.id, streamId: "speech" }).published!.generation,
-    ).not.toBe(source.published!.generation);
-    release();
-    await expect(pending).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
-  } finally {
-    release();
-  }
-});
+test.each(["get", "search"] as const)(
+  "%s rejects an unvisited source generation change during checkpoint publication",
+  async (operation) => {
+    const f = await fixture();
+    const input = {
+      ...f.create([
+        track("a"),
+        clip(f.asset.id, "speech", "a", 0, 1000),
+        clip(f.asset.id, "later", "a", 10000, 11000, 0, 1000, "narrow"),
+      ]),
+      ...(operation === "search" ? { text: "one" } : {}),
+    };
+    await f.ready(input);
+    let published!: () => void, release!: () => void;
+    const publishedPromise = new Promise<void>((resolve) => {
+      published = resolve;
+    });
+    const releasePromise = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const publish = f.cache.publish.bind(f.cache);
+    // Hold the completed real cache write before the page can validate and return its continuation.
+    f.cache.publish = async (id) => {
+      const result = await publish(id);
+      published();
+      await releasePromise;
+      return result;
+    };
+    f.reads.length = 0;
+    const pending =
+      operation === "search"
+        ? f.evidence.search({ ...input, text: "one", limit: 1 })
+        : f.evidence.get({ ...input, limit: 1 });
+    try {
+      await publishedPromise;
+      const source = f.transcripts.sourceStatus({ assetId: f.asset.id, streamId: "narrow" });
+      expect(f.reads.length).toBeGreaterThan(0);
+      expect(f.reads.map((read) => read.generation)).not.toContain(source.published!.generation);
+      f.jobs.regenerate(source.jobId!, f.jobs.job(source.jobId!).generation);
+      await f.jobs.idle();
+      expect(
+        f.transcripts.sourceStatus({ assetId: f.asset.id, streamId: "narrow" }).published!
+          .generation,
+      ).not.toBe(source.published!.generation);
+      release();
+      await expect(pending).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+    } finally {
+      release();
+    }
+  },
+);
 
 test("tied tracks checkpoint bounded initialization and read near-linearly across limit-one pages", async () => {
   const f = await fixture();
