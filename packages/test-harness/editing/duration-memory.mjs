@@ -11,13 +11,15 @@ const { values } = parseArgs({
   options: { out: { type: "string" }, query: { type: "string", default: "timeline" } },
 });
 assert.ok(process.env.SCREENREC_NATIVE);
-assert.ok(["timeline", "waveform", "transcript"].includes(values.query));
+assert.ok(["timeline", "waveform", "transcript", "transcript-search"].includes(values.query));
 const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/screenrec-duration-memory-");
 await mkdir(out, { recursive: true });
 const source = join(out, "source.wav");
-await writeSourceWave(source, { source: 0, seconds: values.query === "transcript" ? 6 : 1 });
-const transcript =
-  values.query === "transcript" ? await transcriptDurationFixture(out, source) : undefined;
+const search = values.query === "transcript-search";
+const hasTranscript = search || values.query === "transcript";
+await writeSourceWave(source, { source: 0, seconds: hasTranscript ? 6 : 1 });
+const transcript = hasTranscript ? await transcriptDurationFixture(out, source) : undefined;
+if (search) assert.equal(transcript.words[1].text, "so");
 const occurrences = 10000,
   clipUs = transcript ? 320000 : 100000,
   rowsPerQuery = 250;
@@ -30,9 +32,11 @@ const report = {
   query: values.query,
   sourceSha256: hash(await readFile(source)),
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  harnessSha256: hash(await readFile(import.meta.filename)),
   nodeVersion: process.version,
   controls: { occurrences, clipUs, rowsPerQuery, repeats: 20, trialsPerDuration: 3 },
   ...(transcript ? { transcriptFixture: transcript.evidence } : {}),
+  ...(search ? { searchText: "so" } : {}),
   cases: [],
 };
 const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
@@ -214,8 +218,10 @@ try {
         return hash(Buffer.from(JSON.stringify(rows)));
       };
       const expectedWords = transcript
-        ? starts.slice(0, rowsPerQuery).map((startUs, index) => {
-            const ordinal = index % 5,
+        ? Array.from({ length: rowsPerQuery }, (_, row) => {
+            const index = search ? 1 + row * 5 : row,
+              startUs = starts[index],
+              ordinal = index % 5,
               word = transcript.words[ordinal];
             return {
               type: "word",
@@ -237,19 +243,35 @@ try {
             };
           })
         : undefined;
+      const expectedTranscript = search
+        ? expectedWords.map((word) => ({
+            trackId: track,
+            trackRank: 0,
+            words: [word],
+            projectRange: word.fragments[0].project,
+          }))
+        : expectedWords;
+      if (transcript)
+        await writeFile(
+          join(out, `transcript-expected-${report.cases.length}.json`),
+          JSON.stringify(expectedTranscript, null, 2),
+        );
       const readTranscript = async (transport = "mcp") => {
         const rows = [],
-          pages = [];
+          pages = [],
+          checkpoints = new Set();
         let cursor;
         do {
           const params = {
             projectId,
             revisionId,
-            limit: Math.min(125, rowsPerQuery - rows.length),
+            ...(search ? { text: "so" } : {}),
+            limit: search ? rowsPerQuery - rows.length : Math.min(125, rowsPerQuery - rows.length),
             ...(cursor ? { cursor } : {}),
           };
           const page = await poll(
-            () => service.call("transcript.get", params, { transport }),
+            () =>
+              service.call(search ? "transcript.search" : "transcript.get", params, { transport }),
             (value) => value.state === "ready",
             "transcript page",
           );
@@ -258,22 +280,43 @@ try {
           assert.equal(page.dependencies.length, 1);
           assert.equal(page.dependencies[0].transcript.generation, generation);
           assert.deepEqual(page.dependencies[0].transcript.engine, transcript.engine);
-          assert.ok(page.page.rows.length > 0, "Transcript continuation must progress");
-          assert.notEqual(page.page.nextCursor, cursor);
-          rows.push(...page.page.rows);
+          const delivered = search ? page.page.entries : page.page.rows;
+          if (!search) assert.ok(delivered.length > 0, "Transcript continuation must progress");
+          assert.notDeepEqual(page.page.nextCursor, cursor);
+          if (page.page.nextCursor) {
+            const next = page.page.nextCursor;
+            assert(
+              !checkpoints.has(next.checkpointId),
+              "Transcript continuation repeated a checkpoint",
+            );
+            checkpoints.add(next.checkpointId);
+            if (cursor)
+              assert.deepEqual(
+                { ...next, checkpointId: cursor.checkpointId },
+                cursor,
+                "Transcript continuation changed its pinned query",
+              );
+          }
+          rows.push(...delivered);
           pages.push({ params, response: page });
           cursor = page.page.nextCursor;
-          assert.ok(pages.length <= 10, "Transcript continuation must remain bounded");
+          assert.ok(
+            pages.length <= (search ? 100 : 10),
+            "Transcript continuation must remain bounded",
+          );
         } while (rows.length < rowsPerQuery && cursor);
         assert.deepEqual(
           rows,
-          expectedWords,
+          expectedTranscript,
           "Frozen words and independently authored occurrence clocks differ",
         );
         assert.ok(cursor, "A bounded prefix must retain a continuation for remaining occurrences");
-        if (!trial.transcriptPages) {
-          trial.transcriptPages = `transcript-pages-${report.cases.length}.json`;
-          await writeFile(join(out, trial.transcriptPages), JSON.stringify(pages, null, 2));
+        const field = transport === "cli" ? "transcriptCLIPages" : "transcriptPages";
+        if (!trial[field]) {
+          trial[field] =
+            `transcript-${transport === "cli" ? "cli-" : ""}pages-${report.cases.length}.json`;
+          await writeFile(join(out, trial[field]), JSON.stringify(pages, null, 2));
+          if (transport === "mcp") trial.transcriptPageCount = pages.length;
         }
         return hash(Buffer.from(JSON.stringify(rows)));
       };
@@ -372,10 +415,6 @@ try {
         trial.queryP95Ms = [...trial.queryMs].sort((a, b) => a - b)[
           Math.ceil(trial.queryMs.length * 0.95) - 1
         ];
-        assert.ok(
-          trial.queryP95Ms <= 250,
-          "Cached250-row inspection exceeded unchanged250ms p95 budget",
-        );
       }
       stopped = true;
       await sampling;
@@ -403,6 +442,11 @@ try {
           "Querying must not run inference again or decode timeline audio",
         );
       }
+      if (values.query === "waveform" || transcript)
+        assert.ok(
+          trial.queryP95Ms <= 250,
+          "Cached250-row inspection exceeded unchanged250ms p95 budget",
+        );
       succeeded = true;
     } finally {
       stopped = true;
