@@ -1,0 +1,561 @@
+{
+  "passed": true,
+  "scope": "Only six v0 mvhd/tkhd/mdhd creation/modification date fields are zeroed for comparison. No sample/PTS/duration/metadata normalization elsewhere.",
+  "records": [
+    {
+      "path": "/tmp/screenrec-20e-stop-scale-verified/result/take/camera/video.mov",
+      "bytes": 413524069,
+      "sha256": "2548a8a017e24ce770603d2d8938a02290f0e7fe0802b37e7cbc9e6bd89f408f",
+      "dateOnlyNormalizedSha256": "0575f8ae92654479cc9bbb7d1861e0e15684809e355266da92bbc9be36e8ed43",
+      "normalizedFields": [
+        {
+          "path": "/moov/mvhd",
+          "field": "creation",
+          "offset": 413439456,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/mvhd",
+          "field": "modification",
+          "offset": 413439460,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "creation",
+          "offset": 413439572,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "modification",
+          "offset": 413439576,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "creation",
+          "offset": 413439788,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "modification",
+          "offset": 413439792,
+          "bytes": 4
+        }
+      ],
+      "atoms": [
+        {
+          "path": "/ftyp",
+          "offset": 0,
+          "bytes": 20
+        },
+        {
+          "path": "/wide",
+          "offset": 20,
+          "bytes": 8
+        },
+        {
+          "path": "/mdat",
+          "offset": 28,
+          "bytes": 413439408
+        },
+        {
+          "path": "/moov",
+          "offset": 413439436,
+          "bytes": 84633
+        },
+        {
+          "path": "/moov/mvhd",
+          "offset": 413439444,
+          "bytes": 108
+        },
+        {
+          "path": "/moov/trak",
+          "offset": 413439552,
+          "bytes": 84517
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "offset": 413439560,
+          "bytes": 92
+        },
+        {
+          "path": "/moov/trak/tapt",
+          "offset": 413439652,
+          "bytes": 68
+        },
+        {
+          "path": "/moov/trak/edts",
+          "offset": 413439720,
+          "bytes": 48
+        },
+        {
+          "path": "/moov/trak/mdia",
+          "offset": 413439768,
+          "bytes": 84301
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "offset": 413439776,
+          "bytes": 32
+        },
+        {
+          "path": "/moov/trak/mdia/hdlr",
+          "offset": 413439808,
+          "bytes": 49
+        },
+        {
+          "path": "/moov/trak/mdia/minf",
+          "offset": 413439857,
+          "bytes": 84212
+        }
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-camera-publish-profile/baseline-2/result/camera/video.mov",
+      "bytes": 413524069,
+      "sha256": "0ec0eb08e34ac045c73b4c70c902bc73245397bc922f351ef55bf83f8fd693e2",
+      "dateOnlyNormalizedSha256": "0575f8ae92654479cc9bbb7d1861e0e15684809e355266da92bbc9be36e8ed43",
+      "normalizedFields": [
+        {
+          "path": "/moov/mvhd",
+          "field": "creation",
+          "offset": 413439456,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/mvhd",
+          "field": "modification",
+          "offset": 413439460,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "creation",
+          "offset": 413439572,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "modification",
+          "offset": 413439576,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "creation",
+          "offset": 413439788,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "modification",
+          "offset": 413439792,
+          "bytes": 4
+        }
+      ],
+      "atoms": [
+        {
+          "path": "/ftyp",
+          "offset": 0,
+          "bytes": 20
+        },
+        {
+          "path": "/wide",
+          "offset": 20,
+          "bytes": 8
+        },
+        {
+          "path": "/mdat",
+          "offset": 28,
+          "bytes": 413439408
+        },
+        {
+          "path": "/moov",
+          "offset": 413439436,
+          "bytes": 84633
+        },
+        {
+          "path": "/moov/mvhd",
+          "offset": 413439444,
+          "bytes": 108
+        },
+        {
+          "path": "/moov/trak",
+          "offset": 413439552,
+          "bytes": 84517
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "offset": 413439560,
+          "bytes": 92
+        },
+        {
+          "path": "/moov/trak/tapt",
+          "offset": 413439652,
+          "bytes": 68
+        },
+        {
+          "path": "/moov/trak/edts",
+          "offset": 413439720,
+          "bytes": 48
+        },
+        {
+          "path": "/moov/trak/mdia",
+          "offset": 413439768,
+          "bytes": 84301
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "offset": 413439776,
+          "bytes": 32
+        },
+        {
+          "path": "/moov/trak/mdia/hdlr",
+          "offset": 413439808,
+          "bytes": 49
+        },
+        {
+          "path": "/moov/trak/mdia/minf",
+          "offset": 413439857,
+          "bytes": 84212
+        }
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-camera-publish-profile/baseline-4/result/camera/video.mov",
+      "bytes": 413524069,
+      "sha256": "1084bb63765f3f6c336fe2d467ab6c725adb770814a593d936bec533a2b7a3d6",
+      "dateOnlyNormalizedSha256": "0575f8ae92654479cc9bbb7d1861e0e15684809e355266da92bbc9be36e8ed43",
+      "normalizedFields": [
+        {
+          "path": "/moov/mvhd",
+          "field": "creation",
+          "offset": 413439456,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/mvhd",
+          "field": "modification",
+          "offset": 413439460,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "creation",
+          "offset": 413439572,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "modification",
+          "offset": 413439576,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "creation",
+          "offset": 413439788,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "modification",
+          "offset": 413439792,
+          "bytes": 4
+        }
+      ],
+      "atoms": [
+        {
+          "path": "/ftyp",
+          "offset": 0,
+          "bytes": 20
+        },
+        {
+          "path": "/wide",
+          "offset": 20,
+          "bytes": 8
+        },
+        {
+          "path": "/mdat",
+          "offset": 28,
+          "bytes": 413439408
+        },
+        {
+          "path": "/moov",
+          "offset": 413439436,
+          "bytes": 84633
+        },
+        {
+          "path": "/moov/mvhd",
+          "offset": 413439444,
+          "bytes": 108
+        },
+        {
+          "path": "/moov/trak",
+          "offset": 413439552,
+          "bytes": 84517
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "offset": 413439560,
+          "bytes": 92
+        },
+        {
+          "path": "/moov/trak/tapt",
+          "offset": 413439652,
+          "bytes": 68
+        },
+        {
+          "path": "/moov/trak/edts",
+          "offset": 413439720,
+          "bytes": 48
+        },
+        {
+          "path": "/moov/trak/mdia",
+          "offset": 413439768,
+          "bytes": 84301
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "offset": 413439776,
+          "bytes": 32
+        },
+        {
+          "path": "/moov/trak/mdia/hdlr",
+          "offset": 413439808,
+          "bytes": 49
+        },
+        {
+          "path": "/moov/trak/mdia/minf",
+          "offset": 413439857,
+          "bytes": 84212
+        }
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-camera-publish-profile/candidate-1/result/camera/video.mov",
+      "bytes": 413524069,
+      "sha256": "000f733d2393c3a2b7cf850354f4fbf979395d2b706d0563d90f8970050b707b",
+      "dateOnlyNormalizedSha256": "0575f8ae92654479cc9bbb7d1861e0e15684809e355266da92bbc9be36e8ed43",
+      "normalizedFields": [
+        {
+          "path": "/moov/mvhd",
+          "field": "creation",
+          "offset": 413439456,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/mvhd",
+          "field": "modification",
+          "offset": 413439460,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "creation",
+          "offset": 413439572,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "modification",
+          "offset": 413439576,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "creation",
+          "offset": 413439788,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "modification",
+          "offset": 413439792,
+          "bytes": 4
+        }
+      ],
+      "atoms": [
+        {
+          "path": "/ftyp",
+          "offset": 0,
+          "bytes": 20
+        },
+        {
+          "path": "/wide",
+          "offset": 20,
+          "bytes": 8
+        },
+        {
+          "path": "/mdat",
+          "offset": 28,
+          "bytes": 413439408
+        },
+        {
+          "path": "/moov",
+          "offset": 413439436,
+          "bytes": 84633
+        },
+        {
+          "path": "/moov/mvhd",
+          "offset": 413439444,
+          "bytes": 108
+        },
+        {
+          "path": "/moov/trak",
+          "offset": 413439552,
+          "bytes": 84517
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "offset": 413439560,
+          "bytes": 92
+        },
+        {
+          "path": "/moov/trak/tapt",
+          "offset": 413439652,
+          "bytes": 68
+        },
+        {
+          "path": "/moov/trak/edts",
+          "offset": 413439720,
+          "bytes": 48
+        },
+        {
+          "path": "/moov/trak/mdia",
+          "offset": 413439768,
+          "bytes": 84301
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "offset": 413439776,
+          "bytes": 32
+        },
+        {
+          "path": "/moov/trak/mdia/hdlr",
+          "offset": 413439808,
+          "bytes": 49
+        },
+        {
+          "path": "/moov/trak/mdia/minf",
+          "offset": 413439857,
+          "bytes": 84212
+        }
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-camera-publish-profile/candidate-2/result/camera/video.mov",
+      "bytes": 413524069,
+      "sha256": "c89cc6d7bf8a069a4110d406a6ab1c6d8577e84bb06c40b65e647d0692d2c7a0",
+      "dateOnlyNormalizedSha256": "0575f8ae92654479cc9bbb7d1861e0e15684809e355266da92bbc9be36e8ed43",
+      "normalizedFields": [
+        {
+          "path": "/moov/mvhd",
+          "field": "creation",
+          "offset": 413439456,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/mvhd",
+          "field": "modification",
+          "offset": 413439460,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "creation",
+          "offset": 413439572,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "field": "modification",
+          "offset": 413439576,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "creation",
+          "offset": 413439788,
+          "bytes": 4
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "field": "modification",
+          "offset": 413439792,
+          "bytes": 4
+        }
+      ],
+      "atoms": [
+        {
+          "path": "/ftyp",
+          "offset": 0,
+          "bytes": 20
+        },
+        {
+          "path": "/wide",
+          "offset": 20,
+          "bytes": 8
+        },
+        {
+          "path": "/mdat",
+          "offset": 28,
+          "bytes": 413439408
+        },
+        {
+          "path": "/moov",
+          "offset": 413439436,
+          "bytes": 84633
+        },
+        {
+          "path": "/moov/mvhd",
+          "offset": 413439444,
+          "bytes": 108
+        },
+        {
+          "path": "/moov/trak",
+          "offset": 413439552,
+          "bytes": 84517
+        },
+        {
+          "path": "/moov/trak/tkhd",
+          "offset": 413439560,
+          "bytes": 92
+        },
+        {
+          "path": "/moov/trak/tapt",
+          "offset": 413439652,
+          "bytes": 68
+        },
+        {
+          "path": "/moov/trak/edts",
+          "offset": 413439720,
+          "bytes": 48
+        },
+        {
+          "path": "/moov/trak/mdia",
+          "offset": 413439768,
+          "bytes": 84301
+        },
+        {
+          "path": "/moov/trak/mdia/mdhd",
+          "offset": 413439776,
+          "bytes": 32
+        },
+        {
+          "path": "/moov/trak/mdia/hdlr",
+          "offset": 413439808,
+          "bytes": 49
+        },
+        {
+          "path": "/moov/trak/mdia/minf",
+          "offset": 413439857,
+          "bytes": 84212
+        }
+      ]
+    }
+  ]
+}

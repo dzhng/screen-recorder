@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_STOP_SCALE_OUTPUT"] {
+if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PIXELS"] != nil {
+  try await runProbeCameraPixelPublicationTests()
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_STOP_SCALE_OUTPUT"] {
   try await runSelectedCaptureStopScale(output: output, sourcePath: ProcessInfo.processInfo.environment["SCREENREC_SELECTED_STOP_SCALE_SOURCE"] ?? "")
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_STOP_OUTPUT"] {
   try await runSelectedCaptureStopTests(output: output)
@@ -45,6 +47,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_STOP_SCA
 {
   try await runCaptureAudioGapProbe(output: output, corpus: corpus)
 } else {
+  try await runProbeCameraPixelPublicationTests()
   try runSelectedCaptureRequestTests()
   try await runFractionalRecoveryDurationTest()
   try await runCaptureDurationTests()

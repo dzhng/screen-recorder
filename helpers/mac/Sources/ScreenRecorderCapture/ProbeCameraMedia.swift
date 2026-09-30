@@ -122,11 +122,19 @@ package enum ProbeCameraMedia {
         for number in [CMTimeConvertScale(sample.presentationTimeStamp, timescale: scale, method: .roundHalfAwayFromZero).value,
             Int64(CVPixelBufferGetWidth(pixel)), Int64(CVPixelBufferGetHeight(pixel))] {
             var little = number.littleEndian
-            hash.update(data: withUnsafeBytes(of: &little) { Data($0) })
+            withUnsafeBytes(of: &little) { hash.update(bufferPointer: $0) }
         }
-        for row in 0..<CVPixelBufferGetHeight(pixel) {
-            hash.update(data: Data(bytes: CVPixelBufferGetBaseAddress(pixel)!.advanced(by: row * CVPixelBufferGetBytesPerRow(pixel)),
-                count: CVPixelBufferGetWidth(pixel) * 4))
+        let base = CVPixelBufferGetBaseAddress(pixel)!
+        let visibleRowBytes = CVPixelBufferGetWidth(pixel) * 4
+        let stride = CVPixelBufferGetBytesPerRow(pixel)
+        let height = CVPixelBufferGetHeight(pixel)
+        // Padding is not picture data; tightly packed rows can share one hash update.
+        if stride == visibleRowBytes {
+            hash.update(bufferPointer: UnsafeRawBufferPointer(start: base, count: visibleRowBytes * height))
+        } else {
+            for row in 0..<height {
+                hash.update(bufferPointer: UnsafeRawBufferPointer(start: base.advanced(by: row * stride), count: visibleRowBytes))
+            }
         }
     }
     private static func merged(_ ranges: [CMTimeRange]) -> [CMTimeRange] {

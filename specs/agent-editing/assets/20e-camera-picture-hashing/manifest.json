@@ -1,0 +1,199 @@
+{
+  "archive": {
+    "path": "/private/tmp/screenrec-protected-sentence-audition-20260930/specs/agent-editing/assets/20e-camera-picture-hashing/evidence.tar.gz",
+    "bytes": 27378,
+    "sha256": "d766c53e9fe0418d5180031b602d59d899388885a94c240ed6c06737a57c07f0"
+  },
+  "members": {
+    "baseline-1/execution.json": {
+      "bytes": 483,
+      "sha256": "145f7e9603a6d010a6825896605b9cb3eb7c68174b087b66d2bbc348daae4a66"
+    },
+    "baseline-1/run.log": {
+      "bytes": 104,
+      "sha256": "23be74bc9922bcee518641da15f292ce4056dd8f52ee50f4c1d060fabd87c34a"
+    },
+    "baseline-2/execution.json": {
+      "bytes": 482,
+      "sha256": "1090193e48bcd40a1c9c8dcaeb03ab0d283d8f17df2301415f06b7db0307c265"
+    },
+    "baseline-2/result/measurement.json": {
+      "bytes": 173,
+      "sha256": "6dbee7fc742e0afcd122d908110bcc23d6fcd1c9bbf165ec515330c15bc8acb9"
+    },
+    "baseline-2/result/receipt.json": {
+      "bytes": 699,
+      "sha256": "925ee58161e6325bd82815afcc6b95783d21e0b089011af54b0c412341de02ac"
+    },
+    "baseline-2/run.log": {
+      "bytes": 593,
+      "sha256": "294d043d345c36ae524113b4db4ab29eb9e8e851da6fbf1832576d1e0a18bafb"
+    },
+    "baseline-3/execution.json": {
+      "bytes": 450,
+      "sha256": "7514e4b3c9bca79f3cc8cdd1843067a8dc814b616725fc10a8f6d257031db298"
+    },
+    "baseline-3/result/measurement.json": {
+      "bytes": 173,
+      "sha256": "769b2159e5f16cb407e9bc681f6314031b5834a0ff8152265e7dea02a33655cc"
+    },
+    "baseline-3/result/receipt.json": {
+      "bytes": 699,
+      "sha256": "3d55289efcfdf2e42195e5ec7065c4eaa034759187eda098e720c62acd03fb09"
+    },
+    "baseline-3/run.log": {
+      "bytes": 587,
+      "sha256": "5c1189098bd1dc11c35f819f297344c32c5920644529ff0b5537ed0957c8a800"
+    },
+    "baseline-4/execution.json": {
+      "bytes": 450,
+      "sha256": "98b52a6be990155dcca78118261d71513036eda86a18b42e01a062cfad6cfb15"
+    },
+    "baseline-4/result/measurement.json": {
+      "bytes": 167,
+      "sha256": "12c4752cd25761877d32f561a43e0b0457c4b69e171c603bfbcb6948296ce596"
+    },
+    "baseline-4/result/receipt.json": {
+      "bytes": 699,
+      "sha256": "f1bf96f597c87125d419803cb6b207fd85c16100b35f8c6522c5e4442422c894"
+    },
+    "baseline-4/run.log": {
+      "bytes": 592,
+      "sha256": "7b6d08d4468a032d6a46d06fe9a41c7b8388c373354e6350e7b12d63c534ba72"
+    },
+    "candidate-1/execution.json": {
+      "bytes": 483,
+      "sha256": "f2390c2fabed3b98c665fc818f3f581c9e5ffc02d70007de9e9237bff6258b58"
+    },
+    "candidate-1/result/measurement.json": {
+      "bytes": 167,
+      "sha256": "ee657c48d5306a15074e56eae0b06f6f337a15f583549233f59b739b7eca36f0"
+    },
+    "candidate-1/result/receipt.json": {
+      "bytes": 699,
+      "sha256": "2208ac6e0cdd08b69fd7cc22be5acc973f44528f971945941e1d1c39456768b2"
+    },
+    "candidate-1/run.log": {
+      "bytes": 586,
+      "sha256": "69a31acd9ce07d4d8d461bfd1fc65e6794b738f8a6757bb401eaf237ac062e25"
+    },
+    "candidate-2/execution.json": {
+      "bytes": 451,
+      "sha256": "4c5f1e711e06209c21b65ff9c460a7131fddc5784f832b5d65f1c39ae160d024"
+    },
+    "candidate-2/result/measurement.json": {
+      "bytes": 173,
+      "sha256": "d0274323726f876565285348734e945262a89cb13f7fd9a44ee75981d0ab8d42"
+    },
+    "candidate-2/result/receipt.json": {
+      "bytes": 699,
+      "sha256": "da9ca781848ce2742d441496f2d02367b4f425393db4f9e36b64dc1540528032"
+    },
+    "candidate-2/run.log": {
+      "bytes": 585,
+      "sha256": "d5e0f7ff255f61c0b377c45e22caae4ef483991daefd160ac1047a9b3e101bd9"
+    },
+    "capture-build-2.log": {
+      "bytes": 25265,
+      "sha256": "6097831b37959808970936d82bdb48424c33aacff24bd9e21ea0ad9cec794f2e"
+    },
+    "capture-build-final.log": {
+      "bytes": 245,
+      "sha256": "6b61d2ccd54e123abb996e20c387da16afe50e66e38765c0056b61770b2d767b"
+    },
+    "capture-build.log": {
+      "bytes": 16343,
+      "sha256": "84ca1fb3aa01223198f1be9167ce9b0017b5be72d425b6d2f2caa0cb9de5939f"
+    },
+    "codex-review.log": {
+      "bytes": 3003,
+      "sha256": "68fc83073cd74e9637092477022d916f19a9fdd9b72f66f9d09fb574dc010ef2"
+    },
+    "default-capture-tests.log": {
+      "bytes": 4636,
+      "sha256": "ce7e19f20ad10cc65cd12915e06b9b3a2b134a8b60ce09f73caa05645cccd39f"
+    },
+    "ffmpeg-version.txt": {
+      "bytes": 826,
+      "sha256": "8830e8e1fff6bf09c9a577b8ad96375df7fdb9e38b188c945f8572147e6a6550"
+    },
+    "fixtures/camera-visible32.serialized.gz": {
+      "bytes": 557,
+      "sha256": "be56d308b01ef3937160ac07ee618d9f18fef9bcf5ce88061ec59f4b93240f60"
+    },
+    "fixtures/camera-visible34.serialized.gz": {
+      "bytes": 3392,
+      "sha256": "17e357b759d141540598256b9dbfcc56691aa283cdbc5f1fe62586a9e1b62026"
+    },
+    "fixtures/provenance.json": {
+      "bytes": 1961,
+      "sha256": "58da40ce3b56e6e35a523570e03e7f7e57f5a0a8328105011aaae9c2a6555fba"
+    },
+    "focused-capture-pixels.log": {
+      "bytes": 168,
+      "sha256": "cb9bb88723e3370f5177a4496d8cc63c70ae734968392c90bfe344478a02479c"
+    },
+    "os-version.txt": {
+      "bytes": 65,
+      "sha256": "cd5d6399b3785b04ceaae75045a9ca9f80f0bbc3526eff9d0c36b170ed1ec348"
+    },
+    "pixel-padding-mutation.log": {
+      "bytes": 1257,
+      "sha256": "a5b622cbb4a9831efd88509dc9cc9791c2b662957154ca367ea9ce03569ed1b9"
+    },
+    "pixel-restored-green.log": {
+      "bytes": 1204,
+      "sha256": "f7277a1b1fb039bbcaf4218ecd7673b76f8e33f05cfa601e7db934633027d57c"
+    },
+    "pixels/34-avfoundation.log": {
+      "bytes": 190,
+      "sha256": "31a828aa7a1cc4f091dbd24ca729a9d9df46ca74cfab75c2673de7721122ef77"
+    },
+    "review.json": {
+      "bytes": 976,
+      "sha256": "38f5c5c7c0729997b91e220ccd17682824b43d4e9c31fbee78d561c0dde91bad"
+    },
+    "sources/Package.swift": {
+      "bytes": 3728,
+      "sha256": "4e8194eec94c29a0f3792a269b5d6a68a087855c40652ddcf812f85788047123"
+    },
+    "sources/ProbeCameraMedia.swift": {
+      "bytes": 16267,
+      "sha256": "92a9d55c2dbcdf8edc851143e0da8210e692b6998aecc93f23214631cfb00e67"
+    },
+    "sources/ProbeCameraPixelPublicationTests.swift": {
+      "bytes": 3472,
+      "sha256": "548811d54dbd44d17c88f5bfed61bfe16b75080d959efa581acb69b1de145d82"
+    },
+    "sources/main.swift": {
+      "bytes": 4313,
+      "sha256": "2af971f53ff32838101619bb8eeb8c5eea6697266abd2f4ed68d9b79c53615ac"
+    },
+    "swift-version.txt": {
+      "bytes": 98,
+      "sha256": "b674f79b747370a1c05ae7cec551fffe557816c6c807f35f39f933ecbcca80d7"
+    }
+  },
+  "files": {
+    "README.md": {
+      "bytes": 3621,
+      "sha256": "a48a9a299ecc071041324df7afd04b26538902415372320598760f9d01083778"
+    },
+    "choices.md": {
+      "bytes": 2539,
+      "sha256": "7418f72b47028ac7e186cc0e606eb416ea98cf21486c7afbc3343def49c5b9ac"
+    },
+    "verification.json": {
+      "bytes": 19062,
+      "sha256": "b98f052870216da4db6a83b993f7eb07ca8f049490a625b8b2517dcd21b7a4a3"
+    },
+    "canonical-normalization.json": {
+      "bytes": 13386,
+      "sha256": "83a5ff7be134982cc1048cf074283a4a19c60d61e771e2ad9c9dd377e90be4fd"
+    },
+    "timing.patch": {
+      "bytes": 2396,
+      "sha256": "abff457608ed8307d8d7fa5b68babc98230b60467b64ae8d25a143dd0d5450b3"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+--- a/ProbeCameraMedia.swift
++++ b/ProbeCameraMedia.swift
+@@ -144,2 +144,13 @@
+         try Task.checkCancellation(); try lease.check()
++        let profileBegan = ContinuousClock.now
++        var profileLast = profileBegan
++        var digestElapsed = Duration.zero
++        func profile(_ stage: String) {
++            let now = ContinuousClock.now
++            func seconds(_ d: Duration) -> Double { Double(d.components.seconds) + Double(d.components.attoseconds) / 1e18 }
++            print("PROFILE stage=\(stage) seconds=\(seconds(profileLast.duration(to: now))) digestSeconds=\(seconds(digestElapsed)) totalSeconds=\(seconds(profileBegan.duration(to: now)))")
++            fflush(nil)
++            profileLast = now
++            digestElapsed = .zero
++        }
+         let root = URL(fileURLWithPath: lease.directory)
+@@ -182,2 +193,3 @@
+         }
++        profile("input-identities")
+         let mapping = try Mapping(observationURL)
+@@ -198,3 +210,5 @@
+             guard sample.presentationTimeStamp == range.start else { throw invalid("Raw picture does not match its exact mapped ordinal.") }
++            let digestBegan = ContinuousClock.now
+             try digest(sample, into: &rawHash, scale: raw.scale)
++            digestElapsed += digestBegan.duration(to: .now)
+             represented += 1
+@@ -221,2 +235,3 @@
+         let pictureHash = hex(rawHash.finalize())
++        profile("raw-decode-and-digest")
+         let file = try NewFile(at: canonicalURL.path, assembledAs: "camera.mov")
+@@ -236,2 +251,3 @@
+         try await export.export(to: file.url, as: .mov)
++        profile("passthrough-export")
+         try Task.checkCancellation()
+@@ -245,5 +261,8 @@
+             guard let sample = try candidate.next(), sample.presentationTimeStamp == range.start else { throw invalid("Canonical camera picture order changed.") }
++            let digestBegan = ContinuousClock.now
+             try digest(sample, into: &candidateHash, scale: raw.scale)
++            digestElapsed += digestBegan.duration(to: .now)
+         }
+         guard try candidate.next() == nil, hex(candidateHash.finalize()) == pictureHash else { throw invalid("Canonical camera pixels changed.") }
++        profile("canonical-decode-and-digest")
+         try unchanged()
+@@ -259,2 +278,3 @@
+         _ = try file.publish()
++        profile("commit-identities-and-publication")
+         return receipt

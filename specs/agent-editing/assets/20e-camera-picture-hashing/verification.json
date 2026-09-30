@@ -1,0 +1,519 @@
+{
+  "passed": true,
+  "scope": "Same retained media through fresh offline camera publication only; no acquisition/input drain/encoder close/live stop/AppKit/physical synchronization claim.",
+  "baseCommit": "bb17269e9911b52514c80809ddf8fa95b67a5c7f",
+  "inputs": [
+    {
+      "path": "/private/tmp/screenrec-20e-stop-scale-verified/result/take/camera/camera.raw.mov",
+      "bytes": 413607110,
+      "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0"
+    },
+    {
+      "path": "/private/tmp/screenrec-20e-stop-scale-verified/result/take/camera/camera.closed.json",
+      "bytes": 97,
+      "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd"
+    },
+    {
+      "path": "/private/tmp/screenrec-20e-stop-scale-verified/result/take/camera/capture.journal.jsonl",
+      "bytes": 876,
+      "sha256": "9800987bfd53dce0a4dc91ef6cf3d3ddffc1720467d783882920508458edadd4"
+    },
+    {
+      "path": "/private/tmp/screenrec-20e-stop-scale-verified/result/take/timestamps.jsonl",
+      "bytes": 4097649,
+      "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321"
+    },
+    {
+      "path": "/private/tmp/screenrec-20e-stop-scale-verified/result/take/camera/camera.publication.json",
+      "bytes": 699,
+      "sha256": "4e986bef4edd78dc43e4a0bab669a293bf68b7ea32e0d59e9944a8ac4a90d150"
+    },
+    {
+      "path": "/private/tmp/screenrec-20e-stop-scale-verified/result/take/camera/video.mov",
+      "bytes": 413524069,
+      "sha256": "2548a8a017e24ce770603d2d8938a02290f0e7fe0802b37e7cbc9e6bd89f408f"
+    }
+  ],
+  "runtimes": [
+    {
+      "path": "/private/tmp/screenrec-camera-publish-profile/baseline-runner",
+      "bytes": 4063136,
+      "sha256": "cbc045887bbb7be9aba6d2330b2f76dfba62f4940fab6b41dd75a2062ca001e8"
+    },
+    {
+      "path": "/private/tmp/screenrec-camera-publish-profile/candidate-runner",
+      "bytes": 4063248,
+      "sha256": "e9aac79843a6da4673d155455539f41ee82dc84949caf04fe0ef08f4fe854807"
+    },
+    {
+      "path": "/private/tmp/screenrec-camera-hash-capture-build/arm64-apple-macosx/debug/ScreenRecorderCaptureTests",
+      "bytes": 31627728,
+      "sha256": "268ee1b83f96d7869ad13ba40472a6a85e64637e2acdc693c9fe41f18a137d09"
+    }
+  ],
+  "frozenWorkerPreserved": {
+    "path": "/private/tmp/screenrec-03d-native-build/arm64-apple-macosx/debug/screenrec-native",
+    "bytes": 28743936,
+    "sha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "historicalStopExecutablePreserved": {
+    "path": "/private/tmp/screenrec-20e-stop-scale-build/arm64-apple-macosx/debug/ScreenRecorderCaptureTests",
+    "bytes": 31181920,
+    "sha256": "7007fc7e14544fdc0d90471f2437b857887129ab1a39ba2b5af8a0fac60ef29e"
+  },
+  "buildPolicy": "New isolated minimal capture/media packages for timing plus full isolated existing-package capture-test build. Prepared local dependencies reused, including existing ignored RNNoise C source; no preparation/download/inference.",
+  "rowsBefore": 9564480,
+  "pixelBytesBothVerifications": 73455206400,
+  "trials": [
+    {
+      "name": "baseline-2",
+      "controlled": true,
+      "exclusionReason": null,
+      "publicationSeconds": 27.182531667,
+      "digestSeconds": 25.404623841000003,
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.17111275,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.17111275
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 13.193721041,
+          "digestSeconds": 12.739822910000001,
+          "cumulativeSeconds": 13.364833791
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 0.331471917,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 13.696305708
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 13.026091917,
+          "digestSeconds": 12.664800931,
+          "cumulativeSeconds": 26.722397625
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 0.459167958,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 27.181565583
+        }
+      ],
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publish-profile/baseline-build/debug/CameraPublicationBenchmark",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publish-profile/baseline-2/result"
+        ],
+        "binarySha256": "fa8879414aed3fca0f4081ee020b78a4ce70789e8e9086a220e53eeb5901e282",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 70182,
+        "exitCode": 0,
+        "launcherSeconds": 27.401953166991007,
+        "peakRssBytes": 131301376
+      },
+      "receipt": {
+        "candidate": ".screenrec-output-404BE28E-B5AA-4D05-BFDB-DA79B3E382B0/camera.mov",
+        "canonical": {
+          "sha256": "0ec0eb08e34ac045c73b4c70c902bc73245397bc922f351ef55bf83f8fd693e2",
+          "bytes": "413524069"
+        },
+        "raw": {
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0",
+          "bytes": "413607110"
+        },
+        "closed": {
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd",
+          "bytes": "97"
+        },
+        "presentation": "native-bounded",
+        "firstUs": 200000,
+        "endUs": 246167243,
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "diagnostics": [],
+        "observations": {
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321",
+          "bytes": "4097649"
+        },
+        "representedFrames": 4428
+      },
+      "canonical": {
+        "path": "/private/tmp/screenrec-camera-publish-profile/baseline-2/result/camera/video.mov",
+        "bytes": 413524069,
+        "sha256": "0ec0eb08e34ac045c73b4c70c902bc73245397bc922f351ef55bf83f8fd693e2"
+      }
+    },
+    {
+      "name": "baseline-3",
+      "controlled": false,
+      "exclusionReason": "Concurrent isolated compilation; retained but not used for improvement claim.",
+      "publicationSeconds": 28.799316084,
+      "digestSeconds": 26.443639239,
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.167140084,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.167140084
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 13.628032375,
+          "digestSeconds": 13.141746684,
+          "cumulativeSeconds": 13.795172459
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 0.679880791,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 14.47505325
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 13.817077792,
+          "digestSeconds": 13.301892555,
+          "cumulativeSeconds": 28.292131042
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 0.50612475,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 28.798255792
+        }
+      ],
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publish-profile/baseline-runner",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publish-profile/baseline-3/result"
+        ],
+        "binarySha256": "cbc045887bbb7be9aba6d2330b2f76dfba62f4940fab6b41dd75a2062ca001e8",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 76730,
+        "exitCode": 0,
+        "launcherSeconds": 29.643737082995358,
+        "peakRssBytes": 131203072
+      },
+      "receipt": {
+        "presentation": "native-bounded",
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "firstUs": 200000,
+        "canonical": {
+          "bytes": "413524069",
+          "sha256": "2544b944c2555b20692d5d7bd4c9a1517037bb3f4a57fcd3c211da419b259b6c"
+        },
+        "endUs": 246167243,
+        "diagnostics": [],
+        "raw": {
+          "bytes": "413607110",
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0"
+        },
+        "observations": {
+          "bytes": "4097649",
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321"
+        },
+        "candidate": ".screenrec-output-93CA96C5-86CD-468B-8C8D-82A3FB30019A/camera.mov",
+        "closed": {
+          "bytes": "97",
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd"
+        },
+        "representedFrames": 4428
+      },
+      "canonical": {
+        "path": "/private/tmp/screenrec-camera-publish-profile/baseline-3/result/camera/video.mov",
+        "bytes": 413524069,
+        "sha256": "2544b944c2555b20692d5d7bd4c9a1517037bb3f4a57fcd3c211da419b259b6c"
+      }
+    },
+    {
+      "name": "baseline-4",
+      "controlled": true,
+      "exclusionReason": null,
+      "publicationSeconds": 27.527200375,
+      "digestSeconds": 25.60786542,
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.169705209,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.169705209
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 13.380176916,
+          "digestSeconds": 12.929749122,
+          "cumulativeSeconds": 13.549882125
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 0.446914417,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 13.996796542
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 13.062102375,
+          "digestSeconds": 12.678116297999999,
+          "cumulativeSeconds": 27.058898917
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 0.467374,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 27.526272917
+        }
+      ],
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publish-profile/baseline-runner",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publish-profile/baseline-4/result"
+        ],
+        "binarySha256": "cbc045887bbb7be9aba6d2330b2f76dfba62f4940fab6b41dd75a2062ca001e8",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 80746,
+        "exitCode": 0,
+        "launcherSeconds": 28.022246791995713,
+        "peakRssBytes": 134856704
+      },
+      "receipt": {
+        "canonical": {
+          "sha256": "1084bb63765f3f6c336fe2d467ab6c725adb770814a593d936bec533a2b7a3d6",
+          "bytes": "413524069"
+        },
+        "diagnostics": [],
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "observations": {
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321",
+          "bytes": "4097649"
+        },
+        "raw": {
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0",
+          "bytes": "413607110"
+        },
+        "representedFrames": 4428,
+        "endUs": 246167243,
+        "firstUs": 200000,
+        "presentation": "native-bounded",
+        "closed": {
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd",
+          "bytes": "97"
+        },
+        "candidate": ".screenrec-output-22C06373-EC8F-4CBD-8CC9-4036AE213E2A/camera.mov"
+      },
+      "canonical": {
+        "path": "/private/tmp/screenrec-camera-publish-profile/baseline-4/result/camera/video.mov",
+        "bytes": 413524069,
+        "sha256": "1084bb63765f3f6c336fe2d467ab6c725adb770814a593d936bec533a2b7a3d6"
+      }
+    },
+    {
+      "name": "candidate-1",
+      "controlled": true,
+      "exclusionReason": null,
+      "publicationSeconds": 23.653354042,
+      "digestSeconds": 21.618888216000002,
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.179663541,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.179663541
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 11.277132959,
+          "digestSeconds": 10.81282661,
+          "cumulativeSeconds": 11.4567965
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 0.555190958,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 12.011987458
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 11.186532583,
+          "digestSeconds": 10.806061606,
+          "cumulativeSeconds": 23.198520041
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 0.453882417,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 23.652402458
+        }
+      ],
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publish-profile/candidate-build/debug/CameraPublicationBenchmark",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publish-profile/candidate-1/result"
+        ],
+        "binarySha256": "b230971c8bee9b040bd4c8a8b799516091250766c33c03b5db7589ede696266d",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 74924,
+        "exitCode": 0,
+        "launcherSeconds": 24.01138508299482,
+        "peakRssBytes": 142589952
+      },
+      "receipt": {
+        "endUs": 246167243,
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "diagnostics": [],
+        "candidate": ".screenrec-output-46640E00-9923-4DD1-AB21-0838808DAAFD/camera.mov",
+        "firstUs": 200000,
+        "closed": {
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd",
+          "bytes": "97"
+        },
+        "observations": {
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321",
+          "bytes": "4097649"
+        },
+        "presentation": "native-bounded",
+        "canonical": {
+          "sha256": "000f733d2393c3a2b7cf850354f4fbf979395d2b706d0563d90f8970050b707b",
+          "bytes": "413524069"
+        },
+        "representedFrames": 4428,
+        "raw": {
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0",
+          "bytes": "413607110"
+        }
+      },
+      "canonical": {
+        "path": "/private/tmp/screenrec-camera-publish-profile/candidate-1/result/camera/video.mov",
+        "bytes": 413524069,
+        "sha256": "000f733d2393c3a2b7cf850354f4fbf979395d2b706d0563d90f8970050b707b"
+      }
+    },
+    {
+      "name": "candidate-2",
+      "controlled": true,
+      "exclusionReason": null,
+      "publicationSeconds": 24.285793,
+      "digestSeconds": 22.323302323,
+      "stages": [
+        {
+          "stage": "input-identities",
+          "seconds": 0.178645958,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 0.178645958
+        },
+        {
+          "stage": "raw-decode-and-digest",
+          "seconds": 11.615816292,
+          "digestSeconds": 11.108186117,
+          "cumulativeSeconds": 11.79446225
+        },
+        {
+          "stage": "passthrough-export",
+          "seconds": 0.369573125,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 12.164035375
+        },
+        {
+          "stage": "canonical-decode-and-digest",
+          "seconds": 11.630105667,
+          "digestSeconds": 11.215116206,
+          "cumulativeSeconds": 23.794141042
+        },
+        {
+          "stage": "commit-identities-and-publication",
+          "seconds": 0.490609666,
+          "digestSeconds": 0.0,
+          "cumulativeSeconds": 24.284750708
+        }
+      ],
+      "execution": {
+        "command": [
+          "/tmp/screenrec-camera-publish-profile/candidate-runner",
+          "/tmp/screenrec-20e-stop-scale-verified/result/take",
+          "/tmp/screenrec-camera-publish-profile/candidate-2/result"
+        ],
+        "binarySha256": "e9aac79843a6da4673d155455539f41ee82dc84949caf04fe0ef08f4fe854807",
+        "deadlineSeconds": 120,
+        "rssGuardBytes": 2147483648,
+        "pid": 81426,
+        "exitCode": 0,
+        "launcherSeconds": 24.52935970798717,
+        "peakRssBytes": 141688832
+      },
+      "receipt": {
+        "canonical": {
+          "bytes": "413524069",
+          "sha256": "c89cc6d7bf8a069a4110d406a6ab1c6d8577e84bb06c40b65e647d0692d2c7a0"
+        },
+        "candidate": ".screenrec-output-2F84400E-737C-4E57-ADD8-D1BC23EFB72F/camera.mov",
+        "firstUs": 200000,
+        "endUs": 246167243,
+        "diagnostics": [],
+        "observations": {
+          "bytes": "4097649",
+          "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321"
+        },
+        "presentation": "native-bounded",
+        "raw": {
+          "bytes": "413607110",
+          "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0"
+        },
+        "representedFrames": 4428,
+        "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+        "closed": {
+          "bytes": "97",
+          "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd"
+        }
+      },
+      "canonical": {
+        "path": "/private/tmp/screenrec-camera-publish-profile/candidate-2/result/camera/video.mov",
+        "bytes": 413524069,
+        "sha256": "c89cc6d7bf8a069a4110d406a6ab1c6d8577e84bb06c40b65e647d0692d2c7a0"
+      }
+    }
+  ],
+  "controlledSummary": {
+    "runsPerVariant": 2,
+    "meanPublicationSeconds": {
+      "baseline": 27.354866021,
+      "candidate": 23.969573521
+    },
+    "publicationReductionFraction": 0.12375467302238474,
+    "meanDigestSeconds": {
+      "baseline": 25.5062446305,
+      "candidate": 21.9710952695
+    },
+    "digestReductionFraction": 0.13859936702609355
+  },
+  "clockInstrumentation": "Timing-only patch in copied production source. Hash timing includes two clock reads per picture; no production instrumentation retained.",
+  "parity": {
+    "representedFrames": 4428,
+    "pictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+    "firstUs": 200000,
+    "endUs": 246167243,
+    "diagnostics": [],
+    "canonicalDateOnlyNormalization": "canonical-normalization.json"
+  },
+  "checks": {
+    "focusedPixelTests": "PASS exit0",
+    "defaultOfflineCaptureSuite": "PASS exit0,52PASS lines",
+    "paddingMutation": "RED exit133, expected visible-pixel metadata hash mismatch",
+    "restore": "PASS exit0",
+    "independentReview": "clean"
+  },
+  "limitations": [
+    "Two controlled samples per variant on one machine, not a latency SLA or broad statistical guarantee.",
+    "Candidate remains above ten seconds; timeout/recovery policy unchanged.",
+    "Preserved canonical bytes normalize only six identified MOV creation/modification dates, never sample clocks/pixels/other metadata.",
+    "Physical input shutdown, actual device interrupts and installed cutover remain unverified."
+  ]
+}
