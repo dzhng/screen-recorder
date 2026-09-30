@@ -1,0 +1,25 @@
+{
+  "reviewer": "fresh unprimed image-only subagent",
+  "inspected": {
+    "entrance-detail.png": "5d51192beebca8c1f3757ae5c166c4dce7a6513221e9338e2e642205fc9a98be",
+    "entrance.png": "59dfa98672479d789df2f71fbcff962121aedc952d95eccc070efa7bd08fd7c0",
+    "exit-detail.png": "5f5452f3c2f824737cde5313cb6ee122d0774ae285bca9d4ed43471dc7887c40",
+    "exit.png": "9e43e6a2ed1788ae4f130e9b9fd2727245f387d128821a708af7ea35fe3dc6f4",
+    "crops/entrance-current.png": "099dd8b69657b610cb9a88d3efa745c0e27e91692b61bc4c5d592e29215d1050",
+    "crops/entrance-original.png": "3f8744d89a1c4d68026fe3ddc775a5fec323746e6adeb04aa3ee73f2ede4f7eb",
+    "crops/exit-current.png": "5bf2273dbce55eda489680055786ee1fe095499228df85a2c7c0a5d7643f4bcb",
+    "crops/exit-original.png": "8b1d7f77d1deabbd5d58b0e15afe291b111e975e426aebe977a35471e9739223"
+  },
+  "verdict": "No blocking visual issues; high confidence",
+  "findings": [
+    "Original/current rows visibly share time and amplitude axes; detail/overview differences explicitly labeled.",
+    "Titles, labels, ticks and colorbars readable without clipping/collisions; no clipped peaks.",
+    "0ms/5ms markers and interval shading clear in detail figures and all crops.",
+    "Spectrogram rows share labeled calibration; crops preserve marker alignment and unobstructed traces."
+  ],
+  "limitations": [
+    "Overview5ms markers nearly merge at true scale; details resolve them.",
+    "Dense overview captions need a reasonably large display."
+  ],
+  "scope": "Visual calibration and legibility only; no audio-quality conclusions."
+}

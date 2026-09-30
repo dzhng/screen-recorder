@@ -1,0 +1,30 @@
+{
+  "reviewer": "fresh unprimed image-only subagent",
+  "images": [
+    "entrance.png",
+    "entrance-detail.png",
+    "exit.png",
+    "exit-detail.png"
+  ],
+  "crops": [
+    "entrance-original",
+    "entrance-current",
+    "exit-original",
+    "exit-current"
+  ],
+  "findings": [
+    {
+      "confidence": "high",
+      "location": "crops only",
+      "finding": "Crops omitted axes and truncated title text into fragments. They are magnified supplements, not independently calibrated figures.",
+      "resolution": "Crop bounds tightened to data-only regions, removing title fragments. Full figures retain calibration; crop manifest names supplement scope."
+    },
+    {
+      "confidence": "high",
+      "location": "overview only",
+      "finding": "0ms and5ms markers are only a few pixels apart; detail figures and crops resolve the interval clearly.",
+      "resolution": "Retain truthful overview scale and explicit waveform detail; do not exaggerate interval width."
+    }
+  ],
+  "fullFigureVerdict": "No blocking layout defects; legible labels, matching row ticks/limits, explicit units/shared spectral scale, no clipped peaks."
+}

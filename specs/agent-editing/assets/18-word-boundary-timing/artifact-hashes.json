@@ -1,0 +1,19 @@
+{
+  "README.md": "0ed432a958e7c31fb53310fed7f16203d119f2b1b474964204126a365031d1db",
+  "crop-manifest.json": "4afa1560e598c48caf1e54da6d63f778c7722655c892147afebd8a4b9653b2c4",
+  "crops/entrance-current.png": "099dd8b69657b610cb9a88d3efa745c0e27e91692b61bc4c5d592e29215d1050",
+  "crops/entrance-original.png": "3f8744d89a1c4d68026fe3ddc775a5fec323746e6adeb04aa3ee73f2ede4f7eb",
+  "crops/exit-current.png": "5bf2273dbce55eda489680055786ee1fe095499228df85a2c7c0a5d7643f4bcb",
+  "crops/exit-original.png": "8b1d7f77d1deabbd5d58b0e15afe291b111e975e426aebe977a35471e9739223",
+  "entrance-detail.png": "5d51192beebca8c1f3757ae5c166c4dce7a6513221e9338e2e642205fc9a98be",
+  "entrance.png": "59dfa98672479d789df2f71fbcff962121aedc952d95eccc070efa7bd08fd7c0",
+  "exit-detail.png": "5f5452f3c2f824737cde5313cb6ee122d0774ae285bca9d4ed43471dc7887c40",
+  "exit.png": "9e43e6a2ed1788ae4f130e9b9fd2727245f387d128821a708af7ea35fe3dc6f4",
+  "final-visual-review.json": "38b4b0b0be13c956a607163f142185d54f280145de4fdd650d61128f9efbcc36",
+  "initial-visual-review.json": "3065048097f06f754969558433ed3a4aa59bc7c6aa023e96e2c3d887147b20b9",
+  "measurements.json": "4dff4c9b74723e901f7148e28365df6737ec33b373aa5e4f0598bf27379afa99",
+  "plot.py": "62a868106e7bac8e1340a6e7a2bfaeb324c6c8324e5fc22c0a38dfa840223b12",
+  "review.json": "7126525f1a554c8762682c2965f9139cfd3b57516ac4800930008b9b45d33a62",
+  "second-visual-review.json": "28da9ded3e0dfa3ad869172ebcefd3edad66c84e5a3d25bd3044472dd94f99ae",
+  "verification.json": "3c89d0da7ac72360ebeccce63931d2f0e53b193c2d0780f4d183215b967584c1"
+}

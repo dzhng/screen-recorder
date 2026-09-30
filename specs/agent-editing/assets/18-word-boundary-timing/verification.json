@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "scope": "Frozen word edit-coordinate timing and exact context preservation only; no phoneme labels, listening, intelligibility, identity or naturalness verdict.",
+  "baseCommit": "b576e6060dd93c5173191544c4a63d73f034429d",
+  "commands": [
+    "/Users/david/.cache/uv/archive-v0/k8vnxkgaoINOJkll/bin/python specs/agent-editing/assets/18-word-boundary-timing/plot.py",
+    "git diff --check"
+  ],
+  "runtime": {
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.10.8",
+    "existingCachedEnvironment": true,
+    "installation": false
+  },
+  "sourceSHA256": "62a868106e7bac8e1340a6e7a2bfaeb324c6c8324e5fc22c0a38dfa840223b12",
+  "checks": {
+    "frozenInputHashes": true,
+    "prefixBytesExact": true,
+    "suffixBytesExact": true,
+    "sampleGridClocks": true,
+    "actualPlotRowLimitsTicksWidthsMatch": true,
+    "plotTitlesAndAxisLabelsWithinCanvas": true,
+    "allFourFullImagesDirectlyInspected": true,
+    "freshUnprimedFinalReview": "final-visual-review.json",
+    "frozenPhraseFilesUnchanged": true,
+    "pythonAST": "passed",
+    "diffCheck": "passed"
+  },
+  "preview": {
+    "openedUTC": "2026-09-30 09:17:07",
+    "closedUTC": "2026-09-30 09:22:15",
+    "durationSeconds": 308,
+    "oneWindow": true,
+    "audioPlayed": false,
+    "approvalInferred": false
+  },
+  "boundaries": {
+    "entrance": {
+      "originalFrame": 63928,
+      "currentFrame": 63928
+    },
+    "exit": {
+      "originalFrame": 76528,
+      "currentFrame": 78208
+    }
+  }
+}

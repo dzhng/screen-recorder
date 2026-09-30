@@ -1,0 +1,50 @@
+[
+  {
+    "source": "entrance-detail.png",
+    "crop": "crops/entrance-original.png",
+    "bounds": [
+      820,
+      140,
+      1240,
+      420
+    ],
+    "scale": 2,
+    "scope": "Magnified data-only supplement; full figure supplies axes and clocks; rows use equal relative pixel framing"
+  },
+  {
+    "source": "entrance-detail.png",
+    "crop": "crops/entrance-current.png",
+    "bounds": [
+      820,
+      556,
+      1240,
+      836
+    ],
+    "scale": 2,
+    "scope": "Magnified data-only supplement; full figure supplies axes and clocks; rows use equal relative pixel framing"
+  },
+  {
+    "source": "exit-detail.png",
+    "crop": "crops/exit-original.png",
+    "bounds": [
+      820,
+      140,
+      1240,
+      420
+    ],
+    "scale": 2,
+    "scope": "Magnified data-only supplement; full figure supplies axes and clocks; rows use equal relative pixel framing"
+  },
+  {
+    "source": "exit-detail.png",
+    "crop": "crops/exit-current.png",
+    "bounds": [
+      820,
+      556,
+      1240,
+      836
+    ],
+    "scale": 2,
+    "scope": "Magnified data-only supplement; full figure supplies axes and clocks; rows use equal relative pixel framing"
+  }
+]

@@ -1,0 +1,246 @@
+{
+  "sampleRate": 24000,
+  "sourceContextStartUs": 71500000,
+  "sourceOriginUsAlreadyAppliedAtExtraction": 48675,
+  "declaredReplacementSourceRangeUs": [
+    74168675,
+    74688675
+  ],
+  "roundedOriginalCutFrames": [
+    64048,
+    76528
+  ],
+  "transitionFrames": 120,
+  "insertFrames": 14400,
+  "outputDurationChangeFrames": 1680,
+  "prefixExact": {
+    "frames": 63928,
+    "sha256": "ab9f58752e20bc1a8c298c78e2fc922757346a340f5269be8fb488090b8c1326"
+  },
+  "suffixExact": {
+    "originalStartFrame": 76648,
+    "currentStartFrame": 78328,
+    "frames": 43352,
+    "sha256": "8922ce0f2c09a83728b1a24e78bc022d599ddeb7c7e432f431ea6718efaf4a13"
+  },
+  "inputs": [
+    {
+      "path": "18-voice/context.wav",
+      "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+      "frames": 120000
+    },
+    {
+      "path": "18-voice-roomtone/word-room-context.wav",
+      "sha256": "1e027babed08f14d81429c9384dac87aa13f382e7956683db2a06ae025115493",
+      "frames": 121680
+    }
+  ],
+  "metadata": {
+    "18-voice-roomtone/report.json": "4d6657a35566159ff937b99f6c2d3e19e46858b82fbfbe9577bec6b1f59a8d79",
+    "18-voice/manifest.json": "e5b77427b1e56224d0ec5bcad0c7ef375431c34d59af79b543ea967c8ea80b3e",
+    "18-voice-boundary-timing/measurements.json": "545d8b71c3bb23d9c46272a5ebf214b0337b760b4f22f0540f5c5caa95efd22f"
+  },
+  "spectrum": {
+    "windowFrames": 512,
+    "hopFrames": 64,
+    "window": "hann",
+    "scaling": "one-sided power density",
+    "displayDbLimits": [
+      -110,
+      -35
+    ]
+  },
+  "boundaries": [
+    {
+      "boundary": "entrance",
+      "amplitudeLimits": [
+        -0.1,
+        0.1
+      ],
+      "detailAmplitudeLimits": [
+        -0.03,
+        0.03
+      ],
+      "rows": [
+        {
+          "label": "Original recorded context",
+          "anchorFrame": 63928,
+          "localTimeSeconds": 2.663666666666667,
+          "correspondingSourceTimeSeconds": 74.16366666666667,
+          "windowFrames": [
+            55528,
+            72328
+          ],
+          "windowPCMsha256": "bf3c7a889720b22ed98f16e58e24de47810df9c5c9c632061367233bce0d9778",
+          "peak": 0.042569179087877274,
+          "rms": 0.008091478000769065
+        },
+        {
+          "label": "Current frozen word + recorded hum",
+          "anchorFrame": 63928,
+          "localTimeSeconds": 2.663666666666667,
+          "correspondingSourceTimeSeconds": 74.16366666666667,
+          "windowFrames": [
+            55528,
+            72328
+          ],
+          "windowPCMsha256": "8f7d86c2df8ebcfc2db0eb394833ff0b62af387d0b8f130c5e98f52d35d7f513",
+          "peak": 0.09316425770521164,
+          "rms": 0.011455339536224338
+        }
+      ]
+    },
+    {
+      "boundary": "exit",
+      "amplitudeLimits": [
+        -0.05,
+        0.05
+      ],
+      "detailAmplitudeLimits": [
+        -0.015,
+        0.015
+      ],
+      "rows": [
+        {
+          "label": "Original recorded context",
+          "anchorFrame": 76528,
+          "localTimeSeconds": 3.1886666666666668,
+          "correspondingSourceTimeSeconds": 74.68866666666666,
+          "windowFrames": [
+            68128,
+            84928
+          ],
+          "windowPCMsha256": "8c367ef0890fbf3be3d744c2acc2a591826cdaa408416709e993ab8d00522559",
+          "peak": 0.03425034508109093,
+          "rms": 0.006110142603179947
+        },
+        {
+          "label": "Current frozen word + recorded hum",
+          "anchorFrame": 78208,
+          "localTimeSeconds": 3.2586666666666666,
+          "correspondingSourceTimeSeconds": 74.68866666666666,
+          "windowFrames": [
+            69808,
+            86608
+          ],
+          "windowPCMsha256": "7a7073f7c493a274d7b611b80b9afaee73c701556ab0d4544991cffcd39e0244",
+          "peak": 0.03425034508109093,
+          "rms": 0.007718398438411464
+        }
+      ]
+    }
+  ],
+  "plotChecks": [
+    {
+      "file": "entrance.png",
+      "pixels": [
+        2100,
+        1190
+      ],
+      "titlesAndAxisLabelsWithinCanvas": true,
+      "matchingRowAxes": [
+        {
+          "xLimits": [
+            -350.0,
+            350.0
+          ],
+          "yLimits": [
+            -0.1,
+            0.1
+          ],
+          "rowWidthsEqual": true
+        },
+        {
+          "xLimits": [
+            -350.0,
+            350.0
+          ],
+          "yLimits": [
+            0.0,
+            12.0
+          ],
+          "rowWidthsEqual": true
+        }
+      ]
+    },
+    {
+      "file": "entrance-detail.png",
+      "pixels": [
+        1820,
+        910
+      ],
+      "titlesAndAxisLabelsWithinCanvas": true,
+      "matchingRowAxes": [
+        {
+          "xLimits": [
+            -25.0,
+            25.0
+          ],
+          "yLimits": [
+            -0.03,
+            0.03
+          ],
+          "rowWidthsEqual": true
+        }
+      ]
+    },
+    {
+      "file": "exit.png",
+      "pixels": [
+        2100,
+        1190
+      ],
+      "titlesAndAxisLabelsWithinCanvas": true,
+      "matchingRowAxes": [
+        {
+          "xLimits": [
+            -350.0,
+            350.0
+          ],
+          "yLimits": [
+            -0.05,
+            0.05
+          ],
+          "rowWidthsEqual": true
+        },
+        {
+          "xLimits": [
+            -350.0,
+            350.0
+          ],
+          "yLimits": [
+            0.0,
+            12.0
+          ],
+          "rowWidthsEqual": true
+        }
+      ]
+    },
+    {
+      "file": "exit-detail.png",
+      "pixels": [
+        1820,
+        910
+      ],
+      "titlesAndAxisLabelsWithinCanvas": true,
+      "matchingRowAxes": [
+        {
+          "xLimits": [
+            -25.0,
+            25.0
+          ],
+          "yLimits": [
+            -0.015,
+            0.015
+          ],
+          "rowWidthsEqual": true
+        }
+      ]
+    }
+  ],
+  "sourceCutQuantizationUs": [
+    -8.333333333333334,
+    -8.333333333333334
+  ],
+  "scope": "Frozen word edit-coordinate timing and exact context preservation only; no phoneme labels, listening, intelligibility, identity or naturalness verdict."
+}

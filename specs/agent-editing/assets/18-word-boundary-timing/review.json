@@ -1,0 +1,27 @@
+{
+  "verdict": "clean",
+  "shape": "Bounded frozen research artifact in one new folder, using the same calibrated SciPy recipe as phrase plots without running or changing that frozen script. No product renderer or audio owner added.",
+  "diff": "Parent independently reviewed plot.py and all4fullfigures. Source-clock mapping, fade anchors, scales, ticks, labels and0/5ms markers agree with retained recipe; no overlap, clipping or acoustic-quality inference. Own review and numerical checks agree.",
+  "docs": "README separates edit-coordinate visual evidence from phoneme/listening/quality claims, explains spectral resolution and intentional detail scaling. Parent owns active-plan status links.",
+  "choices": [
+    {
+      "choice": "Compare original and current frozen word only",
+      "reason": "Phrase plots already accepted; no new candidate or rerun is needed."
+    },
+    {
+      "choice": "Anchor entrance at crossfade start and exit at corresponding original/current fade start",
+      "reason": "These are authored splice coordinates with independently verified unchanged context, not guessed heard-word boundaries."
+    },
+    {
+      "choice": "Use matched overview axes and explicitly tighter detail amplitude limits",
+      "reason": "Overview preserves context while detail makes the5ms transition legible without silent normalization."
+    },
+    {
+      "choice": "Keep magnified data-only crops supplemental",
+      "reason": "Full figures own calibrated axes and clocks; equal crop framing removes visual comparison ambiguity."
+    }
+  ],
+  "visualReview": "Three fresh unprimed image-only reviews; title-fragment and crop-framing findings resolved before final clean review.",
+  "independentCLIReview": "Configured Codex CLI previously failed account/model admission; parent instructed not to retry. Parent supplied independent code/full-image review.",
+  "preview": "One silent5min8s checkpoint, then closed. No response was treated as approval."
+}

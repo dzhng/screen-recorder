@@ -1,0 +1,25 @@
+{
+  "reviewer": "fresh unprimed image-only subagent",
+  "inspected": "all4fullfigures and4crops",
+  "verdict": "No blocking visual defect",
+  "findings": [
+    {
+      "confidence": "medium",
+      "location": "crops",
+      "finding": "Original/current crops have slightly different vertical framing. Full calibrated detail figures resolve this.",
+      "resolution": "Matched crop heights and relative vertical framing before final review."
+    },
+    {
+      "confidence": "high",
+      "location": "overview",
+      "finding": "5ms interval is narrow at overview scale; detail and crops resolve it.",
+      "resolution": "Preserved truthful scale and retained explicit details."
+    }
+  ],
+  "positiveChecks": [
+    "matching row axes and explicit scale differences",
+    "legible labels, no clipping",
+    "clear detail markers and readable waveforms",
+    "shared spectral calibration and labeled colorbar"
+  ]
+}
