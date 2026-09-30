@@ -8,11 +8,15 @@ import { dirname, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { promisify } from "node:util";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { RESPONSE_FRAME_BYTES } from "@screenrec/protocol";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { cliReply } from "./first-preview-transport.mjs";
 
 export const run = promisify(execFile);
 export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+// Standard receipts carry the bounded service JSON once structurally and once as escaped text.
+// This covers sequential JSON receipts, not additional inline media or concurrent responses.
+export const mcpReceiveBytes = 3 * RESPONSE_FRAME_BYTES + 64 * 1024;
 export const root = new URL("../../../", import.meta.url).pathname;
 export async function poll(read, done, label) {
   const deadline = performance.now() + 180000;
@@ -91,6 +95,7 @@ export class JourneyService {
         command: process.execPath,
         args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
         stderr: "pipe",
+        maxBufferSize: mcpReceiveBytes,
       }),
     );
     this.started = true;

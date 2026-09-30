@@ -3,21 +3,27 @@ import { mkdtemp, mkdir, readFile, rm, writeFile, realpath } from "node:fs/promi
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
-import { JourneyService, poll, run, hash } from "./source-evidence-fixture.mjs";
+import { JourneyService, poll, run, hash, mcpReceiveBytes } from "./source-evidence-fixture.mjs";
 import { writeSourceWave, sample } from "./audio-project-fixture.mjs";
 import { transcriptDurationFixture } from "./transcript-duration-fixture.mjs";
+import { sourceEventDurationFixture } from "./source-event-duration-fixture.mjs";
 
 const { values } = parseArgs({
   options: { out: { type: "string" }, query: { type: "string", default: "timeline" } },
 });
 assert.ok(process.env.SCREENREC_NATIVE);
-assert.ok(["timeline", "waveform", "transcript", "transcript-search"].includes(values.query));
+assert.ok(
+  ["timeline", "waveform", "transcript", "transcript-search", "events", "cursor"].includes(
+    values.query,
+  ),
+);
 const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/screenrec-duration-memory-");
 await mkdir(out, { recursive: true });
 const source = join(out, "source.wav");
 const search = values.query === "transcript-search";
 const hasTranscript = search || values.query === "transcript";
-await writeSourceWave(source, { source: 0, seconds: hasTranscript ? 6 : 1 });
+const capture = values.query === "events" || values.query === "cursor";
+if (!capture) await writeSourceWave(source, { source: 0, seconds: hasTranscript ? 6 : 1 });
 const transcript = hasTranscript ? await transcriptDurationFixture(out, source) : undefined;
 if (search) assert.equal(transcript.words[1].text, "so");
 const occurrences = 10000,
@@ -30,10 +36,11 @@ const report = {
     values.query +
     " queries; no native decode or movie memory claim",
   query: values.query,
-  sourceSha256: hash(await readFile(source)),
+  ...(!capture ? { sourceSha256: hash(await readFile(source)) } : {}),
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   nodeVersion: process.version,
+  mcpReceiveBytes,
   controls: { occurrences, clipUs, rowsPerQuery, repeats: 20, trialsPerDuration: 3 },
   ...(transcript ? { transcriptFixture: transcript.evidence } : {}),
   ...(search ? { searchText: "so" } : {}),
@@ -47,6 +54,25 @@ try {
     const home = await realpath(await mkdtemp("/tmp/sr-duration-memory-"));
     const trial = { seconds, home, trace: [], samples: [], queryMs: [] };
     report.cases.push(trial);
+    const nativeConfiguration = capture
+      ? join(out, `capture-service-${report.cases.length}.json`)
+      : undefined;
+    if (capture) {
+      trial.nativeOperationsFile = join(out, `native-operations-${report.cases.length}.jsonl`);
+      await writeFile(
+        nativeConfiguration,
+        JSON.stringify({
+          sources: [],
+          allowedOperations: [
+            "media.probe",
+            "media.sourceEvidence",
+            "media.sourceVisualSamples",
+            "storage.clearRenderWorkspace",
+          ],
+          operationsFile: trial.nativeOperationsFile,
+        }),
+      );
+    }
     const service = transcript
       ? new JourneyService(
           home,
@@ -54,7 +80,14 @@ try {
           await transcript.configure(trial, report.cases.length),
           new URL("./transcript-duration-service.mjs", import.meta.url),
         )
-      : new JourneyService(home, trial);
+      : capture
+        ? new JourneyService(
+            home,
+            trial,
+            nativeConfiguration,
+            new URL("./evidence-service.mjs", import.meta.url),
+          )
+        : new JourneyService(home, trial);
     const call = (operation, params) => service.call(operation, params, { transport: "mcp" });
     let sampling,
       sampleError,
@@ -62,13 +95,25 @@ try {
       succeeded = false;
     try {
       await service.start();
-      const imported = await call("asset.import", { path: source, requestId: "source" });
-      const ready = await poll(
-        () => call("job.get", { jobId: imported.jobId }),
-        (x) => x.state === "ready",
-        "source import",
-      );
-      const asset = await call("asset.get", { assetId: ready.result.assetId });
+      let asset, events;
+      if (capture) {
+        events = await sourceEventDurationFixture({
+          mode: values.query,
+          home,
+          out: join(out, `source-events-${report.cases.length}`),
+          call,
+        });
+        asset = events.asset;
+        trial.sourceEvents = events.record;
+      } else {
+        const imported = await call("asset.import", { path: source, requestId: "source" });
+        const ready = await poll(
+          () => call("job.get", { jobId: imported.jobId }),
+          (x) => x.state === "ready",
+          "source import",
+        );
+        asset = await call("asset.get", { assetId: ready.result.assetId });
+      }
       let generation;
       if (transcript) {
         const sourceWords = await poll(
@@ -114,7 +159,13 @@ try {
       };
       const track = (
         await apply(
-          [{ operation: "track.add", label: "track", track: { kind: "audio", order: 0 } }],
+          [
+            {
+              operation: "track.add",
+              label: "track",
+              track: { kind: capture ? "video" : "audio", order: 0 },
+            },
+          ],
           "track",
         )
       ).edit.labels.track;
@@ -124,20 +175,20 @@ try {
         Math.floor((i * (durationUs - clipUs)) / (occurrences - 1)),
       );
       const clipIds = [];
+      const clipLabel = (index) => `${capture ? "event" : "word"}-${index}`;
       for (let first = 0; first < occurrences; first += 500) {
         const placed = await apply(
           starts.slice(first, first + 500).map((startUs, offset) => ({
             operation: "place",
-            ...(transcript ? { label: `word-${first + offset}` } : {}),
+            ...(transcript || capture ? { label: clipLabel(first + offset) } : {}),
             clip: {
               trackId: track,
-              assetId: asset.id,
-              streamId: asset.streams[0].id,
+              ...(events?.selection ?? { assetId: asset.id, streamId: asset.streams[0].id }),
               source: {
                 kind: "range",
                 range: transcript
                   ? transcript.words[(first + offset) % 5].source
-                  : { startUs: 0, endUs: clipUs },
+                  : (events?.sourceRange ?? { startUs: 0, endUs: clipUs }),
               },
               placement: { kind: "project", range: { startUs, endUs: startUs + clipUs } },
             },
@@ -145,22 +196,53 @@ try {
           `place-${first}`,
         );
         lastRevision = placed.revision;
-        if (transcript)
+        if (transcript || capture)
           for (let offset = 0; offset < 500; offset++)
-            clipIds.push(placed.edit.labels[`word-${first + offset}`]);
+            clipIds.push(placed.edit.labels[clipLabel(first + offset)]);
       }
       trial.projectId = projectId;
       trial.revisionId = revisionId;
-      if (transcript) {
+      if (transcript || capture) {
         assert.equal(lastRevision.ordinal, 21);
         assert.equal(lastRevision.document.clips.length, occurrences);
         assert.equal(lastRevision.document.tracks.length, 1);
         assert.equal(lastRevision.document.groups.length, 0);
+        if (capture) assert.deepEqual(lastRevision.document.processing, []);
         trial.revisionOrdinal = lastRevision.ordinal;
         trial.documentSha256 = hash(Buffer.from(JSON.stringify(lastRevision.document)));
       }
       // Authoring allocations cannot inflate this process's query memory baseline.
       await service.stop();
+      if (capture) {
+        trial.preparationNativeOperations = (await readFile(trial.nativeOperationsFile, "utf8"))
+          .trim()
+          .split("\n")
+          .map(JSON.parse);
+        assert(
+          !trial.preparationNativeOperations.some(
+            ({ operation }) => operation === "speech.transcribe",
+          ),
+        );
+        if (values.query === "events")
+          assert(
+            trial.preparationNativeOperations.some(
+              ({ operation }) => operation === "media.sourceVisualSamples",
+            ),
+          );
+        trial.queryNativeOperationsFile = join(
+          out,
+          `query-native-operations-${report.cases.length}.jsonl`,
+        );
+        await writeFile(trial.queryNativeOperationsFile, "");
+        await writeFile(
+          nativeConfiguration,
+          JSON.stringify({
+            sources: [],
+            allowedOperations: ["storage.clearRenderWorkspace"],
+            operationsFile: trial.queryNativeOperationsFile,
+          }),
+        );
+      }
       await service.start();
       trial.queryPid = service.child.pid;
       const rss = async () => {
@@ -256,7 +338,22 @@ try {
           join(out, `transcript-expected-${report.cases.length}.json`),
           JSON.stringify(expectedTranscript, null, 2),
         );
-      const readTranscript = async (transport = "mcp") => {
+      const expectedEvidence = events
+        ? events.expected({
+            starts,
+            clipIds,
+            trackId: track,
+            durationUs,
+            clipUs,
+            limit: rowsPerQuery,
+          })
+        : expectedTranscript;
+      if (capture)
+        await writeFile(
+          join(out, `events-expected-${report.cases.length}.json`),
+          JSON.stringify(expectedEvidence, null, 2),
+        );
+      const readEvidence = async (transport = "mcp") => {
         const rows = [],
           pages = [],
           checkpoints = new Set();
@@ -266,57 +363,71 @@ try {
             projectId,
             revisionId,
             ...(search ? { text: "so" } : {}),
-            limit: search ? rowsPerQuery - rows.length : Math.min(125, rowsPerQuery - rows.length),
+            limit:
+              search || capture
+                ? rowsPerQuery - rows.length
+                : Math.min(125, rowsPerQuery - rows.length),
             ...(cursor ? { cursor } : {}),
           };
           const page = await poll(
             () =>
-              service.call(search ? "transcript.search" : "transcript.get", params, { transport }),
+              service.call(
+                events?.operation ?? (search ? "transcript.search" : "transcript.get"),
+                params,
+                { transport },
+              ),
             (value) => value.state === "ready",
-            "transcript page",
+            "evidence page",
           );
           assert.equal(page.projectId, projectId);
           assert.equal(page.revisionId, revisionId);
           assert.equal(page.dependencies.length, 1);
-          assert.equal(page.dependencies[0].transcript.generation, generation);
-          assert.deepEqual(page.dependencies[0].transcript.engine, transcript.engine);
+          if (events) {
+            assert.deepEqual(page.dependencies[0].selection, events.selection);
+            assert.deepEqual(page.dependencies[0].capture, events.record.source.context);
+          } else {
+            assert.equal(page.dependencies[0].transcript.generation, generation);
+            assert.deepEqual(page.dependencies[0].transcript.engine, transcript.engine);
+          }
           const delivered = search ? page.page.entries : page.page.rows;
-          if (!search) assert.ok(delivered.length > 0, "Transcript continuation must progress");
+          if (!search && !capture)
+            assert.ok(delivered.length > 0, "Transcript continuation must progress");
           assert.notDeepEqual(page.page.nextCursor, cursor);
           if (page.page.nextCursor) {
             const next = page.page.nextCursor;
             assert(
               !checkpoints.has(next.checkpointId),
-              "Transcript continuation repeated a checkpoint",
+              "Evidence continuation repeated a checkpoint",
             );
             checkpoints.add(next.checkpointId);
             if (cursor)
               assert.deepEqual(
                 { ...next, checkpointId: cursor.checkpointId },
                 cursor,
-                "Transcript continuation changed its pinned query",
+                "Evidence continuation changed its pinned query",
               );
           }
           rows.push(...delivered);
           pages.push({ params, response: page });
           cursor = page.page.nextCursor;
           assert.ok(
-            pages.length <= (search ? 100 : 10),
-            "Transcript continuation must remain bounded",
+            pages.length <= (search || capture ? 100 : 10),
+            "Evidence continuation must remain bounded",
           );
         } while (rows.length < rowsPerQuery && cursor);
         assert.deepEqual(
           rows,
-          expectedTranscript,
-          "Frozen words and independently authored occurrence clocks differ",
+          expectedEvidence,
+          "Frozen evidence and independently authored occurrence clocks differ",
         );
         assert.ok(cursor, "A bounded prefix must retain a continuation for remaining occurrences");
-        const field = transport === "cli" ? "transcriptCLIPages" : "transcriptPages";
+        const family = capture ? "events" : "transcript";
+        const field = family + (transport === "cli" ? "CLIPages" : "Pages");
         if (!trial[field]) {
           trial[field] =
-            `transcript-${transport === "cli" ? "cli-" : ""}pages-${report.cases.length}.json`;
+            `${family}-${transport === "cli" ? "cli-" : ""}pages-${report.cases.length}.json`;
           await writeFile(join(out, trial[field]), JSON.stringify(pages, null, 2));
-          if (transport === "mcp") trial.transcriptPageCount = pages.length;
+          if (transport === "mcp") trial[family + "PageCount"] = pages.length;
         }
         return hash(Buffer.from(JSON.stringify(rows)));
       };
@@ -398,11 +509,12 @@ try {
         }
         return hash(Buffer.from(text));
       };
-      const read = transcript
-        ? readTranscript
-        : values.query === "waveform"
-          ? readWaveform
-          : readTimeline;
+      const read =
+        transcript || capture
+          ? readEvidence
+          : values.query === "waveform"
+            ? readWaveform
+            : readTimeline;
       const coldAt = performance.now();
       trial.rowsSha256 = await read();
       trial.coldMs = performance.now() - coldAt;
@@ -411,7 +523,7 @@ try {
         assert.equal(await read(), trial.rowsSha256);
         trial.queryMs.push(performance.now() - at);
       }
-      if (values.query === "waveform" || transcript) {
+      if (values.query === "waveform" || transcript || capture) {
         trial.queryP95Ms = [...trial.queryMs].sort((a, b) => a - b)[
           Math.ceil(trial.queryMs.length * 0.95) - 1
         ];
@@ -426,23 +538,29 @@ try {
         "Not enough resident samples to assess the query workload",
       );
       assert.ok(trial.sampledGrowthBytes > 0, "Query allocation growth was not observable");
-      if (transcript) {
+      if (transcript || capture) {
         assert.equal(
-          await readTranscript("cli"),
+          await readEvidence("cli"),
           trial.rowsSha256,
-          "CLI and MCP transcript pages differ",
+          "CLI and MCP evidence pages differ",
         );
-        const operations = (await readFile(trial.nativeOperationsFile, "utf8"))
+        const operations = (
+          await readFile(
+            capture ? trial.queryNativeOperationsFile : trial.nativeOperationsFile,
+            "utf8",
+          )
+        )
           .trim()
           .split("\n")
+          .filter(Boolean)
           .map(JSON.parse);
         assert.deepEqual(
           operations.filter(({ operation }) => operation !== "storage.clearRenderWorkspace"),
-          [{ operation: "media.probe" }, { operation: "speech.transcribe" }],
+          capture ? [] : [{ operation: "media.probe" }, { operation: "speech.transcribe" }],
           "Querying must not run inference again or decode timeline audio",
         );
       }
-      if (values.query === "waveform" || transcript)
+      if (values.query === "waveform" || transcript || capture)
         assert.ok(
           trial.queryP95Ms <= 250,
           "Cached250-row inspection exceeded unchanged250ms p95 budget",
@@ -454,6 +572,7 @@ try {
       try {
         await service.stop();
       } finally {
+        await writeFile(join(out, `service-${report.cases.length}.log`), service.logs.join(""));
         await save();
         if (succeeded) await rm(home, { recursive: true });
       }

@@ -170,7 +170,9 @@ export async function captureFixtures(home, out) {
             sequence: finishedAt + 1,
             state: finished.state,
             durationUs: finished.durationUs,
-            ...(finished.failure ? { failureCode: finished.failure.code } : {}),
+            ...(finished.failure
+              ? { failureCode: finished.failure.code, failureMessage: finished.failure.message }
+              : {}),
           };
     assert.deepEqual(receipt.completion, completion);
     const interruption = {
@@ -189,20 +191,7 @@ export async function captureFixtures(home, out) {
       receipt,
     });
   }
-  const directory = join(home, "real-donor");
-  await mkdir(directory, { recursive: true });
-  for (const file of ["video.mov", "narration.mov", "capture.journal.jsonl"])
-    await copyFile(join(fixture, file), join(directory, file), constants.COPYFILE_FICLONE);
-  const output = join(out, "real-normalized.jsonl");
-  const receipt = nativeResult(await native("media.sourceEvidence", { directory, output }));
-  contexts.push({
-    name: "real",
-    directory,
-    journalSha256: hash(await readFile(join(directory, "capture.journal.jsonl"))),
-    normalizedSha256: hash(await readFile(output)),
-    normalized: (await readFile(output, "utf8")).trim().split("\n").map(JSON.parse),
-    receipt,
-  });
+  contexts.push(await realCaptureFixture(home, out));
   await writeFile(
     join(out, "fixture-receipts.json"),
     JSON.stringify(
@@ -221,4 +210,25 @@ export async function captureFixtures(home, out) {
     ) + "\n",
   );
   return { contexts, video, probe, samples };
+}
+
+/** Unchanged captured bytes and independently normalized journal, without synthetic cohorts. */
+export async function realCaptureFixture(home, out) {
+  const fixture = join(root, "fixtures/narrated-workbench");
+  const native = mediaWorker();
+  await mkdir(out, { recursive: true });
+  const directory = join(home, "real-donor");
+  await mkdir(directory, { recursive: true });
+  for (const file of ["video.mov", "narration.mov", "capture.journal.jsonl"])
+    await copyFile(join(fixture, file), join(directory, file), constants.COPYFILE_FICLONE);
+  const output = join(out, "real-normalized.jsonl");
+  const receipt = nativeResult(await native("media.sourceEvidence", { directory, output }));
+  return {
+    name: "real",
+    directory,
+    journalSha256: hash(await readFile(join(directory, "capture.journal.jsonl"))),
+    normalizedSha256: hash(await readFile(output)),
+    normalized: (await readFile(output, "utf8")).trim().split("\n").map(JSON.parse),
+    receipt,
+  };
 }

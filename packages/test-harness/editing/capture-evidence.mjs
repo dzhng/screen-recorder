@@ -90,6 +90,7 @@ const sourceRows = (fixture, binding, domain, range) => {
           state: marker.state,
           durationUs: marker.durationUs,
           ...(marker.failureCode ? { failureCode: marker.failureCode } : {}),
+          ...(marker.failureMessage ? { failureMessage: marker.failureMessage } : {}),
         },
       });
     }
