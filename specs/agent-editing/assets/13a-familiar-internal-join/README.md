@@ -26,3 +26,6 @@ worker and no added processor context, fade, gain adjustment or model. To replay
 copy it into a fresh scratch directory before running it; it writes its outputs
 beside itself and uses the recorded checkout paths. Do not run it in this frozen
 artifact directory. [commands.json](commands.json) records the actual invocations.
+
+[Remaining acceptance](acceptance-status.md) separates banked numerical proof from
+pending listening, protected-word annotations and useful short-speech evidence.
