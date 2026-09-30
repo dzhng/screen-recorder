@@ -32,6 +32,9 @@ candidate’s mapped-timestamp mismatch (ordinal3181) and original blocked decod
 recording or media re-generation is needed for those fixes. Public import and the
 initial recovery processes are terminal; the latter was stopped without claiming
 canonical publication. Frozen binaries and original fixture bytes remain unchanged.
+[Physical-event analysis](20-physical-sync/README.md) is retained and root-checked:
+flashes/beeps correspond, but the visible camera interval and uncertainty cannot
+establish parent20's duration or one-frame bound. No further capture is authorized.
 
 ## Execution context and scoped evidence
 
@@ -125,16 +128,12 @@ canonical publication. Frozen binaries and original fixture bytes remain unchang
   identities to the reviewed artifacts, rehashed all481 archive members, and ran
   the rational-clock/drop-callback and shared-ingress/canonical-microphone checks.
   The camera mapping streams through recovery; a genuine709 sample passes public
-  source reads. The original SMPTE-C refusal remains retained. Capture-pause-recovery
-  is released; its scratch build remains available without rebuilding frozen workers.
-  [Physical follow-up](20e-selected-device-probe/follow-up.md) pins the reviewable
-  app and uninvoked commands. Its ad-hoc linker signature is not a verified TCC
-  identity. Existing local signing identity discovery found “Screen Recorder Local”
-  read-only; signing, launch for status and device discovery have now completed with all
-  required grants already authorized.
-  Permission prompts and recording remain separate. The byte-identical working copy at
-  `/tmp/screenrec-20e-live-probe/ScreenRecorder.app` is prepared for a concrete
-  signing/status/discovery step. Parent20/21 stays open.
+  source reads. The original SMPTE-C refusal remains retained. The
+  [physical follow-up](20e-selected-device-probe/follow-up.md) records subsequent
+  signing and authorized discovery/capture separately from that offline archive.
+  Recording has stopped; the signed probe stays frozen. Capture-pause-recovery is
+  actively repairing canonical publication against the saved fixture, as described
+  in the current pickup above. Parent20/21 stays open.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.

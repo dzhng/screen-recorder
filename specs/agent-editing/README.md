@@ -33,7 +33,11 @@ ordinal3181; independent reading completes, so an EOF-only hang is not establish
 reproduce the extra picture with only two occupied ranges. The sample-copy
 alternative loses a requested picture and is not adopted. Next isolate direct
 raw-track insertion from composition flattening while preserving exact picture
-identity and timing. Remaining speech/stretch
+identity and timing. [Saved physical-event analysis](assets/20-physical-sync/README.md)
+finds corresponding flashes/beeps but cannot establish the one-frame bound:
+clear camera visibility covers only70seconds and detector uncertainty is larger
+than the bound. This remains separate from the recoverable export defect.
+Remaining speech/stretch
 acceptance and downstream webcam integration retain their existing scope.
 
 The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
