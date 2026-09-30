@@ -2706,3 +2706,207 @@ test.each([
     });
   },
 );
+
+function moveFixture(kind: "audio" | "video") {
+  return validateComposition(
+    {
+      ...input,
+      tracks: [{ id: "track", kind, order: 0 }],
+      clips: [0, 1, 2].map((i) => ({
+        id: `move${i}`,
+        trackId: "track",
+        assetId: "source",
+        streamId: kind === "audio" ? "a" : "v",
+        source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+        placement: { kind: "project", range: { startUs: i * 400000, endUs: i * 400000 + 100000 } },
+      })),
+    },
+    context.assets,
+  ).document;
+}
+function scalarOperations(operations: ReturnType<typeof moving>[]) {
+  // Explicit same-track destinations preserve behavior while taking the ordinary move path.
+  return operations.map((operation) => ({
+    ...operation,
+    tracks: [{ clipId: operation.clipIds[0]!, trackId: "track" }],
+  }));
+}
+function scalarMoves(document: unknown, operations: ReturnType<typeof moving>[]) {
+  return applyBatch(document, scalarOperations(operations), context);
+}
+const moving = (id: string, atUs: number) => ({
+  operation: "move",
+  clipIds: [id],
+  atUs,
+  scope: "selected",
+  ripple: "none",
+});
+
+test.each(["audio", "video"] as const)(
+  "ordered %s moves preserve scalar receipts, no-ops and repeated targets",
+  (kind) => {
+    const document = moveFixture(kind);
+    const operations = [
+      moving("move0", 0),
+      moving("move1", 100000),
+      moving("move2", 200000),
+      moving("move1", 100000),
+    ];
+    const result = applyBatch(document, operations, context);
+    expect(result).toEqual(scalarMoves(document, operations));
+    expect(result.normalized.map((r) => r.changes.length)).toEqual([0, 1, 1, 0]);
+    expect(result.document.clips.map((c) => c.placement)).toEqual(
+      [0, 100000, 200000].map((startUs) => ({
+        kind: "project",
+        range: { startUs, endUs: startUs + 100000 },
+      })),
+    );
+  },
+);
+
+test("a later move cannot conceal an overlapping earlier prefix", () => {
+  const document = moveFixture("audio");
+  const operations = [moving("move2", 900000), moving("move0", 400000), moving("move1", 200000)];
+  const failure = (ops: unknown[]) => {
+    try {
+      applyBatch(document, ops, context);
+      throw Error("Expected refusal");
+    } catch (e) {
+      expect(e).toBeInstanceOf(CompositionError);
+      return e as CompositionError;
+    }
+  };
+  const batch = failure(operations),
+    scalar = failure(scalarOperations(operations));
+  expect({ code: batch.code, message: batch.message, details: batch.details }).toEqual({
+    code: scalar.code,
+    message: scalar.message,
+    details: scalar.details,
+  });
+  expect(batch.details.operationIndex).toBe(1);
+});
+
+test("dependent, linked and processed moves retain sequential transformations", () => {
+  const base = moveFixture("video");
+  const dependent = {
+    ...base,
+    tracks: [...base.tracks, { id: "childTrack", kind: "video", order: 1 }],
+    clips: [
+      ...base.clips,
+      {
+        ...base.clips[0],
+        id: "child",
+        trackId: "childTrack",
+        placement: {
+          kind: "clip",
+          clipId: "move0",
+          start: { numerator: 0, denominator: 1 },
+          end: { numerator: 1, denominator: 1 },
+        },
+      },
+    ],
+  };
+  const linked = { ...base, syncGroups: [{ id: "linked", clipIds: ["move0", "move1"] }] };
+  const processed = applyBatch(
+    base,
+    [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "gain", gain: 0.5 } }],
+      },
+    ],
+    context,
+  ).document;
+  const stateful = applyBatch(
+    moveFixture("audio"),
+    [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+    context,
+  ).document;
+  for (const document of [dependent, linked, processed, stateful]) {
+    const operations = [moving("move0", 100000), moving("move1", 500000)];
+    expect(applyBatch(document, operations, context)).toEqual(scalarMoves(document, operations));
+  }
+});
+
+test("ordered move receipts stay frozen across a later move of the same clip", () => {
+  const document = moveFixture("video");
+  const operations = [moving("move1", 100000), moving("move2", 600000), moving("move1", 300000)];
+  const result = applyBatch(document, operations, context);
+  expect(result).toEqual(scalarMoves(document, operations));
+  expect(result.normalized[0]!.changes).toMatchObject([
+    { value: { placement: { range: { startUs: 100000 } } } },
+  ]);
+  expect(result.document.clips.find((c) => c.id === "move1")!.placement).toMatchObject({
+    range: { startUs: 300000 },
+  });
+});
+
+test.each([moving("missing", 0), moving("move2", Number.MAX_SAFE_INTEGER)])(
+  "a later refused move preserves the scalar error after a valid run: %j",
+  (operation) => {
+    const document = moveFixture("audio"),
+      operations = [moving("move1", 200000), operation];
+    const failure = (ops: unknown[]) => {
+      try {
+        applyBatch(document, ops, context);
+        throw Error("Expected refusal");
+      } catch (e) {
+        expect(e).toBeInstanceOf(CompositionError);
+        return e as CompositionError;
+      }
+    };
+    const batch = failure(operations),
+      scalar = failure(scalarOperations(operations));
+    expect({ code: batch.code, message: batch.message, details: batch.details }).toEqual({
+      code: scalar.code,
+      message: scalar.message,
+      details: scalar.details,
+    });
+    expect(batch.details.operationIndex).toBe(1);
+  },
+);
+
+test("ordered moves can occupy previously freed space; the reverse order still refuses", () => {
+  const document = moveFixture("video");
+  const operations = [moving("move1", 200000), moving("move2", 400000)];
+  expect(applyBatch(document, operations, context)).toEqual(scalarMoves(document, operations));
+  expect(() => applyBatch(document, [...operations].reverse(), context)).toThrow(
+    "Overlapping clips",
+  );
+  const crossing = [moving("move0", 1000000), moving("move1", 0)];
+  expect(applyBatch(document, crossing, context)).toEqual(scalarMoves(document, crossing));
+});
+
+test("move batching compares and preserves fractional structural intervals", () => {
+  const base = moveFixture("audio");
+  const document = {
+    ...base,
+    clips: base.clips.map((clip, i) => ({
+      ...clip,
+      placement: {
+        kind: "project",
+        range: {
+          startUs: i === 0 ? 0 : { numerator: i * 400000, denominator: 3 },
+          endUs: i === 2 ? 300000 : { numerator: i * 400000 + 100000, denominator: 3 },
+        },
+      },
+    })),
+  };
+  const operations = [moving("move1", 40000), moving("move2", 80000)];
+  const result = applyBatch(document, operations, context);
+  expect(result).toEqual(scalarMoves(document, operations));
+  expect(result.document.clips[1]!.placement).toEqual({
+    kind: "project",
+    range: {
+      startUs: 40000,
+      endUs: { numerator: 220000, denominator: 3 },
+    },
+  });
+});

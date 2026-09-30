@@ -1,5 +1,6 @@
 import { hasStatefulProcessing, normalizeStateEdit } from "./processing-state.js";
-import { resolveComposition } from "./model.js";
+import { clipGraph } from "./clip-graph.js";
+import { placementForRange, resolveComposition } from "./model.js";
 import { getProcessing, processingKey } from "./processing.js";
 import { CompositionError } from "./errors.js";
 import { z } from "zod";
@@ -20,7 +21,7 @@ import {
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
 import { partitionClips } from "./partition.js";
-import { compare, fromTime, toTime } from "./rational.js";
+import { add, subtract, compare, fromTime, toTime } from "./rational.js";
 import { rippleTimeline, insertGap } from "./ripple.js";
 import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
@@ -488,6 +489,93 @@ export function applyBatch(
     const before = model.document;
     let next: Document;
     try {
+      if (
+        authored.operation === "move" &&
+        authored.ripple === "none" &&
+        authored.clipIds.length === 1 &&
+        authored.tracks.length === 0 &&
+        before.processing.length === 0
+      ) {
+        const graph = clipGraph(model);
+        const linked = new Set(before.syncGroups.flatMap((group) => group.clipIds));
+        const known = new Map(model.clips.map((clip) => [clip.clip.id, clip]));
+        const ranges = new Map(model.clips.map((clip) => [clip.clip.id, clip.range]));
+        const neighbors = new Map<string, { previous?: string; next?: string }>();
+        const last = new Map<string, string>();
+        for (const value of model.clips) {
+          const previous = last.get(value.track.id);
+          neighbors.set(value.clip.id, previous === undefined ? {} : { previous });
+          if (previous !== undefined) neighbors.get(previous)!.next = value.clip.id;
+          last.set(value.track.id, value.clip.id);
+        }
+        const updates = new Map<string, Document["clips"][number]>();
+        const start = operationIndex;
+        let end = start;
+        for (; end < parsed.data.length; end++) {
+          const item = parsed.data[end]!;
+          if (
+            item.operation !== "move" ||
+            item.ripple !== "none" ||
+            item.clipIds.length !== 1 ||
+            item.tracks.length !== 0
+          )
+            break;
+          const id = item.clipIds[0]!;
+          if (typeof id !== "string" || updates.has(id) || linked.has(id)) break;
+          const value = known.get(id);
+          if (!value || value.clip.placement.kind !== "project" || graph.children.has(id)) break;
+          const first = fromTime(item.atUs);
+          const range = {
+            start: first,
+            end: add(first, subtract(value.range.end, value.range.start)),
+          };
+          const adjacent = neighbors.get(id)!;
+          // Preserve order and every intermediate prefix, not merely the final arrangement.
+          // A crossing/overlap is left to scalar semantics: a later move could otherwise repair it.
+          if (
+            (adjacent.previous && compare(ranges.get(adjacent.previous)!.end, range.start) > 0) ||
+            (adjacent.next && compare(range.end, ranges.get(adjacent.next)!.start) > 0)
+          )
+            break;
+          let placement;
+          try {
+            placement = placementForRange(value.clip, range);
+          } catch {
+            break;
+          } // The ordinary operation below owns the exact refusal and error index.
+          updates.set(id, { ...value.clip, placement });
+          ranges.set(id, range);
+        }
+        if (updates.size) {
+          const entries = [...updates];
+          const resolved = resolveIndependent(
+            (count) => {
+              const prefix = new Map(entries.slice(0, count));
+              return { ...before, clips: before.clips.map((clip) => prefix.get(clip.id) ?? clip) };
+            },
+            updates.size,
+            start,
+          );
+          if (resolved.failure) {
+            operationIndex = resolved.operationIndex;
+            throw resolved.failure;
+          }
+          model = resolved.model;
+          const frozen = new Map(model.document.clips.map((clip) => [clip.id, clip]));
+          for (const [offset, [id]] of entries.entries()) {
+            const value = frozen.get(id)!;
+            normalized.push({
+              operationIndex: start + offset,
+              changes:
+                JSON.stringify(known.get(id)!.clip) === JSON.stringify(value)
+                  ? []
+                  : [{ kind: "clip", id, value }],
+            });
+          }
+          operationIndex = end - 1;
+          continue;
+        }
+      }
       if (authored.operation === "processing.set" && !hasStatefulProcessing(before)) {
         const known = new Set([
           processingKey({ kind: "output" }),

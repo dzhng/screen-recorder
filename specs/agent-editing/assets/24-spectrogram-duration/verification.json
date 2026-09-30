@@ -1,0 +1,23 @@
+{
+  "base": "7f2520ae5bfd9c187763e578b3b58fcec23dae92",
+  "node": "v24.14.0",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83",
+  "sourceSha256": {
+    "packages/composition/src/edits.ts": "91c509b01660424d69efaada96c36745b58ea2ffecbf9cf619cecc93577698af",
+    "packages/composition/src/edits.test.ts": "5167d0114056b870395dff568b03d69f8562e7779d0d0e3415fe26ad5f904274",
+    "packages/test-harness/editing/spectrogram-duration-memory.mjs": "9a0c358c4d9ca7f7ae30d055996f8db175b01f0e6e988e1ee31081bfd241b407"
+  },
+  "commands": {
+    "original": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/debug/screenrec-native node packages/test-harness/editing/spectrogram-duration-memory.mjs --source-home /private/tmp/sr-duration-memory-Kg8FZY --runtime-root /Users/david/dev/screen-recorder --out /tmp/screenrec-24-spectrogram-duration",
+    "fixed": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/debug/screenrec-native node packages/test-harness/editing/spectrogram-duration-memory.mjs --source-home /private/tmp/sr-duration-memory-Kg8FZY --runtime-root /Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder --completed-four-hour /tmp/screenrec-24-spectrogram-duration --move-reference /tmp/screenrec-24-spectrogram-duration/committed-move-result.json --out /tmp/screenrec-24-spectrogram-fixed"
+  },
+  "terminalHandles": {
+    "original": 55442,
+    "timedOutMove": 79094,
+    "fixed": 73291,
+    "build": 75902,
+    "cliReviewUnavailable": 97016,
+    "archiveVerification": 5827
+  },
+  "remaining": "No current owned service/media/build/review process; fresh collaboration review completed read-only. Broader scale/cutover acceptance remains open."
+}

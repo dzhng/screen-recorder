@@ -38,3 +38,7 @@ Build composition before core/public consumers. Frozen comparison scripts retain
 absolute scratch paths as provenance, not portable product entrypoints.
 
 [Combined-root verification](root-verification.json) retains integrated checks in `root-verification.tar.gz`; the broader gates above remain open.
+
+[Ordered move follow-up](../24-spectrogram-duration/README.md) retains a distinct
+500-move timeout and its structurally proven repair, with complete scalar and
+public receipt equivalence. The earlier append evidence above remains unchanged.
