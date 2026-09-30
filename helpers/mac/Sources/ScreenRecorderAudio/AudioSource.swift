@@ -190,27 +190,47 @@ final class ConvertedAudioInterval {
 
     init(
         source: SourceTrack, decoder: AudioSourceReader, origin: ExactTime, start: Int64,
-        outputRate: Int, owed: Int64, support: InputSupport = .outputDuration(limit: nil)
+        outputRate: Int, owed: Int64, support: InputSupport = .outputDuration(limit: nil),
+        playbackRate: ExactTime = ExactTime(1)
     ) throws {
         sourceInput = source.input
+        func product(_ a: Int128, _ b: Int128) throws -> Int128 {
+            let result = a.multipliedReportingOverflow(by: b)
+            guard !result.overflow else { throw NativeFailure.decodeFailed("Audio rate exceeds exact arithmetic capacity.") }
+            return result.partialValue
+        }
+        guard outputRate > 0, playbackRate.numerator > 0, playbackRate.denominator > 0 else {
+            throw NativeFailure.decodeFailed("Audio playback rate must be positive.")
+        }
+        // Only the platform format uses floating point. Source demand and allowed final
+        // quantization padding use the same exact rational rate as the project mapping.
+        let outputNumerator = try product(Int128(outputRate), playbackRate.denominator)
+        let inputNumerator = try product(Int128(source.sampleRate), playbackRate.numerator)
+        let effectiveRate = Double(outputNumerator) / Double(playbackRate.numerator)
+        guard effectiveRate.isFinite, effectiveRate > 0 else {
+            throw NativeFailure.decodeFailed("Audio playback rate cannot be represented by the converter.")
+        }
         guard
             let sourceFormat = AVAudioFormat(
                 commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
                 channels: AVAudioChannelCount(source.channels), interleaved: true),
             let excerptFormat = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32, sampleRate: Double(outputRate),
+                commonFormat: .pcmFormatFloat32, sampleRate: effectiveRate,
                 channels: AVAudioChannelCount(source.channels), interleaved: true),
             // Both sides carry this file's own channel count, so the converter changes rate only and
             // the explicit map below places the channels; a remix matrix would restate the gains.
-            let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
+            let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat),
+            converter.outputFormat.sampleRate == effectiveRate
         else {
             throw NativeFailure.decodeFailed(
                 "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
             )
         }
         // Cumulative layout rounding owns the duration, including a last frame rounded up.
-        let duration = (Int128(owed) * Int128(source.sampleRate) + Int128(outputRate) - 1) / Int128(outputRate)
-        guard let requestedEnd = Int64(exactly: Int128(start) + duration) else {
+        let demand = try product(Int128(owed), inputNumerator)
+        let duration = demand / outputNumerator + (demand % outputNumerator == 0 ? 0 : 1)
+        let requested = Int128(start).addingReportingOverflow(duration)
+        guard !requested.overflow, let requestedEnd = Int64(exactly: requested.partialValue) else {
             throw NativeFailure.decodeFailed("Audio selection exceeds native frame capacity.")
         }
         let end: Int64
@@ -218,8 +238,11 @@ final class ConvertedAudioInterval {
         case .outputDuration(let limit): end = limit.map { min($0, requestedEnd) } ?? requestedEnd
         case .finite(let allowedEnd): end = allowedEnd
         }
-        let covered = Int128(max(0, end - start)) * Int128(outputRate) / Int128(source.sampleRate)
-        paddingFrames = Int(max(0, Int128(owed) - covered))
+        let covered = try product(Int128(max(0, end - start)), outputNumerator) / inputNumerator
+        guard let padding = Int(exactly: max(0, Int128(owed) - covered)) else {
+            throw NativeFailure.decodeFailed("Audio quantization padding exceeds native capacity.")
+        }
+        paddingFrames = padding
         try decoder.begin(origin: origin, at: start, end: end)
         let openedInput = ConversionInput(reader: decoder)
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)

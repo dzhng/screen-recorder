@@ -67,6 +67,7 @@ public enum CompositionAudio {
         let sourceEnd: Int64
         let project: Plan.Samples
         let inputFrames: Int64
+        let playbackRate: ExactTime
     }
     private static func retainedContexts(
         _ ranges: [Plan.Context], source: SourceTrack,
@@ -75,17 +76,17 @@ public enum CompositionAudio {
         let selected = clip.source.range!
         let sourceDuration = try selected.endUs.subtract(selected.startUs)
         let projectDuration = try clip.placement.endUs.subtract(clip.placement.startUs)
+        func product(_ a: Int128, _ b: Int128) throws -> Int128 {
+            let value = a.multipliedReportingOverflow(by: b)
+            guard !value.overflow else { throw invalid("Retiming exceeds exact arithmetic capacity.") }
+            return value.partialValue
+        }
+        let playbackRate = ExactTime(try product(sourceDuration.numerator, projectDuration.denominator),
+            try product(sourceDuration.denominator, projectDuration.numerator))
         func mapped(_ time: ExactTime) throws -> Int64 {
             let delta = try time.subtract(selected.startUs)
-            func product(_ a: Int128, _ b: Int128) throws -> Int128 {
-                let value = a.multipliedReportingOverflow(by: b)
-                guard !value.overflow else { throw invalid("Retiming exceeds exact arithmetic capacity.") }
-                return value.partialValue
-            }
-            let factor = ExactTime(try product(projectDuration.numerator, sourceDuration.denominator),
-                try product(projectDuration.denominator, sourceDuration.numerator))
-            let scaled = ExactTime(try product(delta.numerator, factor.numerator),
-                try product(delta.denominator, factor.denominator))
+            let scaled = ExactTime(try product(delta.numerator, playbackRate.denominator),
+                try product(delta.denominator, playbackRate.numerator))
             return try scaled.subtract(ExactTime(-clip.placement.startUs.numerator,
                 clip.placement.startUs.denominator)).sample(rate)
         }
@@ -125,7 +126,8 @@ public enum CompositionAudio {
                     result.append(
                         Context(
                             origin: occupied.nativeOrigin, sourceStart: sourceStart, sourceEnd: sourceEnd,
-                            project: project, inputFrames: try end.sample(rate) - start.sample(rate)))
+                            project: project, inputFrames: try end.sample(rate) - start.sample(rate),
+                            playbackRate: playbackRate))
                 }
             }
         }
@@ -417,9 +419,6 @@ public enum CompositionAudio {
                 throw invalid("Source and placement ranges must be positive.")
             }
             let retiming = !duration.equals(placementDuration)
-            if retiming && clip.pitch != "preserve" {
-                throw NativeFailure("NOT_READY", "Follow-pitch retiming is not accepted.")
-            }
             let source: SourceTrack
             if let existing = sources.opened[[assetId, streamId]] {
                 source = existing
@@ -437,12 +436,12 @@ public enum CompositionAudio {
             let contexts = try retainedContexts(clip.context, source: source, clip: clip)
             var prepared: [PreparedRetime] = []
             if retiming {
-                guard source.channels == 1 else { throw NativeFailure("NOT_READY", "Retiming requires accepted mono input.") }
+                guard clip.pitch == "follow" || source.channels == 1 else { throw NativeFailure("NOT_READY", "Pitch-preserving retiming requires accepted mono input.") }
                 for context in contexts {
-                    let key = RetimeKey(assetId: assetId, streamId: streamId, source: source, context: context)
+                    let key = RetimeKey(assetId: assetId, streamId: streamId, source: source, context: context, pitch: clip.pitch)
                     if let existing = sources.retimed[key] { prepared.append(existing) }
                     else {
-                        let run = try PreparedRetime(source: source, context: context,
+                        let run = try PreparedRetime(source: source, context: context, pitch: clip.pitch,
                             parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent(), sources: sources)
                         sources.retimed[key] = run
                         prepared.append(run)
