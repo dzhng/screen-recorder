@@ -1,13 +1,13 @@
 # 24x — Bounded project evidence continuation work
 
-Status: planned after measured public phrase-search budget failure. Dependencies: [24k](24k-routing-scale.md), [24m](24m-query-duration-memory.md).
+Status: verified scoped public checkpoint; independent root replay and review resolved. Dependencies: [24k](24k-routing-scale.md), [24m](24m-query-duration-memory.md).
 
 ## Contract and measured failure
 
 A continuation visits the clips needed for its bounded page rather than rebuilding
 all occurrences in the immutable query window. Fresh source-generation checks
 remain mandatory before reading rows and after asynchronous checkpoint publication.
-The current public250-match search over10,000 placements takes29 pages and fails
+The retained baseline public250-match search over10,000 placements takes29 pages and fails
 the existing250ms cached-query target. Measured profiling records300,000 full-window
 projections and590,000 occurrence visits for dependency deduplication per query.
 The [retained baseline](../assets/24x-evidence-continuations/README.md) separates
@@ -62,3 +62,9 @@ scope. Do not inflate scan limits, introduce unbounded cache or reinterpret the
 budget. Internal naming and page-local lookup shape are delegated. The exact named
 projection, live pin checks and initial admission limits are fixed by this plan.
 Numerical review is nonblocking; it cannot close separate audible or physical gates.
+
+The [verification packet](../assets/24x-evidence-continuations/verification.json)
+retains independent six-trial budget/memory checks, original-project exact output
+replay and measured work reduction. Scoped implementation/type/build checks and
+changed-generation race controls pass. Populated source-event scale and final
+post-cutover acceptance remain with parent24.

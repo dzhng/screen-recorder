@@ -4318,3 +4318,52 @@ capture masks internally while enforcing normalized source domains at inputs.
   decoded-audio assertions; no production processor or output setting changes.
 - **Verdict:** sound; one oracle owner prevents the two policies from drifting.
 - **Confidence:** high.
+
+## Bounded evidence continuations (2026-09-30)
+
+- **When:**24x query correction.
+- **Choice:** retain only the clips a page visits in a lookup that dies with that
+  page. When a search resumes at clip1,000, the manifest identifies its ordered
+  clips and source dependencies; the existing exact projection owner resolves
+  that named clip and any adjacent clip needed for phrase continuity. Rebuilding
+  every10,000-clip window per page repeats already settled selection work. A new
+  long-lived query cache would retain another owner and invalidation policy.
+- **Gap:** the scale plan prescribed bounded inspection without fixing the
+  lifetime of projected page data.
+- **Reach:** transcript and event mergers share the same named lookup; existing
+  immutable revision context remains bounded by its original owner. Query and
+  checkpoint formats do not change.
+- **Verdict:** sound; reuse canonical exact projection with page-local lifetime.
+- **Confidence:** high.
+
+- **When:**24x live dependency review.
+- **Choice:** the immutable manifest supplies which unique sources to check, never
+  their current status. If a later source changes while an earlier word page is
+  being published, fresh checks of every manifest source reject the page. Checking
+  only the sources visited on that page would return a continuation already tied
+  to stale evidence. Expected generation pins can be hashed once per read, while
+  actual source status and project existence are checked both before merging and
+  after asynchronous publication.
+- **Gap:** avoiding repeated selection discovery could have been misread as
+  permission to reuse readiness or generation values.
+- **Reach:** immutable revision identity does not eliminate live dependency races
+  or deletion; all evidence domains inherit this rule.
+- **Verdict:** sound; keeps recovery and refusal behavior while removing repeated
+  occurrence deduplication.
+- **Confidence:** high.
+
+- **When:**24x public search measurement.
+- **Choice:** measure search with the existing authored word cohort and allow
+  empty bounded-scan pages to advance by checkpoint. The fixture selects every
+  fifth clip containing the literal word“so” to form250 independently expected
+  matches. Its100-page harness ceiling catches pathological nonprogress; it does
+  not change the product scan limit, cached250ms target or returned-row contract.
+  CLI and native-call checks run before the latency assertion so a slow correct
+  result retains its full correctness evidence.
+- **Gap:** the prior runner measured word reads, whose pages were nonempty, rather
+  than sparse phrase matches requiring many more continuations.
+- **Reach:** query-family measurements share source/clock oracles while retaining
+  their distinct output shapes and page behavior.
+- **Verdict:** sound; stronger cursor-value checks preserve the actual continuation
+  contract without relaxing the performance gate.
+- **Confidence:** high.

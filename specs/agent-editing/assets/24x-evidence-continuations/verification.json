@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "integrationCommit": "51bf9fff",
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "rootHarnessSha256": "1503b7564d5c754d07e799ea38333f18ca08caae2028b99171bf7ba7a3a0a932",
+  "controls": {
+    "occurrences": 10000,
+    "clipUs": 320000,
+    "rowsPerQuery": 250,
+    "repeats": 20,
+    "trialsPerDuration": 3
+  },
+  "rootCachedP95Ms": [
+    175.113875,
+    171.2933749999993,
+    171.05650000000242,
+    178.98454199999833,
+    171.42050000000017,
+    170.33166699999856
+  ],
+  "implementationCachedP95Ms": [
+    225.73533299999963,
+    207.16383399999904,
+    203.3081250000032,
+    205.57587500000227,
+    231.3227079999997,
+    224.54899999999907
+  ],
+  "rootMemoryComparison": {
+    "twoHourMedianPeakBytes": 423149568,
+    "fourHourMedianPeakBytes": 423264256,
+    "twoHourMedianGrowthBytes": 298418176,
+    "fourHourMedianGrowthBytes": 298713088,
+    "peakRatio": 1.000271034189027,
+    "growthRatio": 1.000988250796091
+  },
+  "implementationMemoryComparison": {
+    "twoHourMedianPeakBytes": 415989760,
+    "fourHourMedianPeakBytes": 425197568,
+    "twoHourMedianGrowthBytes": 291946496,
+    "fourHourMedianGrowthBytes": 301088768,
+    "peakRatio": 1.0221346987002757,
+    "growthRatio": 1.031314888602054
+  },
+  "sameRetainedProject": {
+    "cachedP95Ms": 216.30304199999955,
+    "exactOriginal250MatchBytes": true,
+    "rowsSha256": "8157a6f73da72b3e39f1755fc8da37ca87d44e5c7549284cb2ca847f0cc01d86",
+    "actualCountersPerQuery": {
+      "plannedOccurrences": 10000,
+      "dependencySelectionVisits": 59,
+      "acquiredBytes": 22066394,
+      "namedClipProjections": 1275,
+      "sourceRows": 1247
+    },
+    "profiledMedianTotals": {
+      "plan.projectionWindow": {
+        "calls": 1,
+        "totalMs": 8.442709000000832
+      },
+      "plan": {
+        "calls": 1,
+        "totalMs": 11.724207999999635
+      },
+      "dependencies": {
+        "calls": 59,
+        "totalMs": 5.569999000008465
+      },
+      "acquire": {
+        "calls": 57,
+        "totalMs": 28.639208000005965
+      },
+      "pagePlan": {
+        "calls": 29,
+        "totalMs": 0.6728749999965657
+      },
+      "page.namedInverse": {
+        "calls": 1275,
+        "totalMs": 2.7738579999659123
+      },
+      "merge.sourcePage": {
+        "calls": 1247,
+        "totalMs": 77.06661900000108
+      },
+      "mergeTranscript": {
+        "calls": 29,
+        "totalMs": 84.77970600000481
+      },
+      "publish": {
+        "calls": 29,
+        "totalMs": 28.153541999996378
+      },
+      "read": {
+        "calls": 29,
+        "totalMs": 163.23883299999943
+      }
+    },
+    "allUniqueSourcePinsFreshBeforeAndAfter": true,
+    "noInferenceOrDecodeDuringQuery": true
+  },
+  "completeRowsClocksIdentitiesConfidenceAndCLIParity": true,
+  "unchangedBudgetMs": 250,
+  "raceMutationsFail": true,
+  "wrongClockControlFails": true,
+  "rootFocusedTests": 39,
+  "implementationFocusedRelatedTests": 48,
+  "scope": "Project evidence continuation work and cached250-match phrase search; sampledserviceRSS atsame10koccurrences across2h/4h. Notrecognitionquality or finalpostcutoveracceptance."
+}

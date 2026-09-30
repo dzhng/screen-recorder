@@ -1,5 +1,9 @@
 # Integrated evidence index
 
+- [Bounded evidence continuations](24x-evidence-continuations/README.md) preserve
+  complete phrase matches and live source pins while passing unchanged search
+  latency/memory budgets. Populated source-event scale remains separate.
+
 - [Transcript duration memory](24-transcript-duration/README.md) passes matched
   two-/four-hour service-memory and cached250-word read checks. Frozen words
   isolate query work; phrase-search throughput and inference quality remain separate.

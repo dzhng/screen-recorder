@@ -14,3 +14,24 @@ reads are inside merging. Counters are measured, not inferred from source. The
 profile's pass means hooks and values agree; it does not mean the latency budget
 passes. The owning24x slice carries implementation and acceptance. No playback,
 model preparation or product telemetry endpoint was used.
+
+The [verification](verification.json) records unchanged-budget red/green results
+and independent root replay. The original retained project returns exactly the
+same complete250-match bytes. Named clip projection uses the existing exact
+inverse owner; each page checks all unique source generations before reading
+and after checkpoint publication. Initial occurrence/source limits remain in
+manifest creation, and per-page scan limits stay unchanged. Page memoization
+dies with the page; no persistent cache, schema, endpoint or dependency was added.
+
+[Implementation verification](implementation-verification.tar.gz) retains focused
+tests, all types/builds, race mutations/restoration, reviews and final source.
+The [harness red](harness-red.tar.gz) preserves the old public budget failure and
+wrong-clock control; [harness green](harness-green.tar.gz) preserves all six new
+trials. [Root retained replay](root-retained-evidence.tar.gz) retains authenticated
+hooks and full original-project pages; [root duration trials](root-duration-evidence.tar.gz)
+retain all six independent measurements and focused checks. Timings vary with
+hardware/load and do not promise universal latency.
+
+The parent scale contract still requires populated source-event duration evidence
+and final post-cutover acceptance. Existing scene/capture correctness and separate
+listening/physical gates remain with their owners.

@@ -1,12 +1,24 @@
 {
   "files": {
     "README.md": {
-      "bytes": 1045,
-      "sha256": "50483ee5add6b218ce78c568edc4a28532cdc4003386e098ae0dfa8ddb8a53c5"
+      "bytes": 2445,
+      "sha256": "b791b43486cd6d854d57374ac94bb53ec273e08226452b828ce74394c353f8dc"
     },
     "baseline.json": {
       "bytes": 1536,
       "sha256": "670b5706b6c9347cb32f555e7fac07a0cdb692f8e0b02ea6062b2cebe4585159"
+    },
+    "harness-green.tar.gz": {
+      "bytes": 166669,
+      "sha256": "1179c0607c6c39e04255405898cc8caa28e72faa735f7ec6ff4f284fc096aca2"
+    },
+    "harness-red.tar.gz": {
+      "bytes": 40818,
+      "sha256": "5ba8a1a361244c01b716dbbc61ee5b6d94e4dc7035f73bc5f7d6dd453946c3aa"
+    },
+    "implementation-verification.tar.gz": {
+      "bytes": 35405,
+      "sha256": "78ec80025461691b78945b5a945d913243d70f2dd7ccd483ace1484e1d6467f8"
     },
     "profile-evidence.tar.gz": {
       "bytes": 88000,
@@ -15,6 +27,18 @@
     "red-evidence.tar.gz": {
       "bytes": 339102,
       "sha256": "35ae081cf6eb390255e1190903772b1a72436bc1915ffe7933214d80c28998b6"
+    },
+    "root-duration-evidence.tar.gz": {
+      "bytes": 199792,
+      "sha256": "f31c32c2ae8b6a45e91ee48f9ae33fcb2077f9acdcdd096d3bea790088a6d827"
+    },
+    "root-retained-evidence.tar.gz": {
+      "bytes": 215198,
+      "sha256": "17db8d1dbafc394464fc14e4e0b442a6d6233a04af90bf5677aafd693aa2edff"
+    },
+    "verification.json": {
+      "bytes": 3132,
+      "sha256": "75dc08c48467704121365a59f315d2e1d5b2b7b51ed199a3069284a2fa27e809"
     }
   }
 }
