@@ -26,9 +26,6 @@ quantized physical timestamps. Use the existing ExactTime arithmetic owner; avoi
 requiring the requested rational to fit CMTime merely to compare it with decoded
 sample support. Decoder seeks may start earlier without changing selection.
 
-Pointer steps outside their authored processing windows must produce neither a
-visual operation nor a preparation dependency. Reuse temporalProcessing active
-ranges for bounded dependency admission, rather than scanning every frame.
 Pointer dependencies and presentation membership use exact time. Cursor event
 records retain their integer observation clock; floor only that observation cutoff,
 after exact source-to-capture mapping. Requested-source receipt checks use rational
