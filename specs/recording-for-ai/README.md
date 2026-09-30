@@ -1,6 +1,6 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Status: spec complete; implementation partial. Last updated: 2026-09-30.
 Everything the personal release needs is implemented and has run end to end on this person's own
 narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
 What remains is acceptance that needs either a person at the Mac or a physical condition a check
@@ -17,7 +17,9 @@ The [populated source-event duration check](../agent-editing/slices/24y-source-e
 also passes its isolated query gates. The new editor’s current pickup is the
 remaining ambience/label and broader quality evidence before physical capture
 acceptance and cutover. Its [latest user review](../agent-editing/assets/listening-review-2026-09-30.md)
-accepts the exact three contextual auditions but rejects the pause as speech-free. Its [processing contract](../agent-editing/processing.md) includes the accepted
+accepts the exact three contextual auditions but rejects the pause as speech-free.
+The editor now has an [earlier room-tone loop candidate](../agent-editing/assets/19-clean-roomtone/README.md)
+ready for listening; its fixed reference-speech reproduction gate is accepted. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is

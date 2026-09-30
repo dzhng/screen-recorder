@@ -4443,3 +4443,35 @@ capture masks internally while enforcing normalized source domains at inputs.
 - **Verdict:** sound; distinguishes acceptance of particular delivered replacements
   from approval of a reusable background source without weakening either contract.
 - **Confidence:** high.
+
+## Earlier room-tone candidate (2026-09-30)
+
+- **When:** real pause review after the user heard a voice blip in the old source.
+- **Choice:** retain an earlier half-second as a separate candidate, keeping accepted
+  replacements intact. The reported blip is about1.05–1.2 seconds into the pause.
+  This review takes0.3–0.8 seconds, repeats it with explicit overlapping fades and
+  asks the listener whether it contains speech or noticeable seams. The alternative
+  would modify the already accepted voice edits or assume that a quiet region is
+  clean without hearing it.
+- **Gap:** the user's approximate location does not supply a precise clean interval.
+- **Reach:** this window is a reversible audition proposal, never automatic ambience
+  selection. Its own speech-free and loop verdict must pass before reuse; original
+  recordings and accepted replacements keep their identities.
+- **Verdict:** sound; makes the rejected source-region gate concretely reviewable
+  without claiming unheard quality or changing accepted media.
+- **Confidence:** medium.
+
+## Louder ambience monitoring copy (2026-09-30)
+
+- **When:** the user could barely hear the normal-level pause.
+- **Choice:** add a labeled+24dB listening copy through the ordinary output gain
+  processor. This makes quiet background and any leaked voice easier to notice,
+  while preserving a separate normal-level loop. Undo returns the normal loop
+  exactly. The alternative would ask the user to judge nearly inaudible audio or
+  silently change the gain used in real voice edits.
+- **Gap:** the plan specifies no listening-monitor volume for quiet ambience.
+- **Reach:** the louder copy is diagnostic only; it does not normalize source audio,
+  choose a production room-tone level or replace the accepted contextual outputs.
+- **Verdict:** sound; gain is explicit, unclipped and reversible, with both levels
+  retained and perceptual acceptance still separate.
+- **Confidence:** high.

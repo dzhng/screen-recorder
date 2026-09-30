@@ -1,0 +1,679 @@
+{
+  "passed": true,
+  "listening": "pending",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.extract",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "deliveries": {
+    "source-region": {
+      "sha256": "adeda280ae0359de7aa624c52600c92572b9fd89434a0277731c2339d9c9e8d1",
+      "pcmSha256": "85ef95a28c52837792db9367b1473318a9fcf048ebb0d3b65ae990ae33160377",
+      "sampleRate": 24000,
+      "channels": 1,
+      "frames": 12000,
+      "mcpMatchesCLI": true
+    },
+    "source-region-stereo": {
+      "sha256": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+      "pcmSha256": "5a38eaa64fffa07e51ace1ca7b6c1ac21bfbfa3b831fcad2c23f0dda523415f3",
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 24000,
+      "mcpMatchesCLI": true
+    },
+    "loop": {
+      "sha256": "1619ff735b564740fb58f7b546f928853515e93c7cb2e8aa9e3daa3e12344dec",
+      "pcmSha256": "99d0dec7f70f9648382982838741668b56d4d50aa58634301a81a98397d28b44",
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 288000,
+      "mcpMatchesCLI": true
+    },
+    "loop-monitor-plus24db": {
+      "sha256": "23bbe8eebcb57f8410daefb1ba2418621abac20ae473bf3710c79b598b3d5493",
+      "pcmSha256": "110ca89bd7588341958b514cd30178b7a9724ac1576c8f4686ddc1e00eeac4a0",
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 288000,
+      "mcpMatchesCLI": true
+    },
+    "loop-undo-gain": {
+      "sha256": "1619ff735b564740fb58f7b546f928853515e93c7cb2e8aa9e3daa3e12344dec",
+      "pcmSha256": "99d0dec7f70f9648382982838741668b56d4d50aa58634301a81a98397d28b44",
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 288000,
+      "mcpMatchesCLI": true
+    }
+  },
+  "source": {
+    "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice-roomtone/pause.wav",
+    "sha256": "00b967c105e8acb9bbcf867439cdaf4301bf2d906801d9d1dbb2529f32b79658",
+    "range": {
+      "startUs": 300000,
+      "endUs": 800000
+    },
+    "originalTimelineRangeUs": [
+      66500000,
+      67000000
+    ],
+    "sourceOriginUs": 48675
+  },
+  "workerSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "assemblerSha256": "8c6178984e582f337677ceeec8882d99172a8da57fc77545dcad3f49c7414f7b",
+  "scope": "Earlier real-pause candidate and explicit public loop. Speech-free quality and loop naturalness require listening. Diagnostic gain does not change the accepted voice contexts or set a product default.",
+  "extraction": {
+    "assetId": "00b967c105e8acb9bbcf867439cdaf4301bf2d906801d9d1dbb2529f32b79658",
+    "streamId": "track:1",
+    "range": {
+      "startUs": 300000,
+      "endUs": 800000
+    },
+    "rendition": {
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "state": "ready",
+    "jobId": "fd34a94b-8653-496f-9cf6-519bf85f683c",
+    "reason": null,
+    "retryable": false,
+    "published": {
+      "generation": 1,
+      "excerpt": {
+        "assetId": "adeda280ae0359de7aa624c52600c92572b9fd89434a0277731c2339d9c9e8d1",
+        "streamId": "track:1",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 12000,
+        "durationUs": 500000,
+        "origin": {
+          "kind": "extraction",
+          "selection": {
+            "kind": "source",
+            "assetId": "00b967c105e8acb9bbcf867439cdaf4301bf2d906801d9d1dbb2529f32b79658",
+            "streamId": "track:1",
+            "range": {
+              "startUs": 300000,
+              "endUs": 800000
+            },
+            "sampleRange": {
+              "start": 7200,
+              "end": 19200
+            },
+            "supportDigest": "44e14f9364fdd4cd4e9545b286667313cc7bac6567d7eb32a1e135c66ec72e0e",
+            "unavailable": []
+          },
+          "selectionImplementationId": "native-source-audio-v5",
+          "input": {
+            "sampleRate": 24000,
+            "channels": 1,
+            "frames": 12000
+          },
+          "output": {
+            "sampleRate": 24000,
+            "channels": 1,
+            "frames": 12000
+          },
+          "conversion": {
+            "implementationId": "native-finite-pcm-v1",
+            "channelPolicy": "preserve",
+            "contextPolicy": "complete-selected-pcm-zero-origin"
+          }
+        }
+      }
+    }
+  },
+  "conversion": {
+    "assetId": "adeda280ae0359de7aa624c52600c92572b9fd89434a0277731c2339d9c9e8d1",
+    "streamId": "track:1",
+    "rendition": {
+      "sampleRate": 48000,
+      "channels": 2
+    },
+    "state": "ready",
+    "jobId": "e5b687cd-453c-4823-984d-6f97eedb3269",
+    "reason": null,
+    "retryable": false,
+    "published": {
+      "generation": 1,
+      "excerpt": {
+        "assetId": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+        "streamId": "track:1",
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 24000,
+        "durationUs": 500000,
+        "origin": {
+          "kind": "extraction",
+          "selection": {
+            "kind": "source",
+            "assetId": "adeda280ae0359de7aa624c52600c92572b9fd89434a0277731c2339d9c9e8d1",
+            "streamId": "track:1",
+            "range": {
+              "startUs": 0,
+              "endUs": 500000
+            },
+            "sampleRange": {
+              "start": 0,
+              "end": 12000
+            },
+            "supportDigest": "4d8ecd46db05e8411be1a594997b56e470f86151fa31399f1fc632931abe60b6",
+            "unavailable": []
+          },
+          "selectionImplementationId": "verified-whole-source-v1",
+          "input": {
+            "sampleRate": 24000,
+            "channels": 1,
+            "frames": 12000
+          },
+          "output": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 24000
+          },
+          "conversion": {
+            "implementationId": "native-finite-pcm-v1",
+            "channelPolicy": "duplicate",
+            "contextPolicy": "complete-selected-pcm-zero-origin"
+          }
+        }
+      }
+    }
+  },
+  "checks": {
+    "selectedSourcePCMExact": true,
+    "immutableSource": true,
+    "occurrences": [
+      {
+        "startUs": 0,
+        "endUs": 500000
+      },
+      {
+        "startUs": 450000,
+        "endUs": 950000
+      },
+      {
+        "startUs": 900000,
+        "endUs": 1400000
+      },
+      {
+        "startUs": 1350000,
+        "endUs": 1850000
+      },
+      {
+        "startUs": 1800000,
+        "endUs": 2300000
+      },
+      {
+        "startUs": 2250000,
+        "endUs": 2750000
+      },
+      {
+        "startUs": 2700000,
+        "endUs": 3200000
+      },
+      {
+        "startUs": 3150000,
+        "endUs": 3650000
+      },
+      {
+        "startUs": 3600000,
+        "endUs": 4100000
+      },
+      {
+        "startUs": 4050000,
+        "endUs": 4550000
+      },
+      {
+        "startUs": 4500000,
+        "endUs": 5000000
+      },
+      {
+        "startUs": 4950000,
+        "endUs": 5450000
+      },
+      {
+        "startUs": 5400000,
+        "endUs": 5900000
+      },
+      {
+        "startUs": 5850000,
+        "endUs": 6000000
+      }
+    ],
+    "fades": [
+      {
+        "i": 0,
+        "range": {
+          "startUs": 0,
+          "endUs": 10000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 0,
+        "range": {
+          "startUs": 450000,
+          "endUs": 500000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 1,
+        "range": {
+          "startUs": 450000,
+          "endUs": 500000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 1,
+        "range": {
+          "startUs": 900000,
+          "endUs": 950000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 2,
+        "range": {
+          "startUs": 900000,
+          "endUs": 950000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 2,
+        "range": {
+          "startUs": 1350000,
+          "endUs": 1400000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 3,
+        "range": {
+          "startUs": 1350000,
+          "endUs": 1400000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 3,
+        "range": {
+          "startUs": 1800000,
+          "endUs": 1850000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 4,
+        "range": {
+          "startUs": 1800000,
+          "endUs": 1850000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 4,
+        "range": {
+          "startUs": 2250000,
+          "endUs": 2300000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 5,
+        "range": {
+          "startUs": 2250000,
+          "endUs": 2300000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 5,
+        "range": {
+          "startUs": 2700000,
+          "endUs": 2750000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 6,
+        "range": {
+          "startUs": 2700000,
+          "endUs": 2750000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 6,
+        "range": {
+          "startUs": 3150000,
+          "endUs": 3200000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 7,
+        "range": {
+          "startUs": 3150000,
+          "endUs": 3200000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 7,
+        "range": {
+          "startUs": 3600000,
+          "endUs": 3650000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 8,
+        "range": {
+          "startUs": 3600000,
+          "endUs": 3650000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 8,
+        "range": {
+          "startUs": 4050000,
+          "endUs": 4100000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 9,
+        "range": {
+          "startUs": 4050000,
+          "endUs": 4100000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 9,
+        "range": {
+          "startUs": 4500000,
+          "endUs": 4550000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 10,
+        "range": {
+          "startUs": 4500000,
+          "endUs": 4550000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 10,
+        "range": {
+          "startUs": 4950000,
+          "endUs": 5000000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 11,
+        "range": {
+          "startUs": 4950000,
+          "endUs": 5000000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 11,
+        "range": {
+          "startUs": 5400000,
+          "endUs": 5450000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 12,
+        "range": {
+          "startUs": 5400000,
+          "endUs": 5450000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 12,
+        "range": {
+          "startUs": 5850000,
+          "endUs": 5900000
+        },
+        "from": 1,
+        "to": 0
+      },
+      {
+        "i": 13,
+        "range": {
+          "startUs": 5850000,
+          "endUs": 5900000
+        },
+        "from": 0,
+        "to": 1
+      },
+      {
+        "i": 13,
+        "range": {
+          "startUs": 5990000,
+          "endUs": 6000000
+        },
+        "from": 1,
+        "to": 0
+      }
+    ],
+    "maxSampleError": 4.967053851556713e-10,
+    "diagnosticGainDb": 24,
+    "diagnosticPeak": 0.11394302546977997,
+    "maxGainError": 7.450580596923828e-9,
+    "undoGainExact": true,
+    "speechFree": "pending independent listening",
+    "loopNaturalness": "pending independent listening"
+  }
+}
