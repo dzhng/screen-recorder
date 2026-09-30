@@ -3,6 +3,21 @@
 #include <algorithm>
 #include <cmath>
 
+extern "C" ScreenrecStretchStatus screenrec_stretch_validate(
+    int32_t inputFrames, int32_t outputFrames, int32_t channels) {
+  if (inputFrames < 1 || outputFrames < 1 || (channels != 1 && channels != 2))
+    return SCREENREC_STRETCH_INVALID;
+  if (inputFrames == outputFrames) return SCREENREC_STRETCH_OK;
+  try {
+    screenrec::ExactProcessor stretch(0);
+    screenrec::configureExact(stretch, channels);
+    return screenrec::admitsExact(stretch, inputFrames, outputFrames)
+      ? SCREENREC_STRETCH_OK : SCREENREC_STRETCH_UNSUPPORTED;
+  } catch (...) {
+    return SCREENREC_STRETCH_FAILED;
+  }
+}
+
 extern "C" ScreenrecStretchStatus screenrec_stretch_exact(
     const float *input, int32_t inputFrames, float *output, int32_t outputFrames) {
   if (!input || !output || inputFrames < 1 || outputFrames < 1) return SCREENREC_STRETCH_INVALID;

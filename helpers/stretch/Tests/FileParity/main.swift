@@ -5,6 +5,36 @@ import ScreenRecorderStretch
 // Offline caller proof: scratch output is removed on failure, linked only on success.
 func run() throws {
   let args = CommandLine.arguments
+  if args.count == 2 && args[1] == "--admission" {
+    for channels in [1, 2] {
+      // The neighboring short counts pin upstream's truncated seek, not a duration floor.
+      for (input, output) in [(1, 1), (Int(Int32.max), Int(Int32.max)), (5183, 6480),
+          (60474, 75592), (60474, 67193), (60474, 48379)] {
+        try SignalsmithProcessor.validate(inputFrames: input, outputFrames: output, sampleRate: 48000, channels: channels)
+      }
+      for (input, output, failure) in [(0, 1, SignalsmithProcessor.Failure.invalidCount),
+          (1, 0, .invalidCount), (Int(Int32.max) + 1, 1, .invalidCount),
+          (1, 2, .unsupportedSelection), (2880, 2881, .unsupportedSelection), (5182, 6480, .unsupportedSelection),
+          (Int(Int32.max), 1, .unsupportedSelection)] {
+        do {
+          try SignalsmithProcessor.validate(inputFrames: input, outputFrames: output, sampleRate: 48000, channels: channels)
+          throw ProofFailure.unexpectedAdmission
+        } catch let error as SignalsmithProcessor.Failure {
+          guard error == failure else { throw error }
+        }
+      }
+    }
+    for (rate, channels) in [(44100, 1), (48000, 0), (48000, 3)] {
+      do {
+        try SignalsmithProcessor.validate(inputFrames: 12000, outputFrames: 14000, sampleRate: rate, channels: channels)
+        throw ProofFailure.unexpectedAdmission
+      } catch let error as SignalsmithProcessor.Failure {
+        guard error == .unsupportedFormat else { throw error }
+      }
+    }
+    print("PASS metadata-only admission: accepted counts, short selection, overflow, identity and formats")
+    return
+  }
   if args.count == 2 && args[1] == "--contracts" {
     let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
@@ -85,4 +115,4 @@ do { try run() } catch {
   FileHandle.standardError.write(Data("\(error)\n".utf8))
   exit(1)
 }
-enum ProofFailure: Error { case arguments, input, output, acceptedInvalidDescriptor }
+enum ProofFailure: Error { case arguments, input, output, acceptedInvalidDescriptor, unexpectedAdmission }

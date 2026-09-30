@@ -12,6 +12,9 @@ typedef enum {
   SCREENREC_STRETCH_CANCELLED = 5,
   SCREENREC_STRETCH_IO = 6
 } ScreenrecStretchStatus;
+// Count/channel admission for the fixed recipe, without PCM or file access.
+// Success does not validate sample finiteness or the caller's descriptors.
+ScreenrecStretchStatus screenrec_stretch_validate(int32_t inputFrames, int32_t outputFrames, int32_t channels);
 ScreenrecStretchStatus screenrec_stretch_exact(const float *input, int32_t inputFrames, float *output, int32_t outputFrames);
 // Mono/stereo interleaved 48k native Float32. Input is an immutable readable
 // regular file. Offsets and counts address frames, not channel samples.

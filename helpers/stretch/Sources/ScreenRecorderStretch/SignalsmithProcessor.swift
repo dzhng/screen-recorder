@@ -6,6 +6,14 @@ public enum SignalsmithProcessor {
     case unsupportedFormat, invalidCount, unsupportedSelection, nonfinite, processingFailed, ioFailed
   }
 
+  /// Checks exact recipe admission without decoding, reading PCM, or creating output.
+  public static func validate(inputFrames: Int, outputFrames: Int, sampleRate: Int, channels: Int) throws {
+    guard sampleRate == 48_000, channels == 1 || channels == 2 else { throw Failure.unsupportedFormat }
+    guard inputFrames > 0, inputFrames <= Int(Int32.max),
+      outputFrames > 0, outputFrames <= Int(Int32.max) else { throw Failure.invalidCount }
+    try requireSuccess(screenrec_stretch_validate(Int32(inputFrames), Int32(outputFrames), Int32(channels)))
+  }
+
   /// Preserves the frozen research domain, not a product duration policy.
   /// Cancellation is observed around the synchronous upstream call, never inside it.
   public static func process(

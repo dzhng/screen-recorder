@@ -1,0 +1,7 @@
+{
+  "mutation": "admit every positive nonidentity count after format checks",
+  "buildExitCode": 0,
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "unexpectedAdmission\n"
+}

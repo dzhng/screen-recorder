@@ -1,7 +1,8 @@
 # Frozen stretch parity adapter
 
-This isolated package preserves the selected mono48k Float32 Signalsmith recipe.
-It is not an app dependency or advertised retime capability. One vendored header
+This package preserves the selected48k Float32 Signalsmith recipe. Native
+composition consumes its file seam; public retime capability remains separately
+verified in slice14. One vendored header
 owner serves both this package and the unchanged research C++ reference; the
 manifest pins source and license identities. Historical evidence keeps original
 paths, while research runners point to this relocated owner.
@@ -12,6 +13,12 @@ including its output seek and reflected-tail endpoint shaping. Unsupported count
 return an error; upstream's zeroed failure buffer never becomes a successful result.
 No wrapper crop, crossfade, surrounding real context or automatic short preset is
 introduced. Numerical parity does not establish speech quality.
+
+Metadata-only `SignalsmithProcessor.validate` uses the same frozen configuration,
+representable-seek guard and upstream short-input predicate as execution. Equal
+counts retain the exact identity bypass. Admission takes actual resolved run
+counts/channels; it neither reads samples nor proves their finiteness or file
+availability. Those remain execution checks.
 
 The array seam retains the original60s research domain. Production preparation can
 use the isolated [file seam](Sources/ScreenRecorderStretch/SignalsmithProcessor.swift):

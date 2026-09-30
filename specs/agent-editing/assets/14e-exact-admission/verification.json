@@ -1,0 +1,40 @@
+{
+  "admission": "PASS identity, accepted counts, adjacent short boundary, overflow and formats",
+  "restoredAfterMutation": true,
+  "regressions": {
+    "mono": {
+      "checks": 34,
+      "path": "/tmp/screenrec-admission-mono-proof/report.json",
+      "reportSha256": "61421fc73f3fc920a1ce589facfe48fb90103e98843ffdfa86422b395bd2c174",
+      "workerSha256": "8a41ab74c5dad045c5d3570b1d56ce2036c7d3ec26de0897e07fe6c07fa82d2e"
+    },
+    "stereo": {
+      "checks": 23,
+      "path": "/tmp/screenrec-admission-stereo-proof/report.json",
+      "reportSha256": "cfe80b1e40e92da657e1e1404e4da92355a8bae9fc2db36458bc6cf2792b31cb",
+      "workerSha256": "8a41ab74c5dad045c5d3570b1d56ce2036c7d3ec26de0897e07fe6c07fa82d2e"
+    }
+  },
+  "sources": [
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Exact.h",
+      "sha256": "4473a533c357299d02133cdb20a7c049929a212446a781f5d28f0a88936df8f7"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp",
+      "sha256": "37a6e79a905bb4be070d4f0cea80e621f283e1b26d8235d5d4305180400b6658"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h",
+      "sha256": "383a81f0fc696f5d0182eb7db2f9ec1f0c0494fbd2a9b4fe223422ea1682a5bd"
+    },
+    {
+      "path": "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift",
+      "sha256": "2b7046811a16f66ebfe7e6b82b9aea99c4ba025b5060efac174eb4f354bf9e13"
+    },
+    {
+      "path": "helpers/stretch/Tests/FileParity/main.swift",
+      "sha256": "61f504ef2088e477d7b104d71df69a9c8b3f537edee2d27f719e5cbfb63bc038"
+    }
+  ]
+}
