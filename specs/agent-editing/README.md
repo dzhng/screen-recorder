@@ -17,31 +17,20 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: diagnose and repair candidate timing/decoding exposed by the real
-[screen/camera fixture](../../fixtures/screen-camera-timing/README.md). The user
-authorized capture and fixture retention, then shortened the requested take to
-roughly200seconds. Recording is stopped and originals are retained. Ordinary
-import of camera, screen and microphone plus sampled frame/audio decoding passes;
-[the evidence](assets/20-physical-import/README.md) separates that result from
-unfinished canonical recovery and physical synchronization. Reuse this take;
-do not ask the user to hold the phone again for these code fixes. Capture-pause-recovery
-owns the bounded recovery diagnosis. [Graceful stop wiring](assets/20e-selected-device-probe/graceful-stop/README.md)
-is integrated and offline-verified; its shutdown fallback and physical recovery
-remain unverified. The saved candidate has a real mapped-timestamp divergence at
-ordinal3181; independent reading completes, so an EOF-only hang is not established.
-[Local splice controls](assets/20e-selected-device-probe/local-splice/README.md)
-reproduce the extra picture with only two occupied ranges. The sample-copy
-alternative loses a requested picture and is not adopted. Subsequent
-[writer/reader controls](assets/20e-selected-device-probe/recovery-reader/README.md)
-show direct copying preserves a tiny case, but full-take candidates fail storage or
-decoding. No exporter or reader change is adopted. Next reduce the known stalled
-five-picture neighborhood into a fresh tiny movie, preserving exact picture
-identity and timing; ordinary source/render usability must also pass. [Saved physical-event analysis](assets/20-physical-sync/README.md)
-finds corresponding flashes/beeps but cannot establish the one-frame bound:
-clear camera visibility covers only70seconds and detector uncertainty is larger
-than the bound. This remains separate from the recoverable export defect.
-Remaining speech/stretch
-acceptance and downstream webcam integration retain their existing scope.
+Current pickup: implement [ordered camera acquisition and native display support](slices/20e2-camera-presentation.md).
+The real take exposed thousands of valid forward callbacks rejected because their
+nominal durations overlapped the next timestamp. Correct this upstream loss and
+the unsupported per-callback gap inference before further writer experiments.
+Capture-pause-recovery owns the existing seam. Originals remain in
+[fixtures](../../fixtures/screen-camera-timing/README.md); their already rejected
+pixels cannot be reconstructed. No new capture is authorized or needed for this
+code correction. [Graceful stop](assets/20e-selected-device-probe/graceful-stop/README.md)
+is offline-verified; [ordinary import](assets/20-physical-import/README.md) passes.
+The [failed recovery controls](assets/20e-selected-device-probe/recovery-reader/README.md)
+remain preserved; no alternate writer or reader is adopted.
+[Physical-event analysis](assets/20-physical-sync/README.md) does not establish the
+one-frame bound or whole-take camera coverage. Remaining speech/stretch acceptance,
+webcam integration and installed cutover retain their full scope.
 
 The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
 is integrated: the unchanged 500-operation request now completes in 281 ms with exact
@@ -227,6 +216,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [x] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
+- [ ] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)

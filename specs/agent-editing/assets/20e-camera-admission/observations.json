@@ -1,0 +1,219 @@
+{
+  "source": "fixtures/screen-camera-timing/timestamps.jsonl",
+  "dispositions": {
+    "accepted": 4502,
+    "overlapping-or-reordered": 2957
+  },
+  "overlapUsHistogram": {
+    "16670": 1,
+    "10": 2933,
+    "32170": 1,
+    "16280": 1,
+    "400": 1,
+    "20": 8,
+    "330": 1,
+    "190": 1,
+    "780": 1,
+    "30": 4,
+    "40": 1,
+    "370": 1,
+    "560": 1,
+    "540": 1,
+    "10/3": 1
+  },
+  "forwardRejected": 2956,
+  "examples": [
+    {
+      "previousAccepted": {
+        "rawPTS": {
+          "value": 1522665344,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "duration": {
+          "value": 3334,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "generation": "641997B7-9343-403F-B832-6A9EA3CA76D3",
+        "sourceUs": 16391543,
+        "disposition": "accepted",
+        "arrivalHostUs": 15226715200,
+        "role": "camera",
+        "relativeRate": 1,
+        "cameraFrame": {
+          "ordinal": 221,
+          "start": {
+            "value": 16391543,
+            "epoch": 0,
+            "timescale": 1000000
+          },
+          "end": {
+            "value": 16424883,
+            "epoch": 0,
+            "timescale": 1000000
+          }
+        },
+        "clockDomain": "camera-session",
+        "convertedHostPTS": {
+          "value": 1522665344,
+          "epoch": 0,
+          "timescale": 100000
+        }
+      },
+      "rejected": {
+        "rawPTS": {
+          "value": 1522668677,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "duration": {
+          "value": 3333,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "generation": "641997B7-9343-403F-B832-6A9EA3CA76D3",
+        "disposition": "overlapping-or-reordered",
+        "arrivalHostUs": 15226749964,
+        "role": "camera",
+        "relativeRate": 1,
+        "clockDomain": "camera-session",
+        "convertedHostPTS": {
+          "value": 1522668677,
+          "epoch": 0,
+          "timescale": 100000
+        }
+      },
+      "overlapUs": "10"
+    },
+    {
+      "previousAccepted": {
+        "rawPTS": {
+          "value": 1522672011,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "duration": {
+          "value": 3334,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "generation": "641997B7-9343-403F-B832-6A9EA3CA76D3",
+        "sourceUs": 16458213,
+        "disposition": "accepted",
+        "arrivalHostUs": 15226785702,
+        "role": "camera",
+        "relativeRate": 1,
+        "cameraFrame": {
+          "ordinal": 222,
+          "start": {
+            "value": 16458213,
+            "epoch": 0,
+            "timescale": 1000000
+          },
+          "end": {
+            "value": 16491553,
+            "epoch": 0,
+            "timescale": 1000000
+          }
+        },
+        "clockDomain": "camera-session",
+        "convertedHostPTS": {
+          "value": 1522672011,
+          "epoch": 0,
+          "timescale": 100000
+        }
+      },
+      "rejected": {
+        "rawPTS": {
+          "value": 1522675344,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "duration": {
+          "value": 3333,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "generation": "641997B7-9343-403F-B832-6A9EA3CA76D3",
+        "disposition": "overlapping-or-reordered",
+        "arrivalHostUs": 15226816848,
+        "role": "camera",
+        "relativeRate": 1,
+        "clockDomain": "camera-session",
+        "convertedHostPTS": {
+          "value": 1522675344,
+          "epoch": 0,
+          "timescale": 100000
+        }
+      },
+      "overlapUs": "10"
+    },
+    {
+      "previousAccepted": {
+        "rawPTS": {
+          "value": 1522678678,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "duration": {
+          "value": 3334,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "generation": "641997B7-9343-403F-B832-6A9EA3CA76D3",
+        "sourceUs": 16524883,
+        "disposition": "accepted",
+        "arrivalHostUs": 15226849255,
+        "role": "camera",
+        "relativeRate": 1,
+        "cameraFrame": {
+          "ordinal": 223,
+          "start": {
+            "value": 16524883,
+            "epoch": 0,
+            "timescale": 1000000
+          },
+          "end": {
+            "value": 16558223,
+            "epoch": 0,
+            "timescale": 1000000
+          }
+        },
+        "clockDomain": "camera-session",
+        "convertedHostPTS": {
+          "value": 1522678678,
+          "epoch": 0,
+          "timescale": 100000
+        }
+      },
+      "rejected": {
+        "rawPTS": {
+          "value": 1522682011,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "duration": {
+          "value": 3333,
+          "epoch": 0,
+          "timescale": 100000
+        },
+        "generation": "641997B7-9343-403F-B832-6A9EA3CA76D3",
+        "disposition": "overlapping-or-reordered",
+        "arrivalHostUs": 15226884221,
+        "role": "camera",
+        "relativeRate": 1,
+        "clockDomain": "camera-session",
+        "convertedHostPTS": {
+          "value": 1522682011,
+          "epoch": 0,
+          "timescale": 100000
+        }
+      },
+      "overlapUs": "10"
+    }
+  ],
+  "meaning": "Delivered forward pictures were refused using previous callback duration; their pixel buffers were never encoded and cannot be restored from this fixture.",
+  "sourceSha256": "ff2a43b0a6f22f378d977b17e9c6e8d2eb8790a9cd3e797aed075feb3d079ec5",
+  "comparison": "Overlap and forward counts use the historical last accepted callback; corrected admission must evolve its own last accepted PTS."
+}

@@ -3869,3 +3869,24 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 - **Verdict:** sound; retries preserve verified bytes and conflicts cannot destroy
   another file, while retained inputs keep partial outcomes inspectable.
 - **Confidence:** high.
+
+## Separate acquired picture ordering from display duration
+
+- **When:** real-capture audit and20e2 correction; implementation remains pending.
+- **Choice being corrected:** the probe treated a callback's reported duration as
+  both the next-picture admission boundary and an authoritative outage boundary.
+  In the actual take, a picture arrived33.33ms after the previous one, whose
+  reported duration was33.34ms. The recorder threw the new picture away for that
+  10µs overlap, then represented the manufactured hole as unavailable footage.
+- **Gap:** the plan required exact picture identity and no extension beyond camera
+  loss, but did not establish that nominal callback duration defines display
+  availability. That equivalence was introduced in20e1.
+- **Reach:** compare acquired timestamps strictly in order, retain durations as
+  evidence, and use verified native presentation support within actual start/end
+  boundaries. A displayed previous picture is still that original picture, not
+  a newly acquired one. The generic reader already uses this distinction.
+- **Verdict:** the old assumption is unsound;20e2 specifies the correction without
+  a timing tolerance or fabricated pixels. Preserve the historical failed take
+  and its observations; already rejected pictures cannot be recovered.
+- **Confidence:** high, supported by exact callback chronology and the existing
+  native variable-frame-rate consumer. Physical sync acceptance stays separate.

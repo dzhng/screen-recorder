@@ -38,7 +38,9 @@ Camera is a separate video-only probe sink with its own dimensions, using the sa
 screen-established clock snapshot and serial ingestion queue. It records the
 existing journal shape for its independent video source, not a new production role
 or audio writer. It must not re-zero late camera frames, hold a disconnected camera's
-tail, or invent a source picture across a gap. `CaptureInputSession.stop` remains
+tail, or invent an acquired source picture. [20e2](20e2-camera-presentation.md)
+distinguishes picture acquisition from ordinary native display hold; nominal
+callback durations do not establish outages. `CaptureInputSession.stop` remains
 physical-input drain only. Its probe media
 joins NativeCapture's existing termination operation through explicit default-nil
 `finalizeMedia(clock:failure:) -> CaptureFailure?` and default no-op `discardMedia()`

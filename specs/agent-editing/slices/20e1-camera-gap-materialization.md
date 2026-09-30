@@ -1,5 +1,10 @@
 # 20e1 — Verify camera gap materialization
 
+The nominal-duration gap definition below is historical and superseded by
+[20e2](20e2-camera-presentation.md): real callbacks exposed false endpoint-based
+frame rejection and an unsupported availability inference. Retain this mechanism
+and its failed physical follow-ups as evidence; do not extend that definition.
+
 Status: retained-file mechanism plus durable mapping/replay verified;
 [implementation evidence](../assets/20e-selected-device-probe/README.md). A separate
 unchanged709 input passes public source consumers; the original SMPTE-C refusal

@@ -10,31 +10,27 @@ Historical workers and measurements retain their own identities below.
 
 ## Current pickup
 
-The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
-integrated and root-verified. The earlier batch pass is released; capture-pause-recovery now owns the real
-selected-probe recovery diagnosis below; stop wiring is integrated. Root dist was preserved through
-measurement; root source now includes the move fix, so rebuild JavaScript before
-new execution. Frozen root8a and candidate2c native workers remain unchanged.
+Implement [20e2](../slices/20e2-camera-presentation.md) in the existing capture
+owners. Retained callbacks prove thousands of forward pictures were rejected by
+comparing their start to the previous nominal duration endpoint. Acquisition
+ordering and native display duration must be separate. The old nominal-gap
+assumption is superseded; exact acquired PTS/pixel and bounded support checks stay.
+Capture-pause-recovery owns this correction. Its alternate writer draft is
+unadopted; [failed controls](20e-selected-device-probe/recovery-reader/README.md)
+remain evidence. No new recording or restoration of rejected pixels is implied.
 
-A read-only audit of 12b, 15a, 19 and 23 found no additional dependency-ready consumer
-pass: speech recipe adoption needs its unresolved timing/quality evidence,
-post-retime processing needs accepted stretching, contextual generated-voice
-quality needs listening, and installed cutover needs its unfinished capture and
-editing prerequisites. Repeating their passed lifecycle/portability cohorts does
-not resolve those dependencies. The real camera/screen/microphone take has completed and is retained under
-`fixtures/screen-camera-timing`. The user explicitly shortened it to roughly200seconds
-and stopped; never restart recording from the prior READY. All three standalone
-files pass ordinary import and bounded source decoding. See
-[physical import evidence](20-physical-import/README.md). Root owns fixture retention
-and parent docs; app-retained graceful probe stop is integrated and root-verified
-offline. Capture-pause-recovery owns bounded diagnosis of the existing private
-candidate’s mapped-timestamp mismatch (ordinal3181) and original blocked decode. No new
-recording or media re-generation is needed for those fixes. Public import and the
-initial recovery processes are terminal; the latter was stopped without claiming
-canonical publication. Frozen binaries and original fixture bytes remain unchanged.
-[Physical-event analysis](20-physical-sync/README.md) is retained and root-checked:
-flashes/beeps correspond, but the visible camera interval and uncertainty cannot
-establish parent20's duration or one-frame bound. No further capture is authorized.
+The stopped take is retained under `fixtures/screen-camera-timing` with actual
+media in Git LFS. [Ordinary import](20-physical-import/README.md) passes;
+[physical-event analysis](20-physical-sync/README.md) cannot establish the one-frame
+bound or whole-take camera coverage. Graceful probe stop is offline-verified.
+Root owns fixture retention, parent docs and integration. Frozen root8a and
+candidate2c native workers stay unchanged; isolated scratch builds only.
+
+The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
+integrated and root-verified. Root source includes the move fix; rebuild JavaScript
+before new execution. Existing completed speech/processing, transfer and cutover
+preparatory evidence below remains scoped; do not repeat it instead of resolving
+its remaining quality, retiming or physical prerequisites.
 
 ## Execution context and scoped evidence
 
