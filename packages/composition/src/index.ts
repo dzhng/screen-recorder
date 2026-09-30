@@ -39,7 +39,7 @@ export type {
   Stream,
 } from "./schema.js";
 export type { Rational } from "./rational.js";
-export { rational, compare, fromTime, toTime, floor, ceil } from "./rational.js";
+export { rational, compare, fromTime, toTime, floor, ceil, subtract, divide } from "./rational.js";
 
 export {
   validateComposition,
@@ -114,3 +114,5 @@ export {
 } from "./output-settings.js";
 export type { OutputSettings, OutputSettingsInput } from "./output-settings.js";
 export { outputCapabilities } from "./output-settings.js";
+
+export { sampleAt } from "./sample-clock.js";

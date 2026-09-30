@@ -258,9 +258,9 @@ try {
   const values = await owner(donor, true, async ({ prepared, jobs, projects }) => {
     const values = [];
     for (const [i, revision] of originals.entries()) {
-      prepared.request({ projectId, revisionId: revision.id });
+      await prepared.request({ projectId, revisionId: revision.id });
       await jobs.idle();
-      const status = prepared.request({ projectId, revisionId: revision.id });
+      const status = await prepared.request({ projectId, revisionId: revision.id });
       assert.equal(status.state, "ready");
       const value = JSON.parse(status.published.result);
       assert.deepEqual(samples(prepared, value.resourceId), expected[i]);

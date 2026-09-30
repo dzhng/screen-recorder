@@ -1,3 +1,5 @@
+import { divide, fromTime, sampleAt, subtract } from "@screenrec/composition";
+import type { AudioWindowInput, ProjectRenderSupport } from "@screenrec/core/project-window";
 import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
 import { nativeProcessing } from "./native-processing.js";
 import { constants } from "node:fs";
@@ -18,23 +20,99 @@ import type { SourceEvidenceReader } from "@screenrec/core/evidence-read";
 import type { PresentationReceipt } from "@screenrec/core/presentation-evidence";
 import { prepareCompositionPointers } from "@screenrec/core/composition-pointer";
 import { renderPlan } from "@screenrec/core/timeline";
-/** A bounded metadata-only probe. An absent/older worker leaves authoring and retained reads usable. */
-export async function nativeRNNoise(worker: MediaWorker): Promise<string | undefined> {
+export type NativeAudioCapabilities = { rnnoise?: string; retime?: string };
+/** An absent/older worker leaves authoring and retained reads usable. */
+export async function nativeAudioCapabilities(
+  worker: MediaWorker,
+): Promise<NativeAudioCapabilities> {
   try {
     const result = nativeResult(await worker("media.audioCapabilities", {}, { timeoutMs: 5000 }));
-    if (typeof result !== "object" || result === null || !("rnnoise" in result)) return;
-    const identity = result.rnnoise;
-    return typeof identity === "string" && /^rnnoise-[a-zA-Z0-9-]{1,240}$/.test(identity)
-      ? identity
-      : undefined;
+    if (typeof result !== "object" || result === null) return {};
+    const rnnoise = "rnnoise" in result ? result.rnnoise : undefined;
+    const retime = "retime" in result ? result.retime : undefined;
+    return {
+      ...(typeof rnnoise === "string" && /^rnnoise-[a-zA-Z0-9-]{1,240}$/.test(rnnoise)
+        ? { rnnoise }
+        : {}),
+      ...(typeof retime === "string" && retime.length > 0 && retime.length <= 256
+        ? { retime }
+        : {}),
+    };
   } catch {
-    return undefined;
+    return {};
   }
+}
+
+function retimePayload(window: AudioWindowInput["window"], identity?: string) {
+  const requirements = window.manifest.requirements.filter((item) => item.kind === "retime");
+  if (!requirements.length) return {};
+  if (!identity || requirements.some((item) => item.implementationId !== identity))
+    throw new CatalogError(
+      "NOT_READY",
+      "The bound native retiming recipe is unavailable",
+      {},
+      true,
+    );
+  return { retimeImplementationId: identity };
+}
+function nativeAudioSupport(
+  worker: MediaWorker,
+  workspace: string,
+  capabilities: NativeAudioCapabilities,
+  signal: AbortSignal,
+): Pick<ProjectRenderSupport, "rnnoise" | "retime" | "validateAudio"> {
+  return {
+    ...capabilities,
+    ...(capabilities.retime
+      ? {
+          async validateAudio({ window, assets }: AudioWindowInput) {
+            await mkdir(workspace, { recursive: true, mode: 0o700 });
+            await withRenderAttempt(
+              worker,
+              workspace,
+              signal,
+              async (directory, execute) => {
+                const result = nativeResult(
+                  await executeComposition(
+                    execute,
+                    "media.validateCompositionAudio",
+                    {
+                      output: join(directory, "audio.wav"),
+                      range: window.manifest.sampleRange,
+                      clips: [...window.audio()],
+                      processing: nativeProcessing(window.processing()),
+                      assets,
+                      ...statePayload(window, capabilities.rnnoise),
+                      ...retimePayload(window, capabilities.retime),
+                    },
+                    { signal, timeoutMs: 5000 },
+                  ),
+                );
+                if (
+                  !result ||
+                  typeof result !== "object" ||
+                  !("retime" in result) ||
+                  result.retime !== capabilities.retime
+                )
+                  throw new CatalogError(
+                    "INVALID_NATIVE_RESPONSE",
+                    "Native admission did not confirm the bound retiming recipe",
+                  );
+              },
+              async () => undefined,
+            );
+          },
+        }
+      : {}),
+  };
 }
 /** Large compiled plans share the attempt lifetime; control framing stays bounded. */
 async function executeComposition(
   worker: MediaWorker,
-  operation: "media.mixCompositionAudio" | "media.renderCompositionMovie",
+  operation:
+    | "media.mixCompositionAudio"
+    | "media.renderCompositionMovie"
+    | "media.validateCompositionAudio",
   params: Record<string, unknown> & { output: string },
   options: NonNullable<Parameters<MediaWorker>[2]>,
 ) {
@@ -92,15 +170,46 @@ function statePayload(
     state: { ...state, processing: nativeProcessing(state.processing), implementationId: identity },
   };
 }
-function audioDeadline(window: Parameters<ProjectAudioRenderer["render"]>[0]["window"]) {
-  const workUs = (window.manifest.state?.domains ?? []).reduce(
-    (total, domain) =>
-      total + ((domain.sampleRange.end - domain.sampleRange.start) * 1000000) / 48000,
-    0,
-  );
+export function audioDeadline(window: AudioWindowInput["window"], retained = false) {
+  let preparationFrames = 0n;
+  if (!retained) {
+    for (const domain of window.manifest.state?.domains ?? [])
+      preparationFrames += BigInt(domain.sampleRange.end - domain.sampleRange.start);
+    const retimed = new Set(
+      window.manifest.requirements.flatMap((item) => (item.kind === "retime" ? [item.clipId] : [])),
+    );
+    const seen = new Set<string>();
+    for (const clip of [...window.audio(), ...(window.audioState()?.clips ?? [])]) {
+      if (clip.source.kind !== "range" || !retimed.has(clip.clipId)) continue;
+      const rate = divide(
+        subtract(fromTime(clip.source.range.endUs), fromTime(clip.source.range.startUs)),
+        subtract(fromTime(clip.placement.endUs), fromTime(clip.placement.startUs)),
+      );
+      for (const context of clip.context) {
+        const key = JSON.stringify([
+          clip.source.assetId,
+          clip.source.streamId,
+          `${rate.numerator}/${rate.denominator}`,
+          clip.pitch,
+          context,
+        ]);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        preparationFrames +=
+          BigInt(context.sampleRange.end - context.sampleRange.start) +
+          BigInt(
+            sampleAt(fromTime(context.source.endUs), 48000) -
+              sampleAt(fromTime(context.source.startUs), 48000),
+          );
+      }
+    }
+  }
   return renderWindowDeadlineMs({
     startUs: 0,
-    endUs: window.manifest.range.endUs - window.manifest.range.startUs + workUs,
+    endUs:
+      window.manifest.range.endUs -
+      window.manifest.range.startUs +
+      (Number(preparationFrames) * 1000000) / 48000,
   });
 }
 type PointerOwners = { preparation: PointerPreparation; evidence: SourceEvidenceReader };
@@ -169,11 +278,12 @@ export function projectMovieRenderer(
   worker: MediaWorker,
   workspace: string,
   pointers?: PointerOwners,
-  rnnoise?: string,
+  capabilities: NativeAudioCapabilities = {},
+  admissionSignal: AbortSignal = new AbortController().signal,
 ): ProjectMovieRenderer {
   return {
     implementationId: "native-composition-movie-v19",
-    ...(rnnoise ? { rnnoise } : {}),
+    ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -222,14 +332,17 @@ export function projectMovieRenderer(
                 clips: [...request.window.audio()],
                 ...(request.prepared
                   ? retainedPayload(request.prepared, request.window)
-                  : statePayload(request.window, rnnoise)),
+                  : {
+                      ...statePayload(request.window, capabilities.rnnoise),
+                      ...retimePayload(request.window, capabilities.retime),
+                    }),
               },
             },
             {
               signal,
               // Video rendering and PCM/AAC assembly each get the retained playback duration.
               // Sparse source seeks do not budget discarded recording prefixes.
-              timeoutMs: audioDeadline(request.window),
+              timeoutMs: audioDeadline(request.window, !!request.prepared),
               ...(request.prepared ? { descriptors: [request.prepared.fd] } : {}),
             },
           );
@@ -254,11 +367,12 @@ export function projectMovieRenderer(
 export function projectAudioRenderer(
   worker: MediaWorker,
   workspace: string,
-  rnnoise?: string,
+  capabilities: NativeAudioCapabilities = {},
+  admissionSignal: AbortSignal = new AbortController().signal,
 ): ProjectAudioRenderer {
   return {
     implementationId: "native-composition-audio-v9",
-    ...(rnnoise ? { rnnoise } : {}),
+    ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     render: async ({ window, assets, output, prepared }, signal) =>
       withRenderedFile(
         worker,
@@ -272,14 +386,19 @@ export function projectAudioRenderer(
               {
                 output: file,
                 range: window.manifest.sampleRange,
-                ...(prepared ? retainedPayload(prepared, window) : statePayload(window, rnnoise)),
+                ...(prepared
+                  ? retainedPayload(prepared, window)
+                  : {
+                      ...statePayload(window, capabilities.rnnoise),
+                      ...retimePayload(window, capabilities.retime),
+                    }),
                 clips: [...window.audio()],
                 processing: nativeProcessing(window.processing()),
                 assets,
               },
               {
                 signal,
-                timeoutMs: audioDeadline(window),
+                timeoutMs: audioDeadline(window, !!prepared),
                 ...(prepared ? { descriptors: [prepared.fd] } : {}),
               },
             ),

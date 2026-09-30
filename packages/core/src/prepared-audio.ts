@@ -21,7 +21,12 @@ import {
   type JobQueue,
   type StagedJobResult,
 } from "./jobs.js";
-import { compositionMediaInputs, projectWindow, projectComposition } from "./project-window.js";
+import {
+  compositionMediaInputs,
+  projectWindow,
+  projectComposition,
+  validateProjectAudio,
+} from "./project-window.js";
 import {
   projectAudioReceiptSchema,
   checkProjectAudioResult,
@@ -213,7 +218,7 @@ export class PreparedAudioStore {
       );
     return candidates[0] ?? null;
   }
-  request(input: Input): ArtifactStatus {
+  async request(input: Input): Promise<ArtifactStatus> {
     const retained = this.resolve(
       projectComposition(this.owners.projects, this.owners.assets, input),
     );
@@ -242,6 +247,8 @@ export class PreparedAudioStore {
       artifact: "prepared-audio",
       input: JSON.stringify(plan.window.manifest),
     };
+    const prior = this.owners.jobs.status(identity);
+    if (!prior.jobId && !prior.published) await validateProjectAudio(this.owners.renderer, plan);
     const dependencies = audioDependencies(plan);
     if (!this.owners.jobs.status(identity).published)
       this.owners.jobs.submit({ ...identity, lane: "heavy" }, (job) => {

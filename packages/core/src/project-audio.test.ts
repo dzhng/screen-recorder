@@ -254,9 +254,9 @@ test("surrounding project audio preserves the pinned revision and requested proc
   const context = f.inspection.context(input, { start: 23968, end: 48032 });
   expect(context.selection).toEqual({ ...input, range: { startUs: 499334, endUs: 1000000 } });
   expect(context.sampleClock).toMatchObject({ sampleRange: { start: 23968, end: 48000 } });
-  f.inspection.request(context.selection);
+  await f.inspection.request(context.selection);
   await f.jobs.idle();
-  expect(f.inspection.request(context.selection).published!.audio).toMatchObject({
+  expect((await f.inspection.request(context.selection)).published!.audio).toMatchObject({
     revisionId: input.revisionId,
     tap: input.tap,
     sampleRange: { start: 23968, end: 48000 },
@@ -294,9 +294,9 @@ test("project audio taps bind only their descendants and target-owned processing
         range: { startUs: 333, endUs: 999000 },
         tap: { target, point },
       };
-      const pending = f.inspection.request(input);
+      const pending = await f.inspection.request(input);
       await f.jobs.idle();
-      const ready = f.inspection.request(input);
+      const ready = await f.inspection.request(input);
       expect(ready.state).toBe("ready");
       expect(ready.jobId).toBe(pending.jobId);
       expect(ready.published!.audio.sampleRange).toEqual({ start: 15, end: 47952 });
@@ -337,26 +337,26 @@ test("project audio taps bind only their descendants and target-owned processing
 
 test("audio history and cache recovery keep revision, tap and byte source pinned", async () => {
   const f = await fixture();
-  const old = f.inspection.request({ projectId: f.projectId });
+  const old = await f.inspection.request({ projectId: f.projectId });
   await f.jobs.idle();
   const pinned = { projectId: f.projectId, revisionId: old.revisionId };
-  const first = f.inspection.request(pinned).published!.audio;
+  const first = (await f.inspection.request(pinned)).published!.audio;
   f.projects.apply(f.projectId, {
     requestId: "change",
     expectedRevisionId: old.revisionId,
     operations: [{ operation: "processing.set", target: { kind: "output" }, steps: [] }],
   });
-  expect(f.inspection.request(pinned).published!.audio).toEqual(first);
-  expect(f.inspection.request({ projectId: f.projectId }).jobId).not.toBe(old.jobId);
+  expect((await f.inspection.request(pinned)).published!.audio).toEqual(first);
+  expect((await f.inspection.request({ projectId: f.projectId })).jobId).not.toBe(old.jobId);
   f.cache.remove(first.cacheId);
-  f.inspection.request(pinned);
+  await f.inspection.request(pinned);
   await f.jobs.idle();
-  expect(f.inspection.request(pinned).published!.audio.cacheId).not.toBe(first.cacheId);
+  expect((await f.inspection.request(pinned)).published!.audio.cacheId).not.toBe(first.cacheId);
 });
 
 test("project full-WAV capacity refuses before admission and malformed WAV cannot publish", async () => {
   const f = await fixture(render, 1000);
-  expect(() => f.inspection.request({ projectId: f.projectId })).toThrow(
+  await expect(f.inspection.request({ projectId: f.projectId })).rejects.toThrow(
     expect.objectContaining({ code: "LIMIT_EXCEEDED" }),
   );
 
@@ -364,13 +364,13 @@ test("project full-WAV capacity refuses before admission and malformed WAV canno
     const result = (await render(request, signal)) as { frames: number };
     return { ...result, frames: result.frames - 1 };
   });
-  const pending = bad.inspection.request({ projectId: bad.projectId });
+  const pending = await bad.inspection.request({ projectId: bad.projectId });
   await bad.jobs.idle();
   expect(bad.jobs.job(pending.jobId!)).toMatchObject({
     state: "failed",
     errorCode: "INVALID_RESPONSE",
   });
-  expect(bad.inspection.request({ projectId: bad.projectId }).published).toBeNull();
+  expect((await bad.inspection.request({ projectId: bad.projectId })).published).toBeNull();
   expect(bad.cache.bytes).toBe(0);
 });
 
@@ -380,15 +380,15 @@ test("audio taps reject a picture target, retiming and sub-sample output before 
     calls++;
     return render(request, signal);
   });
-  expect(() =>
+  await expect(
     f.inspection.request({
       projectId: f.projectId,
       tap: { target: { kind: "track", id: f.placed.edit.labels.video! }, point: { kind: "dry" } },
     }),
-  ).toThrow(expect.objectContaining({ code: "INVALID_COMPOSITION" }));
-  expect(() =>
+  ).rejects.toThrow(expect.objectContaining({ code: "INVALID_COMPOSITION" }));
+  await expect(
     f.inspection.request({ projectId: f.projectId, range: { startUs: 0, endUs: 1 } }),
-  ).toThrow(expect.objectContaining({ code: "INVALID_RANGE" }));
+  ).rejects.toThrow(expect.objectContaining({ code: "INVALID_RANGE" }));
   f.projects.apply(f.projectId, {
     requestId: "retime",
     expectedRevisionId: f.placed.revision.id,
@@ -401,7 +401,7 @@ test("audio taps reject a picture target, retiming and sub-sample output before 
       },
     ],
   });
-  expect(() => f.inspection.request({ projectId: f.projectId })).toThrow(
+  await expect(f.inspection.request({ projectId: f.projectId })).rejects.toThrow(
     expect.objectContaining({ code: "NOT_READY" }),
   );
   expect(calls).toBe(0);
@@ -459,9 +459,9 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
           tap: { target, point },
           range: { startUs: 333, endUs: 999000 },
         };
-        f.inspection.request(input);
+        await f.inspection.request(input);
         await f.jobs.idle();
-        const ready = f.inspection.request(input);
+        const ready = await f.inspection.request(input);
         expect(ready.state, JSON.stringify(ready)).toBe("ready");
         const receipt = ready.published!.audio;
         expect(receipt.sampleRange).toEqual({ start: 15, end: 47952 });
@@ -481,9 +481,9 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
           expectedPCM.writeFloatLE(-0.125 * gain, frame * 8 + 4);
         }
         expect(data.equals(expectedPCM), `${target.kind}/${mode} complete stereo PCM`).toBe(true);
-        f.waveform.request({ ...input, bucketFrames: 480 });
+        await f.waveform.request({ ...input, bucketFrames: 480 });
         await f.jobs.idle();
-        const acoustic = f.waveform.request({ ...input, bucketFrames: 480 });
+        const acoustic = await f.waveform.request({ ...input, bucketFrames: 480 });
         expect(acoustic.state).toBe("ready");
         const document = JSON.parse(await readFile(acoustic.published!.artifact.file, "utf8"));
         expect(document).toMatchObject({
@@ -565,19 +565,19 @@ test("cancel and retry discard unpublished project WAV bytes and retire deletion
     return result;
   });
   const input = { projectId: f.projectId, revisionId: f.placed.revision.id };
-  const pending = f.inspection.request(input);
+  const pending = await f.inspection.request(input);
   await started;
   f.jobs.cancel(pending.jobId!);
   release();
   await f.jobs.idle();
-  expect(f.inspection.request(input).published).toBeNull();
+  expect((await f.inspection.request(input)).published).toBeNull();
   expect(f.cache.bytes).toBe(0);
-  f.inspection.retry(input);
+  await f.inspection.retry(input);
   await f.jobs.idle();
-  expect(f.inspection.request(input).state).toBe("ready");
+  expect((await f.inspection.request(input)).state).toBe("ready");
   expect(attempts).toBe(2);
   f.projects.markDeleting(f.projectId);
-  expect(() => f.inspection.request(input)).toThrow();
+  await expect(f.inspection.request(input)).rejects.toThrow();
 });
 
 test("RNNoise metadata stays unavailable before job admission while dry inspection remains authorable", async () => {
@@ -598,16 +598,16 @@ test("RNNoise metadata stays unavailable before job admission while dry inspecti
       },
     ],
   });
-  expect(() => f.inspection.request({ projectId: f.projectId })).toThrow(
+  await expect(f.inspection.request({ projectId: f.projectId })).rejects.toThrow(
     expect.objectContaining({ code: "NOT_READY" }),
   );
   expect(calls).toBe(0);
-  expect(() =>
+  await expect(
     f.inspection.request({
       projectId: f.projectId,
       tap: { target: { kind: "clip", id: clipId }, point: { kind: "dry" } },
     }),
-  ).not.toThrow();
+  ).resolves.toBeDefined();
 });
 
 test("parent RNNoise inside an internal audio gap refuses before renderer admission", async () => {
@@ -642,9 +642,9 @@ test("parent RNNoise inside an internal audio gap refuses before renderer admiss
       },
     ],
   });
-  expect(() =>
+  await expect(
     f.inspection.request({ projectId: f.projectId, range: { startUs: 1000000, endUs: 1500000 } }),
-  ).toThrow(expect.objectContaining({ code: "NOT_READY" }));
+  ).rejects.toThrow(expect.objectContaining({ code: "NOT_READY" }));
   expect(calls).toBe(0);
 });
 
@@ -709,9 +709,9 @@ test("a narrow parent-state plan binds mono sources outside its requested output
   expect(plan.assets.map((a) => a.assetId).sort()).toEqual([f.asset.id, asset.id].sort());
   expect(plan.window.manifest.state!.inputs.map((i) => i.channels)).toEqual([1, 1, undefined]);
   expect(plan.window.manifest.state!.inputs[0]!.selected).toEqual([{ startUs: 0, endUs: 1000000 }]);
-  expect(() =>
+  await expect(
     f.inspection.request({ projectId: f.projectId, range: { startUs: 2000000, endUs: 2500000 } }),
-  ).toThrow(
+  ).rejects.toThrow(
     expect.objectContaining({
       code: "NOT_READY",
       details: expect.objectContaining({ requirements: expect.any(Array) }),
@@ -733,7 +733,7 @@ test("state channel admission refuses wider and unknown probes without blocking 
         },
       ],
     });
-    expect(() => f.inspection.request({ projectId: f.projectId })).toThrow(
+    await expect(f.inspection.request({ projectId: f.projectId })).rejects.toThrow(
       expect.objectContaining({
         code: "NOT_READY",
         details: {

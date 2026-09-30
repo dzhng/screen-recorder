@@ -1,6 +1,8 @@
 # 14e — Deliver linked and independent retiming publicly
 
-Status: implementation in progress; native policy/admission and async core/service owners are separate concurrent passes. Dependencies:14b,14c and14d. Parent14 owns final acceptance.
+Status: native recipe/format admission and JS/core/service wiring are implemented;
+combined public journey and parent14 acceptance remain pending. Dependencies:14b,
+14c and14d. Parent14 owns final acceptance.
 
 ## Contract and seam
 
@@ -66,3 +68,48 @@ workers intact. Build only in isolated scratch paths. Update this Status and the
 parent14 pickup with evidence before committing. Run the repository review and
 audit-choices passes. Missing perceptual evidence stays explicit; accepted mono
 listening must not be repeated as a substitute for a different policy.
+
+
+## Implemented admission invariant
+
+A new produced retime request pins its revision and recipe before awaiting native
+metadata validation. Native owns physical source intersections and exact sample
+admission. The queue remains synchronous: after validation, its existing catalog
+transaction rechecks owner/lifecycle state and commits the preview plus export
+intent together. Waiting export recovery resumes only its exact admitted preview;
+explicit replay/retry may validate a missing dependency asynchronously. Final retry
+admission rechecks abandonment after every await.
+
+Existing jobs, published derivatives and retained prepared PCM do not repeat native
+metadata admission. Produced audio/preview identities include the bound retime
+recipe, while retained delivery keeps the stored PCM identity. Preparation deadlines
+charge distinct full input/output contexts across query and state prerequisites;
+canonical exact rate prevents fractional-rate collisions without charging pure
+splits twice. The returned preview snapshot cannot mutate the private validated pin.
+
+## JS/core/service verification
+
+- Build and core/service type checks passed.
+- Service plus affected core cohort: 22 files, 223 passed, three existing skips.
+  After final review fixes, the five directly affected files passed 64 tests with
+  one existing skip; project export integration passed all 14 tests using the
+  isolated native14e worker.
+- Native rejection leaves no preview job/cache; edits during admission retain the
+  original revision; close/deletion during the await refuse admission; transactional
+  callback failure rolls back; recipe changes refuse old produced pins.
+- Large compiled audio preflight and execution both use the existing plan-file
+  transport, preserve state inputs, and carry the same retime binding.
+- Mutation checks failed for the intended reasons when removing native validation,
+  atomic admission callbacks, state-only deadline contexts, exact-rate deadline
+  identity, recipe binding, snapshot isolation, or the final export retry fence.
+  The latter catches abandonment between
+  preview retry awaits, before another export job can be admitted.
+- An exploratory all-core run hit unrelated acquisition-fixture directory failures
+  and timing failures under unrestricted parallelism; it was stopped. The isolated
+  pointer-preparation failures reproduce as missing scratch acquisition directories.
+  No broad-suite success is claimed.
+
+Independent review found and resolved exact-rate deadline undercounting, retry's
+post-await abandonment race, and the exposed mutable snapshot. Combined native
+waveform/movie/package delivery, perceptual acceptance, and public journey evidence
+belong to the parent pickup; this pass does not claim them complete.

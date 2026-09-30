@@ -33,7 +33,7 @@ import { MediaExports } from "./exports.js";
 import { PointerPreparation } from "@screenrec/core/pointer-preparation";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
 import {
-  nativeRNNoise,
+  nativeAudioCapabilities,
   projectMovieRenderer,
   projectAudioRenderer,
   projectFrameRenderer,
@@ -251,8 +251,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
           }),
         ) as SpeechTranscriptionReceipt,
     });
-    const rnnoise = await nativeRNNoise(worker);
-    const audioRenderer = projectAudioRenderer(worker, workspace, rnnoise);
+    const audioCapabilities = await nativeAudioCapabilities(worker);
+    const audioRenderer = projectAudioRenderer(
+      worker,
+      workspace,
+      audioCapabilities,
+      modelLifetime.signal,
+    );
     preparedAudio = new PreparedAudioStore({
       catalog,
       assets,
@@ -395,7 +400,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
       assets,
       queue,
       cache,
-      projectMovieRenderer(worker, workspace, { preparation: pointers, evidence }, rnnoise),
+      projectMovieRenderer(
+        worker,
+        workspace,
+        { preparation: pointers, evidence },
+        audioCapabilities,
+        modelLifetime.signal,
+      ),
       preparedAudio,
     );
     const projectPictures = projectFrameRenderer(worker, workspace, {
@@ -794,7 +805,9 @@ export async function startProjectService(options: { home: string; worker?: Medi
           case "spectrogram.get":
           case "spectrogram.retry": {
             const spectrum = operation.operation.startsWith("spectrogram.");
-            const status = acoustics[operation.operation.endsWith(".get") ? "request" : "retry"](
+            const status = await acoustics[
+              operation.operation.endsWith(".get") ? "request" : "retry"
+            ](
               spectrum
                 ? { ...operation.params, kind: "spectrum", format: "image" }
                 : operation.params,
@@ -853,7 +866,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             };
           }
           case "audio.prepare": {
-            const prepared = preparedAudio.request(operation.params);
+            const prepared = await preparedAudio.request(operation.params);
             return {
               ok: true,
               data: {
@@ -874,7 +887,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             if (!("assetId" in params) && !("projectId" in params))
               return operationError("NOT_READY", "This service extracts asset and project audio");
             const status =
-              mediaAudio[operation.operation === "audio.get" ? "request" : "retry"](params);
+              await mediaAudio[operation.operation === "audio.get" ? "request" : "retry"](params);
             return {
               ok: true,
               data: {
@@ -1042,7 +1055,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             if (!("projectId" in params))
               return operationError("NOT_READY", "This service previews managed projects");
             const status =
-              preview[operation.operation === "preview.get" ? "request" : "retry"](params);
+              await preview[operation.operation === "preview.get" ? "request" : "retry"](params);
             return {
               ok: true,
               data: {

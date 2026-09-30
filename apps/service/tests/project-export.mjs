@@ -30,7 +30,7 @@ const gate = () => {
 async function until(run) {
   const end = Date.now() + 15000;
   for (;;) {
-    const value = run();
+    const value = await run();
     if (value) return value;
     assert.ok(Date.now() < end, "Owner did not settle within15s");
     await delay(10);
@@ -310,7 +310,7 @@ for (const evict of [false, true])
     const request = f.request();
     await f.exports.create(request);
     await started.promise;
-    const preview = f.preview.request({ projectId: f.projectId }).published.preview;
+    const preview = (await f.preview.request({ projectId: f.projectId })).published.preview;
     f.exports.cancel(request.exportId);
     release.resolve();
     await f.jobs.idle();
@@ -378,7 +378,7 @@ test("an evicted admitted preview regenerates through the same dependency job be
   const request = f.request();
   await f.exports.create(request);
   await started.promise;
-  const old = f.preview.request({ projectId: f.projectId }).published;
+  const old = (await f.preview.request({ projectId: f.projectId })).published;
   f.projects.apply(f.projectId, {
     requestId: "advance-before-regeneration",
     expectedRevisionId: f.placed.revision.id,
@@ -397,10 +397,12 @@ test("an evicted admitted preview regenerates through the same dependency job be
     f.placed.revision.id,
   );
   assert.ok(
-    f.preview.request({
-      projectId: f.projectId,
-      revisionId: f.placed.revision.id,
-    }).published.generation > old.generation,
+    (
+      await f.preview.request({
+        projectId: f.projectId,
+        revisionId: f.placed.revision.id,
+      })
+    ).published.generation > old.generation,
   );
 });
 
@@ -422,7 +424,7 @@ test("publication holds its cached read lease until the native copy finishes", a
   const request = f.request();
   await f.exports.create(request);
   await started.promise;
-  const cacheId = f.preview.request({ projectId: f.projectId }).published.preview.cacheId;
+  const cacheId = (await f.preview.request({ projectId: f.projectId })).published.preview.cacheId;
   assert.throws(
     () => f.cache.remove(cacheId),
     (error) => error.code === "CACHE_BUSY",
@@ -527,13 +529,13 @@ test("explicit export retry recovers a queued preview after its pinned renderer 
   await started.promise;
   const request = f.request();
   await f.exports.create(request);
-  await until(() => f.preview.request({ projectId: f.projectId }).state === "queued");
+  await until(async () => (await f.preview.request({ projectId: f.projectId })).state === "queued");
   f.replaceRenderer("project-owner-fixture-v2");
   release.resolve();
   await until(() => f.exports.status(request.exportId).state === "failed");
   await f.jobs.idle();
   f.replaceRenderer("project-owner-fixture-v1");
-  assert.equal(f.preview.request({ projectId: f.projectId }).state, "failed");
+  assert.equal((await f.preview.request({ projectId: f.projectId })).state, "failed");
   await f.exports.retry(request.exportId);
   const result = await until(() => {
     const value = f.exports.status(request.exportId);
@@ -561,11 +563,11 @@ test("polling and export retry leave unrelated failed preview dependencies alone
   await until(() => f.exports.status(request.exportId).state === "failed");
   fail = false;
   f.exports.status(request.exportId);
-  f.preview.request({ projectId: f.projectId });
+  await f.preview.request({ projectId: f.projectId });
   await f.exports.retry(request.exportId);
   await until(() => f.exports.status(request.exportId).state === "failed");
   assert.equal(renders, 1);
-  f.preview.retry({ projectId: f.projectId });
+  await f.preview.retry({ projectId: f.projectId });
   await f.jobs.idle();
   await f.exports.retry(request.exportId);
   await until(() => {
@@ -586,16 +588,28 @@ test("stale export implementation absence does not retry a newer decode failure"
       return ordinary(request, signal);
     },
   });
+  const started = gate(),
+    release = gate();
+  t.after(() => release.resolve());
+  const context = f.jobs.createContext(async () => {
+    started.resolve();
+    await release.promise;
+    return "released";
+  });
+  f.jobs.submitContext(context, { artifact: "hold", input: "renderer-switch", lane: "heavy" });
+  await started.promise;
   const request = f.request();
   await f.exports.create(request);
   f.replaceRenderer("project-owner-fixture-v2");
   f.jobs.startAdmission((job) => f.exports.admit(job));
   await until(() => f.exports.status(request.exportId).state === "failed");
   assert.equal(f.jobs.job(f.exports.status(request.exportId).jobId).errorCode, "NOT_READY");
+  release.resolve();
+  await f.jobs.idle();
   f.replaceRenderer("project-owner-fixture-v1");
   fail = true;
-  f.preview.request({ projectId: f.projectId });
-  await until(() => f.preview.request({ projectId: f.projectId }).state === "failed");
+  await f.preview.retry({ projectId: f.projectId });
+  await until(async () => (await f.preview.request({ projectId: f.projectId })).state === "failed");
   fail = false;
   await f.exports.retry(request.exportId);
   await until(() => ["failed", "committed"].includes(f.exports.status(request.exportId).state));
@@ -622,7 +636,7 @@ test("staged project bytes retry after renderer replacement without rendering ag
   await f.exports.create(request);
   await until(() => f.exports.status(request.exportId).state === "failed");
   await f.jobs.idle();
-  const preview = f.preview.request({ projectId: f.projectId }).published.preview;
+  const preview = (await f.preview.request({ projectId: f.projectId })).published.preview;
   f.cache.remove(preview.cacheId);
   f.replaceRenderer("project-owner-fixture-v2");
   rejectCommit = false;
@@ -680,4 +694,37 @@ test("settings-free export replay retains its original request identity", async 
   );
   const replay = await f.exports.create({ ...request, settings: {} });
   assert.deepEqual(replay.snapshot, first.snapshot);
+});
+
+test("abandonment during preview retry cannot resurrect an export job", async (t) => {
+  const started = gate(),
+    release = gate();
+  t.after(() => release.resolve());
+  const f = await fixture(t);
+  const context = f.jobs.createContext(async () => {
+    started.resolve();
+    await release.promise;
+    return "released";
+  });
+  f.jobs.submitContext(context, { artifact: "hold", input: "renderer-switch", lane: "heavy" });
+  await started.promise;
+  const request = f.request();
+  await f.exports.create(request);
+  f.replaceRenderer("project-owner-fixture-v2");
+  release.resolve();
+  await until(() => f.exports.status(request.exportId).state === "failed");
+  await f.jobs.idle();
+  f.replaceRenderer("project-owner-fixture-v1");
+  const retry = f.exports.retry(request.exportId);
+  await Promise.resolve();
+  const abandoning = f.exports.abandon(request.exportId);
+  await assert.rejects(retry, (error) => ["EXPORT_ABANDONING", "NOT_FOUND"].includes(error.code));
+  await abandoning;
+  await f.jobs.idle();
+  assert.deepEqual(
+    f.catalog.catalog
+      .prepare("SELECT artifact,input FROM jobs WHERE input=?")
+      .all(request.exportId),
+    [],
+  );
 });

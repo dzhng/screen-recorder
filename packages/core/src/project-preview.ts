@@ -12,6 +12,8 @@ import { AssetStore } from "./assets.js";
 import {
   projectComposition,
   projectCapabilities,
+  retimeImplementation,
+  validateProjectAudio,
   type CompositionWindow,
   type CompositionAssetBinding,
   type FontAssetBinding,
@@ -34,6 +36,7 @@ export type ProjectPreviewInput = {
   settings?: OutputSettingsInput | undefined;
   /** Internal retained intent binding; public requests omit this field. */
   implementationId?: string | undefined;
+  retimeImplementationId?: string | undefined;
 };
 export type CompositionMovie = Omit<RenderedMovie, "audio"> & {
   settings: OutputSettings;
@@ -61,6 +64,7 @@ export type PinnedProjectPreview = {
   range: { startUs: number; endUs: number };
   settings: OutputSettings;
   implementationId: string;
+  retimeImplementationId?: string | undefined;
 };
 export type ProjectPreviewArtifact = CompositionMovie & PinnedProjectPreview & { cacheId: string };
 const optionsSchema = z
@@ -69,6 +73,7 @@ const optionsSchema = z
     range: rangeSchema,
     settings: resolvedOutputSettingsSchema,
     implementationId: z.string().min(1),
+    retimeImplementationId: z.string().min(1).optional(),
   })
   .strict();
 
@@ -113,44 +118,85 @@ export class ProjectPreviewInspection {
         "INVALID_PARAMS",
         "Non-droppable frame rate exceeds composition frame rate",
       );
+    const retime = plan.retained ? undefined : retimeImplementation(plan.window, this.renderer);
+    if (input.retimeImplementationId !== undefined && input.retimeImplementationId !== retime)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned retiming implementation is not available",
+        {
+          implementationId: input.implementationId ?? this.renderer.implementationId,
+          retimeImplementationId: input.retimeImplementationId,
+        },
+        true,
+      );
     return {
       projectId: input.projectId,
       revisionId: plan.window.manifest.revisionId,
       range: plan.window.manifest.range,
       settings,
       implementationId: this.renderer.implementationId,
+      ...(retime ? { retimeImplementationId: retime } : {}),
       preparedResourceId: plan.retained?.resourceId ?? null,
     };
   }
-  request(input: ProjectPreviewInput) {
-    const pinned = this.pin(input);
-    const plan = this.plan(pinned);
-    const options = {
-      range: pinned.range,
-      settings: pinned.settings,
-      implementationId: pinned.implementationId,
-      preparedResourceId: pinned.preparedResourceId ?? null,
+  private identity(pinned: PinnedProjectPreview) {
+    const { projectId, revisionId, ...options } = pinned;
+    return {
+      target: { kind: "project" as const, projectId, revisionId },
+      artifact: "preview",
+      input: JSON.stringify(options),
     };
+  }
+
+  /** Native validation finishes before the queue's synchronous catalog admission. */
+  async prepare(input: ProjectPreviewInput) {
+    const snapshot = this.pin(input);
+    const plan = this.plan(snapshot);
+    const prior = this.jobs.status(this.identity(snapshot));
+    if (!plan.retained && !prior.jobId && !prior.published)
+      await validateProjectAudio(this.renderer, plan);
+    return {
+      snapshot: structuredClone(snapshot),
+      submit: (admitted?: () => void) => this.submit(snapshot, plan, admitted),
+    };
+  }
+  async request(input: ProjectPreviewInput) {
+    return (await this.prepare(input)).submit();
+  }
+  /** Waiting export intents may resume only a previously admitted exact dependency. */
+  resume(input: PinnedProjectPreview) {
+    const pinned = this.pin(input);
+    if (!this.jobs.status(this.identity(pinned)).jobId)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned preview dependency has not been admitted",
+        {
+          implementationId: pinned.implementationId,
+        },
+        true,
+      );
+    return this.submit(pinned, this.plan(pinned));
+  }
+  private submit(
+    pinned: PinnedProjectPreview,
+    plan: ReturnType<ProjectPreviewInspection["plan"]>,
+    admitted?: () => void,
+  ) {
     const status = submitCachedDerivative<ProjectPreviewArtifact>(
       this.jobs,
       this.cache,
-      {
-        target: {
-          kind: "project",
-          projectId: input.projectId,
-          revisionId: pinned.revisionId,
-        },
-        artifact: "preview",
-        input: JSON.stringify(options),
-      },
+      this.identity(pinned),
       "heavy",
-      { deferred: plan.pointerSources.length > 0 },
+      {
+        deferred: plan.pointerSources.length > 0,
+        ...(admitted ? { admitted } : {}),
+      },
     );
     return {
-      projectId: input.projectId,
+      projectId: pinned.projectId,
       revisionId: pinned.revisionId,
-      range: options.range,
-      settings: options.settings,
+      range: pinned.range,
+      settings: pinned.settings,
       state: status.state,
       reason: status.reason,
       retryable: status.retryable,
@@ -161,18 +207,14 @@ export class ProjectPreviewInspection {
     };
   }
 
-  retry(input: ProjectPreviewInput) {
-    const current = this.request(input);
+  async retry(input: ProjectPreviewInput) {
+    const prepared = await this.prepare(input);
+    const current = prepared.submit();
     if (!current.published)
-      for (const selection of this.plan(input).pointerSources)
+      for (const selection of this.plan(prepared.snapshot).pointerSources)
         this.renderer.pointers?.retry(selection);
     if (current.jobId) this.jobs.retry(current.jobId);
-    return this.request({
-      projectId: current.projectId,
-      revisionId: current.revisionId,
-      range: current.range,
-      settings: current.settings,
-    });
+    return prepared.submit();
   }
 
   admit(job: Job): ReturnType<JobAdmission> {
@@ -180,11 +222,12 @@ export class ProjectPreviewInspection {
     this.requireImplementation(options.implementationId);
     if (job.target.kind !== "project" || job.artifact !== "preview")
       throw new CatalogError("UNSUPPORTED_JOB", "Preview admission requires a project job");
-    const plan = this.plan({
+    const pinned = this.pin({
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,
       ...options,
     });
+    const plan = this.plan(pinned);
     return this.renderer.pointers?.admit(plan.pointerSources) ?? { state: "ready" };
   }
   private requireImplementation(implementationId: string) {
@@ -215,12 +258,13 @@ export class ProjectPreviewInspection {
     if (job.target.kind !== "project" || job.artifact !== "preview" || !options.success)
       throw new CatalogError("UNSUPPORTED_JOB", "Composition preview cannot execute this job");
     this.requireImplementation(options.data.implementationId);
-    const plan = this.plan({
+    const pinned = this.pin({
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,
       ...options.data,
       preparedResourceId: options.data.preparedResourceId ?? null,
     });
+    const plan = this.plan(pinned);
     signal.throwIfAborted();
     const range = plan.window.manifest.sampleRange;
     const output = this.cache.reserve({ kind: "project", projectId: job.target.projectId });

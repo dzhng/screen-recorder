@@ -44,7 +44,12 @@ async function connect() {
   const assets = new AssetStore(catalog, home);
   await assets.recover();
   const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions);
+  const projects = new ProjectStore(
+    catalog,
+    assets,
+    new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)),
+    acquisitions,
+  );
   let prepared;
   const jobs = new JobQueue({
     store: catalog,
@@ -125,9 +130,9 @@ try {
     ],
   });
   const input = { projectId: created.project.projectId, revisionId: placed.revision.id };
-  current.prepared.request(input);
+  await current.prepared.request(input);
   await current.jobs.idle();
-  const status = current.prepared.request(input);
+  const status = await current.prepared.request(input);
   assert.equal(status.state, "ready");
   const value = JSON.parse(status.published.result);
   const expected = sourcePeriod(0);
@@ -150,9 +155,9 @@ try {
     ],
   });
   const splitInput = { ...input, revisionId: split.revision.id };
-  current.prepared.request(splitInput);
+  await current.prepared.request(splitInput);
   await current.jobs.idle();
-  const splitReady = current.prepared.request(splitInput);
+  const splitReady = await current.prepared.request(splitInput);
   assert.equal(splitReady.state, "ready");
   const splitValue = JSON.parse(splitReady.published.result);
   const splitRead = current.prepared.open(splitValue.resourceId);
@@ -178,9 +183,9 @@ try {
     ],
   });
   const gainInput = { ...input, revisionId: gained.revision.id };
-  current.prepared.request(gainInput);
+  await current.prepared.request(gainInput);
   await current.jobs.idle();
-  const gainStatus = current.prepared.request(gainInput);
+  const gainStatus = await current.prepared.request(gainInput);
   assert.equal(gainStatus.state, "ready");
   const gainValue = JSON.parse(gainStatus.published.result),
     gainRead = current.prepared.open(gainValue.resourceId);

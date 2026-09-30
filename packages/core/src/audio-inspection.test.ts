@@ -199,13 +199,13 @@ test("source WAV jobs pin selection/support, retain actual job references and re
     },
   });
   const selection = { ...f.selection, acquisitionId: "mask" };
-  const first = f.inspection.request(selection);
+  const first = await f.inspection.request(selection);
   expect(first.range).toEqual({ startUs: 100000, endUs: 1000000 });
-  expect(f.inspection.request(selection).jobId).toBe(first.jobId);
+  expect((await f.inspection.request(selection)).jobId).toBe(first.jobId);
   expect(f.assets.references(f.asset.id)).toEqual([{ kind: "job", id: first.jobId }]);
   expect(f.acquisitions.references("mask")).toEqual([{ kind: "job", id: first.jobId }]);
   await f.jobs.idle();
-  const ready = f.inspection.request(selection),
+  const ready = await f.inspection.request(selection),
     audio = ready.published!.audio;
   expect(ready.state).toBe("ready");
   expect(audio.unavailable).toEqual([
@@ -225,15 +225,17 @@ test("source WAV jobs pin selection/support, retain actual job references and re
   read.release();
   expect(buffer).toEqual(original);
   f.cache.remove(audio.cacheId);
-  expect(f.inspection.request(selection).published).toBeNull();
+  expect((await f.inspection.request(selection)).published).toBeNull();
   await f.jobs.idle();
-  const again = f.inspection.request(selection);
+  const again = await f.inspection.request(selection);
   expect(again.jobId).toBe(first.jobId);
   expect(again.published!.generation).toBeGreaterThan(ready.published!.generation);
   expect(await readFile(again.published!.audio.file)).toEqual(original);
   expect(await readFile(f.original, "utf8")).toBe("immutable source bytes");
-  expect(f.inspection.request(f.selection).jobId).not.toBe(first.jobId);
-  expect(f.inspection.request({ ...f.selection, streamId: "b" }).jobId).not.toBe(first.jobId);
+  expect((await f.inspection.request(f.selection)).jobId).not.toBe(first.jobId);
+  expect((await f.inspection.request({ ...f.selection, streamId: "b" })).jobId).not.toBe(
+    first.jobId,
+  );
 });
 
 test("cancellation fences late renderer output and only explicit retry admits another attempt", async () => {
@@ -251,17 +253,20 @@ test("cancellation fences late renderer output and only explicit retry admits an
   });
   cleanup.push(async () => release.resolve());
   const input = { ...f.selection, range: { startUs: 71, endUs: 199991 } };
-  const first = f.inspection.request(input);
+  const first = await f.inspection.request(input);
   await entered.promise;
   f.jobs.cancel(first.jobId!);
   release.resolve();
   await f.jobs.idle();
-  expect(f.inspection.request(input)).toMatchObject({ state: "not_requested", published: null });
+  expect(await f.inspection.request(input)).toMatchObject({
+    state: "not_requested",
+    published: null,
+  });
   expect(calls).toBe(1);
   expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
-  f.inspection.retry(input);
+  await f.inspection.retry(input);
   await f.jobs.idle();
-  const ready = f.inspection.request(input);
+  const ready = await f.inspection.request(input);
   expect(ready.state).toBe("ready");
   expect(calls).toBe(2);
   expect(ready.published!.audio.sampleRange).toEqual({ start: 3, end: 9599 });
@@ -309,14 +314,16 @@ test("malformed native receipts and WAV files cannot publish and repeated reads 
       },
     });
     const input = { ...f.selection, range: { startUs: 0, endUs: 200000 } };
-    f.inspection.request(input);
+    await f.inspection.request(input);
     await f.jobs.idle();
-    expect(f.inspection.request(input), defect).toMatchObject({
+    expect(await f.inspection.request(input), defect).toMatchObject({
       state: "failed",
       published: null,
     });
-    expect(f.jobs.job(f.inspection.request(input).jobId!).errorCode).toBe("INVALID_RESPONSE");
-    expect(f.inspection.request(input).state).toBe("failed");
+    expect(f.jobs.job((await f.inspection.request(input)).jobId!).errorCode).toBe(
+      "INVALID_RESPONSE",
+    );
+    expect((await f.inspection.request(input)).state).toBe("failed");
     expect(calls).toBe(1);
     expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
   }
@@ -324,12 +331,12 @@ test("malformed native receipts and WAV files cannot publish and repeated reads 
 
 test("invalid ranges and acquisition/stream mismatches refuse before queue admission", async () => {
   const f = await fixture();
-  expect(() =>
+  await expect(
     f.inspection.request({ ...f.selection, range: { startUs: 0, endUs: 1000001 } }),
-  ).toThrow(expect.objectContaining({ code: "INVALID_RANGE" }));
-  expect(() =>
+  ).rejects.toThrow(expect.objectContaining({ code: "INVALID_RANGE" }));
+  await expect(
     f.inspection.request({ ...f.selection, streamId: "b", acquisitionId: "mask" }),
-  ).toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
+  ).rejects.toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
   expect(f.assets.references(f.asset.id)).toEqual([]);
   expect(f.catalog.catalog.prepare("SELECT COUNT(*) AS count FROM jobs").get()).toEqual({
     count: 0,
@@ -341,7 +348,7 @@ test("a failed dependency retain rolls back the job and earlier asset retain tog
   f.onPin(() => {
     f.catalog.catalog.prepare("UPDATE acquisitions SET metadata=NULL WHERE id=?").run("mask");
   });
-  expect(() => f.inspection.request({ ...f.selection, acquisitionId: "mask" })).toThrow(
+  await expect(f.inspection.request({ ...f.selection, acquisitionId: "mask" })).rejects.toThrow(
     expect.objectContaining({ code: "NOT_READY" }),
   );
   expect(f.assets.references(f.asset.id)).toEqual([]);
@@ -365,15 +372,18 @@ test("source WAV capacity is checked before queue admission using absolute floor
     52,
   );
   // floor(1042 * .048) - floor(1020 * .048) = 50 - 48 = 2 frames, not floor(22 * .048).
-  expect(() =>
+  await expect(
     f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1042 } }),
-  ).toThrow("exceeds cache budget");
+  ).rejects.toThrow("exceeds cache budget");
   expect(calls).toBe(0);
   expect(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM jobs").get()).toEqual({ n: 0 });
-  const status = f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } });
+  const status = await f.inspection.request({
+    ...f.selection,
+    range: { startUs: 1020, endUs: 1041 },
+  });
   await f.jobs.idle();
   expect(
-    f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } }).state,
+    (await f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } })).state,
   ).toBe("ready");
   expect(status.jobId).toBeTruthy();
   expect(calls).toBe(1);
@@ -381,15 +391,15 @@ test("source WAV capacity is checked before queue admission using absolute floor
 
 test("long source capacity arithmetic rejects before rendering without losing high-clock precision", async () => {
   const f = await fixture(renderer, 44, Number.MAX_SAFE_INTEGER);
-  expect(() => f.inspection.request(f.selection)).toThrow("exceeds cache budget");
+  await expect(f.inspection.request(f.selection)).rejects.toThrow("exceeds cache budget");
   // Number multiplication loses this frame; absolute integer sample clocks retain it.
-  expect(() =>
+  await expect(
     f.inspection.request({
       ...f.selection,
       range: { startUs: 9007199254740958, endUs: 9007199254740959 },
     }),
-  ).toThrow("exceeds cache budget");
-  const small = f.inspection.request({
+  ).rejects.toThrow("exceeds cache budget");
+  const small = await f.inspection.request({
     ...f.selection,
     range: { startUs: 9007199254740959, endUs: 9007199254740960 },
   });
@@ -439,28 +449,28 @@ test("acoustic images reuse cached measurements and explicit retry rebuilds evic
   };
   const prepare = async () => {
     for (let i = 0; i < 4; i++) {
-      f.waveform.request(input);
+      await f.waveform.request(input);
       await f.jobs.idle();
     }
-    const result = f.waveform.request(input);
+    const result = await f.waveform.request(input);
     expect(result.state).toBe("ready");
     return result;
   };
   const first = await prepare();
   expect(first.published!.artifact.mediaType).toBe("image/png");
-  const measurements = f.waveform.request({ ...input, format: "json" });
-  const pcm = f.inspection.request({ ...f.selection, range: input.range }).published!.audio;
+  const measurements = await f.waveform.request({ ...input, format: "json" });
+  const pcm = (await f.inspection.request({ ...f.selection, range: input.range })).published!.audio;
   f.cache.remove(pcm.cacheId);
   f.cache.remove(first.published!.artifact.cacheId);
   const second = await prepare();
   expect([decodes, images]).toEqual([1, 2]);
   f.cache.remove(measurements.published!.artifact.cacheId);
-  expect(f.waveform.request(input).published).toEqual(second.published);
+  expect((await f.waveform.request(input)).published).toEqual(second.published);
   f.cache.remove(second.published!.artifact.cacheId);
-  f.waveform.request(input);
+  await f.waveform.request(input);
   await f.jobs.idle();
-  expect(f.waveform.request(input).state).toBe("failed");
-  f.waveform.retry(input);
+  expect((await f.waveform.request(input)).state).toBe("failed");
+  await f.waveform.retry(input);
   await f.jobs.idle();
   await prepare();
   expect([decodes, images]).toEqual([2, 3]);
@@ -490,11 +500,11 @@ test("cached spectral jobs preserve full versus ranged measurements and survive 
     hopFrames: 128,
   };
   const prepare = async (range: { startUs: number; endUs: number }) => {
-    f.waveform.request({ ...input, range });
+    await f.waveform.request({ ...input, range });
     await f.jobs.idle();
-    f.waveform.request({ ...input, range });
+    await f.waveform.request({ ...input, range });
     await f.jobs.idle();
-    const result = f.waveform.request({ ...input, range });
+    const result = await f.waveform.request({ ...input, range });
     expect(result.state).toBe("ready");
     return result;
   };
@@ -517,7 +527,9 @@ test("cached spectral jobs preserve full versus ranged measurements and survive 
   }
   const audio = JSON.parse(f.jobs.status(f.jobs.job(narrow.dependency.jobId!)).published!.result);
   f.cache.remove(audio.cacheId);
-  expect(f.waveform.request({ ...input, range: detail.range }).published).toEqual(narrow.published);
+  expect((await f.waveform.request({ ...input, range: detail.range })).published).toEqual(
+    narrow.published,
+  );
 });
 
 test("audio context keeps source selection and rounds outward without crossing source extent", async () => {
@@ -530,9 +542,9 @@ test("audio context keeps source selection and rounds outward without crossing s
   const context = f.inspection.context(input, { start: 15967, end: 25632 });
   expect(context.selection).toEqual({ ...input, range: { startUs: 332646, endUs: 534000 } });
   expect(context.sampleClock).toMatchObject({ sampleRange: { start: 15967, end: 25632 } });
-  const pending = f.inspection.request(context.selection);
+  const pending = await f.inspection.request(context.selection);
   await f.jobs.idle();
-  expect(f.inspection.request(context.selection).published!.audio).toMatchObject({
+  expect((await f.inspection.request(context.selection)).published!.audio).toMatchObject({
     assetId: f.asset.id,
     streamId: "a",
     acquisitionId: "mask",
@@ -562,12 +574,12 @@ test("waveform jobs reuse bounded audio recipes, publish source axes and survive
     acquisitionId: "mask",
     range: { startUs: 333333, endUs: 533337 },
   };
-  const first = f.waveform.request(input);
+  const first = await f.waveform.request(input);
   expect(first.published).toBeNull();
   await f.jobs.idle();
-  f.waveform.request(input);
+  await f.waveform.request(input);
   await f.jobs.idle();
-  const ready = f.waveform.request(input),
+  const ready = await f.waveform.request(input),
     artifact = ready.published!.artifact;
   expect(ready.state).toBe("ready");
   expect(renders).toBe(1);
@@ -600,22 +612,22 @@ test("waveform jobs reuse bounded audio recipes, publish source axes and survive
       { min: 0, max: 0, rms: 0 },
     ],
   });
-  const audio = f.inspection.request(input).published!.audio;
+  const audio = (await f.inspection.request(input)).published!.audio;
   f.cache.remove(audio.cacheId);
-  expect(f.waveform.request(input).published).toEqual(ready.published);
+  expect((await f.waveform.request(input)).published).toEqual(ready.published);
   await f.jobs.idle();
   expect(renders).toBe(1);
   f.cache.remove(artifact.cacheId);
-  f.waveform.request(input);
+  await f.waveform.request(input);
   await f.jobs.idle();
-  const failed = f.waveform.request(input);
+  const failed = await f.waveform.request(input);
   expect(failed.state).toBe("failed");
   expect(f.jobs.job(failed.jobId!).errorCode).toBe("ARTIFACT_EXPIRED");
-  f.waveform.retry(input);
+  await f.waveform.retry(input);
   await f.jobs.idle();
-  f.waveform.request(input);
+  await f.waveform.request(input);
   await f.jobs.idle();
-  const rebuilt = f.waveform.request(input);
+  const rebuilt = await f.waveform.request(input);
   expect(rebuilt.state).toBe("ready");
   expect(rebuilt.published!.artifact.audio.generation).toBe(2);
   expect(renders).toBe(2);
@@ -630,7 +642,7 @@ test("explicit waveform detail refuses before preparing PCM instead of silently 
       return renderer.render(request, signal);
     },
   });
-  expect(() => f.waveform.request({ ...f.selection, bucketFrames: 1 })).toThrow(
+  await expect(f.waveform.request({ ...f.selection, bucketFrames: 1 })).rejects.toThrow(
     expect.objectContaining({ code: "LIMIT_EXCEEDED", details: { maximumBuckets: 4096 } }),
   );
   await f.jobs.idle();
@@ -639,9 +651,9 @@ test("explicit waveform detail refuses before preparing PCM instead of silently 
 
 test("audio generation changes cannot publish stale waveform work and cancellation requires retry", async () => {
   const f = await fixture();
-  f.inspection.request(f.selection);
+  await f.inspection.request(f.selection);
   await f.jobs.idle();
-  const original = f.inspection.request(f.selection);
+  const original = await f.inspection.request(f.selection);
   const acquire = f.cache.acquire.bind(f.cache);
   let changed = false;
   f.cache.acquire = (id) => {
@@ -652,35 +664,35 @@ test("audio generation changes cannot publish stale waveform work and cancellati
     }
     return lease;
   };
-  const pending = f.waveform.request(f.selection);
+  const pending = await f.waveform.request(f.selection);
   await f.jobs.idle();
   expect(f.jobs.job(pending.jobId!)).toMatchObject({
     state: "failed",
     errorCode: "ARTIFACT_CHANGED",
   });
-  const next = f.waveform.request(f.selection);
+  const next = await f.waveform.request(f.selection);
   f.jobs.cancel(next.jobId!);
   await f.jobs.idle();
-  expect(f.waveform.request(f.selection).published).toBeNull();
-  f.waveform.retry(f.selection);
+  expect((await f.waveform.request(f.selection)).published).toBeNull();
+  await f.waveform.retry(f.selection);
   await f.jobs.idle();
-  const ready = f.waveform.request(f.selection);
+  const ready = await f.waveform.request(f.selection);
   expect(ready.state).toBe("ready");
   expect(ready.published!.artifact.audio.generation).toBe(2);
 });
 
 test("default full-source overview handles longer tracks and persisted waveform survives owner restart", async () => {
   const f = await fixture(renderer, undefined, 120000000);
-  f.waveform.request(f.selection);
+  await f.waveform.request(f.selection);
   await f.jobs.idle();
-  f.waveform.request(f.selection);
+  await f.waveform.request(f.selection);
   await f.jobs.idle();
-  const ready = f.waveform.request(f.selection);
+  const ready = await f.waveform.request(f.selection);
   expect(ready.state).toBe("ready");
   expect(ready.published!.artifact.bucketCount).toBeLessThanOrEqual(1025);
   expect(ready.published!.artifact.range.endUs).toBe(120000000);
   const { waveform } = await f.restart();
-  expect(waveform.request(f.selection).published).toEqual(ready.published);
+  expect((await waveform.request(f.selection)).published).toEqual(ready.published);
   const artifact = ready.published!.artifact;
   const before = await readFile(artifact.file);
   const held = f.cache.acquire(artifact.cacheId)!;
@@ -709,7 +721,7 @@ test.each(["failed", "canceled"] as const)(
         return renderer.render(request, signal);
       },
     });
-    const pending = f.waveform.request(f.selection);
+    const pending = await f.waveform.request(f.selection);
     if (state === "canceled") {
       await entered.promise;
       f.jobs.cancel(pending.jobId!);
@@ -718,14 +730,14 @@ test.each(["failed", "canceled"] as const)(
     await f.jobs.idle();
     expect(f.jobs.job(pending.jobId!).state).toBe(state);
     const next = await f.restart();
-    next.waveform.request(f.selection);
+    await next.waveform.request(f.selection);
     await next.jobs.idle();
     expect(calls).toBe(1);
-    next.waveform.retry(f.selection);
+    await next.waveform.retry(f.selection);
     await next.jobs.idle();
-    next.waveform.request(f.selection);
+    await next.waveform.request(f.selection);
     await next.jobs.idle();
-    const ready = next.waveform.request(f.selection);
+    const ready = await next.waveform.request(f.selection);
     expect(ready.state).toBe("ready");
     expect(ready.published!.artifact.audio).toEqual({ jobId: pending.jobId, generation: 2 });
     expect(calls).toBe(2);
@@ -747,12 +759,12 @@ test("nonintegral admitted sample rates remain renderer admission, not an unstru
     44099.5,
   );
   expect(f.inspection.recipe(f.selection).sampleClock).toBeUndefined();
-  const pending = f.inspection.request(f.selection);
+  const pending = await f.inspection.request(f.selection);
   await f.jobs.idle();
   expect(f.jobs.job(pending.jobId!)).toMatchObject({
     state: "failed",
     errorCode: "UNSUPPORTED_MEDIA",
   });
-  expect(f.waveform.request({ ...f.selection, bucketFrames: 1 }).state).toBe("failed");
+  expect((await f.waveform.request({ ...f.selection, bucketFrames: 1 })).state).toBe("failed");
   expect(renders).toBe(1);
 });

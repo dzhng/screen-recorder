@@ -17,6 +17,8 @@ import { compositionPointerSources } from "./composition-pointer.js";
 export type ProjectRenderSupport = {
   implementationId: string;
   rnnoise?: string;
+  retime?: string;
+  validateAudio?: (request: AudioWindowInput) => Promise<void>;
   pointers?: PointerPreparation;
 };
 
@@ -28,6 +30,29 @@ export type CompositionAssetBinding = {
   path: string;
   originUs: number;
 };
+
+export type AudioWindowInput = {
+  window: CompositionWindow;
+  assets: readonly CompositionAssetBinding[];
+};
+
+export function retimeImplementation(window: CompositionWindow, support: ProjectRenderSupport) {
+  return window.manifest.requirements.some((requirement) => requirement.kind === "retime")
+    ? support.retime
+    : undefined;
+}
+
+/** Native owns physical source intersections and recipe-specific count admission. */
+export async function validateProjectAudio(
+  support: ProjectRenderSupport,
+  request: AudioWindowInput,
+) {
+  if (!request.window.manifest.requirements.some((requirement) => requirement.kind === "retime"))
+    return;
+  if (!support.retime || !support.validateAudio)
+    throw new CatalogError("NOT_READY", "Native retiming admission is unavailable", {}, true);
+  await support.validateAudio(request);
+}
 
 /** Every file consumed by the requested output or a selected DSP prerequisite. */
 export function compositionMediaInputs(manifest: CompositionWindow["manifest"]) {
@@ -152,7 +177,9 @@ export function projectCompositionFromRevision(
             ? support.implementationId
             : requirement.kind === "processor"
               ? (implementations(support)[requirement.processor.type] ?? null)
-              : null,
+              : requirement.kind === "retime"
+                ? (support.retime ?? null)
+                : null,
       }));
       const bound = { ...window, manifest: { ...window.manifest, requirements } };
       if (admission === "produced") {

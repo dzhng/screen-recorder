@@ -170,7 +170,7 @@ test("pins an old revision through edits, repeated admission and cache eviction"
   });
   cleanup.push(async () => release.resolve());
   const request = { projectId: f.projectId, range: { startUs: 50001, endUs: 200000 } };
-  const first = f.preview.request(request);
+  const first = await f.preview.request(request);
   await started.promise;
   f.projects.apply(f.projectId, {
     requestId: "new-canvas",
@@ -178,10 +178,10 @@ test("pins an old revision through edits, repeated admission and cache eviction"
     operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
   });
   const pinned = { ...request, revisionId: first.revisionId };
-  expect(f.preview.request(pinned).jobId).toBe(first.jobId);
+  expect((await f.preview.request(pinned)).jobId).toBe(first.jobId);
   release.resolve();
   await f.jobs.idle();
-  const ready = f.preview.request(pinned);
+  const ready = await f.preview.request(pinned);
   expect(ready.state).toBe("ready");
   const preview = ready.published!.preview;
   const content = JSON.parse(await readFile(preview.file, "utf8"));
@@ -199,9 +199,9 @@ test("pins an old revision through edits, repeated admission and cache eviction"
     ),
   ).toBe(true);
   f.cache.remove(preview.cacheId);
-  expect(f.preview.request(pinned).published).toBeNull();
+  expect((await f.preview.request(pinned)).published).toBeNull();
   await f.jobs.idle();
-  const again = f.preview.request(pinned);
+  const again = await f.preview.request(pinned);
   expect(again.published!.generation).toBeGreaterThan(ready.published!.generation);
   expect(JSON.parse(await readFile(again.published!.preview.file, "utf8"))).toEqual(content);
 });
@@ -223,14 +223,17 @@ test("cancellation fences an uncooperative renderer and retry stays on the admit
     },
   });
   cleanup.push(async () => release.resolve());
-  const admitted = f.preview.request({ projectId: f.projectId });
+  const admitted = await f.preview.request({ projectId: f.projectId });
   await started.promise;
   f.jobs.cancel(admitted.jobId!);
   release.resolve();
   await f.jobs.idle();
   expect(f.cache.bytes).toBe(0);
   expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
-  const canceled = f.preview.request({ projectId: f.projectId, revisionId: admitted.revisionId });
+  const canceled = await f.preview.request({
+    projectId: f.projectId,
+    revisionId: admitted.revisionId,
+  });
   expect(canceled.published).toBeNull();
   expect(canceled.state).not.toBe("ready");
   f.projects.apply(f.projectId, {
@@ -238,9 +241,12 @@ test("cancellation fences an uncooperative renderer and retry stays on the admit
     expectedRevisionId: admitted.revisionId,
     operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
   });
-  f.preview.retry({ projectId: f.projectId, revisionId: admitted.revisionId });
+  await f.preview.retry({ projectId: f.projectId, revisionId: admitted.revisionId });
   await f.jobs.idle();
-  const ready = f.preview.request({ projectId: f.projectId, revisionId: admitted.revisionId });
+  const ready = await f.preview.request({
+    projectId: f.projectId,
+    revisionId: admitted.revisionId,
+  });
   expect(ready.published!.preview.width).toBe(160);
   expect(ready.published!.preview.revisionId).toBe(admitted.revisionId);
 });
@@ -257,14 +263,14 @@ test("deletion denies new previews while the existing queue drains before revisi
     },
   });
   cleanup.push(async () => release.resolve());
-  const admitted = f.preview.request({ projectId: f.projectId });
+  const admitted = await f.preview.request({ projectId: f.projectId });
   await started.promise;
   const owner = { kind: "project" as const, projectId: f.projectId };
   f.projects.markDeleting(f.projectId);
   const draining = f.jobs.drainOwner(owner);
-  expect(() =>
+  await expect(
     f.preview.request({ projectId: f.projectId, revisionId: admitted.revisionId }),
-  ).toThrow(/does not exist/);
+  ).rejects.toThrow(/does not exist/);
   expect(f.assets.references(f.asset.id)).toContainEqual({
     kind: "revision",
     id: admitted.revisionId,
@@ -354,9 +360,9 @@ test("binds supported gain throughout audio routing and output, but refuses unpr
       })),
     ],
   });
-  f.preview.request({ projectId: f.projectId });
+  await f.preview.request({ projectId: f.projectId });
   await f.jobs.idle();
-  const result = f.preview.request({ projectId: f.projectId }).published!.preview;
+  const result = (await f.preview.request({ projectId: f.projectId })).published!.preview;
   const content = JSON.parse(await readFile(result.file, "utf8"));
   expect(
     content.manifest.requirements
@@ -378,7 +384,7 @@ test("binds supported gain throughout audio routing and output, but refuses unpr
       },
     ],
   });
-  expect(() => f.preview.request({ projectId: f.projectId })).toThrowError(
+  await expect(f.preview.request({ projectId: f.projectId })).rejects.toThrowError(
     expect.objectContaining({
       code: "NOT_READY",
       details: {
@@ -390,15 +396,15 @@ test("binds supported gain throughout audio routing and output, but refuses unpr
 
 test("changed execution implementation never reuses a prior published movie", async () => {
   const f = await fixture();
-  const first = f.preview.request({ projectId: f.projectId });
+  const first = await f.preview.request({ projectId: f.projectId });
   await f.jobs.idle();
-  const old = f.preview.request({ projectId: f.projectId }).published!.preview;
+  const old = (await f.preview.request({ projectId: f.projectId })).published!.preview;
   const next = f.replaceRenderer({ ...renderer, implementationId: "fixture-movie-v2" });
-  const changed = next.request({ projectId: f.projectId });
+  const changed = await next.request({ projectId: f.projectId });
   expect(changed.jobId).not.toBe(first.jobId);
   expect(changed.published).toBeNull();
   await f.jobs.idle();
-  const ready = next.request({ projectId: f.projectId }).published!.preview;
+  const ready = (await next.request({ projectId: f.projectId })).published!.preview;
   expect(ready.cacheId).not.toBe(old.cacheId);
   expect(ready.implementationId).toBe("fixture-movie-v2");
   expect(JSON.parse(await readFile(ready.file, "utf8")).manifest.requirements).toEqual([
@@ -417,9 +423,9 @@ test.each(["bytes", "width", "durationUs"] as const)(
         return { ...movie, [field]: movie[field] + 1 };
       },
     });
-    f.preview.request({ projectId: f.projectId });
+    await f.preview.request({ projectId: f.projectId });
     await f.jobs.idle();
-    const result = f.preview.request({ projectId: f.projectId });
+    const result = await f.preview.request({ projectId: f.projectId });
     expect(result.state).toBe("failed");
     expect(result.published).toBeNull();
     expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
@@ -428,20 +434,168 @@ test.each(["bytes", "width", "durationUs"] as const)(
 
 test("equivalent settings reuse the movie while meaningful changes pin distinct work", async () => {
   const f = await fixture();
-  const a = f.preview.request({ projectId: f.projectId });
-  const b = f.preview.request({ projectId: f.projectId, settings: a.settings });
+  const a = await f.preview.request({ projectId: f.projectId });
+  const b = await f.preview.request({ projectId: f.projectId, settings: a.settings });
   expect(b.jobId).toBe(a.jobId);
-  const changed = f.preview.request({
+  const changed = await f.preview.request({
     projectId: f.projectId,
     settings: { video: { keyframeInterval: 15 } },
   });
   expect(changed.jobId).not.toBe(a.jobId);
   await f.jobs.idle();
-  expect(f.preview.request({ projectId: f.projectId }).published?.preview.settings).toEqual(
+  expect((await f.preview.request({ projectId: f.projectId })).published?.preview.settings).toEqual(
     a.settings,
   );
   expect(
-    f.preview.request({ projectId: f.projectId, settings: changed.settings }).published?.preview
-      .settings.video.keyframeInterval,
+    (await f.preview.request({ projectId: f.projectId, settings: changed.settings })).published
+      ?.preview.settings.video.keyframeInterval,
   ).toBe(15);
+});
+
+async function addRetimedAudio(f: Awaited<ReturnType<typeof fixture>>) {
+  const path = join(f.home, "retimed.wav");
+  await writeFile(path, "retimed identity");
+  const audio = await f.assets.import(path, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "voice",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 1000000,
+        segments: [{ startUs: 0, endUs: 1000000, empty: false }],
+        sampleRate: 48000,
+        channels: 2,
+      },
+    ],
+  }));
+  return f.projects.apply(f.projectId, {
+    requestId: "retimed-audio",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 1 }, label: "voice" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "voice" },
+          assetId: audio.id,
+          streamId: "voice",
+          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+        },
+      },
+    ],
+  });
+}
+
+test("native retiming rejection leaves no preview job or cache entry", async () => {
+  const f = await fixture({
+    ...renderer,
+    retime: "retime-fixture",
+    async validateAudio() {
+      throw new CatalogError("NOT_READY", "unsupported physical retained context");
+    },
+  });
+  await addRetimedAudio(f);
+  await expect(f.preview.request({ projectId: f.projectId })).rejects.toThrow(
+    "unsupported physical retained context",
+  );
+  expect(f.catalog.catalog.prepare("SELECT jobId FROM jobs").all()).toEqual([]);
+  expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
+});
+
+test("preflight pins the revision and callback rollback leaves admission reusable", async () => {
+  const started = gate(),
+    release = gate();
+  let rejectNew = false;
+  const f = await fixture({
+    ...renderer,
+    retime: "retime-fixture",
+    async validateAudio() {
+      if (rejectNew) throw new Error("unexpected new preflight");
+      started.resolve();
+      await release.promise;
+    },
+  });
+  cleanup.push(async () => release.resolve());
+  const retimed = await addRetimedAudio(f);
+  const pending = f.preview.prepare({ projectId: f.projectId });
+  await started.promise;
+  f.projects.apply(f.projectId, {
+    requestId: "edit-during-preflight",
+    expectedRevisionId: retimed.revision.id,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  });
+  release.resolve();
+  const prepared = await pending;
+  expect(prepared.snapshot.revisionId).toBe(retimed.revision.id);
+  expect(prepared.snapshot.retimeImplementationId).toBe("retime-fixture");
+  expect(() =>
+    prepared.submit(() => {
+      throw new Error("export intent rejected");
+    }),
+  ).toThrow("export intent rejected");
+  expect(f.catalog.catalog.prepare("SELECT jobId FROM jobs").all()).toEqual([]);
+  const pinned = structuredClone(prepared.snapshot);
+  prepared.snapshot.revisionId = f.projects.revision(f.projectId).id;
+  prepared.snapshot.range.endUs = 1000000;
+  const admitted = prepared.submit();
+  await f.jobs.idle();
+  rejectNew = true;
+  const ready = await f.preview.request(pinned);
+  expect(ready.jobId).toBe(admitted.jobId);
+  const content = JSON.parse(await readFile(ready.published!.preview.file, "utf8"));
+  expect(content.manifest.revisionId).toBe(retimed.revision.id);
+  expect(content.manifest.canvas.width).toBe(160);
+});
+
+test.each(["close", "delete"] as const)(
+  "%s during preflight prevents new admission",
+  async (action) => {
+    const started = gate(),
+      release = gate();
+    const f = await fixture({
+      ...renderer,
+      retime: "retime-fixture",
+      async validateAudio() {
+        started.resolve();
+        await release.promise;
+      },
+    });
+    cleanup.push(async () => release.resolve());
+    await addRetimedAudio(f);
+    const pending = f.preview.request({ projectId: f.projectId });
+    await started.promise;
+    if (action === "close") await f.jobs.close();
+    else f.projects.markDeleting(f.projectId);
+    release.resolve();
+    await expect(pending).rejects.toMatchObject({
+      code: action === "close" ? "SERVICE_STOPPED" : "NOT_FOUND",
+    });
+    expect(f.catalog.catalog.prepare("SELECT jobId FROM jobs").all()).toEqual([]);
+  },
+);
+
+test("retiming recipe changes invalidate produced previews and refuse old export pins", async () => {
+  const f = await fixture({ ...renderer, retime: "retime-v1", async validateAudio() {} });
+  await addRetimedAudio(f);
+  const prepared = await f.preview.prepare({ projectId: f.projectId });
+  const first = prepared.submit();
+  await f.jobs.idle();
+  const next = f.replaceRenderer({ ...renderer, retime: "retime-v2", async validateAudio() {} });
+  await expect(next.request(prepared.snapshot)).rejects.toMatchObject({
+    code: "NOT_READY",
+    retryable: true,
+  });
+  const second = await next.request({ projectId: f.projectId });
+  expect(second.jobId).not.toBe(first.jobId);
+  expect(second.published).toBeNull();
+  await f.jobs.idle();
+  const ready = await next.request({ projectId: f.projectId });
+  const content = JSON.parse(await readFile(ready.published!.preview.file, "utf8"));
+  expect(
+    content.manifest.requirements.filter((item: { kind: string }) => item.kind === "retime"),
+  ).toEqual([expect.objectContaining({ implementationId: "retime-v2" })]);
 });

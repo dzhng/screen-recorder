@@ -202,9 +202,9 @@ async function fixture(
   };
 }
 async function ready(f: Awaited<ReturnType<typeof fixture>>) {
-  f.current.prepared.request(f.input);
+  await f.current.prepared.request(f.input);
   await f.current.jobs.idle();
-  const status = f.current.prepared.request(f.input);
+  const status = await f.current.prepared.request(f.input);
   expect(status.state).toBe("ready");
   return JSON.parse(status.published!.result) as PreparedAudio;
 }
@@ -251,7 +251,7 @@ test("retains exact PCM and immutable revision dependencies; bounded reads survi
   await f.reopen();
   check();
   expect(f.reads).toBe(1);
-  expect(f.current.prepared.request(f.input).state).toBe("ready");
+  expect((await f.current.prepared.request(f.input)).state).toBe("ready");
   expect(f.reads).toBe(1);
 });
 test("an expanded executor can prepare the same revision after a nonretryable old failure", async () => {
@@ -260,20 +260,20 @@ test("an expanded executor can prepare the same revision after a nonretryable ol
   f.setHold(async () => {
     throw new CatalogError("INVALID_REQUEST", "Plan exceeds old executor bounds");
   });
-  f.current.prepared.request(f.input);
+  await f.current.prepared.request(f.input);
   await f.current.jobs.idle();
-  const failed = f.current.prepared.request(f.input);
+  const failed = await f.current.prepared.request(f.input);
   expect(failed).toMatchObject({ state: "failed", retryable: false, published: null });
   expect(() => f.current.jobs.retry(failed.jobId!)).toThrow("cannot be retried");
   f.setHold(undefined);
   await f.reopen();
-  expect(f.current.prepared.request(f.input)).toMatchObject({
+  expect(await f.current.prepared.request(f.input)).toMatchObject({
     jobId: failed.jobId,
     state: "failed",
   });
   await f.reopen("expanded-executor");
   const value = await ready(f);
-  expect(f.current.prepared.request(f.input).jobId).not.toBe(failed.jobId);
+  expect((await f.current.prepared.request(f.input)).jobId).not.toBe(failed.jobId);
   expect(f.current.jobs.job(failed.jobId!)).toMatchObject({ state: "failed", retryable: false });
   expect(
     JSON.stringify(f.current.projects.revision(f.input.projectId, f.input.revisionId).document),
@@ -309,7 +309,7 @@ test("canceling a fully staged result publishes neither asset nor revision bindi
     kind: "revision",
     id: f.input.revisionId,
   });
-  const job = f.current.prepared.request(f.input);
+  const job = await f.current.prepared.request(f.input);
   await staged;
   f.current.jobs.cancel(job.jobId!);
   release();
@@ -320,7 +320,7 @@ test("canceling a fully staged result publishes neither asset nor revision bindi
       id: f.input.revisionId,
     }),
   ).toEqual(before);
-  expect(f.current.prepared.request(f.input).published).toBeNull();
+  expect((await f.current.prepared.request(f.input)).published).toBeNull();
   await f.reopen();
   expect(await readdir(join(f.home, "staging", "prepared-audio"))).toEqual([]);
   expect(await readdir(join(f.home, "assets"))).toEqual([f.asset.fileName]);
@@ -349,7 +349,7 @@ test("unresolved retiming is rejected before job admission", async () => {
       },
     ],
   }).revision;
-  expect(() => f.current.prepared.request({ ...f.input, revisionId: revision.id })).toThrow(
+  await expect(f.current.prepared.request({ ...f.input, revisionId: revision.id })).rejects.toThrow(
     "not bound",
   );
   expect(f.reads).toBe(0);
@@ -361,9 +361,12 @@ test("publication failure rolls back asset metadata and revision references toge
   f.current.catalog.catalog.exec(
     `CREATE TRIGGER reject_prepared BEFORE INSERT ON artifacts WHEN NEW.artifact='prepared-audio' BEGIN SELECT RAISE(ABORT,'publication rejected'); END`,
   );
-  f.current.prepared.request(f.input);
+  await f.current.prepared.request(f.input);
   await f.current.jobs.idle();
-  expect(f.current.prepared.request(f.input)).toMatchObject({ state: "failed", published: null });
+  expect(await f.current.prepared.request(f.input)).toMatchObject({
+    state: "failed",
+    published: null,
+  });
   expect(refs.dependencies({ kind: "revision", id: f.input.revisionId })).toEqual(before);
   expect(f.current.catalog.catalog.prepare("SELECT id FROM assets").all()).toEqual([
     { id: f.asset.id },
@@ -393,9 +396,9 @@ test("prepared publication retains valid missing-source diagnostics and rejects 
     { clipId: f.placed.edit.labels.clip, ranges: [{ start: 100, end: 200 }] },
   ]);
   const invalid = await fixture([{ start: 100, end: 48001 }]);
-  invalid.current.prepared.request(invalid.input);
+  await invalid.current.prepared.request(invalid.input);
   await invalid.current.jobs.idle();
-  expect(invalid.current.prepared.request(invalid.input)).toMatchObject({
+  expect(await invalid.current.prepared.request(invalid.input)).toMatchObject({
     state: "failed",
     published: null,
   });
@@ -418,7 +421,7 @@ test("concurrent revisions attach each completed result to its own immutable his
       await gate;
     }
   });
-  f.current.prepared.request(f.input);
+  await f.current.prepared.request(f.input);
   await staged;
   const changed = f.current.projects.apply(f.input.projectId, {
     requestId: "next",
@@ -432,11 +435,15 @@ test("concurrent revisions attach each completed result to its own immutable his
     ],
   }).revision;
   const next = { ...f.input, revisionId: changed.id };
-  f.current.prepared.request(next);
+  await f.current.prepared.request(next);
   release();
   await f.current.jobs.idle();
-  const old = JSON.parse(f.current.prepared.request(f.input).published!.result) as PreparedAudio;
-  const latest = JSON.parse(f.current.prepared.request(next).published!.result) as PreparedAudio;
+  const old = JSON.parse(
+    (await f.current.prepared.request(f.input)).published!.result,
+  ) as PreparedAudio;
+  const latest = JSON.parse(
+    (await f.current.prepared.request(next)).published!.result,
+  ) as PreparedAudio;
   expect(old.resourceId).not.toBe(latest.resourceId);
   expect(
     f.current.projects.revisionDependencies(f.input.projectId, f.input.revisionId),
@@ -461,7 +468,7 @@ test("owner deletion rejects an already staged publication", async () => {
     reached();
     await gate;
   });
-  f.current.prepared.request(f.input);
+  await f.current.prepared.request(f.input);
   await staged;
   f.current.projects.markDeleting(f.input.projectId);
   const drained = f.current.jobs.drainOwner({ kind: "project", projectId: f.input.projectId });
@@ -508,9 +515,11 @@ test("identical prepared bytes do not merge unrelated project source closures", 
     ],
   });
   const input = { projectId: created.project.projectId, revisionId: placed.revision.id };
-  f.current.prepared.request(input);
+  await f.current.prepared.request(input);
   await f.current.jobs.idle();
-  const second = JSON.parse(f.current.prepared.request(input).published!.result) as PreparedAudio;
+  const second = JSON.parse(
+    (await f.current.prepared.request(input)).published!.result,
+  ) as PreparedAudio;
   expect(second.assetId).toBe(first.assetId);
   expect(second.dependencies).toEqual([{ kind: "asset", id: asset.id }]);
   expect(first.dependencies).toEqual([{ kind: "asset", id: f.asset.id }]);
@@ -627,7 +636,7 @@ test("an adopted ready preparation does not start a replacement job", async () =
   const f = await fixture();
   const original = await ready(f);
   const publication = f.current.prepared.portable(original.resourceId);
-  const pending = f.current.prepared.request(f.input);
+  const pending = await f.current.prepared.request(f.input);
   f.current.jobs.forgetJob(pending.jobId!);
   const stage = await f.current.prepared.stagePortable(
     publication,
@@ -641,11 +650,11 @@ test("an adopted ready preparation does not start a replacement job", async () =
     new AbortController().signal,
   );
   f.current.catalog.transaction(() => stage.publish());
-  expect(JSON.parse(f.current.prepared.request(f.input).published!.result).resourceId).toBe(
+  expect(JSON.parse((await f.current.prepared.request(f.input)).published!.result).resourceId).toBe(
     original.resourceId,
   );
   await f.current.jobs.idle();
-  expect(JSON.parse(f.current.prepared.request(f.input).published!.result).resourceId).toBe(
+  expect(JSON.parse((await f.current.prepared.request(f.input)).published!.result).resourceId).toBe(
     original.resourceId,
   );
   expect(f.reads).toBe(1);
@@ -676,9 +685,9 @@ test("portable prepared recipes retain a complete many-clip execution graph", as
       })),
     }).revision;
   const input = { projectId: f.input.projectId, revisionId: revision.id };
-  f.current.prepared.request(input);
+  await f.current.prepared.request(input);
   await f.current.jobs.idle();
-  const status = f.current.prepared.request(input);
+  const status = await f.current.prepared.request(input);
   expect(status.state).toBe("ready");
   const value = JSON.parse(status.published!.result) as PreparedAudio;
   expect(Buffer.byteLength(status.published!.input)).toBeGreaterThan(2 * 1024 ** 2);
@@ -693,7 +702,7 @@ test("retained output resolves without current implementation, survives undo, an
   await f.reopen("different-current-implementation");
   const composition = (revisionId: string) =>
     projectComposition(f.current.projects, f.current.assets, { ...f.input, revisionId });
-  expect(f.current.prepared.request(f.input).published?.result).toBe(JSON.stringify(value));
+  expect((await f.current.prepared.request(f.input)).published?.result).toBe(JSON.stringify(value));
   expect(f.reads).toBe(1);
   expect(
     f.current.prepared.resolve(composition(f.input.revisionId), {

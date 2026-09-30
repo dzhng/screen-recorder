@@ -6,6 +6,9 @@ import { rangeSchema, processingTapSchema, type ProcessingTap } from "@screenrec
 import type { ProjectStore } from "./projects.js";
 import {
   projectComposition,
+  retimeImplementation,
+  validateProjectAudio,
+  type ProjectRenderSupport,
   type CompositionWindow,
   type CompositionAssetBinding,
 } from "./project-window.js";
@@ -55,6 +58,7 @@ const optionsSchema = z.strictObject({
   implementationId: z.string().min(1),
 });
 const projectOptionsSchema = z.strictObject({
+  retimeImplementationId: z.string().min(1).optional(),
   preparedResourceId: z.string().min(1).nullable().optional(),
   range: rangeSchema,
   tap: processingTapSchema,
@@ -89,9 +93,7 @@ export type ProjectAudioInput = {
   range?: TimeRange | undefined;
   tap?: ProcessingTap | undefined;
 };
-export type ProjectAudioRenderer = {
-  implementationId: string;
-  rnnoise?: string;
+export type ProjectAudioRenderer = ProjectRenderSupport & {
   render(
     request: {
       prepared?: PreparedAudioRead | undefined;
@@ -277,25 +279,27 @@ export class MediaAudioInspection {
         : null,
     };
   }
-  request(input: SourceAudioInput): ReturnType<MediaAudioInspection["requestSource"]>;
+  request(input: SourceAudioInput): Promise<ReturnType<MediaAudioInspection["requestSource"]>>;
   request(input: ProjectAudioInput): ReturnType<MediaAudioInspection["requestProject"]>;
   request(
     input: MediaAudioInput,
-  ):
+  ): Promise<
     | ReturnType<MediaAudioInspection["requestSource"]>
-    | ReturnType<MediaAudioInspection["requestProject"]>;
-  request(input: MediaAudioInput) {
+    | Awaited<ReturnType<MediaAudioInspection["requestProject"]>>
+  >;
+  async request(input: MediaAudioInput) {
     return "projectId" in input ? this.requestProject(input) : this.requestSource(input);
   }
-  retry(input: SourceAudioInput): ReturnType<MediaAudioInspection["requestSource"]>;
+  retry(input: SourceAudioInput): Promise<ReturnType<MediaAudioInspection["requestSource"]>>;
   retry(input: ProjectAudioInput): ReturnType<MediaAudioInspection["requestProject"]>;
   retry(
     input: MediaAudioInput,
-  ):
+  ): Promise<
     | ReturnType<MediaAudioInspection["requestSource"]>
-    | ReturnType<MediaAudioInspection["requestProject"]>;
-  retry(input: MediaAudioInput) {
-    const current = this.request(input);
+    | Awaited<ReturnType<MediaAudioInspection["requestProject"]>>
+  >;
+  async retry(input: MediaAudioInput) {
+    const current = await this.request(input);
     if (current.jobId) this.owners.jobs.retry(current.jobId);
     return this.request(
       "projectId" in current
@@ -335,13 +339,17 @@ export class MediaAudioInspection {
     this.owners.cache.checkCapacity(Number(bytes));
     return { ...plan, retained };
   }
-  private projectRecipe(input: ProjectAudioInput) {
-    const { window, durationUs, retained } = this.projectPlan(input);
+  private projectRecipe(input: ProjectAudioInput, plan = this.projectPlan(input)) {
+    const { window, durationUs, retained } = plan;
+    const retime = retained
+      ? undefined
+      : retimeImplementation(window, this.owners.project!.renderer);
     const { range, tap, revisionId } = window.manifest;
     const options = {
       range,
       tap,
       implementationId: this.owners.project!.renderer.implementationId,
+      ...(retime ? { retimeImplementationId: retime } : {}),
       preparedResourceId: retained?.resourceId ?? null,
     };
     return {
@@ -360,8 +368,12 @@ export class MediaAudioInspection {
       },
     };
   }
-  private requestProject(input: ProjectAudioInput) {
-    const { selection, identity } = this.projectRecipe(input);
+  private async requestProject(input: ProjectAudioInput) {
+    const plan = this.projectPlan(input);
+    const { selection, identity } = this.projectRecipe(input, plan);
+    const prior = this.owners.jobs.status(identity);
+    if (!plan.retained && !prior.jobId && !prior.published)
+      await validateProjectAudio(this.owners.project!.renderer, plan);
     const status = submitCachedDerivative<ProjectAudioArtifact>(
       this.owners.jobs,
       this.owners.cache,
@@ -397,6 +409,16 @@ export class MediaAudioInspection {
       ...parsed.data,
       preparedResourceId: parsed.data.preparedResourceId ?? null,
     });
+    if (
+      parsed.data.retimeImplementationId !==
+      (plan.retained ? undefined : retimeImplementation(plan.window, owner.renderer))
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned retiming implementation is unavailable",
+        {},
+        true,
+      );
     signal.throwIfAborted();
     let prepared: PreparedAudioRead | undefined;
     try {

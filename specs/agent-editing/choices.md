@@ -4042,19 +4042,44 @@ product behavior or listening scope.
   recorded old implementation fails.
 - **Confidence:** high; the simpler lifetime fits existing bounded block work.
 
-## Admit export prerequisites in the existing queue transaction
 
-- **When:**14e public retiming admission design.
-- **Choice:** validate a pinned preview asynchronously, then use JobQueue's
-  existing admission callback to save its export intent in the same transaction
-  as preview-job admission. A failed intent therefore cannot leave an untracked
-  preview job running. Restart uses that exact durable preview row.
-- **Gap:** native recipe validation must happen before a new job, while the
-  waiting-export admission scan is synchronous and blocks queue pumping.
-- **Reach:** core request methods become asynchronous; the scheduler remains
-  synchronous. Retained/committed reads bypass validation, and missing preview
-  rows require explicit re-admission. No new queue, registry or unchecked flag.
-- **Verdict:** sound; it reuses an existing atomic owner instead of adding nested
-  transactions or holding the scheduler across native IO.
-- **Confidence:** high; rollback, replay and deletion checks are required before
-  this design is accepted as shipped behavior.
+## 14e — Public retiming admission and delivery
+
+- **When:** JS/core/service14e integration.
+  **Choice:** Validate native metadata before creating new produced work, then let
+  the existing queue transaction own publication of its job and export intent.
+  For example, a requested movie pins revision A, waits for the worker to check
+  the source's physical audio runs, and still queues revision A if the user edits
+  to B while waiting. A rejected run creates neither preview work nor an export
+  intent. The alternative would queue known-unsupported work or hold a database
+  transaction across a worker wait. **Gap:** The plan specified early validation
+  but not how it fits the synchronous queue. **Reach:** Audio, preparation,
+  acoustic inspection and preview request/retry APIs now return promises; queue
+  submission itself remains synchronous. **Verdict:** sound; the queue keeps one
+  transaction owner and rechecks closure/deletion after the await.
+  **Confidence:** high.
+
+- **When:** JS/core/service14e integration.
+  **Choice:** Preserve exact admitted dependencies during automatic recovery;
+  reserve fresh metadata validation for an explicit request or retry. For example,
+  a waiting export resumes its previously admitted preview even after cache loss;
+  if that job row is absent, the synchronous pump reports a retryable unavailable
+  dependency. An explicit retry can validate and recreate it. Existing published
+  and retained results stay readable without repeating native source validation.
+  **Gap:** The plan did not specify replay behavior after asynchronous admission.
+  **Reach:** Recovery cannot secretly launch asynchronous probes from a queue
+  callback; callers retain control over recreating absent work.
+  **Verdict:** sound; preserves synchronous queue ownership and stored revision
+  intent. **Confidence:** high.
+
+- **When:** JS/core/service14e integration.
+  **Choice:** Charge a complete retained context once per exact rate when setting
+  a worker deadline. Two clips cut from one continuous retimed run share its
+  preparation cost. Two almost-equal rates that round to the same sample span
+  still need separate conversions and receive separate time budgets. The service
+  uses the composition package's existing rational arithmetic rather than a new
+  floating-point rate rule. **Gap:** Full-run charging was required but the
+  distinctness key was unspecified. **Reach:** Deadline estimates match native
+  work identity across state-only clips and split edits; retained PCM reads skip
+  preparation cost. **Verdict:** sound; collision and split-control regressions
+  prove both sides. **Confidence:** high.

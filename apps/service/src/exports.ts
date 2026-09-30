@@ -405,7 +405,7 @@ export class MediaExports {
     if (intent.targetKind === "project") {
       if (intent.kind === "processed-package") return { state: "ready" };
       const pinned = intent.snapshot as PinnedProjectPreview;
-      ready = this.project().preview.request(pinned);
+      ready = this.project().preview.resume(pinned);
     } else {
       if (!intent.sourceEvidence) {
         this.recording().processing.prepare(intent.targetId);
@@ -646,7 +646,7 @@ export class MediaExports {
         exportId,
       });
   }
-  private async prepareIntent(request: Request) {
+  private async prepareIntent(request: Request): Promise<ReturnType<MediaExports["status"]>> {
     this.requireAdmission(request.exportId);
     if (
       !uuid.test(request.exportId) ||
@@ -679,23 +679,44 @@ export class MediaExports {
         throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
       this.requireActive(existing);
       this.assertOwner(existing);
-      if (!existing.receipt)
-        this.owners.jobs.submitDeferred({
-          ...this.identity(existing),
-          lane: "heavy",
-        });
+      if (!existing.receipt) {
+        if (
+          existing.targetKind === "project" &&
+          existing.kind !== "processed-package" &&
+          !this.hasPreparedInput(existing)
+        ) {
+          const prepared = await this.project().preview.prepare(
+            existing.snapshot as PinnedProjectPreview,
+          );
+          prepared.submit(() => {
+            this.requireAdmission(existing.exportId);
+            const current = this.require(existing.exportId);
+            this.requireActive(current);
+            this.assertOwner(current);
+            if (current.request !== key)
+              throw new CatalogError(
+                "REQUEST_CONFLICT",
+                "Export identity names a different request",
+              );
+          });
+        }
+        this.owners.jobs.submitDeferred({ ...this.identity(existing), lane: "heavy" });
+      }
       return this.status(existing.exportId);
     }
+    const preparedPreview =
+      targetKind === "project" && request.kind !== "processed-package"
+        ? await this.project().preview.prepare({
+            projectId: targetId,
+            revisionId: request.revisionId,
+            settings: request.settings,
+          })
+        : undefined;
     const snapshot =
-      targetKind === "project"
-        ? request.kind === "processed-package"
-          ? this.projectPackage().pin(targetId, request.revisionId)
-          : this.project().preview.pin({
-              projectId: targetId,
-              revisionId: request.revisionId,
-              settings: request.settings,
-            })
-        : this.recording().store.pinPackageSnapshot(targetId, request.revisionId).snapshot;
+      preparedPreview?.snapshot ??
+      (targetKind === "project"
+        ? this.projectPackage().pin(targetId, request.revisionId)
+        : this.recording().store.pinPackageSnapshot(targetId, request.revisionId).snapshot);
     const selected = await this.owners.files.externalDirectory(
       request.directory,
       this.lifetime.signal,
@@ -703,8 +724,12 @@ export class MediaExports {
     this.lifetime.signal.throwIfAborted();
     this.requireAdmission(request.exportId);
     this.assertOwner({ targetKind, targetId });
+    // Another request may have won while metadata/directory checks awaited. Replay its pin.
+    if (this.find(request.exportId)) return this.prepareIntent(request);
     const destination = { ...selected, leaf: request.leaf };
-    const intent = this.owners.catalog.transaction(() => {
+    const persist = () => {
+      this.requireAdmission(request.exportId);
+      this.assertOwner({ targetKind, targetId });
       const existing = this.find(request.exportId);
       if (existing) {
         if (existing.request !== key)
@@ -749,7 +774,13 @@ export class MediaExports {
       if (admitted.request !== key)
         throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
       return admitted;
-    });
+    };
+    if (preparedPreview)
+      preparedPreview.submit(() => {
+        persist();
+      });
+    else this.owners.catalog.transaction(persist);
+    const intent = this.require(request.exportId);
     this.owners.jobs.submitDeferred({
       ...this.identity(intent),
       lane: "heavy",
@@ -941,7 +972,11 @@ export class MediaExports {
     // An acknowledged commit never becomes a second export because the user moved/deleted it.
     if (intent.receipt)
       return cleanupPending(intent) ? this.recover(exportId) : this.status(exportId);
-    if (intent.targetKind === "project" && !this.hasPreparedInput(intent)) {
+    if (
+      intent.targetKind === "project" &&
+      intent.kind !== "processed-package" &&
+      !this.hasPreparedInput(intent)
+    ) {
       const pinned = intent.snapshot as PinnedProjectPreview;
       const repairable = (job: Job) => {
         if (job.state !== "failed" || !job.retryable) return false;
@@ -956,6 +991,12 @@ export class MediaExports {
           this.owners.jobs.job(job.errorDetails.dependency).artifact === "pointer-presentation"
         );
       };
+      const prepared = await this.project().preview.prepare(pinned);
+      prepared.submit(() => {
+        this.requireAdmission(exportId);
+        this.requireActive(this.require(exportId));
+        this.assertOwner(intent);
+      });
       const prior = this.owners.jobs.status(this.identity(intent));
       if (prior.jobId) {
         let failure = this.owners.jobs.job(prior.jobId);
@@ -965,16 +1006,24 @@ export class MediaExports {
         )
           failure = this.owners.jobs.job(failure.errorDetails.dependency);
         if (repairable(failure)) {
-          const current = this.project().preview.request(pinned);
+          const current = await this.project().preview.request(pinned);
           if (current.jobId && repairable(this.owners.jobs.job(current.jobId)))
-            this.project().preview.retry(pinned);
+            await this.project().preview.retry(pinned);
         }
       }
     }
-    const job = this.owners.jobs.submitDeferred({
-      ...this.identity(intent),
-      lane: "heavy",
-    });
+    const job = this.owners.jobs.submitDeferred(
+      {
+        ...this.identity(intent),
+        lane: "heavy",
+      },
+      () => {
+        this.requireAdmission(exportId);
+        const current = this.require(exportId);
+        this.requireActive(current);
+        this.assertOwner(current);
+      },
+    );
     this.owners.jobs.retry(job.jobId);
     return this.status(exportId);
   }

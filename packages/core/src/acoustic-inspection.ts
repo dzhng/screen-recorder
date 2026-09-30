@@ -178,14 +178,14 @@ export class AcousticInspection {
       },
     };
   }
-  request(input: AcousticInput) {
+  async request(input: AcousticInput) {
     return input.format === "image" ? this.image(input) : this.measurements(input);
   }
-  private measurements(input: AcousticInput, regenerate = true) {
+  private async measurements(input: AcousticInput, regenerate = true) {
     const { recipe, selection, parameters, artifact } = this.input(input);
     let dependency = this.dependency(recipe.identity);
     if (!dependency.status.published) {
-      this.owners.audio.request(recipe.selection);
+      await this.owners.audio.request(recipe.selection);
       dependency = this.dependency(recipe.identity);
     }
     if (!dependency.status.published)
@@ -235,11 +235,11 @@ export class AcousticInspection {
         : null,
     };
   }
-  private image(input: AcousticInput) {
+  private async image(input: AcousticInput) {
     const renderer = this.owners.renderer;
     if (!renderer)
       throw new CatalogError("NOT_READY", "Acoustic image renderer is unavailable", {}, true);
-    const measurement = this.measurements(input, false);
+    const measurement = await this.measurements(input, false);
     if (!measurement.published) return measurement;
     const source = this.owners.jobs.job(measurement.jobId!);
     const status = submitCachedDerivative<AcousticArtifact>(
@@ -267,15 +267,15 @@ export class AcousticInspection {
         : null,
     };
   }
-  retry(input: AcousticInput) {
+  async retry(input: AcousticInput) {
     const { recipe, selection } = this.input(input);
     const pinnedInput = { ...input, ...selection };
-    const current = this.request(pinnedInput);
+    const current = await this.request(pinnedInput);
     if (current.published) return current;
     if (input.format === "image") {
-      this.retry({ ...pinnedInput, format: "json" });
-    } else this.owners.audio.retry(recipe.selection);
-    const next = this.request(pinnedInput);
+      await this.retry({ ...pinnedInput, format: "json" });
+    } else await this.owners.audio.retry(recipe.selection);
+    const next = await this.request(pinnedInput);
     if (next.jobId && next.jobId !== next.dependency.jobId) this.owners.jobs.retry(next.jobId);
     return this.request(pinnedInput);
   }
