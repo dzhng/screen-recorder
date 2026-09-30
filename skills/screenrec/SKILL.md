@@ -6,7 +6,12 @@ description: Record, inspect, edit, and export local recordings, or edit, previe
 # Screenrec
 
 Make editorial decisions from recording evidence, then use the CLI to apply
-non-destructive edits and verify the result.
+non-destructive edits and verify the result. The product supplies composable
+primitives; choose treatments from the user's intent, not an assumed house style.
+Defaults and presets are starting settings, not requests to clean up every clip.
+When the user delegates editorial judgment, make explicit, reviewable choices
+within that scope; product flexibility is not a requirement to ask approval for
+every edit. When the user requests alternatives, keep those alternatives open.
 
 ## Workflow
 
@@ -42,6 +47,9 @@ non-destructive edits and verify the result.
    frames. Choose narration, system audio, or mix intentionally. Transcript word
    times are estimates; protect adjacent speech. Use waveform or spectrogram
    analysis when available, but do not equate low amplitude with safe silence.
+   Before shaping joins, pauses, replacement speech, mixes or audio/video timing,
+   read [editorial checks](references/editorial-checks.md). Use its failure signs
+   to choose and verify explicit edits; the suggested remedies are optional.
 5. Submit the requested edit against the inspected revision. Read the current
    schema for required identifiers and ranges. A cut accepts multiple ranges
    in one revision's playback coordinates; successive edits change those
@@ -59,6 +67,12 @@ non-destructive edits and verify the result.
    Distinguish a pending export from a published artifact. Return the actual
    output path and any unresolved verification limits. Use history, undo, or
    restore for requested recovery; never modify source media or the database.
+
+When feedback reveals a reusable editing or review lesson, fold it into the
+editorial checks rather than appending a session diary. Keep clip-specific
+preferences, accepted artifact identities and unresolved verdicts with the project.
+Reuse earlier approvals only for what was actually judged; a changed render needs
+verification of the changed behavior, not repetition of every passed comparison.
 
 ## Managed projects and processing
 

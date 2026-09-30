@@ -1,0 +1,82 @@
+# Editorial checks
+
+Use these checks to catch unintended effects, not to impose a style. Deliberate
+silence, hard cuts, noisy recordings and independent picture/sound edits can all
+be correct. Follow the user's intended result; select the necessary primitives
+and settings explicitly. A preference for one candidate is not a universal preset.
+Exercise delegated editing judgment when the task grants it; ask for clarification
+only when an unresolved choice materially affects the requested result. Do not
+turn a checklist into a mandatory approval sequence.
+
+## Listen around the edit
+
+- Review enough unchanged context on both sides to judge the transition. A clean
+  isolated replacement can still sound pasted into the original recording.
+- Use a familiar complete sentence with the original alongside. Avoid unexplained
+  word fragments or random speech that make the listener guess what to judge.
+  Label the changed region and give one concrete rubric, such as complete words
+  and natural joins. A small slowdown may be barely noticeable; perceptibility
+  and absence of damage are different questions.
+- Separate judgments about word placement, pronunciation, speaker identity,
+  level, pacing, echo and continuity. A natural-sounding clip does not prove that
+  a cut falls between words. A correctly placed cut does not prove a natural join.
+- Label artificial annotation aids, such as inserted digital silence. Approval
+  of their boundary placement does not approve that sound as the final edit.
+  Preserve earlier verdicts for their exact scope when later feedback exposes a
+  different problem. Do not imply an algorithm improved when only the input,
+  selected region or rate changed.
+
+## Pauses, cuts and background sound
+
+- Inserting zero samples can make the background vanish abruptly even when speech
+  is intact. Inspect the noise floor before, during and after the gap; a pause in
+  speech need not be silence in the room. Room-tone fill, chosen-scope noise
+  reduction and deliberate silence are separate editorial choices.
+- A low-energy region may contain a quiet syllable, breath or consonant. Treat ASR
+  timestamps and waveform troughs as candidates, not verified word boundaries.
+  When a boundary is wrong, repair the selection before tuning fades or DSP.
+- Inspect room-tone samples for speech and distinct noises before repeating them.
+  Listen for loop seams, repeated sound patterns and level changes at overlaps.
+  Gain and fades can help, but overlap can also boost or cancel correlated audio.
+- A short fade may suppress a click but can also soften a consonant; a longer
+  crossfade can smear or duplicate speech. Choose overlap and curve from the
+  actual join instead of applying a fixed fade to every cut. Preserve intentional
+  breaths, emphasis and pacing unless the requested edit changes them.
+
+## Replacement speech and processing
+
+- Judge generated speech at its actual playback level beside the original.
+  Louder output can exaggerate a mismatch. A separately labeled level-matched
+  comparison can help diagnose timbre; it is not permission to normalize the
+  original track or conceal the delivered level difference.
+- Check entrance and exit separately. Extra lead-in or tail silence can expose
+  an otherwise convincing replacement; one side may already be correct. Adjust
+  only the requested timing and protect adjacent phonemes.
+- A similar voice can still differ in echo, room sound or background hum. Keep an
+  accepted candidate as the control; changing cloning modes is not a verified
+  fix for a join problem. Inspect timing, level and background continuity as
+  separate variables before attributing the cause or replacing the engine.
+- Noise reduction can introduce consonant loss, pumping, metallic sound or echo.
+  Compare untreated and processed context at the chosen scope, with bypass
+  available. Lower measured noise and a matching transcript do not establish
+  better speech. Retain the user's preferred result for that material without
+  making its processor or settings mandatory for other recordings.
+
+## Picture, sound and review workflow
+
+- When changing duration, decide explicitly which picture, sound, captions and
+  overlays move together. Inspect both planes after an audio-only or video-only
+  replacement. A hold, inserted footage or another visual treatment is a creative
+  choice; do not silently add B-roll or assume lip synchronization is required.
+- Check the delivered framing, readable text and moving transitions, not just a
+  valid export or a still thumbnail. Use exposed settings and capability checks;
+  a preset must not hide a requested supported control.
+- Ask for the smallest useful human check only when needed. Say what to hear or
+  see, offer a simple pass/issue response, and do not repeat an unchanged accepted
+  audition. Ask only about the changed candidate or unresolved variable; mention
+  prior acceptance as context, not another question. If a person must hold a
+  device or stage a capture, state the required
+  duration beforehand and honor their stop; analysis continues on retained files.
+- State listening/playback limitations honestly. Numerical equality verifies
+  preservation; it does not supply perception. Record precisely what the user
+  accepted, rejected or left unresolved, then update the next check accordingly.

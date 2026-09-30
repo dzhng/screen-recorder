@@ -20,6 +20,24 @@ flowchart LR
   Assets --> Catalog
 ```
 
+## Editorial control
+
+The product provides composable media primitives; the caller chooses editorial
+policy. Expose supported settings, processing order, scope, links and bypass.
+Conveniences produce inspectable ordinary edits, and presets supply overridable
+starting settings. An operation must not silently add a treatment because the
+engine judges it more natural or polished.
+
+The agent skill owns practical editing judgment: recognize likely side effects,
+choose treatments from user intent, and verify the delivered result in context.
+Distill reusable audition feedback into its editorial checklist; keep preferences
+and accepted artifact identities with the project rather than making them global
+defaults. The skill's recommendations are optional techniques, not engine policy.
+
+Flexible composition still has exact timing, source preservation, deterministic
+edit semantics and truthful capability limits. Validate impossible combinations
+and report unsupported behavior; do not invent a fallback that changes the edit.
+
 ## One owner per concept
 
 | Concept | Owner | Consumers and boundary |

@@ -101,7 +101,8 @@ project in atomic, undoable, revision-bound batches. General composition/keyfram
 primitives underlie convenience commands. All media and inference remain local
 after explicit model preparation. The agent chooses wording, references, pacing,
 B-roll, layouts, ducking and other creative decisions. The engine provides evidence
-and precise operations. References may come from current footage, any admitted
+and precise operations; [editorial control](architecture.md#editorial-control)
+keeps practical judgment in the agent and user. References may come from current footage, any admitted
 local audio/video, or past projects; no required voice enrollment.
 
 No editing GUI, hosted sharing, embedded editorial assistant, lip-sync generation,
