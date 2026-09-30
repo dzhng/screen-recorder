@@ -10,8 +10,8 @@ Listen to [original.wav](original.wav), then
 “Okay, so this is the recorder workbench.” The edited portion starts at 0.470s
 and ends at 2.270s in the candidate. **Pass if every word stays clear and both
 transitions flow naturally; otherwise name the word or transition that sounds
-clipped, repeated, abrupt, or echoey.** Listening is unverified here; the parent
-handoff owns any subsequent user verdict.
+clipped, repeated, abrupt, or echoey.** The user replied **pass** to this rubric; [the listening record](listening.json)
+pins that verdict to these exact candidate bytes.
 
 The selection boundaries are explicitly authored midpoints of inherited ASR
 (machine transcript) gaps, not independently confirmed word edges. No protected

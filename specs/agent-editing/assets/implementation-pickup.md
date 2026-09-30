@@ -18,7 +18,7 @@ retains final sources, regression reds/greens and public source/preview checks.
 Root rehashed312 members and200 source identities, then reran cadence, media,
 replay and stop checks. Capture-pause-recovery has completed this pass.
 
-Next audit/resolve13a's remaining evidence, including the pending
+Next audit/resolve13a's remaining evidence, including the accepted
 [familiar internal-join listening comparison](13a-familiar-internal-join/README.md).
 Do not repeat accepted whole-sentence or lifecycle cohorts. Physical20 still lacks
 its stated camera duration/precision proof; [measured limitations](20-physical-sync/README.md)

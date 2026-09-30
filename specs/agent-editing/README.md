@@ -19,8 +19,9 @@ verified public operations; the installed app has not switched engines.
 
 Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
 starting with the [meaningful internal-join pair](assets/13a-familiar-internal-join/README.md)
-and a focused audit of what evidence each remaining gate requires. The pair's
-listening question is pending; do not repeat accepted whole-sentence auditions.
+and a focused audit of what evidence each remaining gate requires. The user accepted this pair's
+word clarity and transitions. Preserve that verdict; remaining local rates,
+protected-word annotations and useful short speech still need their own evidence.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified

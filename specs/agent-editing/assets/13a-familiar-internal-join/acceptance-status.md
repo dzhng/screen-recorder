@@ -1,8 +1,9 @@
 # Remaining stretch acceptance
 
-The familiar internal0.8× comparison is prepared and its listening question is
-pending. Reuse the frozen files; do not repeat accepted whole-sentence rates or
-re-run numerical/native parity cohorts. No local quality verdict is inferred.
+The user accepted the familiar internal0.8× comparison: all words clear and both
+transitions natural. Reuse the frozen files and [listening verdict](listening.json);
+do not repeat this comparison, accepted whole-sentence rates or numerical/native
+parity cohorts. The original report remains the pre-audition numerical record.
 
 A fresh read-only gate audit distinguishes the remaining requirements:
 
@@ -26,6 +27,6 @@ omitted because you do not support audio input.” No acoustic perception or wor
 annotations were claimed. ASR or waveform inspection cannot substitute for a
 listening verdict. No models, external services or speaker playback were used.
 
-Next record the internal-pair judgment, independently mark the relevant complete
+Next independently mark the relevant complete
 words with uncertainty, and choose one meaningful short-speech case from that
 source. Preserve the existing rate matrix; fill only missing local quality scope.
