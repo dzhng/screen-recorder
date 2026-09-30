@@ -1,0 +1,19 @@
+[
+  {
+    "mutation": "tail-bit via symlink basename dispatch",
+    "verdict": "invalid",
+    "reason": "Harness resolved worker symlink, so basename dispatch did not apply mutation; replaced symlinks with separate executable copies."
+  },
+  {
+    "mutation": "tail-bit",
+    "verdict": "caught",
+    "exitCode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/stretch-file-parity.py\", line 55, in <module>\n    assert sha(selected) == case['selectedPcmSha256']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+  },
+  {
+    "mutation": "no-cancel",
+    "verdict": "caught",
+    "exitCode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/stretch-file-parity.py\", line 96, in <module>\n    call(name, long_input, 0, 600*48000, 600*60000, check, 'CancellationError')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/stretch-file-parity.py\", line 40, in call\n    assert result.returncode == 1 and failure in result.stderr, row\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'case': 'cancel-before', 'args': ['/private/tmp/stretch-bounded-proof/no-cancel', '/private/tmp/stretch-bounded-proof/mutation-confirmed-no-cancel/scale-600-input.f32', '/private/tmp/stretch-bounded-proof/mutation-confirmed-no-cancel/cancel-before.f32', '0', '28800000', '36000000', '1'], 'exitCode': 0, 'stdout': '{\"frames\":36000000,\"checks\":68569}\\n', 'stderr': '        3.82 real         3.44 user         0.20 sys\\n            17760256  maximum resident set size\\n                   0  average shared memory size\\n                   0  average unshared data size\\n                   0  average unshared stack size\\n                2990  page reclaims\\n                  87  page faults\\n                   0  swaps\\n                   0  block input operations\\n                   0  block output operations\\n                   0  messages sent\\n                   0  messages received\\n                   0  signals received\\n                  99  voluntary context switches\\n               11991  involuntary context switches\\n           241649528  instructions retired\\n           122311482  cycles elapsed\\n             9372128  peak memory footprint\\n', 'maxRSSBytes': 17760256}\n"
+  }
+]

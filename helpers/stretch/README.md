@@ -13,11 +13,25 @@ return an error; upstream's zeroed failure buffer never becomes a successful res
 No wrapper crop, crossfade, surrounding real context or automatic short preset is
 introduced. Numerical parity does not establish speech quality.
 
-The typed adapter is bounded to the original60s mono48k research domain. This is
-an isolated checkpoint limit, not product policy. It uses complete input/output
-buffers and checks cancellation before and after upstream's synchronous call;
-it cannot cancel inside that call. A production state-domain/scale design remains
-part of retiming integration. Public preparation stays with existing core owners.
+The array seam retains the original60s research domain. Production preparation can
+use the isolated [file seam](Sources/ScreenRecorderStretch/SignalsmithProcessor.swift):
+fixed-size pages satisfy upstream's indexed reads and writes without splitting
+its exact call. The engine scans input, revisits it, and subtracts a reflected
+tail from prior output, so forward-only streaming cannot preserve this recipe.
+The input descriptor must remain immutable; the output is an empty, distinct
+read/write scratch file. The caller owns descriptors, removes partial output on
+any error and publishes only after success. No preparation owner is added here.
+
+Cancellation is checked at page transfers, including validation and synthesis,
+and errors escape the synchronous call through the C boundary. This bounds
+adapter work between checks, not operating-system IO latency or every internal
+upstream loop. Counts retain upstream's signed-int domain; an unrepresentable
+seek is refused before upstream's unsafe float-to-int conversion. These are
+representation limits, not a new product duration policy.
+
+The [bounded proof](../../specs/agent-editing/assets/14-bounded-stretch/README.md)
+compares accepted speech and long runs against the array control, records isolated
+process memory, and exercises cancellation and failure cleanup through Swift.
 
 Build and compare with hash-verified retained reference directories:
 
@@ -35,6 +49,6 @@ paths use this C target's parent so its original vendor include still resolves.
 
 Later public adoption must bind accepted recipe identity through the existing
 execution manifest and reuse PreparedAudioStore, JobQueue and AssetStore. Mono
-parity does not establish stereo policy, long-running cancellation, protected-word
-joins or listening acceptance. No recorded response to an audition is not proof
+parity does not establish stereo policy, public preparation ownership, arbitrary
+rate cancellation latency or new listening acceptance. No recorded response to an audition is not proof
 that the audio was unheard.

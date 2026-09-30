@@ -1,6 +1,6 @@
 # 14 — Integrate independent and linked retiming
 
-Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
+Status: public integration not started; isolated [bounded mono preparation](../assets/14-bounded-stretch/README.md) passes accepted-byte, endpoint, scale and cancellation/error-cleanup gates. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
 
 ## Contract
 
@@ -34,10 +34,11 @@ before clip stacks, and retained project-sample reads must replace the current
 unit-rate-only context assumption. Include prerequisite work in existing worker
 deadlines; do not introduce another derivative queue or cache registry.
 
-The isolated parity adapter's mono48k,60-second arrays and fixed transpose are
-research constraints, not product limits. Stereo behavior, bounded long-run
-preparation/cancellation and explicit pitch-follow execution require their own
-verification. Do not downmix, independently process channels or widen admission
+The isolated array adapter's mono48k,60-second domain and fixed transpose are
+research constraints, not product limits. The file seam now preserves exact mono
+output with bounded pages and cancellable file access; its [proof and limits](../assets/14-bounded-stretch/README.md)
+do not establish public worker cancellation deadlines. Stereo behavior and
+explicit pitch-follow execution require their own verification. Do not downmix, independently process channels or widen admission
 silently. These checks supplement, rather than replace,13a listening acceptance.
 
 ## Work and review surface

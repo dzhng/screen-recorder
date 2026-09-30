@@ -1,0 +1,606 @@
+{
+  "workerSha256": "71a7e1de4ae386ad300fe7a6fb3c170067f63fc3412f4c0da58bd341dcaf7cdd",
+  "pointerSha256": "37818977e6b9a1361a39c7e79350f1060248a7e2297ed4759085cdf6f9ea9ab4",
+  "controlSha256": "e0b6b2c66c8cfdee8386829521da5dfcfe35803839ff6d37df4e3dfc5f472bbf",
+  "checks": [
+    {
+      "case": "internal-slower-0.8x",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/internal-slower-0.8x.f32",
+        "31206",
+        "60474",
+        "75592",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":75592,\"checks\":151}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 618  page reclaims\n                   5  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   1  voluntary context switches\n                  59  involuntary context switches\n           164279276  instructions retired\n            38553522  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "c37b23ae75b93ba3a451e453c40487fe1484a38944e51a2f209f7071afd769bf"
+    },
+    {
+      "case": "internal-slower-0.9x",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/internal-slower-0.9x.f32",
+        "31206",
+        "60474",
+        "67193",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":67193,\"checks\":145}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  68  involuntary context switches\n           150038104  instructions retired\n            38382718  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "8a93003295350dd686048f09b90c83d881a95d5a19d5fe2410b4f9c43c1088c2"
+    },
+    {
+      "case": "internal-faster-1.25x",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/internal-faster-1.25x.f32",
+        "31206",
+        "60474",
+        "48379",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":48379,\"checks\":130}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  31  involuntary context switches\n           120107935  instructions retired\n            30322712  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "fb62342ff3cab527e0e76d83d24852a0cda2b77e9d5aeac2c47772c97c801fea"
+    },
+    {
+      "case": "opening-slower-0.8x",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/opening-slower-0.8x.f32",
+        "0",
+        "31206",
+        "39007",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":39007,\"checks\":82}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6897664  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  42  involuntary context switches\n           102618371  instructions retired\n            30483716  cycles elapsed\n             2474392  peak memory footprint\n",
+      "maxRSSBytes": 6897664,
+      "sha256": "b69883046e89ab9401e210d57f6b102b209a849b5ff51cfb2bcdbc9fad87eaf2"
+    },
+    {
+      "case": "endpoint-0-0.8",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-0.8-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6914048  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 626  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  48  involuntary context switches\n           187643295  instructions retired\n            47713228  cycles elapsed\n             2490776  peak memory footprint\n",
+      "maxRSSBytes": 6914048,
+      "sha256": "76c8782659414bc7d66570f0cf3b3af8299e071f258ae577e4d85cc92dded51c"
+    },
+    {
+      "case": "endpoint-0-0.9",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-0.9-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6848512  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  39  involuntary context switches\n           171750335  instructions retired\n            42894056  cycles elapsed\n             2425240  peak memory footprint\n",
+      "maxRSSBytes": 6848512,
+      "sha256": "ac8179db746b0160c5f3b1a31dd7d08c2bd0b442509ebe9b5bbd00aa573b1cfe"
+    },
+    {
+      "case": "endpoint-0-1",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-1-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  14  involuntary context switches\n            39055659  instructions retired\n            15270124  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5"
+    },
+    {
+      "case": "endpoint-0-1.25",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-1.25-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-0-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 623  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  44  involuntary context switches\n           136665245  instructions retired\n            31806814  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "2c5157fa3b75756f248c40150469c408fa3022fe16c33bf3cf6f3b358fe00b8f"
+    },
+    {
+      "case": "endpoint-1-0.8",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-0.8-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 623  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  45  involuntary context switches\n           187738093  instructions retired\n            38926615  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "21a90cc92d63ebeeb8a52de52a1b2fcfe940d5e9a930cefdffe1d680a931ab59"
+    },
+    {
+      "case": "endpoint-1-0.9",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-0.9-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  53  involuntary context switches\n           171656264  instructions retired\n            37684782  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "f8c8b8461bc1654765e6d68462b6f4322a3e4abb9106876d91ac6b2006bdf8e4"
+    },
+    {
+      "case": "endpoint-1-1",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-1-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  26  involuntary context switches\n            38989868  instructions retired\n            14235309  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c"
+    },
+    {
+      "case": "endpoint-1-1.25",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-1.25-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-1-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6848512  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 620  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  30  involuntary context switches\n           135197222  instructions retired\n            29894143  cycles elapsed\n             2425240  peak memory footprint\n",
+      "maxRSSBytes": 6848512,
+      "sha256": "5bdc281e630a361fdc8a5488be3b4fbe411d884634e0c50d866290bfeadbd883"
+    },
+    {
+      "case": "endpoint-17-0.8",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-0.8-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  43  involuntary context switches\n           187536338  instructions retired\n            37533684  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "7d9a81c0e2bb794a4d4527c5704f24c6b03300317792ff9a222379c6d0b5e2df"
+    },
+    {
+      "case": "endpoint-17-0.9",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-0.9-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  31  involuntary context switches\n           171445331  instructions retired\n            34184027  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "df33cd8ded7a85758db43397ee368a3032cae3f229ea2f195bd2dc013033ff4c"
+    },
+    {
+      "case": "endpoint-17-1",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-1-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6062080  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 572  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   1  voluntary context switches\n                  22  involuntary context switches\n            39106582  instructions retired\n            18678417  cycles elapsed\n             1671552  peak memory footprint\n",
+      "maxRSSBytes": 6062080,
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb"
+    },
+    {
+      "case": "endpoint-17-1.25",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-1.25-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-17-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6897664  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 623  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  41  involuntary context switches\n           135333909  instructions retired\n            29291599  cycles elapsed\n             2474392  peak memory footprint\n",
+      "maxRSSBytes": 6897664,
+      "sha256": "c5a92465ecf00871462bde8bb414c8dc97cc40adff725b0979e2cbc73a4cd457"
+    },
+    {
+      "case": "endpoint-137-0.8",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-0.8-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-0.8.f32",
+        "0",
+        "72000",
+        "90000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":90000,\"checks\":178}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 621  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  40  involuntary context switches\n           187414216  instructions retired\n            37143474  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "da0df89208bf88bcf7b6aee391fe26e562a707d74fd0a65ac6b6d4af3ee9a732"
+    },
+    {
+      "case": "endpoint-137-0.9",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-0.9-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-0.9.f32",
+        "0",
+        "72000",
+        "80000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":80000,\"checks\":172}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 623  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  60  involuntary context switches\n           171756431  instructions retired\n            35637310  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "ee04d83792f7fb3d7a30da3b0b2a3926c059fe29091536e8ef4b7d64e5edd32c"
+    },
+    {
+      "case": "endpoint-137-1",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-1-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-1.f32",
+        "0",
+        "72000",
+        "72000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":72000,\"checks\":128}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6029312  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 570  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  11  involuntary context switches\n            38989794  instructions retired\n            13165703  cycles elapsed\n             1638784  peak memory footprint\n",
+      "maxRSSBytes": 6029312,
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919"
+    },
+    {
+      "case": "endpoint-137-1.25",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-1.25-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/endpoint-137-1.25.f32",
+        "0",
+        "72000",
+        "57600",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":57600,\"checks\":160}\n",
+      "stderr": "        0.01 real         0.00 user         0.00 sys\n             6897664  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 623  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  61  involuntary context switches\n           135796743  instructions retired\n            34583837  cycles elapsed\n             2474392  peak memory footprint\n",
+      "maxRSSBytes": 6897664,
+      "sha256": "d776656059864a4cdd1003e5e269c23252b3d4de55107177f54d96239e33f5f7"
+    },
+    {
+      "case": "excluded-poison",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/poison-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/excluded-poison.f32",
+        "31206",
+        "60474",
+        "75592",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":75592,\"checks\":151}\n",
+      "stderr": "        0.01 real         0.01 user         0.00 sys\n             6881280  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  49  involuntary context switches\n           163092479  instructions retired\n            37484439  cycles elapsed\n             2458008  peak memory footprint\n",
+      "maxRSSBytes": 6881280,
+      "sha256": "c37b23ae75b93ba3a451e453c40487fe1484a38944e51a2f209f7071afd769bf"
+    },
+    {
+      "case": "identity-bits",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/identity-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/identity-bits.f32",
+        "0",
+        "12000",
+        "12000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":12000,\"checks\":23}\n",
+      "stderr": "        0.00 real         0.00 user         0.00 sys\n             6062080  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 572  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  17  involuntary context switches\n            31329764  instructions retired\n            13660802  cycles elapsed\n             1671552  peak memory footprint\n",
+      "maxRSSBytes": 6062080,
+      "sha256": "efab4b10c011828257348174e2e03e06de346fc8ada7720d15806d018321d647"
+    },
+    {
+      "case": "scale-60",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-60-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-60.f32",
+        "0",
+        "2880000",
+        "3600000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":3600000,\"checks\":6865}\n",
+      "stderr": "        0.49 real         0.45 user         0.02 sys\n             6864896  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 622  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                1239  involuntary context switches\n          6061071869  instructions retired\n          1136958343  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6864896,
+      "sha256": "cc216b1f7a0a14db92b6ec8ce59f0577329fb67460d940b047a4a44470489b0b",
+      "pointerControl": {
+        "args": [
+          "/usr/bin/time",
+          "-l",
+          "/private/tmp/stretch-bounded-proof/endpoint-proof/pointer-control",
+          "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-60-input.f32",
+          "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-60-pointer.f32",
+          "0",
+          "2880000",
+          "3600000"
+        ],
+        "stderr": "        0.87 real         0.42 user         0.01 sys\n            28344320  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                1901  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                1149  involuntary context switches\n          5599784123  instructions retired\n          1053991919  cycles elapsed\n            27902312  peak memory footprint\n",
+        "exact": true
+      }
+    },
+    {
+      "case": "scale-600",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "0"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"frames\":36000000,\"checks\":68569}\n",
+      "stderr": "       12.01 real         5.05 user         0.40 sys\n             6782976  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 694  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  50  voluntary context switches\n               17830  involuntary context switches\n         60453768298  instructions retired\n         13036856653  cycles elapsed\n             2441624  peak memory footprint\n",
+      "maxRSSBytes": 6782976,
+      "sha256": "4b3bb100cf2c7d95bb94ac48e38ba1bd798bbc728b9e518e2448d5fdcf50ece8",
+      "pointerControl": {
+        "args": [
+          "/usr/bin/time",
+          "-l",
+          "/private/tmp/stretch-bounded-proof/endpoint-proof/pointer-control",
+          "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+          "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-pointer.f32",
+          "0",
+          "28800000",
+          "36000000"
+        ],
+        "stderr": "        5.06 real         4.66 user         0.17 sys\n           261636096  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               16142  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   4  voluntary context switches\n               10446  involuntary context switches\n         55839319449  instructions retired\n         12048544368  cycles elapsed\n           261308944  peak memory footprint\n",
+        "exact": true
+      }
+    },
+    {
+      "case": "cancel-before",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/cancel-before.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "1"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":false}\n",
+      "stderr": "CancellationError()\n        0.00 real         0.00 user         0.00 sys\n             6340608  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 594  page reclaims\n                   2  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  31  involuntary context switches\n            28398806  instructions retired\n            14640471  cycles elapsed\n             1802648  peak memory footprint\n",
+      "maxRSSBytes": 6340608
+    },
+    {
+      "case": "cancel-validation",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/cancel-validation.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "100"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":false}\n",
+      "stderr": "CancellationError()\n        0.00 real         0.00 user         0.00 sys\n             6356992  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 594  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  31  involuntary context switches\n            36115828  instructions retired\n            14780043  cycles elapsed\n             1802648  peak memory footprint\n",
+      "maxRSSBytes": 6356992
+    },
+    {
+      "case": "cancel-energy",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/cancel-energy.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "18000"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":false}\n",
+      "stderr": "CancellationError()\n        0.14 real         0.11 user         0.02 sys\n             7192576  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 646  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                 393  involuntary context switches\n          1516654351  instructions retired\n           285486446  cycles elapsed\n             2621872  peak memory footprint\n",
+      "maxRSSBytes": 7192576
+    },
+    {
+      "case": "cancel-synthesis",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/cancel-synthesis.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "40000"
+      ],
+      "exitCode": 1,
+      "stdout": "{\"cancelledAfterOutput\":true}\n",
+      "stderr": "CancellationError()\n        1.66 real         1.52 user         0.09 sys\n             7176192  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 645  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  20  voluntary context switches\n                3250  involuntary context switches\n         19380561809  instructions retired\n          3496877106  cycles elapsed\n             2605488  peak memory footprint\n",
+      "maxRSSBytes": 7176192
+    },
+    {
+      "case": "io-synthesis",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/io-synthesis.f32",
+        "0",
+        "28800000",
+        "36000000",
+        "-40000",
+        "close-output"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "ioFailed\n        1.79 real         1.62 user         0.10 sys\n             7110656  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 641  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  15  voluntary context switches\n                4489  involuntary context switches\n         19397936888  instructions retired\n          3688113700  cycles elapsed\n             2539928  peak memory footprint\n",
+      "maxRSSBytes": 7110656
+    },
+    {
+      "case": "unrepresentable-seek",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/scale-600-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/unrepresentable-seek.f32",
+        "0",
+        "2000000",
+        "1",
+        "0"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "unsupportedSelection\n        0.01 real         0.00 user         0.00 sys\n             7077888  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 638  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  50  involuntary context switches\n           110673083  instructions retired\n            29207096  cycles elapsed\n             2556312  peak memory footprint\n",
+      "maxRSSBytes": 7077888
+    },
+    {
+      "case": "unsupported",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/unsupported.f32",
+        "0",
+        "1",
+        "2",
+        "0"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "unsupportedSelection\n        0.00 real         0.00 user         0.00 sys\n             7094272  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 640  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  31  involuntary context switches\n            30831538  instructions retired\n            14620175  cycles elapsed\n             2572696  peak memory footprint\n",
+      "maxRSSBytes": 7094272
+    },
+    {
+      "case": "short-source",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/short-source.f32",
+        "231359",
+        "2",
+        "3",
+        "0"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "invalidCount\n        0.00 real         0.00 user         0.00 sys\n             6242304  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 588  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  37  involuntary context switches\n            27671094  instructions retired\n            13330346  cycles elapsed\n             1737112  peak memory footprint\n",
+      "maxRSSBytes": 6242304
+    },
+    {
+      "case": "overflow-offset",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/source.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/overflow-offset.f32",
+        "9223372036854775807",
+        "2",
+        "3",
+        "0"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "invalidCount\n        0.00 real         0.00 user         0.00 sys\n             6242304  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 588  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  40  involuntary context switches\n            27717142  instructions retired\n            14352968  cycles elapsed\n             1720704  peak memory footprint\n",
+      "maxRSSBytes": 6242304
+    },
+    {
+      "case": "nonfinite",
+      "args": [
+        "/private/tmp/stretch-bounded-proof/swift/arm64-apple-macosx/release/StretchFileParity",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/nonfinite-input.f32",
+        "/private/tmp/stretch-bounded-proof/endpoint-proof/nonfinite.f32",
+        "0",
+        "231361",
+        "231360",
+        "0"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "nonfinite\n        0.00 real         0.00 user         0.00 sys\n             6275072  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 589  page reclaims\n                   1  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  27  involuntary context switches\n            38342361  instructions retired\n            15243530  cycles elapsed\n             1720704  peak memory footprint\n",
+      "maxRSSBytes": 6275072
+    }
+  ],
+  "descriptorContracts": "PASS same-inode aliases, invalid, read-only, append and nonempty descriptors; source bytes and descriptor positions preserved\n",
+  "passed": true
+}

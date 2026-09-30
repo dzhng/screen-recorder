@@ -9,6 +9,7 @@ let package = Package(
     .target(name: "CSignalsmith", exclude: ["vendor/sources.json", "vendor/LICENSE-stretch.txt", "vendor/LICENSE-linear.txt"],
       publicHeadersPath: "include", cxxSettings: [.unsafeFlags(["-O2"])]),
     .target(name: "ScreenRecorderStretch", dependencies: ["CSignalsmith"]),
+    .executableTarget(name: "StretchFileParity", dependencies: ["ScreenRecorderStretch"], path: "Tests/FileParity"),
     .executableTarget(name: "StretchParity", dependencies: ["ScreenRecorderStretch"], path: "Tests/Parity"),
   ],
   cxxLanguageStandard: .cxx17

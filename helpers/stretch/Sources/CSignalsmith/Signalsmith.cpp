@@ -1,5 +1,5 @@
 #include "include/Signalsmith.h"
-#include "vendor/signalsmith-stretch.h"
+#include "Exact.h"
 #include <algorithm>
 #include <cmath>
 
@@ -12,12 +12,9 @@ extern "C" ScreenrecStretchStatus screenrec_stretch_exact(
     if (inputFrames == outputFrames) {
       std::copy(input, input + inputFrames, output);
     } else {
-      signalsmith::stretch::SignalsmithStretch<float> stretch(0);
-      stretch.presetDefault(1, 48000);
-      stretch.setTransposeFactor(1);
       const float *inputs[] = {input};
       float *outputs[] = {output};
-      if (!stretch.exact(inputs, inputFrames, outputs, outputFrames)) return SCREENREC_STRETCH_UNSUPPORTED;
+      if (!screenrec::stretchExact(inputs, inputFrames, outputs, outputFrames)) return SCREENREC_STRETCH_UNSUPPORTED;
     }
     for (int32_t i = 0; i < outputFrames; ++i)
       if (!std::isfinite(output[i])) return SCREENREC_STRETCH_NONFINITE;

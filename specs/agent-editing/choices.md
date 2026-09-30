@@ -3970,3 +3970,37 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   transport or production logging policy. No public API is added.
 - **Verdict:** sound; evidence fidelity improves without changing runtime behavior.
 - **Confidence:** high; opt-in recording confines resource costs to the test.
+
+## Preserve the complete stretch call through paged file access
+
+- **When:**14 bounded mono preparation prerequisite.
+- **Choice:** give the unchanged stretch engine indexed file pages instead of
+  splitting the selected run into processing chunks or mapping complete buffers.
+- **Gap:** the accepted recipe required complete-run behavior, but its research
+  array adapter did not define a production memory strategy.
+- **Reach:** memory used by adapter buffers stays fixed; input can be revisited
+  and the output tail can be corrected exactly. Temporary disk usage still grows
+  with output, and cancellation checks do not interrupt blocked OS calls or all
+  upstream internal loops.
+- **Verdict:** sound; this preserves the measured DSP instead of rewriting its
+  energy and rounding domains. The signed-int engine domain remains an execution
+  representation limit, not a duration policy.
+- **Confidence:** high; accepted speech, frozen endpoint hashes and long-run
+  equality support the choice.
+
+## Keep preparation publication with the descriptor caller
+
+- **When:**14 bounded mono preparation prerequisite.
+- **Choice:** the library accepts an immutable input descriptor and a distinct,
+  empty read/write output descriptor. The caller discards output after any failure
+  and publishes only after success; the library does not open paths or register
+  derivatives. Both array and file entry points use one checked exact recipe.
+- **Gap:** the research adapter had no cancellable file contract or production
+  scratch ownership, and upstream converted an extreme derived seek unsafely.
+- **Reach:** existing prepared-audio owners can adopt this seam without another
+  queue or cache. Descriptor lifetime and immutable input are caller obligations;
+  unsafe derived seeks return unsupported before invoking upstream conversion.
+- **Verdict:** sound; boundary validation protects source identity and separates
+  processor success from publication without widening public capabilities.
+- **Confidence:** high; explicit ownership fits the existing preparation model
+  and failure checks cover partial output, aliases and existing destinations.

@@ -1,0 +1,47 @@
+{
+  "baseCommit": "2ac3f4f52e249a2eba7f6e76edee89750e5e678f",
+  "files": [
+    {
+      "path": "helpers/stretch/Package.swift",
+      "sha256": "d042c35d9cba232e79705fcaa73f6b6f827711c919f0cb405cdef4e79ba53092"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Exact.h",
+      "sha256": "081857212e87e370a8221a5e9e0de09baab8d13145c312ccbd06f919c7b3c581"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Paged.cpp",
+      "sha256": "420b5c9b29bf9689d2619ebcbc8b561e8eeb2c2d677e61007d0a0039107ca3a6"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp",
+      "sha256": "37d5aa1ce5f23dd4cd8a81afd627442e68ff0d1a2cd9c9e170f7adaad4a1c870"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h",
+      "sha256": "0fb642a2613922c07e2debcf486ae1ddd775343454f62b52c24d8c900fb81f96"
+    },
+    {
+      "path": "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift",
+      "sha256": "d09951fd0b0c093b1bc21fc663dc31d4acade9b0bee894c9cc48034b0c00010f"
+    },
+    {
+      "path": "helpers/stretch/Tests/FileParity/main.swift",
+      "sha256": "538949e826767de21b04c423279ba6ad20953a5cf1ffd2025229cdfa135a905d"
+    },
+    {
+      "path": "packages/test-harness/editing/stretch-file-parity.py",
+      "sha256": "19c6453eb1c5f697ec6efd09f566dfa7d418c7542c8e7d5aea448a9e4be569e6"
+    },
+    {
+      "path": "packages/test-harness/editing/stretch/pointer-control.cpp",
+      "sha256": "1f1a259f36ed274ed22cdaa9afb62d9d161fb8cbc79828e67c62a4baf743540e"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/vendor/sources.json",
+      "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+    }
+  ],
+  "frozenListeningWorkerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "vendorChanged": false
+}
