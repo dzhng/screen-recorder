@@ -1,36 +1,29 @@
 # Remaining stretch acceptance
 
-The user accepted the familiar internal0.8× comparison: all words clear and both
-transitions natural. Reuse the frozen files and [listening verdict](listening.json);
-do not repeat this comparison, accepted whole-sentence rates or numerical/native
-parity cohorts. The original report remains the pre-audition numerical record.
+The user accepted the exact internal0.8× candidate and the opening0.8× candidate
+as natural. Those verdicts remain attached to their bytes. The subsequent
+[boundary check failed](../13a-short-word/boundary-listening.json): the first cut
+splits “Okay.” Neither selection therefore establishes the proposed whole-word
+labels. The short-word coverage requirement is still open.
 
-A fresh read-only gate audit distinguishes the remaining requirements:
+First judge the [revised full-sentence paused reference](../13a-word-boundary-correction/README.md).
+It moves the first proposed cut later based on measured signal energy; the second
+cut is unchanged. Energy and ASR are candidate-selection aids, not linguistic
+proof. After both boundaries are confirmed, render the required corrected
+short-word and internal-rate comparisons. Do not ask the user to accept the old
+rate files under the disproven word labels.
 
-- Exact sample preservation, count, pitch diagnostics, source isolation and native
-  parity are already banked. Missing linguistic labels do not invalidate those
-  mechanical results.
-- The internal pair tests audible transitions between unchanged neighbors.
-  Its ASR-gap midpoints are authored selections, not independently protected-word
-  annotations. Those labels are a fixture requirement, not a runtime requirement
-  that the editor recognize words or silently widen selections.
-- The [short-word0.8× candidate](../13a-short-word/listening.json) is now accepted
-  for completeness and naturalness. This does not imply natural
-  stretching of every5–10ms fragment or an invented universal minimum duration.
-  Preserve request-specific capability/refusal and the original quality gate.
-- Public retiming remains gated. After the missing acceptance,14 owns the actual
-  linked/unlinked preparation binding, delivery and synchronization checks;14a
-  infrastructure must not be repeated as a substitute.
+Exact sample preservation, count, tone pitch, source isolation and native parity
+remain banked. Missing word labels do not invalidate those mechanical results.
+The independent word labels belong to fixture acceptance, not a runtime requirement
+that the editor recognize words or silently widen selections. Useful short speech
+does not imply natural stretching of every5–10ms fragment or a universal minimum.
 
-A separate blind capability check tried native audio tool-result emission on the
+Public retiming remains gated. After13a acceptance,14 owns actual linked/unlinked
+preparation, delivery and synchronization checks. Repeating14a infrastructure does
+not replace these prerequisites.
+
+A blind capability check attempted native audio tool-result emission on the
 original WAV without reading its transcript. The runtime responded: “audio content
-omitted because you do not support audio input.” No acoustic perception or word
-annotations were claimed. ASR or waveform inspection cannot substitute for a
-listening verdict. No models, external services or speaker playback were used.
-
-The [remaining local rates](../13a-familiar-internal-rates/README.md) and
-[short-word packet](../13a-short-word/README.md) now provide those missing
-comparisons. The full-context annotation reference inserts two deliberate pauses
-without changing any source sample. Confirmation can establish conservative
-whole-word containment, not sample-exact phonetic edges. Short-word listening is
-accepted; only the two remaining local rates and boundary containment are pending.
+omitted because you do not support audio input.” No acoustic perception was claimed.
+Waveform or ASR inspection cannot substitute for the user's listening verdict.

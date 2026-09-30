@@ -19,13 +19,12 @@ verified public operations; the installed app has not switched engines.
 
 Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
 preserving the accepted [internal0.8× join](assets/13a-familiar-internal-join/README.md).
-The [remaining local rates](assets/13a-familiar-internal-rates/README.md) and
-[short-word/boundary references](assets/13a-short-word/README.md) are integrated and
-numerically verified. The user accepted [short-word clarity and naturalness](assets/13a-short-word/listening.json).
-Only clips1/2 (internal0.9×/1.25×) and4 (complete-word containment) remain pending
-in that listening rubric. Do not repeat accepted
-comparisons or infer listening from numerical checks. After acceptance,14 owns
-public linked/unlinked retiming; the installed app remains unchanged.
+The user's [boundary check failed](assets/13a-short-word/boundary-listening.json):
+the first cut splits “Okay.” Earlier naturalness passes remain scoped to their
+exact bytes; complete-word short-speech coverage is not established. Correct
+and verify the first boundary using the [revised paused reference](assets/13a-word-boundary-correction/README.md)
+before rendering corrected short-word/internal-rate selections. Do not request old
+clips1/2 as proof of whole-word editing.14 remains gated on13a acceptance.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified

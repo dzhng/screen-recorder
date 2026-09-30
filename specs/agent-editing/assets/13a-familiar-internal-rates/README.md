@@ -1,6 +1,6 @@
 # Remaining familiar internal speed comparisons
 
-Only the proposed “so this is the” changes speed inside the complete sentence
+This historical selection changes speed inside the complete sentence
 “Okay, so this is the recorder workbench.” The surrounding original samples stay
 unchanged. These are the remaining rates for the same authored selection as the
 [internal 0.8× comparison](../13a-familiar-internal-join/README.md), whose listening
@@ -24,3 +24,7 @@ fresh scratch directory before replaying: it writes beside itself and uses the
 recorded checkout paths. Do not run it inside this frozen evidence directory.
 The [invocations](commands.json) used the existing frozen processor without new
 builds, models, gain changes, fades, hidden context or public retiming adoption.
+
+The [subsequent boundary check](../13a-short-word/boundary-listening.json) failed:
+the first cut splits “Okay.” Do not use these comparisons as evidence of
+whole-word selection or ask the user to accept them as the corrected pair.

@@ -1,0 +1,9 @@
+{
+  "verdict": "FAIL",
+  "userReply": "for 4 - the first pause split the \"okay\"",
+  "candidateSha256": "2ee22d4bc7f87891e92966553e9f19723f56d48fd1c9d8c8e0079a780f3d0919",
+  "failedSourceBoundaryFrame": 22560,
+  "failedSourceBoundarySeconds": 0.47,
+  "secondBoundaryVerdict": "UNVERIFIED",
+  "scope": "The first authored cut lies within Okay. Prior exact sample preservation and naturalness verdicts remain valid for their bytes, but neither those selections nor the short prefix establish whole-word containment."
+}

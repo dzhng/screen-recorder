@@ -1,9 +1,10 @@
 # Familiar sentence with an internal speed change
 
 This pair tests joins inside an understandable complete sentence, rather than
-repeating the accepted whole-sentence speed comparison. Only the proposed phrase
-“so this is the” is slowed; the surrounding “Okay” and “recorder workbench” retain
-their exact original samples.
+repeating the accepted whole-sentence speed comparison. The selected samples are slowed and samples outside the selection stay exact.
+The proposed “so this is the” label was not verified: the later
+[boundary check](../13a-short-word/boundary-listening.json) found that the first
+cut splits “Okay.”
 
 Listen to [original.wav](original.wav), then
 [internal-slower-0.8x.wav](internal-slower-0.8x.wav). Both say:

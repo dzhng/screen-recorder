@@ -1,6 +1,6 @@
 # 13a — Preserve selected speech at stretch endpoints
 
-Status: Signalsmith numerical candidate reproduced; full-support plots, request-specific admission and guarded real-speech auditions prepared. The user accepts clarity/naturalness of the [complete familiar sentence at0.8×,0.9× and1.25×](../assets/13a-familiar-sentence/README.md), with slight0.9× echo explicitly tolerated. The [familiar internal0.8× join](../assets/13a-familiar-internal-join/listening.json) is also accepted. The [short-word0.8× candidate](../assets/13a-short-word/listening.json) is accepted for completeness and naturalness. Remaining local-rate coverage and protected whole-word labels remain OPEN. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) enables public stretching. The isolated [native parity prerequisite](13b-native-stretch-parity.md) may preserve the frozen recipe without claiming this acceptance.
+Status: Signalsmith numerical candidate reproduced; full-support plots, request-specific admission and guarded real-speech auditions prepared. The user accepts clarity/naturalness of the [complete familiar sentence at0.8×,0.9× and1.25×](../assets/13a-familiar-sentence/README.md), with slight0.9× echo explicitly tolerated. The [familiar internal0.8× join](../assets/13a-familiar-internal-join/listening.json) is also accepted. The [opening0.8× candidate](../assets/13a-short-word/listening.json) sounded complete and natural, but the subsequent [boundary check failed](../assets/13a-short-word/boundary-listening.json): its cut splits “Okay.” Whole-word short-speech coverage and protected word labels remain OPEN; correct the boundary before new rate auditions. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) enables public stretching. The isolated [native parity prerequisite](13b-native-stretch-parity.md) may preserve the frozen recipe without claiming this acceptance.
 
 The [pinned Signalsmith experiment](../assets/13a-signalsmith/README.md) passes
 the measured count/pitch/source-isolation cases with explicit upstream endpoint
@@ -98,5 +98,7 @@ The [remaining local rates](../assets/13a-familiar-internal-rates/README.md) and
 [short-word packet](../assets/13a-short-word/README.md) fill the pending review
 surface. Root independently verified retained file hashes, exact original spans,
 selected-output identity and both deliberate pause insertions. Their numerical
-checks pass; the short-word listening verdict is PASS. Other local-rate listening
-and conservative whole-word containment remain pending.
+checks pass; naturalness verdicts remain attached to their exact files. The
+first boundary failed whole-word containment. Judge the
+[revised boundary reference](../assets/13a-word-boundary-correction/README.md)
+before preparing corrected selections.

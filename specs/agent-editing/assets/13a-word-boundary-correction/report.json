@@ -1,0 +1,74 @@
+{
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "outputSha256": "984e1ef8b9e48053b495fab3980583b724b8059f0849e2db889de46e26f789a1",
+  "sampleRate": 48000,
+  "sourceFrames": 231360,
+  "outputFrames": 279360,
+  "sourceCutFrames": [
+    31206,
+    91680
+  ],
+  "outputPauseStartsSeconds": [
+    0.650125,
+    2.41
+  ],
+  "insertedSilenceFramesPerPause": 24000,
+  "segments": [
+    [
+      [
+        0,
+        31206
+      ],
+      [
+        0,
+        31206
+      ]
+    ],
+    [
+      [
+        31206,
+        91680
+      ],
+      [
+        55206,
+        115680
+      ]
+    ],
+    [
+      [
+        91680,
+        231360
+      ],
+      [
+        139680,
+        279360
+      ]
+    ]
+  ],
+  "rejectedFirstCutFrame": 22560,
+  "firstCutMovedSeconds": 0.180125,
+  "energyEvidence": [
+    {
+      "sourceFrames": [
+        22560,
+        24480
+      ],
+      "rms": 0.024570373038980717,
+      "dbfs": -32.19176499612813
+    },
+    {
+      "sourceFrames": [
+        30960,
+        31440
+      ],
+      "rms": 0.0051556895510407085,
+      "dbfs": -45.754264829976734
+    }
+  ],
+  "boundaryAuthority": "Proposed later low-energy zero crossing only; user word-containment verification PENDING",
+  "checks": {
+    "allOriginalSamplesUnchanged": true,
+    "onlyTwoHalfSecondSilencesAdded": true
+  },
+  "policy": "No stretch, fade, gain, model or source-range change; all original samples retained in order"
+}

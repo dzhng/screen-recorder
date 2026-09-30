@@ -8,5 +8,6 @@
   "addedSeconds": 0.1175,
   "initialUserReply": "for 3 - I didnt notice any difference in the \"okay\"",
   "userReply": "ah, yes it sounds complete and natural",
-  "rubric": "Did Okay sound complete and natural, including the join into so?"
+  "rubric": "Did Okay sound complete and natural, including the join into so?",
+  "boundaryCorrection": "User subsequently reports first pause at22560 splits Okay. PASS remains the perceptual verdict for this exact partial-word selection; it does not establish a complete-word edit."
 }
