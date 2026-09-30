@@ -17,84 +17,44 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: integrate accepted stretching through14,
-preserving the accepted [internal0.8× join](assets/13a-familiar-internal-join/README.md).
-The [revised boundary placement](assets/13a-word-boundary-correction/listening.json)
-is accepted. The user reports that its deliberate digital-silence pauses sound
-abrupt and requires independent room-tone-fill and noise-reduction tools, with no
-automatic policy choice. Existing extraction, composition/fades and noise stacks
-supply those primitives; [journeys](journeys.md) now names both pause workflows.
-The [public pause workflow](assets/pause-audio-public/README.md) now verifies both
-explicit ambience fill and selected noise reduction on a synthetic fixture,
-including exact untouched PCM, bypass/undo and preview/export. Root reran the
-combined journey and verified23 archive members/80 exchanges. Real-voice
-continuity and independent video scope remain unverified. The
-[corrected short-word/internal-rate selections](assets/13a-corrected-selections/README.md)
-now pass numerical/source-isolation checks and [A–D listening](assets/13a-corrected-selections/listening.json).
-Preserve these exact selections and the frozen recipe. The [visual evidence supplement](assets/13a-visual-clarity/README.md) closes the
-remaining readability findings, so13/13a are accepted. Implement14 through retained
-audio contexts and the existing prepared-audio owner. The [bounded mono file proof](assets/14-bounded-stretch/README.md) preserves
-accepted hashes and ten-minute pointer parity with fixed-page memory, including
-cancellation/failure cleanup; public deadlines remain unverified. Proceed with
-[14b retained-run native preparation](slices/14b-retained-retime-preparation.md) and
+Current pickup is [14 retiming](slices/14-retiming.md).13/13a are accepted for the
+frozen recipe and exact corrected A–D selections. The [bounded mono file
+prerequisite](assets/14-bounded-stretch/README.md) is integrated and root-verified.
+Run [14b retained native preparation](slices/14b-retained-retime-preparation.md) and
 [14c linked stereo](slices/14c-stereo-stretch.md) in parallel, then14d pitch-follow
-and14e public binding. Do not turn research bounds into product restrictions.
-[Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
-ordered callbacks survive, native display support is bounded correctly, and the
-saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified
-312 archive members/200 source identities and reran the focused native checks.
-
-Originals remain in [fixtures](../../fixtures/screen-camera-timing/README.md);
-already rejected pixels cannot be reconstructed. No new capture is authorized.
-[Physical-event analysis](assets/20-physical-sync/README.md) does not establish the
-one-frame bound or whole-take camera coverage. The
-[prerecorded stop measurement](assets/20e-selected-device-probe/stop-scale/README.md)
-preserves all4428 pictures and takes26.915 seconds from stop to durable result,
-exceeding the existing10-second quit fallback. Root verified all124 archive
-members/25 source snapshots and reran default and stop checks. This measures
-accumulated-media closure with simulated drain; physical/AppKit shutdown remains
-unverified and no timeout policy changed. No installed app or frozen worker was replaced. Webcam integration,
-remaining quality gates and installed cutover retain their full scope.
-
-The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
-is integrated: the unchanged 500-operation request now completes in 281 ms with exact
-original document/receipt parity, and the matched duration-memory comparison passes.
-Root reran 253 composition tests/typecheck and verified all 57 archive members.
-The historical timeout and measured runtime differences remain explicit; reuse this
-proof. No further dependency-ready consumer pass was found in 12b/15a/19/23 without
-missing quality, retiming or capture acceptance. Do not repeat passed cohorts to
-substitute for those prerequisites.
-
-[Retained-recording preservation](slices/23a-recording-project-preservation.md)
-is verified through full source PCM, all transcript words, full exports and an
-explicit cursor processor. Original/new timing and evidence-representation
-differences remain documented. This closes one preparatory checkpoint, not the
-remaining [23](slices/23-cutover.md) matrix, installed switch or old-owner removal.
-[Matched export recovery](slices/23b-export-recovery-preservation.md) also passes
-actual lost-reply/restart and concurrent replay on both services; reuse its proof.
-
-[The accepted12d filler cut](assets/12d-complete-sentence/README.md#managed-public-journey)
-now passes managed CLI/MCP editing, preview/export and complete undo, with exact
-accepted lossless PCM. Full speech timing and inventory acceptance remain separate. Remaining priorities are speech/denoise and stretch acceptance toward12b/14/15a,
-then16; measured physical20→21; final23 cutover, post-cutover24 scale and25 autonomous
-workflow. Independent mixing08 is verified through its named contract evidence; the
-[audio-domain limits](assets/acceptance-maintenance/audio-domain.md) remain explicit. Generic22, full-history transfer24u, scoped learned routing24v,
-waveform memory24w, prepared-audio lifecycle14a, typed learned consumers15a2 and public voice jobs19f are banked; do not repeat those passed
-cohorts. Parent18/19 pronunciation, identity, contextual joins and listening stay open.
+and14e public capabilities/deadlines/delivery. Preserve full retained runs across
+pure splits and short views. Native scratch stays request-scoped; durable final
+audio stays with the existing prepared-audio/job/asset owners.
 
 Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
-prepared runtime and frozen worker identities. The root worker remains frozen;
-use the isolated finite-conversion worker for extraction/generation journeys until
-coordinated integration. [Integrated evidence](assets/integrated-evidence.md)
-indexes scoped passes and limitations. The checklist below is authoritative for
-remaining scope; overview graph groupings are not the scheduling dependency graph.
+prepared runtimes and frozen worker identities. Do not replace the installed app
+or frozen workers. Build native changes only in isolated scratch paths. No new
+capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
+
+After retiming, resolve remaining speech/denoise gates toward12b/15a and the
+dependent16 checks; then physical20→21, final23 cutover, post-cutover24 scale and25
+autonomous workflow. The checklist is authoritative; the overview diagram is not
+a scheduling graph. No dependency-ready consumer pass was found in12b/15a/19/23
+without its missing quality, retiming or physical prerequisite. Do not repeat
+passed cohorts instead of resolving those requirements.
+
+[Integrated evidence](assets/integrated-evidence.md) is the compact index for
+verified preservation, processing, transfer, capture replay and scale checkpoints.
+Their owning slices retain limitations. In particular, prerecorded camera
+recovery/stop evidence does not establish the physical one-frame timing bound,
+whole-take coverage or live shutdown; installed cutover stays unverified.
 
 Listening comparisons use complete meaningful sentences from the user's recording,
 with the original alongside and one clear purpose. The user accepted the familiar
-0.8×,0.9× and1.25× sentences (slight0.9× echo tolerated), the familiar denoised
-sentence, and the complete-sentence filler cut; each verdict has its recorded
-narrow scope. Numerical parity does not replace missing listening or physical
-capture evidence. Segmentation remains a separate future placeholder.
+0.8×,0.9× and1.25× sentences (slight0.9× echo tolerated), the corrected A–D local
+selections, the familiar denoised sentence and the complete-sentence filler cut.
+Each verdict applies only to its exact media. Reuse those passes; numerical parity
+does not replace missing listening or physical evidence. Room-tone fill and noise
+reduction remain independent explicit editorial choices, as the [pause workflows](assets/pause-audio-public/README.md)
+demonstrate. Segmentation remains a separate future placeholder.
+
+Keep this pickup, the owning Status lines, [journeys](journeys.md) and checklist
+current as implementation progresses.
 
 ## Outcome and boundaries
 

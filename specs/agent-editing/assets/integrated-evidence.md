@@ -92,10 +92,32 @@
   progress; this earlier experiment is not an implementation pickup.
 - [Stretch endpoint and guarded-join evidence](13a-endpoint-verification/README.md)
   retains full-support measurements and real-speech auditions. Root integration
-  reproduces all 32 renders and nine retained WAVs exactly. Listening, independent
-  protected-word labels and short-input quality remain open.
+  reproduces all32 renders and nine retained WAVs exactly. The later
+  [corrected selections](13a-corrected-selections/README.md) carry explicit A–D
+  whole-word/natural-join listening passes, and [visual clarity](13a-visual-clarity/README.md)
+  closes the earlier readability findings.13/13a are accepted for the frozen recipe
+  and named selections; arbitrary tiny inputs remain unestablished.
   [Short-input alternatives](13a-short-capability/README.md) improve one
   tone gate but worsen endpoint response; no automatic fallback is adopted.
+
+- [Bounded mono stretch](14-bounded-stretch/README.md) preserves all accepted
+  hashes and ten-minute pointer parity with fixed-page memory. Root rebuilt and
+  reran its34 cases plus descriptor contracts. Native integration, stereo, explicit
+  pitch-follow and public deadlines remain14 work.
+- [Explicit pause audio](pause-audio-public/README.md) verifies independent
+  ambience fill and selected noise processing, untouched PCM, bypass/undo and
+  preview/export on a synthetic fixture. Real-voice continuity is separate.
+- [Camera presentation20e2](20e-camera-presentation/README.md) preserves the saved
+  take's4428 readable pictures with exact PTS/pixels. The [prerecorded stop
+  measurement](20e-selected-device-probe/stop-scale/README.md) preserves them but
+  exceeds the existing10-second quit fallback; live capture/drain/AppKit acceptance
+  and timeout policy are unchanged.
+- [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
+  verifies the original500-operation request and matched memory scaling. Reuse
+  its evidence; it does not substitute for quality or physical gates.
+- [Retained recording](../slices/23a-recording-project-preservation.md) and
+  [matched export recovery](../slices/23b-export-recovery-preservation.md) preserve
+  their named parity/replay contracts; installed switch and23's full matrix remain.
 
 Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.
