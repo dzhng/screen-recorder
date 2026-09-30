@@ -1,7 +1,8 @@
+import { matchedMovieAudio } from "./matched-movie-audio.mjs";
 import assert from "node:assert/strict";
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { hash, poll, root, run } from "./source-evidence-fixture.mjs";
+import { hash, poll, root } from "./source-evidence-fixture.mjs";
 import { readAudioWaveFile } from "../../core/dist/audio-wave.js";
 
 /** A retained stretch oracle precedes independent routing and frozen-C learned checks. */
@@ -344,108 +345,16 @@ export async function denoisePostRetime({
   await projectAudio(original, output, "post-retime-historical", expected, 2);
   assert.deepEqual(await prepare(original), prepared);
   record.movie = await movieDelivery(original, "post-retime-");
-  // Encode the independent PCM through a plain unit-rate project with matched ranges.
-  // This proves movie audio delivery without comparing lossy AAC to lossless PCM.
-  async function movieReference(name, pcm) {
-    const raw = join(out, name + ".f32");
-    const wav = join(out, name + ".wav");
-    await writeFile(raw, pcm);
-    await run("ffmpeg", [
-      "-v",
-      "error",
-      "-f",
-      "f32le",
-      "-ar",
-      "48000",
-      "-ac",
-      "2",
-      "-i",
-      raw,
-      "-c:a",
-      "pcm_f32le",
-      wav,
-    ]);
-    const asset = await importAsset(wav, name + "-import");
-    const created = await call("project.create", {
-      requestId: name + "-project",
-      canvas,
-    });
-    const edited = await call("edit.apply", {
-      projectId: created.project.projectId,
-      expectedRevisionId: created.revision.id,
-      requestId: name + "-place",
-      operations: [
-        { operation: "track.add", label: "audio", track: { kind: "audio", order: 0 } },
-        {
-          operation: "place",
-          clip: {
-            trackId: { label: "audio" },
-            assetId: asset.id,
-            streamId: asset.streams[0].id,
-            source: { kind: "range", range: { startUs: 0, endUs: 5000000 } },
-            placement: { kind: "project", range: { startUs: 0, endUs: 5000000 } },
-          },
-        },
-      ],
-    });
-    return { projectId: created.project.projectId, revisionId: edited.revision.id };
-  }
-  async function referencePreview(selection, name, range) {
-    const path = join(out, name + ".mp4");
-    await poll(
-      () =>
-        call(
-          "preview.get",
-          {
-            ...selection,
-            ...(range ? { range } : {}),
-            settings: { preset: "balanced" },
-          },
-          { output: path },
-        ),
-      (value) => value.state === "ready",
-      name,
-    );
-    return path;
-  }
-  async function decoded(path) {
-    const { stdout } = await run(
-      "ffmpeg",
-      ["-v", "error", "-i", path, "-map", "0:a:0", "-f", "f32le", "-"],
-      { encoding: "buffer", maxBuffer: 4000000 },
-    );
-    assert(stdout.length > 0, "Movie must contain decoded audio");
-    return stdout;
-  }
-  const referenceSelection = await movieReference("post-retime-movie-reference", expected);
-  record.movie.matchedAAC = {};
-  for (const [name, range] of [
-    ["full", null],
-    ["range", { startUs: 1000000, endUs: 3000000 }],
-  ]) {
-    const actual = await decoded(join(out, "post-retime-" + name + "-preview.mp4"));
-    const reference = await decoded(
-      await referencePreview(referenceSelection, "post-retime-reference-" + name, range),
-    );
-    assert(
-      actual.equals(reference),
-      name + " movie audio must equal matched independent reference AAC",
-    );
-    record.movie.matchedAAC[name] = {
-      decodedBytes: actual.length,
-      sha256: hash(actual),
-      exact: true,
-    };
-  }
-  const wrongOrderSelection = await movieReference(
-    "post-retime-movie-wrong-order",
-    reorderedExpected,
-  );
-  const wrongOrderAAC = await decoded(
-    await referencePreview(wrongOrderSelection, "post-retime-reference-wrong-order"),
-  );
-  assert.notEqual(hash(wrongOrderAAC), record.movie.matchedAAC.full.sha256);
-  record.movie.wrongOrderAACDiffers = true;
+  const matched = await matchedMovieAudio({
+    call,
+    out,
+    canvas,
+    name: "post-retime-",
+    expected,
+    wrong: reorderedExpected,
+    range: { startUs: 1000000, endUs: 3000000 },
+  });
+  Object.assign(record.movie, matched, { wrongOrderAACDiffers: matched.control.differs });
   record.original = original;
   record.reordered = reorderedSelection;
   record.current = selection();

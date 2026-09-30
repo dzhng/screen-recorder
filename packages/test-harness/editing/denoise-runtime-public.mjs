@@ -42,7 +42,7 @@ const report = {
   harnessSha256: hash(await readFile(import.meta.filename)),
   referenceSha256: hash(await readFile(resolve(values.reference))),
   scope: values.follow
-    ? "Public follow into learned ordinary/prepared audio from authenticated14e dry PCM; no new movie, listening or quality claim."
+    ? "Public follow into learned ordinary/prepared audio from authenticated14e dry PCM; matched full/range movie delivery; no listening or quality claim."
     : values["post-retime"]
       ? "Public post-retime overlap, held gain and windowed RNNoise mix-state integration; exact numerical delivery only, no listening, spatial, other-material or pitch-follow claim."
       : "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
@@ -871,7 +871,16 @@ try {
       out,
     });
   else if (values.follow)
-    await denoiseFollow({ call, prepare, inspect, projectAudio, denoise, report, out });
+    await denoiseFollow({
+      call,
+      prepare,
+      inspect,
+      projectAudio,
+      movieDelivery,
+      denoise,
+      report,
+      out,
+    });
   else await unitRateJourney();
   report.passed = true;
 } finally {

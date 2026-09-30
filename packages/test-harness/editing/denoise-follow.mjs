@@ -1,3 +1,4 @@
+import { matchedMovieAudio } from "./matched-movie-audio.mjs";
 import assert from "node:assert/strict";
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import { extname, join } from "node:path";
@@ -11,6 +12,7 @@ export async function denoiseFollow({
   prepare,
   inspect,
   projectAudio,
+  movieDelivery,
   denoise,
   report,
   out,
@@ -183,6 +185,54 @@ export async function denoiseFollow({
     }
   }
   assert(witness);
+  record.movie = await movieDelivery(selection, "follow-");
+  Object.assign(
+    record.movie,
+    await matchedMovieAudio({
+      call,
+      out,
+      canvas: document.canvas,
+      name: "follow-",
+      expected,
+      wrong: frozen,
+      range: { startUs: 1000000, endUs: 3000000 },
+    }),
+  );
+  record.movie.dryAACDiffers = record.movie.control.differs;
+  const dryMovie = await movieDelivery(drySelection, "follow-dry-");
+  record.movie.video = {};
+  for (const kind of ["full", "range"]) {
+    const frames = [];
+    for (const prefix of ["follow-", "follow-dry-"]) {
+      const { stdout } = await run(
+        "ffmpeg",
+        [
+          "-v",
+          "error",
+          "-i",
+          join(out, prefix + kind + "-preview.mp4"),
+          "-map",
+          "0:v:0",
+          "-f",
+          "framemd5",
+          "-",
+        ],
+        { maxBuffer: 4000000 },
+      );
+      frames.push(stdout);
+    }
+    assert.equal(frames[0], frames[1], "Learned processing changed decoded video frames");
+    await writeFile(join(out, "follow-" + kind + "-video.framemd5"), frames[0]);
+    const frameCount = frames[0].split("\n").filter((line) => line && !line.startsWith("#")).length;
+    assert.equal(frameCount, record.movie[kind].frameCount);
+    assert(frameCount > 0);
+    record.movie.video[kind] = {
+      allFramesMatchDry: true,
+      frameMD5Sha256: hash(frames[0]),
+      frameCount,
+    };
+  }
+  record.movie.dry = dryMovie;
   record.selection = selection;
   record.prepared = prepared;
   record.lateState = witness;
