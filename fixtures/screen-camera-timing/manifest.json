@@ -44,7 +44,7 @@
     }
   ],
   "capturePermissions": "User explicitly authorized this take and fixture retention.",
-  "mediaStorage": "Large media and raw timestamp observations retained locally in this fixture directory; manifest and instructions tracked in Git.",
+  "mediaStorage": "Source movies, capture journals and raw timestamps are versioned with Git LFS; request, manifest and usage guide are ordinary Git files.",
   "observedMedia": {
     "camera": {
       "startSeconds": 4.147523,

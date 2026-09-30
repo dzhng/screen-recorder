@@ -13,8 +13,9 @@ the separate microphone is `screen/narration.packed.mov`. These are interrupted
 fragmented originals with readable retained media, not normalized exports. Their
 origins and durations differ; do not align them by assuming every file begins at zero.
 
-Large source media, journals and raw timestamp observations remain locally in this
-fixture directory, excluded from Git; the manifest and this usage guide are tracked.
+Source movies, capture journals and raw timestamp observations are tracked with
+Git LFS; the request, manifest and this usage guide are ordinary Git files. Run `git lfs pull`
+after cloning if the checkout contains LFS pointers instead of media.
 The original capture request and journals retain the initially planned longer take;
 the manifest records the user's early stop. Do not silently trim or overwrite the
 originals to make those durations agree. The scheduled five-minute pause did not occur.
