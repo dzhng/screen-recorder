@@ -7,8 +7,10 @@ import ScreenRecorderMedia
 /// Only the physical input boundary is substituted. NativeCapture creates and closes the real writer.
 @MainActor
 final class PrerecordedCaptureInput: CaptureInputSession {
-    let width = RecoveryFixture.width
-    let height = RecoveryFixture.height
+    let width: Int
+    let height: Int
+    var paceVideo = false
+    var offeredVideoFrames = 0
     let requestedSourceRect: CGRect? = nil
     let source: URL
     let refusesAfterDelivery: Bool
@@ -37,7 +39,9 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     let stopEntered = InputGate()
     let releaseStop = InputGate()
 
-    init(source: URL, refusesAfterDelivery: Bool = false) {
+    init(source: URL, refusesAfterDelivery: Bool = false, size: CGSize? = nil) {
+        width = size.map { Int($0.width) } ?? RecoveryFixture.width
+        height = size.map { Int($0.height) } ?? RecoveryFixture.height
         self.source = source
         self.refusesAfterDelivery = refusesAfterDelivery
     }
@@ -52,6 +56,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         }
         let asset = AVURLAsset(url: source)
         let track = try await asset.loadTracks(withMediaType: .video).first!
+        let occupied = SourceSegment.occupied(of: try await track.load(.segments))
         let reader = try AVAssetReader(asset: asset)
         let output = AVAssetReaderTrackOutput(track: track,
             outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
@@ -86,6 +91,13 @@ final class PrerecordedCaptureInput: CaptureInputSession {
                 from: CMClockGetHostTimeClock(), to: sourceClock))
         }
         while let sample = output.copyNextSampleBuffer() {
+            // AVAssetReader may emit a picture for a leading empty edit; it was never acquired.
+            guard assetEnd(ofSamplePresentedAt: sample.presentationTimeStamp, in: occupied, of: track) != nil else { continue }
+            if paceVideo {
+                let waitUs = origin + microseconds(sample.presentationTimeStamp) - CaptureHostTime.nowUs()
+                if waitUs > 0 { try await Task.sleep(for: .microseconds(waitUs)) }
+            }
+            offeredVideoFrames += 1
             let timed = try captureFixtureRetimed(sample,
                 at: CMTimeAdd(time(microseconds: origin), sample.presentationTimeStamp))
             let attachments = CMSampleBufferGetSampleAttachmentsArray(timed, createIfNecessary: true)! as NSArray

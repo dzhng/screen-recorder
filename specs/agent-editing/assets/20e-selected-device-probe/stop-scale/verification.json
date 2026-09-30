@@ -1,0 +1,51 @@
+{
+  "status": "verified offline prerecorded accumulated-media closure",
+  "base": "583763f9aa68e08f0b7915b778c666706782eed3",
+  "measurement": {
+    "acquisitionWallSeconds": 249.836336417,
+    "cameraEndUs": 246167243,
+    "cameraFirstUs": 200000,
+    "cameraOmittedSamples": 1,
+    "cameraPictureSHA256": "c89491ed83136599413c5aeaa5a3746a827da9fa43a70f7d70b4fbda476eec5c",
+    "height": 1080,
+    "offeredPictures": 4428,
+    "representedPictures": 4428,
+    "scope": "Native-rate prerecorded screen/camera replay; microphone disabled; no AppKit quit timer or physical devices",
+    "source": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+    "sourceDurationSeconds": 250.148103,
+    "stopToDurableResultSeconds": 26.914832583,
+    "width": 1920
+  },
+  "execution": {
+    "sourceBefore": {
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+      "bytes": 424848170,
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+    },
+    "binary": {
+      "path": "/tmp/screenrec-20e-stop-scale-build/arm64-apple-macosx/debug/ScreenRecorderCaptureTests",
+      "bytes": 31181920,
+      "sha256": "7007fc7e14544fdc0d90471f2437b857887129ab1a39ba2b5af8a0fac60ef29e"
+    },
+    "deadlineSeconds": 420,
+    "rssGuardBytes": 4294967296,
+    "exitCode": 0,
+    "elapsedSeconds": 276.9203054169993,
+    "peakSampledRSSBytes": 154746880,
+    "sourceAfter": {
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+      "bytes": 424848170,
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+    },
+    "sourceUnchanged": true
+  },
+  "expectedSourcePictures": 4428,
+  "independentInventoryHash": "7ec8007bac45e2e83f774b75dc28bd13c603c25894ba90e013fffdf66d5a9d2b",
+  "archive": {
+    "path": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/20e-selected-device-probe/stop-scale/evidence.tar.gz",
+    "bytes": 640190,
+    "sha256": "4a3f011f332ff748dfe303ed965e75a88cd7bf08e814b40897305ecbc84c931f"
+  },
+  "sourceSnapshots": 25,
+  "archiveMembers": 124
+}
