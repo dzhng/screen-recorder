@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/tmp/screenrec-camera-direct-recovery/take/camera/.screenrec-output-8ED3ED5C-A1AD-43D6-9923-0408472394B8/camera.mov",
+    "bytes": 4611851009,
+    "sha256": "bdd6ceaeca3452f0343a563de7f32f87b7f1bea98a390239a908da59d7408eed"
+  },
+  {
+    "path": "/tmp/screenrec-camera-single-recovery/take/camera/.screenrec-output-2DD9D3CE-F4CF-4949-8C4B-6270726FA705/camera.mov",
+    "bytes": 419415962,
+    "sha256": "c9e4dfa499a6901a4430f830d63135b614adb5bfc369e73a98b46fcb8977c5f4"
+  }
+]

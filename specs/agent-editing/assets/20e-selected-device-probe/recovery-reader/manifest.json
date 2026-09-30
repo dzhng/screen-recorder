@@ -1,0 +1,367 @@
+[
+  {
+    "path": "screenrec-camera-cursor-free/Verify.swift",
+    "bytes": 5006,
+    "sha256": "6877a1039f0ff98634e00a29120313ddf29495006ba576a06516a0330d1939bb"
+  },
+  {
+    "path": "screenrec-camera-cursor-free/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-cursor-free/report.json",
+    "bytes": 230,
+    "sha256": "0d824eade5c5d1c248491832dd02d7b79ad4955006a763fb9242bed9a728c30d"
+  },
+  {
+    "path": "screenrec-camera-cursor-free/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-cursor-free/trace.jsonl",
+    "bytes": 435307,
+    "sha256": "d1976c994facfa0cef3bccac47df0c74a47390d7dce72919fe6d5e2358a00a74"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/Direct.swift",
+    "bytes": 1229,
+    "sha256": "77d36c0ad0ab7ad417301ad06f5a2a27e1c628cf0468f3f11760aa56c412118d"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/app-build.log",
+    "bytes": 450,
+    "sha256": "e03e641dafe96f776b0e23fc4ba261c8a41c31de34871e13acf7b93be374f516"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/comparison.json",
+    "bytes": 911,
+    "sha256": "ac782639bd3096e3976f9267e9b0ea3ed1211db7e04646102119b5293df92a76"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/decode-error.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/decode.json",
+    "bytes": 14579,
+    "sha256": "58350c886dde86e3ef6e77fe4ea94137aa91dde3b341ea78aae4b2f221cb2f33"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/direct.mov",
+    "bytes": 147815,
+    "sha256": "93aabd3b6dcae6ebe6ff2e596bec01608d8a26b3ec3db5136bda342829abc010"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/export.log",
+    "bytes": 39,
+    "sha256": "394428fa866c158bdf4a06650e5bab5a51ce302e98a265fc9108b2c551706d2e"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/instrumented.swift",
+    "bytes": 15409,
+    "sha256": "60e37c7c869c7473efab6ea2ec4d52a702938e83ce2bda0aeb72d5dc7b707e72"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/metadata.json",
+    "bytes": 18008,
+    "sha256": "aa3cbc8a884b2db3169288ba2753343263ca77942ba0ab3d30a62ec1769db734"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/production.swift",
+    "bytes": 14719,
+    "sha256": "f6b3ddaa3af4f0a5ec013b7f1000b0635a0e89a3f0e8c4c12320452dbc1405e2"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/recover.py",
+    "bytes": 2067,
+    "sha256": "64931240d933699c39d51fe2f3581ffcc534bab05421741ecb2354af28d362f2"
+  },
+  {
+    "path": "screenrec-camera-direct-movie/repeated-production.swift",
+    "bytes": 14719,
+    "sha256": "f6b3ddaa3af4f0a5ec013b7f1000b0635a0e89a3f0e8c4c12320452dbc1405e2"
+  },
+  {
+    "path": "screenrec-camera-direct-recovery/boxes.json",
+    "bytes": 398,
+    "sha256": "81d0e51484f734e2784de668f07b8968eebb0d15a7f7cafd9c3a958bfe9e8b8e"
+  },
+  {
+    "path": "screenrec-camera-direct-recovery/header-inspection.json",
+    "bytes": 503,
+    "sha256": "0b81c9dbef790ef6ba3bdef9a5e82b2f0ddbd88788c71304878f4c00cd791b8e"
+  },
+  {
+    "path": "screenrec-camera-direct-recovery/receipt.json",
+    "bytes": 57,
+    "sha256": "4afadec5f4ec58513647aa72409007a0c39969cb3f89359e4802a6802448ef59"
+  },
+  {
+    "path": "screenrec-camera-direct-recovery/recover-request.json",
+    "bytes": 360,
+    "sha256": "b3845bc354045e6fad9b486ae99cb826206e2fc30ada2f73b60c197ecd01a0ca"
+  },
+  {
+    "path": "screenrec-camera-direct-recovery/report.json",
+    "bytes": 1371,
+    "sha256": "3fc0af1b5d5fa3d068e443765cc8946cb113017297b7bcd04025546a53fe7b9a"
+  },
+  {
+    "path": "screenrec-camera-direct-recovery/trace.log",
+    "bytes": 296162,
+    "sha256": "2c4f34c38e9024a2cbb00c54c72fff0dea431e8099d6faadd9d062ed3372e62b"
+  },
+  {
+    "path": "screenrec-camera-finite/Verify.swift",
+    "bytes": 5053,
+    "sha256": "da39a4f0f03df513a88700d1f9658922999ca41d357070d4662af89040230126"
+  },
+  {
+    "path": "screenrec-camera-finite/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-finite/report.json",
+    "bytes": 230,
+    "sha256": "a6ada5979e5ba03204693e33e0592b1b724e0d62be227f5793126b4a3ae17009"
+  },
+  {
+    "path": "screenrec-camera-finite/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-finite/trace.jsonl",
+    "bytes": 193292,
+    "sha256": "18c8a6996150869ee7d96b253bfd56bf025778db74eec9175f94896541244efc"
+  },
+  {
+    "path": "screenrec-camera-frame-pool/Verify.swift",
+    "bytes": 4994,
+    "sha256": "c147228ea3313da2e9dc19513f9d0631f43d1656678a26f9e2d707bb8405872d"
+  },
+  {
+    "path": "screenrec-camera-frame-pool/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-frame-pool/report.json",
+    "bytes": 229,
+    "sha256": "383598281b2b4eaad53d9018e8ea9609e38864416e005c5c115324e6fb5438f7"
+  },
+  {
+    "path": "screenrec-camera-frame-pool/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-frame-pool/trace.jsonl",
+    "bytes": 197798,
+    "sha256": "f1653b3af7d0e5f6e6e1bae5cc2b79e41dd727081dbb62aa036c277cf1e719c6"
+  },
+  {
+    "path": "screenrec-camera-lifetime/Verify.swift",
+    "bytes": 4930,
+    "sha256": "fa1cffd19a41964f0b49e8ad905d4e59b65eb4891ca79e01cf3dba2c85d31c66"
+  },
+  {
+    "path": "screenrec-camera-lifetime/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-lifetime/report.json",
+    "bytes": 230,
+    "sha256": "cfbf91f414c286faf237488d614a7d0092ff1e7d0da4c4497e7a8ab6b0ad6ce6"
+  },
+  {
+    "path": "screenrec-camera-lifetime/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-lifetime/trace.jsonl",
+    "bytes": 364948,
+    "sha256": "cb88927c9d5de6368d641e83fa4fa8122697a0216589150ee9a4b62c1047ec13"
+  },
+  {
+    "path": "screenrec-camera-pool/Verify.swift",
+    "bytes": 4961,
+    "sha256": "e08da633c95607fe745260d61874c74d2bf983b66c59dc74c664d98e13efd688"
+  },
+  {
+    "path": "screenrec-camera-pool/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-pool/report.json",
+    "bytes": 230,
+    "sha256": "ba4ad934a6a1b64b771814b49bac7e4d457ad90567040e3101f8d6ada51e7bd3"
+  },
+  {
+    "path": "screenrec-camera-pool/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-pool/trace.jsonl",
+    "bytes": 435307,
+    "sha256": "d1976c994facfa0cef3bccac47df0c74a47390d7dce72919fe6d5e2358a00a74"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/Verify.swift",
+    "bytes": 5994,
+    "sha256": "da87b54108f575b807f3e789c04545566b6c76a70fc71c2bab3af034421f3e6e"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/bootstrap-refusal-report.json",
+    "bytes": 195,
+    "sha256": "8d44f896575c4521af63d2492361d4bb9d29955b2756ccf956ff3a3cf79bb205"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/bootstrap-refusal-trace.jsonl",
+    "bytes": 532,
+    "sha256": "d69ef0e7dd3e0fd662910d41e7cd9a787f41abcc060552ab23ad93148daccd84"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/bootstrap-refusal.log",
+    "bytes": 44,
+    "sha256": "38e0802936da55d1de4b583e0f1ae76beb5a9ca5abea512aad7c1748aa7643a7"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/initial-build.log",
+    "bytes": 598,
+    "sha256": "72991a6e539d185764036f6fbd46c5d562c321030db3db1fb6774ec73975e217"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/report.json",
+    "bytes": 231,
+    "sha256": "04f3cf0357f08f3bf5012fd9e7b711bc534c738a68d837525c04c0277e0ded38"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-ranges-short/trace.jsonl",
+    "bytes": 778,
+    "sha256": "fa11441120910fae4879c1cf90d032403b87b9ea068ed601e3c4a2e789ab61b9"
+  },
+  {
+    "path": "screenrec-camera-single-copy/Single.swift",
+    "bytes": 1454,
+    "sha256": "73f8f8d87da786fc6f1ef827687da8e74a4e16e057c5ec6e7620c61b073953a7"
+  },
+  {
+    "path": "screenrec-camera-single-copy/app-build.log",
+    "bytes": 429,
+    "sha256": "ae7c412d7059ff9dae5bb3634d219664ad223428aaf6278e020e36818cf5db9b"
+  },
+  {
+    "path": "screenrec-camera-single-copy/build.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-single-copy/comparison.json",
+    "bytes": 1520,
+    "sha256": "20a2306e5ae8a76c9c19924a396b9963d77e47eaab43dd29c114947ed2c0dad7"
+  },
+  {
+    "path": "screenrec-camera-single-copy/decode-error.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-single-copy/decode.json",
+    "bytes": 10349,
+    "sha256": "fcb9fbf9042d551fcfd0370f09a5de6caf096e00dc7b4d9af6ea01b7748575c2"
+  },
+  {
+    "path": "screenrec-camera-single-copy/export.log",
+    "bytes": 39,
+    "sha256": "394428fa866c158bdf4a06650e5bab5a51ce302e98a265fc9108b2c551706d2e"
+  },
+  {
+    "path": "screenrec-camera-single-copy/instrumented.swift",
+    "bytes": 16081,
+    "sha256": "618d20ebcec6cb132b4cdaa1861352164734755b2a4bcbc5bc51ceb36f1b79a2"
+  },
+  {
+    "path": "screenrec-camera-single-copy/metadata.json",
+    "bytes": 14403,
+    "sha256": "5a5f5d12f26846b2befe737a529c98e20943738491a899cca4fa915510bfc850"
+  },
+  {
+    "path": "screenrec-camera-single-copy/production.swift",
+    "bytes": 15176,
+    "sha256": "489e6d004fedd672965627ccba0d4157657387c676ddf6219f7141d789dfeccf"
+  },
+  {
+    "path": "screenrec-camera-single-copy/recover.py",
+    "bytes": 2066,
+    "sha256": "77f658d58207b702d429f19945a252ff8cdaab99c863fb88c308e7d2d4b7e6b1"
+  },
+  {
+    "path": "screenrec-camera-single-copy/single.mov",
+    "bytes": 75294,
+    "sha256": "9ffc81e452e75c5c9164e448413f51bb8a6928062ae228463a4a7e4d0a0a645b"
+  },
+  {
+    "path": "screenrec-camera-single-recovery/blocked-sample.txt",
+    "bytes": 166200,
+    "sha256": "90f21e2a9d02ef65c6befb46af4364310a5c718e0c9d92beee5e1426c66456f8"
+  },
+  {
+    "path": "screenrec-camera-single-recovery/receipt.json",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "screenrec-camera-single-recovery/recover-request.json",
+    "bytes": 360,
+    "sha256": "955704c068541f6bfced7539af55586bce7f29cf9cc33598578936e605de2355"
+  },
+  {
+    "path": "screenrec-camera-single-recovery/report.json",
+    "bytes": 1398,
+    "sha256": "f4699f17e2c4c12552c7987451bc86e1aea0dc4cfdc068b3f95b0bd2f1a7e744"
+  },
+  {
+    "path": "screenrec-camera-single-recovery/sample-command.log",
+    "bytes": 232,
+    "sha256": "9e872ec50ab24ec636d68e193c6e0a89910a05a426b289ee4a100619e4d68584"
+  },
+  {
+    "path": "screenrec-camera-single-recovery/trace.log",
+    "bytes": 317655,
+    "sha256": "08534b26b49f5fc67248cd075dfa8574b5cfbd448e8d3d349fdd0b2083662bf7"
+  },
+  {
+    "path": "source/ProbeCameraMedia-draft.swift",
+    "bytes": 15137,
+    "sha256": "d6a38ceef73929f58822c0eec4c7c2a9a7a795878de828eaf483c33b6328f2f4"
+  },
+  {
+    "path": "source/SampleTiming.swift",
+    "bytes": 3364,
+    "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+  }
+]
