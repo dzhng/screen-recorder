@@ -200,6 +200,14 @@ checks and the accepted12d join. Root rehashed all18 archived members and checke
 complete PCM/request preservation. The historical red and unknown cause remain;
 no universal decoder claim or additional source-only/format cohort follows.
 
+The [annotation integrity fix](12-boundary-context/README.md#annotation-integrity)
+is integrated: compatible redraws retain absolute human marks; changed source,
+origin, word identity or unbound legacy annotations refuse before overwriting.
+Root reran all five focused scorer/CLI regressions. The actual workbench timing
+mismatch is not an origin or punctuation-merger bug: frozen engines disagree about
+the lexical endpoint, and independent audible identification remains missing.
+No frozen mark, model or acceptance threshold changed.
+
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
 they heard no obvious artifacts but found the unfamiliar cropped words confusing
 and unintelligible. This does not close word retention or intelligibility. No action

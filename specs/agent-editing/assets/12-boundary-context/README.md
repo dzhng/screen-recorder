@@ -76,3 +76,12 @@ registry or versioned schema. Formatter, lint and local-link checks pass.
 [Independent Codex reviews](annotation-review.txt.gz) found no actionable regression
 and reran the CLI regression successfully, including the streaming-hash follow-up. This pass changes annotation metadata
 handling; it does not change spectrogram rendering or claim new visual acceptance.
+
+Integrated root verification reran the five focused scorer and CLI regressions:
+
+```sh
+node --test packages/test-harness/editing/speech/boundaries.test.mjs packages/test-harness/editing/speech/score-candidate.test.mjs packages/test-harness/speech-boundaries.test.mjs
+```
+
+All five passed. This is a targeted harness gate, not a model run or a passing
+speech-timing acceptance result.
