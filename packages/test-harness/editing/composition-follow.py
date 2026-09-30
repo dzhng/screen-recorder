@@ -2,6 +2,9 @@
 from pathlib import Path
 from fractions import Fraction
 import array
+import argparse
+import hashlib
+import tarfile
 import copy
 import json
 import math
@@ -9,10 +12,16 @@ import struct
 import subprocess
 import sys
 sys.dont_write_bytecode = True
-from composition_audio import NativeAudio, clip, plan, selection, span, stereo
+from composition_audio import NativeAudio, RETIME_IMPLEMENTATION, clip, plan, pcm, selection, span, stereo
 
-worker, out = (Path(x).resolve() for x in sys.argv[1:])
-native = NativeAudio(worker, out)
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('worker', type=lambda value: Path(value).resolve())
+parser.add_argument('out', type=lambda value: Path(value).resolve())
+parser.add_argument('--learned-reference', type=lambda value: Path(value).resolve(),
+    help='Run only the retained follow → independent learned oracle through the real native wire')
+args = parser.parse_args()
+worker, out = args.worker, args.out
+native = NativeAudio(worker, out, wire=args.learned_reference is not None)
 run, report = native.run, native.report
 
 def wave(path, samples, rate, channels):
@@ -45,6 +54,66 @@ def frequency(data, channel):
         if left <= 0 < right: crossing.append(i-1-left/(right-left))
     assert len(crossing) > 10
     return 48000*(len(crossing)-1)/(crossing[-1]-crossing[0])
+
+def learned_retained(reference):
+    root = Path(__file__).resolve().parents[3]
+    packet = root / 'specs/agent-editing/assets/15a3d-follow-learned-native'
+    retained = out / 'retained'; retained.mkdir()
+    manifest = json.loads((packet / 'retained.json').read_text())
+    with tarfile.open(packet / 'retained.tar.xz') as archive:
+        for entry in manifest['files']:
+            data = archive.extractfile(entry['path']).read()
+            assert hashlib.sha256(data).hexdigest() == entry['sha256']
+            (retained / entry['path']).write_bytes(data)
+    frozen_report = json.loads((root / 'specs/agent-editing/assets/14d-pitch-follow/follow.json').read_text())
+    frozen = pcm(retained / 'rate-44100-2-9-10.wav')
+    dry_hash = next(case['sha256'] for case in frozen_report['checks']
+        if case['case'] == 'rate-44100-2-9-10')
+    assert hashlib.sha256(frozen).hexdigest() == dry_hash
+    report.update(passed=False, scope='Native follow → independent fixed-recipe RNNoise only; no public or listening claim',
+        retained=manifest, frozenDrySha256=dry_hash,
+        harnessSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        referenceSha256=hashlib.sha256(reference.read_bytes()).hexdigest())
+    def saved_plan(name):
+        value = json.loads((retained / (name + '.json')).read_text())
+        value['retimeImplementationId'] = RETIME_IMPLEMENTATION
+        value['assets'][0]['path'] = str(retained / 'tone-44100-2.wav')
+        return value
+    dry, _ = run('dry', saved_plan('rate-44100-2-9-10'))
+    assert dry == frozen, 'Current follow PCM differs from retained dry oracle; no tolerance applies'
+    def learned(name, data):
+        source = out / (name + '-input.f32'); source.write_bytes(data)
+        destination = out / (name + '.f32')
+        script = """import {readFileSync, writeFileSync} from 'node:fs';
+const [module, reference, out, name, input, output] = process.argv.slice(1);
+const {createDenoiseReference} = await import(module);
+writeFileSync(output, createDenoiseReference(reference, out)(name, readFileSync(input), 2));"""
+        subprocess.run(['node', '--input-type=module', '-e', script,
+            (Path(__file__).parent / 'denoise-reference.mjs').resolve().as_uri(),
+            str(reference), str(out), name, str(source), str(destination)], check=True, timeout=90)
+        return destination.read_bytes()
+    expected = learned('expected', frozen)
+    late_plan = saved_plan('state-stereo-late')
+    whole_plan = saved_plan('state-stereo-full')
+    offset = (late_plan['range']['start'] - whole_plan['range']['start']) * 8
+    reset = learned('reset-control', frozen[offset:])
+    assert reset != expected[offset:], 'Late reset control must discriminate state history'
+    late, late_receipt = run('late-before-full', late_plan)
+    assert late == expected[offset:], 'Late learned PCM differs from independent complete-run C oracle'
+    whole, whole_receipt = run('full', whole_plan)
+    assert whole == expected, 'Full learned PCM differs from independent C oracle'
+    assert late_receipt['sourceWork']['preparedRetimeRuns'] == 1
+    assert whole_receipt['sourceWork']['preparedRetimeRuns'] == 1
+    report.update(passed=True, learnedSha256=hashlib.sha256(expected).hexdigest(),
+        lateSha256=hashlib.sha256(late).hexdigest(), resetAtLateDiffers=True,
+        lateBeforeFull=True, retimeImplementationId=RETIME_IMPLEMENTATION,
+        rnnoiseImplementationId=whole_plan['state']['implementationId'])
+    (out / 'report.json').write_text(json.dumps(report, indent=2)+'\n')
+    print(json.dumps({'checks': len(report['checks']), 'report': str(out / 'report.json')}))
+
+if args.learned_reference:
+    learned_retained(args.learned_reference)
+    sys.exit(0)
 
 source = out / 'tone.wav'
 wave(source, tone(600000, 48000, 1), 48000, 1)

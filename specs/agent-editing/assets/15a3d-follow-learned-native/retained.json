@@ -1,0 +1,30 @@
+{
+  "origin": "14d-pitch-follow/follow.json; /tmp/screenrec-follow-14d-final-state",
+  "files": [
+    {
+      "path": "tone-44100-2.wav",
+      "bytes": 496044,
+      "sha256": "bc6c1d042936c13eb6a18152f8d5cedd3d8ba7d2d9181cb924ea0a64f1f2108c"
+    },
+    {
+      "path": "rate-44100-2-9-10.wav",
+      "bytes": 589184,
+      "sha256": "03815f5485b2e7f781e11e2f7c388572d8e7e6ad716b667f0d9bbbe034faaf53"
+    },
+    {
+      "path": "rate-44100-2-9-10.json",
+      "bytes": 1235,
+      "sha256": "8aa5c98e1c54c6bda1696cb739d3591305793b9af9be87fe5ba52463dcb701de"
+    },
+    {
+      "path": "state-stereo-full.json",
+      "bytes": 2880,
+      "sha256": "142a1975cf7d6d61ab92ea1d5c18d529e23ef14d9de0029a5fc530882d536045"
+    },
+    {
+      "path": "state-stereo-late.json",
+      "bytes": 2892,
+      "sha256": "4d6e29d787c0f7ba16f3cb796f41fc1b8d00c345d4af5c702e352d640c54b4cd"
+    }
+  ]
+}

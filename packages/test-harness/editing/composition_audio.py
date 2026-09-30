@@ -41,8 +41,8 @@ def pcm(wav):
 def stereo(data): return b''.join(data[i:i+4]*2 for i in range(0, len(data), 4))
 
 class NativeAudio:
-    def __init__(self, worker, out):
-        self.worker, self.out = worker, out
+    def __init__(self, worker, out, wire=False):
+        self.worker, self.out, self.wire = worker, out, wire
         out.mkdir(parents=True, exist_ok=False)
         self.report = {'workerSha256': hashlib.sha256(worker.read_bytes()).hexdigest(), 'checks': []}
 
@@ -51,10 +51,21 @@ class NativeAudio:
         request = self.out / (name + '.json'); request.write_text(json.dumps(value))
         def limit_descriptors():
             resource.setrlimit(resource.RLIMIT_NOFILE, (descriptor_limit, descriptor_limit))
-        result = subprocess.run([str(self.worker), str(request)], text=True, capture_output=True, timeout=90,
-            preexec_fn=limit_descriptors if descriptor_limit is not None else None)
-        assert result.returncode == 0, result.stderr
-        receipt = json.loads(result.stdout)
+        if self.wire:
+            message = {'id': name, 'operation': 'media.mixCompositionAudio', 'params': {'planFile': str(request)}}
+            result = subprocess.run([str(self.worker)], input=json.dumps(message)+'\n',
+                text=True, capture_output=True, timeout=90,
+                preexec_fn=limit_descriptors if descriptor_limit is not None else None)
+            (self.out / (name + '-response.json')).write_text(result.stdout)
+            assert result.returncode == 0, result.stderr
+            response = json.loads(result.stdout)
+            assert response['ok'], response
+            receipt = response['data']
+        else:
+            result = subprocess.run([str(self.worker), str(request)], text=True, capture_output=True, timeout=90,
+                preexec_fn=limit_descriptors if descriptor_limit is not None else None)
+            assert result.returncode == 0, result.stderr
+            receipt = json.loads(result.stdout)
         data = pcm(Path(value['output']))
         assert len(data) == (value['range']['end'] - value['range']['start']) * 8
         assert not list(self.out.glob('.retime-*')) and not list(self.out.glob('.rnnoise-*'))

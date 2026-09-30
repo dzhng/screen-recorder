@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "scope": "Native follow \u2192 independent fixed-recipe RNNoise only; no public or listening claim",
+  "workerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "frozenDrySha256": "6b77312985acbf0228d1bb6d01cb29e239df1e01e29906a7166299bcb284907d",
+  "learnedSha256": "ee860f2b3dc88f119de3499e905c6a29ce62e48be24865000e7e6b08b5098c6e",
+  "lateSha256": "d92a343ef62d5588c46dc12b544831197d7224ccaf79498ec6fc81afe056a703",
+  "resetAtLateDiffers": true,
+  "lateBeforeFull": true,
+  "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+  "rnnoiseImplementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2",
+  "commands": [
+    "python3 packages/test-harness/editing/composition-follow.py /tmp/screenrec-exact-native-14f-build/debug/screenrec-native /tmp/screenrec-follow-learned-final --learned-reference /Users/david/.cache/screen-recorder/test-prerequisites/rnnoise-api-697657e249b1"
+  ],
+  "harnesses": {
+    "composition-follow.py": "1ec32a9a2090fbe59d9e5d056467160a100d9f71e3a97a29f59db4526536b65c",
+    "composition_audio.py": "75a3a983c044983c329e6b141e7d9258ab78a9120cc8fe477a96fa1fa75d6805",
+    "denoise-reference.mjs": "d8c1df5bf21826f10160c11ce671c236fff106a4d30aa6262c26a65ee58cc8ab"
+  },
+  "checks": {
+    "nativeDeliveries": 3,
+    "wrongResetExpectation": "fails after dry parity; restored final mode passes",
+    "defaultFollowBody": "byte-identical",
+    "plainNativeAudioTransport": "one frozen dry check passed",
+    "pythonSyntax": "AST parsed both edited modules",
+    "gitDiffCheck": "passed"
+  },
+  "files": {
+    "retained.tar.xz": "fb9902d8372bad116b9b83623fdf862222007765380afbcffab140f9484a8f98",
+    "retained.json": "0dba31562b801c1c8a7de04cead5124ae55a59afe5dded851f3363e8781fd457",
+    "evidence.tar.xz": "4b4a12984fb6dc3ef91ef9f8b72ae5c173144d4041f1b125abf6bf07fb43e244",
+    "manifest.json": "e352b2b2ad81baed0a0ba6ebe7500ae99a5fd3c561db2b703b5ef7caaa3962f0"
+  }
+}

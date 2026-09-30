@@ -1,0 +1,25 @@
+{
+  "verdict": "clean",
+  "shape": "Existing follow evaluator gains one narrow mode, existing NativeAudio owns both transports, existing C adapter owns recipe and lane compensation. No production changes.",
+  "diff": "Parent root independently reviewed learned mode and transport diff with no finding. Original full follow body is byte-identical; existing plain transport also passed one frozen dry smoke.",
+  "docs": "Native-only boundary and exact public-clock prerequisite remain explicit. Parent owns quality-gate and active-plan links.",
+  "choices": [
+    {
+      "choice": "Authenticate retained14d source/dry/plans and compare current dry first",
+      "reason": "A changed current converter cannot generate its own learned oracle."
+    },
+    {
+      "choice": "Call existing JavaScript C adapter from Python",
+      "reason": "Keeps a single frozen reference recipe instead of duplicating padding, delay and lane handling."
+    },
+    {
+      "choice": "Late-first and full complete PCM checks only",
+      "reason": "Smallest existing case that proves follow preparation and independent learned history; does not repeat follow matrix or claim public quality."
+    },
+    {
+      "choice": "Wrong-reset expectation red then restored green",
+      "reason": "Shows assertion sensitivity without changing production semantics."
+    }
+  ],
+  "independentCLIReview": "Configured Codex CLI previously rejected account/model admission; parent instructed not to retry. Parent supplied independent review."
+}
