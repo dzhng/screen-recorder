@@ -62,7 +62,9 @@ quality or managed reference retention.
 
 If exact parity or donor-path independence fails, diagnose the smallest missing
 runtime dependency before changing packaging. Do not loosen output checks or
-patch generation to make the package pass. Leave19 public integration open.
+patch generation to make the package pass. Packaging alone does not close19;
+its [acceptance ledger](../assets/19-acceptance/README.md) records public and quality
+evidence separately.
 
 Delegated: bundle directory layout, inventory tool and bounded assembly mechanics.
 No public settings or installation-policy decision is delegated by this slice.

@@ -4670,3 +4670,67 @@ is included without adding a production test hook or parallel digest abstraction
 
 One documentation discretion: the acceptance ledger is the canonical index;
 historical experiments retain their scoped limitations and refer to later verdicts.
+
+## Room-tone overlap refinement (2026-09-30)
+
+
+**Content-clock keys, one source occurrence per track.**
+
+- When: revised room-tone overlap packet.
+- Choice: Each repeated region starts at source time zero on its own audio track.
+  A content-anchored gain window means the curve follows that region's local source
+  samples. For example, while one region plays its last200ms, the next plays its
+  first200ms; both contribute through the existing public mixer. The keys are
+  read back from public processing state before the independent sample calculation.
+- Gap: The request fixed the fade shape but did not prescribe track layout or key
+  anchoring. Alternating a smaller set of tracks would also represent this fixed
+  loop, but would add placement/track-assignment logic to a single finite packet.
+- Reach: This declares only the review project's layout. It adds no product
+  ambience helper, automatic region choice or default processing policy.
+- Verdict: sound. Explicit public occurrences and content windows make the two
+  simultaneously playing source positions unambiguous without another renderer.
+- Confidence: high.
+
+**Keep complete transient deliveries in the exchanges instead of duplicate WAVs.**
+
+- When: revised room-tone overlap packet.
+- Choice: The scratch run writes and checks the actual dry-source and undo WAVs.
+  The durable packet retains the original source in its existing home and one
+  normal loop. The dry source is byte-identical to that original; undo is
+  byte-identical to the normal loop. Their complete MCP audio bodies, public
+  receipts and hashes remain in the compressed exchange record. A reviewer can
+  reconstruct either transient delivery without a second copy of those samples.
+- Gap: Actual undo delivery was required, but redundant permanent audio files
+  were not. Retaining all four WAVs would duplicate bytes already preserved.
+- Reach: The report's delivery entries describe actual runtime deliveries,
+  including transient ones; they are not a permanent filename inventory.
+- Verdict: sound. Complete transport evidence preserves the equality proof and
+  avoids unnecessary repeated audio assets.
+- Confidence: high.
+
+### Full-half overlap comparison
+
+- **When:** response to the user's qualified improvement and request for low-hanging
+  refinements.
+- **Choice:** Try250ms overlaps on the same half-second source, rather than add
+  new audio or change its speed. The200ms case has100ms in each interior cycle
+  where only one occurrence plays; the250ms case blends two throughout the
+  interior. A listener can compare that one treatment change at the same explicit
+  output gain. The curve midpoint shared by its incoming/outgoing envelopes is
+  represented once, avoiding duplicate authored times.
+- **Gap:** The user asked for another small improvement without prescribing its
+  fade duration. The existing public gain/mixing owners support this finite case.
+- **Reach:** This is an explicit review-project recipe, not automatic room-tone
+  selection, normalization or a new processing default. The prior candidate and
+  its qualified verdict remain available if this treatment sounds worse.
+- **Verdict:** sound; preserves the accepted source while testing whether continuous
+  overlap improves its remaining audible seam. Hearing decides between treatments.
+- **Confidence:** medium.
+
+Both recipes remain frozen as execution evidence. Their authored parameters differ,
+while production execution remains owned by the existing public mixer and scalar
+curves; no parallel production renderer is introduced.
+
+The final user choice retains the200ms treatment and explicitly tolerates its
+small residual seam. The250ms trial is rejected for a perceived whirling sound;
+it remains negative evidence, with no production adoption or further tuning.

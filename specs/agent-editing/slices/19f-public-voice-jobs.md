@@ -1,6 +1,6 @@
 # 19f — Public durable voice generation
 
-Status: complete for durable public voice jobs; public, lifecycle, stable-origin and fresh skill gates verified. [Evidence](../assets/19f-public-voice-jobs/README.md). Parent listening, perceived continuity and whole quality acceptance remain open. Parent: [19](19-voice-assets.md). Dependencies: [19c](19c-common-model-preparation.md), [19d](19d-voice-settings.md), [19e](19e-retained-audio-excerpts.md).
+Status: complete for durable public voice jobs; public, lifecycle, stable-origin and fresh skill gates verified. [Evidence](../assets/19f-public-voice-jobs/README.md). The [parent acceptance ledger](../assets/19-acceptance/README.md) supplies later contextual/ambience verdicts; the execution packet retains its historical listening limits. Parent: [19](19-voice-assets.md). Dependencies: [19c](19c-common-model-preparation.md), [19d](19d-voice-settings.md), [19e](19e-retained-audio-excerpts.md).
 
 ## Contract and seam
 

@@ -85,3 +85,40 @@ blip finding and all accepted denoise/voice contexts remain unchanged.
 The frozen packet's assembly-time pending state and all recipe/media identities
 remain preserved. A revised explicit overlap treatment may be auditioned from
 that same selected region; mechanics alone cannot claim the audible seams fixed.
+
+## Longer curved room-tone overlaps — qualified improvement
+
+The exact six-second200ms-overlap monitoring copy initially received
+**“Yes, speech-free and continuous.”** The user then qualified that answer:
+**“better, still a little bit of seam but much less noticible. if there are any
+other low hanging fruits you should try it to see if you can improve”**.
+Record the later, more specific disposition: the source sounds speech-free and
+this treatment improves the seams, with a slight residual seam still reported.
+Do not treat the initial answer as an unqualified seamlessness verdict.
+
+| Reviewed surface | File | SHA-256 |
+| --- | --- | --- |
+| Improved200ms overlap, +24dB monitoring copy | [loop-monitor-plus24db.wav](19-soft-roomtone-overlap/loop-monitor-plus24db.wav) | `674f8b5f7f800876e561ba4479e5350f77c9410732789459cfba273235547771` |
+| Normal-level counterpart | [loop.wav](19-soft-roomtone-overlap/loop.wav) | `7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55` |
+
+The following250ms-overlap comparison uses the same source region and diagnostic
+gain. It removes interior single-copy sections through explicit public gain
+curves; its full PCM, transport and undo checks pass. Its later rejection and the final choice appear below; the mechanical checks
+cannot supply an audible improvement verdict.
+
+## Final room-tone choice
+
+After hearing the250ms comparison, the user replied:
+**“before was better, this one just have higher frequency wirling sound. let's
+jsut go with before”**. This selects the exact200ms version above, with its
+acknowledged slight residual seam. The speech-free verdict remains; that residual
+is explicitly tolerated in the selected treatment. Do not perform further loop
+experiments or transfer this choice to new source material without a new request.
+
+The250ms candidate is rejected for the reported whirling sound. Its mechanical
+checks remain valid but do not override that listening result.
+
+| Final disposition | File | SHA-256 |
+| --- | --- | --- |
+| Selected200ms monitoring copy, slight seam tolerated | [loop-monitor-plus24db.wav](19-soft-roomtone-overlap/loop-monitor-plus24db.wav) | `674f8b5f7f800876e561ba4479e5350f77c9410732789459cfba273235547771` |
+| Rejected250ms monitoring copy | [loop-monitor-plus24db.wav](19-half-roomtone-overlap/loop-monitor-plus24db.wav) | `18b107789a77b3941c2f5f0a49b242f300deb21f3ac4a87a249f3c206c446163` |

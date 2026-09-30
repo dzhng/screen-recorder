@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "scope": "Independent complete sample reconstruction and CLI/MCP delivery verification; audible improvement pending.",
+  "frames": 288000,
+  "sampleRate": 48000,
+  "channels": 2,
+  "occurrences": 23,
+  "twoActiveSourcesThroughoutInteriorUs": [
+    250000,
+    5750000
+  ],
+  "strictlyIncreasingKeys": true,
+  "sourceSha256": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+  "maxSampleError": 5.317485236855379e-10,
+  "wrongLinearOverlapOracleMaxError": 0.001692346230265685,
+  "maxExplicitGainError": 7.450580596923828e-09,
+  "monitorPeak": 0.12389294803142548,
+  "completeUndoWAVExact": true,
+  "completeMCPPayloadsVerified": 4,
+  "monitorSha256": "18b107789a77b3941c2f5f0a49b242f300deb21f3ac4a87a249f3c206c446163"
+}

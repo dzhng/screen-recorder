@@ -62,7 +62,9 @@ framing, refusal and cancellation gates green after any shared extraction.
 No public `voice.generate`, asset/job kind, catalog migration, managed reference
 origin, enrollment or editing UI is introduced here. Later19 integration owns
 durable references, publication/replay and ordinary placement. Listening and
-protected-context acceptance stay open in18/19, regardless of byte parity.
+protected-context acceptance require their own actual verdicts, regardless of
+byte parity. The [parent acceptance ledger](../assets/19-acceptance/README.md)
+records the later accepted contextual and ambience cases.
 
 Private implementation names and process packaging are delegated within these
 constraints. Any broader model-registry or public API choice needs a separate

@@ -1,10 +1,11 @@
 # Room tone with longer equal-power overlaps
 
-**Speech-free and improved, with a residual seam.** The
-[user review](../listening-review-2026-09-30.md) records an initial “Yes, speech-free
-and continuous,” then qualifies it: “better, still a little bit of seam but much
-less noticible.” This monitoring clip is not accepted as fully seamless. The earlier
-loop's noticeable repeat seams remain a separate rejected result. This revised
+**Selected by the user, with a slight residual seam tolerated.** The
+[user review](../listening-review-2026-09-30.md) first reports speech-free sound and
+improved continuity, then notes a small remaining seam. After comparing the250ms
+version, the user explicitly chooses this200ms version. Preserve this exact output
+and do not claim it is entirely seamless. The earlier loop's noticeable repeat
+seams and the250ms candidate's whirling sound remain rejected results. This revised
 packet uses the unchanged [retained stereo region](../19-clean-roomtone/source-region-stereo.wav),
 whose source selection and origin conversion remain owned by the
 [earlier packet](../19-clean-roomtone/README.md). The frozen report retains its
@@ -16,8 +17,7 @@ The [monitoring copy](loop-monitor-plus24db.wav) applies the same separately lab
 The fixed proposal uses sine/cosine weights approximated by public linear gain
 keys. Their complementary squared weights stay near one within the declared
 approximation bound. This controls the fade weights, not perceived loudness or
-actual mixed power: correlated source samples can reinforce or cancel. No claim
-that the seams are fixed follows from those checks.
+actual mixed power: correlated source samples can reinforce or cancel. No hearing claim follows from those checks; the user verdict owns acceptance.
 
 The [assembler](assemble.mjs) uses existing public import, project edits, gain
 curves, audio delivery and undo through JourneyService. The [report](report.json)
@@ -33,7 +33,8 @@ the unchanged public loop.
 MCP audio bodies. The dry source is already retained in the earlier packet; the
 transient undo WAV duplicates the normal loop and is omitted here. Their actual
 delivery hashes and complete audio bodies remain in the evidence. [Review](review.md)
-and [audited choices](choices.md) describe the bounded implementation decisions.
+and [root reconstruction](root-verification.json) verify the execution;
+[audited choices](choices.md) describe the bounded implementation decisions.
 
 Reproduce into a fresh scratch directory using the pinned existing native worker:
 
@@ -44,5 +45,5 @@ SCREENREC_NATIVE=/tmp/screenrec-03d-native-build/debug/screenrec-native node spe
 The earlier audition and its rejection remain intact. No source change, retiming,
 reversal, denoising, normalization, new capture/model or automatic playback occurs.
 The improved listening verdict applies to the exact monitoring output, not an
-automatic ambience policy. Root owns further bounded comparisons and parent19's
-broader disposition; residual seam acceptance remains open.
+automatic ambience policy. The final user choice tolerates this exact residual seam; no further overlap
+trial is requested.

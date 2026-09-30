@@ -10,9 +10,12 @@ Historical workers and measurements retain their own identities below.
 
 ## Current pickup
 
-The [user review](listening-review-2026-09-30.md) accepts the exact post-retime
-denoise, shorter phrase entrance and word context. The source pause contains a
-voice blip; resolve19’s speech-free ambience/loop verdict before closing that gate. The [earlier selected region and loop](19-clean-roomtone/README.md) have a user rejection for noticeable repeat seams; revise their explicit overlap treatment and audition again. The [finite denoise acceptance](denoise-acceptance/README.md) includes the protected sentence, authored stereo and known-noise passes. Independent speech labels and physical capture gates remain; do not repeat accepted auditions.
+The [generation/ambience matrix](19-acceptance/README.md) is accepted. The user
+chooses the200ms loop, whose source sounds speech-free, tolerating a slight
+residual seam. Preserve its exact media and recipe; the50ms seam and250ms
+whirling cases remain rejected. The [finite denoise matrix](denoise-acceptance/README.md)
+is accepted. Current pickup is independent speech labels and filler/repetition
+intent for12/12d, then12b adoption and physical20/21. Do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;
@@ -252,7 +255,7 @@ retirement ownership, not a new garbage collector.
 The [current checklist](../README.md#global-checklist) owns completion; the
 [audio/stretch audit](acceptance-maintenance/README.md) records historical checkpoints.
 08/11,13/14,16 and generic22 acceptance are verified. [18's fixed voice matrix](../slices/18-voice-reproduction.md)
-and the frozen local denoise matrix are accepted;19 retains its speech-free ambience/loop gate. Independent speech-cleanup labels precede12b; physical20/21, cutover23, final24 and autonomous25 remain. Segmentation
+and the frozen local denoise and generation/ambience matrices are accepted. Independent speech-cleanup labels precede12b; physical20/21, cutover23, final24 and autonomous25 remain. Segmentation
 stays a future placeholder. Isolated checkpoints do not establish physical capture
 or installed-app cutover.
 

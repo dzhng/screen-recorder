@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "scope": "Independent Python reconstruction of every delivered sample and archived MCP bodies. Speech-free/seam hearing remain pending.",
+  "frames": 288000,
+  "sampleRate": 48000,
+  "channels": 2,
+  "occurrences": 20,
+  "sourceSha256": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05",
+  "maxSampleError": 5.940271668655739e-10,
+  "maxExplicitGainError": 7.450580596923828e-09,
+  "monitorPeak": 0.11540257930755615,
+  "completeUndoWAVExact": true,
+  "completeMCPPayloadsVerified": 4,
+  "monitorSha256": "674f8b5f7f800876e561ba4479e5350f77c9410732789459cfba273235547771"
+}

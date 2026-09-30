@@ -19,17 +19,16 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs. Current pickup is
-[19 ambience acceptance](slices/19-voice-assets.md): the
-[user review](assets/listening-review-2026-09-30.md) accepts the exact post-retime
-denoise, shorter phrase entrance and word context, but hears speech in the source pause.
-The [earlier region and public loop](assets/19-clean-roomtone/README.md) pass
-mechanical checks, but the user reports noticeable repeat seams. Revise the explicit
-overlap treatment from the same region; speech-free sound and continuity still
-need listening.
+[12 speech-cleanup evidence](slices/12-speech-evidence.md): independent audible
+word boundaries, filler/repetition inventory and removal intent still need their
+actual labels before12b adoption. The [local generation/ambience matrix](assets/19-acceptance/README.md)
+is accepted, including the chosen200ms loop with a slight residual seam tolerated.
+Preserve that exact choice and the rejected alternatives; no further loop trial
+is requested.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
 [24y populated source-event duration](slices/24y-source-event-duration.md) pass
 independent exact-result, latency/memory and generation checks. Preserve those
-scoped passes; remaining labels/listening/physical gates need their actual evidence.
+scoped passes; remaining independent speech-label and physical gates need their actual evidence.
 The [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) is verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
 offscreen playback. The [frozen local denoise matrix](assets/denoise-acceptance/README.md) is accepted,
@@ -48,9 +47,9 @@ or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
 Resolve actual12/12d speech labels toward12b; preserve accepted denoise and18
-contextual outputs, and resolve19 speech-free ambience/loop acceptance. Then physical20→21,
+contextual/ambience outputs. Then physical20→21,
 final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
-a scheduling graph. Further12b/19/23 consumer acceptance retains its missing quality or physical
+a scheduling graph. Further12b/23 consumer acceptance retains its missing quality or physical
 prerequisite. Do not repeat
 passed cohorts instead of resolving those requirements.
 
@@ -202,7 +201,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17 — Text and attached captions](slices/17-text-captions.md)
 - [x] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [x] [18a — Frozen voice repeatability across fresh processes](slices/18a-voice-repeatability.md)
-- [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
+- [x] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [x] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)
 - [x] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
 - [x] [19c — Common local model preparation](slices/19c-common-model-preparation.md)

@@ -69,7 +69,7 @@ now correctly distinguishes authored boundaries, displayed frame intervals and g
 [Raw PNG/JPEG inspection](assets/10d-source-image-public/README.md) passes public
 delivery, lifecycle and fresh skill use; [project image composition](assets/10d-project-image-public/README.md)
 and [combined renderer preservation](assets/10d-joint-preservation/README.md) also pass. Speech
-cleanup timing and19 ambience listening remain pending. The [finite denoise matrix](assets/denoise-acceptance/README.md) is accepted, including its exact protected-word/channel/noise auditions. Rows below describe the full acceptance requirement; their owning slice evidence records progress.
+cleanup timing remains pending; the [generation/ambience matrix](assets/19-acceptance/README.md) is accepted with its exact chosen-loop tolerance. The [finite denoise matrix](assets/denoise-acceptance/README.md) is accepted, including its exact protected-word/channel/noise auditions. Rows below describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |
 | --- | --- | --- |

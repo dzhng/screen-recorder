@@ -1,5 +1,9 @@
 # Integrated evidence index
 
+- [Local generation and ambience](19-acceptance/README.md) close the finite capability
+  matrix. The user selects the speech-free200ms loop and tolerates its small
+  residual seam; stronger overlap is rejected for whirling.
+
 - [Camera picture hashing](20e-camera-picture-hashing/README.md) preserves all decoded
   pictures while reducing offline publication work. The ten-second/live-stop and
   physical synchronization gates remain open.

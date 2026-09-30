@@ -1,0 +1,45 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 2678,
+      "sha256": "3eab19e3937238e1016bdf8b72190620dc810e0aa22b0994865266ab3356d065"
+    },
+    "assemble.mjs": {
+      "bytes": 10778,
+      "sha256": "5f21f4c70f89fc02eaeee8b106faec696aa57143858b3eed857019430e48a58f"
+    },
+    "exchanges.json.gz": {
+      "bytes": 7064798,
+      "sha256": "ff06ded98c63bcedc3de552b3e57c6971ad75b3814ca5f1e07c68bb245891a25"
+    },
+    "loop-monitor-plus24db.wav": {
+      "bytes": 2308096,
+      "sha256": "18b107789a77b3941c2f5f0a49b242f300deb21f3ac4a87a249f3c206c446163"
+    },
+    "loop.wav": {
+      "bytes": 2308096,
+      "sha256": "133eeed878df0d94da6802d075469ed4ac4198ff8c8b98468097cd4c91b98fa3"
+    },
+    "report.json": {
+      "bytes": 139525,
+      "sha256": "34faf9f00b3a628958400f6b627a6d179f3073def2320074d669b704410868c1"
+    },
+    "root-verification.json": {
+      "bytes": 761,
+      "sha256": "6d7a03aecb4fc2189ae183602241b7e9e9ac8dc4277ccec59b8766f078ed115a"
+    },
+    "service.log": {
+      "bytes": 169,
+      "sha256": "a877c7f1bca77c589ebae3ca001cc44ae1f857cd3e9376ee2100d1f4ffb11b17"
+    },
+    "review.md": {
+      "bytes": 1280,
+      "sha256": "5db24d0900d06de924eeae20822d854c3cc91830990e7dae647401991b04ef1a"
+    }
+  },
+  "sourceRegionUnchanged": {
+    "path": "../19-clean-roomtone/source-region-stereo.wav",
+    "sha256": "4d85737651eb335162e0e217cdc33e4b10c41f8782786d1e74e9648c9b3f6c05"
+  },
+  "auditoryDisposition": "Rejected; exact verdict in ../listening-review-2026-09-30.md. Selected200ms media remain unchanged."
+}

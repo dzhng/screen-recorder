@@ -1,6 +1,6 @@
 # 19 — Durable local generation and replacement
 
-Status: public durable integration19f, model-free generated/reference transfer and explicit contextual replacement preservation are verified. Runtime relocation, common preparation, measured controls and retained excerpts are verified. The [user review](../assets/listening-review-2026-09-30.md) accepts the exact current phrase/word contexts. Speech-free ambience sourcing and loop acceptance remain open: the presented source pause contains a voice blip. An [earlier selected region and public loop](../assets/19-clean-roomtone/README.md) pass mechanical/exact-delivery checks, but the user reports noticeable repeat seams. Revise the explicit overlap treatment; speech-free source and natural continuity remain unverified. The private [entry-parity checkpoint](19a-voice-entry-parity.md) is verified on frozen candidate identities and [clean-process repeatability](18a-voice-repeatability.md), as a historical prerequisite to19f, without independently supplying a listening verdict. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
+Status: complete for the frozen local generation/replacement and finite ambience matrix. [Acceptance evidence](../assets/19-acceptance/README.md) joins public parity, retained reference/runtime/lifecycle/transfer proofs, exact accepted contextual auditions and the user-selected200ms room-tone loop. The source sounds speech-free; a slight residual seam is explicitly tolerated. Rejected loops remain retained. Installed cutover and whole-workflow acceptance remain23/25. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
 
 [Runtime relocation](19b-voice-runtime-relocation.md) and
 [registered adoption](19d-voice-settings.md) provide the standalone prepared
@@ -9,8 +9,8 @@ execution artifact; preserve its exact identities in public generation.
 Implementation proceeds through [common preparation](19c-common-model-preparation.md),
 [measured settings](19d-voice-settings.md), [retained excerpts](19e-retained-audio-excerpts.md)
 and [public durable jobs](19f-public-voice-jobs.md). The [independent plan synthesis](../assets/19-public-plan/README.md)
-records accepted/rejected alternatives. This parent retains whole contextual and
-listening acceptance; child completion does not close it.
+records accepted/rejected alternatives. Child mechanics and exact listening verdicts remain separately accountable;
+the acceptance evidence records their complete parent matrix.
 
 ## Contract
 
@@ -55,9 +55,7 @@ Delegated: Worker process packaging, startup/cache mechanics and private indexes
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
-The remaining ambience gate needs a speech-free region and natural loop seams.
-The linked user review rejects the current pause as speech-free; its retained
-interior may include the reported voice blip. Select from existing immutable
-audio, independently audition the selected region and judge repetition/loop seams. The public pause assembly mechanics in09/16 remain verified; their
-synthetic checks do not establish this listening result. Carry this disposition
-into25’s whole-workflow acceptance.
+The selected ambience source and loop have the explicit user disposition in the
+acceptance evidence. Preserve the200ms recipe and its tolerated small residual
+seam; the stronger250ms treatment was rejected for a whirling sound. Carry that
+chosen recipe and provenance into25 rather than silently retune or repeat auditions.

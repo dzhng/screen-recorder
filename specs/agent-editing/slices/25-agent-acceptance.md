@@ -48,6 +48,7 @@ Delegated: Agent editorial choices within the user's brief, and reversible prese
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
 
-Include the remaining19 pause/ambience listening disposition: real speech-free
-source selection and natural loop/join continuity. Reuse verified09/16 assembly
-mechanics; do not equate those synthetic checks with naturalness.
+Carry the [selected19 ambience recipe and listening disposition](../assets/19-acceptance/README.md)
+into the integrated pause workflow: preserve source provenance, explicit gain and
+transitions, and the user-tolerated slight residual seam. Do not silently retune
+the selected loop or transfer its verdict to arbitrary new sources.
