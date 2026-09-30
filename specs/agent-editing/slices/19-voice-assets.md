@@ -54,3 +54,9 @@ A successful job is not evidence of quality: rerun the accepted contextual check
 Delegated: Worker process packaging, startup/cache mechanics and private indexes. Shared lifecycle, actual-reference persistence and accepted recipe are fixed.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
+
+The open continuity gate also owns the real pause-with-ambience judgment: confirm
+that the retained source region is speech-free and that repetition/loop seams sound
+natural. The public pause assembly mechanics in09/16 remain verified; their
+synthetic checks do not establish this listening result. Carry this disposition
+into25’s whole-workflow acceptance.

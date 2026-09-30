@@ -132,8 +132,13 @@ their actual rate/layout and full-track source extraction can preserve them.
 ## One time model
 
 Text placement accepts exact reduced fractional endpoints, including transcript
-seeding after retime or partial-word selection. Other command coordinates and
-admitted source timestamps are integer microseconds.
+seeding after retime or partial-word selection. The planned [03d correction](slices/03d-exact-media-admission.md)
+extends this same representation to admitted physical facts and public media
+source/placement ranges. Until03d lands those two surfaces still narrow to integers,
+which loses a final sample for some imported sources. Point queries and capture
+observations retain integer interfaces. Physical origin and signed segment metadata
+must remain exact through mapping before observation-label projection; clip
+selections remain nonnegative.
 Stored selection/placement endpoints also accept reduced fractions of a microsecond
 when an edit requires them. Whole values stay numbers; fractions require safe-integer
 components and denominator greater than one. Reject unrepresentable results rather

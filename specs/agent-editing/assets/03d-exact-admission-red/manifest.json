@@ -1,0 +1,42 @@
+{
+  "README.md": {
+    "bytes": 1460,
+    "sha256": "fbe2c1fb4ff3df82a88542cf2725e7ec47e8aff0d028842fe4c21a2c7cea579f"
+  },
+  "ceiling-report.json.gz": {
+    "bytes": 2292,
+    "sha256": "91a6228ffaeb0278bf582a37e16a3dd6320541c55bb812e8810fc8d38a0bf62c"
+  },
+  "ceiling.log": {
+    "bytes": 1160,
+    "sha256": "935949fb6024e144ee87a82aa81fccbcc84afb306466ccc8994479e0f4a6175a"
+  },
+  "floor-dry.wav.gz": {
+    "bytes": 924704,
+    "sha256": "f300026e66e58f5336e378b55155eec6443c178b23626ba42335d67aee017cd2"
+  },
+  "floor-output-report.json.gz": {
+    "bytes": 3802,
+    "sha256": "f115e06de4cf7fbf94ef851560a93ba4c5cd174df685680cf86db0217b5784e2"
+  },
+  "floor-report.json.gz": {
+    "bytes": 3820,
+    "sha256": "29f46e79de75b03418145b98e861f9ef1d273dc9b64cc51636eef07fe7eb09be"
+  },
+  "floor.log": {
+    "bytes": 810,
+    "sha256": "72a8e61c12e6c688a3210b3ae374b7b14b1b142c554bc529873ec6249d7bf19f"
+  },
+  "fraction-report.json.gz": {
+    "bytes": 2225,
+    "sha256": "6955157d42e3e3c5a2238ab8636111639bc6eeebe5122f69ccc0ddb57ea4e89d"
+  },
+  "fraction.log": {
+    "bytes": 1050,
+    "sha256": "fa916f352699f7322c8524813c3f207bb18f4b750a4589b79659e3282ac78611"
+  },
+  "schema-errors.json": {
+    "bytes": 4292,
+    "sha256": "c2c3d233a830d4c5a36cd7d4686c8153f2cd6d9a2926cbb2ff1dcf7fd69b5f74"
+  }
+}

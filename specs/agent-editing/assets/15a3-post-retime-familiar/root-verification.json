@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "report": "root-report.json.gz",
+  "filesAuthenticated": 5,
+  "all246478FramesDryStereoDuplicationExact": true,
+  "processedCReferenceExact": true,
+  "candidateFileMatchesRetained": true,
+  "listening": "pending"
+}

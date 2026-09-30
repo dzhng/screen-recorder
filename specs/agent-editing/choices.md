@@ -4213,3 +4213,18 @@ product behavior or listening scope.
   does not equate lossy AAC with lossless PCM or establish audible quality.
 - **Verdict:** sound; matched full/range decodes agree and wrong-order AAC differs.
 - **Confidence:** high.
+
+## Exact admitted media correction (2026-09-30)
+
+Accepted A re-import loses a nonzero last sample because physical admission and
+public media authoring narrow exact endpoints to integer microseconds. [03d](slices/03d-exact-media-admission.md)
+replaces those field types in place using the existing rational owners and one
+shared signed physical origin. Explicit integer floor selections retain their
+meaning. Three independent plans were synthesized into authority evidence, signed
+carrier, atomic producer/consumer cutover and targeted preservation checkpoints.
+The wider atomic cutover avoids temporary rounded adapters between nine otherwise
+separable API seams. Default raw-source audio is included; fixing placement alone
+would leave the same loss there. No compatibility migration, new clock, whole-file
+sentinel, ceil padding or new DSP research is approved. Original red and accepted
+quality media remain immutable; the listening audition uses the already verified
+original-source retime route and is independent of this defect.

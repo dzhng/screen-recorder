@@ -1,5 +1,13 @@
 # Voice acceptance handoff: slices 18/19
 
+Historical audit at the revision named below. Current managed generation and origin
+lifetimes are verified in [19f](../../slices/19f-public-voice-jobs.md). Current
+[phrase](../18-voice-boundary-timing/README.md) and
+[word](../18-word-boundary-timing/README.md) boundary visuals have since passed.
+The implementation/visual pickup statements below are superseded; the scoped
+listening dispositions remain relevant.
+
+
 Read-only audit at `0552f070`, `/Users/david/dev/screen-recorder`. No generation, model download, recipe change, playback, visual acceptance, UI work or user question was performed. Findings use the retained experiment, choices ledger and recorded user feedback; absence of a recorded response is not approval and does not establish that the user literally never heard a file.
 
 ## Current selected candidate

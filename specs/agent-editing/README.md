@@ -17,13 +17,17 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup is [15a3 post-retime processing](slices/15a3-denoise-acceptance.md),
+Current pickup is the [03d exact admission correction](slices/03d-exact-media-admission.md),
+starting with its physical-authority evidence pass after an imported accepted WAV
+lost its final sample. Then implement the carrier and atomic consumer cutover. Continue
+[15a3 post-retime quality](slices/15a3-denoise-acceptance.md),
 with [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
 offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post-retime-combined/root-verification.json)
-passes independent PCM and matched full/range AAC checks. Continue the narrow
-follow-pitch learned check against retained14d evidence, then resolve remaining
-speech/denoise quality gates. Numerical evidence never substitutes for hearing.
+passes independent PCM and matched full/range AAC checks. The [native](assets/15a3d-follow-learned-native/root-verification.json) and
+[public](assets/15a3e-follow-learned-public/root-verification.json) follow-pitch
+learned joins now pass. The familiar post-retime denoise audition is pending;
+resolve remaining speech/denoise quality gates without repeating passed joins. Numerical evidence never substitutes for hearing.
 
 Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
 [retimed curves](assets/16-retimed-curves/root-verification.json) and
@@ -131,6 +135,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
 - [x] [02 — Immutable asset admission](slices/02-assets.md)
 - [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
+- [ ] [03d — Preserve exact admitted media support](slices/03d-exact-media-admission.md)
 - [x] [03 — Structural edits and attachments](slices/03-edits.md)
 - [x] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
 - [x] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)

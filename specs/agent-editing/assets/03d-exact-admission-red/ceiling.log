@@ -1,0 +1,22 @@
+(node:79131) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: edit.apply: {"ok":false,"error":{"code":"INVALID_EDIT","message":"Selected range exceeds source bounds: clip:c9aef2dece1defb34a6570b8a89504738060280440e58cd04c382ab257a9d6f6:1","retryable":false,"details":{"operationIndex":1,"cause":"INVALID_COMPOSITION"}},"id":"15480b70-4e7e-4ae2-8db9-e6a8e0de6d88"}
+
+false !== true
+
+    at JourneyService.call (file:///Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:116:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/15a3-post-retime-familiar/assemble.mjs:107:18 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

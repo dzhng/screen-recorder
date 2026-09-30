@@ -12,8 +12,10 @@ later query selects.
 ## Seam and ownership
 
 Composition owns serializable exact time values for stored selection and placement
-ranges. Command coordinates and admitted source metadata remain integer
-microseconds. Whole stored times use numbers; fractional stored times use reduced
+ranges. Its original boundary kept command coordinates and admitted source metadata
+in integer microseconds. [03d](03d-exact-media-admission.md) explicitly supersedes
+that restriction for physical facts and public media range authoring, preserving
+03a’s exact mapping and integer point-query contracts. Whole stored times use numbers; fractional stored times use reduced
 safe-integer numerator/denominator pairs. Existing exact arithmetic remains the
 single evaluator. Fractions outside the serializable bounds fail explicitly.
 

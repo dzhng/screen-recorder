@@ -1,0 +1,183 @@
+[
+  {
+    "code": "invalid_union",
+    "errors": [
+      [
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "placement",
+            "range",
+            "endUs"
+          ],
+          "message": "Invalid input: expected number, received object"
+        },
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "range",
+            "endUs"
+          ],
+          "message": "Invalid input: expected number, received object"
+        }
+      ],
+      [
+        {
+          "code": "invalid_value",
+          "values": [
+            "text"
+          ],
+          "path": [
+            "source",
+            "kind"
+          ],
+          "message": "Invalid input: expected \"text\""
+        },
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "text"
+          ],
+          "message": "Invalid input: expected string, received undefined"
+        },
+        {
+          "expected": "object",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "font"
+          ],
+          "message": "Invalid input: expected object, received undefined"
+        },
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "width"
+          ],
+          "message": "Invalid input: expected number, received undefined"
+        },
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "height"
+          ],
+          "message": "Invalid input: expected number, received undefined"
+        },
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "size"
+          ],
+          "message": "Invalid input: expected number, received undefined"
+        },
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "color"
+          ],
+          "message": "Invalid input: expected string, received undefined"
+        },
+        {
+          "code": "invalid_value",
+          "values": [
+            "left",
+            "center",
+            "right"
+          ],
+          "path": [
+            "source",
+            "alignment"
+          ],
+          "message": "Invalid option: expected one of \"left\"|\"center\"|\"right\""
+        },
+        {
+          "expected": "boolean",
+          "code": "invalid_type",
+          "path": [
+            "source",
+            "wrap"
+          ],
+          "message": "Invalid input: expected boolean, received undefined"
+        },
+        {
+          "code": "unrecognized_keys",
+          "keys": [
+            "range"
+          ],
+          "path": [
+            "source"
+          ],
+          "message": "Unrecognized key: \"range\""
+        },
+        {
+          "code": "unrecognized_keys",
+          "keys": [
+            "assetId",
+            "streamId"
+          ],
+          "path": [],
+          "message": "Unrecognized keys: \"assetId\", \"streamId\""
+        }
+      ],
+      [
+        {
+          "expected": "number",
+          "code": "invalid_type",
+          "path": [
+            "placement",
+            "range",
+            "endUs"
+          ],
+          "message": "Invalid input: expected number, received object"
+        },
+        {
+          "code": "invalid_value",
+          "values": [
+            "silence"
+          ],
+          "path": [
+            "source",
+            "kind"
+          ],
+          "message": "Invalid input: expected \"silence\""
+        },
+        {
+          "code": "unrecognized_keys",
+          "keys": [
+            "range"
+          ],
+          "path": [
+            "source"
+          ],
+          "message": "Unrecognized key: \"range\""
+        },
+        {
+          "code": "unrecognized_keys",
+          "keys": [
+            "assetId",
+            "streamId"
+          ],
+          "path": [],
+          "message": "Unrecognized keys: \"assetId\", \"streamId\""
+        }
+      ]
+    ],
+    "path": [
+      "clip"
+    ],
+    "message": "Invalid input"
+  }
+]

@@ -24,8 +24,13 @@ input in learned history. Split, reordered stack, bypass/undo/history, prepared
 reads and matched full/range AAC delivery pass. The established unit-rate cohort
 remains unchanged. This technical fixture makes no new listening claim.
 
-Current technical pickup is a narrowly authenticated follow-pitch learned check
-against retained14d input/output and the independent C adapter. Do not round its
-rational clocks merely to force a public fixture. Public follow-pitch combined
-acceptance remains separate until matched evidence exists. Other-material,
-spatial, protected-speech and post-retime listening remain open.
+The [native follow-pitch replay](../assets/15a3d-follow-learned-native/root-verification.json) and
+[public follow-pitch replay](../assets/15a3e-follow-learned-public/root-verification.json)
+pass complete matched PCM checks against the frozen C adapter. Public late-before-full,
+prepared excerpts and CLI/MCP delivery preserve learned history; this adds no
+follow-pitch movie cross-product claim. The [familiar post-retime comparison](../assets/15a3-post-retime-familiar/README.md)
+reproduces every accepted dry frame before denoise and is awaiting the user’s
+word-clarity/naturalness verdict. Other-material, spatial and protected-speech
+quality remain open. Importing the accepted WAV directly exposed a separate
+[exact admission defect](../assets/03d-exact-admission-red/README.md); that correction
+must preserve the explicit floor-selection rule and does not change this audition.

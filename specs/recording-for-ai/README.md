@@ -10,7 +10,9 @@ from full personal-release acceptance.
 ## Next Agent Prompt
 
 The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
-with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+with the current implementation pickup in its live Next Agent Prompt. The current
+editing correction is [exact media admission](../agent-editing/slices/03d-exact-media-admission.md);
+its isolated verification must preserve this release’s capture and evidence clocks. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is

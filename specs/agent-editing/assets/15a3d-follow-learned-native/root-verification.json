@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "integrationCommit": "fcaf55fb",
+  "nativeDeliveries": 3,
+  "currentDryMatchesFrozen": "6b77312985acbf0228d1bb6d01cb29e239df1e01e29906a7166299bcb284907d",
+  "fullCMatch": "ee860f2b3dc88f119de3499e905c6a29ce62e48be24865000e7e6b08b5098c6e",
+  "lateCMatch": "d92a343ef62d5588c46dc12b544831197d7224ccaf79498ec6fc81afe056a703",
+  "resetAtLateDiffers": true,
+  "rootReportSha256": "21521beb707d9b06f6404fcabf016b7ca5d3915823881e03cbebd87efe0ad8d8",
+  "scope": "Native follow \u2192 independent fixed-recipe RNNoise only; no public or listening claim"
+}

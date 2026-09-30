@@ -47,3 +47,7 @@ Delegated: Agent editorial choices within the user's brief, and reversible prese
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+Include the remaining19 pause/ambience listening disposition: real speech-free
+source selection and natural loop/join continuity. Reuse verified09/16 assembly
+mechanics; do not equate those synthetic checks with naturalness.

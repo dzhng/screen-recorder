@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "manifestEntriesAuthenticated": 41,
+  "publicExchanges": 32,
+  "completePCMChecks": 4,
+  "allFourDeliveryFilesMatchRetained": true,
+  "report": "root-report.json.gz",
+  "scope": "Public follow into learned ordinary/prepared audio from authenticated14e dry PCM; no new movie, listening or quality claim."
+}
