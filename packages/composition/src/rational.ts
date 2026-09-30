@@ -1,5 +1,5 @@
 import { CompositionError } from "./errors.js";
-import type { TimeValue, Fraction } from "./schema.js";
+import type { TimeValue, SignedTimeValue, Fraction } from "./schema.js";
 export type Rational = Readonly<{ numerator: bigint; denominator: bigint }>;
 
 export function rational(numerator: bigint, denominator = 1n): Rational {
@@ -45,25 +45,30 @@ export function ceil(value: Rational): number {
   );
 }
 
-export function fromTime(value: TimeValue): Rational {
+export function fromTime(value: SignedTimeValue): Rational {
   return typeof value === "number"
     ? rational(BigInt(value))
     : rational(BigInt(value.numerator), BigInt(value.denominator));
 }
 
-export function toFraction(value: Rational): Fraction {
+function serializedFraction(value: Rational, signed: boolean): Fraction {
   if (
-    value.numerator < 0n ||
+    value.numerator < (signed ? BigInt(Number.MIN_SAFE_INTEGER) : 0n) ||
     value.numerator > BigInt(Number.MAX_SAFE_INTEGER) ||
     value.denominator > BigInt(Number.MAX_SAFE_INTEGER)
   )
-    throw new CompositionError(
-      "INVALID_EDIT",
-      "Exact edit boundary exceeds serializable precision",
-    );
+    throw new CompositionError("INVALID_EDIT", "Exact time exceeds serializable precision");
   return { numerator: Number(value.numerator), denominator: Number(value.denominator) };
+}
+export function toFraction(value: Rational): Fraction {
+  return serializedFraction(value, false);
 }
 export function toTime(value: Rational): TimeValue {
   const result = toFraction(value);
+  return result.denominator === 1 ? result.numerator : result;
+}
+
+export function toSignedTime(value: Rational): SignedTimeValue {
+  const result = serializedFraction(value, true);
   return result.denominator === 1 ? result.numerator : result;
 }

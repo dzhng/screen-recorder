@@ -3,23 +3,33 @@ import { geometrySchemaWithScalars } from "./geometry.js";
 import { z } from "zod";
 import { compare, fromTime } from "./rational.js";
 
-const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const signedTime = z.int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
+const time = signedTime.nonnegative();
 const positive = time.positive();
 const id = z.string().min(1);
 export const rangeSchema = z
   .object({ startUs: time, endUs: time })
   .strict()
   .refine((value) => value.startUs < value.endUs, "Expected positive half-open range");
-export const fractionSchema = z
-  .object({ numerator: time, denominator: positive })
+export const signedFractionSchema = z
+  .object({ numerator: signedTime, denominator: positive })
   .strict()
   .refine(({ numerator, denominator }) => {
-    let a = BigInt(numerator),
+    let a = BigInt(numerator < 0 ? -numerator : numerator),
       b = BigInt(denominator);
     while (b) [a, b] = [b, a % b];
     return a === 1n;
   }, "Expected reduced fraction");
-/** Integer command times stay compact; edits retain exact sub-microsecond boundaries. */
+export const fractionSchema = signedFractionSchema.safeExtend({ numerator: time });
+export const signedTimeValueSchema = z.union([
+  signedTime,
+  signedFractionSchema.refine(
+    (value) => value.denominator > 1,
+    "Use an integer for whole microseconds",
+  ),
+]);
+export type SignedTimeValue = z.infer<typeof signedTimeValueSchema>;
+/** Selection endpoints remain nonnegative; physical metadata may use signed exact times. */
 export const timeValueSchema = z.union([
   time,
   fractionSchema.refine((value) => value.denominator > 1, "Use an integer for whole microseconds"),

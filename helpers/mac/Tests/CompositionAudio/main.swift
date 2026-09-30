@@ -13,6 +13,10 @@ struct CompositionAudioTests {
         }
     }
     static func dispatch() async throws {
+        if CommandLine.arguments.dropFirst().first == "--exact-time" {
+            try verifyExactTimeCarrier()
+            return
+        }
         if CommandLine.arguments.count >= 2 {
             let plan = try JSONDecoder().decode(CompositionAudioPlan.self,
                 from: Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1])))
@@ -42,6 +46,7 @@ struct CompositionAudioTests {
         } else { try await run() }
     }
     nonisolated static func run() async throws {
+        try verifyExactTimeCarrier()
         let data = Data(
             """
             {"output":"/unused.wav","range":{"start":24000,"end":72000},"clips":[],"assets":[],"processing":[{"target":{"kind":"output"},"mediaKind":"output","inputs":[],"steps":[]}]}
@@ -105,4 +110,49 @@ struct CompositionAudioTests {
             "PASS composition stream rebases window samples, awaits bounded blocks, rejects second consumption and propagates sink cancellation without a report"
         )
     }
+}
+
+func verifyExactTimeCarrier() throws {
+    let decoder = JSONDecoder(), encoder = JSONEncoder()
+    for json in ["0", "1", "-1", "9007199254740991", "-9007199254740991",
+        "{\"numerator\":1,\"denominator\":3}", "{\"numerator\":-1,\"denominator\":3}"] {
+        let original = Data(json.utf8)
+        let value = try decoder.decode(ExactTime.self, from: original)
+        let encoded = try encoder.encode(value)
+        let expected = try JSONSerialization.jsonObject(with: original, options: [.fragmentsAllowed]) as! NSObject
+        let actual = try JSONSerialization.jsonObject(with: encoded, options: [.fragmentsAllowed]) as! NSObject
+        precondition(actual == expected, "Exact time changed during serialization: \(json)")
+    }
+    func refused<T: Decodable>(_ type: T.Type, _ json: String) throws {
+        do { _ = try decoder.decode(type, from: Data(json.utf8)) }
+        catch { return }
+        throw NativeFailure("TEST_FAILED", "Accepted invalid exact time: \(json)")
+    }
+    for json in ["9007199254740992", "-9007199254740992",
+        "{\"numerator\":2,\"denominator\":6}", "{\"numerator\":-2,\"denominator\":6}",
+        "{\"numerator\":0,\"denominator\":2}", "{\"numerator\":1,\"denominator\":1}",
+        "{\"numerator\":1,\"denominator\":0}", "{\"numerator\":1,\"denominator\":-3}",
+        "{\"numerator\":1,\"denominator\":9007199254740992}",
+        "{\"numerator\":-1,\"denominator\":3,\"extra\":1}"] {
+        try refused(ExactTime.self, json)
+    }
+    for start in ["-1", "{\"numerator\":-1,\"denominator\":3}"] {
+        try refused(CompositionAudioPlan.Selection.self, "{\"startUs\":\(start),\"endUs\":1}")
+        try refused(CompositionAudioPlan.Selection.self, "{\"startUs\":0,\"endUs\":\(start)}")
+    }
+    _ = try decoder.decode(CompositionAudioPlan.Selection.self,
+        from: Data("{\"startUs\":0,\"endUs\":{\"numerator\":1,\"denominator\":3}}".utf8))
+    for value in [ExactTime(Int128(TimeSpan.maximumMicroseconds) + 1),
+        ExactTime(-Int128(TimeSpan.maximumMicroseconds) - 1),
+        ExactTime(1, Int128(TimeSpan.maximumMicroseconds) + 1), ExactTime(Int128.max)] {
+        do {
+            _ = try encoder.encode(value)
+        } catch { continue }
+        throw NativeFailure("TEST_FAILED", "Encoded unsafe exact time")
+    }
+    let difference = try ExactTime(1).subtract(ExactTime(4, 3))
+    precondition(difference == ExactTime(-1, 3))
+    let whole = try encoder.encode(ExactTime(6, 3))
+    precondition(String(decoding: whole, as: UTF8.self) == "2")
+    print("PASS exact signed carrier and nonnegative selection decoding")
 }

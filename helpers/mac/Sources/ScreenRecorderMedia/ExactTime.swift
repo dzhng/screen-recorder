@@ -3,11 +3,11 @@ import CoreMedia
 
 /// Exact microseconds for source and placement relationships. Arithmetic rejects excess precision rather than
 /// rounding a source/placement relationship; final conversion to a decoder sample is explicit.
-package struct ExactTime: Codable, Sendable, Equatable {
+public struct ExactTime: Codable, Sendable, Equatable {
     package let numerator: Int128
     package let denominator: Int128
 
-    package init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let single = try decoder.singleValueContainer()
         let n: Int64
         let d: Int64
@@ -18,8 +18,12 @@ package struct ExactTime: Codable, Sendable, Equatable {
             let value = try single.decode(Fraction.self)
             n = value.numerator
             d = value.denominator
+            let reduced = d > 0 ? ExactTime(Int128(n), Int128(d)) : nil
+            guard d > 1, reduced?.numerator == Int128(n), reduced?.denominator == Int128(d) else {
+                throw NativeFailure("INVALID_REQUEST", "Exact time must be canonical.")
+            }
         }
-        guard n >= 0, n <= TimeSpan.maximumMicroseconds,
+        guard n >= -TimeSpan.maximumMicroseconds, n <= TimeSpan.maximumMicroseconds,
             d > 0, d <= TimeSpan.maximumMicroseconds
         else {
             throw NativeFailure("INVALID_REQUEST", "Invalid exact time.")
@@ -29,8 +33,31 @@ package struct ExactTime: Codable, Sendable, Equatable {
     private struct Fraction: Codable {
         let numerator: Int64
         let denominator: Int64
+        init(numerator: Int64, denominator: Int64) {
+            self.numerator = numerator
+            self.denominator = denominator
+        }
+        init(from decoder: Decoder) throws {
+            let keys = try decoder.container(keyedBy: WireKey.self)
+            guard Set(keys.allKeys.map(\.stringValue)) == ["numerator", "denominator"] else {
+                throw NativeFailure("INVALID_REQUEST", "Invalid exact fraction fields.")
+            }
+            numerator = try keys.decode(Int64.self, forKey: WireKey(stringValue: "numerator"))
+            denominator = try keys.decode(Int64.self, forKey: WireKey(stringValue: "denominator"))
+        }
+        private struct WireKey: CodingKey {
+            let stringValue: String
+            let intValue: Int? = nil
+            init(stringValue: String) { self.stringValue = stringValue }
+            init?(intValue: Int) { return nil }
+        }
     }
-    package func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
+        guard numerator >= -Int128(TimeSpan.maximumMicroseconds),
+            numerator <= Int128(TimeSpan.maximumMicroseconds),
+            denominator > 0, denominator <= Int128(TimeSpan.maximumMicroseconds) else {
+            throw NativeFailure("INVALID_REQUEST", "Exact time exceeds serializable precision.")
+        }
         var container = encoder.singleValueContainer()
         if denominator == 1 {
             try container.encode(Int64(numerator))

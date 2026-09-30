@@ -34,6 +34,20 @@ public struct CompositionAudioPlan: Codable, Sendable {
     public struct Selection: Codable, Sendable {
         let startUs: ExactTime
         let endUs: ExactTime
+        private enum CodingKeys: String, CodingKey { case startUs, endUs }
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            startUs = try values.decode(ExactTime.self, forKey: .startUs)
+            endUs = try values.decode(ExactTime.self, forKey: .endUs)
+            guard startUs.numerator >= 0, endUs.numerator >= 0 else {
+                throw NativeFailure("INVALID_REQUEST", "Selected times must be nonnegative.")
+            }
+        }
+        // Internal physical runs may precede the normalized source origin.
+        init(startUs: ExactTime, endUs: ExactTime) {
+            self.startUs = startUs
+            self.endUs = endUs
+        }
     }
     public struct Clip: Codable, Sendable {
         let clipId: String

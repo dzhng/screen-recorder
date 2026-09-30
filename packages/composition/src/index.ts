@@ -19,6 +19,8 @@ export {
   isMediaClip,
   rangeSchema,
   fractionSchema,
+  signedFractionSchema,
+  signedTimeValueSchema,
   timeValueSchema,
   selectionRangeSchema,
 } from "./schema.js";
@@ -36,10 +38,21 @@ export type {
   Range,
   SelectionRange,
   TimeValue,
+  SignedTimeValue,
   Stream,
 } from "./schema.js";
 export type { Rational } from "./rational.js";
-export { rational, compare, fromTime, toTime, floor, ceil, subtract, divide } from "./rational.js";
+export {
+  rational,
+  compare,
+  fromTime,
+  toTime,
+  toSignedTime,
+  floor,
+  ceil,
+  subtract,
+  divide,
+} from "./rational.js";
 
 export {
   validateComposition,
