@@ -195,8 +195,8 @@ export class ProjectPreviewInspection {
     return {
       projectId: pinned.projectId,
       revisionId: pinned.revisionId,
-      range: pinned.range,
-      settings: pinned.settings,
+      range: structuredClone(pinned.range),
+      settings: structuredClone(pinned.settings),
       state: status.state,
       reason: status.reason,
       retryable: status.retryable,

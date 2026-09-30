@@ -542,6 +542,12 @@ test("preflight pins the revision and callback rollback leaves admission reusabl
   prepared.snapshot.revisionId = f.projects.revision(f.projectId).id;
   prepared.snapshot.range.endUs = 1000000;
   const admitted = prepared.submit();
+  admitted.range.endUs = 1000000;
+  admitted.settings.video.keyframeInterval = 24;
+  const repeated = prepared.submit();
+  expect(repeated.jobId).toBe(admitted.jobId);
+  expect(repeated.range).toEqual(pinned.range);
+  expect(repeated.settings).toEqual(pinned.settings);
   await f.jobs.idle();
   rejectNew = true;
   const ready = await f.preview.request(pinned);

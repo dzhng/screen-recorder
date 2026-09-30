@@ -85,7 +85,8 @@ metadata admission. Produced audio/preview identities include the bound retime
 recipe, while retained delivery keeps the stored PCM identity. Preparation deadlines
 charge distinct full input/output contexts across query and state prerequisites;
 canonical exact rate prevents fractional-rate collisions without charging pure
-splits twice. The returned preview snapshot cannot mutate the private validated pin.
+splits twice. Returned preview snapshots and submission results cannot mutate the
+private validated pin.
 
 ## JS/core/service verification
 
@@ -102,6 +103,8 @@ splits twice. The returned preview snapshot cannot mutate the private validated 
 - Mutation checks failed for the intended reasons when removing native validation,
   atomic admission callbacks, state-only deadline contexts, exact-rate deadline
   identity, recipe binding, snapshot isolation, or the final export retry fence.
+  Mutating a first submission result also preserves the next submission's job,
+  range and settings; the unfixed alias produced a different job.
   The latter catches abandonment between
   preview retry awaits, before another export job can be admitted.
 - An exploratory all-core run hit unrelated acquisition-fixture directory failures
