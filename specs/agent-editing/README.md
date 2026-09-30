@@ -20,10 +20,11 @@ verified public operations; the installed app has not switched engines.
 Current pickup: resolve the remaining speech/stretch listening and physical-capture
 acceptance before adopting their dependent execution paths. The
 [selected-device probe](slices/20e-selected-device-probe.md) is offline-verified;
-the user approved signing the prepared copy, reading permission status and listing
-devices; execution is still pending as recorded in its [follow-up](assets/20e-selected-device-probe/follow-up.md).
-No live device/permission action or recording has run. Actual recording needs its
-own concrete request, and production webcam21 requires the physical clock proof.
+authorized signing, permission-status reads and source discovery are now complete;
+all required grants already exist. Its [follow-up](assets/20e-selected-device-probe/follow-up.md)
+contains the validated iPhone/display/MacBook-microphone request and timing page.
+Wait for READY to start the concrete physical take. No recording has run;
+production webcam21 still requires the physical clock proof.
 
 The [ordered-move and spectrogram checkpoint](assets/24-spectrogram-duration/README.md)
 is integrated: the unchanged 500-operation request now completes in 281 ms with exact

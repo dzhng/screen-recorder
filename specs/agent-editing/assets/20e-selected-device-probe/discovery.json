@@ -1,0 +1,67 @@
+{
+  "authorizedActions": "User approved signing, permission status and source discovery; capture not started.",
+  "status": {
+    "bundleIdentifier": "com.david.screenrec",
+    "camera": "authorized",
+    "microphone": "authorized",
+    "screen": true,
+    "executable": "/tmp/screenrec-20e-live-probe/ScreenRecorder.app/Contents/MacOS/ScreenRecorder"
+  },
+  "sources": {
+    "cameras": [
+      {
+        "name": "MacBook Pro Camera",
+        "id": "6C707041-05AC-0011-0009-000000000001"
+      },
+      {
+        "id": "8CC5291B-D28D-43E6-8D69-08B800000001",
+        "name": "David\u2019s iPhone Camera"
+      }
+    ],
+    "microphones": [
+      {
+        "name": "David\u2019s iPhone Microphone",
+        "id": "8CC5291B-D28D-43E6-8D69-08B800000003"
+      },
+      {
+        "name": "MacBook Pro Microphone",
+        "id": "BuiltInMicrophoneDevice"
+      }
+    ],
+    "displays": [
+      {
+        "id": 1,
+        "width": 1512,
+        "height": 982
+      }
+    ]
+  },
+  "executableSha256": "404606c7bd6147f7d1632a5ef83959c551da2b235c2a41366c975a7ad5d96eb7",
+  "signature": "Executable=/private/tmp/screenrec-20e-live-probe/ScreenRecorder.app/Contents/MacOS/ScreenRecorder\nIdentifier=com.david.screenrec\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20400 size=14796 flags=0x0(none) hashes=456+3 location=embedded\nSignature size=2086\nAuthority=Screen Recorder Local\nSigned Time=Sep 29, 2026 at 6:24:43\u202fPM\nInfo.plist entries=14\nTeamIdentifier=not set\nSealed Resources version=2 rules=13 files=1\nInternal requirements count=1 size=96\n",
+  "captureRequest": {
+    "source": {
+      "kind": "display",
+      "displayID": 1
+    },
+    "cameraID": "8CC5291B-D28D-43E6-8D69-08B800000001",
+    "microphone": {
+      "enabled": true,
+      "deviceID": "BuiltInMicrophoneDevice"
+    },
+    "outputDirectory": "/tmp/screenrec-20-physical-take-1",
+    "framesPerSecond": 30,
+    "durationSeconds": 612,
+    "cameraDelaySeconds": 2,
+    "pause": {
+      "atSeconds": 300,
+      "durationSeconds": 10
+    }
+  },
+  "captureStarted": false,
+  "stimulus": {
+    "path": "clock-check.html",
+    "sha256": "807185d347cf2a4717481f0bd212e4fdd25a6c6bd5df3979b313653c16918873",
+    "checks": "Inline script parses with node --check; browser/speaker and physical timing not yet verified.",
+    "role": "Visible numbered flash and audible beep; captured media, not browser scheduler timestamps, is the physical timing evidence."
+  }
+}

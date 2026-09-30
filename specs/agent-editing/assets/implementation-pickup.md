@@ -21,9 +21,10 @@ pass: speech recipe adoption needs its unresolved timing/quality evidence,
 post-retime processing needs accepted stretching, contextual generated-voice
 quality needs listening, and installed cutover needs its unfinished capture and
 editing prerequisites. Repeating their passed lifecycle/portability cohorts does
-not resolve those dependencies. Device discovery/signing is now authorized but unexecuted; the user requests reuse
-of the installed app wherever applicable. See the physical follow-up for the
-verified installed/probe identity difference.
+not resolve those dependencies. Device discovery/signing completed with all required grants already authorized.
+The physical follow-up retains the validated concrete take and timing page; wait
+for user READY before recording. Reuse the installed app where applicable, but its
+verified executable does not contain this new capture dispatcher.
 
 ## Execution context and scoped evidence
 
@@ -122,7 +123,8 @@ verified installed/probe identity difference.
   [Physical follow-up](20e-selected-device-probe/follow-up.md) pins the reviewable
   app and uninvoked commands. Its ad-hoc linker signature is not a verified TCC
   identity. Existing local signing identity discovery found “Screen Recorder Local”
-  read-only; signing, launch for status and device discovery are now authorized but unexecuted.
+  read-only; signing, launch for status and device discovery have now completed with all
+  required grants already authorized.
   Permission prompts and recording remain separate. The byte-identical working copy at
   `/tmp/screenrec-20e-live-probe/ScreenRecorder.app` is prepared for a concrete
   signing/status/discovery step. Parent20/21 stays open.

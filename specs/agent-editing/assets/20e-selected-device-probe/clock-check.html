@@ -1,0 +1,28 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Screen and camera timing check</title>
+<style>
+body{margin:0;background:#151515;color:#fff;font:24px system-ui;text-align:center}main{padding:5vh 4vw}button{font:inherit;padding:14px 28px;margin:8px}#marker{margin:4vh auto;width:70vw;height:42vh;border:5px solid #aaa;display:grid;place-items:center;font-size:80px;background:#000;color:#fff}p{max-width:800px;margin:20px auto}
+</style>
+<main><h1>Screen and camera timing check</h1>
+<p>Point your iPhone camera at this screen. Each numbered flash has a short beep. Keep this page visible and your Mac speakers audible.</p>
+<button id="start">Start signals</button><button id="stop" disabled>Stop signals</button>
+<div id="marker">Ready</div><p id="status">No recording starts from this page.</p></main>
+<script>
+let audio, timer, frame, count=0, origin;
+const marker=document.getElementById('marker'), status=document.getElementById('status');
+const start=document.getElementById('start'), stop=document.getElementById('stop');
+start.onclick=async()=>{
+ audio=new AudioContext();await audio.resume();count=0;origin=performance.now();start.disabled=true;stop.disabled=false;
+ function signal(){
+  const target=audio.currentTime+.1, oscillator=audio.createOscillator(), gain=audio.createGain();
+  oscillator.frequency.value=1000;gain.gain.setValueAtTime(0,target);gain.gain.linearRampToValueAtTime(.12,target+.005);gain.gain.setValueAtTime(.12,target+.075);gain.gain.linearRampToValueAtTime(0,target+.08);
+  oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(target);oscillator.stop(target+.09);
+  const number=++count;
+  function paint(){if(audio.currentTime<target){frame=requestAnimationFrame(paint);return;}marker.textContent=number;marker.style.background='#fff';marker.style.color='#000';setTimeout(()=>{marker.style.background='#000';marker.style.color='#fff'},200);}
+  frame=requestAnimationFrame(paint);status.textContent=`Signal ${number} · ${Math.floor((performance.now()-origin)/1000)} seconds elapsed`;
+ }
+ signal();timer=setInterval(signal,5000);
+};
+stop.onclick=()=>{clearInterval(timer);cancelAnimationFrame(frame);audio.close();start.disabled=false;stop.disabled=true;status.textContent='Signals stopped.'};
+</script>

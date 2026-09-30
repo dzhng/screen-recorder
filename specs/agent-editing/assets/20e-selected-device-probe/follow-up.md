@@ -1,4 +1,4 @@
-# Separate physical follow-up — not executed
+# Physical follow-up — discovery complete, capture pending
 
 Reviewable scratch assembly: `/tmp/screenrec-20e-reviewed-app/ScreenRecorder.app`.
 Its Info.plist says `com.david.screenrec`; executable SHA256 is
@@ -9,7 +9,7 @@ Read-only signature display reports an embedded linker ad-hoc signature:
 - CDHash: `2c03df87e3700dc586db8343e2d2762f44191ad4`.
 - No team identifier, bound Info.plist or sealed resources.
 
-This is a probe-only assembly, without normal app service resources. It was never
+This is a probe-only assembly, without normal app service resources. This frozen reviewed copy was never
 launched. It must not be described as a verified TCC identity or as inheriting the
 installed application's grants. Any stable app signing/preparation and permission
 request are separate authorized actions; this pass performed none. The complete
@@ -19,7 +19,8 @@ Root prepared a byte-identical, unsigned working copy at
 `/tmp/screenrec-20e-live-probe/ScreenRecorder.app` and verified its three file hashes.
 The existing `Screen Recorder Local` signing identity was found with the repository’s
 read-only `--find` action. The user explicitly approved signing this copy, inspecting permission status and
-listing sources. These actions have not run yet. The reviewed assembly above remains frozen.
+listing sources. These actions have now run successfully; [discovery](discovery.json) records
+the signed identity, all three existing permission grants and selected sources. The reviewed assembly above remains frozen.
 No new certificate, installation or capture is included in that proposed step.
 
 After that explicit authorization and signature verification, the source-list
@@ -63,3 +64,18 @@ it lacks the selected-device dispatcher markers. Do not assume its permission
 grants apply to the differently identified probe. The user wants the installed
 app reused wherever it supports the relevant test, with minimal extra machinery.
 No installed-app replacement or actual recording was authorized by this approval.
+
+The signed working copy passed strict code-signature verification and returned
+screen, camera and microphone permission as authorized. Source discovery found the
+MacBook and iPhone cameras, their microphones and display1; no prompt or capture
+ran. A concrete request passed the existing native validator: iPhone camera,
+MacBook microphone, display1,30fps,612seconds total,2seconds delayed camera start
+and a10second pause at300seconds. This leaves at least600 active camera seconds.
+The output destination is `/tmp/screenrec-20-physical-take-1` and does not yet exist.
+
+For the physical take, the user must point the iPhone at the Mac display and keep
+[the timing page](clock-check.html) visible with Mac speakers audible. The page
+emits numbered flashes/beeps but starts no recording; its scheduling timestamps
+are not an alignment oracle. The exact request is retained in discovery.json and
+`/tmp/screenrec-20e-live-probe/capture-request.json`. Wait for the user's READY to
+start that concrete capture; no capture authorization is inferred from discovery.
