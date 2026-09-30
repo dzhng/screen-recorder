@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "scope": "Root integration review and focused actual publisher replay; no timing rerun or physical/live-stop acceptance.",
+  "sourceCommit": "73b24366",
+  "archiveMembersVerified": 42,
+  "sourceOwnersCompared": 4,
+  "independentSerializedPictureGoldensVerified": 2,
+  "retainedInputsAndRuntimesRehashed": 11,
+  "canonicalRecordsRehashedAndDateOnlyNormalizationIndependentlyRecomputed": 5,
+  "normalizationFieldsPerFile": 6,
+  "controlledMeanPublicationSeconds": {
+    "baseline": 27.354866021,
+    "candidate": 23.969573521
+  },
+  "focusedCaptureTest": {
+    "executable": {
+      "path": "/private/tmp/screenrec-camera-hash-capture-build/arm64-apple-macosx/debug/ScreenRecorderCaptureTests",
+      "bytes": 31627728,
+      "sha256": "268ee1b83f96d7869ad13ba40472a6a85e64637e2acdc693c9fe41f18a137d09"
+    },
+    "command": [
+      "env",
+      "SCREENREC_CAMERA_PIXELS=1",
+      "/tmp/screenrec-camera-hash-capture-build/debug/ScreenRecorderCaptureTests"
+    ],
+    "exitCode": 0,
+    "cases": [
+      "32x16 contiguous BGRA stride128 exact picture digest/timestamps",
+      "34x16 padded BGRA stride192 exact picture digest/timestamps"
+    ],
+    "sourceScope": "Existing isolated agent build with four reviewed source owners byte-identical to integrated root sources; fixtures remain in that worktree for #filePath resolution."
+  },
+  "review": {
+    "shape": "Same private synchronous locked-buffer digest owner; no cache, queue, dependency, public API or stop-policy change.",
+    "diff": "Visible bytes and metadata prefix unchanged. Data copies removed; row padding still excluded.",
+    "docs": "Current evidence remains scoped to offline fresh publication. Whole physical-camera contract and ten-second boundary stay open.",
+    "codexCli": "Unavailable before review: configured gpt-6.1-sol unsupported for CLI ChatGPT account; original error retained in archive. No passing verdict inferred."
+  }
+}

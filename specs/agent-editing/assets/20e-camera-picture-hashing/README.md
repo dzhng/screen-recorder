@@ -54,5 +54,8 @@ SwiftPM source discovery and read from their declared repository location.
 
 The build uses an isolated Swift scratch directory and already prepared dependency
 sources. No new model preparation, downloads, inference, playback, device discovery
-or live acquisition is performed. [Audited choices](choices.md) retain the buffer
+or live acquisition is performed. [Root verification](root-verification.json) rehashes the retained inputs/runtimes,
+all42 archived members and independently recomputes all five complete canonical
+comparisons. Root also reran both actual publisher checks using the isolated build
+whose source owners match the integrated tree. [Audited choices](choices.md) retain the buffer
 and test decisions; root integrates the scoped evidence into the owning handoff.

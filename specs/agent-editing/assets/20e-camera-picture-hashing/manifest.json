@@ -176,12 +176,12 @@
   },
   "files": {
     "README.md": {
-      "bytes": 3621,
-      "sha256": "a48a9a299ecc071041324df7afd04b26538902415372320598760f9d01083778"
+      "bytes": 3914,
+      "sha256": "1f93ba4dacb4fca8ce1aca5ba4a65403900a57618536123806562ecc74302064"
     },
     "choices.md": {
-      "bytes": 2539,
-      "sha256": "7418f72b47028ac7e186cc0e606eb416ea98cf21486c7afbc3343def49c5b9ac"
+      "bytes": 207,
+      "sha256": "0987cb653a5f652c95a2bce963073336c020f00c8da149438124e385eae81675"
     },
     "verification.json": {
       "bytes": 19062,
@@ -194,6 +194,24 @@
     "timing.patch": {
       "bytes": 2396,
       "sha256": "abff457608ed8307d8d7fa5b68babc98230b60467b64ae8d25a143dd0d5450b3"
+    },
+    "root-verification.json": {
+      "bytes": 1931,
+      "sha256": "526a3ae3254912aa3b13fdca390eca7b0d0ddbbf1fe73c874068487939885a58"
+    }
+  },
+  "documentationMaintenance": {
+    "date": "2026-09-30",
+    "reason": "Root integration proof and canonical choice banking update only Markdown document pins; all original measurements, normalization, source archive and runtime/media hashes remain frozen.",
+    "assemblyDocumentHashes": {
+      "README.md": {
+        "bytes": 3621,
+        "sha256": "a48a9a299ecc071041324df7afd04b26538902415372320598760f9d01083778"
+      },
+      "choices.md": {
+        "bytes": 2539,
+        "sha256": "7418f72b47028ac7e186cc0e606eb416ea98cf21486c7afbc3343def49c5b9ac"
+      }
     }
   }
 }
