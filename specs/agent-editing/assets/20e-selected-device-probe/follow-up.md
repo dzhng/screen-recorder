@@ -15,13 +15,20 @@ installed application's grants. Any stable app signing/preparation and permissio
 request are separate authorized actions; this pass performed none. The complete
 bundle inventory and signature display are retained in the archive.
 
-After the user authorizes discovery under the reviewed identity, the explicit
-source-list command is (run from the repository):
+Root prepared a byte-identical, unsigned working copy at
+`/tmp/screenrec-20e-live-probe/ScreenRecorder.app` and verified its three file hashes.
+The existing `Screen Recorder Local` signing identity was found with the repository’s
+read-only `--find` action. Authorization is pending to sign this copy, inspect its
+permission status and list sources. The reviewed assembly above remains frozen.
+No new certificate, installation or capture is included in that proposed step.
+
+After that explicit authorization and signature verification, the source-list
+command for the working copy is (run from the repository):
 
 ```sh
 node packages/test-harness/editing/camera-reproduction.mjs --case shared-clock \
   --action sources \
-  --app /tmp/screenrec-20e-reviewed-app/ScreenRecorder.app/Contents/MacOS/ScreenRecorder
+  --app /tmp/screenrec-20e-live-probe/ScreenRecorder.app/Contents/MacOS/ScreenRecorder
 ```
 
 Discovery requires an existing screen grant and does not request one. Permission
@@ -39,7 +46,7 @@ The separate capture command, only after that concrete request is authorized, is
 ```sh
 node packages/test-harness/editing/camera-reproduction.mjs --case shared-clock \
   --live --action capture --request /tmp/screenrec-20e-live-request.json \
-  --app /tmp/screenrec-20e-reviewed-app/ScreenRecorder.app/Contents/MacOS/ScreenRecorder
+  --app /tmp/screenrec-20e-live-probe/ScreenRecorder.app/Contents/MacOS/ScreenRecorder
 ```
 
 That request file has deliberately not been created with guessed IDs. Capture

@@ -17,13 +17,12 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: implement the [selected-device probe](slices/20e-selected-device-probe.md)
-with offline request, clock-ingress and media-closure tests. Its camera-gap
-mechanism is verified in [20e1](slices/20e1-camera-gap-materialization.md); durable
-mapping/recovery and positive public source admission remain open. The probe must be
-reviewable before requesting a concrete live take; physical execution and
-clock acceptance remain separate. Its shared lifecycle keeps camera evidence
-outside production capture tracks and preserves canonical microphone publication.
+Current pickup: the [selected-device probe](slices/20e-selected-device-probe.md)
+is implemented and offline-verified, including durable camera gap recovery and
+public source reads. Prepare the separately authorized app identity/device discovery
+and concrete physical20 request using its [follow-up](assets/20e-selected-device-probe/follow-up.md).
+No live device/permission action or recording has run. Production webcam21 still
+requires the physical clock proof.
 
 [Retained-recording preservation](slices/23a-recording-project-preservation.md)
 is verified through full source PCM, all transcript words, full exports and an
@@ -197,8 +196,8 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d7 — Preserve terminal capture diagnostics](slices/20d7-terminal-diagnostics.md)
 - [x] [20d8 — Prerecorded pause and terminal persistence](slices/20d8-pause-terminal-boundaries.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
-- [ ] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
-- [ ] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md) — mechanism verified; integration remains.
+- [x] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
+- [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)

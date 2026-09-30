@@ -3835,3 +3835,37 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 - **Verdict:** sound; actual source/history provenance survives without resuming
   unrelated work or changing the installed app.
 - **Confidence:** high.
+
+## Stop an overflowing camera probe instead of silently dropping its evidence
+
+- **When:** selected-device probe20e.
+- **Choice:** if a probe reaches five million timestamp observations, it stops with
+  an interrupted result. It preserves the media and observations already accepted
+  so the caller can inspect or recover them. It does not quietly stop logging while
+  continuing to record and then call that take complete.
+- **Gap:** the probe needed a finite bound for a pathological callback stream; the
+  plan did not choose a row count.
+- **Reach:** this is a measurement-tool limit, not a webcam recording setting or a
+  promise about production throughput. The stored mapping is streamed during capture
+  and replay, so the bound does not authorize a five-million-record memory array.
+- **Verdict:** sound; the explicit interrupted result prevents incomplete evidence
+  from being mistaken for a full timing proof.
+- **Confidence:** medium; the numerical bound is operational and can be revisited
+  for the probe without changing production capture policy.
+
+## Recover a probe’s verified camera content without replacing another output
+
+- **When:** durable camera gaps20e1 and selected-device probe20e.
+- **Choice:** a retry identifies the raw media, saved frame mapping and finished
+  candidate by their content. If the verified output already exists with the same
+  content, retry succeeds; a different output is refused rather than overwritten.
+  Copying the probe directory need not preserve the operating system’s file number.
+  Raw files, mapping and failed candidates remain caller-owned evidence.
+- **Gap:** the probe needed recovery after losing a reply or stopping between
+  verification and publication; the plan did not require a new filesystem identity
+  schema or an automatic evidence cleanup service.
+- **Reach:** existing capture leases, content identities and no-replacement file
+  publication remain the owners. This adds no production camera role or cleanup job.
+- **Verdict:** sound; retries preserve verified bytes and conflicts cannot destroy
+  another file, while retained inputs keep partial outcomes inspectable.
+- **Confidence:** high.

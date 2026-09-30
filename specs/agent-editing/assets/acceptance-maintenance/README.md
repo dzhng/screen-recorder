@@ -42,3 +42,9 @@ unverified. No exhaustive codec/rate matrix or new admission policy is implied.
 The [job-reference audit](job-references.md) finds the retirement safety rule
 already implemented. It identifies stale cutover prose rather than a reachable
 forgotten-job leak; no new cleanup owner or expiration policy is justified.
+
+An independent reviewer’s direct-audio capability check in this agent context
+returned “audio content omitted because you do not support audio input” after an
+intact WAV transfer. No audio was heard and no listening verdict follows. Remaining
+perceptual gates still need an actually audio-capable reviewer or the user; waveform
+inspection and transcription cannot substitute for that judgment.

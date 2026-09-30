@@ -95,15 +95,20 @@ Historical workers and measurements retain their own identities below.
   prepared-package-transfer completed the accepted12d public editing/rendering/undo
   journey and the retained-input current-worker AAC mixed full/range check; the
   worktree is released with saved outputs intact.
-- **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
-  is now being implemented in capture-pause-recovery. Its physical input stop,
-  camera media closure and audio publication share existing termination ordering;
-  camera evidence stays separate from production capture tracks. Offline build and
-  injected-input tests are authorized; live device/permission actions and installed
-  app changes are not part of this pass. [20e1](20e1-camera-gap-materialization/README.md)
-  proves retained edit-list gap membership, with all88 archived members rehashed
-  by root. Durable mapping/recovery is next; the fixture’s public SMPTE-C admission
-  refusal remains explicit. Physical20/21 stays open.
+- **Selected-device preparation20e/20e1:** [the scoped probe](../slices/20e-selected-device-probe.md)
+  is integrated and offline-verified. Root matched all19 code/test/harness source
+  identities to the reviewed artifacts, rehashed all481 archive members, and ran
+  the rational-clock/drop-callback and shared-ingress/canonical-microphone checks.
+  The camera mapping streams through recovery; a genuine709 sample passes public
+  source reads. The original SMPTE-C refusal remains retained. Capture-pause-recovery
+  is released; its scratch build remains available without rebuilding frozen workers.
+  [Physical follow-up](20e-selected-device-probe/follow-up.md) pins the reviewable
+  app and uninvoked commands. Its ad-hoc linker signature is not a verified TCC
+  identity. Existing local signing identity discovery found “Screen Recorder Local”
+  read-only; signing, launch, device discovery, permission actions and capture remain
+  separately unauthorized. The byte-identical working copy at
+  `/tmp/screenrec-20e-live-probe/ScreenRecorder.app` is prepared for a concrete
+  signing/status/discovery authorization request. Parent20/21 stays open.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.
