@@ -1,0 +1,96 @@
+{
+  "text": "Okay, so this is the recorder workbench.",
+  "proposedRetimedText": "so this is the",
+  "boundaryAuthority": "Explicitly authored inherited-ASR gap midpoints; no independent protected whole-word labels",
+  "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/13a-endpoint-verification/auditions/phrase-0-reference.wav",
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "sourcePcmFrames": 231360,
+  "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+  "workerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "sourceFileRangeUs": [
+    1520000,
+    2960000
+  ],
+  "inputLocalSelectedFrames": [
+    22560,
+    91680
+  ],
+  "selectedPcmSha256": "9804fcac60fae4408ab31db526ac6f30f069ef52f873fc218b07cde2824745d3",
+  "prefixFrames": 22560,
+  "suffixFrames": 139680,
+  "policy": "Frozen exact mono48k recipe, explicit selection only; no added processor context, gain, normalization, fade, trimming, model, build, or public adoption",
+  "listening": "UNVERIFIED for these two rates",
+  "results": [
+    {
+      "path": "internal-slower-0.9x.wav",
+      "rate": {
+        "numerator": 9,
+        "denominator": 10
+      },
+      "outputSelectedFrames": 76800,
+      "outputContextFrames": 239040,
+      "outputJoinsFrames": [
+        22560,
+        99360
+      ],
+      "retimedPcmSha256": "1573612e56e9050c010c5d52d37a3109912c75dbb7502b8618b7907278c9cc44",
+      "checks": {
+        "exactCount": true,
+        "finite": true,
+        "excludedSourcePoisonIdentical": true,
+        "selectedOnlyIdentical": true,
+        "prefixBitIdentical": true,
+        "suffixBitIdentical": true
+      }
+    },
+    {
+      "path": "internal-faster-1.25x.wav",
+      "rate": {
+        "numerator": 5,
+        "denominator": 4
+      },
+      "outputSelectedFrames": 55296,
+      "outputContextFrames": 217536,
+      "outputJoinsFrames": [
+        22560,
+        77856
+      ],
+      "retimedPcmSha256": "6422a99a56b1bee9568dac4899b6c8eb67657355b40bdb2bf0433f1ce1dffa31",
+      "checks": {
+        "exactCount": true,
+        "finite": true,
+        "excludedSourcePoisonIdentical": true,
+        "selectedOnlyIdentical": true,
+        "prefixBitIdentical": true,
+        "suffixBitIdentical": true
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "original.wav",
+      "bytes": 925484,
+      "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+    },
+    {
+      "path": "internal-slower-0.9x.wav",
+      "bytes": 956204,
+      "sha256": "38beca8fb4c7a2bb8d52abe2633e3e474488dc3ab14c6bcc9185f8ebdcc3c3f6"
+    },
+    {
+      "path": "internal-faster-1.25x.wav",
+      "bytes": 870188,
+      "sha256": "f119efaeb2cac03a660a47934071877737928209453fbef54d69120d2d0e746e"
+    },
+    {
+      "path": "render.py",
+      "bytes": 3804,
+      "sha256": "830f5afe50f655682112478c593dcbced1ad94196d627acd60716bba7be5354c"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 2358,
+      "sha256": "29cff5d8032a9bc907a9089bc3eaaf28c0976771b77b9af5394f5e0d506a8360"
+    }
+  ]
+}

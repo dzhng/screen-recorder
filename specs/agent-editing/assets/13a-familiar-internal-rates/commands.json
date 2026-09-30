@@ -1,0 +1,86 @@
+[
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-rates-1/input.f32",
+      "/tmp/screenrec-familiar-internal-rates-1/internal-slower-0.9x.f32",
+      "22560",
+      "91680",
+      "76800",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":76800}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-rates-1/poison-input.f32",
+      "/tmp/screenrec-familiar-internal-rates-1/internal-slower-0.9x-poison.f32",
+      "22560",
+      "91680",
+      "76800",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":76800}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-rates-1/selected.f32",
+      "/tmp/screenrec-familiar-internal-rates-1/internal-slower-0.9x-selected-only.f32",
+      "0",
+      "69120",
+      "76800",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":76800}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-rates-1/input.f32",
+      "/tmp/screenrec-familiar-internal-rates-1/internal-faster-1.25x.f32",
+      "22560",
+      "91680",
+      "55296",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":55296}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-rates-1/poison-input.f32",
+      "/tmp/screenrec-familiar-internal-rates-1/internal-faster-1.25x-poison.f32",
+      "22560",
+      "91680",
+      "55296",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":55296}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-rates-1/selected.f32",
+      "/tmp/screenrec-familiar-internal-rates-1/internal-faster-1.25x-selected-only.f32",
+      "0",
+      "69120",
+      "55296",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":55296}\n",
+    "stderr": ""
+  }
+]
