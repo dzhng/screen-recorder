@@ -1,6 +1,6 @@
 # 14 — Integrate independent and linked retiming
 
-Status: public integration not started; isolated [bounded mono preparation](../assets/14-bounded-stretch/README.md) passes accepted-byte, endpoint, scale and cancellation/error-cleanup gates. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
+Status: native14b–14d technical gates pass; native14e recipe/format admission is integrated and async core/service admission is in final verification. Combined public synchronized delivery remains open. The [bounded mono preparation](../assets/14-bounded-stretch/README.md) retains accepted-byte, endpoint, scale and cancellation/error-cleanup proof. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
 
 [Integrated root verification](../assets/14-bounded-stretch/root-verification.md)
 reran all34 checks and descriptor contracts from isolated merged-tree builds.
@@ -29,12 +29,11 @@ rate and pitch across pure splits. Verify a matched-input split and a short quer
 against that complete run before wiring execution: preparing each visible clip
 independently would create extra stretch endpoints. The [bounded compiler check](../assets/14-retained-context/README.md) confirms
 identical full-run contexts for the corrected selection after a pure split and
-short query, while an actual removal breaks support. Native output equality and
-public integer-duration authoring remain unverified. No persistent lineage or
+short query, while an actual removal breaks support. [Native output equality and public integer-duration authoring](../assets/14b-retained-retime/README.md)
+now pass for all four accepted selections. No persistent lineage or
 second timeline is justified by this seam.
 
-Core window readiness currently refuses retiming, and native composition rejects
-unequal source/placement durations. Bind an accepted implementation through the
+Bind an accepted implementation through the
 existing capability/requirement path and prepared-audio owner. Preparation runs
 before clip stacks, and retained project-sample reads must replace the current
 unit-rate-only context assumption. Include prerequisite work in existing worker
@@ -43,8 +42,8 @@ deadlines; do not introduce another derivative queue or cache registry.
 The isolated array adapter's mono48k,60-second domain and fixed transpose are
 research constraints, not product limits. The file seam now preserves exact mono
 output with bounded pages and cancellable file access; its [proof and limits](../assets/14-bounded-stretch/README.md)
-do not establish public worker cancellation deadlines. Stereo behavior and
-explicit pitch-follow execution require their own verification. Do not downmix, independently process channels or widen admission
+do not establish public worker cancellation deadlines. [Coupled stereo](14c-stereo-stretch.md) and [explicit pitch-follow](14d-pitch-follow.md)
+have separate scoped numerical verification. Do not downmix, independently process channels or widen admission
 silently. These checks supplement, rather than replace,13a listening acceptance.
 
 ## Committed passes

@@ -1,6 +1,11 @@
 # 14d — Follow playback pitch over a retained run
 
-Status: not started. Dependencies:14b request-local retained-run preparation.
+Status: native implementation and scoped technical verification pass. Root reran
+45 follow checks and14 preserve checks, including the300-run descriptor repair.
+The [fractional-rate feasibility probe](../assets/14d-follow-feasibility/README.md)
+explains the converter decision; production evidence is being retained in this
+checkpoint. No new perceptual acceptance is inferred. Public binding/delivery
+remain14e. Dependencies:14b request-local retained-run preparation.
 
 ## Contract and seam
 

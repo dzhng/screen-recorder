@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-29.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-30.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -20,9 +20,12 @@ verified public operations; the installed app has not switched engines.
 Current pickup is [14 retiming](slices/14-retiming.md).13/13a are accepted for the
 frozen recipe and exact corrected A–D selections. The [bounded mono file
 prerequisite](assets/14-bounded-stretch/README.md) is integrated and root-verified.
-Run [14b retained native preparation](slices/14b-retained-retime-preparation.md) and
-[14c linked stereo](slices/14c-stereo-stretch.md) in parallel, then14d pitch-follow
-and14e public capabilities/deadlines/delivery. Preserve full retained runs across
+[14b retained native preparation](slices/14b-retained-retime-preparation.md),
+[14c linked stereo](slices/14c-stereo-stretch.md), and
+[14d pitch-follow](slices/14d-pitch-follow.md) pass their scoped PCM/technical gates.
+The many-run descriptor repair is verified. Native14e format/policy admission is
+integrated; finish async service admission, then exercise synchronized public
+video/audio delivery and independent retiming. Preserve full retained runs across
 pure splits and short views. Native scratch stays request-scoped; durable final
 audio stays with the existing prepared-audio/job/asset owners.
 
@@ -153,9 +156,9 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
-  - [ ] [14b — Retained-run native preparation](slices/14b-retained-retime-preparation.md)
-  - [ ] [14c — Linked stereo stretch](slices/14c-stereo-stretch.md)
-  - [ ] [14d — Explicit pitch follow](slices/14d-pitch-follow.md)
+  - [x] [14b — Retained-run native preparation](slices/14b-retained-retime-preparation.md)
+  - [x] [14c — Linked stereo stretch](slices/14c-stereo-stretch.md)
+  - [x] [14d — Explicit pitch follow](slices/14d-pitch-follow.md)
   - [ ] [14e — Public retiming delivery](slices/14e-public-retiming.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [x] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)

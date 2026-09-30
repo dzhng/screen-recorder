@@ -1,0 +1,18 @@
+{
+  "scope": "Root isolated build after stereo integration; unchanged runners.",
+  "reports": {
+    "stereo": {
+      "reportPath": "/tmp/screenrec-root-stereo-proof/report.json",
+      "sha256": "73fde97bcb1c607ff8e5487252f551d865d09fe7456d380af20c59e0b315dab0",
+      "checks": 23,
+      "passed": true
+    },
+    "mono": {
+      "reportPath": "/tmp/screenrec-root-stereo-mono-regression/report.json",
+      "sha256": "057a79951c71b450c2eafd4acbaff5aad321a12850ca9b939272eb6420000749",
+      "checks": 34,
+      "passed": true
+    }
+  },
+  "frozenWorkersUnchanged": true
+}

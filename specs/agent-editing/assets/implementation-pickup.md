@@ -26,11 +26,21 @@ the [public pause workflows](pause-audio-public/README.md) preserve that scope.
 The [bounded mono preparation](14-bounded-stretch/README.md) is integrated. Root
 rebuilt both parity tools in isolated scratch and reran all34 checks plus descriptor
 contracts successfully; root8a, candidate2c and frozen StretchParity1cf hashes are
-unchanged. Next run [14b](../slices/14b-retained-retime-preparation.md) native
-retained preparation in capture-pause-recovery and [14c](../slices/14c-stereo-stretch.md)
-coupled stereo in prepared-package-transfer concurrently.14d pitch-follow follows
-14b;14e binds public capabilities/deadlines and delivery. Public retiming remains
-gated. No per-run durable cache or second timeline is needed.
+unchanged. [14b](../slices/14b-retained-retime-preparation.md) retained preparation,
+[14c](../slices/14c-stereo-stretch.md) coupled stereo, and
+[14d](../slices/14d-pitch-follow.md) pitch-follow are integrated. Root reran14
+preserve checks (including300 runs under256 descriptors),45 follow checks,
+four public-authored cases/20 recipe-bound native plans,23 stereo and34 mono
+regressions. These are scoped numerical/PCM proofs, not new listening acceptance.
+
+Native14e metadata admission and recipe binding are integrated. The isolated Wire
+worker `/tmp/screenrec-native-14e/debug/screenrec-native` has SHA256
+`e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595`;
+48 actual Wire checks cover joint stereo consumption, policy/format/physical-run
+admission and stale identity refusal. Async core/service admission is finishing in
+prepared-package-transfer. Next integrate it and verify the combined public
+linked video/audio and independent-retiming journey. Public delivery remains open;
+no per-run durable cache or second timeline was introduced.
 
 Physical20 still lacks its stated camera duration/precision proof. The
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)

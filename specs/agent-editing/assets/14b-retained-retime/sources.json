@@ -1,0 +1,55 @@
+{
+  "nativeIntegrationCommit": "5972feb2",
+  "publicIntegrationCommit": "91774655",
+  "scope": "Public bound authoring uses current source hashes below. Native preservation report is the isolated root build at nativeIntegrationCommit; its executable hash is recorded in that report.",
+  "sources": [
+    {
+      "path": "helpers/mac/Package.swift",
+      "sha256": "f40936288beaf24d73ab7cda6bb425a1a09e97367fad8badd21965c09597d0f4"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift",
+      "sha256": "e2db22485b392a2ddaaf922734a1430b58077e8cf215779c6e1513fb5e516c01"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift",
+      "sha256": "cc6758594eb2a41531e5750f465464897bc8bf8ac38560f41a2bb01213dcd393"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/RetainedPCMSource.swift",
+      "sha256": "1f8bef9f58c481ff1b82a161ae4d63b97663837cd8cc41c614e46e5c5d199d3f"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionAudio/main.swift",
+      "sha256": "4822ef1f4b709600f526ba23560ac89bc56d5067cca626b4956f5adc76f979a9"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-retime.py",
+      "sha256": "d00456d5b01e5610f18a1a47e95608b42611fe514d7a8f34fb9b4a42c9bef6ef"
+    },
+    {
+      "path": "packages/test-harness/editing/retiming-authoring.mjs",
+      "sha256": "e6dc7a6794b074d47c522c7494bad6c4916ea06ecadaaac6bb2e716ab49f6cbd"
+    },
+    {
+      "path": "packages/composition/src/audio-context.ts",
+      "sha256": "5d24f6d79c5780bb3fa95c1561779b41daa7554c81068ebae0061391f74a56b2"
+    },
+    {
+      "path": "packages/composition/src/sample-clock.ts",
+      "sha256": "bed959eceb0dda2ba9aa96203bbdc150ef486708203b1c256192352f42454525"
+    },
+    {
+      "path": "packages/composition/src/retime.ts",
+      "sha256": "df3563f9bd0b1e7ef7e1dc8518d3ff94422a58700ca5cbac682c5788e9d9c361"
+    },
+    {
+      "path": "packages/composition/src/transform.ts",
+      "sha256": "0984ca6ddf4d5e0cfeba4fc49535ba1d53c6fe6f3e7c2508dc300d319e7788cf"
+    },
+    {
+      "path": "apps/service/src/native-processing.ts",
+      "sha256": "eb0d169ca289b7d23d1608984f0a26ece9c3c041bb2ec2428729ea6f05891b76"
+    }
+  ]
+}

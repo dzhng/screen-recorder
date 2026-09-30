@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/packages/test-harness/editing/composition-retime.py", line 71, in <module>
+    actual, receipt = run(name, value)
+                      ~~~^^^^^^^^^^^^^
+  File "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/packages/test-harness/editing/composition-retime.py", line 52, in run
+    assert result.returncode == 0, result.stderr
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Swift/ErrorType.swift:254: Fatal error: Error raised at top level: ScreenRecorderMedia.NativeFailure(code: "NOT_READY", message: "Rate-changing audio requires prepared retiming.", retryable: false)
+

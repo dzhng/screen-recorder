@@ -1,6 +1,6 @@
 # 14e — Deliver linked and independent retiming publicly
 
-Status: not started. Dependencies:14b,14c and14d. Parent14 owns final acceptance.
+Status: implementation in progress; native policy/admission and async core/service owners are separate concurrent passes. Dependencies:14b,14c and14d. Parent14 owns final acceptance.
 
 ## Contract and seam
 
@@ -14,6 +14,33 @@ Use existing CLI/MCP editing, jobs, preparation, inspection, preview, export and
 package operations. No new derivative registry or public recipe override. Cache
 identity includes the verified policy/recipe; retained output remains readable
 with the renderer unavailable.
+
+## Admission ownership
+
+Native metadata validation resolves physical source segments before checking
+recipe admission. Compiler context counts alone can hide a shorter physical piece.
+Reuse the exact C recipe owner and the existing converter format/debt owner; do
+not copy a minimum-duration formula into TypeScript. The private validation
+operation reads metadata but no PCM, and ordinary execution checks the same bound
+recipe identity. Retained bytes remain readable without a current implementation.
+
+Core requests pin/compile before awaiting native validation and submit only after
+validation, with owner/deletion checks repeated at transaction entry. Existing
+ready or already-admitted identities and retained reads do not repeat preflight.
+
+Keep JobQueue's waiting admission callback synchronous: its current scan suppresses
+queue pumping while admitting, so awaiting native work there would stall all lanes.
+Preview.prepare returns a pinned snapshot and synchronous submit closure. For a
+new video export, forward its idempotent intent-persistence callback through the
+existing JobQueue admitted callback; preview admission and export intent then
+commit or roll back together. Catalog has no nested transaction support. Do not
+wrap queue submission in an outer transaction or add an admission flag/cache.
+
+Existing export replay/retry uses its stored snapshot. The synchronous waiting
+pump resumes only an existing exact preview job; a missing row requires explicit
+async re-admission or an honest not-ready result. Ordinary audio/preview cache
+identity must carry the retime recipe, since their range/settings identity alone
+does not contain the full execution requirements.
 
 ## Verification and review surface
 

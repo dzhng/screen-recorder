@@ -1,0 +1,2043 @@
+[
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 83,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 600000,
+    "eosCallbacks" : 1,
+    "inputFrames" : 600000,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 666666.66666666663,
+    "outputChunk" : 8192,
+    "outputFrames" : 666666,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "45ca7ff989e3192b5c5860c06639ae4ba755911b2f8edb28ae719f2fa8eaf493",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      12462
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333,
+    "bitIdentity" : false,
+    "calls" : 83,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 600000,
+    "eosCallbacks" : 1,
+    "inputFrames" : 600000,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 666662.5,
+    "outputChunk" : 8192,
+    "outputFrames" : 666662,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333,
+    "sha256" : "834ec66a03626cdd02128e0726ce1290fdf410d39a6ba80ae40919f90765a257",
+    "speed" : 0.90000562503515646,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      12462
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.900000000001,
+    "bitIdentity" : false,
+    "calls" : 83,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 600000,
+    "eosCallbacks" : 1,
+    "inputFrames" : 600000,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 666673.75,
+    "outputChunk" : 8192,
+    "outputFrames" : 666673,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.900000000001,
+    "sha256" : "7cc9359ee2dc38dda3e7b9b0d020756b3c065a13726f4591ad6645f7147f2ab4",
+    "speed" : 0.89999043760160047,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      12462
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : true,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1.25,
+    "outputChunk" : 8192,
+    "outputFrames" : 1,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : true,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1.1111111111111112,
+    "outputChunk" : 8192,
+    "outputFrames" : 1,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : true,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 0.80000000000000004,
+    "outputChunk" : 8192,
+    "outputFrames" : 1,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : true,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 0.81000000737100009,
+    "outputChunk" : 8192,
+    "outputFrames" : 1,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 2,
+    "eosCallbacks" : 1,
+    "inputFrames" : 2,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 2.5,
+    "outputChunk" : 8192,
+    "outputFrames" : 2,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "240c93cd4c5d1b982f35299324db93a8a6289598aea1dfe3cbe1da0cbe763777",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 2,
+    "eosCallbacks" : 1,
+    "inputFrames" : 2,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 2.2222222222222223,
+    "outputChunk" : 8192,
+    "outputFrames" : 2,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "b54cbb9233a010ebfed36c6b399b731057754715be1b8415e15210af8a59d7a9",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 2,
+    "eosCallbacks" : 1,
+    "inputFrames" : 2,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1.6000000000000001,
+    "outputChunk" : 8192,
+    "outputFrames" : 2,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "1eb63d5b26ffc5e627e5fefe8797dcf7446a15ec88ef32c4cb4ca6519e85cfec",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 2,
+    "eosCallbacks" : 1,
+    "inputFrames" : 2,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1.6200000147420002,
+    "outputChunk" : 8192,
+    "outputFrames" : 2,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "c8e36ad1273796c6ded3d9e9d7a719b398b84d5a6d20e7830abed43d39b27de6",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 3,
+    "eosCallbacks" : 1,
+    "inputFrames" : 3,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 3.75,
+    "outputChunk" : 8192,
+    "outputFrames" : 3,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "cb1789329dba7b7f77c1e7a2474d23cd2ff95ae5fecab5cc23838c21c58bd9aa",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 3,
+    "eosCallbacks" : 1,
+    "inputFrames" : 3,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 3.333333333333333,
+    "outputChunk" : 8192,
+    "outputFrames" : 3,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "ec48c61fa8d742e3824d57c79f7f2c77b1af4c7b7df03b301fe0d3c7c5846f9a",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 3,
+    "eosCallbacks" : 1,
+    "inputFrames" : 3,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 2.3999999999999999,
+    "outputChunk" : 8192,
+    "outputFrames" : 3,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "ab295cb1fd2b8e04d4749faec7400c22025fe6aeed51d48275db82ae3ba5457a",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 3,
+    "eosCallbacks" : 1,
+    "inputFrames" : 3,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 2.4300000221130005,
+    "outputChunk" : 8192,
+    "outputFrames" : 3,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "237e1bc06fba1001b1dec5cd1964831fb95488a1f0fe8e6b3ca2c7def8e528cb",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 7,
+    "eosCallbacks" : 1,
+    "inputFrames" : 7,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 8.75,
+    "outputChunk" : 8192,
+    "outputFrames" : 8,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "68a155a178e8925fee5a6469b94980411a114d022c205c4d4e54be0fa5b500d4",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 7,
+    "eosCallbacks" : 1,
+    "inputFrames" : 7,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 7.7777777777777777,
+    "outputChunk" : 8192,
+    "outputFrames" : 7,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "2a298fdf3078f0c7f2e4ea0323f5f1118f4d3e4d28c83b149099fd86ae608bb5",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 7,
+    "eosCallbacks" : 1,
+    "inputFrames" : 7,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 5.5999999999999996,
+    "outputChunk" : 8192,
+    "outputFrames" : 6,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "d3b1098bf0e8ae3238119a586789f3778b816097e6105f2b05e4f26bb9008548",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 7,
+    "eosCallbacks" : 1,
+    "inputFrames" : 7,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 5.6700000515970013,
+    "outputChunk" : 8192,
+    "outputFrames" : 6,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "4dda519f42f2657d582593701df5010897fb99f8b37cf4bdf39d39ce20cea6e0",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 11,
+    "eosCallbacks" : 1,
+    "inputFrames" : 11,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 13.75,
+    "outputChunk" : 8192,
+    "outputFrames" : 13,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "08f6674ef4104cf119ea1862c589620a210eff1ae2604f133996c411333d5b90",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 11,
+    "eosCallbacks" : 1,
+    "inputFrames" : 11,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 12.222222222222221,
+    "outputChunk" : 8192,
+    "outputFrames" : 12,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "f52ae7011f25a8c77756ce489a490b096eb6479d6f3c29f45f4db4071a79f436",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 11,
+    "eosCallbacks" : 1,
+    "inputFrames" : 11,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 8.8000000000000007,
+    "outputChunk" : 8192,
+    "outputFrames" : 9,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "280999df42a1be1693db7bd703e8dea8e49fe54c8b91b31f1debc61022e1ac17",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 11,
+    "eosCallbacks" : 1,
+    "inputFrames" : 11,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 8.9100000810810016,
+    "outputChunk" : 8192,
+    "outputFrames" : 9,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "0bb1255bfa740d16b1bad140b43188c4c2150dd76608401ee47ab9909a5784d3",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 31,
+    "eosCallbacks" : 1,
+    "inputFrames" : 31,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 38.75,
+    "outputChunk" : 8192,
+    "outputFrames" : 38,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "51771daded7523bba1bf357907babb5ec07f783277df19afdbd432ad7b3ad36a",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 31,
+    "eosCallbacks" : 1,
+    "inputFrames" : 31,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 34.444444444444443,
+    "outputChunk" : 8192,
+    "outputFrames" : 34,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "b8c0806853bfaab8461aa2f39ab4a98390c9a4f9535338b6e35d4ad54a409536",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 31,
+    "eosCallbacks" : 1,
+    "inputFrames" : 31,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 24.800000000000001,
+    "outputChunk" : 8192,
+    "outputFrames" : 25,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "f2642f7cd976848a959b6b41a878a3cf6686d84f69ee561c9567bebf89d29263",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 31,
+    "eosCallbacks" : 1,
+    "inputFrames" : 31,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 25.110000228501004,
+    "outputChunk" : 8192,
+    "outputFrames" : 25,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "d9d430de7faf033fbd211436dd868af71d21958a571923164045d1ec7c565c5d",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 100,
+    "eosCallbacks" : 1,
+    "inputFrames" : 100,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 125,
+    "outputChunk" : 8192,
+    "outputFrames" : 125,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "4b77ec9a709d318dc2f568272eb8d454d7bf5061d6d2c0c24edf3dc1a3806b5e",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 100,
+    "eosCallbacks" : 1,
+    "inputFrames" : 100,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 111.11111111111111,
+    "outputChunk" : 8192,
+    "outputFrames" : 111,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "f88311bdb205aad122dd47d83b83e1d29c40ec468fc8bb44e3123d85962befe7",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 100,
+    "eosCallbacks" : 1,
+    "inputFrames" : 100,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 80,
+    "outputChunk" : 8192,
+    "outputFrames" : 80,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "5aab06f57f86580e33c28d0cd81ec3bf93f6e9a04337971dd680c0762846fb65",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 100,
+    "eosCallbacks" : 1,
+    "inputFrames" : 100,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 81.000000737100009,
+    "outputChunk" : 8192,
+    "outputFrames" : 81,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "153b5901a08ff76afc0b1c5151f5fa44180f8ef49be41dd03735a67eec520455",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 101,
+    "eosCallbacks" : 1,
+    "inputFrames" : 101,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 126.25,
+    "outputChunk" : 8192,
+    "outputFrames" : 126,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "2ee2162d9aba7239569ab1fe50bbbc222c8455c5ac86f4aea42f72c77fc1cc6e",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 101,
+    "eosCallbacks" : 1,
+    "inputFrames" : 101,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 112.22222222222221,
+    "outputChunk" : 8192,
+    "outputFrames" : 112,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "c392ba07fe1207b749e009709d838538c768148f9dd00d135fd33340cd6a5e50",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 101,
+    "eosCallbacks" : 1,
+    "inputFrames" : 101,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 80.799999999999997,
+    "outputChunk" : 8192,
+    "outputFrames" : 81,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "4443f9d0da474c2951eaf95b3dc5ad144e0f358f66d165afd1b2c32869b2ca44",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 101,
+    "eosCallbacks" : 1,
+    "inputFrames" : 101,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 81.810000744471012,
+    "outputChunk" : 8192,
+    "outputFrames" : 82,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "e703ee3e17d0fe209bb85f18306d26a21316c25fce6adfe464d007c9aa7225cc",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 999,
+    "eosCallbacks" : 1,
+    "inputFrames" : 999,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1248.75,
+    "outputChunk" : 8192,
+    "outputFrames" : 1248,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "9cadf0eb35f045babb8060211d1ae12fc6a8bf20eca95e0b29ded065de95947a",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 999,
+    "eosCallbacks" : 1,
+    "inputFrames" : 999,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1110,
+    "outputChunk" : 8192,
+    "outputFrames" : 1110,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "34e702f028c783c847cd76f7bcbed1f3683539569e13f45720488191a0c51d5b",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 999,
+    "eosCallbacks" : 1,
+    "inputFrames" : 999,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 799.20000000000005,
+    "outputChunk" : 8192,
+    "outputFrames" : 800,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "2a49dc4f6e62cd77c7e10ac2402f10d7d10fa93ab95d83c8fe92291fe5d5dd79",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 999,
+    "eosCallbacks" : 1,
+    "inputFrames" : 999,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 809.19000736362909,
+    "outputChunk" : 8192,
+    "outputFrames" : 810,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "2dae7d2131d737daf140457342ef83baa6b14a0c3219fd5b18c845673b5ec7b7",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1001,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1001,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1251.25,
+    "outputChunk" : 8192,
+    "outputFrames" : 1251,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "4e62edf369f74c2d55f33ab44e0ede2c8d55fa0c3ffcbf19f80808e2e7461b9c",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1001,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1001,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1112.2222222222222,
+    "outputChunk" : 8192,
+    "outputFrames" : 1112,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "450c4af451d7408465a24fbbe039b419f42693dfdbd43496e70d5a3864303cbc",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1001,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1001,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 800.79999999999995,
+    "outputChunk" : 8192,
+    "outputFrames" : 801,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "b9a2b6c468d14f158bcc8f34ab20bae58fa5c8f4a57bd1d1b087319588046f7b",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 1001,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1001,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 810.8100073783711,
+    "outputChunk" : 8192,
+    "outputFrames" : 811,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "3cb5183c741ad4602ac89956c35a40b708c7e8b647e17af495a7ae0a4400bce1",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      20
+    ]
+  },
+  {
+    "acceptedOutputRate" : 48000,
+    "bitIdentity" : true,
+    "calls" : 9,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 60474,
+    "outputChunk" : 8192,
+    "outputFrames" : 60474,
+    "primeMethod" : 0,
+    "requestedOutputRate" : 48000,
+    "sha256" : "24e04fb8bdc63b2a04489631176a3db38c4d9e51ec9390b30179e652f5c6e545",
+    "speed" : 1,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1257
+    ]
+  },
+  {
+    "acceptedOutputRate" : 48000,
+    "bitIdentity" : true,
+    "calls" : 9,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 60474,
+    "outputChunk" : 8192,
+    "outputFrames" : 60474,
+    "primeMethod" : 0,
+    "requestedOutputRate" : 48000,
+    "sha256" : "5fc50ea52dde975cd4a58ba6a54d6f6b9a86b9bf9dd7c7b40ca0d21cb2e01ce0",
+    "speed" : 1,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1257,
+      1776
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 11,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 75592.5,
+    "outputChunk" : 8192,
+    "outputFrames" : 75592,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "0d5e2db9a36e78d95083bc208b5397c16e2c147288af0d14b270526da84dfac4",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 11,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 75592.5,
+    "outputChunk" : 8192,
+    "outputFrames" : 75592,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "667c9f96d50e1ec5ff85c410357ba3d78786c471388835c2236d05ce82853222",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 10,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 67193.333333333328,
+    "outputChunk" : 8192,
+    "outputFrames" : 67193,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "4b01085a987799e44d27e954e7455aee259cad74f43105aaad9dd625d87a789a",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 10,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 67193.333333333328,
+    "outputChunk" : 8192,
+    "outputFrames" : 67193,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "5092de3cbe4a86e1bc982e496d531824de0f8dcb81547962ee0dc87bc9566120",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 7,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48379.199999999997,
+    "outputChunk" : 8192,
+    "outputFrames" : 48380,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "657a7a48fb048e241c38e8ca4fb24dd305f048da7e1fd224a5143fe34548efcb",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 7,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48379.199999999997,
+    "outputChunk" : 8192,
+    "outputFrames" : 48380,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "ea3da75d91e8b6b8a128e027fd1ae52ca7f72074625091cfd23d062e5cce3164",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 7,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 8192,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "6681ff313227496d950693ac07de1d056e9870d3e82d6091463a67de66568d3e",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 7,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 8192,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "b698961d1536263bd566c6fa1f7fcb0a709df7a1c82648158ff26c1b426cbede",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 48000,
+    "bitIdentity" : false,
+    "calls" : 10,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 65822.040816326524,
+    "outputChunk" : 8192,
+    "outputFrames" : 65822,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 48000,
+    "sha256" : "7561148d6eece311ebdd8259e42fc5f17be58451312f361b397334624d6dba59",
+    "speed" : 1,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367
+    ]
+  },
+  {
+    "acceptedOutputRate" : 48000,
+    "bitIdentity" : false,
+    "calls" : 10,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 65822.040816326524,
+    "outputChunk" : 8192,
+    "outputFrames" : 65822,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 48000,
+    "sha256" : "7177b31a95dbbd510df5fdf2a047b850b31f75b08dc0b2fedcea7bd1c1a6b110",
+    "speed" : 1,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367,
+      1932
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 12,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 82277.551020408151,
+    "outputChunk" : 8192,
+    "outputFrames" : 82277,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "49bbf1cd5501eed52f97469efa46aad805503bf51e46f95d52b17d1913e8cbfa",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367
+    ]
+  },
+  {
+    "acceptedOutputRate" : 60000,
+    "bitIdentity" : false,
+    "calls" : 12,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 82277.551020408151,
+    "outputChunk" : 8192,
+    "outputFrames" : 82277,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 60000,
+    "sha256" : "581a59816ecd9f44c5a28850c8238a0ca4a03f865e39ed6838d6d1087a3bf848",
+    "speed" : 0.80000000000000004,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367,
+      1932
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 10,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 73135.600907029468,
+    "outputChunk" : 8192,
+    "outputFrames" : 73135,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "629a5b27060e8df4bbb72c8de9cdb6b471518c194c0e558a6d01ea848b8f3938",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 10,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 73135.600907029468,
+    "outputChunk" : 8192,
+    "outputFrames" : 73135,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "a3649e73906066657793741ff4ca6fb3fa9af89260091b1a8952645cce3ade12",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367,
+      1932
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 8,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 52657.63265306122,
+    "outputChunk" : 8192,
+    "outputFrames" : 52658,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "07d01ed5a0f9187c8b3a3c4332effbf8c74932f8aa925c0b114f4a0e2b4067c7",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38400,
+    "bitIdentity" : false,
+    "calls" : 8,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 52657.63265306122,
+    "outputChunk" : 8192,
+    "outputFrames" : 52658,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38400,
+    "sha256" : "4844833d2d54bd6de62e70f246da5fd7db57c9fd48ceeee30f106ae4c87b74d7",
+    "speed" : 1.25,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367,
+      1932
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 8,
+    "channels" : 1,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 53315.853546398757,
+    "outputChunk" : 8192,
+    "outputFrames" : 53316,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "00c7395ed1bfb0592a22d2aeddecfe1f435939b425ec03676b8e22301e550c02",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 8,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 4096,
+    "nativeRate" : 44100,
+    "nominalFrames" : 53315.853546398757,
+    "outputChunk" : 8192,
+    "outputFrames" : 53316,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "4f07e28c6a51a64175962601a83b46b639e0f6dd40c6b312e3564a14982757f0",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1367,
+      1932
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 192,
+    "channels" : 2,
+    "chunk" : 1,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 334,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 257,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "2ee58b4253b64a4cd040629cf31fe3ef1f4f726b7bfd94dad564b89183e93772",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 192,
+    "channels" : 2,
+    "chunk" : 127,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 334,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 257,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "a238c522bdd5561e80124f01f473023d77ccc7225a2c02c0b5f71dddee8631b4",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 192,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 334,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 257,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "d414952fd3fe756b01a450238b1e73f74819f31b3525727d0cee1d74781d5656",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 192,
+    "channels" : 2,
+    "chunk" : 8192,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 334,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 257,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "d414952fd3fe756b01a450238b1e73f74819f31b3525727d0cee1d74781d5656",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 38880.000353808005,
+    "bitIdentity" : false,
+    "calls" : 192,
+    "channels" : 2,
+    "chunk" : 4096,
+    "consumed" : 60474,
+    "eosCallbacks" : 1,
+    "inputFrames" : 60474,
+    "leading" : 0,
+    "maxRequested" : 334,
+    "nativeRate" : 48000,
+    "nominalFrames" : 48983.940445753862,
+    "outputChunk" : 257,
+    "outputFrames" : 48984,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 38880.000353808005,
+    "sha256" : "d414952fd3fe756b01a450238b1e73f74819f31b3525727d0cee1d74781d5656",
+    "speed" : 1.2345678899999999,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      1256,
+      1775
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : true,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 127,
+    "consumed" : 1,
+    "eosCallbacks" : 1,
+    "inputFrames" : 1,
+    "leading" : 0,
+    "maxRequested" : 248,
+    "nativeRate" : 48000,
+    "nominalFrames" : 1.1111111111111112,
+    "outputChunk" : 257,
+    "outputFrames" : 1,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 127,
+    "consumed" : 2,
+    "eosCallbacks" : 1,
+    "inputFrames" : 2,
+    "leading" : 0,
+    "maxRequested" : 248,
+    "nativeRate" : 48000,
+    "nominalFrames" : 2.2222222222222223,
+    "outputChunk" : 257,
+    "outputFrames" : 2,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "b54cbb9233a010ebfed36c6b399b731057754715be1b8415e15210af8a59d7a9",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 127,
+    "consumed" : 10,
+    "eosCallbacks" : 1,
+    "inputFrames" : 10,
+    "leading" : 0,
+    "maxRequested" : 248,
+    "nativeRate" : 48000,
+    "nominalFrames" : 11.111111111111111,
+    "outputChunk" : 257,
+    "outputFrames" : 11,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "48a9777668f1f5fccebf731099b16ae1a3489bc408d004d1c0de95beea35e89d",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      0
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 2,
+    "channels" : 1,
+    "chunk" : 127,
+    "consumed" : 100,
+    "eosCallbacks" : 1,
+    "inputFrames" : 100,
+    "leading" : 0,
+    "maxRequested" : 248,
+    "nativeRate" : 48000,
+    "nominalFrames" : 111.11111111111111,
+    "outputChunk" : 257,
+    "outputFrames" : 111,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "f88311bdb205aad122dd47d83b83e1d29c40ec468fc8bb44e3123d85962befe7",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      2
+    ]
+  },
+  {
+    "acceptedOutputRate" : 53333.333333333328,
+    "bitIdentity" : false,
+    "calls" : 19,
+    "channels" : 1,
+    "chunk" : 127,
+    "consumed" : 4096,
+    "eosCallbacks" : 1,
+    "inputFrames" : 4096,
+    "leading" : 0,
+    "maxRequested" : 248,
+    "nativeRate" : 48000,
+    "nominalFrames" : 4551.1111111111113,
+    "outputChunk" : 257,
+    "outputFrames" : 4551,
+    "primeMethod" : 1,
+    "requestedOutputRate" : 53333.333333333328,
+    "sha256" : "be450bd071d12be7687942820ef570ef144437aabae031ebd0f0461f46ba5736",
+    "speed" : 0.90000000000000002,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      85
+    ]
+  },
+  {
+    "acceptedOutputRate" : 48000,
+    "bitIdentity" : true,
+    "calls" : 48,
+    "channels" : 1,
+    "chunk" : 127,
+    "consumed" : 12000,
+    "eosCallbacks" : 1,
+    "inputFrames" : 12000,
+    "leading" : 0,
+    "maxRequested" : 257,
+    "nativeRate" : 48000,
+    "nominalFrames" : 12000,
+    "outputChunk" : 257,
+    "outputFrames" : 12000,
+    "primeMethod" : 0,
+    "requestedOutputRate" : 48000,
+    "sha256" : "efab4b10c011828257348174e2e03e06de346fc8ada7720d15806d018321d647",
+    "speed" : 1,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      3000
+    ]
+  },
+  {
+    "acceptedOutputRate" : 48000,
+    "bitIdentity" : true,
+    "calls" : 48,
+    "channels" : 2,
+    "chunk" : 127,
+    "consumed" : 12000,
+    "eosCallbacks" : 1,
+    "inputFrames" : 12000,
+    "leading" : 0,
+    "maxRequested" : 257,
+    "nativeRate" : 48000,
+    "nominalFrames" : 12000,
+    "outputChunk" : 257,
+    "outputFrames" : 12000,
+    "primeMethod" : 0,
+    "requestedOutputRate" : 48000,
+    "sha256" : "3a2b2729cc4c25e10e1d6fef19ae62e9fa49401daeb69706161969d1506a8be9",
+    "speed" : 1,
+    "statuses" : [
+      "2:0"
+    ],
+    "trailing" : 0,
+    "zeroCrossings" : [
+      3000,
+      3000
+    ]
+  }
+]

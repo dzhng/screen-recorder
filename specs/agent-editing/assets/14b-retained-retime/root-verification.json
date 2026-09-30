@@ -1,0 +1,18 @@
+{
+  "scope": "Root isolated native preservation rerun, followed by recipe-bound public authoring against native14e. Separate binary identities retained explicitly.",
+  "nativeRendererSha256": "127bd8debe4087b789d8b7e74d14f5fed84148e015844c9e81225f6830f2e27d",
+  "publicRendererSha256": "90de9a079d9a5cfa4ede24136708730a361ece8d8405c68dcb3be86f768ba6bc",
+  "publicWireWorkerSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "nativeReportSha256": "fb3b77fe197a31fd53dc5919eb13011ec45ab339e3abae3774b11a32dfcea991",
+  "publicReportSha256": "7bc41738a77247340beac843395c5cc42809991ea3623c957ba59dc1f1a274fd",
+  "nativeChecks": 14,
+  "publicCases": 4,
+  "nativePlans": 20,
+  "publicExchanges": 27,
+  "descriptors": {
+    "limit": 256,
+    "runs": 300,
+    "fullPcmMatchesRepeatedReference": true
+  },
+  "frozenWorkersUnchanged": true
+}

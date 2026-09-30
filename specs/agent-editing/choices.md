@@ -4027,3 +4027,34 @@ product behavior or listening scope.
   execution oracle while preserving the mandated DSP and all mono acceptance.
 - **Confidence:** high; the negative independent-mono control distinguishes the
   forbidden alternative without changing the reference or its tolerances.
+
+## Bound scratch readers by active work
+
+- **When:**14d resource correction of14b preparation.
+- **Choice:** after writing a prepared run, close its descriptor and keep its
+  immutable scratch path. Open a reader only for each bounded block, then close it.
+  A300-run sequence otherwise held300 files even while playing only one, exceeding
+  the Mac app's default256-descriptor limit.
+- **Gap:** the plan fixed request ownership but did not choose descriptor lifetime.
+- **Reach:** many-run timelines no longer consume one open file per prepared run.
+  Reads pay a file open/close per block; no reader cache or product clip cap is added.
+- **Verdict:** sound; the same300-run PCM passes under256 descriptors after the
+  recorded old implementation fails.
+- **Confidence:** high; the simpler lifetime fits existing bounded block work.
+
+## Admit export prerequisites in the existing queue transaction
+
+- **When:**14e public retiming admission design.
+- **Choice:** validate a pinned preview asynchronously, then use JobQueue's
+  existing admission callback to save its export intent in the same transaction
+  as preview-job admission. A failed intent therefore cannot leave an untracked
+  preview job running. Restart uses that exact durable preview row.
+- **Gap:** native recipe validation must happen before a new job, while the
+  waiting-export admission scan is synchronous and blocks queue pumping.
+- **Reach:** core request methods become asynchronous; the scheduler remains
+  synchronous. Retained/committed reads bypass validation, and missing preview
+  rows require explicit re-admission. No new queue, registry or unchecked flag.
+- **Verdict:** sound; it reuses an existing atomic owner instead of adding nested
+  transactions or holding the scheduler across native IO.
+- **Confidence:** high; rollback, replay and deletion checks are required before
+  this design is accepted as shipped behavior.

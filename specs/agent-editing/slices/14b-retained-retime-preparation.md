@@ -1,6 +1,11 @@
 # 14b — Prepare retained runs before audio processing
 
-Status: not started. Dependencies:13/13a acceptance,14a durable ownership and the
+Status: verified native retained preparation and integer authoring for the named
+mono48k inputs. [Evidence](../assets/14b-retained-retime/README.md) includes14 native
+checks, the repaired300-run descriptor case, and four accepted public-authored
+selections through20 recipe-bound native plans. Converted-rate normalization is
+checked with14d; public readiness/deadlines stay14e.
+Dependencies:13/13a acceptance,14a durable ownership and the
 [bounded mono file seam](../assets/14-bounded-stretch/README.md).
 
 ## Contract and seam

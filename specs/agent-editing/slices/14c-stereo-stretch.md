@@ -2,7 +2,8 @@
 
 Status: isolated technical prerequisite complete. [The retained proof](../assets/14c-stereo-stretch/README.md)
 verifies one coupled stereo engine, exact mono preservation, selected-source
-isolation, bounded memory and cancellation/error cleanup. Public admission remains
+isolation, bounded memory and cancellation/error cleanup. [Root integration](../assets/14c-stereo-stretch/root-verification.json) reran23
+stereo and34 mono checks successfully. Public admission remains
 with14e; no stereo listening acceptance is claimed. Dependencies: the bounded mono
 file seam; independent of14b.
 
