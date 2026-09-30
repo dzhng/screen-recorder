@@ -3907,3 +3907,20 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 - **Verdict:** sound; preserved bytes cannot be silently promoted into evidence
   for a different presentation contract.
 - **Confidence:** high; the real failed candidates demonstrate the distinction.
+
+## Confirm selected word containment in the complete sentence
+
+- **When:**13a remaining speech acceptance packet.
+- **Choice:** insert a half-second pause at each authored selection boundary in
+  a copy of the complete familiar sentence. The listener can check that each
+  pause falls between words while still understanding the sentence. The speed
+  candidates use the original boundaries without those added pauses.
+- **Gap:** transcript timing proposed the cuts, but did not independently prove
+  that protected neighboring words lie wholly outside the changed portion.
+- **Reach:** a positive verdict establishes conservative word containment for
+  this fixture only. It neither identifies exact phonetic edges nor makes the
+  runtime recognize words, widen selections or add pauses.
+- **Verdict:** sound; every original sample remains intact, the artificial pauses
+  are explicit, and containment is judged separately from naturalness.
+- **Confidence:** high; complete familiar sentences follow the user's requested
+  listening workflow and avoid unexplained isolated word fragments.

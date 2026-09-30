@@ -18,10 +18,13 @@ requirement below remains in scope. Read [contracts](contracts.md),
 verified public operations; the installed app has not switched engines.
 
 Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
-starting with the [meaningful internal-join pair](assets/13a-familiar-internal-join/README.md)
-and a focused audit of what evidence each remaining gate requires. The user accepted this pair's
-word clarity and transitions. Preserve that verdict; remaining local rates,
-protected-word annotations and useful short speech still need their own evidence.
+preserving the accepted [internal0.8× join](assets/13a-familiar-internal-join/README.md).
+The [remaining local rates](assets/13a-familiar-internal-rates/README.md) and
+[short-word/boundary references](assets/13a-short-word/README.md) are integrated and
+numerically verified. A four-item listening rubric is pending for local0.9×/1.25×,
+short-word naturalness and complete-word containment. Do not repeat accepted
+comparisons or infer listening from numerical checks. After acceptance,14 owns
+public linked/unlinked retiming; the installed app remains unchanged.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:
 ordered callbacks survive, native display support is bounded correctly, and the
 saved take recovers all4428 readable pictures with exact PTS/pixels. Root verified

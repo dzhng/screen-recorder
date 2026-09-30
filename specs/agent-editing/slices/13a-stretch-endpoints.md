@@ -93,3 +93,9 @@ The [familiar internal-join pair](../assets/13a-familiar-internal-join/README.md
 slows only the middle of the same complete sentence, preserving both neighbors
 exactly. It is presented for the distinct local-transition listening gate; its
 authored ASR-gap boundaries do not establish independent word labels.
+
+The [remaining local rates](../assets/13a-familiar-internal-rates/README.md) and
+[short-word packet](../assets/13a-short-word/README.md) fill the pending review
+surface. Root independently verified retained file hashes, exact original spans,
+selected-output identity and both deliberate pause insertions. Their numerical
+checks pass; listening and conservative whole-word containment remain pending.

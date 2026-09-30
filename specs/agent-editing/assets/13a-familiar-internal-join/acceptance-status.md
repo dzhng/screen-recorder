@@ -27,6 +27,9 @@ omitted because you do not support audio input.” No acoustic perception or wor
 annotations were claimed. ASR or waveform inspection cannot substitute for a
 listening verdict. No models, external services or speaker playback were used.
 
-Next independently mark the relevant complete
-words with uncertainty, and choose one meaningful short-speech case from that
-source. Preserve the existing rate matrix; fill only missing local quality scope.
+The [remaining local rates](../13a-familiar-internal-rates/README.md) and
+[short-word packet](../13a-short-word/README.md) now provide those missing
+comparisons. The full-context annotation reference inserts two deliberate pauses
+without changing any source sample. Confirmation can establish conservative
+whole-word containment, not sample-exact phonetic edges. The four-item listening
+rubric is pending; no new listening verdict is inferred.
