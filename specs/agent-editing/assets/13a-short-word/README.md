@@ -31,5 +31,6 @@ scratch directory before replay, since it writes beside itself using recorded
 checkout paths. Do not run it in this frozen evidence directory. The retained
 [commands](commands.json) and tone PCM allow inspection without a new render.
 There was no model download, build, hidden source context, added padding, fade,
-gain change or public retiming adoption. Actual human verdicts belong to the
-parent handoff until explicitly recorded here.
+gain change or public retiming adoption. [Listening feedback](listening.json) records the user's report of no noticeable
+difference in “Okay.” This is not an explicit failure or a resolved naturalness
+verdict; whole-word containment remains separate.

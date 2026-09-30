@@ -1,0 +1,10 @@
+{
+  "verdict": "PENDING",
+  "userReply": "for 3 - I didnt notice any difference in the \"okay\"",
+  "candidateSha256": "082cf7da73b160dee4ee12a887179f5b53b7088b888c6e91fd4d1e2a1c1be220",
+  "scope": "Short-word0.8x candidate only; no noticeable difference reported. Whole-word clarity and transition naturalness not explicitly resolved; no failure inferred.",
+  "selectedInputFrames": 22560,
+  "selectedOutputFrames": 28200,
+  "sampleRate": 48000,
+  "addedSeconds": 0.1175
+}
