@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mark the sentence by listening</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+        color: #243144;
+        background: #f4f6f9;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 32px 20px;
+      }
+      main {
+        max-width: 960px;
+        margin: auto;
+      }
+      h1 {
+        font-size: clamp(1.7rem, 4vw, 2.4rem);
+        line-height: 1.2;
+        margin: 0 0 12px;
+      }
+      h2 {
+        font-size: 1.2rem;
+        margin: 0 0 12px;
+      }
+      fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        min-width: 0;
+      }
+      p {
+        margin: 8px 0;
+      }
+      section {
+        background: white;
+        border: 1px solid #dce2ea;
+        border-radius: 12px;
+        padding: 22px;
+        margin-top: 20px;
+      }
+      .muted {
+        color: #526175;
+      }
+      .proposal {
+        font-size: 1.1rem;
+        padding: 12px 16px;
+        background: #f4f7fb;
+        border-left: 3px solid #647b9c;
+      }
+      audio {
+        display: block;
+        width: 100%;
+        margin: 16px 0;
+      }
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+      button {
+        border: 1px solid #a8b5c6;
+        border-radius: 6px;
+        background: #fff;
+        color: #243144;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+      button:hover:enabled {
+        background: #edf3fb;
+      }
+      button:disabled {
+        opacity: 0.55;
+        cursor: default;
+      }
+      :focus-visible {
+        outline: 3px solid #2463ba;
+        outline-offset: 3px;
+      }
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #a8b5c6;
+        border-radius: 5px;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 170px;
+        background: #f8fafc;
+        cursor: crosshair;
+      }
+      .wave-tools,
+      .clock {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .wave-tools label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      output {
+        font-variant-numeric: tabular-nums;
+      }
+      .mark-row {
+        display: grid;
+        grid-template-columns: 145px 1fr 1fr auto;
+        gap: 16px;
+        align-items: start;
+        padding: 18px 0;
+        border-top: 1px solid #e4e8ee;
+      }
+      .mark-row:first-child {
+        border-top: 0;
+      }
+      .target-name {
+        font-weight: 650;
+        padding-top: 22px;
+      }
+      .edge label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+      .edge button {
+        width: 100%;
+        margin-top: 7px;
+        font-size: 0.88rem;
+      }
+      .edge output {
+        display: block;
+        font-size: 0.8rem;
+        color: #526175;
+        margin-top: 5px;
+        min-height: 1.2em;
+      }
+      .clear {
+        margin-top: 26px;
+      }
+      .confirmation {
+        display: flex;
+        align-items: start;
+        gap: 10px;
+        margin: 18px 0;
+      }
+      .confirmation input {
+        margin-top: 6px;
+      }
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 90px;
+        margin-top: 6px;
+        padding: 10px;
+        border: 1px solid #a8b5c6;
+        border-radius: 6px;
+        resize: vertical;
+      }
+      #save {
+        color: #fff;
+        background: #245da5;
+        border-color: #245da5;
+        padding: 10px 18px;
+      }
+      #save:hover:enabled {
+        background: #194c8e;
+      }
+      #status {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        margin-top: 14px;
+      }
+      #status[data-error="true"] {
+        color: #9c2635;
+      }
+      @media (max-width: 650px) {
+        body {
+          padding: 22px 12px;
+        }
+        section {
+          padding: 18px;
+        }
+        .mark-row {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .target-name {
+          grid-column: 1 / -1;
+          padding: 0;
+        }
+        .clear {
+          grid-column: 1 / -1;
+          margin: 0;
+          justify-self: start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Mark the sentence by listening</h1>
+      <p class="muted">
+        Listen to the original, find each audible edge, then save your marks. Leave anything
+        uncertain blank.
+      </p>
+      <section aria-labelledby="listen-heading">
+        <h2 id="listen-heading">1. Listen and find an edge</h2>
+        <p id="sentence-text" class="proposal">Loading the original sentence…</p>
+        <p class="muted">
+          The proposed word text comes from ASR. Verify it by listening; it is not independent
+          ground truth.
+        </p>
+        <audio
+          id="audio"
+          controls
+          preload="metadata"
+          src="/original.wav"
+          aria-label="Original complete sentence"
+        ></audio>
+        <canvas
+          id="waveform"
+          aria-label="Waveform in clip seconds. Click to seek; use the audio controls for keyboard seeking."
+        ></canvas>
+        <div class="wave-tools">
+          <label for="zoom"
+            >Waveform zoom <input id="zoom" type="range" min="1" max="16" value="1" step="1" />
+            <output id="zoom-value">1×</output></label
+          >
+          <output id="hover-time" aria-live="off"
+            >Move over the waveform for a precise time; click to seek.</output
+          >
+        </div>
+        <div class="clock">
+          <span
+            >Playhead: <output id="clip-clock" aria-live="off">0.000 s in this clip</output></span
+          >
+          <span>Source: <output id="source-clock" aria-live="off">Loading…</output></span>
+        </div>
+        <p id="provenance" class="muted"></p>
+      </section>
+      <form id="marks-form" autocomplete="off">
+        <fieldset id="mark-fields">
+          <section aria-labelledby="marks-heading">
+            <h2 id="marks-heading">2. Mark what you can hear</h2>
+            <p class="muted">
+              All inputs use seconds in this clip. Pause at an edge and use its playhead button, or
+              type a time. Connected words may have no clear boundary; leave those edges unknown.
+            </p>
+            <div id="mark-rows"></div>
+          </section>
+          <section aria-labelledby="save-heading">
+            <h2 id="save-heading">3. Save your marks</h2>
+            <label for="notes">Notes or uncertainty</label>
+            <textarea
+              id="notes"
+              maxlength="4096"
+              placeholder="For example: I can hear the word, but its ending blends into the next word."
+            ></textarea>
+            <label class="confirmation"
+              ><input id="confirmed" type="checkbox" />
+              <span>I placed these marks by listening</span></label
+            >
+            <p id="save-kind" class="muted">
+              Without confirmation, this saves a draft. Blank edges remain unknown in either case.
+            </p>
+            <button id="save" type="submit" disabled>Save draft</button>
+            <p id="status" role="status" aria-live="polite">Loading…</p>
+            <p class="muted">
+              This page covers one short sentence. It does not complete the full filler/repetition
+              inventory or approve automatic cleanup. Saving creates a separate annotation record;
+              it does not change the original audio.
+            </p>
+          </section>
+        </fieldset>
+      </form>
+    </main>
+    <script type="module" src="/annotation-page.mjs"></script>
+  </body>
+</html>
