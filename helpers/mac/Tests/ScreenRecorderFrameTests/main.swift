@@ -16,6 +16,9 @@ try FileManager.default.createDirectory(at: evidence, withIntermediateDirectorie
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
+try await verifyExactPresentation(in: images)
+if CommandLine.arguments.contains("--exact-picture") { exit(0) }
+
 func steps(_ count: Int, everyUs: Int64) -> [CMTime] {
     (0..<count).map { CMTime(value: Int64($0) * everyUs, timescale: 1_000_000) }
 }

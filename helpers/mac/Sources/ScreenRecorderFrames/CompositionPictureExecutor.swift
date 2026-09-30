@@ -34,7 +34,7 @@ public final class CompositionPictureExecutor {
             let streamId: String?
             let text: TextSource?
             let kind: String
-            let sourceUs: Int64?
+            let sourceUs: ExactTime?
             let availability: String
             let width: Double
             let height: Double
@@ -84,7 +84,7 @@ public final class CompositionPictureExecutor {
         var clipId: String? = nil
         var assetId: String? = nil
         var streamId: String? = nil
-        var requestedSourceUs: Int64? = nil
+        var requestedSourceUs: ExactTime? = nil
         // Physical sample rounded to microseconds, ties away from zero, then origin subtracted.
         // The sample field retains exact native time.
         var actualSourceUs: Int64? = nil
@@ -115,8 +115,8 @@ public final class CompositionPictureExecutor {
         let source: PresentationSource
         let binding: String
         let ordinal: Int
-        var at: Int64
-        init(source: PresentationSource, binding: String, ordinal: Int, at: Int64) {
+        var at: ExactTime
+        init(source: PresentationSource, binding: String, ordinal: Int, at: ExactTime) {
             self.source = source
             self.binding = binding
             self.ordinal = ordinal
@@ -332,22 +332,23 @@ public final class CompositionPictureExecutor {
                 maximumActiveSources = max(maximumActiveSources, readers.count + stills.count)
                 continue
             }
-            guard let sourceUs = layer.sourceUs, sourceUs >= 0,
-                sourceUs <= TimeSpan.maximumMicroseconds
+            guard let sourceUs = layer.sourceUs, sourceUs.numerator >= 0,
+                try sourceUs.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending
             else {
                 throw Self.invalid("Invalid compiled video source clock.")
             }
-            let (at, overflow) = sourceUs.addingReportingOverflow(asset.originUs)
-            guard !overflow, at >= -TimeSpan.maximumMicroseconds, at <= TimeSpan.maximumMicroseconds
+            let at = try sourceUs.subtract(ExactTime(-Int128(asset.originUs)))
+            guard try at.compare(ExactTime(-Int128(TimeSpan.maximumMicroseconds))) != .orderedAscending,
+                try at.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending
             else { throw Self.invalid("Source clock exceeds native precision.") }
             if let reader = readers[layer.clipId],
-                reader.binding != binding || at < reader.at
-                    || at - reader.at > Self.maximumSequentialAdvanceUs
+                try reader.binding != binding || at.compare(reader.at) == .orderedAscending
+                    || at.subtract(reader.at).compare(ExactTime(Int128(Self.maximumSequentialAdvanceUs))) == .orderedDescending
             {
                 decoded += readers.removeValue(forKey: layer.clipId)!.source.decodedCount
             }
             if readers[layer.clipId] == nil {
-                let source = try PresentationSource(media: media[binding]!, startUs: at)
+                let source = try PresentationSource(media: media[binding]!, startUs: at.sample(1_000_000))
                 opens += 1
                 readers[layer.clipId] = Reader(
                     source: source, binding: binding, ordinal: opens, at: at)
@@ -356,7 +357,7 @@ public final class CompositionPictureExecutor {
             let reader = readers[layer.clipId]!
             reader.at = at
             let selected = try reader.source.selection(
-                at: time(microseconds: at), end: time(microseconds: at + 1))
+                at: at, end: .positiveInfinity)
             var picture = Picture(
                 status: "unavailable", clipId: layer.clipId, assetId: layer.assetId,
                 streamId: layer.streamId, requestedSourceUs: layer.sourceUs,

@@ -3,7 +3,7 @@ import CoreMedia
 
 /// Exact microseconds for source and placement relationships. Arithmetic rejects excess precision rather than
 /// rounding a source/placement relationship; final conversion to a decoder sample is explicit.
-package struct ExactTime: Codable, Sendable {
+package struct ExactTime: Codable, Sendable, Equatable {
     package let numerator: Int128
     package let denominator: Int128
 
@@ -24,8 +24,7 @@ package struct ExactTime: Codable, Sendable {
         else {
             throw NativeFailure("INVALID_REQUEST", "Invalid exact time.")
         }
-        numerator = Int128(n)
-        denominator = Int128(d)
+        self.init(Int128(n), Int128(d))
     }
     private struct Fraction: Codable {
         let numerator: Int64
@@ -87,5 +86,15 @@ package struct ExactTime: Codable, Sendable {
     }
     package func equals(_ other: ExactTime) -> Bool {
         numerator == other.numerator && denominator == other.denominator
+    }
+    package func compare(_ other: ExactTime) throws -> ComparisonResult {
+        let left = numerator.multipliedReportingOverflow(by: other.denominator)
+        let right = other.numerator.multipliedReportingOverflow(by: denominator)
+        guard !left.overflow, !right.overflow else {
+            throw NativeFailure("NOT_READY", "Time exceeds native exact comparison capacity.")
+        }
+        if left.partialValue < right.partialValue { return .orderedAscending }
+        if left.partialValue > right.partialValue { return .orderedDescending }
+        return .orderedSame
     }
 }

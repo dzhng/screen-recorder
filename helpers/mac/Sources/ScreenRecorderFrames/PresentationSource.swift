@@ -202,11 +202,20 @@ public final class PresentationSource {
     public func selection(at: CMTime, end: CMTime, maximumDecodedSamples: Int? = nil) throws
         -> Selection
     {
-        while segmentIndex < segments.count
-            && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
-        { segmentIndex += 1 }
+        try selection(at: ExactTime(at), end: end, maximumDecodedSamples: maximumDecodedSamples)
+    }
+
+    /// Requested rationals need not fit a CMTime timescale to select physical support.
+    package func selection(at: ExactTime, end: CMTime, maximumDecodedSamples: Int? = nil) throws
+        -> Selection
+    {
+        while segmentIndex < segments.count {
+            let through = try ExactTime(CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target))
+            if try at.compare(through) == .orderedAscending { break }
+            segmentIndex += 1
+        }
         guard segmentIndex < segments.count,
-            segments[segmentIndex].timeMapping.target.containsTime(at)
+            try at.compare(ExactTime(segments[segmentIndex].timeMapping.target.start)) != .orderedAscending
         else {
             throw NativeFailure("UNAVAILABLE", "Retained time has no proven track support.")
         }
@@ -216,7 +225,7 @@ public final class PresentationSource {
                 buffer: nil, sampleTime: nil,
                 end: CMTimeMinimum(end, CMTimeRangeGetEnd(segment.timeMapping.target)))
         }
-        while held == nil || heldEnd <= at {
+        while try held == nil || at.compare(ExactTime(heldEnd)) != .orderedAscending {
             held = nil
             if let maximumDecodedSamples, decodedCount >= maximumDecodedSamples {
                 throw NativeFailure(
@@ -235,7 +244,8 @@ public final class PresentationSource {
             heldStart = pts
             heldEnd = supportEnd
         }
-        guard heldStart <= at, let buffer = CMSampleBufferGetImageBuffer(held!) else {
+        guard try at.compare(ExactTime(heldStart)) != .orderedAscending,
+            let buffer = CMSampleBufferGetImageBuffer(held!) else {
             throw NativeFailure("UNAVAILABLE", "Retained time has unknown sample support.")
         }
         return Selection(buffer: buffer, sampleTime: heldStart, end: CMTimeMinimum(end, heldEnd))

@@ -30,7 +30,7 @@ final class PreparedPointers {
         let status: String
         let assetId: String?
         let streamId: String?
-        let requestedSourceUs: Int64?
+        let requestedSourceUs: ExactTime?
         let availability: String?
         let captureUs: Int64?
         let clockOffsetUs: Int64?
@@ -92,16 +92,21 @@ final class PreparedPointers {
                 width <= 8192, height <= 8192,
                 let at = result.captureUs, at >= 0, at <= TimeSpan.maximumMicroseconds,
                 let start = result.start, let end = result.end,
-                try start.time() <= time(microseconds: at), try end.time() > time(microseconds: at),
                 let offset = result.clockOffsetUs, offset >= -TimeSpan.maximumMicroseconds,
                 offset <= TimeSpan.maximumMicroseconds,
                 let mapping = result.sourceToAssetOffsetUs,
-                mapping >= -TimeSpan.maximumMicroseconds, mapping <= TimeSpan.maximumMicroseconds
+                mapping >= -TimeSpan.maximumMicroseconds, mapping <= TimeSpan.maximumMicroseconds,
+                let requested = result.requestedSourceUs
             else { throw invalid("Prepared source clock or raster is invalid.") }
+            let capture = try requested.subtract(ExactTime(Int128(mapping)))
+            guard capture.numerator >= 0, try capture.sample(1_000_000) == at,
+                try capture.compare(ExactTime(start.time())) != .orderedAscending,
+                try capture.compare(ExactTime(end.time())) == .orderedAscending
+            else { throw invalid("Prepared exact source clock differs from its support or observation cutoff.") }
             if status == "picture" {
                 guard let overlay = result.overlay, overlay.trailUs == result.trailUs,
                     let sample = result.sampleTime,
-                    try sample.time() <= time(microseconds: at)
+                    try capture.compare(ExactTime(sample.time())) != .orderedAscending
                 else { throw invalid("Prepared picture has no matching overlay/sample.") }
                 try overlay.validate(width: width, height: height)
                 for point in overlay.trail.flatMap({ $0 }) {
@@ -140,14 +145,10 @@ final class PreparedPointers {
             }
             return row
         }
-        guard let picture, let capture = row.captureUs, let mapping = row.sourceToAssetOffsetUs,
+        guard let picture, let mapping = row.sourceToAssetOffsetUs,
             let offset = row.clockOffsetUs, let width = row.width, let height = row.height,
             Double(width) == layer.width, Double(height) == layer.height
         else { throw invalid("Prepared pointer changed its source domain.") }
-        let (requested, overflow) = capture.addingReportingOverflow(mapping)
-        guard !overflow, requested == layer.sourceUs else {
-            throw invalid("Prepared pointer clock does not match the requested source.")
-        }
         if picture.status == "unavailable" {
             guard picture.reason == "physical-empty", row.status == "empty" else {
                 throw invalid("Empty presentation received pointer pixels.")
@@ -157,11 +158,8 @@ final class PreparedPointers {
         guard row.status == "picture", let sample = row.sampleTime, let observed = picture.sample,
             let observedValue = Int64(observed.value), offset - mapping == observed.originUs
         else { throw invalid("Prepared pointer has no observed source identity.") }
-        let sourceTime = try sample.time()
-        let translated =
-            offset == 0 ? sourceTime : CMTimeAdd(sourceTime, time(microseconds: offset))
-        guard translated.isNumeric, !translated.flags.contains(.hasBeenRounded),
-            translated == CMTime(value: observedValue, timescale: observed.timescale)
+        let translated = try ExactTime(sample.time()).subtract(ExactTime(-Int128(offset)))
+        guard try translated.compare(ExactTime(CMTime(value: observedValue, timescale: observed.timescale))) == .orderedSame
         else {
             throw invalid("Prepared pointer physical sample differs from the selected picture.")
         }
