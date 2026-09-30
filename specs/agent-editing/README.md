@@ -31,9 +31,12 @@ remain unverified. The saved candidate has a real mapped-timestamp divergence at
 ordinal3181; independent reading completes, so an EOF-only hang is not established.
 [Local splice controls](assets/20e-selected-device-probe/local-splice/README.md)
 reproduce the extra picture with only two occupied ranges. The sample-copy
-alternative loses a requested picture and is not adopted. Next isolate direct
-raw-track insertion from composition flattening while preserving exact picture
-identity and timing. [Saved physical-event analysis](assets/20-physical-sync/README.md)
+alternative loses a requested picture and is not adopted. Subsequent
+[writer/reader controls](assets/20e-selected-device-probe/recovery-reader/README.md)
+show direct copying preserves a tiny case, but full-take candidates fail storage or
+decoding. No exporter or reader change is adopted. Next reduce the known stalled
+five-picture neighborhood into a fresh tiny movie, preserving exact picture
+identity and timing; ordinary source/render usability must also pass. [Saved physical-event analysis](assets/20-physical-sync/README.md)
 finds corresponding flashes/beeps but cannot establish the one-frame bound:
 clear camera visibility covers only70seconds and detector uncertainty is larger
 than the bound. This remains separate from the recoverable export defect.
