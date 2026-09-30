@@ -43,8 +43,10 @@ accepted A by hash, compiles [Probe.swift](Probe.swift), compares complete physi
 PCM, then exercises public import/discovery, omitted raw inspection and extraction
 independently. Its assertions deliberately preserve the frozen worker's red;
 new-code green proof belongs to the cutover gate, without overwriting this evidence.
-Output media is reproducible and stays in scratch; accepted A remains at its
-existing canonical path. The trace was measured against native SHA-256
+The two generated44.1k inputs are also retained as `44100-round-down.wav.gz` and
+`44100-round-up.wav.gz`, matching the source hashes in authority.json, for the
+new-runtime regression gate. Other output media is reproducible and stays in
+scratch; accepted A remains at its existing canonical path. The trace was measured against native SHA-256
 `0525dfb9` prefix, with unchanged production TypeScript from the pre-cutover runtime.
 
 This proof covers zero-origin single-stream WAV admission. Unequal stream starts,
