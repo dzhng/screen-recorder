@@ -23,8 +23,12 @@ work in ordered clip moves; root composition checks and archived-output verifica
 pass. [Transcript duration memory](../assets/24-transcript-duration/README.md) and cached
 250-word reads also pass. The retained phrase-search diagnostic failed the cached-query target;
 [24x](24x-evidence-continuations.md) now passes unchanged latency/memory budgets
-while preserving exact results and fresh generation checks. Populated source-event
-scale now has its [24y matched duration checkpoint](24y-source-event-duration.md). Other query families and final post-cutover budgets stay open. The retained300-second audio streaming gate now passes unchanged in
+while preserving exact results and fresh generation checks. Populated event/cursor
+queries pass their [24y matched duration checkpoint](24y-source-event-duration.md),
+with an explicitly configured bounded SDK receiver and preserved default-client
+limitation. These isolated fixed-cardinality query-family checks do not establish
+final post-cutover budgets, arbitrary source/routing/history cardinality or all
+external client capacities. The retained300-second audio streaming gate now passes unchanged in
 [24s](24s-audio-stream-budget.md), including its original debug deadline, sampled
 accuracy and memory assertions. The earlier87.209s diagnostic remains retained;
 no causal speedup or concurrent-load immunity is inferred. The inherited storage

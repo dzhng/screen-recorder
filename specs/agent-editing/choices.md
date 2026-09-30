@@ -4367,3 +4367,59 @@ capture masks internally while enforcing normalized source domains at inputs.
 - **Verdict:** sound; stronger cursor-value checks preserve the actual continuation
   contract without relaxing the performance gate.
 - **Confidence:** high.
+
+## Populated event setup: explicit SDK client capacity (2026-09-30)
+
+- **When:**24y setup diagnosis.
+- **Choice:** preserve full edit receipts and configure the sequential verification
+  client's existing bounded receive buffer for the legal control-response envelope.
+  A10,000-clip edit commits, producing a5.09MB service reply within its8MiB cap.
+  MCP sends both JSON text and the structured object; escaping expands their
+  combined reply to10.66MB. The SDK's default10MiB receiver then closes, although
+  the edit succeeded. This client uses3*the existing service-frame cap+64KiB,
+  enough for the structured body, its quoted text and this fixed framing. Raising
+  the service cap, dropping normalized changes or discarding one representation
+  would change the product contract instead of aligning the test consumer.
+- **Gap:** the plan did not distinguish legal service-frame bytes from the larger
+  MCP wrapper received by a particular SDK client.
+- **Reach:** these sequential control-response checks use a declared bounded
+  receiver. They do not promise universal capacity for inline media, concurrent
+  replies or external clients retaining the default. The original default-client
+  failure remains evidence, and same-request replay must recover the one commit.
+- **Verdict:** sound; preserves complete values and the existing service bound
+  using a supported client option. Cached latency/RSS budgets remain unchanged.
+- **Confidence:** medium; another client may deliberately impose a smaller cap
+  and need CLI recovery or an explicitly configured receiver for large replies.
+
+## Populated source-event evidence (2026-09-30)
+
+- **When:**24y fixture integration.
+- **Choice:** reuse the actual source-event owners with two pinned input families.
+  The tiny authored scene movie supplies a pause and scene at the same instant;
+  the unchanged original capture journal supplies cursor coordinates and an
+  excluded endpoint. Native normalization runs independently before querying,
+  but complete cursor data is also compared with the original journal so two
+  copies of a broken normalizer cannot agree unnoticed. Fresh public identities
+  and generations fill the independent source/placement clock oracle.
+- **Gap:** the scale plan did not prescribe a populated-event fixture, and
+  generating a new combined journal would add unverified content.
+- **Reach:** the real-fixture branch remains in its existing module, shared with
+  every original capture cohort. Query processes permit cleanup only; source
+  preparation remains real and distinct from measured cached-query work.
+- **Verdict:** sound; tests populated scene/capture and exact retimed cursor
+  consumers without a new source-processing implementation or physical claim.
+- **Confidence:** high.
+
+- **When:**24y default capture regression.
+- **Choice:** include the authored terminal failure message in both completion
+  and interruption-row expectations. A synthetic device-loss journal contains
+  code and message; current production preserves both. The pre-change fixture
+  already failed because its expected object omitted the message. Copying that
+  authored message into the oracle checks more payload instead of suppressing
+  the extra field or changing native output.
+- **Gap:** the old oracle had not followed the earlier diagnostic-preservation
+  contract; this pass made the stale check run again.
+- **Reach:** every original capture cohort retains full diagnostic assertions
+  when using the extracted shared real-source helper.
+- **Verdict:** sound; corrects a proven stale expectation and strengthens checks.
+- **Confidence:** high.

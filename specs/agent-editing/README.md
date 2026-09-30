@@ -19,12 +19,12 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs. Current pickup is
-[24y populated source-event duration](slices/24y-source-event-duration.md).
-[24x bounded evidence continuations](slices/24x-evidence-continuations.md) passes
-independent exact-result, latency/memory and generation-race checks; preserve it
-while verifying the remaining populated event/cursor query families.
-[15a3 post-retime quality](slices/15a3-denoise-acceptance.md) remains open,
-with [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) verified. Public14 retiming and16
+[15a3 post-retime quality](slices/15a3-denoise-acceptance.md).
+[24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
+[24y populated source-event duration](slices/24y-source-event-duration.md) pass
+independent exact-result, latency/memory and generation checks. Preserve those
+scoped passes; remaining labels/listening/physical gates need their actual evidence.
+The [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) is verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
 offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post-retime-combined/root-verification.json)
 passes independent PCM and matched full/range AAC checks. The [native](assets/15a3d-follow-learned-native/root-verification.json) and
@@ -43,9 +43,9 @@ prepared runtimes and frozen worker identities. Do not replace the installed app
 or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
-Resolve remaining speech/denoise gates toward12b/15a and the
-dependent16 checks; then physical20→21, final23 cutover, post-cutover24 scale and25
-autonomous workflow. The checklist is authoritative; the overview diagram is not
+Resolve actual12/12d speech labels and15a3 denoise quality toward12b/15a;
+complete18/19 generated-speech and ambience listening. Then physical20→21,
+final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
 a scheduling graph. Further12b/19/23 consumer acceptance retains its missing quality or physical
 prerequisite. Do not repeat
 passed cohorts instead of resolving those requirements.
@@ -253,7 +253,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24v — Learned processing through deep/wide routing](slices/24v-learned-routing-scale.md)
 - [x] [24w — Bounded waveform queries across duration](slices/24w-waveform-duration-memory.md)
 - [x] [24x — Bounded evidence continuations](slices/24x-evidence-continuations.md)
-- [ ] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
+- [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

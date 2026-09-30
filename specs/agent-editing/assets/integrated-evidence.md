@@ -1,8 +1,12 @@
 # Integrated evidence index
 
+- [Populated events/cursor duration](24y-source-event-duration/README.md) passes
+  complete clock/payload/provenance and unchanged latency/memory checks. Exact
+  lost-reply replay preserves one edit; SDK default capacity remains disclosed.
+
 - [Bounded evidence continuations](24x-evidence-continuations/README.md) preserve
   complete phrase matches and live source pins while passing unchanged search
-  latency/memory budgets. Populated source-event scale remains separate.
+  latency/memory budgets. Populated source-event scale has its own checkpoint.
 
 - [Transcript duration memory](24-transcript-duration/README.md) passes matched
   two-/four-hour service-memory and cached250-word read checks. Frozen words

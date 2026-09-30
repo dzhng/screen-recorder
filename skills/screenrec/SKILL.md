@@ -421,5 +421,8 @@ as complete.
   needs a new request ID. Export creation instead uses `exportId`; preserve it
   and its arguments on retries. Follow each operation's advertised retry contract.
   The CLI `--id` is a transport identifier, not the durable mutation identity.
+  An MCP receive/connection failure can follow a committed edit. If its client
+  cannot receive the full receipt, replay the identical saved params through CLI
+  when available; do not create a new mutation ID just to recover a reply.
 - CLI and `screenrec mcp` expose the same operation registry. Use whichever
   interface the calling agent has; preserve the same revision and retry rules.

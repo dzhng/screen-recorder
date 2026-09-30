@@ -14,7 +14,8 @@ with the current implementation pickup in its live Next Agent Prompt. The curren
 editing correction, [exact media admission](../agent-editing/slices/03d-exact-media-admission.md),
 is verified in the isolated service with capture/evidence clock preservation.
 The [populated source-event duration check](../agent-editing/slices/24y-source-event-duration.md)
-is the new editor’s active mechanical pickup after its bounded continuation correction. Its listening and physical gates remain open. Its [processing contract](../agent-editing/processing.md) includes the accepted
+also passes its isolated query gates. The new editor’s current pickup is the
+remaining listening/label evidence before physical capture acceptance and cutover. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is

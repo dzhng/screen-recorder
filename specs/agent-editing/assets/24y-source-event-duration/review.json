@@ -1,0 +1,15 @@
+{
+  "skillUse": {
+    "scenario": "MCP receive error after a500-operation edit; exactparams/requestId/expectedrevision saved; CLI available",
+    "freshAgentAction": "Discover edit.apply schema, replay identical saved params through CLI, preserve the durable requestId and expectedRevisionId, parse envelope and verify one committed revision. Do not replace the revision or use a new mutation ID.",
+    "initialFeedback": "Clarify that CLI stdin takes the params object, not a saved MCP wrapper.",
+    "resolution": "Final skill says identical saved params; fresh agent confirms no remaining ambiguity."
+  },
+  "review": {
+    "rootFullChangedFiles": "clean after restore",
+    "independentFullChangedFiles": "clean after restore",
+    "sdkDerivedBound": "sound for sequential control messages only; not a universal inline-media or concurrent-response bound",
+    "defaultCaptureOracle": "baseline alsofails missing authoredfailureMessage; currentoracle includesit andentiredefaultjourney passes",
+    "productionChanges": false
+  }
+}

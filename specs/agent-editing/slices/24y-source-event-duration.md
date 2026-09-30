@@ -1,6 +1,6 @@
 # 24y — Populated source-event pages across duration
 
-Status: planned scoped evidence checkpoint. Dependencies: [24x](24x-evidence-continuations.md).
+Status: verified scoped public checkpoint; independent root cohorts and review resolved. Dependencies: [24x](24x-evidence-continuations.md).
 
 ## Contract and missing proof
 
@@ -59,3 +59,27 @@ product edits. No new persistent cache, endpoint, dependency, cursor format or
 budget increase. Harness internal naming and small fixture plumbing are delegated;
 source byte identity, independent clocks and all budgets are fixed. This evidence
 cannot satisfy audible quality, physical timing or final post-cutover acceptance.
+
+## Validation-client capacity
+
+The first events setup committed its final10,000-clip edit, then the default
+SDK client closed while receiving the complete reply. The service frame is below
+its existing8MiB limit; the adapter's text plus structured representations and
+JSON string escaping make that reply exceed the SDK's default10MiB buffer.
+Retain this red and prove same-request replay without another mutation.
+
+Configure the existing sequential test client's supported receive-buffer option
+from the protocol control-frame owner:3*RESPONSE_FRAME_BYTES+64KiB. The structured
+body contributes at most one service frame and its quoted text at most two, plus
+this fixture's fixed JSON-RPC framing. The unchanged full receipt must deep-equal
+CLI in both representations. This is a bounded client configuration, not a service
+limit change, compacted receipt or latency/memory budget relaxation. It establishes
+no universal bound for inline media or concurrent buffered replies. External SDK
+clients retaining their default can still encounter the preserved limitation; do
+not report that default-client failure as fixed.
+
+The [verification](../assets/24y-source-event-duration/verification.json) retains
+both twelve-trial implementations/root checks, complete source/project payloads,
+wrong-clock refusal and exact lost-reply recovery. The full existing capture
+journey passes after correcting its stale expected failure-message payload, also
+reproduced in the pre-change baseline. No production behavior changes.

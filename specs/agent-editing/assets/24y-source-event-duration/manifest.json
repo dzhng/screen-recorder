@@ -1,0 +1,28 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 2706,
+      "sha256": "b94b3d7e8d65df23d7f7d439cccce381f30ef05e9cdeebf0fade006ca215d950"
+    },
+    "implementation-evidence.tar.gz": {
+      "bytes": 7925491,
+      "sha256": "60829c2fa90dabfcd1c4abfc9aeeaedb6b107762dd006b9616c46b055fb7bdac"
+    },
+    "review.json": {
+      "bytes": 1035,
+      "sha256": "4c4ff01032d6377647c3c6361b909347b6e45abd3f2a641b6f4d167334abdefc"
+    },
+    "root-evidence.tar.gz": {
+      "bytes": 6126141,
+      "sha256": "60cbb98933dde28de4f8a20c477c421b474e372c14a2f64da7ccaa7dfe1bc699"
+    },
+    "sdk-capacity-evidence.tar.gz": {
+      "bytes": 334490,
+      "sha256": "ff45fe1d4f120d4f01b2a09d546ed8cd06a59aada15f9f22af2eb22561bb0ebd"
+    },
+    "verification.json": {
+      "bytes": 4319,
+      "sha256": "7326dc8c552e3f58d3e0a5721c1eec719852bcada6ac7585436df05ec9d553f8"
+    }
+  }
+}

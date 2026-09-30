@@ -1,0 +1,134 @@
+{
+  "passed": true,
+  "integrationCommit": "1b6c323c",
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "mcpClientReceiveBytes": 25231360,
+  "defaultSDKReceiveBytes": 10485760,
+  "defaultSDKLargeReceiptLimitationResolved": false,
+  "serviceResponseLimitChanged": false,
+  "sdkLiveReplayFullTextStructuredCLIEqual": true,
+  "sdkLiveReplayOneCommitOrdinal": 21,
+  "rowBudget": 250,
+  "cachedP95BudgetMs": 250,
+  "occurrences": 10000,
+  "trialsPerFamily": 6,
+  "warmReadsPerTrial": 20,
+  "families": {
+    "events": {
+      "rootCachedP95Ms": [
+        150.32716700000037,
+        150.35041699999965,
+        147.95162499999788,
+        140.92904100000305,
+        167.38787500000035,
+        201.60454199999367
+      ],
+      "rootColdMs": [
+        432.27129200000036,
+        426.7252919999992,
+        412.1298339999994,
+        415.77387499999895,
+        422.3922080000011,
+        427.2906660000008
+      ],
+      "rootMemoryComparison": {
+        "twoHourMedianPeakBytes": 384401408,
+        "fourHourMedianPeakBytes": 387170304,
+        "twoHourMedianGrowthBytes": 258818048,
+        "fourHourMedianGrowthBytes": 261210112,
+        "peakRatio": 1.007203136987469,
+        "growthRatio": 1.0092422611888334
+      },
+      "implementationCachedP95Ms": [
+        135.43879199999992,
+        152.46770900000047,
+        181.75674999999683,
+        140.6994169999998,
+        139.68970900000568,
+        141.4588339999973
+      ],
+      "implementationMemoryComparison": {
+        "twoHourMedianPeakBytes": 407093248,
+        "fourHourMedianPeakBytes": 386662400,
+        "twoHourMedianGrowthBytes": 281198592,
+        "fourHourMedianGrowthBytes": 260669440,
+        "peakRatio": 0.949812854670584,
+        "growthRatio": 0.9269941152479171
+      },
+      "pagesPer250Rows": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "sourceFiles": {
+        "journal.json": "652c24a9ed9fc1b15847c6ea4142099ef49294343a415967b2ab4217f72fb7c4",
+        "video.mov": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e",
+        "capture.journal.jsonl": "72cd6dbe692619355fff872c787e61695a833c2a6e456253dce7c29d53c7e5cf"
+      }
+    },
+    "cursor": {
+      "rootCachedP95Ms": [
+        169.27820799999972,
+        120.0591659999991,
+        123.58237500000178,
+        116.0789999999979,
+        116.68725000000268,
+        117.6495830000058
+      ],
+      "rootColdMs": [
+        404.3630000000003,
+        383.221375000001,
+        372.59279199999946,
+        372.36370800000077,
+        368.50483299999905,
+        370.56391599999915
+      ],
+      "rootMemoryComparison": {
+        "twoHourMedianPeakBytes": 378912768,
+        "fourHourMedianPeakBytes": 384892928,
+        "twoHourMedianGrowthBytes": 252985344,
+        "fourHourMedianGrowthBytes": 258916352,
+        "peakRatio": 1.015782418817832,
+        "growthRatio": 1.0234440774561233
+      },
+      "implementationCachedP95Ms": [
+        118.71729199999936,
+        124.35762500000055,
+        116.94858300000124,
+        178.82666699999754,
+        112.4587920000049,
+        117.25737500000105
+      ],
+      "implementationMemoryComparison": {
+        "twoHourMedianPeakBytes": 376651776,
+        "fourHourMedianPeakBytes": 384581632,
+        "twoHourMedianGrowthBytes": 250789888,
+        "fourHourMedianGrowthBytes": 258473984,
+        "peakRatio": 1.021053547348732,
+        "growthRatio": 1.0306395766642713
+      },
+      "pagesPer250Rows": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "sourceFiles": {
+        "video.mov": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+        "narration.mov": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+        "capture.journal.jsonl": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+      }
+    }
+  },
+  "wrongClockControlFails": true,
+  "allCompleteRowsClocksProvenanceAndCLIParity": true,
+  "queryOnlyNativeWork": "storage.clearRenderWorkspace only",
+  "captureDefaultJourneyWithAllOriginalCohorts": "passed",
+  "focusedTests": 48,
+  "scope": "Matched2h/4h fixed10k populatedscene/captureevent andcursor queries; sampledserviceRSS only; configuredsequentialMCPclient. Notphysicalcapture, listeningquality orpostcutoveracceptance."
+}

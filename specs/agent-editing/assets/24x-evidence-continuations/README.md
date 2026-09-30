@@ -32,6 +32,7 @@ hooks and full original-project pages; [root duration trials](root-duration-evid
 retain all six independent measurements and focused checks. Timings vary with
 hardware/load and do not promise universal latency.
 
-The parent scale contract still requires populated source-event duration evidence
-and final post-cutover acceptance. Existing scene/capture correctness and separate
+The [populated source-event duration checkpoint](../24y-source-event-duration/README.md)
+now supplies its own scoped evidence. The parent scale contract still requires
+final post-cutover acceptance. Existing scene/capture correctness and separate
 listening/physical gates remain with their owners.
