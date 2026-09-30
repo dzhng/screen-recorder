@@ -4,6 +4,9 @@ Status: the explicit source selection and PCM preservation checks pass. Audible
 neighboring speech and join quality were accepted by the user on 2026-09-29:
 “Yes, clear and natural.” Independent protected-word timing remains unverified.
 No speech engine or cleanup recipe is selected by this packet.
+The [requested marking page](../12d-sentence-marking/README.md) is ready to collect
+actual independent audible sentence/neighbor/filler edges; its initial fields
+are blank and its exports remain separate from this frozen packet.
 
 The original says, according to the frozen ASR proposal:
 **“So let’s do the first paragraph, uh, this page is a recording fixture.”**

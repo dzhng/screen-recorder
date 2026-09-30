@@ -1,0 +1,60 @@
+{
+  "scope": "Prepared marking page only; no actual independent human labels",
+  "checks": {
+    "defaultHarnessBootstrapAnd13Tests": true,
+    "syntaxFormatLint": true,
+    "localDocumentLinks": 332,
+    "fourFrozenWavAndSourceHashesPreserved": true,
+    "clockMutationRedThenRestoredGreen": true,
+    "rangeMutationRedThenRestoredGreen": true,
+    "exactWavBytesAndFiveHttpRefusals": true,
+    "browserDraftNullAndConfirmationReset": true,
+    "browserSeekPausedAndZoomMarking": true,
+    "allEightInputsInitiallyBlank": true
+  },
+  "source": {
+    "clipSha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+    "sourceRange": {
+      "startUs": 50518675,
+      "endUs": 57658675
+    }
+  },
+  "visualChangeProof": [
+    {
+      "before": "blank-desktop.png",
+      "after": "final-blank-desktop.png",
+      "dimensions": [
+        1280,
+        2051
+      ],
+      "changedBounds": [
+        159,
+        31,
+        1120,
+        2032
+      ]
+    },
+    {
+      "before": "blank-narrow.png",
+      "after": "final-blank-narrow.png",
+      "dimensions": [
+        390,
+        2789
+      ],
+      "changedBounds": [
+        40,
+        607,
+        352,
+        648
+      ]
+    }
+  ],
+  "humanSession": {
+    "url": "http://127.0.0.1:58829",
+    "outputDirectory": "/tmp/screenrec-sentence-marking-20260930",
+    "serverPid": 54032,
+    "testServerStopped": true,
+    "testSavedArtifactsRemoved": true
+  },
+  "remaining": "12d independent labels, parent12/12b and other existing physical/cutover gates stay open"
+}

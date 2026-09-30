@@ -16,7 +16,9 @@ is verified in the isolated service with capture/evidence clock preservation.
 The [populated source-event duration check](../agent-editing/slices/24y-source-event-duration.md)
 also passes its isolated query gates. The new editor’s current pickup is the
 independent speech-label evidence before physical capture
-acceptance and cutover. Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.
+acceptance and cutover. The requested [sentence marking page](../agent-editing/assets/12d-sentence-marking/README.md)
+is prepared; actual saved listening marks remain pending.
+Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.
 Its [generation/ambience matrix](../agent-editing/assets/19-acceptance/README.md)
 is accepted: the user chooses the speech-free200ms loop with a slight residual
 seam tolerated. Preserve that exact choice. Its [processing contract](../agent-editing/processing.md) includes the accepted

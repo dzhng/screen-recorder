@@ -5,6 +5,8 @@ the public lossless candidate exactly reproduces the accepted join. Independent
 word-boundary labels remain open. The user accepted neighboring speech and the
 join as clear and natural on 2026-09-29. Dependencies: [12](12-speech-evidence.md).
 [Evidence and reproduction](../assets/12d-complete-sentence/README.md).
+The requested [local marking page](../assets/12d-sentence-marking/README.md) is
+prepared; actual independent labels remain pending.
 
 ## Contract
 

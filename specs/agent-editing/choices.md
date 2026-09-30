@@ -4734,3 +4734,50 @@ curves; no parallel production renderer is introduced.
 The final user choice retains the200ms treatment and explicitly tolerates its
 small residual seam. The250ms trial is rejected for a perceived whirling sound;
 it remains negative evidence, with no production adoption or further tuning.
+
+### Sentence marking starts with four bounded targets — sound, medium confidence
+
+When: 12d marking page, 2026-09-30. The user requested a simple page to provide
+independent audible boundaries. It presents the sentence edges and the three
+words surrounding the cut: paragraph, uh and this. All times start blank. If two
+connected words have no clear edge, the listener leaves it unknown instead of
+being forced to fill every proposed word. The request left the marking surface
+unspecified. This bounded starting point resolves the immediate cut evidence;
+it cannot claim the broader speech corpus has been annotated. Future corpus
+work must collect its own actual labels. Sound because it keeps the requested
+human task small without inventing exact boundaries.
+
+### Save separate annotation snapshots — sound, high confidence
+
+When: 12d marking page, 2026-09-30. Pressing Save writes a uniquely named local
+JSON file in the output directory given to the local server; another Save creates
+another file. Existing source audio and frozen annotation proposals remain
+unchanged. The request did not choose persistence. Separate snapshots let the
+agent inspect what the listener submitted before deliberately reconciling any
+ranges into canonical evidence. There is no automatic import, autosave or reload
+of previous drafts. Sound because no submission can silently overwrite existing
+truth, and the finite page needs no new product storage owner.
+
+### Bind exports to one source clock and preserve unknown authority — sound, high confidence
+
+When: 12d marking page, 2026-09-30. A time of one second in the clip becomes one
+second after this clip's already source-clock start; its recording offset is not
+added twice. Browser readouts and server exports share that conversion. The server
+checks audio/source/annotation hashes and exact source interval before saving,
+so an old page cannot attach marks to changed audio. The request did not choose
+an export schema. Drafts contain no independent labels; confirmed partial edges
+still cannot form a full range, and any confirmed filler inventory explicitly
+remains incomplete for the corpus. Sound because a saved mark retains both its
+source identity and the limits of what the listener actually supplied.
+
+### Confirmation follows the submitted marks — sound, high confidence
+
+When: 12d marking page, 2026-09-30. Moving or clearing an edge unchecks “I placed
+these marks by listening”; the listener confirms revised marks deliberately.
+During Save, the browser disables mark editing until success or failure, keeping
+the submitted and visible values aligned. A failed save retains inputs. The
+request left these form transitions unspecified. This affects only the finite
+annotation tool, not editorial approval or product APIs. Sound because a prior
+confirmation cannot silently cover newly changed marks and a save error does
+not discard listening work. The delegated [UI audit](assets/12d-marking-page-ui/choices.md)
+retains the full rationale.

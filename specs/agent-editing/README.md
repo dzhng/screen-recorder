@@ -25,6 +25,10 @@ actual labels before12b adoption. The [local generation/ambience matrix](assets/
 is accepted, including the chosen200ms loop with a slight residual seam tolerated.
 Preserve that exact choice and the rejected alternatives; no further loop trial
 is requested.
+The requested [sentence marking page](assets/12d-sentence-marking/README.md) is
+prepared with blank sentence/neighbor/filler edges and a separate save directory.
+Next pickup is the user's actual saved marks; drafts and synthetic verification
+positions do not count as independent evidence.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
 [24y populated source-event duration](slices/24y-source-event-duration.md) pass
 independent exact-result, latency/memory and generation checks. Preserve those

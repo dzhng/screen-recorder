@@ -46,6 +46,13 @@ function buildRows() {
     name.textContent = target.text;
     row.append(name);
     const inputs = {};
+    const error = document.createElement("p");
+    error.className = "row-error";
+    error.hidden = true;
+    const clearError = () => {
+      error.hidden = true;
+      for (const { input } of Object.values(inputs)) input.removeAttribute("aria-invalid");
+    };
     for (const edge of ["start", "end"]) {
       const cell = document.createElement("div");
       cell.className = "edge";
@@ -68,10 +75,12 @@ function buildRows() {
       readout.htmlFor = input.id;
       edgeReadout(input, readout);
       input.addEventListener("input", () => {
+        clearError();
         edgeReadout(input, readout);
         changed();
       });
       button.addEventListener("click", () => {
+        clearError();
         const seconds = Math.max(0, Math.min(context.durationSeconds, audio.currentTime));
         input.value = seconds.toFixed(3);
         edgeReadout(input, readout);
@@ -87,14 +96,15 @@ function buildRows() {
     clear.textContent = "Clear";
     clear.setAttribute("aria-label", `Clear ${target.text} marks`);
     clear.addEventListener("click", () => {
+      clearError();
       for (const { input, readout } of Object.values(inputs)) {
         input.value = "";
         edgeReadout(input, readout);
       }
       changed();
     });
-    row.append(clear);
-    rows.push({ id: target.id, ...inputs });
+    row.append(clear, error);
+    rows.push({ id: target.id, error, ...inputs });
     document.querySelector("#mark-rows").append(row);
   }
 }
@@ -137,7 +147,7 @@ function drawWaveform() {
   }
   painter.stroke();
   painter.fillStyle = "#526175";
-  painter.font = "12px system-ui";
+  painter.font = "14px system-ui";
   for (let i = 0; i <= 4; i++) {
     const seconds = viewStart + ((viewEnd() - viewStart) * i) / 4;
     painter.textAlign = i === 0 ? "left" : i === 4 ? "right" : "center";
@@ -205,6 +215,10 @@ document.querySelector("#marks-form").addEventListener("submit", async (event) =
       mark.startSeconds >= mark.endSeconds,
   );
   if (reversed) {
+    const row = rows.find((value) => value.id === reversed.id);
+    row.end.input.setAttribute("aria-invalid", "true");
+    row.error.textContent = "End must be after start. Correct this row or clear an uncertain edge.";
+    row.error.hidden = false;
     message("An end must be after its start. Correct that row or clear an uncertain edge.", true);
     return;
   }
