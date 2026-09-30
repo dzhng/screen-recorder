@@ -22,8 +22,10 @@ fresh-format portable delivery and unchanged accepted outputs. Current pickup is
 [19 ambience acceptance](slices/19-voice-assets.md): the
 [user review](assets/listening-review-2026-09-30.md) accepts the exact post-retime
 denoise, shorter phrase entrance and word context, but hears speech in the source pause.
-The [earlier region and public loop](assets/19-clean-roomtone/README.md) are ready
-for the speech-free/continuity review; their mechanical checks pass.
+The [earlier region and public loop](assets/19-clean-roomtone/README.md) pass
+mechanical checks, but the user reports noticeable repeat seams. Revise the explicit
+overlap treatment from the same region; speech-free sound and continuity still
+need listening.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
 [24y populated source-event duration](slices/24y-source-event-duration.md) pass
 independent exact-result, latency/memory and generation checks. Preserve those

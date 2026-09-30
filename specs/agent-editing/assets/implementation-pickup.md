@@ -12,7 +12,7 @@ Historical workers and measurements retain their own identities below.
 
 The [user review](listening-review-2026-09-30.md) accepts the exact post-retime
 denoise, shorter phrase entrance and word context. The source pause contains a
-voice blip; resolve19’s speech-free ambience/loop verdict before closing that gate. The [earlier selected region and loop](19-clean-roomtone/README.md) are ready but unanswered. The [finite denoise acceptance](denoise-acceptance/README.md) includes the protected sentence, authored stereo and known-noise passes. Independent speech labels and physical capture gates remain; do not repeat accepted auditions.
+voice blip; resolve19’s speech-free ambience/loop verdict before closing that gate. The [earlier selected region and loop](19-clean-roomtone/README.md) have a user rejection for noticeable repeat seams; revise their explicit overlap treatment and audition again. The [finite denoise acceptance](denoise-acceptance/README.md) includes the protected sentence, authored stereo and known-noise passes. Independent speech labels and physical capture gates remain; do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;

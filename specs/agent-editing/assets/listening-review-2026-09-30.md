@@ -68,3 +68,20 @@ independent word-boundary labels or approve the pending room-tone source/loop.
 | Noisy original | [mixture-source.wav](15a3-noisy-sentence/mixture-source.wav) | `1f10f930f13757d717f16176c2a59a32c2d983875656d5749be970d91fdb2f9a` |
 | Accepted level-matched denoised copy | [mixture-processed-matched.wav](15a3-noisy-sentence/mixture-processed-matched.wav) | `cde8d135f31eec1a8b1a2be1d79ebfc4acb1a1abe1ee0b3dcdb088db7340d2eb` |
 | Raw public denoised output | [mixture-processed.wav](15a3-noisy-sentence/mixture-processed.wav) | `50530aa33f8895be422db026fb4c8bd060482964ef904e2a42293984148eb010` |
+
+## Earlier room-tone loop — seam rejection
+
+After listening to the six-second +24 dB monitoring copy, the user reported:
+**“There are noticeable repeat seams.”** This fails that exact candidate's loop
+continuity check. It does not establish whether the selected region is speech-free;
+that part of the question remains unverified. The original pause's separate voice
+blip finding and all accepted denoise/voice contexts remain unchanged.
+
+| Presented surface | File | SHA-256 |
+| --- | --- | --- |
+| Rejected seam audition | [loop-monitor-plus24db.wav](19-clean-roomtone/loop-monitor-plus24db.wav) | `23bbe8eebcb57f8410daefb1ba2418621abac20ae473bf3710c79b598b3d5493` |
+| Normal-level counterpart, retained | [loop.wav](19-clean-roomtone/loop.wav) | `1619ff735b564740fb58f7b546f928853515e93c7cb2e8aa9e3daa3e12344dec` |
+
+The frozen packet's assembly-time pending state and all recipe/media identities
+remain preserved. A revised explicit overlap treatment may be auditioned from
+that same selected region; mechanics alone cannot claim the audible seams fixed.

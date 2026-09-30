@@ -18,7 +18,7 @@ also passes its isolated query gates. The new editor’s current pickup is the
 remaining ambience and independent speech-label evidence before physical capture
 acceptance and cutover. Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.
 The editor now has an [earlier room-tone loop candidate](../agent-editing/assets/19-clean-roomtone/README.md)
-ready for listening; its fixed reference-speech reproduction gate is accepted. Its [processing contract](../agent-editing/processing.md) includes the accepted
+rejected for noticeable repeat seams; an explicit overlap revision is next. Its fixed reference-speech reproduction gate is accepted. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is
