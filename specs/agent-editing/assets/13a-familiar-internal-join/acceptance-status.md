@@ -14,7 +14,8 @@ A fresh read-only gate audit distinguishes the remaining requirements:
   Its ASR-gap midpoints are authored selections, not independently protected-word
   annotations. Those labels are a fixture requirement, not a runtime requirement
   that the editor recognize words or silently widen selections.
-- Useful short selected speech still needs evidence. This does not imply natural
+- The [short-word0.8× candidate](../13a-short-word/listening.json) is now accepted
+  for completeness and naturalness. This does not imply natural
   stretching of every5–10ms fragment or an invented universal minimum duration.
   Preserve request-specific capability/refusal and the original quality gate.
 - Public retiming remains gated. After the missing acceptance,14 owns the actual
@@ -31,5 +32,5 @@ The [remaining local rates](../13a-familiar-internal-rates/README.md) and
 [short-word packet](../13a-short-word/README.md) now provide those missing
 comparisons. The full-context annotation reference inserts two deliberate pauses
 without changing any source sample. Confirmation can establish conservative
-whole-word containment, not sample-exact phonetic edges. The four-item listening
-rubric is pending; no new listening verdict is inferred.
+whole-word containment, not sample-exact phonetic edges. Short-word listening is
+accepted; only the two remaining local rates and boundary containment are pending.

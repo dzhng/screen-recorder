@@ -21,8 +21,9 @@ Current pickup: resolve the remaining speech/stretch acceptance toward13a/14,
 preserving the accepted [internal0.8× join](assets/13a-familiar-internal-join/README.md).
 The [remaining local rates](assets/13a-familiar-internal-rates/README.md) and
 [short-word/boundary references](assets/13a-short-word/README.md) are integrated and
-numerically verified. A four-item listening rubric is pending for local0.9×/1.25×,
-short-word naturalness and complete-word containment. Do not repeat accepted
+numerically verified. The user accepted [short-word clarity and naturalness](assets/13a-short-word/listening.json).
+Only clips1/2 (internal0.9×/1.25×) and4 (complete-word containment) remain pending
+in that listening rubric. Do not repeat accepted
 comparisons or infer listening from numerical checks. After acceptance,14 owns
 public linked/unlinked retiming; the installed app remains unchanged.
 [Camera acquisition/presentation20e2](slices/20e2-camera-presentation.md) is integrated:

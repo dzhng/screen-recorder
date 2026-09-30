@@ -31,6 +31,7 @@ scratch directory before replay, since it writes beside itself using recorded
 checkout paths. Do not run it in this frozen evidence directory. The retained
 [commands](commands.json) and tone PCM allow inspection without a new render.
 There was no model download, build, hidden source context, added padding, fade,
-gain change or public retiming adoption. [Listening feedback](listening.json) records the user's report of no noticeable
-difference in “Okay.” This is not an explicit failure or a resolved naturalness
-verdict; whole-word containment remains separate.
+gain change or public retiming adoption. [Listening feedback](listening.json) records the user's acceptance: “Okay” is
+complete and natural, including its join into “so.” The earlier report of no
+noticeable difference is retained. Independent boundary containment remains
+separate; this verdict does not approve other rates or arbitrary shorter words.
