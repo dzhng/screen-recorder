@@ -1,0 +1,1820 @@
+{
+  "workerSha256": "90de9a079d9a5cfa4ede24136708730a361ece8d8405c68dcb3be86f768ba6bc",
+  "checks": [
+    {
+      "case": "internal-slower-0.8x",
+      "sha256": "62a943375f471d57c6866eb8f34bd425a4ad6cd7ac7d7c467db0a5721986c1ad",
+      "receipt": {
+        "peakResidentBytes": 24592384,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0
+        },
+        "channels": 2,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "before"
+          },
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          },
+          {
+            "ranges": [],
+            "clipId": "after"
+          }
+        ],
+        "frames": 246478,
+        "maximumBlockFrames": 8192,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 925464,
+              "sampleRate": 48000,
+              "frames": 231366
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0
+        },
+        "sampleRate": 48000,
+        "peak": 0.2365003377199173,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/internal-slower-0.8x.wav",
+        "bytes": 1975920,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "internal-slower-0.9x",
+      "sha256": "ee4be2edc73392e158036a02a9c090ae0b81ab963cf78d7e4d8f55a5bb10ad0c",
+      "receipt": {
+        "frames": 238079,
+        "peak": 0.2365003377199173,
+        "bytes": 1908728,
+        "clippedSamples": 0,
+        "unavailable": [
+          {
+            "clipId": "before",
+            "ranges": []
+          },
+          {
+            "clipId": "retimed",
+            "ranges": []
+          },
+          {
+            "clipId": "after",
+            "ranges": []
+          }
+        ],
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 24494080,
+        "channels": 2,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000
+        },
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "float32Bytes": 925464,
+              "sampleRate": 48000,
+              "frames": 231366
+            }
+          ],
+          "descriptorInputs": 0
+        },
+        "sampleRate": 48000,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/internal-slower-0.9x.wav"
+      }
+    },
+    {
+      "case": "internal-faster-1.25x",
+      "sha256": "a274f8e29f50adaca564c0c19b8518ddab0364db7316594000d3959c69e67d98",
+      "receipt": {
+        "peak": 0.2365003377199173,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/internal-faster-1.25x.wav",
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "decoded": [
+            {
+              "frames": 231366,
+              "sampleRate": 48000,
+              "float32Bytes": 925464
+            }
+          ],
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0
+        },
+        "channels": 2,
+        "sampleRate": 48000,
+        "maximumBlockFrames": 8192,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "before"
+          },
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          },
+          {
+            "ranges": [],
+            "clipId": "after"
+          }
+        ],
+        "clippedSamples": 0,
+        "frames": 219265,
+        "bytes": 1758216,
+        "peakResidentBytes": 24576000
+      }
+    },
+    {
+      "case": "opening-slower-0.8x",
+      "sha256": "e6d3c84b368b8105006495126d92a768eb05d867a50ee95bef29f4d245ef9065",
+      "receipt": {
+        "sampleRate": 48000,
+        "bytes": 1917384,
+        "frames": 239161,
+        "channels": 2,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "peakResidentBytes": 25919488,
+        "peak": 0.2365003377199173,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "retimed",
+            "ranges": []
+          },
+          {
+            "clipId": "after",
+            "ranges": []
+          }
+        ],
+        "file": "/private/tmp/screenrec-preserve-14e-proof/opening-slower-0.8x.wav",
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 231363,
+              "float32Bytes": 925452,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0
+        }
+      }
+    },
+    {
+      "case": "selected-only",
+      "sha256": "325154a8b2561ca5ef6325c146601c08c1e14f10bde6b878c62a9c64426805e0",
+      "receipt": {
+        "sampleRate": 48000,
+        "peakResidentBytes": 21528576,
+        "peak": 0.0571163110435009,
+        "frames": 75592,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "clippedSamples": 0,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 60477,
+              "float32Bytes": 241908
+            }
+          ],
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1
+        },
+        "maximumBlockFrames": 8192,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/selected-only.wav",
+        "bytes": 608832,
+        "channels": 2,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          }
+        ]
+      }
+    },
+    {
+      "case": "excluded-poison",
+      "sha256": "325154a8b2561ca5ef6325c146601c08c1e14f10bde6b878c62a9c64426805e0",
+      "receipt": {
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run"
+        },
+        "maximumBlockFrames": 8192,
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 241908
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          }
+        ],
+        "channels": 2,
+        "bytes": 608832,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/excluded-poison.wav",
+        "clippedSamples": 0,
+        "peakResidentBytes": 21479424,
+        "frames": 75592,
+        "sampleRate": 48000,
+        "peak": 0.0571163110435009
+      }
+    },
+    {
+      "case": "support-gap",
+      "sha256": "f611619272ce5e71b78fd1f0cf972566a968a86144a3205c4112eb6d81075cec",
+      "receipt": {
+        "peakResidentBytes": 20873216,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "frames": 75592,
+        "channels": 2,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/support-gap.wav",
+        "bytes": 608832,
+        "peak": 0.05185213312506676,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 201920,
+              "sampleRate": 48000,
+              "frames": 50480
+            }
+          ],
+          "preparedRetimeRuns": 2,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "retimed",
+            "ranges": [
+              {
+                "end": 68705,
+                "start": 56205
+              }
+            ]
+          }
+        ],
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "support-gap-poison",
+      "sha256": "f611619272ce5e71b78fd1f0cf972566a968a86144a3205c4112eb6d81075cec",
+      "receipt": {
+        "frames": 75592,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0
+        },
+        "sourceWork": {
+          "preparedRetimeRuns": 2,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "float32Bytes": 201920,
+              "frames": 50480,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0
+        },
+        "sampleRate": 48000,
+        "peak": 0.05185213312506676,
+        "channels": 2,
+        "unavailable": [
+          {
+            "clipId": "retimed",
+            "ranges": [
+              {
+                "end": 68705,
+                "start": 56205
+              }
+            ]
+          }
+        ],
+        "bytes": 608832,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/support-gap-poison.wav",
+        "peakResidentBytes": 20856832,
+        "maximumBlockFrames": 8192
+      }
+    },
+    {
+      "case": "gain-after-retime",
+      "sha256": "bbfe7b1be51ec7cd4e7314d2f8a51a17af2d4e069227646559522b466d22f15a",
+      "receipt": {
+        "peakResidentBytes": 21430272,
+        "bytes": 608832,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "maximumBlockFrames": 8192,
+        "peak": 0.02855815552175045,
+        "frames": 75592,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/gain-after-retime.wav",
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          }
+        ],
+        "channels": 2,
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 60477,
+              "float32Bytes": 241908
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "state-full",
+      "sha256": "4817b84ff06a8a3479e16f2ae77ea0bf452fa3a6f629bdcf3219dd7c2d5337cb",
+      "receipt": {
+        "peak": 0.01827078126370907,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/state-full.wav",
+        "frames": 75592,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 25296896,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "sampleRate": 48000,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          }
+        ],
+        "channels": 2,
+        "sourceWork": {
+          "decoded": [
+            {
+              "frames": 60477,
+              "float32Bytes": 241908,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1,
+          "descriptorInputs": 0
+        },
+        "bytes": 608832,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "state-frozen-pcm-control",
+      "sha256": "4817b84ff06a8a3479e16f2ae77ea0bf452fa3a6f629bdcf3219dd7c2d5337cb",
+      "receipt": {
+        "unavailable": [
+          {
+            "clipId": "retimed",
+            "ranges": []
+          }
+        ],
+        "clippedSamples": 0,
+        "channels": 2,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/state-frozen-pcm-control.wav",
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "float32Bytes": 302380,
+              "frames": 75595
+            }
+          ],
+          "preparedRetimeRuns": 0,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1
+        },
+        "peak": 0.01827078126370907,
+        "frames": 75592,
+        "peakResidentBytes": 24985600,
+        "maximumBlockFrames": 8192,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "bytes": 608832
+      }
+    },
+    {
+      "case": "state-outside-view",
+      "sha256": "d12bc430f80bd06960181d2d0127c60a174f1ac0c5a16b253c3649b124a666bb",
+      "receipt": {
+        "clippedSamples": 0,
+        "peak": 0.014553133398294449,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0
+        },
+        "peakResidentBytes": 25214976,
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "float32Bytes": 241908,
+              "frames": 60477
+            }
+          ]
+        },
+        "maximumBlockFrames": 8192,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "retimed"
+          }
+        ],
+        "file": "/private/tmp/screenrec-preserve-14e-proof/state-outside-view.wav",
+        "bytes": 306464,
+        "frames": 37796,
+        "sampleRate": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "case": "descriptor-reference",
+      "sha256": "b029bcb860e6508163b3f1c4e0a89b0f9208af906106b1fa34aed4d5664b4ac8",
+      "receipt": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 12001,
+              "float32Bytes": 48004
+            }
+          ],
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0
+        },
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "peak": 0.017599066719412804,
+        "peakResidentBytes": 20299776,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "one"
+          }
+        ],
+        "frames": 15000,
+        "bytes": 124096,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/descriptor-reference.wav"
+      }
+    },
+    {
+      "case": "descriptor-300",
+      "sha256": "39fdc8a2d0092c26b8ddeb9b610d407a06f4091594b8c6f13e92a07f25e16b25",
+      "receipt": {
+        "peak": 0.017599066719412804,
+        "frames": 4500000,
+        "channels": 2,
+        "file": "/private/tmp/screenrec-preserve-14e-proof/descriptor-300.wav",
+        "sourceWork": {
+          "decoded": [
+            {
+              "frames": 3600300,
+              "float32Bytes": 14401200,
+              "sampleRate": 48000
+            }
+          ],
+          "preparedRetimeRuns": 300,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1
+        },
+        "bytes": 36004096,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "peakResidentBytes": 27656192,
+        "unavailable": [
+          {
+            "clipId": "run-0",
+            "ranges": []
+          },
+          {
+            "clipId": "run-1",
+            "ranges": []
+          },
+          {
+            "clipId": "run-2",
+            "ranges": []
+          },
+          {
+            "clipId": "run-3",
+            "ranges": []
+          },
+          {
+            "clipId": "run-4",
+            "ranges": []
+          },
+          {
+            "clipId": "run-5",
+            "ranges": []
+          },
+          {
+            "clipId": "run-6",
+            "ranges": []
+          },
+          {
+            "clipId": "run-7",
+            "ranges": []
+          },
+          {
+            "clipId": "run-8",
+            "ranges": []
+          },
+          {
+            "clipId": "run-9",
+            "ranges": []
+          },
+          {
+            "clipId": "run-10",
+            "ranges": []
+          },
+          {
+            "clipId": "run-11",
+            "ranges": []
+          },
+          {
+            "clipId": "run-12",
+            "ranges": []
+          },
+          {
+            "clipId": "run-13",
+            "ranges": []
+          },
+          {
+            "clipId": "run-14",
+            "ranges": []
+          },
+          {
+            "clipId": "run-15",
+            "ranges": []
+          },
+          {
+            "clipId": "run-16",
+            "ranges": []
+          },
+          {
+            "clipId": "run-17",
+            "ranges": []
+          },
+          {
+            "clipId": "run-18",
+            "ranges": []
+          },
+          {
+            "clipId": "run-19",
+            "ranges": []
+          },
+          {
+            "clipId": "run-20",
+            "ranges": []
+          },
+          {
+            "clipId": "run-21",
+            "ranges": []
+          },
+          {
+            "clipId": "run-22",
+            "ranges": []
+          },
+          {
+            "clipId": "run-23",
+            "ranges": []
+          },
+          {
+            "clipId": "run-24",
+            "ranges": []
+          },
+          {
+            "clipId": "run-25",
+            "ranges": []
+          },
+          {
+            "clipId": "run-26",
+            "ranges": []
+          },
+          {
+            "clipId": "run-27",
+            "ranges": []
+          },
+          {
+            "clipId": "run-28",
+            "ranges": []
+          },
+          {
+            "clipId": "run-29",
+            "ranges": []
+          },
+          {
+            "clipId": "run-30",
+            "ranges": []
+          },
+          {
+            "clipId": "run-31",
+            "ranges": []
+          },
+          {
+            "clipId": "run-32",
+            "ranges": []
+          },
+          {
+            "clipId": "run-33",
+            "ranges": []
+          },
+          {
+            "clipId": "run-34",
+            "ranges": []
+          },
+          {
+            "clipId": "run-35",
+            "ranges": []
+          },
+          {
+            "clipId": "run-36",
+            "ranges": []
+          },
+          {
+            "clipId": "run-37",
+            "ranges": []
+          },
+          {
+            "clipId": "run-38",
+            "ranges": []
+          },
+          {
+            "clipId": "run-39",
+            "ranges": []
+          },
+          {
+            "clipId": "run-40",
+            "ranges": []
+          },
+          {
+            "clipId": "run-41",
+            "ranges": []
+          },
+          {
+            "clipId": "run-42",
+            "ranges": []
+          },
+          {
+            "clipId": "run-43",
+            "ranges": []
+          },
+          {
+            "clipId": "run-44",
+            "ranges": []
+          },
+          {
+            "clipId": "run-45",
+            "ranges": []
+          },
+          {
+            "clipId": "run-46",
+            "ranges": []
+          },
+          {
+            "clipId": "run-47",
+            "ranges": []
+          },
+          {
+            "clipId": "run-48",
+            "ranges": []
+          },
+          {
+            "clipId": "run-49",
+            "ranges": []
+          },
+          {
+            "clipId": "run-50",
+            "ranges": []
+          },
+          {
+            "clipId": "run-51",
+            "ranges": []
+          },
+          {
+            "clipId": "run-52",
+            "ranges": []
+          },
+          {
+            "clipId": "run-53",
+            "ranges": []
+          },
+          {
+            "clipId": "run-54",
+            "ranges": []
+          },
+          {
+            "clipId": "run-55",
+            "ranges": []
+          },
+          {
+            "clipId": "run-56",
+            "ranges": []
+          },
+          {
+            "clipId": "run-57",
+            "ranges": []
+          },
+          {
+            "clipId": "run-58",
+            "ranges": []
+          },
+          {
+            "clipId": "run-59",
+            "ranges": []
+          },
+          {
+            "clipId": "run-60",
+            "ranges": []
+          },
+          {
+            "clipId": "run-61",
+            "ranges": []
+          },
+          {
+            "clipId": "run-62",
+            "ranges": []
+          },
+          {
+            "clipId": "run-63",
+            "ranges": []
+          },
+          {
+            "clipId": "run-64",
+            "ranges": []
+          },
+          {
+            "clipId": "run-65",
+            "ranges": []
+          },
+          {
+            "clipId": "run-66",
+            "ranges": []
+          },
+          {
+            "clipId": "run-67",
+            "ranges": []
+          },
+          {
+            "clipId": "run-68",
+            "ranges": []
+          },
+          {
+            "clipId": "run-69",
+            "ranges": []
+          },
+          {
+            "clipId": "run-70",
+            "ranges": []
+          },
+          {
+            "clipId": "run-71",
+            "ranges": []
+          },
+          {
+            "clipId": "run-72",
+            "ranges": []
+          },
+          {
+            "clipId": "run-73",
+            "ranges": []
+          },
+          {
+            "clipId": "run-74",
+            "ranges": []
+          },
+          {
+            "clipId": "run-75",
+            "ranges": []
+          },
+          {
+            "clipId": "run-76",
+            "ranges": []
+          },
+          {
+            "clipId": "run-77",
+            "ranges": []
+          },
+          {
+            "clipId": "run-78",
+            "ranges": []
+          },
+          {
+            "clipId": "run-79",
+            "ranges": []
+          },
+          {
+            "clipId": "run-80",
+            "ranges": []
+          },
+          {
+            "clipId": "run-81",
+            "ranges": []
+          },
+          {
+            "clipId": "run-82",
+            "ranges": []
+          },
+          {
+            "clipId": "run-83",
+            "ranges": []
+          },
+          {
+            "clipId": "run-84",
+            "ranges": []
+          },
+          {
+            "clipId": "run-85",
+            "ranges": []
+          },
+          {
+            "clipId": "run-86",
+            "ranges": []
+          },
+          {
+            "clipId": "run-87",
+            "ranges": []
+          },
+          {
+            "clipId": "run-88",
+            "ranges": []
+          },
+          {
+            "clipId": "run-89",
+            "ranges": []
+          },
+          {
+            "clipId": "run-90",
+            "ranges": []
+          },
+          {
+            "clipId": "run-91",
+            "ranges": []
+          },
+          {
+            "clipId": "run-92",
+            "ranges": []
+          },
+          {
+            "clipId": "run-93",
+            "ranges": []
+          },
+          {
+            "clipId": "run-94",
+            "ranges": []
+          },
+          {
+            "clipId": "run-95",
+            "ranges": []
+          },
+          {
+            "clipId": "run-96",
+            "ranges": []
+          },
+          {
+            "clipId": "run-97",
+            "ranges": []
+          },
+          {
+            "clipId": "run-98",
+            "ranges": []
+          },
+          {
+            "clipId": "run-99",
+            "ranges": []
+          },
+          {
+            "clipId": "run-100",
+            "ranges": []
+          },
+          {
+            "clipId": "run-101",
+            "ranges": []
+          },
+          {
+            "clipId": "run-102",
+            "ranges": []
+          },
+          {
+            "clipId": "run-103",
+            "ranges": []
+          },
+          {
+            "clipId": "run-104",
+            "ranges": []
+          },
+          {
+            "clipId": "run-105",
+            "ranges": []
+          },
+          {
+            "clipId": "run-106",
+            "ranges": []
+          },
+          {
+            "clipId": "run-107",
+            "ranges": []
+          },
+          {
+            "clipId": "run-108",
+            "ranges": []
+          },
+          {
+            "clipId": "run-109",
+            "ranges": []
+          },
+          {
+            "clipId": "run-110",
+            "ranges": []
+          },
+          {
+            "clipId": "run-111",
+            "ranges": []
+          },
+          {
+            "clipId": "run-112",
+            "ranges": []
+          },
+          {
+            "clipId": "run-113",
+            "ranges": []
+          },
+          {
+            "clipId": "run-114",
+            "ranges": []
+          },
+          {
+            "clipId": "run-115",
+            "ranges": []
+          },
+          {
+            "clipId": "run-116",
+            "ranges": []
+          },
+          {
+            "clipId": "run-117",
+            "ranges": []
+          },
+          {
+            "clipId": "run-118",
+            "ranges": []
+          },
+          {
+            "clipId": "run-119",
+            "ranges": []
+          },
+          {
+            "clipId": "run-120",
+            "ranges": []
+          },
+          {
+            "clipId": "run-121",
+            "ranges": []
+          },
+          {
+            "clipId": "run-122",
+            "ranges": []
+          },
+          {
+            "clipId": "run-123",
+            "ranges": []
+          },
+          {
+            "clipId": "run-124",
+            "ranges": []
+          },
+          {
+            "clipId": "run-125",
+            "ranges": []
+          },
+          {
+            "clipId": "run-126",
+            "ranges": []
+          },
+          {
+            "clipId": "run-127",
+            "ranges": []
+          },
+          {
+            "clipId": "run-128",
+            "ranges": []
+          },
+          {
+            "clipId": "run-129",
+            "ranges": []
+          },
+          {
+            "clipId": "run-130",
+            "ranges": []
+          },
+          {
+            "clipId": "run-131",
+            "ranges": []
+          },
+          {
+            "clipId": "run-132",
+            "ranges": []
+          },
+          {
+            "clipId": "run-133",
+            "ranges": []
+          },
+          {
+            "clipId": "run-134",
+            "ranges": []
+          },
+          {
+            "clipId": "run-135",
+            "ranges": []
+          },
+          {
+            "clipId": "run-136",
+            "ranges": []
+          },
+          {
+            "clipId": "run-137",
+            "ranges": []
+          },
+          {
+            "clipId": "run-138",
+            "ranges": []
+          },
+          {
+            "clipId": "run-139",
+            "ranges": []
+          },
+          {
+            "clipId": "run-140",
+            "ranges": []
+          },
+          {
+            "clipId": "run-141",
+            "ranges": []
+          },
+          {
+            "clipId": "run-142",
+            "ranges": []
+          },
+          {
+            "clipId": "run-143",
+            "ranges": []
+          },
+          {
+            "clipId": "run-144",
+            "ranges": []
+          },
+          {
+            "clipId": "run-145",
+            "ranges": []
+          },
+          {
+            "clipId": "run-146",
+            "ranges": []
+          },
+          {
+            "clipId": "run-147",
+            "ranges": []
+          },
+          {
+            "clipId": "run-148",
+            "ranges": []
+          },
+          {
+            "clipId": "run-149",
+            "ranges": []
+          },
+          {
+            "clipId": "run-150",
+            "ranges": []
+          },
+          {
+            "clipId": "run-151",
+            "ranges": []
+          },
+          {
+            "clipId": "run-152",
+            "ranges": []
+          },
+          {
+            "clipId": "run-153",
+            "ranges": []
+          },
+          {
+            "clipId": "run-154",
+            "ranges": []
+          },
+          {
+            "clipId": "run-155",
+            "ranges": []
+          },
+          {
+            "clipId": "run-156",
+            "ranges": []
+          },
+          {
+            "clipId": "run-157",
+            "ranges": []
+          },
+          {
+            "clipId": "run-158",
+            "ranges": []
+          },
+          {
+            "clipId": "run-159",
+            "ranges": []
+          },
+          {
+            "clipId": "run-160",
+            "ranges": []
+          },
+          {
+            "clipId": "run-161",
+            "ranges": []
+          },
+          {
+            "clipId": "run-162",
+            "ranges": []
+          },
+          {
+            "clipId": "run-163",
+            "ranges": []
+          },
+          {
+            "clipId": "run-164",
+            "ranges": []
+          },
+          {
+            "clipId": "run-165",
+            "ranges": []
+          },
+          {
+            "clipId": "run-166",
+            "ranges": []
+          },
+          {
+            "clipId": "run-167",
+            "ranges": []
+          },
+          {
+            "clipId": "run-168",
+            "ranges": []
+          },
+          {
+            "clipId": "run-169",
+            "ranges": []
+          },
+          {
+            "clipId": "run-170",
+            "ranges": []
+          },
+          {
+            "clipId": "run-171",
+            "ranges": []
+          },
+          {
+            "clipId": "run-172",
+            "ranges": []
+          },
+          {
+            "clipId": "run-173",
+            "ranges": []
+          },
+          {
+            "clipId": "run-174",
+            "ranges": []
+          },
+          {
+            "clipId": "run-175",
+            "ranges": []
+          },
+          {
+            "clipId": "run-176",
+            "ranges": []
+          },
+          {
+            "clipId": "run-177",
+            "ranges": []
+          },
+          {
+            "clipId": "run-178",
+            "ranges": []
+          },
+          {
+            "clipId": "run-179",
+            "ranges": []
+          },
+          {
+            "clipId": "run-180",
+            "ranges": []
+          },
+          {
+            "clipId": "run-181",
+            "ranges": []
+          },
+          {
+            "clipId": "run-182",
+            "ranges": []
+          },
+          {
+            "clipId": "run-183",
+            "ranges": []
+          },
+          {
+            "clipId": "run-184",
+            "ranges": []
+          },
+          {
+            "clipId": "run-185",
+            "ranges": []
+          },
+          {
+            "clipId": "run-186",
+            "ranges": []
+          },
+          {
+            "clipId": "run-187",
+            "ranges": []
+          },
+          {
+            "clipId": "run-188",
+            "ranges": []
+          },
+          {
+            "clipId": "run-189",
+            "ranges": []
+          },
+          {
+            "clipId": "run-190",
+            "ranges": []
+          },
+          {
+            "clipId": "run-191",
+            "ranges": []
+          },
+          {
+            "clipId": "run-192",
+            "ranges": []
+          },
+          {
+            "clipId": "run-193",
+            "ranges": []
+          },
+          {
+            "clipId": "run-194",
+            "ranges": []
+          },
+          {
+            "clipId": "run-195",
+            "ranges": []
+          },
+          {
+            "clipId": "run-196",
+            "ranges": []
+          },
+          {
+            "clipId": "run-197",
+            "ranges": []
+          },
+          {
+            "clipId": "run-198",
+            "ranges": []
+          },
+          {
+            "clipId": "run-199",
+            "ranges": []
+          },
+          {
+            "clipId": "run-200",
+            "ranges": []
+          },
+          {
+            "clipId": "run-201",
+            "ranges": []
+          },
+          {
+            "clipId": "run-202",
+            "ranges": []
+          },
+          {
+            "clipId": "run-203",
+            "ranges": []
+          },
+          {
+            "clipId": "run-204",
+            "ranges": []
+          },
+          {
+            "clipId": "run-205",
+            "ranges": []
+          },
+          {
+            "clipId": "run-206",
+            "ranges": []
+          },
+          {
+            "clipId": "run-207",
+            "ranges": []
+          },
+          {
+            "clipId": "run-208",
+            "ranges": []
+          },
+          {
+            "clipId": "run-209",
+            "ranges": []
+          },
+          {
+            "clipId": "run-210",
+            "ranges": []
+          },
+          {
+            "clipId": "run-211",
+            "ranges": []
+          },
+          {
+            "clipId": "run-212",
+            "ranges": []
+          },
+          {
+            "clipId": "run-213",
+            "ranges": []
+          },
+          {
+            "clipId": "run-214",
+            "ranges": []
+          },
+          {
+            "clipId": "run-215",
+            "ranges": []
+          },
+          {
+            "clipId": "run-216",
+            "ranges": []
+          },
+          {
+            "clipId": "run-217",
+            "ranges": []
+          },
+          {
+            "clipId": "run-218",
+            "ranges": []
+          },
+          {
+            "clipId": "run-219",
+            "ranges": []
+          },
+          {
+            "clipId": "run-220",
+            "ranges": []
+          },
+          {
+            "clipId": "run-221",
+            "ranges": []
+          },
+          {
+            "clipId": "run-222",
+            "ranges": []
+          },
+          {
+            "clipId": "run-223",
+            "ranges": []
+          },
+          {
+            "clipId": "run-224",
+            "ranges": []
+          },
+          {
+            "clipId": "run-225",
+            "ranges": []
+          },
+          {
+            "clipId": "run-226",
+            "ranges": []
+          },
+          {
+            "clipId": "run-227",
+            "ranges": []
+          },
+          {
+            "clipId": "run-228",
+            "ranges": []
+          },
+          {
+            "clipId": "run-229",
+            "ranges": []
+          },
+          {
+            "clipId": "run-230",
+            "ranges": []
+          },
+          {
+            "clipId": "run-231",
+            "ranges": []
+          },
+          {
+            "clipId": "run-232",
+            "ranges": []
+          },
+          {
+            "clipId": "run-233",
+            "ranges": []
+          },
+          {
+            "clipId": "run-234",
+            "ranges": []
+          },
+          {
+            "clipId": "run-235",
+            "ranges": []
+          },
+          {
+            "clipId": "run-236",
+            "ranges": []
+          },
+          {
+            "clipId": "run-237",
+            "ranges": []
+          },
+          {
+            "clipId": "run-238",
+            "ranges": []
+          },
+          {
+            "clipId": "run-239",
+            "ranges": []
+          },
+          {
+            "clipId": "run-240",
+            "ranges": []
+          },
+          {
+            "clipId": "run-241",
+            "ranges": []
+          },
+          {
+            "clipId": "run-242",
+            "ranges": []
+          },
+          {
+            "clipId": "run-243",
+            "ranges": []
+          },
+          {
+            "clipId": "run-244",
+            "ranges": []
+          },
+          {
+            "clipId": "run-245",
+            "ranges": []
+          },
+          {
+            "clipId": "run-246",
+            "ranges": []
+          },
+          {
+            "clipId": "run-247",
+            "ranges": []
+          },
+          {
+            "clipId": "run-248",
+            "ranges": []
+          },
+          {
+            "clipId": "run-249",
+            "ranges": []
+          },
+          {
+            "clipId": "run-250",
+            "ranges": []
+          },
+          {
+            "clipId": "run-251",
+            "ranges": []
+          },
+          {
+            "clipId": "run-252",
+            "ranges": []
+          },
+          {
+            "clipId": "run-253",
+            "ranges": []
+          },
+          {
+            "clipId": "run-254",
+            "ranges": []
+          },
+          {
+            "clipId": "run-255",
+            "ranges": []
+          },
+          {
+            "clipId": "run-256",
+            "ranges": []
+          },
+          {
+            "clipId": "run-257",
+            "ranges": []
+          },
+          {
+            "clipId": "run-258",
+            "ranges": []
+          },
+          {
+            "clipId": "run-259",
+            "ranges": []
+          },
+          {
+            "clipId": "run-260",
+            "ranges": []
+          },
+          {
+            "clipId": "run-261",
+            "ranges": []
+          },
+          {
+            "clipId": "run-262",
+            "ranges": []
+          },
+          {
+            "clipId": "run-263",
+            "ranges": []
+          },
+          {
+            "clipId": "run-264",
+            "ranges": []
+          },
+          {
+            "clipId": "run-265",
+            "ranges": []
+          },
+          {
+            "clipId": "run-266",
+            "ranges": []
+          },
+          {
+            "clipId": "run-267",
+            "ranges": []
+          },
+          {
+            "clipId": "run-268",
+            "ranges": []
+          },
+          {
+            "clipId": "run-269",
+            "ranges": []
+          },
+          {
+            "clipId": "run-270",
+            "ranges": []
+          },
+          {
+            "clipId": "run-271",
+            "ranges": []
+          },
+          {
+            "clipId": "run-272",
+            "ranges": []
+          },
+          {
+            "clipId": "run-273",
+            "ranges": []
+          },
+          {
+            "clipId": "run-274",
+            "ranges": []
+          },
+          {
+            "clipId": "run-275",
+            "ranges": []
+          },
+          {
+            "clipId": "run-276",
+            "ranges": []
+          },
+          {
+            "clipId": "run-277",
+            "ranges": []
+          },
+          {
+            "clipId": "run-278",
+            "ranges": []
+          },
+          {
+            "clipId": "run-279",
+            "ranges": []
+          },
+          {
+            "clipId": "run-280",
+            "ranges": []
+          },
+          {
+            "clipId": "run-281",
+            "ranges": []
+          },
+          {
+            "clipId": "run-282",
+            "ranges": []
+          },
+          {
+            "clipId": "run-283",
+            "ranges": []
+          },
+          {
+            "clipId": "run-284",
+            "ranges": []
+          },
+          {
+            "clipId": "run-285",
+            "ranges": []
+          },
+          {
+            "clipId": "run-286",
+            "ranges": []
+          },
+          {
+            "clipId": "run-287",
+            "ranges": []
+          },
+          {
+            "clipId": "run-288",
+            "ranges": []
+          },
+          {
+            "clipId": "run-289",
+            "ranges": []
+          },
+          {
+            "clipId": "run-290",
+            "ranges": []
+          },
+          {
+            "clipId": "run-291",
+            "ranges": []
+          },
+          {
+            "clipId": "run-292",
+            "ranges": []
+          },
+          {
+            "clipId": "run-293",
+            "ranges": []
+          },
+          {
+            "clipId": "run-294",
+            "ranges": []
+          },
+          {
+            "clipId": "run-295",
+            "ranges": []
+          },
+          {
+            "clipId": "run-296",
+            "ranges": []
+          },
+          {
+            "clipId": "run-297",
+            "ranges": []
+          },
+          {
+            "clipId": "run-298",
+            "ranges": []
+          },
+          {
+            "clipId": "run-299",
+            "ranges": []
+          }
+        ]
+      }
+    }
+  ],
+  "cancellation": "PASS cancelled preparation leaves no output or scratch",
+  "selectedFailure": "NativeFailure(code: \"INVALID_REQUEST\", message: \"Retiming conversion produced non-finite samples.\", retryable: false)",
+  "descriptors": {
+    "limit": 256,
+    "runs": 300,
+    "fullPcmMatchesRepeatedReference": true
+  }
+}

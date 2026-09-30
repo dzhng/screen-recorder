@@ -1,0 +1,467 @@
+{
+  "sourceCommit": "7f8a6132411e177593a86515890008076e094c27",
+  "platform": {
+    "architecture": "arm64",
+    "macOS": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83",
+    "swift": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0"
+  },
+  "binary": {
+    "pathAtVerification": "/tmp/screenrec-retime-native-14b/debug/ScreenRecorderCompositionAudioTests",
+    "sha256": "65fc519f4f1669bef7d7f90e0966b1da0fb8be386a998fb2938c47401b268aae",
+    "bytes": 6642848
+  },
+  "sources": [
+    {
+      "path": "helpers/mac/Package.swift",
+      "sha256": "f40936288beaf24d73ab7cda6bb425a1a09e97367fad8badd21965c09597d0f4"
+    },
+    {
+      "path": "helpers/mac/Package.resolved",
+      "sha256": "c56a6e0b25958389401872266213b75dfa631eb0080556cd08ea6ea1c10a490b"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift",
+      "sha256": "a897c3cb1171a75516655b68e9c25dbf5d3b10e89559a5da945eabf5982793fa"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift",
+      "sha256": "d7af6d9786b3bb91a2fe08d1fc43b86541b3f7435ecb7290f16102fe1d37b4b8"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift",
+      "sha256": "8fcefd29c5d1a9d5cb9f8ed7ef9eeca4b5b5fecd18dd154a5a5c837c097c2759"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift",
+      "sha256": "46a3ec8bf0a45a4ff448840c4c0217fe06f27787f20153c8cd0f50660bc99817"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift",
+      "sha256": "5884f78d796c7542d670e2e2ca5739a62a7ac0df530a020963b725b5d305f4bb"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionAudio/main.swift",
+      "sha256": "4822ef1f4b709600f526ba23560ac89bc56d5067cca626b4956f5adc76f979a9"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Exact.h",
+      "sha256": "081857212e87e370a8221a5e9e0de09baab8d13145c312ccbd06f919c7b3c581"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Paged.cpp",
+      "sha256": "420b5c9b29bf9689d2619ebcbc8b561e8eeb2c2d677e61007d0a0039107ca3a6"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp",
+      "sha256": "37d5aa1ce5f23dd4cd8a81afd627442e68ff0d1a2cd9c9e170f7adaad4a1c870"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h",
+      "sha256": "0fb642a2613922c07e2debcf486ae1ddd775343454f62b52c24d8c900fb81f96"
+    },
+    {
+      "path": "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift",
+      "sha256": "d09951fd0b0c093b1bc21fc663dc31d4acade9b0bee894c9cc48034b0c00010f"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/vendor/sources.json",
+      "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-follow.py",
+      "sha256": "b7ebf191cbdf9fa1779a9381c6192f3a884d2d40b8a2814c8e12bd569000cb94"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-retime.py",
+      "sha256": "d00456d5b01e5610f18a1a47e95608b42611fe514d7a8f34fb9b4a42c9bef6ef"
+    },
+    {
+      "path": "packages/test-harness/editing/composition_audio.py",
+      "sha256": "602db9501a0c47fba8de22b2f3b577eacc11dd116bc9fab9e3bf7db9fb53bf14"
+    }
+  ],
+  "reports": [
+    {
+      "file": "follow.json",
+      "sha256": "245789f3ad8275bdf2c92020c4aa4764b5e88eee97cc56c51e4543f071167829"
+    },
+    {
+      "file": "preserve.json",
+      "sha256": "d5114d91f2e5a9fa2a60a6579e7fc709bcf99cd4974b7e1d10285670c308ad64"
+    },
+    {
+      "file": "mutation.json",
+      "sha256": "e134948e935bfec6946ab265e51225f99d0dbfd163192c4bce8aa223e8bbf926"
+    }
+  ],
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 11444,
+    "sha256": "501e7761977752a34bcd84afb8e8530376f6d5f9141bd2251a44f09845dde159",
+    "uncompressedBytes": 559822,
+    "entries": [
+      {
+        "path": "plans/follow/cancelled.json",
+        "bytes": 1214,
+        "sha256": "6a038a9dc5831f0592b3a1a0c48ee1e800d6bee0bac80d8f2c874df2c3ef0803"
+      },
+      {
+        "path": "plans/follow/excluded-poison.json",
+        "bytes": 1254,
+        "sha256": "a9cfd03967d37c6749a52332d4088c29a693c2c88165604dabad1b8c3c71d602"
+      },
+      {
+        "path": "plans/follow/fractional-collision-combined.json",
+        "bytes": 1974,
+        "sha256": "24e78eaa5fa8b2f6f9670455f9125540e2ce140ab34e7d3d8462759a3598562d"
+      },
+      {
+        "path": "plans/follow/fractional-collision-other.json",
+        "bytes": 1240,
+        "sha256": "43c22c480b99e2da203ed860801bc0d18e80cbd17705ab187513788e69fc581a"
+      },
+      {
+        "path": "plans/follow/fractional-rate.json",
+        "bytes": 1199,
+        "sha256": "5e51f72647017108287335a75e612f0bc629dc3b48ee3d679b233f86daaddd1b"
+      },
+      {
+        "path": "plans/follow/identity-control-44100-1.json",
+        "bytes": 1243,
+        "sha256": "35c5e6f25ab946c70fccdcee248e1003c73aab3f0c41e125a4b82545f5939f57"
+      },
+      {
+        "path": "plans/follow/identity-control-44100-2.json",
+        "bytes": 1243,
+        "sha256": "e0cfaad7d53862fc22015fb009eaec3114080fccf91a7cf9cefa78353fb5c20c"
+      },
+      {
+        "path": "plans/follow/identity-control-48000-1.json",
+        "bytes": 1224,
+        "sha256": "9fcfe08a6bc2f6ef17cc887ccc521c305ac8557321e31021541fdbe5f77500b3"
+      },
+      {
+        "path": "plans/follow/identity-control-48000-2.json",
+        "bytes": 1224,
+        "sha256": "32f11cd3c14372e69c8eea9267ec84fe9d043b4834266758150195d71de977a3"
+      },
+      {
+        "path": "plans/follow/left-view.json",
+        "bytes": 1239,
+        "sha256": "a615b4e4260aa5245fef626b5c341b57cdf7af440c91ea68aa281fe728938b33"
+      },
+      {
+        "path": "plans/follow/long-60.json",
+        "bytes": 1204,
+        "sha256": "80ecad8b0f6c0886768152572246beff9f8a1ca1c408152e0cfd1f7c04c99ad9"
+      },
+      {
+        "path": "plans/follow/long-600.json",
+        "bytes": 1213,
+        "sha256": "bc26860026fe23f551808c7da36532fd6d6d7873bee4bcc52dd0364be3d122fc"
+      },
+      {
+        "path": "plans/follow/normalize-44100-selection.json",
+        "bytes": 1237,
+        "sha256": "7e10450ef53ac1918d6b073b828218db2c27b110a38015e9b2ceaf6508825bb3"
+      },
+      {
+        "path": "plans/follow/policy-distinct.json",
+        "bytes": 1954,
+        "sha256": "88887fbc86cccb3b68021711f053e68fc9a0659b4f2ca2cd1e7d5f9f01194e78"
+      },
+      {
+        "path": "plans/follow/policy-follow.json",
+        "bytes": 1198,
+        "sha256": "9520f177ab2cc9bf82d6b0c605ecefaad1132e4c2ff1c38f83b5d0727b0eaaa7"
+      },
+      {
+        "path": "plans/follow/policy-preserve.json",
+        "bytes": 1202,
+        "sha256": "b5d9223287eb921212dc5e7d91c8308a410af0d525feaa1fb04c612e5a25740d"
+      },
+      {
+        "path": "plans/follow/preserve-44100.json",
+        "bytes": 1230,
+        "sha256": "38131640cae430d2c83a349e62279277cd01a1b86e011662d1501b2b53fdde3e"
+      },
+      {
+        "path": "plans/follow/preserve-normalized-48000.json",
+        "bytes": 1215,
+        "sha256": "3ffd5a567dbe1c63df31dc3e707b91eaec79f53078a93c5eafb6e348ace29864"
+      },
+      {
+        "path": "plans/follow/pure-split.json",
+        "bytes": 2028,
+        "sha256": "25c0574cc6a9bff10d84fe83b9b0298c7fcfafe8c4607d0cd48d8c9b73271903"
+      },
+      {
+        "path": "plans/follow/rate-44100-1-1-1.json",
+        "bytes": 1233,
+        "sha256": "d39cad81569b34eafead98523d5957bb9fbaf3fe8b1058a2bcc3b1c0365938cc"
+      },
+      {
+        "path": "plans/follow/rate-44100-1-1234567-1000000.json",
+        "bytes": 1258,
+        "sha256": "ac512ee5af911433028cad8c634f57873d28c232b283973185bcb3cde5faccd7"
+      },
+      {
+        "path": "plans/follow/rate-44100-1-4-5.json",
+        "bytes": 1233,
+        "sha256": "0e3ea8bbc61d28e6e66e54879357b815cd77539026a5c64ff8326b8c16077db1"
+      },
+      {
+        "path": "plans/follow/rate-44100-1-5-4.json",
+        "bytes": 1232,
+        "sha256": "9761ccdaf18211a3f130b864a6d2ec29954a488601f27339ef7ced6baa67a7da"
+      },
+      {
+        "path": "plans/follow/rate-44100-1-9-10.json",
+        "bytes": 1235,
+        "sha256": "457a2f208de61aacd9ac358dae283f91862909cf4fc5c3ae4bc3cd483a906fbc"
+      },
+      {
+        "path": "plans/follow/rate-44100-2-1-1.json",
+        "bytes": 1233,
+        "sha256": "6af9a963279eb6a3ddf66f83ce333c24fdfa8d811897593ccdfdcb0649776e18"
+      },
+      {
+        "path": "plans/follow/rate-44100-2-1234567-1000000.json",
+        "bytes": 1258,
+        "sha256": "c882df33f6cae84601682a04fdf3bdd3c0a7963259ee6ad6f50f3decd89f91cb"
+      },
+      {
+        "path": "plans/follow/rate-44100-2-4-5.json",
+        "bytes": 1233,
+        "sha256": "572473f27c5d9eba5cc80f42a001a8c8d5b9a226605d6d26d9a37612fccf7b5b"
+      },
+      {
+        "path": "plans/follow/rate-44100-2-5-4.json",
+        "bytes": 1232,
+        "sha256": "bc7d87bd5604d7a3cc68c1c088ff2023b204a9724e5d16c1a361bdcd0a9c9fc8"
+      },
+      {
+        "path": "plans/follow/rate-44100-2-9-10.json",
+        "bytes": 1235,
+        "sha256": "8aa5c98e1c54c6bda1696cb739d3591305793b9af9be87fe5ba52463dcb701de"
+      },
+      {
+        "path": "plans/follow/rate-48000-1-1-1.json",
+        "bytes": 1214,
+        "sha256": "6199657c9a564db220e8d0c6c17ed950b9cb21e8c390de886b3ce7549617c7f6"
+      },
+      {
+        "path": "plans/follow/rate-48000-1-1234567-1000000.json",
+        "bytes": 1238,
+        "sha256": "58032fb014665c765a75591741fca90bffd5f07684c8af13c47a582b5b3666e5"
+      },
+      {
+        "path": "plans/follow/rate-48000-1-4-5.json",
+        "bytes": 1214,
+        "sha256": "2a32ef341128bce29c4f5a52682bc0b66f5bfcad12f85400b5dda944c52ef771"
+      },
+      {
+        "path": "plans/follow/rate-48000-1-5-4.json",
+        "bytes": 1214,
+        "sha256": "eec9a89208d01020c3afcd08edcf800b297afc05876a85dc822cbdda5a207218"
+      },
+      {
+        "path": "plans/follow/rate-48000-1-9-10.json",
+        "bytes": 1213,
+        "sha256": "534e8295a09a1595915153a1d182d72df6dfaf89d30da97b8144b59406ae32c0"
+      },
+      {
+        "path": "plans/follow/rate-48000-2-1-1.json",
+        "bytes": 1214,
+        "sha256": "d18525c09d2851234940169331fe4a4ab53b4168e95fc97273191476280d04df"
+      },
+      {
+        "path": "plans/follow/rate-48000-2-1234567-1000000.json",
+        "bytes": 1238,
+        "sha256": "25b5a4c25c5db672ab547f08bed5f06381f045402fc4d5d3131b01fffb395bbf"
+      },
+      {
+        "path": "plans/follow/rate-48000-2-4-5.json",
+        "bytes": 1214,
+        "sha256": "9468730a7e37d1364c1e91682e580129509bd36d59687f0a320d8420e29c3502"
+      },
+      {
+        "path": "plans/follow/rate-48000-2-5-4.json",
+        "bytes": 1214,
+        "sha256": "1493db8fb90df171faa546d4fa51f9031d3f45637e95b973e9fbfeb5baf178a3"
+      },
+      {
+        "path": "plans/follow/rate-48000-2-9-10.json",
+        "bytes": 1213,
+        "sha256": "a4b9b74087038f212b8ade0bf06772b77fc453d268836f29104ba959af23233e"
+      },
+      {
+        "path": "plans/follow/retained-whole.json",
+        "bytes": 1244,
+        "sha256": "0676b1a405a00dee0c7a92b63286b2021406e15a30e25fdd426676c3a9e91d5b"
+      },
+      {
+        "path": "plans/follow/right-view.json",
+        "bytes": 1252,
+        "sha256": "410fd3fd8991c4c7ccc0bbe4432671d5e0f2e90b69b0adf4777446d2f7ec8815"
+      },
+      {
+        "path": "plans/follow/short-ceil-debt.json",
+        "bytes": 1171,
+        "sha256": "13ab4d404350704711e9c9fbb5e124312a4b64e868ac62577bdb9e7f0edb333a"
+      },
+      {
+        "path": "plans/follow/short-floor.json",
+        "bytes": 1162,
+        "sha256": "fbe760973a11b31c3fadcff003a8685dfe289b5c5367bdf6f237a872542edc29"
+      },
+      {
+        "path": "plans/follow/silent-right.json",
+        "bytes": 1211,
+        "sha256": "db5aa115f7e27a4585cdac4b35c3ba174e37ac2d90c211b16d35b00539a7d7a5"
+      },
+      {
+        "path": "plans/follow/state-stereo-full.json",
+        "bytes": 2880,
+        "sha256": "142a1975cf7d6d61ab92ea1d5c18d529e23ef14d9de0029a5fc530882d536045"
+      },
+      {
+        "path": "plans/follow/state-stereo-late.json",
+        "bytes": 2892,
+        "sha256": "4d6e29d787c0f7ba16f3cb796f41fc1b8d00c345d4af5c702e352d640c54b4cd"
+      },
+      {
+        "path": "plans/preserve/cancelled.json",
+        "bytes": 1325,
+        "sha256": "6b80b65c18815846fb9792aa3f1574102fa9ac32adb4354246cc69e1b82f26fd"
+      },
+      {
+        "path": "plans/preserve/descriptor-300.json",
+        "bytes": 229207,
+        "sha256": "e548fd910dd06c829d3b67fadb1c4a8e5336302d881973c588b90fdb9b218c52"
+      },
+      {
+        "path": "plans/preserve/descriptor-reference.json",
+        "bytes": 1286,
+        "sha256": "aa4fc0f7ae1e7cb653c382707b5fda82f3fc6d3e05aca7de4b8ac6ea84b52cda"
+      },
+      {
+        "path": "plans/preserve/excluded-poison.json",
+        "bytes": 1260,
+        "sha256": "eb400cf8dfb848149d3724f45c876972bf4a9c407852473dc12127395f498cda"
+      },
+      {
+        "path": "plans/preserve/failed.json",
+        "bytes": 1261,
+        "sha256": "04cb93525dff883aeac94ae146e5fc53c8c978485b92eb1aa35945a852320d68"
+      },
+      {
+        "path": "plans/preserve/gain-after-retime.json",
+        "bytes": 1408,
+        "sha256": "d86587b35ba314abe08f543c41df94187a92301973e55c928e56389fce81a644"
+      },
+      {
+        "path": "plans/preserve/internal-faster-1.25x.json",
+        "bytes": 2822,
+        "sha256": "4fb015ae2c01b6e42cb7c843b7effd600b34753c6899cc0730ba411727287c67"
+      },
+      {
+        "path": "plans/preserve/internal-slower-0.8x.json",
+        "bytes": 2827,
+        "sha256": "039acbc045a78f294a16856fbd9912487ea68e81d71b61d091acbbf69fada1cc"
+      },
+      {
+        "path": "plans/preserve/internal-slower-0.9x.json",
+        "bytes": 2823,
+        "sha256": "3a9c5e85e0d0055d59cae35fd6b35bc79af8ee13449b051d4673315490eb55f5"
+      },
+      {
+        "path": "plans/preserve/opening-slower-0.8x.json",
+        "bytes": 2060,
+        "sha256": "2ee48923f961655c4caf8e376252270e56e271b672715efd66a6d49b9eee8b9f"
+      },
+      {
+        "path": "plans/preserve/selected-only.json",
+        "bytes": 1329,
+        "sha256": "b4ffa0628d570429decfde4da95888cd048d2eef95ce27c6cc3ae45eb6cc035f"
+      },
+      {
+        "path": "plans/preserve/state-frozen-pcm-control.json",
+        "bytes": 3193,
+        "sha256": "9d5b963a944dd25a7be28723adc33a936875da88600476d76e353285a7c81042"
+      },
+      {
+        "path": "plans/preserve/state-full.json",
+        "bytes": 3167,
+        "sha256": "876f604edf7015979cb43129a3fa8bbd06546076376e6ed85efa484d78e10b21"
+      },
+      {
+        "path": "plans/preserve/state-outside-view.json",
+        "bytes": 3175,
+        "sha256": "05328205aa77097f60978614f316d2c4875a95535abe161abce900fe3f330870"
+      },
+      {
+        "path": "plans/preserve/support-gap-poison.json",
+        "bytes": 1468,
+        "sha256": "048d62657953fee7e5c9f979d41c1b70097f38868f82f39e47f2477e6cf9961c"
+      },
+      {
+        "path": "plans/preserve/support-gap.json",
+        "bytes": 1524,
+        "sha256": "2ce280c9b6eaa3313f8e175467de0a453ec575500bc449eec5566605d58ac6c1"
+      },
+      {
+        "path": "plans/integer-rate-mutation/fractional-rate.json",
+        "bytes": 1209,
+        "sha256": "e5bbc5712a0e079508e1912b6e18283053d97e29cb0e19d8957541580258845e"
+      },
+      {
+        "path": "plans/follow-refusal/fractional-rate.json",
+        "bytes": 1183,
+        "sha256": "045d4a5758c96cfedd656e0f8c59a525f95f5579fe0058814928ae01a8a9df6c"
+      },
+      {
+        "path": "logs/follow-refusal-red.log",
+        "bytes": 760,
+        "sha256": "b78ac22decd6dc28d359d4f7b7adb165179d1c262204f89e405e7ded250fc87a"
+      },
+      {
+        "path": "logs/integer-rate-mutation-red.log",
+        "bytes": 702,
+        "sha256": "154011a671f3a8c07320846f1280e1afc90cb7bcac70c3505a65da59adac907b"
+      },
+      {
+        "path": "logs/descriptor-regression-red.log",
+        "bytes": 742,
+        "sha256": "5ea2535fd565fe9a1d6baa677c5d8510bfce541994de089b1bdc2e83d0e57e7c"
+      },
+      {
+        "path": "logs/selected-audio-green.log",
+        "bytes": 467,
+        "sha256": "5c6dd1175f2354997dc432d8bb52ededfcb6b03b90cd4337294ab353f8d39a7d"
+      },
+      {
+        "path": "logs/source-audio-green.log",
+        "bytes": 914,
+        "sha256": "a6cacb2e431b1277114d1e9a995d9a44d5e5cf6a2c726dc4c77ecfba45a9f541"
+      },
+      {
+        "path": "logs/codex-review-unavailable.log",
+        "bytes": 2590,
+        "sha256": "527b7813ea90c6f6ca9f73ed29cf0b4fc50dc37540ba5e2eb822b58bd919028b"
+      },
+      {
+        "path": "logs/descriptor-300-request.json",
+        "bytes": 229205,
+        "sha256": "5aa63b3919230b8f909c09df48ee70295f1b3d50428b83d2d27e1d4c89300969"
+      }
+    ],
+    "containsPCM": false
+  },
+  "review": {
+    "independentReviewer": "paged_stretch_review",
+    "verdict": "No remaining blocker after descriptor lifetime repair",
+    "independentRerun": false,
+    "codexCLI": "Unavailable: configured model account rejection; no review evidence credited"
+  }
+}

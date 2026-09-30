@@ -1,0 +1,936 @@
+{
+  "workerSha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+  "checks": [
+    {
+      "name": "capability",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+          "rnnoise": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
+        },
+        "id": "capability",
+        "ok": true
+      }
+    },
+    {
+      "name": "correlated-5-4-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "correlated-5-4-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "correlated-5-4-render",
+      "response": {
+        "data": {
+          "bytes": 960152,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/correlated-5-4.wav",
+          "frames": 119507,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2049841582775116,
+          "peakResidentBytes": 28016640,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "correlated-5-4-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "correlated-4-5-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "correlated-4-5-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "correlated-4-5-render",
+      "response": {
+        "data": {
+          "bytes": 615968,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/correlated-4-5.wav",
+          "frames": 76484,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2938328981399536,
+          "peakResidentBytes": 28033024,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "correlated-4-5-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "antiphase-5-4-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "antiphase-5-4-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "antiphase-5-4-render",
+      "response": {
+        "data": {
+          "bytes": 960152,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/antiphase-5-4.wav",
+          "frames": 119507,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2049841582775116,
+          "peakResidentBytes": 28082176,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "antiphase-5-4-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "antiphase-4-5-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "antiphase-4-5-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "antiphase-4-5-render",
+      "response": {
+        "data": {
+          "bytes": 615968,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/antiphase-4-5.wav",
+          "frames": 76484,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2938328981399536,
+          "peakResidentBytes": 28114944,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "antiphase-4-5-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "distinct-tones-5-4-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "distinct-tones-5-4-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "distinct-tones-5-4-render",
+      "response": {
+        "data": {
+          "bytes": 960152,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/distinct-tones-5-4.wav",
+          "frames": 119507,
+          "maximumBlockFrames": 8192,
+          "peak": 0.20673947036266327,
+          "peakResidentBytes": 28082176,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "distinct-tones-5-4-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "distinct-tones-4-5-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "distinct-tones-4-5-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "distinct-tones-4-5-render",
+      "response": {
+        "data": {
+          "bytes": 615968,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/distinct-tones-4-5.wav",
+          "frames": 76484,
+          "maximumBlockFrames": 8192,
+          "peak": 0.30625829100608826,
+          "peakResidentBytes": 28049408,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "distinct-tones-4-5-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "coupled-mixture-5-4-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "coupled-mixture-5-4-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "coupled-mixture-5-4-render",
+      "response": {
+        "data": {
+          "bytes": 960152,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/coupled-mixture-5-4.wav",
+          "frames": 119507,
+          "maximumBlockFrames": 8192,
+          "peak": 0.3198002576828003,
+          "peakResidentBytes": 28065792,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "coupled-mixture-5-4-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "coupled-mixture-4-5-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "coupled-mixture-4-5-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "coupled-mixture-4-5-render",
+      "response": {
+        "data": {
+          "bytes": 615968,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/coupled-mixture-4-5.wav",
+          "frames": 76484,
+          "maximumBlockFrames": 8192,
+          "peak": 0.36904993653297424,
+          "peakResidentBytes": 28033024,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "coupled-mixture-4-5-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "channel-events-5-4-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "channel-events-5-4-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "channel-events-5-4-render",
+      "response": {
+        "data": {
+          "bytes": 960152,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/channel-events-5-4.wav",
+          "frames": 119507,
+          "maximumBlockFrames": 8192,
+          "peak": 0.8470075130462646,
+          "peakResidentBytes": 28016640,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "channel-events-5-4-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "channel-events-4-5-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "channel-events-4-5-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "channel-events-4-5-render",
+      "response": {
+        "data": {
+          "bytes": 615968,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/channel-events-4-5.wav",
+          "frames": 76484,
+          "maximumBlockFrames": 8192,
+          "peak": 0.6069782972335815,
+          "peakResidentBytes": 27951104,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "channel-events-4-5-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "silent-right-5-4-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "silent-right-5-4-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "silent-right-5-4-render",
+      "response": {
+        "data": {
+          "bytes": 960152,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/silent-right-5-4.wav",
+          "frames": 119507,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2049841582775116,
+          "peakResidentBytes": 27983872,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "silent-right-5-4-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "silent-right-4-5-admit",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "silent-right-4-5-admit",
+        "ok": true
+      }
+    },
+    {
+      "name": "silent-right-4-5-render",
+      "response": {
+        "data": {
+          "bytes": 615968,
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "file": "/private/tmp/screenrec-admission-14e-durable/silent-right-4-5.wav",
+          "frames": 76484,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2938247323036194,
+          "peakResidentBytes": 28016640,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 764872,
+                "frames": 95609,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 1,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "c",
+              "ranges": []
+            }
+          ]
+        },
+        "id": "silent-right-4-5-render",
+        "ok": true
+      }
+    },
+    {
+      "name": "missing-binding",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "Retimed audio requires a bound native implementation.",
+          "retryable": false
+        },
+        "id": "missing-binding",
+        "ok": false
+      }
+    },
+    {
+      "name": "reject-execution-None",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "Retimed audio requires a bound native implementation.",
+          "retryable": false
+        },
+        "id": "reject-execution-None",
+        "ok": false
+      }
+    },
+    {
+      "name": "wrong-binding",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The bound audio retiming implementation is unavailable.",
+          "retryable": false
+        },
+        "id": "wrong-binding",
+        "ok": false
+      }
+    },
+    {
+      "name": "reject-execution-retime-other-version",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The bound audio retiming implementation is unavailable.",
+          "retryable": false
+        },
+        "id": "reject-execution-retime-other-version",
+        "ok": false
+      }
+    },
+    {
+      "name": "unit-unbound",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "unit-unbound",
+        "ok": true
+      }
+    },
+    {
+      "name": "short-preserve-1",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+          "retryable": false
+        },
+        "id": "short-preserve-1",
+        "ok": false
+      }
+    },
+    {
+      "name": "short-physical-support-1",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+          "retryable": false
+        },
+        "id": "short-physical-support-1",
+        "ok": false
+      }
+    },
+    {
+      "name": "short-follow-1",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "short-follow-1",
+        "ok": true
+      }
+    },
+    {
+      "name": "short-preserve-2",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+          "retryable": false
+        },
+        "id": "short-preserve-2",
+        "ok": false
+      }
+    },
+    {
+      "name": "short-physical-support-2",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+          "retryable": false
+        },
+        "id": "short-physical-support-2",
+        "ok": false
+      }
+    },
+    {
+      "name": "short-follow-2",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "short-follow-2",
+        "ok": true
+      }
+    },
+    {
+      "name": "discrete-preserve",
+      "response": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "Source channel layout is not conventional mono or stereo.",
+          "retryable": false
+        },
+        "id": "discrete-preserve",
+        "ok": false
+      }
+    },
+    {
+      "name": "discrete-follow",
+      "response": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "Source channel layout is not conventional mono or stereo.",
+          "retryable": false
+        },
+        "id": "discrete-follow",
+        "ok": false
+      }
+    },
+    {
+      "name": "unit-before-discrete-retime",
+      "response": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "Source channel layout is not conventional mono or stereo.",
+          "retryable": false
+        },
+        "id": "unit-before-discrete-retime",
+        "ok": false
+      }
+    },
+    {
+      "name": "metadata-1-preserve",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "metadata-1-preserve",
+        "ok": true
+      }
+    },
+    {
+      "name": "metadata-1-follow",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "metadata-1-follow",
+        "ok": true
+      }
+    },
+    {
+      "name": "metadata-2-preserve",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "metadata-2-preserve",
+        "ok": true
+      }
+    },
+    {
+      "name": "metadata-2-follow",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "metadata-2-follow",
+        "ok": true
+      }
+    },
+    {
+      "name": "short-hidden-state",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+          "retryable": false
+        },
+        "id": "short-hidden-state",
+        "ok": false
+      }
+    },
+    {
+      "name": "short-equal-count",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "short-equal-count",
+        "ok": true
+      }
+    },
+    {
+      "name": "short-retained-piece",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "The retained pitch-preserving run is unsupported by the exact processor.",
+          "retryable": false
+        },
+        "id": "short-retained-piece",
+        "ok": false
+      }
+    },
+    {
+      "name": "metadata-only-selected-nan",
+      "response": {
+        "data": {
+          "retime": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1"
+        },
+        "id": "metadata-only-selected-nan",
+        "ok": true
+      }
+    },
+    {
+      "name": "decode-rejects-selected-nan",
+      "response": {
+        "error": {
+          "code": "INVALID_REQUEST",
+          "details": {},
+          "message": "Retiming conversion produced non-finite samples.",
+          "retryable": false
+        },
+        "id": "decode-rejects-selected-nan",
+        "ok": false
+      }
+    }
+  ]
+}

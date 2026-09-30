@@ -1,0 +1,561 @@
+{
+  "sourceCommit": "3b376274a47afd030b7af7232ea80ac0d2eafaa6",
+  "sharedAdmissionCommit": "649f81e5",
+  "platform": {
+    "architecture": "arm64",
+    "macOS": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83",
+    "swift": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0"
+  },
+  "binaries": {
+    "wire": {
+      "pathAtVerification": "/tmp/screenrec-native-14e/debug/screenrec-native",
+      "sha256": "e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595",
+      "bytes": 28625872
+    },
+    "composition": {
+      "pathAtVerification": "/tmp/screenrec-native-14e/debug/ScreenRecorderCompositionAudioTests",
+      "sha256": "90de9a079d9a5cfa4ede24136708730a361ece8d8405c68dcb3be86f768ba6bc",
+      "bytes": 6708592
+    }
+  },
+  "sources": [
+    {
+      "path": "helpers/mac/Package.swift",
+      "sha256": "f40936288beaf24d73ab7cda6bb425a1a09e97367fad8badd21965c09597d0f4"
+    },
+    {
+      "path": "helpers/mac/Package.resolved",
+      "sha256": "c56a6e0b25958389401872266213b75dfa631eb0080556cd08ea6ea1c10a490b"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift",
+      "sha256": "5180d4c3b93405f02e8d9c6a001272c20c28c95c71355553aadcd7321cf6f829"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift",
+      "sha256": "e2db22485b392a2ddaaf922734a1430b58077e8cf215779c6e1513fb5e516c01"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift",
+      "sha256": "b9532a9f290432e79bb4ac33e76bc60f0a18012b4f413ec966b2900c81df227f"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift",
+      "sha256": "cc6758594eb2a41531e5750f465464897bc8bf8ac38560f41a2bb01213dcd393"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift",
+      "sha256": "997605adcad747754fa9cb30c29a553fedd468b60c4f4486253aa4dd8d6df11d"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionAudio/main.swift",
+      "sha256": "4822ef1f4b709600f526ba23560ac89bc56d5067cca626b4956f5adc76f979a9"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Exact.h",
+      "sha256": "4473a533c357299d02133cdb20a7c049929a212446a781f5d28f0a88936df8f7"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Paged.cpp",
+      "sha256": "6b8ddbbddde4ffc07b6032fa9da108ee919efd3d9887356235575eaf41701c99"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp",
+      "sha256": "37a6e79a905bb4be070d4f0cea80e621f283e1b26d8235d5d4305180400b6658"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h",
+      "sha256": "383a81f0fc696f5d0182eb7db2f9ec1f0c0494fbd2a9b4fe223422ea1682a5bd"
+    },
+    {
+      "path": "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift",
+      "sha256": "2b7046811a16f66ebfe7e6b82b9aea99c4ba025b5060efac174eb4f354bf9e13"
+    },
+    {
+      "path": "helpers/stretch/Sources/CSignalsmith/vendor/sources.json",
+      "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-follow.py",
+      "sha256": "b7ebf191cbdf9fa1779a9381c6192f3a884d2d40b8a2814c8e12bd569000cb94"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-retime.py",
+      "sha256": "d00456d5b01e5610f18a1a47e95608b42611fe514d7a8f34fb9b4a42c9bef6ef"
+    },
+    {
+      "path": "packages/test-harness/editing/composition_audio.py",
+      "sha256": "72f77007cc530083523d1c418e83fcd1bed25c291cbfde1860d2df02f9eb0332"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/CompositionAudioOperation.swift",
+      "sha256": "13574bf8f81fe98cd5151ea4155ae1bffecf7c59346473f99478e99badf1ea01"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/CompositionMovieOperation.swift",
+      "sha256": "48dfc957fab29baf007726cb964d74ea36a4108dadf962692ead8c75e777aacc"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/Wire.swift",
+      "sha256": "c924f7f53df69048ec89d025f3b250c081e0c6ab9c748ec736190770c7450444"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-admission.py",
+      "sha256": "9b613da11475755bf267ce4b7f0c8860bbc5e55247ff6856893d67429ed0f112"
+    },
+    {
+      "path": "specs/agent-editing/assets/14c-stereo-stretch/reference.json",
+      "sha256": "6a739b78dfd6038fc630b905c4a325b561b5e21e1571d1f04b6af4a183fe1519"
+    }
+  ],
+  "reports": [
+    {
+      "file": "wire.json",
+      "sha256": "dca89564b515bf718d8b907aa5bb25fc97181a371ec69b7f0116dbfc1c6a71e2"
+    },
+    {
+      "file": "follow-regression.json",
+      "sha256": "e1083afc4d9f459dd895d27a02f54af1ca6b9328a5bef1d79d7c33610a0ba9eb"
+    },
+    {
+      "file": "preserve-regression.json",
+      "sha256": "e00dbd8152c4bca4d04409e271c630d6ac372a9a8043c29624d91fd06d89d89a"
+    },
+    {
+      "file": "linked-reference-parity.json",
+      "sha256": "40f0a90403ff3d702eb66ddb36cdfa926d101c76c79d5ad1afb2062142e5b28f"
+    },
+    {
+      "file": "attempts.json",
+      "sha256": "9aeb43c331a71dad6de44b91d9e92b31aeadbd14416694a8d6f635d8474a9ea6"
+    },
+    {
+      "file": "follow-variation.json",
+      "sha256": "b453a97a8305634b0a228f8ad54695978148a7711b23745f0a55d9bd6f731ed8"
+    },
+    {
+      "file": "follow-repeat.json",
+      "sha256": "590318b7c2b39f19a071a4e9bbbd24f37e9a8e112bd4c554b2b5a8362eaa2dd4"
+    }
+  ],
+  "regressionAgainst14d": {
+    "followEqualPcmHashes": 43,
+    "followCases": 45,
+    "followDifferences": "follow-variation.json",
+    "all14PreservePcmHashesEqual": true
+  },
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 10944,
+    "sha256": "f74fdbbb8211b09704a2e70f93e4782ebf50ec33799b66516820fbf50cb02f2e",
+    "uncompressedBytes": 282245,
+    "entries": [
+      {
+        "path": "plans/wire-file-transport/antiphase-4-5-admit.json",
+        "bytes": 1331,
+        "sha256": "070c8ab8235b56cac6d3fb263a3f8400a08263e2d0427cc1cf6656f59199298d"
+      },
+      {
+        "path": "plans/wire-file-transport/channel-events-4-5-admit.json",
+        "bytes": 1341,
+        "sha256": "b78d6281ac3fc6b87096d47be2a44844b551de55d88c71bc15c4cbd834802d4a"
+      },
+      {
+        "path": "plans/wire-file-transport/correlated-4-5-admit.json",
+        "bytes": 1333,
+        "sha256": "1b37e4f195da0f1e3d737fd5544e488ec93480b4c5d6bf03df72efba7b8ddfc5"
+      },
+      {
+        "path": "plans/wire-file-transport/coupled-mixture-4-5-admit.json",
+        "bytes": 1343,
+        "sha256": "a8c57a9d6156dc65d324572bf74836485a5be41b2e323dbac83b9fa84d6de78d"
+      },
+      {
+        "path": "plans/wire-file-transport/distinct-tones-4-5-admit.json",
+        "bytes": 1341,
+        "sha256": "38d358b44d1a42be32953803d26a3b997d815e66ce9fbe0694cfbdfe658153a7"
+      },
+      {
+        "path": "plans/wire-file-transport/short-preserve-1.json",
+        "bytes": 1233,
+        "sha256": "afdf912f5405759d4044a983856dd92bf03b8055e3434ae99088d21fc90778c5"
+      },
+      {
+        "path": "plans/wire-file-transport/short-preserve-2.json",
+        "bytes": 1233,
+        "sha256": "0a587a38f05479de503320ee6c7ff9e5f216d41b5baf118e0f2e41bd89e1748d"
+      },
+      {
+        "path": "plans/wire-file-transport/silent-right-4-5-admit.json",
+        "bytes": 1337,
+        "sha256": "ff0cbab002a4f2a5f4311bb327464e9fea83877509806faa6f8c39f21d7a68b1"
+      },
+      {
+        "path": "plans/follow-regression/cancelled.json",
+        "bytes": 1176,
+        "sha256": "c8d15fbceb17b846d7bfed61c7e25ba9a9a04a5ae93ba4d00f951879ae8bdd75"
+      },
+      {
+        "path": "plans/follow-regression/excluded-poison.json",
+        "bytes": 1381,
+        "sha256": "6d74e5fd449d4a834187f4b816012683fcf6ca5d655a55293f23a1a792bada87"
+      },
+      {
+        "path": "plans/follow-regression/fractional-collision-combined.json",
+        "bytes": 1771,
+        "sha256": "47742454d90dc609794b2958f34e205d171f52cf6c2d38c1308652e36bee4bc8"
+      },
+      {
+        "path": "plans/follow-regression/fractional-collision-other.json",
+        "bytes": 1202,
+        "sha256": "81ac74def04d3e3feac4efd23c960d7ce3a2655629a5aa700933b065e46c7672"
+      },
+      {
+        "path": "plans/follow-regression/fractional-rate.json",
+        "bytes": 1161,
+        "sha256": "054530382a436a393a9c7036f42b3edcea14cc3199f645951d543cc88cc4442b"
+      },
+      {
+        "path": "plans/follow-regression/identity-control-44100-1.json",
+        "bytes": 1370,
+        "sha256": "5fc022df61cd0bb68752e9542847713e6435e0f8869dbcb6cb5adbf17b27b00b"
+      },
+      {
+        "path": "plans/follow-regression/identity-control-44100-2.json",
+        "bytes": 1370,
+        "sha256": "616d8325271efea9e10df5bd609b3b8ad6d957025f62f9cea27334b2c93a46a0"
+      },
+      {
+        "path": "plans/follow-regression/identity-control-48000-1.json",
+        "bytes": 1351,
+        "sha256": "9f4f0287deec7dba8d2e43a7609320588c45377c39db9610da8ab52cb7b63493"
+      },
+      {
+        "path": "plans/follow-regression/identity-control-48000-2.json",
+        "bytes": 1351,
+        "sha256": "ce680540569f59f59de124930363eab604a763c9b4ad78d486fb07339cf1d146"
+      },
+      {
+        "path": "plans/follow-regression/left-view.json",
+        "bytes": 1366,
+        "sha256": "94d00f8485752212b0630257ee4e2f15fb0559f5aa7454ee90e4d7fce2e9701a"
+      },
+      {
+        "path": "plans/follow-regression/long-60.json",
+        "bytes": 1166,
+        "sha256": "c62db763d6940e7aedbfcbeafc8d0562665cd83afafe7038e1bcd57b795b5e59"
+      },
+      {
+        "path": "plans/follow-regression/long-600.json",
+        "bytes": 1175,
+        "sha256": "86aec12e206656313f31022639f683df5dec9fe918ff99d15436f12b52af6f3b"
+      },
+      {
+        "path": "plans/follow-regression/normalize-44100-selection.json",
+        "bytes": 1331,
+        "sha256": "f0fbbac7cc8edf817e7539c3b06f29acc1d4af7da1fbb99e1aac96fd9b8a73be"
+      },
+      {
+        "path": "plans/follow-regression/policy-distinct.json",
+        "bytes": 1751,
+        "sha256": "f69c9fb243fe1e9940c6c6fc891bc2aee58fda811f0f56d7605575f08e468a14"
+      },
+      {
+        "path": "plans/follow-regression/policy-follow.json",
+        "bytes": 1160,
+        "sha256": "d7356d2512e9e5359252e9f4717b11b9ab68d5c37a7d7b0dfa8ec3ceebd74f59"
+      },
+      {
+        "path": "plans/follow-regression/policy-preserve.json",
+        "bytes": 1164,
+        "sha256": "9b94207862c385d5adaf2270ddc74668457a2a18c14391cd254808c55108c69a"
+      },
+      {
+        "path": "plans/follow-regression/preserve-44100.json",
+        "bytes": 1324,
+        "sha256": "ad3a04aed13e37208c1e3bd172924a91fc1cc6abb5d9b46c5d98c24707c3144e"
+      },
+      {
+        "path": "plans/follow-regression/preserve-normalized-48000.json",
+        "bytes": 1243,
+        "sha256": "7438bc8ad84c585d373bf6a9360cf1b01cd86865812a5dcb31ae0437b42b76a2"
+      },
+      {
+        "path": "plans/follow-regression/pure-split.json",
+        "bytes": 2155,
+        "sha256": "f669a94fce097b806918072ed28a329efb9f68cdc791274f48c30105383d903b"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-1-1-1.json",
+        "bytes": 1360,
+        "sha256": "c493cba129c36d5b889aaf58106e891e3b2a8b61ccf270044a6f148861d853ce"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-1-1234567-1000000.json",
+        "bytes": 1385,
+        "sha256": "f2a67480b9efe741dee4268851636abbc1fb0a8fe517509136daca43e58b1b43"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-1-4-5.json",
+        "bytes": 1360,
+        "sha256": "49180da6943b9f1270a7f4721b2b64e430de5a3596d2553d9bee3657280ca016"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-1-5-4.json",
+        "bytes": 1359,
+        "sha256": "865148c299791db572fc6fde60a444ee07b6e845dbcb8e9da29604027ca303e9"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-1-9-10.json",
+        "bytes": 1362,
+        "sha256": "abf4dd03d9056bcfc4295bf029c9192d6943a855612da2d7fc5c593a3ed1867d"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-2-1-1.json",
+        "bytes": 1360,
+        "sha256": "787314f7317ef0bf1de4935e6a7d4bc42cb8e372be73758c6386ee60ad480ddf"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-2-1234567-1000000.json",
+        "bytes": 1385,
+        "sha256": "d0cacd81bfe3c10716e55c0db0ee9e8a123733fac06aeb1077a2cf0873fc4f6d"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-2-4-5.json",
+        "bytes": 1360,
+        "sha256": "3238569acf0954fc4fc29a93fe53d2d7b82b3ac9f6fb08b99a5350b708de7100"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-2-5-4.json",
+        "bytes": 1359,
+        "sha256": "301d34b360e04a982dbd96fee22737fbab2be621d6a76f667b41b9425a7deaca"
+      },
+      {
+        "path": "plans/follow-regression/rate-44100-2-9-10.json",
+        "bytes": 1362,
+        "sha256": "ba9675c44df2ead732c2ac5d84f431a4906e0222f7490851cffa873dd876b69c"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-1-1-1.json",
+        "bytes": 1341,
+        "sha256": "bdc3ba961ead97ab243dbe005e219a8cfb9a60d6de0208a234739b1b6feaf2d5"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-1-1234567-1000000.json",
+        "bytes": 1365,
+        "sha256": "224bab28643b163a6777b6c498668d4d679c672353411e99cce63f27ed4836ac"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-1-4-5.json",
+        "bytes": 1341,
+        "sha256": "06f6a785fe6722806f73e7a1331c346cbe114323826fec45987308cca6cec6f9"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-1-5-4.json",
+        "bytes": 1341,
+        "sha256": "941bd78b203b7311009ab9e9ae48e059a92d4f83cb1f63dfbcbefc03c0a112cc"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-1-9-10.json",
+        "bytes": 1340,
+        "sha256": "bfd5dbcc5ba411a85ac10912ede7a0d1734969dd1f2c1ad58a9570251aa4dfe8"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-2-1-1.json",
+        "bytes": 1341,
+        "sha256": "929202d932ed08a016f3eb001f17349491bc4c555113c5864cfa86d6cad2515f"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-2-1234567-1000000.json",
+        "bytes": 1365,
+        "sha256": "e963a5036b471c6eb5aa55e45d68b1bbdc3164312bd4ec808a182404784b09bb"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-2-4-5.json",
+        "bytes": 1341,
+        "sha256": "fdba05226c3fd30efb3c078506c677cbaa92455957c2c8b1fe997580d11002fb"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-2-5-4.json",
+        "bytes": 1341,
+        "sha256": "8d9618fafb88283b6c30cb95c9a82e1b2a501bcf903ffbf7d70eb71d85ab6fb6"
+      },
+      {
+        "path": "plans/follow-regression/rate-48000-2-9-10.json",
+        "bytes": 1340,
+        "sha256": "ca6d0d420fc185aa18b2d7e8c3f5604d23ba9aa7b1b69a27e658d82422ef83fb"
+      },
+      {
+        "path": "plans/follow-regression/retained-whole.json",
+        "bytes": 1371,
+        "sha256": "609f32e129b3137ae3b633ee3f6a399d5f3408334f56fb98ad00118cf0ed3188"
+      },
+      {
+        "path": "plans/follow-regression/right-view.json",
+        "bytes": 1379,
+        "sha256": "28b1230fa2ab354c86b4425cf0bf5c5f16541696ba7751bd4ae9cbfffbfffc5b"
+      },
+      {
+        "path": "plans/follow-regression/short-ceil-debt.json",
+        "bytes": 1232,
+        "sha256": "6d77c206ea858d012fdb72e4885627da30bf17a005a0f53831761067b67b2ec0"
+      },
+      {
+        "path": "plans/follow-regression/short-floor.json",
+        "bytes": 1190,
+        "sha256": "7d446a8b9a7d38c68af2f7bab90f5e2aad384038a6d6d16436fae71a184c6de5"
+      },
+      {
+        "path": "plans/follow-regression/silent-right.json",
+        "bytes": 1305,
+        "sha256": "6119a01207d1e9253b184418736e4b55bc1d3ae82ef2ca44b2e41173998bc000"
+      },
+      {
+        "path": "plans/follow-regression/state-stereo-full.json",
+        "bytes": 3007,
+        "sha256": "ca8f6362121f33001570833a4fee074466cd022b7deb21f84eaabdedc8073a8d"
+      },
+      {
+        "path": "plans/follow-regression/state-stereo-late.json",
+        "bytes": 3019,
+        "sha256": "1f03672892fb6355b5ef717ceeef35298e274a0ce373055c525631aff17115c2"
+      },
+      {
+        "path": "plans/preserve-regression/cancelled.json",
+        "bytes": 1289,
+        "sha256": "452666298b8025ed0a7b72d3435f04feacaa469c217b3b8cf38bc79c7d8e3e27"
+      },
+      {
+        "path": "plans/preserve-regression/descriptor-300.json",
+        "bytes": 169936,
+        "sha256": "6efa1645e25163c4afc30c524b87017b160c63317014c07af828888d6dc57b0f"
+      },
+      {
+        "path": "plans/preserve-regression/descriptor-reference.json",
+        "bytes": 1217,
+        "sha256": "efd9d1b83974b5ad39663fb0fd00d953fc1806f3e053e212f937b061943f098c"
+      },
+      {
+        "path": "plans/preserve-regression/excluded-poison.json",
+        "bytes": 1214,
+        "sha256": "c5dfd2df8b7a8481c620e72a3825d57d11b7a96a6cf21e2929183b70e8bac202"
+      },
+      {
+        "path": "plans/preserve-regression/failed.json",
+        "bytes": 1215,
+        "sha256": "09de1e6e2062db655c17a15de8ba575d93788b0d873d9ee57c1d0438c2500c26"
+      },
+      {
+        "path": "plans/preserve-regression/gain-after-retime.json",
+        "bytes": 1372,
+        "sha256": "43bda7b03a32b8c1257c3bdbba09cc5046ea284ba167293ba9f6e8aa80917d96"
+      },
+      {
+        "path": "plans/preserve-regression/internal-faster-1.25x.json",
+        "bytes": 2456,
+        "sha256": "f81029dca094ab5605a4f43105c7376368a3afc76551eab4b156585535af4f16"
+      },
+      {
+        "path": "plans/preserve-regression/internal-slower-0.8x.json",
+        "bytes": 2461,
+        "sha256": "54c929f377ce9568c8998ca9c458d7afc73d94d7e058b00eddf7c6cdb1e76a40"
+      },
+      {
+        "path": "plans/preserve-regression/internal-slower-0.9x.json",
+        "bytes": 2457,
+        "sha256": "5d7eb022d90b625726a3ec36119eae7ed7ddc06e980af6a8f3d03b808ca9d6e5"
+      },
+      {
+        "path": "plans/preserve-regression/opening-slower-0.8x.json",
+        "bytes": 1892,
+        "sha256": "b6e091e0bdd16172ecff3a08bf00d46a531bf888aa2424ac5e44cc2721211abf"
+      },
+      {
+        "path": "plans/preserve-regression/selected-only.json",
+        "bytes": 1293,
+        "sha256": "89d25a314dbd7c1ed4b52d4817549b89654f89637bb1074e006a3df0ab8bb85a"
+      },
+      {
+        "path": "plans/preserve-regression/state-frozen-pcm-control.json",
+        "bytes": 3124,
+        "sha256": "2b969e032b25928d3b22c6ad8c470d341d117cbbe44b644df13311a64e81ecd2"
+      },
+      {
+        "path": "plans/preserve-regression/state-full.json",
+        "bytes": 2966,
+        "sha256": "430879a9a5667a060594c7acf1fd3c9e5ca8f3e8096681a61fd3561100732380"
+      },
+      {
+        "path": "plans/preserve-regression/state-outside-view.json",
+        "bytes": 2974,
+        "sha256": "65d0125181a298f0bc2f972b4197e76376951eff8c2f5731a182d2960a4ee924"
+      },
+      {
+        "path": "plans/preserve-regression/support-gap-poison.json",
+        "bytes": 1389,
+        "sha256": "3305080a7a6faa045c3fd996de0cea6a333410da37d1429f4080fb9a8d49a365"
+      },
+      {
+        "path": "plans/preserve-regression/support-gap.json",
+        "bytes": 1455,
+        "sha256": "cac771d0486fc937d2ddd9977b60fc35e043b4107f022d3edfa9d24b6bda8764"
+      },
+      {
+        "path": "plans/follow-repeat/14d-0.json",
+        "bytes": 1149,
+        "sha256": "951423efa7d2420a0c49c990203466499e209ab9d7306ad791e87dcbe19d4f37"
+      },
+      {
+        "path": "plans/follow-repeat/14d-1.json",
+        "bytes": 1149,
+        "sha256": "d29b066584cbe3c56d84596c567a3509e5e4c739bec3d753c32e2c5c22b9720f"
+      },
+      {
+        "path": "plans/follow-repeat/14e-0.json",
+        "bytes": 1149,
+        "sha256": "fdabd34e45c002a0514d89ceb3073e33d20b2ac1930c0af25d04ce16e9250643"
+      },
+      {
+        "path": "plans/follow-repeat/14e-1.json",
+        "bytes": 1149,
+        "sha256": "12d4c6bac9dd2b46572d9f5ad36657d254474d1ab7216dd55982a449bd3a467f"
+      },
+      {
+        "path": "logs/old-worker-red.log",
+        "bytes": 284,
+        "sha256": "32f6b3c80df74619b025cbdffd10db45354890dfabe86e4dc1ad6a5d29fdd5f6"
+      },
+      {
+        "path": "logs/initial-noncanonical-fixture-red.log",
+        "bytes": 961,
+        "sha256": "b9c6c01c844f68044049088caf6371491b240a832b7051d3343cf2c56fe7b7eb"
+      },
+      {
+        "path": "logs/wire-green.log",
+        "bytes": 85,
+        "sha256": "56e719f3e3e688b6758048d3eabdb9dc008d66111f4ccff33f2f347a608c3587"
+      },
+      {
+        "path": "logs/selected-audio-green.log",
+        "bytes": 467,
+        "sha256": "5c6dd1175f2354997dc432d8bb52ededfcb6b03b90cd4337294ab353f8d39a7d"
+      },
+      {
+        "path": "logs/source-audio-green.log",
+        "bytes": 923,
+        "sha256": "ec3216c6f4ac055ec0c3216b1765e65f6d7348e2d6a51d78344be104f665fb15"
+      },
+      {
+        "path": "logs/composition-smoke-green.log",
+        "bytes": 148,
+        "sha256": "2168a13ad6b76859f659bfd315835e69279ecf20a0465619fbf5e1c83d9ad748"
+      }
+    ],
+    "containsPCM": false
+  },
+  "review": {
+    "independentReviewer": "paged_stretch_review",
+    "verdict": "No remaining blocker after stable conventional format check",
+    "independentRerun": false
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "integerRate": {
+    "file": "helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift",
+    "before": "let effectiveRate = Double(outputNumerator) / Double(playbackRate.numerator)",
+    "after": "let effectiveRate = (Double(outputNumerator) / Double(playbackRate.numerator)).rounded(.towardZero)",
+    "observedFailure": "NATIVE_DECODE_FAILED: Audio conversion made no progress: short decoded coverage",
+    "log": "evidence.tar.xz:logs/integer-rate-mutation-red.log",
+    "restoredGreen": "follow.json",
+    "mutantBinaryRetained": false
+  },
+  "descriptorRegression": {
+    "changeUnderTest": "Completed retained runs release their file descriptors and reopen bounded reads.",
+    "failingWorker": {
+      "pathAtVerification": "/tmp/screenrec-follow-native-14d-green",
+      "sha256": "075280fff4c92fc80a3a065fbe45f02d9b3e499e568fbeafee9002f90bea9f2d",
+      "bytes": 6642368
+    },
+    "failingRequestSha256": "5aa63b3919230b8f909c09df48ee70295f1b3d50428b83d2d27e1d4c89300969",
+    "descriptorLimit": 256,
+    "retainedRuns": 300,
+    "observedFailure": "INVALID_REQUEST: Cannot create retiming input scratch file.",
+    "log": "evidence.tar.xz:logs/descriptor-regression-red.log",
+    "restoredGreen": "preserve.json",
+    "classification": "Observed pre-fix regression, not a synthetic mutation"
+  },
+  "followGate": {
+    "classification": "Old implementation refusal, not a synthetic mutation",
+    "observedFailure": "NOT_READY: Follow-pitch retiming is not accepted.",
+    "log": "evidence.tar.xz:logs/follow-refusal-red.log",
+    "green": "follow.json"
+  }
+}

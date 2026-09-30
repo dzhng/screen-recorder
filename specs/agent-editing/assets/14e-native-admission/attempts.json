@@ -1,0 +1,34 @@
+{
+  "oldWorkerRefusal": {
+    "report": {
+      "workerSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+      "checks": [
+        {
+          "name": "capability",
+          "response": {
+            "data": {
+              "rnnoise": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
+            },
+            "id": "capability",
+            "ok": true
+          }
+        }
+      ]
+    },
+    "classification": "Old worker has no retime capability; not a mutation",
+    "log": "evidence.tar.xz:logs/old-worker-red.log"
+  },
+  "fixtureCorrection": {
+    "observedFailure": "INVALID_REQUEST: Request has fields this operation does not read.",
+    "cause": "The Python fixture sent exact times as fractions with denominator 1. The strict wire representation uses integer microseconds for those values.",
+    "fix": "Shared fixture emits canonical integer times; production parser unchanged.",
+    "log": "evidence.tar.xz:logs/initial-noncanonical-fixture-red.log"
+  },
+  "strictFormatReview": {
+    "finding": "A source first opened by a unit-rate clip could otherwise bypass retiming format checks.",
+    "fix": "Apply the existing all-description format validator after resolved source lookup for every distinct retimed asset/stream.",
+    "proof": "wire.json: discrete-preserve, discrete-follow, unit-before-discrete-retime",
+    "reviewVerdict": "No remaining native 14e blocker; reviewed code and 48-check report, did not build independently"
+  },
+  "exactAdmissionMutation": "../14e-exact-admission/mutation.json"
+}

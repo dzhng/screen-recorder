@@ -1,0 +1,102 @@
+{
+  "reference": "../14c-stereo-stretch/reference.json",
+  "graphPolicy": "Existing IEEE addition normalizes negative zero to positive zero; reference comparison applies only that bit normalization.",
+  "checks": [
+    {
+      "case": "correlated-5-4",
+      "referenceSha256": "c777fef47eed9d4b537fea242ae4bf42c1def0bd7ea4e953b23626b93f646e92",
+      "referenceAfterGraphZeroNormalizationSha256": "c777fef47eed9d4b537fea242ae4bf42c1def0bd7ea4e953b23626b93f646e92",
+      "deliveredPcmSha256": "c777fef47eed9d4b537fea242ae4bf42c1def0bd7ea4e953b23626b93f646e92",
+      "frames": 119507,
+      "fullByteEquality": true
+    },
+    {
+      "case": "correlated-4-5",
+      "referenceSha256": "af0b501ea4b23333a5e11ca597135c3f1db27502371e69469033c6143e01f190",
+      "referenceAfterGraphZeroNormalizationSha256": "af0b501ea4b23333a5e11ca597135c3f1db27502371e69469033c6143e01f190",
+      "deliveredPcmSha256": "af0b501ea4b23333a5e11ca597135c3f1db27502371e69469033c6143e01f190",
+      "frames": 76484,
+      "fullByteEquality": true
+    },
+    {
+      "case": "antiphase-5-4",
+      "referenceSha256": "26a369ce1ed5c244426549d0024d676cae8073ae8584158a61e604f95e45cd3b",
+      "referenceAfterGraphZeroNormalizationSha256": "26a369ce1ed5c244426549d0024d676cae8073ae8584158a61e604f95e45cd3b",
+      "deliveredPcmSha256": "26a369ce1ed5c244426549d0024d676cae8073ae8584158a61e604f95e45cd3b",
+      "frames": 119507,
+      "fullByteEquality": true
+    },
+    {
+      "case": "antiphase-4-5",
+      "referenceSha256": "1206e99a5021598c153008dd395c9e5e7929fc3d0f629fd73b8082f2df3440d6",
+      "referenceAfterGraphZeroNormalizationSha256": "1206e99a5021598c153008dd395c9e5e7929fc3d0f629fd73b8082f2df3440d6",
+      "deliveredPcmSha256": "1206e99a5021598c153008dd395c9e5e7929fc3d0f629fd73b8082f2df3440d6",
+      "frames": 76484,
+      "fullByteEquality": true
+    },
+    {
+      "case": "distinct-tones-5-4",
+      "referenceSha256": "1fdae4004839d508256c93969bc775ca8b6adcec7688d10400f51926302f8f74",
+      "referenceAfterGraphZeroNormalizationSha256": "1fdae4004839d508256c93969bc775ca8b6adcec7688d10400f51926302f8f74",
+      "deliveredPcmSha256": "1fdae4004839d508256c93969bc775ca8b6adcec7688d10400f51926302f8f74",
+      "frames": 119507,
+      "fullByteEquality": true
+    },
+    {
+      "case": "distinct-tones-4-5",
+      "referenceSha256": "f0b337c1d49f4097aa9882bdf467409827de26798be9ca9a3594a9ce15ccc162",
+      "referenceAfterGraphZeroNormalizationSha256": "f0b337c1d49f4097aa9882bdf467409827de26798be9ca9a3594a9ce15ccc162",
+      "deliveredPcmSha256": "f0b337c1d49f4097aa9882bdf467409827de26798be9ca9a3594a9ce15ccc162",
+      "frames": 76484,
+      "fullByteEquality": true
+    },
+    {
+      "case": "coupled-mixture-5-4",
+      "referenceSha256": "f1280997c79ce97298dd389e12a443fdd7aaca5cdf4384a662e75603f2ca5971",
+      "referenceAfterGraphZeroNormalizationSha256": "f1280997c79ce97298dd389e12a443fdd7aaca5cdf4384a662e75603f2ca5971",
+      "deliveredPcmSha256": "f1280997c79ce97298dd389e12a443fdd7aaca5cdf4384a662e75603f2ca5971",
+      "frames": 119507,
+      "fullByteEquality": true
+    },
+    {
+      "case": "coupled-mixture-4-5",
+      "referenceSha256": "59e89187ae015865d8c380ca2f9d9d6233c1570405fe7d7970868c73df9661f5",
+      "referenceAfterGraphZeroNormalizationSha256": "59e89187ae015865d8c380ca2f9d9d6233c1570405fe7d7970868c73df9661f5",
+      "deliveredPcmSha256": "59e89187ae015865d8c380ca2f9d9d6233c1570405fe7d7970868c73df9661f5",
+      "frames": 76484,
+      "fullByteEquality": true
+    },
+    {
+      "case": "channel-events-5-4",
+      "referenceSha256": "46cde353730378666882367d1433636ab4a4c2732436b8082129cb713b66f9ee",
+      "referenceAfterGraphZeroNormalizationSha256": "46cde353730378666882367d1433636ab4a4c2732436b8082129cb713b66f9ee",
+      "deliveredPcmSha256": "46cde353730378666882367d1433636ab4a4c2732436b8082129cb713b66f9ee",
+      "frames": 119507,
+      "fullByteEquality": true
+    },
+    {
+      "case": "channel-events-4-5",
+      "referenceSha256": "8578442568f7bad20c81c22ff59fb1a2568a5def764907f56f02fc7268232e67",
+      "referenceAfterGraphZeroNormalizationSha256": "8578442568f7bad20c81c22ff59fb1a2568a5def764907f56f02fc7268232e67",
+      "deliveredPcmSha256": "8578442568f7bad20c81c22ff59fb1a2568a5def764907f56f02fc7268232e67",
+      "frames": 76484,
+      "fullByteEquality": true
+    },
+    {
+      "case": "silent-right-5-4",
+      "referenceSha256": "126d432ce78c64720ef8b8639a47534f0fd9bff0203fe6093bb9d99d4885e1b0",
+      "referenceAfterGraphZeroNormalizationSha256": "126d432ce78c64720ef8b8639a47534f0fd9bff0203fe6093bb9d99d4885e1b0",
+      "deliveredPcmSha256": "126d432ce78c64720ef8b8639a47534f0fd9bff0203fe6093bb9d99d4885e1b0",
+      "frames": 119507,
+      "fullByteEquality": true
+    },
+    {
+      "case": "silent-right-4-5",
+      "referenceSha256": "67ebcd97917bf0032358104c6ca6a941eea2a66585eab4fed3000ea143068c2e",
+      "referenceAfterGraphZeroNormalizationSha256": "67ebcd97917bf0032358104c6ca6a941eea2a66585eab4fed3000ea143068c2e",
+      "deliveredPcmSha256": "67ebcd97917bf0032358104c6ca6a941eea2a66585eab4fed3000ea143068c2e",
+      "frames": 76484,
+      "fullByteEquality": true
+    }
+  ]
+}

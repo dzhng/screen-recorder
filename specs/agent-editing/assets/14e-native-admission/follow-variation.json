@@ -1,0 +1,31 @@
+{
+  "sameHashCases": 43,
+  "totalCases": 45,
+  "comparisons": [
+    {
+      "case": "fractional-rate",
+      "frames": 666666,
+      "differentFrames": 1555,
+      "differentChannelSamples": 3110,
+      "maximumAbsoluteDifference": 2.9802322387695312e-08,
+      "sourceFileSha256": "fd6c11f239998dacbc6b7a2c457eecf6bf06defcef253199bec4e8646aafb708",
+      "selectedSourceWavPcmSha256": "48272cb83c318c6d868a27f7c30294a201ae92ec42937bad95f38dd76901466c",
+      "selectedSourceWavPayloadsEqual": true,
+      "separateNativeDecoderOutputCaptured": false
+    },
+    {
+      "case": "long-60",
+      "frames": 3200000,
+      "differentFrames": 50108,
+      "differentChannelSamples": 100216,
+      "maximumAbsoluteDifference": 5.960464477539063e-08,
+      "sourceFileSha256": "b8b18641c741fe760a02b4aedd270d62a8c2003068d82a0bd948bae0eccba1e8",
+      "selectedSourceWavPcmSha256": "ef24bc58d90619256b5844b381f0c3d09a8ffa19653f3d08698d0c162b913702",
+      "selectedSourceWavPayloadsEqual": true,
+      "separateNativeDecoderOutputCaptured": false
+    }
+  ],
+  "repeatProbe": "follow-repeat.json",
+  "repeatResult": "Two repeated runs on each retained binary give identical full PCM across all four.",
+  "interpretation": "Small float differences occurred in the earlier sweep. The cause is unproven and not consistently version-dependent. No bit-identical regeneration claim is made across processes or platform versions."
+}

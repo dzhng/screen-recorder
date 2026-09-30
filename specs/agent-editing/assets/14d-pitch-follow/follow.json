@@ -1,0 +1,2138 @@
+{
+  "workerSha256": "65fc519f4f1669bef7d7f90e0966b1da0fb8be386a998fb2938c47401b268aae",
+  "checks": [
+    {
+      "case": "fractional-rate",
+      "sha256": "808d64d05aefe2a4db20e5182495292facd1b775634b18881ec6a9495221070a",
+      "receipt": {
+        "sampleRate": 48000,
+        "peak": 0.2500048279762268,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/fractional-rate.wav",
+        "peakResidentBytes": 30113792,
+        "sourceWork": {
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "frames": 600000,
+              "sampleRate": 48000,
+              "float32Bytes": 2400000
+            }
+          ],
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "bytes": 5337424,
+        "frames": 666666,
+        "channels": 2
+      }
+    },
+    {
+      "case": "rate-48000-1-4-5",
+      "sha256": "b6ee098a0043a95fbb5153fc18c8d7e33b955176d191351d25f6f8d02e59a5b0",
+      "receipt": {
+        "channels": 2,
+        "peakResidentBytes": 20660224,
+        "maximumBlockFrames": 8192,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-1-4-5.wav",
+        "sampleRate": 48000,
+        "peak": 0.2647465169429779,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "bytes": 608840,
+        "clippedSamples": 0,
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 241908
+            }
+          ],
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0
+        },
+        "frames": 75593
+      }
+    },
+    {
+      "case": "rate-48000-1-9-10",
+      "sha256": "5a3bc8fd83739343e3783ad0b643fabaa19a1eb6c591b9bd4bd71242b93ceacd",
+      "receipt": {
+        "clippedSamples": 0,
+        "frames": 67194,
+        "peakResidentBytes": 20692992,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 241908
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1
+        },
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-1-9-10.wav",
+        "channels": 2,
+        "peak": 0.2647496461868286,
+        "bytes": 541648
+      }
+    },
+    {
+      "case": "rate-48000-1-5-4",
+      "sha256": "f9bf087aab1e9d4b51bfe1549abe7f030cb4fdac7e2465f058d224e5a45f3b71",
+      "receipt": {
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-1-5-4.wav",
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 60477,
+              "float32Bytes": 241908
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1
+        },
+        "sampleRate": 48000,
+        "frames": 48379,
+        "peakResidentBytes": 20643840,
+        "channels": 2,
+        "bytes": 391128,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peak": 0.2681140899658203,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      }
+    },
+    {
+      "case": "rate-48000-1-1234567-1000000",
+      "sha256": "c3463f5294f1ec7bb501d7bf9e580552d1bfe99991d9a4f6e288c8f02d936424",
+      "receipt": {
+        "peak": 0.2566344141960144,
+        "channels": 2,
+        "sampleRate": 48000,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "sourceWork": {
+          "decoded": [
+            {
+              "frames": 60477,
+              "float32Bytes": 241908,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-1-1234567-1000000.wav",
+        "clippedSamples": 0,
+        "bytes": 395968,
+        "frames": 48984,
+        "peakResidentBytes": 20692992,
+        "maximumBlockFrames": 8192
+      }
+    },
+    {
+      "case": "rate-48000-1-1-1",
+      "sha256": "3e7149701164ad980aa96a5298099df24b2b29b2e61d5b222d06e6c681c826d6",
+      "receipt": {
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0
+        },
+        "sampleRate": 48000,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 241908
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1
+        },
+        "peak": 0.25,
+        "frames": 60474,
+        "channels": 2,
+        "clippedSamples": 0,
+        "peakResidentBytes": 20774912,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-1-1-1.wav",
+        "bytes": 487888,
+        "maximumBlockFrames": 8192
+      }
+    },
+    {
+      "case": "identity-control-48000-1",
+      "sha256": "3e7149701164ad980aa96a5298099df24b2b29b2e61d5b222d06e6c681c826d6",
+      "receipt": {
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0
+        },
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 0,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "float32Bytes": 241908,
+              "frames": 60477
+            }
+          ],
+          "descriptorInputs": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "maximumBlockFrames": 8192,
+        "channels": 2,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/identity-control-48000-1.wav",
+        "clippedSamples": 0,
+        "peak": 0.25,
+        "bytes": 487888,
+        "peakResidentBytes": 20742144,
+        "sampleRate": 48000,
+        "frames": 60474
+      }
+    },
+    {
+      "case": "rate-48000-2-4-5",
+      "sha256": "d6fe85a2d5ea372270fd75e76894ad38f6e50cb3e799fbbbf9f7033566fcd784",
+      "receipt": {
+        "sampleRate": 48000,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "channels": 2,
+        "peakResidentBytes": 21921792,
+        "frames": 75593,
+        "peak": 0.2647465169429779,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "float32Bytes": 483816,
+              "sampleRate": 48000
+            }
+          ]
+        },
+        "bytes": 608840,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-2-4-5.wav",
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "rate-48000-2-9-10",
+      "sha256": "8d15d0bf0b0aab7e080bf5dfb40442974661ae4e2b677882ae6738805188e8be",
+      "receipt": {
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-2-9-10.wav",
+        "peak": 0.2647496461868286,
+        "sourceWork": {
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 483816
+            }
+          ],
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0
+        },
+        "maximumBlockFrames": 8192,
+        "bytes": 541648,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "frames": 67194,
+        "peakResidentBytes": 21954560,
+        "sampleRate": 48000,
+        "channels": 2,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "rate-48000-2-5-4",
+      "sha256": "17e99c93c06bb61a0aca0e538b43c0ae3a4acb1bb0bc63ca1f45e1aee89a2dc4",
+      "receipt": {
+        "peakResidentBytes": 21954560,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 483816
+            }
+          ],
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-2-5-4.wav",
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "maximumBlockFrames": 8192,
+        "bytes": 391128,
+        "frames": 48379,
+        "clippedSamples": 0,
+        "sampleRate": 48000,
+        "channels": 2,
+        "peak": 0.2681140899658203
+      }
+    },
+    {
+      "case": "rate-48000-2-1234567-1000000",
+      "sha256": "e8b88b3e99f08ab7aee013378a1ff1b7088774ed0febb79920806477d106121d",
+      "receipt": {
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-2-1234567-1000000.wav",
+        "peakResidentBytes": 21987328,
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 483816
+            }
+          ]
+        },
+        "peak": 0.2566344141960144,
+        "bytes": 395968,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "frames": 48984,
+        "channels": 2,
+        "sampleRate": 48000,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "decoderContext": {
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        }
+      }
+    },
+    {
+      "case": "rate-48000-2-1-1",
+      "sha256": "2a9778a11e47efc0f3f286542bbe50a0cafa9f4642bf39bf9cf44e9666bc98e8",
+      "receipt": {
+        "bytes": 487888,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 48000,
+              "float32Bytes": 483816
+            }
+          ]
+        },
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "frames": 60474,
+        "peak": 0.25,
+        "sampleRate": 48000,
+        "maximumBlockFrames": 8192,
+        "channels": 2,
+        "clippedSamples": 0,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-48000-2-1-1.wav",
+        "peakResidentBytes": 21987328
+      }
+    },
+    {
+      "case": "identity-control-48000-2",
+      "sha256": "2a9778a11e47efc0f3f286542bbe50a0cafa9f4642bf39bf9cf44e9666bc98e8",
+      "receipt": {
+        "file": "/private/tmp/screenrec-follow-14d-final-state/identity-control-48000-2.wav",
+        "bytes": 487888,
+        "clippedSamples": 0,
+        "peak": 0.25,
+        "sampleRate": 48000,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 22003712,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run"
+        },
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "float32Bytes": 483816,
+              "frames": 60477
+            }
+          ],
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 0,
+          "descriptorDeliveredBytes": 0
+        },
+        "channels": 2,
+        "frames": 60474,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      }
+    },
+    {
+      "case": "rate-44100-1-4-5",
+      "sha256": "c1c22110caafc40a10d8ab0ab2fad8f939a85319e4c0b0003c21da1d622f4f0a",
+      "receipt": {
+        "clippedSamples": 0,
+        "sampleRate": 48000,
+        "frames": 82278,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "sampleRate": 44100,
+              "frames": 60477,
+              "float32Bytes": 241908
+            }
+          ],
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0
+        },
+        "maximumBlockFrames": 8192,
+        "bytes": 662320,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-1-4-5.wav",
+        "peak": 0.25000542402267456,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "peakResidentBytes": 20627456,
+        "channels": 2
+      }
+    },
+    {
+      "case": "rate-44100-1-9-10",
+      "sha256": "30ab612cf696f5b1fa53156a6101dcba0ae9a64d9042c585b9e6bfd6348cb63e",
+      "receipt": {
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-1-9-10.wav",
+        "bytes": 589184,
+        "peak": 0.25002121925354004,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "channels": 2,
+        "clippedSamples": 0,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 20611072,
+        "frames": 73136,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "float32Bytes": 241908,
+              "frames": 60477,
+              "sampleRate": 44100
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rate-44100-1-5-4",
+      "sha256": "d6da663e1eb3a8a1fc59036dac86a7ac15856917d75d6a3c00fd1da275b499f4",
+      "receipt": {
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "peakResidentBytes": 20692992,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-1-5-4.wav",
+        "frames": 52658,
+        "bytes": 425360,
+        "peak": 0.25000590085983276,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 44100,
+              "float32Bytes": 241908
+            }
+          ],
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "rate-44100-1-1234567-1000000",
+      "sha256": "7119439a396282dac0383463ca1489e00cf0ee4505643ab695e467bf201611fe",
+      "receipt": {
+        "frames": 53316,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "bytes": 430624,
+        "channels": 2,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0
+        },
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 20611072,
+        "peak": 0.2500039339065552,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-1-1234567-1000000.wav",
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 241908,
+              "frames": 60477,
+              "sampleRate": 44100
+            }
+          ],
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1
+        }
+      }
+    },
+    {
+      "case": "rate-44100-1-1-1",
+      "sha256": "e495618c9f061a2d532c7765b857204b5cca2f4cee609f43c959ead6a51e7db2",
+      "receipt": {
+        "maximumBlockFrames": 8192,
+        "peak": 0.2500053942203522,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "float32Bytes": 241908,
+              "sampleRate": 44100
+            }
+          ]
+        },
+        "peakResidentBytes": 20758528,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "frames": 65822,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-1-1-1.wav",
+        "clippedSamples": 0,
+        "bytes": 530672,
+        "channels": 2,
+        "sampleRate": 48000
+      }
+    },
+    {
+      "case": "identity-control-44100-1",
+      "sha256": "e495618c9f061a2d532c7765b857204b5cca2f4cee609f43c959ead6a51e7db2",
+      "receipt": {
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0
+        },
+        "peak": 0.2500053942203522,
+        "peakResidentBytes": 20742144,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 241908,
+              "sampleRate": 44100,
+              "frames": 60477
+            }
+          ],
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 0
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/identity-control-44100-1.wav",
+        "channels": 2,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "bytes": 530672,
+        "frames": 65822,
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192
+      }
+    },
+    {
+      "case": "rate-44100-2-4-5",
+      "sha256": "26bbc798f5f54815b1277b3a2d7d86ca505ea0bdf9f70b4a116ba3290bf6246d",
+      "receipt": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "float32Bytes": 483816,
+              "frames": 60477,
+              "sampleRate": 44100
+            }
+          ]
+        },
+        "peak": 0.25000542402267456,
+        "clippedSamples": 0,
+        "frames": 82278,
+        "peakResidentBytes": 21725184,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-2-4-5.wav",
+        "maximumBlockFrames": 8192,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "bytes": 662320,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      }
+    },
+    {
+      "case": "rate-44100-2-9-10",
+      "sha256": "6b77312985acbf0228d1bb6d01cb29e239df1e01e29906a7166299bcb284907d",
+      "receipt": {
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "peakResidentBytes": 21708800,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "maximumBlockFrames": 8192,
+        "frames": 73136,
+        "channels": 2,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 44100,
+              "float32Bytes": 483816
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "unknownReadInputs": 1
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-2-9-10.wav",
+        "bytes": 589184,
+        "peak": 0.25002121925354004,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ]
+      }
+    },
+    {
+      "case": "rate-44100-2-5-4",
+      "sha256": "777b9481a77e11446d3a100535eec91fe3124c8459fdde6fa86cf5243b121bfb",
+      "receipt": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "frames": 52658,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-2-5-4.wav",
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "peakResidentBytes": 21708800,
+        "sourceWork": {
+          "decoded": [
+            {
+              "sampleRate": 44100,
+              "float32Bytes": 483816,
+              "frames": 60477
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0
+        },
+        "bytes": 425360,
+        "clippedSamples": 0,
+        "peak": 0.25000590085983276,
+        "maximumBlockFrames": 8192
+      }
+    },
+    {
+      "case": "rate-44100-2-1234567-1000000",
+      "sha256": "735d2188a3670522aac8be73c15dc2491dd0e7954a00726dbe6ad7a70ed9e928",
+      "receipt": {
+        "sampleRate": 48000,
+        "frames": 53316,
+        "channels": 2,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 21725184,
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "float32Bytes": 483816,
+              "frames": 60477,
+              "sampleRate": 44100
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorInputs": 0
+        },
+        "bytes": 430624,
+        "clippedSamples": 0,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-2-1234567-1000000.wav",
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "peak": 0.2500053644180298
+      }
+    },
+    {
+      "case": "rate-44100-2-1-1",
+      "sha256": "59608c93174bb46299a2c42f06a7bec70467ac006bb605c37c64353cadc4b9fd",
+      "receipt": {
+        "channels": 2,
+        "maximumBlockFrames": 8192,
+        "frames": 65822,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "preparedRetimeRuns": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 44100,
+              "float32Bytes": 483816
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1
+        },
+        "peak": 0.2500053942203522,
+        "peakResidentBytes": 21889024,
+        "clippedSamples": 0,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/rate-44100-2-1-1.wav",
+        "bytes": 530672,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      }
+    },
+    {
+      "case": "identity-control-44100-2",
+      "sha256": "59608c93174bb46299a2c42f06a7bec70467ac006bb605c37c64353cadc4b9fd",
+      "receipt": {
+        "sampleRate": 48000,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 44100,
+              "float32Bytes": 483816
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/identity-control-44100-2.wav",
+        "peak": 0.2500053942203522,
+        "channels": 2,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "frames": 65822,
+        "peakResidentBytes": 21889024,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "bytes": 530672
+      }
+    },
+    {
+      "case": "short-floor",
+      "sha256": "e1c8976dcd307ac4e15733e4b51c517fbd2566b504558670fab49525b9ce7642",
+      "receipt": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "peakResidentBytes": 19021824,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 7,
+              "float32Bytes": 28,
+              "sampleRate": 48000
+            }
+          ],
+          "unknownReadInputs": 1,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "bytes": 4152,
+        "clippedSamples": 0,
+        "peak": 0.18567803502082825,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/short-floor.wav",
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "frames": 7,
+        "maximumBlockFrames": 7
+      }
+    },
+    {
+      "case": "short-ceil-debt",
+      "sha256": "4e73dad0f7275f789d6bfbed7e8068debfee24b31721eb3d09c525c926b07683",
+      "receipt": {
+        "sampleRate": 48000,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/short-ceil-debt.wav",
+        "clippedSamples": 0,
+        "channels": 2,
+        "frames": 8,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "frames": 7,
+              "float32Bytes": 28,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1
+        },
+        "maximumBlockFrames": 8,
+        "peak": 0.18567803502082825,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0
+        },
+        "bytes": 4160,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "peakResidentBytes": 19038208
+      }
+    },
+    {
+      "case": "retained-whole",
+      "sha256": "735d2188a3670522aac8be73c15dc2491dd0e7954a00726dbe6ad7a70ed9e928",
+      "receipt": {
+        "peakResidentBytes": 21692416,
+        "peak": 0.2500053644180298,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/retained-whole.wav",
+        "bytes": 430624,
+        "sampleRate": 48000,
+        "frames": 53316,
+        "channels": 2,
+        "sourceWork": {
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 44100,
+              "frames": 60477,
+              "float32Bytes": 483816
+            }
+          ],
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      }
+    },
+    {
+      "case": "left-view",
+      "sha256": "fd5b8753e698ed9eb069bad00cfaa51d1158b15c25b69be1bd901b1de883d3e3",
+      "receipt": {
+        "sampleRate": 48000,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 44100,
+              "float32Bytes": 483816
+            }
+          ],
+          "unknownReadInputs": 1
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "maximumBlockFrames": 8192,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/left-view.wav",
+        "frames": 26658,
+        "clippedSamples": 0,
+        "channels": 2,
+        "peak": 0.2500053644180298,
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "bytes": 217360,
+        "peakResidentBytes": 21708800
+      }
+    },
+    {
+      "case": "right-view",
+      "sha256": "3bb4218ff59db525e38720063d122c2db7a207d50a912516333d25419e15ee1c",
+      "receipt": {
+        "peak": 0.25000420212745667,
+        "channels": 2,
+        "peakResidentBytes": 21692416,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run"
+        },
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 44100,
+              "frames": 60477,
+              "float32Bytes": 483816
+            }
+          ]
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/right-view.wav",
+        "bytes": 217360,
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "frames": 26658,
+        "maximumBlockFrames": 8192,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      }
+    },
+    {
+      "case": "pure-split",
+      "sha256": "735d2188a3670522aac8be73c15dc2491dd0e7954a00726dbe6ad7a70ed9e928",
+      "receipt": {
+        "sampleRate": 48000,
+        "maximumBlockFrames": 8192,
+        "unavailable": [
+          {
+            "clipId": "left",
+            "ranges": []
+          },
+          {
+            "clipId": "right",
+            "ranges": []
+          }
+        ],
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run"
+        },
+        "peakResidentBytes": 21692416,
+        "frames": 53316,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/pure-split.wav",
+        "bytes": 430624,
+        "clippedSamples": 0,
+        "peak": 0.2500053644180298,
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "float32Bytes": 483816,
+              "sampleRate": 44100,
+              "frames": 60477
+            }
+          ]
+        },
+        "channels": 2
+      }
+    },
+    {
+      "case": "excluded-poison",
+      "sha256": "735d2188a3670522aac8be73c15dc2491dd0e7954a00726dbe6ad7a70ed9e928",
+      "receipt": {
+        "channels": 2,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "maximumBlockFrames": 8192,
+        "bytes": 430624,
+        "peakResidentBytes": 21708800,
+        "sampleRate": 48000,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "sourceWork": {
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 44100,
+              "frames": 60477,
+              "float32Bytes": 483816
+            }
+          ],
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0
+        },
+        "peak": 0.2500053644180298,
+        "clippedSamples": 0,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/excluded-poison.wav",
+        "frames": 53316
+      }
+    },
+    {
+      "case": "silent-right",
+      "sha256": "c411c44c87e2474247569ec5a75218841fdee157fe0e1715fe26f915d292fb2c",
+      "receipt": {
+        "channels": 2,
+        "frames": 67193,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/silent-right.wav",
+        "peakResidentBytes": 21970944,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "peak": 0.2647496461868286,
+        "clippedSamples": 0,
+        "sourceWork": {
+          "preparedRetimeRuns": 1,
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "float32Bytes": 483816,
+              "frames": 60477,
+              "sampleRate": 48000
+            }
+          ],
+          "unknownReadInputs": 1
+        },
+        "sampleRate": 48000,
+        "bytes": 541640,
+        "maximumBlockFrames": 8192
+      }
+    },
+    {
+      "case": "normalize-44100-selection",
+      "sha256": "e495618c9f061a2d532c7765b857204b5cca2f4cee609f43c959ead6a51e7db2",
+      "receipt": {
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "peakResidentBytes": 20725760,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 0,
+          "unknownReadInputs": 1,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 44100,
+              "frames": 60477,
+              "float32Bytes": 241908
+            }
+          ]
+        },
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "peak": 0.2500053942203522,
+        "clippedSamples": 0,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/normalize-44100-selection.wav",
+        "bytes": 530672,
+        "channels": 2,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "frames": 65822
+      }
+    },
+    {
+      "case": "preserve-44100",
+      "sha256": "a5530932ab3f3bd1069b9ef04cac76ea6fffa031932b383d744bf108bd86b9da",
+      "receipt": {
+        "bytes": 589176,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "sampleRate": 44100,
+              "float32Bytes": 241908
+            }
+          ]
+        },
+        "channels": 2,
+        "sampleRate": 48000,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peak": 0.3030569851398468,
+        "peakResidentBytes": 21266432,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/preserve-44100.wav",
+        "frames": 73135,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        }
+      }
+    },
+    {
+      "case": "preserve-normalized-48000",
+      "sha256": "a5530932ab3f3bd1069b9ef04cac76ea6fffa031932b383d744bf108bd86b9da",
+      "receipt": {
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/preserve-normalized-48000.wav",
+        "bytes": 589176,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 65822,
+              "float32Bytes": 263288
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1,
+          "preparedRetimeRuns": 1
+        },
+        "peak": 0.3030569851398468,
+        "maximumBlockFrames": 8192,
+        "clippedSamples": 0,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "frames": 73135,
+        "peakResidentBytes": 21463040,
+        "sampleRate": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "case": "policy-follow",
+      "sha256": "0b4b24b7906c4319cc811a0c2dd86ae5f1070c86f8fa084c82aa40f762d90bc4",
+      "receipt": {
+        "maximumBlockFrames": 8192,
+        "peak": 0.27680185437202454,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0
+        },
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "peakResidentBytes": 20676608,
+        "channels": 2,
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 60001,
+              "float32Bytes": 240004
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorReadBytes": 0
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/policy-follow.wav",
+        "sampleRate": 48000,
+        "frames": 66666,
+        "bytes": 537424,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "policy-preserve",
+      "sha256": "184ba43ff0728d4978218dd0d5ec7b2fbed736994afd2793790fa48cdf2f7725",
+      "receipt": {
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 21266432,
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "peak": 0.2944812774658203,
+        "clippedSamples": 0,
+        "channels": 2,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/policy-preserve.wav",
+        "frames": 66666,
+        "sampleRate": 48000,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "sourceWork": {
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "float32Bytes": 240004,
+              "frames": 60001
+            }
+          ]
+        },
+        "bytes": 537424
+      }
+    },
+    {
+      "case": "policy-distinct",
+      "sha256": "1d48dafceec95f5cde80cc9bd17dc7684e6be0feed62c143de5d536508fa28ba",
+      "receipt": {
+        "clippedSamples": 0,
+        "sourceWork": {
+          "preparedRetimeRuns": 2,
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "decoded": [
+            {
+              "float32Bytes": 480008,
+              "sampleRate": 48000,
+              "frames": 120002
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1
+        },
+        "frames": 66666,
+        "maximumBlockFrames": 8192,
+        "channels": 2,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/policy-distinct.wav",
+        "sampleRate": 48000,
+        "peak": 0.5112428069114685,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "preserve",
+            "ranges": []
+          },
+          {
+            "clipId": "follow",
+            "ranges": []
+          }
+        ],
+        "bytes": 537424,
+        "peakResidentBytes": 21692416
+      }
+    },
+    {
+      "case": "fractional-collision-other",
+      "sha256": "3e9967f43678c8a2d45238a7a896b7351f9ec1295522e4644b6e07730d4541e1",
+      "receipt": {
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "other-rate"
+          }
+        ],
+        "file": "/private/tmp/screenrec-follow-14d-final-state/fractional-collision-other.wav",
+        "peak": 0.2711448669433594,
+        "sourceWork": {
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "float32Bytes": 240004,
+              "sampleRate": 48000,
+              "frames": 60001
+            }
+          ]
+        },
+        "channels": 2,
+        "peakResidentBytes": 20660224,
+        "bytes": 537424,
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumTailFrames": 0,
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "frames": 66666,
+        "clippedSamples": 0
+      }
+    },
+    {
+      "case": "fractional-collision-combined",
+      "sha256": "5b7510b3f2cc73b735d36ea9e8571f4a0a70dc5186e939f19dece1e7a8e5a3ae",
+      "receipt": {
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        },
+        "maximumBlockFrames": 8192,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/fractional-collision-combined.wav",
+        "channels": 2,
+        "unavailable": [
+          {
+            "clipId": "follow",
+            "ranges": []
+          },
+          {
+            "clipId": "other-rate",
+            "ranges": []
+          }
+        ],
+        "clippedSamples": 0,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "preparedRetimeRuns": 2,
+          "descriptorInputs": 0,
+          "descriptorDeliveredBytes": 0,
+          "unknownReadInputs": 1,
+          "decoded": [
+            {
+              "float32Bytes": 480008,
+              "frames": 120002,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorReadBytes": 0
+        },
+        "bytes": 537424,
+        "peak": 0.5479466915130615,
+        "peakResidentBytes": 20938752,
+        "frames": 66666
+      }
+    },
+    {
+      "case": "state-stereo-full",
+      "sha256": "ee860f2b3dc88f119de3499e905c6a29ce62e48be24865000e7e6b08b5098c6e",
+      "receipt": {
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumTailFrames": 0,
+          "maximumPrerollFrames": 0,
+          "policy": "bounded-current-retained-run"
+        },
+        "channels": 2,
+        "clippedSamples": 0,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "frames": 73136,
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "peak": 0.01776389591395855,
+        "peakResidentBytes": 25362432,
+        "sourceWork": {
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 60477,
+              "float32Bytes": 483816,
+              "sampleRate": 44100
+            }
+          ]
+        },
+        "file": "/private/tmp/screenrec-follow-14d-final-state/state-stereo-full.wav",
+        "bytes": 589184
+      }
+    },
+    {
+      "case": "state-stereo-late",
+      "sha256": "d92a343ef62d5588c46dc12b544831197d7224ccaf79498ec6fc81afe056a703",
+      "receipt": {
+        "sourceWork": {
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "float32Bytes": 483816,
+              "frames": 60477,
+              "sampleRate": 44100
+            }
+          ],
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0,
+          "descriptorReadBytes": 0
+        },
+        "maximumBlockFrames": 8192,
+        "frames": 36568,
+        "channels": 2,
+        "sampleRate": 48000,
+        "peak": 0.002312979195266962,
+        "peakResidentBytes": 25362432,
+        "clippedSamples": 0,
+        "bytes": 296640,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/state-stereo-late.wav",
+        "unavailable": [
+          {
+            "ranges": [],
+            "clipId": "c"
+          }
+        ],
+        "decoderContext": {
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0
+        }
+      }
+    },
+    {
+      "case": "long-60",
+      "sha256": "afcdfb0575e3dfa7776c7961d9e1079a45da915b73f17401ed594e4139cd20e2",
+      "receipt": {
+        "clippedSamples": 0,
+        "bytes": 25604096,
+        "sampleRate": 48000,
+        "peakResidentBytes": 31981568,
+        "decoderContext": {
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run"
+        },
+        "maximumBlockFrames": 8192,
+        "channels": 2,
+        "frames": 3200000,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "peak": 0.2500048279762268,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/long-60.wav",
+        "sourceWork": {
+          "descriptorInputs": 0,
+          "unknownReadInputs": 1,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 1,
+          "decoded": [
+            {
+              "frames": 2880000,
+              "float32Bytes": 11520000,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0
+        }
+      }
+    },
+    {
+      "case": "long-600",
+      "sha256": "a3be5905a5ae8f814c5e268ff17158c44d9eaf8ede600f7fbfba3d1459ed609b",
+      "receipt": {
+        "clippedSamples": 0,
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ],
+        "bytes": 256004096,
+        "frames": 32000000,
+        "maximumBlockFrames": 8192,
+        "sampleRate": 48000,
+        "file": "/private/tmp/screenrec-follow-14d-final-state/long-600.wav",
+        "channels": 2,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "maximumPrerollFrames": 0,
+          "sampleRate": 48000,
+          "maximumTailFrames": 0
+        },
+        "sourceWork": {
+          "preparedRetimeRuns": 1,
+          "unknownReadInputs": 1,
+          "descriptorDeliveredBytes": 0,
+          "decoded": [
+            {
+              "sampleRate": 48000,
+              "frames": 28800000,
+              "float32Bytes": 115200000
+            }
+          ],
+          "descriptorReadBytes": 0,
+          "descriptorInputs": 0
+        },
+        "peakResidentBytes": 31965184,
+        "peak": 0.2500048279762268
+      }
+    }
+  ],
+  "fractionalRateHz": 897.2999999038354,
+  "frequency": [
+    {
+      "sourceRate": 48000,
+      "channels": 1,
+      "speed": "4/5",
+      "measuredHz": [
+        797.6000035664207,
+        797.6000035664207
+      ],
+      "expectedHz": [
+        797.6,
+        797.6
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 1,
+      "speed": "9/10",
+      "measuredHz": [
+        897.3000020378804,
+        897.3000020378804
+      ],
+      "expectedHz": [
+        897.3000000000001,
+        897.3000000000001
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 1,
+      "speed": "5/4",
+      "measuredHz": [
+        1246.2500199075103,
+        1246.2500199075103
+      ],
+      "expectedHz": [
+        1246.25,
+        1246.25
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 1,
+      "speed": "1234567/1000000",
+      "measuredHz": [
+        1230.8632804495335,
+        1230.8632804495335
+      ],
+      "expectedHz": [
+        1230.8632989999999,
+        1230.8632989999999
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 1,
+      "speed": "1",
+      "measuredHz": [
+        997.0000050053915,
+        997.0000050053915
+      ],
+      "expectedHz": [
+        997.0,
+        997.0
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 2,
+      "speed": "4/5",
+      "measuredHz": [
+        797.6000035664207,
+        1127.2000027055815
+      ],
+      "expectedHz": [
+        797.6,
+        1127.2
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 2,
+      "speed": "9/10",
+      "measuredHz": [
+        897.3000020378804,
+        1268.0999990505925
+      ],
+      "expectedHz": [
+        897.3000000000001,
+        1268.1000000000001
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 2,
+      "speed": "5/4",
+      "measuredHz": [
+        1246.2500199075103,
+        1761.2500652831534
+      ],
+      "expectedHz": [
+        1246.25,
+        1761.25
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 2,
+      "speed": "1234567/1000000",
+      "measuredHz": [
+        1230.8632804495335,
+        1739.50485949928
+      ],
+      "expectedHz": [
+        1230.8632989999999,
+        1739.504903
+      ]
+    },
+    {
+      "sourceRate": 48000,
+      "channels": 2,
+      "speed": "1",
+      "measuredHz": [
+        997.0000050053915,
+        1409.0000178394878
+      ],
+      "expectedHz": [
+        997.0,
+        1409.0
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 1,
+      "speed": "4/5",
+      "measuredHz": [
+        797.5999985253911,
+        797.5999985253911
+      ],
+      "expectedHz": [
+        797.6,
+        797.6
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 1,
+      "speed": "9/10",
+      "measuredHz": [
+        897.3000000352013,
+        897.3000000352013
+      ],
+      "expectedHz": [
+        897.3000000000001,
+        897.3000000000001
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 1,
+      "speed": "5/4",
+      "measuredHz": [
+        1246.2500165935796,
+        1246.2500165935796
+      ],
+      "expectedHz": [
+        1246.25,
+        1246.25
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 1,
+      "speed": "1234567/1000000",
+      "measuredHz": [
+        1230.8633104940766,
+        1230.8633104940766
+      ],
+      "expectedHz": [
+        1230.8632989999999,
+        1230.8632989999999
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 1,
+      "speed": "1",
+      "measuredHz": [
+        996.9999946667197,
+        996.9999946667197
+      ],
+      "expectedHz": [
+        997.0,
+        997.0
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 2,
+      "speed": "4/5",
+      "measuredHz": [
+        797.5999985253911,
+        1127.1999970349946
+      ],
+      "expectedHz": [
+        797.6,
+        1127.2
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 2,
+      "speed": "9/10",
+      "measuredHz": [
+        897.3000000352013,
+        1268.09999041384
+      ],
+      "expectedHz": [
+        897.3000000000001,
+        1268.1000000000001
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 2,
+      "speed": "5/4",
+      "measuredHz": [
+        1246.2500165935796,
+        1761.249991443679
+      ],
+      "expectedHz": [
+        1246.25,
+        1761.25
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 2,
+      "speed": "1234567/1000000",
+      "measuredHz": [
+        1230.8633104940766,
+        1739.5049017186723
+      ],
+      "expectedHz": [
+        1230.8632989999999,
+        1739.504903
+      ]
+    },
+    {
+      "sourceRate": 44100,
+      "channels": 2,
+      "speed": "1",
+      "measuredHz": [
+        996.9999946667197,
+        1409.000001852288
+      ],
+      "expectedHz": [
+        997.0,
+        1409.0
+      ]
+    }
+  ],
+  "preserveNormalized44100Exact": true,
+  "scale": {
+    "seconds": [
+      60,
+      600
+    ],
+    "peakResidentBytes": [
+      31981568,
+      31965184
+    ],
+    "allowanceBytes": 33554432
+  },
+  "cancellation": "PASS cancelled preparation leaves no output or scratch"
+}
