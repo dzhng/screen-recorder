@@ -7,7 +7,7 @@ import ScreenRecorderMedia
 public enum SourceFrameRenderer {
     public struct Request: Codable {
         public let asset: CompositionAsset
-        let available: [TimeSpan]
+        let available: [ExactRange]
         let atUs: Int64
         public let output: String
         let maxLongEdge: Int?
@@ -18,7 +18,7 @@ public enum SourceFrameRenderer {
         let timescale: Int32
         let endValue: String
         let endTimescale: Int32
-        let originUs: Int64
+        let originUs: ExactTime
     }
     public struct Result: Encodable {
         let file: String
@@ -44,28 +44,26 @@ public enum SourceFrameRenderer {
             !request.asset.assetId.isEmpty, !request.asset.streamId.isEmpty,
             edge > 0, edge <= FrameLimits.maximumLongEdge,
             limit > 0, limit <= FrameLimits.maximumEncodedBytes,
-            TimeSpan.areAvailable(request.available)
+            try ExactRange.areAvailable(request.available)
         else { throw NativeFailure("INVALID_REQUEST", "Invalid selected source picture request.") }
-        guard request.available.contains(where: { $0.startUs <= request.atUs && request.atUs < $0.endUs }) else {
+        guard try request.available.contains(where: { try $0.contains(ExactTime(Int128(request.atUs))) }) else {
             throw NativeFailure("UNAVAILABLE", "Requested picture is outside selected source support.")
         }
-        let (containerUs, overflow) = request.atUs.addingReportingOverflow(request.asset.originUs)
-        guard !overflow else { throw NativeFailure("INVALID_REQUEST", "Source picture clock overflow.") }
+        let container = try ExactTime(Int128(request.atUs)).adding(request.asset.originUs)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let source = try await PresentationSource(
             source: URL(fileURLWithPath: request.asset.path), streamId: request.asset.streamId,
-            startUs: containerUs)
+            startUs: container.sample(1_000_000))
         try await VideoColorPolicy.requireSupportedColor(source.track)
-        let selected = try source.selection(at: time(microseconds: containerUs), end: .positiveInfinity)
+        let selected = try source.selection(at: container, end: .positiveInfinity)
         guard let buffer = selected.buffer else {
             throw NativeFailure("SOURCE_PICTURE_UNAVAILABLE", "Requested source picture has no physical sample.")
         }
         guard let stamp = selected.sampleTime else {
             throw NativeFailure("INVALID_RESPONSE", "Decoded source picture has no physical clock.")
         }
-        let (actualUs, clockOverflow) = microseconds(stamp).subtractingReportingOverflow(request.asset.originUs)
-        guard !clockOverflow else { throw NativeFailure("INVALID_REQUEST", "Physical picture clock overflow.") }
+        let actualUs = try ExactTime(stamp).subtract(request.asset.originUs).sample(1_000_000, nearest: true)
         let image = try FrameImage(buffer: buffer, transform: source.transform, overlay: nil,
             agedFromUs: 0, crop: nil, maxLongEdge: edge)
         let bytes = try image.publishPNG(to: output,

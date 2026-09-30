@@ -9,7 +9,7 @@ import ScreenRecorderMedia
 public struct SpeechSegment: Codable, Sendable, Equatable {
     public enum State: String, Codable, Sendable { case transcribed, skipped }
     public let ordinal: Int
-    public let source: TimeSpan
+    public let source: ExactRange
     public let state: State
     /// Why a segment was skipped: `too_short` when the engine cannot accept that little audio.
     public let reason: String?
@@ -45,7 +45,7 @@ public enum SourceTranscript {
     /// evaluated merge produced from its tokens, in engine seconds and in source microseconds.
     struct RawSegment: Codable {
         let ordinal: Int
-        let source: TimeSpan
+        let source: ExactRange
         let state: SpeechSegment.State
         let reason: String?
         let sampleRate: Int
@@ -76,7 +76,7 @@ public enum SourceTranscript {
         defer { destination.discard() }
 
         let intervals = try await AudioPCMStream.readableIntervals(of: track)
-        if let long = intervals.first(where: { $0.endUs - $0.startUs > maximumIntervalUs }) {
+        if let long = try intervals.first(where: { try $0.endUs.subtract($0.startUs).compare(ExactTime(Int128(maximumIntervalUs))) == .orderedDescending }) {
             throw NativeFailure(
                 "LIMIT_EXCEEDED",
                 "Source interval [\(long.startUs),\(long.endUs)) is longer than \(maximumIntervalUs) microseconds.")
@@ -96,12 +96,12 @@ public enum SourceTranscript {
             if samples.count >= ParakeetEngine.minimumSamples {
                 if engine == nil { engine = try await ParakeetEngine.load(models) }
                 let result = try await engine!.transcribe(samples)
-                let words = WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []).map {
+                let words = try WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []).map {
                     RawWord(
                         text: $0.word, startSeconds: $0.startTime, endSeconds: $0.endTime,
                         spokenStartSeconds: $0.spokenStart, spokenEndSeconds: $0.spokenEnd,
                         confidence: $0.confidence,
-                        source: sourceSpan(from: $0.spokenStart, to: $0.spokenEnd, in: interval))
+                        source: try sourceSpan(from: $0.spokenStart, to: $0.spokenEnd, in: interval))
                 }
                 line = RawSegment(
                     ordinal: ordinal, source: interval, state: .transcribed, reason: nil,
@@ -132,7 +132,7 @@ public enum SourceTranscript {
 
     /// One interval as 16 kHz mono, read through the shared audio owner. Channels are averaged; the
     /// interval lies inside readable time, so the stream must report nothing unavailable.
-    private static func monoSamples(of track: AudioSourceSelection, in interval: TimeSpan) async throws
+    private static func monoSamples(of track: AudioSourceSelection, in interval: ExactRange) async throws
         -> [Float]
     {
         let stream = try await AudioPCMStream.open(
@@ -157,19 +157,24 @@ public enum SourceTranscript {
         return samples
     }
 
-    /// Engine seconds are offsets from the interval's first sample; they are rounded to microseconds
-    /// and clamped into the interval, since a token's duration can reach past the audio it was given.
-    static func sourceSpan(from start: TimeInterval, to end: TimeInterval, in interval: TimeSpan)
-        -> TimeSpan
+    /// Engine seconds offset the exact selected interval. Clamp before projecting the source label,
+    /// so a fractional interval origin cannot cause a second rounding at a word boundary.
+    package static func sourceSpan(from start: TimeInterval, to end: TimeInterval, in interval: ExactRange)
+        throws -> TimeSpan
     {
-        func clamped(_ seconds: TimeInterval) -> Int64 {
-            guard seconds.isFinite else { return interval.startUs }
-            let offset = (seconds * 1_000_000).rounded()
-            guard offset > 0 else { return interval.startUs }
-            guard offset < Double(interval.endUs - interval.startUs) else { return interval.endUs }
-            return interval.startUs + Int64(offset)
+        func clamped(_ seconds: TimeInterval) throws -> Int64 {
+            let at: ExactTime
+            if !seconds.isFinite || seconds <= 0 {
+                at = interval.startUs
+            } else if seconds > Double(maximumIntervalUs) / 1_000_000 {
+                at = interval.endUs
+            } else {
+                let requested = try interval.startUs.adding(ExactTime(seconds: seconds))
+                at = try requested.compare(interval.endUs) == .orderedDescending ? interval.endUs : requested
+            }
+            return try at.sample(1_000_000, nearest: true)
         }
-        let startUs = clamped(start)
-        return TimeSpan(startUs: startUs, endUs: max(startUs, clamped(end)))
+        let startUs = try clamped(start)
+        return TimeSpan(startUs: startUs, endUs: max(startUs, try clamped(end)))
     }
 }

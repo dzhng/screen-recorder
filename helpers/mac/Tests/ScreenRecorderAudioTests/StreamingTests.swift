@@ -106,7 +106,7 @@ func writePlanReference(_ path: String) async throws {
     let report: [String: Any] = [
         "frames": stream.frames, "sampleRate": stream.format.sampleRate,
         "channels": stream.format.channels, "bytes": bytes,
-        "tracks": try JSONSerialization.jsonObject(with: JSONEncoder().encode(zip(plan.tracks, stream.reports).map { AudioTrackReport(role: $0.role, source: $1) })),
+        "tracks": try JSONSerialization.jsonObject(with: JSONEncoder().encode(zip(plan.tracks, stream.reports).map { try AudioTrackReport(role: $0.role, source: $1) })),
     ]
     print(
         String(
@@ -122,7 +122,7 @@ func writeSelectedReference(_ path: String) async throws {
         let output: String
     }
     let plan = try JSONDecoder().decode(Plan.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
-    let stream = try await AudioPCMStream.open(source: plan.source, spans: plan.spans)
+    let stream = try await AudioPCMStream.open(source: plan.source, spans: plan.spans.map(ExactRange.init))
     let bytes = try await AudioWave.write(stream, to: URL(fileURLWithPath: plan.output))
     print("Selected source PCM: \(stream.frames) frames, \(bytes) bytes")
 }

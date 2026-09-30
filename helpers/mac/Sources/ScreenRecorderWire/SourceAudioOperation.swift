@@ -5,7 +5,7 @@ import ScreenRecorderMedia
 enum SourceAudioOperation {
     private struct Request: Codable {
         let source: AudioSourceSelection
-        let range: TimeSpan
+        let range: ExactRange
         let output: String
     }
     static func execute(_ params: [String: Any]) async throws -> SourceAudioResult {

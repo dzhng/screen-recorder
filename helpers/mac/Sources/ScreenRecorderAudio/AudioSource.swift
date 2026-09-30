@@ -5,7 +5,7 @@ import ScreenRecorderMedia
 /// One source stream, opened once. Caller-supplied source-clock support is intersected with
 /// occupied container segments; the offset maps between those two clocks.
 struct SourceTrack {
-    let sourceOffsetUs: Int64
+    let sourceOffsetUs: ExactTime
     let url: URL
     let input: MediaInput
     let asset: AVURLAsset
@@ -14,25 +14,20 @@ struct SourceTrack {
     let packetFrames: Int
     let channels: Int
     struct Run {
-        let support: CompositionAudioPlan.Selection
+        let support: ExactRange
         let nativeOrigin: ExactTime
     }
     let available: [Run]
 
     func frame(at time: ExactTime, in run: Run, ceil: Bool = false) throws -> Int64 {
-        try time.subtract(ExactTime(Int128(sourceOffsetUs))).subtract(run.nativeOrigin)
+        try time.subtract(sourceOffsetUs).subtract(run.nativeOrigin)
             .sample(sampleRate, ceil: ceil, nearest: !ceil)
     }
 
     static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
-        try await open(source: selection.source, streamId: selection.streamId,
-            sourceOffsetUs: selection.sourceOffsetUs, available: selection.available, strictWindowFormat: strictWindowFormat)
-    }
-
-    static func open(
-        source path: String, streamId: String?, sourceOffsetUs: Int64,
-        available: [TimeSpan], strictWindowFormat: Bool = false
-    ) async throws -> SourceTrack {
+        let path = selection.source
+        let streamId = selection.streamId
+        let sourceOffsetUs = selection.sourceOffsetUs
         let source = URL(fileURLWithPath: path)
         guard FileManager.default.fileExists(atPath: source.path) else {
             throw NativeFailure.decodeFailed("No source media at \(source.path).")
@@ -98,19 +93,18 @@ struct SourceTrack {
         // Empty edits hold no sample. AVFoundation would read them back as silence, which is
         // indistinguishable from recorded quiet, so absence is decided from the container's own
         // occupied segments rather than from the samples it is willing to produce.
-        let offset = ExactTime(-Int128(sourceOffsetUs))
         let occupied = try segments.map { segment in
             let origin = try ExactTime(segment.asset.start)
-            return Run(support: CompositionAudioPlan.Selection(
-                startUs: try origin.subtract(offset),
-                endUs: try ExactTime(CMTimeRangeGetEnd(segment.asset)).subtract(offset)), nativeOrigin: origin)
+            return Run(support: ExactRange(
+                startUs: try origin.adding(sourceOffsetUs),
+                endUs: try ExactTime(CMTimeRangeGetEnd(segment.asset)).adding(sourceOffsetUs)), nativeOrigin: origin)
         }
         // Adjacent declarations describe continuous capture, so they must not restart decoding.
         // Even a one-microsecond hole remains a real exclusion; physical segment edges stay intact.
-        var continuous: [TimeSpan] = []
-        for interval in available {
+        var continuous: [ExactRange] = []
+        for interval in selection.available {
             if let previous = continuous.last, previous.endUs == interval.startUs {
-                continuous[continuous.count - 1] = TimeSpan(
+                continuous[continuous.count - 1] = ExactRange(
                     startUs: previous.startUs, endUs: interval.endUs)
             } else {
                 continuous.append(interval)
@@ -119,7 +113,7 @@ struct SourceTrack {
         var available: [Run] = []
         var a = 0, b = 0
         while a < continuous.count && b < occupied.count {
-            let mask = CompositionAudioPlan.Selection(continuous[a]), run = occupied[b]
+            let mask = continuous[a], run = occupied[b]
             if let support = try mask.intersection(run.support) {
                 available.append(Run(support: support, nativeOrigin: run.nativeOrigin))
             }

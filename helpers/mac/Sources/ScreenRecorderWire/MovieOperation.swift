@@ -73,11 +73,11 @@ enum MovieOperation {
         return Result(
             file: request.output, durationUs: rendered.durationUs, width: rendered.width,
             height: rendered.height, frameCount: rendered.frameCount,
-            audio: audio.map {
+            audio: try audio.map {
                 Audio(
                     codec: $0.frames > 0 ? "aac" : nil, frames: $0.frames,
                     sampleRate: $0.format.sampleRate, channels: $0.format.channels,
-                    tracks: zip(request.tracks, $0.reports).map { AudioTrackReport(role: $0.role, source: $1) })
+                    tracks: try zip(request.tracks, $0.reports).map { try AudioTrackReport(role: $0.role, source: $1) })
             }, bytes: bytes)
     }
 }

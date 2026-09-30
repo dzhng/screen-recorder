@@ -2,7 +2,7 @@
 import Foundation
 
 public struct ProbedMedia: Encodable, Sendable {
-    public let originUs: Int64
+    public let originUs: ExactTime
     public let streams: [ProbedStream]
     public var fontFaces: [ProbedFontFace]?
 }
@@ -12,8 +12,8 @@ public struct ProbedStream: Encodable, Sendable {
     public let kind: String
     public let codec: String
     public let decodable: Bool
-    public var startUs: Int64?
-    public var endUs: Int64?
+    public var startUs: ExactTime?
+    public var endUs: ExactTime?
     public var segments: [ProbedSegment]?
     public var width: Int?
     public var height: Int?
@@ -33,11 +33,11 @@ public struct ProbedStream: Encodable, Sendable {
 }
 
 public struct ProbedSegment: Encodable, Sendable {
-    public let startUs: Int64
-    public let endUs: Int64
+    public let startUs: ExactTime
+    public let endUs: ExactTime
     public let empty: Bool
-    public let mediaStartUs: Int64?
-    public let mediaDurationUs: Int64?
+    public let mediaStartUs: ExactTime?
+    public let mediaDurationUs: ExactTime?
 }
 
 public struct ProbedSamples: Encodable, Sendable {
@@ -52,7 +52,7 @@ public struct ProbedSamples: Encodable, Sendable {
 public enum MediaProbe {
     public static func inspect(url: URL) async throws -> ProbedMedia {
         if let faces = try FontProbe.inspect(url: url) {
-            return ProbedMedia(originUs: 0, streams: [], fontFaces: faces)
+            return ProbedMedia(originUs: ExactTime(0), streams: [], fontFaces: faces)
         }
         if let image = try StillImageSource.open(url) {
             var stream = ProbedStream(
@@ -63,7 +63,7 @@ public enum MediaProbe {
             stream.orientedHeight = Double(image.orientedHeight)
             stream.orientation = image.orientation
             stream.hasAlpha = image.hasAlpha
-            return ProbedMedia(originUs: 0, streams: [stream])
+            return ProbedMedia(originUs: ExactTime(0), streams: [stream])
         }
         let input = try MediaInput(url: url)
         let tracks = try await input.asset.load(.tracks)
@@ -76,7 +76,7 @@ public enum MediaProbe {
         else {
             throw NativeFailure("UNSUPPORTED_MEDIA", "No timed media streams.")
         }
-        let originUs = microseconds(origin)
+        let originUs = try ExactTime(origin)
         var streams: [ProbedStream] = []
         for (track, segments) in zip(tracks, trackSegments) {
             let range = try await track.load(.timeRange)
@@ -97,16 +97,15 @@ public enum MediaProbe {
             var stream = ProbedStream(
                 id: "track:\(track.trackID)", kind: kind, codec: codec, decodable: decodable)
             let occupied = SourceSegment.occupied(of: segments)
-            stream.startUs = occupied.map { microseconds($0.asset.start) - originUs }.min()
-            stream.endUs = occupied.map { microseconds(CMTimeRangeGetEnd($0.asset)) - originUs }
-                .max()
-            stream.segments = segments.map {
+            stream.startUs = try occupied.map { $0.asset.start }.min().map { try ExactTime($0).subtract(originUs) }
+            stream.endUs = try occupied.map { CMTimeRangeGetEnd($0.asset) }.max().map { try ExactTime($0).subtract(originUs) }
+            stream.segments = try segments.map {
                 ProbedSegment(
-                    startUs: microseconds($0.timeMapping.target.start) - originUs,
-                    endUs: microseconds(CMTimeRangeGetEnd($0.timeMapping.target)) - originUs,
+                    startUs: try ExactTime($0.timeMapping.target.start).subtract(originUs),
+                    endUs: try ExactTime(CMTimeRangeGetEnd($0.timeMapping.target)).subtract(originUs),
                     empty: $0.isEmpty,
-                    mediaStartUs: $0.isEmpty ? nil : microseconds($0.timeMapping.source.start),
-                    mediaDurationUs: $0.isEmpty ? nil : microseconds($0.timeMapping.source.duration)
+                    mediaStartUs: $0.isEmpty ? nil : try ExactTime($0.timeMapping.source.start),
+                    mediaDurationUs: $0.isEmpty ? nil : try ExactTime($0.timeMapping.source.duration)
                 )
             }
             if kind == "video" {
@@ -153,7 +152,7 @@ public enum MediaProbe {
 
     /// Cursor timestamps are media time; apply each edit before reporting presentation timing.
     private static func sampleTiming(
-        track: AVAssetTrack, segments: [SourceSegment], originUs: Int64
+        track: AVAssetTrack, segments: [SourceSegment], originUs: ExactTime
     ) throws -> ProbedSamples {
         var count: Int64 = 0
         var first = Int64.max
@@ -178,8 +177,9 @@ public enum MediaProbe {
                     let presented = segment.assetTime(
                         ofMedia: CMTimeMaximum(at, segment.media.start))
                     let presentedEnd = segment.assetTime(ofMedia: end)
-                    first = min(first, microseconds(presented) - originUs)
-                    last = max(last, microseconds(presented) - originUs)
+                    let label = try ExactTime(presented).subtract(originUs).sample(1_000_000, nearest: true)
+                    first = min(first, label)
+                    last = max(last, label)
                     let length = microseconds(CMTimeSubtract(presentedEnd, presented))
                     minimum = min(minimum, length)
                     maximum = max(maximum, length)

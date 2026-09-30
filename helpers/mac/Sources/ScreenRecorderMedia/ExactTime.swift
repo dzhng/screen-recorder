@@ -72,6 +72,40 @@ public struct ExactTime: Codable, Sendable, Equatable {
         }
         self.init(Int128(time.value) * 1_000_000, Int128(time.timescale))
     }
+    /// Preserve an observation API's binary floating-point seconds until its final label projection.
+    package init(seconds: Double) throws {
+        guard seconds.isFinite else {
+            throw NativeFailure("INVALID_REQUEST", "Observed seconds must be finite.")
+        }
+        let bits = seconds.bitPattern
+        let encodedExponent = Int((bits >> 52) & 0x7ff)
+        let fraction = bits & 0x000f_ffff_ffff_ffff
+        var top = UInt128(encodedExponent == 0 ? fraction : fraction | (1 << 52)) * 1_000_000
+        guard top != 0 else { self.init(0); return }
+        var exponent = (encodedExponent == 0 ? -1022 : encodedExponent - 1023) - 52
+        if exponent < 0 {
+            let canceled = min(top.trailingZeroBitCount, -exponent)
+            top >>= canceled
+            exponent += canceled
+        }
+        let bottom: UInt128
+        if exponent >= 0 {
+            guard exponent < 127, top <= UInt128(Int128.max) >> exponent else {
+                throw NativeFailure("NOT_READY", "Observed seconds exceed exact arithmetic capacity.")
+            }
+            top <<= exponent
+            bottom = 1
+        } else {
+            guard -exponent < 127 else {
+                throw NativeFailure("NOT_READY", "Observed seconds exceed exact arithmetic capacity.")
+            }
+            bottom = UInt128(1) << -exponent
+        }
+        guard let numerator = Int128(exactly: top), let denominator = Int128(exactly: bottom) else {
+            throw NativeFailure("NOT_READY", "Observed seconds exceed exact arithmetic capacity.")
+        }
+        self.init(seconds.sign == .minus ? -numerator : numerator, denominator)
+    }
     package init(_ numerator: Int128, _ denominator: Int128 = 1) {
         var a = numerator.magnitude
         var b = denominator.magnitude
@@ -87,6 +121,16 @@ public struct ExactTime: Codable, Sendable, Equatable {
         let top = left.partialValue.subtractingReportingOverflow(right.partialValue)
         guard !left.overflow, !right.overflow, !bottom.overflow, !top.overflow else {
             throw NativeFailure("NOT_READY", "Audio time exceeds native exact arithmetic capacity.")
+        }
+        return ExactTime(top.partialValue, bottom.partialValue)
+    }
+    package func adding(_ other: ExactTime) throws -> ExactTime {
+        let left = numerator.multipliedReportingOverflow(by: other.denominator)
+        let right = other.numerator.multipliedReportingOverflow(by: denominator)
+        let bottom = denominator.multipliedReportingOverflow(by: other.denominator)
+        let top = left.partialValue.addingReportingOverflow(right.partialValue)
+        guard !left.overflow, !right.overflow, !bottom.overflow, !top.overflow else {
+            throw NativeFailure("NOT_READY", "Time exceeds native exact arithmetic capacity.")
         }
         return ExactTime(top.partialValue, bottom.partialValue)
     }

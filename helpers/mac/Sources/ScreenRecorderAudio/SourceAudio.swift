@@ -8,7 +8,7 @@ public struct SourceAudioResult: Encodable, Sendable {
     public let sampleRate: Int
     public let channels: Int
     public let layout: String
-    public let range: TimeSpan
+    public let range: ExactRange
     public struct Samples: Encodable, Sendable {
         public let start: Int64
         public let end: Int64
@@ -16,11 +16,11 @@ public struct SourceAudioResult: Encodable, Sendable {
     public let sampleRange: Samples
     public let decodedFrames: Int64
     public let frames: Int64
-    public let unavailable: [TimeSpan]
+    public let unavailable: [ExactRange]
 }
 
 public enum SourceAudio {
-    public static func write(source: AudioSourceSelection, range: TimeSpan, output: URL)
+    public static func write(source: AudioSourceSelection, range: ExactRange, output: URL)
         async throws -> SourceAudioResult
     {
         let stream = try await AudioPCMStream.open(source: source, range: range)
@@ -31,8 +31,8 @@ public enum SourceAudio {
             sampleRate: stream.format.sampleRate, channels: stream.format.channels,
             layout: stream.format.channels == 1 ? "mono" : "stereo", range: range,
             sampleRange: .init(
-                start: try ExactTime(Int128(range.startUs)).sample(stream.format.sampleRate),
-                end: try ExactTime(Int128(range.endUs)).sample(stream.format.sampleRate)),
+                start: try range.startUs.sample(stream.format.sampleRate),
+                end: try range.endUs.sample(stream.format.sampleRate)),
             decodedFrames: stream.decodedFrames, frames: stream.frames,
             unavailable: stream.reports[0].unavailable)
     }

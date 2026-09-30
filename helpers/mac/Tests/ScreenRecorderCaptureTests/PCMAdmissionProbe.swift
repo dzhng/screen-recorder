@@ -125,19 +125,19 @@ func runPCMAdmissionProbe(output: String, canonical: String) async throws {
   let range = TimeSpan(startUs: 1_200_000, endUs: 1_400_000)
   let baseline = try await SourceAudio.write(
     source: AudioSourceSelection(
-      source: canonical, streamId: "track:\(track.trackID)", sourceOffsetUs: 0,
-      available: [TimeSpan(startUs: 0, endUs: 2_100_000)]), range: range,
+      source: canonical, streamId: "track:\(track.trackID)", sourceOffsetUs: ExactTime(0),
+      available: [ExactRange(startUs: 0, endUs: 2_100_000)]), range: ExactRange(range),
     output: directory.appendingPathComponent("baseline.wav"))
   let masked = try await SourceAudio.write(
     source: AudioSourceSelection(
-      source: canonical, streamId: "track:\(track.trackID)", sourceOffsetUs: 0,
+      source: canonical, streamId: "track:\(track.trackID)", sourceOffsetUs: ExactTime(0),
       available: [
-        TimeSpan(startUs: 0, endUs: 1_200_041), TimeSpan(startUs: 1_200_042, endUs: 2_100_000),
-      ]), range: range, output: directory.appendingPathComponent("masked.wav"))
+        ExactRange(startUs: 0, endUs: 1_200_041), ExactRange(startUs: 1_200_042, endUs: 2_100_000),
+      ]), range: ExactRange(range), output: directory.appendingPathComponent("masked.wav"))
   precondition(baseline.frames == 9600 && masked.frames == 9600)
   precondition(
-    masked.unavailable.count == 1 && masked.unavailable[0].startUs == 1_200_041
-      && masked.unavailable[0].endUs == 1_200_042)
+    masked.unavailable.count == 1 && masked.unavailable[0].startUs == ExactTime(1_200_041)
+      && masked.unavailable[0].endUs == ExactTime(1_200_042))
   cases.append([
     "name": "explicit-reader-mask", "startUs": 1_200_041, "endUs": 1_200_042, "binding": true,
   ])

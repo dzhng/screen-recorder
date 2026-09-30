@@ -111,8 +111,8 @@ struct SelectedAudioTests {
             let donor = try wave(directory, "donor-\(poison)", rate: 48000, channels: 1, samples: sourcePCM)
             let selected = directory.appendingPathComponent("selected-\(poison).wav")
             let receipt = try await SourceAudio.write(source: AudioSourceSelection(source: donor.path,
-                sourceOffsetUs: 0, available: [TimeSpan(startUs: 150000, endUs: 300000), TimeSpan(startUs: 600000, endUs: 800000)]),
-                range: TimeSpan(startUs: 100000, endUs: 900000), output: selected)
+                sourceOffsetUs: ExactTime(0), available: [ExactRange(startUs: 150000, endUs: 300000), ExactRange(startUs: 600000, endUs: 800000)]),
+                range: ExactRange(startUs: 100000, endUs: 900000), output: selected)
             precondition(!receipt.unavailable.isEmpty)
             let stream = try await SelectedAudioConversion.open(source: selected, sampleRate: 44100, channels: 2)
             _ = try await stream.write(to: directory.appendingPathComponent("isolated-\(poison).wav"))

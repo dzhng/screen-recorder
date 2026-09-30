@@ -34,7 +34,7 @@ final class PreparedPointers {
         let availability: String?
         let captureUs: Int64?
         let clockOffsetUs: Int64?
-        let sourceToAssetOffsetUs: Int64?
+        let sourceToAssetOffsetUs: ExactTime?
         let width: Int?
         let height: Int?
         let start: Time?
@@ -95,10 +95,11 @@ final class PreparedPointers {
                 let offset = result.clockOffsetUs, offset >= -TimeSpan.maximumMicroseconds,
                 offset <= TimeSpan.maximumMicroseconds,
                 let mapping = result.sourceToAssetOffsetUs,
-                mapping >= -TimeSpan.maximumMicroseconds, mapping <= TimeSpan.maximumMicroseconds,
+                try mapping.compare(ExactTime(-Int128(TimeSpan.maximumMicroseconds))) != .orderedAscending,
+                try mapping.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending,
                 let requested = result.requestedSourceUs
             else { throw invalid("Prepared source clock or raster is invalid.") }
-            let capture = try requested.subtract(ExactTime(Int128(mapping)))
+            let capture = try requested.subtract(mapping)
             guard capture.numerator >= 0, try capture.sample(1_000_000) == at,
                 try capture.compare(ExactTime(start.time())) != .orderedAscending,
                 try capture.compare(ExactTime(end.time())) == .orderedAscending
@@ -156,7 +157,7 @@ final class PreparedPointers {
             return row
         }
         guard row.status == "picture", let sample = row.sampleTime, let observed = picture.sample,
-            let observedValue = Int64(observed.value), offset - mapping == observed.originUs
+            let observedValue = Int64(observed.value), try ExactTime(Int128(offset)).subtract(mapping) == observed.originUs
         else { throw invalid("Prepared pointer has no observed source identity.") }
         let translated = try ExactTime(sample.time()).subtract(ExactTime(-Int128(offset)))
         guard try translated.compare(ExactTime(CMTime(value: observedValue, timescale: observed.timescale))) == .orderedSame

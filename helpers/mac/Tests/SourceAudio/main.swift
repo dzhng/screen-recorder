@@ -9,6 +9,24 @@ import ScreenRecorderAudio
 #endif
 
 #if DEBUG
+// Integer recording observations cannot encode a positive sub-microsecond hole whose endpoints
+// project to the same label. Raw selected-source reports still retain that exact physical hole.
+let physicalMissing = AudioSourceReport(gain: 1, sampleRate: 48_000, channels: 1, unavailable: [
+    ExactRange(startUs: ExactTime(1, 4), endUs: ExactTime(1, 3)),
+    ExactRange(startUs: ExactTime(7, 2), endUs: ExactTime(9, 2)),
+])
+let recordingMissing = try AudioTrackReport(role: .narration, source: physicalMissing)
+precondition(recordingMissing.unavailable == [TimeSpan(startUs: 4, endUs: 5)],
+    "Recording receipts must omit empty projected holes while retaining observable gaps")
+precondition(physicalMissing.unavailable.count == 2)
+let tinyIsland = AudioSourceReport(gain: 1, sampleRate: 48_000, channels: 1, unavailable: [
+    ExactRange(startUs: ExactTime(0), endUs: ExactTime(3, 5)),
+    ExactRange(startUs: ExactTime(7, 10), endUs: ExactTime(2)),
+])
+let islandReceipt = try AudioTrackReport(role: .narration, source: tinyIsland)
+precondition(islandReceipt.unavailable == [TimeSpan(startUs: 0, endUs: 1), TimeSpan(startUs: 1, endUs: 2)],
+    "A collapsed readable island must preserve the existing touching observation pieces")
+
 // A seek is an interior point in an already selected native cell, including negative
 // presentation origins and phases whose denominator cannot combine into CMTimeScale.
 for rate in [8000, 44100, 48000, 192000] {
@@ -61,7 +79,7 @@ func wave(_ url: URL) throws -> (rate: Int, channels: Int, samples: [Float]) {
 }
 func fixture(
     rate: Double, channels: Int, name: String, poison: Bool = false, discrete: Bool = false,
-    seconds: Double = 1.1
+    seconds: Double = 1.1, frameCount: Int? = nil
 ) throws -> URL {
     let url = directory.appendingPathComponent(name + ".caf")
     let format =
@@ -76,7 +94,7 @@ func fixture(
     let file = try AVAudioFile(
         forWriting: url, settings: format.settings, commonFormat: .pcmFormatFloat32,
         interleaved: true)
-    let count = Int(rate * seconds)
+    let count = frameCount ?? Int(rate * seconds)
     let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(count))!
     buffer.frameLength = AVAudioFrameCount(count)
     for frame in 0..<count {
@@ -168,11 +186,11 @@ for rate in [44_100, 48_000] {
         TimeSpan(startUs: 13, endUs: 200_000), TimeSpan(startUs: 300_000, endUs: 999_987),
     ]
     let selection = AudioSourceSelection(
-        source: url.path, streamId: tracks[0], sourceOffsetUs: -1_250_000, available: support)
+        source: url.path, streamId: tracks[0], sourceOffsetUs: ExactTime(-1_250_000), available: support.map(ExactRange.init))
     let fullRange = TimeSpan(startUs: 0, endUs: 1_000_000)
     let fullURL = directory.appendingPathComponent("full-\(rate).wav")
     let originalBytes = try Data(contentsOf: url)
-    let full = try await SourceAudio.write(source: selection, range: fullRange, output: fullURL)
+    let full = try await SourceAudio.write(source: selection, range: ExactRange(fullRange), output: fullURL)
     let reference = try wave(fullURL)
     precondition(full.frames == Int64(rate) && reference.channels == 2)
     for frame in 0..<32 {
@@ -188,13 +206,13 @@ for rate in [44_100, 48_000] {
             TimeSpan(startUs: 0, endUs: 13), TimeSpan(startUs: 200_000, endUs: 300_000),
             TimeSpan(startUs: 400_000, endUs: 600_000),
             TimeSpan(startUs: 999_987, endUs: 1_000_000),
-        ], "Unexpected unavailable: \(full.unavailable)")
+        ].map(ExactRange.init), "Unexpected unavailable: \(full.unavailable)")
     for (index, range) in [
         TimeSpan(startUs: 71, endUs: 199_991), TimeSpan(startUs: 199_997, endUs: 600_013),
         TimeSpan(startUs: 610_013, endUs: 999_981),
     ].enumerated() {
         let output = directory.appendingPathComponent("part-\(rate)-\(index).wav")
-        let part = try await SourceAudio.write(source: selection, range: range, output: output)
+        let part = try await SourceAudio.write(source: selection, range: ExactRange(range), output: output)
         let actual = try wave(output)
         precondition(part.sampleRange.start == range.startUs * Int64(rate) / 1_000_000)
         precondition(part.sampleRange.end == range.endUs * Int64(rate) / 1_000_000)
@@ -209,15 +227,15 @@ for rate in [44_100, 48_000] {
     let poisonOutput = directory.appendingPathComponent("poison-\(rate).wav")
     _ = try await SourceAudio.write(
         source: .init(
-            source: poisonURL.path, streamId: poisonTracks[0], sourceOffsetUs: -1_250_000,
-            available: support), range: fullRange, output: poisonOutput)
+            source: poisonURL.path, streamId: poisonTracks[0], sourceOffsetUs: ExactTime(-1_250_000),
+            available: support.map(ExactRange.init)), range: ExactRange(fullRange), output: poisonOutput)
     let poisoned = try wave(poisonOutput)
     precondition(poisoned.samples == reference.samples, "Excluded poison leaked")
     let monoOutput = directory.appendingPathComponent("mono-\(rate).wav")
     let mono = try await SourceAudio.write(
         source: .init(
-            source: url.path, streamId: tracks[1], sourceOffsetUs: -1_250_000,
-            available: [.init(startUs: 0, endUs: 1_000_000)]), range: fullRange, output: monoOutput)
+            source: url.path, streamId: tracks[1], sourceOffsetUs: ExactTime(-1_250_000),
+            available: [.init(startUs: 0, endUs: 1_000_000)]), range: ExactRange(fullRange), output: monoOutput)
     precondition(mono.channels == 1 && mono.layout == "mono")
     let remainingBytes = try Data(contentsOf: url)
     precondition(originalBytes == remainingBytes)
@@ -231,6 +249,80 @@ for rate in [44_100, 48_000] {
     try JSONSerialization.data(withJSONObject: request).write(
         to: directory.appendingPathComponent("request-\(rate).json"))
 }
+// Noninteger file extents must admit and select every physical sample. Integer floor requests
+// remain deliberately shorter, and late views retain the same physical source-frame addresses.
+for (rate, count) in [(48_000, 246_478), (44_100, 44_117), (44_100, 44_116)] {
+    let source = try fixture(rate: Double(rate), channels: 1, name: "exact-end-\(rate)-\(count)", frameCount: count)
+    let probed = try await MediaProbe.inspect(url: source)
+    let stream = probed.streams[0]
+    let end = ExactTime(Int128(count) * 1_000_000, Int128(rate))
+    precondition(probed.originUs == ExactTime(0) && stream.startUs == ExactTime(0) && stream.endUs == end)
+    let range = ExactRange(startUs: ExactTime(0), endUs: end)
+    let selected = AudioSourceSelection(source: source.path, streamId: stream.id,
+        sourceOffsetUs: ExactTime(0), available: [range])
+    let intervals = try await AudioPCMStream.readableIntervals(of: selected)
+    precondition(intervals == [range], "Speech/source support was rounded before decoding")
+    let expected = (0..<count).map { Float(($0 * 3) % 101 - 50) / 100 }
+    precondition(expected.last != 0)
+    let fullURL = directory.appendingPathComponent("exact-end-\(rate)-\(count)-full.wav")
+    let full = try await SourceAudio.write(source: selected, range: range, output: fullURL)
+    let fullPCM = try wave(fullURL).samples
+    precondition(full.frames == Int64(count) && full.unavailable.isEmpty && fullPCM == expected)
+    let first = count - 127
+    let lateRange = ExactRange(startUs: ExactTime(Int128(first) * 1_000_000, Int128(rate)), endUs: end)
+    let lateURL = directory.appendingPathComponent("exact-end-\(rate)-\(count)-late.wav")
+    let late = try await SourceAudio.write(source: selected, range: lateRange, output: lateURL)
+    let latePCM = try wave(lateURL).samples
+    precondition(late.frames == 127 && latePCM == Array(expected[first...]))
+    let floorRange = ExactRange(startUs: ExactTime(0), endUs: ExactTime(Int128(try end.sample(1_000_000))))
+    let floorURL = directory.appendingPathComponent("exact-end-\(rate)-\(count)-floor.wav")
+    let floorResult = try await SourceAudio.write(source: selected, range: floorRange, output: floorURL)
+    let floorPCM = try wave(floorURL).samples
+    precondition(floorResult.frames == Int64(count - 1) && floorPCM == Array(expected.dropLast()))
+}
+print("PASS exact48k/44.1k admission, complete/late PCM and explicit-floor semantics")
+
+// Two streams share one fractional container origin. The later stream begins a third of a
+// microsecond into normalized source time, between output samples; it must not acquire silence.
+do {
+    let count = 48_017
+    let input = try await pcmMovie(fixture(rate: 48_000, channels: 1, name: "fractional-origin", frameCount: count + 4096))
+    let asset = AVURLAsset(url: input)
+    defer { withExtendedLifetime(asset) {} }
+    let source = try await asset.loadTracks(withMediaType: .audio)[0]
+    let composition = AVMutableComposition()
+    for anchor: Int64 in [2_000_002, 2_000_004] {
+        let track = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+        track.naturalTimeScale = 6_000_000
+        try track.insertTimeRange(CMTimeRange(start: .zero, duration: CMTime(value: Int64(count), timescale: 48_000)),
+            of: source, at: CMTime(value: anchor, timescale: 6_000_000))
+    }
+    let file = directory.appendingPathComponent("fractional-shared-origin.mov")
+    try await AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!.export(to: file, as: .mov)
+    let metadata = try await MediaProbe.inspect(url: file)
+    precondition(metadata.originUs == ExactTime(1_000_001, 3))
+    precondition(metadata.streams.count == 2)
+    let lateStream = metadata.streams[1]
+    precondition(lateStream.startUs == ExactTime(1, 3))
+    precondition(lateStream.segments!.contains { $0.empty && $0.startUs.numerator < 0 })
+    let range = ExactRange(startUs: lateStream.startUs!, endUs: lateStream.endUs!)
+    let selection = AudioSourceSelection(source: file.path, streamId: lateStream.id,
+        sourceOffsetUs: try ExactTime(0).subtract(metadata.originUs), available: [range])
+    let expected = (0..<count).map { Float(($0 * 3) % 101 - 50) / 100 }
+    let fullURL = directory.appendingPathComponent("fractional-origin-full.wav")
+    let full = try await SourceAudio.write(source: selection, range: range, output: fullURL)
+    let samples = try wave(fullURL).samples
+    precondition(full.frames == Int64(count) && samples == expected && full.unavailable.isEmpty,
+        "Fractional relative support changed the first or last physical sample")
+    let lateRange = ExactRange(startUs: try range.startUs.adding(ExactTime(Int128(count - 127) * 1_000_000, 48_000)), endUs: range.endUs)
+    let lateURL = directory.appendingPathComponent("fractional-origin-late.wav")
+    let late = try await SourceAudio.write(source: selection, range: lateRange, output: lateURL)
+    let lateSamples = try wave(lateURL).samples
+    precondition(late.frames == 127 && lateSamples == Array(expected.suffix(127)))
+    try JSONEncoder().encode(metadata).write(to: directory.appendingPathComponent("fractional-origin-probe.json"))
+}
+print("PASS fractional shared origin, unequal stream starts, signed leading empty and native first/last PCM")
+
 // A sample-aligned physical edit need not have an integral microsecond boundary.
 let rationalInput = try await pcmMovie(fixture(rate: 48_000, channels: 1, name: "rational-source", seconds: 2.1))
 let rationalAsset = AVURLAsset(url: rationalInput)
@@ -248,7 +340,7 @@ try await AVAssetExportSession(asset: rationalComposition, presetName: AVAssetEx
 let rationalPublished = try await AVURLAsset(url: rationalURL).loadTracks(withMediaType: .audio)[0]
 let rationalSegments = SourceSegment.occupied(of: try await rationalPublished.load(.segments))
 precondition(rationalSegments[1].asset.start == CMTime(value: 45760, timescale: 48000))
-let rationalSelection = AudioSourceSelection(source: rationalURL.path, sourceOffsetUs: 0, available: [.init(startUs: 0, endUs: 2_100_000)])
+let rationalSelection = AudioSourceSelection(source: rationalURL.path, sourceOffsetUs: ExactTime(0), available: [.init(startUs: 0, endUs: 2_100_000)])
 let rationalFullURL = directory.appendingPathComponent("rational-full.wav")
 _ = try await SourceAudio.write(source: rationalSelection, range: .init(startUs: 0, endUs: 2_100_000), output: rationalFullURL)
 let rationalFull = try wave(rationalFullURL).samples
@@ -264,7 +356,7 @@ precondition(rationalLate == Array(rationalExpected[57600..<67200]), "Late sourc
 // Acquisition remains binding even when physical media exists outside it.
 let acquiredURL = directory.appendingPathComponent("rational-acquired.wav")
 _ = try await SourceAudio.write(
-    source: .init(source: rationalURL.path, sourceOffsetUs: 0, available: [.init(startUs: 1_200_000, endUs: 1_400_000)]),
+    source: .init(source: rationalURL.path, sourceOffsetUs: ExactTime(0), available: [.init(startUs: 1_200_000, endUs: 1_400_000)]),
     range: .init(startUs: 1_000_000, endUs: 1_500_000), output: acquiredURL)
 let acquired = try wave(acquiredURL).samples
 precondition(acquired == [Float](repeating: 0, count: 9600) + Array(rationalExpected[57600..<67200]) + [Float](repeating: 0, count: 4800))
@@ -287,7 +379,7 @@ for rate in [44100, 48000] {
         let end = anchor + 2000000
         for maskStart: Int64 in [anchor, 1200001, 1200013] {
             let maskEnd = maskStart == anchor ? end : 1400013
-            let selection = AudioSourceSelection(source: file.path, sourceOffsetUs: 0,
+            let selection = AudioSourceSelection(source: file.path, sourceOffsetUs: ExactTime(0),
                 available: [.init(startUs: maskStart, endUs: maskEnd)])
             let fullURL = directory.appendingPathComponent("phase-\(rate)-\(anchor)-\(maskStart)-full.wav")
             _ = try await SourceAudio.write(source: selection, range: .init(startUs: 0, endUs: end), output: fullURL)
@@ -313,9 +405,9 @@ for (rate, channels, discrete) in [(44_100.5, 2, false), (48_000.0, 4, true), (4
     #if DEBUG
     if rate.rounded() != rate {
         do {
-            _ = try await SourceTrack.open(
-                source: source.path, streamId: nil, sourceOffsetUs: 0,
-                available: [.init(startUs: 0, endUs: 1_000_000)])
+            _ = try await SourceTrack.open(selection: AudioSourceSelection(
+                source: source.path, sourceOffsetUs: ExactTime(0),
+                available: [.init(startUs: 0, endUs: 1_000_000)]))
             fatalError("Common audio execution accepted a fractional native rate")
         } catch let error as NativeFailure { precondition(error.code == "UNSUPPORTED_FORMAT") }
     }
@@ -323,7 +415,7 @@ for (rate, channels, discrete) in [(44_100.5, 2, false), (48_000.0, 4, true), (4
     do {
         _ = try await SourceAudio.write(
             source: .init(
-                source: source.path, sourceOffsetUs: 0,
+                source: source.path, sourceOffsetUs: ExactTime(0),
                 available: [.init(startUs: 0, endUs: 1_000_000)]),
             range: .init(startUs: 0, endUs: 100_000),
             output: directory.appendingPathComponent("unsupported-\(channels).wav"))
@@ -332,7 +424,7 @@ for (rate, channels, discrete) in [(44_100.5, 2, false), (48_000.0, 4, true), (4
 }
 let longSource = try fixture(rate: 48_000, channels: 2, name: "long", seconds: 60)
 let longSelection = AudioSourceSelection(
-    source: longSource.path, sourceOffsetUs: 0, available: [.init(startUs: 0, endUs: 60_000_000)])
+    source: longSource.path, sourceOffsetUs: ExactTime(0), available: [.init(startUs: 0, endUs: 60_000_000)])
 let longOutput = directory.appendingPathComponent("long.wav")
 _ = try await SourceAudio.write(
     source: longSelection, range: .init(startUs: 0, endUs: 60_000_000), output: longOutput)
@@ -388,7 +480,7 @@ let urlInput = try MediaInput(url: longSource)
 precondition(urlInput.readWork == nil, "Opaque AVFoundation URL I/O is unknown")
 let capacitySource = directory.appendingPathComponent("clean-48000.caf")
 let capacitySelection = AudioSourceSelection(
-    source: capacitySource.path, sourceOffsetUs: 0, available: [])
+    source: capacitySource.path, sourceOffsetUs: ExactTime(0), available: [])
 let capacityOutput = directory.appendingPathComponent("oversize.wav")
 do {
     _ = try await SourceAudio.write(

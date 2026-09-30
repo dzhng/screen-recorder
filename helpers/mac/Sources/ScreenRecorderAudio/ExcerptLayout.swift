@@ -8,32 +8,32 @@ import ScreenRecorderMedia
 /// running total instead keeps the error of the whole excerpt, and of every boundary inside it,
 /// within half a frame of the requested playback time.
 struct ExcerptLayout {
-    let spans: [TimeSpan]
+    let spans: [ExactRange]
     let sampleRate: Int
     /// `spans.count + 1` playback microsecond boundaries; entry `i` is how much playback time the
     /// spans before span `i` hold, and the last entry is the excerpt's requested duration.
-    let playedUs: [Int64]
+    let playedUs: [ExactTime]
     /// `spans.count + 1` frame boundaries, each quantised from the matching `playedUs`.
     let starts: [Int64]
     let sourceOriginFrame: Int64?
 
-    init(spans: [TimeSpan], sampleRate: Int) {
+    init(spans: [ExactRange], sampleRate: Int) throws {
         sourceOriginFrame = nil
         self.spans = spans
         self.sampleRate = sampleRate
-        var played: [Int64] = [0]
-        for span in spans { played.append(played.last! + (span.endUs - span.startUs)) }
+        var played = [ExactTime(0)]
+        for span in spans { played.append(try played.last!.adding(span.endUs.subtract(span.startUs))) }
         playedUs = played
-        starts = played.map { Self.frames(ofUs: $0, at: sampleRate) }
+        starts = try played.map { try $0.sample(sampleRate, nearest: true) }
     }
 
-    init(window: TimeSpan, sampleRate: Int) throws {
+    init(window: ExactRange, sampleRate: Int) throws {
         spans = [window]
         self.sampleRate = sampleRate
-        let start = try ExactTime(Int128(window.startUs)).sample(sampleRate)
-        let end = try ExactTime(Int128(window.endUs)).sample(sampleRate)
+        let start = try window.startUs.sample(sampleRate)
+        let end = try window.endUs.sample(sampleRate)
         sourceOriginFrame = start
-        playedUs = [0, window.endUs - window.startUs]
+        playedUs = [ExactTime(0), try window.endUs.subtract(window.startUs)]
         starts = [0, end - start]
     }
 
@@ -50,7 +50,7 @@ struct ExcerptLayout {
     /// inside a span cannot land a frame away from where that span was placed.
     func frame(at time: ExactTime, inSpan index: Int) throws -> Int64 {
         if let sourceOriginFrame { return try time.sample(sampleRate) - sourceOriginFrame }
-        let offset = ExactTime(Int128(spans[index].startUs) - Int128(playedUs[index]))
+        let offset = try spans[index].startUs.subtract(playedUs[index])
         return try time.subtract(offset).sample(sampleRate, nearest: true)
     }
     /// Ramp length at a join. Half of a short span, so a fade-out and a fade-in inside the same
@@ -79,24 +79,27 @@ enum ExcerptValidation {
     }
 
     static func check(spans: [TimeSpan], maximumDurationUs: Int64, maximumSpans: Int) throws {
+        try check(spans: spans.map(ExactRange.init), maximumDurationUs: maximumDurationUs,
+            maximumSpans: maximumSpans)
+    }
+
+    static func check(spans: [ExactRange], maximumDurationUs: Int64, maximumSpans: Int) throws {
         guard !spans.isEmpty else {
             throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
         }
         guard spans.count <= maximumSpans else {
-            throw NativeFailure(
-                "LIMIT_EXCEEDED",
-                "Excerpt has \(spans.count) spans, over the \(maximumSpans) span limit.")
+            throw NativeFailure("LIMIT_EXCEEDED", "Excerpt exceeds its span limit.")
         }
-        guard TimeSpan.areRetained(spans) else {
-            throw NativeFailure(
-                "INVALID_RANGE", "Excerpt spans must be ascending, non-touching safe ranges.")
+        guard try ExactRange.areAvailable(spans),
+            try zip(spans, spans.dropFirst()).allSatisfy({ try $0.endUs.compare($1.startUs) == .orderedAscending }),
+            try spans.allSatisfy({ try $0.endUs.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending })
+        else {
+            throw NativeFailure("INVALID_RANGE", "Excerpt spans must be ascending, non-touching safe ranges.")
         }
-        let total = spans.reduce(0) { $0 + $1.endUs - $1.startUs }
-        guard total <= maximumDurationUs else {
-            throw NativeFailure(
-                "LIMIT_EXCEEDED",
-                "Excerpt spans total \(total) microseconds, over the \(maximumDurationUs) microsecond limit."
-            )
+        var total = ExactTime(0)
+        for span in spans { total = try total.adding(span.endUs.subtract(span.startUs)) }
+        guard try total.compare(ExactTime(Int128(maximumDurationUs))) != .orderedDescending else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Excerpt exceeds its duration limit.")
         }
     }
 
@@ -111,16 +114,24 @@ enum ExcerptValidation {
                 "INVALID_REQUEST", "Each track role may appear once in an excerpt plan.")
         }
         for track in tracks {
-            try check(source: track.selection, maximumIntervals: maximumAvailableIntervals)
+            try checkSourceFields(track.selection, maximumIntervals: maximumAvailableIntervals)
         }
     }
 
     static func check(source track: AudioSourceSelection, maximumIntervals: Int) throws {
+        try checkSourceFields(track, maximumIntervals: maximumIntervals)
+        guard try ExactRange.areAvailable(track.available) else {
+            throw NativeFailure("INVALID_RANGE", "Selected source support must be nonnegative and ordered.")
+        }
+    }
+
+    /// Capture masks can precede zero; their retained selections still cannot.
+    private static func checkSourceFields(_ track: AudioSourceSelection, maximumIntervals: Int) throws {
         guard track.source.hasPrefix("/"), !track.source.contains("\0") else {
             throw NativeFailure("INVALID_REQUEST", "Audio source paths must be absolute and contain no NUL.")
         }
-        guard track.sourceOffsetUs >= -TimeSpan.maximumMicroseconds,
-            track.sourceOffsetUs <= TimeSpan.maximumMicroseconds else {
+        guard try track.sourceOffsetUs.compare(ExactTime(-Int128(TimeSpan.maximumMicroseconds))) != .orderedAscending,
+            try track.sourceOffsetUs.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending else {
             throw NativeFailure("INVALID_RANGE", "Source offset is not a safe microsecond value.")
         }
         guard track.available.count <= maximumIntervals else {
@@ -129,17 +140,18 @@ enum ExcerptValidation {
                 "Source lists \(track.available.count) available intervals, over the \(maximumIntervals) interval limit."
             )
         }
-        var previous: TimeSpan?
+        var previous: ExactRange?
         for interval in track.available {
-            guard interval.startUs >= -TimeSpan.maximumMicroseconds,
-                interval.endUs <= TimeSpan.maximumMicroseconds, interval.endUs > interval.startUs
+            guard try interval.startUs.compare(ExactTime(-Int128(TimeSpan.maximumMicroseconds))) != .orderedAscending,
+                try interval.endUs.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending,
+                try interval.endUs.compare(interval.startUs) == .orderedDescending
             else {
                 throw NativeFailure(
                     "INVALID_RANGE",
                     "Available interval [\(interval.startUs),\(interval.endUs)) is not a valid half-open range."
                 )
             }
-            if let previous, interval.startUs < previous.endUs {
+            if let previous, try interval.startUs.compare(previous.endUs) == .orderedAscending {
                 throw NativeFailure(
                     "INVALID_RANGE",
                     "Available interval [\(interval.startUs),\(interval.endUs)) overlaps or precedes [\(previous.startUs),\(previous.endUs))."

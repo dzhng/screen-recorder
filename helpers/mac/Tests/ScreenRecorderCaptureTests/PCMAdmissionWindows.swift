@@ -46,8 +46,8 @@ func runPCMAdmissionWindows(output: String, canonical: String) async throws {
   let exactRelativeRoundedUs = (rawFirst - rawOrigin.value + 500) / 1000
   precondition(exactRelativeRoundedUs == 100000)
   let source = AudioSourceSelection(
-    source: canonical, streamId: "track:\(track.trackID)", sourceOffsetUs: 0,
-    available: [TimeSpan(startUs: 0, endUs: 2_100_001)])
+    source: canonical, streamId: "track:\(track.trackID)", sourceOffsetUs: ExactTime(0),
+    available: [ExactRange(startUs: 0, endUs: 2_100_001)])
   let encoder = JSONEncoder()
   encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
   for (name, range) in [
@@ -55,7 +55,7 @@ func runPCMAdmissionWindows(output: String, canonical: String) async throws {
     ("native-window", TimeSpan(startUs: 1_200_011, endUs: 1_299_567)),
   ] {
     let result = try await SourceAudio.write(
-      source: source, range: range, output: directory.appendingPathComponent(name + ".wav"))
+      source: source, range: ExactRange(range), output: directory.appendingPathComponent(name + ".wav"))
     try encoder.encode(result).write(to: directory.appendingPathComponent(name + ".json"))
   }
   for (name, start, end) in [

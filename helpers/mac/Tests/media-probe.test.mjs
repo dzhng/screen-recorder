@@ -149,7 +149,7 @@ test("probe maps B-frame edit lists and excludes stream-copy preroll", (t) => {
   assert.equal(video.samples.firstPtsUs, 0);
   assert.equal(video.samples.lastPtsUs, 2958333);
   assert.equal(video.samples.count, 72);
-  assert.equal(video.segments[0].mediaStartUs, 83333);
+  assert.deepEqual(video.segments[0].mediaStartUs, { numerator: 250000, denominator: 3 });
   const cut = probe(pathToFileURL(trimmed).href);
   assert.equal(cut.ok, true, JSON.stringify(cut));
   const clipped = cut.data.streams[0];

@@ -16,9 +16,9 @@ public enum AudioRole: String, Codable, Sendable, CaseIterable {
 public struct AudioSourceSelection: Codable, Sendable, Equatable {
     public let source: String
     public let streamId: String?
-    public let sourceOffsetUs: Int64
-    public let available: [TimeSpan]
-    public init(source: String, streamId: String? = nil, sourceOffsetUs: Int64, available: [TimeSpan]) {
+    public let sourceOffsetUs: ExactTime
+    public let available: [ExactRange]
+    public init(source: String, streamId: String? = nil, sourceOffsetUs: ExactTime, available: [ExactRange]) {
         self.source = source
         self.streamId = streamId
         self.sourceOffsetUs = sourceOffsetUs
@@ -42,7 +42,7 @@ public struct AudioTrackPlan: Codable, Sendable, Equatable {
 
 extension AudioTrackPlan {
     var selection: AudioSourceSelection {
-        AudioSourceSelection(source: source, sourceOffsetUs: sourceOffsetUs, available: available)
+        AudioSourceSelection(source: source, sourceOffsetUs: ExactTime(Int128(sourceOffsetUs)), available: available.map(ExactRange.init))
     }
 }
 
@@ -81,7 +81,7 @@ public struct AudioSourceReport: Sendable {
     public let gain: Double
     public let sampleRate: Int
     public let channels: Int
-    public let unavailable: [TimeSpan]
+    public let unavailable: [ExactRange]
 }
 
 public struct AudioTrackReport: Codable, Sendable, Equatable {
@@ -90,9 +90,12 @@ public struct AudioTrackReport: Codable, Sendable, Equatable {
     public let sampleRate: Int
     public let channels: Int
     public let unavailable: [TimeSpan]
-    public init(role: AudioRole, source: AudioSourceReport) {
+    public init(role: AudioRole, source: AudioSourceReport) throws {
         self.init(role: role, gain: source.gain, sampleRate: source.sampleRate,
-            channels: source.channels, unavailable: source.unavailable)
+            channels: source.channels, unavailable: try source.unavailable.compactMap {
+                let span = try $0.roundedSpan()
+                return span.endUs > span.startUs ? span : nil
+            })
     }
     public init(
         role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [TimeSpan]

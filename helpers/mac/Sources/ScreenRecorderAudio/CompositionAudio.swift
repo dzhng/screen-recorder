@@ -115,8 +115,8 @@ public enum CompositionAudio {
                 let end =
                     try range.endUs.subtract(physicalEnd).numerator <= 0 ? range.endUs : physicalEnd
                 guard try end.subtract(start).numerator > 0 else { continue }
-                let rawStart = try start.subtract(ExactTime(Int128(source.sourceOffsetUs)))
-                let rawEnd = try end.subtract(ExactTime(Int128(source.sourceOffsetUs)))
+                let rawStart = try start.subtract(source.sourceOffsetUs)
+                let rawEnd = try end.subtract(source.sourceOffsetUs)
                 let sourceStart = try rawStart.subtract(occupied.nativeOrigin).sample(source.sampleRate, nearest: true)
                 let sourceEnd = try rawEnd.subtract(occupied.nativeOrigin).sample(source.sampleRate, ceil: true)
                 let project = Plan.Samples(
@@ -413,8 +413,8 @@ public enum CompositionAudio {
                 let streamId = clip.source.streamId, let range = clip.source.range,
                 let asset = assets[[assetId, streamId]]?.first,
                 asset.path.hasPrefix("/"), !asset.path.contains("\0"),
-                asset.originUs >= -TimeSpan.maximumMicroseconds,
-                asset.originUs <= TimeSpan.maximumMicroseconds
+                try asset.originUs.compare(ExactTime(-Int128(TimeSpan.maximumMicroseconds))) != .orderedAscending,
+                try asset.originUs.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending
             else {
                 throw invalid("A range clip requires its resolved absolute asset stream.")
             }
@@ -428,10 +428,10 @@ public enum CompositionAudio {
             if let existing = sources.opened[[assetId, streamId]] {
                 source = existing
             } else {
-                source = try await SourceTrack.open(
+                source = try await SourceTrack.open(selection: AudioSourceSelection(
                     source: asset.path, streamId: streamId,
-                    sourceOffsetUs: -asset.originUs,
-                    available: [TimeSpan(startUs: 0, endUs: TimeSpan.maximumMicroseconds)])
+                    sourceOffsetUs: ExactTime(0).subtract(asset.originUs),
+                    available: [ExactRange(startUs: 0, endUs: TimeSpan.maximumMicroseconds)]))
                 sources.opened[[assetId, streamId]] = source
             }
             if retiming, sources.retimeFormats.insert([assetId, streamId]).inserted {

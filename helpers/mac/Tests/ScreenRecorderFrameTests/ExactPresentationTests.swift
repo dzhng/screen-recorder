@@ -12,10 +12,16 @@ func verifyExactPresentation(in directory: URL) async throws {
         ["target": clip, "inputs": [], "operations": []],
         ["target": ["kind": "output"], "inputs": [clip], "operations": []],
     ]
-    func render(_ name: String, numerator: Int64, denominator: Int64, expected: Int, origin: Int64 = 0,
+    func render(_ name: String, numerator: Int64, denominator: Int64, expected: Int, origin: Any = 0,
+                expectedActual: Int64? = nil,
                 pointerCutoff: Int64? = nil, pointerSource: [String: Int64]? = nil) async throws {
+        let origin = try JSONDecoder().decode(ExactTime.self,
+            from: JSONSerialization.data(withJSONObject: origin, options: .fragmentsAllowed))
         let output = directory.appendingPathComponent("exact-\(name).png")
-        let selected: [String: Int64] = ["numerator": numerator, "denominator": denominator]
+        func wire(_ value: ExactTime) throws -> Any {
+            try JSONSerialization.jsonObject(with: JSONEncoder().encode(value), options: .fragmentsAllowed)
+        }
+        let selected = try wire(ExactTime(Int128(numerator), Int128(denominator)))
         var frameVisual = visual
         if pointerCutoff != nil {
             frameVisual[0]["operations"] = [["kind": "pointer", "stepId": "p", "trailUs": 0, "geometryPrefix": []]]
@@ -27,14 +33,14 @@ func verifyExactPresentation(in directory: URL) async throws {
                 "visibleRange": ["startUs": 999999, "endUs": 1000000], "visual": frameVisual,
                 "layers": [["kind": "video", "clipId": "c", "trackId": "t", "assetId": "a",
                     "streamId": "track:1", "sourceUs": selected, "availability": "available", "width": 320, "height": 240]]],
-            "assets": [["assetId": "a", "streamId": "track:1", "path": source.path, "originUs": origin]],
+            "assets": [["assetId": "a", "streamId": "track:1", "path": source.path, "originUs": try wire(origin)]],
         ]
         if let pointerCutoff {
             let row: [String: Any] = [
                 "frameIndex": 29, "sampleAtUs": 966666, "clipId": "c", "stepId": "p", "trailUs": 0,
                 "status": "picture", "assetId": "a", "streamId": "track:1",
-                "requestedSourceUs": pointerSource ?? selected, "captureUs": pointerCutoff,
-                "clockOffsetUs": 0, "sourceToAssetOffsetUs": -origin, "width": 320, "height": 240,
+                "requestedSourceUs": pointerSource.map { $0 as Any } ?? selected, "captureUs": pointerCutoff,
+                "clockOffsetUs": 0, "sourceToAssetOffsetUs": try wire(ExactTime(0).subtract(origin)), "width": 320, "height": 240,
                 "start": ["value": "29", "timescale": 30], "end": ["value": "30", "timescale": 30],
                 "sampleTime": ["value": "29", "timescale": 30], "overlay": ["trail": [], "trailUs": 0],
             ]
@@ -50,6 +56,7 @@ func verifyExactPresentation(in directory: URL) async throws {
         let result = try await CompositionFrameRenderer.write(request)
         let receipt = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result)) as! [String: Any]
         let picture = (receipt["pictures"] as! [[String: Any]])[0]
+        if let expectedActual { precondition(picture["actualSourceUs"] as? Int64 == expectedActual) }
         let time = picture["sample"] as! [String: Any]
         let physical = CMTime(value: Int64(time["value"] as! String)!, timescale: Int32(time["timescale"] as! Int))
         precondition(physical == CMTime(value: Int64(expected), timescale: 30), "\(name): wrong exact presentation support")
@@ -68,6 +75,10 @@ func verifyExactPresentation(in directory: URL) async throws {
     try await render("large-denominator-after", numerator: 3866666667633334, denominator: 4000000001, expected: 29)
     try await render("positive-origin", numerator: 2897000, denominator: 3, expected: 29, origin: 1000)
     try await render("negative-origin", numerator: 2903000, denominator: 3, expected: 29, origin: -1000)
+    try await render("positive-fractional-origin", numerator: 2899999, denominator: 3,
+        expected: 29, origin: ["numerator": 1, "denominator": 3], expectedActual: 966666)
+    try await render("negative-fractional-origin", numerator: 2900001, denominator: 3,
+        expected: 29, origin: ["numerator": -1, "denominator": 3], expectedActual: 966667)
     try await render("pointer-exact-support", numerator: 2897000, denominator: 3, expected: 29,
         origin: 1000, pointerCutoff: 966666)
     for (name, cutoff, source) in [

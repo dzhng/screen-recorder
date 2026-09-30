@@ -49,8 +49,8 @@ func runCaptureAudioMaterializerTests() async throws {
     let endUs = Int64((endFrame + 1) * 1_000_000 / Int(rate))
     let range = TimeSpan(startUs: 0, endUs: endUs)
     let source = AudioSourceSelection(
-      source: candidate.path, streamId: nil, sourceOffsetUs: 0, available: [range])
-    let full = try await AudioPCMStream.open(source: source, range: range)
+      source: candidate.path, streamId: nil, sourceOffsetUs: ExactTime(0), available: [ExactRange(range)])
+    let full = try await AudioPCMStream.open(source: source, range: ExactRange(range))
     var actual: [Float] = []
     try await full.consume { actual += $0.samples }
     let expectedFrames = Int(endUs * Int64(rate) / 1_000_000)
@@ -65,7 +65,7 @@ func runCaptureAudioMaterializerTests() async throws {
       "Materialized source must preserve every original sample and exact gap placement")
     let lateRange = TimeSpan(startUs: 1_200_011, endUs: min(endUs, 1_299_567))
     if lateRange.endUs > lateRange.startUs {
-      let late = try await AudioPCMStream.open(source: source, range: lateRange)
+      let late = try await AudioPCMStream.open(source: source, range: ExactRange(lateRange))
       var samples: [Float] = []
       try await late.consume { samples += $0.samples }
       let first = Int(lateRange.startUs * Int64(rate) / 1_000_000)

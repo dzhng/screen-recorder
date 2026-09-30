@@ -6,5 +6,5 @@ public struct CompositionAsset: Codable, Sendable {
     public let assetId: String
     public let streamId: String
     public let path: String
-    public let originUs: Int64
+    public let originUs: ExactTime
 }

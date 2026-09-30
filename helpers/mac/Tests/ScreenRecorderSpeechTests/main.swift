@@ -2,6 +2,7 @@ import FluidAudio
 import Foundation
 
 import ScreenRecorderSpeech
+import ScreenRecorderMedia
 
 /// The engine's tokens, grouped into words the way the evaluated CLI groups them, and timed by the
 /// part of each word that was actually said.
@@ -102,3 +103,19 @@ check(
     number[0].spokenStart == 3.0 && number[0].spokenEnd == 3.4,
     "Got \(number[0].spokenStart)–\(number[0].spokenEnd)")
 print("PASS digits count as speech")
+
+// Binary-exact engine offsets straddle the nearest-microsecond boundary only after adding
+// the physical interval origin; pre-rounding the offset loses the lower word boundary.
+let exactInterval = ExactRange(startUs: ExactTime(1, 4), endUs: ExactTime(2_000_001, 4))
+let mapped = try SourceTranscript.sourceSpan(from: 1.0 / 4_194_304, to: 1.0 / 2_097_152, in: exactInterval)
+check(mapped == TimeSpan(startUs: 0, endUs: 1), "Engine labels must round only after exact origin mapping")
+let clamped = try SourceTranscript.sourceSpan(from: -1, to: 9000, in: exactInterval)
+check(clamped == TimeSpan(startUs: 0, endUs: 500_000), "Word observations stay inside projected physical support")
+print("PASS exact speech interval mapping before integer word-label projection")
+
+// The API returns the binary Double, not an ideal decimal half microsecond. Preserve that value
+// through mapping; multiplying first can round it to a different side of the final label boundary.
+let decimalHalf = try SourceTranscript.sourceSpan(from: 0.0000005, to: 0.0000015,
+    in: ExactRange(startUs: 0, endUs: 10))
+check(decimalHalf == TimeSpan(startUs: 0, endUs: 2), "Double authority must survive label mapping")
+print("PASS binary engine seconds at a decimal half-microsecond label boundary")

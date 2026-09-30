@@ -137,10 +137,10 @@ func verifyExactTimeCarrier() throws {
         try refused(ExactTime.self, json)
     }
     for start in ["-1", "{\"numerator\":-1,\"denominator\":3}"] {
-        try refused(CompositionAudioPlan.Selection.self, "{\"startUs\":\(start),\"endUs\":1}")
-        try refused(CompositionAudioPlan.Selection.self, "{\"startUs\":0,\"endUs\":\(start)}")
+        try refused(ExactRange.self, "{\"startUs\":\(start),\"endUs\":1}")
+        try refused(ExactRange.self, "{\"startUs\":0,\"endUs\":\(start)}")
     }
-    _ = try decoder.decode(CompositionAudioPlan.Selection.self,
+    _ = try decoder.decode(ExactRange.self,
         from: Data("{\"startUs\":0,\"endUs\":{\"numerator\":1,\"denominator\":3}}".utf8))
     for value in [ExactTime(Int128(TimeSpan.maximumMicroseconds) + 1),
         ExactTime(-Int128(TimeSpan.maximumMicroseconds) - 1),

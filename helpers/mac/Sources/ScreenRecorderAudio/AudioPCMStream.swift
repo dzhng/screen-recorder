@@ -64,11 +64,11 @@ public final class AudioPCMStream: AudioPCMSource {
         for track in tracks {
             opened.append(try await SourceTrack.open(selection: track.selection))
         }
-        return try AudioPCMStream(sources: opened, spans: spans, sampleRate: sampleRate)
+        return try AudioPCMStream(sources: opened, spans: spans.map(ExactRange.init), sampleRate: sampleRate)
     }
 
     /// A selected immutable source uses the same interval layout/conversion as recording mixes.
-    public static func open(source: AudioSourceSelection, spans: [TimeSpan], sampleRate: Int? = nil)
+    public static func open(source: AudioSourceSelection, spans: [ExactRange], sampleRate: Int? = nil)
         async throws -> AudioPCMStream {
         try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         try ExcerptValidation.check(spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
@@ -81,7 +81,7 @@ public final class AudioPCMStream: AudioPCMSource {
     }
 
     /// One source-clock window retains the full support-run origin for repeatable sample selection.
-    public static func open(source: AudioSourceSelection, range: TimeSpan) async throws -> AudioPCMStream {
+    public static func open(source: AudioSourceSelection, range: ExactRange) async throws -> AudioPCMStream {
         try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         try ExcerptValidation.check(spans: [range], maximumDurationUs: TimeSpan.maximumMicroseconds, maximumSpans: 1)
         let track = try await SourceTrack.open(selection: source, strictWindowFormat: true)
@@ -89,12 +89,12 @@ public final class AudioPCMStream: AudioPCMSource {
     }
 
     /// Physical occupancy intersected with the caller's selected acquisition support.
-    public static func readableIntervals(of source: AudioSourceSelection) async throws -> [TimeSpan] {
+    public static func readableIntervals(of source: AudioSourceSelection) async throws -> [ExactRange] {
         try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
-        return try await SourceTrack.open(selection: source).available.map { try $0.support.roundedSpan() }
+        return try await SourceTrack.open(selection: source).available.map(\.support)
     }
 
-    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?, sourceWindow: Bool = false) throws {
+    private init(sources: [SourceTrack], spans: [ExactRange], sampleRate: Int?, sourceWindow: Bool = false) throws {
         let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
@@ -114,15 +114,15 @@ public final class AudioPCMStream: AudioPCMSource {
         var reports: [AudioSourceReport] = []
         for track in sources {
             var readableIntervals: [Interval] = []
-            var unavailable: [TimeSpan] = []
+            var unavailable: [ExactRange] = []
             var availableIndex = 0
             for (index, span) in spans.enumerated() {
-                let selection = CompositionAudioPlan.Selection(span)
+                let selection = span
                 while availableIndex < track.available.count,
                     try track.available[availableIndex].support.endUs.subtract(selection.startUs).numerator <= 0
                 { availableIndex += 1 }
                 var cursor = availableIndex
-                var readable: [(interval: CompositionAudioPlan.Selection, run: SourceTrack.Run)] = []
+                var readable: [(interval: ExactRange, run: SourceTrack.Run)] = []
                 while cursor < track.available.count,
                     try track.available[cursor].support.startUs.subtract(selection.endUs).numerator < 0
                 {
@@ -150,7 +150,7 @@ public final class AudioPCMStream: AudioPCMSource {
                         readableIntervals.append(Interval(start: start, end: end, decodeRange: decodeRange))
                     }
                 }
-                unavailable.append(contentsOf: span.subtracting(try readable.map { try $0.interval.roundedSpan() }))
+                unavailable.append(contentsOf: try span.subtracting(readable.map(\.interval)))
             }
             intervals.append(readableIntervals)
             reports.append(

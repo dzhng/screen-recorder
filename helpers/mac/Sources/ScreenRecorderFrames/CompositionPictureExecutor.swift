@@ -76,7 +76,7 @@ public final class CompositionPictureExecutor {
     public struct Sample: Encodable {
         let value: String
         let timescale: Int32
-        let originUs: Int64
+        let originUs: ExactTime
     }
     public struct Picture: Encodable {
         var kind = "video"
@@ -337,7 +337,7 @@ public final class CompositionPictureExecutor {
             else {
                 throw Self.invalid("Invalid compiled video source clock.")
             }
-            let at = try sourceUs.subtract(ExactTime(-Int128(asset.originUs)))
+            let at = try sourceUs.adding(asset.originUs)
             guard try at.compare(ExactTime(-Int128(TimeSpan.maximumMicroseconds))) != .orderedAscending,
                 try at.compare(ExactTime(Int128(TimeSpan.maximumMicroseconds))) != .orderedDescending
             else { throw Self.invalid("Source clock exceeds native precision.") }
@@ -381,7 +381,7 @@ public final class CompositionPictureExecutor {
                 picture = Picture(
                     status: "available", clipId: layer.clipId, assetId: layer.assetId,
                     streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
-                    actualSourceUs: microseconds(sampleTime) - asset.originUs,
+                    actualSourceUs: try ExactTime(sampleTime).subtract(asset.originUs).sample(1_000_000, nearest: true),
                     sample: Sample(
                         value: String(sampleTime.value), timescale: sampleTime.timescale,
                         originUs: asset.originUs))

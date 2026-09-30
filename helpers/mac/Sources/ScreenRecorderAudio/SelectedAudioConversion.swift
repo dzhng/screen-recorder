@@ -51,8 +51,8 @@ public final class SelectedAudioConversion: AudioPCMSource {
         guard try header.seekToEnd() == declaredBytes else {
             throw NativeFailure.decodeFailed("Selected WAV is truncated or its RIFF extent is inconsistent.")
         }
-        let source = try await SourceTrack.open(source: url.path, streamId: nil,
-            sourceOffsetUs: 0, available: [], strictWindowFormat: true)
+        let source = try await SourceTrack.open(selection: AudioSourceSelection(source: url.path,
+            sourceOffsetUs: ExactTime(0), available: []), strictWindowFormat: true)
         return try SelectedAudioConversion(source: source, inputFrames: file.length,
             sampleRate: sampleRate, channels: channels)
     }

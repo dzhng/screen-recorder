@@ -13,7 +13,7 @@ public enum AudioExcerpts {
         return AudioExcerpt(
             file: request.output.path, mediaType: "audio/wav", sampleRate: stream.format.sampleRate,
             channels: stream.format.channels, frames: stream.frames, durationUs: stream.durationUs,
-            bytes: bytes, spans: request.spans, tracks: zip(request.tracks, stream.reports).map { AudioTrackReport(role: $0.role, source: $1) })
+            bytes: bytes, spans: request.spans, tracks: try zip(request.tracks, stream.reports).map { try AudioTrackReport(role: $0.role, source: $1) })
     }
 }
 

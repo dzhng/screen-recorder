@@ -31,29 +31,11 @@ public struct CompositionAudioPlan: Codable, Sendable {
         public let end: Int64
         var valid: Bool { start >= 0 && end > start && end <= TimeSpan.maximumMicroseconds }
     }
-    public struct Selection: Codable, Sendable {
-        let startUs: ExactTime
-        let endUs: ExactTime
-        private enum CodingKeys: String, CodingKey { case startUs, endUs }
-        public init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            startUs = try values.decode(ExactTime.self, forKey: .startUs)
-            endUs = try values.decode(ExactTime.self, forKey: .endUs)
-            guard startUs.numerator >= 0, endUs.numerator >= 0 else {
-                throw NativeFailure("INVALID_REQUEST", "Selected times must be nonnegative.")
-            }
-        }
-        // Internal physical runs may precede the normalized source origin.
-        init(startUs: ExactTime, endUs: ExactTime) {
-            self.startUs = startUs
-            self.endUs = endUs
-        }
-    }
     public struct Clip: Codable, Sendable {
         let clipId: String
         let trackId: String
         let sampleRange: Samples
-        let placement: Selection
+        let placement: ExactRange
         let source: Source
         let pitch: String
         let available: [Samples]
@@ -84,30 +66,14 @@ public struct CompositionAudioPlan: Codable, Sendable {
         }
     }
     public struct Context: Codable, Sendable {
-        let source: Selection
+        let source: ExactRange
         let sampleRange: Samples
     }
     public struct Source: Codable, Sendable {
         let kind: String
         let assetId: String?
         let streamId: String?
-        let range: Selection?
+        let range: ExactRange?
     }
 
-}
-
-extension CompositionAudioPlan.Selection {
-    init(_ span: TimeSpan) {
-        self.init(startUs: ExactTime(Int128(span.startUs)), endUs: ExactTime(Int128(span.endUs)))
-    }
-    func intersection(_ other: Self) throws -> Self? {
-        let start = try startUs.subtract(other.startUs).numerator >= 0 ? startUs : other.startUs
-        let end = try endUs.subtract(other.endUs).numerator <= 0 ? endUs : other.endUs
-        return try end.subtract(start).numerator > 0 ? Self(startUs: start, endUs: end) : nil
-    }
-    /// Public microsecond evidence is a projection, never the execution clock.
-    func roundedSpan() throws -> TimeSpan {
-        TimeSpan(startUs: try startUs.sample(1_000_000, nearest: true),
-            endUs: try endUs.sample(1_000_000, nearest: true))
-    }
 }

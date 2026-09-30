@@ -170,14 +170,14 @@ func runSparseStorageProbe(request path: String) async throws {
   let publishedTrack = try await published.loadTracks(withMediaType: .audio).first!
   let endUs = microseconds(previousSourceEnd)
   let selection = AudioSourceSelection(
-    source: canonical.path, streamId: "track:\(publishedTrack.trackID)", sourceOffsetUs: 0,
-    available: [TimeSpan(startUs: 0, endUs: endUs)])
+    source: canonical.path, streamId: "track:\(publishedTrack.trackID)", sourceOffsetUs: ScreenRecorderMedia.ExactTime(0),
+    available: [ExactRange(startUs: 0, endUs: endUs)])
   if request.runs.count == 1 {
     _ = try await SourceAudio.write(
       source: AudioSourceSelection(
-        source: source.path, streamId: "track:\(track.trackID)", sourceOffsetUs: 0,
-        available: [TimeSpan(startUs: 0, endUs: endUs)]),
-      range: TimeSpan(startUs: 0, endUs: endUs),
+        source: source.path, streamId: "track:\(track.trackID)", sourceOffsetUs: ScreenRecorderMedia.ExactTime(0),
+        available: [ExactRange(startUs: 0, endUs: endUs)]),
+      range: ExactRange(startUs: 0, endUs: endUs),
       output: directory.appendingPathComponent("reference.wav"))
   }
   var reads: [[String: Any]] = []
@@ -186,7 +186,7 @@ func runSparseStorageProbe(request path: String) async throws {
     ("late", TimeSpan(startUs: 1_200_000, endUs: min(1_400_000, endUs))),
   ] where range.startUs < range.endUs {
     let result = try await SourceAudio.write(
-      source: selection, range: range, output: directory.appendingPathComponent(label + ".wav"))
+      source: selection, range: ExactRange(range), output: directory.appendingPathComponent(label + ".wav"))
     if request.stopAfter == "diagnostic" && label == "full" { exit(75) }
     try json(result).write(to: directory.appendingPathComponent(label + ".json"))
     reads.append(["label": label, "start": result.sampleRange.start, "end": result.sampleRange.end])
