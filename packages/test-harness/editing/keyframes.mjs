@@ -17,6 +17,12 @@ const { values } = parseArgs({
     appearance: { type: "boolean", default: false },
   },
 });
+if (values.case === "moved-retimed-split-zoom") {
+  assert(!values.convenience && !values.appearance);
+  const { runRetimedZoom } = await import("./retimed-zoom.mjs");
+  await runRetimedZoom(values.out);
+  process.exit(0);
+}
 assert.ok(["moved-split-zoom", "moved-split-pose", "moved-split-geometry"].includes(values.case));
 assert.ok(!values.convenience || values.case === "moved-split-zoom");
 const pose = values.case !== "moved-split-zoom";

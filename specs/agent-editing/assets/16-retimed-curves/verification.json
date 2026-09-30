@@ -1,0 +1,72 @@
+{
+  "sourceBase": "c651fdb8",
+  "workerSha256": "0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76",
+  "gainHarnessSha256": "161617c3a657bdbd064b1762121fc52713c427bc5a4402117576da0c729c4b00",
+  "zoomHarnessSha256": "4008fe4715e0545f1da403a553e39546a1a2229a09f25ee4519124e3f01d2b31",
+  "gainCases": 6,
+  "gainMaximumPcmError": 0,
+  "zoomEncodedFrames": 295,
+  "zoomStaticControlsExact": 5,
+  "zoomFullSplitAndExportExact": true,
+  "rangeMaximumChannelError": 22,
+  "rangeWorstMeanChannelError": 0.16233072916666666,
+  "reviewedAndFinalStillHashesEqual": true,
+  "reviewedAndFinalDecodedMovieHashesEqual": true,
+  "retainedMovies": "The previously reviewed and independently playback-tested complete-run containers; final-run container creation metadata differs but decoded movie RGB bytes are identical.",
+  "sourceFixtureExtraction": "All 240 A/B source RGB frames equal the original function in c651fdb8; shared geometry/event constants now have one fixture owner.",
+  "codeReview": "Root independent review passed after adding all-frame range pixel measurements and consolidating fixture constants. CLI review unavailable due configured model/account HTTP400; log retained.",
+  "files": {
+    "README.md": {
+      "bytes": 4484,
+      "sha256": "0f1f51305395982dc5a9f87c3eac3a482810d6f1cf9e1dc4adf993b1507e247e"
+    },
+    "content-range.mp4": {
+      "bytes": 331786,
+      "sha256": "322969d0d5f6e5c036fb40c62dc439355cfa07f3a3b3ca343406792423dba32b"
+    },
+    "content-split.mp4": {
+      "bytes": 1075172,
+      "sha256": "fb9a087e2b8e0d4b6c1de4978b13521671bce6bf4497b1e7074af5a6a232ff21"
+    },
+    "full-sheet-1.png": {
+      "bytes": 163197,
+      "sha256": "2201249708aaa4bc11d2f6e652832e3d5ec8051deaadc7a6ecd8f1879847b351"
+    },
+    "full-sheet-3.png": {
+      "bytes": 178332,
+      "sha256": "f7b8185a89af397151b05e039e50b916916bb19aebbdc6f333889647d50c4653"
+    },
+    "gain-report.json.gz": {
+      "bytes": 42426,
+      "sha256": "524be803be12c7b81eaa2089bb7298559d9048c8ab93a62d098f29e947e6dcd0"
+    },
+    "negative-controls.tar.xz": {
+      "bytes": 16316,
+      "sha256": "e536d61799d0b868b22989c043bfdbb04324b4b1b6441b4d5e156a26a3e2cdee"
+    },
+    "project-fixed.mp4": {
+      "bytes": 758067,
+      "sha256": "4c576ae666aac37f27d932c968c2673988dda9930d78caf5dc08ec73d315dfd5"
+    },
+    "render-visual-evidence.py": {
+      "bytes": 3511,
+      "sha256": "1d38061711cbc4ed8f9a91827b8afae51040fc2c2e924e4fbe70083155d29f02"
+    },
+    "review.md": {
+      "bytes": 5316,
+      "sha256": "bb87aa0e7c913d2704ebe71c6bf565ded9618f87a8e093eea0a76a9febbcb06a"
+    },
+    "reviewed-zoom-report.json.gz": {
+      "bytes": 46577,
+      "sha256": "60e18cffc6f1f7c7e06ea470b4a8a44473084a92e496cb6e5fcfb1ed615b28a8"
+    },
+    "visual-evidence.tar.xz": {
+      "bytes": 9491612,
+      "sha256": "b79d8885255b4d36e5310b4b7ed0b7c95cac53914e26c97aef6ba4c20f6521b0"
+    },
+    "zoom-report.json.gz": {
+      "bytes": 47167,
+      "sha256": "e2657ac2bfa49c03e58e7be968c83e6b3ddd6e240c6139b2c9f379a8d8d49954"
+    }
+  }
+}

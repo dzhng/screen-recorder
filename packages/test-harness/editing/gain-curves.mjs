@@ -7,7 +7,13 @@ import { randomUUID } from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
 import { writeSourceWave, sample, waveHeader } from "./audio-project-fixture.mjs";
-const { values } = parseArgs({ options: { out: { type: "string" } } });
+const { values } = parseArgs({ options: { out: { type: "string" }, case: { type: "string" } } });
+if (values.case === "retimed") {
+  const { runRetimedGain } = await import("./retimed-gain.mjs");
+  await runRetimedGain(values.out);
+  process.exit(0);
+}
+assert.equal(values.case, undefined);
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp(join(tmpdir(), "screenrec-gain-"));
@@ -390,27 +396,7 @@ try {
     "trimmed",
   );
   assert.deepEqual(trimmed, clip.subarray(24000 * 8, 43200 * 8));
-  report.pending = [
-    "Delivered retime+gain PCM remains dependent on the unbound stretch executor in slice14",
-  ];
-  for (const [durationUs, pitch] of [
-    [800000, "preserve"],
-    [200000, "follow"],
-  ]) {
-    await edit([{ operation: "retime", clipIds: [right], durationUs, pitch, ripple: "none" }]);
-    const refused = await call(
-      "audio.get",
-      {
-        ...selection(),
-        range: { startUs: 2500000, endUs: 2500000 + durationUs },
-        tap: tap("clip", right),
-      },
-      { error: true },
-    );
-    assert.equal(refused.code, "NOT_READY");
-    assert.ok(refused.details.requirements.some((v) => v.kind === "retime" && v.pitch === pitch));
-    report.checks.push({ name: `retime-${pitch}-retains-existing-refusal`, code: refused.code });
-  }
+  report.retimedDeliveryCase = "gain-curves.mjs --case retimed";
   report.passed = true;
 } finally {
   await service.stop();
