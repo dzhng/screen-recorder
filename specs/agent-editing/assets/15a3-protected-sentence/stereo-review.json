@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "Declared half-level stereo sentence; no naturally recorded spatial, hearing or word-label verdict.",
+  "repeatedFullStereoDeliveriesExact": true,
+  "initialPacketFilesUnchanged": true,
+  "review": {
+    "shape": "Existing public harness, parser and encoder reused; initial reproduction route stays immutable. No production, API or dependency installation changes.",
+    "diff": "Every encoded/source/dry frame, declared gains, dimensions, previous candidate left lane, both transports and numerical transformation measurements checked.",
+    "docs": "Channel scenario and listening question are explicit; numeric balance is separate from audible acceptance; all new links resolve."
+  },
+  "files": {
+    "assemble-stereo.mjs": {
+      "bytes": 9082,
+      "sha256": "5c81378c54dd49d26855b0a16638fdefcfa0660fa69ba9262586a8812965bee5"
+    },
+    "README-stereo.md": {
+      "bytes": 2706,
+      "sha256": "9b6c05df512dad0426df142931c300a3bf325cb704b755157317de8aa1abca67"
+    },
+    "stereo-choices.md": {
+      "bytes": 1229,
+      "sha256": "cd91deda14c68a676bda4ccd8eea011a3700f78badab4742c11e44f4b604f4cf"
+    },
+    "stereo-manifest.json": {
+      "bytes": 3910,
+      "sha256": "488956cc7ee29aeb0b9e02bfe91bd4317d93cff6f1f63a7257fabd546991c356"
+    },
+    "stereo-receipts.json.gz": {
+      "bytes": 6728,
+      "sha256": "32a6bfd5a7cf64e61828104201756d88d3a2c5f75a3711c250b2abd2287bbe4f"
+    },
+    "original-stereo.wav": {
+      "bytes": 1036892,
+      "sha256": "458a3c6f28cda0fbaa3ad26942fd157147e423aeff6f7ee98c14f2ec9ffc7aa1"
+    },
+    "candidate-stereo.wav": {
+      "bytes": 1040896,
+      "sha256": "1f48a774880f4c1c311a0ae40d6cb527bac39a5e0c8b24a6a9128c9baa1a822a"
+    }
+  }
+}

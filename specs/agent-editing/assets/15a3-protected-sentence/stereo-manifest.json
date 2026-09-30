@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "listening": "pending",
+  "scenario": "Authored channel-relation control, not naturally recorded spatial audio. Left is the frozen sentence; right is exactly half its Float32 amplitude.",
+  "sourceOriginalSha256": "b2b31731a63b3bc973a5fd11661f4b7c3f5384416949a97029c3b0a6043fb05c",
+  "previousMonoCandidateSha256": "f3479c98cd2dbee88da1b4781ef0d5ea51f34d2b1beed7da56931f204d6d4eb6",
+  "initialManifestSha256": "aeab62bdaebfc5fb0e8ee3ffafc5adfaff0e26a4494eff7cf1aaeede4a68e283",
+  "assemblerSha256": "5c81378c54dd49d26855b0a16638fdefcfa0660fa69ba9262586a8812965bee5",
+  "workerSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
+  "sampleRate": 48000,
+  "frames": 129600,
+  "channels": 2,
+  "processing": "One whole-output RNNoise stage; no gain, normalization, retime, fades or other processing.",
+  "encodingArgs": [
+    "-v",
+    "error",
+    "-f",
+    "f32le",
+    "-ar",
+    "48000",
+    "-ac",
+    "2",
+    "-i",
+    "/tmp/screenrec-protected-stereo-3JasZ2/authored-stereo.f32",
+    "-c:a",
+    "pcm_f32le",
+    "/tmp/screenrec-protected-stereo-delivery/original-stereo.wav"
+  ],
+  "authoredSource": {
+    "sha256": "458a3c6f28cda0fbaa3ad26942fd157147e423aeff6f7ee98c14f2ec9ffc7aa1",
+    "pcmSha256": "100d061927aefcac1cf77259a7876f1f6185da38f5c6ec39d5cf8de3f8177bee",
+    "leftGain": 1,
+    "rightGain": 0.5,
+    "everyFrameMatchesDeclaredGain": true
+  },
+  "implementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2",
+  "sourceAndDryExact": true,
+  "channelMeasurements": {
+    "lanes": [
+      {
+        "inputRms": 0.010994900229709365,
+        "outputRms": 0.008444158618022014,
+        "rmsGain": 0.7680068433185978,
+        "fittedGain": 0.6645176536666731,
+        "residualRmsAfterFittedGain": 0.0042334049636745105
+      },
+      {
+        "inputRms": 0.005497450114854682,
+        "outputRms": 0.004254202101082094,
+        "rmsGain": 0.7738500599735862,
+        "fittedGain": 0.6728663562661823,
+        "residualRmsAfterFittedGain": 0.0021012544655768023
+      }
+    ],
+    "inputRightToLeftRms": 0.5,
+    "outputRightToLeftRms": 0.503804143612666,
+    "authority": "Whole-file numeric energy and fitted-gain residuals only; no perceived channel balance, spatial fidelity or speech-quality verdict."
+  },
+  "leftMatchesFrozenMonoCandidateExact": true,
+  "receipts": {
+    "source-stereo-delivery": {
+      "selection": {
+        "assetId": "458a3c6f28cda0fbaa3ad26942fd157147e423aeff6f7ee98c14f2ec9ffc7aa1",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 2700000
+        }
+      },
+      "sha256": "05488d5fafbdd767576ae781f213faf50df0dabc94c7eadff2d1d300ee94e18f",
+      "pcmSha256": "100d061927aefcac1cf77259a7876f1f6185da38f5c6ec39d5cf8de3f8177bee",
+      "mcpMatchesCLI": true
+    },
+    "dry-stereo": {
+      "selection": {
+        "projectId": "91f80733-70af-4a9d-9843-d46dbc133065",
+        "revisionId": "37559adb-2334-4456-a4d0-09f463fe1983",
+        "range": {
+          "startUs": 0,
+          "endUs": 2700000
+        }
+      },
+      "sha256": "05488d5fafbdd767576ae781f213faf50df0dabc94c7eadff2d1d300ee94e18f",
+      "pcmSha256": "100d061927aefcac1cf77259a7876f1f6185da38f5c6ec39d5cf8de3f8177bee",
+      "mcpMatchesCLI": true
+    },
+    "candidate-stereo": {
+      "selection": {
+        "projectId": "91f80733-70af-4a9d-9843-d46dbc133065",
+        "revisionId": "01346744-6638-48b0-a273-585f29f834c6",
+        "range": {
+          "startUs": 0,
+          "endUs": 2700000
+        }
+      },
+      "sha256": "1f48a774880f4c1c311a0ae40d6cb527bac39a5e0c8b24a6a9128c9baa1a822a",
+      "pcmSha256": "00ca80e42f74d9a13a4b9d629d66a36e6d93081fa62ce6bdfef1e4c834808f48",
+      "mcpMatchesCLI": true
+    }
+  }
+}
