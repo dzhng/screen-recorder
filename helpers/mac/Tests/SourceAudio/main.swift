@@ -79,7 +79,7 @@ func wave(_ url: URL) throws -> (rate: Int, channels: Int, samples: [Float]) {
 }
 func fixture(
     rate: Double, channels: Int, name: String, poison: Bool = false, discrete: Bool = false,
-    seconds: Double = 1.1, frameCount: Int? = nil
+    seconds: Double = 1.1, frameCount: Int? = nil, sample: ((Int, Int) -> Float)? = nil
 ) throws -> URL {
     let url = directory.appendingPathComponent(name + ".caf")
     let format =
@@ -101,8 +101,8 @@ func fixture(
         for channel in 0..<channels {
             let excluded = frame >= Int(rate * 0.2) && frame < Int(rate * 0.3)
             buffer.floatChannelData![0][frame * channels + channel] =
-                poison && excluded
-                ? (channel == 0 ? 0.99 : -0.99) : Float((frame * (channel + 3)) % 101 - 50) / 100
+                sample?(frame, channel) ?? (poison && excluded
+                ? (channel == 0 ? 0.99 : -0.99) : Float((frame * (channel + 3)) % 101 - 50) / 100)
         }
     }
     try file.write(from: buffer)
@@ -322,6 +322,7 @@ do {
     try JSONEncoder().encode(metadata).write(to: directory.appendingPathComponent("fractional-origin-probe.json"))
 }
 print("PASS fractional shared origin, unequal stream starts, signed leading empty and native first/last PCM")
+try await verifyMixedAVSupport(in: directory)
 
 // A sample-aligned physical edit need not have an integral microsecond boundary.
 let rationalInput = try await pcmMovie(fixture(rate: 48_000, channels: 1, name: "rational-source", seconds: 2.1))
