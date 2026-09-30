@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. With extracted background hum, the phrase ending sounds fine but its entrance remains too long. A [120ms shorter entrance](../assets/18-voice-phrase-lead/README.md) preserves the accepted ending sample-exact; acoustic/listening acceptance remains open. Managed origin retention is verified by [retained excerpts](19e-retained-audio-excerpts.md) and [durable voice jobs](19f-public-voice-jobs.md). [Current phrase timing figures](../assets/18-voice-boundary-timing/README.md) now pass calibrated numerical and independent visual checks; the [current word timing figures](../assets/18-word-boundary-timing/README.md) also pass. Both current candidates now have calibrated entrance/exit evidence and independent visual review; listening remains open. Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. The [user review](../assets/listening-review-2026-09-30.md) accepts the current word context and [120ms shorter phrase entrance](../assets/18-voice-phrase-lead/README.md), whose ending remains sample-exact. The source pause contains an audible voice blip; its speech-free ambience gate remains open under19. Managed origin retention is verified by [retained excerpts](19e-retained-audio-excerpts.md) and [durable voice jobs](19f-public-voice-jobs.md). [Current phrase timing figures](../assets/18-voice-boundary-timing/README.md) now pass calibrated numerical and independent visual checks; the [current word timing figures](../assets/18-word-boundary-timing/README.md) also pass. Both current candidates have calibrated entrance/exit evidence, independent visual review and the linked scoped listening pass; broader acceptance must not be inferred from these exact auditions. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -44,9 +44,9 @@ User feedback changing the named contract or judged variable requires updating t
 
 Independent [local recognizer evidence](../assets/18-voice-lexical/README.md)
 now matches both generated requested texts and the supplied reference transcript.
-This closes only the ASR lexical cross-check; pronunciation, identity, delivery,
-protected joins and listening remain open. Missing required outputs fail the probe.
+This evidence closes only the ASR lexical cross-check; the later linked user
+review owns the exact current candidates’ listening disposition. Missing required outputs fail the probe.
 
-The [acceptance handoff audit](../assets/18-voice-handoff/audit.md) separates the accepted ending, rejected conditioning mode and unanswered entrance audition, and identified the now-retained current-phrase timing evidence as a non-listening follow-up. No new synthesis or listening verdict is implied.
+The historical [acceptance handoff audit](../assets/18-voice-handoff/audit.md) retains earlier dispositions. Its pending entrance/word judgments are superseded by the linked user review; no regeneration is needed.
 
 [Clean-process repeatability](18a-voice-repeatability.md) now matches all frozen main-candidate WAV/PCM in two fresh offline processes with unchanged identities. It does not establish cold-cache behavior, independent reference origins or quality acceptance. The private [entry checkpoint](19a-voice-entry-parity.md) preserves those bytes before durable integration.

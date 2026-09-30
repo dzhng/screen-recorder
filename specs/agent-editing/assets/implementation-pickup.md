@@ -1,6 +1,6 @@
 # Implementation pickup
 
-The full editor goal remains active; the installed app has not switched engines.
+The full editor remains incomplete; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
 catalog/package formats are fenced by their existing owners; [03d](../slices/03d-exact-media-admission.md)
 preserves exact physical media facts. The current isolated worker is
@@ -9,6 +9,12 @@ preserves exact physical media facts. The current isolated worker is
 Historical workers and measurements retain their own identities below.
 
 ## Current pickup
+
+The [user review](listening-review-2026-09-30.md) accepts the exact post-retime
+denoise, shorter phrase entrance and word context. The source pause contains a
+voice blip; select and audition a clean region from existing audio before closing
+19’s speech-free ambience/loop gate. Independent speech labels, broader denoise
+coverage and physical capture gates remain; do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;

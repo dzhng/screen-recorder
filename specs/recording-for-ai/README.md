@@ -15,7 +15,9 @@ editing correction, [exact media admission](../agent-editing/slices/03d-exact-me
 is verified in the isolated service with capture/evidence clock preservation.
 The [populated source-event duration check](../agent-editing/slices/24y-source-event-duration.md)
 also passes its isolated query gates. The new editor’s current pickup is the
-remaining listening/label evidence before physical capture acceptance and cutover. Its [processing contract](../agent-editing/processing.md) includes the accepted
+remaining ambience/label and broader quality evidence before physical capture
+acceptance and cutover. Its [latest user review](../agent-editing/assets/listening-review-2026-09-30.md)
+accepts the exact three contextual auditions but rejects the pause as speech-free. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is

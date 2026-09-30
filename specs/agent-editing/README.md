@@ -19,7 +19,9 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs. Current pickup is
-[15a3 post-retime quality](slices/15a3-denoise-acceptance.md).
+[19 ambience sourcing](slices/19-voice-assets.md): the
+[user review](assets/listening-review-2026-09-30.md) accepts the exact post-retime
+denoise, shorter phrase entrance and word context, but hears speech in the source pause.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
 [24y populated source-event duration](slices/24y-source-event-duration.md) pass
 independent exact-result, latency/memory and generation checks. Preserve those
@@ -30,8 +32,8 @@ offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post
 passes independent PCM and matched full/range AAC checks. The [native](assets/15a3d-follow-learned-native/root-verification.json) and
 [public](assets/15a3e-follow-learned-public/root-verification.json) follow-pitch
 learned joins and [follow movie delivery](assets/15a3f-follow-learned-movie/README.md)
-now pass. The familiar post-retime denoise audition is pending;
-resolve remaining speech/denoise quality gates without repeating passed joins. Numerical evidence never substitutes for hearing.
+now pass. The familiar post-retime denoise audition has the linked user pass;
+resolve broader speech/denoise quality gates without repeating accepted auditions or passed joins. Numerical evidence never substitutes for hearing.
 
 Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
 [retimed curves](assets/16-retimed-curves/root-verification.json) and
@@ -44,7 +46,8 @@ or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
 Resolve actual12/12d speech labels and15a3 denoise quality toward12b/15a;
-complete18/19 generated-speech and ambience listening. Then physical20→21,
+preserve the accepted18 contextual auditions and resolve19 speech-free ambience/loop
+acceptance. Then physical20→21,
 final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
 a scheduling graph. Further12b/19/23 consumer acceptance retains its missing quality or physical
 prerequisite. Do not repeat

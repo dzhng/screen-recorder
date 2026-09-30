@@ -1,6 +1,6 @@
 # 15a3 — Combined, temporal and protected-speech acceptance
 
-Status: open; the [familiar complete-sentence denoise comparison](../assets/12c-familiar-sentence/README.md) now has a user pass for word clarity and naturalness. The [preserve-pitch combined temporal join](../assets/15a3c-post-retime-combined/root-verification.json) and [public follow-pitch learned join](../assets/15a3e-follow-learned-public/root-verification.json) are verified. Other-material/spatial, protected-speech and remaining post-retime quality acceptance stay open. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a2](./15a2-denoise-prepared-consumers.md), accepted retiming [14](./14-retiming.md), temporal [16](./16-keyframes.md), remaining [12c](./12c-noise-reproduction.md) listening/state evidence.
+Status: open; the [familiar complete-sentence denoise comparison](../assets/12c-familiar-sentence/README.md) now has a user pass for word clarity and naturalness. The [preserve-pitch combined temporal join](../assets/15a3c-post-retime-combined/root-verification.json) and [public follow-pitch learned join](../assets/15a3e-follow-learned-public/root-verification.json) are verified. The [post-retime familiar comparison](../assets/listening-review-2026-09-30.md) also passes its exact listening gate. Other-material/spatial and broader protected-speech quality acceptance stay open. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a2](./15a2-denoise-prepared-consumers.md), accepted retiming [14](./14-retiming.md), temporal [16](./16-keyframes.md), remaining [12c](./12c-noise-reproduction.md) listening/state evidence.
 
 [15a3a](15a3a-unit-rate-combined.md) handles the dependency-ready unit-rate public temporal/combined join; it does not enable post-retime DSP or close the listening gate.
 
@@ -31,8 +31,8 @@ prepared excerpts and CLI/MCP delivery preserve learned history. The
 [follow-pitch movie check](../assets/15a3f-follow-learned-movie/README.md) also passes
 matched full/range AAC, full preview/export byte equality and unchanged complete
 video frames; its wrong-audio control fails. The [familiar post-retime comparison](../assets/15a3-post-retime-familiar/README.md)
-reproduces every accepted dry frame before denoise and is awaiting the user’s
-word-clarity/naturalness verdict. Other-material, spatial and protected-speech
+reproduces every accepted dry frame before denoise and has the
+[user’s word-clarity/naturalness pass](../assets/listening-review-2026-09-30.md). Other-material, spatial and protected-speech
 quality remain open. Reimport exposed the retained
 [exact admission red](../assets/03d-exact-admission-red/README.md), now resolved by
 [03d](03d-exact-media-admission.md) while preserving explicit floor selections and

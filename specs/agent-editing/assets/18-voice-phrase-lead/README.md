@@ -5,7 +5,7 @@ time before the new voice. This audition removes 120ms from that existing wet
 phrase and rebuilds only its 5ms entrance crossfade. Every sample after the new
 entrance is identical to the corresponding previous sample: voice level, room
 tone, phrase ending, exit crossfade and original trailing context are preserved.
-The word audition is unchanged.
+The word audition is unchanged. The [user review](../listening-review-2026-09-30.md) now accepts this exact shorter entrance; preserve the accepted output and ending.
 
 [Assembly](assemble.py) and [measurements](report.json) record the exact splice
 and byte hashes. [Local transcription](lexical.json) retains the requested words

@@ -1,6 +1,6 @@
 # 19 — Durable local generation and replacement
 
-Status: public durable integration19f, model-free generated/reference transfer and explicit contextual replacement preservation are verified. Runtime relocation, common preparation, measured controls and retained excerpts are verified. Perceived continuity and listening acceptance remain open. The private [entry-parity checkpoint](19a-voice-entry-parity.md) is verified on frozen candidate identities and [clean-process repeatability](18a-voice-repeatability.md), as a historical prerequisite to19f, without closing18 listening. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
+Status: public durable integration19f, model-free generated/reference transfer and explicit contextual replacement preservation are verified. Runtime relocation, common preparation, measured controls and retained excerpts are verified. The [user review](../assets/listening-review-2026-09-30.md) accepts the exact current phrase/word contexts. Speech-free ambience sourcing and loop acceptance remain open: the presented source pause contains a voice blip. The private [entry-parity checkpoint](19a-voice-entry-parity.md) is verified on frozen candidate identities and [clean-process repeatability](18a-voice-repeatability.md), as a historical prerequisite to19f, without independently supplying a listening verdict. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
 
 [Runtime relocation](19b-voice-runtime-relocation.md) and
 [registered adoption](19d-voice-settings.md) provide the standalone prepared
@@ -55,8 +55,9 @@ Delegated: Worker process packaging, startup/cache mechanics and private indexes
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
-The open continuity gate also owns the real pause-with-ambience judgment: confirm
-that the retained source region is speech-free and that repetition/loop seams sound
-natural. The public pause assembly mechanics in09/16 remain verified; their
+The remaining ambience gate needs a speech-free region and natural loop seams.
+The linked user review rejects the current pause as speech-free; its retained
+interior may include the reported voice blip. Select from existing immutable
+audio, independently audition the selected region and judge repetition/loop seams. The public pause assembly mechanics in09/16 remain verified; their
 synthetic checks do not establish this listening result. Carry this disposition
 into25’s whole-workflow acceptance.

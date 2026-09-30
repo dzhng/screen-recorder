@@ -19,8 +19,10 @@ before “paid,” prompting a boundary adjustment. The [revised sentence check]
 retains “this is paid” and the requested phrase. The unchanged final fragment is
 recognized differently (“in”/“here”), illustrating that these checks are not
 proof of perfect pronunciation or protected-word preservation. Listening remains
-the quality gate. The pause itself has not been independently auditioned as
-speech-free.
+the quality gate. The [user review](../listening-review-2026-09-30.md) accepts the current word
+and shortened phrase contexts but hears a voice blip in the pause. Its speech-free
+source-region gate fails; the retained interior may include that blip and must not
+be treated as approved ambience.
 
 Audition [word](word-room-context.wav) and [phrase](phrase-room-context.wav).
 [Dry word](word-dry-context.wav) and [dry phrase](phrase-dry-context.wav) retain
