@@ -1,0 +1,20 @@
+(node:42703) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: full movie audio must equal matched independent reference AAC
+    at matchedMovieAudio (file:///private/tmp/screenrec-follow-denoise-movie/packages/test-harness/editing/matched-movie-audio.mjs:105:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async denoiseFollow (file:///private/tmp/screenrec-follow-denoise-movie/packages/test-harness/editing/denoise-follow.mjs:191:5)
+    at async file:///private/tmp/screenrec-follow-denoise-movie/packages/test-harness/editing/denoise-runtime-public.mjs:874:5 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

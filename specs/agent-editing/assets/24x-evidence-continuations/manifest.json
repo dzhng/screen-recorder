@@ -1,0 +1,20 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 1045,
+      "sha256": "50483ee5add6b218ce78c568edc4a28532cdc4003386e098ae0dfa8ddb8a53c5"
+    },
+    "baseline.json": {
+      "bytes": 1536,
+      "sha256": "670b5706b6c9347cb32f555e7fac07a0cdb692f8e0b02ea6062b2cebe4585159"
+    },
+    "profile-evidence.tar.gz": {
+      "bytes": 88000,
+      "sha256": "227d9fd68819588538bcc95807126f2aff1396282a2ec825c07ff228ab21e2ef"
+    },
+    "red-evidence.tar.gz": {
+      "bytes": 339102,
+      "sha256": "35ae081cf6eb390255e1190903772b1a72436bc1915ffe7933214d80c28998b6"
+    }
+  }
+}

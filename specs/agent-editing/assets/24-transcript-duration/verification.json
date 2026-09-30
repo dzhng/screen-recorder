@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "integrationCommit": "5d775b55",
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "sourceSha256": "99a72b04b09094400293eeee4950e8ce9fcb0a848c41801725697c5167c0f17e",
+  "reportSha256": "246044a143b68f6ed964e95d78b157c38f76e5f9e3aa755b42a5baee8d5ec404",
+  "controls": {
+    "occurrences": 10000,
+    "clipUs": 320000,
+    "rowsPerQuery": 250,
+    "repeats": 20,
+    "trialsPerDuration": 3
+  },
+  "comparison": {
+    "twoHourMedianPeakBytes": 478412800,
+    "fourHourMedianPeakBytes": 477134848,
+    "twoHourMedianGrowthBytes": 353894400,
+    "fourHourMedianGrowthBytes": 352501760,
+    "peakRatio": 0.9973287671232877,
+    "growthRatio": 0.9960648148148148
+  },
+  "cachedMcpP95Ms": [
+    99.73616700000002,
+    99.36483299999963,
+    137.88708400000178,
+    105.61349999999948,
+    98.18149999999878,
+    105.48929200000566
+  ],
+  "coldMs": [
+    346.61966699999994,
+    344.19695800000045,
+    395.48362499999894,
+    345.20508300000074,
+    343.7331669999985,
+    340.03283300000476
+  ],
+  "complete250WordValuesAndClocks": true,
+  "engineGenerationAndContinuationPinned": true,
+  "cliMcpRowsAgree": true,
+  "newInferenceOrTimelineDecodeDuringQueries": false,
+  "wrongClockControlFails": true,
+  "scope": "Sampled service RSS and cached public MCP250-word reads at same10k placements/history across2h/4h; frozen words+declared readiness, not inference-quality or post-cutover acceptance."
+}

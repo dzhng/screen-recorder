@@ -26,3 +26,9 @@ or product telemetry endpoint is needed. Existing query owners remain unchanged.
 Preserve complete evidence under [24m](../assets/24m-query-duration-memory/README.md).
 Keep actual row checks, bounded continuations and process cleanup as part of the
 measurement. Root owns parent24 status; other open scale requirements stay open.
+
+The matched [transcript checkpoint](../assets/24-transcript-duration/README.md)
+also passes the duration-memory comparison and cached250-word reads with real
+continuations. Frozen native word rows and a declared model-readiness seam isolate
+query work; this is not speech recognition or timing-quality evidence. Phrase-search
+throughput is a separate query contract and remains open.

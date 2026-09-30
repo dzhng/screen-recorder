@@ -27,10 +27,13 @@ remains unchanged. This technical fixture makes no new listening claim.
 The [native follow-pitch replay](../assets/15a3d-follow-learned-native/root-verification.json) and
 [public follow-pitch replay](../assets/15a3e-follow-learned-public/root-verification.json)
 pass complete matched PCM checks against the frozen C adapter. Public late-before-full,
-prepared excerpts and CLI/MCP delivery preserve learned history; this adds no
-follow-pitch movie cross-product claim. The [familiar post-retime comparison](../assets/15a3-post-retime-familiar/README.md)
+prepared excerpts and CLI/MCP delivery preserve learned history. The
+[follow-pitch movie check](../assets/15a3f-follow-learned-movie/README.md) also passes
+matched full/range AAC, full preview/export byte equality and unchanged complete
+video frames; its wrong-audio control fails. The [familiar post-retime comparison](../assets/15a3-post-retime-familiar/README.md)
 reproduces every accepted dry frame before denoise and is awaiting the user’s
 word-clarity/naturalness verdict. Other-material, spatial and protected-speech
-quality remain open. Importing the accepted WAV directly exposed a separate
-[exact admission defect](../assets/03d-exact-admission-red/README.md); that correction
-must preserve the explicit floor-selection rule and does not change this audition.
+quality remain open. Reimport exposed the retained
+[exact admission red](../assets/03d-exact-admission-red/README.md), now resolved by
+[03d](03d-exact-media-admission.md) while preserving explicit floor selections and
+this exact audition file.

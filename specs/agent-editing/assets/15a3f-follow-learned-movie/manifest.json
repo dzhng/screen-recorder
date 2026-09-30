@@ -1,0 +1,64 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 2006,
+      "sha256": "4ef4d828d1a2f85be61374941b4eaf9d2446bd1b09e09c4e0928b5fedc4f5fd9"
+    },
+    "evidence.tar.xz": {
+      "bytes": 4276256,
+      "sha256": "3e069b833409909bf70b538fe35f5a659670b16de3f3ec34f28cccbcf9fb9fb6"
+    },
+    "follow-export.mp4": {
+      "bytes": 413246,
+      "sha256": "4ffd8e65b17bf8406996d16b2dfc90af4a66619ee9430f2477ab72135b2d80b7"
+    },
+    "follow-full-preview.mp4": {
+      "bytes": 413246,
+      "sha256": "4ffd8e65b17bf8406996d16b2dfc90af4a66619ee9430f2477ab72135b2d80b7"
+    },
+    "follow-full-video.framemd5": {
+      "bytes": 11015,
+      "sha256": "1ece9ae2e8101cdca2f216e9f4f7a864842d1a7755dd132fbff406b81b4492bf"
+    },
+    "follow-range-preview.mp4": {
+      "bytes": 141550,
+      "sha256": "ba5ee956acbe927592f1342edf6e7ad2c20246c297b8bd7604b819c1aaa57578"
+    },
+    "follow-range-video.framemd5": {
+      "bytes": 5015,
+      "sha256": "492f276590292d4114f8c56c42a1f953f917201cb4edb3e6c26a1766ceb64bfb"
+    },
+    "frozen-video.json": {
+      "bytes": 126,
+      "sha256": "37cd4c24727016160a4bf8ce4b63d9264baa8363a52d1cac3d980a3caf2aca41"
+    },
+    "independent-expected.f32.gz": {
+      "bytes": 1621255,
+      "sha256": "9980fe492997d551c41974f1a271c613378d63ca0437388f6ff428318f9243df"
+    },
+    "post-retime-preservation.json.gz": {
+      "bytes": 236072,
+      "sha256": "a52f9209f7d9d1d467b23ef0dece7b22462d078d6b359f2b8b4a9121c048c44e"
+    },
+    "review.json": {
+      "bytes": 941,
+      "sha256": "652d7e89a51c5f5bebfe27b587fffc14032ba8f41b387a8cae650185211d1d39"
+    },
+    "root-report.json.gz": {
+      "bytes": 219718,
+      "sha256": "85128f4179da51e5091079c19fe81f6d3c5c2ced06e27dc1fb087bba275dd7eb"
+    },
+    "verification.json": {
+      "bytes": 2998,
+      "sha256": "6fdb5d9524c73015883db7f8638d56499a6898a2d19eec40b51c494368589270"
+    },
+    "wrong-oracle-report.json.gz": {
+      "bytes": 213966,
+      "sha256": "d92507ce82651e05a70b378d74d6a6f2dcc73ea72a15109650b121ec48d70693"
+    },
+    "wrong-oracle.log": {
+      "bytes": 962,
+      "sha256": "b40c6d3633794f8ad982d1762433d21a45dbda1903ca178ebe5ac210c957f4f3"
+    }
+  }
+}

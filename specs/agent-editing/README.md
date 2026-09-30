@@ -19,13 +19,17 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs. Current pickup is
-[15a3 post-retime quality](slices/15a3-denoise-acceptance.md),
+[24x bounded evidence continuations](slices/24x-evidence-continuations.md): the
+public phrase-search throughput diagnostic fails while transcript-get memory
+and latency pass. Profiled repeated whole-window work is the next correction.
+[15a3 post-retime quality](slices/15a3-denoise-acceptance.md) remains open,
 with [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) verified. Public14 retiming and16
 animated gain/zoom are verified, including complete encoded-frame checks and muted
 offscreen playback. The [preserve-pitch combined denoise join](assets/15a3c-post-retime-combined/root-verification.json)
 passes independent PCM and matched full/range AAC checks. The [native](assets/15a3d-follow-learned-native/root-verification.json) and
 [public](assets/15a3e-follow-learned-public/root-verification.json) follow-pitch
-learned joins now pass. The familiar post-retime denoise audition is pending;
+learned joins and [follow movie delivery](assets/15a3f-follow-learned-movie/README.md)
+now pass. The familiar post-retime denoise audition is pending;
 resolve remaining speech/denoise quality gates without repeating passed joins. Numerical evidence never substitutes for hearing.
 
 Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
@@ -247,6 +251,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24u — Combined document and retained-history transfer](slices/24u-package-history-scale.md)
 - [x] [24v — Learned processing through deep/wide routing](slices/24v-learned-routing-scale.md)
 - [x] [24w — Bounded waveform queries across duration](slices/24w-waveform-duration-memory.md)
+- [ ] [24x — Bounded evidence continuations](slices/24x-evidence-continuations.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

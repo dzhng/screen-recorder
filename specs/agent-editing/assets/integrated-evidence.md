@@ -1,5 +1,12 @@
 # Integrated evidence index
 
+- [Transcript duration memory](24-transcript-duration/README.md) passes matched
+  two-/four-hour service-memory and cached250-word read checks. Frozen words
+  isolate query work; phrase-search throughput and inference quality remain separate.
+
+- [Follow-pitch learned movies](15a3f-follow-learned-movie/README.md) pass matched
+  full/range AAC and full preview/export equality, preserving every decoded picture.
+
 - [Exact admitted media](03d-consumer-cutover/README.md) preserves fractional physical
   support through public source/project/prepared/portable consumers, including mixed
   A/V origins and gaps. Frozen accepted PCM and decoded pictures remain identical.

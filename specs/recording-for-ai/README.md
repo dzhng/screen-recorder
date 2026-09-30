@@ -13,7 +13,8 @@ The active new-feature plan is [agent-operated video editing](../agent-editing/R
 with the current implementation pickup in its live Next Agent Prompt. The current
 editing correction, [exact media admission](../agent-editing/slices/03d-exact-media-admission.md),
 is verified in the isolated service with capture/evidence clock preservation.
-The new editor’s listening and physical gates remain open. Its [processing contract](../agent-editing/processing.md) includes the accepted
+The [bounded evidence continuation correction](../agent-editing/slices/24x-evidence-continuations.md)
+is the new editor’s active mechanical pickup. Its listening and physical gates remain open. Its [processing contract](../agent-editing/processing.md) includes the accepted
 ordered-stack API. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is

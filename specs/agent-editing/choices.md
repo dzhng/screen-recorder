@@ -4288,3 +4288,33 @@ capture masks internally while enforcing normalized source domains at inputs.
 - **Verdict:** sound; public reauthoring tests the new format while old artifacts
   retain their historical identity and evidence.
 - **Confidence:** high.
+
+## Transcript query measurement and matched movie delivery (2026-09-30)
+
+- **When:** transcript duration-memory harness pass.
+- **Choice:** admit real media, then ingest unchanged native word rows while an
+  explicit child-process fixture declares model readiness. When a query asks for
+  words from this project, normal production storage and projection execute, but
+  the synthetic audio was never recognized as speech. The readiness wrapper checks
+  model pins and digest; it does not prepare or run a model. A fresh inference run
+  would mix recognition cost and variable output into a query-memory comparison.
+- **Gap:** the scale plan did not prescribe how to isolate query work without
+  repeating expensive inference or installing models.
+- **Reach:** these fixtures can establish query values and resource costs, never
+  recognition quality or independent audible word boundaries. The readiness seam
+  remains inside the existing test child process, with production unchanged.
+- **Verdict:** sound; the declared boundary preserves actual admission and query
+  behavior while keeping the measurement reproducible.
+- **Confidence:** medium.
+
+- **When:** follow-pitch learned movie verification.
+- **Choice:** reuse one matched movie-audio comparison for both retiming policies.
+  Each preview is compared with a separately encoded plain project containing
+  the independent expected PCM at the identical range and encoding settings.
+  This extends the already banked matched-codec decision to the follow consumer
+  instead of building another oracle with different duration arithmetic.
+- **Gap:** the missing follow movie gate left helper ownership unspecified.
+- **Reach:** both cohorts share exact physical-duration handling and matched
+  decoded-audio assertions; no production processor or output setting changes.
+- **Verdict:** sound; one oracle owner prevents the two policies from drifting.
+- **Confidence:** high.

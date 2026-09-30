@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "integrationCommit": "58be952c",
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "harnessSha256": "7be2104b6a919df3ea7d5cdc98463cf7487d8aac3255b558f62054c0db914079",
+  "matchedMovieAudioSha256": "ea1dcf045e94388d7e3727b8d16736b179a71af644c7ca2ae35db17059c3c1d8",
+  "losslessChecksPreserved": [
+    "follow-dry",
+    "follow-late-before-full",
+    "follow-full",
+    "follow-prepared-excerpt"
+  ],
+  "fullAndRangeAAC": {
+    "full": {
+      "decodedBytes": 1728000,
+      "sha256": "ad01072f5bc91c4c3053035718b190ca8ef824947616f41524103a5bad78c960",
+      "exact": true,
+      "actualMovieSha256": "4ffd8e65b17bf8406996d16b2dfc90af4a66619ee9430f2477ab72135b2d80b7",
+      "referenceMovieSha256": "e636c01ff156db4fa8f5e2c89bf5237930ba17e6d66ed140166da3ee62b45b1c"
+    },
+    "range": {
+      "decodedBytes": 769536,
+      "sha256": "4b4993c0b9df0494b744eb2bcea74ab276eef4f45debc79b1cdae130d2247e56",
+      "exact": true,
+      "actualMovieSha256": "ba5ee956acbe927592f1342edf6e7ad2c20246c297b8bd7604b819c1aaa57578",
+      "referenceMovieSha256": "2b2448e6e04211cfc33e578cf7e867e7998416f9152951aefd7687e5a63bf39c"
+    }
+  },
+  "dryAACControl": {
+    "pcmSha256": "fc43219a0500aaea5c6ec20aa9002a767b520d4b9b547fac74cbfa5fd179733a",
+    "decodedSha256": "904a59c6a3f7c75b1062ce696dfd8a9e0deee9287f42538d0c7202517398cabd",
+    "differs": true
+  },
+  "fullExportByteIdenticalToPreview": true,
+  "video": {
+    "full": {
+      "allFramesMatchDry": true,
+      "frameMD5Sha256": "1ece9ae2e8101cdca2f216e9f4f7a864842d1a7755dd132fbff406b81b4492bf",
+      "frameCount": 135
+    },
+    "range": {
+      "allFramesMatchDry": true,
+      "frameMD5Sha256": "492f276590292d4114f8c56c42a1f953f917201cb4edb3e6c26a1766ceb64bfb",
+      "frameCount": 60
+    }
+  },
+  "completeFullVideoMatchesFrozen14e": true,
+  "affectedPostRetimePreserved": {
+    "checks": 14,
+    "matchedAAC": {
+      "full": {
+        "decodedBytes": 1924608,
+        "sha256": "11ee1ce63bf8655ee3c7f32f91a27c278d06b74dffd5178ebc616e955e8791a1",
+        "exact": true,
+        "actualMovieSha256": "84b51bdc82bf8d03198b8208d72a0a7e535c5097fd7885688e352406f75cdf28",
+        "referenceMovieSha256": "ac917fe37a930be58f153c78a3c43ea2785df7b997ad96f5e2b7d304f566c9d7"
+      },
+      "range": {
+        "decodedBytes": 769536,
+        "sha256": "ab6cbe35e2b737ad0893b6cc8eaf614f57a290256a1c69b808f25b3b12e8f1c2",
+        "exact": true,
+        "actualMovieSha256": "6c3e52b0a4894282099c2f8abda2d962e913b91698d2cfe997a3f5c4b0295264",
+        "referenceMovieSha256": "a75244154e7d54f7a5aad5f18b84e7733c1f1b70d165c9c030f0c2d1f1f0404a"
+      }
+    },
+    "wrongOrderAACDiffers": true
+  },
+  "wrongOracleMutationFails": true,
+  "scope": "Public follow-pitch learned full/range previews and full export; complete independent matched AAC, unchanged decoded video. No new listening or physical acceptance."
+}

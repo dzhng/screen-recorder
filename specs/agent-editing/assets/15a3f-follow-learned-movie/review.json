@@ -1,0 +1,11 @@
+{
+  "verdict": "No actionable visual defect for this timing/delivery fixture.",
+  "completeCaptureSet": "Fresh critic and root inspected all10 full-scene contact sheets; critic also inspected all10 enlarged counter sheets, covering195 decoded frames.",
+  "observations": [
+    "Repeated Source B counters correspond to the authored4/5 video rate; full decoded135frames also byte-match frozen14e accepted video.",
+    "PROJECT badge is authored frozen fixture geometry and is readable without hiding counters.",
+    "No blank frames, unreadable counter digits, tearing or intermittent corner marker clipping observed."
+  ],
+  "limits": "No playback/audio quality judgment or new subjective acceptance.",
+  "codeReview": "Root and implementing agent reviewed exact duration derivation, shared matchedAAC oracle, wrong-audio control, unchanged oldcohort/defaultmovieDelivery and all-frame comparison. Configured Codex CLI model unavailable."
+}

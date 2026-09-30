@@ -1,0 +1,24 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 2611,
+      "sha256": "e3bf68961c4b56ae9b84bc6653cb4192410511dc6cd545256caaaf66b28c695e"
+    },
+    "evidence.tar.gz": {
+      "bytes": 128237,
+      "sha256": "ff9baaee05ec4c30a59fafdb0a164c1aa9da9183f12272821ad8215e53a94875"
+    },
+    "root-evidence.tar.xz": {
+      "bytes": 15356,
+      "sha256": "8877b7a8266f1090818b455fe40da139728ea452810a87941cc7e24c3431a320"
+    },
+    "root-report.json.gz": {
+      "bytes": 12864,
+      "sha256": "be2512417b9db8fe2aa2c416b2efd0bd036ad2e4295f758f38717a7d03355d09"
+    },
+    "verification.json": {
+      "bytes": 1452,
+      "sha256": "3dccea8768518f3cade22126f15d55547d2c68056575b9910623a23c02f976bb"
+    }
+  }
+}

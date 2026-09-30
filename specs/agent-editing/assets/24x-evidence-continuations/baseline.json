@@ -1,0 +1,52 @@
+{
+  "status": "measured failure; implementation pending",
+  "baselineCommit": "5d775b55",
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "cachedP95Ms": 641.9256250000008,
+  "public250msBudgetPassed": false,
+  "exactMatchesAndClocksPassed": true,
+  "profiledMedianElapsedMs": 559.74775,
+  "profiledMedianTotals": {
+    "plan.projectionWindow": {
+      "calls": 30,
+      "totalMs": 219.3398759999991
+    },
+    "plan": {
+      "calls": 30,
+      "totalMs": 220.91666700000133
+    },
+    "dependencies": {
+      "calls": 59,
+      "totalMs": 126.54995700000063
+    },
+    "acquire": {
+      "calls": 57,
+      "totalMs": 40.08303999999771
+    },
+    "merge.sourcePage": {
+      "calls": 1247,
+      "totalMs": 75.63067799997134
+    },
+    "mergeTranscript": {
+      "calls": 29,
+      "totalMs": 96.68675000000076
+    },
+    "publish": {
+      "calls": 29,
+      "totalMs": 49.30429300000105
+    },
+    "read": {
+      "calls": 29,
+      "totalMs": 540.7864609999992
+    }
+  },
+  "actualCountersPerQuery": {
+    "plannedOccurrences": 300000,
+    "dependencyOccurrenceVisits": 590000,
+    "acquiredBytes": 22066394,
+    "sourceRows": 1247
+  },
+  "timingScope": "Nested/inclusive timings overlap; projection.window is inside plan, sourcePage inside merge, read inclusive. Do not add overlapping categories.",
+  "diagnosticReportSha256": "c4c72472d15b63c12fb00ffc3aa09fcea7442f85d701ceac7c7198f3be0e1989",
+  "profileReportSha256": "44f5b707326af6dd02a239ee224b074c8ed9f639baba98d819069aa3b8d4e2ed"
+}
