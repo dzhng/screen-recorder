@@ -1,0 +1,15 @@
+{
+  "archiveSha256": "b23816c23a1efc2beeb71b693a146b8cbad746a861debb5f9e606ec6f6dce923",
+  "members": 22,
+  "binaries": {
+    "/tmp/screenrec-probe-stop-build/debug/ScreenRecorderCaptureTests": "392c21cbf80e2280bd3ceab384bae9d2cc4311d388b0ad4cd467314ee9de9300",
+    "/tmp/screenrec-probe-stop-app-build/debug/ScreenRecorder": "74dc340c3983bc11a04f49f9cfca82c0edc126fdbc52efacec5e91b696457ef2"
+  },
+  "buildCommand": "swift build --package-path helpers/mac --scratch-path /tmp/screenrec-probe-stop-build --jobs 2 --product ScreenRecorderCaptureTests",
+  "appBuildCommand": "swift build --package-path apps/macos --scratch-path /tmp/screenrec-probe-stop-app-build --skip-update --jobs 2 --product ScreenRecorder",
+  "testCommand": "SCREENREC_SELECTED_STOP_OUTPUT=/tmp/screenrec-probe-stop-final /tmp/screenrec-probe-stop-build/debug/ScreenRecorderCaptureTests",
+  "mutationExit": 133,
+  "restoredExit": 0,
+  "appBuildExit": 0,
+  "swift": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0"
+}

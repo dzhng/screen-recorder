@@ -16,7 +16,7 @@ private struct ProbeRequest: Decodable {
 /// The native capture probes, reached only by `--probe <name>`: each runs instead of the menu bar
 /// and without the service, inside this app so it carries the app's own capture permission.
 @MainActor
-func runCaptureProbe(_ arguments: [String]) async {
+func runCaptureProbe(_ arguments: [String], selected: SelectedCaptureProbe) async {
     var activeCapture: NativeCapture?
     var fixtureWindow: NSWindow?
     var outputDirectory: String?
@@ -35,7 +35,7 @@ func runCaptureProbe(_ arguments: [String]) async {
             guard arguments.count >= 2 && arguments.count <= 3 else {
                 throw CaptureFailure("INVALID_REQUEST", "Pass selected-device action and optional request path.")
             }
-            let data = try await SelectedCaptureProbe.run(action: arguments[1],
+            let data = try await selected.run(action: arguments[1],
                 requestPath: arguments.count == 3 ? arguments[2] : nil)
             FileHandle.standardOutput.write(data + Data([10]))
             if arguments[1] == "capture" {

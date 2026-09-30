@@ -1,6 +1,7 @@
 import AppKit
 import Darwin
 import ScreenRecorderControls
+import ScreenRecorderCapture
 
 /// One line of this app's diagnostics. Everything this app says about itself goes to stderr, in
 /// this one form, so a launch's whole story reads in order whichever part of it wrote a line.
@@ -22,6 +23,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var controller: CaptureController?
     private var fixture: NSWindow?
     private var probe: ControlsProbe?
+    private var selectedProbe: SelectedCaptureProbe?
+    private var probeTask: Task<Void, Never>?
     private var startup: Operation?
     private var terminating = false
     private var quitting = false
@@ -31,7 +34,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let environment = ProcessInfo.processInfo.environment
         let arguments = CommandLine.arguments.dropFirst()
         if arguments.first == "--probe" {
-            Task { await runCaptureProbe(Array(arguments.dropFirst())) }
+            let probe = SelectedCaptureProbe()
+            let values = Array(arguments.dropFirst())
+            if values.prefix(2).elementsEqual(["selected-devices", "capture"]) { selectedProbe = probe }
+            probeTask = Task { await runCaptureProbe(values, selected: probe) }
             return
         }
         let preferences = Preferences(defaults: defaultsDomain())
@@ -156,6 +162,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         controls?.closePreview()
         if awaitingFinalization { return .terminateLater }
+        if let selectedProbe, let probeTask {
+            awaitingFinalization = true
+            selectedProbe.requestStop()
+            Task { @MainActor in
+                await probeTask.value
+                proceedWithTermination()
+            }
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(10))
+                proceedWithTermination()
+            }
+            return .terminateLater
+        }
         guard let controller, controller.isCapturing else { return .terminateNow }
         awaitingFinalization = true
         diagnostic("finalizing the running take before quitting")

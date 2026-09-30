@@ -5,15 +5,26 @@ import Foundation
 
 /// An app-identity measurement entry point, not a production recording operation.
 @MainActor
-public enum SelectedCaptureProbe {
-    public static func run(action: String, requestPath: String? = nil) async throws -> Data {
+public final class SelectedCaptureProbe {
+    public init() {}
+    private var stopping = false
+    private var stopStartup: (() -> Void)?
+
+    /// Graceful user stop wakes waits; it never cancels the shared publication task.
+    public func requestStop() {
+        guard !stopping else { return }
+        stopping = true
+        stopStartup?()
+    }
+
+    public func run(action: String, requestPath: String? = nil) async throws -> Data {
         switch action {
         case "validate":
-            let request = try read(requestPath)
+            let request = try Self.read(requestPath)
             try request.validate()
             return try JSONEncoder().encode(request)
         case "recover":
-            let request = try read(requestPath)
+            let request = try Self.read(requestPath)
             try request.validate()
             let root = URL(fileURLWithPath: request.outputDirectory)
             let lease = try CaptureJournalLease(directory: root.appendingPathComponent("camera").path)
@@ -23,7 +34,7 @@ public enum SelectedCaptureProbe {
         case "status":
             return try JSONSerialization.data(withJSONObject: [
                 "screen": NativeCapture.screenPermission,
-                "camera": permission(.video), "microphone": permission(.audio),
+                "camera": Self.permission(.video), "microphone": Self.permission(.audio),
                 "bundleIdentifier": Bundle.main.bundleIdentifier ?? "unbundled",
                 "executable": Bundle.main.executableURL?.path ?? "unknown",
             ])
@@ -33,7 +44,7 @@ public enum SelectedCaptureProbe {
             }
             let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
             return try JSONSerialization.data(withJSONObject: [
-                "cameras": cameras().map { ["id": $0.uniqueID, "name": $0.localizedName] },
+                "cameras": Self.cameras().map { ["id": $0.uniqueID, "name": $0.localizedName] },
                 "microphones": ScreenCaptureInput.microphoneCandidates().map { ["id": $0.uniqueID, "name": $0.localizedName] },
                 "displays": content.displays.map { ["id": $0.displayID, "width": $0.width, "height": $0.height] },
                 "windows": content.windows.map { ["id": $0.windowID, "title": $0.title ?? ""] as [String: Any] },
@@ -46,7 +57,7 @@ public enum SelectedCaptureProbe {
             let granted = try await NativeCapture.requestPermission(kind)
             return try JSONSerialization.data(withJSONObject: [kind: granted])
         case "capture":
-            let request = try read(requestPath)
+            let request = try Self.read(requestPath)
             try request.validate()
             // Every grant is checked before enumeration, capture inputs or output creation.
             try request.requireAuthorization(screen: NativeCapture.screenPermission,
@@ -56,7 +67,7 @@ public enum SelectedCaptureProbe {
             guard !FileManager.default.fileExists(atPath: root.path) else {
                 throw CaptureFailure("INVALID_REQUEST", "Evidence destination must not already exist.")
             }
-            let devices = cameras()
+            let devices = Self.cameras()
             try SelectedCaptureRequest.requireDevice(request.cameraID, among: devices.map(\.uniqueID), role: "camera")
             guard let camera = devices.first(where: { $0.uniqueID == request.cameraID }) else {
                 throw CaptureFailure("SOURCE_UNAVAILABLE", "Selected camera disappeared.")
@@ -64,42 +75,54 @@ public enum SelectedCaptureProbe {
             let screenRequest = CaptureRequest(source: request.source,
                 outputDirectory: root.appendingPathComponent("screen").path,
                 microphone: request.microphone.enabled, microphoneDeviceID: request.microphone.deviceID)
+            guard !stopping else { throw CancellationError() }
             let screen = try await ScreenCaptureInput.prepare(screenRequest)
+            guard !stopping else { throw CancellationError() }
             let input = try SelectedProbeInput(screen: screen, camera: camera, request: request)
             try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true,
                 attributes: [.posixPermissions: 0o700])
             try JSONEncoder().encode(request).write(to: root.appendingPathComponent("request.json"), options: .atomic)
             let capture = NativeCapture(prepareInput: { _ in input })
-            var interrupted = false
-            capture.onInterruption = { _ in interrupted = true; input.interruptStartup() }
-            func wait(_ seconds: Double) async throws {
-                let deadline = ContinuousClock.now.advanced(by: .seconds(seconds))
-                while !interrupted && ContinuousClock.now < deadline {
-                    try await Task.sleep(for: .milliseconds(50))
-                }
-            }
-            do {
-                try await capture.start(screenRequest)
-                // The duration begins with screen startup, including the declared camera delay.
-                let remaining = request.durationSeconds - request.cameraDelaySeconds
-                if let pause = request.pause {
-                    let before = pause.atSeconds - request.cameraDelaySeconds
-                    guard before > 0 else { throw CaptureFailure("INVALID_REQUEST", "Pause must follow camera startup.") }
-                    try await wait(before)
-                    if !interrupted { try capture.pause() }
-                    try await wait(pause.durationSeconds)
-                    if !interrupted { try capture.resume() }
-                    try await wait(request.durationSeconds - pause.atSeconds - pause.durationSeconds)
-                } else { try await wait(remaining) }
-                let result = try await capture.stop()
-                let data = try JSONEncoder().encode(result)
-                try data.write(to: root.appendingPathComponent("screen-result.json"), options: .atomic)
-                return data
-            } catch {
-                if capture.deviceState != "idle" { _ = try? await capture.stop() }
-                throw error
-            }
+            stopStartup = { input.requestStop() }
+            capture.onInterruption = { _ in input.interruptStartup() }
+            defer { stopStartup = nil }
+            if stopping { input.requestStop() }
+            return try await record(capture, request: request, screenRequest: screenRequest)
+
         default: throw CaptureFailure("INVALID_REQUEST", "Unknown selected-device probe action.")
+        }
+    }
+    /// Shared selected-probe run: physical closure and publication stay in NativeCapture.
+    package func record(_ capture: NativeCapture, request: SelectedCaptureRequest,
+        screenRequest: CaptureRequest) async throws -> Data {
+        var interrupted = false
+        let priorInterruption = capture.onInterruption
+        capture.onInterruption = { reason in interrupted = true; priorInterruption?(reason) }
+        func wait(_ seconds: Double) async throws {
+            let deadline = ContinuousClock.now.advanced(by: .seconds(seconds))
+            while !stopping && !interrupted && ContinuousClock.now < deadline {
+                try await Task.sleep(for: .milliseconds(50))
+            }
+        }
+        do {
+            try await capture.start(screenRequest)
+            if let pause = request.pause {
+                let before = pause.atSeconds - request.cameraDelaySeconds
+                guard before > 0 else { throw CaptureFailure("INVALID_REQUEST", "Pause must follow camera startup.") }
+                try await wait(before)
+                if !stopping && !interrupted { try capture.pause() }
+                try await wait(pause.durationSeconds)
+                if !stopping && !interrupted { try capture.resume() }
+                try await wait(request.durationSeconds - pause.atSeconds - pause.durationSeconds)
+            } else { try await wait(request.durationSeconds - request.cameraDelaySeconds) }
+            let result = try await capture.stop()
+            let data = try JSONEncoder().encode(result)
+            try data.write(to: URL(fileURLWithPath: request.outputDirectory)
+                .appendingPathComponent("screen-result.json"), options: .atomic)
+            return data
+        } catch {
+            if capture.deviceState != "idle" { _ = try? await capture.stop() }
+            throw error
         }
     }
     private static func read(_ path: String?) throws -> SelectedCaptureRequest {
@@ -175,7 +198,9 @@ private final class SelectedProbeInput: CaptureInputSession {
         observeDeviceLoss(onFailure: onFailure)
         try await screen.start(writer: writer, onFailure: onFailure, checkInterruption: checkInterruption)
         try checkInterruption()
+        if stopRequested { return }
         try await delayedStart.wait(seconds: request.cameraDelaySeconds)
+        if stopRequested { return }
         try Task.checkCancellation(); try checkInterruption()
         guard !stopped else { throw CancellationError() }
         guard camera.activeFormat.videoSupportedFrameRateRanges.contains(where: {
@@ -203,6 +228,8 @@ private final class SelectedProbeInput: CaptureInputSession {
             })
         }
     }
+    private var stopRequested = false
+    func requestStop() { stopRequested = true; delayedStart.finish() }
     func interruptStartup() { delayedStart.cancel() }
     func stop() async -> CaptureFailure? {
         stopped = true
@@ -242,11 +269,15 @@ private final class SelectedProbeInput: CaptureInputSession {
 package final class ProbeStartDelay {
     package init() {}
     private var task: Task<Void, Error>?
+    private var finished = false
     package func wait(seconds: Double) async throws {
+        if finished { return }
         let pending = Task { try await Task.sleep(for: .seconds(seconds)) }
         task = pending
         defer { task = nil }
-        try await withTaskCancellationHandler { try await pending.value } onCancel: { pending.cancel() }
+        do { try await withTaskCancellationHandler { try await pending.value } onCancel: { pending.cancel() } }
+        catch is CancellationError where finished && !Task.isCancelled { return }
     }
+    package func finish() { finished = true; task?.cancel() }
     package func cancel() { task?.cancel() }
 }

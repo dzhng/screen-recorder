@@ -99,3 +99,7 @@ media. Reviews and exact invocation receipts are retained in the archive.
 - **Sound, high confidence:** actual physical drift, permissions and interruption
   behavior still require explicit user-authorized selected-device measurements.
   Compilation and simulated clocks supply no consent and no physical timing claim.
+
+[Graceful-stop correction](graceful-stop/README.md) follows the real selected take:
+app quit now reaches shared finalization, with offline regression evidence and
+physical/AppKit limitations explicit. Camera decoder recovery is separate.

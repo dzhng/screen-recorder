@@ -1,0 +1,112 @@
+[
+  {
+    "path": "logs/screenrec-probe-stop-app-build.log",
+    "bytes": 4860,
+    "sha256": "59029378ef501bd449e0fb34f37b78e095f185477d28eeb6dcaca7f387a28d5b"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-build.log",
+    "bytes": 32977,
+    "sha256": "b1ea7e9d202aa695bea16e4780fb6c3d7da16242f15af4267855f06b28be6959"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-codex-review.log",
+    "bytes": 2564,
+    "sha256": "d657d9a46c22b86e1827933bd85298c3e0f30131b5f7b106c6a315137b294b43"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-final-build.log",
+    "bytes": 469,
+    "sha256": "9873245a79cf847ff646544bf30785bf63ef78e97a6b5c6f44d3ba770f173d35"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-final.log",
+    "bytes": 118,
+    "sha256": "de4102e14f9cc7f92a773a89184304a6d33dbf11896693d7c5440f982215ee21"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-green.log",
+    "bytes": 118,
+    "sha256": "de4102e14f9cc7f92a773a89184304a6d33dbf11896693d7c5440f982215ee21"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-mutation-build.log",
+    "bytes": 638,
+    "sha256": "81ea95cb6da34c638d872e6bd1974e871826f163963f5be610d0331c8642b74e"
+  },
+  {
+    "path": "logs/screenrec-probe-stop-mutation.log",
+    "bytes": 120,
+    "sha256": "7013daacb8a486a6ad03e9159dadb38b9ffb909b86acc82f6866d49b5f0f9e93"
+  },
+  {
+    "path": "offline/input.mov",
+    "bytes": 21998,
+    "sha256": "fdd9499485df68dd73bd09cc8f825c9ca8600b524464d0b82337105a22a7978e"
+  },
+  {
+    "path": "offline/paused/screen-result.json",
+    "bytes": 499,
+    "sha256": "97f4044d040d98c6c0b4497a1fff368ce8e141d89d7e35b7cb963fd0c932f403"
+  },
+  {
+    "path": "offline/paused/screen/capture.journal.jsonl",
+    "bytes": 1316,
+    "sha256": "9663ceb511e2d7fdea61fb4327c17b4a38733ecce8bebfda9ab4343a06f8a9cc"
+  },
+  {
+    "path": "offline/paused/screen/video.mov",
+    "bytes": 8026,
+    "sha256": "be37e4bbec43afb7cdc1aa4fb1bb2bb316ec342cb29d214686277313080a247d"
+  },
+  {
+    "path": "offline/recording/screen-result.json",
+    "bytes": 455,
+    "sha256": "5b282d6d96612332dc8acb16599d52714da74b2d448cda1130de0e084884f9a9"
+  },
+  {
+    "path": "offline/recording/screen/capture.journal.jsonl",
+    "bytes": 1087,
+    "sha256": "91834036c382b49d0240eb74102acd9e64df8b0ddbd6b00c792dcae73ec570dd"
+  },
+  {
+    "path": "offline/recording/screen/video.mov",
+    "bytes": 8026,
+    "sha256": "1e1b02fbe2d9104567c52ea0cf0bdd6403903227c5689731c5ee307e667a8595"
+  },
+  {
+    "path": "review.md",
+    "bytes": 699,
+    "sha256": "a1bfa1cc23b2a65df6749f5597a0714bfa63766e30232adc45bde1bb37d166e2"
+  },
+  {
+    "path": "source/apps/macos/Sources/ScreenRecorder/CaptureProbe.swift",
+    "bytes": 10939,
+    "sha256": "2054c959c797877cd082796544f47883542b316280b6763e048106d088a95690"
+  },
+  {
+    "path": "source/apps/macos/Sources/ScreenRecorder/main.swift",
+    "bytes": 10511,
+    "sha256": "2590f84b78d52055f7399223619ba0eb6f080e2ca3997b9a17d2e7878c6c45fe"
+  },
+  {
+    "path": "source/helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+    "bytes": 16045,
+    "sha256": "4a596226b6cbc5945da283240c3daa251e57267af47c7588a02e165416a22f80"
+  },
+  {
+    "path": "source/helpers/mac/Tests/CameraReproduction/main.swift",
+    "bytes": 14297,
+    "sha256": "f47f1d8730d0f4fc55d5953e768f11d18009b42a3cd3407b3737f6e7dbf8cf7c"
+  },
+  {
+    "path": "source/helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureStopTests.swift",
+    "bytes": 3704,
+    "sha256": "e21598ffcf69d45f5527a35e1647e5c6f40c50b3ef291adcad843a570af4049b"
+  },
+  {
+    "path": "source/helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift",
+    "bytes": 3879,
+    "sha256": "7d826728735c924d491b797041b03b0002fbfd005b3f23fd0fe09009e5910ab8"
+  }
+]
