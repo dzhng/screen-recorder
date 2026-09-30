@@ -1,0 +1,70 @@
+{
+  "text": "Okay, so this is the recorder workbench.",
+  "proposedRetimedText": "so this is the",
+  "boundaryAuthority": "Inherited ASR gap midpoints only; no independent protected whole-word labels or listening verdict",
+  "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/13a-endpoint-verification/auditions/phrase-0-reference.wav",
+  "sourceSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+  "sourcePcmFrames": 231360,
+  "worker": "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+  "workerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "sourceFileRangeUs": [
+    1520000,
+    2960000
+  ],
+  "inputLocalSelectedFrames": [
+    22560,
+    91680
+  ],
+  "selectedPcmSha256": "9804fcac60fae4408ab31db526ac6f30f069ef52f873fc218b07cde2824745d3",
+  "rate": {
+    "numerator": 4,
+    "denominator": 5
+  },
+  "outputSelectedFrames": 86400,
+  "outputContextFrames": 248640,
+  "outputJoinsFrames": [
+    22560,
+    108960
+  ],
+  "prefixFrames": 22560,
+  "suffixFrames": 139680,
+  "retimedPcmSha256": "4b3f3091d1268982bc0c5b71f8039a4b7a6f27287977d355ec5f601b082d98b7",
+  "checks": {
+    "exactCount": true,
+    "finite": true,
+    "identityExact": true,
+    "excludedSourcePoisonIdentical": true,
+    "selectedOnlyIdentical": true,
+    "prefixBitIdentical": true,
+    "suffixBitIdentical": true
+  },
+  "policy": "Frozen exact mono48k recipe, explicit selection only; no added processor context, gain, normalization, fade, trimming, model, build, or public adoption",
+  "listening": "UNVERIFIED",
+  "files": [
+    {
+      "path": "original.wav",
+      "bytes": 925484,
+      "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+    },
+    {
+      "path": "internal-slower-0.8x.wav",
+      "bytes": 994604,
+      "sha256": "90f5ba9b2e36080ead033ea3f2284fcf7d1d93b811847080c5482df0d3b0f448"
+    },
+    {
+      "path": "retimed.f32",
+      "bytes": 345600,
+      "sha256": "4b3f3091d1268982bc0c5b71f8039a4b7a6f27287977d355ec5f601b082d98b7"
+    },
+    {
+      "path": "render.py",
+      "bytes": 3675,
+      "sha256": "af7b4190a724fe79d8773cef1b811a3df69bb3d0caba5c64837b31b5523bff52"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1502,
+      "sha256": "e56bc1f5d5ecbff1e1058839da7097ed9f57b7f5959a2d86ab9beaba2b4b5c42"
+    }
+  ]
+}

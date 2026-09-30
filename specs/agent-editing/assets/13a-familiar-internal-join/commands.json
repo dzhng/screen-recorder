@@ -1,0 +1,58 @@
+[
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-retime-1/input.f32",
+      "/tmp/screenrec-familiar-internal-retime-1/retimed.f32",
+      "22560",
+      "91680",
+      "86400",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":86400}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-retime-1/poison-input.f32",
+      "/tmp/screenrec-familiar-internal-retime-1/poison.f32",
+      "22560",
+      "91680",
+      "86400",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":86400}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-retime-1/selected.f32",
+      "/tmp/screenrec-familiar-internal-retime-1/selected-only.f32",
+      "0",
+      "69120",
+      "86400",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":86400}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Users/david/dev/screen-recorder/helpers/stretch/.build/release/StretchParity",
+      "/tmp/screenrec-familiar-internal-retime-1/input.f32",
+      "/tmp/screenrec-familiar-internal-retime-1/identity.f32",
+      "22560",
+      "91680",
+      "69120",
+      "48000"
+    ],
+    "status": 0,
+    "stdout": "{\"frames\":69120}\n",
+    "stderr": ""
+  }
+]
