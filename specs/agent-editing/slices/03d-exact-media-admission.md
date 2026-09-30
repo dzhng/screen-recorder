@@ -1,7 +1,7 @@
 # 03d — Preserve exact admitted media support
 
-Status: planned correction; original public red is retained in
-[03d evidence](../assets/03d-exact-admission-red/README.md). No implementation yet.
+Status: pass1 physical authority verified by [independent replay](../assets/03d-physical-authority/root-verification.json); pass2 carrier in progress. Original public red is retained in
+[03d evidence](../assets/03d-exact-admission-red/README.md). No physical-admission production cutover yet.
 Dependencies: existing03a exact edits and14f physical sample membership. This
 amends the integer-admission restriction, without reopening their accepted proofs.
 

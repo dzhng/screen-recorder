@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "report": "root-report.json.gz",
+  "allThreeCompleteNativePCMAndClocksMatch": true,
+  "rawAndExtractionMatchFrozenReport": true,
+  "review": "Independent root read of full Swift/JS probe clean. CLI reviewer unavailable; root reproduced all physical and public checks.",
+  "scope": "Frozen red authority proof; production correction remains open."
+}
