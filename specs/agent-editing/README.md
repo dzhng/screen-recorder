@@ -28,8 +28,8 @@ timing, and validate every selected picture against its matched raw reference.
 [23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
 is running in parallel after [23n genuine isolated Parakeet preparation](slices/23n-parakeet-model-readiness.md)
 through the ordinary model owner; frozen ASR output alone cannot establish readiness.
-The completed readiness packet is preserved while its checker failure paths receive
-separate bounded lifecycle controls; this does not repeat preparation or inference. Keep same-request frame
+The completed readiness packet is preserved; its [checker lifecycle controls](assets/23n-parakeet-readiness-lifecycle/README.md)
+pass on the merged tree without repeating preparation or inference. Keep same-request frame
 selection distinct from matched-source picture comparisons. Authored freeze,
 repeat and empty intervals have no legacy cut/trim counterpart.
 
@@ -279,7 +279,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
 - [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — actual joins and independently qualified final support
 - [ ] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — genuine model readiness precedes frozen ingestion
-- [ ] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness passed; checker failure-path closeout underway
+- [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

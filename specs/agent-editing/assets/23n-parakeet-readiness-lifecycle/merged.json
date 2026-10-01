@@ -1,0 +1,247 @@
+{
+  "status": "Merged checker lifecycle controls green",
+  "implementation": "4ed8cf29",
+  "child": "d4146010b4c44a4373dcfd0882a495a1c2bbc70d",
+  "root": "4ed8cf2942967ea7987d2701d2a24c8d91f9d7c3",
+  "gate": {
+    "command": "SCREENREC_READINESS_CONTROLS_OUT=/tmp/screenrec-23n-lifecycle-merged/controls node --test packages/test-harness/editing/parakeet-readiness-processes.test.mjs",
+    "exitCode": 0,
+    "passed": 8,
+    "failed": 0,
+    "durationMs": 9195.880625,
+    "driverBoundMs": 5000
+  },
+  "checks": {
+    "scopedLint": 0,
+    "scopedFormat": 0,
+    "diffCheck": 0,
+    "childPayloads": 74,
+    "rootClosureSources": 3,
+    "originalReadinessArchiveUnchanged": true
+  },
+  "scope": "Checker failure behavior only; actual readiness remains the separately frozen original producer. No model/native/media/quality/full-release rerun or claim.",
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 6810,
+    "sha256": "1fa12e1129f60b062b0c63b87eca2dfe73bdf2f3ace100e5b66383232f018c01",
+    "members": 54
+  },
+  "members": {
+    "controls/adapter-exit/cli.mjs": {
+      "bytes": 16,
+      "sha256": "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    },
+    "controls/adapter-exit/driver.mjs": {
+      "bytes": 1061,
+      "sha256": "eb7f319b80c3a1d73d428f9c25d6ae3fea169f8284729014c22552283df68942"
+    },
+    "controls/adapter-exit/mcp-terminal.jsonl": {
+      "bytes": 23,
+      "sha256": "c1b81418c012a51b5bbcdda05ca62c1f4b81ea062e6cdff0f9a0dc0a8f0de7e0"
+    },
+    "controls/adapter-exit/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/adapter-exit/report.json": {
+      "bytes": 1764,
+      "sha256": "8ae1fdfd15de2bbbc094685b01aa8bd2bcbe867d1935cbf27be98da96fe31c80"
+    },
+    "controls/adapter-exit/service.mjs": {
+      "bytes": 124,
+      "sha256": "b296302eb649626ffff23ed80f02009b2e0a728bbbef718f7a3093c99ed24bb3"
+    },
+    "controls/adapter-exit/terminal.json": {
+      "bytes": 1167,
+      "sha256": "e6220109bb604b3bbbc5811073580fc5bc3738915b49b0124f39514fef4007af"
+    },
+    "controls/adapter-malformed/cli.mjs": {
+      "bytes": 64,
+      "sha256": "87ebbd67d6689a48de78ad4d80dd956201ab27cfa18b3ba7eeb56bb6d55d960c"
+    },
+    "controls/adapter-malformed/driver.mjs": {
+      "bytes": 1091,
+      "sha256": "be4028f36dbcc47b9806e04b6cb99d8227c37d9ab6addff05dc4f1b45ba26adf"
+    },
+    "controls/adapter-malformed/mcp-terminal.jsonl": {
+      "bytes": 23,
+      "sha256": "f26cb31e5a26a352acb92d65fe44d0fae27fc14126e892034da8ed5b86f9780b"
+    },
+    "controls/adapter-malformed/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/adapter-malformed/report.json": {
+      "bytes": 6673,
+      "sha256": "5f8ff27f08726f258ff19b1d51c92cce7e218409e462203d037ebd5521e17bb1"
+    },
+    "controls/adapter-malformed/service.mjs": {
+      "bytes": 124,
+      "sha256": "b296302eb649626ffff23ed80f02009b2e0a728bbbef718f7a3093c99ed24bb3"
+    },
+    "controls/adapter-malformed/terminal.json": {
+      "bytes": 1291,
+      "sha256": "c0d126f4eefcd203b60252adc3d1876caa124a4aec402dc0be0d177d5f36e633"
+    },
+    "controls/exit-before-ready/cli.mjs": {
+      "bytes": 16,
+      "sha256": "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    },
+    "controls/exit-before-ready/driver.mjs": {
+      "bytes": 1091,
+      "sha256": "1402e139f91372804e62d3bf01cdf068c3bd1c0b968fd6e57b9d48ccf94ad4fc"
+    },
+    "controls/exit-before-ready/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/exit-before-ready/report.json": {
+      "bytes": 951,
+      "sha256": "702c1f3abbcb26ae817e20b948f830bc5ba65b80a0e87e53d7da357dd907d21d"
+    },
+    "controls/exit-before-ready/service.mjs": {
+      "bytes": 16,
+      "sha256": "17323d72475e41c4f9343f336328489038724e5bfc1c7e80326a67bf26977956"
+    },
+    "controls/exit-before-ready/terminal.json": {
+      "bytes": 621,
+      "sha256": "10fed3385f63b1bb45b92fd7b6f7644263596dcb93239161064200ab2d112dab"
+    },
+    "controls/failed-control/cli.mjs": {
+      "bytes": 16,
+      "sha256": "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    },
+    "controls/failed-control/driver.mjs": {
+      "bytes": 1073,
+      "sha256": "2cbffdce2adcd4f627c898f72f6c053b6679ff6c3b85b47206b7548adc3787c4"
+    },
+    "controls/failed-control/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/failed-control/report.json": {
+      "bytes": 2437,
+      "sha256": "b6c855836344fe8039f9ff96c1514ff649fa36ab5fd4b0a5a525ef5def245905"
+    },
+    "controls/failed-control/service.mjs": {
+      "bytes": 97,
+      "sha256": "8eebebed5358d00c87335325eaadabfdf21f294de5eeabc621acb934b6f177c9"
+    },
+    "controls/failed-control/terminal.json": {
+      "bytes": 613,
+      "sha256": "18b917320186932c28eeeb56e7d32b59f62f2b88284859ee38925cc2c8b3d4b3"
+    },
+    "controls/malformed-control/cli.mjs": {
+      "bytes": 16,
+      "sha256": "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    },
+    "controls/malformed-control/driver.mjs": {
+      "bytes": 1091,
+      "sha256": "30a757d90c162d79cd6c4ace32f2329ed889346edd222cea6cff2bc13eaacb62"
+    },
+    "controls/malformed-control/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/malformed-control/report.json": {
+      "bytes": 4147,
+      "sha256": "20c77a1ca37f80b39b51de77a199d3010ee1058cd1f8ecc879c50432df6c2997"
+    },
+    "controls/malformed-control/service.mjs": {
+      "bytes": 64,
+      "sha256": "87ebbd67d6689a48de78ad4d80dd956201ab27cfa18b3ba7eeb56bb6d55d960c"
+    },
+    "controls/malformed-control/terminal.json": {
+      "bytes": 791,
+      "sha256": "0140fe63b781890625509706d7207050f434be140f7d89d9333e59fc70c8bd09"
+    },
+    "controls/nonzero-close/cli.mjs": {
+      "bytes": 489,
+      "sha256": "9357dc3055b8bd455cd4ee953ff8de3ce91ef69759e5d48198e8fcd446f4b07e"
+    },
+    "controls/nonzero-close/driver.mjs": {
+      "bytes": 1067,
+      "sha256": "3a4af1b59f66c79caeba7008bd42b8b862d1d30c535c9a146310386b14d5729b"
+    },
+    "controls/nonzero-close/mcp-terminal.jsonl": {
+      "bytes": 23,
+      "sha256": "84afb2beab241c75a69f6551801ff3860c76835b1d2c0c5bbdde535e252c6074"
+    },
+    "controls/nonzero-close/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/nonzero-close/report.json": {
+      "bytes": 1416,
+      "sha256": "b09d55ab61e8708bc9754d118f9bfd11db4964df752cd871f5f6ebf6c2aa649b"
+    },
+    "controls/nonzero-close/service.mjs": {
+      "bytes": 143,
+      "sha256": "7f86bbb120bbbd68f0c1950f804b3cd351f65dc6adf33f2e452185392565fbf0"
+    },
+    "controls/nonzero-close/terminal.json": {
+      "bytes": 731,
+      "sha256": "34d414caaf03fcfca7de7bfa690ebcab83941caff385f3b748361ea7c0fcf7b3"
+    },
+    "controls/successful-startup/cli.mjs": {
+      "bytes": 489,
+      "sha256": "9357dc3055b8bd455cd4ee953ff8de3ce91ef69759e5d48198e8fcd446f4b07e"
+    },
+    "controls/successful-startup/driver.mjs": {
+      "bytes": 1097,
+      "sha256": "6acf998f2701d4f7d48d2e222cf6ea9a86b792a09f453c32b96b7c35e859c151"
+    },
+    "controls/successful-startup/mcp-terminal.jsonl": {
+      "bytes": 23,
+      "sha256": "9c8caff1d9951639f76232dfda8bd1499b19a2fb9f6da12ede855eed09e77173"
+    },
+    "controls/successful-startup/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/successful-startup/report.json": {
+      "bytes": 612,
+      "sha256": "556daf7a9c6c033bc39275ea04f4cfef67803966df12c3c9feb99112da48f26b"
+    },
+    "controls/successful-startup/service.mjs": {
+      "bytes": 124,
+      "sha256": "b296302eb649626ffff23ed80f02009b2e0a728bbbef718f7a3093c99ed24bb3"
+    },
+    "controls/successful-startup/terminal.json": {
+      "bytes": 102,
+      "sha256": "34e4f7da7cb36cf0b4a69b135add604a4fcdf5d99f6deb1e6939814b6313fa4f"
+    },
+    "controls/truncated-control/cli.mjs": {
+      "bytes": 16,
+      "sha256": "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    },
+    "controls/truncated-control/driver.mjs": {
+      "bytes": 1091,
+      "sha256": "82c453dc98c746c5ca80a812a63a28e28a75b13f03119b70d6e446e4681f6605"
+    },
+    "controls/truncated-control/observer.mjs": {
+      "bytes": 275,
+      "sha256": "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    },
+    "controls/truncated-control/report.json": {
+      "bytes": 3410,
+      "sha256": "ba7c51e42e4ec49ad0bfe51751164458ea000abea95239806a42dafa249c9973"
+    },
+    "controls/truncated-control/service.mjs": {
+      "bytes": 26,
+      "sha256": "4c1fca1b953fbaa47bc8b16b26c396eb622f1932fe4ea79d4f2c02e91ab3554c"
+    },
+    "controls/truncated-control/terminal.json": {
+      "bytes": 594,
+      "sha256": "46fb754893186037e07c0f9d6fcb02c92228de7a29bdb464fbe15bdee3c605e5"
+    },
+    "review.md": {
+      "bytes": 832,
+      "sha256": "46432163a84bc19ef3ee3f318c061bae1b59d2c6102410ab15ed8f3fc4eafd95"
+    },
+    "tests.log": {
+      "bytes": 836,
+      "sha256": "204b2997ee097521c9862c5ed0ebe82d4dea0f36f22f5a426f7bc357885e7817"
+    }
+  }
+}

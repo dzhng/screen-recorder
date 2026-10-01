@@ -21,3 +21,7 @@ retained under the original packet's authority.
 [Choices](choices.md) explains the maintained module seam; [review](review.md)
 states its verification limits. Run the focused controls with `node --test
 packages/test-harness/editing/parakeet-readiness-processes.test.mjs`.
+
+The [merged verification](merged.json) and [root control packet](merged.tar.gz)
+retain actual merged child results and root integrity/source checks. They preserve
+the original readiness producer rather than claim another preparation run.

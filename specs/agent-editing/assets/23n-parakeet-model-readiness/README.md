@@ -39,5 +39,5 @@ starting the separate 23m consumer pass; that does not expand this packet's scop
 The [merged checks](merged.json) and [supplement](merged.tar.gz) retain root byte,
 source and complete-output verification. Frozen sourceAuthority package keys
 identify each package's `src` Git tree. Independent review found two checker
-failure-path defects in early startup/report persistence; their correction is
-separate from the completed genuine readiness and preserves this original packet.
+failure-path defects in early startup/report persistence. The [lifecycle correction](../23n-parakeet-readiness-lifecycle/README.md)
+passes merged controls separately from genuine readiness and preserves this packet.

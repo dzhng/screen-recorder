@@ -6403,3 +6403,8 @@ source bundles and one complete preserved inventory. Root and independent review
 confirm genuine existing-owner preparation. Failure-path checker corrections
 retain the successful producer and use separate actual-child controls; no model
 selection, download policy or speech-quality verdict changes.
+
+The [23n lifecycle ledger](assets/23n-parakeet-readiness-lifecycle/choices.md) owns
+one scenario process owner and separate startup/cleanup failure evidence. The
+original successful producer remains immutable; current controls validate the
+repair without model preparation or a product transport change.

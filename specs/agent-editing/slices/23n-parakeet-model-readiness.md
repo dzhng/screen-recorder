@@ -1,9 +1,8 @@
 # 23n — Prepare the registered transcription model
 
 Status: genuine preparation/readiness verified in the [owned packet](../assets/23n-parakeet-model-readiness/README.md);
-merged source/payload identities independently verified. Checker startup/failure
-report closeout is underway under separate controls; original readiness remains
-accepted. The isolated source and prepared library are retained for 23m.
+merged source/payload identities independently verified. Separate checker
+startup/failure controls pass on the merged tree; original readiness remains accepted. The isolated source and prepared library are retained for 23m.
 
 ## Contract and owner
 
