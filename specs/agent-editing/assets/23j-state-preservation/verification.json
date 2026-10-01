@@ -283,7 +283,8 @@
     "Format19 catalog remains refused; no migration or fabricated capture metadata",
     "Intermediate private harness revisions were not frozen; complete raw failures retained without independent producer claims",
     "Current recipient canonical assets are reused;14 from25bpackage andeabe99f9 movie from25bmediaarchive",
-    "Root owns shared hub/matrix/choices integration"
+    "Root owns shared hub/matrix/choices integration",
+    "Historical MCP adapter termination is unverified; SDKclient/provider supplement is post-run identity rather than instrumented loaded-module authority"
   ],
   "review": "Shape/diff/docs/choices reviewed; no CLI/Claude review per explicit delegated scope",
   "cleanup": {
@@ -305,5 +306,18 @@
       "/tmp/screenrec-23j-reviewed-final/project-home"
     ],
     "retained": "Original23a/25b donor homes, source fixtures, installed app, model storage and frozenworker remain untouched; frozen23jbundles/packet and complete metadata captures retained"
+  },
+  "lifecycleEvidence": {
+    "services": "4recorded process close events,code0",
+    "native": "4recorded worker close events,code0",
+    "cli": "CLI subprocess promise fulfillment; complete replies retained",
+    "socketProxy": "close callbacks awaited",
+    "mcp": "SDK close promises resolved; adapter PIDs/child-close/exit events unrecorded, termination unverified"
+  },
+  "postRunSdkIdentity": {
+    "path": "sdk-supplement.json",
+    "bytes": 228429,
+    "sha256": "8036e083e77e9f0cc441a02cefac7527a0045b8c76b8a33ac7395d6733da9d97",
+    "scope": "Post-run filesystem identity of currently resolved SDK1.30.0 client/default-validator/provider CODE; conservative installed-package snapshot, not historical instrumented loaded-module or adapter-exit proof"
   }
 }

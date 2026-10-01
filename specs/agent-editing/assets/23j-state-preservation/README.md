@@ -3,7 +3,7 @@
 One retained source is edited through the actual installed recording service and
 the current source project service in copied private homes. [Report](report.json)
 retains exact source-clock/narration-offset mappings and locates complete CLI/MCP replies.
-[Verification](verification.json) binds inputs, producer CODE, terminal lifetimes,
+[Verification](verification.json) binds inputs, producer CODE, recorded service/native exits,
 the negative control and the retained evidence archive.
 
 The pre-edit catalog is byte-identical to the [23a selected baseline](../23a-recording-project-preservation/README.md).
@@ -48,7 +48,14 @@ package; the remaining hash-named movie is the identical blob in its media archi
 The old source files are the checked-in narrated-workbench fixture. This needs no
 fake capture, catalog migration, new admission or inference.
 
-All services, adapters, proxies and native children are terminal. No native build,
+The report records terminal service/native exits, fulfilled plain CLI subprocess
+promises and completed socket-proxy closure. MCP SDK close promises resolved;
+adapter PIDs and child-close/exit events were not recorded, so historical adapter
+process termination is unverified. SDK1.30.0 can return after sending its final
+SIGKILL without awaiting child close. The [post-run SDK supplement](sdk-supplement.json)
+pins the current resolved client/default-validator/provider installation; it is
+not an instrumented historical loaded-module record. The original archive remains
+unchanged, including its superseded broader shutdown wording. No native build,
 render, capture, device discovery, playback, window, installed switch or owner
 retirement was performed. [Review](review.md) and [choices](choices.md) delimit the
 source-only result; the shared cutover ledger remains owned by the integrating pass.

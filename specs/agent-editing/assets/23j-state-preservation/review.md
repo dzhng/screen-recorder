@@ -10,7 +10,11 @@ Diff: reviewed complete-value assertions, replay identity, all history pages,
 concurrent winner/refusal, late-invalid rollback, new undo/restore identities and
 offset narration rows. The initial absent-clip removal probe was unsuitable
 because removal is intentionally idempotent; a genuine existing rejection replaces
-it. Cleanup drains both services/adapters and records every native child exit.
+it. Cleanup records service/native exits and awaits SDK close promises. Historical
+MCP adapter PIDs/exit events were not recorded; resolved SDK close does not prove
+those processes terminated. This narrows the original shutdown claim without
+changing the accepted state result or frozen archive. The supplemental current
+SDK client/provider identity is explicitly post-run, not observed module loading.
 Native descriptor forwarding is restricted to the inherited workspace descriptor.
 Large canonical file hashes stream rather than retaining whole assets in memory.
 

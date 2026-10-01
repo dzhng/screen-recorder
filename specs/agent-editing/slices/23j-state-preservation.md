@@ -10,6 +10,11 @@ changed arguments conflict, competing writers commit once, rejected mutations
 leave complete state unchanged, and undo/restore create fresh revision identities.
 History continuation remains pinned when a later edit commits.
 
+Recorded service/native exits and fulfilled CLI subprocess calls delimit lifetime
+evidence. MCP SDK close promises resolved, but adapter PIDs/exit events were not
+captured; adapter termination is unverified. The post-run SDK identity supplement
+does not replace missing historical lifecycle instrumentation.
+
 The test chooses fixed technical intervals, not words or editorial removals.
 Spans and complete composition documents are different representations. Compare
 their retained source mapping and guarantees without introducing a compatibility
