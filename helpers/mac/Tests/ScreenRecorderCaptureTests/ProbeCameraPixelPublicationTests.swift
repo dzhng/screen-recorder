@@ -40,8 +40,8 @@ func runProbeCameraPixelPublicationTests() async throws {
         }
         let observations = root.appendingPathComponent("timestamps.jsonl")
         try rows.write(to: observations)
-        try ProbeCameraMedia.recordClosed(raw: raw, marker: directory.appendingPathComponent("camera.closed.json"))
-        let receipt = try await ProbeCameraMedia.publish(lease: journal.lease, observationURL: observations)
+        try CameraMedia.recordClosed(raw: raw, marker: directory.appendingPathComponent("camera.closed.json"))
+        let receipt = try await CameraMedia.publish(lease: journal.lease, observationURL: observations)
         precondition(receipt.representedFrames == 3 && receipt.firstUs == 0 && receipt.endUs == 100000 && receipt.diagnostics.isEmpty)
         // Independent serialized decoded bytes: little-endian PTS/width/height followed by visible BGRA.
         precondition(receipt.pictureSHA256 == expectedHash, "Visible pixels or exact picture metadata changed")

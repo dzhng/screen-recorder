@@ -11,16 +11,16 @@ package struct ProbeCameraFrame: Codable {
     // Callback duration supplies provenance and the final endpoint, not inter-picture availability.
     func acquisitionRange(scale: Int32) throws -> CMTimeRange {
         guard start.timescale > 0, nominalEnd.timescale > 0, start.epoch == 0, nominalEnd.epoch == 0,
-            start.value >= 0, nominalEnd.time > start.time else { throw ProbeCameraMedia.invalid("Invalid rational camera interval.") }
+            start.value >= 0, nominalEnd.time > start.time else { throw CameraMedia.invalid("Invalid rational camera interval.") }
         let first = CMTimeConvertScale(start.time, timescale: scale, method: .roundHalfAwayFromZero)
         let last = CMTimeConvertScale(nominalEnd.time, timescale: scale, method: .roundHalfAwayFromZero)
-        guard last > first else { throw ProbeCameraMedia.invalid("Camera interval cannot fit its writer timescale.") }
+        guard last > first else { throw CameraMedia.invalid("Camera interval cannot fit its writer timescale.") }
         return CMTimeRange(start: first, end: last)
     }
 }
 
-/// The probe's only canonical camera closure/replay owner. Raw files and observations stay retained.
-package enum ProbeCameraMedia {
+/// Canonical camera publication/replay owner. Raw files and observations stay retained.
+package enum CameraMedia {
     package enum Presentation: String, Codable { case nativeBounded = "native-bounded" }
     package struct Receipt: Codable {
         package let presentation: Presentation
@@ -65,7 +65,9 @@ package enum ProbeCameraMedia {
                     let data = Data(pending[..<end]); pending.removeSubrange(...end)
                     lines += 1
                     guard lines <= 5_000_000, data.count <= 65536 else { throw invalid("Observation bounds exceeded.") }
-                    let row = try JSONDecoder().decode(Row.self, from: data)
+                    let row: Row
+                    do { row = try JSONDecoder().decode(Row.self, from: data) }
+                    catch { throw invalid("Malformed camera observation row.") }
                     if row.role == .camera && row.disposition == "accepted" {
                         guard let frame = row.cameraFrame, frame.ordinal == frames else {
                             throw invalid("Accepted camera mapping is missing or out of ordinal order.")
@@ -159,7 +161,10 @@ package enum ProbeCameraMedia {
         let observationIdentity = try CaptureMediaIdentity.read(observationURL)
         let closed = FileManager.default.fileExists(atPath: markerURL.path) ? try CaptureMediaIdentity.read(markerURL) : nil
         if closed != nil {
-            let pinned = try JSONDecoder().decode(CaptureMediaIdentity.self, from: Data(contentsOf: markerURL))
+            let markerBytes = try Data(contentsOf: markerURL)
+            let pinned: CaptureMediaIdentity
+            do { pinned = try JSONDecoder().decode(CaptureMediaIdentity.self, from: markerBytes) }
+            catch { throw invalid("Malformed closed camera marker.") }
             guard pinned == rawIdentity else { throw invalid("Closed camera payload changed.") }
         }
         func unchanged() throws {
@@ -169,7 +174,10 @@ package enum ProbeCameraMedia {
                 (FileManager.default.fileExists(atPath: markerURL.path) ? try CaptureMediaIdentity.read(markerURL) : nil) == closed else { throw invalid("Camera input changed during publication.") }
         }
         if FileManager.default.fileExists(atPath: receiptURL.path) {
-            let receipt = try JSONDecoder().decode(Receipt.self, from: Data(contentsOf: receiptURL))
+            let bytes = try Data(contentsOf: receiptURL)
+            let receipt: Receipt
+            do { receipt = try JSONDecoder().decode(Receipt.self, from: bytes) }
+            catch { throw invalid("Malformed retained camera publication.") }
             guard receipt.raw == rawIdentity, receipt.observations == observationIdentity, receipt.closed == closed else {
                 throw invalid("Retained camera publication belongs to other input bytes.")
             }
@@ -227,7 +235,14 @@ package enum ProbeCameraMedia {
             throw invalid("Raw camera presentation does not cover its bounded acquired prefix.")
         }
         let pictureHash = hex(rawHash.finalize())
-        let file = try NewFile(at: canonicalURL.path, assembledAs: "camera.mov")
+        let file: NewFile
+        do { file = try NewFile(at: canonicalURL.path, assembledAs: "camera.mov") }
+        catch {
+            if FileManager.default.fileExists(atPath: canonicalURL.path) {
+                throw CaptureFailure("PUBLICATION_CONFLICT", "Camera output already exists without a matching receipt; no replacement performed.")
+            }
+            throw error
+        }
         // Keep failed candidates for diagnosis/recovery; raw media and mapping are never removed.
         let composition = AVMutableComposition()
         guard let track = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else { throw invalid("Cannot construct canonical camera track.") }
@@ -264,7 +279,13 @@ package enum ProbeCameraMedia {
         try lease.synchronize()
         try save(receipt, to: receiptURL)
         try unchanged()
-        _ = try file.publish()
+        do { _ = try file.publish() }
+        catch {
+            if FileManager.default.fileExists(atPath: canonicalURL.path) {
+                throw CaptureFailure("PUBLICATION_CONFLICT", "Camera output changed before publication; no replacement performed.")
+            }
+            throw error
+        }
         return receipt
     }
 }

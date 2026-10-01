@@ -39,8 +39,10 @@ Explicit unavailable support must have an actual lifecycle/source boundary.
 
 ## One owner and implementation boundary
 
-Keep admission in ProbeCameraWriter, clock conversion and sealing in
-ProbeClockIngress, and canonical verification/replay in ProbeCameraMedia. Reuse
+Keep admission in CameraWriter, clock conversion and sealing in
+ProbeClockIngress, and canonical verification/replay in CameraMedia. [21b](21b-camera-source-publication.md)
+promotes the camera owners into the shared closed-source lifetime while preserving
+these admission and presentation rules. Reuse
 NativeCapture termination, CaptureJournalLease and NewFile publication. Change no
 generic source reader, codec policy, production camera role, or installed app.
 

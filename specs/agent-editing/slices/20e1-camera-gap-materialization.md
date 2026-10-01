@@ -63,9 +63,9 @@ from a held MOV picture. Ordinal gaps or invalid interior rows are refusal; a to
 final line retains only its complete mapped prefix. Raw append followed by mapping
 failure seals capture and retains both files with an explicit partial diagnostic.
 
-`ProbeCameraMedia.publish(lease:observationURL:)` owns candidate construction,
+`CameraMedia.publish(lease:observationURL:)` owns candidate construction,
 verification and replay; explicit probe recovery calls that same operation under
-CaptureJournalLease. `ProbeCameraWriter` closes raw encoding first. A small raw-closed
+CaptureJournalLease. `CameraWriter` closes raw encoding first. A small raw-closed
 identity marker distinguishes finalized raw from crash fragments. The observation
 stream is synchronized before closure. CaptureMediaIdentity pins raw and mapping
 bytes across inspection; exact raw picture order must match mapped ordinals.

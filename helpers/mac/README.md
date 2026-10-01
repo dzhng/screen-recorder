@@ -40,6 +40,25 @@ probe. Discovery preserves device identities and order without choosing a camera
 activating an input or requesting permission. Public camera metadata is preparation
 evidence; the recording start contract still accepts screen sources and audio choices.
 
+## Companion camera closure
+
+The selected-device probe consumes the same [camera writer](Sources/ScreenRecorderCapture/CameraWriter.swift)
+and [camera publication owner](Sources/ScreenRecorderCapture/CameraMedia.swift) as the
+native capture lifecycle. Physical drain and encoder closure produce a retained
+[closed source](Sources/ScreenRecorderCapture/ClosedCameraSource.swift). Canonical
+publication can then fail or be canceled without reopening inputs or closing an
+encoder again. NativeCapture keeps both journal leases until publication settles
+or explicit discard ends that authority.
+
+The returned camera outcome describes an independent source directory and its own
+verified video support; it never becomes another screen/audio track. Publication
+pins complete raw/observation bytes and preserves native picture presentation,
+positive start, shared pause removal and the physical terminal bound. A successful
+camera publication is verified again when another source still needs retry;
+missing/conflicting camera media remains terminal. The [21b evidence](../../specs/agent-editing/assets/21b-camera-source-publication/README.md)
+records the controlled scope. Public device acquisition and source adoption remain
+separate work.
+
 ## Capture timing
 
 All delivered tracks use the ScreenCaptureKit host timestamp domain. The first complete video

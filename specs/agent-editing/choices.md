@@ -5050,3 +5050,81 @@ verifiable and allow input/adoption work in parallel. Public selection waits for
 its complete execution path, so an accepted selector cannot be silently ignored.
 This chooses implementation order; it does not authorize a presenter layout or
 change physical acceptance.
+
+### Attempt independent publications before reporting an operational failure — sound, medium confidence
+
+When: 21b (2026-10-01).
+
+- **Choice:** A camera's filesystem publication failure still lets primary audio
+  attempt its existing publication. For example, a read-only camera directory
+  blocks its canonical file while the narration is ready. Narration can become
+  verified and playable during that stop attempt. NativeCapture then reports the
+  camera error and keeps both journal leases, which are the exclusive authority
+  to finish the take. Explicit retry verifies completed sources and attempts the
+  unfinished one. The alternative would repeatedly stop at camera's first error,
+  preventing independent audio from making progress.
+- **Gap:** The plan required shared retry ownership but did not specify the order
+  or progress behavior when independent source publications encounter errors.
+- **Reach:** Later source adoption inherits one complete take outcome without
+  losing independently verified media or adding a second finalization owner.
+- **Verdict:** Sound. It extends the existing audio publisher's per-role progress
+  rule to the independent camera source and retains the first operational error.
+- **Confidence:** Medium.
+
+### Honor publication cancellation after physical closure — sound, high confidence
+
+When: 21b.
+
+- **Choice:** If cancellation arrives while input drain is held, the owned stop
+  still finishes the camera encoder and records its immutable byte identities
+  before honoring cancellation at publication. NativeCapture awaits this closure
+  step inside the existing termination operation. The alternative could cancel
+  the byte scan after encoder finish and lose the closed source while a caller
+  believes retry is safe. No device or encoder is reopened by retry.
+- **Gap:** The plan distinguished closure from publication but left the native
+  task-cancellation boundary to implementation.
+- **Reach:** Future selected inputs can reuse this lifecycle without implementing
+  their own cancellation teardown. Transport callers still do not cancel shared
+  work, and physical completed-stop acceptance retains its existing limit.
+- **Verdict:** Sound. Cancellation ends an attempt to publish, while already
+  owned physical closure must finish and remain reviewable.
+- **Confidence:** High.
+
+### Keep media conflicts terminal while another source retries — sound, high confidence
+
+When: 21b.
+
+- **Choice:** Suppose another file occupies the camera's canonical name, and
+  primary audio also encounters an operational error. The camera returns a
+  terminal conflict: it has no verified canonical source to offer. Removing the
+  conflicting name before audio retry does not turn that same closed camera
+  outcome into success. Successful camera publications are instead reverified
+  against their complete input, receipt and canonical byte identities on each
+  retry. The alternative would either silently promote a terminal source or
+  trust an old success after its media had changed.
+- **Gap:** The plan required truthful terminal outcomes and retry but did not
+  specify how a settled companion interacts with a still-unfinished primary.
+- **Reach:** Source adoption can distinguish stable unavailability from an
+  operational retry without inventing represented pictures or replacing files.
+- **Verdict:** Sound. Terminal failure is retained; success keeps its verification
+  obligations until the take settles.
+- **Confidence:** High.
+
+### Do not repeat an uncertain terminal journal append — sound, high confidence
+
+When: 21b.
+
+- **Choice:** A finished journal row may reach disk before synchronization fails.
+  That failure is reported as bounded journal failure, and the append attempt is
+  remembered. A later primary retry can verify camera media and retry a result-file
+  write, but cannot append a second finished row. A camera journal error also
+  cannot skip physical encoder finish. The alternative would use metadata retry
+  as permission either to duplicate completion evidence or to abandon the encoder.
+- **Gap:** The plan required terminal ordering but did not classify the point
+  where a failed append may already have changed the journal.
+- **Reach:** The existing acquisition journal remains the single lifecycle
+  history; recovery sees actual completion or incomplete evidence rather than a
+  fabricated repaired history.
+- **Verdict:** Sound. It follows the existing writer's terminal journal-failure
+  behavior and preserves raw closure independently of metadata availability.
+- **Confidence:** High.

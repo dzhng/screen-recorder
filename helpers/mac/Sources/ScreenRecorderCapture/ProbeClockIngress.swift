@@ -15,7 +15,7 @@ package struct ProbeTime: Codable {
 package final class ProbeClockIngress: NSObject, SCStreamOutput, AVCaptureVideoDataOutputSampleBufferDelegate,
     @unchecked Sendable {
     package let writer: CaptureWriter
-    package let camera: ProbeCameraWriter
+    package let camera: CameraWriter
     private let observations: FileHandle
     package let observationURL: URL
     package var cameraSession: AVCaptureSession?
@@ -25,7 +25,7 @@ package final class ProbeClockIngress: NSObject, SCStreamOutput, AVCaptureVideoD
     private var rows = 0
     private let generation = UUID().uuidString
 
-    package init(writer: CaptureWriter, camera: ProbeCameraWriter, observations: URL,
+    package init(writer: CaptureWriter, camera: CameraWriter, observations: URL,
         failure: @escaping @Sendable (CaptureFailure) -> Void, maximumRows: Int = 5_000_000) throws {
         self.writer = writer; self.camera = camera; self.failure = failure
         self.maximumRows = maximumRows

@@ -113,7 +113,7 @@ public struct CaptureFinalizationError: Codable, Sendable {
         message = String(decoding: (failure?.message ?? native?.message ?? error.localizedDescription).utf16.prefix(4096), as: UTF16.self)
         retryable = !["INVALID_REQUEST", "INVALID_JOURNAL", "INVALID_JOURNAL_PREFIX", "JOURNAL_CHANGED", "JOURNAL_CLOSED", "INVALID_MEDIA",
             "INVALID_AUDIO_TIMING", "PUBLICATION_CONFLICT", "PACKED_MEDIA_INVALID", "AUDIO_UNAVAILABLE",
-            "NOT_REQUESTED", "EVIDENCE_LIMIT"].contains(rawCode)
+            "NOT_REQUESTED", "EVIDENCE_LIMIT", "INVALID_CAMERA_MAPPING", "NO_CAMERA"].contains(rawCode)
     }
 }
 
@@ -135,7 +135,7 @@ public struct CaptureResult: Codable, Sendable {
         state: String, source: CaptureSource, width: Int, height: Int, durationUs: Int64,
         hostOriginUs: Int64?, pauses: [PauseEvent], tracks: [CapturedTrack],
         failure: CaptureFailure?, systemAudioScope: String, cursor: CursorStats = CursorStats(),
-        cleanupFailure: CaptureFailure? = nil
+        cleanupFailure: CaptureFailure? = nil, camera: CapturedCameraSource? = nil
     ) {
         self.state = state
         self.source = source
@@ -149,6 +149,7 @@ public struct CaptureResult: Codable, Sendable {
         self.cleanupFailure = cleanupFailure
         self.systemAudioScope = systemAudioScope
         self.cursor = cursor
+        self.camera = camera
     }
 
     public let state: String
@@ -163,14 +164,43 @@ public struct CaptureResult: Codable, Sendable {
     public let cleanupFailure: CaptureFailure?
     public let systemAudioScope: String
     public let cursor: CursorStats
+    public let camera: CapturedCameraSource?
 }
 
-// Companion measurement media can fail a take without changing its production track schema.
+/// Independent camera media facts; screen/audio tracks keep their original meanings.
+public struct CapturedCameraSource: Codable, Sendable {
+    public let directory: String
+    public let source: CaptureSource
+    public let state: String
+    public let width: Int
+    public let height: Int
+    public let durationUs: Int64
+    public let hostOriginUs: Int64?
+    public let pauses: [PauseEvent]
+    public let tracks: [CapturedTrack]
+    public let failure: CaptureFailure?
+
+    package init(directory: String, result: CaptureResult) {
+        self.directory = directory; source = result.source; state = result.state
+        width = result.width; height = result.height; durationUs = result.durationUs
+        hostOriginUs = result.hostOriginUs; pauses = result.pauses
+        tracks = result.tracks; failure = result.failure
+    }
+}
+
+// Companion media can fail a take without becoming a screen/audio track.
 extension CaptureResult {
+    package func withCamera(_ camera: CapturedCameraSource?) -> CaptureResult {
+        CaptureResult(state: state, source: source, width: width, height: height,
+            durationUs: durationUs, hostOriginUs: hostOriginUs, pauses: pauses, tracks: tracks,
+            failure: failure, systemAudioScope: systemAudioScope, cursor: cursor,
+            cleanupFailure: cleanupFailure, camera: camera).withFailure(camera?.failure)
+    }
+
     package func withFailure(_ other: CaptureFailure?) -> CaptureResult {
         guard failure == nil, let reason = other else { return self }
         return CaptureResult(state: "interrupted", source: source, width: width, height: height,
             durationUs: durationUs, hostOriginUs: hostOriginUs, pauses: pauses, tracks: tracks,
-            failure: reason, systemAudioScope: systemAudioScope, cursor: cursor, cleanupFailure: cleanupFailure)
+            failure: reason, systemAudioScope: systemAudioScope, cursor: cursor, cleanupFailure: cleanupFailure, camera: camera)
     }
 }

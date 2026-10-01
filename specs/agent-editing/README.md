@@ -21,12 +21,13 @@ Implement the remaining toolkit primitives through the existing owners. Read
 The external agent using the toolkit makes every editorial decision. The consumer
 skill is a product artifact, not this repository's development workflow.
 
-**Next pickup: [21b closed camera sources and publication](slices/21b-camera-source-publication.md).**
-Separate closure from retryable publication through existing native owners; the
-[remaining 21 graph](slices/21-webcam.md#implementation-graph) then splits input
-acquisition, durable source adoption, project construction and public exposure.
-[21a passive discovery](slices/21a-camera-discovery.md) is verified in its controlled
-scope. Do not accept camera-start selectors before input, result and project finalization can honor them.
+**Next pickup: [21c selected camera input](slices/21c-selected-camera-input.md).**
+[21b closed sources/publication](slices/21b-camera-source-publication.md) is verified
+through actual controlled NativeCapture; [21d durable source adoption](slices/21d-captured-source-adoption.md)
+can proceed independently. The [remaining 21 graph](slices/21-webcam.md#implementation-graph)
+then separates project construction and public exposure. [21a passive discovery](slices/21a-camera-discovery.md)
+is verified in its controlled scope. Do not accept camera-start selectors before
+input, result and project finalization can honor them.
 
 For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
 and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
@@ -218,7 +219,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
-- [ ] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
+- [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
 - [ ] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
 - [ ] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
 - [ ] [21e — Capture sources in the existing project owner](slices/21e-capture-project-adoption.md)

@@ -595,7 +595,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             height: result.height, durationUs: result.durationUs, hostOriginUs: result.hostOriginUs,
             pauses: result.pauses, tracks: result.tracks, failure: failure,
             systemAudioScope: result.systemAudioScope, cursor: result.cursor,
-            cleanupFailure: result.cleanupFailure)
+            cleanupFailure: result.cleanupFailure, camera: result.camera)
     }
 
 }

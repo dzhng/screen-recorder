@@ -3,6 +3,14 @@ import CoreGraphics
 import Foundation
 @preconcurrency import ScreenCaptureKit
 
+package struct CaptureInputClosure {
+    package var camera: ClosedCameraSource? = nil
+    package var failure: CaptureFailure? = nil
+    package init(camera: ClosedCameraSource? = nil, failure: CaptureFailure? = nil) {
+        self.camera = camera; self.failure = failure
+    }
+}
+
 /// Acquires inputs; NativeCapture orders physical drain and optional companion-media closure.
 @MainActor
 package protocol CaptureInputSession: AnyObject {
@@ -14,12 +22,12 @@ package protocol CaptureInputSession: AnyObject {
     func startCursorSampling(writer: CaptureWriter)
     func observeDeviceLoss(onFailure: @escaping @Sendable (CaptureFailure) -> Void)
     func stop() async -> CaptureFailure?
-    func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure?
+    func closeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureInputClosure
     func discardMedia() async
 }
 
 extension CaptureInputSession {
-    package func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure? { nil }
+    package func closeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureInputClosure { CaptureInputClosure() }
     package func discardMedia() async {}
 }
 

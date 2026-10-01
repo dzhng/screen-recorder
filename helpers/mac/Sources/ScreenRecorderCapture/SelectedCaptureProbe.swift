@@ -29,7 +29,7 @@ public final class SelectedCaptureProbe {
             let root = URL(fileURLWithPath: request.outputDirectory)
             let lease = try CaptureJournalLease(directory: root.appendingPathComponent("camera").path)
             defer { lease.release() }
-            return try JSONEncoder().encode(await ProbeCameraMedia.publish(lease: lease,
+            return try JSONEncoder().encode(await CameraMedia.publish(lease: lease,
                 observationURL: root.appendingPathComponent("timestamps.jsonl")))
         case "status":
             return try JSONSerialization.data(withJSONObject: [
@@ -175,7 +175,7 @@ private final class SelectedProbeInput: CaptureInputSession {
     func start(writer: CaptureWriter, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
         checkInterruption: () throws -> Void) async throws {
         let root = URL(fileURLWithPath: request.outputDirectory)
-        let cameraWriter = try ProbeCameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: request.framesPerSecond)
+        let cameraWriter = try CameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: request.framesPerSecond)
         let sink = try ProbeClockIngress(writer: writer, camera: cameraWriter,
             observations: root.appendingPathComponent("timestamps.jsonl"), failure: onFailure)
         self.sink = sink
@@ -238,11 +238,11 @@ private final class SelectedProbeInput: CaptureInputSession {
         if let sink { sink.writer.queue.sync {} }
         return failure ?? restorationFailure
     }
-    func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure? {
-        guard let sink else { return nil }
+    func closeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureInputClosure {
+        guard let sink else { return CaptureInputClosure() }
         var reason = failure
         do { try sink.close() } catch { reason = reason ?? CaptureFailure("WRITE_FAILED", error.localizedDescription) }
-        return await sink.camera.finish(clock: clock, failure: reason, observations: sink.observationURL)
+        return CaptureInputClosure(camera: await sink.camera.close(clock: clock, failure: reason, observations: sink.observationURL))
     }
     func discardMedia() async {
         guard let sink else { return }

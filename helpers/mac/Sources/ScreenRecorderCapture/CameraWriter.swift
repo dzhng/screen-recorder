@@ -2,7 +2,7 @@
 import Foundation
 
 /// Video-only companion to CaptureWriter; never writes or publishes audio.
-package final class ProbeCameraWriter {
+package final class CameraWriter {
     private let directory: URL
     private let framesPerSecond: Int
     private var writer: AVAssetWriter?
@@ -101,43 +101,31 @@ package final class ProbeCameraWriter {
             pausedCount += 1
         }
     }
-    package func finish(clock: CaptureClock, failure: CaptureFailure?, observations: URL) async -> CaptureFailure? {
+    @MainActor
+    package func close(clock: CaptureClock, failure: CaptureFailure?, observations: URL) async -> ClosedCameraSource {
         var reason = failure
-        var publication: ProbeCameraMedia.Receipt?
+        var sealed = false
+        do { try synchronizePauses(clock) }
+        catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("JOURNAL_FAILED", error.localizedDescription) }
         do {
-            try synchronizePauses(clock)
             if let writer, let input, frames > 0 {
                 writer.endSession(atSourceTime: CMTime(value: end, timescale: 1_000_000))
                 input.markAsFinished()
                 await writer.finishWriting()
                 guard writer.status == .completed else { throw writer.error ?? CaptureFailure("WRITE_FAILED", "Camera closure failed.") }
-                try ProbeCameraMedia.recordClosed(raw: directory.appendingPathComponent("camera.raw.mov"), marker: directory.appendingPathComponent("camera.closed.json"))
+                sealed = true
             } else {
                 writer?.cancelWriting()
                 throw CaptureFailure("NO_CAMERA", "Selected camera delivered no accepted frames.")
             }
         } catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("WRITE_FAILED", error.localizedDescription) }
-        if let journal, frames > 0 {
-            do {
-                publication = try await ProbeCameraMedia.publish(lease: journal.lease, observationURL: observations)
-                if let publication, !publication.diagnostics.isEmpty {
-                    reason = reason ?? CaptureFailure("PARTIAL_CAMERA", publication.diagnostics.joined(separator: ", "))
-                }
-            } catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("CAMERA_PUBLICATION_FAILED", error.localizedDescription) }
+        let closed = ClosedCameraSource(directory: directory, journal: journal, observations: observations,
+            clock: clock, width: width, height: height, frames: frames, dropped: dropped,
+            omitted: omitted, sealed: sealed, failure: reason)
+        if frames > 0 {
+            do { try closed.pinIdentities() } catch { closed.identityFailure = error }
         }
-        let result = CaptureResult(state: reason == nil ? "complete" : "interrupted",
-            source: CaptureSource(kind: "probe-camera"), width: width, height: height,
-            durationUs: publication?.endUs ?? 0, hostOriginUs: clock.originUs, pauses: clock.pauses,
-            tracks: publication.map { [CapturedTrack(role: "video", file: "video.mov", firstSampleUs: $0.firstUs,
-                lastSampleEndUs: $0.endUs, samples: $0.representedFrames, droppedSamples: dropped,
-                omittedSamples: omitted, heldTailUs: 0, sampleRate: nil, channelCount: nil)] } ?? [], failure: reason,
-            systemAudioScope: "disabled")
-        do {
-            try journal?.recordFinished(result)
-            try JSONEncoder().encode(result).write(to: directory.appendingPathComponent("capture-result.json"), options: .atomic)
-        } catch { reason = reason ?? CaptureFailure("JOURNAL_FAILED", error.localizedDescription) }
-        journal?.lease.release()
-        return reason
+        return closed
     }
     package func discard() {
         writer?.cancelWriting()

@@ -42,7 +42,7 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
     let screen = try JSONDecoder().decode(CaptureResult.self, from: result)
     let camera = try JSONDecoder().decode(CaptureResult.self,
         from: Data(contentsOf: folder.appendingPathComponent("camera/capture-result.json")))
-    let publication = try JSONDecoder().decode(ProbeCameraMedia.Receipt.self,
+    let publication = try JSONDecoder().decode(CameraMedia.Receipt.self,
         from: Data(contentsOf: folder.appendingPathComponent("camera/camera.publication.json")))
     precondition(screen.failure == nil && camera.failure == nil, "Closure must succeed")
     precondition(publication.diagnostics.isEmpty && publication.representedFrames == input.offeredVideoFrames,

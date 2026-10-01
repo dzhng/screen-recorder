@@ -44,16 +44,14 @@ or audio writer. It must not re-zero late camera frames, hold a disconnected cam
 tail, or invent an acquired source picture. [20e2](20e2-camera-presentation.md)
 distinguishes picture acquisition from ordinary native display hold; nominal
 callback durations do not establish outages. `CaptureInputSession.stop` remains
-physical-input drain only. Its probe media
-joins NativeCapture's existing termination operation through explicit default-nil
-`finalizeMedia(clock:failure:) -> CaptureFailure?` and default no-op `discardMedia()`
-hooks. Camera results stay in separate probe evidence; no camera role enters
-production CaptureResult tracks. Earlier failures retain precedence, and all
-screen/microphone result fields remain authoritative. Stop
-seals writer ingress, drains inputs, finishes the screen/audio writer (including
-an open pause), then finalizes camera from the final shared clock before caching
-the closed result and publishing audio. Publication retries must not repeat media
-finalization. Discard and failed startup cancel probe media, never finalize it.
+physical-input drain only. `closeMedia(clock:failure:)` returns the retained closed
+camera snapshot through NativeCapture's existing termination operation; canonical
+publication and explicit retry follow the [21b source contract](21b-camera-source-publication.md).
+Camera remains independent of screen/audio tracks. Earlier failures retain
+precedence, and all screen/microphone result fields remain authoritative. Stop
+seals ingress, drains inputs, closes screen/audio and camera encoders against the
+final shared clock, then publishes each source without repeating physical closure.
+Discard and failed startup cancel probe media, never finalize it.
 A typed queue-owned ingress snapshot includes both CaptureClock and acceptance
 state: sourceTime alone does not reject post-seal samples. Camera callbacks must
 honor the writer seal gate. Partial starts and device loss retain the same owner.

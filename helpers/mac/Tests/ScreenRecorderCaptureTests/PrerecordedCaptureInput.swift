@@ -22,6 +22,9 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var probeDirectory: URL?
     var probeMaximumRows = 5_000_000
     var probe: ProbeClockIngress?
+    var cameraFramesEnabled = true
+    var beforeCameraClose: (() throws -> Void)?
+    var afterCameraClose: (() throws -> Void)?
     var finalCameraSample: CMSampleBuffer?
     var onFailure: (@Sendable (CaptureFailure) -> Void)?
     var audio: URL?
@@ -50,7 +53,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         checkInterruption: () throws -> Void) async throws {
         self.onFailure = onFailure
         if let probeDirectory {
-            let camera = try ProbeCameraWriter(directory: probeDirectory.appendingPathComponent("camera"), framesPerSecond: 30)
+            let camera = try CameraWriter(directory: probeDirectory.appendingPathComponent("camera"), framesPerSecond: 30)
             probe = try ProbeClockIngress(writer: writer, camera: camera,
                 observations: probeDirectory.appendingPathComponent("timestamps.jsonl"), failure: onFailure, maximumRows: probeMaximumRows)
         }
@@ -105,12 +108,12 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             finalCameraSample = timed
             writer.queue.sync {
                 if let probe {
-                    if writer.ingressState.clock.originUs == nil {
+                    if cameraFramesEnabled && writer.ingressState.clock.originUs == nil {
                         probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
                     }
                     probe.accept(try! rawProbeSample(timed), role: .screen, from: sourceClock)
                     let delayed = try! captureFixtureRetimed(timed, at: CMTimeAdd(timed.presentationTimeStamp, time(microseconds: 200000)))
-                    probe.accept(try! rawProbeSample(delayed), role: .camera, from: sourceClock)
+                    if cameraFramesEnabled { probe.accept(try! rawProbeSample(delayed), role: .camera, from: sourceClock) }
                 } else { writer.stream(stream, didOutputSampleBuffer: timed, of: .screen) }
             }
             try checkInterruption()
@@ -173,13 +176,16 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             if waitUs > 0 { try await Task.sleep(for: .microseconds(waitUs)) }
         }
     }
-    func finalizeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureFailure? {
+    func closeMedia(clock: CaptureClock, failure: CaptureFailure?) async -> CaptureInputClosure {
         finalizations += 1; finalClock = clock
         if let probe {
             try? probe.close()
-            return await probe.camera.finish(clock: clock, failure: failure ?? companionFailure, observations: probe.observationURL)
+            do { try beforeCameraClose?() } catch { preconditionFailure("Fixture setup failed: \(error)") }
+            let closed = await probe.camera.close(clock: clock, failure: failure ?? companionFailure, observations: probe.observationURL)
+            do { try afterCameraClose?() } catch { preconditionFailure("Fixture setup failed: \(error)") }
+            return CaptureInputClosure(camera: closed)
         }
-        return companionFailure
+        return CaptureInputClosure(failure: companionFailure)
     }
     func discardMedia() async {
         discards += 1
@@ -191,7 +197,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     func stop() async -> CaptureFailure? {
         stops += 1
         if let probe, let finalCameraSample {
-            probe.writer.queue.sync { probe.accept(finalCameraSample, role: .camera, from: CMClockGetHostTimeClock()) }
+            probe.writer.queue.sync { _ = probe.accept(finalCameraSample, role: .camera, from: CMClockGetHostTimeClock()) }
         }
         stopEntered.release()
         if holdStop { await releaseStop.wait() }

@@ -1,6 +1,6 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-09-30.
+Status: spec complete; implementation partial. Last updated: 2026-10-01.
 Everything the personal release needs is implemented and has run end to end on this person's own
 narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
 What remains is acceptance that needs either a person at the Mac or a physical condition a check
@@ -16,6 +16,11 @@ prepare independent integration/preservation work, and exhaust the retained
 four-minute camera take. The toolkit provides only primitives; the external
 caller makes every editorial decision. The consumer skill is not a repository
 development workflow.
+
+[Controlled camera source publication](../agent-editing/assets/21b-camera-source-publication/README.md)
+now verifies retained native closure, independent results and publication retry.
+This changes no original physical synchronization, live shutdown or installed-app
+acceptance claim.
 
 This recording spec retains original release evidence and unfinished acceptance.
 It does not create another queue for the new editor. Reuse the saved human marks,

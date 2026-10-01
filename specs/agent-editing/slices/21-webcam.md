@@ -1,8 +1,9 @@
 # 21 — Integrate synchronized webcam capture
 
 Status: [passive discovery and permission facts](21a-camera-discovery.md) are
-verified in controlled public/native fixtures. Selected input, source result,
-finalization and project integration remain incomplete; physical acceptance is open.
+verified in controlled public/native fixtures. [Closed camera source/publication](21b-camera-source-publication.md)
+is verified through actual controlled NativeCapture. Selected input, durable source
+adoption and project integration remain incomplete; physical acceptance is open.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and
@@ -29,8 +30,8 @@ composition edits; no presenter treatment or sound processing is chosen for the 
 
 ## Implementation graph
 
-[21a](21a-camera-discovery.md) is complete in controlled scope. Continue at
-[21b — Closed source/publication](21b-camera-source-publication.md), then work
+[21a](21a-camera-discovery.md) and [21b closed source/publication](21b-camera-source-publication.md)
+are complete in controlled scope. Work
 [21c — Selected input](21c-selected-camera-input.md) and
 [21d — Durable source adoption](21d-captured-source-adoption.md) independently.
 [21e — Project adoption](21e-capture-project-adoption.md) follows21d.

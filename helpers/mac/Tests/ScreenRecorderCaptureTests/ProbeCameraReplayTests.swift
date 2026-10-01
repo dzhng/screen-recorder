@@ -18,12 +18,12 @@ func runProbeCameraReplayTests(source: String, output: String) async throws {
         }
         return result
     }
-    func publish(_ root: URL) async throws -> ProbeCameraMedia.Receipt {
+    func publish(_ root: URL) async throws -> CameraMedia.Receipt {
         let lease = try CaptureJournalLease(directory: root.appendingPathComponent("camera").path)
         defer { lease.release() }
-        return try await ProbeCameraMedia.publish(lease: lease, observationURL: root.appendingPathComponent("timestamps.jsonl"))
+        return try await CameraMedia.publish(lease: lease, observationURL: root.appendingPathComponent("timestamps.jsonl"))
     }
-    func record(_ receipt: ProbeCameraMedia.Receipt, at root: URL) throws {
+    func record(_ receipt: CameraMedia.Receipt, at root: URL) throws {
         try JSONEncoder().encode(receipt).write(to: root.appendingPathComponent("replay-result.json"))
     }
     func refused(_ root: URL) async throws {

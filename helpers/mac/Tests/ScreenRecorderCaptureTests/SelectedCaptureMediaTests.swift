@@ -164,7 +164,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     let attachments = CMSampleBufferGetSampleAttachmentsArray(screen, createIfNecessary: true)! as NSArray
     (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
     writer.queue.sync { writer.ingest(screen, of: .screen) }
-    let camera = try ProbeCameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: 60)
+    let camera = try CameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: 60)
     let ingress = try ProbeClockIngress(writer: writer, camera: camera, observations: root.appendingPathComponent("observations.jsonl"), failure: { _ in preconditionFailure("Unexpected probe failure") })
     var receipts: [CaptureWriter.IngressReceipt] = []
     let duration = sourcePath == nil ? CMTime(value: 3334, timescale: 100000) : CMTime(value: 1, timescale: 60)
@@ -211,9 +211,11 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     precondition(retainedTail == torn, "Dropped callback appended behind failed evidence")
     writer.seal(); let closed = await writer.finish(failure: nil)
     try ingress.close()
-    let reason = await camera.finish(clock: writer.queue.sync { writer.ingressState.clock }, failure: closed.failure, observations: ingress.observationURL)
+    let snapshot = await camera.close(clock: writer.queue.sync { writer.ingressState.clock }, failure: closed.failure, observations: ingress.observationURL)
+    let cameraResult = try await CameraMedia.publish(snapshot)
+    snapshot.releaseJournal()
     writer.releaseJournal()
-    precondition(reason == nil)
+    precondition(cameraResult.failure == nil)
     let result = try JSONDecoder().decode(CaptureResult.self,
         from: Data(contentsOf: root.appendingPathComponent("camera/capture-result.json")))
     let expectedEnd = try await assertProbePresentation(directory: root.appendingPathComponent("camera"),
@@ -227,7 +229,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
 
 /// Exercise the same retained-picture selector as ordinary movie rendering, independently
 /// of the publication verifier. Native display support holds a picture between acquired PTS.
-private func assertProbePresentation(directory: URL, observations: URL) async throws -> Int64 {
+func assertProbePresentation(directory: URL, observations: URL) async throws -> Int64 {
     struct Timestamp: Decodable { let value: Int64; let timescale: Int32 }
     struct Frame: Decodable { let start: Timestamp; let end: Timestamp }
     let rows = try String(contentsOf: observations, encoding: .utf8).split(separator: "\n")

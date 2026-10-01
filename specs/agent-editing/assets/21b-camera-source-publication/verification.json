@@ -1,0 +1,91 @@
+{
+  "scope": "21b controlled native closure/source/publication, no physical acceptance",
+  "base": "ae8df999",
+  "branch": "codex/camera-source-publication",
+  "toolchain": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+  "scratch": "/tmp/screenrec-21b-native-build",
+  "runtime": {
+    "binary": "/tmp/screenrec-21b-native-build/debug/ScreenRecorderCaptureTests",
+    "sha256": "b6b613a0d5d91edf20c8a6bac66782a1d1ce89cd05cdc834f8194c5fdb8b700e",
+    "cameraPacketBinarySHA256": "92c600019e3384c14bd10acb72bb9b6887dde7a189baf8fd9013c962a7fda15e"
+  },
+  "frozenWorker": {
+    "path": "/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    "sha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+    "unchanged": true
+  },
+  "gates": [
+    {
+      "name": "default",
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-default.log"
+    },
+    {
+      "name": "cadence",
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-cadence.log"
+    },
+    {
+      "name": "selected-media",
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-selected-media.log"
+    },
+    {
+      "name": "replay",
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-replay.log"
+    },
+    {
+      "name": "selected-stop",
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-selected-stop.log"
+    },
+    {
+      "name": "primary-publication",
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-primary-publication.log"
+    },
+    {
+      "name": "camera-source-packet",
+      "cases": 20,
+      "exitCode": 0,
+      "log": "logs/screenrec-21b-camera-final-v2.log"
+    },
+    {
+      "name": "lost-camera-negative-control",
+      "exitCode": 133,
+      "expectedFailure": "Missing NativeCapture.camera source outcome at CameraSourcePublicationTests.swift:133",
+      "mutation": "result.withCamera(camera) changed to result.withCamera(nil)",
+      "binarySHA256": "e5c27ee0dc9bf91cf68367c00e4154e8d0c71a20770eeff5f9a58fd9446d410c",
+      "log": "logs/screenrec-21b-camera-negative.log",
+      "restored": true
+    }
+  ],
+  "setupFailures": [
+    {
+      "log": "logs/screenrec-21b-camera.log",
+      "cause": "Independent raw picture oracle counted the reader's leading empty-edit placeholder before the acquired camera start. Excluded only that known unavailable prefix; production unchanged."
+    },
+    {
+      "log": "logs/screenrec-21b-camera-final.log",
+      "cause": "Journal-replaced terminal case was mistakenly included in the harness's operational-retry branch. Classified it as the terminal journal failure required by the contract; production unchanged."
+    }
+  ],
+  "review": {
+    "selfReview": "refactor-clean, code-review and write-docs clean; four sound choices recorded",
+    "independent": "root collaboration interim/settled shape review; integration review remains with root",
+    "codexCLI": "Not run: previously recorded configured gpt-6.1-sol HTTP400, per instruction not retried"
+  },
+  "limits": [
+    "No live device discovery, permission, capture, audible playback, model run/download/install or installed switch",
+    "Public cameraDeviceId remains rejected;21c input,21d allocation/admission,21e project and21f exposure remain open",
+    "No one-frame physical synchronization or ten-second completed-stop acceptance",
+    "Closure counts observe real input stop/close-media boundary calls; no test-only production counters"
+  ],
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 403952,
+    "sha256": "78d99172853bd986ebcf20c2c6923fd8f935bf78d7b77a4832cb39257b6e6e71",
+    "members": 505
+  }
+}

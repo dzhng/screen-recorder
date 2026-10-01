@@ -10,6 +10,7 @@ public final class NativeCapture {
     private var generations = CaptureGeneration()
     private var sink: CaptureWriter?
     private var closedResult: CaptureResult?
+    private var closedCamera: ClosedCameraSource?
     private var publicationCancellationRequested = false
     private let termination = CaptureTermination<CaptureResult?>()
     public var onInterruption: ((CaptureFailure) -> Void)?
@@ -159,10 +160,10 @@ public final class NativeCapture {
         }
     }
 
-    /// Packed publication remembers cancellation even while encoder closure is in flight.
+    /// Publication remembers cancellation even while encoder closure is in flight.
     /// Transport waiters do not cancel shared work; legacy encoder finish keeps its existing winner.
     public func cancelPublication() {
-        if sink?.packedJournalLease != nil {
+        if sink?.packedJournalLease != nil || input != nil || closedCamera != nil {
             if termination.isRunning { termination.requestCancellation() }
             else { publicationCancellationRequested = true }
         }
@@ -180,18 +181,35 @@ public final class NativeCapture {
                 failure = failure ?? inputFailure
                 let finished = await sink.finish(failure: failure)
                 let finalClock = sink.queue.sync { sink.ingressState.clock }
-                let companionFailure = await input?.finalizeMedia(clock: finalClock, failure: finished.failure)
-                closedResult = finished.withFailure(companionFailure)
+                // Publication cancellation cannot interrupt physical encoder closure or its snapshot.
+                let closingInput = input
+                let companion = await Task { @MainActor in
+                    await closingInput?.closeMedia(clock: finalClock, failure: finished.failure)
+                }.value
+                closedCamera = companion?.camera
+                closedResult = finished.withFailure(companion?.failure)
                 input = nil
             }
             guard let closedResult else { throw CaptureFailure("INVALID_STATE", "Writer did not close.") }
-            var result = try await publish(closedResult, from: sink)
+            var camera: CapturedCameraSource?
+            var publicationError: (any Error)?
+            if let closedCamera {
+                do { camera = try await CameraMedia.publish(closedCamera) }
+                catch { publicationError = error }
+            }
+            var result = closedResult
+            do { result = try await publish(closedResult, from: sink) }
+            catch { publicationError = publicationError ?? error }
+            if let publicationError { throw publicationError }
+            result = result.withCamera(camera)
             if sink.packedJournalLease != nil { result = sink.recordPublishedResult(result) }
             lifecycleSequence = sink.note(result.state,
                 reason: result.failure?.code ?? (result.cleanupFailure == nil ? nil : "CLEANUP_PENDING"))
             outputSize = nil
             self.sink = nil
             self.closedResult = nil
+            closedCamera?.releaseJournal()
+            closedCamera = nil
             generations.end(generation)
             sink.releaseJournal()
             state = .idle
@@ -277,6 +295,8 @@ public final class NativeCapture {
             outputSize = nil
             self.sink = nil
             closedResult = nil
+            closedCamera?.releaseJournal()
+            closedCamera = nil
             generations.end(generation)
             sink.releaseJournal()
             state = .idle

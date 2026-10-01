@@ -11,8 +11,10 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21b](../slices/21b-camera-source-publication.md) closure/result and
-retryable publication through the existing native owners.
+Continue [21c](../slices/21c-selected-camera-input.md) selected input through the
+shared lifecycle; [21d](../slices/21d-captured-source-adoption.md) source adoption
+can proceed independently. [21b closed camera sources](21b-camera-source-publication/README.md)
+passes actual controlled native closure/publication and preservation gates.
 [Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
 public/native gates; input/result/project adoption must precede
 any new accepted camera-start selector. Preserve [12b](../slices/12b-speech-processing.md)

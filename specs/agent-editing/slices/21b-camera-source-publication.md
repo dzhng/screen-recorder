@@ -1,6 +1,6 @@
 # 21b — Closed camera sources and retryable publication
 
-Status: planned isolated implementation. Dependencies: [20d](20d-capture-publication.md) and [20e2](20e2-camera-presentation.md).
+Status: implemented and verified in controlled native fixtures. [Evidence](../assets/21b-camera-source-publication/README.md). Dependencies: [20d](20d-capture-publication.md) and [20e2](20e2-camera-presentation.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
 ## Contract
@@ -45,6 +45,24 @@ Use isolated builds; do not replace frozen workers. Reuse retained media and
 controlled small samples. No live devices, capture or playback is required.
 The review artifact is the complete native result/retry packet, including source
 identities and full-media preservation checks, retained under this child’s assets.
+
+## Verified scope and pickup
+
+The actual NativeCapture fixture packet verifies one physical drain/camera-close
+boundary across concurrent stop/discard, cancellation, operational publication
+retry and explicit discard. It also verifies missing frames, positive start,
+terminal pause closure, partial prefix, immutable-input/canonical conflict refusal,
+independent primary-audio progress and stable terminal failures across another
+source's retry. Metadata failure cannot skip encoder closure or authorize another
+terminal journal append. Successful camera receipts are verified on every retry;
+source/probe identities and the accepted rational/native presentation mechanism
+are preserved. The lost-camera negative control fails, and the existing offline
+capture, cadence, media, replay, stop and primary-audio preservation gates pass.
+
+Next independent owners are [21c selected input](21c-selected-camera-input.md) and
+[21d source adoption](21d-captured-source-adoption.md). The optional native camera
+result is a source outcome, not public selection, durable allocation or project
+construction. Physical synchronization and completed-stop acceptance remain open.
 
 ## Acceptance
 
