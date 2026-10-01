@@ -22,6 +22,29 @@ preservation; physical/lifecycle, installed cutover and final scale claims stay
 open until actually verified. Historical draft rationale below does not reinstate
 an obsolete serial queue or assign editorial policy to the toolkit.
 
+## Remaining camera seams
+
+Three fresh read-only collaboration drafts used the same retained-evidence brief:
+fewest passes, risk first and single-owner seams. All found the same next defect:
+companion finalization returns only failure, while camera encoder closure and
+publication are coupled. Native stop therefore cannot retain the independent
+camera outcome across publication retry. 21b owns that boundary before selector
+exposure. No vendor diversification was run because Claude remains unauthorized.
+
+The minimal draft proposed three large passes; the other two separated input,
+source adoption and project construction. The canonical graph retains five small
+seams, with selected input and acquisition adoption parallel after 21b. Public
+selection lands last so no accepted camera field is ignored. Camera remains a
+separate video acquisition through existing owners, not a new camera catalog or
+a fourth media-role interpretation.
+
+All drafts identified an unresolved initial-document policy: fixture canvas/order/
+visibility is not authority for production presentation. 21e must freeze that
+contract through existing composition principles before implementation; it may
+not select a presenter treatment or invent start-time authoring controls. This
+plan does not silently supply a cosmetic answer. Physical20 acceptance and its
+unchanged stop/sync gates remain separate from these isolated checkpoints.
+
 ## Independent drafts
 
 Three fresh, independent whole-plan drafts received the same discovery brief and

@@ -1,0 +1,47 @@
+{
+  "kind": "remaining-camera-plan-validation",
+  "date": "2026-10-01",
+  "scope": "Five implementation children and updated parent/handoff; document validation only",
+  "localLinksValidated": 320,
+  "dependencyGraph": {
+    "21f-public-camera-selection.md": [
+      "21a-camera-discovery.md",
+      "21c-selected-camera-input.md",
+      "21e-capture-project-adoption.md"
+    ],
+    "21b-camera-source-publication.md": [
+      "20d-capture-publication.md",
+      "20e2-camera-presentation.md"
+    ],
+    "21e-capture-project-adoption.md": [
+      "21d-captured-source-adoption.md",
+      "04-projects.md",
+      "09-first-preview.md",
+      "22-portable-projects.md"
+    ],
+    "21c-selected-camera-input.md": [
+      "21b-camera-source-publication.md"
+    ],
+    "21d-captured-source-adoption.md": [
+      "21b-camera-source-publication.md",
+      "10b-source-acquisition.md",
+      "20d-capture-publication.md"
+    ]
+  },
+  "independentDrafts": [
+    "fewest coherent passes",
+    "risk first",
+    "single-owner seams"
+  ],
+  "synthesis": "Five focused seams; input and acquisition adoption parallel after closed source/publication; public selector last",
+  "review": "Independent shape/diff/docs review clean after root repaired filename links. Initial presentation policy remains disclosed in21e; no editorial default selected.",
+  "preserved": [
+    "zero editorial decisions",
+    "consumer skill remains external caller artifact",
+    "retained take reused",
+    "physical and ten-second gates unchanged",
+    "no new live action"
+  ],
+  "runtimeAcceptanceClaimed": false,
+  "errors": []
+}

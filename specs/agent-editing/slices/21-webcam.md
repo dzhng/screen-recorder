@@ -27,6 +27,18 @@ mapping. Do not invent capture-start track/link/layout settings or another
 authoring surface. Later placement/link/layout changes use existing explicit
 composition edits; no presenter treatment or sound processing is chosen for the caller.
 
+## Implementation graph
+
+[21a](21a-camera-discovery.md) is complete in controlled scope. Continue at
+[21b — Closed source/publication](21b-camera-source-publication.md), then work
+[21c — Selected input](21c-selected-camera-input.md) and
+[21d — Durable source adoption](21d-captured-source-adoption.md) independently.
+[21e — Project adoption](21e-capture-project-adoption.md) follows21d.
+[21f — Public selection](21f-public-camera-selection.md) requires21c and21e.
+Each child has one owning seam and a separate verification packet. Parent21
+stays open until its implementation children and actual physical/lifecycle
+acceptance pass.
+
 ## Work and review surface
 
 Expose camera discovery/selection in CLI/MCP while retaining current menu-bar recording controls. Preserve pause, cancel, restart, interruption/recovery, microphone/system selection and raw cursor evidence. Do not introduce an editing UI. Camera media stays independent for later agent-selected layouts.

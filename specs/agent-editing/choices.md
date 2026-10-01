@@ -5039,3 +5039,14 @@ The plan required preserving the native gate and frozen workers but did not give
 this runner an isolated output option. A test-only scratch location lets the
 same gate run against changed source without overwriting a frozen build. It adds
 no product setting or installed-application behavior.
+
+### Camera implementation seams before public exposure — sound, medium confidence
+
+When: remaining21 reslice (2026-10-01). The plan now separates closed camera
+publication, input acquisition, durable source adoption, project construction and
+public selection. Three independent drafts agreed on the result/retry defect; one
+preferred three broader passes. Five small seams make each ownership boundary
+verifiable and allow input/adoption work in parallel. Public selection waits for
+its complete execution path, so an accepted selector cannot be silently ignored.
+This chooses implementation order; it does not authorize a presenter layout or
+change physical acceptance.

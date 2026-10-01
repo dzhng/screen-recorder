@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-30.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-10-01.
 Product boundary: **zero editorial decisions; only primitives**. The external
 agent using this project makes every editorial decision. Follow the
 [editorial-control contract](architecture.md#editorial-control) when interpreting
@@ -21,8 +21,10 @@ Implement the remaining toolkit primitives through the existing owners. Read
 The external agent using the toolkit makes every editorial decision. The consumer
 skill is a product artifact, not this repository's development workflow.
 
-**Next pickup: [21 isolated camera integration](slices/21-webcam.md): selected input,
-source results, finalization and project adoption through existing owners.**
+**Next pickup: [21b closed camera sources and publication](slices/21b-camera-source-publication.md).**
+Separate closure from retryable publication through existing native owners; the
+[remaining 21 graph](slices/21-webcam.md#implementation-graph) then splits input
+acquisition, durable source adoption, project construction and public exposure.
 [21a passive discovery](slices/21a-camera-discovery.md) is verified in its controlled
 scope. Do not accept camera-start selectors before input, result and project finalization can honor them.
 
@@ -216,6 +218,11 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
+- [ ] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
+- [ ] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
+- [ ] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
+- [ ] [21e — Capture sources in the existing project owner](slices/21e-capture-project-adoption.md)
+- [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
@@ -298,5 +305,6 @@ current handoff and owning slices.
 
 The [original planning report](assets/planning/validation.json) freezes the original
 27-slice graph. The [maintenance validation](assets/planning/maintenance.json)
-checks the expanded graph and local links after implementation reslicing. These
-document checks are distinct from runtime acceptance.
+checks the expanded graph and local links after implementation reslicing. The
+[camera maintenance review](assets/planning/camera-maintenance.json) validates
+the remaining camera seams. These document checks are distinct from runtime acceptance.

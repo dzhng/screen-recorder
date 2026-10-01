@@ -11,7 +11,8 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21](../slices/21-webcam.md) isolated camera integration.
+Continue [21b](../slices/21b-camera-source-publication.md) closure/result and
+retryable publication through the existing native owners.
 [Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
 public/native gates; input/result/project adoption must precede
 any new accepted camera-start selector. Preserve [12b](../slices/12b-speech-processing.md)
