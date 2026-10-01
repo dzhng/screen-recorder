@@ -1,0 +1,113 @@
+{
+  "scope": "Read-only runtime identities and module resolution; no service, native operation, model, build, benchmark or profile",
+  "observedAtUTC": "2026-10-01T13:45:18.726Z",
+  "preparedCheckpoint": "a6ae92504925abad126155cb1945420d13404d44",
+  "preparedCheckout": "/private/tmp/screenrec-source-owner-profile",
+  "sourceAndCompiledFiles": 350,
+  "sourceFiles": 176,
+  "compiledFiles": 174,
+  "localImportResolutions": 242,
+  "dependencyLinks": 21,
+  "harnessFiles": 4,
+  "seedFiles": 3,
+  "sdk": {
+    "cjs": 4,
+    "esm": 4
+  },
+  "startupWorker": {
+    "path": "/private/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native",
+    "sha256": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+    "seedNativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "currentSourceDifferences": [
+    "apps/service/src/capture-cleanup.ts",
+    "apps/service/src/main.ts",
+    "apps/service/src/deletion.ts",
+    "apps/service/src/source-export.ts",
+    "apps/service/src/capture.ts",
+    "apps/service/src/control.ts",
+    "apps/service/src/project-service.ts",
+    "packages/core/src/source-admission.ts",
+    "packages/core/src/evidence.ts",
+    "packages/core/src/processing.ts",
+    "packages/core/src/storage.ts",
+    "packages/core/src/transcript-processing.ts",
+    "packages/core/src/jobs.ts",
+    "packages/core/src/project-package.ts",
+    "packages/core/src/library.ts",
+    "packages/core/src/scene-processing.ts",
+    "packages/core/src/files.ts",
+    "packages/core/src/acquisitions.ts",
+    "apps/service/dist/control.js",
+    "apps/service/dist/project-service.js",
+    "apps/service/dist/main.js",
+    "apps/service/dist/capture-cleanup.js",
+    "apps/service/dist/capture.js",
+    "apps/service/dist/deletion.js",
+    "apps/service/dist/source-export.js",
+    "packages/core/dist/files.js",
+    "packages/core/dist/acquisitions.js",
+    "packages/core/dist/project-package.js",
+    "packages/core/dist/scene-processing.js",
+    "packages/core/dist/library.js",
+    "packages/core/dist/processing.js",
+    "packages/core/dist/source-admission.js",
+    "packages/core/dist/evidence.js",
+    "packages/core/dist/transcript-processing.js",
+    "packages/core/dist/jobs.js",
+    "packages/core/dist/storage.js"
+  ],
+  "unchangedQueryOwners": [
+    "packages/core/src/capture-source-read.ts",
+    "packages/core/src/project-evidence.ts",
+    "packages/core/src/evidence-read.ts",
+    "packages/core/src/catalog.ts"
+  ],
+  "errors": [],
+  "kind": "historical-profile-runtime-authority-preflight",
+  "sourceCheckpoint": "a49d2a89",
+  "catalogCheck": {
+    "mode": "SQLite mode=ro&immutable=1; no service constructors or writes",
+    "format": 20,
+    "acquisitions": 1024,
+    "completeMetadataMatchesSeed": true,
+    "admissions": "import only; none unfinished",
+    "assets": 1,
+    "projects": [
+      {
+        "cardinality": 512,
+        "projectId": "5fe0dc45-e0cb-47d3-83f6-4dfb2dad2392",
+        "revisionId": "b9e87a3c-a5d8-4a3c-bcaa-d1977965fbff",
+        "retainedRevisions": 6,
+        "completeDocumentMatchesSeed": true
+      },
+      {
+        "cardinality": 1024,
+        "projectId": "5cba5db1-746b-415d-be0d-64bad7c4c2ab",
+        "revisionId": "124ed1f6-af0d-460d-b623-87bc080b5ece",
+        "retainedRevisions": 6,
+        "completeDocumentMatchesSeed": true
+      }
+    ],
+    "jobStates": {
+      "ready": 1026
+    },
+    "recordingTablesPresent": false,
+    "identityLimit": "Logical rows compared with pinned seed; historical whole database bytes were never pinned and are not claimed unchanged",
+    "assetDescriptionMatchesSeed": true,
+    "assetSegmentCounts": [
+      {
+        "streamId": "track:1",
+        "segmentCount": 4,
+        "contiguousOrdinals": true
+      }
+    ],
+    "oracleCorrection": "Initial raw asset-header comparison refused because the pinned seed is the public description: segment rows are owned separately. The corrected read-only check reconstructs describe semantics, validates contiguous stored segment ordinals, and compares every public field with the seed. No runtime or database changed."
+  },
+  "currentRuntimeBoundary": "Historical owner attribution only. Do not refresh from current source or open this catalog through current CaptureStore: startup would create capture tables. Final current-production acceptance requires its own prerequisites.",
+  "newPrerequisites": "Merged 23f source-lifetime work is not required for these already READY imports; they have no unfinished capture donor.",
+  "actualProfileAttempts": 0,
+  "actualPublicProjectReadAttempts": 0,
+  "actualServiceStarts": 0,
+  "nextBoundary": "Wait for active capture implementation checks to finish, then separately coordinate one window, inspect fresh whole-host contention, reverify pins and obtain root release for one bounded historical owner-attribution attempt. No timer, polling or benchmark repeat."
+}

@@ -147,3 +147,12 @@ A future attempt requires a separately coordinated window, fresh whole-host
 inspection and reverified runtime pins. The prepared catalog and isolated runtime
 remain available even if the main camera implementation changes. No owner
 attribution, optimization or broader acceptance is claimed.
+
+The [read-only runtime authority check](../assets/24z-owner-profile-preparation/runtime-authority-preflight.json)
+preserves this as historical owner attribution. It rechecks the isolated code and
+module pins and compares logical catalog rows with the pinned seed. Current source
+has advanced; do not refresh that runtime or open its catalog through later
+capture startup. Its catalog predates the capture-table contract. Already READY imports require
+no unfinished-donor recovery. No database-byte history, current-production SLA,
+profile or timing pass follows from this read-only check. Wait for active capture
+checks to finish before coordinating the separate bounded profile window.
