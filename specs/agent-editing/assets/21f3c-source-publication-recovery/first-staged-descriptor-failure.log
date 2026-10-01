@@ -1,0 +1,7 @@
+ScreenRecorderCaptureTests/SourcePublicationRecoveryTests.swift:237: Precondition failed: Actual native wire refused: ["ok": 0, "error": {
+    code = "INVALID_JOURNAL_PREFIX";
+    details =     {
+    };
+    message = "Recovered support differs from publication authority.";
+    retryable = 0;
+}, "id": primary-unfinished-staged]

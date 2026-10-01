@@ -43,10 +43,11 @@ package struct SourceEvidenceExport: Encodable {
     package let completion: JournalCompletion?
     package let publications: [String: SourceEvidencePublication]?
     package let bytes: Int
+    package let verifiedSourceAuthority: CapturePublishedSource?
 
     /// The caller supplies a finalized/recovered source. A missing finished record remains visible
     /// because recovery may retain a trustworthy prefix after the capture process died.
-    package static func write(directory: String, output: String, canonical: [String: String]? = nil) async throws -> Self {
+    package static func write(directory: String, output: String, canonical: [String: String]? = nil, sourceAuthority: CaptureSourceAuthorityExpectation? = nil) async throws -> Self {
         let source = URL(fileURLWithPath: directory).resolvingSymlinksInPath().standardizedFileURL
         let parent = URL(fileURLWithPath: output).standardizedFileURL.deletingLastPathComponent()
             .resolvingSymlinksInPath().standardizedFileURL
@@ -78,8 +79,13 @@ package struct SourceEvidenceExport: Encodable {
         // Staged imports supply a closed set of immutable descriptor locators. Recording-owned
         // reads resolve canonical members under the existing journal lease.
         let hasCameraProof = FileManager.default.fileExists(atPath: source.appendingPathComponent("camera.publication.json").path)
-        let lease = layout == 2 || hasCameraProof ? try CaptureJournalLease(directory: source.path) : nil
+        let lease = layout == 2 || hasCameraProof || sourceAuthority != nil ? try CaptureJournalLease(directory: source.path) : nil
         defer { lease?.release() }
+        let verifiedSourceAuthority: CapturePublishedSource?
+        if let sourceAuthority {
+            guard let lease, let canonical else { throw CaptureFailure("INVALID_REQUEST", "Capture authority requires pinned canonical descriptors.") }
+            verifiedSourceAuthority = try await CaptureSourcePublication.verifyStaged(sourceAuthority, lease: lease, canonical: canonical)
+        } else { verifiedSourceAuthority = nil }
         if let lease {
             for role in layout == 2 ? ["narration", "system"] : [] {
                 let receipt = source.appendingPathComponent("\(role).publication.json")
@@ -173,7 +179,8 @@ package struct SourceEvidenceExport: Encodable {
             lastCursorSourceUs: summary.lastCursorSourceUs, lastSequence: summary.lastSequence,
             incompleteTail: summary.incompleteTail, invalidAtSequence: summary.invalidAtSequence,
             finished: summary.finished, lastLifecycle: summary.lastLifecycle,
-            completion: summary.completion, publications: layout == 2 || hasCameraProof ? publications : nil, bytes: bytes)
+            completion: summary.completion, publications: layout == 2 || hasCameraProof ? publications : nil, bytes: bytes,
+            verifiedSourceAuthority: verifiedSourceAuthority)
     }
 }
 

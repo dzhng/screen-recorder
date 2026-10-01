@@ -1,0 +1,7 @@
+ScreenRecorderCaptureTests/SourcePublicationRecoveryTests.swift:237: Precondition failed: Actual native wire refused: ["ok": 0, "error": {
+    code = "INVALID_MEDIA";
+    details =     {
+    };
+    message = "Cannot open media identity input.";
+    retryable = 0;
+}, "id": crash-both-camera]

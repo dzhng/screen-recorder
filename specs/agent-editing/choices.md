@@ -5928,3 +5928,39 @@ When: 21f3b preservation gate.
   assertions. Separate encodes do not promise identical decoded pixels; the
   retained cross-run exception is documented in the slice evidence.
 - **Confidence:** Medium.
+
+## 21f3c — Native source publication recovery
+
+### Distinguish recovered support with a fixed diagnostic — sound, medium confidence
+
+When: 21f3c native checkpoint.
+
+- **Choice:** A process crashes after retaining playable pictures but before it records trusted
+  completion. The published source carries `CAPTURE_RECOVERED` and the bounded message that its
+  support was recovered without trusted ordinary completion. Retry verifies both that code and
+  message. Detailed audio/camera diagnostics stay in their existing pinned media proofs, and the
+  ordinary recovery reply keeps per-track errors. The toolkit makes no editorial decision.
+- **Gap:** The plan required truthful recovery diagnostics but did not choose the source-level
+  diagnostic or whether a later retry could replace its message.
+- **Reach:** Consumers can distinguish recovered publication from ordinary completion without
+  widening the public source fields or treating missing completion as success.
+- **Verdict:** Sound. The diagnostic states the proved mechanical fact; changes to its message
+  cannot silently become the same immutable source authority.
+- **Confidence:** Medium. The wording is reversible before shipping, but receipt identity is not.
+
+### Pin complete verified support with a digest — sound, high confidence
+
+When: 21f3c native checkpoint.
+
+- **Choice:** Two recovered movies can have the same last timestamp while one has an empty gap.
+  The private recovery basis hashes every verified support interval in order, using sorted-key
+  JSON records separated by newlines. Re-verification uses the shared inspector and compares
+  that digest as well as the source duration. A receipt stays small even when support has gaps.
+- **Gap:** The plan required actual verified support in a bounded receipt but did not choose
+  how to retain the complete support without sending timing arrays over the wire.
+- **Reach:** A matching endpoint cannot hide changed availability, and inspection arithmetic has
+  one owner across recovery and staged admission. Whole canonical bytes and media proofs remain
+  independently pinned.
+- **Verdict:** Sound. The digest records all observed support while avoiding a second support
+  representation or an unbounded receipt.
+- **Confidence:** High.

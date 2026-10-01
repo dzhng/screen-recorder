@@ -235,8 +235,8 @@ what the service admitted.
 
 ## Recovery and source evidence
 
-[MediaRecovery](Sources/ScreenRecorderWire/MediaRecovery.swift) decodes each source independently
-and is read-only; reconciling the library belongs to the service. Video determines the recovered
+[MediaRecovery](Sources/ScreenRecorderWire/MediaRecovery.swift) recovers each source independently
+through its existing media publishers; reconciling the library belongs to the service. Video determines the recovered
 take extent, optional audio never shortens it, and missing media keeps an explicit per-track
 failure. Audio the journal header never requested is an allowed absence; without a header an
 absence stays unexplained.
@@ -249,6 +249,20 @@ time. Without that cursor the interval stops at the last decoded timestamp and t
 `UNKNOWN_TAIL`: the gap to the previous sample is not evidence. Audio also intersects the journal's
 acquisition ranges, so decoder padding never counts as recorded speech. Adjacent ranges coalesce
 across a one-microsecond seam, the rounding contiguous samples can acquire; larger holes stay gaps.
+
+[CaptureSourcePublication](Sources/ScreenRecorderCapture/CaptureSourcePublication.swift) owns
+captured-source authority. Explicit allocated-source recovery verifies support under the existing
+exclusive journal lease and preserves the original journal, including unvalidated bytes. Its
+private receipt records recovery provenance separately from ordinary completion; a positive media
+duration alone supplies neither authority nor a fabricated completion record. Primary source
+snapshots preserve their entire immutable identity while the parser's trusted prefix remains a
+separate fact.
+
+Capture admission verifies the complete staged authority against the expected public source,
+frozen receipt hash, whole journal and pinned canonical descriptors. It never reopens a donor
+journal or substitutes a live path for a staged member. The verified authority fact is transient;
+generic normalized evidence and portable acquisitions continue carrying the original journal's
+completion and integrity disposition.
 
 [SourceEvidenceExport](Sources/ScreenRecorderWire/SourceEvidenceExport.swift) normalizes a finalized
 or recovered journal into JSONL outside the source directory, streaming without retaining cursor

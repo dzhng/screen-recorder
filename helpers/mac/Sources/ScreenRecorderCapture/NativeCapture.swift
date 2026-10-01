@@ -245,7 +245,7 @@ public final class NativeCapture {
                     let value = try await CameraMedia.publish(closedCamera)
                     camera = value
                     if value.durationUs > 0, let journal = closedCamera.journal {
-                        let evidence = try CaptureSourcePublication.publish(kind: .camera,
+                        let evidence = try await CaptureSourcePublication.publish(kind: .camera,
                             durationUs: value.durationUs, originHostUs: value.hostOriginUs,
                             tracks: value.tracks, diagnostic: value.failure, lease: journal.lease, layout: 1)
                         publication?.camera = .published(evidence)
@@ -278,7 +278,7 @@ public final class NativeCapture {
                         result = sink.recordPublishedResult(result)
                     }
                     if result.durationUs > 0, let lease = sink.packedJournalLease {
-                        let evidence = try CaptureSourcePublication.publish(kind: .primary,
+                        let evidence = try await CaptureSourcePublication.publish(kind: .primary,
                             durationUs: result.durationUs, originHostUs: result.hostOriginUs,
                             tracks: result.tracks, diagnostic: result.failure, lease: lease, layout: 2)
                         publication?.primary = .published(evidence)

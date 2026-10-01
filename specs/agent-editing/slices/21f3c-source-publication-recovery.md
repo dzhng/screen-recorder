@@ -1,8 +1,9 @@
 # 21f3c — Native crash-source publication recovery
 
-Status: planned native prerequisite. Three independent read-only drafts identified
-recoverable media without publication authority after a pre-completion crash.
-No runtime or physical acceptance is added by this plan.
+Status: native implementation and focused/default capture gates pass in the isolated worktree.
+Root integration review and the atomic consumer gate remain separate acceptance. The
+[scoped evidence packet](../assets/21f3c-source-publication-recovery/README.md) pins current source,
+runtime, complete recovered specimens and refusals. No physical acceptance is added.
 Prerequisites: [3a authority](21f3a-independent-publication.md),
 [3b independent camera support](21f3b-independent-camera-clock.md) and the existing
 media recovery owner. [Atomic selection](21f3-public-camera-selection.md) consumes
@@ -187,3 +188,25 @@ bounded private provenance encoding and fixture organization. Original whole-fil
 identity, ordinary verification, public field shape and truthful support are fixed.
 Review shape, code, docs and choices; retain exact source/runtime and complete
 artifacts before committing the scoped native claim.
+
+## Native implementation receipt
+
+The source publisher stores private recovery provenance in its one immutable receipt while the
+wire keeps the existing public projection. Complete original/snapshot hashes remain distinct from
+the parser's validated prefix. Shared inspection verifies the full support digest and duration;
+ordinary completion authority keeps its previous checks. The staged source-evidence path verifies
+the full receipt hash and canonical descriptors through its own lease, then returns the transient
+`verifiedSourceAuthority` fact for the atomic importer to consume.
+
+The focused SourcePublicationRecoveryTests gate and the complete default capture suite exit 0.
+They cover actual owned-process pre-completion crash recovery through the bound production input,
+whole unfinished/torn/corrupt journals, camera-only/pause support, operational refusal, cancellation
+after snapshot publication, immutable retries and staged proof/descriptor refusal. The packet
+retains the first direct-probe locator mismatch with its precise fixture scope and failed-runtime
+pin limitation. The shared fixture provider has one home for the later controller consumer.
+
+Shape, diff and documentation review preserve one authority, parser, lease and support inspector.
+The implementation choices ledger records the bounded recovered diagnostic and full-support
+digest. Existing frozen cohorts were not replayed or replaced. Controller/core/service integration,
+READY portable verification after donor deletion, physical synchronization, live hardware and
+completed-stop acceptance remain unclaimed here.

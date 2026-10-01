@@ -1,0 +1,54 @@
+{
+  "README.md": {
+    "bytes": 3141,
+    "sha256": "ea0e24c1daf07c28e68991e28fd417efe7db98653588139c4581e62e3fe2b4b2"
+  },
+  "build.log": {
+    "bytes": 489,
+    "sha256": "2c1bd19a59363b1edb369f3369c19ba5bbd3f5980ee1ef4403f559ef00bcbb52"
+  },
+  "cohort.tar.gz": {
+    "bytes": 6421572,
+    "sha256": "5a8b46d979e6d2fc052677ab009e75aae2ff67aa991336442ebaf00435938d2f"
+  },
+  "default.log": {
+    "bytes": 10075,
+    "sha256": "169e545d5d221b3ebbb31603613c37a1967eb2006879d19bbb33f5046ca940b7"
+  },
+  "dynamic-linkage.txt": {
+    "bytes": 5527,
+    "sha256": "5a27b882134419c6b8497d986fd3ee202e224a4ddf6768688e8fcd0e1d2ea07d"
+  },
+  "external-code.json": {
+    "bytes": 132430,
+    "sha256": "36f4c93967fc7340971cc8c837771af91245aae4f4fc26ae578b527d6a4a12de"
+  },
+  "external-code.tar.gz": {
+    "bytes": 1814869,
+    "sha256": "67f7a93f2a2c70833dfd8991fef5b8c8f4da8ee7ba2c3f5df97728ca3e6f6f1a"
+  },
+  "first-direct-probe-failure.log": {
+    "bytes": 292,
+    "sha256": "9c5ba43608a717f43e478e715d9f6ec23414d507de725c84b5ad4dee8ceece7d"
+  },
+  "first-staged-descriptor-failure.log": {
+    "bytes": 329,
+    "sha256": "f3a83cbe8d7d09db81ce9a2e566fff31c4c77046f811c2bde68c93bed712ad3b"
+  },
+  "focused.log": {
+    "bytes": 151,
+    "sha256": "5d246b18b2889360097d947b88c14d18856a89d34f2352f01226fa0526eb1095"
+  },
+  "linked-objects.txt": {
+    "bytes": 44884,
+    "sha256": "6c9c19db5ed97a7623ccd4d17dce14ab4a934aaf3d97de7589dcf78261a71f84"
+  },
+  "source.tar.gz": {
+    "bytes": 31373812,
+    "sha256": "9ff27f7f4460ad0a24ef24f600e906078b786d602f4674243b9d15faccc38602"
+  },
+  "verification.json": {
+    "bytes": 97142,
+    "sha256": "8533278ec6b934cf42d1a6e7fa665238ed79a7f62bfc3e4050966cff95a65d31"
+  }
+}

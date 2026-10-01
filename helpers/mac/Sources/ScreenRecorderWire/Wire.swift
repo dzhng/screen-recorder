@@ -59,7 +59,7 @@ public enum NativeWire {
                         "INVALID_REQUEST", "media.recover requires a source directory.")
                 }
                 do {
-                    return try json(RecoveryReceipt(await MediaRecovery.recover(directory: request.directory)))
+                    return try json(RecoveryReceipt(await MediaRecovery.recover(directory: request.directory, sourceAuthority: request.sourceAuthority)))
                 } catch is CancellationError { throw CancellationError() }
                 catch {
                     let failure = CaptureFinalizationError(error)
@@ -91,7 +91,7 @@ public enum NativeWire {
                     try WireRequest.requireAbsolute(request.directory, request.output)
                     do {
                         return try json(
-                            await SourceEvidenceExport.write(directory: request.directory, output: request.output, canonical: request.canonical))
+                            await SourceEvidenceExport.write(directory: request.directory, output: request.output, canonical: request.canonical, sourceAuthority: request.sourceAuthority))
                     } catch let failure as NativeFailure { throw failure }
                     catch let failure as CaptureFailure {
                         throw NativeFailure(failure.code, failure.message,
@@ -193,6 +193,7 @@ public enum NativeWire {
 
     private struct RecoveryRequest: Codable {
         let directory: String
+        let sourceAuthority: CaptureRecoveryAuthority?
     }
 
     private struct CaptureCleanupRequest: Codable {
@@ -203,5 +204,6 @@ public enum NativeWire {
         let directory: String
         let output: String
         let canonical: [String: String]?
+        let sourceAuthority: CaptureSourceAuthorityExpectation?
     }
 }
