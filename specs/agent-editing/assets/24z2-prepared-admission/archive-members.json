@@ -1,0 +1,622 @@
+[
+  {
+    "path": "baseline/packages/core/src/prepared-audio.test.ts",
+    "bytes": 32457,
+    "sha256": "a71f203f1370b50db89cd312ac60730eec70aa30bb6b8a677923677304243d43"
+  },
+  {
+    "path": "baseline/packages/core/src/prepared-audio.ts",
+    "bytes": 19405,
+    "sha256": "397882189e7623c6e09a078bf33811376b42e2df685ef044706e961aebf99d65"
+  },
+  {
+    "path": "candidate/bun.lock",
+    "bytes": 56033,
+    "sha256": "37fad99511fdd8d593b5e05817f4c72bb07635510baf63abd35254099ea47a3e"
+  },
+  {
+    "path": "candidate/package.json",
+    "bytes": 2061,
+    "sha256": "3786a657c586fd4169be6157ff53a0d1fb92d4e3f7d43ec2fc7e0dc0bae7e541"
+  },
+  {
+    "path": "candidate/packages/composition/src/audio-context.ts",
+    "bytes": 3451,
+    "sha256": "5d24f6d79c5780bb3fa95c1561779b41daa7554c81068ebae0061391f74a56b2"
+  },
+  {
+    "path": "candidate/packages/composition/src/clip-graph.ts",
+    "bytes": 1413,
+    "sha256": "4b788ea9b4b9baba8e4dc518b9250bcf9c5f5f4bc7a759d4a612ade74efbea7b"
+  },
+  {
+    "path": "candidate/packages/composition/src/compiled-records.ts",
+    "bytes": 2877,
+    "sha256": "b242733172f4a7e349ba9ab232d0182ab13a018b8e485fe64cfcdf0b50eeb537"
+  },
+  {
+    "path": "candidate/packages/composition/src/compiler.ts",
+    "bytes": 17927,
+    "sha256": "b5973e0bb32433c881a38a1103c603173fc228613b2cb62f653df37701042e44"
+  },
+  {
+    "path": "candidate/packages/composition/src/curve.ts",
+    "bytes": 6449,
+    "sha256": "7d43ae4760086ccc441adb856686a669a0a20fc1868db8827c03083dde5afd0b"
+  },
+  {
+    "path": "candidate/packages/composition/src/duplicate.ts",
+    "bytes": 1786,
+    "sha256": "7130bb60b18965209490a469498a11047e275598fddac47f80273bf8a0c3f87a"
+  },
+  {
+    "path": "candidate/packages/composition/src/edits.ts",
+    "bytes": 46957,
+    "sha256": "b43c9a98b79b8d9387515f0e1264249852e8386a3133f4b16c4566ac4ac01cae"
+  },
+  {
+    "path": "candidate/packages/composition/src/errors.ts",
+    "bytes": 366,
+    "sha256": "181221a2cfdf46cf5c211db2319671aecc66ed0d86f4f2e72f198bd929a53743"
+  },
+  {
+    "path": "candidate/packages/composition/src/execution-window.ts",
+    "bytes": 8804,
+    "sha256": "21ad2cda505ff871206659cb12d01201e1a6a3b0b10963bdd93ce5c3623320dd"
+  },
+  {
+    "path": "candidate/packages/composition/src/geometry.ts",
+    "bytes": 7009,
+    "sha256": "607ab93111bc2884bb2d7c009eda912a0bc37d0032fa7d12bcad0787a2b8c737"
+  },
+  {
+    "path": "candidate/packages/composition/src/index.ts",
+    "bytes": 3615,
+    "sha256": "5076987bb6f2ca18f654c483cc7d434858605f8f55556bff843cd6ec156551af"
+  },
+  {
+    "path": "candidate/packages/composition/src/interval-index.ts",
+    "bytes": 1983,
+    "sha256": "1ad62a5a5d39119d52a313bce953a619ceb31a5392bab48342c38e6c2e9ae7ac"
+  },
+  {
+    "path": "candidate/packages/composition/src/model.ts",
+    "bytes": 20273,
+    "sha256": "0673e508f0af1373b9a8e4902e313f60eaeffa02391d2e96da87992fe0aea0ac"
+  },
+  {
+    "path": "candidate/packages/composition/src/move.ts",
+    "bytes": 3553,
+    "sha256": "c76f31fc6e13f33cff6403b214e20335c04041607f4dd350290da4712a7975f7"
+  },
+  {
+    "path": "candidate/packages/composition/src/output-settings.ts",
+    "bytes": 16437,
+    "sha256": "b9153d8cab53ad55f5c9ccdc5e7911c72b78e1a756af0fd3803ec6736806a071"
+  },
+  {
+    "path": "candidate/packages/composition/src/partition.ts",
+    "bytes": 7724,
+    "sha256": "2241250f258940a4cf6c133e7a7703406b0398648ecefea0c1d9e674c0248c1b"
+  },
+  {
+    "path": "candidate/packages/composition/src/pointer.ts",
+    "bytes": 1417,
+    "sha256": "ec4d5fcee90aa5ac2c0cb84dab59a26d92a1328def220197a521f9989e3a96a2"
+  },
+  {
+    "path": "candidate/packages/composition/src/processing-plan.ts",
+    "bytes": 5465,
+    "sha256": "d46c52ce2e581cc582f456ffd59bf35e76f8227ae5b1594d363cf51ba2dc9ad7"
+  },
+  {
+    "path": "candidate/packages/composition/src/processing-state.ts",
+    "bytes": 17323,
+    "sha256": "3b689096aa53ecf283ee361537c3d97eae836503ecd19930df01ba4bfc6d83eb"
+  },
+  {
+    "path": "candidate/packages/composition/src/processing.ts",
+    "bytes": 11584,
+    "sha256": "00029cd31aac0494b49e495efe444e2ea904158169f2f317e30a2ad0ba4bc32a"
+  },
+  {
+    "path": "candidate/packages/composition/src/project-cuts.ts",
+    "bytes": 4752,
+    "sha256": "719a3a0b49111859cf221ce2c0fe4f340133817d09f96e6e7074d3c329231b11"
+  },
+  {
+    "path": "candidate/packages/composition/src/rational.ts",
+    "bytes": 3501,
+    "sha256": "28d2a22394d562bd9199a339f9cb8930532589930ef2bd9b02a594e3d25fde29"
+  },
+  {
+    "path": "candidate/packages/composition/src/replace.ts",
+    "bytes": 6722,
+    "sha256": "b2972e3617afbdd77b1ec50656d25b7b104808bacb94d329af9a1b20d89f9997"
+  },
+  {
+    "path": "candidate/packages/composition/src/retime.ts",
+    "bytes": 1420,
+    "sha256": "cd6c212baa90cce66ca6f1b63b146fa711dc9c476b2717dfc77f45655161f046"
+  },
+  {
+    "path": "candidate/packages/composition/src/ripple.ts",
+    "bytes": 8592,
+    "sha256": "2dbaef851c434a28755a43dad58a5a4542f233bbfcae0de2857002fa08003f38"
+  },
+  {
+    "path": "candidate/packages/composition/src/routing.ts",
+    "bytes": 2718,
+    "sha256": "c27fd352cb3a2baad3d80f209b43f07ba1d5c74b5af322fd12710c1dccb64ea8"
+  },
+  {
+    "path": "candidate/packages/composition/src/sample-clock.ts",
+    "bytes": 517,
+    "sha256": "bed959eceb0dda2ba9aa96203bbdc150ef486708203b1c256192352f42454525"
+  },
+  {
+    "path": "candidate/packages/composition/src/scalar-program.ts",
+    "bytes": 9930,
+    "sha256": "540a9acf4a9090b80d96c272afe5cfbe17b16fd7be2e9e1f3baeebd36827089d"
+  },
+  {
+    "path": "candidate/packages/composition/src/schema.ts",
+    "bytes": 14304,
+    "sha256": "4239c969c9048669e87baef0a2944d3bd77f3b53b526d2a7ea24916bd9d20a20"
+  },
+  {
+    "path": "candidate/packages/composition/src/source-projection.ts",
+    "bytes": 9191,
+    "sha256": "3b70f8184a2721c9a29ae54f389b19b0755587c79c87bf6612c3980d954d313d"
+  },
+  {
+    "path": "candidate/packages/composition/src/temporal-processing.ts",
+    "bytes": 9549,
+    "sha256": "31772b137543032504315597fea0e8cb444a82c984c367cf2ffb3f4e1c1d1bfe"
+  },
+  {
+    "path": "candidate/packages/composition/src/transform.ts",
+    "bytes": 4643,
+    "sha256": "583f7a97d19f7bdd464e62ebff61a95b924253da99ee57815dd5ec68f42bcd73"
+  },
+  {
+    "path": "candidate/packages/composition/src/visual-plan.ts",
+    "bytes": 3344,
+    "sha256": "b207446857a34dc393e0fa2eb2cae3dbe6751af56b4c31ea43806396128940bd"
+  },
+  {
+    "path": "candidate/packages/core/package.json",
+    "bytes": 9263,
+    "sha256": "03f9b5c1f82d8c97d2a31925c48a5a01a2045fc73a2b76002193d5ed7fc19862"
+  },
+  {
+    "path": "candidate/packages/core/src/assets.ts",
+    "bytes": 30268,
+    "sha256": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c"
+  },
+  {
+    "path": "candidate/packages/core/src/catalog.ts",
+    "bytes": 2260,
+    "sha256": "4bf2e2f86003d21e811fcb3e9516c66359798fa28dd4eb0800172be6723ab236"
+  },
+  {
+    "path": "candidate/packages/core/src/jobs.ts",
+    "bytes": 58442,
+    "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+  },
+  {
+    "path": "candidate/packages/core/src/prepared-audio.test.ts",
+    "bytes": 36192,
+    "sha256": "dfa6777abe16a0412436ec958f0691e9ca87ffe3f5c42daf1d010f96e031ccc1"
+  },
+  {
+    "path": "candidate/packages/core/src/prepared-audio.ts",
+    "bytes": 19600,
+    "sha256": "d6bf5106188ebbd4526e6c26f260f88fad05d77a31b736ca58a8c155cf9a2540"
+  },
+  {
+    "path": "candidate/packages/core/src/project-window.ts",
+    "bytes": 8391,
+    "sha256": "bf8b0c5eb2293ac7165ec995bd4c9278a066f87d62a3e5ce86e5d7c57879a214"
+  },
+  {
+    "path": "candidate/packages/core/src/projects.ts",
+    "bytes": 29738,
+    "sha256": "3756a56e033564a4f7bc1c88324e5da519c0325bc93311be3abe13dea39474b3"
+  },
+  {
+    "path": "candidate/packages/core/src/references.ts",
+    "bytes": 3017,
+    "sha256": "f91af872820c19912a5b758681e4d1c1571bb2c76575b227a97ca100f20587d0"
+  },
+  {
+    "path": "candidate/packages/core/tsconfig.check.json",
+    "bytes": 99,
+    "sha256": "28040a0cc39a95657c11c3e2684917e0e5b9fe9b98843f54943a010436275e76"
+  },
+  {
+    "path": "candidate/tsconfig.base.json",
+    "bytes": 322,
+    "sha256": "02762c9f38564b025eda23e311b2cc6a3cd41593b81208e520ce1850117a3356"
+  },
+  {
+    "path": "logs/focused-final.log",
+    "bytes": 838,
+    "sha256": "bc62ae4c35993b81abf9c6556d8e83c332cf872629c6547377fbf3ef5275c3cf"
+  },
+  {
+    "path": "logs/format.log",
+    "bytes": 203,
+    "sha256": "5787da43d97f54a4a17ba6db6070b2b21292bba2ce63cdc91cc58b30d2a33414"
+  },
+  {
+    "path": "logs/green.log",
+    "bytes": 655,
+    "sha256": "6c364a6c3d97082eb4f5632934196028cd41503ff796e22391f7ebe891d1a513"
+  },
+  {
+    "path": "logs/lint.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "logs/prepared-suite.log",
+    "bytes": 1265,
+    "sha256": "3f31435adc53ca12bdd4ceb88c43ca80714550a4518c81b103636376c2035504"
+  },
+  {
+    "path": "logs/red-pinned.log",
+    "bytes": 2693,
+    "sha256": "b72d8ae2baef5a19bd62c82a31d4dd0d84d4ee5f67a491c3560098c66224d8fc"
+  },
+  {
+    "path": "logs/red.log",
+    "bytes": 2818,
+    "sha256": "1215b4c9400c76abf5b7272a3649e2a653cec9ab76b3a154b3fbf97a9002db90"
+  },
+  {
+    "path": "logs/types-final.log",
+    "bytes": 29,
+    "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+  },
+  {
+    "path": "logs/types.log",
+    "bytes": 442,
+    "sha256": "b23c6f6bf2cc74bd2a9c8b77da7abfbf56cffb879d95136118d024aa8a4b6f97"
+  },
+  {
+    "path": "runtime/packages/composition/dist/audio-context.d.ts",
+    "bytes": 446,
+    "sha256": "42ef245534c64711bea60b9799a7e02057ef71f814e88b51791ad5ff158dbbfe"
+  },
+  {
+    "path": "runtime/packages/composition/dist/audio-context.js",
+    "bytes": 3509,
+    "sha256": "7881bc4dd061f64216b72e4510f9a6fe6d694167c896997bb71e6abcfa31205e"
+  },
+  {
+    "path": "runtime/packages/composition/dist/clip-graph.d.ts",
+    "bytes": 306,
+    "sha256": "171734b07b6ee252b8cce2dba7a5c06a3add64fc53671c6c6e213e9c6d9f6eab"
+  },
+  {
+    "path": "runtime/packages/composition/dist/clip-graph.js",
+    "bytes": 1436,
+    "sha256": "a1c767799e637c804e63455934acd56fb55f25957cc92e9cfc36dbade71804b6"
+  },
+  {
+    "path": "runtime/packages/composition/dist/compiled-records.d.ts",
+    "bytes": 7140,
+    "sha256": "4298554d5abc840e1f25e73a93a92f5d44f7b590f98e4cd3327f114f446d5d87"
+  },
+  {
+    "path": "runtime/packages/composition/dist/compiled-records.js",
+    "bytes": 2617,
+    "sha256": "b2733835ea3feef33a2a4763804298aff9485b497627ba1336ecd2747f4e8d4e"
+  },
+  {
+    "path": "runtime/packages/composition/dist/compiler.d.ts",
+    "bytes": 186654,
+    "sha256": "71ee904eb7ca487181205b596628d0dcf7d3e446dca57394229f25315105e586"
+  },
+  {
+    "path": "runtime/packages/composition/dist/compiler.js",
+    "bytes": 17520,
+    "sha256": "245e8e37702a7a3d78deb21d28186d4ea779da0b51859b6ff10b98d05218d3e0"
+  },
+  {
+    "path": "runtime/packages/composition/dist/curve.d.ts",
+    "bytes": 1176,
+    "sha256": "ab634494977edda108d75dc3fea338ed248fd8a4731ee321a28aff898ed0003e"
+  },
+  {
+    "path": "runtime/packages/composition/dist/curve.js",
+    "bytes": 5866,
+    "sha256": "b8536696f877afbfa466a5cea47e51b6e0051149bc547042a4c12c6a694bd983"
+  },
+  {
+    "path": "runtime/packages/composition/dist/duplicate.d.ts",
+    "bytes": 21285,
+    "sha256": "f9390ecc662a8567a187f75595cde110976c7a18bb799ebf8e08558b5e172f85"
+  },
+  {
+    "path": "runtime/packages/composition/dist/duplicate.js",
+    "bytes": 1592,
+    "sha256": "13a4d30d95e1f54c79c37854ca2047cbe72185013e85743fccc1aefc6ea8d4e7"
+  },
+  {
+    "path": "runtime/packages/composition/dist/edits.d.ts",
+    "bytes": 72546,
+    "sha256": "aa848287d928df115d84880e6a6045c3e0cfeb4fe003b64bc49d14dde9ae448b"
+  },
+  {
+    "path": "runtime/packages/composition/dist/edits.js",
+    "bytes": 50109,
+    "sha256": "35f814bb694e845ab55621d407fb6bbcb4c7bac97456d3fee8a8673e45c29467"
+  },
+  {
+    "path": "runtime/packages/composition/dist/errors.d.ts",
+    "bytes": 411,
+    "sha256": "fcf819b1c60af57acac3e0bb03079f28cc61fc3935d35fb6540fbe74fbc89b6f"
+  },
+  {
+    "path": "runtime/packages/composition/dist/errors.js",
+    "bytes": 246,
+    "sha256": "384df846c9687259df2a8d9b8cb74477c71dce6f2add0e3b618731ae98b8ae5e"
+  },
+  {
+    "path": "runtime/packages/composition/dist/execution-window.d.ts",
+    "bytes": 159959,
+    "sha256": "e36dc69a867a3468bb318869afaef2d18360631af8dbd13da8f567091455334c"
+  },
+  {
+    "path": "runtime/packages/composition/dist/execution-window.js",
+    "bytes": 7461,
+    "sha256": "8406e860e31474863980aa64336568ceedc34f8f3dabd9144f7824b4771b0c6d"
+  },
+  {
+    "path": "runtime/packages/composition/dist/geometry.d.ts",
+    "bytes": 3074,
+    "sha256": "192148f261b56776d17f0bfe6a17d0cfe4cc63bd084ba7f5425db08e2de50bcd"
+  },
+  {
+    "path": "runtime/packages/composition/dist/geometry.js",
+    "bytes": 6586,
+    "sha256": "1ab362b6e14a46fbad58af637d46aa7a07fe332390681bebfc9a43b5e376bba8"
+  },
+  {
+    "path": "runtime/packages/composition/dist/index.d.ts",
+    "bytes": 3433,
+    "sha256": "da889a9d706baaf0953329667333112dc573ed469a480b6e4e169ca4908ef5dd"
+  },
+  {
+    "path": "runtime/packages/composition/dist/index.js",
+    "bytes": 1993,
+    "sha256": "f92ce26a1d1576c5fca4b2854dab01d34cda5a5c9cf98423b1241845c01b24a3"
+  },
+  {
+    "path": "runtime/packages/composition/dist/interval-index.d.ts",
+    "bytes": 505,
+    "sha256": "cf8d24d75cb05721589959ecc31e1a068cf0829f851abb6de866b6d97ceb04f5"
+  },
+  {
+    "path": "runtime/packages/composition/dist/interval-index.js",
+    "bytes": 1950,
+    "sha256": "0a23529c92fa49c390bbb24aaeb7392f69b9952a5b43ec66a049a9af6e79cdab"
+  },
+  {
+    "path": "runtime/packages/composition/dist/model.d.ts",
+    "bytes": 4624,
+    "sha256": "eb3cfa5a962ce99009b7a9fcdb28873bb9e77070c16f9e15d757174d028338cd"
+  },
+  {
+    "path": "runtime/packages/composition/dist/model.js",
+    "bytes": 18842,
+    "sha256": "f4eb8c16480b2130684fbb071747a7969abf6a01f9eb6d7ef1f3187abfb16d41"
+  },
+  {
+    "path": "runtime/packages/composition/dist/move.d.ts",
+    "bytes": 63113,
+    "sha256": "b637ce220c18cf83cfb2be53856eadd490ce73bfa8a7b2241efc30094e438c81"
+  },
+  {
+    "path": "runtime/packages/composition/dist/move.js",
+    "bytes": 3356,
+    "sha256": "ce9f3f05ac35a442433cb1f333082b5e67c910c1d21c7d99cd3d39125b04de79"
+  },
+  {
+    "path": "runtime/packages/composition/dist/output-settings.d.ts",
+    "bytes": 34229,
+    "sha256": "388be54a286c9460f3ee86fd1e702eec4115e7aa563038dc0095dec150215a4c"
+  },
+  {
+    "path": "runtime/packages/composition/dist/output-settings.js",
+    "bytes": 16241,
+    "sha256": "65e90d967fb631cc2a1b5f4adbba9778fd46b2e38bd702ddc220aa4fd5c6ff94"
+  },
+  {
+    "path": "runtime/packages/composition/dist/partition.d.ts",
+    "bytes": 20542,
+    "sha256": "5368464f83af53bee1437f6ff1909bc7914384e0fdc3c3e851b4798e8e6de9b9"
+  },
+  {
+    "path": "runtime/packages/composition/dist/partition.js",
+    "bytes": 7610,
+    "sha256": "10763b66fb1bd84865e3e6138313e30ed5987d7dedf3ab3bbe4a97cbf9ff78dc"
+  },
+  {
+    "path": "runtime/packages/composition/dist/pointer.d.ts",
+    "bytes": 1422,
+    "sha256": "3486cb00f9a49ebe2ebc19aa702dd0b0a86faedf38663b8f79d2bf72e8e3588c"
+  },
+  {
+    "path": "runtime/packages/composition/dist/pointer.js",
+    "bytes": 1382,
+    "sha256": "d106048d7d6972db32a9b48bdb7d4479806f48546d51d55a37f9342f9e27a4a2"
+  },
+  {
+    "path": "runtime/packages/composition/dist/processing-plan.d.ts",
+    "bytes": 29585,
+    "sha256": "6004dd1a47f4f53b85bfa3d7fa6ca34c26069787daf954ac7d30dcf064847426"
+  },
+  {
+    "path": "runtime/packages/composition/dist/processing-plan.js",
+    "bytes": 5245,
+    "sha256": "d28930655f371aa4f266687cc85bf0fdab8961a20b30c00b73339cb69163444f"
+  },
+  {
+    "path": "runtime/packages/composition/dist/processing-state.d.ts",
+    "bytes": 63351,
+    "sha256": "9b9a4d001cff09cc5f217d5de13bc322716f4729f8dea3527e823f9c0da318c9"
+  },
+  {
+    "path": "runtime/packages/composition/dist/processing-state.js",
+    "bytes": 17691,
+    "sha256": "97f4673ceb29098c8ec62cd1a5bd9f70cb7ebf1ba3394820c09eb7631df4f9a6"
+  },
+  {
+    "path": "runtime/packages/composition/dist/processing.d.ts",
+    "bytes": 133076,
+    "sha256": "c116eccf089f7fe817b069f414163b1713ee99b850cf0372074a1716badc1c6e"
+  },
+  {
+    "path": "runtime/packages/composition/dist/processing.js",
+    "bytes": 11832,
+    "sha256": "a6221ab6723484d7498bb4510a0eadd82748a5d4078db7efab3fdf8201803daa"
+  },
+  {
+    "path": "runtime/packages/composition/dist/project-cuts.d.ts",
+    "bytes": 923,
+    "sha256": "5bba9450fc373da8d90542666b0e2229a8a0c2748601cb657798bcbeec7c0148"
+  },
+  {
+    "path": "runtime/packages/composition/dist/project-cuts.js",
+    "bytes": 4264,
+    "sha256": "0587df96a9f2b1c913af44a719590316981b3dd380416e603ed2de6cd370134b"
+  },
+  {
+    "path": "runtime/packages/composition/dist/rational.d.ts",
+    "bytes": 1098,
+    "sha256": "18c112e8dd222599e00f6c22d2f88f351495056cd132bd6e0e7d2e53a29afbd7"
+  },
+  {
+    "path": "runtime/packages/composition/dist/rational.js",
+    "bytes": 3054,
+    "sha256": "38eab828f518dfd61b19289f3e6925cea4b027b3a1eff82c1c420877e45b25f5"
+  },
+  {
+    "path": "runtime/packages/composition/dist/replace.d.ts",
+    "bytes": 21413,
+    "sha256": "09bf2403b17845c91a91aa533fba96617d1ca51c6a0423468f198c4e7241835e"
+  },
+  {
+    "path": "runtime/packages/composition/dist/replace.js",
+    "bytes": 6668,
+    "sha256": "9791dbde9666e0473e7f511d0b1d5df9a9815c8233e77471c67eff865b080380"
+  },
+  {
+    "path": "runtime/packages/composition/dist/retime.d.ts",
+    "bytes": 42162,
+    "sha256": "e4375fea38b55ad457bc950a2a54c511046dca630d32e3ee315b70b0d4bc295a"
+  },
+  {
+    "path": "runtime/packages/composition/dist/retime.js",
+    "bytes": 1156,
+    "sha256": "52598c217a273fe932631a19ff2e0947b17bfe7a1a51af83f8b3a1650c6b2cd3"
+  },
+  {
+    "path": "runtime/packages/composition/dist/ripple.d.ts",
+    "bytes": 105203,
+    "sha256": "22c8d89978864715e72c65fc449dc2652aea4cd48ad88f2ee7d6812ad83831fe"
+  },
+  {
+    "path": "runtime/packages/composition/dist/ripple.js",
+    "bytes": 8213,
+    "sha256": "a53f870b3335fb45227a635cd66117b65d0d22ccfe405a4e489739396db7fb15"
+  },
+  {
+    "path": "runtime/packages/composition/dist/routing.d.ts",
+    "bytes": 659,
+    "sha256": "32a4d35dae92a934bf5214e356eb7156c64a49e926392b356918abe930a29dae"
+  },
+  {
+    "path": "runtime/packages/composition/dist/routing.js",
+    "bytes": 2465,
+    "sha256": "565472aad6c5b0000b4151b1d90f51903f91a19db285ae3e8588fd8671c15f93"
+  },
+  {
+    "path": "runtime/packages/composition/dist/sample-clock.d.ts",
+    "bytes": 208,
+    "sha256": "3c5332a76047499ddc3f252610398d0cebe2cd8b67c865053720b73a2ba45568"
+  },
+  {
+    "path": "runtime/packages/composition/dist/sample-clock.js",
+    "bytes": 453,
+    "sha256": "23f19cd02e04579eeb3dd247b1a2925a22df2cf3c5934b13ab7871c0f0e00104"
+  },
+  {
+    "path": "runtime/packages/composition/dist/scalar-program.d.ts",
+    "bytes": 1964,
+    "sha256": "6fb9403b0a8db382268c53ddd621f64a245374aa2dd786e609327b74f88c3214"
+  },
+  {
+    "path": "runtime/packages/composition/dist/scalar-program.js",
+    "bytes": 9136,
+    "sha256": "a81b8e65106c9efb26bd49758d93e6bb4056acfce90168cea7db38af791831b6"
+  },
+  {
+    "path": "runtime/packages/composition/dist/schema.d.ts",
+    "bytes": 148019,
+    "sha256": "43e3bf4bca03325d1334d414f06195e7d47f27dcc83173a7b7884adc99687948"
+  },
+  {
+    "path": "runtime/packages/composition/dist/schema.js",
+    "bytes": 13372,
+    "sha256": "9b53874fd5df6239f7ef49449ac0bb8d6c72a0343d759ce344e077055918ebe9"
+  },
+  {
+    "path": "runtime/packages/composition/dist/source-projection.d.ts",
+    "bytes": 1957,
+    "sha256": "4d1b3657be8d1b269ff56f19c571b872501e7fffc59b0fb3a5f56f412c1d4657"
+  },
+  {
+    "path": "runtime/packages/composition/dist/source-projection.js",
+    "bytes": 7984,
+    "sha256": "c03360230f85b4119ec0d17212c69bb249b0fcce11922dfea31b4a30f6cc43e3"
+  },
+  {
+    "path": "runtime/packages/composition/dist/temporal-processing.d.ts",
+    "bytes": 1724,
+    "sha256": "239c566fa427bc61e96e0bd10792e64045a65924f79562f295b4ee9a876a6d3a"
+  },
+  {
+    "path": "runtime/packages/composition/dist/temporal-processing.js",
+    "bytes": 9058,
+    "sha256": "252ab884b367cf20c4795709c70fc4147ff848da6e3534a125bfb306d47f6355"
+  },
+  {
+    "path": "runtime/packages/composition/dist/transform.d.ts",
+    "bytes": 28621,
+    "sha256": "1d22539b2a5051f302bcdbd1adc918002275cc89800e6dcf7eac515899ace41f"
+  },
+  {
+    "path": "runtime/packages/composition/dist/transform.js",
+    "bytes": 4209,
+    "sha256": "5a570ec8fb561d6cae589fabeb2f652b1c93fe00452744d2012c30b42f644705"
+  },
+  {
+    "path": "runtime/packages/composition/dist/visual-plan.d.ts",
+    "bytes": 577,
+    "sha256": "ecf24aea7c4911fad27e09dd1e0399cca4836377d293b4f64f20d2dab098298d"
+  },
+  {
+    "path": "runtime/packages/composition/dist/visual-plan.js",
+    "bytes": 3002,
+    "sha256": "cfea28ca6891d4ecdff8606bdead3051c60a8c25fddbedfd68385771b6537b36"
+  },
+  {
+    "path": "source-pins.json",
+    "bytes": 20938,
+    "sha256": "df1b5737e6146f4d01ed201e76e55ae475465129fc3c9cc66e287fbf9e3925f4"
+  }
+]

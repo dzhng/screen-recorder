@@ -4,7 +4,8 @@ import { DerivedCache } from "./cache.js";
 import { MediaAudioInspection } from "./audio-inspection.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
+import { DatabaseSync } from "node:sqlite";
 import { mkdtemp, readFile, readdir, rm, writeFile, rename, realpath } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -42,6 +43,7 @@ function wave(frames: number) {
 async function fixture(
   gaps: { start: number; end: number }[] = [],
   implementationId = "unit-test-native-boundary",
+  deferExecution = false,
 ) {
   const home = await realpath(await mkdtemp("/tmp/prepared-audio-"));
   let reads = 0;
@@ -54,6 +56,7 @@ async function fixture(
     let prepared!: PreparedAudioStore;
     const jobs = new JobQueue({
       store: catalog,
+      deferExecution,
       providers: { newId: randomUUID },
       targets: {
         pin: (target) => {
@@ -657,6 +660,95 @@ test("an adopted ready preparation does not start a replacement job", async () =
   expect(JSON.parse((await f.current.prepared.request(f.input)).published!.result).resourceId).toBe(
     original.resourceId,
   );
+  expect(f.reads).toBe(1);
+});
+
+test("admission resolves pinned inputs once and retains resources without dropping clip occurrences", async () => {
+  const f = await fixture([], "unit-test-native-boundary", true);
+  const source = join(f.home, "other.wav"),
+    bytes = wave(48000);
+  bytes.writeFloatLE(-0.99, 44);
+  await writeFile(source, bytes);
+  const other = await f.current.assets.import(source, { kind: "import" }, f.current.probe);
+  const revision = f.current.projects.apply(f.input.projectId, {
+    requestId: "repeated-sources",
+    expectedRevisionId: f.input.revisionId,
+    operations: [f.asset.id, other.id, other.id].map((assetId, index) => ({
+      operation: "place",
+      clip: {
+        trackId: f.placed.edit.labels.track!,
+        assetId,
+        streamId: "track:1",
+        source: { kind: "range", range: { startUs: 0, endUs: 1000 } },
+        placement: {
+          kind: "project",
+          range: { startUs: 1000000 + index * 1000, endUs: 1001000 + index * 1000 },
+        },
+      },
+    })),
+  }).revision;
+  const input = { projectId: f.input.projectId, revisionId: revision.id };
+  const expected = projectComposition(f.current.projects, f.current.assets, input).window(
+    {},
+    { implementationId: "unit-test-native-boundary" },
+    "audio",
+  ).window.manifest;
+  const dependencies = [f.asset.id, other.id].sort().map((id) => ({ kind: "asset", id }));
+  const inserts: unknown[][] = [];
+  const prepare = DatabaseSync.prototype.prepare;
+  const statements = vi.spyOn(DatabaseSync.prototype, "prepare").mockImplementation(function (
+    this: DatabaseSync,
+    sql: string,
+  ) {
+    const statement = prepare.call(this, sql);
+    if (sql === "INSERT OR IGNORE INTO resource_references VALUES(?,?,?,?)") {
+      const run = statement.run.bind(statement);
+      vi.spyOn(statement, "run").mockImplementation((...args) => {
+        if (args[2] === "job-input") inserts.push(args.slice(0, 2));
+        return run(...args);
+      });
+    }
+    return statement;
+  });
+  let pending;
+  try {
+    pending = await f.current.prepared.request(input);
+    // Admission reads its composition and the queue independently pins that revision.
+    expect
+      .soft(
+        statements.mock.calls.filter(
+          ([sql]) => sql === "SELECT content FROM project_revisions WHERE projectId=? AND id=?",
+        ).length,
+      )
+      .toBeLessThanOrEqual(2);
+    expect
+      .soft(inserts.sort((a, b) => String(a[1]).localeCompare(String(b[1]))))
+      .toEqual(dependencies.map(({ kind, id }) => [kind, id]));
+  } finally {
+    vi.restoreAllMocks();
+  }
+  const job = f.current.jobs.job(pending.jobId!);
+  expect(JSON.parse(job.input)).toEqual(expected);
+  expect(expected.sources.map(({ clipId }) => clipId)).toEqual(
+    revision.document.clips.map(({ id }) => id),
+  );
+  const references = new ResourceReferences(f.current.catalog);
+  expect(references.dependencies({ kind: "job-input", id: job.jobId })).toEqual(dependencies);
+  await f.reopen();
+  expect(
+    new ResourceReferences(f.current.catalog).dependencies({ kind: "job-input", id: job.jobId }),
+  ).toEqual(dependencies);
+  f.current.jobs.start();
+  await f.current.jobs.idle();
+  const ready = await f.current.prepared.request(input);
+  expect(ready.state).toBe("ready");
+  expect(JSON.parse(ready.published!.input)).toEqual(expected);
+  const value = JSON.parse(ready.published!.result) as PreparedAudio;
+  expect(value.dependencies).toEqual(dependencies);
+  expect(value.sampleRange).toEqual(expected.sampleRange);
+  expect(
+    new ResourceReferences(f.current.catalog).dependencies({ kind: "job-input", id: job.jobId }),
+  ).toEqual([]);
   expect(f.reads).toBe(1);
 });
 

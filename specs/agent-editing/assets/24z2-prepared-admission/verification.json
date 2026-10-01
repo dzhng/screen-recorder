@@ -1,0 +1,139 @@
+{
+  "baselineCommit": "630fae5d8fecb868719a58b63c5e2017c5931c16",
+  "scope": "PreparedAudioStore dependency identity and per-request immutable composition reuse",
+  "status": "bounded-work proof passes; original large-recipe deadline remains red",
+  "fixture": {
+    "clips": 4,
+    "assets": 2,
+    "execution": "real JobQueue startup barrier, queued catalog reopen, ordinary fixture renderer"
+  },
+  "assertedWork": {
+    "revisionContentReadsAtMost": 2,
+    "uniqueJobInputAssetInserts": 2,
+    "completePinnedManifest": true,
+    "allAuthoredClipIds": true,
+    "completePersistedResources": true,
+    "queuedRestart": true,
+    "readyPublication": true,
+    "temporaryInputsReleased": true
+  },
+  "checks": [
+    {
+      "name": "original focused red, broad read counter",
+      "log": "red.log",
+      "exitCode": 1,
+      "verdict": "expected resource red; read probe corrected",
+      "revisionReads": null,
+      "assetHeaderReads": 8,
+      "jobInputInserts": 4
+    },
+    {
+      "name": "corrected focused red",
+      "log": "red-pinned.log",
+      "exitCode": 1,
+      "verdict": "expected red",
+      "revisionReads": 3,
+      "revisionReadCeiling": 2,
+      "jobInputInserts": 4,
+      "uniqueResourceInsertsExpected": 2
+    },
+    {
+      "name": "focused green",
+      "log": "green.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 1,
+      "skipped": 19
+    },
+    {
+      "name": "existing complete prepared suite, once after material fix",
+      "log": "prepared-suite.log",
+      "exitCode": 1,
+      "verdict": "existing deadline remains red",
+      "passed": 19,
+      "failed": 1,
+      "failedTest": "portable prepared recipes retain a complete many-clip execution graph",
+      "deadlineMs": 5000,
+      "reportedFailedTestMs": 6636
+    },
+    {
+      "name": "initial core type check",
+      "log": "types.log",
+      "exitCode": 1,
+      "verdict": "test-only weak argument mismatch; corrected"
+    },
+    {
+      "name": "final consumer and reference lifetime tests",
+      "log": "focused-final.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 5,
+      "skipped": 88
+    },
+    {
+      "name": "final core type check",
+      "log": "types-final.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused lint",
+      "log": "lint.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused formatting",
+      "log": "format.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    }
+  ],
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 261347,
+    "sha256": "e128d2ce6ef899ce2b83cb267bc0eb64e5cea3de48b59874a8cc39019329eb0c"
+  },
+  "members": {
+    "path": "archive-members.json",
+    "bytes": 21012,
+    "sha256": "46390dbdb936bbc0a7703786387085fe238950888328624714b0edbd14f4e235"
+  },
+  "sourcePins": {
+    "path": "source-pins.json",
+    "bytes": 20938,
+    "sha256": "df1b5737e6146f4d01ed201e76e55ae475465129fc3c9cc66e287fbf9e3925f4"
+  },
+  "commands": {
+    "focusedRedGreen": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts -t \"admission resolves pinned inputs once\" --maxWorkers=1",
+    "preparedSuite": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts --maxWorkers=1",
+    "finalFocused": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts packages/core/src/jobs.test.ts -t \"admission resolves pinned inputs once|preparation inputs survive canceled workers|retryable failures and restart keep inputs|an older canceled worker pins inputs|cache-loss readmission restores transient inputs\" --maxWorkers=1",
+    "types": "bun run check-types (packages/core)",
+    "lint": "node node_modules/oxlint/bin/oxlint packages/core/src/prepared-audio.ts packages/core/src/prepared-audio.test.ts",
+    "format": "node node_modules/oxfmt/bin/oxfmt --check packages/core/src/prepared-audio.ts packages/core/src/prepared-audio.test.ts"
+  },
+  "limits": [
+    "No causal attribution of either original timeout",
+    "No latency cohort or release acceptance",
+    "Original many-clip fixture and 5000ms deadline unchanged",
+    "No second large-fixture run after the material fix",
+    "No asset-diagnostics retry in this worktree",
+    "Acquisition dedupe branch reviewed but small new resource-count fixture uses assets",
+    "No model preparation, inference, capture, UI or playback"
+  ],
+  "review": {
+    "shape": "Local per-kind sets and existing composition.window; no generic retention behavior, persistent cache, flag, schema, endpoint or dependency added",
+    "diff": "Resource writes unique by kind/ID; selected processing dependencies and complete recipe preserved; execution and retained resolution keep existing owners",
+    "tests": "Database-only observer forwards real statement results; resource values and graph checked; startup barrier uses existing production API; all observers restored; original large deadline failure retained",
+    "docs": "New leaf owns invariants and current acceptance boundary; packet owns exact results and source identity; parent/root owns hub and shared choices integration",
+    "choices": "All discretionary decisions recorded in choices.md; sound, high confidence",
+    "cliReview": "Explicitly excluded from this delegated pass",
+    "links": "Leaf and packet links verified; parent owns the root hub link."
+  },
+  "moduleResolution": {
+    "specifier": "@screenrec/composition",
+    "from": "packages/core",
+    "resolved": "packages/composition/dist/index.js",
+    "isolatedWorktree": true
+  }
+}

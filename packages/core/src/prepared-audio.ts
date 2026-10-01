@@ -74,14 +74,18 @@ function audioDependencies(
   plan: Pick<ReturnType<typeof projectWindow>, "model" | "window">,
 ): ResourceReference[] {
   const media = compositionMediaInputs(plan.window.manifest);
-  const dependencies: ResourceReference[] = media.map((source) => ({
-    kind: "asset",
-    id: source.assetId,
-  }));
+  const dependencies: ResourceReference[] = [...new Set(media.map((source) => source.assetId))].map(
+    (id) => ({
+      kind: "asset",
+      id,
+    }),
+  );
   const clips = new Set(media.map((source) => source.clipId));
+  const acquisitions = new Set<string>();
   for (const clip of plan.model.document.clips)
     if (isMediaClip(clip) && clips.has(clip.id) && clip.acquisitionId)
-      dependencies.push({ kind: "acquisition", id: clip.acquisitionId });
+      acquisitions.add(clip.acquisitionId);
+  for (const id of acquisitions) dependencies.push({ kind: "acquisition", id });
   return dependencies;
 }
 
@@ -219,9 +223,8 @@ export class PreparedAudioStore {
     return candidates[0] ?? null;
   }
   async request(input: Input): Promise<ArtifactStatus> {
-    const retained = this.resolve(
-      projectComposition(this.owners.projects, this.owners.assets, input),
-    );
+    const composition = projectComposition(this.owners.projects, this.owners.assets, input);
+    const retained = this.resolve(composition);
     if (retained)
       return {
         state: "ready",
@@ -230,7 +233,7 @@ export class PreparedAudioStore {
         retryable: false,
         published: retained.publication,
       };
-    const plan = this.plan(input);
+    const plan = composition.window({}, this.owners.renderer, "audio");
     const frames = plan.window.manifest.sampleRange.end - plan.window.manifest.sampleRange.start;
     // The existing native float WAV writer has a 32-bit RIFF byte count.
     if (BigInt(frames) * BigInt(plan.window.manifest.rendition.channels) * 4n + 36n > 0xffffffffn)
