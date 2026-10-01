@@ -5518,4 +5518,75 @@ When: 23d.
   automatic project, forwarding facade or new service schema is introduced.
 - **Verdict:** Sound. The consumer preserves two existing ownership namespaces
   instead of guessing ownership or inventing a new authoring flow.
+### Name automatic capture admission by its allocated source — sound, medium confidence
+
+When: 21f2a, implementation `e339a58f`.
+
+- **Choice:** A completed take may be reported again after a restart. Its internal
+  admission request uses `capture:<allocated source ID>` so both reports find the
+  same acquisition, the durable record that owns imported source material. If a
+  replay supplies a different directory or recording identity, it conflicts
+  instead of silently pointing that record elsewhere. A separate request per
+  notification would create duplicate imports; naming by recording alone would
+  assume that a recording can never own another source in later work.
+- **Gap:** The parent plan required durable replay but did not choose its internal
+  naming scheme. The narrowed child contract accepted source-based naming without
+  prescribing the literal request string.
+- **Reach:** The coordinator must use the allocated source identity. The internal
+  request occupies the existing request-ID namespace; an explicit import using
+  the same string conflicts rather than being adopted as capture work. This does
+  not add a new public request field or a second request table.
+- **Verdict:** Sound. The source is the imported thing whose identity must survive
+  repeated delivery. A namespace collision fails visibly instead of changing
+  ownership, although this internal spelling is an implementation choice.
+- **Confidence:** Medium.
+
+### Save a growing set of immutable observations inside the acquisition — sound, high confidence
+
+When: 21f2a, implementation `e339a58f`.
+
+- **Choice:** Suppose capture is settled but the video file cannot yet be opened.
+  Admission first reserves the acquisition and its existing queue job in one SQL
+  transaction. Execution can then freeze the journal's identity and fail on the
+  missing video. After restart, retry validates every saved observation before it
+  learns anything new. A missing map entry means “not observed”; a null entry
+  means “looked and absent.” New observations extend the record; prior ones never
+  change. The queue target remains the acquisition ID and its input stays the
+  constant `capture`, so adding observations does not invent another job.
+- **Gap:** The broad plan required durable pending/failed/ready facts but left open
+  how to retain partial admission without a second request store. The child
+  contract adopted this acquisition-owned representation before implementation.
+  The exact absent/unobserved representation and immutable job input remained
+  implementation decisions.
+- **Reach:** A retry cannot silently import different bytes or newly appearing
+  optional material. An explicit `acquisition.import` request still freezes its
+  entire source before admission; it does not inherit this deferred behavior.
+  Future controller code must submit the existing job, not serialize the growing
+  observation map into a new job identity.
+- **Verdict:** Sound. One owner retains both authority and partial progress, while
+  the existing queue owns retries. Requiring every file before reserving anything
+  would lose the durable failed/pending outcome the capture workflow needs.
+- **Confidence:** High.
+
+### Let the shared capture store vouch for a settled usable source — sound, high confidence
+
+When: 21f2a, implementation `e339a58f`.
+
+- **Choice:** An admission caller names a recording, but cannot pass a fabricated
+  “complete” record. Inside the queue's shared transaction, AcquisitionStore asks
+  the real CaptureStore for the stored recording and allocated source. A live,
+  canceled or no-video take is refused. A complete or interrupted take with a
+  positive duration can proceed. Later, the normalized journal must name that
+  allocated source before any ready evidence or assets are published.
+- **Gap:** The original coordination checkpoint did not specify how the
+  acquisition owner would obtain trustworthy capture eligibility. Root review
+  made authoritative same-connection lookup a child requirement; the focused
+  `settledSource` read and passing that owner into admission implement it without
+  duplicating the lifecycle rules.
+- **Reach:** A caller cannot turn an unsuccessful take into a successful empty
+  acquisition, or bind another source's journal to this take. Future control
+  wiring must share the same catalog connection and use the allocated identity;
+  a copied lifecycle object or another connection cannot supply authority.
+- **Verdict:** Sound. Stored capture facts establish eligibility and the journal
+  independently proves the material's source, before downstream publication.
 - **Confidence:** High.

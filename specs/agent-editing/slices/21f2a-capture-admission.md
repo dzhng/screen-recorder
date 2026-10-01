@@ -1,6 +1,7 @@
 # 21f2a — Durable deferred admission of captured sources
 
-Status: implemented and verified at the source/SQL boundary. This is the acquisition-owned prerequisite of
+Status: implemented and verified at the source/SQL boundary; scoped independent
+and root source reviews are clean. Root integration and merged gate remain pending. This is the acquisition-owned prerequisite of
 [21f2](21f2-capture-coordination.md); fresh controller wiring remains planned.
 
 ## Contract and ownership
@@ -44,10 +45,23 @@ capture, physical synchronization or a completed-stop time.
 
 ## Evidence and next pickup
 
+The [durable verification packet](../assets/21f2a-capture-admission/verification.json)
+retains commands/results, the raw-log limitation, failed controls and final
+source/compiled/runtime pins. Its [review disposition](../assets/21f2a-capture-admission/review.json)
+records the resolved operational findings and clean scoped source re-review;
+root integration and the merged gate remain pending. The
+[choices ledger](../choices.md#name-automatic-capture-admission-by-its-allocated-source--sound-medium-confidence)
+records the internal source-based replay identity, acquisition-owned immutable
+observations and authoritative positive source eligibility as inherited decisions.
+
 The focused capture/acquisition/explicit-import/queue cohort passed 98 tests. After
 review corrected operational access-failure classification, the affected acquisition
 suites passed 24 tests, including real source-directory and parent-directory
-permission refusal/restoration. Core TypeScript checking/build and scoped lint pass. The new
+permission refusal/restoration. Independent review then found the same lost-cause
+problem at post-freeze donor copying. Its actual permission control first failed,
+then the corrected acquisition/file cohort passed 31 tests; explicit imports keep
+their existing error disposition. The packet captures raw logs for this required
+correction and identifies the earlier runs whose raw logs were not saved. Core TypeScript checking/build and scoped lint pass. The new
 [capture-admission tests](../../../packages/core/src/capture-acquisition.test.ts)
 use the actual owners and queue with a scripted native boundary. Removing prior
 identity validation made the frozen map grow after a changed journal; removing

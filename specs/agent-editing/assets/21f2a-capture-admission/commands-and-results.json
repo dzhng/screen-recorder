@@ -1,0 +1,142 @@
+{
+  "provenance": "Earlier runs retain honest command/result transcriptions and excerpts, not raw logs. The independently required post-freeze correction has captured raw output files listed below. Green24/98 cohorts were not rerun merely for logs.",
+  "timingBoundary": "Runner-reported wall durations are provenance only. Shared host was busy; these are not latency, performance, stop-time or media claims.",
+  "commands": [
+    {
+      "label": "Initial tracer",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts --maxWorkers=1",
+      "exitCode": 1,
+      "passed": 0,
+      "failed": 1,
+      "runnerDurationSeconds": 2.37,
+      "result": "Expected Refused; actual acquisitions.admitCapture is not a function. Missing implementation confirmed."
+    },
+    {
+      "label": "Initial four-file gate, before operational error correction",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts packages/core/src/acquisitions.test.ts packages/core/src/capture-store.test.ts packages/core/src/jobs.test.ts --maxWorkers=1",
+      "exitCode": 0,
+      "files": 4,
+      "passed": 98,
+      "failed": 0,
+      "runnerDurationSeconds": 10.76
+    },
+    {
+      "label": "Two deliberate mutation controls",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts --maxWorkers=1 -t 'changed frozen journal|foreign source journal'",
+      "exitCode": 1,
+      "files": 1,
+      "failed": 2,
+      "skipped": 5,
+      "runnerDurationSeconds": 1.19,
+      "result": "Skipping existing observation validation extended the frozen map; disabling allocated-source guard published foreign source as ready. Both changes restored before green98 gate."
+    },
+    {
+      "label": "Operational source-directory permission tracer before fix",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts --maxWorkers=1 -t 'temporary directory'",
+      "exitCode": 1,
+      "failed": 1,
+      "skipped": 7,
+      "runnerDurationSeconds": 1.54,
+      "result": "Expected INVALID_PATH/retryable true, actual SOURCE_CHANGED/retryable false. Actual chmod on owned directory; restored in finally."
+    },
+    {
+      "label": "Final new suite including source and parent permission controls",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts --maxWorkers=1",
+      "exitCode": 0,
+      "files": 1,
+      "passed": 9,
+      "failed": 0,
+      "runnerDurationSeconds": 1.1
+    },
+    {
+      "label": "Affected acquisition suites before independent-review correction",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts packages/core/src/acquisitions.test.ts --maxWorkers=1",
+      "exitCode": 0,
+      "files": 2,
+      "passed": 24,
+      "failed": 0,
+      "runnerDurationSeconds": 3.1
+    },
+    {
+      "label": "Final core type check",
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json --pretty false",
+      "exitCode": 0,
+      "result": "No diagnostics"
+    },
+    {
+      "label": "Final core build",
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json --pretty false",
+      "exitCode": 0,
+      "result": "No diagnostics"
+    },
+    {
+      "label": "Final changed-file lint",
+      "command": "node node_modules/oxlint/bin/oxlint packages/core/src/acquisitions.ts packages/core/src/capture-store.ts packages/core/src/capture-acquisition.test.ts",
+      "exitCode": 0,
+      "result": "No diagnostics; earlier needless-spread warning in fixture corrected"
+    },
+    {
+      "label": "Changed-file formatting",
+      "command": "node node_modules/oxfmt/bin/oxfmt --write packages/core/src/acquisitions.ts packages/core/src/capture-store.ts packages/core/src/capture-acquisition.test.ts",
+      "exitCode": 0,
+      "result": "Applied; affected changed files formatted again after subsequent edits"
+    },
+    {
+      "label": "Final whitespace check",
+      "command": "git diff --check",
+      "exitCode": 0,
+      "result": "No diagnostics"
+    },
+    {
+      "label": "Independent P2 post-freeze donor-copy tracer before fix",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts --maxWorkers=1 -t 'post-freeze donor'",
+      "exitCode": 1,
+      "failed": 1,
+      "skipped": 9,
+      "runnerDurationSeconds": 2.56,
+      "log": "post-freeze-copy-red.log",
+      "result": "Expected retryable true; actual false after export boundary chmod and real AssetStore donor open. Runner failure is explicit in raw log; initial wrapper printed log with cat and its shell status was0."
+    },
+    {
+      "label": "Post-freeze donor-copy tracer after fix",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts --maxWorkers=1 -t 'post-freeze donor'",
+      "exitCode": 0,
+      "passed": 1,
+      "skipped": 9,
+      "runnerDurationSeconds": 1.82,
+      "log": "post-freeze-copy-green.log"
+    },
+    {
+      "label": "Final affected cohort after independent P2 correction",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts packages/core/src/acquisitions.test.ts packages/core/src/files.test.ts --maxWorkers=1",
+      "exitCode": 0,
+      "files": 3,
+      "passed": 31,
+      "failed": 0,
+      "runnerDurationSeconds": 4.63,
+      "log": "review-final-tests.log"
+    },
+    {
+      "label": "Final core types after review correction",
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json --pretty false",
+      "exitCode": 0,
+      "log": "review-final-types.log"
+    },
+    {
+      "label": "Final core build after review correction",
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json --pretty false",
+      "exitCode": 0,
+      "log": "review-final-build.log"
+    },
+    {
+      "label": "Final scoped lint after review correction",
+      "command": "node node_modules/oxlint/bin/oxlint packages/core/src/acquisitions.ts packages/core/src/capture-store.ts packages/core/src/files.ts packages/core/src/capture-acquisition.test.ts",
+      "exitCode": 0,
+      "log": "review-final-lint.log"
+    }
+  ],
+  "fixtureCorrections": [
+    "An early expectation used nonexistent job.error instead of actual errorCode/retryable fields; corrected before meaningful assertions.",
+    "Teardown initially closed an already-closed queue after its database was closed; fixture now checks catalog.isOpen before cleanup. No production change for this fixture issue."
+  ]
+}

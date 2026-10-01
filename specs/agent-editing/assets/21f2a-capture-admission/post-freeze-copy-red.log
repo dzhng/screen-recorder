@@ -1,0 +1,41 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:21774) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/capture-acquisition.test.ts (10 tests | 1 failed | 9 skipped) 238ms
+   × post-freeze donor copy access failure preserves the acquisition for explicit retry 236ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/capture-acquisition.test.ts > post-freeze donor copy access failure preserves the acquisition for explicit retry
+AssertionError: expected { …(13) } to match object { state: 'failed', …(3) }
+(11 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "errorCode": "INVALID_PATH",
+    "result": null,
+-   "retryable": true,
++   "retryable": false,
+    "state": "failed",
+  }
+
+ ❯ packages/core/src/capture-acquisition.test.ts:411:40
+    409|   try {
+    410|     await f.queue.idle();
+    411|     expect(f.queue.inspect(job.jobId)).toMatchObject({ state: "failed"…
+       |                                        ^
+    412|     if (job.target.kind !== "acquisition") throw new Error("Wrong doma…
+    413|     frozen = f.acquisitions.intent(job.target.acquisitionId);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  03:29:53
+   Duration  2.56s (transform 72%, import 17%, tests 11%)
+

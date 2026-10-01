@@ -1,0 +1,29 @@
+{
+  "status": "Source/SQL implementation and scoped independent/root source reviews complete; root integration and merged gate pending",
+  "implementationCommit": "8748c79bd252631a33fed7bafd8220ae1595b1ab",
+  "scope": "21f2a deferred admission prerequisite only; fresh-service controller wiring remains 21f2.",
+  "evidence": "commands-and-results.json",
+  "consoleExcerpts": "retained-console-excerpts.log",
+  "logLimitation": "Raw logs were not captured for original24/98 gates or initial mutations; results and excerpts retained. Required independent-review correction has newly captured red, green, final31, types/build/lint logs.",
+  "tests": {
+    "initialFourFileGate": 98,
+    "finalAffectedAcquisitionGate": 24,
+    "finalNewCaptureAdmissionTests": 11,
+    "finalAffectedAfterIndependentReview": 31
+  },
+  "boundaries": [
+    "Real CaptureStore, AcquisitionStore, AcquisitionImporter and JobQueue over owned scratch files; scripted native probe/export boundary only.",
+    "Actual chmod/refusal/restoration controls alter directories, not frozen members, and preserve the exact acquisition/job and observed prefix.",
+    "Explicit acquisition.import full admission snapshots/replay are unchanged. Capture replay does not resubmit failed or canceled work automatically.",
+    "No native/media/model/capture/UI/profile/worker changes or installed switch/migration. No performance or stop-time claim.",
+    "All owned test/build/lint processes were terminal before closeout; temporary top-level dependency symlink removed."
+  ],
+  "runtimeIdentities": "runtime-identities.json",
+  "review": "review.json",
+  "choices": "../../choices.md",
+  "next": "Root review/merged gate, then fresh controller coordination in21f2. Root README and pickup intentionally outside this commit.",
+  "implementationCommits": [
+    "e339a58f7daa3ab02ff108d91009858877236572",
+    "8748c79bd252631a33fed7bafd8220ae1595b1ab"
+  ]
+}

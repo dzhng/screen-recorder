@@ -1,0 +1,39 @@
+Retained excerpts, transcribed from observed tool console output.
+Raw logs were not saved; this file is an excerpt record, not replay or a newly executed log.
+
+Initial missing implementation:
+Expected: "Refused"
+Received: "acquisitions.admitCapture is not a function"
+Tests 1 failed (1)
+
+Mutation control, frozen journal:
+Expected intent files contained only capture.journal.jsonl.
+Received intent also contained video.mov and optional null entries.
+Assertion failed at exact persisted-intent equality.
+
+Mutation control, foreign source:
+- errorCode: SOURCE_CHANGED; result: null; state: failed
++ errorCode: null; result: { acquisitionId: ... }; state: ready
+Tests 2 failed | 5 skipped (7)
+Duration 1.19s
+
+Restored four-file gate:
+Test Files 4 passed (4)
+Tests 98 passed (98)
+Duration 10.76s (tests 90%, transform 6%, import 4%)
+
+Operational access tracer before correction:
+- errorCode: INVALID_PATH; retryable: true
++ errorCode: SOURCE_CHANGED; retryable: false
+Tests 1 failed | 7 skipped (8)
+Duration 1.54s
+
+Final new suite (both source-directory and parent-directory permission restoration):
+Test Files 1 passed (1)
+Tests 9 passed (9)
+Duration 1.10s (tests 51%, transform 34%, import 14%)
+
+Final affected acquisition gate:
+Test Files 2 passed (2)
+Tests 24 passed (24)
+Duration 3.10s (tests 68%, transform 20%, import 11%)

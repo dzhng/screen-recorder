@@ -1,0 +1,54 @@
+{
+  "archive": {
+    "file": "evidence.tar.gz",
+    "bytes": 6005,
+    "sha256": "f953943292a541cd777eb27e7f666418a5fcb048238de216029f1af7c0087e3e"
+  },
+  "files": {
+    "commands-and-results.json": {
+      "bytes": 6749,
+      "sha256": "0bb42d53893633db4d92936729fbb71725ca3d40d03611178f76e1359b1a43cb"
+    },
+    "post-freeze-copy-green.log": {
+      "bytes": 368,
+      "sha256": "3a601e3b615b72aaea42c04546dea9dd938950dab40750825c15375aaeb91263"
+    },
+    "post-freeze-copy-red.log": {
+      "bytes": 1515,
+      "sha256": "756f47c3c44e47824f7707ddabb61d8efe94487d0c6ec5358ab3a5cbf5075c48"
+    },
+    "retained-console-excerpts.log": {
+      "bytes": 1326,
+      "sha256": "0684fe1e12b54f65a79a808d49ab354ae8ea1db5b0e59c039e0f2485a3844642"
+    },
+    "review-final-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "review-final-lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "review-final-tests.log": {
+      "bytes": 694,
+      "sha256": "40e2c71d85d312ada6c0067b01b2c400d5e2e4962bdd84b798911d6832553547"
+    },
+    "review-final-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "review.json": {
+      "bytes": 1961,
+      "sha256": "f422a3df95aef8994eb43feb353cf70c2d720ec52d966906e5ab4db89eb613ed"
+    },
+    "runtime-identities.json": {
+      "bytes": 2830,
+      "sha256": "9cf5dcca225f5efc9f6a63eebc2d67b8ecb140a7ac7a84c49c6daf6640a10a60"
+    },
+    "verification.json": {
+      "bytes": 1913,
+      "sha256": "62198ed90a5b90567b9ed7149a67859f567afe2353927e8bf1ce7e83eeb27c4a"
+    }
+  },
+  "validation": "Archive member set equals manifest file set exactly; every archived byte digest equals loose payload; USTAR members have no macOS sidecars or extended metadata. Manifest and archive are intentionally outside their payload set."
+}

@@ -1,0 +1,20 @@
+{
+  "implementationCommit": "8748c79bd252631a33fed7bafd8220ae1595b1ab",
+  "local": {
+    "shape": "Complete: capture eligibility stays at CaptureStore; intent and observations stay at AcquisitionStore; queue identity remains immutable; no second table/queue/lifecycle.",
+    "diff": "Complete after resolving root operational access finding; source membership, monotonic observations and source-ID publication guard reviewed.",
+    "docs": "Child contract and next-pickup pointer updated; this separate closeout adds missing packet and choices. Root README/pickup remains integrating-agent owned."
+  },
+  "root": {
+    "status": "Source re-review clean; agrees on JobQueue raw failure classification. Merged integration gate remains pending.",
+    "finding": "Catch-all deferred read classification incorrectly treated temporary EACCES/EPERM/EIO as changed identity.",
+    "resolution": "Observers preserve filesystemCode; deferred classification keeps operational failure retryable. Actual source-directory and parent-directory chmod controls pass after permission restoration without changing frozen members."
+  },
+  "independent": {
+    "status": "Clean scoped re-review of8748c79b reported by integrating agent",
+    "finding": "copyImportedFile donor-open catch dropped errno, making post-freeze access refusal nonretryable.",
+    "resolution": "Preserve filesystemCode at the donor-open boundary; apply capture-only deferred policy during execution. Actual post-freeze directory permission control now retries same acquisition successfully; explicit import retains existing nonretryable disposition.",
+    "rawReadInspection": "Source-root lstat and observation fstat now preserve errno. Optional-absence lstat uses capture policy. Ordinary copy descriptor stat/read errors retain default retryable job failure instead of becoming nonretryable CatalogError."
+  },
+  "cliReview": "No CLI review retry or new worker requested/started in this checkpoint."
+}
