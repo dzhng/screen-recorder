@@ -265,6 +265,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23e — Native preview receipt and lease parity](slices/23e-preview-consumer-parity.md)
 - [ ] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
 - [x] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
+- [ ] [23h — Native library consumption](slices/23h-native-library-consumption.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

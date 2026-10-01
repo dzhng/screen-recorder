@@ -61,6 +61,10 @@ projects is a consumer operation; no project is inferred or created for a take.
 through the same chooser/controller and revision-bound service operations. It adds
 no project selection interface or automatic recording/project association.
 
+[23h](23h-native-library-consumption.md) owns bounded native library listing and
+explicit target actions after those controller/service prerequisites. Its isolated
+consumer checks do not authorize installed switching or establish visual acceptance.
+
 ## Acceptance
 
 All preservation rows have result artifacts and permitted differences. Capture, clean-frame/pointer selection, transcript/evidence gaps, concurrency, preview/export publication and relocated inspection retain their guarantees. Search for obsolete timeline/target consumers and remove live references. New installed discovery uses the fresh library deliberately; no old jobs/history are migrated.
