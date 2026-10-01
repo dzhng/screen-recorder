@@ -8,10 +8,10 @@
     "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
   },
   "public": {
-    "command": "SCREENREC_NATIVE=/tmp/screenrec-09c-native-presented-worker node packages/test-harness/editing/audio-export.mjs --out /tmp/screenrec-09c-public-complete --formats all",
+    "command": "SCREENREC_NATIVE=/tmp/screenrec-09c-native-presented-worker node packages/test-harness/editing/audio-export.mjs --out /tmp/screenrec-09c-public-riff-final --formats all",
     "exitCode": 0,
-    "report": "evidence.tar.gz:public-complete/report.json",
-    "exchanges": 142,
+    "report": "evidence.tar.gz:public-riff-final/report.json",
+    "exchanges": 137,
     "checks": [
       "capabilities",
       "oracle",
@@ -25,7 +25,8 @@
     ],
     "performance": "unmeasured",
     "catalogFormat": 22,
-    "retainedAudioIntents": 14
+    "retainedAudioIntents": 14,
+    "maximumPCMDataBytes": 4294963199
   },
   "verdicts": {
     "wav": "all samples exact to independent explicit-operation oracle and audio.get",
@@ -60,6 +61,13 @@
       "passed": 2,
       "actualAudioReceipts": true,
       "headless": true
+    },
+    {
+      "log": "screenrec-09c-riff-focused-green.log",
+      "passed": 38,
+      "skipped": 1,
+      "files": 3,
+      "scope": "final header correction: project-audio/prepared-audio/output-settings"
     }
   ],
   "diagnostics": {
@@ -67,7 +75,8 @@
     "metadataOmission": "public-all-gates RED after successful cancel/retry; final receipt parser retains and checks both frame fields",
     "admissionMutant": "public-mutant RED when catalog audio kind removed",
     "earlyHarness": "retained diagnostic reports/logs; not readiness evidence",
-    "contention": "initial large asset diagnostic timeout, later isolated/final source suites passed without changing deadline"
+    "contention": "initial large asset diagnostic timeout, later isolated/final source suites passed without changing deadline",
+    "riffAllowance": "Former minimal-header guard admits native-oversized PCM (RED regression); corrected native 4096-byte reserve rejects before queue admission (GREEN)."
   },
   "consumerSkill": {
     "reader": "audio_skill_reader, gpt-6-luna low, fresh context",

@@ -203,6 +203,10 @@
     "bytes": 53,
     "sha256": "88f369e0a83d4f01df750b475072b8a80f161e561fbbf1a7142c7d5d4d1ea5b2"
   },
+  "logs/screenrec-09c-decoder-riff-retention.log": {
+    "bytes": 53,
+    "sha256": "88f369e0a83d4f01df750b475072b8a80f161e561fbbf1a7142c7d5d4d1ea5b2"
+  },
   "logs/screenrec-09c-focused-complete.log": {
     "bytes": 1224,
     "sha256": "6be34e363db1bd85cb42a97c173cd66cf1c87a35fe0fa71e6052ae493b0b05e9"
@@ -218,6 +222,10 @@
   "logs/screenrec-09c-focused-source-final.log": {
     "bytes": 1223,
     "sha256": "093e667787ae4a4836d620363417dff100c26c0270a15197ae2989450663b04d"
+  },
+  "logs/screenrec-09c-format-check.log": {
+    "bytes": 204,
+    "sha256": "07a35b0715a0e98b47e344cff06ef8084f1df172a7a2d4220b2ccd2be56f9aeb"
   },
   "logs/screenrec-09c-harness-lint-final.log": {
     "bytes": 0,
@@ -246,6 +254,14 @@
   "logs/screenrec-09c-neighbors-first.log": {
     "bytes": 377,
     "sha256": "869376d4fe84ca34be6215d797ec385c6d5f8768cce68dafdc9c84132f71faf0"
+  },
+  "logs/screenrec-09c-packet-verify-corrected.log": {
+    "bytes": 2257,
+    "sha256": "1a06093d56d0d47180aea61198e9026288e9230ebcffae99f441131d9c80b6cd"
+  },
+  "logs/screenrec-09c-packet-verify.log": {
+    "bytes": 584,
+    "sha256": "fd69c93623359f515478e0cd529018905768d23664a015e65dfd674668e0150c"
   },
   "logs/screenrec-09c-prepared-preservation.log": {
     "bytes": 559,
@@ -299,6 +315,10 @@
     "bytes": 1887,
     "sha256": "4496dbe8dbb49ca0eb1c78834e0a87ae74c98acf8156472487de066b42f300c0"
   },
+  "logs/screenrec-09c-public-riff-final.log": {
+    "bytes": 245,
+    "sha256": "639c4bdc8b16c530b7860ce725077d5d2cc6590f513b8ad4f1d94c12e1ef8729"
+  },
   "logs/screenrec-09c-public-scope-final.log": {
     "bytes": 77,
     "sha256": "005a1dd6e950a970d56427358d48c40fa70397e8ea4dbec20966b98374ff74ad"
@@ -310,6 +330,30 @@
   "logs/screenrec-09c-restored-service-build.log": {
     "bytes": 23,
     "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  "logs/screenrec-09c-riff-boundary-red.log": {
+    "bytes": 2027,
+    "sha256": "431fbd04499122dea3a52234b8270f04ef901a4b02753357ab2908ceeb4ec6a4"
+  },
+  "logs/screenrec-09c-riff-composition-build.log": {
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  "logs/screenrec-09c-riff-core-build.log": {
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  "logs/screenrec-09c-riff-focused-green.log": {
+    "bytes": 559,
+    "sha256": "2ebf51f6be230607212bc66f348e847d34aabe5bce09f2130cfb36c61f922d1e"
+  },
+  "logs/screenrec-09c-riff-format.log": {
+    "bytes": 136,
+    "sha256": "ed29da3d858bf53a8f88c45b71d14a09b9c3f759a9f64298d000be9209190b49"
+  },
+  "logs/screenrec-09c-riff-lint.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "logs/screenrec-09c-service-build-encoded-clock.log": {
     "bytes": 23,
@@ -360,8 +404,8 @@
     "sha256": "b2284c79e2b88c9285312b31e704318fd006a10249beed7b1450dec27fff362f"
   },
   "provenance/screenrec-09c-bank.py": {
-    "bytes": 3474,
-    "sha256": "89ffa508db866d6dd970a5d29e9fc5c4a69f086d3d32b386dc94fe37e5b28e94"
+    "bytes": 3656,
+    "sha256": "465e43bc1fd6648d2ecb8ccbcf415461f49f506250d1cf2d6d1dbb7056f59419"
   },
   "provenance/screenrec-09c-export-admission-mutant.ts": {
     "bytes": 56760,
@@ -372,8 +416,8 @@
     "sha256": "4190875ed6ccc417135b56ebb77fde41251c48bf700c2c349d7913eac2d5b688"
   },
   "provenance/screenrec-09c-preserve-decoded.py": {
-    "bytes": 1160,
-    "sha256": "14ce47d7d0754d2cfff1d97a05d1d29a504c7420372b8e87d2f9bfc439a29b11"
+    "bytes": 1200,
+    "sha256": "456082b6e06b24e4658d5c529146621aacf6f189af4d75372f0fe9da0aafce2c"
   },
   "provenance/screenrec-09c-resolution-graph.jsonl": {
     "bytes": 381539,
@@ -386,6 +430,10 @@
   "provenance/screenrec-09c-resolution-probe.mjs": {
     "bytes": 491,
     "sha256": "cb47a8db5c22cb9f58b588478b0db66b554c02f0023f62dc20fc48080cc225ce"
+  },
+  "provenance/screenrec-09c-riff-minimal-header-mutant.ts": {
+    "bytes": 34622,
+    "sha256": "f1f0e1573a74717f1b5fc8d99e5fc5e98b6f620c6d5ae5cf9199b754dfce76dd"
   },
   "public-all-gates/.screenrec-export-d62f7ba9-1900-423c-9625-9a2b2318e36c/payload": {
     "bytes": 1156096,
@@ -722,6 +770,150 @@
   "public-reviewed-corrected/without-video.wav": {
     "bytes": 1156096,
     "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public-riff-final/.screenrec-export-63425d43-a234-4e14-a8c7-4f79f9ad53e7/payload": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public-riff-final/.screenrec-export-63425d43-a234-4e14-a8c7-4f79f9ad53e7/prepared.json": {
+    "bytes": 255,
+    "sha256": "f4626c2cb10e558ae0876da6efc5f3d1414340a3c52fd00d99a5e91a8b340799"
+  },
+  "public-riff-final/aac-44100-mono.m4a": {
+    "bytes": 74874,
+    "sha256": "72105ebcde1c68c045e8930b622d693cf221c1fd88aea1fa26ea41d553e77f46"
+  },
+  "public-riff-final/aac-44100-stereo.m4a": {
+    "bytes": 74757,
+    "sha256": "3f9627d98d28005bcd9a7dc49079ddd91cb3e39b9dab4334683d0c323fdf7925"
+  },
+  "public-riff-final/aac-48000-mono.m4a": {
+    "bytes": 74555,
+    "sha256": "76a3c2c8d4f2a67a0b494b4e2aef90e16ea4d7d957b85c978dbb4e9c79a1028d"
+  },
+  "public-riff-final/aac-48000-stereo.m4a": {
+    "bytes": 74452,
+    "sha256": "2b4a5bb452940df609c3bcbac460fc48cc1450c20100f5769343a31c5e9f7f96"
+  },
+  "public-riff-final/aac-canceled-retried.m4a": {
+    "bytes": 27343,
+    "sha256": "e1ced7c380fa74b4516e48f4236424d678b5d833549da0d282f097a12cd46455"
+  },
+  "public-riff-final/aac-equivalent.m4a": {
+    "bytes": 74452,
+    "sha256": "2b4a5bb452940df609c3bcbac460fc48cc1450c20100f5769343a31c5e9f7f96"
+  },
+  "public-riff-final/aac-new-defaults.m4a": {
+    "bytes": 50905,
+    "sha256": "c52cc56b7f21c324f17e5b0b1a157fe32b0500dd9fd7c72ce4db839c247eeded"
+  },
+  "public-riff-final/catalog-observation.json": {
+    "bytes": 12475,
+    "sha256": "2046f4dcacc34057373855c2fd6869fb70846f801011a4d1d9f2fda4c1ead5d0"
+  },
+  "public-riff-final/catalog.sqlite": {
+    "bytes": 524288,
+    "sha256": "21c1b5fd83eb01c786a43379d7f89da58519603dc10465449544f7f4181d694d"
+  },
+  "public-riff-final/decoded-44100-mono.f32": {
+    "bytes": 532224,
+    "sha256": "7356569e4573f975b477f24d3fc6f1a4cebf52f17bf31226726cfb2f1e42137f"
+  },
+  "public-riff-final/decoded-44100-stereo.f32": {
+    "bytes": 1064448,
+    "sha256": "02563db816cd8b4a670697962b929b2abb978640536dbb1f845e951e8668a498"
+  },
+  "public-riff-final/decoded-48000-mono.f32": {
+    "bytes": 577280,
+    "sha256": "197398429a2a9f23211e638a11ce3352a4514b90414c7017b7ad747646c92aab"
+  },
+  "public-riff-final/decoded-48000-stereo.f32": {
+    "bytes": 1154560,
+    "sha256": "7b8add4bfb9aaf0e3a9e5f872e0b0af7d554c5fa001bcb63e4a0c7f7452174b1"
+  },
+  "public-riff-final/decoder-retention.json": {
+    "bytes": 615,
+    "sha256": "ed7cfd2648f4fc119802117338c20f6fc020202e2254e6d31f3af9f3e9b02382"
+  },
+  "public-riff-final/exports/cancel-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public-riff-final/exports/cancel-retry.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public-riff-final/exports/crash-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public-riff-final/exports/pinned.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public-riff-final/native/operations.jsonl": {
+    "bytes": 42443,
+    "sha256": "d7d5e6cb967eba5656486f59d1b6ad872cf215e0f86e79803d3ef000e3fb97bc"
+  },
+  "public-riff-final/occupied.wav": {
+    "bytes": 20,
+    "sha256": "758417d9129a189ebfe53a8014e5c7140be464a2c63bfe7c72513e974f338328"
+  },
+  "public-riff-final/oracle-44100-mono.f32": {
+    "bytes": 529200,
+    "sha256": "351cebdeb4caa964608a07d519f25a244709bed5263d7af86ac363b1ea50158e"
+  },
+  "public-riff-final/oracle-44100-stereo.f32": {
+    "bytes": 1058400,
+    "sha256": "289c1815ae690700da3aecf18964e8b57df017d1ece0dfb915f5a6b7750d62af"
+  },
+  "public-riff-final/oracle-48000-mono.f32": {
+    "bytes": 576000,
+    "sha256": "26684f2d099a9fd3c30b25daf681ea2acb9aa2a07115c036fdefd92e53d5d7f8"
+  },
+  "public-riff-final/oracle-48000-stereo.f32": {
+    "bytes": 1152000,
+    "sha256": "d94fa58401d3357731f51430ecff8c66395b6ee53c17b9ba7b0a530e0812ed73"
+  },
+  "public-riff-final/original.f32": {
+    "bytes": 1152000,
+    "sha256": "3877fc40947a05155a3a369569710997b14dc392b840784e51f8a9ed5a14ec36"
+  },
+  "public-riff-final/original.mov": {
+    "bytes": 1155214,
+    "sha256": "fd827c97b23a2fbdc1f2b2eb026daec0c0a4c4f2bb7403c47076e9ab2b330fc0"
+  },
+  "public-riff-final/processed.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public-riff-final/reference-mono.f32": {
+    "bytes": 576000,
+    "sha256": "26684f2d099a9fd3c30b25daf681ea2acb9aa2a07115c036fdefd92e53d5d7f8"
+  },
+  "public-riff-final/reference-stereo.f32": {
+    "bytes": 1152000,
+    "sha256": "d94fa58401d3357731f51430ecff8c66395b6ee53c17b9ba7b0a530e0812ed73"
+  },
+  "public-riff-final/report.json": {
+    "bytes": 437852,
+    "sha256": "88121ba69abdecab6f910d661b6d8f7fa6831363826517ac711b691738425481"
+  },
+  "public-riff-final/service.log": {
+    "bytes": 507,
+    "sha256": "38de9ea93bdd34bdc186ba7a88256b0b6e3d7666fd4d477380bf74a761225689"
+  },
+  "public-riff-final/undo-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public-riff-final/with-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public-riff-final/without-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
   },
   "wav-fifth/.screenrec-export-8ccea8ad-0f69-4405-ada7-727e5976cee4/payload": {
     "bytes": 1156096,

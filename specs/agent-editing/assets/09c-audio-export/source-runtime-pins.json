@@ -1372,8 +1372,8 @@
     "sha256": "388be54a286c9460f3ee86fd1e702eec4115e7aa563038dc0095dec150215a4c"
   },
   "packages/composition/dist/output-settings.js": {
-    "bytes": 16237,
-    "sha256": "c5fb9fc6c89c5bbce317120450194480ff1c177bdea1d3057ea38bcdeecfdaed"
+    "bytes": 16241,
+    "sha256": "65e90d967fb631cc2a1b5f4adbba9778fd46b2e38bd702ddc220aa4fd5c6ff94"
   },
   "packages/composition/dist/partition.d.ts": {
     "bytes": 20542,
@@ -1624,8 +1624,8 @@
     "sha256": "0daf761fb8b18da0c07d0d93a5dd5194e386df7d37f87e7f42e26d9138197fbe"
   },
   "packages/composition/src/output-settings.ts": {
-    "bytes": 16433,
-    "sha256": "3f1196b7fd671a79635a5171101ab9b3bc10029c9e706000640ba1f6fa6cbc4c"
+    "bytes": 16437,
+    "sha256": "b9153d8cab53ad55f5c9ccdc5e7911c72b78e1a756af0fd3803ec6736806a071"
   },
   "packages/composition/src/partition.ts": {
     "bytes": 7724,
@@ -1808,8 +1808,8 @@
     "sha256": "2bc54ed18ca022d2ba7c0b314b6f337a4dcbc1b3c0c7774d7636debff4b1a618"
   },
   "packages/core/dist/audio-inspection.js": {
-    "bytes": 31394,
-    "sha256": "979126f1da1fcf73f0f75bea72c463d9f245dfb8656c3f02176581d8c5a19b0b"
+    "bytes": 31461,
+    "sha256": "30d3ca7e7303afac146c80054d1e2e98542c63da7e0c913f48a24db5074b3235"
   },
   "packages/core/dist/audio-spectrum.d.ts": {
     "bytes": 1880,
@@ -2564,8 +2564,8 @@
     "sha256": "3b80752330656e13a8ffecf69368a3ad6750f40fd1de85fc44ba8f2921b6d5d7"
   },
   "packages/core/src/audio-inspection.ts": {
-    "bytes": 34595,
-    "sha256": "9c04b76494eeb74789d7b42a94ce9f43dfc0b0f9afb9f5f499d855d2cfefe005"
+    "bytes": 34663,
+    "sha256": "3fdb58a3c220fc77f1ab49a7c3c7dbbf98a49b33b70792f4fcafe69630128de6"
   },
   "packages/core/src/audio-spectrum.test.ts": {
     "bytes": 9043,
@@ -2868,8 +2868,8 @@
     "sha256": "c6a247438eda0ea6a6236dde0a57f91f78f138b41e3b9064f2c75a1b0889809c"
   },
   "packages/core/src/project-audio.test.ts": {
-    "bytes": 29885,
-    "sha256": "11abf2285f1ae129ae3b8e792f470fbea3b8d3d25451ec7e6d4075923dbb976a"
+    "bytes": 30447,
+    "sha256": "947a3050bfc2c94dfaea27456133f616f6607c57a72f6b1a5ed74b95a2c39962"
   },
   "packages/core/src/project-events.ts": {
     "bytes": 5900,

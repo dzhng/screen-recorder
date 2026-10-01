@@ -188,7 +188,7 @@ export const audioOutputCapabilities = {
     codec: "pcm-f32",
     sampleRates: [48000],
     layouts: ["stereo"],
-    maximumDataBytes: 0xffff_ffff - 36,
+    maximumDataBytes: 0xffff_ffff - 4096,
   },
   m4a: {
     codec: "aac",
@@ -197,7 +197,7 @@ export const audioOutputCapabilities = {
     nativeValidationRequired: true,
   },
   internalAudio: { sampleRate: 48000, channels: 2 },
-  maximumInternalPCMFrames: Math.floor((0xffff_ffff - 36) / 8),
+  maximumInternalPCMFrames: Math.floor((0xffff_ffff - 4096) / 8),
   semantics:
     "Full pinned project mix. WAV preserves Float32 samples; AAC conversion and packet padding are separate from project duration. No automatic treatments or video preparation.",
   unavailable: ["MP3", "FLAC", "ALAC", "Ogg", "WAV rendition conversion"],

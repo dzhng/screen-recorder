@@ -2,6 +2,7 @@ import {
   selectionRangeSchema,
   resolveAudioOutputSettings,
   resolvedAudioOutputSettingsSchema,
+  audioOutputCapabilities,
   type AudioOutputSettings,
   type AudioOutputSettingsInput,
   sampleAt,
@@ -402,7 +403,7 @@ export class MediaAudioInspection {
         "Project audio window must contain at least one sample",
       );
     const bytes = BigInt(sampleRange.end - sampleRange.start) * 8n + 44n;
-    if (bytes > 0xffff_ffffn + 8n)
+    if (bytes - 44n > BigInt(audioOutputCapabilities.wav.maximumDataBytes))
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Project PCM exceeds the Float32 WAV container limit",

@@ -8,10 +8,11 @@ Installed cutover, general speech quality and performance remain separate claims
 
 `evidence.tar.gz` retains full public requests/replies, published media, decoded
 samples, the closed catalog and actual native operation journal. The final cohort
-is `public-complete`; `public-all-gates` records the resolved metadata omission.
+is `public-riff-final`; `public-all-gates` records the resolved metadata omission.
 The rejected native packet-capacity guard is preserved in
 `public-reviewed-corrected`, with the exact rejected worker/source in the
-[native FILE packet](../09c-native-audio-file/README.md). Diagnostic early runs
+[native FILE packet](../09c-native-audio-file/README.md). The WAV boundary regression also retains its former minimal-header guard failure;
+the final limit agrees with the existing native header allowance. Diagnostic early runs
 and the export-kind constraint mutant remain evidence of failures, not acceptance.
 
 The WAV oracle independently derives every expected sample from the fixture's

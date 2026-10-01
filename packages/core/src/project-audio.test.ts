@@ -374,6 +374,24 @@ test("project full-WAV capacity refuses before admission and malformed WAV canno
   expect(bad.cache.bytes).toBe(0);
 });
 
+test("full project PCM reserves the native WAV header allowance before queue admission", async () => {
+  let calls = 0;
+  const f = await fixture(
+    async () => {
+      calls++;
+      throw new Error("Oversized PCM must refuse before rendering");
+    },
+    5 * 1024 ** 3,
+    Math.ceil((536870900 * 1000000) / 48000),
+  );
+  await expect(f.inspection.prepareExport({ projectId: f.projectId })).rejects.toThrow(
+    expect.objectContaining({ code: "LIMIT_EXCEEDED" }),
+  );
+  await f.jobs.idle();
+  expect(calls).toBe(0);
+  expect(f.cache.bytes).toBe(0);
+});
+
 test("audio taps reject a picture target, retiming and sub-sample output before rendering", async () => {
   let calls = 0;
   const f = await fixture(async (request, signal) => {

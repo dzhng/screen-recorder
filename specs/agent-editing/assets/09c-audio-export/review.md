@@ -10,11 +10,14 @@ private `preview` column stores the common cache/byte descriptor for both media
 kinds; it does not select the video renderer. Catalog format changes follow the
 existing fresh-library refusal policy.
 
-Diff: clean after resolving two real findings. The native presented-track guard
+Diff: clean after resolving three real findings. The native presented-track guard
 must distinguish content from AAC packet capacity; both exact candidates and the
 failed public reply are retained. The service receipt parser must retain those
 native frame fields, rather than discard them and make the job result ambiguous.
 The final public journey proves the corrected fields and held-completion fence.
+The WAV capability and early admission also reserve the existing native header
+allowance. A boundary regression fails under the former minimal-header guard and
+passes before admission under the corrected bound, without allocating a large file.
 Readonly borrowed descriptors, source-version checks, abort checks around cache
 publication, frozen PCM/encoding identities and existing export publication guards
 preserve ownership. Protocol requests stay strict; native receipt responses remain
