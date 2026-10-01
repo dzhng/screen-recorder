@@ -136,6 +136,15 @@ export class CaptureStore extends Catalog {
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
     return readRecording(row as RecordingRow);
   }
+  /** Admission authority for a source whose capture lifecycle can no longer change. */
+  settledSource(recordingId: string): Recording {
+    const recording = this.get(recordingId);
+    if (!isSettled(recording.state))
+      throw new CatalogError("NOT_READY", "Capture has not settled", {}, true);
+    if (recording.state === "canceled" || recording.sourceDurationUs === null)
+      throw new CatalogError("UNAVAILABLE", "Capture has no usable video source");
+    return recording;
+  }
   /** Durable intent fences public access before asynchronous producer shutdown begins. */
   markDeleting(recordingId: string): Recording | null {
     return this.transaction(() => {

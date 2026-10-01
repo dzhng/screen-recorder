@@ -26,6 +26,7 @@ import {
   type Asset,
   type AssetProbe,
 } from "./assets.js";
+import type { CaptureStore } from "./capture-store.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import {
   copyImportedFile,
@@ -58,10 +59,21 @@ export type AcquisitionImportIntent = PreparedAcquisition & {
   kind: "import";
   acquisitionId: string;
 };
+export type CaptureAcquisitionIntent = {
+  kind: "capture";
+  acquisitionId: string;
+  requestId: string;
+  recordingId: string;
+  sourceId: string;
+  path: string;
+  files: Partial<SourceFiles>;
+};
 export type AcquisitionIntent =
+  | CaptureAcquisitionIntent
   | AcquisitionImportIntent
   | { kind: "package"; acquisitionId: string; requestId: string; packageIdentity: string };
 type AcquisitionAdmission =
+  | Omit<CaptureAcquisitionIntent, "acquisitionId" | "requestId">
   | Omit<AcquisitionImportIntent, "acquisitionId" | "requestId">
   | { kind: "package"; packageIdentity: string };
 
@@ -142,6 +154,57 @@ function portableAcquisition(value: Acquisition): PortableAcquisition {
 }
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
+async function sourceRoot(path: string): Promise<string> {
+  const root = await realpath(path).catch((error) => {
+    throw new CatalogError(
+      missing(error) ? "NOT_FOUND" : "INVALID_PATH",
+      "Cannot open capture source directory",
+      { filesystemCode: (error as NodeJS.ErrnoException).code },
+    );
+  });
+  if (!(await lstat(root)).isDirectory())
+    throw new CatalogError("INVALID_PATH", "Capture source must be a directory");
+  return root;
+}
+async function observeMember(root: string, member: Member): Promise<IdentifiedFile | null> {
+  const path = join(root, member);
+  const file = await open(
+    path,
+    constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW,
+  ).catch((error) => {
+    if (missing(error) && member !== "video.mov" && member !== "capture.journal.jsonl") return null;
+    throw new CatalogError(
+      missing(error) ? "NOT_FOUND" : "INVALID_PATH",
+      `Cannot admit capture member: ${member}`,
+      { filesystemCode: (error as NodeJS.ErrnoException).code },
+    );
+  });
+  if (!file) return null;
+  try {
+    const stat = await file.stat({ bigint: true });
+    if (!stat.isFile() || stat.size > BigInt(Number.MAX_SAFE_INTEGER))
+      throw new CatalogError("INVALID_PATH", `Capture member must be a regular file: ${member}`);
+    return { path, bytes: Number(stat.size), identity: fileIdentity(stat) };
+  } finally {
+    await file.close();
+  }
+}
+
+/** Access failures do not establish that a durable observation changed. */
+function deferredReadFailure(error: unknown, frozen: boolean): never {
+  if (!(error instanceof CatalogError)) throw error;
+  const filesystemCode = error.details.filesystemCode;
+  if (
+    typeof filesystemCode === "string" &&
+    !["ENOENT", "ENOTDIR", "ELOOP"].includes(filesystemCode)
+  )
+    throw new CatalogError(error.code, error.message, error.details, true);
+  if (frozen) throw new CatalogError("SOURCE_CHANGED", error.message, error.details);
+  if (error.code === "NOT_FOUND")
+    throw new CatalogError(error.code, error.message, error.details, true);
+  throw error;
+}
+
 export function acquisitionContext(
   value: Pick<Acquisition, "id" | "bindings">,
 ): AcquisitionContext {
@@ -192,6 +255,68 @@ export class AcquisitionStore {
       .prepare("INSERT INTO acquisitions VALUES(?,?,?,NULL)")
       .run(acquisitionId, prepared.requestId, JSON.stringify(admission));
     return { ...prepared, kind: "import", acquisitionId };
+  }
+  /** Called inside the shared queue admission transaction, before source files are opened. */
+  admitCapture(
+    captures: CaptureStore,
+    recordingId: string,
+    path: string,
+  ): CaptureAcquisitionIntent {
+    if (captures.catalog !== this.catalog.catalog)
+      throw new CatalogError(
+        "INVALID_STATE",
+        "Capture admission requires the shared catalog connection",
+      );
+    if (!isAbsolute(path))
+      throw new CatalogError("INVALID_PARAMS", "Capture source requires an absolute directory");
+    const recording = captures.settledSource(recordingId);
+    const requestId = `capture:${recording.sourceId}`;
+    const row = this.catalog.catalog
+      .prepare("SELECT id FROM acquisitions WHERE requestId=?")
+      .get(requestId);
+    if (row) {
+      const intent = this.intent(row.id as string);
+      if (
+        intent.kind !== "capture" ||
+        intent.recordingId !== recordingId ||
+        intent.sourceId !== recording.sourceId ||
+        intent.path !== path
+      )
+        throw new CatalogError("REQUEST_CONFLICT", "Capture source already names another input");
+      return intent;
+    }
+    const acquisitionId = randomUUID();
+    const admission: AcquisitionAdmission = {
+      kind: "capture",
+      recordingId,
+      sourceId: recording.sourceId,
+      path,
+      files: {},
+    };
+    this.catalog.catalog
+      .prepare("INSERT INTO acquisitions VALUES(?,?,?,NULL)")
+      .run(acquisitionId, requestId, JSON.stringify(admission));
+    return { ...admission, acquisitionId, requestId };
+  }
+  freezeCaptureMember(acquisitionId: string, member: Member, file: IdentifiedFile | null): void {
+    this.catalog.transaction(() => {
+      const intent = this.intent(acquisitionId);
+      if (intent.kind !== "capture")
+        throw new CatalogError("INVALID_STATE", "Deferred observation requires a capture intent");
+      if (Object.hasOwn(intent.files, member) && !isDeepStrictEqual(intent.files[member], file))
+        throw new CatalogError("SOURCE_CHANGED", "Capture member differs from its frozen identity");
+      const admission: AcquisitionAdmission = {
+        kind: intent.kind,
+        recordingId: intent.recordingId,
+        sourceId: intent.sourceId,
+        path: intent.path,
+        files: intent.files,
+      };
+      admission.files[member] = file;
+      this.catalog.catalog
+        .prepare("UPDATE acquisitions SET admission=? WHERE id=?")
+        .run(JSON.stringify(admission), acquisitionId);
+    });
   }
   intent(acquisitionId: string): AcquisitionIntent {
     const row = this.catalog.catalog
@@ -292,46 +417,40 @@ export class AcquisitionImporter {
       );
     const replay = this.store.replay(requestId, path);
     if (replay) return replay;
-    const root = await realpath(path).catch((error) => {
-      throw new CatalogError(
-        missing(error) ? "NOT_FOUND" : "INVALID_PATH",
-        "Cannot open capture source directory",
-      );
-    });
-    if (!(await lstat(root)).isDirectory())
-      throw new CatalogError("INVALID_PATH", "Capture source must be a directory");
+    const root = await sourceRoot(path);
     const files = {} as SourceFiles;
-    for (const member of members) {
-      const source = join(root, member);
-      // Freeze explicit members, including absence; never follow a member outside the admitted directory.
-      const file = await open(
-        source,
-        constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW,
-      ).catch((error) => {
-        if (missing(error) && member !== "video.mov" && member !== "capture.journal.jsonl")
-          return null;
-        throw new CatalogError(
-          missing(error) ? "NOT_FOUND" : "INVALID_PATH",
-          `Cannot admit capture member: ${member}`,
-        );
-      });
-      if (!file) {
-        files[member] = null;
-        continue;
-      }
-      try {
-        const stat = await file.stat({ bigint: true });
-        if (!stat.isFile() || stat.size > BigInt(Number.MAX_SAFE_INTEGER))
-          throw new CatalogError(
-            "INVALID_PATH",
-            `Capture member must be a regular file: ${member}`,
-          );
-        files[member] = { path: source, bytes: Number(stat.size), identity: fileIdentity(stat) };
-      } finally {
-        await file.close();
-      }
-    }
+    for (const member of members) files[member] = await observeMember(root, member);
     return { requestId, path, files };
+  }
+  private async freezeCapture(
+    intent: CaptureAcquisitionIntent,
+    signal: AbortSignal,
+  ): Promise<SourceFiles> {
+    const root = await sourceRoot(intent.path).catch((error) =>
+      deferredReadFailure(error, Object.keys(intent.files).length > 0),
+    );
+    // Validate the whole durable prefix before allowing any new observation.
+    for (const member of members) {
+      signal.throwIfAborted();
+      if (!Object.hasOwn(intent.files, member)) continue;
+      const frozen = intent.files[member];
+      const current = await observeMember(root, member).catch((error) =>
+        deferredReadFailure(error, true),
+      );
+      if (!isDeepStrictEqual(frozen, current))
+        throw new CatalogError("SOURCE_CHANGED", `Frozen capture member changed: ${member}`);
+    }
+    for (const member of members) {
+      signal.throwIfAborted();
+      if (Object.hasOwn(intent.files, member)) continue;
+      const file = await observeMember(root, member).catch((error) =>
+        deferredReadFailure(error, false),
+      );
+      signal.throwIfAborted();
+      this.store.freezeCaptureMember(intent.acquisitionId, member, file);
+      intent.files[member] = file;
+    }
+    return intent.files as SourceFiles;
   }
   journalPath(id: string): string {
     return join(this.directory, id, this.store.get(id).journal.fileName);
@@ -648,12 +767,14 @@ export class AcquisitionImporter {
     const lifetime = await this.lease(false);
     try {
       const intent = this.store.intent(acquisitionId);
-      if (intent.kind !== "import")
+      if (intent.kind === "package")
         throw new CatalogError("INVALID_REQUEST", "Capture import requires an import admission");
       const ready = this.catalog.catalog
         .prepare("SELECT metadata FROM acquisitions WHERE id=?")
         .get(acquisitionId)!;
       if (ready.metadata !== null) return JSON.parse(ready.metadata as string);
+      const files =
+        intent.kind === "capture" ? await this.freezeCapture(intent, signal) : intent.files;
       const owner = { kind: "acquisition" as const, id: acquisitionId };
       const directory = join(this.directory, acquisitionId, attemptId);
       const sourceDirectory = join(directory, "source");
@@ -662,8 +783,8 @@ export class AcquisitionImporter {
       let published = false;
       try {
         for (const member of ["narration.mov", "system.mov", ...publicationMembers] as const) {
-          if (intent.files[member]) continue;
-          const path = join(dirname(intent.files["video.mov"]!.path), member);
+          if (files[member]) continue;
+          const path = join(dirname(files["video.mov"]!.path), member);
           const present = await lstat(path).then(
             () => true,
             (error) => {
@@ -677,7 +798,7 @@ export class AcquisitionImporter {
               "An absent capture member appeared after admission",
             );
         }
-        const journal = intent.files["capture.journal.jsonl"]!;
+        const journal = files["capture.journal.jsonl"]!;
         const copied = await copyImportedFile(
           journal.path,
           join(sourceDirectory, "capture.journal.jsonl"),
@@ -686,7 +807,7 @@ export class AcquisitionImporter {
           268_435_456,
         );
         for (const name of publicationMembers) {
-          const proof = intent.files[name];
+          const proof = files[name];
           if (proof)
             await copyImportedFile(
               proof.path,
@@ -698,7 +819,7 @@ export class AcquisitionImporter {
         }
         const canonical = Object.fromEntries(
           (["video", "narration", "system"] as const).flatMap((role) => {
-            const file = intent.files[`${role}.mov`];
+            const file = files[`${role}.mov`];
             return file ? [[role, file]] : [];
           }),
         );
@@ -709,6 +830,11 @@ export class AcquisitionImporter {
         const sourceId = receipt.header?.sessionID;
         if (typeof sourceId !== "string" || !sourceId)
           throw new CatalogError("INVALID_EVIDENCE", "Capture journal has no session identity");
+        if (intent.kind === "capture" && sourceId !== intent.sourceId)
+          throw new CatalogError(
+            "SOURCE_CHANGED",
+            "Capture journal does not name the allocated source",
+          );
         indexed = await this.evidence.ingest({
           owner: { kind: "acquisition", acquisitionId },
           sourceId,
@@ -719,7 +845,7 @@ export class AcquisitionImporter {
         });
         const bindings: Acquisition["bindings"] = [];
         for (const sourceRole of ["video", "narration", "system"] as const) {
-          const source = intent.files[`${sourceRole}.mov`];
+          const source = files[`${sourceRole}.mov`];
           if (!source) continue;
           if (
             receipt.header?.schemaVersion === 2 &&

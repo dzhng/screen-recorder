@@ -44,7 +44,9 @@ Keep the selector rejected while settling these owners in order:
    preserve that atomic rollback at its editing owner. Moving it into the
    coordinator's caught notification callback would silently weaken the contract.
    Fresh capture facts create neither span revisions nor a project.
-2. Wire that same coordinator into the fresh service's catalog, private control
+2. [Fresh-service coordination](21f2-capture-coordination.md) starts with the
+   [durable admission seam](21f2a-capture-admission.md). Then wire that same
+   coordinator into the fresh service's catalog, private control
    reports, startup reconciliation and close order. Replace its hard-coded
    noncapturing job state with actual capture priority. Settle source admission
    through existing acquisition jobs and replay identities; expose pending,
