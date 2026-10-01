@@ -21,10 +21,10 @@ Human checks must have a bounded technical purpose; editorial work requires a
 separate user request. Missing technical evidence stays unverified. An unanswered
 editorial question is neither a project prerequisite nor approval to edit.
 
-Reuse the saved audio marks/auditions and retained four-minute screen/camera take.
-An incomplete analysis is not permission to request another recording or repeat
-a completed review. First exhaust existing originals, telemetry and journals;
-state the exact missing technical fact before proposing any new human task.
+Reuse existing recordings, annotations and accepted verification before requesting
+new human tests. An incomplete analysis is not permission to repeat a completed
+review; state the exact missing technical fact and why existing evidence cannot
+establish it before proposing a new human task.
 Distinguish isolated implementation readiness from release acceptance so an open
 quality/physical claim does not stop unrelated primitive work.
 
