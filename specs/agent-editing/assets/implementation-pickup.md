@@ -15,10 +15,10 @@ workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21f](../slices/21f-public-camera-selection.md#implementation-checkpoints)
-independent native source-publication authority and
-[camera support without primary pictures](../slices/21f3b-independent-camera-clock.md)
-before atomic public selection.
+Continue [camera support without primary pictures](../slices/21f3b-independent-camera-clock.md)
+before [21f atomic public selection](../slices/21f3-public-camera-selection.md).
+[Independent native publication](21f3a-independent-publication/merged-verification.json)
+is merged-verified on its own current-source runner.
 [21f2 merged coordination](21f2-capture-coordination/merged-verification.json)
 passes133 focused checks and the actual scripted CLI/MCP journey. [21e caller-authored projects](21e-capture-project-adoption/README.md)
 are integrated; [merged verification](21e-capture-project-adoption/merged-verification.json)
@@ -66,7 +66,7 @@ or advertise camera selection.
 focused tests and exact source/compiled/packet identities. Admission freezes
 immutable observations inside the acquisition and preserves explicit retry; it
 creates no project. Actual coordinator/control wiring is now merged-verified
-under 21f2; remaining camera work follows 21f3a, 21f3b and 21f3.
+under 21f2; remaining camera work follows 21f3b and 21f3.
 [23d native export consumption](23d-export-consumer-parity/README.md) is integrated;
 [merged verification](23d-export-consumer-parity/merged-verification.json) preserves
 recording/project receipt ownership and status recovery through the actual consumer.

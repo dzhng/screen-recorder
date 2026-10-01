@@ -1,0 +1,5 @@
+PASS primary publication survives camera refusal, lifecycle growth, retry and recovery; live journal substitution refused
+PASS bound camera survives primary refusal and cancellation; physical closure and restart recovery stay independent
+PASS retry rechecks immutable source proof and settles terminal unavailability without blocking the sibling
+PASS terminal camera absence preserves primary support and its own completion diagnostic
+PASS actual NativeCapture closes prerecorded writer, tears down partial input, ignores stale generation, and acquires no live cursor

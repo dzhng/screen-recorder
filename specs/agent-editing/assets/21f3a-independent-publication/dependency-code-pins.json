@@ -1,0 +1,199 @@
+{
+  "scope": "Existing local processing dependency code and offline checkout identity; no model owner/preparation/inference. Source member symlinks may point at existing generated C code. Existing binary artifacts are reused under the resolved package identity, without new downloads.",
+  "localCodeSources": {
+    "helpers/denoise/Package.swift": {
+      "bytes": 659,
+      "sha256": "c51bdafb40f4eea85f9ecbf594b80d9345d567d2cc967e978d39eda64cc227ce"
+    },
+    "helpers/denoise/Sources/CRNNoise/include/rnnoise.h": {
+      "bytes": 3825,
+      "sha256": "15ca0f5c0db9dfa48907e91a32995d37e57552b0e14fef5ebb8d3dc073528f83"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/_kiss_fft_guts.h": {
+      "bytes": 6010,
+      "sha256": "0214dfe2aabb3b81d88fe814b8253fc2ec6da12bbbc98e08c1011a5bd60e3b29"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/arch.h": {
+      "bytes": 7628,
+      "sha256": "1686a3ca5817bb7d99049a1801c6ab3a7e91a5d0a6804b1c1cafb36e5eeb62f8"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/celt_lpc.c": {
+      "bytes": 4887,
+      "sha256": "58eca412376dfd954f4940709df521cf1d2cbee1b7ca2b166bd0bffbda2c5b8d"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/celt_lpc.h": {
+      "bytes": 1746,
+      "sha256": "2190d9bd519c4528770a28fb0e8b599eb195782fb5dcd91378eb92e3ca7d5148"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/common.h": {
+      "bytes": 1474,
+      "sha256": "f4975c4ee283a030b08dff4fe26847cc84e2fae340794922fae32aba5cc8e4e6"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/cpu_support.h": {
+      "bytes": 1776,
+      "sha256": "acb2591c1dfb97783a0a68fea76279dcb1155f0b7e6b95f51448a590f301c4b2"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/denoise.c": {
+      "bytes": 13964,
+      "sha256": "f12ac3cc97d798cdfd7c7bd4366a08a72c5516c382056c891b61a61cb17eb031"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/denoise.h": {
+      "bytes": 2284,
+      "sha256": "3ea8149b47b51b76a1eef308cc38168731693b74ed3f64330b55583f92dcc071"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/kiss_fft.c": {
+      "bytes": 16923,
+      "sha256": "2a9f9ee0d961ec6516864477640d78aedbf1c3ecbe1680727b4b93d486c09679"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/kiss_fft.h": {
+      "bytes": 6335,
+      "sha256": "434613feace5466e73fb6593f3abeaca6c7da3ec5af3f4a475f54a6962324526"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/model.c": {
+      "bytes": 133,
+      "sha256": "3ecdc2895626d3300accc82f7c63cc406ae138a2d858b4fd0ae886188b83e1ca"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/nnet.c": {
+      "bytes": 4444,
+      "sha256": "3a2c1dc09ad7e9dfe3cf32cfb94694935dc462488da8f513d1f308db39f7c087"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/nnet.h": {
+      "bytes": 5638,
+      "sha256": "3552cf2fcfc4db28ac683bcc8a5dc7b72fad7140b3df43d0f8d2d5afe3abe4dd"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/nnet_arch.h": {
+      "bytes": 9447,
+      "sha256": "76068e63007b072b0c20410cee89c0ab5158438d5201b466850354c0aee33688"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/nnet_default.c": {
+      "bytes": 1456,
+      "sha256": "1402eb611b7fcc1fe7fa18639f0395e0af47a783ef87450318411483516e9011"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/opus_types.h": {
+      "bytes": 4954,
+      "sha256": "e2c1075e26567b8d57706d2f0042e36d5d440721fc3fd27a6fce9f0fc8a31557"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/parse_lpcnet_weights.c": {
+      "bytes": 7528,
+      "sha256": "d523113abe3c387b5481d8aa75d61b22f5e6cbcf54110f68cf901204d443de12"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/pitch.c": {
+      "bytes": 14085,
+      "sha256": "cfe6f5ffb4b5f5967ce2e64f22cc978c1f8196eecdb2fa532d4dd1ff56f6ca58"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/pitch.h": {
+      "bytes": 4645,
+      "sha256": "020be5b3fbc5289cd76930b0534efaa25dbda0cecd8643ee345cfd9d875a3818"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/rnn.c": {
+      "bytes": 2912,
+      "sha256": "c40bbe40082448005873fe970d8963870ab2c9993b7c38d6939ca48f4f31a7bd"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/rnn.h": {
+      "bytes": 1850,
+      "sha256": "2fe9f33534fbfa35a7d5c81323f1ec4e9ec06e28328815c7c88880e83f994566"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/rnnoise_data.h": {
+      "bytes": 926,
+      "sha256": "09ff880bddd0fc74a2ae0e5ec6c8d65714031b08d0c3f672493acd9e189c5855"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/rnnoise_tables.c": {
+      "bytes": 56951,
+      "sha256": "f81353479c6f8912755a4cf5838590c36ba2c523a4a438e4f949743fb4945623"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/vec.h": {
+      "bytes": 11167,
+      "sha256": "54b02c6922e5180e040b8be28cf878783f550efc0e425d1d90b081e8c50932f5"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/vec_avx.h": {
+      "bytes": 25041,
+      "sha256": "1ec412cd21043f8533dc52373b21436bc871eee8c3061deadbaa3ee184afa919"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/vec_neon.h": {
+      "bytes": 13616,
+      "sha256": "4e943966503518091da521d406e2627f044d3752d4aaa400bdd584571330006c"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/x86/dnn_x86.h": {
+      "bytes": 3462,
+      "sha256": "8b17955037daf4f9def4975d4b24c343b822abe62f6ad09a9d204ad00eb3aa33"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/x86/x86_arch_macros.h": {
+      "bytes": 1618,
+      "sha256": "b6118942870b62ff78731edc3025e55230c3fadaf28ec2f4024d786210631505"
+    },
+    "helpers/denoise/Sources/CRNNoise/src/x86/x86cpu.h": {
+      "bytes": 3456,
+      "sha256": "84897794ee10e1ee34f8d9aa5926629fcd95d72c15767fb3d0770ff39c054db0"
+    },
+    "helpers/denoise/Sources/ScreenRecorderDenoise/RNNoiseProcessor.swift": {
+      "bytes": 2637,
+      "sha256": "be29565afd97bf6e9b5c67756de39406c8161db007907c155d26ae634fec662f"
+    },
+    "helpers/stretch/Package.swift": {
+      "bytes": 787,
+      "sha256": "d042c35d9cba232e79705fcaa73f6b6f827711c919f0cb405cdef4e79ba53092"
+    },
+    "helpers/stretch/Sources/CSignalsmith/Exact.h": {
+      "bytes": 1348,
+      "sha256": "4473a533c357299d02133cdb20a7c049929a212446a781f5d28f0a88936df8f7"
+    },
+    "helpers/stretch/Sources/CSignalsmith/Paged.cpp": {
+      "bytes": 4800,
+      "sha256": "6b8ddbbddde4ffc07b6032fa9da108ee919efd3d9887356235575eaf41701c99"
+    },
+    "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp": {
+      "bytes": 1582,
+      "sha256": "37a6e79a905bb4be070d4f0cea80e621f283e1b26d8235d5d4305180400b6658"
+    },
+    "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h": {
+      "bytes": 1412,
+      "sha256": "383a81f0fc696f5d0182eb7db2f9ec1f0c0494fbd2a9b4fe223422ea1682a5bd"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/LICENSE-linear.txt": {
+      "bytes": 1074,
+      "sha256": "072b5e9eb5b22880bdf6256324654cf3ce53dba828edb911921121e1be09d9c3"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/LICENSE-stretch.txt": {
+      "bytes": 1093,
+      "sha256": "ee2ef82481ffb445ecdd4b3a4c1f82c0cddb2da8fe39d8e8dc384fffb3e7f06f"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/fft.h": {
+      "bytes": 45242,
+      "sha256": "fb55f69ac14cdbac66b9c76053069ff63bc36d18af20d8c028b9acc0aad6516a"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/linear.h": {
+      "bytes": 36585,
+      "sha256": "9e777fe14653d496f5e0678fe4b9d8b01a0909bb2130bf4757a21ccad7292a02"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/platform/fft-linear.h": {
+      "bytes": 7270,
+      "sha256": "7c2ed61df7895af7b1a37f1073f833abdc971953277ece58128c9c7b4ca6cef2"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/stft.h": {
+      "bytes": 24313,
+      "sha256": "7422ff5ddc2a017dc0587dcce99ce5ba30a2414bc2996081f6b00d56905d9b8c"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-stretch.h": {
+      "bytes": 35446,
+      "sha256": "1188667959ac19dd40c0a6abbce694e44705615ec4f0e8db8af0f1cfb4c5dea7"
+    },
+    "helpers/stretch/Sources/CSignalsmith/vendor/sources.json": {
+      "bytes": 1530,
+      "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+    },
+    "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift": {
+      "bytes": 3883,
+      "sha256": "2b7046811a16f66ebfe7e6b82b9aea99c4ba025b5060efac174eb4f354bf9e13"
+    }
+  },
+  "generatedRNNoiseCode": {
+    "bytes": 78003012,
+    "sha256": "d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5"
+  },
+  "offlineCodeCheckouts": {
+    "FluidAudio": {
+      "commit": "41540ea237350afe5117a082b5c28eda642d0612",
+      "status": ""
+    }
+  }
+}

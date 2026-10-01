@@ -110,7 +110,7 @@ also runs the existing prerecorded startup, stale-generation, and discard checks
 The separately retained camera-without-primary probe exits 133 with
 `CAMERA_ORIGIN_REQUIRED`; it is not a passing 3a claim or a hardware result.
 
-[The retained evidence manifest](/tmp/screenrec-21f3a-evidence.json) pins the native
+[The retained evidence packet](../assets/21f3a-independent-publication/README.md) pins the native
 source freeze, compiled runner, requests, numeric inputs, journals, receipts,
 closure facts, and each gate's output and exit disposition. Its SHA-256 is
 `9c654c9090eaefba771981962d9640fbdc7d8513d0b487f972e86a637985adf5`.
@@ -118,7 +118,8 @@ closure facts, and each gate's output and exit disposition. Its SHA-256 is
 The configured CLI review was attempted despite its prior known HTTP 400
 availability failure. It again exited 1 before reviewing any code; there is no CLI
 review verdict. No further retry or configuration change was made. Root's
-production review inspected the implementation without a finding; merged native
-verification remains the parent's responsibility. All local native runners and
+production review inspected the implementation without a finding;
+[merged native verification](../assets/21f3a-independent-publication/merged-verification.json)
+passes the actual prerequisite on a separately pinned current-source runner. All local native runners and
 the failed reviewer have exited. No hardware capture, audible playback, model
 work, application window, installed switch, or frozen-worker replacement ran.
