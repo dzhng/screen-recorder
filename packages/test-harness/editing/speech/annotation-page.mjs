@@ -94,10 +94,7 @@ function showStep() {
   selection.textContent =
     selected === null
       ? "Click the waveform to choose this boundary."
-      : `Selected ${clipTime(selected)} · blue line`;
-  const mark = marks.find((value) => value.id === step.target.id);
-  if (mark.startSeconds !== null || mark.endSeconds !== null)
-    selection.textContent += " · gray = confirmed";
+      : `Selected ${clipTime(selected)}`;
   if (invalidEnd()) selection.textContent += " · Choose an ending after the marked start.";
   updateControls();
   drawWaveform();
@@ -255,6 +252,8 @@ async function saveMarks() {
     const result = await response.json();
     if (!response.ok) throw new Error(result.error ?? "Could not save marks");
     finished = true;
+    selected = null;
+    drawWaveform();
     document.querySelector("h1").textContent = "Your marks are saved";
     document.querySelector("#progress").textContent = "Complete";
     document.querySelector("#step-title").textContent = "Your selections are saved";

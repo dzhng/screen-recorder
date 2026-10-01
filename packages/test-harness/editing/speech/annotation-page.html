@@ -171,8 +171,10 @@
           id="waveform"
           tabindex="0"
           role="button"
+          aria-describedby="marker-legend"
           aria-label="Choose a boundary on the waveform. Click to select and hear a preview. Arrow keys adjust the selection; Enter previews it."
         ></canvas>
+        <p id="marker-legend" class="muted">Blue: selected · Gray: confirmed · Orange: playback</p>
         <p id="selection" role="status">Loading the complete recording…</p>
         <audio
           id="audio"
