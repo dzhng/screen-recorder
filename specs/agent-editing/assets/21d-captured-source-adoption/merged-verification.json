@@ -1,0 +1,70 @@
+{
+  "scope": "Root merged source identity and focused functional verification; no timing, listening, physical capture or installed-switch claim",
+  "observedAtUTC": "2026-10-01T09:35:44.265403+00:00",
+  "integratedCommit": "0ec7ff6e",
+  "originalAgentCommit": "251be7e8c17a7d0fbbe2f35adce6b5ae6abc3466",
+  "identityChecks": {
+    "declaredSources": 20,
+    "completeNativeSwiftFilesComparedToAgent": 175,
+    "packageManifestsByteIdentical": true,
+    "runtimePinsVerified": 2,
+    "archiveMembersVerified": 97,
+    "archive": {
+      "bytes": 46285,
+      "sha256": "daf44ec9b6c77d4c02d78a771a33ee2c73e7efa767d4fb48b760c9358c274614"
+    }
+  },
+  "rootGates": {
+    "coreBuild": "passed",
+    "serviceBuild": "passed",
+    "focusedUnit": {
+      "filesPassed": 5,
+      "testsPassed": 42,
+      "failed": 0
+    },
+    "nativeControls": {
+      "passed": 9,
+      "failed": 0,
+      "output": "/tmp/screenrec-21d-root-merged-admission-20261001",
+      "includesStrictInteriorPhysicalEndpoint": true
+    }
+  },
+  "logs": {
+    "coreBuild": {
+      "path": "/tmp/screenrec-21d-root-core-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    "serviceBuild": {
+      "path": "/tmp/screenrec-21d-root-service-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    "focusedUnit": {
+      "path": "/tmp/screenrec-21d-root-focused-unit.log",
+      "bytes": 1284,
+      "sha256": "3b17c653683f190e81891d026bfb2e91976c04f578a82f05c7239ebf9fc5e42f"
+    },
+    "nativeControls": {
+      "path": "/tmp/screenrec-21d-root-merged-admission.log",
+      "bytes": 862,
+      "sha256": "d701bb39c330065fc1f8c78f1a4ba9f528f4f93da6de768079cf3336ed015387"
+    }
+  },
+  "review": "Settled native independent review and root TS/service/wire/shape/docs/choices review clean; required fixes verified before merge",
+  "mergeResolution": "Appended four21d choices to root ledger; preserved root baseline/fixture/profile decisions",
+  "retainedOriginal": "Agent once-only actual saved-take verification accepted from retained-verification.json; root inspected packet/responses without repeating any original movie scan",
+  "cohortsNotRepeated": [
+    "actual retained four-minute picture scan",
+    "public admission/portable cohort",
+    "broader default native suite",
+    "preserved21b cohort"
+  ],
+  "remaining": [
+    "caller-authored21e integration",
+    "fresh-service capture allocation/lifecycle and atomic selector under21f",
+    "parent20/21 physical synchronization and live lifecycle",
+    "ten-second completed-stop acceptance",
+    "installed cutover"
+  ]
+}

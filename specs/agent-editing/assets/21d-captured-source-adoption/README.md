@@ -49,6 +49,8 @@ owners, both isolated runtimes and every archived member. Builds reused approved
 offline code dependencies; no capture, discovery, playback or model preparation,
 download or inference ran. Root collaboration reviewed the owner shape and diff;
 known unavailable configured CLI review was not retried.
+The [merged check](merged-verification.json) confirms source/runtime identities
+and focused root functional gates without repeating the saved take's scan.
 
 Parent 20/21 physical synchronization, live interruption/shutdown and the ten-second
 completed-stop claim remain open. This proves isolated source admission and

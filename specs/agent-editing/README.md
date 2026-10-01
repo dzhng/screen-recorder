@@ -21,10 +21,12 @@ Implement the remaining toolkit primitives through the existing owners. Read
 The external agent using the toolkit makes every editorial decision. The consumer
 skill is a product artifact, not this repository's development workflow.
 
-**Next pickup: [21d durable source adoption](slices/21d-captured-source-adoption.md).**
-[21c selected input](slices/21c-selected-camera-input.md) and
-[21b closed sources/publication](slices/21b-camera-source-publication.md) are verified
-through actual controlled NativeCapture. The [remaining 21 graph](slices/21-webcam.md#implementation-graph)
+**Next pickup: [21e caller-authored projects](slices/21e-capture-project-adoption.md).**
+[21d source admission](slices/21d-captured-source-adoption.md) is verified through
+current native, public retry/restart and portable paths; its actual retained-take
+check preserves historical scope. [21c selected input](slices/21c-selected-camera-input.md)
+and [21b closed sources/publication](slices/21b-camera-source-publication.md) pass
+controlled NativeCapture. The [remaining 21 graph](slices/21-webcam.md#implementation-graph)
 separates source proof/binding, caller-authored project integration and public exposure.
 [21a passive discovery](slices/21a-camera-discovery.md) is verified in its controlled
 scope. Public camera-start selectors remain rejected until their complete path is
@@ -48,7 +50,7 @@ are ready. Acceptance dependencies do not prohibit isolated preparation.
 | Remaining owner | Next permitted work | Claim that remains open |
 | --- | --- | --- |
 | [12 / 12b](slices/12-speech-evidence.md) | Reuse completed baseline parity; investigate only a named remaining evidence-quality question; alternate adoption only if justified | Broader acoustic coverage/timing, held-out quality and any alternate recipe |
-| [20 / 21](slices/20-camera-reproduction.md) | Exhaust the retained four-minute take; isolated public camera selection, lifecycle and source/project integration | One-frame physical sync, live interruption/pause/shutdown and stop completion |
+| [20 / 21](slices/20-camera-reproduction.md) | Caller-authored project integration and selector-free lifecycle extraction; retained data only for a named unresolved timing question | Public selection waits for its complete path; one-frame physical sync, live interruption/pause/shutdown and stop completion remain open |
 | [23](slices/23-cutover.md) | Remaining matched consumer ports and preservation checks | Installed switching and obsolete-owner removal after their actual prerequisites |
 | [24 / 25](slices/24-scale.md) | [Source-cardinality attribution](slices/24z-source-cardinality.md) with a separately pinned runtime, remaining dimensions and the [prepared caller fixture brief](assets/25-fixture-brief/README.md) | Contended timing is not an isolated result; final budgets and installed caller acceptance remain open |
 
@@ -226,7 +228,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
 - [x] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
-- [ ] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
+- [x] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
 - [ ] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
 - [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)

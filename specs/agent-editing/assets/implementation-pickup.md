@@ -15,11 +15,14 @@ workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21d](../slices/21d-captured-source-adoption.md) proof-bearing source
-adoption. [21c selected input](21c-selected-camera-input/README.md) is integrated;
-root rechecks its 173 source identities and 412 archived members and passes its
-29-case native/resource packet. [21b closed camera sources](21b-camera-source-publication/README.md)
-passes actual controlled closure/publication and preservation gates.
+Continue [21e](../slices/21e-capture-project-adoption.md) caller-authored project
+integration. [21d source admission](21d-captured-source-adoption/README.md) is
+integrated; [merged verification](21d-captured-source-adoption/merged-verification.json)
+checks complete native source parity and passes the focused native/unit gates.
+Its retained current 21b screen/camera/microphone fixture is available without
+another publication run. The actual four-minute camera scan is complete in its
+historical proof scope and must not be repeated. [21c selected input](21c-selected-camera-input/README.md)
+and [21b closed camera sources](21b-camera-source-publication/README.md) remain verified.
 [Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
 public/native gates; input/result/source adoption and the caller-authored project
 journey must precede any new accepted camera-start selector. Capture returns exact
@@ -39,13 +42,13 @@ readiness remains unverified. Reuse the accepted bounded parity packet rather th
 rerunning inference or its controlled preparation-state matrix. Broader12 quality
 and installed acceptance remain separate.
 
-In parallel, exhaust the retained approximately four-minute take under
-[20](../slices/20-camera-reproduction.md), prepare isolated
-[21](../slices/21-webcam.md) public camera integration, and advance remaining
-[23](../slices/23-cutover.md) consumer preservation. None of these preparation
-passes approves synchronized physical capture, live shutdown or installed cutover.
-Use the actual data and constraints in their owning slices; no new capture or
-worker/app replacement is authorized.
+In parallel, prepare the selector-free lifecycle checkpoint under
+[21f](../slices/21f-public-camera-selection.md#implementation-checkpoints) and
+advance remaining [23](../slices/23-cutover.md) consumer preservation.
+[20](../slices/20-camera-reproduction.md) retains the unresolved physical question
+and its retained-data stopping condition. None of these preparation passes
+approves synchronized physical capture, live shutdown or installed cutover.
+No new capture or worker/app replacement is authorized.
 
 The [generation/ambience matrix](19-acceptance/README.md),
 [finite denoise matrix](denoise-acceptance/README.md),
