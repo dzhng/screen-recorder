@@ -1,0 +1,40 @@
+{
+  "scope": "Read-only authority-link audit; no new runtime or inference",
+  "source": "f40af662",
+  "integratedConfirmation": {
+    "path": "assets/10c-public-generations/integrated.json",
+    "sha256": "636ada3130d6630d1dc2da1a7c09d1d9d7aa5866057c9d07d9a95229b38861c9"
+  },
+  "files": [
+    {
+      "path": "assets/10c-public-generations/transcripts/generation.json",
+      "bytes": 89125,
+      "actualSha256": "03474a861cd25e37e8550ca434a72bdc84645f8d9c92ef96563e6a4b489cc2b6",
+      "integratedSha256": "9531fb45224465cff871db8eb1954f6610eaf87db1a1c907ffd0681098d70cea",
+      "matches": false
+    },
+    {
+      "path": "assets/10c-public-generations/transcripts/report.json",
+      "bytes": 27015,
+      "actualSha256": "33df7422f61e33fe509fd1e9810ddae77c00d1f780f43174200f9d71626845fb",
+      "integratedSha256": "33df7422f61e33fe509fd1e9810ddae77c00d1f780f43174200f9d71626845fb",
+      "matches": true
+    },
+    {
+      "path": "assets/10c-public-generations/scenes/generation.json",
+      "bytes": 32200,
+      "actualSha256": "868273fab868bb0ecf07329ebee8bc98b96b9ccc4e4794d0cd8bd746daaee8b9",
+      "integratedSha256": "a7e7470446034c734b7296c4942a30adf1fdd0129373a1ce55deb7eb39871da0",
+      "matches": false
+    },
+    {
+      "path": "assets/10c-public-generations/scenes/report.json",
+      "bytes": 14363,
+      "actualSha256": "57132b30b25fe05392eb45c308c6db6eec7306f023833a92c57833eecd07cc1f",
+      "integratedSha256": "57132b30b25fe05392eb45c308c6db6eec7306f023833a92c57833eecd07cc1f",
+      "matches": true
+    }
+  ],
+  "finding": "Both linked report hashes match. Neither linked generation hash matches its recorded integrated confirmation. The original linked generation journeys remain distinct mechanism evidence; exact integrated raw generation correspondence is unverified.",
+  "recovery": "Delegate inspected Git history d8e9733b/a0b93d14, named repository archives/references and named historical temporary homes; expected generation bytes were not found. No hashes, original JSON or archived proof were rewritten and no accepted cohort repeated."
+}

@@ -72,6 +72,10 @@ file loss and real-store core cache-owner eviction retain their separate labels;
 this pass adds no LRU eviction claim. Umbrella 10, project screenshot-index work,
 release-scale budgets and speech/media quality gates remain open.
 
-[Integrated confirmation](integrated.json) reruns both complete public journeys on
-the combined root runtime. All recorded runtime hashes match the files executed;
-the acceptance boundaries above remain unchanged.
+[Integrated confirmation](integrated.json) records later combined-root journeys.
+The [authority-link audit](../acceptance-maintenance/generation-authority.json)
+verifies both linked report hashes but finds that neither linked generation JSON
+matches its recorded integrated hash. The exact integrated raw generation files
+are unbanked; that correspondence remains unverified. The linked original raw
+journeys retain their separate mechanism proof. Neither summaries nor replacement
+hashes repair the missing run identity, and no inference rerun was used to hide it.
