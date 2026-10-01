@@ -1,0 +1,113 @@
+{
+  "passed": true,
+  "scope": "Root integrated-code saved and actual CLI/MCP reinspection; no new listening or visual judgment",
+  "codeCommit": "1cb7ecaa",
+  "referenceReportSha256": "d82623fecaa3cf6e55f7f49e8164e725bbb96ed310603c36213e93ac4064a8f4",
+  "candidateSha256": "d66294d7e39285ce1c6a0e2dda2c51a38bdddd1bcda2b2ad5da14751a6572422",
+  "publicChecks": {
+    "original": {
+      "frames": 342720,
+      "changedSamples": 0,
+      "firstDifferentFrame": null,
+      "lastDifferentFrame": null,
+      "maximum": 0,
+      "exact": true,
+      "sha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d",
+      "expectedSha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d"
+    },
+    "candidate": {
+      "frames": 308736,
+      "changedSamples": 0,
+      "firstDifferentFrame": null,
+      "lastDifferentFrame": null,
+      "maximum": 0,
+      "exact": true,
+      "sha256": "0ab900d73eb52c756d855e2eefc3ed831a474b2d15c214f71bb8e2c6f8897b67",
+      "expectedSha256": "0ab900d73eb52c756d855e2eefc3ed831a474b2d15c214f71bb8e2c6f8897b67"
+    },
+    "negativeControls": {
+      "silenceRejected": true,
+      "unchangedRejected": true,
+      "missingGainRejected": true
+    },
+    "undo": {
+      "frames": 342720,
+      "changedSamples": 0,
+      "firstDifferentFrame": null,
+      "lastDifferentFrame": null,
+      "maximum": 0,
+      "exact": true,
+      "sha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d",
+      "expectedSha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d"
+    }
+  },
+  "savedChecks": {
+    "original": {
+      "frames": 342720,
+      "changedSamples": 0,
+      "firstDifferentFrame": null,
+      "lastDifferentFrame": null,
+      "maximum": 0,
+      "exact": true,
+      "sha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d",
+      "expectedSha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d"
+    },
+    "candidate": {
+      "frames": 308736,
+      "changedSamples": 0,
+      "firstDifferentFrame": null,
+      "lastDifferentFrame": null,
+      "maximum": 0,
+      "exact": true,
+      "sha256": "0ab900d73eb52c756d855e2eefc3ed831a474b2d15c214f71bb8e2c6f8897b67",
+      "expectedSha256": "0ab900d73eb52c756d855e2eefc3ed831a474b2d15c214f71bb8e2c6f8897b67"
+    },
+    "undo": {
+      "frames": 342720,
+      "changedSamples": 0,
+      "firstDifferentFrame": null,
+      "lastDifferentFrame": null,
+      "maximum": 0,
+      "exact": true,
+      "sha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d",
+      "expectedSha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d"
+    },
+    "movies": [
+      {
+        "name": "preview.mp4",
+        "bytes": 504044,
+        "sha256": "c58d7a6e50e4c50b0b509a196064fba47b36667078a278aded4107e953c4b79c",
+        "frames": 193,
+        "presentationAudioFrames": 308736,
+        "decodedPcmSha256": "f3cca5a6a2fac8b58a858bf3db29103cbf7bad1d0d903d7078a3442f5dfe08d8",
+        "paddingFrames": 448,
+        "rms": 0.00013274668058261185,
+        "maximum": 0.0014545730082318187,
+        "silenceRms": 0.016970419313313726,
+        "halfGainRms": 0.008485209656656863,
+        "policy": "first-preview complete-support recovered-AAC RMS <0.002; no fitted shift"
+      },
+      {
+        "name": "candidate.mp4",
+        "bytes": 504044,
+        "sha256": "c58d7a6e50e4c50b0b509a196064fba47b36667078a278aded4107e953c4b79c",
+        "frames": 193,
+        "presentationAudioFrames": 308736,
+        "decodedPcmSha256": "f3cca5a6a2fac8b58a858bf3db29103cbf7bad1d0d903d7078a3442f5dfe08d8",
+        "paddingFrames": 448,
+        "rms": 0.00013274668058261185,
+        "maximum": 0.0014545730082318187,
+        "silenceRms": 0.016970419313313726,
+        "halfGainRms": 0.008485209656656863,
+        "policy": "first-preview complete-support recovered-AAC RMS <0.002; no fitted shift"
+      }
+    ]
+  },
+  "defaultFrozenSavedPassed": true,
+  "publicReinspectionPassed": true,
+  "shutdown": "fulfilled",
+  "archiveRehashPassed": true,
+  "archivedMembers": 53,
+  "listening": "pending; no inherited verdict",
+  "independentCodexReview": "unavailable: configured model unsupported; not retried"
+}

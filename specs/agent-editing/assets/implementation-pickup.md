@@ -14,8 +14,11 @@ The [generation/ambience matrix](19-acceptance/README.md) is accepted. The user
 chooses the200ms loop, whose source sounds speech-free, tolerating a slight
 residual seam. Preserve its exact media and recipe; the50ms seam and250ms
 whirling cases remain rejected. The [finite denoise matrix](denoise-acceptance/README.md)
-is accepted. Current pickup is independent speech labels and filler/repetition
-intent for12/12d, then12b adoption and physical20/21. Do not repeat accepted auditions.
+is accepted. Current pickup is the separate audition of the
+[exact two-filler candidate](12e-labeled-cleanup/README.md), whose native and public
+technical contracts pass. The [saved sentence marks](12d-human-marks/README.md)
+are reconciled. Broader corpus boundaries and filler/repetition intent remain
+required for12/12d, then12b adoption and physical20/21. Do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;
@@ -276,7 +279,8 @@ is integrated: compatible redraws retain absolute human marks; changed source,
 origin, word identity or unbound legacy annotations refuse before overwriting.
 Root reran all five focused scorer/CLI regressions. The actual workbench timing
 mismatch is not an origin or punctuation-merger bug: frozen engines disagree about
-the lexical endpoint, and independent audible identification remains missing.
+the lexical endpoint. The saved human sentence marks now identify the marked
+endpoints; unmarked corpus endpoints remain missing.
 No frozen mark, model or acceptance threshold changed.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
@@ -312,7 +316,8 @@ The [familiar denoise comparison](12c-familiar-sentence/README.md) now has a use
 PASS for complete-sentence word clarity/naturalness. The
 [familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
 and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
-these comparisons again. The finite denoise matrix is accepted; independent protected-word boundaries, filler/repetition inventory and dependent12b cleanup adoption remain open.
+these comparisons again. The finite denoise matrix is accepted; the saved sentence/neighbor labels pass; remaining corpus boundaries,
+filler/repetition inventory and dependent12b cleanup adoption remain open.
 
 
 The [complete-sentence filler journey](12d-complete-sentence/README.md) now
@@ -320,5 +325,7 @@ reproduces the user-accepted `uh` removal through public CLI/MCP edits and compl
 undo. Root independently verifies full original/candidate/undo PCM and all49
 archived members; saved movie clocks/AAC gates pass. Lossless audio is exactly the
 accepted mono duplicated to stereo. The640×404 sampled visual proof has explicit
-small-text limits. Full independent labels, repetition intent and parent12
-timing/cleanup acceptance remain open.
+small-text limits. The saved human sentence labels are now reconciled; other corpus labels,
+repetition intent and parent12 timing/cleanup acceptance remain open.
+[12e](12e-labeled-cleanup/README.md) owns the changed two-filler candidate and its
+separate pending audition.

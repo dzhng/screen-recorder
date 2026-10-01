@@ -98,6 +98,10 @@
   [independent human ranges](12d-human-marks/README.md) now verify marked
   protected-word preservation; the accepted cut retains 15 ms of the marked
   middle filler. Broader cleanup inventory and quality acceptance remain open.
+- The [exact human-marked candidate](12e-labeled-cleanup/README.md) excludes both
+  marked fillers through native and public edit/delivery/export owners. Exact
+  protected PCM and complete undo pass; the new candidate's own audition remains
+  pending. Its technical proofs do not select an automatic speech recipe.
 - [Verbatim speech](12-verbatim/README.md) and
   [forced alignment](12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](12-alignment-text-coverage/README.md) fixes one

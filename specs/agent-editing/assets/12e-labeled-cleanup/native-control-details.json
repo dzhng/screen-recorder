@@ -1,0 +1,20 @@
+{
+  "scope": "Source-control reproduction detail; native report and all delivered bytes unchanged",
+  "poisonValue": -0.875,
+  "reconstructedSourceSha256": "472e774c79514d49955ce41c14e2c52594bbf52ad80ddb9b741bdbf2ae548547",
+  "positiveControlsByTarget": [
+    {
+      "id": "filler-um-clip-start",
+      "changedFrames": 15024,
+      "allTargetFramesChanged": true
+    },
+    {
+      "id": "filler-uh-54s",
+      "changedFrames": 18960,
+      "allTargetFramesChanged": true
+    }
+  ],
+  "changedRetainedFrames": 0,
+  "authority": "independent RIFF/frame and source-byte review",
+  "recipeSimplification": "Explicit constant poison reproduces the actual saved control hash."
+}

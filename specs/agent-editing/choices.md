@@ -4840,3 +4840,60 @@ Next start no sound; tests mute previews in a separate tab. The current short
 window is a reversible listening aid, not a proposed boundary or acceptance
 threshold. Sound because playback now follows the user's explicit preference;
 the point confirmed by Next remains unchanged.
+
+### Apply the native join envelope after narration clips combine — sound, medium confidence
+
+When: exact human-marked filler reproduction, 2026-09-30. Removing the two
+marked fillers leaves two neighboring narration clips. Fading each clip before
+mixing produced the correct amplitudes, but adding sibling silence changed one
+negative zero to positive zero. These sound identical yet have different stored
+bits, so the strict reference comparison correctly failed. The named fixture
+now applies the same fade to the combined narration track. The public track
+clock accepts whole microseconds; held keys specify each native sample's gain
+until the next key. Expanding the two short ramps into 482 keys reproduces the
+complete native envelope, including its signed zero, without a compensating
+operation aimed at that one sample. The older accepted fixture keeps its proven
+clip recipe. The plan required exact bytes but left public envelope authoring
+unspecified. This is bounded fixture authoring data through the existing gain
+API, not a new production processor or general cleanup policy. Future fixtures
+must prove their full output rather than inherit this recipe. Sound because it
+preserves the entire reference and existing mixer semantics; confidence is
+medium because the exact sampled authoring is less compact than a linear curve.
+
+### Bind a relocated reference packet by its bytes — sound, high confidence
+
+When: exact human-marked filler reproduction, 2026-09-30. A native packet prepared
+in scratch must move into durable evidence without changing the edit it defines.
+The existing public journey accepts an explicit reference directory and records
+the report's hash. Reinspection permits a different directory only when those
+report bytes match; actual WAV hashes remain checked. Its default still uses the
+frozen accepted packet and original pins. The plan left the second fixed packet's
+storage unspecified. Binding the original scratch path would prevent honest
+archival, while silently substituting another report would weaken evidence.
+This adds one harness selector and no product API or schema. Sound because
+location can change while the actual reference identity remains fixed.
+
+### Give the changed two-filler candidate its own acceptance record — sound, high confidence
+
+When: saved human-mark reconciliation and exact cleanup, 2026-09-30. The saved
+labels expose a prefix of the middle filler left by the older accepted cut and
+also mark the opening filler. A separate candidate removes exactly those two
+ranges; it preserves the older files and listening verdict. Its technical
+evidence proves exclusion and retained samples, but its listening record stays
+pending until feedback on these changed bytes. The plan did not specify how a
+new labeled candidate should coexist with an accepted inherited cut. Replacing
+the old bytes or borrowing their approval would erase a useful comparison.
+This supplies one named-target fixture and leaves automatic discovery, complete
+inventory and repetition intent with their existing gates. Sound because each
+claim remains tied to the recording and judgment that actually support it.
+
+### Count changed float encodings when reporting exact PCM — sound, high confidence
+
+When: exact human-marked filler reproduction, 2026-09-30. The byte comparison
+rejected a zero whose sign changed, but amplitude subtraction reported zero
+changed samples. The report now counts different 32-bit float encodings while
+retaining amplitude measurements separately. A single-channel zero-sign
+mutation therefore reports one changed sample and still fails. The plan left
+diagnostic counting unspecified; numerical counting alone concealed the cause
+of an honest failure. This affects harness reports only and changes no equality
+gate. Sound because diagnostics now describe the same exact contract they judge.

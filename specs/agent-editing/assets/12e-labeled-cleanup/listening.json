@@ -1,0 +1,16 @@
+{
+  "status": "pending",
+  "date": "2026-09-30",
+  "purpose": "Audition the complete sentence after exactly removing both independently marked fillers.",
+  "original": {
+    "path": "../12d-complete-sentence/original.wav",
+    "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb"
+  },
+  "candidate": {
+    "path": "candidate-remove-marked-fillers.wav",
+    "sha256": "d66294d7e39285ce1c6a0e2dda2c51a38bdddd1bcda2b2ad5da14751a6572422"
+  },
+  "prompt": "Does the candidate remove both the opening and middle fillers while keeping So, paragraph, this, and the ending clear and natural?",
+  "answer": null,
+  "authority": null
+}

@@ -1,0 +1,514 @@
+{
+  "passed": true,
+  "scope": "Exact removal of two named independently marked fillers; no engine/aggregate quality or listening acceptance",
+  "humanRecord": {
+    "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-human-marks/human-marks.json",
+    "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9"
+  },
+  "source": {
+    "path": "fixtures/narrated-workbench/narration.mov",
+    "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "trackOriginUsFromInheritedLabels": 48675,
+    "available": [
+      {
+        "startUs": 48675,
+        "endUs": 134022008
+      }
+    ]
+  },
+  "native": {
+    "path": "/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    "sha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "context": {
+    "startUs": 50518675,
+    "endUs": 57658675
+  },
+  "cuts": [
+    {
+      "id": "filler-um-clip-start",
+      "startUs": 50518675,
+      "endUs": 50831675
+    },
+    {
+      "id": "filler-uh-54s",
+      "startUs": 54113675,
+      "endUs": 54508675
+    }
+  ],
+  "spans": [
+    {
+      "startUs": 50831675,
+      "endUs": 54113675
+    },
+    {
+      "startUs": 54508675,
+      "endUs": 57658675
+    }
+  ],
+  "mapping": [
+    {
+      "source": {
+        "startUs": 50831675,
+        "endUs": 54113675
+      },
+      "originalFrames": [
+        15024,
+        172560
+      ],
+      "outputFrames": [
+        0,
+        157536
+      ]
+    },
+    {
+      "source": {
+        "startUs": 54508675,
+        "endUs": 57658675
+      },
+      "originalFrames": [
+        191520,
+        342720
+      ],
+      "outputFrames": [
+        157536,
+        308736
+      ]
+    }
+  ],
+  "removedFrames": 33984,
+  "originalFrames": 342720,
+  "candidateFrames": 308736,
+  "durationUs": 6432000,
+  "rampFrames": 240,
+  "protectedPcm": [
+    {
+      "wordId": "w116",
+      "text": "paragraph",
+      "frames": 24048,
+      "outputFrames": [
+        76656,
+        100704
+      ],
+      "exact": true
+    },
+    {
+      "wordId": "w118",
+      "text": "this",
+      "frames": 5232,
+      "outputFrames": [
+        193536,
+        198768
+      ],
+      "exact": true
+    }
+  ],
+  "retainedOutsideRampsExact": true,
+  "changedSampleRejected": true,
+  "poison": {
+    "sourceSha256": "472e774c79514d49955ce41c14e2c52594bbf52ad80ddb9b741bdbf2ae548547",
+    "payloadOffset": 9690240,
+    "changedSourceBytes": [
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9692693,
+          9693589
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9693589,
+          9697685
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9697685,
+          9701781
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9701781,
+          9705877
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9705877,
+          9709973
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9709973,
+          9714069
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9714069,
+          9718165
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9718165,
+          9722261
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9722261,
+          9726357
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9726357,
+          9730453
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9730453,
+          9734549
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9734549,
+          9738645
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9738645,
+          9742741
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9742741,
+          9746837
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9746837,
+          9750933
+        ]
+      },
+      {
+        "target": "filler-um-clip-start",
+        "fileRange": [
+          9750933,
+          9752789
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10383125,
+          10384469
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10384469,
+          10388565
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10388565,
+          10392661
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10392661,
+          10396757
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10396757,
+          10400853
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10400853,
+          10404949
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10404949,
+          10409045
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10409045,
+          10413141
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10413141,
+          10417237
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10417237,
+          10421333
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10421333,
+          10425429
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10425429,
+          10429525
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10429525,
+          10433621
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10433621,
+          10437717
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10437717,
+          10441813
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10441813,
+          10445909
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10445909,
+          10450005
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10450005,
+          10454101
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10454101,
+          10458197
+        ]
+      },
+      {
+        "target": "filler-uh-54s",
+        "fileRange": [
+          10458197,
+          10458965
+        ]
+      }
+    ],
+    "positiveControlOnlyTargets": true,
+    "candidatePcmExactlyUnchanged": true,
+    "sourceCopyRemoved": true
+  },
+  "artifacts": [
+    {
+      "file": "original.wav",
+      "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+      "pcmSha256": "36f7d1cc88ae5366012566699f2093c679e8715bc5f0f1b3a5bf8922b1bf266a",
+      "frames": 342720,
+      "bytes": 1374976,
+      "dataOffset": 4096,
+      "elapsedMs": 2244.2077499999996,
+      "response": {
+        "bytes": 1374976,
+        "channels": 1,
+        "durationUs": 7140000,
+        "file": "/tmp/screenrec-labeled-cleanup-20260930/original.wav",
+        "frames": 342720,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 57658675,
+            "startUs": 50518675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    },
+    {
+      "file": "candidate-remove-marked-fillers.wav",
+      "sha256": "d66294d7e39285ce1c6a0e2dda2c51a38bdddd1bcda2b2ad5da14751a6572422",
+      "pcmSha256": "2de548db3140170dff7716710209a8d1cd740efc857d48d66c3cecdfc542d4b1",
+      "frames": 308736,
+      "bytes": 1239040,
+      "dataOffset": 4096,
+      "elapsedMs": 1819.3993749999995,
+      "response": {
+        "bytes": 1239040,
+        "channels": 1,
+        "durationUs": 6432000,
+        "file": "/tmp/screenrec-labeled-cleanup-20260930/candidate-remove-marked-fillers.wav",
+        "frames": 308736,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 54113675,
+            "startUs": 50831675
+          },
+          {
+            "endUs": 57658675,
+            "startUs": 54508675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    },
+    {
+      "file": "poison-original-control.wav",
+      "sha256": "898c2d583a2a6b5cded391de110a96ad2f533ccb5b215e8974d6c48087f8e698",
+      "pcmSha256": "f1525025bc9600c8742f500d73937318c7bfb4857c39c62ad5601b4516cc3419",
+      "frames": 342720,
+      "bytes": 1374976,
+      "dataOffset": 4096,
+      "elapsedMs": 1664.2858339999993,
+      "response": {
+        "bytes": 1374976,
+        "channels": 1,
+        "durationUs": 7140000,
+        "file": "/tmp/screenrec-labeled-cleanup-20260930/poison-original-control.wav",
+        "frames": 342720,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 57658675,
+            "startUs": 50518675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    },
+    {
+      "file": "poison-candidate-control.wav",
+      "sha256": "d66294d7e39285ce1c6a0e2dda2c51a38bdddd1bcda2b2ad5da14751a6572422",
+      "pcmSha256": "2de548db3140170dff7716710209a8d1cd740efc857d48d66c3cecdfc542d4b1",
+      "frames": 308736,
+      "bytes": 1239040,
+      "dataOffset": 4096,
+      "elapsedMs": 1753.340792,
+      "response": {
+        "bytes": 1239040,
+        "channels": 1,
+        "durationUs": 6432000,
+        "file": "/tmp/screenrec-labeled-cleanup-20260930/poison-candidate-control.wav",
+        "frames": 308736,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 54113675,
+            "startUs": 50831675
+          },
+          {
+            "endUs": 57658675,
+            "startUs": 54508675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    }
+  ],
+  "playback": "not performed",
+  "listening": "pending",
+  "selectedSpeechEngine": null
+}
