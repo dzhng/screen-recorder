@@ -127,7 +127,7 @@ test("fresh service owns capture facts without enabling capture or creating span
   });
   expect(await f.call("capture.start", { ...start, cameraDeviceId: "not-exposed" })).toMatchObject({
     ok: false,
-    error: { code: "INVALID_PARAMS" },
+    error: { code: "NOT_READY" },
   });
   await f.service.close();
   const database = new DatabaseSync(join(f.home, "library/catalog.sqlite"), { readOnly: true });

@@ -62,6 +62,8 @@ import {
   operationSchema,
   operationNames,
   operationError,
+  serviceSocketPath,
+  serviceRuntimeDirectory,
   captureReportSchema,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -79,7 +81,7 @@ import {
   transcriptionDeadlineMs,
   type MediaWorker,
 } from "./worker.js";
-import { operationFailure } from "./operations.js";
+import { operationFailure } from "./operation-errors.js";
 
 /** Isolated development entry; production capture switches to these owners at cutover. */
 export async function startProjectService(options: {
@@ -87,8 +89,9 @@ export async function startProjectService(options: {
   worker?: MediaWorker;
   control?: { input: Readable; output: Writable };
 }) {
+  const started = performance.now();
   const library = join(options.home, "library");
-  const runtime = join(library, "run");
+  const runtime = serviceRuntimeDirectory(options.home);
   await prepareRuntimeDirectory(library);
   const ownership = await claimStartup(runtime);
   let catalog: CaptureStore | undefined;
@@ -670,6 +673,18 @@ export async function startProjectService(options: {
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "service.health":
+            return {
+              ok: true,
+              data: {
+                status: "ready",
+                pid: process.pid,
+                socketPath: serviceSocketPath(runtime),
+                home: options.home,
+                node: process.versions.node,
+                uptimeMs: Math.round(performance.now() - started),
+              },
+            };
           case "recording.delete":
             return {
               ok: true,

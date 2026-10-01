@@ -33,7 +33,8 @@ import {
   type SpeechTranscriptionReceipt,
 } from "@screenrec/core/transcript";
 import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
-import { operate, operationFailure } from "./operations.js";
+import { operate } from "./operations.js";
+import { operationFailure } from "./operation-errors.js";
 import { join } from "node:path";
 import {
   CONTROL_FRAME_BYTES,

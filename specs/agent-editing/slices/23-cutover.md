@@ -2,6 +2,7 @@
 
 Status: isolated consumer preservation, source lifetime and
 [23h headless native library consumption](23h-native-library-consumption.md) are merged-verified.
+The [23i app-owned process candidate](23i-service-process-parity.md) is source-verified.
 Concrete presentation and installed release acceptance remain open.
 Installed switching and obsolete-owner deletion have not started.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
@@ -68,6 +69,12 @@ no project selection interface or automatic recording/project association.
 [23h](23h-native-library-consumption.md) owns bounded native library listing and
 explicit target actions after those controller/service prerequisites. Its isolated
 consumer checks do not authorize installed switching or establish visual acceptance.
+
+[23i](23i-service-process-parity.md) prepares the executable app-owned project
+service through the existing composition owner and shared socket authority.
+Bundled process/control/CLI/MCP checks preserve startup ownership and recovery.
+The shared error mapper is extracted without changing its meaning; the default
+installed composition and app bundler remain in place.
 
 ## Acceptance
 

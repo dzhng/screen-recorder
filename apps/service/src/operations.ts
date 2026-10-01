@@ -1,5 +1,5 @@
 import type { CaptureCleanup } from "./capture-cleanup.js";
-import { CompositionError } from "@screenrec/composition";
+import { operationFailure } from "./operation-errors.js";
 import type { LibraryTimelineInspection } from "./timeline-inspection.js";
 import type { PackageFrameInspection } from "./package-frames.js";
 import type { MediaExports } from "./exports.js";
@@ -16,14 +16,11 @@ import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import type { ModelStatus } from "@screenrec/core/models";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
-import { TimelineError } from "@screenrec/core/timeline";
 import { type RevisionStore } from "@screenrec/core/library";
-import { CatalogError } from "@screenrec/core/catalog";
 import {
   operationError,
   operationNames,
   operationSchema,
-  type OperationFailure,
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -593,17 +590,4 @@ export async function operate(
   } catch (error) {
     return operationFailure(error);
   }
-}
-
-/**
- * Turns an owner's refusal into the shared error envelope. Owners state the code, retryability and
- * details; anything else is an unexpected failure whose message stays inside the service.
- */
-export function operationFailure(error: unknown): OperationFailure {
-  if (error instanceof CatalogError)
-    return operationError(error.code, error.message, error.retryable, error.details);
-  if (error instanceof CompositionError)
-    return operationError(error.code, error.message, false, error.details);
-  if (error instanceof TimelineError) return operationError("INVALID_RANGE", error.message);
-  return operationError("INTERNAL_ERROR", "Service handler failed");
 }

@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
 import type { OperationResult } from "@screenrec/protocol";
@@ -475,7 +475,12 @@ test.each(["complete", "interrupted"] as const)(
     try {
       const canceled = service.cancel(recording.recordingId).catch((error: unknown) => error);
       await called;
-      service.report({ ...recording, sequence: 2, state: "finalizing" });
+      service.report({
+        recordingId: recording.recordingId,
+        sourceId: recording.sourceId,
+        sequence: 2,
+        state: "finalizing",
+      });
       const terminal = {
         recordingId: recording.recordingId,
         sourceId: recording.sourceId,
@@ -525,6 +530,12 @@ test.each(["media", "empty", "failed", "ambiguous"] as const)(
     await mkdir(source, { recursive: true });
     const sentinel = join(source, "sentinel");
     if (finished) await writeFile(sentinel, "canonical media whose terminal report was lost");
+    const journal = Buffer.from(JSON.stringify({ sessionID: recording.sourceId }));
+    const video = Buffer.from("scripted canonical video bytes");
+    if (mode === "media") {
+      await writeFile(join(source, "source.journal.jsonl"), journal);
+      await writeFile(join(source, "video.mov"), video);
+    }
     const service = new CaptureService(
       store,
       home,
@@ -556,6 +567,35 @@ test.each(["media", "empty", "failed", "ambiguous"] as const)(
           data: {
             durationUs: mode === "media" ? 1234 : 0,
             journal: mode === "media" ? { header: { sessionID: recording.sourceId } } : null,
+            inputsClosed: true,
+            sourcePublication:
+              mode === "media"
+                ? {
+                    state: "published",
+                    source: {
+                      kind: "primary",
+                      sourceId: recording.sourceId,
+                      sourceDurationUs: 1234,
+                      originHostUs: 0,
+                      journal: {
+                        file: "source.journal.jsonl",
+                        bytes: journal.length,
+                        sha256: createHash("sha256").update(journal).digest("hex"),
+                        lastSequence: 2,
+                        layout: 2,
+                      },
+                      members: {
+                        "video.mov": {
+                          bytes: String(video.length),
+                          sha256: createHash("sha256").update(video).digest("hex"),
+                        },
+                      },
+                    },
+                  }
+                : {
+                    state: "unavailable",
+                    error: { code: "NO_SOURCE_MEDIA", message: "Fixture found no source media" },
+                  },
           },
         };
       },

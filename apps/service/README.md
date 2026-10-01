@@ -15,6 +15,13 @@ diagnostics. Startup announces the bound listener or one structured failure, so 
 service that cannot start is reported rather than retried. There is no restart
 loop and no second daemon.
 
+The [project process entry](src/project-main.ts) prepares that same lifetime for
+the fresh-library composition. It shares socket discovery with the existing
+entry while keeping durable storage separate. The default app bundle still uses
+the installed composition until [cutover](../../specs/agent-editing/slices/23-cutover.md);
+the [process checkpoint](../../specs/agent-editing/slices/23i-service-process-parity.md)
+does not imply installed adoption.
+
 The pipe carries many frames from one trusted peer, unlike the socket's one
 request per connection. An unreadable or oversized control line therefore answers
 with a null correlation ID and the stream resynchronizes at the next terminator,

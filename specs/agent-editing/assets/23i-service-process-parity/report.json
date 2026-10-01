@@ -1,0 +1,726 @@
+{
+  "node": "v24.14.0",
+  "scope": "fresh service process and shared consumer discovery",
+  "exchanges": [
+    {
+      "transport": "control",
+      "request": {
+        "id": "control-1",
+        "operation": "service.health",
+        "params": {}
+      },
+      "response": {
+        "id": "control-1",
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 49797,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home/run/service.sock",
+          "home": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home",
+          "node": "24.14.0",
+          "uptimeMs": 704
+        }
+      }
+    },
+    {
+      "transport": "control",
+      "request": {
+        "id": "control-2",
+        "operation": "service.health",
+        "params": {
+          "extra": true
+        }
+      },
+      "response": {
+        "id": "control-2",
+        "ok": false,
+        "error": {
+          "code": "INVALID_PARAMS",
+          "message": "Parameters do not match the operation schema.",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    },
+    {
+      "transport": "control",
+      "request": {
+        "id": "control-3",
+        "operation": "service.health",
+        "params": {}
+      },
+      "response": {
+        "id": "control-3",
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 49797,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home/run/service.sock",
+          "home": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home",
+          "node": "24.14.0",
+          "uptimeMs": 2708
+        }
+      }
+    },
+    {
+      "transport": "control",
+      "request": {
+        "id": "control-4",
+        "operation": "service.health",
+        "params": {}
+      },
+      "response": {
+        "id": "control-4",
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 49869,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock",
+          "home": "/private/tmp/screenrec-23i-boot/final-reviewed/home",
+          "node": "24.14.0",
+          "uptimeMs": 664
+        }
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "service.health",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 49869,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock",
+          "home": "/private/tmp/screenrec-23i-boot/final-reviewed/home",
+          "node": "24.14.0",
+          "uptimeMs": 1875
+        },
+        "id": "cli-5"
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "shared",
+      "operation": "service.health",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 49869,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock",
+          "home": "/private/tmp/screenrec-23i-boot/final-reviewed/home",
+          "node": "24.14.0",
+          "uptimeMs": 2525
+        },
+        "id": "cli-6"
+      }
+    },
+    {
+      "transport": "control",
+      "request": {
+        "id": "control-7",
+        "operation": "service.health",
+        "params": {
+          "extra": true
+        }
+      },
+      "response": {
+        "id": "control-7",
+        "ok": false,
+        "error": {
+          "code": "INVALID_PARAMS",
+          "message": "Parameters do not match the operation schema",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "project.list",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "projects": [],
+          "nextCursor": null
+        },
+        "id": "cli-8"
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "project.create",
+      "params": {
+        "requestId": "explicit-project",
+        "title": "Caller fixture",
+        "canvas": {
+          "width": 64,
+          "height": 32,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+            "title": "Caller fixture",
+            "createdAt": "2026-10-01T16:40:49.123Z",
+            "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+          },
+          "revision": {
+            "id": "796fe784-c78b-4bba-8e34-80cff893a178",
+            "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+            "ordinal": 0,
+            "createdAt": "2026-10-01T16:40:49.123Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 64,
+                "height": 32,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "cli-9"
+      }
+    },
+    {
+      "transport": "control",
+      "request": {
+        "id": "control-10",
+        "operation": "project.get",
+        "params": {
+          "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d"
+        }
+      },
+      "response": {
+        "id": "control-10",
+        "ok": true,
+        "data": {
+          "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+          "title": "Caller fixture",
+          "createdAt": "2026-10-01T16:40:49.123Z",
+          "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+        }
+      }
+    },
+    {
+      "transport": "MCP",
+      "operation": "service.health",
+      "params": {},
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"status\":\"ready\",\"pid\":49869,\"socketPath\":\"/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock\",\"home\":\"/private/tmp/screenrec-23i-boot/final-reviewed/home\",\"node\":\"24.14.0\",\"uptimeMs\":4781},\"id\":\"44675c2a-bf9f-4479-a1bd-500be25b788c\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "status": "ready",
+            "pid": 49869,
+            "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock",
+            "home": "/private/tmp/screenrec-23i-boot/final-reviewed/home",
+            "node": "24.14.0",
+            "uptimeMs": 4781
+          },
+          "id": "44675c2a-bf9f-4479-a1bd-500be25b788c"
+        },
+        "isError": false
+      }
+    },
+    {
+      "transport": "MCP",
+      "operation": "project.get",
+      "params": {
+        "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d"
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"projectId\":\"cfb20603-3f0d-4afa-aa41-064409321c3d\",\"title\":\"Caller fixture\",\"createdAt\":\"2026-10-01T16:40:49.123Z\",\"currentRevisionId\":\"796fe784-c78b-4bba-8e34-80cff893a178\"},\"id\":\"0315db20-c6e4-4516-90de-a994afb89761\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+            "title": "Caller fixture",
+            "createdAt": "2026-10-01T16:40:49.123Z",
+            "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+          },
+          "id": "0315db20-c6e4-4516-90de-a994afb89761"
+        },
+        "isError": false
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "service.health",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 49869,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock",
+          "home": "/private/tmp/screenrec-23i-boot/final-reviewed/home",
+          "node": "24.14.0",
+          "uptimeMs": 5767
+        },
+        "id": "cli-11"
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "project.create",
+      "params": {
+        "requestId": "explicit-project",
+        "title": "Caller fixture",
+        "canvas": {
+          "width": 64,
+          "height": 32,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+            "title": "Caller fixture",
+            "createdAt": "2026-10-01T16:40:49.123Z",
+            "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+          },
+          "revision": {
+            "id": "796fe784-c78b-4bba-8e34-80cff893a178",
+            "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+            "ordinal": 0,
+            "createdAt": "2026-10-01T16:40:49.123Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 64,
+                "height": 32,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "cli-12"
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "project.get",
+      "params": {
+        "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+          "title": "Caller fixture",
+          "createdAt": "2026-10-01T16:40:49.123Z",
+          "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+        },
+        "id": "cli-13"
+      }
+    },
+    {
+      "transport": "CLI",
+      "discovery": "explicit",
+      "operation": "project.get",
+      "params": {
+        "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+          "title": "Caller fixture",
+          "createdAt": "2026-10-01T16:40:49.123Z",
+          "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+        },
+        "id": "cli-14"
+      }
+    }
+  ],
+  "processes": [
+    {
+      "label": "matched installed source entry",
+      "pid": 49797,
+      "control": [
+        {
+          "event": "started",
+          "pid": 49797,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home/run/service.sock"
+        },
+        {
+          "event": "result",
+          "response": {
+            "id": "control-1",
+            "ok": true,
+            "data": {
+              "status": "ready",
+              "pid": 49797,
+              "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home/run/service.sock",
+              "home": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home",
+              "node": "24.14.0",
+              "uptimeMs": 704
+            }
+          }
+        },
+        {
+          "event": "result",
+          "response": {
+            "id": "control-2",
+            "ok": false,
+            "error": {
+              "code": "INVALID_PARAMS",
+              "message": "Parameters do not match the operation schema.",
+              "retryable": false,
+              "details": {}
+            }
+          }
+        },
+        {
+          "event": "result",
+          "response": {
+            "id": "control-3",
+            "ok": true,
+            "data": {
+              "status": "ready",
+              "pid": 49797,
+              "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home/run/service.sock",
+              "home": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-home",
+              "node": "24.14.0",
+              "uptimeMs": 2708
+            }
+          }
+        }
+      ],
+      "stderr": "(node:49797) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\nscreenrec-service: reconciliation complete\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "project contender against installed source owner",
+      "pid": 49852,
+      "control": [
+        {
+          "event": "failed",
+          "error": {
+            "code": "SOCKET_IN_USE",
+            "message": "Another live service is already starting or serving /private/tmp/screenrec-23i-boot/final-reviewed/installed-home/run/service.lock",
+            "retryable": false,
+            "details": {}
+          }
+        }
+      ],
+      "stderr": "(node:49852) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    },
+    {
+      "label": "initial",
+      "pid": 49869,
+      "control": [
+        {
+          "event": "started",
+          "pid": 49869,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock"
+        },
+        {
+          "event": "result",
+          "response": {
+            "id": "control-4",
+            "ok": true,
+            "data": {
+              "status": "ready",
+              "pid": 49869,
+              "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock",
+              "home": "/private/tmp/screenrec-23i-boot/final-reviewed/home",
+              "node": "24.14.0",
+              "uptimeMs": 664
+            }
+          }
+        },
+        {
+          "event": "result",
+          "response": {
+            "id": "control-7",
+            "ok": false,
+            "error": {
+              "code": "INVALID_PARAMS",
+              "message": "Parameters do not match the operation schema",
+              "retryable": false,
+              "details": {}
+            }
+          }
+        },
+        {
+          "event": "result",
+          "response": {
+            "id": "control-10",
+            "ok": true,
+            "data": {
+              "projectId": "cfb20603-3f0d-4afa-aa41-064409321c3d",
+              "title": "Caller fixture",
+              "createdAt": "2026-10-01T16:40:49.123Z",
+              "currentRevisionId": "796fe784-c78b-4bba-8e34-80cff893a178"
+            }
+          }
+        }
+      ],
+      "stderr": "(node:49869) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "occupied owner",
+      "pid": 50076,
+      "control": [
+        {
+          "event": "failed",
+          "error": {
+            "code": "SOCKET_IN_USE",
+            "message": "Another live service is already starting or serving /private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.lock",
+            "retryable": false,
+            "details": {}
+          }
+        }
+      ],
+      "stderr": "(node:50076) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    },
+    {
+      "label": "EOF reopen",
+      "pid": 50125,
+      "control": [
+        {
+          "event": "started",
+          "pid": 50125,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock"
+        }
+      ],
+      "stderr": "(node:50125) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "signal reopen",
+      "pid": 50135,
+      "control": [
+        {
+          "event": "started",
+          "pid": 50135,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock"
+        }
+      ],
+      "stderr": "(node:50135) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": null,
+        "signal": "SIGKILL"
+      }
+    },
+    {
+      "label": "crash reopen",
+      "pid": 50144,
+      "control": [
+        {
+          "event": "started",
+          "pid": 50144,
+          "socketPath": "/private/tmp/screenrec-23i-boot/final-reviewed/home/run/service.sock"
+        }
+      ],
+      "stderr": "(node:50144) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "EOF before readiness",
+      "pid": 50148,
+      "control": [
+        {
+          "event": "failed",
+          "error": {
+            "code": "SERVICE_STOPPED",
+            "message": "Capture controller closed during startup",
+            "retryable": true,
+            "details": {}
+          }
+        }
+      ],
+      "stderr": "(node:50148) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    },
+    {
+      "label": "nonprivate library refusal",
+      "pid": 50187,
+      "control": [
+        {
+          "event": "failed",
+          "error": {
+            "code": "SERVICE_UNAVAILABLE",
+            "message": "Runtime directory must be private (0700) and owned by this user",
+            "retryable": false,
+            "details": {}
+          }
+        }
+      ],
+      "stderr": "(node:50187) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    }
+  ],
+  "checks": [
+    "single startup owner and live socket preserved",
+    "EOF, signal and abrupt-death recovery preserve explicit project/replay",
+    "old bytes and default composition/bundling preserved; only controlled startup native calls"
+  ],
+  "nativeRequests": [
+    {
+      "id": "worker-packageWorkspace.recover",
+      "operation": "packageWorkspace.recover",
+      "params": {
+        "parent": {
+          "dev": "16777230",
+          "ino": "337591623"
+        }
+      }
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/private/tmp/screenrec-23i-boot/final-reviewed/service.mjs",
+      "bytes": 4245644,
+      "sha256": "f6f126ae2491d93f1cb547e92490cc4b3da2e09971e7a2c40e24847f899df813"
+    },
+    {
+      "path": "/private/tmp/screenrec-23i-boot/final-reviewed/installed-entry.mjs",
+      "bytes": 3897855,
+      "sha256": "aa75b0b644c4f2044f819eb9124a1d7f3cbe9b315502e10bd744847b91bf5522"
+    },
+    {
+      "path": "/private/tmp/screenrec-23i-boot/final-reviewed/cli.mjs",
+      "bytes": 1153717,
+      "sha256": "7b90d9679ebf4d20e40ef92f2b9ca5d5f69a8a5c83a236fb0eda4dff7d27a9f7"
+    },
+    {
+      "path": "/private/tmp/screenrec-23i-boot/final-reviewed/startup-worker.mjs",
+      "bytes": 656,
+      "sha256": "f3fdb6c693d3aa18e3ca3e1910fc5028a46a967e93f462b051a628eb3b827776"
+    }
+  ],
+  "preserved": {
+    "oldCatalog": "e6c753bee5899039412be3af658c9aaa69b6db5fa4b45002e83e65e6578c7b84",
+    "installedEntry": "9e0168971e2035c157e70e09041c55d0fc4f08edc75de0901de9e94287ef93e2",
+    "defaultBuild": "2a64d62d165b55f2d097bda2c144a141e009abd3283bf6a86a26c879121ebfa6"
+  },
+  "result": "pass",
+  "sourceCheckpoint": "6ca85a8b",
+  "preservation": {
+    "command": "bun run --cwd apps/service test -- src/project-service.test.ts src/lifetime.test.ts src/project-capture.test.ts src/capture-source-lifetime.test.ts src/capture-lifetime.test.ts src/operations.test.ts src/round-trip.test.ts",
+    "exitCode": 0,
+    "files": 7,
+    "tests": 84
+  },
+  "finalChecks": {
+    "build": 0,
+    "types": 0,
+    "lint": 0,
+    "format": 0,
+    "diffCheck": 0
+  },
+  "scopeLimits": [
+    "No installed app or bundle switch",
+    "No concrete native presentation or playback",
+    "No hardware discovery/capture",
+    "No model preparation or inference",
+    "Native startup capabilities and empty workspace recovery are controlled external replies",
+    "Physical synchronization and completed-stop release budgets retain their existing disposition"
+  ]
+}

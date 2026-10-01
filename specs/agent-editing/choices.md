@@ -6108,3 +6108,23 @@ When: bounded owner-profile dispatch.
   from the report or weakening the performance requirement.
 - **Confidence:** Medium. Sampling and host activity affect precision; source
   inspection and contract tests must support any optimization selected from it.
+### Share the app-owned socket across composition roots — sound, high confidence
+
+When: 23i process and consumer preservation.
+
+- **Choice:** The fresh project service uses the existing protocol's runtime
+  directory for its socket and startup lock. Its catalog, originals and prepared
+  models still live in the separate fresh library.
+- **Gap:** The temporary service bound a library-local socket, while ordinary
+  CLI/MCP discovery looked for the app-owned socket outside that library. An
+  agent could call the service only by supplying a special socket path. Adding
+  a second listener or discovery fallback would leave two authorities to retire.
+- **Reach:** Both composition roots compete for the same startup ownership when
+  deliberately pointed at one home. A ready project service is discoverable by
+  the existing clients; no extra path selection or automatic engine switch is
+  introduced. The installed composition and app bundler stay unchanged until
+  hard cutover.
+- **Verdict:** Sound. One app has one service socket, and persistent catalog
+  placement does not need to change that transport contract.
+- **Confidence:** High. Existing discovery, startup locking and app health
+  consumers already define the shared authority.

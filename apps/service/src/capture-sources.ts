@@ -6,7 +6,7 @@ import { CaptureStore, type Recording } from "@screenrec/core/capture-store";
 import { JobQueue } from "@screenrec/core/jobs";
 import type { ManagedFiles } from "./managed-files.js";
 import { sourceDirectory } from "./capture.js";
-import { operationFailure } from "./operations.js";
+import { operationFailure } from "./operation-errors.js";
 import type { OperationFailure } from "@screenrec/protocol";
 
 export type CaptureSourceAdmission = {
