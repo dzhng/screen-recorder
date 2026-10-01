@@ -1,0 +1,1099 @@
+{
+  "scope": "Read-only investigation of one already human-confirmed omitted opening um. No model/inference/build/media decoding/playback/download/service/capture execution; no repository edits or baseline adoption.",
+  "conclusion": {
+    "established": "The target is absent from retained raw ASRResult.text/tokenTimings before toolkit word publication. Human-confirmed WAV and full-ASR interval admission both include its source support.",
+    "unresolved": "The full-run 16k sample array and per-chunk PCM/tokens were not banked. Cannot distinguish input-conversion/acoustic recognition/internal long-form merge failure or prove exact short-clip versus full-ASR PCM byte equivalence.",
+    "initialization": "Opening refers to displayed sentence, not whole-ASR start: target engine time 50.470–50.783s. No supported global-leading-padding hypothesis.",
+    "downstream": "No identified toolkit confidence/filler filtering; preserved raw missing token independently establishes omission before publication."
+  },
+  "authorityPins": [
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-speech/raw.jsonl",
+      "bytes": 113728,
+      "sha256": "23fe8360079fd572e9c947f808d8bdbf9f655e1abfd1dabf932f0aa69d7d8d0f"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-speech/transcript.json",
+      "bytes": 51273,
+      "sha256": "7792ed28400e645a75a1f607a023c02e1a40fb546fd3fdf48865d2eabd84b005"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-speech/transcript-request.json",
+      "bytes": 4764,
+      "sha256": "099bbb6b327285eaed4a381ba9a2bbb8f358980c5a3b1cc4af2bdd7383f13827"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-human-marks/human-marks.json",
+      "bytes": 3063,
+      "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-human-marks/root-verification.json",
+      "bytes": 4144,
+      "sha256": "aa8b7118f126b28edb1c3437d1ac1d6f1db7fa03e0ee41a9806a40b854838306"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-human-frozen-comparison/human-edges.json",
+      "bytes": 2252,
+      "sha256": "73de39709f7100116ff326e32948cfd45b959d85ce48c344385ee9e37db07029"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-human-frozen-comparison/summary.json",
+      "bytes": 3285,
+      "sha256": "c504bdd0995fce9893dd83eb73c975aab3516603642dc201f6c2e0ecead7100b"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-verbatim/attempt.json",
+      "bytes": 1216,
+      "sha256": "503e4460ffe639c52eb537dd5c5bc64c06bd0bc7e9da4586c9212ca96a95c6b2"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-verbatim/runtime.json",
+      "bytes": 3539,
+      "sha256": "9a392d83d1211072d93e30fafcb217ecf7f3a50dcb6d3d95fa34ee008cceb379"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-verbatim/score.json",
+      "bytes": 2315,
+      "sha256": "bc85dabf97d016bec97397af865593e774f6b85f86c67b97ad413de4e1a9b818"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-complete-sentence/original.wav",
+      "bytes": 1374976,
+      "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment/result.json",
+      "bytes": 23389,
+      "sha256": "f6b116aae4dbd6fb308280415a6ec583283bf093bab536d8a2ebf1ee3c35ea80"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment-text-coverage/result.json",
+      "bytes": 23465,
+      "sha256": "7714e0d9f51e1a44c5d2e4141838e76f203efd530672e8edfd8070f579fd47c2"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment-precision/result.json",
+      "bytes": 23389,
+      "sha256": "0955d2cb4704868ba0ae1674c1d496f31fceec792a2332b0eb06ced967a53a91"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-speech/manifest.json",
+      "bytes": 30822,
+      "sha256": "01f3eead42bb58ada7dcb2793871da875e809f0ed9e5afae9680b583650b9e69"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-complete-sentence/manifest.json",
+      "bytes": 7250,
+      "sha256": "bffec2cd229ef13acee6451e4ca24c68dc976b8b97ca15dd3baeeaac197e3fe5"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12f-human-marks/human-marks.json",
+      "bytes": 1229,
+      "sha256": "4132df7f56f2df538000e6739742c314160c66822f3e3960b5cb3e92a50fb6d6"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-human-frozen-comparison/baseline.json",
+      "bytes": 2056,
+      "sha256": "241db935835ac1bbd3464105ed15b040857c5bb4e3b1bb252739b07f84fdce08"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-verbatim/README.md",
+      "bytes": 6264,
+      "sha256": "e3c4c5a2f4aeb2b36548dac3432b7465f08e24ce4366d73489f6d054b7dc3a35"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift",
+      "bytes": 4254,
+      "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift",
+      "bytes": 8301,
+      "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift",
+      "bytes": 5063,
+      "sha256": "6f49e4b9f66fdd37562d7c9bf550842f25e1b6645f8c103f5b5e5e2e72503f73"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/AsrTypes.swift",
+      "bytes": 9837,
+      "sha256": "5ad1bea12ce12875b23ee842e4c38c24d222b34bd5c1836d97f8df60f4c6d84c"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrManager+Transcription.swift",
+      "bytes": 18770,
+      "sha256": "8c595860efbc009546f5e0c6a6289135ee88cb9596d9674a82f26f14f30df4c7"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/ChunkProcessor.swift",
+      "bytes": 66052,
+      "sha256": "3ca6c33b9244018387ad3345cd9af118e49b6a5cefb42a23c587ea7d14dee3d0"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ASRConstants.swift",
+      "bytes": 3853,
+      "sha256": "2ceb61acf79d3760d8ab4ac3c2f1c86378bc1065c85086de6e06e86603460dbb"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/packages/test-harness/editing/speech-reproduction.mjs",
+      "bytes": 8281,
+      "sha256": "db63dda257121671c2de32e21b994d5ab3df76f2eefe80a6d3fb087bc74fd00c"
+    }
+  ],
+  "humanPresence": {
+    "authority": {
+      "authority": "human listening confirmation",
+      "notes": "Guided waveform marking: each selected boundary confirmed with Next; skipped edges unknown. Opening um reported by the listener."
+    },
+    "binding": {
+      "clipSha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+      "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "sourceOriginUs": 48675,
+      "sourceRange": {
+        "startUs": 50518675,
+        "endUs": 57658675
+      },
+      "sampleRate": 48000,
+      "frames": 342720,
+      "packetSha256": "f3dafe81dab4c645126244ce7262a99bfcac3dd0221feb2cfd82a57760951307"
+    },
+    "target": {
+      "id": "opening-um",
+      "text": "um",
+      "startSeconds": 0,
+      "endSeconds": 0.313,
+      "startUs": 50518675,
+      "endUs": 50831675,
+      "sourceRange": {
+        "startUs": 50518675,
+        "endUs": 50831675
+      }
+    },
+    "targetFrames48k": {
+      "start": 0,
+      "endExclusive": 15024
+    },
+    "onset": "Clip-censored; actual onset preceding this retained clip remains unknown and is not an edge label.",
+    "protectedAndMiddleControls": [
+      {
+        "id": "w117",
+        "text": "uh",
+        "startSeconds": 3.595,
+        "endSeconds": 3.99,
+        "startUs": 54113675,
+        "endUs": 54508675,
+        "sourceRange": {
+          "startUs": 54113675,
+          "endUs": 54508675
+        }
+      },
+      {
+        "id": "w116",
+        "text": "paragraph",
+        "startSeconds": 1.91,
+        "endSeconds": 2.411,
+        "startUs": 52428675,
+        "endUs": 52929675,
+        "sourceRange": {
+          "startUs": 52428675,
+          "endUs": 52929675
+        }
+      },
+      {
+        "id": "w118",
+        "text": "this",
+        "startSeconds": 4.74,
+        "endSeconds": 4.849,
+        "startUs": 55258675,
+        "endUs": 55367675,
+        "sourceRange": {
+          "startUs": 55258675,
+          "endUs": 55367675
+        }
+      }
+    ],
+    "completeInventory": false,
+    "sentenceEndpoints": "Separate sentence bounds, not internal word-edge ground truth.",
+    "savedPCMVerification": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-human-marks/root-verification.json",
+      "openingFrames": 15024,
+      "openingFloat32PayloadSha256": "a46f4b6fb0d83c1d4969cb90f17c144115feb8c499b5df67a289eae08b33d416",
+      "scope": "Historical root byte verification that accepted cut retained opening um unchanged; no fresh decoding here."
+    }
+  },
+  "retainedSentencePCM": {
+    "file": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-complete-sentence/original.wav",
+      "bytes": 1374976,
+      "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb"
+    },
+    "header": {
+      "magic": "RIFF",
+      "type": "WAVE",
+      "formatCode": 3,
+      "channels": 1,
+      "sampleRate": 48000,
+      "blockAlign": 4,
+      "bitsPerSample": 32,
+      "dataBytes": 1370880,
+      "frames": 342720
+    },
+    "durationUs": 7140000,
+    "readableFileRangeUs": {
+      "startUs": 0,
+      "endUs": 7140000
+    },
+    "originalSourceRangeUs": {
+      "startUs": 50518675,
+      "endUs": 57658675
+    },
+    "mapping": "original source µs = 50518675 + WAV local µs; local48k frame k maps to50518675 + k*1000000/48000. Human marks already bind this exact WAV.",
+    "preparationScope": "Existing retained clip; unchanged entire file. The known filler starts at its censored left edge. No new crop/pad/treatment proposed."
+  },
+  "wholeASR": {
+    "request": {
+      "id": "transcript",
+      "operation": "speech.transcribe",
+      "params": {
+        "models": {
+          "directory": "/private/tmp/screenrec-speech-reproduction/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+          "filesCount": 22,
+          "fullListAuthority": {
+            "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-speech/transcript-request.json",
+            "bytes": 4764,
+            "sha256": "099bbb6b327285eaed4a381ba9a2bbb8f358980c5a3b1cc4af2bdd7383f13827"
+          }
+        },
+        "track": {
+          "role": "narration",
+          "source": "/private/tmp/screenrec-editing-speech/fixtures/narrated-workbench/narration.mov",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 48675,
+              "endUs": 134022008
+            }
+          ]
+        },
+        "output": "/tmp/screenrec-speech-evidence/raw.jsonl"
+      }
+    },
+    "rawSegment": {
+      "ordinal": 0,
+      "state": "transcribed",
+      "source": {
+        "endUs": 134022008,
+        "startUs": 48675
+      },
+      "sampleRate": 16000,
+      "samples": 2143573,
+      "resultDurationSeconds": 133.9733125
+    },
+    "targetEngineRangeSeconds": {
+      "start": 50.47,
+      "end": 50.783
+    },
+    "firstTokens": [
+      {
+        "confidence": 0.9375,
+        "endTime": 1.4400000000000002,
+        "startTime": 1.12,
+        "token": " Okay",
+        "tokenId": 619
+      },
+      {
+        "confidence": 0.8203125,
+        "endTime": 1.6,
+        "startTime": 1.52,
+        "token": ",",
+        "tokenId": 839
+      },
+      {
+        "confidence": 0.9995117,
+        "endTime": 1.9200000000000002,
+        "startTime": 1.6,
+        "token": " so",
+        "tokenId": 96
+      },
+      {
+        "confidence": 0.9995117,
+        "endTime": 2.16,
+        "startTime": 1.92,
+        "token": " this",
+        "tokenId": 81
+      },
+      {
+        "confidence": 0.99902344,
+        "endTime": 2.48,
+        "startTime": 2.16,
+        "token": " is",
+        "tokenId": 59
+      },
+      {
+        "confidence": 0.9995117,
+        "endTime": 2.8,
+        "startTime": 2.48,
+        "token": " the",
+        "tokenId": 5
+      }
+    ],
+    "firstWords": [
+      {
+        "confidence": 0.87890625,
+        "endSeconds": 1.6,
+        "source": {
+          "endUs": 1488675,
+          "startUs": 1168675
+        },
+        "spokenEndSeconds": 1.4400000000000002,
+        "spokenStartSeconds": 1.12,
+        "startSeconds": 1.12,
+        "text": "Okay,"
+      },
+      {
+        "confidence": 0.9995117,
+        "endSeconds": 1.9200000000000002,
+        "source": {
+          "endUs": 1968675,
+          "startUs": 1648675
+        },
+        "spokenEndSeconds": 1.92,
+        "spokenStartSeconds": 1.6,
+        "startSeconds": 1.6,
+        "text": "so"
+      }
+    ],
+    "targetTokens": [
+      {
+        "confidence": 0.98339844,
+        "endTime": 49.28,
+        "startTime": 49.2,
+        "token": "p",
+        "tokenId": 838
+      },
+      {
+        "confidence": 0.7661133,
+        "endTime": 49.44,
+        "startTime": 49.28,
+        "token": "o",
+        "tokenId": 822
+      },
+      {
+        "confidence": 1,
+        "endTime": 49.599999999999994,
+        "startTime": 49.44,
+        "token": "int",
+        "tokenId": 390
+      },
+      {
+        "confidence": 0.9970703,
+        "endTime": 49.92,
+        "startTime": 49.6,
+        "token": "s",
+        "tokenId": 826
+      },
+      {
+        "confidence": 0.9633789,
+        "endTime": 50.480000000000004,
+        "startTime": 50.160000000000004,
+        "token": ".",
+        "tokenId": 841
+      },
+      {
+        "confidence": 0.9765625,
+        "endTime": 50.879999999999995,
+        "startTime": 50.72,
+        "token": " So",
+        "tokenId": 139
+      },
+      {
+        "confidence": 0.98095703,
+        "endTime": 51.04,
+        "startTime": 50.96,
+        "token": " let",
+        "tokenId": 422
+      },
+      {
+        "confidence": 0.9975586,
+        "endTime": 51.12,
+        "startTime": 51.04,
+        "token": "'",
+        "tokenId": 844
+      },
+      {
+        "confidence": 1,
+        "endTime": 51.28,
+        "startTime": 51.120000000000005,
+        "token": "s",
+        "tokenId": 826
+      },
+      {
+        "confidence": 0.9995117,
+        "endTime": 51.52,
+        "startTime": 51.28,
+        "token": " do",
+        "tokenId": 98
+      }
+    ],
+    "targetMergedWords": [
+      {
+        "confidence": 0.95011395,
+        "endSeconds": 50.480000000000004,
+        "source": {
+          "endUs": 49968675,
+          "startUs": 49008675
+        },
+        "spokenEndSeconds": 49.92,
+        "spokenStartSeconds": 48.96,
+        "startSeconds": 48.96,
+        "text": "waypoints."
+      },
+      {
+        "confidence": 0.9765625,
+        "endSeconds": 50.879999999999995,
+        "source": {
+          "endUs": 50928675,
+          "startUs": 50768675
+        },
+        "spokenEndSeconds": 50.879999999999995,
+        "spokenStartSeconds": 50.72,
+        "startSeconds": 50.72,
+        "text": "So"
+      },
+      {
+        "confidence": 0.99283856,
+        "endSeconds": 51.28,
+        "source": {
+          "endUs": 51328675,
+          "startUs": 51008675
+        },
+        "spokenEndSeconds": 51.28,
+        "spokenStartSeconds": 50.96,
+        "startSeconds": 50.96,
+        "text": "let's"
+      },
+      {
+        "confidence": 0.9995117,
+        "endSeconds": 51.52,
+        "source": {
+          "endUs": 51568675,
+          "startUs": 51328675
+        },
+        "spokenEndSeconds": 51.52,
+        "spokenStartSeconds": 51.28,
+        "startSeconds": 51.28,
+        "text": "do"
+      }
+    ],
+    "exactPublishedSentenceWords": [
+      {
+        "id": "w111",
+        "type": "word",
+        "text": "So",
+        "sourceRange": {
+          "endUs": 50928675,
+          "startUs": 50768675
+        },
+        "partial": false
+      },
+      {
+        "id": "w112",
+        "type": "word",
+        "text": "let's",
+        "sourceRange": {
+          "endUs": 51328675,
+          "startUs": 51008675
+        },
+        "partial": false
+      },
+      {
+        "id": "w113",
+        "type": "word",
+        "text": "do",
+        "sourceRange": {
+          "endUs": 51568675,
+          "startUs": 51328675
+        },
+        "partial": false
+      },
+      {
+        "id": "w114",
+        "type": "word",
+        "text": "the",
+        "sourceRange": {
+          "endUs": 51808675,
+          "startUs": 51568675
+        },
+        "partial": false
+      },
+      {
+        "id": "w115",
+        "type": "word",
+        "text": "first",
+        "sourceRange": {
+          "endUs": 52288675,
+          "startUs": 51968675
+        },
+        "partial": false
+      },
+      {
+        "id": "w116",
+        "type": "word",
+        "text": "paragraph,",
+        "sourceRange": {
+          "endUs": 53088675,
+          "startUs": 52288675
+        },
+        "partial": false
+      },
+      {
+        "id": "w117",
+        "type": "word",
+        "text": "uh",
+        "sourceRange": {
+          "endUs": 54448675,
+          "startUs": 54128675
+        },
+        "partial": false
+      },
+      {
+        "id": "w118",
+        "type": "word",
+        "text": "this",
+        "sourceRange": {
+          "endUs": 55408675,
+          "startUs": 55088675
+        },
+        "partial": false
+      },
+      {
+        "id": "w119",
+        "type": "word",
+        "text": "page",
+        "sourceRange": {
+          "endUs": 55728675,
+          "startUs": 55408675
+        },
+        "partial": false
+      },
+      {
+        "id": "w120",
+        "type": "word",
+        "text": "is",
+        "sourceRange": {
+          "endUs": 55888675,
+          "startUs": 55728675
+        },
+        "partial": false
+      },
+      {
+        "id": "w121",
+        "type": "word",
+        "text": "a",
+        "sourceRange": {
+          "endUs": 56048675,
+          "startUs": 55888675
+        },
+        "partial": false
+      },
+      {
+        "id": "w122",
+        "type": "word",
+        "text": "recording",
+        "sourceRange": {
+          "endUs": 56448675,
+          "startUs": 56048675
+        },
+        "partial": false
+      },
+      {
+        "id": "w123",
+        "type": "word",
+        "text": "fixture.",
+        "sourceRange": {
+          "endUs": 57408675,
+          "startUs": 56448675
+        },
+        "partial": false
+      }
+    ],
+    "umInRawText": false,
+    "umTokenCount": 0,
+    "umMergedCount": 0,
+    "publishedWordCount": 306,
+    "nativeReceipt": {
+      "details": {
+        "peakResidentBytes": 549502976
+      },
+      "engine": {
+        "computeUnits": "cpuAndNeuralEngine",
+        "decoder": "parakeet-tdt-batch",
+        "encoderPrecision": "int8",
+        "runtime": "FluidAudio",
+        "runtimeVersion": "0.15.7"
+      },
+      "output": {
+        "bytes": 113728,
+        "file": "/tmp/screenrec-speech-evidence/raw.jsonl",
+        "sha256": "23fe8360079fd572e9c947f808d8bdbf9f655e1abfd1dabf932f0aa69d7d8d0f"
+      },
+      "segments": [
+        {
+          "ordinal": 0,
+          "source": {
+            "endUs": 134022008,
+            "startUs": 48675
+          },
+          "state": "transcribed",
+          "wordCount": 306
+        }
+      ],
+      "wordCount": 306
+    },
+    "historicalNativeWorkerSha256": "175ceecb11e3dbb0283cbd6e748b8aa93e57d17750a820db6c038b367566f966",
+    "models": {
+      "pins": {
+        "runtime": "FluidAudio",
+        "runtimeVersion": "0.15.7",
+        "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+        "decoder": "parakeet-tdt-batch",
+        "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+        "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+      },
+      "digest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "filesCount": 22,
+      "fullListAuthority": {
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-speech/manifest.json",
+        "bytes": 30822,
+        "sha256": "01f3eead42bb58ada7dcb2793871da875e809f0ed9e5afae9680b583650b9e69"
+      }
+    },
+    "historicalProducer": {
+      "git": "b42422e6",
+      "harnessSha256": "f60cad592df06843a49fb380d203d95f9451cb90d46e5366ebc57acba2cc6c30",
+      "narrationTranscriptPath": "helpers/mac/Sources/ScreenRecorderSpeech/NarrationTranscript.swift",
+      "narrationTranscriptSha256": "0bab2219ae73cb4be661bfea5443aec9f6303b8937d946348234e0c02363d04a",
+      "parakeetEngineSha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b",
+      "limit": "Git source reconstruction and exact matching historical harness, not an instrumented complete compiled-source closure for that older worker."
+    },
+    "admission": "One full continuous readable interval[48675,134022008), never target-only or filler-filtered. Historic source rejects unavailable stream support and supplies16k mono to one fresh decoder. Successful raw samples=2143573.",
+    "missingPCM": "Full-run 16k array bytes/hash not recorded; aggregate count and interval receipt do not prove every converted input sample survived.",
+    "staticSDKLayout": {
+      "checkoutRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "checkoutClean": true,
+      "config": "v2 default melChunkContext resolves true; sampleRate16000; maxModelSamples240000; encoderFrame1280; melHop160; overlap32000",
+      "regularChunkSamples": 238080,
+      "strideSamples": 206080,
+      "targetExpectedChunk": {
+        "zeroBasedIndex": 3,
+        "startSeconds": 38.64,
+        "endSeconds": 53.52,
+        "targetOffsetSeconds": {
+          "start": 11.83,
+          "end": 12.143
+        }
+      },
+      "limit": "Static expected layout from clean matching SDK revision; no per-chunk tokens/PCM/window execution trace retained. Do not rule out internal dedup/seam merge solely by position."
+    },
+    "sampleAccounting": {
+      "sourceIntervalDurationUs": 133973333,
+      "nominalFloorSamplesAt16k": 2143573,
+      "actualRawSamples": 2143573,
+      "representedDurationUs": 133973312.5,
+      "remainderUs": 20.5,
+      "interpretation": "Recorded sample count agrees with full interval floor conversion. The fractional final-sample remainder cannot explain omission of an interior313ms human-marked token. Count agreement does not establish sample-byte provenance."
+    }
+  },
+  "preservedAlternatives": {
+    "alignment": [
+      {
+        "dir": "12-alignment",
+        "pin": {
+          "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment/result.json",
+          "bytes": 23389,
+          "sha256": "f6b116aae4dbd6fb308280415a6ec583283bf093bab536d8a2ebf1ee3c35ea80"
+        },
+        "words": 306,
+        "um": [],
+        "wordsNearTarget": [
+          {
+            "word": "So",
+            "start": 50.8,
+            "end": 50.96
+          },
+          {
+            "word": "let's",
+            "start": 50.96,
+            "end": 51.12
+          },
+          {
+            "word": "do",
+            "start": 51.12,
+            "end": 51.28
+          },
+          {
+            "word": "the",
+            "start": 51.28,
+            "end": 51.52
+          },
+          {
+            "word": "first",
+            "start": 52,
+            "end": 52.32
+          },
+          {
+            "word": "paragraph",
+            "start": 52.32,
+            "end": 52.88
+          },
+          {
+            "word": "uh",
+            "start": 54.08,
+            "end": 54.48
+          },
+          {
+            "word": "this",
+            "start": 55.2,
+            "end": 55.36
+          },
+          {
+            "word": "page",
+            "start": 55.36,
+            "end": 55.76
+          },
+          {
+            "word": "is",
+            "start": 55.76,
+            "end": 55.92
+          },
+          {
+            "word": "a",
+            "start": 55.92,
+            "end": 56
+          },
+          {
+            "word": "recording",
+            "start": 56,
+            "end": 56.32
+          },
+          {
+            "word": "fixture",
+            "start": 56.32,
+            "end": 56.88
+          }
+        ]
+      },
+      {
+        "dir": "12-alignment-text-coverage",
+        "pin": {
+          "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment-text-coverage/result.json",
+          "bytes": 23465,
+          "sha256": "7714e0d9f51e1a44c5d2e4141838e76f203efd530672e8edfd8070f579fd47c2"
+        },
+        "words": 307,
+        "um": [],
+        "wordsNearTarget": [
+          {
+            "word": "So",
+            "start": 50.8,
+            "end": 50.96
+          },
+          {
+            "word": "let's",
+            "start": 50.96,
+            "end": 51.12
+          },
+          {
+            "word": "do",
+            "start": 51.12,
+            "end": 51.28
+          },
+          {
+            "word": "the",
+            "start": 51.28,
+            "end": 51.52
+          },
+          {
+            "word": "first",
+            "start": 52,
+            "end": 52.32
+          },
+          {
+            "word": "paragraph",
+            "start": 52.32,
+            "end": 52.88
+          },
+          {
+            "word": "uh",
+            "start": 54.08,
+            "end": 54.48
+          },
+          {
+            "word": "this",
+            "start": 55.2,
+            "end": 55.36
+          },
+          {
+            "word": "page",
+            "start": 55.36,
+            "end": 55.76
+          },
+          {
+            "word": "is",
+            "start": 55.76,
+            "end": 55.92
+          },
+          {
+            "word": "a",
+            "start": 55.92,
+            "end": 56
+          },
+          {
+            "word": "recording",
+            "start": 56,
+            "end": 56.32
+          },
+          {
+            "word": "fixture",
+            "start": 56.32,
+            "end": 56.88
+          }
+        ]
+      },
+      {
+        "dir": "12-alignment-precision",
+        "pin": {
+          "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment-precision/result.json",
+          "bytes": 23389,
+          "sha256": "0955d2cb4704868ba0ae1674c1d496f31fceec792a2332b0eb06ced967a53a91"
+        },
+        "words": 306,
+        "um": [],
+        "wordsNearTarget": [
+          {
+            "word": "So",
+            "start": 50.8,
+            "end": 50.96
+          },
+          {
+            "word": "let's",
+            "start": 50.96,
+            "end": 51.12
+          },
+          {
+            "word": "do",
+            "start": 51.12,
+            "end": 51.28
+          },
+          {
+            "word": "the",
+            "start": 51.28,
+            "end": 51.52
+          },
+          {
+            "word": "first",
+            "start": 52,
+            "end": 52.32
+          },
+          {
+            "word": "paragraph",
+            "start": 52.32,
+            "end": 52.88
+          },
+          {
+            "word": "uh",
+            "start": 54.08,
+            "end": 54.48
+          },
+          {
+            "word": "this",
+            "start": 55.2,
+            "end": 55.36
+          },
+          {
+            "word": "page",
+            "start": 55.36,
+            "end": 55.76
+          },
+          {
+            "word": "is",
+            "start": 55.76,
+            "end": 55.92
+          },
+          {
+            "word": "a",
+            "start": 55.92,
+            "end": 56
+          },
+          {
+            "word": "recording",
+            "start": 56,
+            "end": 56.32
+          },
+          {
+            "word": "fixture",
+            "start": 56.32,
+            "end": 56.88
+          }
+        ]
+      }
+    ],
+    "alignmentLimit": "Supplied baseline text omits um in all306/307-word inputs, so forced alignment cannot recover it. The307-word hypothesis adds uh near103.4s, unrelated to this opening.",
+    "humanComparisonSummaryPin": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-human-frozen-comparison/summary.json",
+      "bytes": 3285,
+      "sha256": "c504bdd0995fce9893dd83eb73c975aab3516603642dc201f6c2e0ecead7100b"
+    },
+    "humanComparisonLimit": "Three alignment conditions pass only the existing eight marked edges; all explicitly report missing opening-um end. Censored onset excluded.",
+    "crisper": {
+      "attempt": {
+        "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+        "marksSha256": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+        "labelsSha256": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf",
+        "rawResultSha256": "a44c428b52ce1eee4d161cc09250f6dbf8bd673e8522b00dee345fa0568b387f",
+        "rawResultPath": "/tmp/screenrec-speech-verbatim-run/result.json",
+        "modelRevision": "f4334f6e8193f2691212d49b20fa12d370e13896",
+        "runtimeRevision": "0f5f694d0e3f568b5095020857e1a41542a64479",
+        "ffmpegVersion": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+        "candidate": "crisperwhisper-verbatim-mps-float16",
+        "matchedSubsetOnly": true,
+        "verdict": "discard as production winner; informative timing diagnostic",
+        "unmatchedReasons": {
+          "w0:start": "spelling variant; exact frozen word normalizer does not match",
+          "w26:end": "split alphabetic/number word representation; exact frozen word normalizer does not match"
+        },
+        "performance": "single cold process on shared host; peak RSS exceeds 4 GiB target",
+        "outputs": "Restricted research transcript stays outside repository",
+        "repairs": 0,
+        "listening": "not performed"
+      },
+      "recordedRawPath": "/tmp/screenrec-speech-verbatim-run/result.json",
+      "recordedRawSha256": "a44c428b52ce1eee4d161cc09250f6dbf8bd673e8522b00dee345fa0568b387f",
+      "recordedPrepared16kPath": "/tmp/screenrec-speech-verbatim-input.wav",
+      "recordedPrepared16kSha256": "f73deb0d323d65d937953973bbe75523b3fe7642035ec68bf10be77321ace853",
+      "bothNamedScratchFilesCurrentlyAbsent": true,
+      "preparation": "Historic ffmpeg entire narration.mov -> mono16k PCM_s16le; this differs from native Float32 array provenance and exact byte parity is not proved.",
+      "limit": "Retained323-word aggregate score cannot establish whether opening um was recognized; raw output unavailable. No reconstruction or rerun."
+    }
+  },
+  "prospectiveSingleCase": {
+    "state": "Proposed only, not executed; root reviews before future execution dispatch.",
+    "question": "Does the selected baseline represent the already human-confirmed um when given this exact entire retained sentence PCM as an additional fixed case?",
+    "inputSha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+    "inputPath": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-complete-sentence/original.wav",
+    "nativeOperation": "speech.transcribe",
+    "proposedTrack": {
+      "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12d-complete-sentence/original.wav",
+      "sourceOffsetUs": 0,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 7140000
+        }
+      ]
+    },
+    "noteOnSourceProjection": "Use local WAV clock in the request; project all returned local ranges once by+50518675 when comparing existing human marks. No extra48675 addition.",
+    "modelRecipe": {
+      "pins": {
+        "runtime": "FluidAudio",
+        "runtimeVersion": "0.15.7",
+        "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+        "decoder": "parakeet-tdt-batch",
+        "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+        "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+      },
+      "digest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "engine": {
+        "computeUnits": "cpuAndNeuralEngine",
+        "decoder": "parakeet-tdt-batch",
+        "encoderPrecision": "int8",
+        "runtime": "FluidAudio",
+        "runtimeVersion": "0.15.7"
+      }
+    },
+    "producer": "Future execution must name/hash selected native worker and loaded source/runtime closure; do not describe historical175c worker identity as current execution authority. Existing frozen0a worker is the candidate without a media-worker rebuild, contingent on matching selected baseline model/config provenance.",
+    "inputAccounting": "Pin unchanged WAV before/after. Shared audio owner does required mono48k→16k conversion once; expected114240 frames for7.14s, but record actual support/count/converter source and prepared sample bytes/hash before engine admission. Any unsupported/unavailable interval or unexplained sample count is invalid, not silent filler evidence. No extra crop/padding/denoise/gain/synthesis/prompts/context settings.",
+    "executionShape": "One offline transcription with fresh decoder/default selected configuration and existing verified22-file model list. Fresh owned output path; preserve full request, stdout/stderr, raw ASRResult including all token timings and words, runtime/source/model/input hashes, actual child exit. No preparation/downloader or model swap.",
+    "lexicalTarget": "Exact normalized um token/word preceding sentence So, consistent with marked[0,313000) localµs. Inspect raw text/tokens as well as merged publication. Do not count uh or forced supplied text as recovery.",
+    "timingControls": [
+      {
+        "id": "w117-start",
+        "wordId": "w117",
+        "side": "start",
+        "referenceUs": 54113675,
+        "candidateUs": 54128675,
+        "state": "matched",
+        "errorMs": 15,
+        "insideSpeech": true
+      },
+      {
+        "id": "w117-end",
+        "wordId": "w117",
+        "side": "end",
+        "referenceUs": 54508675,
+        "candidateUs": 54448675,
+        "state": "matched",
+        "errorMs": -60,
+        "insideSpeech": true
+      },
+      {
+        "id": "w116-start",
+        "wordId": "w116",
+        "side": "start",
+        "referenceUs": 52428675,
+        "candidateUs": 52288675,
+        "state": "matched",
+        "errorMs": -140,
+        "insideSpeech": false
+      },
+      {
+        "id": "w116-end",
+        "wordId": "w116",
+        "side": "end",
+        "referenceUs": 52929675,
+        "candidateUs": 53088675,
+        "state": "matched",
+        "errorMs": 159,
+        "insideSpeech": false
+      },
+      {
+        "id": "w118-start",
+        "wordId": "w118",
+        "side": "start",
+        "referenceUs": 55258675,
+        "candidateUs": 55088675,
+        "state": "matched",
+        "errorMs": -170,
+        "insideSpeech": false
+      },
+      {
+        "id": "w118-end",
+        "wordId": "w118",
+        "side": "end",
+        "referenceUs": 55367675,
+        "candidateUs": 55408675,
+        "state": "matched",
+        "errorMs": 41,
+        "insideSpeech": false
+      }
+    ],
+    "openingEndControl": {
+      "referenceLocalUs": 313000,
+      "referenceSourceUs": 50831675,
+      "onsetScored": false
+    },
+    "protectedControls": "Require paragraph/this presence and report their four existing independent edges; middle uh presence/two edges protected. Use unchanged unique-word/edge matcher and unchanged100ms median/250ms p95 criteria on the declared six-edge sentence subset; retain every signed error/completeness outcome and compare against saved baseline values. Report opening um end separately. This is not the historical eight-edge cohort; workbench is outside this input.",
+    "lexicalOtherWords": "Retain/display all13 inherited sentence words in order as a baseline-output regression diagnostic, not independent human spelling labels/full lexical gold.",
+    "stoppingCondition": "One attempt with inherited speech-reproduction180000ms native call ceiling and8MiB response bound; lexical miss/regression/null/error ends this case. No automatic rerun, repair-driven tuning, parameter grid, next model, padding or baseline switch. If identity/support cannot be established, retain invalid/unverified case before inference.",
+    "interpretation": "An additional fixed sentence case, NOT a sole-variable causal experiment: input container, resampling, full-recording vs sentence context and long-form chunking differ from the saved run. Even a recovered token does not identify root cause or justify recipe adoption/general recall/full-release acceptance.",
+    "promotion": "None. Selected product baseline, accepted cuts/denoise/voice/ambience and all originals/labels remain unchanged; product makes zero editorial decisions."
+  }
+}
