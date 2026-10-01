@@ -5020,3 +5020,22 @@ When: 23c (2026-09-30).
 - **Verdict:** Sound. One real byte observation avoids an invented allocation
   policy and preserves the existing category meanings for recording consumers.
 - **Confidence:** Medium.
+
+### Explicit camera facts across owned peers — sound, high confidence
+
+When: 21a (2026-09-30). A device/status response now supplies a camera list and
+camera permission state explicitly. An empty list and an unknown state are
+valid facts; a missing field is an invalid peer response, rather than something
+the service interprets as no camera or a permission denial. The plan did not
+specify omission handling for these new fields. This keeps every owned producer
+and consumer on the same truthful contract without a fallback or compatibility
+layer; future camera selection still requires its own working lifecycle.
+
+### Isolated scratch for the controller gate — sound, high confidence
+
+When: 21a. The existing scripted controller gate can compile into a caller-selected
+scratch directory. Its ordinary default and scenario set remain unchanged.
+The plan required preserving the native gate and frozen workers but did not give
+this runner an isolated output option. A test-only scratch location lets the
+same gate run against changed source without overwriting a frozen build. It adds
+no product setting or installed-application behavior.

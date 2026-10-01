@@ -23,12 +23,19 @@
     "Threshold sample brackets are not physical onset bounds.",
     "No inferred events in missing intervals or whole-take sync pass.",
     "No sources changed, capture, playback, installation, download or app switch.",
-    "Original camera hash freshly verified once; other source identities remain those of the retained original manifest."
+    "Original camera hash freshly verified once; other source identities remain those of the retained original manifest.",
+    "Screen/native ordinal-coordinate comparison is conditional:7360FFmpeg decoded frames differ from7359native cursor samples; no same-picture proof or physical precision improvement follows."
   ],
   "mappingArchive": {
     "file": "mapping.tar.xz",
     "bytes": 245312,
     "sha256": "f149e923186678cc59ddfe6383f721d3146fba93aae61f27e52536751ab4840b",
     "verifiedPayloadFiles": 8
+  },
+  "screenMappingArchive": {
+    "file": "screen-mapping.tar.xz",
+    "bytes": 190636,
+    "sha256": "c15bd92b844c5408862299f1f17c166164c1b2db4fec808dc41d371989b5bc7d",
+    "verifiedPayloadFiles": 11
   }
 }

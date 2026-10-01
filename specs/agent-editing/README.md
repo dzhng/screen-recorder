@@ -21,16 +21,16 @@ Implement the remaining toolkit primitives through the existing owners. Read
 The external agent using the toolkit makes every editorial decision. The consumer
 skill is a product artifact, not this repository's development workflow.
 
-**Next pickup: [21 isolated camera integration](slices/21-webcam.md), starting with
-public discovery and permission reporting through existing owners.** Do not accept
-camera-start selectors before input, result and project finalization can honor them.
+**Next pickup: [21 isolated camera integration](slices/21-webcam.md): selected input,
+source results, finalization and project adoption through existing owners.**
+[21a passive discovery](slices/21a-camera-discovery.md) is verified in its controlled
+scope. Do not accept camera-start selectors before input, result and project finalization can honor them.
 
-For [12b](slices/12b-speech-processing.md), preserve the already selected Parakeet baseline and its disclosed best-effort
-fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
+For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
+and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
 now passes; matching current actual-model execution remains unverified because
 the recorded prepared-model directories are absent. Compare requests, raw outputs,
-provenance, generations and
-explicit fixture edits through the existing source-processing/public owners. Do
+provenance, generations and explicit fixture edits through the existing source-processing/public owners. Do
 not require a new ASR winner or personal keep/remove answer first. A different
 model/alignment recipe needs its own evidence before adoption.
 
@@ -215,6 +215,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
+- [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)

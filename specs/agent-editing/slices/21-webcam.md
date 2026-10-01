@@ -1,6 +1,8 @@
 # 21 — Integrate synchronized webcam capture
 
-Status: isolated public integration not started; physical acceptance remains open.
+Status: [passive discovery and permission facts](21a-camera-discovery.md) are
+verified in controlled public/native fixtures. Selected input, source result,
+finalization and project integration remain incomplete; physical acceptance is open.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and

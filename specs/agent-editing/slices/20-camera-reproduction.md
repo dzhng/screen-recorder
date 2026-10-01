@@ -41,8 +41,10 @@ analysis, not the length of the recording or proof that the rest is unusable.
 
 Finer samples now support a wider candidate interval, and the journal/native
 comparison shows that camera coordinate translation leaves the measured residuals
-unchanged. The next bounded question is the screen source-clock mapping and
-cross-decoder picture correspondence. Preserve the frozen analysis as baseline,
+unchanged. Screen cursor metadata now ties native timestamps to acquired callbacks;
+different decoder frame counts leave same-picture correspondence unsupported.
+That link and physical onset uncertainty remain the concrete gaps. Preserve the
+frozen analysis as baseline,
 declare any changed detector/selection rule, inspect its false positives and
 report supported intervals plus uncertainty. Do not fit away drift, recenter each
 event, loosen the one-frame target or infer unseen markers from cadence. Stop

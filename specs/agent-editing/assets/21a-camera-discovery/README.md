@@ -28,6 +28,9 @@ The executable-fixture sweep also updates the retained terminal-boundary journey
 idle control response. That journey's media experiment was not repeated. Frozen
 media/clock/publication evidence retains its existing scope.
 
-`verification.json` records gate results and limits. Independent root settled diff and shape review is clean. No real hardware discovery, permission read/request, camera activation,
+[Verification](verification.json) records gate results and limits; the
+[merged focused gate](merged-verification.json) passes independently after the
+assertion refinement. Independent root settled diff and shape review is clean.
+No real hardware discovery, permission read/request, camera activation,
 capture, audio playback, model work or installation occurred. Public camera start,
 source result ownership, finalization and project adoption remain with parent 21.

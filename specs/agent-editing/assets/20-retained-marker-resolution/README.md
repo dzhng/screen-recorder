@@ -26,11 +26,19 @@ with the acquired journal and saved FFmpeg presentation order. They disclose a
 piecewise camera coordinate displacement, not a fitted drift correction. Every
 measured candidate lies in the same constant-displacement region, so translating
 that coordinate changes none of the first-event-aligned threshold residuals.
-Cross-decoder picture identity at each candidate and the screen's source-clock
-mapping remain unsupported. Mixed-coordinate absolute offsets are not physical
+Cross-decoder picture identity at each candidate and a complete screen decoder
+correspondence remain unsupported. Mixed-coordinate absolute offsets are not physical
 latency measurements.
 
-Further threshold tuning cannot supply missing event identities or physical
-onset evidence. The next bounded existing-data question is the screen's source
-clock and cross-decoder picture correspondence, using the existing capture and
-presentation owners. No replacement recording, capture or playback is prescribed.
+The [screen metadata result](screen-mapping-result.json) and
+[complete cursor evidence](screen-mapping.tar.xz) tie represented native timestamps
+to acquired callbacks with one omitted callback near EOF. FFmpeg represents a
+different frame count. Same-ordinal timestamp comparisons give only a conditional
+coordinate diagnostic: they do not prove those positions contain the same
+pictures or improve physical precision. No fitted drift or additional alignment
+is used.
+
+Further threshold tuning cannot supply missing event identities or physical onset
+evidence. The remaining concrete link is same-picture correspondence at marker
+ordinals across decoders, alongside the unresolved physical onset bound. No
+replacement recording, capture or playback is prescribed.

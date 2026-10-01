@@ -11,8 +11,9 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21](../slices/21-webcam.md) isolated camera integration, beginning with
-public discovery/permission metadata; input/result/project adoption must precede
+Continue [21](../slices/21-webcam.md) isolated camera integration.
+[Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
+public/native gates; input/result/project adoption must precede
 any new accepted camera-start selector. Preserve [12b](../slices/12b-speech-processing.md)
 parity for the already selected baseline, including raw evidence, provenance, generations and
 known best-effort filler/timing limits. Broader12 quality characterization and
@@ -97,7 +98,9 @@ retained take itself meets the requested duration. The
 [finer marker diagnostic](20-retained-marker-resolution/README.md) supports more
 candidate flashes, but clipped numbers and partial illumination prevent physical
 onset bounds. Its camera coordinate comparison leaves all threshold residuals
-unchanged; screen mapping and cross-decoder correspondence remain open. The historical
+unchanged. Screen cursor metadata matches acquired timestamps, but different
+decoder frame counts leave same-picture correspondence and physical onset
+uncertainty open. The historical
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)
 preserved4428 pictures and took26.915 seconds through actual media closure. The
 [bounded hashing pass](20e-camera-picture-hashing/README.md) removes per-row copies

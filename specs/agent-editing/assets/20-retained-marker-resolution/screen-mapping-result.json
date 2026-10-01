@@ -1,0 +1,905 @@
+{
+  "question": "How do saved screen FFmpeg PTS relate to captured/native source frame starts, and what do exact ordinal timestamp comparisons imply for prior threshold residuals?",
+  "verdict": "Native source/callback coordinate mapping established. Cross-decoder picture correspondence remains unsupported; save ordinal-coordinate comparison as diagnostic, not physical calibration or a promoted synchronization measurement.",
+  "boundedMeasurement": {
+    "command": [
+      "/tmp/retained-camera-measurement-20260930/screen-mapping/screen-sample-cursor",
+      "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/screen/video.mov",
+      "/tmp/retained-camera-measurement-20260930/screen-mapping/cursor-metadata.json"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.5804130000033183,
+    "hardDeadlineSeconds": 60,
+    "stoppedBy": null,
+    "compiler": {
+      "path": "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "version": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0"
+    },
+    "source": {
+      "path": "/tmp/retained-camera-measurement-20260930/screen-mapping/ScreenSampleCursor.swift",
+      "bytes": 3850,
+      "sha256": "df1ad0a822dead88d475ba21afe65166358a6528a086dcace3074769bda9a218"
+    },
+    "executable": {
+      "path": "/tmp/retained-camera-measurement-20260930/screen-mapping/screen-sample-cursor",
+      "bytes": 102072,
+      "sha256": "d29dc4f42535cf3e58850adfa44eb7c137fafce8fc20102fb77c1f7bffa37e28"
+    },
+    "inputIdentity": {
+      "path": "screen/video.mov",
+      "bytes": 113175651,
+      "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+    },
+    "inputHashPolicy": "Reused retained manifest hash; this run did not hash media or decode any pixels."
+  },
+  "nativeSequenceEvidence": {
+    "acceptedScreenCallbackRows": 7451,
+    "journalDeclaredHostOriginUs": 15210261897,
+    "journalExactClockOriginUs": "7605130948333/500",
+    "sourceRoundingErrorUsRangeRelativeToExactOrigin": [
+      -0.166,
+      0.792
+    ],
+    "nativeSampleCursorPositions": 7359,
+    "savedFfmpegDecodedPictures": 7360,
+    "nativeOriginUs": 0,
+    "nativeCursorAllPtsFoundExactlyInAcceptedCallbacks": true,
+    "nativeCursorToCallbackOrdinalRuns": [
+      {
+        "nativeCursorOrdinals": [
+          0,
+          7357
+        ],
+        "acceptedCallbackOrdinals": [
+          0,
+          7357
+        ]
+      },
+      {
+        "nativeCursorOrdinals": [
+          7358,
+          7358
+        ],
+        "acceptedCallbackOrdinals": [
+          7359,
+          7359
+        ]
+      }
+    ],
+    "callbackNotRepresentedByNativeCursorWithinNativeTerminalSupport": {
+      "acceptedCallbackOrdinal": 7358,
+      "sourceUs": 250965143
+    },
+    "nativeFinalPictureSourceUs": 250998476,
+    "nativeEndUs": 251031809,
+    "acceptedCallbacksBeyondNativeFinalPictureStart": 91,
+    "retainedNativeStillChecks": [
+      {
+        "label": "early",
+        "retainedNativeActualSourceUs": 5016634,
+        "nativeCursorOrdinal": 148,
+        "acceptedCallbackOrdinal": 148,
+        "callbackSourceUs": 5016634,
+        "agreesExactly": true
+      },
+      {
+        "label": "middle",
+        "retainedNativeActualSourceUs": 125495053,
+        "nativeCursorOrdinal": 3683,
+        "acceptedCallbackOrdinal": 3683,
+        "callbackSourceUs": 125495053,
+        "agreesExactly": true
+      },
+      {
+        "label": "late",
+        "retainedNativeActualSourceUs": 245998505,
+        "nativeCursorOrdinal": 7212,
+        "acceptedCallbackOrdinal": 7212,
+        "callbackSourceUs": 245998505,
+        "agreesExactly": true
+      }
+    ],
+    "ffmpegNonmonotonicPair": {
+      "frameOrdinals": [
+        32,
+        33
+      ],
+      "ptsUs": [
+        1191660,
+        1183326
+      ]
+    }
+  },
+  "ordinalCoordinateDiagnostic": {
+    "status": "Conditional on same-picture ordinal correspondence across FFmpeg and native. No new picture identity proof. All measured marker ordinals253\u20135823 precede native/callback discrepancy at7358.",
+    "first30OrdinalFfmpegMinusNativeUs": 25000,
+    "next3OrdinalFfmpegMinusNativeUs": 100000,
+    "remainingOrdinalDisplacement": "Variable; complete table in screen-ordinal-diagnostic.csv. Numeric timestamp equality to other callback positions is not picture identity.",
+    "measuredMarkerScreenDisplacementUsRange": [
+      41666,
+      83332
+    ],
+    "initialEvent": 2,
+    "nativeOrdinalInitialThresholdOffsetUs": 65981,
+    "nativeOrdinalInitialThresholdSampleOffsetBracketUs": [
+      -689,
+      99314
+    ],
+    "originalMaximumAbsoluteThresholdResidualUs": 50613,
+    "nativeOrdinalMaximumAbsoluteThresholdResidualUs": 36526,
+    "thresholdResidualChangeUsRange": [
+      -25000,
+      16666
+    ],
+    "nativeOrdinalWorstThresholdSampleResidualBracketUs": [
+      -136529,
+      135050
+    ],
+    "alignmentRule": "Use original threshold event2 exactly once. Each source timestamp comes directly from native metadata/journal by compared ordinal; no fitted displacement, per-event calibration, slope/time warp or recentering.",
+    "matches": [
+      {
+        "inheritedEventAssociation": 2,
+        "screenFfmpegFrameOrdinal": 253,
+        "nativeScreenCursorOrdinalCompared": 253,
+        "acceptedScreenCallbackOrdinal": 253,
+        "screenObservationLineNumber": 1177,
+        "screenFfmpegPtsUs": 8658278,
+        "nativeScreenSourceUs": 8591612,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 8558279,
+        "cameraPictureOrdinal": 82,
+        "nativeCameraSourceUs": 8657593,
+        "originalThresholdResidualUs": 0,
+        "nativeOrdinalThresholdOffsetUs": 65981,
+        "nativeOrdinalThresholdResidualUs": 0,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -689,
+          99314
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          0,
+          0
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 3,
+        "screenFfmpegFrameOrdinal": 400,
+        "nativeScreenCursorOrdinalCompared": 400,
+        "acceptedScreenCallbackOrdinal": 400,
+        "screenObservationLineNumber": 1944,
+        "screenFfmpegPtsUs": 13658247,
+        "nativeScreenSourceUs": 13591581,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 13558248,
+        "cameraPictureOrdinal": 171,
+        "nativeCameraSourceUs": 13624653,
+        "originalThresholdResidualUs": -32909,
+        "nativeOrdinalThresholdOffsetUs": 33072,
+        "nativeOrdinalThresholdResidualUs": -32909,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -33598,
+          66405
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -132912,
+          67094
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 4,
+        "screenFfmpegFrameOrdinal": 547,
+        "nativeScreenCursorOrdinalCompared": 547,
+        "acceptedScreenCallbackOrdinal": 547,
+        "screenObservationLineNumber": 2708,
+        "screenFfmpegPtsUs": 18649883,
+        "nativeScreenSourceUs": 18583217,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 18541550,
+        "cameraPictureOrdinal": 261,
+        "nativeCameraSourceUs": 18625053,
+        "originalThresholdResidualUs": -24145,
+        "nativeOrdinalThresholdOffsetUs": 41836,
+        "nativeOrdinalThresholdResidualUs": -24145,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          8496,
+          83503
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -90818,
+          84192
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 5,
+        "screenFfmpegFrameOrdinal": 695,
+        "nativeScreenCursorOrdinalCompared": 695,
+        "acceptedScreenCallbackOrdinal": 695,
+        "screenObservationLineNumber": 3478,
+        "screenFfmpegPtsUs": 23674852,
+        "nativeScreenSourceUs": 23608186,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 23566519,
+        "cameraPictureOrdinal": 351,
+        "nativeCameraSourceUs": 23658783,
+        "originalThresholdResidualUs": -15384,
+        "nativeOrdinalThresholdOffsetUs": 50597,
+        "nativeOrdinalThresholdResidualUs": -15384,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -16073,
+          92264
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -115387,
+          92953
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 6,
+        "screenFfmpegFrameOrdinal": 841,
+        "nativeScreenCursorOrdinalCompared": 841,
+        "acceptedScreenCallbackOrdinal": 841,
+        "screenObservationLineNumber": 4239,
+        "screenFfmpegPtsUs": 28641488,
+        "nativeScreenSourceUs": 28574822,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 28524822,
+        "cameraPictureOrdinal": 441,
+        "nativeCameraSourceUs": 28659183,
+        "originalThresholdResidualUs": 18380,
+        "nativeOrdinalThresholdOffsetUs": 84361,
+        "nativeOrdinalThresholdResidualUs": 18380,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          17691,
+          134361
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -81623,
+          135050
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 7,
+        "screenFfmpegFrameOrdinal": 988,
+        "nativeScreenCursorOrdinalCompared": 988,
+        "acceptedScreenCallbackOrdinal": 988,
+        "screenObservationLineNumber": 5004,
+        "screenFfmpegPtsUs": 33641458,
+        "nativeScreenSourceUs": 33574792,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 33541459,
+        "cameraPictureOrdinal": 530,
+        "nativeCameraSourceUs": 33626243,
+        "originalThresholdResidualUs": -14530,
+        "nativeOrdinalThresholdOffsetUs": 51451,
+        "nativeOrdinalThresholdResidualUs": -14530,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -15219,
+          84784
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -114533,
+          85473
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 8,
+        "screenFfmpegFrameOrdinal": 1136,
+        "nativeScreenCursorOrdinalCompared": 1136,
+        "acceptedScreenCallbackOrdinal": 1136,
+        "screenObservationLineNumber": 5775,
+        "screenFfmpegPtsUs": 38674761,
+        "nativeScreenSourceUs": 38599762,
+        "screenFfmpegMinusNativeSourceUs": 74999,
+        "screenNativePreviousSourceUs": 38566429,
+        "cameraPictureOrdinal": 621,
+        "nativeCameraSourceUs": 38659983,
+        "originalThresholdResidualUs": -14093,
+        "nativeOrdinalThresholdOffsetUs": 60221,
+        "nativeOrdinalThresholdResidualUs": -5760,
+        "residualChangeFromOriginalUs": 8333,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          26881,
+          93554
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -72433,
+          94243
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 9,
+        "screenFfmpegFrameOrdinal": 1282,
+        "nativeScreenCursorOrdinalCompared": 1282,
+        "acceptedScreenCallbackOrdinal": 1282,
+        "screenObservationLineNumber": 6540,
+        "screenFfmpegPtsUs": 43641398,
+        "nativeScreenSourceUs": 43583065,
+        "screenFfmpegMinusNativeSourceUs": 58333,
+        "screenNativePreviousSourceUs": 43533066,
+        "cameraPictureOrdinal": 710,
+        "nativeCameraSourceUs": 43627043,
+        "originalThresholdResidualUs": -13670,
+        "nativeOrdinalThresholdOffsetUs": 43978,
+        "nativeOrdinalThresholdResidualUs": -22003,
+        "residualChangeFromOriginalUs": -8333,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -22692,
+          93977
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -122006,
+          94666
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 10,
+        "screenFfmpegFrameOrdinal": 1427,
+        "nativeScreenCursorOrdinalCompared": 1427,
+        "acceptedScreenCallbackOrdinal": 1427,
+        "screenObservationLineNumber": 7303,
+        "screenFfmpegPtsUs": 48633035,
+        "nativeScreenSourceUs": 48583035,
+        "screenFfmpegMinusNativeSourceUs": 50000,
+        "screenNativePreviousSourceUs": 48533035,
+        "cameraPictureOrdinal": 800,
+        "nativeCameraSourceUs": 48627443,
+        "originalThresholdResidualUs": -4907,
+        "nativeOrdinalThresholdOffsetUs": 44408,
+        "nativeOrdinalThresholdResidualUs": -21573,
+        "residualChangeFromOriginalUs": -16666,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          11068,
+          94408
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -88246,
+          95097
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 11,
+        "screenFfmpegFrameOrdinal": 1574,
+        "nativeScreenCursorOrdinalCompared": 1574,
+        "acceptedScreenCallbackOrdinal": 1574,
+        "screenObservationLineNumber": 8068,
+        "screenFfmpegPtsUs": 53633004,
+        "nativeScreenSourceUs": 53574671,
+        "screenFfmpegMinusNativeSourceUs": 58333,
+        "screenNativePreviousSourceUs": 53533004,
+        "cameraPictureOrdinal": 890,
+        "nativeCameraSourceUs": 53661173,
+        "originalThresholdResidualUs": 28854,
+        "nativeOrdinalThresholdOffsetUs": 86502,
+        "nativeOrdinalThresholdResidualUs": 20521,
+        "residualChangeFromOriginalUs": -8333,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          19832,
+          128169
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -79482,
+          128858
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 12,
+        "screenFfmpegFrameOrdinal": 1722,
+        "nativeScreenCursorOrdinalCompared": 1722,
+        "acceptedScreenCallbackOrdinal": 1722,
+        "screenObservationLineNumber": 8838,
+        "screenFfmpegPtsUs": 58657973,
+        "nativeScreenSourceUs": 58591306,
+        "screenFfmpegMinusNativeSourceUs": 66667,
+        "screenNativePreviousSourceUs": 58532973,
+        "cameraPictureOrdinal": 980,
+        "nativeCameraSourceUs": 58661573,
+        "originalThresholdResidualUs": 4285,
+        "nativeOrdinalThresholdOffsetUs": 70267,
+        "nativeOrdinalThresholdResidualUs": 4286,
+        "residualChangeFromOriginalUs": 1,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          3597,
+          128600
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -95717,
+          129289
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 13,
+        "screenFfmpegFrameOrdinal": 1868,
+        "nativeScreenCursorOrdinalCompared": 1868,
+        "acceptedScreenCallbackOrdinal": 1868,
+        "screenObservationLineNumber": 9602,
+        "screenFfmpegPtsUs": 63649608,
+        "nativeScreenSourceUs": 63582942,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 63532942,
+        "cameraPictureOrdinal": 1069,
+        "nativeCameraSourceUs": 63628633,
+        "originalThresholdResidualUs": -20290,
+        "nativeOrdinalThresholdOffsetUs": 45691,
+        "nativeOrdinalThresholdResidualUs": -20290,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -20979,
+          95691
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -120293,
+          96380
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 14,
+        "screenFfmpegFrameOrdinal": 2013,
+        "nativeScreenCursorOrdinalCompared": 2013,
+        "acceptedScreenCallbackOrdinal": 2013,
+        "screenObservationLineNumber": 10372,
+        "screenFfmpegPtsUs": 68674577,
+        "nativeScreenSourceUs": 68599578,
+        "screenFfmpegMinusNativeSourceUs": 74999,
+        "screenNativePreviousSourceUs": 68566245,
+        "cameraPictureOrdinal": 1159,
+        "nativeCameraSourceUs": 68629033,
+        "originalThresholdResidualUs": -44859,
+        "nativeOrdinalThresholdOffsetUs": 29455,
+        "nativeOrdinalThresholdResidualUs": -36526,
+        "residualChangeFromOriginalUs": 8333,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -37215,
+          62788
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -136529,
+          63477
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 15,
+        "screenFfmpegFrameOrdinal": 2159,
+        "nativeScreenCursorOrdinalCompared": 2159,
+        "acceptedScreenCallbackOrdinal": 2159,
+        "screenObservationLineNumber": 11136,
+        "screenFfmpegPtsUs": 73657880,
+        "nativeScreenSourceUs": 73582880,
+        "screenFfmpegMinusNativeSourceUs": 75000,
+        "screenNativePreviousSourceUs": 73532880,
+        "cameraPictureOrdinal": 1249,
+        "nativeCameraSourceUs": 73629433,
+        "originalThresholdResidualUs": -27762,
+        "nativeOrdinalThresholdOffsetUs": 46553,
+        "nativeOrdinalThresholdResidualUs": -19428,
+        "residualChangeFromOriginalUs": 8334,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -20117,
+          96553
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -119431,
+          97242
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 16,
+        "screenFfmpegFrameOrdinal": 2305,
+        "nativeScreenCursorOrdinalCompared": 2305,
+        "acceptedScreenCallbackOrdinal": 2305,
+        "screenObservationLineNumber": 11901,
+        "screenFfmpegPtsUs": 78657848,
+        "nativeScreenSourceUs": 78591182,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 78532849,
+        "cameraPictureOrdinal": 1339,
+        "nativeCameraSourceUs": 78663163,
+        "originalThresholdResidualUs": 6000,
+        "nativeOrdinalThresholdOffsetUs": 71981,
+        "nativeOrdinalThresholdResidualUs": 6000,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          5311,
+          130314
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -94003,
+          131003
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 17,
+        "screenFfmpegFrameOrdinal": 2452,
+        "nativeScreenCursorOrdinalCompared": 2452,
+        "acceptedScreenCallbackOrdinal": 2452,
+        "screenObservationLineNumber": 12666,
+        "screenFfmpegPtsUs": 83632817,
+        "nativeScreenSourceUs": 83574484,
+        "screenFfmpegMinusNativeSourceUs": 58333,
+        "screenNativePreviousSourceUs": 83532817,
+        "cameraPictureOrdinal": 1429,
+        "nativeCameraSourceUs": 83663563,
+        "originalThresholdResidualUs": 31431,
+        "nativeOrdinalThresholdOffsetUs": 89079,
+        "nativeOrdinalThresholdResidualUs": 23098,
+        "residualChangeFromOriginalUs": -8333,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          22409,
+          130746
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -76905,
+          131435
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 18,
+        "screenFfmpegFrameOrdinal": 2599,
+        "nativeScreenCursorOrdinalCompared": 2599,
+        "acceptedScreenCallbackOrdinal": 2599,
+        "screenObservationLineNumber": 13431,
+        "screenFfmpegPtsUs": 88632785,
+        "nativeScreenSourceUs": 88574452,
+        "screenFfmpegMinusNativeSourceUs": 58333,
+        "screenNativePreviousSourceUs": 88532786,
+        "cameraPictureOrdinal": 1518,
+        "nativeCameraSourceUs": 88630623,
+        "originalThresholdResidualUs": -1477,
+        "nativeOrdinalThresholdOffsetUs": 56171,
+        "nativeOrdinalThresholdResidualUs": -9810,
+        "residualChangeFromOriginalUs": -8333,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -10499,
+          97837
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -109813,
+          98526
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 19,
+        "screenFfmpegFrameOrdinal": 2747,
+        "nativeScreenCursorOrdinalCompared": 2747,
+        "acceptedScreenCallbackOrdinal": 2747,
+        "screenObservationLineNumber": 14201,
+        "screenFfmpegPtsUs": 93649420,
+        "nativeScreenSourceUs": 93599420,
+        "screenFfmpegMinusNativeSourceUs": 50000,
+        "screenNativePreviousSourceUs": 93566087,
+        "cameraPictureOrdinal": 1608,
+        "nativeCameraSourceUs": 93631023,
+        "originalThresholdResidualUs": -17712,
+        "nativeOrdinalThresholdOffsetUs": 31603,
+        "nativeOrdinalThresholdResidualUs": -34378,
+        "residualChangeFromOriginalUs": -16666,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -35067,
+          64936
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -134381,
+          65625
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 20,
+        "screenFfmpegFrameOrdinal": 2895,
+        "nativeScreenCursorOrdinalCompared": 2895,
+        "acceptedScreenCallbackOrdinal": 2895,
+        "screenObservationLineNumber": 14968,
+        "screenFfmpegPtsUs": 98682721,
+        "nativeScreenSourceUs": 98599389,
+        "screenFfmpegMinusNativeSourceUs": 83332,
+        "screenNativePreviousSourceUs": 98566055,
+        "cameraPictureOrdinal": 1698,
+        "nativeCameraSourceUs": 98631423,
+        "originalThresholdResidualUs": -50613,
+        "nativeOrdinalThresholdOffsetUs": 32034,
+        "nativeOrdinalThresholdResidualUs": -33947,
+        "residualChangeFromOriginalUs": 16666,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -1306,
+          65368
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -100620,
+          66057
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 21,
+        "screenFfmpegFrameOrdinal": 3042,
+        "nativeScreenCursorOrdinalCompared": 3042,
+        "acceptedScreenCallbackOrdinal": 3042,
+        "screenObservationLineNumber": 15732,
+        "screenFfmpegPtsUs": 103641023,
+        "nativeScreenSourceUs": 103599357,
+        "screenFfmpegMinusNativeSourceUs": 41666,
+        "screenNativePreviousSourceUs": 103566024,
+        "cameraPictureOrdinal": 1788,
+        "nativeCameraSourceUs": 103665153,
+        "originalThresholdResidualUs": 24815,
+        "nativeOrdinalThresholdOffsetUs": 65796,
+        "nativeOrdinalThresholdResidualUs": -185,
+        "residualChangeFromOriginalUs": -25000,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -874,
+          99129
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -100188,
+          99818
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 22,
+        "screenFfmpegFrameOrdinal": 3189,
+        "nativeScreenCursorOrdinalCompared": 3189,
+        "acceptedScreenCallbackOrdinal": 3189,
+        "screenObservationLineNumber": 16496,
+        "screenFfmpegPtsUs": 108640995,
+        "nativeScreenSourceUs": 108582659,
+        "screenFfmpegMinusNativeSourceUs": 58336,
+        "screenNativePreviousSourceUs": 108532659,
+        "cameraPictureOrdinal": 1877,
+        "nativeCameraSourceUs": 108632213,
+        "originalThresholdResidualUs": -8097,
+        "nativeOrdinalThresholdOffsetUs": 49554,
+        "nativeOrdinalThresholdResidualUs": -16427,
+        "residualChangeFromOriginalUs": -8330,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -17116,
+          99554
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -116430,
+          100243
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 23,
+        "screenFfmpegFrameOrdinal": 3336,
+        "nativeScreenCursorOrdinalCompared": 3336,
+        "acceptedScreenCallbackOrdinal": 3336,
+        "screenObservationLineNumber": 17262,
+        "screenFfmpegPtsUs": 113632627,
+        "nativeScreenSourceUs": 113582627,
+        "screenFfmpegMinusNativeSourceUs": 50000,
+        "screenNativePreviousSourceUs": 113532627,
+        "cameraPictureOrdinal": 1967,
+        "nativeCameraSourceUs": 113632613,
+        "originalThresholdResidualUs": 671,
+        "nativeOrdinalThresholdOffsetUs": 49986,
+        "nativeOrdinalThresholdResidualUs": -15995,
+        "residualChangeFromOriginalUs": -16666,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -16684,
+          99986
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -115998,
+          100675
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 24,
+        "screenFfmpegFrameOrdinal": 3482,
+        "nativeScreenCursorOrdinalCompared": 3482,
+        "acceptedScreenCallbackOrdinal": 3482,
+        "screenObservationLineNumber": 18029,
+        "screenFfmpegPtsUs": 118661762,
+        "nativeScreenSourceUs": 118595096,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 118561762,
+        "cameraPictureOrdinal": 2057,
+        "nativeCameraSourceUs": 118633013,
+        "originalThresholdResidualUs": -28064,
+        "nativeOrdinalThresholdOffsetUs": 37917,
+        "nativeOrdinalThresholdResidualUs": -28064,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          4577,
+          71251
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -94737,
+          71940
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 25,
+        "screenFfmpegFrameOrdinal": 3627,
+        "nativeScreenCursorOrdinalCompared": 3627,
+        "acceptedScreenCallbackOrdinal": 3627,
+        "screenObservationLineNumber": 18795,
+        "screenFfmpegPtsUs": 123670064,
+        "nativeScreenSourceUs": 123595064,
+        "screenFfmpegMinusNativeSourceUs": 75000,
+        "screenNativePreviousSourceUs": 123561731,
+        "cameraPictureOrdinal": 2147,
+        "nativeCameraSourceUs": 123633413,
+        "originalThresholdResidualUs": -35966,
+        "nativeOrdinalThresholdOffsetUs": 38349,
+        "nativeOrdinalThresholdResidualUs": -27632,
+        "residualChangeFromOriginalUs": 8334,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          5009,
+          71682
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -94305,
+          72371
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 29,
+        "screenFfmpegFrameOrdinal": 4214,
+        "nativeScreenCursorOrdinalCompared": 4214,
+        "acceptedScreenCallbackOrdinal": 4214,
+        "screenObservationLineNumber": 21861,
+        "screenFfmpegPtsUs": 143678275,
+        "nativeScreenSourceUs": 143611609,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 143561609,
+        "cameraPictureOrdinal": 2507,
+        "nativeCameraSourceUs": 143668343,
+        "originalThresholdResidualUs": -9247,
+        "nativeOrdinalThresholdOffsetUs": 56734,
+        "nativeOrdinalThresholdResidualUs": -9247,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -9936,
+          106734
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -109250,
+          107423
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 38,
+        "screenFfmpegFrameOrdinal": 5529,
+        "nativeScreenCursorOrdinalCompared": 5529,
+        "acceptedScreenCallbackOrdinal": 5529,
+        "screenObservationLineNumber": 28699,
+        "screenFfmpegPtsUs": 188653004,
+        "nativeScreenSourceUs": 188586338,
+        "screenFfmpegMinusNativeSourceUs": 66666,
+        "screenNativePreviousSourceUs": 188553004,
+        "cameraPictureOrdinal": 3319,
+        "nativeCameraSourceUs": 188643153,
+        "originalThresholdResidualUs": -9166,
+        "nativeOrdinalThresholdOffsetUs": 56815,
+        "nativeOrdinalThresholdResidualUs": -9166,
+        "residualChangeFromOriginalUs": 0,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          23475,
+          90149
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -75839,
+          90838
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 39,
+        "screenFfmpegFrameOrdinal": 5676,
+        "nativeScreenCursorOrdinalCompared": 5676,
+        "acceptedScreenCallbackOrdinal": 5676,
+        "screenObservationLineNumber": 29466,
+        "screenFfmpegPtsUs": 193661309,
+        "nativeScreenSourceUs": 193594642,
+        "screenFfmpegMinusNativeSourceUs": 66667,
+        "screenNativePreviousSourceUs": 193561309,
+        "cameraPictureOrdinal": 3409,
+        "nativeCameraSourceUs": 193643553,
+        "originalThresholdResidualUs": -17071,
+        "nativeOrdinalThresholdOffsetUs": 48911,
+        "nativeOrdinalThresholdResidualUs": -17070,
+        "residualChangeFromOriginalUs": 1,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -17759,
+          82244
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -117073,
+          82933
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      },
+      {
+        "inheritedEventAssociation": 40,
+        "screenFfmpegFrameOrdinal": 5823,
+        "nativeScreenCursorOrdinalCompared": 5823,
+        "acceptedScreenCallbackOrdinal": 5823,
+        "screenObservationLineNumber": 30233,
+        "screenFfmpegPtsUs": 198665447,
+        "nativeScreenSourceUs": 198598780,
+        "screenFfmpegMinusNativeSourceUs": 66667,
+        "screenNativePreviousSourceUs": 198565447,
+        "cameraPictureOrdinal": 3499,
+        "nativeCameraSourceUs": 198643953,
+        "originalThresholdResidualUs": -20809,
+        "nativeOrdinalThresholdOffsetUs": 45173,
+        "nativeOrdinalThresholdResidualUs": -20808,
+        "residualChangeFromOriginalUs": 1,
+        "nativeOrdinalThresholdSampleOffsetBracketUs": [
+          -21497,
+          78506
+        ],
+        "nativeOrdinalThresholdSampleResidualBracketUs": [
+          -120811,
+          79195
+        ],
+        "physicalOnsetBracket": null,
+        "crossDecoderPictureIdentityVerified": false
+      }
+    ]
+  },
+  "limitations": [
+    "Native cursor/accepted callback relation is exact metadata evidence; raw screen FFmpeg-to-native picture identity at each compared ordinal is not verified. Count difference at native terminal support and nonmonotonic FFmpeg PTS prevent silently asserting complete one-to-one decoded-picture correspondence.",
+    "Reported36.526ms maximum is an ordinal-coordinate diagnostic, not improved physical onset precision. Partial predecessors, rolling/exposure uncertainty and clipped marker numbers remain unresolved. Physical33ms and whole-duration synchronization remain UNVERIFIED.",
+    "Metadata alone does not explain the fragmented-MOV demux timestamp behavior or the native cursor omission nearEOF.",
+    "No new screen pictures, detector changes, payload hashes, hardware access or audible output were produced. Original reports and source bytes received no writes."
+  ],
+  "stop": "Native sequence relation and remaining unsupported cross-decoder link are now precise. Stop this bounded question."
+}

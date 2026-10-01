@@ -1,0 +1,19 @@
+{
+  "scope": "Independent merged passive camera discovery contract, controlled native facts only",
+  "head": "fd6cd6a0",
+  "command": "node ../../node_modules/vitest/vitest.mjs run src/main.test.ts -t 'public camera discovery' --maxWorkers=1",
+  "cwd": "/Users/david/dev/screen-recorder/apps/cli",
+  "exitCode": 0,
+  "testsPassed": 1,
+  "testsSkipped": 20,
+  "seconds": 8.02,
+  "deadlineMs": 20000,
+  "sourceSha256": {
+    "apps/cli/src/main.test.ts": "6ef4c21efcab6b70c1805689936e6f73abe828fb54e8426024b3b4b51d0faadc"
+  },
+  "review": "Settled four-line assertion move preserves all five permission states across CLI/MCP and native discovery state coverage. No production or deadline changes.",
+  "limits": [
+    "No actual hardware/permission discovery, camera activation, capture or live lifecycle acceptance.",
+    "Parent21 selection, source results, finalization and project adoption remain incomplete."
+  ]
+}
