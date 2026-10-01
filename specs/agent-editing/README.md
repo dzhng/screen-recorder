@@ -22,13 +22,14 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: [09c audio-only export](slices/09c-audio-only-export.md),
-after any in-flight checkpoint.** The user requested audio-only formats through
-`export.create`, completing the existing video → extracted/processed/trimmed audio
-workflow. Implement this through the current audio and export owners; video removal
-is a separate explicit caller edit. Start with the verified WAV sink and verify
-additional standalone formats before advertising them. This is new independent
-primitive work, not blocked by the release or profiling claims below.
+**Next implementation pickup: integrate the [24z metadata-owner change](slices/24z-source-cardinality.md)
+and advance [25 fixture preparation](assets/25-fixture-brief/README.md).**
+[09c audio export](slices/09c-audio-only-export.md) and
+[23i source service process](slices/23i-service-process-parity.md) are integrated.
+Their [merged public checks](assets/09c-23i-merged/README.md) pass in controlled
+scope; two existing large-fixture checks still fail at their unchanged deadlines,
+including isolated retries. Resolve those failures without claiming a latency pass
+or stopping independent primitive work.
 
 [24z bounded source-cardinality attribution](slices/24z-source-cardinality.md)
 retains its separate dispatch prerequisites.
@@ -54,10 +55,10 @@ prerequisites do not prohibit isolated implementation preparation.
 
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
-| [09c](slices/09c-audio-only-export.md) | First-class audio export through existing output settings, audio execution and export publication | WAV public lifecycle and additional standalone formats are planned, not verified |
+| [09c](slices/09c-audio-only-export.md) | Preserve merged WAV/AAC public delivery and lifecycle | Existing large-fixture deadlines, performance and installed acceptance |
 | [12](slices/12-speech-evidence.md) | Preserve completed [12b baseline adoption](slices/12b-speech-processing.md); investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
-| [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
+| [23](slices/23-cutover.md) | Preserve merged source process/discovery, complete remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
 | [24 / 25](slices/24-scale.md) | Investigate metadata resolution identified by [source-cardinality attribution](slices/24z-source-cardinality.md), and advance [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
 
 Reuse the [banked evidence](assets/integrated-evidence.md) and
@@ -193,7 +194,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [09b — Agent-controlled output settings](slices/09b-output-settings.md)
-- [ ] [09c — Audio-only export](slices/09c-audio-only-export.md)
+- [ ] [09c — Audio-only export](slices/09c-audio-only-export.md) — public implementation passes; existing deadline preservation remains open
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
@@ -292,6 +293,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
 - [x] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
 - [x] [23h — Native library consumption](slices/23h-native-library-consumption.md)
+- [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

@@ -1,0 +1,102 @@
+{
+  "checkpoint": "baa92372024b96a9ebe847cbb1f60d6f164099a0",
+  "status": "Scoped merged public functional checks pass; existing large-fixture deadlines remain red",
+  "audio": {
+    "exitCode": 0,
+    "exchanges": 199,
+    "report": "audio/report.json",
+    "checks": [
+      "capabilities",
+      "oracle",
+      "lifecycle",
+      "videoRemoval",
+      "occupied",
+      "aac",
+      "frozenDefaults",
+      "aacDependencyCancellation",
+      "noVideo"
+    ],
+    "oracle": {
+      "frames": 144000,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmSha256": "d94fa58401d3357731f51430ecff8c66395b6ee53c17b9ba7b0a530e0812ed73",
+      "trimmedSourceFrames": [
+        0,
+        12000
+      ],
+      "gain": 0.5
+    },
+    "native": {
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    }
+  },
+  "service": {
+    "exitCode": 0,
+    "exchanges": 16,
+    "terminalProcesses": 9,
+    "report": "service/report.json",
+    "checks": [
+      "single startup owner and live socket preserved",
+      "EOF, signal and abrupt-death recovery preserve explicit project/replay",
+      "old bytes and default composition/bundling preserved; only controlled startup native calls"
+    ],
+    "result": "pass"
+  },
+  "requiredPackageBuilds": {
+    "exitCode": 0,
+    "packages": [
+      "composition",
+      "protocol",
+      "core",
+      "client",
+      "service",
+      "cli"
+    ],
+    "basis": "Actual sequential root rebuilds completed before these public journeys; prior producer build logs remain in owning packets."
+  },
+  "consumerHeadless": {
+    "exitCode": 0,
+    "log": "root-checks/screenrec-09c-root-controls.log"
+  },
+  "existingFocusedSuite": {
+    "exitCode": 1,
+    "passed": 125,
+    "conditionalSkipped": 1,
+    "deadlineFailures": 2,
+    "log": "root-checks/screenrec-09c-23i-root-focused.log"
+  },
+  "isolatedDeadlineRetries": [
+    {
+      "test": "portable prepared recipes retain a complete many-clip execution graph",
+      "exitCode": 1,
+      "deadlineMs": 5000,
+      "log": "root-checks/screenrec-09c-root-prepared-isolated.log"
+    },
+    {
+      "test": "asset job diagnostics do not hydrate physical segment metadata",
+      "exitCode": 1,
+      "deadlineMs": 5000,
+      "log": "root-checks/screenrec-09c-root-assets-isolated.log"
+    }
+  ],
+  "hostContext": {
+    "log": "root-checks/screenrec-09c-after-isolated-timeout-processes.txt",
+    "interpretation": "Heavy unrelated CPU work was present after isolated retries. This is a confounder, not a proven cause or a latency pass. No deadlines changed."
+  },
+  "originalPackets": "Unmodified. Full archive checks and current pin differences retained in root-checks. Actual merged journeys cover the changed service inputs.",
+  "openClaims": [
+    "Existing large-fixture deadline preservation",
+    "Performance SLA",
+    "Installed switching and concrete native presentation",
+    "Physical synchronization and completed-stop budget",
+    "Broader speech quality"
+  ],
+  "archive": {
+    "members": 761,
+    "bytes": 4975388,
+    "sha256": "6d3087e6cfa30d555f1f344594eb1c601f14b20ef719b9f073006d974df687a6",
+    "allMembersVerified": true
+  }
+}

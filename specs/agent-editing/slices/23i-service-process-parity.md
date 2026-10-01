@@ -39,6 +39,9 @@ exchanges, bundle/source identities, failing regression controls and existing
 service/capture lifecycle checks. Only native startup work is scripted. Those
 replies establish no hardware, capture, decoder, playback, inference or model
 download claim. Existing media/model evidence remains scoped to its own owners.
+The [merged checkpoint](../assets/09c-23i-merged/README.md) repeats the actual
+process journey after audio-export integration and retains separate affected-suite
+deadline failures. It does not turn source readiness into an installed switch.
 
 ## Remaining cutover
 

@@ -6108,6 +6108,9 @@ When: bounded owner-profile dispatch.
   from the report or weakening the performance requirement.
 - **Confidence:** Medium. Sampling and host activity affect precision; source
   inspection and contract tests must support any optimization selected from it.
+
+## 23i — App-owned process and discovery
+
 ### Share the app-owned socket across composition roots — sound, high confidence
 
 When: 23i process and consumer preservation.
@@ -6128,3 +6131,15 @@ When: 23i process and consumer preservation.
   placement does not need to change that transport contract.
 - **Confidence:** High. Existing discovery, startup locking and app health
   consumers already define the shared authority.
+
+## 09c — Standalone audio export
+
+The [audio export ledger](assets/09c-audio-export/choices.md) is the canonical
+record for full-PCM reuse and disk cost, separate mixing/encoding identities,
+demonstrated formats, the fresh-catalog policy and existing native consumer
+semantics. Its [native ledger](assets/09c-native-audio-file/choices.md) owns the
+standard M4A timeline, presented content versus decoder padding, and bounded
+whole-file conversion. These choices were reviewed during root integration;
+all remain sound. The two medium-confidence tradeoffs are PCM temporary disk
+cost and using the existing MP4 mux for an AAC-only M4A file. No editorial choice
+or new permission gate is delegated to the product.
