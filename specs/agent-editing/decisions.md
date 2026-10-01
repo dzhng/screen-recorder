@@ -4,6 +4,24 @@ The user decisions live in [MAP](MAP.md); [contracts](contracts.md) is the
 implementation authority. This record explains choices made while turning the
 brief into slices. Proposals here do not override those files.
 
+## Current scope and scheduling correction
+
+The user's 2026-09-30 feedback fixes the product boundary: only primitives, zero
+editorial decisions, with all judgment in the external caller. The existing
+selected Parakeet/best-effort policy is preserved; public parity does not require
+finding an alternate winner first. Alternate adoption retains its own quality
+evidence. Failed timing scores are not changed or accepted as accurate boundaries.
+
+The provided camera take already satisfies the requested duration. Existing-source
+analysis comes before any proposed new human task. Earlier ten-minute or new
+tutorial instructions are superseded by parent 20's retained-take contract.
+Three independent fewest-slices, risk-first and ownership reviews agreed that
+implementation preparation must be separated from release acceptance. The live
+handoff now permits parallel speech parity, camera integration and consumer
+preservation; physical/lifecycle, installed cutover and final scale claims stay
+open until actually verified. Historical draft rationale below does not reinstate
+an obsolete serial queue or assign editorial policy to the toolkit.
+
 ## Independent drafts
 
 Three fresh, independent whole-plan drafts received the same discovery brief and

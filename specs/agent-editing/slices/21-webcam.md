@@ -1,6 +1,12 @@
 # 21 — Integrate synchronized webcam capture
 
-Status: not started. Dependencies: [04](./04-projects.md), [09](./09-first-preview.md), [20](./20-camera-reproduction.md).
+Status: isolated public integration not started; physical acceptance remains open.
+Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
+the verified clock/materialization/publication owners in
+[20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and
+[20e2](20e2-camera-presentation.md). Synchronized physical acceptance additionally
+depends on [20](20-camera-reproduction.md); it is not a prerequisite for isolated
+schema/lifecycle/finalization preparation.
 
 ## Contract
 
@@ -8,7 +14,16 @@ A recording can capture screen, optional camera and audio into independently edi
 
 ## Seam and ownership
 
-Extend the existing capture selection/device/permission boundary and native capture lifecycle. Finalization adopts source assets via the shared asset owner and creates linked project clips using the frozen slice 20 mapping.
+Extend the existing capture selection/device/permission boundary and native
+capture lifecycle. Optional camera selection is explicit, with no device fallback,
+implicit activation or startup permission prompt. Reuse the same capture clock,
+termination, asset admission and project owners. Preserve independent media and
+raw clock/support provenance. Publication retry must not repeat physical closure.
+Finalization adopts separate assets and seeds clock-derived linked clips through
+existing project/composition construction, preserving the documented source/time
+mapping. Do not invent capture-start track/link/layout settings or another
+authoring surface. Later placement/link/layout changes use existing explicit
+composition edits; no presenter treatment or sound processing is chosen for the caller.
 
 ## Work and review surface
 
@@ -26,7 +41,15 @@ Add the scenarios assigned here in the [live journey inventory](../journeys.md)
 through actual public CLI/MCP and service paths. State-only checks do not replace
 delivered-media or listening/physical gates.
 
-Production-entry parity with slice 20, existing capture/recovery suites, absent/denied/disconnected camera, repeated finalization and restart. Record one real screen/camera tutorial; prove independent audio/video replacement afterward and preserved raw source timing.
+Verify public-entry parity with the existing capture/clock owners, absent/denied/
+disconnected camera cases, repeated finalization and restart. Reuse the retained
+screen/camera/microphone take for admission, recovery, project adoption and
+independent audio/video replacement fixtures with preserved raw timing. Do not
+mandate another tutorial recording. Controlled device responses and prerecorded
+media can prove public wiring, not actual device acquisition, physical clocks or
+live shutdown. Keep those acceptance claims separately pending under 20 until the
+existing evidence proves them; any genuinely new live action needs its own
+concrete purpose and authorization after retained evidence is exhausted.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 

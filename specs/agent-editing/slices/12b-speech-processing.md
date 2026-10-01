@@ -1,26 +1,50 @@
 # 12b — Adopt verified source speech processing
 
-Status: not started. Dependencies: [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [12](./12-speech-evidence.md).
+Status: public parity pass not started; independent of unfinished alternate-model
+research. Implementation dependencies: [10](10-project-evidence.md),
+[11](11-audio-inspection.md) and the
+[selected baseline](../../recording-for-ai/slices/04-local-speech-gate.md).
+Any replacement recipe additionally depends on [12](12-speech-evidence.md).
 
 ## Contract
 
-Production source processing reproduces the accepted speech-evidence recipe,
-including any justified ASR/alignment change. This is recognition, timing and
+Production source processing preserves the selected baseline's speech-evidence
+behavior and provenance. A justified ASR/alignment change is a separate adoption
+decision, not mandatory work in this pass. This is recognition, timing and
 provenance only. The external caller selects removals and submits explicit edits;
 no editorial cleanup policy is part of the recipe.
 
 ## Seam and ownership
 
-Existing asset-scoped speech processing worker and model-preparation owner; adopt the exact frozen slice 12 configuration. Preserve raw engine outputs alongside derived aligned boundaries and their provenance. No parallel transcript owner or silently edited source text.
+Use the existing asset-scoped transcript, model, job and evidence-generation
+owners. Bind parity to the selected baseline's retained inputs/output/configuration.
+If alignment is later adopted, retain raw recognized text/timing and identify
+externally supplied text, model/runtime/settings and derived boundaries separately
+within that same generation owner. Never rewrite raw text to match the caller's
+correction, create a parallel transcript store or persist an editorial cleanup plan.
 
 ## Work and review surface
 
-If the current pipeline wins, establish public-entry parity and leave it intact. If an alternative wins, replace the source processing mechanism at its existing ownership boundary and remove the obsolete production path. Reads report the new generation/policy and stale cursors fail rather than mix outputs.
+First establish public-entry parity for the already selected current pipeline.
+Compare complete requests, normalization/projection, token kinds, clock conversion,
+generation/readiness/restart behavior and explicit fixture edit/delivery/undo.
+Controlled frozen responses may isolate integration from model quality; label
+that scope, and reuse retained actual execution evidence rather than rerunning
+accepted auditions. Preserve the baseline's known omissions and timing limits.
+Controlled-response checks alone cannot close actual-model public-entry parity;
+the retained real execution, request and provenance identities must also match
+the current adopted path, or that part stays unverified.
+
+Only if a replacement is justified by 12, replace the mechanism at this ownership
+boundary and remove the obsolete path. Changed timing affects source/project
+paging and search, transcript-seeded captions, packages/history and cached reads;
+verify all affected consumers. New generations/policies fence stale cursors while
+retained old evidence remains inspectable. Preparation does not approve adoption.
 
 Create this planned probe in this slice:
 
 ```sh
-node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-editing/assets/12-speech-reproduction
+node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-editing/assets/12-speech
 ```
 
 ## Acceptance

@@ -9,32 +9,21 @@ from full personal-release acceptance.
 
 ## Next Agent Prompt
 
-The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
-with the current implementation pickup in its live Next Agent Prompt. The current
-editing correction, [exact media admission](../agent-editing/slices/03d-exact-media-admission.md),
-is verified in the isolated service with capture/evidence clock preservation.
-The [populated source-event duration check](../agent-editing/slices/24y-source-event-duration.md)
-also passes its isolated query gates. The new editor provides only primitives and makes zero editorial decisions;
-the external agent using it makes those decisions. Its
-[editorial-control contract](../agent-editing/architecture.md#editorial-control)
-and [live handoff](../agent-editing/README.md#next-agent-prompt) own the current
-technical speech-evidence work. The
-[fixed sentence annotation packet](../agent-editing/slices/12d-complete-sentence-cleanup.md)
-is verified within its scope. The retained sentence/workbench labels and
-explicit-cut tests remain valid within their scopes. The personal repetition
-keep/remove solicitation is retired as a project prerequisite; no answer is
-needed to implement the toolkit. Technical timing and quality gates remain open.
-The isolated [camera digest cost audit](../agent-editing/assets/20e-camera-digest-components/README.md)
-selects no additional production change; physical and live-stop gates remain open.
-Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.
-Its [generation/ambience matrix](../agent-editing/assets/19-acceptance/README.md)
-is accepted: the user chooses the speech-free200ms loop with a slight residual
-seam tolerated. Preserve that exact choice. Its [processing contract](../agent-editing/processing.md) includes the accepted
-ordered-stack API. It defers the editing UI and replaces
-the editing model through explicit preservation gates. This recording spec remains
-the source of existing release evidence and unfinished acceptance; its status is
-not upgraded by the new plan. Follow the new plan for editing work. The instructions
-below apply when specifically continuing the original recording-release acceptance.
+The active expansion is the [agent-operated toolkit](../agent-editing/README.md).
+Its [live handoff](../agent-editing/README.md#next-agent-prompt) owns the current
+pickup: preserve the selected best-effort speech pipeline through public parity,
+prepare independent integration/preservation work, and exhaust the retained
+four-minute camera take. The toolkit provides only primitives; the external
+caller makes every editorial decision. The consumer skill is not a repository
+development workflow.
+
+This recording spec retains original release evidence and unfinished acceptance.
+It does not create another queue for the new editor. Reuse the saved human marks,
+accepted listening results and physical take; do not solicit personal keep/remove
+intent, repeat accepted auditions or prescribe a replacement recording as routine
+verification. Known timing, physical/lifecycle and resource limits remain reported;
+the updated plan does not turn them into passes. The instructions below apply only
+when specifically continuing original recording-release acceptance.
 
 You are implementing the personal Mac release. Read this spec, its
 [contracts](contracts.md), [architecture](architecture.md), and

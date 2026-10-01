@@ -89,7 +89,7 @@ failure/recovery artifact with source and worker hashes and independent review.
 
 Only after these gates enable the new writer layout, replacing transitional test
 wiring in the same rollout. Close 20a's PCM delivery prerequisite from actual-owner
-results; keep the [physical 20](20-camera-reproduction.md) ten-minute drift and
+results; keep the [physical 20 retained-take](20-camera-reproduction.md) drift and
 interruption gates and [21](21-webcam.md) public webcam integration gates open.
 No live capture, prompts, installation or permissions are authorized by this plan.
 

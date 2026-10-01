@@ -1,6 +1,9 @@
 # 12 — Validate speech-evidence primitives
 
-Status: incomplete; no engine or recipe selected. Historical
+Status: broader quality characterization remains incomplete. The
+[selected Parakeet baseline](../../recording-for-ai/slices/04-local-speech-gate.md)
+is current behavior under the user's best-effort filler policy; no alternate
+ASR/alignment recipe is selected. Historical
 [baseline](../assets/12-speech/README.md), [verbatim](../assets/12-verbatim/README.md)
 and alignment trials below retain their failed quality gates and frozen scores.
 Actual sentence/workbench marks now support a separate
@@ -20,7 +23,12 @@ editorial cleanup plan. See [editorial control](../architecture.md#editorial-con
 
 ## Seam and ownership
 
-Feature-owned reproduction harness over real corpus audio and the current local ASR baseline. Compare a documented local verbatim ASR/alignment alternative only if the baseline fails. Keep editorial choices with an external agent; no semantic editing service.
+Feature-owned technical measurements over real corpus audio and the selected
+local ASR baseline. Preserve raw recognition and treat word times as estimates,
+not guaranteed safe cut points. Alternate ASR/alignment is a separately justified
+improvement experiment, not a prerequisite for exposing unchanged primitives.
+The external caller can inspect audio/waveforms and supply exact cut ranges.
+No semantic editing service or complete-filler-recall guarantee is introduced.
 
 ## Work and review surface
 
@@ -40,7 +48,10 @@ are supplied test inputs, not conclusions that the engine must draw about the
 speaker's intent. Measure lexical/filler coverage and timing median/p95 against
 independent acoustic labels, with sample counts and omissions reported. Preserve
 the existing failed baseline and unchanged timing thresholds. Freeze a justified
-speech-evidence recipe for12b; no editorial-removal policy is selected. The
+replacement speech-evidence recipe only if the evidence justifies changing the
+selected baseline. [12b](12b-speech-processing.md) can verify unchanged baseline
+parity while broader quality remains open; that does not pass these measurements.
+No editorial-removal policy is selected. The
 recording owner's personal keep/remove judgment is not an acceptance gate.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
@@ -53,7 +64,13 @@ For human review use [preview-shots](../../../.agents/skills/preview-shots/SKILL
 
 ## Failure boundary and discretion
 
-If evidence-only inspection misses omitted fillers, reproduce an alternate local verbatim engine then alignment. If all fail, keep the cleanup quality gate incomplete and reslice; do not claim transcript-only matching satisfies the request.
+Missing acoustic ground truth remains a named limit; do not create a personal
+editing/annotation assignment to manufacture completeness. Start another model,
+alignment or label trial only for one necessary unresolved technical question,
+with fixed inputs and a stopping condition, within existing authorization. Reuse
+accepted labels and outputs. Report the baseline's misses honestly; do not reopen
+its selection automatically or imply alignment discovers omitted words. A changed
+recipe cannot be adopted from a partial timing pass alone.
 
 Delegated: Candidate order after the baseline and measurement tooling. Any new model/runtime is pinned and tested locally; acceptance targets cannot be loosened silently.
 
@@ -67,8 +84,8 @@ now resolves that disputed reference separately; no historical label, score or
 threshold changed. The [comparison on eight actual human edges](../assets/12-human-frozen-comparison/README.md)
 still fails baseline timing and passes timing for all three frozen alignment
 conditions on that cohort only. The omitted opening “um”, incomplete inventory,
-other protected words/joins and held-out quality remain unverified. No recipe
-is selected. The [original repetition context](../assets/12-repetition-intent/README.md)
+other protected words/joins and held-out quality remain unverified. No alternate
+ASR/alignment recipe is selected. The [original repetition context](../assets/12-repetition-intent/README.md)
 is historical source-preservation evidence; its unanswered editorial question
 does not block the toolkit and must not be restarted as development work.
 

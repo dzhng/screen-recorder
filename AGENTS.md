@@ -21,6 +21,13 @@ Human checks must have a bounded technical purpose; editorial work requires a
 separate user request. Missing technical evidence stays unverified. An unanswered
 editorial question is neither a project prerequisite nor approval to edit.
 
+Reuse the saved audio marks/auditions and retained four-minute screen/camera take.
+An incomplete analysis is not permission to request another recording or repeat
+a completed review. First exhaust existing originals, telemetry and journals;
+state the exact missing technical fact before proposing any new human task.
+Distinguish isolated implementation readiness from release acceptance so an open
+quality/physical claim does not stop unrelated primitive work.
+
 The product-use [screenrec skill](skills/screenrec/SKILL.md) is for the external
 agent consuming this toolkit, not the agent implementing this repository. Do not
 invoke it as a development workflow. Read or edit it as a product artifact when

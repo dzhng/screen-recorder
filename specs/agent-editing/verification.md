@@ -28,6 +28,37 @@ adds its public CLI/MCP/service journey as soon as that execution path exists;
 live-media and listening/physical results separate. No skipped placeholder tests
 can turn an unavailable capability into passing journey coverage.
 
+## Implementation readiness and acceptance
+
+Verify primitive contracts at their actual seams: explicit inputs, complete
+outputs/provenance, deterministic execution, preserved source media, failure,
+restart and undo. Integration preparation can proceed with pinned references and
+controlled responses; report that scope separately from actual device/model
+execution. An open acoustic or physical claim does not block unrelated wiring,
+preservation checks or bounded diagnostic work.
+
+The [selected Parakeet baseline](../recording-for-ai/slices/04-local-speech-gate.md)
+ships best-effort recognized fillers with measured timing limits. Preserve that
+decision. Current public parity does not require a replacement model to win first
+and does not certify accurate acoustic cuts from estimated word times. Any
+replacement must earn its own quality/provenance evidence before adoption.
+Physical synchronization, live lifecycle, stop completion and final installed
+cutover require evidence for those actual claims; fixtures cannot manufacture it.
+
+Before involving the user, reuse saved labels, accepted auditions and the existing
+four-minute capture. A human task must answer one concrete missing technical fact;
+explain what changed and why retained evidence cannot answer it. Do not repeat an
+accepted comparison, request personal editing choices or prescribe another whole
+recording as routine verification. Missing perception is reported unverified.
+
+If a new acoustic mark is genuinely necessary, reuse the existing interactive
+workflow: meaningful original context, a clearly identified word/occurrence,
+waveform click then Next, and playback beginning exactly at the click. Do not ask
+for typed timestamps or prefill the listening answer from ASR. Verify nonzero
+audio duration before presenting the page. For changed-output auditions, show the
+original beside one meaningful complete sentence and state one bounded technical
+question; do not offer unexplained fragments or start audible playback automatically.
+
 ## Deterministic correctness
 
 - Use named clip/asset IDs and manually specified expected frame/tone membership
@@ -62,9 +93,11 @@ fixture edits declare target ranges and protected words as inputs. Verify that
 only the requested targets are removed, retained media is preserved and undo
 restores it. Report precision/recall and timing distributions with sample counts
 and omissions. An ASR transcript or forced aligner cannot be its own ground truth.
-Preserve the existing failed boundary measurement as baseline; target median
-≤100 ms and p95 ≤250 ms on expanded marks, and inspect authored joins for clipped
-speech. These are technical quality gates. Personal keep/remove choices and
+Preserve the existing failed boundary measurement as baseline; retain the quality
+targets of median ≤100 ms and p95 ≤250 ms on expanded marks, and inspect authored
+joins for clipped speech. Their numerical pass/fail and coverage remain separate
+from current-baseline public parity; do not relabel a miss as a pass or claim a
+general phoneme-safe editing guarantee. Personal keep/remove choices and
 accidental-versus-deliberate judgments are not project prerequisites; follow
 [editorial control](architecture.md#editorial-control).
 
@@ -136,10 +169,11 @@ not double the memory required for the same bounded query; publish measured
 scaling, queue waits and cancellation responsiveness. If budgets fail, profile
 and reslice the owning seam before claiming acceptance; never add unbounded caches.
 
-Slice 25 runs the user's full tutorial through a fresh external agent using only
-the product skill and advertised CLI/MCP. Its final report includes selected
-revision, source/generated media provenance, changes, output paths and verification
-limitations. No mandatory user approval checkpoint is inserted into this workflow.
+[25](slices/25-agent-acceptance.md) runs a bounded fixture brief through a fresh
+external caller using the consumer skill and advertised CLI/MCP. Its report
+includes selected revision, source/generated media provenance, requested effects,
+output paths and verification limits. This is technical capability acceptance,
+not a personal editing assignment or a mandatory user approval sequence.
 
 Run focused tests per slice. At final cutover/acceptance run root build, typecheck,
 test, lint and format checks plus relevant native/media harnesses. Follow

@@ -5,6 +5,13 @@ and MacBook microphone recordings. The user requested retention here for ordinar
 video import tests as well as cross-source timing work, and shortened the take to
 roughly 200 seconds. No further recording is required to use this fixture.
 
+The retained camera lasts about 246 seconds and screen/microphone about 251 seconds;
+duration is already sufficient for the requested take. Exhaust these originals,
+journals and existing analysis before contemplating a new human recording task.
+[20](../../specs/agent-editing/slices/20-camera-reproduction.md) owns the remaining
+measurement/lifecycle claims and their uncertainty; an incomplete detector result
+is not proof that the recording is unusable.
+
 [The manifest](manifest.json) pins the exact original bytes, observed stream
 metadata and capture context. Feed the standalone movies to ordinary `asset.import`;
 do not manufacture recording/catalog rows or require this recorder's sidecars.

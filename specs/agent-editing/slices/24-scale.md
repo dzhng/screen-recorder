@@ -68,6 +68,14 @@ Harness probes drive the actual public CLI/MCP/service paths. Instrument existin
 
 ## Work and review surface
 
+Separate remaining diagnostic work from final installed acceptance. Do not repeat
+passed child cohorts to create activity. Target missing dimensions: broader
+source/routing/history cardinality, deep/wide long-project interactions, client
+receive capacities and known contention-sensitive deadlines. Use their existing
+query/index/decoder/job owners. Isolated diagnosis and fixes may proceed before 23;
+one controlled final production measurement follows actual cutover. Preserve
+unchanged budgets and report which dimension each result establishes.
+
 Measure deep/wide groups, long stacks, reorder invalidation, retained prepared-output storage and late-window taps. Prove bounded traversal without recursion overflow, cancellation, queue saturation and no disguised full-prefix processing in an ordinary read.
 
 Run the 5-minute and two-hour fixtures with 500/10,000 occurrences, repeated media, overlapping tracks and later-window requests. Measure cold/warm latency, queue wait, RSS, bytes read/decoded and artifact growth. Probe canceled work, missing/corrupt assets, full queues and restart with retained dependencies.

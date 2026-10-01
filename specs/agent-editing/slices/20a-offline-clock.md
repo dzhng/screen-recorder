@@ -22,7 +22,8 @@ source PTS, simulated PTS, host conversion and mapped timestamp observations.
 Use the planned `camera-reproduction.mjs --case shared-clock` harness. Keep all
 writes in a caller-selected evidence directory and pin input/binary/source hashes.
 The existing capture clock/recovery tests remain the production preservation gate.
-Offline markers prove plumbing, never ten-minute physical drift or sensor alignment.
+Offline markers prove plumbing, never physical drift or sensor alignment;
+[20](20-camera-reproduction.md) owns the retained-take scope and remaining claims.
 
 [Planning audit](../assets/20a-offline-clock/planning-audit.md) records the SDK/API
 sources, current owner constraints and concrete physical setup. Parent20 owns the

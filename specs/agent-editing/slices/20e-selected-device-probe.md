@@ -80,13 +80,16 @@ observations to bounded append-only evidence rather than accumulating a take.
 
 ## Physical follow-up and review surface
 
-After offline review, present the exact app identity, selected IDs, local destination
-and schedule for explicit user authorization. Device discovery may then assist
-selection if separately authorized. Parent20 still requires ten active minutes,
-shared visible/audible landmarks, one declared initial alignment, pause/resume,
-nonzero offsets and separate physical interruption/permission scenarios.
-No silence or successful build authorizes any of those actions. Physical visual
-verification inherits parent20's compare-screenshots and final unprimed critique.
+Parent [20](20-camera-reproduction.md) owns physical follow-up. The user already
+provided the retained approximately four-minute take after revising the requested
+duration to roughly 200 seconds. Use its originals, journals, recovered sources and
+telemetry first; this slice does not schedule another capture or permission prompt.
+Keep shared-event timing, one declared initial alignment, offsets, interruption,
+pause/resume and actual shutdown as separate claims. A missing scenario or an
+uncertain measurement is reported precisely, not inferred from compilation or
+prerecorded inputs. Any new live action needs a concrete missing fact and separate
+authorization after retained evidence is exhausted. Physical visual verification
+inherits parent 20's comparison and final unprimed critique.
 
 Delegated: internal file arrangement and reversible diagnostic formatting. Any new
 capture policy, clock correction, device fallback or production camera role requires

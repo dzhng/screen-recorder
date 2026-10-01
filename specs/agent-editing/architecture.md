@@ -46,6 +46,14 @@ require the recording owner to decide whether a personal phrase was intentional
 as a condition for building the toolkit. Editorial intent belongs to a separately
 requested editing task, not a capability's implementation gate.
 
+Implementation readiness, measured quality and release acceptance are separate.
+Preserve the already selected best-effort speech pipeline while verifying public
+parity; any replacement must earn its own evidence. Isolated camera integration
+and consumer ports may proceed from verified clock/lifecycle owners while physical
+claims remain open. [Verification](verification.md#implementation-readiness-and-acceptance)
+owns the evidence rules; no preparation pass authorizes installed cutover or
+turns missing physical/acoustic evidence into a pass.
+
 Flexible composition still has exact timing, source preservation, deterministic
 edit semantics and truthful capability limits. Validate impossible combinations
 and report unsupported behavior; do not invent a fallback that changes the edit.

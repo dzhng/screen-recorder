@@ -4,7 +4,9 @@ Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verif
 
 ## Contract
 
-Establish a measured shared-clock strategy for simultaneous screen, camera and microphone capture before integrating webcam support.
+Establish a measured shared-clock strategy for synchronized production acceptance
+of simultaneous screen, camera and microphone capture. Isolated public integration
+may proceed from the verified offline owners while physical proof remains open.
 
 The [digest cost audit](../assets/20e-camera-digest-components/README.md) preserves
 full-picture parity in two isolated release publications. Their context-specific
@@ -26,6 +28,22 @@ node packages/test-harness/editing/camera-reproduction.mjs --case shared-clock
 
 ## Staging
 
+The retained [physical take](../../../fixtures/screen-camera-timing/README.md)
+contains about 246 seconds of camera and 251 seconds of screen/microphone media.
+It already meets the user's requested duration. The current physical detector's
+strong camera-marker result covers roughly 70 seconds; that is the scope of the
+analysis, not the length of the recording or proof that the rest is unusable.
+
+The next bounded measurement question is whether existing full-resolution frames,
+event telemetry and journal/source-clock mapping can extend validated marker
+coverage and tighten onset uncertainty. Preserve the frozen analysis as baseline,
+declare any changed detector/selection rule, inspect its false positives and
+report supported intervals plus uncertainty. Do not fit away drift, recenter each
+event, loosen the one-frame target or infer unseen markers from cadence. Stop
+when the retained evidence cannot resolve the bound; report that precise gap.
+Do not request a repeat recording merely because this coarse analysis is incomplete.
+No new capture is authorized.
+
 [20a](20a-offline-clock.md) proves only controlled timestamp conversion, the existing
 pause mapping and independent writer/recovery plumbing using prerecorded inputs.
 Its production PCM requirement is verified through [20b](20b-exact-capture-audio.md),
@@ -33,17 +51,27 @@ Its production PCM requirement is verified through [20b](20b-exact-capture-audio
 Together with their publication/recovery children, these preserve exact placement,
 canonical recovery and safe publication. None
 validates actual device clocks or passes this slice's physical gate. After
-that checkpoint, use explicit selected camera/microphone/screen identities and an
-authorized capture identity for the shared flash/audible-event take. Keep one
+that checkpoint, analyze the retained authorized take using its explicit selected
+camera/microphone/screen identities and recorded capture identity. Keep one
 declared initial alignment; do not fit away residual drift or flatten the sources.
 The [audit](../assets/20a-offline-clock/planning-audit.md) names required user setup,
-permissions and separate interruption scenarios. The user subsequently chose roughly200seconds
+permissions and separate interruption scenarios. The user subsequently chose roughly 200 seconds
 for this physical take; retain the shorter observed scope rather than requiring
 another ten-minute handheld recording.
 
 ## Acceptance
 
 The real screen/camera/audio take (at least200seconds, per the user’s revised duration) has measured relative drift within one output frame after declared initial-offset alignment. Do not extrapolate its measured drift to ten minutes. Exercise interrupted camera, missing microphone, pause/resume and non-zero capture offsets. Confirm clean separate source media and recoverable partial results.
+
+Record physical timing, live device lifecycle and closure latency as separate
+verdicts. The retained take supplies actual input and long-duration evidence; it
+does not contain every interruption/pause scenario. Prerecorded lifecycle tests
+remain plumbing proof. Responsive control acknowledgment does not prove completed
+input drain, media closure/publication or AppKit shutdown. The ten-second stop
+boundary and complete ordered picture verification remain unchanged. Existing
+over-budget publications do not justify another hashing trial without a concrete
+contract-preserving mechanism and a bounded question. These open claims do not
+block isolated 21 integration or unrelated consumer preservation preparation.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 

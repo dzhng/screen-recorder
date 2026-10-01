@@ -4971,3 +4971,36 @@ would hide completed primitives without supplying missing aggregate evidence.
 Future adoption still needs 12's technical quality and 12b's public parity. Sound
 because retained artifacts and independent reviews prove every requirement within 12d;
 the 15 ms filler prefix, existing scores and broader failures remain unchanged.
+
+### Preserve the selected baseline while checking public parity — sound, high confidence
+
+When: feedback-driven spec review, 2026-09-30. The earlier recording contract
+already selected Parakeet with best-effort fillers and disclosed timing misses.
+The new plan nevertheless required a better model to win before its public
+integration could proceed. The revised12b pass compares the current pipeline's
+requests, raw results, generations and explicit edit outputs through existing
+owners. Broader quality measurements stay open; a changed model still needs its
+own evidence. The planning gap was confusing preservation of an accepted behavior
+with accepting a replacement. This enables useful primitive verification without
+claiming that omitted speech or inaccurate acoustic boundaries were repaired.
+
+### Separate preparation from final release acceptance — sound, high confidence
+
+When: the same spec review. Missing physical camera proof previously serialized
+unrelated speech, camera API and consumer work. Isolated wiring and matched
+preservation now proceed from verified source/clock/lifecycle owners. Final
+physical acceptance, installed switching and owner removal still require their
+actual evidence and authorization. The plan did not distinguish those dependency
+kinds. The correction removes artificial waiting without inventing a physical
+pass, a second production engine or a compatibility layer.
+
+### Test an external caller with a bounded fixture brief — sound, high confidence
+
+When: the same spec review. The final workflow wording could make a development
+agent start editing the user's personal tutorial. The test instead gives an
+external caller a declared fixture request and protected content, then checks
+discovery, explicit effects, delivery, replay/undo, export and truthful limits.
+The caller chooses how to use the primitives within that brief; the engine makes
+no editorial choice, and reviewers do not grade one preferred style. The plan
+left the test brief unspecified. This preserves the integration scenario set
+while keeping development and consumption of the toolkit distinct.

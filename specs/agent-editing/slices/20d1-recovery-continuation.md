@@ -83,8 +83,9 @@ Prove the smallest cases through the actual owners before the scale case:
 
 Retain requests, state/error receipts, input/worker hashes, actual decoded/sample
 proof and independent review. Keep 20d open until this continuation and its existing
-admission/package/cleanup gates pass; keep physical ten-minute camera synchronization
-and webcam integration in 20/21 open independently.
+admission/package/cleanup gates pass; keep physical camera synchronization on the
+retained take and webcam integration in 20/21 open independently. Parent20 owns
+the revised duration and existing-evidence-first rule; do not request another take.
 
 ## Implementation checkpoint
 

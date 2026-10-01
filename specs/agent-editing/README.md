@@ -6,7 +6,7 @@ agent using this project makes every editorial decision. Follow the
 [editorial-control contract](architecture.md#editorial-control) when interpreting
 any workflow, experiment or acceptance gate below.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
-capabilities only. This plan supersedes the discovery map's operational queue;
+capabilities for the external caller only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 [Ordered processing](processing.md) owns the accepted one-stack-per-target API.
 [Reference-style audit](assets/reference-style/README.md) maps the user’s new video
@@ -15,94 +15,60 @@ example to the plan; the user kept segmentation outside this run and requested a
 
 ## Next Agent Prompt
 
-Implement the entire local agent-operated editor. Every open slice and global
-requirement below remains in scope. Read [contracts](contracts.md),
-[architecture](architecture.md), [verification](verification.md),
-[journeys](journeys.md) and [processing](processing.md). The product skill teaches
-verified public operations; the installed app has not switched engines.
+Implement the remaining toolkit primitives through the existing owners. Read
+[contracts](contracts.md), [architecture](architecture.md),
+[verification](verification.md), [journeys](journeys.md) and [processing](processing.md).
+The external agent using the toolkit makes every editorial decision. The consumer
+skill is a product artifact, not this repository's development workflow.
 
-[03d exact admission](slices/03d-exact-media-admission.md) is verified, including
-fresh-format portable delivery and unchanged accepted outputs.
-[12d sentence annotation packet](slices/12d-complete-sentence-cleanup.md) is
-verified within its fixed-fixture scope; aggregate speech quality belongs to 12.
-[12e exact marked-filler removal](slices/12e-human-labeled-cleanup.md) is accepted:
-native exclusion, protected-word preservation, public edit/delivery/export/undo
-and the user's independent complete-sentence audition pass. The
-[saved human marks](assets/12d-human-marks/README.md) establish the sentence and
-neighbor boundaries. They also expose 15 ms of middle filler retained by the
-older accepted cut, whose bytes and verdict stay frozen.
-[12f workbench-boundary marking](slices/12f-workbench-boundary.md) now has a
-[verified actual human range](assets/12f-human-marks/README.md), resolving that
-word's disputed endpoint. The [comparison on actual human edges](assets/12-human-frozen-comparison/README.md)
-passes timing for the frozen alignment outputs on that small cohort; broader
-speech-evidence quality and recipe selection remain open. Current pickup is the
-remaining technical evidence gates in [12](slices/12-speech-evidence.md), then
-public-entry parity in12b: lexical coverage, boundary accuracy, provenance and
-execution of externally specified edits. The
-[repetition-intent solicitation](assets/12-repetition-intent/README.md) is retired
-as a project prerequisite. Do not restart it or turn development into editing
-the user's recording. No personal keep/remove judgment is needed to implement
-the primitives; failed technical measurements still remain failed.
+**Next pickup: [12b public speech-evidence parity](slices/12b-speech-processing.md).**
+Preserve the already selected Parakeet baseline and its disclosed best-effort
+fillers/timing limits. Compare requests, raw outputs, provenance, generations and
+explicit fixture edits through the existing source-processing/public owners. Do
+not require a new ASR winner or personal keep/remove answer first. A different
+model/alignment recipe needs its own evidence before adoption.
 
-The [generation/ambience matrix](assets/19-acceptance/README.md) is accepted,
-including the chosen200ms loop with a slight residual seam tolerated. Preserve
-that exact choice and rejected alternatives; no further loop trial is requested.
-[24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
-[24y populated source-event duration](slices/24y-source-event-duration.md) pass
-independent exact-result, latency/memory and generation checks. Preserve those
-scoped passes; remaining independent speech-label and physical gates need their actual evidence.
-The [acoustic retime conformance11](assets/11-retimed-acoustic/README.md) is verified. Public14 retiming and16
-animated gain/zoom are verified, including complete encoded-frame checks and muted
-offscreen playback. The [frozen local denoise matrix](assets/denoise-acceptance/README.md) is accepted,
-including protected starts/ends, authored stereo balance and the known-added-noise
-comparison. Its technical and exact listening evidence remain distinct; preserve
-accepted outputs and do not repeat those auditions.
+Work the independent branches below in parallel when their implementation seams
+are ready. Acceptance dependencies do not prohibit isolated preparation.
 
-Reuse [retiming acceptance](assets/14e-public-retiming/root-review.md),
-[retimed curves](assets/16-retimed-curves/root-verification.json) and
-[playback evidence](assets/16-continuous-playback/README.md). Preserve full retained
-runs across splits and short views; use existing preparation owners.
+| Remaining owner | Next permitted work | Claim that remains open |
+| --- | --- | --- |
+| [12 / 12b](slices/12-speech-evidence.md) | Current baseline parity; bounded evidence-quality characterization; alternate adoption only if justified | Broader acoustic coverage/timing, held-out quality and any alternate recipe |
+| [20 / 21](slices/20-camera-reproduction.md) | Exhaust the retained four-minute take; isolated public camera selection, lifecycle and source/project integration | One-frame physical sync, live interruption/pause/shutdown and stop completion |
+| [23](slices/23-cutover.md) | Remaining matched consumer ports and preservation checks | Installed switching and obsolete-owner removal after their actual prerequisites |
+| [24 / 25](slices/24-scale.md) | Remaining scale dimensions and a bounded external-caller fixture brief | Final production budgets and installed external-caller acceptance |
 
-Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
-prepared runtimes and frozen worker identities. Do not replace the installed app
-or frozen workers. Build native changes only in isolated scratch paths. No new
-capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
+The retained camera is 246 seconds and screen about 251 seconds. It already meets the
+user's requested take duration. The current coarse analysis validates only a
+shorter camera-marker interval; duration is not the missing input. Use existing
+originals, journals, recovered media and event telemetry before considering any
+new recording. [20](slices/20-camera-reproduction.md) owns the measurement question,
+uncertainty and stopping condition. Never request a routine replacement tutorial.
 
-Resolve remaining12 technical evidence toward12b; preserve accepted denoise and18
-contextual/ambience outputs. Then physical20→21,
-final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
-a scheduling graph. Further12b/23 consumer acceptance retains its missing quality or physical
-prerequisite. Do not repeat
-passed cohorts instead of resolving those requirements.
+Preserve [banked evidence](assets/integrated-evidence.md), including 12d/12e/12f,
+retiming, denoise, local voice and the chosen 200 ms speech-free ambience loop with
+its user-tolerated slight seam. Do not repeat accepted auditions/marking, retune
+that loop or borrow one file's verdict for changed output. The retired repetition
+intent solicitation stays retired. Missing technical evidence stays unverified;
+failed scores and deadlines do not become passes through a plan rewrite.
 
-[Integrated evidence](assets/integrated-evidence.md) is the compact index for
-verified preservation, processing, transfer, capture replay and scale checkpoints.
-Their owning slices retain limitations. In particular, prerecorded camera
-recovery/stop evidence does not establish the physical one-frame timing bound,
-whole-take coverage or live shutdown; installed cutover stays unverified. The
-[bounded camera hashing pass](assets/20e-camera-picture-hashing/README.md) preserves
-complete decoded-picture checks and reduces offline publication work, but still
-exceeds the ten-second stop boundary.
-The [digest cost audit](assets/20e-camera-digest-components/README.md) resolves
-lock/build-mode uncertainty with scoped diagnostics and full release calibration;
-it selects no further optimization and does not pass live shutdown or timing.
+Use [implementation pickup](assets/implementation-pickup.md) for source/runtime
+identities and isolated homes. No new capture, audible playback, model installation
+or download, Claude run, frozen-worker replacement or installed-app switch is
+authorized. Isolated source changes and bounded verification may proceed within
+those constraints. Ask only for a concrete missing fact or separately required
+live action after exhausting existing evidence; explain exactly what it would
+establish and why the retained material cannot establish it.
 
-Listening comparisons use complete meaningful sentences from the user's recording,
-with the original alongside and one clear purpose. The user accepted the familiar
-0.8×,0.9× and1.25× sentences (slight0.9× echo tolerated), the corrected A–D local
-selections, the familiar denoised sentence and the complete-sentence filler cut.
-Each verdict applies only to its exact media. Reuse those passes; numerical parity
-does not replace missing listening or physical evidence. Room-tone fill and noise
-reduction remain independent explicit editorial choices, as the [pause workflows](assets/pause-audio-public/README.md)
-demonstrate. Segmentation remains a separate future placeholder.
-
-Keep this pickup, the owning Status lines, [journeys](journeys.md) and checklist
-current as implementation progresses.
+Keep the checklist and owning Status lines current. Preparation, technical parity,
+quality measurements and release acceptance are distinct results. A passed child
+packet is not a full-product pass, and an open diagnostic is not an automatic
+blocker for unrelated primitive implementation.
 
 ## Outcome and boundaries
 
-The user can ask an external agent to create a screen/webcam tutorial from several
-takes and imported footage: remove mistakes, audible fillers and accidental word
+The toolkit enables an external agent to act on a user's screen/webcam editing
+request using several takes and imported footage: remove mistakes, audible fillers and accidental word
 repetitions; slow rushed passages; insert or overlap footage; replace video while
 keeping sound or vice versa; add music, text, captions and keyframed zooms; generate
 replacement words from selected local reference audio; verify and export a local
@@ -141,27 +107,13 @@ Numbers identify contracts, not a mandatory serial order. Dependencies in each
 slice are authoritative. Research branches run early, with production adoption
 only after their recorded gates pass.
 
-```mermaid
-flowchart LR
-  Corpus[00 Corpus] --> Model[01 Composition]
-  Model --> Core[02–05 Assets / edits / routing / stacks / compiler]
-  Corpus --> Research[06 / 12 / 12c / 13 / 18 / 20 Reproductions]
-  Core --> First[07–09 First playable edit]
-  Research --> First
-  First --> Evidence[10–12b Evidence]
-  First --> Editing[14–19 Composition and speech]
-  Evidence --> Editing
-  Research --> Editing
-  Core --> Camera[21 Camera]
-  First --> Camera
-  Research --> Camera
-  Editing --> Package[22 Portable project]
-  Camera --> Package
-  Package --> Closeout[23–25 Cutover / scale / agent acceptance]
-```
-
-The diagram groups branches for readability; it does not imply that voice/camera
-or noise research blocks the first preview. Individual dependency lists are checked for cycles.
+The remaining **release acceptance** order is public speech parity and camera
+acceptance → one-engine cutover → final production scale → external-caller
+acceptance. Isolated camera integration, speech parity, consumer preservation and
+remaining scale diagnosis may proceed in parallel from their verified owners.
+Research into a replacement speech recipe is conditional; it must not silently
+become a dependency of preserving the selected baseline. The slice files distinguish
+implementation readiness from acceptance prerequisites.
 
 ## Global checklist
 
@@ -287,7 +239,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24w — Bounded waveform queries across duration](slices/24w-waveform-duration-memory.md)
 - [x] [24x — Bounded evidence continuations](slices/24x-evidence-continuations.md)
 - [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
-- [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
+- [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants
 

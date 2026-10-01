@@ -1,10 +1,13 @@
-# 25 — Autonomous agent acceptance
+# 25 — External-caller primitive acceptance
 
 Status: whole-workflow acceptance not started. [Focused CLI discovery](../assets/25-cli-discovery/README.md), [shared-reference discovery](../assets/25-discovery-references/README.md), and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
 
 ## Contract
 
-A fresh external agent completes the user's tutorial workflow using only the product skill and advertised tools, without a human editing UI or mandatory draft approval.
+A fresh external agent completes a bounded fixture brief using the consumer skill
+and advertised primitives, without a human editing UI or mandatory draft approval.
+The developer prepares the harness/brief; the test agent uses the toolkit as its
+external caller. This is not an assignment to edit the user's personal recording.
 
 ## Seam and ownership
 
@@ -20,7 +23,20 @@ do not require it to select one supposedly correct editorial treatment.
 
 The agent discovers actual capabilities, gets/sets/reorders/bypasses clip/track/group/output stacks, inserts new narration into a processed track, applies optional denoise, replaces/splits media and verifies unchanged originals plus historical undo/package playback. Exceptions use individual clips/separate tracks, never parent-step overrides.
 
-Have the agent assemble multiple takes, remove named mistakes/ums/repetitions, slow rushed speech, insert and overlay footage, replace audio and video independently, add music/gain automation, captions and animated zoom, generate a wording correction from an explicitly chosen local reference, and export any requested canvas plus an editable package. Let the agent choose visual cover if any.
+Freeze a fixture brief identifying source media, requested target ranges/text,
+protected content, output settings, references and permitted treatments. Cover
+multiple sources, explicit speech cuts, local retiming, insert/overlap, independent
+audio/video replacement, music/gain automation, captions/zoom, the verified local
+voice capability and editable export. The external caller chooses how to express
+the requested work through advertised primitives; the engine makes no editorial
+choice. Grade requested effects, preserved content, discovery, delivery and
+recovery, not whether one style or phrasing is preferable. Any reversible
+presentation discretion must be stated in the brief.
+
+Reuse accepted media identities and per-feature listening evidence. Do not rerun
+every audition or regenerate/tune an accepted ambience asset for this fixture.
+Changed integrated output requires only the relevant new verification; unchanged
+numerical parity does not manufacture a new listening or physical verdict.
 
 Create this planned probe in this slice:
 

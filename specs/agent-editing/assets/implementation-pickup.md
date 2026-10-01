@@ -10,25 +10,31 @@ Historical workers and measurements retain their own identities below.
 
 ## Current pickup
 
-The [generation/ambience matrix](19-acceptance/README.md) is accepted. The user
-chooses the200ms loop, whose source sounds speech-free, tolerating a slight
-residual seam. Preserve its exact media and recipe; the50ms seam and250ms
-whirling cases remain rejected. The [finite denoise matrix](denoise-acceptance/README.md)
-is accepted. The [exact two-filler candidate](12e-labeled-cleanup/README.md) now
-passes native/public technical contracts and its own user audition. The
-[saved sentence marks](12d-human-marks/README.md) and
-[actual workbench edges](12f-human-marks/README.md) are reconciled. The unchanged
-baseline still fails the scoped human-edge diagnostic; the
-[frozen alignment comparison](12-human-frozen-comparison/README.md) passes that
-small cohort without selecting a recipe. [12d's fixed sentence packet](../slices/12d-complete-sentence-cleanup.md)
-is verified; parent aggregate quality is not its completion condition. Current
-pickup is technical corpus coverage/boundaries for12, then speech-evidence parity
-in12b and physical20/21.
-The [editorial-control contract](../architecture.md#editorial-control) is binding:
-zero product editorial decisions, only primitives. The
-[repetition-intent solicitation](12-repetition-intent/README.md) is retired as a
-project prerequisite. Do not restart it, edit the user's recording as a development
-deliverable or repeat accepted auditions.
+Follow the [live remaining-work plan](../README.md#next-agent-prompt).
+First implement [12b](../slices/12b-speech-processing.md) public parity for the
+already selected baseline, preserving raw evidence, provenance, generations and
+known best-effort filler/timing limits. Broader12 quality characterization and
+any alternate recipe remain separate; do not require a new model winner to
+exercise unchanged primitives.
+
+In parallel, exhaust the retained approximately four-minute take under
+[20](../slices/20-camera-reproduction.md), prepare isolated
+[21](../slices/21-webcam.md) public camera integration, and advance remaining
+[23](../slices/23-cutover.md) consumer preservation. None of these preparation
+passes approves synchronized physical capture, live shutdown or installed cutover.
+Use the actual data and constraints in their owning slices; no new capture or
+worker/app replacement is authorized.
+
+The [generation/ambience matrix](19-acceptance/README.md),
+[finite denoise matrix](denoise-acceptance/README.md),
+[12d packet](../slices/12d-complete-sentence-cleanup.md),
+[12e exact explicit cuts](12e-labeled-cleanup/README.md) and
+[12f word marks](12f-human-marks/README.md) retain their accepted scopes. Preserve
+the chosen 200 ms speech-free loop and tolerated slight seam; its rejected variants
+stay rejected. Reuse saved marks/auditions and the
+[scoped frozen comparison](12-human-frozen-comparison/README.md).
+The personal repetition-intent solicitation is retired. The product makes zero
+editorial decisions; developers verify primitives and external callers choose edits.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;
@@ -268,7 +274,10 @@ retirement ownership, not a new garbage collector.
 The [current checklist](../README.md#global-checklist) owns completion; the
 [audio/stretch audit](acceptance-maintenance/README.md) records historical checkpoints.
 08/11,13/14,16 and generic22 acceptance are verified. [18's fixed voice matrix](../slices/18-voice-reproduction.md)
-and the frozen local denoise and generation/ambience matrices are accepted. Independent speech-cleanup labels precede12b; physical20/21, cutover23, final24 and autonomous25 remain. Segmentation
+and the frozen local denoise and generation/ambience matrices are accepted.
+Current-baseline12b public parity proceeds independently of broader12 acoustic
+characterization; any alternate adoption needs its own evidence. Physical20/21,
+cutover23, final24 and external-caller25 acceptance remain open. Segmentation
 stays a future placeholder. Isolated checkpoints do not establish physical capture
 or installed-app cutover.
 
@@ -328,7 +337,8 @@ PASS for complete-sentence word clarity/naturalness. The
 [familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
 and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
 these comparisons again. The finite denoise matrix is accepted; the saved sentence/neighbor labels pass; remaining corpus boundaries,
-lexical/filler coverage and dependent12b speech-evidence adoption remain open.
+lexical/filler coverage under12 remain open. Current-baseline12b public parity
+is separately ready; no alternate adoption or aggregate quality pass is inferred.
 
 
 The [complete-sentence filler journey](12d-complete-sentence/README.md) now

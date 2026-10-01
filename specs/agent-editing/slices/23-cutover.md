@@ -16,6 +16,13 @@ Include processing discovery, get/set, routing and all processed inspection/expo
 
 Before deletion, run the preservation matrix through old and new public entry points with matched inputs. Keep source capture/recovery/evidence primitives; refactor mixed modules rather than leave compatibility wrappers. Update app lifecycle, source discovery, job targets, export recovery, product skill and developer docs together. Leave the old library untouched for explicit media import.
 
+Remaining consumer analysis, isolated ports and matched preservation preparation
+can proceed alongside 12b parity and 21 integration. The dependencies above govern
+final cutover acceptance, not read-only reconciliation or preparatory work. Keep
+all permitted differences explicit and use the existing one-owner architecture;
+preparation does not authorize installed switching, obsolete-owner deletion or
+migration. Actual unresolved physical/lifecycle claims retain their disposition.
+
 The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 
 [23b](23b-export-recovery-preservation.md) adds the bounded matched public acknowledgement-loss/restart checkpoint using the retained cached movies.
@@ -49,4 +56,3 @@ If a consumer still needs the old timeline owner, finish its port before declari
 Delegated: Internal refactoring sequence within the slice and implementation names. No compatibility layer, implicit deletion or second production engine.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-
