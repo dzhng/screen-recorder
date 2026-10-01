@@ -42,9 +42,14 @@ readiness remains unverified. Reuse the accepted bounded parity packet rather th
 rerunning inference or its controlled preparation-state matrix. Broader12 quality
 and installed acceptance remain separate.
 
-In parallel, prepare the selector-free lifecycle checkpoint under
+In parallel, continue the selector-free coordinator/admission checkpoint under
 [21f](../slices/21f-public-camera-selection.md#implementation-checkpoints) and
 advance remaining [23](../slices/23-cutover.md) consumer preservation.
+[21f1 capture-facts extraction](../slices/21f1-capture-facts.md) is integrated;
+its [merged verification](21f1-capture-facts/merged-verification.json) checks source,
+compiled runtime and archived evidence identities and the focused transaction,
+lifecycle, deletion and fresh-store gates. It does not wire fresh capture routes
+or advertise camera selection.
 [20](../slices/20-camera-reproduction.md) retains the unresolved physical question
 and its retained-data stopping condition. None of these preparation passes
 approves synchronized physical capture, live shutdown or installed cutover.

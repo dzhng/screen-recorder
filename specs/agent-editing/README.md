@@ -34,6 +34,11 @@ ready. Capture publishes source facts; the caller supplies canvas, tracks, place
 and links through existing project/edit operations. It receives no automatically
 chosen composition.
 
+[21f1 capture-facts extraction](slices/21f1-capture-facts.md) is integrated and
+merged-verified. Next in that branch is selector-free fresh-service coordinator
+wiring and durable source-admission facts; camera selection remains rejected.
+Installed span transactions remain intact until the explicit cutover in 23.
+
 For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
 and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
 and [actual selected-source inference parity](assets/12b-public-parity/actual-inference/README.md)
@@ -231,6 +236,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
 - [ ] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
 - [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
+  - [x] [21f1 — Durable capture facts independent of editing](slices/21f1-capture-facts.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)

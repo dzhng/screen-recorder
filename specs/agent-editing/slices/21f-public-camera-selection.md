@@ -1,6 +1,8 @@
 # 21f — Complete public selected-camera integration
 
-Status: planned isolated implementation. Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
+Status: first selector-free extraction checkpoint integrated and merged-verified;
+fresh-service coordinator/admission wiring and atomic public selection remain open.
+Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
 ## Contract

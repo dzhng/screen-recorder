@@ -1,0 +1,59 @@
+{
+  "checkedAt": "2026-10-01T09:58:26.131985+00:00",
+  "integratedCommit": "c85b8913",
+  "verdict": "Merged selector-free capture-facts extraction verified; parent21f remains open",
+  "archive": {
+    "allMembersVerified": 11,
+    "archiveIdentityVerified": true
+  },
+  "sourceIdentitiesMatched": 17,
+  "compiledJavaScriptIdentitiesMatched": 13,
+  "tests": {
+    "core": 102,
+    "scriptedLifecycleAndDeletion": 35,
+    "focusedFreshEntry": 1,
+    "unselectedFreshEntryTests": 15
+  },
+  "checks": {
+    "coreBuild": {
+      "path": "/tmp/screenrec-21f1-root-core-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exitCode": 0
+    },
+    "serviceBuild": {
+      "path": "/tmp/screenrec-21f1-root-service-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exitCode": 0
+    },
+    "coreTests": {
+      "path": "/tmp/screenrec-21f1-root-core-tests.log",
+      "bytes": 1212,
+      "sha256": "b1f41e21a335929062883195f786632aac49cbdcb243f9f9a20183fc7031cad4",
+      "exitCode": 0
+    },
+    "lifecycleTests": {
+      "path": "/tmp/screenrec-21f1-root-lifecycle-tests.log",
+      "bytes": 704,
+      "sha256": "8392cb55de11623ab304f17b1476daf295b214336f5ac4b49db53c6253c1b0de",
+      "exitCode": 0
+    },
+    "freshEntry": {
+      "path": "/tmp/screenrec-21f1-root-fresh-entry.log",
+      "bytes": 377,
+      "sha256": "0505471c2d10ad687ae261b85e0fd397032129d124637b3ff0da6fa1f71d7784",
+      "exitCode": 0
+    }
+  },
+  "review": "Root settled source inspection and independent review clean; source and compiled identities match the reviewed and tested packet. Two recorded sound/high choices retained.",
+  "notExecuted": [
+    "native worker",
+    "model preparation/inference",
+    "capture",
+    "host profile",
+    "installed switch",
+    "repeat physical or listening check"
+  ],
+  "next": "21f2 selector-free fresh-service coordinator and durable admission facts; selection waits for complete21e and full public path."
+}

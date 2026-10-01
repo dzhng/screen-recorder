@@ -1,6 +1,7 @@
 # 21f1 — Durable capture facts independent of editing
 
-Status: extraction verified by focused source/schema/SQL tests. This is the selector-free first checkpoint of
+Status: integrated and [merged-verified](../assets/21f1-capture-facts/merged-verification.json)
+by focused source/schema/SQL tests. This is the selector-free first checkpoint of
 [21f](21f-public-camera-selection.md); complete source admission and public camera
 selection remain subsequent checkpoints, with selection still dependent on 21e.
 
