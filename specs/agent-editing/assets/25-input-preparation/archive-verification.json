@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "archives": {
+    "source-runtime.tar.gz": {
+      "members": 1084,
+      "bytes": 3597949,
+      "sha256": "c2decf575f4feb61bcd7cfdfe241af7dbd019e4b1598d3081cb8cebaaf4a4c72"
+    },
+    "evidence.tar.gz": {
+      "members": 61,
+      "bytes": 2050192,
+      "sha256": "072ab4b640e38338dc3df3b1527fb21d6b04ccfef607cdbc083980575988346b"
+    }
+  },
+  "currentSourceMatches": 1084
+}

@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "baseCommit": "baa92372",
+  "scope": "preparation only; no fresh external caller or integrated output acceptance",
+  "commands": [
+    {
+      "command": "SCREENREC_NATIVE=/tmp/screenrec-09c-native-presented-worker node packages/test-harness/editing/acceptance.mjs --case tutorial --prepare --resume --transport both --media-root /Users/david/dev/screen-recorder --out /tmp/screenrec-25-preparation-current",
+      "exitCode": 0,
+      "log": "screenrec-25-preparation-axis-final.log"
+    },
+    {
+      "command": "node --test packages/test-harness/editing/acceptance-inputs.test.mjs",
+      "exitCode": 0,
+      "tests": 3,
+      "log": "screenrec-25-inputs-axis-final.log"
+    }
+  ],
+  "publicExchanges": 66,
+  "inputs": 12,
+  "provenanceFiles": 5,
+  "worker": {
+    "path": "/tmp/screenrec-09c-native-presented-worker",
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "nativeCurrentSourcesMatched": 176,
+  "nativeArchivedOnly": [
+    "helpers/denoise/.build/rnnoise/rnnoise_data.c"
+  ],
+  "project": {
+    "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+    "title": "External caller primitive fixture",
+    "createdAt": "2026-10-01T17:24:20.695Z",
+    "currentRevisionId": "73f31656-d0f2-4780-a132-db138697283a"
+  },
+  "libraryHome": "/tmp/screenrec-25-preparation-current/library-ACs9sl",
+  "modelStatus": [
+    {
+      "modelId": "parakeet",
+      "state": "absent"
+    },
+    {
+      "modelId": "qwen3-tts-icl-v1",
+      "state": "absent"
+    }
+  ],
+  "historicalTranscript": {
+    "bytes": 124579,
+    "sha256": "f17e3bb721c24637a6c0e650511d2853f0c42497d903c6ca953d0bb3a80aaa00",
+    "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "sourceAuthority": "assets/12-speech/manifest.json",
+    "scope": "historical raw/word evidence only; no current canonical receipt or supported adoption established"
+  },
+  "gaps": [
+    "Fresh external-caller discovery/edit/delivery/recovery journey not run",
+    "Current isolated models require explicit preparation before model-dependent operations",
+    "No canonical current transcript generation admitted; saved marks bind directly to original source",
+    "Integrated visual/listening acceptance and physical synchronization remain separate"
+  ],
+  "performance": "unmeasured",
+  "sourceRuntimeMembers": 1084,
+  "evidenceMembers": 61,
+  "externalResolvedReused": 172,
+  "additionalExternal": 1,
+  "diagnostics": [
+    "Initial test RED: binding helper missing",
+    "First CLI build missing local client dist; client and CLI rebuilt successfully",
+    "First public preparation admitted all inputs but failed wrong project.get revision assumption",
+    "Second public preparation admitted all inputs but failed wrong revision.get response nesting",
+    "Corrected resume preserves old reports and original requests, leaves12 ready import jobs/assets and one unedited project"
+  ],
+  "systemTools": {
+    "node": "v24.14.0",
+    "tar": {
+      "bytes": 274448,
+      "sha256": "f96200d5be4a3f99cdbc88892a2e26f14d501d354c72b224472462cc67fa271d"
+    },
+    "tarLinks": "/usr/bin/tar:\n\t/usr/lib/libarchive.2.dylib (compatibility version 9.0.0, current version 9.2.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)\n",
+    "remaining": "macOS system libraries/dyld shared cache; linked executable identities retained by original native/external packets"
+  },
+  "review": "manual shape/code/docs/choices; no CLI review retry or Claude call"
+}

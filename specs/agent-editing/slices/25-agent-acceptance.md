@@ -1,6 +1,6 @@
 # 25 — External-caller primitive acceptance
 
-Status: whole-workflow acceptance not started. [Focused CLI discovery](../assets/25-cli-discovery/README.md), [shared-reference discovery](../assets/25-discovery-references/README.md), and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
+Status: whole-workflow acceptance not started. The [input preparation checkpoint](../assets/25-input-preparation/README.md) verifies retained-byte identities, independent source clocks/support, public asset admission and resumable scratch project setup. It does not execute or accept the fresh external-caller workflow. [Focused CLI discovery](../assets/25-cli-discovery/README.md), [shared-reference discovery](../assets/25-discovery-references/README.md), and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
 
 ## Contract
 
@@ -49,11 +49,31 @@ the developer's preferred sequence of calls or style. Changed integrated output
 requires only the relevant new verification; unchanged numerical parity does not
 manufacture a new listening or physical verdict.
 
-Create this planned probe in this slice:
+The existing preparation stage freezes the supplied brief and machine-readable
+caller inputs, admits retained media through the public service and creates an
+unedited scratch project with the requested canvas:
+
+```sh
+SCREENREC_NATIVE=/path/to/pinned/screenrec-native node packages/test-harness/editing/acceptance.mjs --case tutorial --prepare --transport both --media-root /path/to/retained/repository --out /tmp/fresh-tutorial-preparation
+```
+
+`--resume` continues the same isolated preparation directory with the original
+import/project request IDs and native worker identity. This is a harness stage,
+not the external caller. Full execution without `--prepare` remains unimplemented;
+the planned fresh-caller invocation remains:
 
 ```sh
 node packages/test-harness/editing/acceptance.mjs --case tutorial --transport both
 ```
+
+The prepared library has no new transcript or synthesized speech. Existing human
+marks bind the supplied cuts directly to their original narration bytes and clock.
+A transcription baseline for another source cannot supply this source's word rows.
+Prepare the registered models in isolated storage before model-dependent
+execution. Resolve a matching canonical generation before transcript-occurrence
+anchoring; literal captions and synthesis from supplied reference text do not
+require a new narration transcript. The caller must still choose and
+execute operations, produce delivered outputs and receive their scoped checks.
 
 ## Acceptance
 
