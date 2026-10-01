@@ -2,6 +2,10 @@
 
 Status: whole-workflow acceptance not started. The [input preparation checkpoint](../assets/25-input-preparation/README.md) verifies retained-byte identities, independent source clocks/support, public asset admission and resumable scratch project setup. It does not execute or accept the fresh external-caller workflow. [Focused CLI discovery](../assets/25-cli-discovery/README.md), [shared-reference discovery](../assets/25-discovery-references/README.md), and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
 
+The same isolated fixture library now has genuine [registered voice readiness](25a-model-readiness.md).
+Literal occurrence text can bind an actual clip/source interval without a new
+narration transcript; generation and delivery remain the fresh caller's work.
+
 ## Contract
 
 A fresh external agent completes a bounded fixture brief using the consumer skill
@@ -70,7 +74,7 @@ The prepared library has no new transcript or synthesized speech. Existing human
 marks bind the supplied cuts directly to their original narration bytes and clock.
 A transcription baseline for another source cannot supply this source's word rows.
 Prepare the registered models in isolated storage before model-dependent
-execution. Resolve a matching canonical generation before transcript-occurrence
+execution. Resolve a matching canonical generation before transcript-derived
 anchoring; literal captions and synthesis from supplied reference text do not
 require a new narration transcript. The caller must still choose and
 execute operations, produce delivered outputs and receive their scoped checks.

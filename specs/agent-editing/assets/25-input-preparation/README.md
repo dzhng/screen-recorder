@@ -28,15 +28,17 @@ rehashes, not new generation or listening trials. The source compiler, import an
 file-hash owners stay authoritative; no production endpoint or parallel media
 engine is added.
 
-The isolated model statuses are absent. The earlier public readiness proof remains
-its own acceptance; this new library has not inherited registered readiness.
+At this input-only checkpoint both model statuses were absent. The subsequent
+[registered voice readiness checkpoint](../25a-model-readiness/README.md) prepares
+the same isolated library through the genuine public owner; Parakeet remains absent.
 Matching historical raw word evidence is retained in the [original transcript](../../../recording-for-ai/assets/speech/boundaries/transcript.json),
 pinned by the [speech manifest](../12-speech/manifest.json) to the narrated source.
 That proves its historical source binding, not a current registered canonical
-receipt or supported adoption. No matching current transcript generation is admitted. Supplied human cut marks
-remain valid without transcribing again, while later occurrence-bound captions
-must use an actual supported word authority. Another source's transcription
-baseline cannot fill that gap. No Parakeet inference, voice synthesis, capture,
+receipt or supported adoption. No matching current transcript generation is
+admitted. Supplied human cut marks remain valid without transcribing again, while
+literal occurrence captions can bind an actual clip/source interval through existing
+content placement. Transcript-derived captions require actual supported word
+authority. Another source's transcription baseline cannot fill that gap. No Parakeet inference, voice synthesis, capture,
 playback, UI, installed switch or latency cohort is run here.
 
 [Verification](verification.json) names the actual public cohorts and their limits;

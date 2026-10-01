@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "baseSource": {
+    "bytes": 3597949,
+    "sha256": "c2decf575f4feb61bcd7cfdfe241af7dbd019e4b1598d3081cb8cebaaf4a4c72",
+    "members": 1084,
+    "allMembersRehashed": true
+  },
+  "sourceDelta": {
+    "bytes": 9106,
+    "sha256": "ef5e281ec1af485cfd94b3a98f4f3231ee828a1c822e2cc6d3d40288dd9ec480",
+    "members": 4,
+    "allMembersRehashed": true
+  },
+  "evidence": {
+    "bytes": 2557204,
+    "sha256": "cd27a6278fa56ea4155ce43219dd0ed0d09e6d2d19140338a72c549943d596f8",
+    "members": 21,
+    "allMembersRehashed": true
+  },
+  "currentExternalRuntimeMatches": 172,
+  "currentNativeSourceMatches": 176,
+  "generatedNativeArchiveOnly": [
+    "helpers/denoise/.build/rnnoise/rnnoise_data.c"
+  ]
+}

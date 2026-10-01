@@ -1,0 +1,70 @@
+{
+  "base": {
+    "manifest": "../25-input-preparation/source-runtime-pins.json",
+    "archive": "../25-input-preparation/source-runtime.tar.gz",
+    "bytes": 3597949,
+    "sha256": "c2decf575f4feb61bcd7cfdfe241af7dbd019e4b1598d3081cb8cebaaf4a4c72",
+    "members": 1084,
+    "allMembersRehashed": true
+  },
+  "currentBaseMatches": 1083,
+  "changedBaseEntries": [
+    "specs/agent-editing/slices/25-agent-acceptance.md"
+  ],
+  "delta": {
+    "specs/agent-editing/slices/25-agent-acceptance.md": {
+      "bytes": 8667,
+      "sha256": "9f4d7c67a0e93f43114c0afc98cd3a78845c3966fa81a9cc0c602b35bc7f8c13"
+    },
+    "packages/test-harness/editing/acceptance-voice-ready.mjs": {
+      "bytes": 10116,
+      "sha256": "5f2b9eabd0a2157c440c5ac6cc3d8314993b6ab5f0c169580aa249d396fef62c"
+    },
+    "specs/agent-editing/slices/25a-model-readiness.md": {
+      "bytes": 1923,
+      "sha256": "0ec06f97a8cd5af849c9301392c2c6a4de23dade1febd8621fc63e4036fc05ba"
+    },
+    "specs/agent-editing/assets/25-input-preparation/README.md": {
+      "bytes": 3586,
+      "sha256": "5e8416153765d8582615f73684455607b89e7bf4e2db830eacff14c4daba1c85"
+    }
+  },
+  "deltaArchive": {
+    "bytes": 9106,
+    "sha256": "ef5e281ec1af485cfd94b3a98f4f3231ee828a1c822e2cc6d3d40288dd9ec480",
+    "members": 4,
+    "allMembersRehashed": true
+  },
+  "externalRuntime": {
+    "manifest": "../25-input-preparation/module-resolution.json",
+    "reusedFiles": 172,
+    "allCurrentHashesMatch": true,
+    "archive": "../09c-audio-export/external-runtime.tar.gz"
+  },
+  "native": {
+    "matches": 176,
+    "archiveOnly": [
+      "helpers/denoise/.build/rnnoise/rnnoise_data.c"
+    ],
+    "sources": "../09c-native-audio-file/source-reference-pins.json + source-final-delta-pins.json",
+    "worker": {
+      "path": "/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+      "identity": {
+        "path": "/tmp/screenrec-09c-native-presented-worker",
+        "bytes": "30148624",
+        "mode": "33261",
+        "dev": "16777230",
+        "inode": "337504775",
+        "modifiedNs": "1790871756917638604",
+        "changedNs": "1790871756917751020"
+      }
+    }
+  },
+  "node": {
+    "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+    "bytes": 119133456,
+    "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+  }
+}

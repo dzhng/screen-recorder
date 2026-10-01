@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "scope": "25a registered voice preparation and literal occurrence-anchor capability only; no inference or external caller acceptance",
+  "sourceCommitBeforePass": "dd1522dc718b21497f6981ae2318d50072d4d0eb",
+  "libraryHome": "/tmp/screenrec-25-preparation-current/library-ACs9sl",
+  "mainProjectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+  "mainRevisionId": "73f31656-d0f2-4780-a132-db138697283a",
+  "mainProjectUnedited": true,
+  "adoption": {
+    "report": "evidence.tar.gz:adoption/report.json",
+    "exchanges": 616,
+    "initial": {
+      "state": "absent"
+    },
+    "refusal": {
+      "state": "failed",
+      "code": "MODEL_SOURCE_REQUIRED",
+      "message": "This model requires an explicit local runtime artifact source",
+      "retryable": false
+    },
+    "progressReplies": 601,
+    "progress": {
+      "receivedBytesMonotonic": true,
+      "maximumObservedBytes": 3001641129,
+      "totalBytes": 3004417962
+    },
+    "terminalServicePids": [
+      16380,
+      17817
+    ],
+    "diagnostic": "First producer repeated the already-terminal second PID in finally; raw producer and report retained unchanged."
+  },
+  "readyReuse": {
+    "report": "evidence.tar.gz:ready-reuse/report.json",
+    "exchanges": 13,
+    "initial": {
+      "state": "ready"
+    },
+    "reopened": true,
+    "terminalProcesses": [
+      {
+        "pid": 18568,
+        "exitCode": 0,
+        "signalCode": null
+      },
+      {
+        "pid": 18616,
+        "exitCode": 0,
+        "signalCode": null
+      }
+    ]
+  },
+  "nativeOperations": [
+    "media.audioCapabilities",
+    "storage.clearRenderWorkspace"
+  ],
+  "models": {
+    "voice": {
+      "state": "ready"
+    },
+    "parakeet": {
+      "state": "absent"
+    },
+    "preparedVoice": {
+      "python": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f/runtime/python/bin/python3.12",
+      "entry": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f/runtime/voice/worker.py",
+      "model": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f/model",
+      "cache": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/models/.cache/qwen3-tts-icl-v1",
+      "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+      "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+      "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+      "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+      "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f"
+    }
+  },
+  "preservation": {
+    "registeredSourceFiles": 14,
+    "runtimeEntries": 11428,
+    "runtimeBytes": 488274953,
+    "modelBytes": 2516143009,
+    "sourceHashesAndModesAndLinksVerifiedBeforeAndAfter": true,
+    "originalDurableHomeFilesAndReceiptIdentityUnchanged": true,
+    "frozenWorkerUnchanged": true
+  },
+  "literalAnchor": {
+    "projectId": "9edd5a59-f769-482b-8bf7-4b68f7fbbe6a",
+    "revisionId": "1d8ac8f9-8771-4ab4-b957-d54b34fed8f0",
+    "clipId": "clip:b5747e85070f027cd2b64b13ad8e5d38d625afcd428baa28a00ba0af5a252fa7:2",
+    "textClipId": "clip:b5747e85070f027cd2b64b13ad8e5d38d625afcd428baa28a00ba0af5a252fa7:3",
+    "sourceRange": {
+      "startUs": 0,
+      "endUs": 500000
+    },
+    "proofSource": {
+      "assetId": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "streamId": "track:1"
+    },
+    "limitation": "Reference clip proves public anchor capability only. Eventual caller must bind its actual generated paid clip/source interval; no paid word or synthesis claim."
+  },
+  "callerReadinessFile": "/tmp/screenrec-25a-voice-ready-reuse/caller-model-readiness.json",
+  "checks": {
+    "publicAdoptionExitCode": 0,
+    "readyReuseExitCode": 0,
+    "syntax": 0,
+    "format": 0,
+    "lint": 0
+  },
+  "performance": "unmeasured",
+  "remaining": [
+    "Actual fresh external caller public generation, edits, delivery and recovery",
+    "Relevant integrated visual/media acceptance; no new quality or physical verdict",
+    "Historical raw narration transcript is not adopted as a canonical current receipt"
+  ],
+  "review": "manual shape/code/docs/choices; no CLI review retry or Claude"
+}

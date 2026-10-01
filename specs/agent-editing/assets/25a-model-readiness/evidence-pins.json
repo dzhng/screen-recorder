@@ -1,0 +1,86 @@
+{
+  "adoption/executed-runner.mjs": {
+    "bytes": 9069,
+    "sha256": "5c8a25f0f99b32dde3072fa67af4669b1b288c86bb6ca019c03235b861c0965d"
+  },
+  "adoption/operations.jsonl": {
+    "bytes": 330,
+    "sha256": "006a502d729218eb0e575839b9335b445cede55b07879db198100b66c3b1553c"
+  },
+  "adoption/prior-caller-inputs.json": {
+    "bytes": 13910,
+    "sha256": "54d95b64ccebe183a3fe8df6a1cbacdd4054301840f317c7783f340c16adf713"
+  },
+  "adoption/prior-fixture-brief.md": {
+    "bytes": 10165,
+    "sha256": "578eb4a74828625a99d059f6cf7f33269520dcccbf84e74341d988cbb8a7678a"
+  },
+  "adoption/prior-report.json": {
+    "bytes": 165395,
+    "sha256": "f91d170a177fe7d87dde7fb064f32009508f78a748e56a9c1d75f5e50c298166"
+  },
+  "adoption/report.json": {
+    "bytes": 21184569,
+    "sha256": "1393e3a0bd3ac2c30bde8b999121ed4ec015fac3b34c302738fefda67e00de1c"
+  },
+  "ready-reuse/caller-model-readiness.json": {
+    "bytes": 1943,
+    "sha256": "ac516d0daaec463533c6971b74db681b4a93d4bdcc189a324d301409e98c8627"
+  },
+  "ready-reuse/caller-ready-inputs.json": {
+    "bytes": 14161,
+    "sha256": "e15ff1da79d32494250150fd16ed3eda6f35b2a5d5731f76d1c371595231da2a"
+  },
+  "ready-reuse/closed-catalog.sqlite": {
+    "bytes": 430080,
+    "sha256": "63d6529aaedb0cf3581d7d84f7f885f1b52ad0b1841db960909ce801829ac6c1"
+  },
+  "ready-reuse/executed-runner.mjs": {
+    "bytes": 10116,
+    "sha256": "5f2b9eabd0a2157c440c5ac6cc3d8314993b6ab5f0c169580aa249d396fef62c"
+  },
+  "ready-reuse/genuine-managed-receipt.json": {
+    "bytes": 1319,
+    "sha256": "777600fe1304caac8a9523afd9d38ae9bfb5a60cc4dec63a78b7364a3e19f02b"
+  },
+  "ready-reuse/operations.jsonl": {
+    "bytes": 330,
+    "sha256": "006a502d729218eb0e575839b9335b445cede55b07879db198100b66c3b1553c"
+  },
+  "ready-reuse/packet-producer-failed.py": {
+    "bytes": 7814,
+    "sha256": "4fdebfa4ed79db0aee384dc8bc5f2c471e395c593e9fd2e4857dd4e470499c8f"
+  },
+  "ready-reuse/packet-producer-failure.json": {
+    "bytes": 283,
+    "sha256": "0f6c0a162b84f11c3560d099b6a11a4f287a3e3ba5b942c957b0c91617257d3a"
+  },
+  "ready-reuse/packet-producer.py": {
+    "bytes": 8558,
+    "sha256": "4ef96747a7380723443469b6417930414fe93ab7306ea6bd2512aa76a631c20e"
+  },
+  "ready-reuse/prior-caller-inputs.json": {
+    "bytes": 13910,
+    "sha256": "54d95b64ccebe183a3fe8df6a1cbacdd4054301840f317c7783f340c16adf713"
+  },
+  "ready-reuse/prior-fixture-brief.md": {
+    "bytes": 10165,
+    "sha256": "578eb4a74828625a99d059f6cf7f33269520dcccbf84e74341d988cbb8a7678a"
+  },
+  "ready-reuse/prior-report.json": {
+    "bytes": 165395,
+    "sha256": "f91d170a177fe7d87dde7fb064f32009508f78a748e56a9c1d75f5e50c298166"
+  },
+  "ready-reuse/report.json": {
+    "bytes": 20647815,
+    "sha256": "742e961b6e060fe19dad1d084b40af75f01f030219f91f422bf4fb1635f40804"
+  },
+  "first-run.log": {
+    "bytes": 230,
+    "sha256": "95d7a6b12f4301550f0d304811c8e9807459edbecb04b4135a751cb584600153"
+  },
+  "reuse-run.log": {
+    "bytes": 230,
+    "sha256": "ce61634d68df837760e4bec36d5df371351a48e5527ec6b7f71c22b64274a1ac"
+  }
+}
