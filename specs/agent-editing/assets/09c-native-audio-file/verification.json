@@ -1,0 +1,299 @@
+{
+  "passed": true,
+  "scope": "native offline FILE correctness; public and installed acceptance owned by integrating caller",
+  "baseCommit": "24d09bdb123d1c5ecd02a408414f4d0ae658ea86",
+  "worker": {
+    "path": "/tmp/screenrec-09c-native-presented-worker",
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "commands": [
+    {
+      "command": "swift build --package-path helpers/mac --scratch-path /tmp/screenrec-09c-native-build --disable-automatic-resolution --product screenrec-native",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-presented-build.log"
+    },
+    {
+      "command": "node helpers/mac/Tests/audio-file.mjs /tmp/screenrec-09c-native-presented-worker /tmp/screenrec-09c-native-presented-acceptance",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-presented-acceptance.log"
+    },
+    {
+      "command": "swift build --package-path helpers/mac --scratch-path /tmp/screenrec-09c-native-build --disable-automatic-resolution --product ScreenRecorderAudioFileTests",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-presented-cancel-build.log"
+    },
+    {
+      "command": "/tmp/screenrec-09c-native-presented-cancel-tests /tmp/screenrec-09c-native-cancel/source.wav /tmp/screenrec-09c-native-cancel/presented-final.m4a",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-presented-cancel.log"
+    },
+    {
+      "command": "swift build --package-path helpers/mac --scratch-path /tmp/screenrec-09c-native-build --disable-automatic-resolution --product ScreenRecorderSelectedAudioTests",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-selected-build.log"
+    },
+    {
+      "command": "SCREENREC_SELECTED_AUDIO_EVIDENCE=/tmp/screenrec-09c-native-selected-preservation /tmp/screenrec-09c-native-build/debug/ScreenRecorderSelectedAudioTests",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-selected-preservation.log"
+    },
+    {
+      "command": "node helpers/mac/Tests/audio-file-movie.mjs /tmp/screenrec-09c-native-presented-worker /tmp/screenrec-09c-native-reviewed-acceptance/source.wav /Users/david/.codex/worktrees/audio-aac-sink/screen-recorder/specs/agent-editing/assets/00-corpus/a.mov /tmp/screenrec-09c-native-movie-preservation2",
+      "exitCode": 0,
+      "log": "screenrec-09c-native-movie-preservation2.log"
+    }
+  ],
+  "matrix": {
+    "count": 32,
+    "sampleRates": [
+      44100,
+      48000
+    ],
+    "layouts": [
+      "mono",
+      "stereo"
+    ],
+    "rateControls": [
+      "constant",
+      "long-term-average",
+      "constrained-variable",
+      "variable"
+    ],
+    "vbrQualities": [
+      "min",
+      "low",
+      "medium",
+      "high",
+      "max"
+    ],
+    "inputFrames": 96017,
+    "maximumWholeSignalRms": 0.0138468020994196,
+    "maximumBeginningRms": 0.022344711687365883,
+    "maximumEndingRms": 0.04007274982501024,
+    "oracleBounds": {
+      "wholeRms": 0.055,
+      "firstAndLast1024FramesRms": 0.12,
+      "untrimmedDecoderTailFrames": "less than one AAC packet (1024)",
+      "presentedContentFrames": "exact finite conversion quota",
+      "containerDuration": "within one target sample of authored duration"
+    }
+  },
+  "wholeFile": {
+    "requestReply": {
+      "request": {
+        "id": "whole-file",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-09c-native-presented-acceptance/whole-file.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 8640017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "data": {
+          "bytes": 4356412,
+          "channels": 2,
+          "contentFrames": 8640017,
+          "durationUs": 180000354,
+          "encodedFrames": 8640017,
+          "file": "/tmp/screenrec-09c-native-presented-acceptance/whole-file.m4a",
+          "inputFrames": 8640017,
+          "sampleRate": 48000,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          }
+        },
+        "id": "whole-file",
+        "ok": true
+      }
+    },
+    "inputBytes": 69120180,
+    "inputSha256": "4521f90fafe5d3a4dcdc753e0bcc69e51d2de2881842acb58769892a64888541",
+    "decodedFrames": 8640448,
+    "endpointRms": [
+      0.0008511868390958643,
+      0.0023022299932479633
+    ],
+    "probe": {
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "mime_codec_string": "mp4a.40.2",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "id": "0x1",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/48000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 8640017,
+          "duration": "180.000354",
+          "bit_rate": "191996",
+          "nb_frames": "8440",
+          "extradata_size": 2,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "creation_time": "2026-10-01T16:22:51.000000Z",
+            "language": "und",
+            "handler_name": "Core Media Audio"
+          }
+        }
+      ],
+      "format": {
+        "filename": "/tmp/screenrec-09c-native-presented-acceptance/whole-file.m4a",
+        "nb_streams": 1,
+        "nb_programs": 0,
+        "nb_stream_groups": 0,
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "format_long_name": "QuickTime / MOV",
+        "start_time": "0.000000",
+        "duration": "180.000354",
+        "size": "4356412",
+        "bit_rate": "193617",
+        "probe_score": 100,
+        "tags": {
+          "major_brand": "mp42",
+          "minor_version": "1",
+          "compatible_brands": "isommp41mp42",
+          "creation_time": "2026-10-01T16:22:51.000000Z"
+        }
+      }
+    },
+    "outputSha256": "b02f0d99848c2b42e647a7777514ef06e3528a1126a66d854e2b6b8cce996f80"
+  },
+  "refusals": 12,
+  "moviePreservation": {
+    "passed": true,
+    "rms": 0.0009994014322069473,
+    "rgbSha256": "782289e08007877ddba8ad47f1501ab5b4b332b4b48ff1189151dd296402206a",
+    "sourceHashes": [
+      "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+      "a18e90aadce821e84e97785d7dcce0d786a61a8397530fd3893dc0abfae3d9b0"
+    ],
+    "scope": "actual legacy media.renderMovie, video-only parity, shared MovieMux AAC lowering, no playback; not whole composition/public export suite"
+  },
+  "sourceAuthority": {
+    "referenceMembers": 174,
+    "finalMembers": 177,
+    "reference": "source-reference.tar.gz",
+    "finalDelta": "source-final-delta.tar.gz",
+    "finalPins": "source-final-pins.json"
+  },
+  "externalCodeMembers": 353,
+  "linkedCodeIdentities": 475,
+  "runtimeMembers": 9,
+  "evidenceMembers": 317,
+  "mutants": [
+    {
+      "case": "positional WAV header read removed",
+      "exitCode": 1,
+      "expectedFailure": "UNSUPPORTED_FORMAT completed WAV refusal before publication",
+      "log": "screenrec-09c-native-final-reader-mutant.log",
+      "authority": "final-reader-mutant-source-pins.json"
+    },
+    {
+      "case": "streaming purpose changed to inspection",
+      "exitCode": 1,
+      "expectedFailure": "LIMIT_EXCEEDED at 64 MiB, no publication",
+      "exchange": "screenrec-09c-native-streaming-mutant-exchange.json",
+      "authority": "streaming-mutant-source-pins.json"
+    }
+  ],
+  "diagnostics": [
+    "First build failed because WireRequest requires Codable, corrected before functional tests.",
+    "Generic MPEG-4 audio UTI caused an Objective-C writer exception; intermediate runtime was not separately frozen.",
+    "AVAudioFile and M4A AVAssetWriter probes exposed Apple priming/padding metadata; ISO MP4 writer corrected presentation.",
+    "Early matrix duration oracle incorrectly required two-microsecond precision across rate conversion; corrected to the existing finite-conversion quota.",
+    "Negative-control error oracle initially expected INVALID_OUTPUT_SETTINGS; existing native owner returns UNSUPPORTED_FORMAT.",
+    "One premature worker copy captured the prior build while the new build remained live; preserved diagnostic runtime and never final authority.",
+    "Early mutant source tar raced source edits; its original pin record is diagnostic only and malformed tar excluded. Later controlled mutant fully preserved.",
+    "Reviewed packet-count candidate passed the odd-length fixture but failed actual 3-second public 44100 file. AVAudioFile packet capacity is not presented content. Corrected to AVAsset track clock.",
+    "First movie preservation invocation used relative fixture path and refused; absolute corrected invocation passed.",
+    "First packaging lookup used target name rather than native product name; corrected before provenance verification."
+  ],
+  "restrictions": {
+    "devices": false,
+    "uiOrAppLaunch": false,
+    "playback": false,
+    "inference": false,
+    "modelPreparationOrDownload": false,
+    "installedSwitch": false,
+    "cliReviewOrClaude": false,
+    "performanceClaim": false
+  },
+  "terminal": {
+    "allBuildsAndTests": true,
+    "childrenOrWorkersRetainedRunning": false
+  },
+  "review": {
+    "shape": "one existing finite conversion engine; shared PCM lowering; existing atomic new-file owner; no new codec/cache/queue",
+    "diff": "decoder packet capacity separated from presented content after actual failing public case",
+    "docs": "native invariants and exact scoped evidence; root handoff owned by integrator"
+  },
+  "sizeExcludesMachineEvidence": true,
+  "toolchain": {
+    "swift": "Apple Swift 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)",
+    "target": "arm64-apple-macosx26.0",
+    "sdkPath": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+  },
+  "archivesValidated": "archive-verification.json"
+}

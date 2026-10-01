@@ -1,0 +1,1902 @@
+{
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/screenrec-native.product/Objects.LinkFileList": {
+    "bytes": 43076,
+    "sha256": "b9424a7d72702710fb5bafb5cf3d0c6281d31bc388f35e11d7b4c7dae270578b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/celt_lpc.c.o": {
+    "bytes": 7200,
+    "sha256": "121ce6d44694c02fcd86ce33333b1d2cd49d270f0c4c5649e27b9d001dc4ff11"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/denoise.c.o": {
+    "bytes": 36624,
+    "sha256": "eb58b4897bc741d253b047c86526acd21c94b420a870fb75388ad24adbfd49cd"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/kiss_fft.c.o": {
+    "bytes": 25184,
+    "sha256": "0a06be2e3004c0dd8206baa3975ff68a1772368553f545b72ca26293239cbbfa"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/model.c.o": {
+    "bytes": 3559600,
+    "sha256": "17e573d81b272ce334bd137062a6285b06631deac2b6d8efb99381486cd0df09"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/nnet.c.o": {
+    "bytes": 10120,
+    "sha256": "f62849bbd9ba6fe4b4fb77d5ebf487c3974b111867851be28c3904cbafe6fa1f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/nnet_default.c.o": {
+    "bytes": 30624,
+    "sha256": "8b9257bd130c2f6d83f0938b8601c1ed8fddb146b39ad466549cc76c41d5e586"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/parse_lpcnet_weights.c.o": {
+    "bytes": 12576,
+    "sha256": "9d03d64d0e314833b677afcb4cbd97effee718f73f45db1ece0680da17cc6a3d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/pitch.c.o": {
+    "bytes": 22248,
+    "sha256": "6c7d75974d96e689cbf8f201fb8c46f373dafd000abaeb20241c4ae66b7b6220"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/rnn.c.o": {
+    "bytes": 6424,
+    "sha256": "129b3529217af8a91b8f458681defb78f04a3648e1e50ee51b932e98807447da"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CRNNoise.build/src/rnnoise_tables.c.o": {
+    "bytes": 22136,
+    "sha256": "abd4c6ce352490818c0d41c24dd9ffcc6f78077e4a1df0790a6fabf2221c67af"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CSignalsmith.build/Paged.cpp.o": {
+    "bytes": 652168,
+    "sha256": "abfb46111d050ecda97289426ed058dfcb73a3b7b95a71d586f638e2ac10e0fb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/CSignalsmith.build/Signalsmith.cpp.o": {
+    "bytes": 644088,
+    "sha256": "2435440047545c436c67f6aa84841d72d7be0d6ae66438e0a5bb75d018f866ba"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FastClusterWrapper.build/FastClusterWrapper.cpp.o": {
+    "bytes": 184040,
+    "sha256": "fdf96813d09f9a5533ca660f7cf3f8fb5e55171b5460fa55306017a5ca805f5a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AHCClustering.swift.o": {
+    "bytes": 101072,
+    "sha256": "c97aa0ced09fc48b1ad96ec3b2f67c3390e8eb002271528dc1aacd3cbc6d371a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ANEMemoryOptimizer.swift.o": {
+    "bytes": 126760,
+    "sha256": "55a9483631b86f0f9d2d2d28e5c7aa8d0d173e17f1bfd5397ef6fed445582fd0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ANEMemoryUtils.swift.o": {
+    "bytes": 86648,
+    "sha256": "9aaf43bba38d56481f9ace56268024b357137732c098b72c92e9b40f7535d6f4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ARPALanguageModel.swift.o": {
+    "bytes": 87216,
+    "sha256": "e5144cee4bd2c71a45b341f342de403b36aabc8575c00da6851ebf8033e23aa7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ASRConstants.swift.o": {
+    "bytes": 40384,
+    "sha256": "c308207f94cffb5251c3ab10ce66fe8ce9b61ab15d8dd94a44d8ccce166eb46a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AppLogger.swift.o": {
+    "bytes": 84008,
+    "sha256": "5d419a6af15bf468f0184248945ac16eaf9ae8f0e24ce0c4c48920cffcca1fd1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager+Pipeline.swift.o": {
+    "bytes": 90432,
+    "sha256": "d51590168dcef66391600cfca20a7876a381643d590c134f9e381b3d976139ca"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager+TokenProcessing.swift.o": {
+    "bytes": 80760,
+    "sha256": "1d1f4d02a234c440a8a47eb68944d43029fe78fc6a50334106cf963216d3988e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager+Transcription.swift.o": {
+    "bytes": 136184,
+    "sha256": "990708ede5ba870c6fc642295b484457e9a9bb5c534f40d848d9de222aefc960"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager.swift.o": {
+    "bytes": 256032,
+    "sha256": "471737c8cc6b3863e9609c023b994b975b63863762d606dc399859b698621a4d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AsrModels.swift.o": {
+    "bytes": 318072,
+    "sha256": "7a13ab871daede7cce9ff7e9129ae4a68a959a93d425a042a6fadb6600539396"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AsrTypes.swift.o": {
+    "bytes": 188288,
+    "sha256": "0af41c7e6f5065525f56f671526305eeea5a685087dfa112f315154c65a3efb7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AssetDownloader.swift.o": {
+    "bytes": 110672,
+    "sha256": "02842000ba315845ea07430ed987ae67d735a6629ab0042842794843f389d35d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioBuffer.swift.o": {
+    "bytes": 95200,
+    "sha256": "3ddab09d890ed443f116c9f1458daf68b01464b72411856c6e7cb6b5f41deb0c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioConverter.swift.o": {
+    "bytes": 192136,
+    "sha256": "f6d9ee72612b0d870f0f4cc8769e5409776f914896ed053b5ca338edd8111cd4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioMelSpectrogram.swift.o": {
+    "bytes": 198848,
+    "sha256": "77b8ef46be45db471d7d6dae91addcf4788164f114954b5dd24389f221cdf9a5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioPostProcessor.swift.o": {
+    "bytes": 32776,
+    "sha256": "63576d3402b9ab3ed477e905bcd292c8ca98d61e9bb69b01aef0f1d311936396"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioSampleSource.swift.o": {
+    "bytes": 51272,
+    "sha256": "c4562816129b5a89cecf2c02b1694fd320db373fe236594bf100889ef5cf3f1e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioSource.swift.o": {
+    "bytes": 23488,
+    "sha256": "7552abcacfcf7a8a611d155cb7648ef2d9d845e36dfdae907929e69f9b29b7db"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioSourceFactory.swift.o": {
+    "bytes": 158968,
+    "sha256": "6ce020ae8661310509703f43a2cffa777d6331f2d3672c9fd8affa32380dadb6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioStream.swift.o": {
+    "bytes": 168800,
+    "sha256": "c84110facdfacd75b9515f445083ebf76e2c0c9b1f75283695cdf998c00fa147"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/AudioValidation.swift.o": {
+    "bytes": 31616,
+    "sha256": "a1db8ca2b122697d1a412c7e79d463abebc1b30826dfc7158f5c48759b96983b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/BKTree.swift.o": {
+    "bytes": 71152,
+    "sha256": "2361453e3162c34598127aa8e0793b75bcf53cfdbffd927ce278c37f06db7c8f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/BlasIndex.swift.o": {
+    "bytes": 17384,
+    "sha256": "afc51f39a61621e510961d1255ab5b7e1c91923fc46f564ea7e03e35e52a32ac"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/BpeTokenizer.swift.o": {
+    "bytes": 117552,
+    "sha256": "75617c501f568e6c5aa901ce9df5f064146831ba9e95dca36fba9d43939e46be"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CampPlusEmbedder.swift.o": {
+    "bytes": 70672,
+    "sha256": "eee5004bf62042e57a5eb1ae9dace6be469f999a7d2ce1d8e3c85a22b850c693"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CampPlusModels.swift.o": {
+    "bytes": 61320,
+    "sha256": "0db85a7d451ef37edbef82f3f7eaa30c1132d54403421ba7514ce54b0a2f1423"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryConfig.swift.o": {
+    "bytes": 50088,
+    "sha256": "d25cdb2f0ae41d368e4c3502156bf0f2955bde8422981ce95e3f67f570fe4e51"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryKeywordBooster.swift.o": {
+    "bytes": 117992,
+    "sha256": "c578bec5cbb2cd8f9b6069b2636847efd8653348c5a0ca5e70015e3c51a59efd"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryManager.swift.o": {
+    "bytes": 124360,
+    "sha256": "979e003043dc40716b2071784cb92deadc3215efc45fa41a9fb66cd4c6ecf826"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryModels.swift.o": {
+    "bytes": 70256,
+    "sha256": "2e0b71e5167853acaf1fb671e5ab7cfbf3ff96e13665fbe91dac8ab5e709f140"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ChunkProcessor.swift.o": {
+    "bytes": 568296,
+    "sha256": "5c624beff05b9a2e389b7d717dc5cda27714b94397d3e3d08820923b021dc4a7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CohereAsrConfig.swift.o": {
+    "bytes": 77760,
+    "sha256": "e994f7b248c673648e61930b4e5d773b49e55e760483b4ceea29a1ffb6b98965"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CoherePipeline.swift.o": {
+    "bytes": 413360,
+    "sha256": "591edd5a7e03f07b029d5016bae7564bf0191fcd9764f488bbf26eb5f2710868"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ConstrainedClusterAssignment.swift.o": {
+    "bytes": 33552,
+    "sha256": "17ec5cc8222e53afda26dd6e09cb3c0405f9ba8039e7c1e47c0d3850e73d37d1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ContextBiasingConstants.swift.o": {
+    "bytes": 63744,
+    "sha256": "38c1f84604922f9a454c64ff0b15de50c6cb8f2940695e2a63604e1e8b14554b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CtcDPAlgorithm.swift.o": {
+    "bytes": 74048,
+    "sha256": "cfd2a7c53706a62b8abdf2dbd666efed6a7710f2de4d8451e684c7214bfde291"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CtcDecoder.swift.o": {
+    "bytes": 102192,
+    "sha256": "3d046c54b22a9d750e4268e31780173666334790c236224f2bc6ea04d1ea3e7c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CtcKeywordSpotter+Inference.swift.o": {
+    "bytes": 173056,
+    "sha256": "426c93bda3983abd67c82a5e7c6a57cb6a92967896aa61fa3c86ac8a475f9975"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CtcKeywordSpotter.swift.o": {
+    "bytes": 108216,
+    "sha256": "4f5a76fb4ef43f69bbf9cd3e87c1f0442aa82f428936b81d12e6922a35329479"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CtcModels.swift.o": {
+    "bytes": 158528,
+    "sha256": "5684005f9758b73673b52574dda38615667bfe353352fa2ff6ec7e3592bc506c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CtcTokenizer.swift.o": {
+    "bytes": 56072,
+    "sha256": "68725c05b04785793dd89ceb669cf02dfa9ed83073bd477465538619f4decf36"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/CustomVocabularyContext.swift.o": {
+    "bytes": 197088,
+    "sha256": "c1ca324f176644678edfdae73b7664e783c86bcbacab80ab3fb8d50f32262e26"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizationDER.swift.o": {
+    "bytes": 76632,
+    "sha256": "3a40779dca214a9a7c1063de792a1354f686c3caad20984635aabf3de07f4d30"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerManager.swift.o": {
+    "bytes": 137880,
+    "sha256": "edb6efc52debfcbac970909a094b7bec2cbbde91ec3cf47b5cf2f9f9dbc33521"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerModels.swift.o": {
+    "bytes": 63760,
+    "sha256": "b49b268199d3209f3d24d80263c6bc7102f74ac48e2ee55a2eb4206a8a08ac32"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerProtocol.swift.o": {
+    "bytes": 14288,
+    "sha256": "a4610cbb8f7a538d07a2ecdb2b7f976524f17eb11709768defbd2ffa2e1019c8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerTimeline.swift.o": {
+    "bytes": 424016,
+    "sha256": "78ff31a378b84b8b7702c20ed21c624dfbd960a02f102f29041dd3a499c80bad"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerTypes.swift.o": {
+    "bytes": 188936,
+    "sha256": "5e2bb053f4c5778c2ee6ea0fe80b95552ed6c8f15cd32bab9c63a73cb04e3ade"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DownloadTypes.swift.o": {
+    "bytes": 62696,
+    "sha256": "2813d63c56b2c740f7cbc1408b4952632b1d863dca247596b691f91b7caa4875"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DualDecodeArbitration.swift.o": {
+    "bytes": 357384,
+    "sha256": "4acef6fa0c22b73533321a49f27522897b6179ae64e7fcefa051eeb13b32eb2f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/EmbeddingExtractor.swift.o": {
+    "bytes": 71888,
+    "sha256": "cc590d111f7b1112876052103ea09c8ea791627074b0c535f5e149c8cae4d206"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/EncoderCacheManager.swift.o": {
+    "bytes": 46200,
+    "sha256": "2d8894893569586621d4b530d6939ca0dec9c3140ca1ecae085bba90413f4f00"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/EncoderFrameView.swift.o": {
+    "bytes": 54064,
+    "sha256": "79a2a20141d2f7ca658088efad44ffccf5b65956fac0480171a6b88b01695103"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/EnglishInitialisms.swift.o": {
+    "bytes": 29544,
+    "sha256": "d9d118c2de06e462968c1f9d695ed3d70acdeb9dc336fe2804da347f944f611b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/EnglishTextNormalizer.swift.o": {
+    "bytes": 138272,
+    "sha256": "f399b389df75893352b1267de887ed45853dad071ca2fee44e3c0602829182e9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/FileDownloader.swift.o": {
+    "bytes": 353632,
+    "sha256": "b06b566567566e852047727f99b8b6914ac0e6d98c61f2bc773f22b02f4a9020"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Float16Conversion.swift.o": {
+    "bytes": 20232,
+    "sha256": "8a8287427a0542f7c01a89d462f8e93cf4b39a712789c1bb5ae6c77c8b80c60e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/FluidAudioSwift.swift.o": {
+    "bytes": 14992,
+    "sha256": "117ef87a8ca91b6e0a1a2c2f87817fd17e6cd84ccecf2441da31d0f0d61255dc"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/FsmnVadManager.swift.o": {
+    "bytes": 115008,
+    "sha256": "f80807d4d6a738fa6d8a9a4ee1b768bef61021799e729f2a6e78c11299e7762a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/FsmnVadModels.swift.o": {
+    "bytes": 61224,
+    "sha256": "8061a87b890d7197b43312a1c144bd86f4ca81db7492578f448eaf3222ecb771"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/G2PModel.swift.o": {
+    "bytes": 166992,
+    "sha256": "ce1c479ed31241ade7dad586561e397eb8eb58bfb698bdafb63a80ff19e5d286"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/HFClient.swift.o": {
+    "bytes": 75680,
+    "sha256": "7382621f32b809f77a50303b12767edfbda28602b445f0caa06947f6651d7314"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/HFTreeLister.swift.o": {
+    "bytes": 109784,
+    "sha256": "16c0997982f9fa23df6d37078b4ca130f3a38febd3d4395677dd44d36939aec9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/HungarianAssignment.swift.o": {
+    "bytes": 46304,
+    "sha256": "7211863abe63b512f76d4ebcfdfb0db413f0e82baf6020dd36ae82a896c70fa4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectConstants.swift.o": {
+    "bytes": 29704,
+    "sha256": "0e8672092bc0da93db717027a056c0ecf520448e37724c6171471ce34ac6ada3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectError.swift.o": {
+    "bytes": 36168,
+    "sha256": "1524d88a4832f7825d7c46abd2ba59f07722854db8aba6ada95c2aa033c037c6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectManager.swift.o": {
+    "bytes": 125136,
+    "sha256": "a1f605c722e91c7c126250e298e03b12a71f3eab7e090579cd20ecc752b2ee8c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectModelStore.swift.o": {
+    "bytes": 69744,
+    "sha256": "ace51d0913cb7cbd14a340a6fe9ae9f2cfa816404d27f7301d5399be60ed9516"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectNoise.swift.o": {
+    "bytes": 27840,
+    "sha256": "d8a25b83a2fb7ac0780994e7023bc8fd6ea14412bb087b3c8923b103ef4dabc4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectResourceDownloader.swift.o": {
+    "bytes": 42072,
+    "sha256": "1749742caf58f90accba4ed68e22af2adc827fbf6634c37841a59b0e332d7f6b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectSymbols.swift.o": {
+    "bytes": 44184,
+    "sha256": "99f762d1c770a40c9345696e8bd4bd79468b127e9b7f69e3482a81bb584cf5e3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectSynthesizer.swift.o": {
+    "bytes": 118832,
+    "sha256": "70942caea69b80f07c6ad8123de71b237906be1692a045ebf4bafede90372641"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/InflectVariant.swift.o": {
+    "bytes": 30992,
+    "sha256": "5617266c1d2ad49013fcde8b49e51270b7048dd8c1c00d724e11f3860855076b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KMeansClustering.swift.o": {
+    "bytes": 96872,
+    "sha256": "a32029d6777a913778385847a5b00c805ee95b9ee50318f7d0b922613877d518"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneConstants.swift.o": {
+    "bytes": 105192,
+    "sha256": "6649bb013c0caa5f0be61bd42e0f9c70e4cbfb168ba9b3340240eb582ab6e2b1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneEnglishPhonemizer.swift.o": {
+    "bytes": 111240,
+    "sha256": "9f2c35b6f939fcf7182d47e527b3cf5bd866fa4f32e5f819c469e79be097dce4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneError.swift.o": {
+    "bytes": 55176,
+    "sha256": "9f01e29c56ea52619446ea0dd3998d21a39b4c096d1cc73506ad98cdffe0f93e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneManager.swift.o": {
+    "bytes": 157912,
+    "sha256": "d5a7f2ca2054742b46560ad5c0a2912241739d0f7da97b6c58a9bde4756ed626"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneModelCacheMigration.swift.o": {
+    "bytes": 82736,
+    "sha256": "d8af6409eb8114f78bd0bc942f2c4a749df8b16adbac70add3ae49a0f2f49f8f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneModelStore.swift.o": {
+    "bytes": 167568,
+    "sha256": "9dc05100d71558e9fdab8b2ae2cbdf0ef0da33ee20addb85b1dae0b4e5066c4c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneResourceDownloader.swift.o": {
+    "bytes": 213816,
+    "sha256": "2b64186f722d6a49f09e91fd3026380b3cc0b396848c5d053e580b0dfb3c5033"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneSynthesizer+Conversion.swift.o": {
+    "bytes": 98744,
+    "sha256": "a117b1dead36b8e0c5acef92c5a6e6d61d966964b4ce88397ddae9a352a9ba1c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneSynthesizer+Types.swift.o": {
+    "bytes": 62880,
+    "sha256": "f767c9a605fdd8e6fa7d25b026ee5ac7b7a65d37d6ca68b6ecb7760d7f10f1f1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneSynthesizer.swift.o": {
+    "bytes": 222920,
+    "sha256": "f0625317eb0ee649771ec5924b2982be8b92204b8d3aa2eed2982fa16b2bd5b8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneVocab.swift.o": {
+    "bytes": 62056,
+    "sha256": "de5221d61b35b86e4faa074d65896c4f6522bc1f2faa011d82f71fe3da1d351e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneVoicePack.swift.o": {
+    "bytes": 80896,
+    "sha256": "99326d1999c3b8b04cafe117fc129d8369b10c979c2daad24b134a00a7bf431d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDDiarizer.swift.o": {
+    "bytes": 116440,
+    "sha256": "00789e106f515049511639ef10c42ef7d464a7a622f7804f9aeec56d40807952"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDInference.swift.o": {
+    "bytes": 154776,
+    "sha256": "b36c8b5a3bfdce164934bd77ef3bf856c86dcca1f626e9be445c1174a7c16315"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDPreprocessor.swift.o": {
+    "bytes": 128224,
+    "sha256": "582319799e8a2e274e4f4ce0bb7fad4aab4c8e978567b68032750a3c4c61beb7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDTypes.swift.o": {
+    "bytes": 112800,
+    "sha256": "fbc98da3669e721e262255399d20a14d19230278ffc946ec7ea1e6abd9e85ae4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LexiconAssetCache.swift.o": {
+    "bytes": 101504,
+    "sha256": "fe7e1ece95fbc8b428d59e4e289c0b7c27edd5d5d8d492f3b307178e6ed51b6e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LogitsArgmax.swift.o": {
+    "bytes": 38856,
+    "sha256": "c018717f6ff47f5be9572a779a6c3947c9ccd6f0bfd0d010898d131a75262b67"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsConstants.swift.o": {
+    "bytes": 37128,
+    "sha256": "1dcad8f42afabffdcda8a23e529f908580b650556e4831160f939fe0e2b66a5c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsEnglishNormalizer.swift.o": {
+    "bytes": 179472,
+    "sha256": "ce8909168784a640f85c0b2dd30c5e85730b0bc537768e02b6fdd9108c7c262f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsError.swift.o": {
+    "bytes": 37736,
+    "sha256": "2fcb9bba26adb4cd5ad6a9598d4d230903f935625bf9422b3a52fc40048ba09b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsG2p.swift.o": {
+    "bytes": 308760,
+    "sha256": "9040e952bbf16f49cbc3f0ee5fd778fc3ff30c0864256fd0d1692147814daa30"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsManager.swift.o": {
+    "bytes": 92880,
+    "sha256": "5cdb6456e64a53c59c3e9b645c1389ac155c4554b82c43d9a4354aaa6bc2fc97"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsMelExtractor.swift.o": {
+    "bytes": 103680,
+    "sha256": "d43b3d499c5cd9470b094d9a5cc1454bff82d1ca4cd3dd9b24f559f371d1c106"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsModelStore.swift.o": {
+    "bytes": 105224,
+    "sha256": "df70bbec9146dd7e0dbd2067cbce3532015d610f4f5c914809b9efba06153b0c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsSolver.swift.o": {
+    "bytes": 43696,
+    "sha256": "53e52963ffeb4902fbfa7ccd456d5b5b72df83c509d0226536e849f73b819f09"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsSynthesizer.swift.o": {
+    "bytes": 243560,
+    "sha256": "5c6a1311626d51b6ee650855d8ed7ce305605b6edcdd810bc7676bb1baabf7d5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsTokenizer.swift.o": {
+    "bytes": 52704,
+    "sha256": "a1d9d21262818cd15d845c1cbbfc6bcd7e5890c60dee709f7939bee1a607a8d1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MLArrayCache.swift.o": {
+    "bytes": 75280,
+    "sha256": "adc511e282d9f39a49af0a44ba1c92a1139754fa9ddef69d19f89d7237b4eaee"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MLModel+Prediction.swift.o": {
+    "bytes": 16176,
+    "sha256": "c2a655a184db9148a01c35de80f412205d224b19113f98afde570a0e3d900f58"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MLModelConfigurationUtils.swift.o": {
+    "bytes": 24120,
+    "sha256": "072b0528b66a331f43d772be73ce7821bea0a1affb8d4c07276454d730d3b9dc"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MLMultiArray+Extensions.swift.o": {
+    "bytes": 22600,
+    "sha256": "7a93688f1236932a709c99508bbae23efe0a3d747f0ac7da6419e203eeef1974"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinBertTokenizer.swift.o": {
+    "bytes": 75248,
+    "sha256": "ed41906cbeb0aa72d7ca12a7ea994bb7c08c67a3001c89964e268789e2d3512d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinBopomofoMap.swift.o": {
+    "bytes": 61744,
+    "sha256": "646fe7c2f7101d96d09419573b8b52a8f4505ae0d682338c24b2131c35460a36"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinCustomLexicon.swift.o": {
+    "bytes": 104688,
+    "sha256": "33292d0ea72a6c074b4410f7e64461908d3623de8e374017d2b5df0c3f912700"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinErhua.swift.o": {
+    "bytes": 20808,
+    "sha256": "add9fb82e3e15cb36f497e3850c6a092a84033a1b74c95633bb126feeaf808db"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinG2P.swift.o": {
+    "bytes": 139728,
+    "sha256": "9ff7fe355ef838424d996b435ada97237f34c481a305639ec76279afd46b1d7e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinG2pwModel.swift.o": {
+    "bytes": 125800,
+    "sha256": "cc2216712d640679272b9e0ab4b16c091a8c90a27e95c4828e9da05d60a3fdf6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinJiebaHmm.swift.o": {
+    "bytes": 49840,
+    "sha256": "9f3bc45ff167618c95bd6d57fee2f815ffe01aa643eb55e97f91200b91e20fb4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinJiebaTables.swift.o": {
+    "bytes": 102104,
+    "sha256": "accec78d14bbb102d186e66e4fb493d23dbbb78e0b5230bd5c3a1fdde5d6a25d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinNumberNormalizer.swift.o": {
+    "bytes": 144504,
+    "sha256": "7c5cce818352ee1f7a3c373e25a3ec719457bf8736658d3e942fed59b1b1ab17"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinPinyinDict.swift.o": {
+    "bytes": 62752,
+    "sha256": "e38a948f4573be1d83d59678dcad90dfe77185b1ae9a09d291f8772b726d6a7d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinPinyinNormalizer.swift.o": {
+    "bytes": 48136,
+    "sha256": "3e47d8dd4d7c75759640875daac1b40ded2edfcc1227aa4598169dd2b20b41cf"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinPolyphoneCatalog.swift.o": {
+    "bytes": 87000,
+    "sha256": "d672f59cefd6ab08ebd118eab16d7f4742ca635f50ec948d41ba71a35d3fee32"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinToneSandhi.swift.o": {
+    "bytes": 24624,
+    "sha256": "67bb564e320697851111eb0f8d0893e60d28501f95ca32b3596de0a4c59305fe"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinToneSandhiPOS.swift.o": {
+    "bytes": 39488,
+    "sha256": "c482a501a0002962c29787cf6261f4748708da01d787a7cfa9e89669de57624f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ModelCache.swift.o": {
+    "bytes": 91072,
+    "sha256": "cd9fc9ac758f1df244bf9e50ba37dcff62920547c88e76e8894a2e1ec6c3f03f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ModelHub.swift.o": {
+    "bytes": 323560,
+    "sha256": "70a01a45a109ea54a6cacd5f0527e4d92ea6b6d41cc35438f1d77b34f29e44e6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ModelNames.swift.o": {
+    "bytes": 671032,
+    "sha256": "0330c3ce4b9d38d2d58662df8830757c0f9319c6a73b4c00b7ee32b4cf1b3c79"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ModelRegistry.swift.o": {
+    "bytes": 76536,
+    "sha256": "454fb50c484158a06483d21b21d84bf431a6d44e416a821107d61295b5a9eea1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ModelWarmup.swift.o": {
+    "bytes": 69168,
+    "sha256": "f25e7e37151be8c3574b75f5f7f9f0601e36d49ba974c6f018a37f8e91ae1cf6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MultilingualG2PError.swift.o": {
+    "bytes": 29824,
+    "sha256": "e890b72c84ee818b71699cff8c2a5f97402940a2e2973683aea48b6092f25a24"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MultilingualG2PLanguage.swift.o": {
+    "bytes": 41856,
+    "sha256": "72faa258b3fe974fc2d7e167632becc6f8c32a34700f296cff5a4c4b79e5deee"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/MultilingualG2PModel.swift.o": {
+    "bytes": 103440,
+    "sha256": "634aeede9ea1fada6017df95a01b2f759f195fc70907a2655dc80e86685236e4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemoTextNormalizer.swift.o": {
+    "bytes": 31280,
+    "sha256": "743a31e2e6a02557ea1ea0030a716e7d20a5ce028e40af7488ea98a27f7f69e0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronChunkSize.swift.o": {
+    "bytes": 35360,
+    "sha256": "8450981a46c6a133fd7dd60b9a8918f669806e132a2b4c33d89dc04f592e29ab"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronMelExtractor.swift.o": {
+    "bytes": 38232,
+    "sha256": "8af5af55567547a774252ec140cdb6f12ef6a9489d6fc1f14ea393dd03594dc3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronMultilingualStreamingConfig.swift.o": {
+    "bytes": 98640,
+    "sha256": "34c5ee521ef2310ff5e65f67fbb09e2258ba4481836e731a0e638e50149e5af7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronMultilingualTokenizer.swift.o": {
+    "bytes": 43456,
+    "sha256": "1d932877c43be564c27aa42e9ad8b1507a46b93ba3b7ef657fa2d8de28235bd7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronStreamingConfig.swift.o": {
+    "bytes": 72352,
+    "sha256": "d0b468d9b102bef9724a611b95c884c18d953bc6d87c56c5d976ddc17ec3a9f0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronVocabularyBias.swift.o": {
+    "bytes": 184120,
+    "sha256": "2a5248c38de0a2b36c02944b668cd9e7897d40799a1ce7152042fc7d3acfa455"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsBpeTokenizer.swift.o": {
+    "bytes": 161832,
+    "sha256": "47ca1fcbd146456b5241cfa7bda38a3aa38b38a193fce7ebed56b169bcfa43bb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsConstants.swift.o": {
+    "bytes": 36512,
+    "sha256": "f513fdb9c672c4a3412d2c95c8cc8531989d0070af650754cf3217ed01021800"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsManager.swift.o": {
+    "bytes": 72320,
+    "sha256": "7e52e8a5d64721fb1e266ff9947cca4d1acdd4c54dab3cf73882de8d511c74a5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsModels.swift.o": {
+    "bytes": 122024,
+    "sha256": "cbc0df82cb32d145dfc59a2e0769c47439db4c1cc8ee7d3f7cc89e2279f63e33"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsPrompt.swift.o": {
+    "bytes": 102336,
+    "sha256": "55bf9bcb343214e2405e8a43e14a1d71b7ca41c1cf5564a2de15251700c21444"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsSynthesizer.swift.o": {
+    "bytes": 165912,
+    "sha256": "9f98bc7f7b0bce9000eaf612dcdbe622fc83f1d98e5c03b0a7030ea3e86dbab6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineDiarizerManager.swift.o": {
+    "bytes": 462520,
+    "sha256": "2d9a69aa797a428f9dce24f45eb7318a9df2bbc7ffe9c46869f563000262381c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineDiarizerModels.swift.o": {
+    "bytes": 128376,
+    "sha256": "25cc8c74808d70cac04f885ac5599baed4a6c0297e366623d3a17d281c70799e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineDiarizerTypes.swift.o": {
+    "bytes": 281168,
+    "sha256": "150073ffd875604c69dae8e207c870e0ea70869aec4d9c0076566f9a719cf95d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineEmbeddingExtractor.swift.o": {
+    "bytes": 509040,
+    "sha256": "debc090516aa1472e714a6c39ff1fcc7da25c546e9778684d36b2899c29bc779"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineReconstruction.swift.o": {
+    "bytes": 173576,
+    "sha256": "dd3d443e5216ebdf69ef475567b4ee1d98a4a59891b2692550e448f328f9959a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineSegmentationProcessor.swift.o": {
+    "bytes": 316536,
+    "sha256": "1cce2c8b973fa40510dc380eb5e12cd891c604fb2ec4fa7923241afc74836ecb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineSortformerDiarizer.swift.o": {
+    "bytes": 165224,
+    "sha256": "6f5c89520e1661965bcef9fc156964efb75ed09d8292d3edf322f8afa88ecf2a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PLDATransform.swift.o": {
+    "bytes": 112000,
+    "sha256": "a57013b7c84af56992cda40332b9270b1042c2961457afc674c274d8300004d2"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerCif.swift.o": {
+    "bytes": 33496,
+    "sha256": "f08f13de6090c9020d97ac3e3ceb7c86138b31de1164c3c89e5a147e16331788"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerConfig.swift.o": {
+    "bytes": 34008,
+    "sha256": "a6e729c64b21d13d3a3ef7baccd416ffe322b5d462c92ff279d0a050039383c8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerManager.swift.o": {
+    "bytes": 174536,
+    "sha256": "f37224ce9942aa95657295c287a6a15044a20a0b10e1339842187c0032a09d10"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerModels.swift.o": {
+    "bytes": 125392,
+    "sha256": "03260c9aa08bf581b78143cfc16de565ad24dceaa9b2b1a7fe40f61148d50167"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ParakeetLanguageModels.swift.o": {
+    "bytes": 133480,
+    "sha256": "d8637a63b497792b980bce036ffd6230c66ac2d6997d14a66d9a1b9edeaa71ff"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ParakeetModelVariant.swift.o": {
+    "bytes": 63288,
+    "sha256": "6377b2d9444cc530cbd50be405c274eceb017738b10b1362af904dec2b001722"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PerformanceMetrics.swift.o": {
+    "bytes": 67144,
+    "sha256": "b31039b833b98b3cbbe232e677f2b017cb70533c8187d45ef5eb10d08d0dc8c2"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PhonemeChunker.swift.o": {
+    "bytes": 32128,
+    "sha256": "4c8aafc4b2d4678d54a360afeb986a125d467181f506bb8589a932667dfe82ab"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTTSError.swift.o": {
+    "bytes": 31544,
+    "sha256": "015f24c48d9fbb1817617df359955b5ccb2b19f71bb3515b9d98dcefdabff505"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsComputeUnits.swift.o": {
+    "bytes": 65312,
+    "sha256": "e63b652041bbed44696ea0d17cccef3757ed539eded6a041b4a90b0fee6c25e0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsConstants.swift.o": {
+    "bytes": 78064,
+    "sha256": "bba08a130817c7ed547a4bbdc53b92d2dd25fa26062c9c090c699fd6c05dbe4a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsConstantsLoader.swift.o": {
+    "bytes": 194288,
+    "sha256": "b039ab83131b3c46ed25ddc6aa8381c2a3e2aabaaa20e44f1aa5167d266b5594"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsLayerKeys.swift.o": {
+    "bytes": 100328,
+    "sha256": "b67cbb1d64e49c5e741528c7e14d26a01d4197284f6474d05bae449cac6a3e58"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsManager.swift.o": {
+    "bytes": 153200,
+    "sha256": "f0c351ced0ee388052b7177ed10abc9d21b76f1a380cf8d7edb119f0511a57f0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsMimiKeys.swift.o": {
+    "bytes": 81576,
+    "sha256": "6a777bfe7bc2d3e6b7dc584bb830338c4803874c624b3351882a19be72e70e4c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsModelStore.swift.o": {
+    "bytes": 212816,
+    "sha256": "81874eec0eae9c54aaa0fe4cdac59a670cb472840c9b5cce781ea8f2dcc3c9d6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsResourceDownloader.swift.o": {
+    "bytes": 203808,
+    "sha256": "418c47ae9f4d3799aab73b0b31d1d269e3584d21e49d205c49094786134d248b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSession.swift.o": {
+    "bytes": 264256,
+    "sha256": "856664e21b78e4a9c35c5663dfb8fcb3fb045b608795b1d1b381074e7eb57e14"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsStateEngine.swift.o": {
+    "bytes": 181152,
+    "sha256": "f468f8bb1ef23330f4f309dc31095759e6bf59e0a642c2bad9da3cb1bb141718"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+Flow.swift.o": {
+    "bytes": 68488,
+    "sha256": "d829c964ca77e55fb0dc10d7233ffa0a0b75fff0e3b2716e86813df7f6acc216"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+KVCache.swift.o": {
+    "bytes": 201088,
+    "sha256": "3fec66ef8defd96c37fb9424a95a0d0e339a5a13cc6e076e54fc2d914ab0d97f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+Mimi.swift.o": {
+    "bytes": 92136,
+    "sha256": "54ebda4357b79d7266730c78732eacd7d816ca83ba487f103cbe3900ffd73e09"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+State.swift.o": {
+    "bytes": 49000,
+    "sha256": "aa7633b3f0c39976587889bc0371e1ee02f190c08a968289475870aed0375d45"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+Types.swift.o": {
+    "bytes": 22624,
+    "sha256": "a4910ee8d92763b0b90d7d10f73cf215d8fe83145bf67a81e0cd2da8d2e8386e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer.swift.o": {
+    "bytes": 560480,
+    "sha256": "647f0ea6d205c19e8f1b37f884250df409366e0849516902a9510793eee2ccef"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsVoiceCloner.swift.o": {
+    "bytes": 154648,
+    "sha256": "8ff8ebac1ac7928d0fc73e77268bf9d982989d701cabdd2212165f992c85ae7f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PreparedDiarization.swift.o": {
+    "bytes": 27184,
+    "sha256": "10c8439fef97f89ca1e810cb8028c8f3bb1fca836f7a7462c59b5c94ab82ebef"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ProgressEmitter.swift.o": {
+    "bytes": 52952,
+    "sha256": "2c6c784b099609ba93aeda813432f34e6ca1796c300275855d78783a8f40f975"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ProgressReporter.swift.o": {
+    "bytes": 74296,
+    "sha256": "3cdacc850b28e4ec2810010404159be4d18324950d168ad1da033f11f2a162cb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/PunctuationCommitLayer.swift.o": {
+    "bytes": 131320,
+    "sha256": "257caf2bbcfda422b5d29a185b6e4e81f66da80c90b3e92efa5094c236eff197"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/RetryPolicy.swift.o": {
+    "bytes": 70328,
+    "sha256": "eefd37beead612d7b73e74b0f484c2232e7c7d85f999c178d9bd0e96a8dae289"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/RnntDecoder.swift.o": {
+    "bytes": 111440,
+    "sha256": "9a739228a90a095faeff379c5bef467b2bf76e6758c8f8a72c50bd68a04395a3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SSMLProcessor.swift.o": {
+    "bytes": 44272,
+    "sha256": "b5d4283091383339635eae8c45171b17783c57848653befcecd8439046644b9f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SSMLTagParser.swift.o": {
+    "bytes": 102832,
+    "sha256": "39bd162f515063af41bbe9b8c364bc402f19a80fdfa05e2d3fdd7e4b5ac8838f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SSMLTypes.swift.o": {
+    "bytes": 56448,
+    "sha256": "66c36d4f6bfad39bb85ae9341bb522f79511040ad5997cee8f632d54a8f0c1ec"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SayAsInterpreter.swift.o": {
+    "bytes": 164120,
+    "sha256": "d7031b4db9caf2779176149cb15909f47b259957a7e4e2561cf18c7752e038ee"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SegmentationProcessor.swift.o": {
+    "bytes": 85592,
+    "sha256": "a51bd5c0074abd6273d6fe0049d03b75988975844c98105f3aac42ce854b6dad"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SenseVoiceConfig.swift.o": {
+    "bytes": 30584,
+    "sha256": "6294076b00d54ae4652ee22878da5eaea2e7a21d1ed1ce27b984c9a28de8d13b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SenseVoiceManager.swift.o": {
+    "bytes": 78040,
+    "sha256": "a3db8b6ca6b4d35c1340533aa8cc638a7bd352f4cf02d6313db3a03ec3aa69fc"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SenseVoiceModels.swift.o": {
+    "bytes": 123232,
+    "sha256": "a191fdb4a7df12a6bd8de51abfbb89eded45e6e48fe6685cea56eabeccd195b2"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SentencePieceProto.swift.o": {
+    "bytes": 57672,
+    "sha256": "02825a744f869009b4357d5b836bdf9f975af709b55cdf0975db58d5f2008476"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SentencePieceTokenizer.swift.o": {
+    "bytes": 53096,
+    "sha256": "78ef068bdba5939439f494722657c1bbe3f9d02aa14d56bcfca41c4f0b9fa012"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SequenceMatch.swift.o": {
+    "bytes": 20504,
+    "sha256": "820c3412033ae14f4c507d8790e0fb8240105ef71f288a554fd2f776a6b6f2b2"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SequenceMatcher.swift.o": {
+    "bytes": 50032,
+    "sha256": "75ab035b8da2d8afe89d74d2286ed427998e349aea41e65b7e6ef2e21f3493f9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SlidingWindow.swift.o": {
+    "bytes": 38264,
+    "sha256": "512d310ed710f9aacc871f5047a9db62f608fa6d00273cfa8b67153dd51cb73b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SlidingWindowAsrManager.swift.o": {
+    "bytes": 470680,
+    "sha256": "845aba9c7264ddf4483b41e8a8f2fadffe970c44f39b4fc65c0bd571f5024ada"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SlidingWindowAsrSession.swift.o": {
+    "bytes": 111824,
+    "sha256": "8d66faa387537c7a4015c3e85a32029236736ec1ef9871964d5fe4f0ba646a72"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerDiarizer.swift.o": {
+    "bytes": 225936,
+    "sha256": "a74111d8f1ecdbe04fe6ca00f5eceae927e57219be31115ddd37eb0e0f8cda7f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerModelInference.swift.o": {
+    "bytes": 156560,
+    "sha256": "b335dd68fb69fec6407171234d6413fa392606dfcff5223dc43629a36b63bcb4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerSpeakerStitcher.swift.o": {
+    "bytes": 30256,
+    "sha256": "d616ea8188a23b2fd77bad60f7fc05452000a789b9366cbd7fd11f0b9b91899a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerStateUpdater.swift.o": {
+    "bytes": 123696,
+    "sha256": "af245bdc0cc0a9e02565be8d5372acd569a2dbd747fb2f30705f0e49cfa7709b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerTypes.swift.o": {
+    "bytes": 151184,
+    "sha256": "41e488c51444e6fc676ca70ea08cb69994c591c6885d3dee6046494eba0d3249"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerCountConstraints.swift.o": {
+    "bytes": 34536,
+    "sha256": "054e42fe1ccdbcd1e04fbbb4e5abcecda7e062b82c4210b696ecee104f55e51f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerManager.swift.o": {
+    "bytes": 177536,
+    "sha256": "2e8342cbcfc1e43f86dbf2dcd1fdc577cb32d62ef89fae0ca2410449d47c47c0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerOperations.swift.o": {
+    "bytes": 162384,
+    "sha256": "1282edf47cc163c748bdc725b3411ea5eb0b97220331cda2335691692ef00ece"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerTypes.swift.o": {
+    "bytes": 183352,
+    "sha256": "1a6a5761f02f4d950ae7cb510ca314823e0778b7f53aa95ef7e49a182807b779"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingAsrManager.swift.o": {
+    "bytes": 16688,
+    "sha256": "6bdce2ae0ef92168868a82d92db9083c9dc86dd291a21c02917d71a7fa31ae8c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingAsrUtils.swift.o": {
+    "bytes": 28880,
+    "sha256": "9188b9114cb33cbbdd3c8a86043a3f7a2cd64262fbcc8253139484f26eec68b2"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingEouAsrManager.swift.o": {
+    "bytes": 312328,
+    "sha256": "ede12052463323e8d2e3a7562cfbbd732faf440d923e54be0425d046e401d392"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronAsrManager+Pipeline.swift.o": {
+    "bytes": 175552,
+    "sha256": "02a1ea97d20508bd909a68d62051270e45ef7cc31a57e65bc45d794c8744182e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronAsrManager.swift.o": {
+    "bytes": 230976,
+    "sha256": "cf39d8862e1a51aefc8c0cd31ae5d5e1a7cb3b962ab26b07c245135c16a24c3c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+BlankRescue.swift.o": {
+    "bytes": 178936,
+    "sha256": "8e30215ecae654f5e8a239705bd93eb146146f21c8be11f7a87c53a0b4066fb8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Buffers.swift.o": {
+    "bytes": 122456,
+    "sha256": "ad24e3ed3a983ce8a757ff3d330af23891dff7ca7128d0a9dc2b034b5895057c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Decode.swift.o": {
+    "bytes": 630264,
+    "sha256": "a9875684448aa6d7359fc27d015e8a203c2afb05cb4378ee07638da2184f25b9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Pipeline.swift.o": {
+    "bytes": 1101536,
+    "sha256": "f1df2a1f63ebd226459b46362cf08655aa46025f1a7eaf4d59eb4c6e39459691"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Shared.swift.o": {
+    "bytes": 234168,
+    "sha256": "dea764fbafc9657df64a2d52d637ae8e068c6e77d5b8dd05382763d7447d3f7b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager.swift.o": {
+    "bytes": 784488,
+    "sha256": "242962230e7822b7420a0b87de1cbf99f68113d9f0fd347e8bb4f44976424379"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingUnifiedAsrManager.swift.o": {
+    "bytes": 320416,
+    "sha256": "85b2f8bc211a409a89b7be9ae795f84fd8e49f40f2ae68cd4987ffea8ac2329c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StringUtils.swift.o": {
+    "bytes": 26088,
+    "sha256": "cf8290d2ef5778678d75c5ad32c66d456560f22356926f9cd0e3915989d1412f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Constants.swift.o": {
+    "bytes": 45296,
+    "sha256": "5f8c7e1750e1c8aafdea876c46089757bc48c5526d9c3191e07f337118b55ae4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2DiffusionSchedule.swift.o": {
+    "bytes": 30472,
+    "sha256": "4a4d29a5b0364e729ba4658e650a686974f9cfc49acf02a0ec165177708b4a3e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Error.swift.o": {
+    "bytes": 41152,
+    "sha256": "ff9d2e6a45fbdac673ee1b0742190371dc2d74b41a7882bad429a57c9eb7ce9c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2GlueOps.swift.o": {
+    "bytes": 66776,
+    "sha256": "83557ce0400674a51c20f33cabf18b351dcdf45a912a257f0cbd43afdb187b0c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Manager.swift.o": {
+    "bytes": 143264,
+    "sha256": "4519e4be59d948a34913aa348838a87268d4b94987fd969fa64c03e569ec9736"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2MelExtractor.swift.o": {
+    "bytes": 91056,
+    "sha256": "d93e627724b0dcdb3345be3a0e65a07fee4bbb208a7f9646058254092c9a9971"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2ModelStore.swift.o": {
+    "bytes": 133720,
+    "sha256": "3894c47dfb0f78c27618ab05212e44fa1815d35643cd5d81b3fc66d701be8b61"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2MultiArray.swift.o": {
+    "bytes": 59600,
+    "sha256": "3e0d88c8f0da5209c60692360780a2a43102605f9c63823f9482c51a88c1b73f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Phonemizer.swift.o": {
+    "bytes": 90496,
+    "sha256": "175fd7f47c9e6a8bb1fddea7dde0b56f71dca99ed14215dbae9924d3fba10a9c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2ResourceDownloader.swift.o": {
+    "bytes": 76040,
+    "sha256": "9e421143652bab002415f320f03e5148a3f38c0af3d15d7b12f39c455cd2a694"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Synthesizer.swift.o": {
+    "bytes": 234976,
+    "sha256": "6af8315cba50cec0c028f0fb10671214c4745e369fd18ff4c638cb991e7b7a60"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2TextCleaner.swift.o": {
+    "bytes": 37256,
+    "sha256": "57f40a3a1b64849f88c1acb75c13d0946884db29f87d774c98598cf2153027ae"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Constants.swift.o": {
+    "bytes": 40792,
+    "sha256": "1e0fdb49e7c72479726d00c4f53bdb9a3dfde8a4b6a0e5c3fb4ccddde97c483f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Error.swift.o": {
+    "bytes": 45512,
+    "sha256": "5a2437774e165a75dc9a033f5faf2551a13d59e3871af14b17571e22aa47971f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3LatentSampler.swift.o": {
+    "bytes": 45872,
+    "sha256": "19701f564bf2e9072119da58e294103fb5e8b82fd47ae5546f949dcfc7e4fa6e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Manager.swift.o": {
+    "bytes": 72864,
+    "sha256": "c55f767c2bc0a13de8be362ae889717b91fbd4bd62c30cff6ece4d2abc4a8001"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3ModelStore.swift.o": {
+    "bytes": 111464,
+    "sha256": "ec1ad9d6d3906a57badd69a78d05452eb97cdc84022af6ef71cc7e78239309c6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3MultiArray.swift.o": {
+    "bytes": 61048,
+    "sha256": "c6812fd2f36fe54562e2776ee1da4c365b1e02a51967301f96247b10c21f0e1c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3ResourceDownloader.swift.o": {
+    "bytes": 59264,
+    "sha256": "f6cbb0e02cc235e1089a32758ad8b111cc618e265f01fd83b0a0e74f86519da7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Synthesizer.swift.o": {
+    "bytes": 171640,
+    "sha256": "eeacaefda3f11066c32cf662ba4d1f9ae5ec1be0b4c9e5dd53f749e769df6ccf"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3TextChunker.swift.o": {
+    "bytes": 116088,
+    "sha256": "cf077ca910bf27d0c0caac6f6848e9d23441927ef4055cf1b18780381f023eb5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Types.swift.o": {
+    "bytes": 264104,
+    "sha256": "ebadb952af4d1b3abeef182471ff95161c766e8c9baa33f77d1e79f290a57705"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3UnicodeProcessor.swift.o": {
+    "bytes": 134376,
+    "sha256": "691dbbdb0064ef78ff31ac18c2e1af00069ddd0a5372734c626fa418f7a7541a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/SystemInfo.swift.o": {
+    "bytes": 69480,
+    "sha256": "78c98322d2478104c1cac99e8ef4cdb41525ceddadb9fd119e2dc733b3290a32"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TTSError.swift.o": {
+    "bytes": 31048,
+    "sha256": "e681c1ac84a365988d40e936766a77bbf7d5c1a56321a02adcdbd981a464516f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtConfig.swift.o": {
+    "bytes": 29696,
+    "sha256": "ab181805be4085e27734f478a81d52ffeb88d1dd4da6f42620619f0046e246bb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDecoderState.swift.o": {
+    "bytes": 49432,
+    "sha256": "d3e038d84dfa59c0ba716f4c57227c46d5d232999ed25f3c9af567fbe71e9c21"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDecoderV2.swift.o": {
+    "bytes": 42224,
+    "sha256": "89c30db1d58fdb29074207fa71dab213ab8dcc5edc47b6ac0fd67e2c6fcc3ea4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDecoderV3.swift.o": {
+    "bytes": 177000,
+    "sha256": "5348f2a7dbc2182f03a085723f76571a1de3c31aadcb4d13fa00fffe70a4ab30"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDurationMapping.swift.o": {
+    "bytes": 19920,
+    "sha256": "2e6da5f116577af8ac88ed1be812f7bd0fbba3754464162d414f5d5ebbeda47e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtFrameNavigation.swift.o": {
+    "bytes": 19688,
+    "sha256": "89a629b34d567928d981afa7d4da9f4b578d674ada7287f9f6639f2f5cf1d3a3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtHypothesis.swift.o": {
+    "bytes": 43784,
+    "sha256": "14f951c0cfc7b270d7eb0f83d502e2a416f7c9ef7f7db3a0e3ce553465e44ad8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtJointDecision.swift.o": {
+    "bytes": 25808,
+    "sha256": "fcb5e4247f4f811427809ccf068642f00d37432370419ee606664013d0ab9e63"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtJointInputProvider.swift.o": {
+    "bytes": 41064,
+    "sha256": "8874da2beb6b9777f361cd865e49abeb97274d8d427bba1faa1911722a7b5d65"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TdtModelInference.swift.o": {
+    "bytes": 89088,
+    "sha256": "a0e384b6340ff165ff06f0b9936429277da370a41c628e562fb1c03ed5532bc0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TextNormalizer.swift.o": {
+    "bytes": 93656,
+    "sha256": "3e956a7843dff659cf212ff377dd1ec74a80e6473757d7b71ccca417e71a2a67"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TokenLanguageFilter.swift.o": {
+    "bytes": 67312,
+    "sha256": "f08d297cae2a1e18abe641ca332c671ce058a1632d94281efdc152bf5b1f80bf"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/Tokenizer.swift.o": {
+    "bytes": 66312,
+    "sha256": "c6725598b8edfe8bff8462b1498e84020d48a6fedcf96564ca6462bb47394b9e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TtsBackend.swift.o": {
+    "bytes": 24512,
+    "sha256": "f57af7e3a0731f01c6949dc512bdfb19335ee9f9df33c62782303179dbf6ce22"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TtsCacheDirectory.swift.o": {
+    "bytes": 19504,
+    "sha256": "80472bd744e7798ef05b0761ea52919953865bae46ced7febbb09f7b84ceb880"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TtsComputeUnitPreset.swift.o": {
+    "bytes": 37952,
+    "sha256": "160a06cb0630c6dab5b96e3b13c8cbbb3c090efab39c52daaadbdd556a0000a3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/TtsConstants.swift.o": {
+    "bytes": 17088,
+    "sha256": "3d13d6d3ffb172048e235af98d3b05d19aff98c867a5c338cd554acdb28367e9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedAsrManager.swift.o": {
+    "bytes": 280472,
+    "sha256": "896e873c8b92e7ff60e4e0d25b8e32e38566442cc24e53b3d126e4d18f167b08"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedConfig.swift.o": {
+    "bytes": 49776,
+    "sha256": "9ad7791fe61a10077d3238ed80912c3a5f52f39772ebdaf0f658959647c932e9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedFeatureProviders.swift.o": {
+    "bytes": 53968,
+    "sha256": "978c80f05cc2d58098967a7bd00119d10c5307c37f09c9f7590d0bb2a8d32a02"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedMelExtractor.swift.o": {
+    "bytes": 48128,
+    "sha256": "6f55b40fdb728d0e88802225b1cb266708b73a7496e05623cea5096a31bd29dc"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedRnntDecoder.swift.o": {
+    "bytes": 73072,
+    "sha256": "7f79f08ebe7b06abc4070bf21c6345b6db4c6efb928d7b56eb954c3070451fe9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedStreamingWindower.swift.o": {
+    "bytes": 34896,
+    "sha256": "5374b1cb0f82d4a4a8e571adc8f61794968037d203c7350b3cd25208be4753ba"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VBxClustering.swift.o": {
+    "bytes": 230424,
+    "sha256": "240b5352e383bb0245db8a242557a3b518edc39354276611bfdc60bd739948a4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VDSPOperations.swift.o": {
+    "bytes": 119384,
+    "sha256": "da42676f6f68d0a8deb8791ac731295b3e7d0794c433ff262ee1d8b5e699e8db"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VadManager+SpeechSegmentation.swift.o": {
+    "bytes": 90840,
+    "sha256": "46d985301e3fbbb1bc2791daf480957158d44cb10540876b3c36038db01c1a4b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VadManager+Streaming.swift.o": {
+    "bytes": 35864,
+    "sha256": "552ab47b9d70a811d88040e4531a7d51a558b9d24563cd1bf50875c58646d1fe"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VadManager.swift.o": {
+    "bytes": 152936,
+    "sha256": "63f8728e1a9aed7f48eb455a4aa5d2f9195644fcb5fc17ec738621f52ad5e9d8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VadTypes.swift.o": {
+    "bytes": 127464,
+    "sha256": "85c224545f71720511f287f951ecb252440d68424282e8044d6662590853c2fb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyBoostingSession.swift.o": {
+    "bytes": 107936,
+    "sha256": "5e42a23820797116b4d2b1c54d5a968ff2ea114659dc9e0f17a99d8ee3243dce"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+CandidateMatching.swift.o": {
+    "bytes": 60832,
+    "sha256": "4b83f8744140f07c2595409eb9b1c6dc6ed25b3a88c36d012a823acefcf8eee9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+TokenEvaluation.swift.o": {
+    "bytes": 98040,
+    "sha256": "38f002fc77a8829eb5480287af2d7e1a09321085a99b83fda407a32add440ef9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+TokenRescoring.swift.o": {
+    "bytes": 364224,
+    "sha256": "5ab76e7aa03088f54b5155931533dc25a4e99c730d3fb2768caa2b4efc5aa876"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+Utilities.swift.o": {
+    "bytes": 110664,
+    "sha256": "65098cba878f6b34c692e5ef9753e2f09f857e3d8f893c31a0e5366fb344be68"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer.swift.o": {
+    "bytes": 172488,
+    "sha256": "b292941c095d0580e4b34931d39b3cd5437f89618c72ff6745c6d3ec81bd14b5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/WeightInterpolation.swift.o": {
+    "bytes": 54352,
+    "sha256": "70cc418b0651f6af8884e358b3d203fd3538f85cc69f6601f0d8dfff8c08d7db"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ZeroCopyFeatureProvider.swift.o": {
+    "bytes": 42848,
+    "sha256": "5a7be8d52825eff379de788cc9628c14a3b7ecb24ad5055dbd98a30be784f155"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/ZeroVoteReembedder.swift.o": {
+    "bytes": 44392,
+    "sha256": "8ae675f92d94345f5c0d20ab6b4724e92a335ab615f3a0fe866d4999b35902f9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/resource_bundle_accessor.swift.o": {
+    "bytes": 22216,
+    "sha256": "81c206ea6fbea01d4dcd29b0a6e0183a78e832944f270c367de04caf5c2fc3cf"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/MachTaskSelfWrapper.build/MachTaskSelf.c.o": {
+    "bytes": 2760,
+    "sha256": "d640d9fe53dc88ab559d46cc5af979655ab4768297ffee349b7f5bd715a9ff20"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/AudioExcerpts.swift.o": {
+    "bytes": 87472,
+    "sha256": "3cac256ce4ac7b39de9b60ee4d487808138ac5aa97f40e0b11d8dbddcb758208"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/AudioPCMStream.swift.o": {
+    "bytes": 190432,
+    "sha256": "7f6067095d08e94ddad0590037570da10cc2a981aa611c22462258db5bfffc76"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/AudioSource.swift.o": {
+    "bytes": 264048,
+    "sha256": "13eb31963f4df690f977c67c0031ab9e656ff0b134760f01d1e25fdd64203dbd"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/AudioTypes.swift.o": {
+    "bytes": 239464,
+    "sha256": "1cb27fe35026379052f5647361bf4a08f9fb04300391704ad5a138493028c234"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/CompositionAudio.swift.o": {
+    "bytes": 1129176,
+    "sha256": "b49283622bbe15a036552ea76a7b1e7c3c9ccb57ca44b5f5b13b07f6de45c932"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/CompositionAudioPlan.swift.o": {
+    "bytes": 397504,
+    "sha256": "14b540b73629cac7bcbd301de821e5f806919053a38c2f6e745641e01533f650"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/CompositionGain.swift.o": {
+    "bytes": 29480,
+    "sha256": "519f2a0c44a45f72e3469e881f2d46bccedb6df35cfc6ad2a87dde9b27257adb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/CompositionRetime.swift.o": {
+    "bytes": 133928,
+    "sha256": "cb749f2f98892d01f7df06b0462e1fe28440a4d905175915dff423d60ae5a3ee"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/CompositionState.swift.o": {
+    "bytes": 297144,
+    "sha256": "ea04aac3e1444455431c90c1e92f1e44e08427b8fc5fcc691fe8bbaef25477c4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/ExcerptLayout.swift.o": {
+    "bytes": 93592,
+    "sha256": "98988fab01dda00862d9ec787c3fafbb3a6981454dd94cb3dfd8c95b97be2f7b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/RetainedPCMSource.swift.o": {
+    "bytes": 76888,
+    "sha256": "9b592dbb7a14d76c26af142f0d31ba23ea0a37556556a8a61be1edeffac1a7cf"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/SelectedAudioConversion.swift.o": {
+    "bytes": 181160,
+    "sha256": "150b02b26536bd510943d70e2b1643340859f48ea1a727c777ad8930b0b981ed"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudio.build/SourceAudio.swift.o": {
+    "bytes": 99368,
+    "sha256": "287b1f7a19ce3c0dbd02e71adb95a0ac4868f9e65ab10becb38c23be8cb28501"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CameraCaptureInput.swift.o": {
+    "bytes": 298656,
+    "sha256": "3e3c3d1996370e975e9698dd2a68f98ce9e5772f7cee2113a4f3912b502a8e2c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CameraMedia.swift.o": {
+    "bytes": 638904,
+    "sha256": "536dd72f759d4bd13cd80938e677a29fe22871e795375ee57916ab29e93c8fb6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CameraWriter.swift.o": {
+    "bytes": 172256,
+    "sha256": "c6dab46761bb0320980ce2310522482764e2a9cc12d452cfa6f40f6e002dc7c3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureAudioMaterializer.swift.o": {
+    "bytes": 419656,
+    "sha256": "150d711b0185ed461c9c1183a22b9280ddd088af15e38ca7ec7ec31514afd805"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureAudioPublication.swift.o": {
+    "bytes": 468880,
+    "sha256": "77eefe4fc2f4e120f6eed8bae3554b473574d026663369d536ace638fd5cf185"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureClock.swift.o": {
+    "bytes": 168192,
+    "sha256": "2d54767b360cb86201db8fbbe79ff2e1b51eb0e028638ba96947ad6a00f5bd78"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureClockIngress.swift.o": {
+    "bytes": 257928,
+    "sha256": "16f2d1b15718af3cbb9bb0d3743032e374b2e537fc161b3335198d509303810e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureExclusion.swift.o": {
+    "bytes": 19808,
+    "sha256": "304ef165eed31b5f32b42352e574013636e7ef0815ad13bb1cc5d5fe9690e90a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureGeneration.swift.o": {
+    "bytes": 32720,
+    "sha256": "b4c9cad8bb051ce724b3925226e0cb4b187493bc8c674f403feebe8f3e34f28f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureInputSession.swift.o": {
+    "bytes": 233048,
+    "sha256": "b32a7ab40a3d74637a4662b8e24bbe7cd13e836b39dad1be4acac0cb99e7f1d8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureJournal.swift.o": {
+    "bytes": 903864,
+    "sha256": "63fdf48a48fb0a38f395f59d63c85ae692869173366fd9e967d90b9d41d5290d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureJournalLease.swift.o": {
+    "bytes": 89824,
+    "sha256": "15b469487a4155be5a270731e7c8a561ba4a717f3a8e9dea8d52d0e5895d2192"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureMediaInspection.swift.o": {
+    "bytes": 192432,
+    "sha256": "9eeb30b92eb699d2a5a805aadf324ffe62afb24f4e391be6002cf8bb4f890ed6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CapturePCM.swift.o": {
+    "bytes": 89376,
+    "sha256": "f7952a67ca2a062d6b1b504074637adbdf7914ef928d5ee2c89e9295440b79b1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureSourcePublication.swift.o": {
+    "bytes": 824584,
+    "sha256": "3426930ab50ad2d8b0a0fcdcca90ee97e12ba22a51e70239a5d57be151787f62"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureStreamInputs.swift.o": {
+    "bytes": 88672,
+    "sha256": "08e09969288a10175f7e70ef1b76d3f0c041509549186bb0326e2c86230f6cce"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureTermination.swift.o": {
+    "bytes": 40920,
+    "sha256": "f2a59ebe35d2db8f0b6b695baeaa226e1c79563aa0530506a08365a9346bfd37"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureTypes.swift.o": {
+    "bytes": 540816,
+    "sha256": "4bff3aa760a583b89c839b347d2e12c3573d0bfec55fa65291cd5064f21eb332"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CaptureWriter.swift.o": {
+    "bytes": 442632,
+    "sha256": "3e3482458ce51a319c75a3105dcf8f71487123f530cca38180c19183a57b4331"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/ClosedCameraSource.swift.o": {
+    "bytes": 120976,
+    "sha256": "1cefba25a683b5abb53a952d0fc707016892819cad996de2639696847cdec324"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/CursorGeometry.swift.o": {
+    "bytes": 365184,
+    "sha256": "39f96333de82bb69266f0a33adc855c729c24974eb7a05b85b5bc7efc6ce50a7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/HeldTailFrame.swift.o": {
+    "bytes": 93848,
+    "sha256": "349834b49dd8e9a9ae8ec94f851a6f61de27e0b7e038ecd7fc175a518638d227"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/JournalPCM.swift.o": {
+    "bytes": 226416,
+    "sha256": "0b2bc419b886d3885c494f7b358fbc20dcc5fbaf53f2a85176dacdd849833dce"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/NativeCapture.swift.o": {
+    "bytes": 493152,
+    "sha256": "2931068dec661f7a1f3112dcdf0f4d48aa817a62e7441b593105a922bfde1720"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/PCMContainerTime.swift.o": {
+    "bytes": 30624,
+    "sha256": "0e1a2593129af970fbf4f665c0b4ef66de847bc387a07602ca876852be0e4bac"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/SelectedCaptureProbe.swift.o": {
+    "bytes": 267424,
+    "sha256": "5e960bd41faf6054a6f55f5dc0d040f9ecdf3dcda701d20cc43d1a9a38d098ca"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderCapture.build/SelectedCaptureRequest.swift.o": {
+    "bytes": 159328,
+    "sha256": "fcd9643db4990ddbe30e1864ef14bf0d40b2f537e441665482c9b060d9d4d54f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderDenoise.build/RNNoiseProcessor.swift.o": {
+    "bytes": 55960,
+    "sha256": "4752c199fd146c8f8037f56f04d59d1089f2105aa515a29f4da8c88726989d46"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/AcousticImage.swift.o": {
+    "bytes": 305648,
+    "sha256": "8e8179a53b8bde0cc52764f1721693f27a4f18a4ff2b290e6a08d67285372e6f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionFrameRenderer.swift.o": {
+    "bytes": 163728,
+    "sha256": "9dfd61d47f3974a3ebd64bbc66e4642fe6aef06873da7970aefd9ee4db0b8c08"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionPictureExecutor.swift.o": {
+    "bytes": 1144152,
+    "sha256": "9658b8f6db087adead9139b3006b7f0bd810849d44b0a32178db5882a7fd2493"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionVideoRenderer.swift.o": {
+    "bytes": 275672,
+    "sha256": "e44c72aa7dc562321d8b211bd36d3fca69d7d451fd67693bc5654d4977ae83c3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CursorOverlay.swift.o": {
+    "bytes": 97528,
+    "sha256": "3a19a1da3fa790c827beed3f365797db88fce0422208b92d7284f8d331baa9a0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameImage.swift.o": {
+    "bytes": 77464,
+    "sha256": "c40c28e7e3d2ea95c658e572dab1804610c6053f819690555e7e582e625fabce"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameSource.swift.o": {
+    "bytes": 159320,
+    "sha256": "44e07f32da44ba45b454acdeaeac870711456df684834958b9aea475fb0b6fec"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameTypes.swift.o": {
+    "bytes": 260304,
+    "sha256": "8a24058872272043970428ab8c4351098468d37d1329295dd3409262952c7525"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/MovieClock.swift.o": {
+    "bytes": 28256,
+    "sha256": "cd1a106871d504b3b25767d88dc960de7f74d6c4d70a8b18552403c514de7f00"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/OutputSettings.swift.o": {
+    "bytes": 622456,
+    "sha256": "bcc286b9ad8835a30fe98b6268dec33d8d6455557720d2f3991d5bafc1d6c732"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PointerSchedule.swift.o": {
+    "bytes": 227712,
+    "sha256": "18f101a2fd49c397beabfb7e385f5b7d789b522291eeef82f1b2f185055b2db7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PreparedPointers.swift.o": {
+    "bytes": 263248,
+    "sha256": "0e17ce8bd6decb6ee9919aa94cab9303db8c5d3e62bffeb82fc1740109a3f54b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PresentationEvidence.swift.o": {
+    "bytes": 285480,
+    "sha256": "1323c0bb8732cd87c4aa46ac07541e215770993b19c4a50117451684c556df49"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PresentationSource.swift.o": {
+    "bytes": 214800,
+    "sha256": "5a21195d4ae3349e4888db02ede24c23ca60651ddd90c98af4fa6f544bc5f4b0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/RetainedJSONLines.swift.o": {
+    "bytes": 77928,
+    "sha256": "970d45bca6eaa029ba5fbdaf34752fc13b3d1efddcab700a9cc6211044b073a3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SampleSelection.swift.o": {
+    "bytes": 37744,
+    "sha256": "dd68010f2d65504df0b703306fb06265ec60378a95ee3847b63423cd547d4460"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceFrameRenderer.swift.o": {
+    "bytes": 201592,
+    "sha256": "b3a8b9f20d911e990c24db823cda2f7189c0a3cc30e804020b809b94cc12b82a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceImageRenderer.swift.o": {
+    "bytes": 177600,
+    "sha256": "08387f6b53f5c984e405a6d70cd2eed0e6fddef45107291ee2fe3ed94905a59f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceVisualSamples.swift.o": {
+    "bytes": 279048,
+    "sha256": "ba5118e6029e812ab58cab425b73d84750e0923d6715cd14faebdd9e2de56039"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/TextRaster.swift.o": {
+    "bytes": 286224,
+    "sha256": "ec7e93a6ede2116b0fce082d750b640ca81a258f150ba7704aadeaa9bdc75b36"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VideoColorPolicy.swift.o": {
+    "bytes": 42632,
+    "sha256": "139508fa77083c3ee3670ac9461b53a4bd8ef2a10e3c69353eef765d94b82a9e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VideoRenderer.swift.o": {
+    "bytes": 250720,
+    "sha256": "211b5c6e3cadacbac31569e8d96141c9419436844039905435d668475c570a0e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VisualSamples.swift.o": {
+    "bytes": 86088,
+    "sha256": "bb2cd4df469152313af7be888a68785b685acdfdffc5a6c6a91903f8359deaa9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/AudioSourceReader.swift.o": {
+    "bytes": 119296,
+    "sha256": "c72af98cb4d9e486b1da284dd681344e1a3e6c5957f188e5648522fee7b339b1"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/CompositionAsset.swift.o": {
+    "bytes": 59392,
+    "sha256": "ebe3e47442db65643cabfd740ad1f48b635b524cb2ab21aeae304517bfc9d0e2"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/CompositionProcessing.swift.o": {
+    "bytes": 310640,
+    "sha256": "51d4cf32add3ed7153ea143307b502e1e083d49640bf90c77c2d06c7d08b5f6e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/DescriptorAudioType.swift.o": {
+    "bytes": 59792,
+    "sha256": "81c5a0019a9e058df3e9f860fc19263b80e1f3e49a332e70f3a40228ab06082f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ExactRange.swift.o": {
+    "bytes": 79592,
+    "sha256": "3644d1965ffffb3f0917b62aa1e79c1d5c227f95764cc8ee960ef72d06490012"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ExactTime.swift.o": {
+    "bytes": 133112,
+    "sha256": "313f30b2f09ef9e931bb5c9edbda02eae24b2a446011b540f349a55ad5acf33d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/FontFile.swift.o": {
+    "bytes": 87592,
+    "sha256": "0a9d617df60f8dfc823f860d1d0d45b310b7a37147b5fea4b44193b764b53fe3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/FontProbe.swift.o": {
+    "bytes": 72376,
+    "sha256": "88e6eaaf2ec595e065fa9c5ec0f28dd72dab044763372a5369f18df4d16690de"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/MediaInput.swift.o": {
+    "bytes": 181120,
+    "sha256": "063f0331dd7c9bcbc5d0d927b6b4db6e8e9664986588a85a0d0a32a1d784a812"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/MediaProbe.swift.o": {
+    "bytes": 347960,
+    "sha256": "c85151d93f40c5c75feeb3aeaad451df26a57ceef7e79b2d13d7f47734cd555e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/NativeFailure.swift.o": {
+    "bytes": 33352,
+    "sha256": "f2ac699c29739f10ca010eb9c9ce2f70052f1f7936202025c3ff0a018fc19bba"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/OutputFile.swift.o": {
+    "bytes": 67000,
+    "sha256": "09e7a1d7f6439284ddd0a68451d96fcc7017aabba5d5cc47c322bb24bc353868"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ProcessResources.swift.o": {
+    "bytes": 17680,
+    "sha256": "2ef3bf3792ec1d9dba6156e4ad4cf3e971ece4e29e8ef02bb538995aecea8ce6"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/SampleTiming.swift.o": {
+    "bytes": 46704,
+    "sha256": "1d470a01b26606028ea8017a49fc8355f110fb8c5d65ce11468a3e6d6b31752d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ScalarProgram.swift.o": {
+    "bytes": 177896,
+    "sha256": "1b030c1a471e6ba7b2a19c68a634ac5d49adbb5ba87846eb0f17c8d6e336ac96"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/StillImageSource.swift.o": {
+    "bytes": 70840,
+    "sha256": "84b76bef78a5118392a0580b12ee24cab14483e6d0b4b56da9c85216f551b094"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/TimeSpan.swift.o": {
+    "bytes": 70312,
+    "sha256": "cf36c118c595c6703eb351cea5a541a748f78ab5bd3b95fe1d6ea79167afdd83"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/VideoDisplay.swift.o": {
+    "bytes": 67968,
+    "sha256": "4d01a6f638d258f5006e2fa34580af08a0f42b06f1a3744e1a277275325bc526"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderNative.build/ParentLifetime.swift.o": {
+    "bytes": 38352,
+    "sha256": "665d1cf1a97c0798360c81d353178a19c4671b1a639240f0e5d917721315d6c5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderNative.build/main.swift.o": {
+    "bytes": 22296,
+    "sha256": "18b79d335e7762c0e21ac8c57b54502cfa5bbec6a7a28d89723e3d18803fbe70"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderSpeech.build/ParakeetEngine.swift.o": {
+    "bytes": 115368,
+    "sha256": "f3e05e975427e1585c5fccbc7853acfa86912348726e8fe1383c126a67ad67e5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderSpeech.build/SourceTranscript.swift.o": {
+    "bytes": 373616,
+    "sha256": "3718d5d70c4d9f33a25178ad4f1e7b52229cc17d773f61b094d8eb44a7b06718"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderSpeech.build/SpeechModelFiles.swift.o": {
+    "bytes": 169288,
+    "sha256": "fa0304a8b088341ade0e31a9178734f00c60d6aa964a46331bcc221509638013"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderSpeech.build/WordTimingMerger.swift.o": {
+    "bytes": 81344,
+    "sha256": "ce29dddb4033096c64e622ea3573e195dcc01911d3b8f4ec4621694afff5dddf"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderStretch.build/SignalsmithProcessor.swift.o": {
+    "bytes": 70464,
+    "sha256": "abce4d85dc3f2e51b063945d8cceaeefc653eb0ae1b1e732d847111d6698266a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/AcousticImageOperation.swift.o": {
+    "bytes": 97568,
+    "sha256": "1bc4e6a3e0bc6be46f3c4a4c11d0ad386520d9c1072d483d1322655f1350aeb4"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/ArchiveAssembly.swift.o": {
+    "bytes": 174968,
+    "sha256": "cf4ee57ba5e136056541f5fda05393f735940771be57b73db5b49bdb2b5a73f8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/ArchiveExtraction.swift.o": {
+    "bytes": 139976,
+    "sha256": "bc0cf2ffd06c1be876fdc8cb3f02beebf6b0b1073e62198c4e7519c5a62caa68"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/ArchiveOperation.swift.o": {
+    "bytes": 566672,
+    "sha256": "37fbf9e01fb4c06387f8dfdc84cdf83c23dc7b1be67c6742b7a4bf362f5b4bdd"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/AudioFileOperation.swift.o": {
+    "bytes": 292464,
+    "sha256": "9fdab9adaaf4c752b55efc83e6105b0f92c827972bedd22a08125b2f553a9400"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/AudioOperation.swift.o": {
+    "bytes": 72200,
+    "sha256": "106f201001be26c91a7395d963827ae3f2ef31b73c268576102e92809c4955e5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/AudioSampleBuffer.swift.o": {
+    "bytes": 29264,
+    "sha256": "2ee1055221b3051b8ed1c53353fb26f4f8ca967e2c5e6c2423449e925ef4ee23"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/CompositionAudioOperation.swift.o": {
+    "bytes": 38976,
+    "sha256": "c41e99a13a3545fb2b5440709e6f78a55198540cfc52f0cd522b448e049f4f9f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/CompositionFrameOperation.swift.o": {
+    "bytes": 30200,
+    "sha256": "234ecee1ee26b6eaf3721816ee3c9a3e5f4bba0018362601c60fbbc25ef3b61b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/CompositionMovieOperation.swift.o": {
+    "bytes": 296904,
+    "sha256": "0a809ae6d7a398aabc4124d0da1048981456766d42204c6c54cfabe35d43f121"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/CompositionVideoOperation.swift.o": {
+    "bytes": 91848,
+    "sha256": "6546792817bf83c5cd272876daf1493de6ae5e00b36f281b9b712899b33f1c09"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/Descriptors.swift.o": {
+    "bytes": 88464,
+    "sha256": "d41845ef9ed4bde9f1af97dd44ba0227f87bd64bf403377dbde8e44f4ab3f17e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/FrameOperation.swift.o": {
+    "bytes": 128688,
+    "sha256": "aa106e296407994c9cc6af3bb6f713de62408a4c9885024b695d99548f80416f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/ManagedFiles.swift.o": {
+    "bytes": 90296,
+    "sha256": "64d0950aa2414e7ec1a63839668c29a882f4fbb08393950340c081bb4f1af854"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/MediaRecovery.swift.o": {
+    "bytes": 514728,
+    "sha256": "c033de101473c140ba3e2ca47c8acd39ed448640d5759e6d141155e0a5e4d8e9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/MovieMux.swift.o": {
+    "bytes": 194472,
+    "sha256": "75aecbb78ddd4fee99ff16707dbfad7bfd2d40f34a64128aa94cba55dfc0d442"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/MovieOperation.swift.o": {
+    "bytes": 209848,
+    "sha256": "0b5cb48b3bc7cc271391b16283c7582d8498d065b633a0baddc5925820eab43d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/PackageWorkspace.swift.o": {
+    "bytes": 74744,
+    "sha256": "46e10da6dca1ebdd1dc40e66f91934fc5f26b2aae7f8d33cc3f190c8dcce3961"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/PresentationEvidenceOperation.swift.o": {
+    "bytes": 80872,
+    "sha256": "f91899f8f088c3d8c8f40a16c301150290549ab71b61af114f9d29e9c3ec9663"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/ProbeOperation.swift.o": {
+    "bytes": 126320,
+    "sha256": "cb2034d206f757c970bcf1a9dea325cb343376f742b9675c5498ba2e6d2989a7"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/PublicationOperation.swift.o": {
+    "bytes": 208296,
+    "sha256": "5606e0b9f5b60140307bdd0429e895402de87155a77473133188c062a084c28b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/RenderWorkspace.swift.o": {
+    "bytes": 28904,
+    "sha256": "cf2144c7532c4a5bc8aed9c3b93f4fbf8958f767907b7743b216dd2709465abb"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/RetainedAudioInput.swift.o": {
+    "bytes": 73408,
+    "sha256": "229672abf3cabc2837ad0c1a2849cc1f124a4ec34f05afcef6ab0e7fc5bce77b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SelectedAudioConversionOperation.swift.o": {
+    "bytes": 71792,
+    "sha256": "308e3e95b171bd4579e8ee7ddaf8a6944680f8e95730acbb0f045761c0621c35"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SourceAudioOperation.swift.o": {
+    "bytes": 70272,
+    "sha256": "ea1a51c706beec0f6a861b837ee468ea3d5d291de4e26789d099194bab90fbff"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SourceEvidenceExport.swift.o": {
+    "bytes": 426976,
+    "sha256": "7162633fb62c1d1aa3317073ea380d4510acc460969db134553c0095f84ca55a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SourceFrameOperation.swift.o": {
+    "bytes": 23608,
+    "sha256": "2f46736290ce36d70b5adbc0ab0f79dbbd5078e47dc9530c4f7ff6a7a1bc2727"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SourceImageOperation.swift.o": {
+    "bytes": 20688,
+    "sha256": "71ad32bc0c15c1a817c1bdabb9f73125c63f06d16aed9855591351c8b560276c"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SourceVisualSamplesOperation.swift.o": {
+    "bytes": 23456,
+    "sha256": "cbadd088bb2157bd827e45e09dc4500a6622e1fd4cbe9cde52976ceba4f1413e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/SpeechOperation.swift.o": {
+    "bytes": 82496,
+    "sha256": "21b3759a891b19db6d67607824133d59275e4fbd7f4b21567c8fc9d840c32492"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/Wire.swift.o": {
+    "bytes": 395656,
+    "sha256": "9db21f1ffa5c038f8cb23d97c44e9e418af76477cf0f87ed20c447314416eea9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderWire.build/WireRequest.swift.o": {
+    "bytes": 133520,
+    "sha256": "c466b937224d25624af14538e0ab566b02f78a74d3dd7471a2c478af3f49e268"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudioFileTests.product/Objects.LinkFileList": {
+    "bytes": 42977,
+    "sha256": "e415b06ee0340a1c24ba3d7f210fbf4ff7bfce3bbf91aea3c9519c2a36e0eaef"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderAudioFileTests.build/main.swift.o": {
+    "bytes": 126880,
+    "sha256": "3f6f6aa3f28a829f3237a08b379029d8a81aa8551560bc255feb26aba2f5db7b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderSelectedAudioTests.product/Objects.LinkFileList": {
+    "bytes": 4688,
+    "sha256": "a28f20b1fca77018d3049bd8a5dc83eb97f6783c13c9b65410dd71960eda6874"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderSelectedAudioTests.build/main.swift.o": {
+    "bytes": 370256,
+    "sha256": "2a4e0d58623c6201ac77ac773cb6f4e94f9339b04811ae5058c86942a2b114e3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudioFileTests.swiftsourceinfo": {
+    "bytes": 1004,
+    "sha256": "f768bece6f6e0cbf9618c0717aebb06e9f21e3e141b5bbc7b5d56e3219ed0767"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/FluidAudio.swiftmodule": {
+    "bytes": 3164800,
+    "sha256": "6cac291245e5ef4c5850dcd0c7056f9d271886b3976cdf3da99532ba6364d9c3"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderFrames.swiftdoc": {
+    "bytes": 18604,
+    "sha256": "0222691a445732a1e2bec79e17c1f96c605607f99f43ddc56cc91503a1ed15e8"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/FluidAudio.swiftsourceinfo": {
+    "bytes": 1276188,
+    "sha256": "27786362b8b6baf26bd858bc01d747ade4f1b048f15cf0a6de4326703ad28474"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSelectedAudioTests.swiftmodule": {
+    "bytes": 22440,
+    "sha256": "7b5e42d759b2032675359c4d4b9213fd9ba7bca31a5e8804f4581a75108d0f19"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderWire.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudio.swiftsourceinfo": {
+    "bytes": 74956,
+    "sha256": "309f637cd0d37dbf1cf64b90d74a23dbf1c00c57cc2d17e0688a370c9ca50013"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudioFileTests.swiftdoc": {
+    "bytes": 416,
+    "sha256": "af712640584c5197b0dd79be0bb141cb6976e4945cbfedded54125cd321bc82b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderNative.swiftsourceinfo": {
+    "bytes": 1468,
+    "sha256": "51f6de1592e45a5aafb10e9f4244f5b3917a17b029019b74818da8fedb05d49b"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderCapture.swiftmodule": {
+    "bytes": 692304,
+    "sha256": "62a9217571af0ec2fe8218c5f9c1140febd8fb20e9ab14b7fee862586775a550"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderFrames.swiftsourceinfo": {
+    "bytes": 115800,
+    "sha256": "efcefd5e9877f545ac5d65d3b4dad50bcbf037d91acfc718fff255e5c3f5d089"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderWire.swiftmodule": {
+    "bytes": 333736,
+    "sha256": "46f1491435d9320ec6a6ef15b829150a50f0ad22f843d385bd3c97c72f5c4116"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderDenoise.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSelectedAudioTests.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/FluidAudio.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderStretch.swiftmodule": {
+    "bytes": 31700,
+    "sha256": "d8a4e5bcc99ead34f8553a4cad405ecbdcc6b59f6851992658e5d264ca813ab9"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderStretch.swiftsourceinfo": {
+    "bytes": 3236,
+    "sha256": "4ddc67d1f73cbcf484e32d29995c492bdc53b75e5ec91a6eb519e475b5f65f66"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderCapture.swiftsourceinfo": {
+    "bytes": 161288,
+    "sha256": "ba9350e749d7377672d35c37c64ae22929c511780383022c276ef1a2d8ad744a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSpeech.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderCapture.swiftdoc": {
+    "bytes": 55124,
+    "sha256": "d9165a4b8351065ce7da756e69ca640a8db048c0e47e5d0c34ab7bef34496e6d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderMedia.swiftmodule": {
+    "bytes": 237912,
+    "sha256": "147657ea28deeca3c40e1b67ad2a933657634e774b84f330f7eabecbb5884c73"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderStretch.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSelectedAudioTests.swiftsourceinfo": {
+    "bytes": 1644,
+    "sha256": "3287406e421e93b59db8c3594f4cf6002e04bee6b6bde2de7240cada52f5ba7d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderDenoise.swiftmodule": {
+    "bytes": 28452,
+    "sha256": "0a4d3a6b3322b3707138e07b650329c2242008398ee91cd58321471eb7d58f4a"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSpeech.swiftmodule": {
+    "bytes": 105444,
+    "sha256": "d58913a232a64b058a4eb621e85d3b1a618cc839f89887aa0bb5785a6dde4e2d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderDenoise.swiftsourceinfo": {
+    "bytes": 2324,
+    "sha256": "bdc0631f89877ad247f0583879f7898d855eef0a7ecf925b0d094f57cc49ca81"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudio.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderMedia.swiftdoc": {
+    "bytes": 17848,
+    "sha256": "ecddc4a35fd61c5940da74d38ca5c4b709442bd22589d58d33f2477550796a3f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderNative.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderWire.swiftsourceinfo": {
+    "bytes": 68308,
+    "sha256": "dd01982f3958383a6fbaa5cbf83a220fb909ecfb2810742929f52ac580279301"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/FluidAudio.swiftdoc": {
+    "bytes": 1104596,
+    "sha256": "35f61b1e978b6c7be9fef43aa926fbc1fc3e82c5ba3d9fa5a4d0dd2de535f721"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderMedia.swiftsourceinfo": {
+    "bytes": 53968,
+    "sha256": "af4a06881d19e38796c77f7c89bda3a3e06cb397285f76881d980583fab5ba4d"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSpeech.swiftdoc": {
+    "bytes": 10228,
+    "sha256": "fd49d6ad30a93ebd525c12820d4de4d7c6ff85a9b57e13e7cc5a22481ce3c038"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderCapture.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderStretch.swiftdoc": {
+    "bytes": 2360,
+    "sha256": "2643d6d97563429addc76ad3a0193fc5daedf71849134fbbedef3f39ea8f0b88"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudio.swiftmodule": {
+    "bytes": 286624,
+    "sha256": "391cbc3944b9df94c7f53e73db72ef7b4e8591bf5976f7aa90da18ff07be62dd"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudio.swiftdoc": {
+    "bytes": 16204,
+    "sha256": "6ec534f6ffcb81ddad911c5f6b99f1ff55b717069b9fa2637f0b072177a723fa"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderMedia.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderNative.swiftdoc": {
+    "bytes": 1608,
+    "sha256": "cf1653b0e8a08f786dd231a4c767fbeadb6577fa4f13a1fa52cfcb1317fc1377"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderFrames.swiftmodule": {
+    "bytes": 495868,
+    "sha256": "4ca39b389c404bce0aa6f9b12c6a2b5b92adb9d0c4e96db3755cc9c05ce291e0"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderNative.swiftmodule": {
+    "bytes": 22620,
+    "sha256": "3ed684258daea2f7e57b25b834bd4da3c873d6cf47fe7a5c44c992f72974ba6f"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderFrames.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderWire.swiftdoc": {
+    "bytes": 13656,
+    "sha256": "7776cf375465eb1d87a31870db48841ccba09e3a3583b175992e1a248eb2de18"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudioFileTests.abi.json": {
+    "bytes": 149,
+    "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSpeech.swiftsourceinfo": {
+    "bytes": 15712,
+    "sha256": "905d4aada76835e06539492c2fc7ab87ea4c9bf1c5df996bf81c0036e3020356"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderDenoise.swiftdoc": {
+    "bytes": 1076,
+    "sha256": "7e973ddcb20bd52cd949ef9f16047b4aaba435d140efe130e4f0d96b80628fe5"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudioFileTests.swiftmodule": {
+    "bytes": 21808,
+    "sha256": "434269423a6acb8945736e128745b6b467c1f24be24af55450475c6ba7241754"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSelectedAudioTests.swiftdoc": {
+    "bytes": 420,
+    "sha256": "b9e14f70905c3556dcf0e1701affb894e00761589100382bd62a5f1a48d204ed"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudioCLI.build/DerivedSources/resource_bundle_accessor.swift": {
+    "bytes": 698,
+    "sha256": "f566baaaede6b26e1bbeb849cc7bb61580cd4289769e54cc51a092049f2082fd"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio.build/DerivedSources/resource_bundle_accessor.swift": {
+    "bytes": 692,
+    "sha256": "4b39a62cd18e51caf3c8675f31c4c0187e7a3111450073917499da5f064c8a77"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio_FluidAudio.bundle/luxtts_en_us_lexicon.tsv.zz": {
+    "bytes": 982385,
+    "sha256": "c6caf56e109a87a4fd8244fa722389a9091e4b6071279b77e3a97e96601fa79e"
+  },
+  "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/FluidAudio_FluidAudio.bundle/luxtts_en_us_g2p_aux.json": {
+    "bytes": 37000,
+    "sha256": "e67d7d3097daf9e14f56f81c64109d44dc5bca2d60252b1724282ce1065b029a"
+  }
+}

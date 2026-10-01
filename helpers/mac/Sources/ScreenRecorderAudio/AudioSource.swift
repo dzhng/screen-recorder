@@ -24,7 +24,8 @@ struct SourceTrack {
             .sample(sampleRate, ceil: ceil, nearest: !ceil)
     }
 
-    static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
+    static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false,
+                     purpose: MediaInput.ReadPurpose = .inspection) async throws -> SourceTrack {
         let path = selection.source
         let streamId = selection.streamId
         let sourceOffsetUs = selection.sourceOffsetUs
@@ -32,7 +33,7 @@ struct SourceTrack {
         guard FileManager.default.fileExists(atPath: source.path) else {
             throw NativeFailure.decodeFailed("No source media at \(source.path).")
         }
-        let input = try MediaInput(url: source)
+        let input = try MediaInput(url: source, purpose: purpose)
         let asset = input.asset
         let audio: AVAssetTrack
         let stream: AudioStreamBasicDescription

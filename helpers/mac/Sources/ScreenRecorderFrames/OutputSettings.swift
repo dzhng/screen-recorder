@@ -148,6 +148,23 @@ public struct OutputSettings: Codable, Sendable {
             return settings
         }
     }
+    public struct AudioFile: Codable, Sendable {
+        public let container: String
+        public let audio: Audio
+
+        public func validate() throws {
+            guard container == "m4a" else { throw invalid("Unsupported standalone audio container") }
+            guard audio.rateControl.mode == "variable" ? audio.rateControl.bitrate == nil
+                : audio.rateControl.quality == nil else {
+                throw invalid("AAC rate-control parameters do not match the requested strategy")
+            }
+            let settings = try audio.dictionary()
+            let writer = AVAssetWriter(contentType: .mpeg4Movie)
+            guard writer.canApply(outputSettings: settings, forMediaType: .audio) else {
+                throw invalid("AAC cannot encode the requested standalone format")
+            }
+        }
+    }
     private func compression(frameRate: Double) throws -> [String: Any] {
         guard container == "mp4", video.codec == "h264", video.color == "rec709",
             ["baseline", "constrained-baseline", "main", "high", "constrained-high"].contains(

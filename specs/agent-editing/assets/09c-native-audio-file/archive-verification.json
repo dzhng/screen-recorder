@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "errors": [],
+  "regularOrResolvedHardlinkMembers": {
+    "source-reference.tar.gz": 174,
+    "source-final-delta.tar.gz": 6,
+    "external-code.tar.gz": 353,
+    "runtime.tar.gz": 9,
+    "evidence.tar.xz": 317,
+    "packet-count-candidate-source-delta.tar.gz": 2,
+    "final-reader-mutant-source-delta.tar.gz": 1,
+    "streaming-mutant-source-delta.tar.gz": 1
+  }
+}

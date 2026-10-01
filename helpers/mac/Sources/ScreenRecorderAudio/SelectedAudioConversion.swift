@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import Darwin
 import Foundation
 import ScreenRecorderMedia
 
@@ -40,19 +41,23 @@ public final class SelectedAudioConversion: AudioPCMSource {
         }
         let header = try FileHandle(forReadingFrom: url)
         defer { try? header.close() }
-        let signature = try header.read(upToCount: 12) ?? Data()
-        guard signature.count == 12, String(decoding: signature[0..<4], as: UTF8.self) == "RIFF",
+        // /dev/fd aliases share an offset with AVAudioFile's probe. Header inspection must
+        // use positional reads so it neither depends on nor changes the borrowed offset.
+        var signature = Data(count: 12)
+        let read = signature.withUnsafeMutableBytes { pread(header.fileDescriptor, $0.baseAddress, 12, 0) }
+        guard read == 12, String(decoding: signature[0..<4], as: UTF8.self) == "RIFF",
             String(decoding: signature[8..<12], as: UTF8.self) == "WAVE" else {
             throw NativeFailure("UNSUPPORTED_FORMAT", "Finite conversion requires a completed selected WAV.")
         }
         let declaredBytes = signature.withUnsafeBytes {
             UInt64(UInt32(littleEndian: $0.loadUnaligned(fromByteOffset: 4, as: UInt32.self))) + 8
         }
-        guard try header.seekToEnd() == declaredBytes else {
+        var identity = stat()
+        guard fstat(header.fileDescriptor, &identity) == 0, identity.st_size == declaredBytes else {
             throw NativeFailure.decodeFailed("Selected WAV is truncated or its RIFF extent is inconsistent.")
         }
         let source = try await SourceTrack.open(selection: AudioSourceSelection(source: url.path,
-            sourceOffsetUs: ExactTime(0), available: []), strictWindowFormat: true)
+            sourceOffsetUs: ExactTime(0), available: []), strictWindowFormat: true, purpose: .streaming)
         return try SelectedAudioConversion(source: source, inputFrames: file.length,
             sampleRate: sampleRate, channels: channels)
     }

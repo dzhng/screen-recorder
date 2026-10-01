@@ -1,0 +1,102 @@
+{
+  "README.md": {
+    "bytes": 3155,
+    "sha256": "880f94259f15d55ba3d7c6c0f99906147367323c9250fc615aa15a8bbd1516f8"
+  },
+  "archive-verification.json": {
+    "bytes": 389,
+    "sha256": "671939c2a0662aff41d8db02d522e0cb8d49240d1dc5964843c2b8ae47519c3f"
+  },
+  "choices.md": {
+    "bytes": 1342,
+    "sha256": "84b790b9c590c7906aa93f2c4cf63f43b58c8ac49cb7d168191af855e4dc76f9"
+  },
+  "evidence-members.json": {
+    "bytes": 55901,
+    "sha256": "6b7384b36df9445f55acb3e7dd8695966f27716320f5653bbcb5f51b277eeaa6"
+  },
+  "evidence.tar.xz": {
+    "bytes": 59445148,
+    "sha256": "007de3891a6446b621d3e50f38143853a3fa8df8f03ad88611bfb621c2528a33"
+  },
+  "external-code-pins.json": {
+    "bytes": 62471,
+    "sha256": "9c33ae8978452e68bdb1867346c573a52918ba6133f03c86cf3cbfef87c07871"
+  },
+  "external-code.tar.gz": {
+    "bytes": 1985382,
+    "sha256": "a9c93e63c5856eab0dac0160135aa87809d38bb725d01a24b254948b2beecb28"
+  },
+  "final-reader-mutant-source-delta-pins.json": {
+    "bytes": 185,
+    "sha256": "7168c78009a8f1af3806cd4ef3111e889786f90a4c19abf828c7540f64776a47"
+  },
+  "final-reader-mutant-source-delta.tar.gz": {
+    "bytes": 2501,
+    "sha256": "39991c3a078dc39be1d3c0c4502402b11d24974cfa03d4993ba999de9921a459"
+  },
+  "final-reader-mutant-source-pins.json": {
+    "bytes": 29829,
+    "sha256": "68baab356fb5da400ee72251330bb26c2e767a12d02de2e7d12bc13562a9efbb"
+  },
+  "linked-code-pins.json": {
+    "bytes": 102661,
+    "sha256": "2ded7512f266c2c50e6c2d1ba808de7af779a054db2e165b340ec3909b413425"
+  },
+  "packet-count-candidate-source-delta-pins.json": {
+    "bytes": 354,
+    "sha256": "5b44b4320169be8ae81956ae1188a680e5ef6216475dcfc6ba5cf3ec10a7e1d9"
+  },
+  "packet-count-candidate-source-delta.tar.gz": {
+    "bytes": 7177,
+    "sha256": "7d742789d2c44b36e2e37ce2842400845274c0a4a4e9e3a2714badced2832f9b"
+  },
+  "packet-count-candidate-source-pins.json": {
+    "bytes": 29829,
+    "sha256": "9998b7697ae1a0e33ab3ff05c91f185686015c93b98b16dee5ebc2369fa46c40"
+  },
+  "runtime-pins.json": {
+    "bytes": 1411,
+    "sha256": "5f46d128c7803514e1c95730b2ae5ed846e2fe1a0ec2f7c2cac40ebea1d11eca"
+  },
+  "runtime.tar.gz": {
+    "bytes": 86161554,
+    "sha256": "44389a1805a936e19dabc3259837d6daf127d56513b0385264cf44fdfa2e2981"
+  },
+  "source-final-delta-pins.json": {
+    "bytes": 964,
+    "sha256": "171c78ba7ed5551ded7831df609d7fb18eefe8dbe8b7d82475a2c32a2805ba7b"
+  },
+  "source-final-delta.tar.gz": {
+    "bytes": 23605,
+    "sha256": "f5f7020b4368696011fca5a7e97974a614a079f0cd4b04e5d1cdeea92a99bc19"
+  },
+  "source-final-pins.json": {
+    "bytes": 30293,
+    "sha256": "743cfa48553638ba6732e94a2739c4dd938f85b4275cb336f4998dc2e0319581"
+  },
+  "source-reference-pins.json": {
+    "bytes": 29829,
+    "sha256": "1d9f0f112f1c38124787e2f5d5d1cac404f673f07fbab414da17758ab0aba46d"
+  },
+  "source-reference.tar.gz": {
+    "bytes": 31149537,
+    "sha256": "6c55f0a1f04006ba7eb008cf6e43c4dd0b942c0c5a5704987d34e76fb42f93c5"
+  },
+  "streaming-mutant-source-delta-pins.json": {
+    "bytes": 185,
+    "sha256": "50b090f79a05a7a3d24b39df5a443e80433df103c2fb9a7cf2c5aa11326c76c9"
+  },
+  "streaming-mutant-source-delta.tar.gz": {
+    "bytes": 2638,
+    "sha256": "c5ea2e8c942835b53179960b7ffd1316c04db2032c83366424ab02fe5ce417a3"
+  },
+  "streaming-mutant-source-pins.json": {
+    "bytes": 29829,
+    "sha256": "58859feddd969fcd44e993e1f8ec3d18e182d166dd32181aa9d54821451036af"
+  },
+  "verification.json": {
+    "bytes": 11222,
+    "sha256": "f66bcaf372a1b5e60cd7326f14d60455e7621b7ba7ce6c7c8193a260f6b2a418"
+  }
+}

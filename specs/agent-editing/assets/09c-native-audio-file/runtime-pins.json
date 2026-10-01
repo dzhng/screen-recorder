@@ -1,0 +1,38 @@
+{
+  "screenrec-09c-native-file-worker": {
+    "bytes": 30147040,
+    "sha256": "3ef22f8947828a54eed0fa4400248773ca6965701a65409e411b169aca7cac11"
+  },
+  "screenrec-09c-native-reviewed-worker": {
+    "bytes": 30147040,
+    "sha256": "73282edf066ef12f83e799cf881e3325ff4470b2311fc433d212528fa1a1687f"
+  },
+  "screenrec-09c-native-presented-worker": {
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "screenrec-09c-native-reader-mutant-worker": {
+    "bytes": 30129168,
+    "sha256": "2dbfa587d96ab9c9496f3c35fdb8918ab16ac6b0d24b7d4bda20b22443e4338c"
+  },
+  "screenrec-09c-native-final-reader-mutant-worker": {
+    "bytes": 30146624,
+    "sha256": "501808074115615aee0fa4849b23da0c171967027ff75cdf0137c3a275cbedc9"
+  },
+  "screenrec-09c-native-streaming-mutant-worker": {
+    "bytes": 30147040,
+    "sha256": "12015a97d2c2f48cdfd2a64649e8bc27daf9747fa78ce1cb35955a169a8a9af8"
+  },
+  "screenrec-09c-native-premature-build-copy": {
+    "bytes": 30129168,
+    "sha256": "eb6823f25c43f0397ee065fc1784434f840d38d41b26ff508e6573b15083e678"
+  },
+  "screenrec-09c-native-presented-cancel-tests": {
+    "bytes": 30168032,
+    "sha256": "d0814ec627ffc8bdec4d0fe28cb8486654ad4640cc858d57afda1cf5f61076ad"
+  },
+  "screenrec-09c-native-selected-tests": {
+    "bytes": 6914768,
+    "sha256": "fb178b3257c49790f066b78ca715711b56c9286b6d45d1f62da8b957b8cdac64"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "helpers/mac/Sources/ScreenRecorderFrames/OutputSettings.swift": {
+    "bytes": 22009,
+    "sha256": "d75e6116304a78c7b885954a21daf08e956a7fc24ad0c3c915af07229533c488"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/AudioFileOperation.swift": {
+    "bytes": 6663,
+    "sha256": "894640cb878f0ac9ff317ecc7a626033c5d5e69cb7e0df92a199564bdfddc05a"
+  }
+}

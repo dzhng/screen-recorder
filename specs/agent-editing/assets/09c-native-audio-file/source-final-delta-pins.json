@@ -1,0 +1,26 @@
+{
+  "helpers/mac/Sources/ScreenRecorderFrames/OutputSettings.swift": {
+    "bytes": 22009,
+    "sha256": "d75e6116304a78c7b885954a21daf08e956a7fc24ad0c3c915af07229533c488"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/AudioFileOperation.swift": {
+    "bytes": 7146,
+    "sha256": "bf1d890b3686f7a153aa602fb8c553ed2de27c4b3cffc0e39b1b86f3d58605b9"
+  },
+  "helpers/mac/Tests/audio-file.mjs": {
+    "bytes": 10551,
+    "sha256": "5e2dc7b2fb6df2dffe1e05ff0e8dbd9db302087afeb94f6fa66134f31bed1947"
+  },
+  "helpers/mac/Tests/audio-file-movie.mjs": {
+    "bytes": 2852,
+    "sha256": "08e135c62e2553e59c0cd1f3dbd7aa9ecb46a5ba07e0fc44ade5cc31801f615f"
+  },
+  "helpers/mac/Tests/SelectedAudio/main.swift": {
+    "bytes": 12630,
+    "sha256": "fdefc8785bea8ceb3b6b26709393de8828941b837d72aa57a398a5f9ed05b475"
+  },
+  "specs/agent-editing/assets/00-corpus/a.mov": {
+    "bytes": 196988,
+    "sha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd"
+  }
+}

@@ -338,6 +338,13 @@ authoritative when external tools report AAC duration rounded to native samples.
 See [native assembly evidence](../../specs/agent-editing/assets/09-assembly/README.md)
 for verified behavior and remaining public integration gates.
 
+Standalone audio encoding consumes that completed project PCM through the same
+finite conversion owner. Its audio-only ISO MPEG-4 writer compensates AAC priming
+with an edit list; no picture stream or video encoder is required. Codec packet
+padding is separate from authored content length, and lossless WAV parity does
+not transfer to AAC. The [standalone audio evidence](../../specs/agent-editing/assets/09c-native-audio-file/README.md)
+records tested renditions, endpoint distortion and source-preserving refusal.
+
 The audio target directly links the [fixed RNNoise dependency](../denoise/README.md).
 Its verified local model preparation is an explicit native-build prerequisite;
 the app build checks it before invoking Swift. Runtime processing never downloads
