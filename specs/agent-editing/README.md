@@ -27,8 +27,12 @@ Atomic public camera selection is [merged-verified](assets/21f3-public-camera-se
 through allocation, the actual native controller, crash recovery, independent
 admission and explicit project use, including empty allocated sources. Preserve
 that controlled checkpoint without inferring physical or installed acceptance.
-The separately prepared historical profile needs a future quiet host window and
-reverified runtime authority; the latest preflight deferred dispatch. Do not poll,
+The separately prepared historical profile remains undispatched. Its
+[startup audit](assets/24z-owner-profile-preparation/dispatch-readiness.json)
+found unconditional model-storage construction that mutates staging, conflicting
+with the current model-work restriction even after heavy host contention cleared.
+Do not change the pinned runtime to evade that constraint. A permitted dispatch
+still needs a quiet host window and reverified runtime authority. Do not poll,
 repeat the timing cohort or choose an optimization without owner attribution.
 Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
@@ -74,6 +78,9 @@ a routine fallback. See [verification](verification.md#implementation-readiness-
 Keep this pickup, checklist and owning Status lines consistent. Preparation,
 technical parity, measured quality and release acceptance are distinct. Missing
 or failed evidence stays open; continue independent primitive work.
+The [remaining-work audit](assets/acceptance-maintenance/remaining-work-audit.json)
+found no additional independent port in the inspected owners; its named external
+evidence and deferred cutover requirements remain unfinished.
 
 ## Outcome and boundaries
 

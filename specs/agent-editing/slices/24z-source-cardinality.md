@@ -2,7 +2,8 @@
 
 Status: **open**. Correctness diagnostic completed; the single timed cohort is red
 on a contended machine; separate owner-profile preparation is complete, with actual
-profiling deferred by whole-host contention. No production defect
+profiling still undispatched. The latest startup audit identifies model-storage
+construction as an additional authorization constraint. No production defect
 or fix is selected. Dependencies:
 [24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
 Final production acceptance still follows [23](23-cutover.md).
@@ -166,3 +167,11 @@ The [post-atomic window](../assets/24z-owner-profile-preparation/post-atomic-win
 again found unrelated compiler/simulation contention after owned checks ended.
 Its full raw inventory is hashed outside the repository. Dispatch and runtime
 reverification were deferred; no service, read, profile, timer or polling began.
+
+The [dispatch-readiness audit](../assets/24z-owner-profile-preparation/dispatch-readiness.json)
+found the heavy workloads absent and reverified runtime/import identities. Dispatch
+still cannot proceed under the current restriction: this pinned service always
+constructs `Models`, whose constructor creates directories and clears/recreates
+staging. A query-only worker allowlist does not prevent that startup mutation.
+No service or profile began. Do not modify the historical runtime or substitute
+another service to evade its authority or the user's constraint.

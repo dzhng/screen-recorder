@@ -1,0 +1,20 @@
+{
+  "scope": "Bounded read-only audit after merged atomic-camera completion",
+  "checkpoint": "7cb5d67f",
+  "agents": [
+    "remaining_ports_audit",
+    "remaining_quality_audit"
+  ],
+  "primitiveGap": "No concrete missing independent implementation found in inspected 12/12b, 20/21 and 23/25 owners",
+  "remaining": {
+    "12": "Broader lexical/protected-word/join and held-out evidence beyond eight saved edges; no acoustic truth inferred from ASR",
+    "12b": "Generic model-owner readiness unverified; actual selected-source parity remains scoped to retained two inference records",
+    "20/21": "Physical onset/same-picture precision, live lifecycle and failed completed-stop requirement",
+    "23": "Installed main still uses RevisionStore and rejects project/asset operations; explicit deferred hard cutover required, while preparatory controllers already route projects",
+    "25": "Final acceptance.mjs orchestration absent; requires installed CLI/MCP, actual model readiness and delivered integrated media under prepared brief",
+    "24z": "Profile service startup constructs mutating model owner; no actual attempt"
+  },
+  "dispositions": "Preserve accepted evidence and user constraints; do not manufacture a replacement cohort, alternative owner, automatic edit or installed switch",
+  "review": "Root inspected model constructor/startup call and camera diagnostic sources/pins; corrected stale parent status and historical speech-pickup interpretation",
+  "execution": "Reads, hashes and module resolution only; no production constructors, devices, models, playback, service, inference or profile"
+}

@@ -11,9 +11,15 @@ may proceed from the verified offline owners while physical proof remains open.
 The [digest cost audit](../assets/20e-camera-digest-components/README.md) preserves
 full-picture parity in two isolated release publications. Their context-specific
 latency still exceeds ten seconds; no new production fix or physical pass follows.
+Its frozen packet's closing speech-pickup note is historical: saved human marks
+now support the [scoped eight-edge comparison](../assets/12-human-frozen-comparison/README.md).
+That note must not trigger another marking request; broader speech quality remains
+under [12](12-speech-evidence.md).
 A [digest-stage prefix diagnostic](../assets/20e-camera-digest-prefix/README.md)
-was compiled but deferred after contention preflights, with zero timing attempts.
-Its stage hypotheses remain unresolved; compilation is not a performance result.
+was compiled but never executed. Its [read-only disposition](../assets/20e-camera-digest-prefix/execution-disposition.json)
+preserves zero attempts: the existing component measurements address its material
+optimization hypotheses, and finer historical attribution would not select a
+supported fix. Compilation and source equality supply no new timing verdict.
 
 The [retained marker diagnostic](../assets/20-retained-marker-resolution/README.md)
 extends candidate visibility with finer samples and preserves a separate clock

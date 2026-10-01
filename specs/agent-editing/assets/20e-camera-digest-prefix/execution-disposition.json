@@ -1,0 +1,50 @@
+{
+  "scope": "Read-only reconciliation of a previously deferred diagnostic; no timing, publication, model, device, UI or playback execution",
+  "observedAtUTC": "2026-10-01T15:30:12.222757+00:00",
+  "preparationMembersVerified": 53,
+  "actualPreservedPackageFilesVerified": 42,
+  "exactRetainedExecutablePins": {
+    "debug": {
+      "path": "/tmp/screenrec-camera-digest-diagnostic-20261001/build/arm64-apple-macosx/debug/CameraDigestDiagnostic",
+      "bytes": 4103808,
+      "sha256": "88dfd1319f291ab3ffbb922f9def4b04fc72e3d6cc5470a858c432321494f14f",
+      "buildLog": "/tmp/screenrec-camera-digest-diagnostic-20261001/debug-build.log"
+    },
+    "release": {
+      "path": "/tmp/screenrec-camera-digest-diagnostic-20261001/build/arm64-apple-macosx/release/CameraDigestDiagnostic",
+      "bytes": 2845352,
+      "sha256": "4d3e14b6803772aab5b8089a49e54c19d5510250e026a3c11bb68b2dd5346cbd",
+      "buildLog": "/tmp/screenrec-camera-digest-diagnostic-20261001/release-build.log"
+    }
+  },
+  "declaredInputPinsVerified": 3,
+  "inputScope": "Previously encoded offline replay derived from the retained take, not original camera bytes",
+  "sourceReconciliation": {
+    "currentDigestBody": "Byte-identical to archived uninstrumented ProbeCameraMedia digest",
+    "currentMappingAndPicturesInitialization": "Changed since historical diagnostic; no complete current-path timing transfer"
+  },
+  "existingComponents": {
+    "file": "../20e-camera-digest-components/components.json",
+    "sha256": "fae44c516939eacddda7283cafe0f47876cc9669713f94bcc0efb53470126d01",
+    "sameEncodedMovie": true,
+    "scopedConclusion": "Existing same-input prefix evidence addresses build-mode, locking and visible-SHA hypotheses; no measured provider or row-coalescing speedup supports a production change",
+    "unassignedMeanPrefixSeconds": {
+      "debug": 0.0075496839999999454,
+      "release": 0.007734179999999979
+    },
+    "limit": "Unassigned wall time is not a measured pointer-setup component or whole-publication cost"
+  },
+  "decision": "Do not dispatch merely because the historical diagnostic has zero attempts. No material unresolved implementation decision depends on its added initialization/mapping/pointer split. Existing evidence supersedes its optimization pickup.",
+  "attempts": {
+    "debug": 0,
+    "release": 0
+  },
+  "productionOptimizationSelected": false,
+  "openClaims": [
+    "Ten-second completed stop",
+    "Live lifecycle",
+    "Physical synchronization"
+  ],
+  "originalPacket": "Unchanged; no manifest or historical source/runtime/verdict repinned",
+  "review": "Independent read-only audit confirms executable safety but recommends no duplicate measurement; current failed release requirements remain open."
+}

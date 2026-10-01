@@ -1,0 +1,44 @@
+{
+  "scope": "Read-only dispatch readiness; no service/native/profile/model operation",
+  "observedAtUTC": "2026-10-01T15:29:07.960528+00:00",
+  "hostPreflight": {
+    "atUTC": "2026-10-01T15:24:44.301515+00:00",
+    "rawPath": "/tmp/screenrec-24z-continuation-host-preflight.txt",
+    "sha256": "17729d47873a7005dd3b9e8445d222783132ef74428cd7779b33440d216e6ea4",
+    "observation": "Previously observed heavy compiler/simulation/render workloads absent; ordinary foreground/background CPU remains. This is not timing acceptance."
+  },
+  "runtimePins": {
+    "observedAtUTC": "2026-10-01T15:25:18.594583+00:00",
+    "files": 350,
+    "imports": 242,
+    "dependencies": 21,
+    "seed": 3,
+    "sdkCjs": 4,
+    "sdkEsm": 4,
+    "harness": 4,
+    "worker": {
+      "path": "/private/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native",
+      "sha256": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+      "seedNativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+    },
+    "errors": []
+  },
+  "localImportResolutionsRechecked": 242,
+  "startupSources": {
+    "apps/service/src/project-service.ts": {
+      "sha256": "1d2c50c00325deca7a2b8d13478844283b6e62f112148a054410b438bb92a594",
+      "fact": "Unconditional new Models(library)"
+    },
+    "packages/core/src/models.ts": {
+      "sha256": "5b0879eeb65b23775305d38ccd579f364b4841e1721870a3c6ff8a5178ca7ef3",
+      "fact": "Constructor creates model directories and recursively removes/recreates .staging"
+    }
+  },
+  "decision": "Do not dispatch: the pinned service unconditionally constructs the model-storage owner, which mutates directories/staging. Current no-model-construction constraint remains binding even with lighter host load.",
+  "actualProfileAttempts": 0,
+  "actualPublicProjectReadAttempts": 0,
+  "actualServiceStarts": 0,
+  "modelsConstructed": 0,
+  "preservation": "Historical runtime, original red cohort, catalog, worker and budgets unchanged; no timer or polling created",
+  "nextBoundary": "Resolve the existing startup ownership constraint within user authorization before a separately coordinated bounded profile. Do not rewrite the pinned runtime or substitute a different service to evade it."
+}

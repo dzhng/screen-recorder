@@ -8,7 +8,8 @@ passes current native/public retry and portable verification, including a read-o
 retained-take check. [Caller-authored projects](21e-capture-project-adoption.md)
 pass merged public media, replacement/undo and portable-history verification.
 Selector-free capture integration, independent publication and camera clock/support
-are merged-verified. Atomic public selection and physical acceptance remain open.
+are merged-verified. Atomic public selection is also merged-verified through
+[21f3](21f3-public-camera-selection.md); physical/lifecycle acceptance remains open.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and
