@@ -1,0 +1,84 @@
+{
+  "status": "Genuine readiness and root identity checks verified; checker failure-path closeout in progress",
+  "implementation": "bd70a803",
+  "child": "2f0690dc8959c02b1950c0bc7e4945d201bf8398",
+  "root": "bd70a8034fb8aa686b81939ff0b1058cf766f355",
+  "sourceTreeScope": "Package keys in frozen runtime-authority.sourceAuthority mean <package>/src Git trees.",
+  "independent": {
+    "scope": "Independent read-only verification of child genuine readiness; no root preparation/inference/quality execution",
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/evidence/readiness-final/report.json",
+      "sha256": "6e1684fb5d4bb076bbc6d417b28d533d9a91ded7d443c6f3617d3a19b6a4de47"
+    },
+    "checks": {
+      "managedRegisteredFiles": 22,
+      "managedBytes": 464414912,
+      "managedFilesAndReceiptRehashed": true,
+      "registryFilesExact": true,
+      "preservationFingerprintExact": true,
+      "completeMcpTextStructuredPairs": 36,
+      "prepareStates": [
+        "preparing",
+        "preparing",
+        "ready"
+      ],
+      "sourceServiceExit0Pids": [
+        76193,
+        76312
+      ],
+      "sdkCloseObservedPids": [
+        76196,
+        76316
+      ],
+      "sdkNodeExit0Pids": [
+        76196,
+        76316
+      ],
+      "nativeOnlyAudioCapabilities": true,
+      "childArchivePayloads": 57,
+      "actualBundleOutputsAndInputs": 393,
+      "rootMatchingEmittedCounterparts": 170,
+      "currentSourceTrees": 6,
+      "currentSourceFiles": 9,
+      "finalExecutedCheckerExactlyRootSource": true,
+      "rootSyntax": 0,
+      "rootLint": 0,
+      "rootFormat": 0,
+      "rootDiffCheck": 0
+    },
+    "receipt": {
+      "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/receipt.json",
+      "bytes": 2147,
+      "sha256": "88f67ea28d36294e847338ad7892655604380511c739b216e2f4ca40f0333f2d",
+      "inode": "339424300",
+      "dev": "16777230",
+      "mode": "33152",
+      "modifiedNs": "1790893432856958728",
+      "changedNs": "1790893432856958728"
+    },
+    "notes": [
+      "Before/after report wrappers differ intentionally; verified their preservation fingerprints rather than wrapper equality.",
+      "CLI exchanges use request/response, MCP exchanges use operation/params/reply; validated each complete value through its actual schema.",
+      "Public preparation, concurrent join, ready reuse and reopen were executed by the child. Root rehashed/checked recorded complete outputs and current file identities, without rerunning the cohort."
+    ],
+    "sourceTreeScope": "Package keys in child runtime-authority sourceAuthority identify <package>/src Git trees, not whole package trees."
+  },
+  "open": "Existing checker startup-terminal/report-finalization correction; genuine preparation is not rerun.",
+  "scope": "Registered model metadata readiness only; no inference, speech quality, presentation, installed or full-release acceptance.",
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 1793,
+    "sha256": "1444a45eb8157f6b66a1aff584998230b9a9f2a4cdafeb73aebae9667f6c931f",
+    "members": 2
+  },
+  "members": {
+    "independent.json": {
+      "bytes": 2281,
+      "sha256": "e426508ca16e6855b1c474c1d849932bc62f732e5863a133e57096c0776f9b7a"
+    },
+    "review.md": {
+      "bytes": 1006,
+      "sha256": "9e62675771cfea6c1141acafd652b015c5b41f321cd407d058e3ff00daed78a7"
+    }
+  }
+}

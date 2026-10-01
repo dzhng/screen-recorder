@@ -6397,3 +6397,9 @@ without forcing their different selections to agree or inventing a color toleran
 - **Verdict:** Sound; durable exact bytes preserve the user's frozen-worker rule
   without modifying or replacing either original.
 - **Confidence:** High.
+
+The [23n ledger](assets/23n-parakeet-model-readiness/choices.md) owns pinned current
+source bundles and one complete preserved inventory. Root and independent review
+confirm genuine existing-owner preparation. Failure-path checker corrections
+retain the successful producer and use separate actual-child controls; no model
+selection, download policy or speech-quality verdict changes.

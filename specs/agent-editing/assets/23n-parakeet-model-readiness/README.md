@@ -35,3 +35,9 @@ model selection, runtime recipe, API, limit or deadline changed. This establishe
 metadata readiness, not new ASR quality, inference, installed readiness or full
 12/23/25 acceptance. Root independently rehashed managed files and receipt before
 starting the separate 23m consumer pass; that does not expand this packet's scope.
+
+The [merged checks](merged.json) and [supplement](merged.tar.gz) retain root byte,
+source and complete-output verification. Frozen sourceAuthority package keys
+identify each package's `src` Git tree. Independent review found two checker
+failure-path defects in early startup/report persistence; their correction is
+separate from the completed genuine readiness and preserves this original packet.

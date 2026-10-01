@@ -54,8 +54,8 @@ before invoking speech.transcribe. Frozen output cannot bypass those genuine che
 Under the existing authorization for isolated model work, admit accepted local files
 through public `model.prepare {modelId:"parakeet", modelSource:...}` if needed,
 preserving original files/receipts. This projection pass consumes separately
-established readiness; it never downloads models, switches the model, writes a
-readiness receipt or overrides model.status.
+established [23n readiness](23n-parakeet-model-readiness.md); it never downloads
+models, switches the model, writes a readiness receipt or overrides model.status.
 The existing fixture service's declared scratch readiness is not this prerequisite.
 If genuine readiness cannot be established, name the exact missing files/status;
 do not claim the paired transcript gate passed or substitute inference.
