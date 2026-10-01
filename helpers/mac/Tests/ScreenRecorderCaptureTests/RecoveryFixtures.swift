@@ -4,8 +4,8 @@ import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
 
-/// Generated media for recovery tests. Frames carry enough detail to encode, nothing more; these
-/// tests read timing, never pixels.
+/// Numeric picture and timestamp fixtures. Optional color properties bind authored pixel values
+/// and encoder tags; callers without them retain platform defaults.
 enum RecoveryFixture {
     static let width = 160
     static let height = 120
@@ -17,12 +17,19 @@ enum RecoveryFixture {
         return url
     }
 
-    private static func frame(_ seed: Int) -> CVPixelBuffer {
+    private static func frame(_ seed: Int, colorProperties: [String: String]? = nil) -> CVPixelBuffer {
         var created: CVPixelBuffer?
         CVPixelBufferCreate(
             nil, width, height, kCVPixelFormatType_32BGRA,
             [kCVPixelBufferCGImageCompatibilityKey: true] as CFDictionary, &created)
         guard let buffer = created else { preconditionFailure("Cannot allocate a fixture frame") }
+        if let colorProperties {
+            for (key, value) in [
+                (kCVImageBufferColorPrimariesKey, colorProperties[AVVideoColorPrimariesKey]!),
+                (kCVImageBufferTransferFunctionKey, colorProperties[AVVideoTransferFunctionKey]!),
+                (kCVImageBufferYCbCrMatrixKey, colorProperties[AVVideoYCbCrMatrixKey]!),
+            ] { CVBufferSetAttachment(buffer, key, value as CFString, .shouldPropagate) }
+        }
         CVPixelBufferLockBaseAddress(buffer, [])
         defer { CVPixelBufferUnlockBaseAddress(buffer, []) }
         let base = CVPixelBufferGetBaseAddress(buffer)!.assumingMemoryBound(to: UInt8.self)
@@ -35,17 +42,19 @@ enum RecoveryFixture {
         return buffer
     }
 
-    private static func videoInput(keyFrameInterval: Int = 60) -> AVAssetWriterInput {
+    private static func videoInput(keyFrameInterval: Int = 60, colorProperties: [String: String]? = nil) -> AVAssetWriterInput {
+        var settings: [String: Any] = [
+            AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: width,
+            AVVideoHeightKey: height,
+            AVVideoCompressionPropertiesKey: [
+                AVVideoMaxKeyFrameIntervalKey: keyFrameInterval,
+                AVVideoAverageBitRateKey: 2_000_000,
+            ],
+        ]
+        if let colorProperties { settings[AVVideoColorPropertiesKey] = colorProperties }
         let input = AVAssetWriterInput(
             mediaType: .video,
-            outputSettings: [
-                AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: width,
-                AVVideoHeightKey: height,
-                AVVideoCompressionPropertiesKey: [
-                    AVVideoMaxKeyFrameIntervalKey: keyFrameInterval,
-                    AVVideoAverageBitRateKey: 2_000_000,
-                ],
-            ])
+            outputSettings: settings)
         input.expectsMediaDataInRealTime = false
         return input
     }
@@ -54,11 +63,12 @@ enum RecoveryFixture {
     /// the gap to the next one. Uneven gaps ensure recovery cannot substitute an average frame
     /// duration for the actual last sample.
     static func writeVariableDurationVideo(
-        to url: URL, timesUs: [Int64], keyFrameInterval: Int = 60, endUs: Int64? = nil
+        to url: URL, timesUs: [Int64], keyFrameInterval: Int = 60, endUs: Int64? = nil,
+        colorProperties: [String: String]? = nil
     ) async throws {
         try? FileManager.default.removeItem(at: url)
         let writer = try AVAssetWriter(outputURL: url, fileType: .mov)
-        let input = videoInput(keyFrameInterval: keyFrameInterval)
+        let input = videoInput(keyFrameInterval: keyFrameInterval, colorProperties: colorProperties)
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(
             assetWriterInput: input, sourcePixelBufferAttributes: nil)
         writer.add(input)
@@ -67,7 +77,7 @@ enum RecoveryFixture {
         for (index, us) in timesUs.enumerated() {
             while !input.isReadyForMoreMediaData { try await Task.sleep(nanoseconds: 300_000) }
             precondition(
-                adaptor.append(frame(index), withPresentationTime: time(microseconds: us)),
+                adaptor.append(frame(index, colorProperties: colorProperties), withPresentationTime: time(microseconds: us)),
                 "Fixture frame \(index) must append")
         }
         if let endUs { writer.endSession(atSourceTime: time(microseconds: endUs)) }

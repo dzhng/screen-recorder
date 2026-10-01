@@ -1,5 +1,38 @@
+@preconcurrency import AVFoundation
 import Foundation
 import ScreenRecorderCapture
+
+/// Declared SDR pixels exercise composition without changing the historical publication corpus.
+@MainActor
+func runCameraProjectFixture(output: String) async throws {
+    let root = URL(fileURLWithPath: output)
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+    let source = root.appendingPathComponent("input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: [0, 100000, 200000, 500000, 700000], endUs: 800000,
+        colorProperties: [AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2,
+            AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2,
+            AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_709_2])
+    let audio = try captureMaterializerFixture(in: root, name: "audio-input", accepted: 96000)
+    let folder = root.appendingPathComponent("capture")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.audio = audio.appendingPathComponent("narration.packed.mov")
+    // Real-time writer backpressure is not the variable under this source-to-project check.
+    input.videoDeliveryInterval = .milliseconds(10)
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    try await capture.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, microphone: true))
+    try capture.pause()
+    try await Task.sleep(for: .milliseconds(10))
+    let result = try await capture.stop()
+    precondition(result.failure == nil && result.camera?.failure == nil)
+    precondition(result.tracks.first { $0.role == "video" }?.samples == 5)
+    precondition(result.camera?.tracks.first?.samples == 5)
+    precondition(result.camera?.hostOriginUs == result.hostOriginUs && result.camera?.pauses == result.pauses)
+    try JSONEncoder().encode(result).write(to: folder.appendingPathComponent("native-result.json"))
+    print("PASS declared Rec.709 prerecorded primary/camera/PCM publication with a shared clock")
+}
 
 @MainActor
 func runCameraSourcePublicationTests(output: String? = nil) async throws {

@@ -10,6 +10,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     let width: Int
     let height: Int
     var paceVideo = false
+    var videoDeliveryInterval: Duration?
     var offeredVideoFrames = 0
     let requestedSourceRect: CGRect? = nil
     let source: URL
@@ -126,6 +127,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             }
             try checkInterruption()
             if refusesAfterDelivery { throw CaptureFailure("INPUT_START_FAILED", "Prerecorded partial start") }
+            if let videoDeliveryInterval { try await Task.sleep(for: videoDeliveryInterval) }
         }
         precondition(reader.status == .completed)
         if let audio {
@@ -254,4 +256,3 @@ func captureFixtureRetimed(_ sample: CMSampleBuffer, at pts: CMTime, duration: C
   precondition(status == noErr)
   return copy!
 }
-

@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_ADMISSION_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PROJECT_OUTPUT"] {
+    try await runCameraProjectFixture(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_ADMISSION_OUTPUT"] {
   try await runCameraSourceAdmissionTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_CAMERA_INPUT_OUTPUT"] {
   try await runSelectedCameraInputTests(output: output)

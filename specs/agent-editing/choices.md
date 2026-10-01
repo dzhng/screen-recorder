@@ -5393,3 +5393,65 @@ When: 21f1 durable capture-facts extraction.
 - **Verdict:** Sound. The temporary field has named live consumers and an explicit
   removal boundary; it does not select a composition or duplicate editing state.
 - **Confidence:** High.
+
+## 21e — Caller-authored capture projects
+
+### Bound the raster comparison to its real authority — sound, medium confidence
+
+When: 21e isolated media verification.
+
+- **Choice:** A source PNG and the same picture placed in a project pass through
+  different existing image contexts. On this numeric fixture their opaque sRGB
+  pixels differ by at most one 8-bit RGB code, dispersed across the image. The
+  fixture permits that measured rounding only when comparing these two paths.
+  It still compares project replacement, undo and relocation pixels byte for
+  byte, and uses exact clock/sample receipts and black unsupported regions.
+  Deliberately selecting the wrong source picture or moving camera onset earlier
+  fails through the same bounded comparator.
+- **Gap:** The plan required exact selected pictures but did not distinguish
+  picture identity from two independently rounded raster encodings.
+- **Reach:** This does not define a codec tolerance or approve color conversion
+  generally. A new fixture or image path needs its own evidence; arbitrary
+  visual drift cannot inherit this allowance.
+- **Verdict:** Sound. The comparator follows the demonstrated fixture boundary
+  while negative controls preserve its ability to catch the target mistakes.
+- **Confidence:** Medium; the parent explicitly accepted this bounded interpretation.
+
+### Use supported-color input without changing old media — sound, high confidence
+
+When: 21e source prerequisite.
+
+- **Choice:** The historical prerecorded source declares SMPTE-C primaries,
+  which the current renderer refuses without explicit conversion. The test now
+  authors separate numeric Rec.709 pixels and encoder tags, then sends that new
+  input through the real prerecorded capture/publication owners. Existing source
+  bytes and their refusal remain intact. Its optional input pacing prevents
+  writer backpressure from deciding which fixture pictures survive; it makes no
+  hardware throughput claim.
+- **Gap:** The source-adoption fixture's color profile had never been accepted
+  for project rendering, and the plan did not supply a supported-color source.
+- **Reach:** Existing fixture callers retain their color/pacing defaults. No
+  production color policy, accepted publication, source identity or installed
+  worker changes. Broader camera/color support remains separate work.
+- **Verdict:** Sound. New declared input supplies the missing prerequisite
+  without silently converting accepted media or broadening production scope.
+- **Confidence:** High; the parent explicitly authorized the separate fixture.
+
+### Judge replacement isolation with an explicit tiny source — sound, high confidence
+
+When: 21e independent replacement and visual review.
+
+- **Choice:** The existing bound-camera proof fixture is a 32×16 picture. The
+  caller explicitly stretches it into the selected 160×120 project plane when
+  replacing camera or screen. The result visibly enlarges its stripes and
+  source-edge artifacts. The test checks selected source/time, changed target
+  plane, untouched other plane and PCM, exact undo and exact relocated output.
+- **Gap:** The plan requested independent replacement without choosing a
+  replacement source or claiming representative visual quality.
+- **Reach:** This proves edit isolation and provenance, not presentation quality.
+  A later presenter design or physical camera acceptance needs representative
+  media and its own human judgment.
+- **Verdict:** Sound. Reusing the admitted proof-bearing source keeps ownership
+  visible; the complete unprimed review records the enlargement rather than
+  treating its blur as an unnoticed product-quality success.
+- **Confidence:** High.
