@@ -52,3 +52,9 @@ The [merged check](merged.json) verifies every packet member, actual retained ru
 inputs and phase-specific executed modules, current source counterparts and the
 prospective observer control. Its [check packet](merged.tar.gz) carries root quality
 checks. It repeats no preparation/query cohort and supplies no p95 verdict.
+
+The [coordinated preflight](coordinated-preflight.json) deferred timing before
+reverification or service startup because unrelated rendering/simulation violated
+its recorded criteria. Root checked the raw inventory and criteria hashes and the
+reported process CPU values. The prepared fixture remains available; no p95 sample
+or polling followed this deferral.

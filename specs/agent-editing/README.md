@@ -22,10 +22,14 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: [24z current source-cardinality verification](slices/24z-source-cardinality.md).**
-The [current fixture and untimed correctness proof](assets/24z-current-preparation/README.md)
-are integrated. Run the unchanged timed cohort only after coordinated quiescence
-and a fresh whole-host check. [23l paired frames](assets/23l-paired-edited-frames/README.md) verifies public
+**Next pickup: [12 known speech omission](slices/12-speech-evidence.md).**
+Investigate the human-confirmed opening “um” using retained input provenance,
+outputs and marks before proposing one bounded isolated recognition experiment.
+Preserve the selected baseline; a presence check cannot establish word-edge timing
+or broader quality. The [current cardinality fixture](assets/24z-current-preparation/README.md)
+and correctness proof are integrated, but its [coordinated preflight](assets/24z-current-preparation/coordinated-preflight.json)
+found active unrelated rendering/simulation. No timing started. Revisit only after
+a changed coordinated window with a fresh check; do not poll the host. [23l paired frames](assets/23l-paired-edited-frames/README.md) verifies public
 join membership, final sample support and default cached delivery; composition
 pixel correspondence remains open. Preserve its completed media cohort.
 [23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
