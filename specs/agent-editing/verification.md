@@ -10,8 +10,9 @@ package manager or silently invent a passing command.
 Slice 00 freezes a corpus manifest with generated asymmetric frame-counter clips,
 different rates/orientations, distinct audio tones/impulses, stills with alpha,
 and copies/excerpts of [real narration](../../fixtures/narrated-workbench/README.md).
-Never replace real speech tests with generated speech. A second take, external
-voice reference and camera take can be supplied later through the same manifest;
+Never replace real speech tests with generated speech. Reuse the accepted real
+speech and the retained [screen/camera take](../../fixtures/screen-camera-timing/README.md).
+Additional media can enter through the same manifest when separately authorized;
 synthetic or copied stand-ins prove plumbing only and are labeled accordingly.
 
 Evidence stays under `assets/<slice>/`: exact invocation, versions, hashes,
@@ -24,7 +25,8 @@ listening gate that did not run.
 
 The [journey inventory](journeys.md) is mandatory coverage. Every capability slice
 adds its public CLI/MCP/service journey as soon as that execution path exists;
-25 integrates and reruns the complete workflow. Keep engine, live-state,
+25 exercises their integration through one bounded caller brief, reusing accepted
+per-feature evidence. Keep engine, live-state,
 live-media and listening/physical results separate. No skipped placeholder tests
 can turn an unavailable capability into passing journey coverage.
 
@@ -50,6 +52,12 @@ four-minute capture. A human task must answer one concrete missing technical fac
 explain what changed and why retained evidence cannot answer it. Do not repeat an
 accepted comparison, request personal editing choices or prescribe another whole
 recording as routine verification. Missing perception is reported unverified.
+
+Before a new experiment, name the unresolved technical claim, its owning slice,
+the retained evidence already considered, and the bounded result that would change
+the next implementation decision. Stop when those inputs cannot resolve the claim;
+keep the limitation explicit and continue independent primitive work. A failed
+measurement alone does not justify another model, detector or tuning trial.
 
 If a new acoustic mark is genuinely necessary, reuse the existing interactive
 workflow: meaningful original context, a clearly identified word/occurrence,

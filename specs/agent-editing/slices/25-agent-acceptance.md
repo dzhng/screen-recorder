@@ -39,8 +39,12 @@ presentation discretion must be stated in the brief.
 
 Reuse accepted media identities and per-feature listening evidence. Do not rerun
 every audition or regenerate/tune an accepted ambience asset for this fixture.
-Changed integrated output requires only the relevant new verification; unchanged
-numerical parity does not manufacture a new listening or physical verdict.
+The new gate checks that the external caller can compose and deliver the requested
+effects through public operations. Grade each checkpoint against the brief's
+declared inputs and protected content; useful primitives do not depend on matching
+the developer's preferred sequence of calls or style. Changed integrated output
+requires only the relevant new verification; unchanged numerical parity does not
+manufacture a new listening or physical verdict.
 
 Create this planned probe in this slice:
 

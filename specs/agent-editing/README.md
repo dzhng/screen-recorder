@@ -47,7 +47,7 @@ are ready. Acceptance dependencies do not prohibit isolated preparation.
 
 | Remaining owner | Next permitted work | Claim that remains open |
 | --- | --- | --- |
-| [12 / 12b](slices/12-speech-evidence.md) | Current baseline parity; bounded evidence-quality characterization; alternate adoption only if justified | Broader acoustic coverage/timing, held-out quality and any alternate recipe |
+| [12 / 12b](slices/12-speech-evidence.md) | Reuse completed baseline parity; investigate only a named remaining evidence-quality question; alternate adoption only if justified | Broader acoustic coverage/timing, held-out quality and any alternate recipe |
 | [20 / 21](slices/20-camera-reproduction.md) | Exhaust the retained four-minute take; isolated public camera selection, lifecycle and source/project integration | One-frame physical sync, live interruption/pause/shutdown and stop completion |
 | [23](slices/23-cutover.md) | Remaining matched consumer ports and preservation checks | Installed switching and obsolete-owner removal after their actual prerequisites |
 | [24 / 25](slices/24-scale.md) | [Source-cardinality attribution](slices/24z-source-cardinality.md) with a separately pinned runtime, remaining dimensions and the [prepared caller fixture brief](assets/25-fixture-brief/README.md) | Contended timing is not an isolated result; final budgets and installed caller acceptance remain open |
@@ -84,12 +84,12 @@ blocker for unrelated primitive implementation.
 
 ## Outcome and boundaries
 
-The toolkit enables an external agent to act on a user's screen/webcam editing
-request using several takes and imported footage: remove mistakes, audible fillers and accidental word
-repetitions; slow rushed passages; insert or overlap footage; replace video while
-keeping sound or vice versa; add music, text, captions and keyframed zooms; generate
-replacement words from selected local reference audio; verify and export a local
-video and portable editable project at requested dimensions. Optional ordered
+The toolkit supplies recording, evidence, composition and media-processing
+primitives for an external agent acting on a user's request. The caller selects
+source occurrences and exact ranges, submits cuts or retiming, inserts or overlaps
+footage, replaces either media plane, authors music/text/captions/keyframes, and
+requests local speech generation, preview and export. Deciding that a filler,
+repetition or passage should change belongs entirely to that caller. Optional ordered
 audio/video processing supports clips, tracks, nested groups and final output,
 including verified local noise reduction, bypass, windows and supported animation.
 Parent stacks process combined results; no inherited settings or member overrides.

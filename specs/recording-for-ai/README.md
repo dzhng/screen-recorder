@@ -1,111 +1,55 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-10-01.
-Everything the personal release needs is implemented and has run end to end on this person's own
-narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
-What remains is acceptance that needs either a person at the Mac or a physical condition a check
-cannot stage — named under the pickup below. The checklist separates verified internal behavior
-from full personal-release acceptance.
+Status: original recording implementation and release evidence retained; personal-release
+acceptance remains partial. Last updated: 2026-10-01. The checklist distinguishes
+verified child contracts from unfinished acceptance; the owning slices state the
+actual evidence and limits.
 
 ## Next Agent Prompt
 
-The active expansion is the [agent-operated toolkit](../agent-editing/README.md).
-Its [live handoff](../agent-editing/README.md#next-agent-prompt) owns the current
-pickup: preserve the selected best-effort speech pipeline through public parity,
-prepare independent integration/preservation work, and exhaust the retained
-four-minute camera take. The toolkit provides only primitives; the external
-caller makes every editorial decision. The consumer skill is not a repository
-development workflow.
+The active implementation queue is the
+[agent-operated toolkit handoff](../agent-editing/README.md#next-agent-prompt).
+Follow that queue and its constraints. This recording spec preserves original
+release contracts and evidence; it does not create a second implementation queue
+or a standing request for human tests.
 
-[Controlled camera input](../agent-editing/assets/21c-selected-camera-input/README.md) and
-[closed source publication](../agent-editing/assets/21b-camera-source-publication/README.md)
-verify internal native lifecycle scope. They change no original physical
-synchronization, live shutdown or installed-app acceptance claim.
+The toolkit provides only primitives. The external caller makes every editorial
+decision, and the consumer skill describes that caller's workflow. Repository
+development verifies explicit fixture operations, not a personal cleanup project.
+Reuse saved marks, accepted listening results and the retained four-minute take
+under the active [verification rules](../agent-editing/verification.md#implementation-readiness-and-acceptance).
+Missing acoustic, physical or installed-release evidence stays unverified.
 
-[Actual selected-source speech parity](../agent-editing/assets/12b-public-parity/actual-inference/README.md)
-now preserves the chosen Parakeet pipeline through current native inference and
-public source processing. Its declared scratch readiness and bounded fixture do
-not upgrade original acoustic timing, listening or installed-release acceptance.
+## Original release acceptance
 
-This recording spec retains original release evidence and unfinished acceptance.
-It does not create another queue for the new editor. Reuse the saved human marks,
-accepted listening results and physical take; do not solicit personal keep/remove
-intent, repeat accepted auditions or prescribe a replacement recording as routine
-verification. Known timing, physical/lifecycle and resource limits remain reported;
-the updated plan does not turn them into passes. The instructions below apply only
-when specifically continuing original recording-release acceptance.
+When specifically continuing this release, read its [contracts](contracts.md),
+[architecture](architecture.md) and [verification](verification.md). Inspect the
+owning slice's current evidence before choosing the next check:
 
-You are implementing the personal Mac release. Read this spec, its
-[contracts](contracts.md), [architecture](architecture.md), and
-[verification](verification.md), then resume from the current pickup below.
-Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
-technical OPEN entries through concrete contracts or named gated slices.
+- [Capture and separate audio](slices/01-native-capture.md),
+  [recovery](slices/02-interruption-recovery.md) and
+  [geometry](slices/03-cursor-geometry.md) own actual-input and physical claims.
+- [Native controls](slices/07-menu-bar-controls.md),
+  [trails](slices/10-cursor-trails.md) and
+  [index](slices/11-screenshot-selection.md) own their interaction/visual claims.
+- [Inspection](slices/09-frame-inspection.md) and
+  [edited media](slices/13-edited-media.md) own their delivered-media and listening claims.
+- [CLI/MCP](slices/12-cli-mcp-operations.md) owns the actual external-consumer journey.
+- [Export publication](slices/14d-export-publication.md) and
+  [processed packages](slices/14d3-processed-package.md) own export and relocated inspection.
+- [Personal release](slices/15-personal-release.md) owns installed acceptance.
 
-Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
-and media execution in Swift, and shared library/edit/timeline behavior in one
-TypeScript core. CLI and MCP expose the same full operation registry. The future
-editing UI calls the CLI.
+These categories retain the original acceptance contracts; they are not
+instructions to repeat every test or solicit another recording. First reuse
+applicable evidence from the active plan; evidence transfers only when its inputs
+and claim match. Any necessary new
+human task must identify the missing fact and explain why existing material
+cannot establish it. Open release claims do not stop independent toolkit work.
 
-Work through dependency-ready slices, committing focused green checkpoints. Do not
-invent a remote, push target or distribution step. Collect real native, speech and
-client evidence: a protocol mock is not an image-visibility result, and an untested
-ASR engine is not a solution to removing fillers. If a feasibility gate fails,
-reslice its bounded alternative; do not quietly reduce scope. Continue independent
-work while an actual user recording or permission is pending, but do not call that
-gate passed.
-
-Each slice's Status line is the one home for what it verified, its evidence and
-what remains open. Before ending a pass, update the owning Status lines and the
-checklist box, then replace the pickup below.
-
-Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
-2026-09-19 found two things the contract named that the code did not do, and both were then
-built: a relocated package now renders and plays its own edit, and a key combination macOS itself
-holds is refused rather than silently taken. What cannot be detected at all — another
-application's private hot-key registration — is [recorded](choices.md) with its measurement.
-Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
-agent that is not this one.
-
-The installed app includes the requested Downloads default and the retained-index
-remount fix. The person's current AI package exported successfully; evidence and the
-remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
-Readable root documents and their verification are tracked in
-[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
-selective inspection after the initial transcript read.
-Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
-records the build and visual verification. Remaining pickup is unchanged.
-
-[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
-boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
-outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
-it fixed three real defects, the worst of which let a cut of one word silently delete the next.
-
-Needing this person rather than a check:
-
-- **System audio:** a take with something playing, which a check must not make this Mac do,
-  and with it the A/V timing measurement that needs both tracks against a known event
-  ([01](slices/01-native-capture.md)).
-- **A region take:** proving where one landed means recording whatever is on the screen, and a
-  fixture launch is refused every source but its own window precisely so an automated run cannot
-  ([01](slices/01-native-capture.md), [03](slices/03-cursor-geometry.md)).
-- **The menu bar and the pointer:** clicking the status menu, dragging the floating controls, and
-  making the deliberate gestures the trail and index gates are about — computer-use reaches none
-  of them on this Mac ([07](slices/07-menu-bar-controls.md),
-  [10](slices/10-cursor-trails.md), [11](slices/11-screenshot-selection.md)).
-- **Ears:** an audio excerpt, a recovered tail (`bun run lab:recovery --microphone` writes the
-  clips), and a cut inside a rendered export
-  ([09](slices/09-frame-inspection.md), [02](slices/02-interruption-recovery.md),
-  [13](slices/13-edited-media.md)).
-- **An agent that is not this one:** the real-narration journey through CLI and MCP
-  ([12](slices/12-cli-mcp-operations.md)).
-
-The installed copy was rebuilt and replaced on 2026-09-26. `bun run install:personal`
-replaces it on subsequent changes and refuses while the app is running.
-
-Priority order: the two recorded capability decisions, then whatever the person answers above.
-
-The original [verification gates](verification.md) remain requirements. Fixtures
-and unit checks do not close the full read → edit → inspect → export journey.
+The installed copy remains a separately verified artifact. A source change does
+not imply installation, and this handoff does not authorize an installed-app switch.
+The original [verification gates](verification.md) remain requirements; a plan
+rewrite cannot convert an unmeasured claim or failed score into a pass.
 
 - [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
 - [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
