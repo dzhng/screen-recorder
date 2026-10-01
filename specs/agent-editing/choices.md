@@ -6216,3 +6216,25 @@ source inspection still parses and validates physical detail. Missing rows retai
 the original error. This deliberately removes incidental parser failures from
 presence-only checks; it does not claim parity for damaged catalogs or prove that
 an underlying file exists.
+
+
+## Composition append runs
+
+### Validate an append run while preserving every earlier refusal
+
+- **When:** 24z6 composition correction.
+- **Choice:** When a caller creates tracks and places clips in one batch, build
+  that append-only run and validate its complete candidate once. Keep the same
+  identities and each operation's receipt. A clip referring to a track that does
+  not exist yet stays on the ordinary scalar path: a later track creation must
+  not turn an invalid earlier operation into an accepted batch. Stateful noise
+  processing also keeps its ordinary path because membership can alter receipts.
+- **Gap:** The plan required atomic batches and bounded work but did not prescribe
+  which independent authored operations may share full composition validation.
+- **Reach:** The existing editor and prefix-error search remain the only owners;
+  no API, cache or alternate validator is added. Tests compare complete receipts
+  and errors against ordinary execution. The scratch internal-call observer is
+  retained as diagnostic evidence, not a permanent implementation-coupled test.
+- **Verdict:** Sound; successful append validation avoids quadratic prefix visits while first-error and
+  processing semantics remain intact. General performance budgets remain open.
+- **Confidence:** High.

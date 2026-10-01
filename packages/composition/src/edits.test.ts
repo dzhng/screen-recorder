@@ -2910,3 +2910,186 @@ test("move batching compares and preserves fractional structural intervals", () 
     },
   });
 });
+
+test("alternating track and clip appends preserve complete scalar receipts and dependent edits", () => {
+  const operations = [
+    ...setup,
+    { operation: "remove", clipIds: [{ label: "video" }], scope: "selected", ripple: "none" },
+  ];
+  const batched = applyBatch(input, operations, context);
+  const scalar = applyBatch(
+    input,
+    operations.flatMap((operation) => [operation, { operation: "canvas.set", canvas: {} }]),
+    context,
+  );
+  expect(batched).toEqual({
+    ...scalar,
+    normalized: scalar.normalized
+      .filter((_, index) => index % 2 === 0)
+      .map((entry, operationIndex) => ({ ...entry, operationIndex })),
+  });
+  expect(batched.normalized[1]!.changes[0]).toMatchObject({
+    kind: "clip",
+    id: batched.labels.video,
+    value: { trackId: batched.labels.picture, assetId: "source", streamId: "v" },
+  });
+  expect(batched.document.clips.map((clip) => clip.id)).toEqual([batched.labels.audio]);
+});
+
+test.each([false, true])(
+  "later tracks cannot repair an invalid placement prefix (prior track=%s)",
+  (priorTrack) => {
+    const operations = [
+      ...(priorTrack ? [{ operation: "track.add", track: { kind: "audio", order: 0 } }] : []),
+      {
+        operation: "place",
+        clip: {
+          trackId: `track:transaction:${priorTrack ? 2 : 1}`,
+          assetId: "source",
+          streamId: "a",
+          source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 100000 } },
+        },
+      },
+      { operation: "track.add", track: { kind: "audio", order: priorTrack ? 1 : 0 } },
+    ];
+    const failure = (operations: unknown[]) => {
+      try {
+        applyBatch(input, operations, context);
+        expect.fail("invalid prefix accepted");
+      } catch (error) {
+        expect(error).toBeInstanceOf(CompositionError);
+        return error as CompositionError;
+      }
+    };
+    const batched = failure(operations);
+    const scalar = failure(
+      operations.flatMap((operation) => [operation, { operation: "canvas.set", canvas: {} }]),
+    );
+    expect({ code: batched.code, message: batched.message, details: batched.details }).toEqual({
+      code: scalar.code,
+      message: scalar.message,
+      details: {
+        ...scalar.details,
+        operationIndex: Math.floor(Number(scalar.details.operationIndex) / 2),
+      },
+    });
+    expect(batched.details).toEqual({
+      operationIndex: priorTrack ? 1 : 0,
+      cause: "INVALID_COMPOSITION",
+    });
+    expect(batched.message).toBe(`Unknown track: track:transaction:${priorTrack ? 2 : 1}`);
+  },
+);
+
+test.each([
+  { target: { kind: "output" }, processor: { type: "gain", gain: 0.5 } },
+  {
+    target: { kind: "group", id: "group" },
+    processor: { type: "gain", gain: 2 },
+    window: { kind: "project", range: { startUs: 0, endUs: 200000 } },
+  },
+  { target: { kind: "track", id: "existing" }, processor: { type: "rnnoise" } },
+])(
+  "mixed appends preserve processing receipts under $target.kind / $processor.type",
+  ({ target, ...step }) => {
+    const document = applyBatch(
+      {
+        ...input,
+        groups: [{ id: "group", kind: "audio", order: 0 }],
+        tracks: [{ id: "existing", kind: "audio", order: 0, parentId: "group" }],
+      },
+      [{ operation: "processing.set", target, steps: [step] }],
+      { ...context, namespace: "processing" },
+    ).document;
+    const placed = {
+      assetId: "source",
+      streamId: "a",
+      source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 100000 } },
+    };
+    const operations = [
+      {
+        operation: "track.add",
+        label: "new",
+        track: { kind: "audio", order: 1, parentId: "group" },
+      },
+      { operation: "track.add", track: { kind: "audio", order: 2, parentId: "group" } },
+      { operation: "place", clip: { ...placed, trackId: { label: "new" } } },
+      { operation: "place", clip: { ...placed, trackId: "existing" } },
+      { operation: "place", clip: { ...placed, trackId: "track:transaction:1" } },
+    ];
+    const scalar = applyBatch(
+      document,
+      operations.flatMap((operation) => [operation, { operation: "canvas.set", canvas: {} }]),
+      context,
+    );
+    expect(applyBatch(document, operations, context)).toEqual({
+      ...scalar,
+      normalized: scalar.normalized
+        .filter((_, index) => index % 2 === 0)
+        .map((entry, operationIndex) => ({ ...entry, operationIndex })),
+    });
+  },
+);
+
+test.each([
+  { name: "unknown parent", track: { kind: "audio", order: 0, parentId: "missing" }, index: 0 },
+  {
+    name: "parent media mismatch",
+    track: { kind: "audio", order: 0, parentId: "video-group" },
+    index: 0,
+  },
+  { name: "duplicate video sibling order", track: { kind: "video", order: 0 }, index: 1 },
+  {
+    name: "missing source stream",
+    track: { kind: "audio", order: 0 },
+    streamId: "missing",
+    index: 1,
+  },
+  { name: "source media mismatch", track: { kind: "audio", order: 0 }, streamId: "v", index: 1 },
+])("mixed append $name precedes a later label error", ({ name, track, streamId, index }) => {
+  const document = { ...input, groups: [{ id: "video-group", kind: "video", order: 1 }] };
+  const operations = [
+    { operation: "track.add", label: "first", track },
+    ...(name === "duplicate video sibling order"
+      ? [{ operation: "track.add", track }]
+      : streamId
+        ? [
+            {
+              operation: "place",
+              clip: {
+                trackId: { label: "first" },
+                assetId: "source",
+                streamId,
+                source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+                placement: { kind: "project", range: { startUs: 0, endUs: 100000 } },
+              },
+            },
+          ]
+        : []),
+    { operation: "track.add", label: "first", track: { kind: "audio", order: 3 } },
+  ];
+  const failure = (operations: unknown[]) => {
+    try {
+      applyBatch(document, operations, context);
+      expect.fail("invalid prefix accepted");
+    } catch (error) {
+      expect(error).toBeInstanceOf(CompositionError);
+      return error as CompositionError;
+    }
+  };
+  const batched = failure(operations);
+  const scalar = failure(
+    operations.flatMap((operation) => [operation, { operation: "canvas.set", canvas: {} }]),
+  );
+  expect({ code: batched.code, message: batched.message, details: batched.details }).toEqual({
+    code: scalar.code,
+    message: scalar.message,
+    details: {
+      ...scalar.details,
+      operationIndex: Math.floor(Number(scalar.details.operationIndex) / 2),
+    },
+  });
+  expect(batched.details).toEqual({ operationIndex: index, cause: "INVALID_COMPOSITION" });
+});

@@ -1,0 +1,116 @@
+{
+  "baseCommit": "0a3c32f678a22e4db11c9cdf73657bf7fb71e8f1",
+  "status": "Scoped append work and scalar parity pass; full original project-evidence deadlines pass",
+  "work": {
+    "observer": "Scratch wrapper around compositionSchema.safeParse, through production applyBatch; diagnostic only, no production hook or permanent internal-call test",
+    "red": [
+      {
+        "size": 3,
+        "calls": 7,
+        "tracks": 12,
+        "clips": 9,
+        "elapsedMs": 6.0949170000000095,
+        "completeReceiptSHA256": "64e5d3bc933f868490bfcc79c07ae5998bb43955a30a855e2fb7648577d57892",
+        "bounded": false
+      },
+      {
+        "size": 70,
+        "calls": 141,
+        "tracks": 4970,
+        "clips": 4900,
+        "elapsedMs": 37.330208,
+        "completeReceiptSHA256": "15da8886853cef891e61633f714d64fd4af22a95dfa2b5efb406e3f02bdb7574",
+        "bounded": false
+      },
+      {
+        "size": 140,
+        "calls": 281,
+        "tracks": 19740,
+        "clips": 19600,
+        "elapsedMs": 114.89412499999999,
+        "completeReceiptSHA256": "eb51c036588635337bb6b208a4c5f5718ddd97f58c9d3a81dec7adcec6dd839c",
+        "bounded": false
+      }
+    ],
+    "green": [
+      {
+        "size": 3,
+        "calls": 2,
+        "tracks": 3,
+        "clips": 3,
+        "elapsedMs": 15.084833000000003,
+        "completeReceiptSHA256": "64e5d3bc933f868490bfcc79c07ae5998bb43955a30a855e2fb7648577d57892",
+        "bounded": true
+      },
+      {
+        "size": 70,
+        "calls": 2,
+        "tracks": 70,
+        "clips": 70,
+        "elapsedMs": 7.322499999999991,
+        "completeReceiptSHA256": "15da8886853cef891e61633f714d64fd4af22a95dfa2b5efb406e3f02bdb7574",
+        "bounded": true
+      },
+      {
+        "size": 140,
+        "calls": 2,
+        "tracks": 140,
+        "clips": 140,
+        "elapsedMs": 8.695583,
+        "completeReceiptSHA256": "eb51c036588635337bb6b208a4c5f5718ddd97f58c9d3a81dec7adcec6dd839c",
+        "bounded": true
+      }
+    ],
+    "allCompleteReceiptDigestsEqual": true,
+    "elapsedMs": "Descriptive single samples only; not a benchmark/cohort or causality claim"
+  },
+  "tests": {
+    "composition": {
+      "exitCode": 0,
+      "files": 23,
+      "passed": 272
+    },
+    "projectEvidence": {
+      "exitCode": 0,
+      "passed": 34,
+      "originalDeadlineMs": 5000,
+      "previousDeadlineFailuresNowPass": 3,
+      "bodiesLimitsAndDeadlinesUnchanged": true
+    },
+    "projectStore": {
+      "exitCode": 0,
+      "passed": 13
+    },
+    "futureTrackGuardFalsification": {
+      "exitCode": 1,
+      "failed": 2,
+      "reason": "Removing both literal-track guards accepts the invalid placement prefix; restored guards pass in the full suite"
+    },
+    "finalProducerCombined": {
+      "exitCode": 0,
+      "files": 25,
+      "passed": 319,
+      "log": "checks/final-affected.log",
+      "reasonForRepeat": "Final receipt serialization preserves original field insertion order; affected suites rerun after that edit. Earlier pre-order checks remain banked."
+    }
+  },
+  "checks": {
+    "compositionBuild": 0,
+    "compositionTypes": 0,
+    "coreBuild": 0,
+    "coreTypes": 0,
+    "serviceBuild": 0,
+    "lint": 0,
+    "format": 0,
+    "diffCheck": 0
+  },
+  "review": "Root shape/diff/docs and independent read-only subagent review. No CLI review retry, capture, playback, model preparation/inference, native worker change or installed switch.",
+  "scope": "No new API/cache/limit/deadline. Stateful processing scalar; raw future track ID remains scalar. Functional fixtures and pure work-count observer only. Does not establish general scale, source-cardinality p95, timeout cause, physical synchronization or full release acceptance.",
+  "archive": {
+    "file": "evidence.tar.gz",
+    "members": 148,
+    "bytes": 289125,
+    "sha256": "8b99d1459806536356327ec63700dbb7f5e4a191e38c62519a6e10fec3c9fccb",
+    "allMembersVerified": true
+  }
+}

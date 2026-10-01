@@ -22,8 +22,8 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: trace the remaining project-evidence deadline phases
-before selecting another bounded owner correction.**
+**Next implementation pickup: quantify repeated selection resolution in the
+scene-enabled source-event dependency path before selecting an owner correction.**
 The [fresh source-caller fixture](slices/25b-fresh-caller.md) has executed the full
 brief, including genuine generation, delivery, history and empty-recipient package
 recovery with donor/model storage unavailable. Its producer is preserved separately
@@ -38,7 +38,11 @@ large-recipe deadline now passes unchanged. The [24z5 service presence correctio
 passes the full merged service suite, original diagnostic deadline and public WAV
 lifecycle. Both earlier audio-preservation deadline failures now have later passing
 current checks.
-Existing project-evidence deadlines and general scale targets remain unresolved.
+The [24z6 composition append correction](slices/24z6-composition-appends.md)
+preserves complete scalar receipts and first-error behavior. Full composition,
+project-store and project-evidence suites pass with original deadlines; the three
+previous project-evidence timeouts now have later passing checks. General scale
+and source-cardinality latency targets remain unresolved.
 
 [09c audio export](slices/09c-audio-only-export.md) and
 [23i source service process](slices/23i-service-process-parity.md) retain their
@@ -333,11 +337,12 @@ implementation readiness from acceptance prerequisites.
 - [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
 - [ ] [24z — Source-selection cardinality](slices/24z-source-cardinality.md)
 - [x] [24z1 — Fresh source metadata batches](slices/24z1-source-metadata-resolution.md) — scoped functional/work proof; latency remains under 24z
-- [x] [24z2 — Unique prepared-input retention and one admission composition](slices/24z2-prepared-admission.md) — bounded work/lifecycle; existing deadline remains red
+- [x] [24z2 — Unique prepared-input retention and one admission composition](slices/24z2-prepared-admission.md) — bounded work/lifecycle; later 24z4 passes the original deadline
 - [x] [24z3 — Canonical native PCM admission capacity](slices/24z3-prepared-capacity.md) — supported queue/refused next frame; no large output claim
 - [x] [25a — Registered voice readiness](slices/25a-model-readiness.md) — isolated public preparation/reopen; generation and full caller acceptance separate
 - [x] [24z4 — Per-window resource bindings](slices/24z4-prepared-bindings.md) — full merged prepared suite and public WAV; original large deadline passes
 - [x] [24z5 — Asset presence at service boundaries](slices/24z5-service-asset-presence.md) — full merged service suite/public WAV; original diagnostic deadline passes
+- [x] [24z6 — Mixed composition append runs](slices/24z6-composition-appends.md) — scalar receipts/errors and bounded work; full project-evidence deadlines pass
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 

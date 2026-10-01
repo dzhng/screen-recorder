@@ -376,6 +376,18 @@ export function applyBatch(
         anchor.kind === "project" ? anchor : { ...anchor, clipId: resolve(anchor.clipId, "clip") },
     };
   };
+  const addTrack = (
+    operation: Extract<z.infer<typeof editOperationSchema>, { operation: "track.add" }>,
+  ) => {
+    const id = allocate("track");
+    bind(operation.label, "track", id);
+    const { parentId, ...track } = operation.track;
+    return {
+      ...track,
+      id,
+      ...(parentId === undefined ? {} : { parentId: resolve(parentId, "group") }),
+    };
+  };
   const processingStack = (
     operation: Extract<z.infer<typeof editOperationSchema>, { operation: "processing.set" }>,
   ) => {
@@ -654,22 +666,41 @@ export function applyBatch(
           continue;
         }
       }
-      // Project appends cannot repair an invalid earlier prefix or change existing stateless
-      // stacks. Stateful membership normalization can change receipts, so it remains scalar.
+      // Appends preserve stateless receipts. A place naming an unknown literal track
+      // stays scalar: a later track addition could repair that invalid prefix.
       if (
         !hasStatefulProcessing(before) &&
-        authored.operation === "place" &&
-        authored.clip.placement.kind === "project"
+        (authored.operation === "track.add" ||
+          (authored.operation === "place" &&
+            authored.clip.placement.kind === "project" &&
+            (typeof authored.clip.trackId !== "string" ||
+              before.tracks.some((track) => track.id === authored.clip.trackId))))
       ) {
         const start = operationIndex;
-        const appended: ReturnType<typeof placeClip>[] = [];
+        const appended: (
+          | { kind: "track"; value: ReturnType<typeof addTrack> }
+          | { kind: "clip"; value: ReturnType<typeof placeClip> }
+        )[] = [];
+        const knownTracks = new Set(before.tracks.map((track) => track.id));
         let constructionFailure: { index: number; error: unknown } | undefined;
         let end = start;
         for (; end < parsed.data.length; end++) {
           const item = parsed.data[end]!;
-          if (item.operation !== "place" || item.clip.placement.kind !== "project") break;
+          if (
+            item.operation !== "track.add" &&
+            (item.operation !== "place" ||
+              item.clip.placement.kind !== "project" ||
+              (typeof item.clip.trackId === "string" && !knownTracks.has(item.clip.trackId)))
+          )
+            break;
           try {
-            appended.push(placeClip(item));
+            if (item.operation === "track.add") {
+              const track = addTrack(item);
+              appended.push({ kind: "track", value: track });
+              knownTracks.add(track.id);
+            } else {
+              appended.push({ kind: "clip", value: placeClip(item) });
+            }
           } catch (error) {
             constructionFailure = { index: end, error };
             break;
@@ -677,7 +708,20 @@ export function applyBatch(
         }
         if (appended.length) {
           const resolved = resolveIndependent(
-            (count) => ({ ...before, clips: [...before.clips, ...appended.slice(0, count)] }),
+            (count) => {
+              const prefix = appended.slice(0, count);
+              return {
+                ...before,
+                tracks: [
+                  ...before.tracks,
+                  ...prefix.flatMap((item) => (item.kind === "track" ? [item.value] : [])),
+                ],
+                clips: [
+                  ...before.clips,
+                  ...prefix.flatMap((item) => (item.kind === "clip" ? [item.value] : [])),
+                ],
+              };
+            },
             appended.length,
             start,
           );
@@ -692,13 +736,24 @@ export function applyBatch(
           operationIndex = constructionFailure.index;
           throw constructionFailure.error;
         }
-        // Capture the frozen run result before a later operation can replace/remove these clips.
+        // Capture the validated run before subsequent operations replace/remove its additions.
+        let trackIndex = before.tracks.length,
+          clipIndex = before.clips.length;
         for (let offset = 0; offset < appended.length; offset++) {
-          const clip = model.document.clips[before.clips.length + offset]!;
-          normalized.push({
-            operationIndex: start + offset,
-            changes: [{ kind: "clip", id: clip.id, value: clip }],
-          });
+          const kind = appended[offset]!.kind;
+          const change: EditChange =
+            kind === "track"
+              ? {
+                  kind,
+                  id: model.document.tracks[trackIndex]!.id,
+                  value: model.document.tracks[trackIndex++]!,
+                }
+              : {
+                  kind,
+                  id: model.document.clips[clipIndex]!.id,
+                  value: model.document.clips[clipIndex++]!,
+                };
+          normalized.push({ operationIndex: start + offset, changes: [change] });
         }
         operationIndex = end - 1;
         continue;
@@ -1008,20 +1063,7 @@ export function applyBatch(
           break;
         }
         case "track.add": {
-          const id = allocate("track");
-          bind(operation.label, "track", id);
-          const { parentId, ...track } = operation.track;
-          next = {
-            ...before,
-            tracks: [
-              ...before.tracks,
-              {
-                ...track,
-                id,
-                ...(parentId === undefined ? {} : { parentId: resolve(parentId, "group") }),
-              },
-            ],
-          };
+          next = { ...before, tracks: [...before.tracks, addTrack(operation)] };
           break;
         }
         case "track.remove": {
