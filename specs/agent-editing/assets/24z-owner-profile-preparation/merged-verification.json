@@ -64,5 +64,21 @@
     "actualProjectReadAttempts": 0,
     "actualServiceStarts": 0,
     "laneReleased": true
-  }
+  },
+  "additionalCoordinatedWindowChecks": [
+    {
+      "observedAtUTC": "2026-10-01T10:19:33.382607+00:00",
+      "status": "BUSY; dispatch deferred before service start",
+      "reason": "Unrelated simulator381.9% CPU, compilers94.9%/62.9%, node85.2%, testing browser76.7% and renderer73.9%; own implementation lanes confirmed terminal and held briefly.",
+      "rawInventory": {
+        "path": "/tmp/screenrec-24z-window-20261001T1024-processes.txt",
+        "sha256": "0de2e0c8980d5dc69daed61cfa80bfcd485f86078627918ce89e2750aece7a2e",
+        "includedInRepository": false
+      },
+      "actualProfileAttempts": 0,
+      "actualProjectReadAttempts": 0,
+      "actualServiceStarts": 0,
+      "disposition": "Both lane holds released immediately. No polling, timer, native call, seed query, pin/build repeat or profile retry launched."
+    }
+  ]
 }
