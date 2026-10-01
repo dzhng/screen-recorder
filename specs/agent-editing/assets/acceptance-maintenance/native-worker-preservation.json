@@ -1,0 +1,21 @@
+{
+  "scope": "Byte-identical offline preservation; no source replacement, build, execution or installed switching",
+  "files": [
+    {
+      "scope": "current frozen media worker",
+      "source": "/tmp/screenrec-09c-native-presented-worker",
+      "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928/screenrec-native",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+      "executed": false
+    },
+    {
+      "scope": "retained installed recording worker",
+      "source": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native",
+      "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b/screenrec-native",
+      "bytes": 11261136,
+      "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b",
+      "executed": false
+    }
+  ]
+}

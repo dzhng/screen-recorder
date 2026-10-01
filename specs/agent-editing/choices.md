@@ -6375,3 +6375,25 @@ owns pagination and the partial-search negative control. Root review accepts the
 existing-owner boundaries: compare distinct public representations in the harness,
 keep real model readiness separate from frozen inference output, and retain absent
 roles as source facts. No product compatibility layer or editorial policy follows.
+
+The [23l ledger](assets/23l-paired-edited-frames/choices.md) owns the declared 60 fps
+fixture and independently qualified sample references. Independent review resolved
+the missing old-selector pixel oracle: the reference set now covers both selectors,
+without forcing their different selections to agree or inventing a color tolerance.
+
+## Preserve pinned workers outside temporary storage
+
+- **When:** paired-media pickup after23k integration.
+- **Choice:** keep a byte-identical private copy of each currently pinned recording
+  and project worker in a directory keyed by its content hash. If temporary files
+  disappear, the actual accepted bytes remain available without a rebuild or
+  substitute executable. Original paths and installed files are unchanged.
+- **Gap:** current worker authority names a temporary path; a previous unrelated
+  cohort already lost its different frozen worker. The plan did not specify where
+  offline recovery copies belong.
+- **Reach:** only verification artifacts are added, outside Git; no runtime
+  selection, installation or execution changes. Missing older cohort bytes remain
+  missing, and these copies do not acquire that cohort's timing verdict.
+- **Verdict:** Sound; durable exact bytes preserve the user's frozen-worker rule
+  without modifying or replacing either original.
+- **Confidence:** High.

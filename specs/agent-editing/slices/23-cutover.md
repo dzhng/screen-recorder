@@ -4,7 +4,9 @@ Status: isolated consumer preservation, source lifetime and
 [23h headless native library consumption](23h-native-library-consumption.md) are merged-verified.
 The [23i app-owned process candidate](23i-service-process-parity.md) is source-verified.
 [23j](23j-state-preservation.md) verifies paired public edit/history guarantees and
-exact authored source intervals; the remaining preservation rows stay separate.
+exact authored source intervals. [23k](23k-source-consumer-bridge.md) verifies
+actual metadata paging/dispatch and separate historical readiness consumption
+through composed native controllers; remaining preservation rows stay separate.
 Concrete presentation and installed release acceptance remain open.
 Installed switching and obsolete-owner deletion have not started.
 The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md) identifies the remaining saved-outcome mappings and actual service/native-consumer cases without adding another UI or repeating accepted media cohorts.

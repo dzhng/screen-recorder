@@ -22,11 +22,12 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: paired preservation through existing public consumers.** The
-edited-frame plan is being scoped from the saved [23j cuts](slices/23j-state-preservation.md).
+**Next pickup: [23l paired edited frames](slices/23l-paired-edited-frames.md).**
+Execute the saved cuts through both public consumers, independently qualify sample
+timing, and validate every selected picture against its matched raw reference.
 [23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
-follows genuine isolated Parakeet preparation through the ordinary model owner;
-frozen ASR output alone cannot establish readiness. Keep same-request frame
+is running in parallel after genuine isolated Parakeet preparation through the
+ordinary model owner; frozen ASR output alone cannot establish readiness. Keep same-request frame
 selection distinct from matched-source picture comparisons. Authored freeze,
 repeat and empty intervals have no legacy cut/trim counterpart.
 
@@ -74,6 +75,9 @@ No new capture, audible playback, native windows, Claude run, configured CLI-rev
 retry, frozen-worker replacement or installed-app switch is authorized. Preserve
 installed span transactions until explicit cutover; capture publishes source facts
 and creates no project. The caller authors canvas, tracks, placements and links.
+[Offline worker preservation](assets/acceptance-maintenance/native-worker-preservation.json)
+retains verified copies outside temporary storage; original workers remain unchanged.
+These copies were not executed and supply no missing historical timing authority.
 
 Any proposed human task must name the missing technical fact and explain why
 retained evidence cannot establish it. Missing evidence remains unverified;
@@ -271,6 +275,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
+- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — actual joins and independently qualified final support
 - [ ] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — genuine model readiness precedes frozen ingestion
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)

@@ -19,7 +19,8 @@ This reconciles the [preservation matrix](../../verification.md#preservation-mat
 The paired edit/history case is banked in [23j](../../slices/23j-state-preservation.md),
 and [23k](../../slices/23k-source-consumer-bridge.md) closes its scoped composed
 consumer proof. Do not repeat either for an unrecorded historical lifecycle claim.
-Next compare real edited joins and independently proven final sample support,
+Next execute [23l](../../slices/23l-paired-edited-frames.md) for real edited joins
+and independently proven final sample support,
 then [23m](../../slices/23m-paired-partial-words-and-absent-role.md) partial words and
 absent acquisition roles after genuine isolated model preparation. Inert historical
 consumption cannot establish PreviewWindow playback. Current menu/player wiring
