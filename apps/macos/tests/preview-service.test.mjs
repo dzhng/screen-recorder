@@ -5,6 +5,7 @@ import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
+import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 import { RevisionStore } from "@screenrec/core/library";
 import { page, journalRows } from "./fixtures/generated-capture.mjs";
 
@@ -137,7 +138,7 @@ import CryptoKit
         let owner = PreviewController(call: { try await host.call($0, $1) }, failure: { failures.append($0) })
         defer { owner.close() }
         let id = CommandLine.arguments[2]
-        owner.open(id)
+        owner.open(.recording(id))
         var item: AVPlayerItem?
         for _ in 0..<150 {
             owner.tick(); await pause()
@@ -181,21 +182,10 @@ import CryptoKit
 }
 `,
       );
-      const binary = join(home, "player-integration");
-      execFileSync(
-        "swiftc",
-        [
-          "-swift-version",
-          "6",
-          "-parse-as-library",
-          ...["PreviewController", "ServiceHost", "ServiceBundle", "NodeRuntime"].map((name) =>
-            join(root, "apps/macos/Sources/ScreenRecorder", name + ".swift"),
-          ),
-          swift,
-          "-o",
-          binary,
-        ],
-        { timeout: 40000 },
+      const binary = compileControlsCheck(
+        home,
+        ["PreviewController", "PreviewWindow", "ServiceHost", "ServiceBundle", "NodeRuntime"],
+        await readFile(swift, "utf8"),
       );
       safeToRemove = false;
       const result = await new Promise((resolve, reject) => {

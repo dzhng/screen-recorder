@@ -44,6 +44,12 @@ status/discovery failures within the existing native consumer. Its isolated
 verification preserves recording create/save-panel behavior; it does not switch
 the installed app or introduce a project-selection interface.
 
+[23e](23e-preview-consumer-parity.md) verifies explicit native preview targets and
+lease control behind the production presentation boundary. Controlled checks use
+retained receipts without windows or playback; the concrete presenter and existing
+player/service fixtures compile. Project selection and actual installed playback
+acceptance remain outside that checkpoint.
+
 [23f](23f-capture-source-lifetime.md) owns the remaining fresh captured-source
 deletion/verified working-file cleanup port, including unfinished acquisition
 borrowers and donor-free preservation. Native library menu cutover follows the

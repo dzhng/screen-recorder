@@ -1,65 +1,17 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readdirSync, rmSync } from "node:fs";
 import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { RevisionStore } from "@screenrec/core/library";
+import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 import { journalRows } from "./fixtures/generated-capture.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
-const sources = join(root, "apps/macos/Sources");
-
-/** Builds the real controls module and links the named app sources and a check against it. */
-function compile(scratch, appSources, check) {
-  const controls = join(sources, "ScreenRecorderControls");
-  execFileSync(
-    "swiftc",
-    [
-      "-emit-library",
-      "-emit-module",
-      "-module-name",
-      "ScreenRecorderControls",
-      "-emit-module-path",
-      join(scratch, "ScreenRecorderControls.swiftmodule"),
-      "-o",
-      join(scratch, "libScreenRecorderControls.dylib"),
-      ...readdirSync(controls)
-        .filter((name) => name.endsWith(".swift"))
-        .map((name) => join(controls, name)),
-    ],
-    { timeout: 60_000, stdio: "pipe" },
-  );
-  const main = join(scratch, "Check.swift");
-  writeFileSync(main, check);
-  const executable = join(scratch, "check");
-  execFileSync(
-    "swiftc",
-    [
-      "-swift-version",
-      "6",
-      "-parse-as-library",
-      "-I",
-      scratch,
-      "-L",
-      scratch,
-      "-lScreenRecorderControls",
-      "-Xlinker",
-      "-rpath",
-      "-Xlinker",
-      scratch,
-      ...appSources.map((name) => join(sources, "ScreenRecorder", `${name}.swift`)),
-      main,
-      "-o",
-      executable,
-    ],
-    { timeout: 60_000, stdio: "pipe" },
-  );
-  return executable;
-}
 
 test(
   "native exports pin the revision, keep one identity through lost replies and rediscover pages",
@@ -67,7 +19,7 @@ test(
   () => {
     const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-controls-"));
     try {
-      const executable = compile(
+      const executable = compileControlsCheck(
         scratch,
         ["ExportController", "ServiceBundle", "NodeRuntime"],
         String.raw`
@@ -237,7 +189,7 @@ test(
         .map((attempt) => attempt.response.data);
       const fixture = join(scratch, "receipts.json");
       await writeFile(fixture, JSON.stringify(receipts));
-      const executable = compile(
+      const executable = compileControlsCheck(
         scratch,
         ["ExportController", "ServiceBundle", "NodeRuntime"],
         String.raw`
@@ -293,7 +245,7 @@ import ScreenRecorderControls
         for receipt in receipts {
             let raw = script.json(receipt)
             let record = try JSONDecoder().decode(ExportsState.Record.self, from: raw)
-            let target: ExportsState.Target = if let id = receipt["projectId"] as? String {
+            let target: MediaTarget = if let id = receipt["projectId"] as? String {
                 .project(id)
             } else { .recording(receipt["recordingId"] as! String) }
             let snapshot = receipt["snapshot"] as! [String: Any]
@@ -535,7 +487,7 @@ test(
         join(source, "capture.journal.jsonl"),
         rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
       );
-      const executable = compile(
+      const executable = compileControlsCheck(
         scratch,
         ["ExportController", "ServiceHost", "ServiceBundle", "NodeRuntime"],
         String.raw`

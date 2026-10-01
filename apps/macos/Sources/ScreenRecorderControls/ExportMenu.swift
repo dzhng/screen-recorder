@@ -112,7 +112,7 @@ enum ExportMenu {
             .status, "\(kindTitle(record.kind)) — \(record.leaf) — \(stateTitle(record))", submenu: details)
     }
 
-    private static func targetTitle(_ target: ExportsState.Target) -> String {
+    private static func targetTitle(_ target: MediaTarget) -> String {
         switch target {
         case .recording(let id): "recording \(id)"
         case .project(let id): "project \(id)"

@@ -4,8 +4,8 @@ import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { test } from "node:test";
+import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 test(
   "native preview pins revision and stops on revocation, expiry, replacement and late replies",
@@ -93,7 +93,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         let service = Service(CommandLine.arguments[1])
         var failures: [String] = []
         let owner = PreviewController(call: service.call, failure: { failures.append($0) })
-        owner.open("take")
+        owner.open(.recording("take"))
         await settle()
         owner.tick()
         await settle()
@@ -123,24 +123,24 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         service.deleted = false
         service.queued = true
         service.expiresIn = 0.05
-        owner.open("take"); await settle(); owner.tick(); await settle(); owner.tick(); await settle()
+        owner.open(.recording("take")); await settle(); owner.tick(); await settle(); owner.tick(); await settle()
         precondition(visible() == nil && failures.last!.contains("expired"))
         service.expiresIn = 30
         service.queued = true
         service.delayed = true
-        owner.open("take"); await settle(); owner.tick()
+        owner.open(.recording("take")); await settle(); owner.tick()
         try await Task.sleep(for: .milliseconds(20))
         owner.close()
         await settle()
         precondition(visible() == nil && service.closed.contains(service.lastToken), "Late delivery must be released without reopening")
         service.delayed = false
         service.queued = true
-        owner.open("take"); await settle(); owner.tick(); await settle()
+        owner.open(.recording("take")); await settle(); owner.tick(); await settle()
         let replaced = visible()!
         let replacedView = replaced.contentView as! AVPlayerView
         let token = service.lastToken
         service.queued = true
-        owner.open("take"); await settle()
+        owner.open(.recording("take")); await settle()
         precondition(!replaced.isVisible && replacedView.player == nil && service.closed.contains(token))
         owner.tick(); await settle()
         let closing = visible()!
@@ -151,7 +151,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         service.queued = true
         service.brokenFile = true
         let beforeFailure = failures.count
-        owner.open("take"); await settle(); owner.tick()
+        owner.open(.recording("take")); await settle(); owner.tick()
         for _ in 0..<30 {
             if failures.count > beforeFailure { break }
             await settle()
@@ -161,7 +161,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         service.queued = true
         service.brokenFile = false
         service.refuseRenewal = true
-        owner.open("take"); await settle(); owner.tick(); await settle()
+        owner.open(.recording("take")); await settle(); owner.tick(); await settle()
         precondition(visible() != nil)
         try await Task.sleep(for: .seconds(10))
         owner.tick(); await settle()
@@ -172,21 +172,10 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
 }
 `,
       );
-      const binary = join(scratch, "probe");
-      execFileSync(
-        "swiftc",
-        [
-          "-swift-version",
-          "6",
-          "-parse-as-library",
-          fileURLToPath(
-            new URL("../Sources/ScreenRecorder/PreviewController.swift", import.meta.url),
-          ),
-          source,
-          "-o",
-          binary,
-        ],
-        { timeout: 40_000 },
+      const binary = compileControlsCheck(
+        scratch,
+        ["PreviewController", "PreviewWindow"],
+        readFileSync(source, "utf8"),
       );
       // Ordered in behind everything, like every other launch a check drives: this probe opens
       // real windows, and none of them may take the screen from whoever is at this Mac.

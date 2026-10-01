@@ -44,15 +44,10 @@ public struct ExportsState: Equatable, Sendable {
         public var unconfirmed: String?
     }
 
-    public enum Target: Equatable, Sendable {
-        case recording(String)
-        case project(String)
-    }
-
     /// One export as `export.status` last described it.
     public struct Record: Equatable, Sendable, Decodable {
         public init(
-            exportId: String, target: Target, kind: Kind, revisionId: String, state: String,
+            exportId: String, target: MediaTarget, kind: Kind, revisionId: String, state: String,
             directory: String, leaf: String, output: String?, reason: String?, retryable: Bool,
             abandoning: Bool, cleanupPending: Bool
         ) {
@@ -70,7 +65,7 @@ public struct ExportsState: Equatable, Sendable {
             self.cleanupPending = cleanupPending
         }
         public let exportId: String
-        public let target: Target
+        public let target: MediaTarget
         public let kind: Kind
         public let revisionId: String
         public let state: String
@@ -90,7 +85,7 @@ public struct ExportsState: Equatable, Sendable {
         public var settled: Bool { !abandoning && (committed ? !cleanupPending : stopped) }
 
         private enum Keys: String, CodingKey {
-            case exportId, recordingId, projectId, kind, snapshot, state, destination, output, reason
+            case exportId, kind, snapshot, state, destination, output, reason
             case retryable, abandoning, cleanupPending
         }
         private enum SnapshotKeys: String, CodingKey { case revisionId }
@@ -101,17 +96,9 @@ public struct ExportsState: Equatable, Sendable {
             let snapshot = try fields.nestedContainer(keyedBy: SnapshotKeys.self, forKey: .snapshot)
             let destination = try fields.nestedContainer(
                 keyedBy: DestinationKeys.self, forKey: .destination)
-            let target: Target
-            switch (fields.contains(.recordingId), fields.contains(.projectId)) {
-            case (true, false): target = .recording(try fields.decode(String.self, forKey: .recordingId))
-            case (false, true): target = .project(try fields.decode(String.self, forKey: .projectId))
-            default:
-                throw DecodingError.dataCorrupted(.init(
-                    codingPath: decoder.codingPath, debugDescription: "Export requires exactly one recording or project owner"))
-            }
             self.init(
                 exportId: try fields.decode(String.self, forKey: .exportId),
-                target: target,
+                target: try MediaTarget(from: decoder),
                 kind: try fields.decode(Kind.self, forKey: .kind),
                 revisionId: try snapshot.decode(String.self, forKey: .revisionId),
                 state: try fields.decode(String.self, forKey: .state),

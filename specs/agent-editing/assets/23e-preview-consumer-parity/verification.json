@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "scope": "Isolated native preview receipt/lease controls; production presenter compiled, not executed",
+  "headlessControllerChecks": 3,
+  "pureControlsGroups": 16,
+  "compileOnlyPreservation": [
+    "preview-player.test.mjs Swift fixture",
+    "preview-service.test.mjs Swift fixture"
+  ],
+  "retainedInputs": "Original files copied byte for byte; unchanged payload values decoded with an explicit historical clock before expiry",
+  "falsifications": [
+    "Recording-only request mapping after presentation extraction fails project namespace",
+    "Removing post-renewal generation fence corrupts replacement-session lease identity"
+  ],
+  "preserved": [
+    "Recording entry and owner-specific close",
+    "Project ownership and pinned revision",
+    "Matched answer/movie identity and delivery byte count/expiry",
+    "Same-ID namespace isolation",
+    "Explicit retry and dependency availability",
+    "Renewal past original expiry",
+    "Owner deletion and refused renewal",
+    "Late ready response release",
+    "Stale presentation callbacks",
+    "Late renewal and close/expiry races"
+  ],
+  "notRun": [
+    "Media render or media-file read",
+    "Original player/service executable execution",
+    "Application, window or AVPlayer creation",
+    "Actual playback or audible output",
+    "Live service or artifact-token request",
+    "Native media-worker build/replacement",
+    "Capture/device/model work",
+    "Installed switch"
+  ],
+  "rootSourceReview": "clean against02619714 including restored generation fence",
+  "format": true,
+  "lint": true,
+  "syntax": true,
+  "allOwnedProcessesTerminal": true,
+  "packetBytes": 106398,
+  "packetSha256": "bded9a6b61bccded40bbe28e3325b3231cfd147a8b62e5d8f6f7318e052bbeee",
+  "packetRegularFiles": 56,
+  "packetMemberNamesExactlyMatchManifest": true,
+  "allPayloadAndCurrentSourceHashesMatch": true
+}

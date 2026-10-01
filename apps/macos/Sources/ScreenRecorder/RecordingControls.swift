@@ -179,7 +179,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             restart()
         case .previewRecording(let recordingId):
             guard state.service == .ready else { return }
-            preview.open(recordingId)
+            preview.open(.recording(recordingId))
         case .deleteRecording(let recordingId):
             deleteRecording(recordingId)
         case .exportRecording(let recordingId, let kind):
@@ -311,7 +311,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     private func deleteRecording(_ recordingId: String) {
         guard state.beginDelete(recordingId) else { return }
-        preview.close(recording: recordingId)
+        preview.close(target: .recording(recordingId))
         Task { @MainActor in
             do throws(ServiceFailure) {
                 let receipt = try await service().call(

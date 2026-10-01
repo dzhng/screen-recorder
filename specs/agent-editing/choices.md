@@ -5590,3 +5590,61 @@ When: 21f2a, implementation `e339a58f`.
 - **Verdict:** Sound. Stored capture facts establish eligibility and the journal
   independently proves the material's source, before downstream publication.
 - **Confidence:** High.
+
+## 23e — Native preview consumer parity
+
+### Separate presentation from the one preview lifetime — sound, high confidence
+
+When: 23e.
+
+- **Choice:** When a preview reply arrives, the existing controller checks its
+  owner, revision and delivery lease before asking a presenter to show it. The
+  concrete presenter still creates the ordinary native window and player for
+  a user's recording preview. A controlled check supplies a sink at that same
+  platform boundary, so it can inspect the request to present media without
+  creating a window, player or audible output.
+- **Gap:** The old controller mixed service lifetime with AppKit/AV objects;
+  its external Call seam alone could not test ready receipts without playback.
+- **Reach:** The presenter owns no service state, decoding policy or lease.
+  Close/retry/player-failure events return to the same controller, and stale
+  events remain fenced by the preview generation. There is no test-only autoplay
+  switch or second controller to keep synchronized with production.
+- **Verdict:** Sound. The actual platform boundary is replaceable for checks,
+  while ordinary production presentation and the existing lease owner remain.
+- **Confidence:** High.
+
+### Give two consumers one target decoder — sound, high confidence
+
+When: 23e.
+
+- **Choice:** A preview's outer answer and published movie need the same
+  recording/project distinction already required by native export records.
+  That identity and its exactly-one-owner decoder now live in shared native
+  controls. Both consumers use it directly; real recording menu actions pass
+  a recording target rather than going through a compatibility overload.
+- **Gap:** Extending the old recording-only preview shape locally would create
+  another copy of the owner-decoding rule established in 23d.
+- **Reach:** Same-text IDs in different namespaces remain distinct through
+  requests, liveness checks and closing. This adds no project picker or implicit
+  project and does not generalize recording-only export creation.
+- **Verdict:** Sound. One existing identity rule gains its second real consumer
+  without creating a second schema interpretation or forwarding facade.
+- **Confidence:** High.
+
+### Replay historical receipts against an explicit clock — sound, high confidence
+
+When: 23e.
+
+- **Choice:** Retained public preview receipts contain expired delivery leases.
+  The controlled test leaves their values intact and supplies a clock before
+  their recorded expiry; later clock advances exercise renewal and expiration
+  without waiting in real time. Production uses the real clock by default.
+  The test sends no token to a live service and opens no historical cache file.
+- **Gap:** Wall-clock validation made retained evidence unusable for a bounded
+  decoder/lifetime check even though the metadata contract was still relevant.
+- **Reach:** Passing proves interpretation and controlled lifetime behavior,
+  not that the old lease or file is usable now. Actual AV playback, audible
+  quality, media generation and installed acceptance retain their own evidence.
+- **Verdict:** Sound. Time is an explicit external boundary; archived evidence
+  is neither rewritten nor promoted into a live-service claim.
+- **Confidence:** High.

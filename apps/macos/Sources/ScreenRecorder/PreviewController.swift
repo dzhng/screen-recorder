@@ -1,113 +1,75 @@
-import AppKit
-import AVKit
+import Foundation
+import ScreenRecorderControls
+
+@MainActor
+protocol PreviewPresenting: AnyObject {
+    func open(title: String, retry: @escaping @MainActor () -> Void, closed: @escaping @MainActor () -> Void)
+    func show(title: String, message: String, canRetry: Bool)
+    func play(title: String, file: String, mediaType: String, failed: @escaping @MainActor (String) -> Void)
+    func close()
+}
 
 /// One native view of a pinned service derivative. The delivery lease owns the cache file;
 /// this owner holds no copied movie, edit plan, or rendering job.
 @MainActor
-final class PreviewController: NSObject, NSWindowDelegate {
+final class PreviewController {
     typealias Call = @MainActor (String, [String: Any]) async throws -> Data
     private let call: Call
+    private let presentation: any PreviewPresenting
+    private let now: @MainActor () -> Date
     private let failure: (String) -> Void
     private var generation = UUID()
-    private var recordingId: String?
+    private var target: MediaTarget?
     private var revisionId: String?
     private var lease: Lease?
     private var renewAt = Date.distantPast
     private var reading = false
-    private var window: NSWindow?
-    private var playerView: AVPlayerView?
-    private var playerObservation: NSKeyValueObservation?
-    private var message: NSTextField?
-    private var retry: NSButton?
     private var requestOperation = "preview.get"
     private var polling = false
 
-    /// Whether a check is driving this, in which case no window of this app's may take the screen.
-    /// `ControlsProbe` reads the same variable; this owner is built on its own by a check of its
-    /// own, so it cannot go through that type to ask.
-    static let observed = !(ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_CONTROLS"] ?? "")
-        .isEmpty
-
-    init(call: @escaping Call, failure: @escaping (String) -> Void) {
+    init(call: @escaping Call, presentation: any PreviewPresenting = PreviewWindow(),
+        now: @escaping @MainActor () -> Date = Date.init, failure: @escaping (String) -> Void)
+    {
         self.call = call
+        self.presentation = presentation
+        self.now = now
         self.failure = failure
     }
 
-    func open(_ id: String) {
+    func open(_ target: MediaTarget, revisionId: String? = nil) {
         close()
-        recordingId = id
+        self.target = target
+        self.revisionId = revisionId
         polling = true
         requestOperation = "preview.get"
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 500),
-            styleMask: [.titled, .closable, .resizable, .miniaturizable], backing: .buffered, defer: false)
-        window.isReleasedWhenClosed = false
-        window.delegate = self
-        window.title = "Preparing Preview — \(id)"
-        // Watching an earlier take back belongs to the person, not to the take they are recording
-        // now. The window server keeps an unshared window out of every capture, including one
-        // already running, which is the only thing that can cover a window opened mid-take.
-        window.sharingType = .none
-        let view = AVPlayerView(frame: window.contentView!.bounds)
-        view.autoresizingMask = [.width, .height]
-        view.controlsStyle = .floating
-        view.showsSharingServiceButton = false
-        view.allowsVideoFrameAnalysis = false
-        window.contentView = view
-        let label = NSTextField(wrappingLabelWithString: "Preparing preview…")
-        label.frame = NSRect(x: 24, y: 220, width: 752, height: 60)
-        label.autoresizingMask = [.width, .minYMargin, .maxYMargin]
-        label.alignment = .center
-        label.textColor = .white
-        view.addSubview(label)
-        let button = NSButton(title: "Retry Preview", target: self, action: #selector(retryPreview))
-        button.frame = NSRect(x: 330, y: 180, width: 140, height: 32)
-        button.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin]
-        button.isHidden = true
-        view.addSubview(button)
-        self.window = window
-        playerView = view
-        message = label
-        retry = button
-        window.center()
-        // Asking for a preview is a person asking to watch something, so this window comes
-        // forward — except under a check, which never takes the screen from whoever is at the Mac.
-        if Self.observed {
-            window.orderBack(nil)
-        } else {
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-        }
+        let current = generation
+        presentation.open(title: "Preparing Preview — \(target.id)", retry: { [weak self] in
+            guard let self, self.generation == current else { return }
+            self.retryPreview()
+        }, closed: { [weak self] in
+            guard let self, self.generation == current else { return }
+            self.close()
+        })
         tick()
     }
 
-    func close(recording id: String? = nil) {
-        if let id, id != recordingId { return }
+    func close(target: MediaTarget? = nil) {
+        if let target, target != self.target { return }
         generation = UUID()
-        recordingId = nil
+        self.target = nil
         revisionId = nil
         polling = false
         reading = false
-        playerObservation = nil
-        playerView?.player?.pause()
-        playerView?.player?.replaceCurrentItem(with: nil)
-        playerView?.player = nil
-        window?.delegate = nil
-        window?.close()
-        window = nil
-        playerView = nil
-        message = nil
-        retry = nil
+        presentation.close()
         if let token = lease?.token { release(token) }
         lease = nil
     }
 
-    func windowWillClose(_ notification: Notification) { close() }
-
     /// Driven by the controls' status cadence. Expiry is checked even with a request in flight;
     /// no renewal response may revive a session that was closed while awaiting the service.
     func tick() {
-        guard let id = recordingId else { return }
-        if let lease, lease.expiresAt <= Date().timeIntervalSince1970 * 1000 {
+        guard let target else { return }
+        if let lease, lease.expiresAt <= now().timeIntervalSince1970 * 1000 {
             stop("Preview lease expired. Open Preview again to continue.")
             return
         }
@@ -119,21 +81,26 @@ final class PreviewController: NSObject, NSWindowDelegate {
         Task { @MainActor in
             do {
                 if !polling || currentLease != nil {
-                    _ = try await call("recording.get", ["recordingId": id])
+                    let operation: String
+                    switch target {
+                    case .recording: operation = "recording.get"
+                    case .project: operation = "project.get"
+                    }
+                    _ = try await call(operation, target.parameters)
                     guard generation == current else { return }
-                    guard let currentLease, Date() >= renewAt else { reading = false; return }
+                    guard let currentLease, now() >= renewAt else { reading = false; return }
                     let data = try await call("artifact.renew", ["token": currentLease.token])
                     let renewed = try JSONDecoder().decode(Lease.self, from: data)
                     guard generation == current else { return }
-                    guard currentLease.expiresAt > Date().timeIntervalSince1970 * 1000,
+                    guard currentLease.expiresAt > now().timeIntervalSince1970 * 1000,
                         renewed.token == currentLease.token, renewed.bytes == currentLease.bytes,
-                        renewed.expiresAt > Date().timeIntervalSince1970 * 1000 else {
+                        renewed.expiresAt > now().timeIntervalSince1970 * 1000 else {
                         throw InvalidAnswer()
                     }
                     lease = renewed
-                    renewAt = Date().addingTimeInterval(10)
+                    renewAt = now().addingTimeInterval(10)
                 } else {
-                    var params: [String: Any] = ["recordingId": id]
+                    var params: [String: Any] = target.parameters
                     if let pinnedRevision { params["revisionId"] = pinnedRevision }
                     let data = try await call(requestOperation, params)
                     // Decode the lease separately so a late or otherwise invalid ready answer
@@ -145,47 +112,35 @@ final class PreviewController: NSObject, NSWindowDelegate {
                     }
                     do {
                         let answer = try JSONDecoder().decode(Answer.self, from: data)
-                        guard answer.recordingId == id, !answer.revisionId.isEmpty,
+                        guard answer.target == target, !answer.revisionId.isEmpty,
                             pinnedRevision == nil || pinnedRevision == answer.revisionId else {
                             throw InvalidAnswer()
                         }
                         revisionId = answer.revisionId
                         requestOperation = "preview.get"
-                        window?.title = "Preview — \(id) — \(answer.revisionId)"
+                        let title = "Preview — \(target.id) — \(answer.revisionId)"
                         if answer.state == "ready" {
                             guard let movie = answer.published?.preview, let delivered,
-                                movie.recordingId == id, movie.revisionId == answer.revisionId,
+                                movie.target == target, movie.revisionId == answer.revisionId,
                                 movie.mediaType == "video/mp4", movie.bytes > 0,
                                 !delivered.token.isEmpty, delivered.bytes == movie.bytes,
-                                delivered.expiresAt > Date().timeIntervalSince1970 * 1000,
+                                delivered.expiresAt > now().timeIntervalSince1970 * 1000,
                                 movie.file.hasPrefix("/") else { throw InvalidAnswer() }
                             lease = delivered
-                            renewAt = Date().addingTimeInterval(10)
+                            renewAt = now().addingTimeInterval(10)
                             polling = false
-                            message?.isHidden = true
-                            // Cache filenames describe ownership, not container type. Tell AVFoundation
-                            // the validated receipt's MIME type instead of relying on an extension.
-                            let asset = AVURLAsset(url: URL(fileURLWithPath: movie.file),
-                                options: [AVURLAssetOverrideMIMETypeKey: movie.mediaType])
-                            let item = AVPlayerItem(asset: asset)
-                            playerObservation = item.observe(\.status, options: [.new]) { [weak self] item, _ in
-                                guard item.status == .failed else { return }
-                                let reason = item.error?.localizedDescription ?? "Preview playback failed."
-                                Task { @MainActor in
-                                    guard let self, self.generation == current else { return }
-                                    self.stop(reason)
-                                }
+                            presentation.play(title: title, file: movie.file, mediaType: movie.mediaType) { [weak self] reason in
+                                guard let self, self.generation == current else { return }
+                                self.stop(reason)
                             }
-                            playerView?.player = AVPlayer(playerItem: item)
-                            playerView?.player?.play()
                         } else if delivered != nil {
                             throw InvalidAnswer()
                         } else if answer.state == "failed" || answer.state == "not_requested" || answer.state == "unavailable" {
                             polling = false
-                            message?.stringValue = answer.reason ?? "Preview could not be prepared."
-                            retry?.isHidden = answer.dependency != nil || answer.retryable != true
+                            presentation.show(title: title, message: answer.reason ?? "Preview could not be prepared.",
+                                canRetry: answer.dependency == nil && answer.retryable == true)
                         } else if answer.state == "queued" || answer.state == "processing" {
-                            message?.stringValue = "Preparing preview — \(answer.state)…"
+                            presentation.show(title: title, message: "Preparing preview — \(answer.state)…", canRetry: false)
                         } else {
                             throw InvalidAnswer()
                         }
@@ -201,10 +156,9 @@ final class PreviewController: NSObject, NSWindowDelegate {
         }
     }
 
-    @objc private func retryPreview() {
-        guard recordingId != nil, revisionId != nil, !reading else { return }
-        retry?.isHidden = true
-        message?.stringValue = "Retrying preview…"
+    private func retryPreview() {
+        guard let target, let revisionId, !reading else { return }
+        presentation.show(title: "Preview — \(target.id) — \(revisionId)", message: "Retrying preview…", canRetry: false)
         requestOperation = "preview.retry"
         polling = true
         tick()
@@ -229,21 +183,41 @@ final class PreviewController: NSObject, NSWindowDelegate {
     }
     private struct Delivery: Decodable { let delivery: Lease? }
     private struct Answer: Decodable {
-        let recordingId: String
+        let target: MediaTarget
         let revisionId: String
         let state: String
         let reason: String?
         let retryable: Bool?
         let dependency: Dependency?
         let published: Published?
+        private enum Keys: String, CodingKey { case revisionId, state, reason, retryable, dependency, published }
+        init(from decoder: Decoder) throws {
+            let fields = try decoder.container(keyedBy: Keys.self)
+            target = try MediaTarget(from: decoder)
+            revisionId = try fields.decode(String.self, forKey: .revisionId)
+            state = try fields.decode(String.self, forKey: .state)
+            reason = try fields.decodeIfPresent(String.self, forKey: .reason)
+            retryable = try fields.decodeIfPresent(Bool.self, forKey: .retryable)
+            dependency = try fields.decodeIfPresent(Dependency.self, forKey: .dependency)
+            published = try fields.decodeIfPresent(Published.self, forKey: .published)
+        }
         struct Dependency: Decodable { let artifact: String }
         struct Published: Decodable { let preview: Movie }
         struct Movie: Decodable {
-            let recordingId: String
+            let target: MediaTarget
             let revisionId: String
             let file: String
             let mediaType: String
             let bytes: Int64
+            private enum Keys: String, CodingKey { case revisionId, file, mediaType, bytes }
+            init(from decoder: Decoder) throws {
+                let fields = try decoder.container(keyedBy: Keys.self)
+                target = try MediaTarget(from: decoder)
+                revisionId = try fields.decode(String.self, forKey: .revisionId)
+                file = try fields.decode(String.self, forKey: .file)
+                mediaType = try fields.decode(String.self, forKey: .mediaType)
+                bytes = try fields.decode(Int64.self, forKey: .bytes)
+            }
         }
     }
 }

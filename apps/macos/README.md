@@ -26,6 +26,13 @@ pending call's deadline. The menu states readiness or an actionable failure;
 process identities, socket paths and interpreter versions are diagnostics and stay
 on stderr.
 
+A native preview remains pinned to its selected owner and revision while the
+service owns its renewable delivery lease. The [controller](Sources/ScreenRecorder/PreviewController.swift)
+handles that identity and lifetime; the [window](Sources/ScreenRecorder/PreviewWindow.swift)
+only presents validated media and forwards user/playback events. Separating that
+platform boundary keeps protocol checks from requiring a window or player, without
+changing ordinary user-requested playback.
+
 Node 24 is a personal-host prerequisite, not a bundled runtime. A Finder launch
 inherits launchd's minimal environment rather than a developer shell's PATH, so
 the build records the absolute interpreter it validated against and the app
