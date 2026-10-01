@@ -1,0 +1,11 @@
+{
+  "scope": "Root integrated diagnostic verification only; original timing remains contended/red",
+  "commit": "a19abc18",
+  "archiveMembers": 117,
+  "allArchiveSizesAndHashesMatch": true,
+  "harnessHashesMatchMeasuredRuntime": true,
+  "budgetMs": 250,
+  "originalCohorts": 1,
+  "newTimingOrMediaRuns": 0,
+  "review": "Complete independent row/dependency/progress/default-client assertions and direct-SDK timing boundary reviewed; no production change or causal verdict"
+}

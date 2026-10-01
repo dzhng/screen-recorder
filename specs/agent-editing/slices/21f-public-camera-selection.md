@@ -19,6 +19,14 @@ returning a different request’s take. Return truthful settled source/admission
 facts through the existing capture lifecycle/registry, with CLI/MCP as adapters.
 Capture stop does not create a project or choose composition settings.
 
+The fresh project service currently has acquisition admission but no capture
+coordinator. Reuse/extract the existing allocation/lifecycle owner from the mixed
+RevisionStore/CaptureService boundary; terminal capture cannot seed an obsolete
+span revision. Keep one shared catalog and capture control order. Verify actual
+fresh-service allocation, source settlement and replay here before accepting the
+selector. Do not fill this gap with a parallel capture owner, compatibility wrapper
+or automatic project; final installed switching/removal remains under 23.
+
 Preserve menu-bar recording controls, microphone/system selection and cursor
 evidence. No new editing UI, start-time authoring settings, installed switch,
 compatibility layer or migration is part of this checkpoint.

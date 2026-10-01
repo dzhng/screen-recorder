@@ -5144,3 +5144,22 @@ independent edits and synchronized portable delivery. No new authoring API or
 capture-start setting is added. The correction follows the user's requirement
 that the toolkit make zero editorial decisions; it removes unspecified policy
 instead of selecting a layout on their behalf.
+
+### Inspect host contention before timing — corrected, high confidence
+
+When: 24z source-cardinality diagnostic (2026-10-01). Coordinating this project's
+lanes alone was an unsound basis for treating the host as quiet: other applications
+and builds can consume the same CPU. Future timing inspects whole-host contention
+before launch and states any remaining limits. The existing contended cohort stays
+retained; this correction authorizes neither a replacement run nor a higher budget.
+
+### Keep source-cardinality controls and timer scope explicit — sound, high confidence
+
+When: 24z. Both arms use the same populated catalog and 1,024 clips, including
+identical leading empty clips. Only referenced source-selection cardinality
+changes. Those empty clips exercise actual continuation progress instead of
+assuming each page returns rows. The warm timer covers complete delivery through
+the unconfigured SDK; oracle comparisons, telemetry and file writes follow it.
+Resident memory in the shared process remains descriptive, without treating the
+two arms as separate processes or borrowing the duration-memory ratio rule.
+These are diagnostic choices, not production caching or response-policy changes.

@@ -95,6 +95,8 @@ public admission, complete independent oracles, default-client delivery, CLI
 parity, changed-query refusal, checkpoint progress and the deliberate wrong-clock
 failure followed by restored correctness. Source bytes deduplicate while all
 acquisition identities are publicly admitted and independently normalized.
+The [root integration check](../assets/24z-source-cardinality/merged-verification.json)
+verifies every retained member and the measured harness pins without another run.
 
 The one approved alternating timing cohort completed without a retry or budget
 change. Its original red measurements remain in the packet. Before/after process

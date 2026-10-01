@@ -18,9 +18,26 @@ media-role meaning across source/asset consumers or add a camera-specific catalo
 Bind allocation, directory, publication proof and admitted identity; preserve
 accepted raw timing and represented support rather than reconstructing cadence.
 
-Reuse current source evidence/retry and portable-resource ownership. This is an
-isolated service port, not an installed switch or old-history migration. Project
-construction belongs to 21e; selected input can proceed independently in 21c.
+Reuse current source evidence/retry and portable-resource ownership. This is
+proof-bearing admission through the fresh service's existing `acquisition.import`
+path, not its capture-lifecycle port, an installed switch or old-history migration.
+Project authoring belongs to 21e; selected input can proceed independently in 21c.
+
+CameraMedia remains the only accepted-picture/support/digest verifier. Extend that
+owner for published canonical descriptors, then thread its verified video proof
+through SourceEvidenceExport, SourceExporter/receipt validation, source admission,
+acquisition binding and portable inventory. Retain an independently addressable
+camera receipt/mapping set inside the admitted source; never follow an implicit
+external observation path. Camera proof does not inherit the packed-audio journal
+layout restriction. A declared production camera cannot fall back to unverified
+video when proof is missing. Ordinary file import still reports physical support.
+
+Carry a supplied take/source/device binding into the native camera journal/result
+without inventing another clock. Verify that binding separately from service
+allocation. Historical retained probe journals remain historical, unallocated
+evidence; do not rewrite them to manufacture production provenance. The later
+21f/23 capture port must reuse the surviving allocation/lifecycle owner without
+instantiating the obsolete span-revision store in the fresh service.
 
 ## Work and review surface
 
