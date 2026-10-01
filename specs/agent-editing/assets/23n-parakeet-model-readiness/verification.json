@@ -1,0 +1,580 @@
+{
+  "status": "Genuine readiness verified; integration pending; no inference or quality acceptance",
+  "base": "db6b985b7312424f04dfb2e8d58d4e11209ff70f",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 991011,
+    "sha256": "0e3acab53e7eecbe2116b3102d4204f47ea51386a8291e0ec438ed26c71b4a4e",
+    "members": 57
+  },
+  "members": {
+    "acquired-files.json": {
+      "bytes": 7888,
+      "sha256": "37b2ed69e70d6e170db6b9d22c35833bdca7d7a562fdd4e533365d222cc927d1"
+    },
+    "acquisition-command.json": {
+      "bytes": 2362,
+      "sha256": "149f97ca74f38475df88489c8b105efc7b3e915b2c958e26628737750884eafc"
+    },
+    "acquisition-terminal.json": {
+      "bytes": 106,
+      "sha256": "e57ea8948b4b76cd34c0a1d1340a5636653ba54e3fc668813a8a17eadc89347d"
+    },
+    "acquisition.log": {
+      "bytes": 359,
+      "sha256": "3ef9f6a64a782942ddca958222b0063ac7e772374eb0ed884e408c25d024945a"
+    },
+    "bundle-metadata/cli.mjs.meta.json": {
+      "bytes": 199239,
+      "sha256": "264f86b801727c8d4cedf5903c965854ea5ac16850f5c80250d15f1d8fd7b980"
+    },
+    "bundle-metadata/models.mjs.meta.json": {
+      "bytes": 72140,
+      "sha256": "4d3bfbec4968b6c32322c0cfc7d5fef81351cb10b536a344df5da843c6d83fe6"
+    },
+    "bundle-metadata/service.mjs.meta.json": {
+      "bytes": 230569,
+      "sha256": "d8ee40bf358ad7b5c6b5f545637fdd50c5e4c784985f31ae6629a47366c3bd15"
+    },
+    "checks.json": {
+      "bytes": 623,
+      "sha256": "0aa06712833f910cd17909abf05c72590683b891696be1b25e5fd37a03cfd557"
+    },
+    "choices.md": {
+      "bytes": 1625,
+      "sha256": "7b88a688b4649db42ad54ed78b0d9e8e3d3a9fd8779c616cfa4d0f1a8d5fb28d"
+    },
+    "closure/packages/test-harness/editing/parakeet-readiness.mjs": {
+      "bytes": 16077,
+      "sha256": "1178e06d422d27f4c2ea66d9af9086b96c868153e78fefbce1434e506b72294a"
+    },
+    "closure/specs/agent-editing/slices/23n-parakeet-model-readiness.md": {
+      "bytes": 2817,
+      "sha256": "0983acceb3c88c5b7266c49d99d73c316f36b7bfbb67b6a729db8daff6825d2f"
+    },
+    "dependency-build-command.json": {
+      "bytes": 634,
+      "sha256": "fc90f90850c70e402cbbac059fbb03acf89d12824890e86964c8ab542c368b1b"
+    },
+    "dependency-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "diff.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "discovery-readiness-command.json": {
+      "bytes": 914,
+      "sha256": "0045589ace268bfef755a0b92a10b95ab1f64d1ee6fc9c0623d40373365a4ea4"
+    },
+    "discovery-readiness-producer.mjs": {
+      "bytes": 16069,
+      "sha256": "fdab4af6be13bb9209148a7802e94706a51b4259b060194438a0587daf97b172"
+    },
+    "discovery-readiness.log": {
+      "bytes": 2067,
+      "sha256": "86e7fda378cb4d20211c6b13ea16e2f8b229940a22afb199447cef7052074e81"
+    },
+    "format.log": {
+      "bytes": 203,
+      "sha256": "9a47e81bec2f66cf5c5d2f73adf23d1a16180d4c5f15906b06c480c7974870d4"
+    },
+    "initial-acquisition-command.json": {
+      "bytes": 2309,
+      "sha256": "aecf5d57edffae6f1c9814205008d581637f280955598d2d679a959dd13e590c"
+    },
+    "initial-acquisition-terminal.json": {
+      "bytes": 106,
+      "sha256": "b2face16a737e515ad4eb64275aa2b55294a95941df7a00e56793586eefaf9c8"
+    },
+    "initial-acquisition.log": {
+      "bytes": 283,
+      "sha256": "08eadec739766271d5261ecd13e71366fa421e927d3f5c96c2564d1d6ee9f74c"
+    },
+    "initial-dependency-build.log": {
+      "bytes": 31157,
+      "sha256": "1299c4953131dad56a6eb2829c66f0a6418645445a8dea3568c21388441123d1"
+    },
+    "initial-readiness-command.json": {
+      "bytes": 904,
+      "sha256": "c3f5b2f6735afc22b75c71bc93136b3492851cc40c546221100c75482bf52fb3"
+    },
+    "initial-readiness-producer.mjs": {
+      "bytes": 16032,
+      "sha256": "21a5b0a2100d36e25a5d17893eba8228124b883c7d6839080a4879c49e6c0a7f"
+    },
+    "initial-readiness.log": {
+      "bytes": 2262,
+      "sha256": "7023458dc9bb713dcb1784085269dd802a412c23e0b7604ce2d56319491d7db7"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preservation-config.json": {
+      "bytes": 682,
+      "sha256": "510054257e8d7b4cf3900f456f355c60897216868e4f9c8bd6c8914852986a2b"
+    },
+    "readiness-command.json": {
+      "bytes": 910,
+      "sha256": "52e4c2be57335c9de864c21444ad290efb97d17af770b3ae893178d41071960b"
+    },
+    "readiness-corrected/cli-observer.mjs": {
+      "bytes": 294,
+      "sha256": "e0814cd04a133d45ffaf53aeae0ae65b5b8a76c3e0eea6e6e8efe9c12e1faa7a"
+    },
+    "readiness-corrected/mcp-terminal.jsonl": {
+      "bytes": 43,
+      "sha256": "829ec9b554d9df5a05e12eaa83d0a419a2bc7c49db5a8c496f92963e8335a70e"
+    },
+    "readiness-corrected/native.jsonl": {
+      "bytes": 574,
+      "sha256": "3812626047551271e7f4d037abcb4a92fd0ec2805c98f4c29f8b50d94d61de26"
+    },
+    "readiness-corrected/report.json": {
+      "bytes": 31313,
+      "sha256": "10fcf781d6a183c78806ef6e24d99dbea8fff119a3514e15ce35adb9fbc011bc"
+    },
+    "readiness-corrected/service-children.jsonl": {
+      "bytes": 197,
+      "sha256": "da40550df56c0f2b3317b43f485ddd87860a4c1389723816a3a050729b2f0a5d"
+    },
+    "readiness-corrected/service-observer.mjs": {
+      "bytes": 567,
+      "sha256": "a7918185f7d3ed4256b5fe3e13d9ef65c2d431d1dfe62902c0f84bcde7868cef"
+    },
+    "readiness-corrected/startup-worker.mjs": {
+      "bytes": 1148,
+      "sha256": "93e4b02b708d50cbd03b5d2aeec0a4b60a74c4c8f4afe15e47f1e1794a45fa2b"
+    },
+    "readiness-final/cli-observer.mjs": {
+      "bytes": 294,
+      "sha256": "e0814cd04a133d45ffaf53aeae0ae65b5b8a76c3e0eea6e6e8efe9c12e1faa7a"
+    },
+    "readiness-final/mcp-terminal.jsonl": {
+      "bytes": 86,
+      "sha256": "3a1ccf236c9f4d18bf56994276f2a681ce97506bfcf073999928f574f62edfcb"
+    },
+    "readiness-final/native-request.json": {
+      "bytes": 3916,
+      "sha256": "081be2bda6474a995438c92a13395110a8e1ad8b120ef384898c38bac7acfb8c"
+    },
+    "readiness-final/native.jsonl": {
+      "bytes": 1148,
+      "sha256": "8e61e74fe1481c99788a59e7b4e1df937d6639def76352731bda0ffad882e258"
+    },
+    "readiness-final/prepared-receipt.json": {
+      "bytes": 2147,
+      "sha256": "88f67ea28d36294e847338ad7892655604380511c739b216e2f4ca40f0333f2d"
+    },
+    "readiness-final/preservation-before.json": {
+      "bytes": 10681514,
+      "sha256": "92274d2a634fc13443e66ebd5f316ea4c4e32e2f8473a0b81409a84dedcc23dd"
+    },
+    "readiness-final/report.json": {
+      "bytes": 87684,
+      "sha256": "6e1684fb5d4bb076bbc6d417b28d533d9a91ded7d443c6f3617d3a19b6a4de47"
+    },
+    "readiness-final/service-children.jsonl": {
+      "bytes": 386,
+      "sha256": "3aa0432f47b733864a5ab5c9ffb2cdb3061e6006c8979a5b020115ffd310b92e"
+    },
+    "readiness-final/service-observer.mjs": {
+      "bytes": 567,
+      "sha256": "a7918185f7d3ed4256b5fe3e13d9ef65c2d431d1dfe62902c0f84bcde7868cef"
+    },
+    "readiness-final/startup-worker.mjs": {
+      "bytes": 1148,
+      "sha256": "93e4b02b708d50cbd03b5d2aeec0a4b60a74c4c8f4afe15e47f1e1794a45fa2b"
+    },
+    "readiness-producer.mjs": {
+      "bytes": 16077,
+      "sha256": "1178e06d422d27f4c2ea66d9af9086b96c868153e78fefbce1434e506b72294a"
+    },
+    "readiness.log": {
+      "bytes": 289,
+      "sha256": "29688fd119a6cd4da5a4afd55fdbc791fd30c239ee510b3c3686a2b857ffe222"
+    },
+    "readiness/cli-observer.mjs": {
+      "bytes": 294,
+      "sha256": "e0814cd04a133d45ffaf53aeae0ae65b5b8a76c3e0eea6e6e8efe9c12e1faa7a"
+    },
+    "readiness/report.json": {
+      "bytes": 2236,
+      "sha256": "ff136fa2254b5de25c6e77827d5a2d5d83e5a110a09a666a6e120c3debbe325a"
+    },
+    "readiness/service-observer.mjs": {
+      "bytes": 567,
+      "sha256": "a7918185f7d3ed4256b5fe3e13d9ef65c2d431d1dfe62902c0f84bcde7868cef"
+    },
+    "readiness/startup-worker.mjs": {
+      "bytes": 1148,
+      "sha256": "93e4b02b708d50cbd03b5d2aeec0a4b60a74c4c8f4afe15e47f1e1794a45fa2b"
+    },
+    "review.md": {
+      "bytes": 1643,
+      "sha256": "8cd5fda41cece1f7c9512846a791dfd9af1d0d5e2bf4d86f9e663e5a8211d127"
+    },
+    "runtime-authority.json": {
+      "bytes": 168583,
+      "sha256": "086e19d34b97a665feb36a3b0ae9b55ac807ff9fa7e088a4465faa4f6267f45c"
+    },
+    "runtime-build-command.json": {
+      "bytes": 960,
+      "sha256": "75d0613e7648bfe1d96480da1925bfc20834c396eb2140c8724fa366e08788d0"
+    },
+    "runtime-build.log": {
+      "bytes": 199,
+      "sha256": "8eb3276f3b9bfdced309e8d268eb8cac8f073adcf5f1e0775494191520d52635"
+    },
+    "source-qualification.json": {
+      "bytes": 291,
+      "sha256": "aee789b863ff1c3767c94221727ecf97b6b3c818a10de96dd033a4d2a213c242"
+    },
+    "syntax.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "aliases": {
+    "readiness-corrected/preservation-before.json": "readiness-final/preservation-before.json"
+  },
+  "retained": {
+    "source": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/source/parakeet-tdt-0.6b-v2",
+    "home": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home",
+    "sourceRuntime": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime",
+    "native": "/private/tmp/screenrec-09c-native-presented-worker"
+  },
+  "readiness": {
+    "passed": true,
+    "report": "readiness-final/report.json",
+    "reportSha256": "6e1684fb5d4bb076bbc6d417b28d533d9a91ded7d443c6f3617d3a19b6a4de47",
+    "exchanges": 41,
+    "nativeRequest": {
+      "member": "readiness-final/native-request.json",
+      "origin": "Verbatim nativeRequest value from the genuine Models owner in the unchanged report",
+      "directory": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+      "files": 22
+    },
+    "receipt": {
+      "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/receipt.json",
+      "bytes": 2147,
+      "sha256": "88f67ea28d36294e847338ad7892655604380511c739b216e2f4ca40f0333f2d",
+      "inode": "339424300",
+      "dev": "16777230",
+      "mode": "33152",
+      "modifiedNs": "1790893432856958728",
+      "changedNs": "1790893432856958728"
+    },
+    "allRegisteredSourceAndManagedFilesVerified": 22,
+    "modelBytes": 464414912,
+    "license": "Registered README CC-BY-4.0",
+    "progress": {
+      "preparingReplies": 32,
+      "maximumObservedBytes": 460611340,
+      "totalBytes": 464414912,
+      "monotonic": true,
+      "completeValues": "readiness-final/report.json"
+    },
+    "prepareResults": [
+      {
+        "transport": "default SDK MCP",
+        "result": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 464414912
+        }
+      },
+      {
+        "transport": "CLI",
+        "result": {
+          "state": "preparing",
+          "receivedBytes": 15410705,
+          "totalBytes": 464414912
+        }
+      },
+      {
+        "transport": "CLI",
+        "result": {
+          "state": "ready"
+        }
+      }
+    ]
+  },
+  "preservation": {
+    "beforeMember": "readiness-final/preservation-before.json",
+    "rawMemberSha256": "92274d2a634fc13443e66ebd5f316ea4c4e32e2f8473a0b81409a84dedcc23dd",
+    "snapshotFingerprintAlgorithm": "SHA256(UTF8(JSON.stringify(snapshot))) with the exact property/manifest-array order in the retained producer; excludes pretty-print whitespace/newline",
+    "before": "18980247b884c6fbcf02516b5fdc5f8923705e3409a7e6adf802535f9d1b3f42",
+    "after": "18980247b884c6fbcf02516b5fdc5f8923705e3409a7e6adf802535f9d1b3f42",
+    "equalBefore": true,
+    "qwenSourceFiles": 14,
+    "originalRuntimeEntries": 11428,
+    "preparedHomes": [
+      {
+        "home": "/Users/david/.cache/screen-recorder/verification/voice-runtime-3f20d26c/home",
+        "files": 14,
+        "runtimeEntries": 11428,
+        "receipt": {
+          "path": "/Users/david/.cache/screen-recorder/verification/voice-runtime-3f20d26c/home/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f/receipt.json",
+          "bytes": 1319,
+          "sha256": "a223c310329609db6db39a589d260d5fa39c94a5db340bcd7cc5c2bfb158fd80"
+        }
+      },
+      {
+        "home": "/tmp/screenrec-25-preparation-current/library-ACs9sl",
+        "files": 14,
+        "runtimeEntries": 11428,
+        "receipt": {
+          "path": "/tmp/screenrec-25-preparation-current/library-ACs9sl/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f/receipt.json",
+          "bytes": 1319,
+          "sha256": "777600fe1304caac8a9523afd9d38ae9bfb5a60cc4dec63a78b7364a3e19f02b"
+        }
+      }
+    ],
+    "workers": [
+      {
+        "path": "/private/tmp/screenrec-09c-native-presented-worker",
+        "bytes": 30148624,
+        "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+      },
+      {
+        "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+        "bytes": 27520192,
+        "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+        "bytes": 27669248,
+        "sha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3"
+      }
+    ]
+  },
+  "terminal": {
+    "checker": {
+      "pid": 73775,
+      "exitCode": 0,
+      "session": 81007
+    },
+    "acquisition": {
+      "pid": 63609,
+      "returncode": 0,
+      "terminalObserved": true,
+      "endUnixSeconds": 1790893044.7063081
+    },
+    "sourceServices": [
+      {
+        "label": "source service",
+        "pid": 76193,
+        "control": [
+          {
+            "event": "started",
+            "pid": 76193,
+            "socketPath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/run/service.sock"
+          }
+        ],
+        "stderr": "(node:76193) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+        "exit": {
+          "code": 0,
+          "signal": null
+        }
+      },
+      {
+        "label": "source service",
+        "pid": 76312,
+        "control": [
+          {
+            "event": "started",
+            "pid": 76312,
+            "socketPath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/run/service.sock"
+          }
+        ],
+        "stderr": "(node:76312) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+        "exit": {
+          "code": 0,
+          "signal": null
+        }
+      }
+    ],
+    "sdkChildren": [
+      {
+        "label": "default SDK child close",
+        "pid": 76196,
+        "closeObserved": true
+      },
+      {
+        "label": "default SDK child close",
+        "pid": 76316,
+        "closeObserved": true
+      }
+    ],
+    "sdkNodeExitEvents": [
+      {
+        "event": "node-exit",
+        "pid": 76196,
+        "code": 0
+      },
+      {
+        "event": "node-exit",
+        "pid": 76316,
+        "code": 0
+      }
+    ],
+    "nativeEvents": [
+      {
+        "event": "request",
+        "request": {
+          "id": "worker-media.audioCapabilities",
+          "operation": "media.audioCapabilities",
+          "params": {}
+        }
+      },
+      {
+        "event": "forwarded",
+        "pid": 76195
+      },
+      {
+        "event": "close",
+        "pid": 76195,
+        "code": 0,
+        "signal": null,
+        "stdout": "{\"data\":{\"retime\":\"retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1\",\"rnnoise\":\"rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2\"},\"id\":\"worker-media.audioCapabilities\",\"ok\":true}\n",
+        "stderr": ""
+      },
+      {
+        "event": "request",
+        "request": {
+          "id": "worker-media.audioCapabilities",
+          "operation": "media.audioCapabilities",
+          "params": {}
+        }
+      },
+      {
+        "event": "forwarded",
+        "pid": 76315
+      },
+      {
+        "event": "close",
+        "pid": 76315,
+        "code": 0,
+        "signal": null,
+        "stdout": "{\"data\":{\"retime\":\"retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1\",\"rnnoise\":\"rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2\"},\"id\":\"worker-media.audioCapabilities\",\"ok\":true}\n",
+        "stderr": ""
+      }
+    ],
+    "serviceChildEvents": [
+      {
+        "event": "close",
+        "pid": 76194,
+        "executable": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/evidence/readiness-final/startup-worker.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null
+      },
+      {
+        "event": "close",
+        "pid": 76314,
+        "executable": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/evidence/readiness-final/startup-worker.mjs",
+        "args": [],
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allCliChildren": "Actual executable/args/stdout/stderr/close records in readiness-final/report.json"
+  },
+  "runtime": {
+    "authority": "runtime-authority.json",
+    "actualBundleInputs": 387,
+    "foreignRootWorkspaceInputs": 0,
+    "outputs": [
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/cli.mjs.meta.json",
+        "realpath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/cli.mjs.meta.json",
+        "bytes": 199239,
+        "sha256": "264f86b801727c8d4cedf5903c965854ea5ac16850f5c80250d15f1d8fd7b980"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/cli.mjs",
+        "realpath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/cli.mjs",
+        "bytes": 1161896,
+        "sha256": "f04bf674020338ce20d89db7c110d5b879fa5c88159803e9aac6ced215f8da9e"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/service.mjs.meta.json",
+        "realpath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/service.mjs.meta.json",
+        "bytes": 230569,
+        "sha256": "d8ee40bf358ad7b5c6b5f545637fdd50c5e4c784985f31ae6629a47366c3bd15"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/service.mjs",
+        "realpath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/service.mjs",
+        "bytes": 4266550,
+        "sha256": "3b6122773d897cb4c93ff0a831de263d5a5143b53d3267ccd435afa51db939bb"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/models.mjs.meta.json",
+        "realpath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/models.mjs.meta.json",
+        "bytes": 72140,
+        "sha256": "4d3bfbec4968b6c32322c0cfc7d5fef81351cb10b536a344df5da843c6d83fe6"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/models.mjs",
+        "realpath": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/models.mjs",
+        "bytes": 2904586,
+        "sha256": "78b46942c08a66f77e3db886281a00c636e2e7248e7fcee1ce64974ff9a79354"
+      }
+    ],
+    "sourceOwnerTrees": {
+      "packages/composition": "d5324e19f6913395c39a3e9f8c400e77304ab539",
+      "packages/core": "dcee7e2136cd29c08f3c0a8719724e454e43cffe",
+      "packages/protocol": "604b440b2b56875ce862ae377452f42eab93d524",
+      "packages/client": "afae06c74e848c26e9fd9281272111ab6aca2511",
+      "apps/service": "ab280928d04da776265ddddf5d87c961cf09bfe7",
+      "apps/cli": "e5a4bb98b32a7d9d87f327cc643f528a1963d73d"
+    }
+  },
+  "checks": {
+    "syntax": {
+      "command": [
+        "node",
+        "--check",
+        "packages/test-harness/editing/parakeet-readiness.mjs"
+      ],
+      "exitCode": 0
+    },
+    "lint": {
+      "command": [
+        "node",
+        "node_modules/oxlint/bin/oxlint",
+        "packages/test-harness/editing/parakeet-readiness.mjs"
+      ],
+      "exitCode": 0
+    },
+    "format": {
+      "command": [
+        "node",
+        "node_modules/oxfmt/bin/oxfmt",
+        "--check",
+        "packages/test-harness/editing/parakeet-readiness.mjs"
+      ],
+      "exitCode": 0
+    },
+    "diff": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0
+    }
+  },
+  "originalFailures": {
+    "initialDependencyBuild": "initial-dependency-build.log; package-local cached external links missing; clean six-package emit afterward",
+    "initialHf": "initial-acquisition-command.json/log/terminal; conflicting local-dir/cache-dir flags refused before acquisition",
+    "initialPreservation": "readiness/report.json + initial-readiness.log/source/command; no service or prepare; /tmp alias refused by no-symlink runtime verifier",
+    "discoveryFixture": "readiness-corrected/report.json + discovery-readiness.log/source/command; genuine CLI/MCP discovery; expected model ID corrected to manifest repository identity; no prepare; all children terminal"
+  },
+  "rootIndependentCheck": "Parent rehashed all22 managed files and genuine receipt, compared nativeRequest.files with current registry, and checked terminal service/native scope before dispatching23m; not a new quality verdict",
+  "limits": "No production owner/registry/recipe/API/dependency/limit/deadline changes; no worker build/replacement, inference, transcription, media, capture, UI or installed switch. Complete source/home/runtime retained outside Git for23m. Readiness does not close full12/23/25."
+}
