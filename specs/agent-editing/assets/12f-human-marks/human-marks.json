@@ -1,0 +1,47 @@
+{
+  "binding": {
+    "clipSha256": "6aa448b23c244c8c081c9b5210a3927dd4d5283da195743a5261c82437e36cc8",
+    "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "sourceOriginUs": 48675,
+    "sourceRange": {
+      "startUs": 48675,
+      "endUs": 14548675
+    },
+    "sampleRate": 48000,
+    "frames": 696000,
+    "packetSha256": "716756b508dae38c91758cb4dd5ed4834e4c10c8a687ea9dd4b2bf20e5d7084c"
+  },
+  "review": {
+    "authority": "human listening confirmation",
+    "notes": "Guided waveform marking: each selected boundary confirmed with Next; skipped edges unknown."
+  },
+  "marks": [
+    {
+      "id": "w6",
+      "text": "workbench",
+      "startSeconds": 4.363,
+      "endSeconds": 5.12,
+      "startUs": 4411675,
+      "endUs": 5168675,
+      "sourceRange": {
+        "startUs": 4411675,
+        "endUs": 5168675
+      }
+    }
+  ],
+  "independentAnnotations": {
+    "independentSentenceRange": null,
+    "protectedNeighbors": [
+      {
+        "wordId": "w6",
+        "text": "workbench",
+        "independentRange": {
+          "startUs": 4411675,
+          "endUs": 5168675
+        }
+      }
+    ],
+    "independentFillerInventory": null,
+    "independentRepetitionIntent": null
+  }
+}

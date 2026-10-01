@@ -1,0 +1,80 @@
+{
+  "kind": "Independent human word-boundary reconciliation",
+  "date": "2026-09-30",
+  "basedOnCommit": "ed8c49be",
+  "sourceOwners": [
+    {
+      "path": "packages/test-harness/editing/speech/annotation-time.mjs",
+      "bytes": 3613,
+      "sha256": "e54d7bfb3012188c381ed5d46df64af33c6315633a0d242edc2173e71cf73f19"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/boundaries.mjs",
+      "bytes": 2120,
+      "sha256": "a1e757060d0cdd8764de4b650c7b619116343a00f19a48a7cd9a3a3b72e190e0"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-workbench-marking/manifest.json",
+      "bytes": 898,
+      "sha256": "eed290b417e5405f5adbad3691f85f57c2605e17b41c4b9d34794af8eee8c99d"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-workbench-marking/annotations.json",
+      "bytes": 5412,
+      "sha256": "716756b508dae38c91758cb4dd5ed4834e4c10c8a687ea9dd4b2bf20e5d7084c"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-workbench-marking/original.wav",
+      "bytes": 2788096,
+      "sha256": "6aa448b23c244c8c081c9b5210a3927dd4d5283da195743a5261c82437e36cc8"
+    },
+    {
+      "path": "specs/agent-editing/assets/12-speech/transcript.json",
+      "bytes": 51273,
+      "sha256": "7792ed28400e645a75a1f607a023c02e1a40fb546fd3fdf48865d2eabd84b005"
+    },
+    {
+      "path": "specs/agent-editing/assets/12-boundary-context/comparison.json",
+      "bytes": 1069,
+      "sha256": "38ba971f97c25e12e853d7be2c752c9ad45ca571eaad06612c308a6ce797ee2b"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-human-marks/human-marks.json",
+      "bytes": 3063,
+      "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9"
+    }
+  ],
+  "files": [
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/README.md",
+      "bytes": 2038,
+      "sha256": "488ffaee04602ac6f503e8acfe34820ed3b12f6ecb533322573e32ad16108c0c"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/baseline-human-diagnostic.json",
+      "bytes": 4349,
+      "sha256": "be466ad9561bd760dfacc1c42b2ac687421f83e8607e7c754be89937c52ff726"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/human-marks.json",
+      "bytes": 1229,
+      "sha256": "4132df7f56f2df538000e6739742c314160c66822f3e3960b5cb3e92a50fb6d6"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/independent-review.md",
+      "bytes": 1699,
+      "sha256": "c7f1a654fb935eb7e2e32421a807960619b1fb5d33120cd83dc407b7570c6b92"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/root-verification.json",
+      "bytes": 2085,
+      "sha256": "21e6087955f7c747411c24905f41f9c3682dc886f70dc9631074f95d0108d5c1"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/saved-page.png",
+      "bytes": 94431,
+      "sha256": "356878a8caa45f6eb2cabd062ad33ebef396cf58c3e1c29c2abd99429cb0f8f6"
+    }
+  ],
+  "scope": "Actual captured workbench range and scoped human-edge diagnostic; no aggregate speech or engine acceptance"
+}

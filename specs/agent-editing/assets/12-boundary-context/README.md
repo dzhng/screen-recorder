@@ -24,10 +24,11 @@ precision annotation surface. The 20 ms candidate separation is 7.5 pixels; the 
 mark/reference gap is only 1.875 pixels. The original image remains preferable for
 local texture where it contains the signal.
 
-No endpoint, lexical identity, filler label or audible non-regression can be
+No endpoint, lexical identity, filler label or audible non-regression was
 established from this visual envelope. The original marks and score remain
-unchanged. Independent audible review must resolve whether the later sound is
-part of the word before a label can change. Slice 12 remains open.
+unchanged. The [actual human word range](../12f-human-marks/README.md) now supplies
+the disputed endpoint separately; the inherited visual mark falls after the
+listener's marked word end. Slice12's broader quality gates remain open.
 
 Reproduce using the unchanged repository harness, writing to a fresh directory:
 
@@ -66,9 +67,10 @@ timestamp/pixel preservation, locator relocation, incompatible source/origin/wor
 missing-boundary and unbound-legacy refusal, plus unchanged legacy scoring and the
 existing scorer tests. Every refusal leaves existing panel and mark bytes intact.
 
-This fixes evidence handling, not the actual frozen workbench dispute: those
-historical marks did not undergo the incompatible redraw. Audible word identity,
-independent labels and the failing timing gate remain unresolved. No model,
+This fixes evidence handling; the historical marks did not undergo the
+incompatible redraw. The later human workbench range resolves that word's
+reference, while broader independent labels and the failing timing gate remain
+unresolved. No model,
 listening, capture, native build or new annotation was used.
 
 Shape/diff/docs review retained the existing owner without a new annotation

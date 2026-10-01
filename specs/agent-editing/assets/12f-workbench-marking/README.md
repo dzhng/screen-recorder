@@ -1,7 +1,7 @@
 # Original opening context for workbench marking
 
-Status: original context and interactive page are verified. Actual independent
-human marks and the word-boundary diagnosis remain pending.
+Status: original context and interactive page are verified. The
+[actual human marks and diagnosis](../12f-human-marks/README.md) are now reconciled.
 
 The [prepared local page](http://127.0.0.1:65242/) receives actual marks in
 `/tmp/screenrec-workbench-marking-20260930`. Its process identity at preparation
@@ -32,8 +32,8 @@ preservation proof, not an independent audible-word judgment.
 [Annotations](annotations.json) own this page's sole word target and proposed
 ASR text. Saved human records belong in a separate output directory, never in
 this packet. Historical labels, accepted two-filler audio and the first marking
-page remain intact. Actual confirmed marks must pass identity and clock checks
-before the disputed word or corpus evidence can be reconciled.
+page remain intact. The actual confirmed workbench marks passed identity and clock checks and are
+retained separately from this prepared packet and its synthetic verification.
 
 The [marking owner](../../../../packages/test-harness/editing/speech-labeling.mjs)
 accepts this explicit packet while preserving the original default target list.

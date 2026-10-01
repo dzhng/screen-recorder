@@ -75,18 +75,17 @@ the difference inferred from two loaded-host measurements.
 
 ## Next evidence work
 
-Audition the bounded [filler original](filler-uh-54s-original.wav) and
-[candidate cut](filler-uh-54s-candidate-cut.wav), and the
-[repetition original](repetition-candidate-second-return-original.wav) and
-[candidate cut](repetition-candidate-second-return-candidate-cut.wav). Record
-actual target identities, accidental-versus-deliberate repetition, protected
-neighbor words/ranges and both joins separately. The repeated-phrase cut is a
-comparison candidate, not an accepted editorial decision. No speaker playback
-was performed in this pass.
+Preserve the [accepted complete-context two-filler cut](../12e-labeled-cleanup/README.md)
+and [actual workbench range](../12f-human-marks/README.md); do not repeat their
+completed reviews. Next are broader inventory and actual
+accidental-versus-deliberate repetition intent, protected neighboring ranges and
+other join judgments. Future auditions need original complete context alongside
+one candidate and one clear purpose. The cropped repeated-phrase cut remains a
+historical comparison candidate, not an accepted editorial decision.
 
 Expand the independent inventory to cover ASR omissions and measure full
 precision/recall. The [matched real-narration verbatim comparison](../12-verbatim/README.md)
 records the alternative on this same corpus; it remains research-only and fails
-the unchanged timing/completeness gate. The next numerical experiment is separate
-forced alignment on the frozen baseline text. Forced alignment cannot supply
-missing semantic labels. No processing recipe is accepted for slice 12b.
+the unchanged timing/completeness gate. The frozen alignment and precision trials
+have already been measured and remain scoped numerical evidence. Forced alignment
+cannot supply missing semantic labels. No processing recipe is accepted for12b.

@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-30",
+  "scope": "Scoped actual workbench label reconciliation; no aggregate quality or new cut/join verdict",
+  "savedRecord": {
+    "originalPath": "/tmp/screenrec-workbench-marking-20260930/marks-36d856f4-532c-4e1d-b030-3e545d9f5517.json",
+    "sha256": "4132df7f56f2df538000e6739742c314160c66822f3e3960b5cb3e92a50fb6d6",
+    "bytes": 1229,
+    "confirmation": "Human listening confirmation via Next; user explicitly replied captured"
+  },
+  "checks": {
+    "exactSourceClipPacketBinding": true,
+    "exportRebuildIdentical": true,
+    "sourceClockWithoutDoubleOrigin": true,
+    "allEdgesOnExactSamplePositions": true
+  },
+  "humanWord": {
+    "id": "w6",
+    "text": "workbench",
+    "sourceRange": {
+      "startUs": 4411675,
+      "endUs": 5168675
+    },
+    "clipSeconds": [
+      4.363,
+      5.12
+    ],
+    "originalFrames": [
+      209424,
+      245760
+    ],
+    "frameCount": 36336,
+    "pcmSha256": "943e66c2906d91bcdb1003b0d2fe326b8eff9447a2e155eb58be9a148a436af2"
+  },
+  "comparisons": [
+    {
+      "id": "baseline-asr",
+      "text": "workbench.",
+      "startUs": 4368675,
+      "endUs": 5648675,
+      "startErrorMs": -43,
+      "endErrorMs": 480
+    },
+    {
+      "id": "frozen-alignment-end",
+      "endUs": 5088675,
+      "endErrorMs": -80
+    },
+    {
+      "id": "frozen-verbatim-end",
+      "endUs": 5108675,
+      "endErrorMs": -60
+    },
+    {
+      "id": "inherited-visual-end",
+      "endUs": 5643675,
+      "endErrorMs": 475
+    }
+  ],
+  "diagnosis": "The inherited visual end falls475ms after the actual independently marked end. Keep both records; the new audible label resolves the disputed word edge rather than silently repinning historical scores.",
+  "limitations": [
+    "Only this word newly labeled; no other internal word boundary or complete filler/repetition inventory follows.",
+    "Alternative end errors alone do not select a processing recipe or establish overall timing acceptance.",
+    "No new cut, join audition, model or physical capture evidence."
+  ],
+  "slice12f": "achieved",
+  "parent12And12b": "open"
+}

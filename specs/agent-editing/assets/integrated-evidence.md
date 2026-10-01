@@ -102,6 +102,10 @@
   marked fillers through native and public edit/delivery/export owners. Exact
   protected PCM, complete undo and the new candidate's own user audition pass.
   This named-target acceptance does not select an automatic speech recipe.
+- The [actual workbench marks](12f-human-marks/README.md) resolve its disputed
+  audible edges against original/source/packet identity. Historical marks and
+  scores remain frozen; the unchanged baseline still fails the scoped human-edge
+  diagnostic. Broader corpus labels and recipe acceptance remain open.
 - [Verbatim speech](12-verbatim/README.md) and
   [forced alignment](12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](12-alignment-text-coverage/README.md) fixes one

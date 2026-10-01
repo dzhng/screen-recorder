@@ -1,0 +1,161 @@
+{
+  "marked": 8,
+  "matched": 8,
+  "unmarked": 0,
+  "medianErrorMs": 100,
+  "p95ErrorMs": 371.5,
+  "worstErrorMs": 480,
+  "meetsTiming": false,
+  "interpretation": "Human audible edges only; full inventory/repetition and independent held-out coverage remain incomplete",
+  "boundaries": [
+    {
+      "id": "w6-start",
+      "wordId": "w6",
+      "text": "workbench",
+      "side": "start",
+      "reportedUs": 4411675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 4411675,
+      "candidateUs": 4368675,
+      "state": "matched",
+      "errorMs": -43,
+      "insideSpeech": false
+    },
+    {
+      "id": "w6-end",
+      "wordId": "w6",
+      "text": "workbench",
+      "side": "end",
+      "reportedUs": 5168675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 5168675,
+      "candidateUs": 5648675,
+      "state": "matched",
+      "errorMs": 480,
+      "insideSpeech": false
+    },
+    {
+      "id": "w117-start",
+      "wordId": "w117",
+      "text": "uh",
+      "side": "start",
+      "reportedUs": 54113675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 54113675,
+      "candidateUs": 54128675,
+      "state": "matched",
+      "errorMs": 15,
+      "insideSpeech": true
+    },
+    {
+      "id": "w117-end",
+      "wordId": "w117",
+      "text": "uh",
+      "side": "end",
+      "reportedUs": 54508675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 54508675,
+      "candidateUs": 54448675,
+      "state": "matched",
+      "errorMs": -60,
+      "insideSpeech": true
+    },
+    {
+      "id": "w116-start",
+      "wordId": "w116",
+      "text": "paragraph",
+      "side": "start",
+      "reportedUs": 52428675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 52428675,
+      "candidateUs": 52288675,
+      "state": "matched",
+      "errorMs": -140,
+      "insideSpeech": false
+    },
+    {
+      "id": "w116-end",
+      "wordId": "w116",
+      "text": "paragraph",
+      "side": "end",
+      "reportedUs": 52929675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 52929675,
+      "candidateUs": 53088675,
+      "state": "matched",
+      "errorMs": 159,
+      "insideSpeech": false
+    },
+    {
+      "id": "w118-start",
+      "wordId": "w118",
+      "text": "this",
+      "side": "start",
+      "reportedUs": 55258675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 55258675,
+      "candidateUs": 55088675,
+      "state": "matched",
+      "errorMs": -170,
+      "insideSpeech": false
+    },
+    {
+      "id": "w118-end",
+      "wordId": "w118",
+      "text": "this",
+      "side": "end",
+      "reportedUs": 55367675,
+      "markedOffsetMs": 0,
+      "authority": "actual human listening confirmation",
+      "referenceUs": 55367675,
+      "candidateUs": 55408675,
+      "state": "matched",
+      "errorMs": 41,
+      "insideSpeech": false
+    }
+  ],
+  "scope": "Eight actual human word edges on four named words from one source; scoped diagnostic, not expanded-corpus acceptance",
+  "candidate": "Unchanged frozen baseline ASR",
+  "candidateSha256": "7792ed28400e645a75a1f607a023c02e1a40fb546fd3fdf48865d2eabd84b005",
+  "labels": [
+    {
+      "path": "human-marks.json",
+      "sha256": "4132df7f56f2df538000e6739742c314160c66822f3e3960b5cb3e92a50fb6d6"
+    },
+    {
+      "path": "../12d-human-marks/human-marks.json",
+      "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9"
+    }
+  ],
+  "fullFillerPrecision": null,
+  "fullFillerRecall": null,
+  "parent12Accepted": false,
+  "oldScoresChanged": false,
+  "separateObservedOmission": {
+    "id": "opening-um-end",
+    "text": "um",
+    "side": "end",
+    "reportedUs": 50831675,
+    "markedOffsetMs": 0,
+    "referenceUs": 50831675,
+    "state": "missing",
+    "errorMs": null
+  },
+  "excludedFromWordTiming": [
+    {
+      "id": "opening-um-start",
+      "reason": "Onset is at the original clip edge; preceding extent is unknown."
+    },
+    {
+      "id": "sentence",
+      "reason": "Outer sentence endpoints are not individual word edges."
+    }
+  ]
+}

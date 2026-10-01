@@ -1,6 +1,6 @@
 # 12 — Validate speech cleanup evidence
 
-Status: current local baseline reproduced with frozen partial labels; timing still fails at 135 ms median / 578.1 ms p95. The [matched verbatim alternative](../assets/12-verbatim/README.md) also fails (13/15 matched, subset median 20 ms / p95 352 ms); no engine selected. The [frozen-text alignment trial](../assets/12-alignment/README.md) also fails p95 (15/15 matched, median 35 ms / p95 556.5 ms). The [text-coverage diagnostic](../assets/12-alignment-text-coverage/README.md) fixes the disputed Return onset but still fails p95 (303 ms) and memory; two other unmarked onsets move. Full labels, independent joins and workbench boundary diagnosis remain open. [Evidence](../assets/12-speech/README.md). Dependencies: [00](./00-corpus.md).
+Status: current local baseline reproduced with frozen partial labels; timing still fails at 135 ms median / 578.1 ms p95. The [matched verbatim alternative](../assets/12-verbatim/README.md) also fails (13/15 matched, subset median 20 ms / p95 352 ms); no engine selected. The [frozen-text alignment trial](../assets/12-alignment/README.md) also fails p95 (15/15 matched, median 35 ms / p95 556.5 ms). The [text-coverage diagnostic](../assets/12-alignment-text-coverage/README.md) fixes the disputed Return onset but still fails p95 (303 ms) and memory; two other unmarked onsets move. Full labels and independent joins remain open. The actual human workbench range is now reconciled separately; no frozen score changed. [Evidence](../assets/12-speech/README.md). Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -43,7 +43,9 @@ User feedback changing the named contract or judged variable requires updating t
 
 [Wider workbench context](../assets/12-boundary-context/README.md) now includes both
 alternative endpoints and the unchanged mark. Its metadata-dependent time readout
-and missing audible word identity remain explicit; no label or threshold changed.
+remains historical evidence. The [actual human workbench range](../assets/12f-human-marks/README.md)
+now resolves that disputed reference separately; no historical label, score or
+threshold changed. The scoped human-edge diagnostic still fails baseline timing.
 
 [The precision diagnostic](../assets/12-alignment-precision/README.md) reduces peak
 resident memory to 3,574,104,064 bytes using float16 with the original frozen text.
@@ -62,5 +64,5 @@ prefix. Other labels/joins and broader cleanup acceptance remain open.
 The [boundary redraw owner](../assets/12-boundary-context/README.md#annotation-integrity)
 now preserves absolute human mark times when compatible candidate timestamps move,
 and refuses incompatible reuse before overwriting evidence. This corrects a tool
-integrity hazard; it does not resolve the frozen workbench disagreement or improve
-the recorded speech timing scores.
+integrity hazard; the later independent human range supplies the word reference.
+Neither change improves the recorded historical speech timing scores.

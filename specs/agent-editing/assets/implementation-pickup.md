@@ -16,9 +16,10 @@ residual seam. Preserve its exact media and recipe; the50ms seam and250ms
 whirling cases remain rejected. The [finite denoise matrix](denoise-acceptance/README.md)
 is accepted. The [exact two-filler candidate](12e-labeled-cleanup/README.md) now
 passes native/public technical contracts and its own user audition. The
-[saved sentence marks](12d-human-marks/README.md) are reconciled. Current pickup is
-[independent workbench marking](12f-workbench-marking/README.md), followed by
-broader corpus boundaries and filler/repetition intent for12/12d, then12b adoption
+[saved sentence marks](12d-human-marks/README.md) and
+[actual workbench edges](12f-human-marks/README.md) are reconciled. The unchanged
+baseline still fails the scoped human-edge diagnostic. Current pickup is broader
+corpus boundaries and filler/repetition intent for12/12d, then12b adoption
 and physical20/21. Do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
@@ -280,8 +281,9 @@ is integrated: compatible redraws retain absolute human marks; changed source,
 origin, word identity or unbound legacy annotations refuse before overwriting.
 Root reran all five focused scorer/CLI regressions. The actual workbench timing
 mismatch is not an origin or punctuation-merger bug: frozen engines disagree about
-the lexical endpoint. The saved human sentence marks now identify the marked
-endpoints; unmarked corpus endpoints remain missing.
+the lexical endpoint. The actual human workbench range now resolves that word
+through separate evidence; historical marks/scores remain unchanged. Unmarked
+corpus endpoints remain missing.
 No frozen mark, model or acceptance threshold changed.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)

@@ -1,7 +1,7 @@
 # 12f — Independently identify the workbench boundary
 
-Status: original context and interactive page verified; independent word marks
-and diagnosis remain pending. Dependencies: retained source identity and existing waveform marking
+Status: achieved. Original context, interactive page and actual independent
+word marks are verified; the disputed boundary is reconciled. Dependencies: retained source identity and existing waveform marking
 owners. No passing speech engine is required for this diagnostic.
 
 ## Contract
@@ -25,10 +25,10 @@ unknown. Source and packet identity plus the actual clock bind every export.
   playback, two-step progression and correctly bound synthetic save.
 - [x] Fresh visual review of the actual page and readable controls; minor
   completion-copy clutter remains documented in the packet review.
-- [ ] Actual independent saved workbench edges reconcile against source identity;
+- [x] Actual independent saved workbench edges reconcile against source identity;
   compare frozen engine proposals without replacing old marks or scores.
 
-The final item requires actual listening evidence. A prepared page, synthetic
-save or lack of feedback cannot satisfy it. This resolves one disputed word;
+The [actual human record](../assets/12f-human-marks/README.md) supplies the final
+item. Preparation and synthetic saves remain separate evidence. This resolves one disputed word;
 broader corpus inventory, repetition intent, timing and recipe selection remain
 with parent12.
