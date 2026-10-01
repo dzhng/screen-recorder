@@ -50,11 +50,12 @@ readiness remains unverified. Reuse the accepted bounded parity packet rather th
 rerunning inference or its controlled preparation-state matrix. Broader12 quality
 and installed acceptance remain separate.
 
-In parallel, advance [23h native library consumption](../slices/23h-native-library-consumption.md).
+[23h native library consumption](../slices/23h-native-library-consumption.md) is
+merged-verified through its [headless consumer checkpoint](23h-native-library-consumption/merged-verification.json).
 [23f source lifetime](../slices/23f-capture-source-lifetime.md) is merged-verified
 through its [current-source checkpoint](23f-capture-source-lifetime/merged-verification.json).
 [23g explicit export requests](../slices/23g-project-export-requests.md) passes the
-merged controller gates; remaining consumer menus and installed acceptance stay
+merged controller gates; concrete presentation and installed acceptance stay
 under [23](../slices/23-cutover.md).
 [21f1 capture-facts extraction](../slices/21f1-capture-facts.md) is integrated;
 its [merged verification](21f1-capture-facts/merged-verification.json) checks source,

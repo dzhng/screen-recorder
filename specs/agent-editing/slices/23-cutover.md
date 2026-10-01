@@ -1,7 +1,8 @@
 # 23 — Cut over all consumers and remove old owners
 
-Status: isolated consumer preservation and source lifetime are verified;
-[23h native library consumption](23h-native-library-consumption.md) remains open.
+Status: isolated consumer preservation, source lifetime and
+[23h headless native library consumption](23h-native-library-consumption.md) are merged-verified.
+Concrete presentation and installed release acceptance remain open.
 Installed switching and obsolete-owner deletion have not started.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 

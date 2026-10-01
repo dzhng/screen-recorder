@@ -165,7 +165,8 @@ failure. Numerical checks cannot close listening or physical-camera acceptance.
 [Early encoding trials](06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
 the later [output quality study](09b-output-quality/README.md) selects an
 editable balanced default. [Fixed reference-speech reproduction](../slices/18-voice-reproduction.md)
-and [frozen local denoise](denoise-acceptance/README.md) are accepted;19 retains the speech-free ambience/loop gate. Remaining speech cleanup,
+and [frozen local denoise](denoise-acceptance/README.md) are accepted. [19 ambience acceptance](19-acceptance/README.md) preserves the selected
+200 ms speech-free loop with its tolerated slight seam. Remaining speech-evidence characterization,
 camera (20/21), cutover (23), scale (24) and autonomous acceptance (25) follow the
 [current checklist](../README.md#global-checklist). No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,

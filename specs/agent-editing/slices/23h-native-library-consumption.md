@@ -1,12 +1,13 @@
 # 23h — Native library consumption
 
-Status: scoped native consumer verified by headless exchanges, actual app compilation
+Status: scoped native consumer merged-verified by headless exchanges, actual app compilation
 and independent source review. Presentation and installed release gates remain open.
 Prerequisites: [23f source lifetime](23f-capture-source-lifetime.md),
 [23e preview](23e-preview-consumer-parity.md) and [23g export requests](23g-project-export-requests.md).
 Installed switching remains under [23](23-cutover.md).
 The [consumer packet](../assets/23h-native-library-consumption/README.md) owns the
-headless exchange, direct compiler and preservation evidence; it establishes no
+headless exchange, direct compiler and preservation evidence, including the
+[merged checkpoint](../assets/23h-native-library-consumption/merged-verification.json); it establishes no
 window, playback or installed-library claim.
 
 ## Contract and owner

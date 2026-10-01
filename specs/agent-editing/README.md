@@ -15,76 +15,61 @@ example to the plan; the user kept segmentation outside this run and requested a
 
 ## Next Agent Prompt
 
-Implement the remaining toolkit primitives through their existing owners. Read
+Implement the remaining primitives through their existing owners. Read
 [contracts](contracts.md), [architecture](architecture.md),
 [verification](verification.md), [journeys](journeys.md) and [processing](processing.md).
-The external caller makes every editorial decision. The consumer skill is a
-product artifact, not the repository's development workflow.
+The external caller makes every editorial decision. The consumer
+[screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
+developers read or edit it from that caller's perspective.
 
-**Next pickup: [21f3b independent camera clock/support](slices/21f3b-independent-camera-clock.md), then atomic public camera selection.**
-[21f3a independent publication](slices/21f3a-independent-publication.md),
-[21f2 fresh coordination](slices/21f2-capture-coordination.md),
-[21f1 capture facts](slices/21f1-capture-facts.md) and
-[21f2a durable admission](slices/21f2a-capture-admission.md) are merged-verified.
-Public camera selection stays rejected until its complete path passes. Capture publishes source facts; the caller authors canvas, tracks,
-placement and links through existing project/edit operations. Capture creates no
-project. Preserve installed span transactions until the explicit cutover in 23.
+**Next pickup: [21f3b independent camera clock/support](slices/21f3b-independent-camera-clock.md), then [atomic public camera selection](slices/21f3-public-camera-selection.md).**
+Independent publication and fresh capture coordination are merged-verified.
+Keep public camera selection rejected until allocation, the actual native
+controller, recovery, independent source admission and explicit project use pass
+together. Capture publishes source facts. The caller authors projects, canvas,
+tracks, placement and links through existing operations. Capture creates no project.
+Preserve installed span transactions until the explicit cutover in 23.
 
-Advance independent branches in parallel when their actual seams are ready.
-Release dependencies do not prohibit isolated implementation preparation.
+Advance independent branches when their actual seams are ready. Release acceptance
+prerequisites do not prohibit isolated implementation preparation.
 
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
-| [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader acoustic/lexical coverage, held-out timing and current generic preparation-owner readiness |
-| [20 / 21](slices/21-webcam.md#implementation-graph) | Independent publication and camera clock/support, then atomic public selection | One-frame physical synchronization, live lifecycle and completed-stop deadline |
-| [23](slices/23-cutover.md) | Remaining matched consumer ports and preservation | Installed switching and obsolete-owner removal after actual prerequisites |
-| [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md), remaining dimensions and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
+| [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and current generic preparation readiness |
+| [20 / 21](slices/21-webcam.md#implementation-graph) | Independent camera support, then atomic public selection | Physical synchronization, live lifecycle and completed-stop deadline |
+| [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
+| [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md) and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
 
-Reuse the completed evidence rather than repeating it:
+Reuse the [banked evidence](assets/integrated-evidence.md) and
+[source/runtime identities](assets/implementation-pickup.md):
 
-- [21a–21e](slices/21-webcam.md#implementation-graph) establish controlled discovery,
-  input/publication, source admission and caller-authored project integration.
-  [Merged 21e](assets/21e-capture-project-adoption/merged-verification.json) preserves
-  all reviewed PNG/WAV bytes, independent replacement/undo and donor-free history;
-  this is not physical synchronization or representative image-quality acceptance.
-- [12b public integration](assets/12b-public-parity/README.md) and
-  [actual selected-source inference parity](assets/12b-public-parity/actual-inference/README.md)
-  preserve raw outputs, provenance, generations and explicit fixture edits.
-  Parakeet retains its selected best-effort filler/timing limits. Personal model
-  files remain unchanged; scratch readiness is declared. Do not repeat the parity
-  cohort or require another ASR winner or personal keep/remove answer.
-- [23d export consumption](slices/23d-export-consumer-parity.md) and
-  [23e preview consumption](slices/23e-preview-consumer-parity.md) are merged-verified
-  for receipt ownership, truthful failure recovery and preview leases. The preview
-  presenter was compiled, not run. [23g explicit export requests](slices/23g-project-export-requests.md)
-  also passes typed target/snapshot/destination and late-reply controller gates.
-  [23f source lifetime](slices/23f-capture-source-lifetime.md) is merged-verified
-  for explicit deletion/discard, ready-source preservation and verified cleanup.
-  [Native library consumption](slices/23h-native-library-consumption.md) and
-  installed acceptance remain under 23.
+- [21a–21e](slices/21-webcam.md#implementation-graph) verify controlled capture,
+  admission and caller-authored projects, with preserved PNG/WAV outputs and
+  replacement/undo/history. These do not establish physical synchronization.
+- [12b selected-source parity](assets/12b-public-parity/actual-inference/README.md)
+  preserves raw evidence, generations and explicit fixture edits. Keep Parakeet's
+  selected best-effort limits; no replacement winner or personal keep/remove
+  answer is required to preserve this baseline.
+- [23](slices/23-cutover.md) owns the scoped consumer checkpoints and their limits.
+  Compiling a presenter does not verify its presentation or installed behavior.
 
-The retained camera is 246 seconds and screen about 251 seconds: take duration is
-sufficient. Use originals, journals, recovered media and telemetry for the named
-remaining question in [20](slices/20-camera-reproduction.md). The
-[finer diagnostic](assets/20-retained-marker-resolution/README.md) retains physical
-onset/event-identity uncertainty. Never request a routine replacement recording.
-
-Preserve [banked evidence](assets/integrated-evidence.md), including saved marks,
-accepted retiming/denoise/voice and the chosen 200 ms speech-free ambience loop with
-its tolerated slight seam. Do not repeat auditions/marking, retune that loop or
+The retained camera is 246 seconds and screen about 251 seconds: duration is
+sufficient. Reuse originals, journals, recovered media and telemetry for the
+[named remaining camera question](slices/20-camera-reproduction.md). Preserve saved
+marks, accepted retiming/denoise/voice and the chosen 200 ms ambience loop with its
+tolerated slight seam. Do not repeat accepted auditions, retune that loop or
 transfer a verdict to changed output. The repetition-intent solicitation is retired.
 
-[Implementation pickup](assets/implementation-pickup.md) owns source/runtime
-identities and isolated homes. No new capture, audible playback, model installation
-or download, Claude run, frozen-worker replacement or installed-app switch is
-authorized. Isolated source changes and bounded verification may proceed. A new
-human task requires a concrete missing technical fact and an explanation of why
-retained evidence cannot establish it; it is not a routine development fallback.
+No new capture, audible playback, model preparation/install/download, Claude run,
+configured CLI-review retry, frozen-worker replacement or installed-app switch is
+authorized. Bounded source verification uses separately pinned scratch builds with
+existing offline CODE dependencies. Any proposed human task must name the missing
+technical fact and explain why retained evidence cannot establish it; it is never
+a routine fallback. See [verification](verification.md#implementation-readiness-and-acceptance).
 
-Keep this pickup, the checklist and owning Status lines consistent. Preparation,
+Keep this pickup, checklist and owning Status lines consistent. Preparation,
 technical parity, measured quality and release acceptance are distinct. Missing
-technical evidence stays unverified; failed scores/deadlines do not become passes
-through rewriting. Continue independent primitive work when a separate claim is open.
+or failed evidence stays open; continue independent primitive work.
 
 ## Outcome and boundaries
 
@@ -269,7 +254,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23e — Native preview receipt and lease parity](slices/23e-preview-consumer-parity.md)
 - [x] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
 - [x] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
-- [ ] [23h — Native library consumption](slices/23h-native-library-consumption.md)
+- [x] [23h — Native library consumption](slices/23h-native-library-consumption.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

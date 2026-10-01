@@ -5846,6 +5846,7 @@ When: 21f3a cancellation regression.
   lifetime. Retained-file native recovery proves only what its bytes authorize.
 - **Verdict:** Sound. Canceling an attempt cannot erase completed publication,
   while historical publication cannot bypass current ownership and admission.
+- **Confidence:** High.
 
 ## 23h — Native library consumption
 

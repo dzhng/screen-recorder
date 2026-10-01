@@ -38,7 +38,10 @@ the manifest and raw logs rather than a second copied scenario roster here.
 The service source-lifetime prerequisite was independently merged/verified by root
 at `74958fe7`; this worktree's consumer base is `4ad1c677`. Scripted responses establish
 consumer behavior, not an actual service, source admission or physical capture
-journey. Root integration must verify the merged wiring. The retained historical
+journey. The [merged checkpoint](merged-verification.json) verifies current root
+wiring, all original packet pins and loaded CODE, complete consumer exchanges and
+existing controls. It links the current app, including independent publication,
+without executing it. The retained historical
 preview/export receipts remain decoding evidence. Concrete menu presentation,
 playback, screenshots, hardware/model operations, installed switching and release
 acceptance remain unverified by this packet.

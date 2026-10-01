@@ -1,0 +1,69 @@
+{
+  "scope": "Headless merged native library consumer, actual source app link without execution and existing controls preservation only",
+  "mergedCommit": "c843fbe134fc780de219238f85ee590ea0d561f6",
+  "delegatedCommit": "793f74c4313ca600fee48e2355d786488a661cc0",
+  "servicePrerequisite": "74958fe7",
+  "independentPublicationPrerequisite": "f616e80d",
+  "originalPacket": {
+    "base": "4ad1c6779291d2594f162becaffa8c52b83690cf",
+    "root23fPrerequisite": "74958fe7",
+    "archive": "evidence.tar.gz",
+    "sha256": "57f5f1949e63d5512b4ee6f73118c78340f0fa076a6baadf81126c4251bb9847",
+    "bytes": 64465,
+    "members": 32,
+    "uncompressedMemberBytes": 386936,
+    "scope": "headless native consumer and actual app compilation only; no app launch/visual/physical/media/model/installed or performance claim"
+  },
+  "originalPacketValidation": {
+    "payloadPinsVerified": 31,
+    "sourcePinsVerified": 91,
+    "historicalSourceDifferences": [
+      "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift",
+      "helpers/mac/Sources/ScreenRecorderCapture/CaptureTypes.swift",
+      "helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift",
+      "helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift"
+    ],
+    "loadedCodeModulesVerified": 99
+  },
+  "mergedArchive": {
+    "path": "merged-evidence.tar.gz",
+    "bytes": 20939,
+    "sha256": "f7928e6f52711660cc4bc09189fee3a39dde43d308a91f34610692d87cda6a71",
+    "members": 7
+  },
+  "sourceInputsPinned": 96,
+  "loadedCodeModulesVerified": 99,
+  "sourceAuthoritiesVerified": 4,
+  "appBinarySha256": "16bd3cd150cde452c739b8aeb93620bbe420be1a92c5c62404f6a7be75118698",
+  "appExecutableLifetime": "Linked, hashed, never executed; test finally removes only its own scratch directory",
+  "commands": [
+    {
+      "command": "node --test apps/macos/tests/library-controls.test.mjs apps/macos/tests/library-wiring.test.mjs apps/macos/tests/menu-updates.test.mjs apps/macos/tests/preview-controls.test.mjs apps/macos/tests/project-export-controls.test.mjs",
+      "exitCode": 0,
+      "passed": 5,
+      "existingPureControlsGroups": 16,
+      "log": "native-controls.log"
+    },
+    {
+      "command": "node --test --test-name-pattern 'native exports (pin|consume)' apps/macos/tests/export-controls.test.mjs",
+      "exitCode": 0,
+      "passed": 2,
+      "log": "export-controls.log",
+      "bundledServiceMediaTestSelected": false
+    }
+  ],
+  "completeLoggedExchangeSequences": 2,
+  "completeLoggedExchanges": 140,
+  "intentionalSourceDifference": "The delegated compiler predates 21f3a. Four original capture inputs match the delegated Git commit instead of current root; the merged app links all current capture sources, including the new independent-publication owner. Consumer sources and all 99 loaded CODE modules match.",
+  "review": "Root source/ownership review and prior independent controller reviews; no configured CLI review retry.",
+  "excludedClaims": [
+    "actual service/source admission",
+    "visual presentation",
+    "playback",
+    "physical capture or synchronization",
+    "stop deadline",
+    "model preparation/inference",
+    "installed app switch",
+    "performance acceptance"
+  ]
+}
