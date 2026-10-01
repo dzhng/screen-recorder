@@ -50,5 +50,19 @@
   "actualProfileAttempts": 0,
   "actualProjectReadAttempts": 0,
   "actualServiceStarts": 0,
-  "nextBoundary": "Separately coordinate a future window, confirm own lanes and inspect fresh whole-host preflight, reverify all pins, then obtain root release before exactly one bounded profile attempt. No timer, monitor or retry created."
+  "nextBoundary": "Separately coordinate a future window, confirm own lanes and inspect fresh whole-host preflight, reverify all pins, then obtain root release before exactly one bounded profile attempt. No timer, monitor or retry created.",
+  "coordinatedWindowCheck": {
+    "observedAtUTC": "2026-10-01T09:29:31.694283+00:00",
+    "status": "BUSY; dispatch deferred before service start",
+    "reason": "Unrelated simulator 562.3% CPU and browser renderers 166.7%/159.4%; own native/service/build lanes confirmed quiet. No polling or retry.",
+    "rawInventory": {
+      "path": "/tmp/screenrec-24z-owner-profile-window-preflight.txt",
+      "sha256": "5a290a1e1e64a882fc9775d3a9f0ba8be9a9d8c593e8cb402ed7d9b230a68421",
+      "includedInRepository": false
+    },
+    "actualProfileAttempts": 0,
+    "actualProjectReadAttempts": 0,
+    "actualServiceStarts": 0,
+    "laneReleased": true
+  }
 }
