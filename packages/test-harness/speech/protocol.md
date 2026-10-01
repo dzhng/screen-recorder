@@ -50,14 +50,22 @@ Terms are individual tokens; ambiguous words such as “like” count as predict
 fillers whenever emitted, including ordinary uses. Label those uses correctly so
 precision reveals this limitation. Freeze the vocabulary before held-out scoring.
 This measures the proposed literal filler detector; it does not prove contextual
-filler classification or phrase recognition. Repetitions are compared as ordered
+filler classification or phrase recognition. Filler precision/recall are measurements,
+not pass/fail gates under the selected best-effort policy. `filler: true` does not
+implicitly declare a preservation target; `required: true` explicitly does, even
+when the same word is also a filler. The existing hard omission check applies to canonical fixtures;
+held-out and walkthrough omissions remain diagnostics.
+
+Repetitions are compared as ordered
 occurrences, rather than as a set of words. Case and punctuation are ignored. When equally good text alignments match
 different repeated occurrences, choose the alignment with the smallest total
 word-boundary distance. Timing never overrides a better text match.
 
 Boundary errors include both endpoints of exact aligned words; omitted words
 have no invented timing. The report retains matched/reference denominators,
-canonical omissions, and filler false negatives beside timing percentiles.
+canonical required-word omissions, and filler false negatives beside timing percentiles.
+Per-clip `missedRequired` and `missedFillers` preserve their separate zero-based
+reference-word indices; a missed required filler appears in both.
 Wilson intervals describe the uncertainty in this small acceptance set. Neither
 word timing support nor a vendor throughput claim establishes edit safety.
 

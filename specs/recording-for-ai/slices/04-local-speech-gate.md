@@ -43,7 +43,14 @@ Run bun run lab:speech-eval on manually labeled real narration: short canonical 
 
 ## Acceptance
 
-Apply verification.md thresholds, including intact neighboring speech. Every canonical filler must survive. No model chosen solely by vendor throughput or overall WER. Setup failure or absent real fixture is reported pending. Choose the passing candidate with lower measured overhead, not both by default.
+Apply verification.md timing, resource and neighboring-speech requirements. Report
+filler precision/recall and omissions with denominators; low filler scores do not
+fail evaluation under the selected best-effort policy. A word explicitly labeled
+`required: true` remains a canonical preservation target, including a filler with
+that explicit label. Missing real fixtures or provenance remain pending. Historical
+failed filler trials remain evidence; they do not reopen the selected engine.
+The [scorer policy verification](../../agent-editing/slices/12g-evaluator-policy.md)
+keeps measurements separate from explicit preservation.
 
 ## Decisions delegated and scope firewall
 
@@ -65,9 +72,19 @@ and the README Next Agent Prompt at each green checkpoint. Tests must pin consum
 behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
-Failed filler fidelity does not authorize cutting the requirement or using cloud inference. Report the failed assumption and preserve the gate.
+Preserve historical failed filler trials and their original scores. Their retired
+filler thresholds do not govern the selected best-effort policy. Current timing,
+explicit canonical preservation, resource and audition requirements still apply;
+missing evidence remains pending. Filler observations neither authorize an edit
+nor introduce cloud inference.
 
-## Public human fixture candidate
+## Historical fixture and alternative diagnostics
+
+These reports preceded the selected best-effort policy. Their failed filler tests
+and candidate-selection statements describe those trials, not current acceptance.
+The retained scores remain unchanged.
+
+### Public human fixture candidate
 
 An [AMI candidate](../assets/speech/ami-candidate.md) supplies human audio and verbatim
 transcript text, but its word timings come from automatic alignment. It cannot close

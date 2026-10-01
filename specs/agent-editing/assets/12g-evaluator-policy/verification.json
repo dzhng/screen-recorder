@@ -1,0 +1,678 @@
+{
+  "status": "implemented; isolated contract verified; integration pending",
+  "base": "a154899af4f2404da366562dec9c1463ce9ee965",
+  "worktree": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder",
+  "scope": "synthetic evaluator contract proof, not human quality, improved selected baseline or full12 acceptance",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 54507,
+    "sha256": "82d54a712e33b3590ab86537a0de3058574bd2c65f8b99363bb5405e44375efc",
+    "members": 94
+  },
+  "members": {
+    "after.json": {
+      "bytes": 1713,
+      "sha256": "53d2cbba0e42bda26baf2e6f023a524082ba18f78f2d95e129bb6e7b53f67f42"
+    },
+    "authority.json": {
+      "bytes": 6839,
+      "sha256": "79ba6c473ef39bcb9e82d31c3d18ee068edd50630de838fd185c29bcfabe27ee"
+    },
+    "base/packages/test-harness/speech/evaluate.mjs": {
+      "bytes": 9161,
+      "sha256": "fd81c9d21eb4d8f29f39e1b88b8a14d70e8c24822dc38a9f5ef4e90634008380"
+    },
+    "base/packages/test-harness/speech/evaluate.test.mjs": {
+      "bytes": 6335,
+      "sha256": "d3b6d0026c31f46e3e3188a1e1b45fb3f9c3aed723c105e2c11156115a74a618"
+    },
+    "base/packages/test-harness/speech/protocol.md": {
+      "bytes": 5313,
+      "sha256": "f1b4823747bfbc9d6b831ba2ec366b4d81f6b2f6e6ff17aa0057f0791c694f2c"
+    },
+    "base/specs/recording-for-ai/slices/04-local-speech-gate.md": {
+      "bytes": 6373,
+      "sha256": "1153a939e4b4b531fbf66f431a659f3bc218398892cfc930d3745cfa4ab9679e"
+    },
+    "baseline-evaluate.mjs": {
+      "bytes": 9161,
+      "sha256": "fd81c9d21eb4d8f29f39e1b88b8a14d70e8c24822dc38a9f5ef4e90634008380"
+    },
+    "before.json": {
+      "bytes": 1728,
+      "sha256": "4a64403b78fae10e39557411a01ac250a0bd88b5186ee60cbc0e800bf782588d"
+    },
+    "checks/after-deletion-tests.txt": {
+      "bytes": 2399,
+      "sha256": "970b631c1fc3eea659773225290ff82571f8f0510c3759084925bc2096eb03b4"
+    },
+    "checks/enforcement.txt": {
+      "bytes": 348,
+      "sha256": "ad4cf08aef8bc831b58e54d7151bcc6c514c9b7b7d026b5e1775e6d51be06e7f"
+    },
+    "checks/evaluator-tests.txt": {
+      "bytes": 2268,
+      "sha256": "7a1debe109abff2d6396fabf531d174fd6e695133efe77327486ea6685636306"
+    },
+    "checks/final-tests.txt": {
+      "bytes": 2399,
+      "sha256": "0816b91c9d645571bc58a6e90f64f748148a260aeed81fb8b64cd2c6e0cb0a26"
+    },
+    "checks/format.txt": {
+      "bytes": 203,
+      "sha256": "4b65e16d159bec876947ba7ca2a4a65dbe0d43715de943fb489a6ca446094cf4"
+    },
+    "checks/green.txt": {
+      "bytes": 1239,
+      "sha256": "d4da1bd6e5ed2e8eb265664e530e9a0ea3ec2b6b729e1d5b8b2916b441b9758e"
+    },
+    "checks/lint.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/policy-controls-initial.txt": {
+      "bytes": 474,
+      "sha256": "31978a584e6c048973f19344f81405597987d51a2865e5540647eb8832e66302"
+    },
+    "checks/policy-controls.txt": {
+      "bytes": 47,
+      "sha256": "3394b22cb857c822b7f3818c1fd516789c343809994b8092c1c155497a18072e"
+    },
+    "checks/red.txt": {
+      "bytes": 2019,
+      "sha256": "bb70c64094c7410821637a028ce90e36c393a1d65dfe27969d4b6b7d57d189fd"
+    },
+    "checks/syntax.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "closure/packages/test-harness/speech/evaluate.mjs": {
+      "bytes": 9111,
+      "sha256": "c8f4a68cb12d5bc2eb8a0d711ddc0b8463a8fc45959f2f2ab245931c95eb6c98"
+    },
+    "closure/packages/test-harness/speech/evaluate.test.mjs": {
+      "bytes": 12364,
+      "sha256": "e693b250ca74cdb6841f442bae5f7731e4753fb50794092b1ba3537f72023f0e"
+    },
+    "closure/packages/test-harness/speech/protocol.md": {
+      "bytes": 5837,
+      "sha256": "2ffd3e9598fedfc43cba91a1d19fb23c3661a45f6a75e999009b0caf95d36553"
+    },
+    "closure/specs/agent-editing/slices/12g-evaluator-policy.md": {
+      "bytes": 2261,
+      "sha256": "0676bd7f4ec19fa38baee55565e8407703ca38642c628633f7b577590fdf2de3"
+    },
+    "closure/specs/recording-for-ai/slices/04-local-speech-gate.md": {
+      "bytes": 7164,
+      "sha256": "a474385ea6d0f8796bbf8a285bef06dad061a5d2ed40aa86a464207959e027e8"
+    },
+    "commands.json": {
+      "bytes": 1073,
+      "sha256": "9bc87497b1896a3246de9705c442c05899a4335bd002473c397265069fbe2731"
+    },
+    "controls/audition-clipped-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/audition-clipped-runs.json": {
+      "bytes": 6311,
+      "sha256": "c1c1dc0dbcf1c0b2e2fceffed5b283463e280ebbe1848470cb91776e9aaac10f"
+    },
+    "controls/audition-clipped-stderr.txt": {
+      "bytes": 169,
+      "sha256": "5bde1dfee0e522033bc281e83e553eb0b89ba464e5b2f3d437e23a1b698cf0f0"
+    },
+    "controls/audition-clipped-stdout.json": {
+      "bytes": 1514,
+      "sha256": "09d26e07912339649b9eb8c119d33a247fdfcba9704cfd865cc2ab012b7139b2"
+    },
+    "controls/audition-missing-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/audition-missing-runs.json": {
+      "bytes": 6216,
+      "sha256": "b002e6a2465c911481823dd97b51e8e82d0e756d21bc56e4fc7111d409d48394"
+    },
+    "controls/audition-missing-stderr.txt": {
+      "bytes": 169,
+      "sha256": "39f4090a3adb6f85afb8083741d9917d40e4d772bb6aedc90d3d25192a0fe800"
+    },
+    "controls/audition-missing-stdout.json": {
+      "bytes": 1510,
+      "sha256": "c97061facbd79b06e347df965ee7cc6c0a9ac7627ba5207cc12e6432661b7a56"
+    },
+    "controls/cold-resources-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/cold-resources-runs.json": {
+      "bytes": 6311,
+      "sha256": "3ed9cd487321ea70597d5b9184be87ff12b7b9393f1f20e2ca0fd821a7d18707"
+    },
+    "controls/cold-resources-stderr.txt": {
+      "bytes": 169,
+      "sha256": "5bd030f678c2c3d2019ce5fcfb7ffb410a26c79d815f3f00227c8af441f8d5fb"
+    },
+    "controls/cold-resources-stdout.json": {
+      "bytes": 1522,
+      "sha256": "0fd8701de1b8ad7b140fa2727b8799fd555931821a56660b69abe62f9ffeaca0"
+    },
+    "controls/excess-rss-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/excess-rss-runs.json": {
+      "bytes": 6316,
+      "sha256": "24c4f5c70fb85ae2f8ac6473351aae5e703757e2cdeef2fe44ffc272a1ed2c1e"
+    },
+    "controls/excess-rss-stderr.txt": {
+      "bytes": 169,
+      "sha256": "dcf2eaffb2152b9fcc8b7a75b3473f3f81740b18c4eba644790607e98b2cdff7"
+    },
+    "controls/excess-rss-stdout.json": {
+      "bytes": 1503,
+      "sha256": "ac6e014f58539e3710d53dcf5886057daebd05cafadb0515faf1d3c4dab4a47b"
+    },
+    "controls/fewer-labels-dataset.json": {
+      "bytes": 6636,
+      "sha256": "eb6e938fe6f4da309b5d84eb9c85d9a6249a9224c231ca675069d3dbf23720e1"
+    },
+    "controls/fewer-labels-runs.json": {
+      "bytes": 6310,
+      "sha256": "9f83aa8834ffa7879a4019e4c2a5216aae54493871a562d4d04874aece9c6617"
+    },
+    "controls/fewer-labels-stderr.txt": {
+      "bytes": 169,
+      "sha256": "309faefb128b6fda412670813e9cb74c119d2d4a79877c427b744b947a024fd6"
+    },
+    "controls/fewer-labels-stdout.json": {
+      "bytes": 1549,
+      "sha256": "00154a87d383ca2493603f8dcf396a975537a0627d272ed562408dd659ed05b8"
+    },
+    "controls/initial-missing-provenance-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/initial-missing-provenance-runs.json": {
+      "bytes": 6276,
+      "sha256": "6a8ed5b391a13274e2649fb0833d8507ffe7990f0698aa48bd2e330fa5ce2840"
+    },
+    "controls/initial-missing-provenance-stderr.txt": {
+      "bytes": 196,
+      "sha256": "65e27568bdc217e99ba8dc1cd7debbf850c7d0dfae988a9e3090d95bd381b7a3"
+    },
+    "controls/initial-missing-provenance-stdout.json": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "controls/missing-coverage-dataset.json": {
+      "bytes": 6660,
+      "sha256": "383387763f74ce59867b6ad89a8bd9a68f8b93b021b0dea481dee30364ed2913"
+    },
+    "controls/missing-coverage-runs.json": {
+      "bytes": 6310,
+      "sha256": "9f83aa8834ffa7879a4019e4c2a5216aae54493871a562d4d04874aece9c6617"
+    },
+    "controls/missing-coverage-stderr.txt": {
+      "bytes": 169,
+      "sha256": "88b579528abb02c36c738e494ce286f4b876e954db6db0be843633b8ba01d523"
+    },
+    "controls/missing-coverage-stdout.json": {
+      "bytes": 1518,
+      "sha256": "149eac95db9fe454c5c00ccc0ddeaa4896b81f1c07435d6073b7a6e64bfb2e39"
+    },
+    "controls/missing-provenance-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/missing-provenance-runs.json": {
+      "bytes": 6271,
+      "sha256": "c7b83c0f12daa338f424a1be60004e9a10ee2d9c8c0fcb68ec88ccb882dffec7"
+    },
+    "controls/missing-provenance-stderr.txt": {
+      "bytes": 169,
+      "sha256": "939b0cc427ca1f0e6e68a36449d50dbe637a5ae8e634339ba56fca01c861333c"
+    },
+    "controls/missing-provenance-stdout.json": {
+      "bytes": 1522,
+      "sha256": "e3b0c0de2e5178049532fad49cafd1f810b4a6be2b30fd72b8deb983082b729e"
+    },
+    "controls/one-held-clip-dataset.json": {
+      "bytes": 4103,
+      "sha256": "774960cf3dc4432d57896e3f2e343db9d2eca8a08919798e02171d8d4a04b00d"
+    },
+    "controls/one-held-clip-runs.json": {
+      "bytes": 3887,
+      "sha256": "79d7254410841b3b3adfc33ef5efeb5ff4b8209c24663a0b53183d55d42f37a4"
+    },
+    "controls/one-held-clip-stderr.txt": {
+      "bytes": 169,
+      "sha256": "43eb0a13a9539259b596a4831d0da86dcdc5249e2868ea2b0db240434711d1ae"
+    },
+    "controls/one-held-clip-stdout.json": {
+      "bytes": 1260,
+      "sha256": "6cbb10564b74e7896ee17f9a86437b501a995cac7aae57e225092ff8b027b397"
+    },
+    "controls/optional-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/optional-runs.json": {
+      "bytes": 6310,
+      "sha256": "9f83aa8834ffa7879a4019e4c2a5216aae54493871a562d4d04874aece9c6617"
+    },
+    "controls/optional-stderr.txt": {
+      "bytes": 169,
+      "sha256": "f8b612626a7b2adcc7cd97fc122358f4fc46bc6007c605a5722150f8f776f629"
+    },
+    "controls/optional-stdout.json": {
+      "bytes": 1470,
+      "sha256": "9426d9317bfa9729b107c820d04e734fa2503daee4319caa56ae70449e78e465"
+    },
+    "controls/outcomes.json": {
+      "bytes": 12576,
+      "sha256": "ee9d8199b0b77d088f58e2b0e289415462e67daa00b3d7f5bf070a868d354cb2"
+    },
+    "controls/perfect-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/perfect-runs.json": {
+      "bytes": 6632,
+      "sha256": "720ba869543f02f2e0f01ae40ec5f47374b6b2fa57e7065004286f69dbe80449"
+    },
+    "controls/perfect-stderr.txt": {
+      "bytes": 169,
+      "sha256": "a73f60b9685cb9afa207f3a63aa0972cee2f1a2076dfb6df8c338fbc15a50404"
+    },
+    "controls/perfect-stdout.json": {
+      "bytes": 1281,
+      "sha256": "0efeea4224552890af62c75abe300b6ccc3b46cdd397bd498ca5efe5ae21a392"
+    },
+    "controls/required-filler-dataset.json": {
+      "bytes": 6808,
+      "sha256": "66129ed8e1951fbe96efa1576cf589fda0f8bdd9e87bbad2562564185890dbf3"
+    },
+    "controls/required-filler-runs.json": {
+      "bytes": 6310,
+      "sha256": "9f83aa8834ffa7879a4019e4c2a5216aae54493871a562d4d04874aece9c6617"
+    },
+    "controls/required-filler-stderr.txt": {
+      "bytes": 169,
+      "sha256": "8b4b00cb7e620d49decc631dd2d79ecc632df82e23eed0462ed14b5e838fe74b"
+    },
+    "controls/required-filler-stdout.json": {
+      "bytes": 1527,
+      "sha256": "d8d44d6a05db8ebc702abbad4e81f1b3c7987e632e99f39beebef22ed57db824"
+    },
+    "controls/required-word-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/required-word-runs.json": {
+      "bytes": 6202,
+      "sha256": "a7a47622a56741f4aa098017257e9e3a2c72acf180d92165883e8cc5b4281757"
+    },
+    "controls/required-word-stderr.txt": {
+      "bytes": 169,
+      "sha256": "51e7ba2eb042f9fea09ffd9005a8758eb1fb5dd3c9e0891cb798ace82c903743"
+    },
+    "controls/required-word-stdout.json": {
+      "bytes": 1527,
+      "sha256": "95ef4935052a601cbf3c18e134ff5d4d293a9d589c695da08779b3fc376e246b"
+    },
+    "controls/timing-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/timing-runs.json": {
+      "bytes": 6460,
+      "sha256": "0517761ecb69795f23f0126aa204e37444a7bc807573d0bd32742b37821f8880"
+    },
+    "controls/timing-stderr.txt": {
+      "bytes": 169,
+      "sha256": "b3746d30d9289bd179a433695351dbd8bbe78413eaa1cb637475f4055e7f6907"
+    },
+    "controls/timing-stdout.json": {
+      "bytes": 1728,
+      "sha256": "f3ab179b1ca3c947d53b0ce92cad97257e07c13f56a739c3c40e387e50255ce5"
+    },
+    "controls/too-slow-dataset.json": {
+      "bytes": 6752,
+      "sha256": "ab791374461b8de131d9a84cef6b002c186a072a50f8da44cc9a2c8e3b15e8d5"
+    },
+    "controls/too-slow-runs.json": {
+      "bytes": 6312,
+      "sha256": "81a93f47ef839e49d5d35779cc35f36a64d20c7e9598f785632e1f537cdc1dee"
+    },
+    "controls/too-slow-stderr.txt": {
+      "bytes": 169,
+      "sha256": "1d12c608394826c017411e35486a5d245608017442d50a78edff566a334fdf44"
+    },
+    "controls/too-slow-stdout.json": {
+      "bytes": 1506,
+      "sha256": "3ae2e50f9c63fc38a5fc43d2e3e9e00a360a942648044daa2616b89c8cfa45af"
+    },
+    "original-red.test.mjs": {
+      "bytes": 9383,
+      "sha256": "450681f6fd42ec39d7eb1e7f0b2a4ab4a6056c5f73e722708b818c6496d354df"
+    },
+    "policy-controls-initial.mjs": {
+      "bytes": 4437,
+      "sha256": "78433d7503cc0d7726b34929ab80f5cf5f0b1c824f3e1ec7c36911f4c3c00401"
+    },
+    "policy-controls.mjs": {
+      "bytes": 4429,
+      "sha256": "1bdf2034db02c2c4b79ebf28aed430b02c815440e58932dbe2d1d841ff073d76"
+    },
+    "review.md": {
+      "bytes": 1809,
+      "sha256": "9cb9e0a2baf762add10eafb108c0d420db3e867120d3d658a3f83c32fd70aa40"
+    },
+    "runtime/packages/core/dist/model-registry.js": {
+      "bytes": 8452,
+      "sha256": "0f68be8b050c761b5cecb0b9f5d9c4f2701d5fc7c9e658bf572bf71e8e2534ee"
+    },
+    "runtime/packages/core/dist/models.js": {
+      "bytes": 19867,
+      "sha256": "90c6a772c5668be508caaf62331d94954b804747d21bd51f6ad52460ee304399"
+    },
+    "runtime/packages/test-harness/speech/engines.mjs": {
+      "bytes": 956,
+      "sha256": "607daf1adc8e724aedcea8383c71ea22ce5df576937f391493cb97e3231745bc"
+    },
+    "runtime/scripts/speech-eval.mjs": {
+      "bytes": 8561,
+      "sha256": "eb6754a9da871c5ad00728cbdc98de3ac5d84368ebed36b097fa86f81b70a55d"
+    }
+  },
+  "changedClosure": [
+    {
+      "path": "packages/test-harness/speech/evaluate.mjs",
+      "bytes": 9111,
+      "sha256": "c8f4a68cb12d5bc2eb8a0d711ddc0b8463a8fc45959f2f2ab245931c95eb6c98",
+      "baseSha256": "fd81c9d21eb4d8f29f39e1b88b8a14d70e8c24822dc38a9f5ef4e90634008380"
+    },
+    {
+      "path": "packages/test-harness/speech/evaluate.test.mjs",
+      "bytes": 12364,
+      "sha256": "e693b250ca74cdb6841f442bae5f7731e4753fb50794092b1ba3537f72023f0e",
+      "baseSha256": "d3b6d0026c31f46e3e3188a1e1b45fb3f9c3aed723c105e2c11156115a74a618"
+    },
+    {
+      "path": "packages/test-harness/speech/protocol.md",
+      "bytes": 5837,
+      "sha256": "2ffd3e9598fedfc43cba91a1d19fb23c3661a45f6a75e999009b0caf95d36553",
+      "baseSha256": "f1b4823747bfbc9d6b831ba2ec366b4d81f6b2f6e6ff17aa0057f0791c694f2c"
+    },
+    {
+      "path": "specs/recording-for-ai/slices/04-local-speech-gate.md",
+      "bytes": 7164,
+      "sha256": "a474385ea6d0f8796bbf8a285bef06dad061a5d2ed40aa86a464207959e027e8",
+      "baseSha256": "1153a939e4b4b531fbf66f431a659f3bc218398892cfc930d3745cfa4ab9679e"
+    },
+    {
+      "path": "specs/agent-editing/slices/12g-evaluator-policy.md",
+      "bytes": 2261,
+      "sha256": "0676bd7f4ec19fa38baee55565e8407703ca38642c628633f7b577590fdf2de3",
+      "baseSha256": null
+    }
+  ],
+  "commands": {
+    "negative": "node --test --test-name-pattern \"CLI accepts complete evidence\" packages/test-harness/speech/evaluate.test.mjs",
+    "positive": "node --test --test-name-pattern \"CLI accepts complete evidence\" packages/test-harness/speech/evaluate.test.mjs",
+    "final": "node --test packages/test-harness/speech/evaluate.test.mjs",
+    "controls": "node .build/12g/policy-controls.mjs",
+    "actualCliShape": "node scripts/speech-eval.mjs evaluate DATASET.json RUNS.json",
+    "syntax": "node --check packages/test-harness/speech/evaluate.mjs; node --check packages/test-harness/speech/evaluate.test.mjs",
+    "lint": "node node_modules/oxlint/bin/oxlint packages/test-harness/speech/evaluate.mjs packages/test-harness/speech/evaluate.test.mjs",
+    "format": "node node_modules/oxfmt/bin/oxfmt --check packages/test-harness/speech/evaluate.mjs packages/test-harness/speech/evaluate.test.mjs",
+    "dependencyBuilds": [
+      "node node_modules/typescript/bin/tsc -p packages/composition/tsconfig.json",
+      "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json"
+    ]
+  },
+  "before": {
+    "contract": "synthetic optional-filler cohort",
+    "exitCode": 1,
+    "report": {
+      "status": "fail",
+      "failures": [
+        "Canonical omissions: canonical",
+        "Held-out filler precision below 95%",
+        "Held-out filler recall below 95%"
+      ],
+      "pending": [],
+      "heldOut": {
+        "truePositive": 30,
+        "falsePositive": 10,
+        "falseNegative": 10,
+        "precision": 0.75,
+        "recall": 0.75,
+        "precisionWilson95": [
+          0.598057409330299,
+          0.8581303210445048
+        ],
+        "recallWilson95": [
+          0.598057409330299,
+          0.8581303210445048
+        ]
+      },
+      "boundaries": {
+        "samples": 70,
+        "median": 0,
+        "p95": 0
+      },
+      "clips": [
+        {
+          "id": "canonical",
+          "origin": "human",
+          "matchedWords": 2,
+          "referenceWords": 3,
+          "missedRequired": [
+            0
+          ],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        },
+        {
+          "id": "held-a",
+          "origin": "human",
+          "matchedWords": 15,
+          "referenceWords": 20,
+          "missedRequired": [
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        },
+        {
+          "id": "held-b",
+          "origin": "human",
+          "matchedWords": 15,
+          "referenceWords": 20,
+          "missedRequired": [
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        },
+        {
+          "id": "walk",
+          "origin": "human",
+          "matchedWords": 3,
+          "referenceWords": 3,
+          "missedRequired": [],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        }
+      ]
+    }
+  },
+  "after": {
+    "contract": "synthetic optional-filler cohort",
+    "exitCode": 0,
+    "report": {
+      "status": "pass",
+      "failures": [],
+      "pending": [],
+      "heldOut": {
+        "truePositive": 30,
+        "falsePositive": 10,
+        "falseNegative": 10,
+        "precision": 0.75,
+        "recall": 0.75,
+        "precisionWilson95": [
+          0.598057409330299,
+          0.8581303210445048
+        ],
+        "recallWilson95": [
+          0.598057409330299,
+          0.8581303210445048
+        ]
+      },
+      "boundaries": {
+        "samples": 70,
+        "median": 0,
+        "p95": 0
+      },
+      "clips": [
+        {
+          "id": "canonical",
+          "origin": "human",
+          "matchedWords": 2,
+          "referenceWords": 3,
+          "missedRequired": [],
+          "missedFillers": [
+            0
+          ],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        },
+        {
+          "id": "held-a",
+          "origin": "human",
+          "matchedWords": 15,
+          "referenceWords": 20,
+          "missedRequired": [],
+          "missedFillers": [
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        },
+        {
+          "id": "held-b",
+          "origin": "human",
+          "matchedWords": 15,
+          "referenceWords": 20,
+          "missedRequired": [],
+          "missedFillers": [
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        },
+        {
+          "id": "walk",
+          "origin": "human",
+          "matchedWords": 3,
+          "referenceWords": 3,
+          "missedRequired": [],
+          "missedFillers": [],
+          "boundaryMedian": 0,
+          "boundaryP95": 0
+        }
+      ]
+    }
+  },
+  "metricEquality": {
+    "allHeldOutMetricsIncludingWilson": true,
+    "allBoundarySummaryValues": true,
+    "matchedReferenceDenominators": true
+  },
+  "focusedGate": {
+    "passed": 13,
+    "failed": 0,
+    "exitCode": 0,
+    "durationMs": 2510.483541,
+    "command": "node --test packages/test-harness/speech/evaluate.test.mjs"
+  },
+  "additionalActualCliControls": {
+    "passed": 14,
+    "failed": 0,
+    "outcomes": "controls/outcomes.json",
+    "initialProbeFailureRetained": "Network-provenance control first removed runtime identity and hit existing mixed-configuration rejection; retained initial inputs/stderr/log; corrected only scratch input."
+  },
+  "checks": {
+    "syntax": 0,
+    "lint": 0,
+    "format": 0,
+    "dependencyBuilds": 0,
+    "diffCheck": 0
+  },
+  "immutableHistoricalTrees": {
+    "specs/agent-editing/assets/12-speech": {
+      "baseTree": "ca7c7ff6654b9bfad1684e2c4fbdcb0686cbbdf9",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12-verbatim": {
+      "baseTree": "652ba931be7ab844b74e53ea395c94c8f7359093",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12-alignment": {
+      "baseTree": "c924965e3f319c70b57922cadc899f7bae329fc0",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12-alignment-text-coverage": {
+      "baseTree": "3e6c39fca1f9a829f12475650a0d8279c0fcb176",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12-alignment-precision": {
+      "baseTree": "fc2c70b9f35ceb1bcaf04cb7371d0d92a2a5628e",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12-human-frozen-comparison": {
+      "baseTree": "a1f0baf593246183c20134361f17c06d0d2e7eb9",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12d-human-marks": {
+      "baseTree": "40168ca40c561c66f3d1354ccd5767570287ad6c",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12e-labeled-cleanup": {
+      "baseTree": "bdc430ba68cc0d1e8b7f9bf369702a461132e0f6",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12f-human-marks": {
+      "baseTree": "58748ab8125e2f538a7a68cbe1acdff799884e53",
+      "trackedChanges": false
+    },
+    "specs/agent-editing/assets/12b-public-parity": {
+      "baseTree": "7ae88a33cbb7ec05ca81cb04099ae710bdcbdcbf",
+      "trackedChanges": false
+    },
+    "helpers/mac/Sources/ScreenRecorderSpeech": {
+      "baseTree": "596932852527cb7891266b579ac077bb951dcda4",
+      "trackedChanges": false
+    }
+  },
+  "limits": "No new audio/text labels, human quality proof, model/inference/download/capture/UI/media execution, editorial choices, recipe selection, limit/deadline changes or historical score rewriting. Core/composition were emitted locally only so actual evaluate CLI imports its own model registry; no model owner constructed."
+}

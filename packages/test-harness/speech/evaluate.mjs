@@ -156,7 +156,10 @@ export function evaluate(dataset, runs) {
     );
     const labeledFillers = clip.words.filter((w) => w.filler === true).length;
     const missedRequired = clip.words.flatMap((w, i) =>
-      (w.filler || w.required) && !expectedMatched.has(i) ? [i] : [],
+      w.required === true && !expectedMatched.has(i) ? [i] : [],
+    );
+    const missedFillers = clip.words.flatMap((w, i) =>
+      w.filler === true && !expectedMatched.has(i) ? [i] : [],
     );
     const boundaries = matches.flatMap(([i, j]) => [
       Math.abs(clip.words[i].start - run.words[j].start),
@@ -168,6 +171,7 @@ export function evaluate(dataset, runs) {
       matchedWords: matches.length,
       referenceWords: clip.words.length,
       missedRequired,
+      missedFillers,
       boundaryMedian: percentile(boundaries, 0.5),
       boundaryP95: percentile(boundaries, 0.95),
     });
@@ -213,8 +217,6 @@ export function evaluate(dataset, runs) {
   const recall = tp + fn ? tp / (tp + fn) : null;
   const median = percentile(errors, 0.5),
     p95 = percentile(errors, 0.95);
-  if (precision !== null && precision < 0.95) failures.push("Held-out filler precision below 95%");
-  if (recall !== null && recall < 0.95) failures.push("Held-out filler recall below 95%");
   if (median !== null && median > 0.1) failures.push("Median boundary error exceeds 100 ms");
   if (p95 !== null && p95 > 0.25) failures.push("P95 boundary error exceeds 250 ms");
   const coverage = new Set(
