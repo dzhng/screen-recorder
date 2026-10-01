@@ -2,7 +2,8 @@
 
 Status: selector-free21f2 is merged-verified. Implement the native
 [independent-publication prerequisite](21f3a-independent-publication.md) before
-this complete atomic selector checkpoint. This is the third checkpoint
+the [camera-origin prerequisite](21f3b-independent-camera-clock.md) and this
+complete atomic selector checkpoint. This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 

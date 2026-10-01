@@ -43,8 +43,8 @@ and [21c selected input](21c-selected-camera-input.md) are complete in controlle
 scope. [21d durable source adoption](21d-captured-source-adoption.md) is verified.
 [21e caller-authored project integration](21e-capture-project-adoption.md) is
 verified. Next is [21f](21f-public-camera-selection.md#implementation-checkpoints):
-its capture-facts extraction passes; durable admission and fresh coordinator
-wiring precede atomic public selection. The verified21c/21e prerequisites do not
+capture facts, durable admission and fresh coordination are merged-verified.
+Independent publication and camera clock/support precede atomic public selection. The verified21c/21e prerequisites do not
 permit a selector that cannot reach that complete path.
 Each child has one owning seam and a separate verification packet. Parent21
 stays open until its implementation children and actual physical/lifecycle

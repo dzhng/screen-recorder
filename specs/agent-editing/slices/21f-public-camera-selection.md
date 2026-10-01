@@ -49,6 +49,7 @@ Keep the selector rejected while settling these owners in order:
 3. [Atomic public camera selection](21f3-public-camera-selection.md) follows the
    selector-free gate and verified [21e](21e-capture-project-adoption.md). First
    establish [independent native publication authority](21f3a-independent-publication.md);
+   prove [independent camera clock/support](21f3b-independent-camera-clock.md),
    then expose schema, allocated binding, controller input and source outcomes
    together through the complete caller-authored project path. [23f](23f-capture-source-lifetime.md)
    supplies the shared donor lifetime for cancellation after early admission.

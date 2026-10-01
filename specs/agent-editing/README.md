@@ -21,7 +21,7 @@ Implement the remaining toolkit primitives through their existing owners. Read
 The external caller makes every editorial decision. The consumer skill is a
 product artifact, not the repository's development workflow.
 
-**Next pickup: [21f3a independent closed-source publication](slices/21f3a-independent-publication.md), then atomic public camera selection.**
+**Next pickup: [21f3a independent closed-source publication](slices/21f3a-independent-publication.md), then [independent camera clock/support](slices/21f3b-independent-camera-clock.md) and atomic public camera selection.**
 [21f2 fresh coordination](slices/21f2-capture-coordination.md),
 [21f1 capture facts](slices/21f1-capture-facts.md) and
 [21f2a durable admission](slices/21f2a-capture-admission.md) are merged-verified.
@@ -35,7 +35,7 @@ Release dependencies do not prohibit isolated implementation preparation.
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
 | [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader acoustic/lexical coverage, held-out timing and current generic preparation-owner readiness |
-| [20 / 21](slices/21-webcam.md#implementation-graph) | Durable admission, fresh coordinator wiring, then atomic public selection | One-frame physical synchronization, live lifecycle and completed-stop deadline |
+| [20 / 21](slices/21-webcam.md#implementation-graph) | Independent publication and camera clock/support, then atomic public selection | One-frame physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Remaining matched consumer ports and preservation | Installed switching and obsolete-owner removal after actual prerequisites |
 | [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md), remaining dimensions and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
 
@@ -252,6 +252,7 @@ implementation readiness from acceptance prerequisites.
     - [x] [21f2a — Durable deferred capture admission](slices/21f2a-capture-admission.md)
   - [ ] [21f3 — Atomic public camera selection](slices/21f3-public-camera-selection.md)
     - [ ] [21f3a — Independent closed-source publication](slices/21f3a-independent-publication.md)
+    - [ ] [21f3b — Camera support without primary pictures](slices/21f3b-independent-camera-clock.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
