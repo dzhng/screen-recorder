@@ -21,10 +21,10 @@ Implement the remaining toolkit primitives through their existing owners. Read
 The external caller makes every editorial decision. The consumer skill is a
 product artifact, not the repository's development workflow.
 
-**Next pickup: [21f selector-free admission and coordinator integration](slices/21f-public-camera-selection.md#implementation-checkpoints).**
-Wire the surviving coordinator into the fresh service through
-[21f2](slices/21f2-capture-coordination.md). [21f1 capture facts](slices/21f1-capture-facts.md)
-and [21f2a durable admission](slices/21f2a-capture-admission.md) are merged-verified.
+**Next pickup: [21f3a independent closed-source publication](slices/21f3a-independent-publication.md), then atomic public camera selection.**
+[21f2 fresh coordination](slices/21f2-capture-coordination.md),
+[21f1 capture facts](slices/21f1-capture-facts.md) and
+[21f2a durable admission](slices/21f2a-capture-admission.md) are merged-verified.
 Public camera selection stays rejected until its complete path passes. Capture publishes source facts; the caller authors canvas, tracks,
 placement and links through existing project/edit operations. Capture creates no
 project. Preserve installed span transactions until the explicit cutover in 23.
@@ -247,9 +247,10 @@ implementation readiness from acceptance prerequisites.
 - [x] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
 - [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
   - [x] [21f1 — Durable capture facts independent of editing](slices/21f1-capture-facts.md)
-  - [ ] [21f2 — Fresh-service capture coordination](slices/21f2-capture-coordination.md)
+  - [x] [21f2 — Fresh-service capture coordination](slices/21f2-capture-coordination.md)
     - [x] [21f2a — Durable deferred capture admission](slices/21f2a-capture-admission.md)
   - [ ] [21f3 — Atomic public camera selection](slices/21f3-public-camera-selection.md)
+    - [ ] [21f3a — Independent closed-source publication](slices/21f3a-independent-publication.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
@@ -261,6 +262,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23d — Native export status and discovery parity](slices/23d-export-consumer-parity.md)
 - [x] [23e — Native preview receipt and lease parity](slices/23e-preview-consumer-parity.md)
 - [ ] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
+- [ ] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

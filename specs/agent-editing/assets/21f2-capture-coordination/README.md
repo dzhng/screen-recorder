@@ -20,3 +20,8 @@ The durable architecture choices live in the [choices ledger](../../choices.md).
 [archive](evidence.tar.gz). The archive contains the same payload bytes as the
 loose files, without its own manifest or recursive archive copy. Root integration
 and merged verification remain separate from this worktree result.
+
+[Merged verification](merged-verification.json) matches the source/compiled pins
+and all archive/loose payloads. The merged eight-file gate passes133 checks;
+[actual public journey](merged-public-journey.json) passes25 exchanges. Poll counts
+can vary; all named contract checks pass. Device/media replies remain scripted.

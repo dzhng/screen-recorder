@@ -1,0 +1,3 @@
+(node:55525) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"passed":true,"exchanges":25,"out":"/tmp/screenrec-21f2-merged-public"}

@@ -57,6 +57,10 @@ actual service primitive: recording rows expose source facts/deletion, and
 caller-created projects expose composition preview/export/deletion. Listing those
 projects is a consumer operation; no project is inferred or created for a take.
 
+[23g](23g-project-export-requests.md) ports explicit native project export requests
+through the same chooser/controller and revision-bound service operations. It adds
+no project selection interface or automatic recording/project association.
+
 ## Acceptance
 
 All preservation rows have result artifacts and permitted differences. Capture, clean-frame/pointer selection, transcript/evidence gaps, concurrency, preview/export publication and relocated inspection retain their guarantees. Search for obsolete timeline/target consumers and remove live references. New installed discovery uses the fresh library deliberately; no old jobs/history are migrated.

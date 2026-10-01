@@ -1,7 +1,8 @@
 # 21f3 — Atomic public camera selection and bound source outcomes
 
-Status: source reconnaissance complete; implementation waits for the selector-free
-[21f2 coordinator gate](21f2-capture-coordination.md). This is the third checkpoint
+Status: selector-free21f2 is merged-verified. Implement the native
+[independent-publication prerequisite](21f3a-independent-publication.md) before
+this complete atomic selector checkpoint. This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 
@@ -36,7 +37,8 @@ remain independent per source; retry cannot drain or close the inputs again.
 
 Extend 21f2's bounded sourceAdmissions discovery with the actual camera authority.
 For an eligible settled source awaiting queue admission, acquisition/job identity
-is null; this is pending admission, not success. Preserve independent terminal
+is null and admissionError is null; this is pending admission, not success. A
+durable request conflict remains explicit refusal. Preserve independent terminal
 source unavailability and publication/admission failures explicitly. Nullable IDs
 alone cannot classify a canceled or no-video outcome as pending work. After job
 admission use its existing receipt and acquisition.get for full metadata. Reads
@@ -48,6 +50,17 @@ start serialization and reconstructed restart requests. This contract adds no
 picker, saved preference, editing UI or start-time authoring settings. CLI/MCP
 continue deriving operations from the shared registry. Installed switching and
 obsolete-owner deletion remain under 23.
+
+A published source must become discoverable and independently admitted even
+while its sibling publication remains operationally pending. Derive capture
+priority from actual physical closure: preparing/recording/paused and draining
+inputs retain priority; already closed inputs awaiting publication do not hold
+source admission indefinitely. Persist source outcomes through the existing
+lifecycle transaction and native sequence; no second source transition engine.
+Immutable source-journal authority comes from21f3a. Cancellation must fence and
+join unfinished donor borrowers through23f before discarding bytes. Fresh deletion
+and cleanup remain unsupported until their23f port; path derivation alone does
+not implement those operations.
 
 ## Bounded verification
 

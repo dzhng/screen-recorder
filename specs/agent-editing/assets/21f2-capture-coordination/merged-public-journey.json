@@ -1,0 +1,1264 @@
+{
+  "scope": "Scripted controller/worker, real fresh service, CLI and MCP; no native media or physical capture",
+  "passed": true,
+  "exchanges": [
+    {
+      "transport": "cli",
+      "operation": "capture.start",
+      "params": {
+        "requestId": "public-capture",
+        "source": {
+          "kind": "display",
+          "displayId": 1
+        },
+        "microphone": false,
+        "systemAudio": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "recording",
+          "lifecycleSequence": 1,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "3bb6c3da-056a-471a-9d03-a62a714c66a5"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "capture.start",
+      "params": {
+        "requestId": "public-capture",
+        "source": {
+          "kind": "display",
+          "displayId": 1
+        },
+        "microphone": false,
+        "systemAudio": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "recording",
+          "lifecycleSequence": 1,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "16a24a71-2e45-4fa2-8c3a-7bb64bce826c"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "capture.start",
+      "params": {
+        "requestId": "public-capture",
+        "source": {
+          "kind": "display",
+          "displayId": 1
+        },
+        "microphone": true,
+        "systemAudio": false
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_CONFLICT",
+          "message": "Request ID was already used with different arguments",
+          "retryable": false,
+          "details": {}
+        },
+        "id": "f5a8d434-23f2-40a8-8836-ec017b4472b9"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "capture.start",
+      "params": {
+        "requestId": "public-capture",
+        "source": {
+          "kind": "display",
+          "displayId": 1
+        },
+        "microphone": false,
+        "systemAudio": false,
+        "cameraDeviceId": "not-exposed"
+      },
+      "response": {
+        "id": "9c30e656-730e-4339-9626-2586f50e5e5a",
+        "ok": false,
+        "error": {
+          "code": "INVALID_PARAMS",
+          "message": "Parameters do not match the operation schema.",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "capture.pause",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "paused",
+          "lifecycleSequence": 2,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "9b273634-a6bb-4b41-87f0-e4ff34397143"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "capture.resume",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "recording",
+          "lifecycleSequence": 3,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "74228561-c788-494e-b98f-0cc1f1fe929e"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "capture.stop",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "finalizing",
+          "lifecycleSequence": 4,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "a385c368-deb7-467d-ae97-1542b74187c9"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "a443e15b-0d1d-4c98-aa59-eb2c0e7b9e9d",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 1,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "a76353e5-8425-4896-b376-878372511fda"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "a443e15b-0d1d-4c98-aa59-eb2c0e7b9e9d",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "failed",
+                "reason": "Cannot admit capture member: capture.journal.jsonl",
+                "generation": 1,
+                "errorCode": "NOT_FOUND",
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": true,
+                "errorDetails": {
+                  "filesystemCode": "ENOENT"
+                },
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "209737bf-8758-40d4-b5eb-294f85a4c09d"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "capture.stop",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "a443e15b-0d1d-4c98-aa59-eb2c0e7b9e9d",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "failed",
+                "reason": "Cannot admit capture member: capture.journal.jsonl",
+                "generation": 1,
+                "errorCode": "NOT_FOUND",
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": true,
+                "errorDetails": {
+                  "filesystemCode": "ENOENT"
+                },
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "88293b79-5956-4206-a6fe-f2cade6ee393"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "a443e15b-0d1d-4c98-aa59-eb2c0e7b9e9d",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "failed",
+                "reason": "Cannot admit capture member: capture.journal.jsonl",
+                "generation": 1,
+                "errorCode": "NOT_FOUND",
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": true,
+                "errorDetails": {
+                  "filesystemCode": "ENOENT"
+                },
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "501a5243-2f71-46f9-9df7-99fc6325b249"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "job.retry",
+      "params": {
+        "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+          "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+          "artifact": "acquisition.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+          "target": {
+            "kind": "acquisition",
+            "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "ff7a1c0a-d05e-4343-9085-1979f9086a1b"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "d24b8a6f-851f-40d7-a574-aff4413dff01"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "acabaf9a-1860-4d9f-a7a0-545d6fd7f7bd"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "181c7e80-9808-49d0-8c27-49a41b793b2d"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "1fd53cc9-baf6-4070-9ffd-cb28f6466456"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "14c0b9e6-67a7-4f15-83f4-f58566c8af65"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "90299e13-5ebb-4157-ac49-786fae51a40f"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "running",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": null
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "5f1f64cd-ee9e-474f-9aa1-a825eee5eb2a"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "ready",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": {
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                }
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "7b5a6eab-c9b3-404b-adb9-b40be083a121"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "acquisition.get",
+      "params": {
+        "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+            },
+            "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+            "generation": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+            "receipt": {
+              "file": "/tmp/capture-coordination-public-RWT8nn/library/acquisitions/a421173e-e168-4f8f-9773-cd1a886f08fd/f66be129-20c7-4fcc-9c65-275df4ea8385/source.jsonl",
+              "journal": "capture.journal.jsonl",
+              "header": {
+                "sessionID": "e612fd6f-650c-43f6-b66a-c83696e19e97"
+              },
+              "cursorSamples": 0,
+              "geometryRecords": 0,
+              "displaySpaces": 0,
+              "pauseEvents": 0,
+              "audioIntervals": 0,
+              "lastSequence": 0,
+              "incompleteTail": false,
+              "finished": true,
+              "bytes": 0
+            }
+          },
+          "journal": {
+            "fileName": "f66be129-20c7-4fcc-9c65-275df4ea8385/source/capture.journal.jsonl",
+            "sha256": "ccad008d28888190c66030688aea1147decf7be9d6719720e6fcc41a26d7de6f",
+            "bytes": 52
+          },
+          "bindings": [
+            {
+              "assetId": "9d2e27093edffae4b7c2777930c25d79c527ab12d15b7a3f32d32fdcebb76c4e",
+              "streamId": "track:1",
+              "available": [
+                {
+                  "startUs": 0,
+                  "endUs": 100
+                }
+              ],
+              "sourceRoles": [
+                "video"
+              ],
+              "sourceToAssetOffsetUs": 0,
+              "supportBasis": "physical"
+            }
+          ]
+        },
+        "id": "c4c45610-52a5-4b7b-beff-bd6e09cdc965"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "ready",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": {
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                }
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "61786010-2c4a-4cde-b636-5103ecf7f713"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "capture.start",
+      "params": {
+        "requestId": "public-capture",
+        "source": {
+          "kind": "display",
+          "displayId": 1
+        },
+        "microphone": false,
+        "systemAudio": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T11:15:21.638Z",
+          "state": "complete",
+          "lifecycleSequence": 5,
+          "interruptionReason": null,
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": 100,
+          "currentRevisionId": null,
+          "sourceAdmissions": [
+            {
+              "kind": "primary",
+              "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+              "job": {
+                "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+                "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+                "artifact": "acquisition.import",
+                "lane": "heavy",
+                "state": "ready",
+                "reason": null,
+                "generation": 2,
+                "errorCode": null,
+                "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+                "target": {
+                  "kind": "acquisition",
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                },
+                "retryable": false,
+                "errorDetails": null,
+                "result": {
+                  "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+                }
+              },
+              "admissionError": null
+            }
+          ]
+        },
+        "id": "76ff8339-9929-4a15-a3e7-1bcf8fe68395"
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "acquisition.get",
+      "params": {
+        "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+            },
+            "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+            "generation": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+            "receipt": {
+              "file": "/tmp/capture-coordination-public-RWT8nn/library/acquisitions/a421173e-e168-4f8f-9773-cd1a886f08fd/f66be129-20c7-4fcc-9c65-275df4ea8385/source.jsonl",
+              "journal": "capture.journal.jsonl",
+              "header": {
+                "sessionID": "e612fd6f-650c-43f6-b66a-c83696e19e97"
+              },
+              "cursorSamples": 0,
+              "geometryRecords": 0,
+              "displaySpaces": 0,
+              "pauseEvents": 0,
+              "audioIntervals": 0,
+              "lastSequence": 0,
+              "incompleteTail": false,
+              "finished": true,
+              "bytes": 0
+            }
+          },
+          "journal": {
+            "fileName": "f66be129-20c7-4fcc-9c65-275df4ea8385/source/capture.journal.jsonl",
+            "sha256": "ccad008d28888190c66030688aea1147decf7be9d6719720e6fcc41a26d7de6f",
+            "bytes": 52
+          },
+          "bindings": [
+            {
+              "assetId": "9d2e27093edffae4b7c2777930c25d79c527ab12d15b7a3f32d32fdcebb76c4e",
+              "streamId": "track:1",
+              "available": [
+                {
+                  "startUs": 0,
+                  "endUs": 100
+                }
+              ],
+              "sourceRoles": [
+                "video"
+              ],
+              "sourceToAssetOffsetUs": 0,
+              "supportBasis": "physical"
+            }
+          ]
+        },
+        "id": "6a4ce3f1-98fa-4e3f-807b-7b5d08f36de3"
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "project.list",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "projects": [],
+          "nextCursor": null
+        },
+        "id": "ef854487-4e59-4dca-a179-eef24d1d3deb"
+      }
+    }
+  ],
+  "controllerCalls": [
+    {
+      "operation": "capture.start",
+      "params": {
+        "source": {
+          "kind": "display",
+          "displayId": 1
+        },
+        "microphone": false,
+        "systemAudio": false,
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+        "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+        "outputDirectory": "/tmp/capture-coordination-public-RWT8nn/library/recordings/34b29629-d77e-4d19-ad92-7bfe40fc9426/source"
+      }
+    },
+    {
+      "operation": "capture.pause",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      }
+    },
+    {
+      "operation": "capture.resume",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      }
+    },
+    {
+      "operation": "capture.stop",
+      "params": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426"
+      }
+    }
+  ],
+  "workerCalls": [
+    "media.audioCapabilities",
+    "media.sourceEvidence",
+    "media.probe",
+    "storage.clearRenderWorkspace",
+    "storage.clearRenderWorkspace",
+    "media.audioCapabilities"
+  ],
+  "checks": {
+    "allocated": {
+      "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+      "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+      "creationSequence": 1,
+      "createdAt": "2026-10-01T11:15:21.638Z",
+      "state": "recording",
+      "lifecycleSequence": 1,
+      "interruptionReason": null,
+      "interruptionMessage": null,
+      "finalizationError": null,
+      "sourceDurationUs": null,
+      "currentRevisionId": null,
+      "sourceAdmissions": []
+    },
+    "failed": {
+      "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+      "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+      "creationSequence": 1,
+      "createdAt": "2026-10-01T11:15:21.638Z",
+      "state": "complete",
+      "lifecycleSequence": 5,
+      "interruptionReason": null,
+      "interruptionMessage": null,
+      "finalizationError": null,
+      "sourceDurationUs": 100,
+      "currentRevisionId": null,
+      "sourceAdmissions": [
+        {
+          "kind": "primary",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+          "job": {
+            "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+            "attemptId": "a443e15b-0d1d-4c98-aa59-eb2c0e7b9e9d",
+            "artifact": "acquisition.import",
+            "lane": "heavy",
+            "state": "failed",
+            "reason": "Cannot admit capture member: capture.journal.jsonl",
+            "generation": 1,
+            "errorCode": "NOT_FOUND",
+            "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+            "target": {
+              "kind": "acquisition",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+            },
+            "retryable": true,
+            "errorDetails": {
+              "filesystemCode": "ENOENT"
+            },
+            "result": null
+          },
+          "admissionError": null
+        }
+      ]
+    },
+    "ready": {
+      "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+      "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+      "creationSequence": 1,
+      "createdAt": "2026-10-01T11:15:21.638Z",
+      "state": "complete",
+      "lifecycleSequence": 5,
+      "interruptionReason": null,
+      "interruptionMessage": null,
+      "finalizationError": null,
+      "sourceDurationUs": 100,
+      "currentRevisionId": null,
+      "sourceAdmissions": [
+        {
+          "kind": "primary",
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+          "job": {
+            "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+            "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+            "artifact": "acquisition.import",
+            "lane": "heavy",
+            "state": "ready",
+            "reason": null,
+            "generation": 2,
+            "errorCode": null,
+            "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+            "target": {
+              "kind": "acquisition",
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+            },
+            "retryable": false,
+            "errorDetails": null,
+            "result": {
+              "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+            }
+          },
+          "admissionError": null
+        }
+      ]
+    },
+    "acquisition": {
+      "id": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+      "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+      "evidence": {
+        "owner": {
+          "kind": "acquisition",
+          "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+        },
+        "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+        "generation": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+        "receipt": {
+          "file": "/tmp/capture-coordination-public-RWT8nn/library/acquisitions/a421173e-e168-4f8f-9773-cd1a886f08fd/f66be129-20c7-4fcc-9c65-275df4ea8385/source.jsonl",
+          "journal": "capture.journal.jsonl",
+          "header": {
+            "sessionID": "e612fd6f-650c-43f6-b66a-c83696e19e97"
+          },
+          "cursorSamples": 0,
+          "geometryRecords": 0,
+          "displaySpaces": 0,
+          "pauseEvents": 0,
+          "audioIntervals": 0,
+          "lastSequence": 0,
+          "incompleteTail": false,
+          "finished": true,
+          "bytes": 0
+        }
+      },
+      "journal": {
+        "fileName": "f66be129-20c7-4fcc-9c65-275df4ea8385/source/capture.journal.jsonl",
+        "sha256": "ccad008d28888190c66030688aea1147decf7be9d6719720e6fcc41a26d7de6f",
+        "bytes": 52
+      },
+      "bindings": [
+        {
+          "assetId": "9d2e27093edffae4b7c2777930c25d79c527ab12d15b7a3f32d32fdcebb76c4e",
+          "streamId": "track:1",
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 100
+            }
+          ],
+          "sourceRoles": [
+            "video"
+          ],
+          "sourceToAssetOffsetUs": 0,
+          "supportBasis": "physical"
+        }
+      ]
+    },
+    "donorFreeReopen": true,
+    "noAutomaticProject": true
+  }
+}

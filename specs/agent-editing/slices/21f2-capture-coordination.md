@@ -1,7 +1,7 @@
 # 21f2 — Fresh-service capture coordination and source admission
 
 Status: selector-free coordination implemented and verified through scripted
-controller/worker boundaries; root integration remains pending. The
+controller/worker boundaries; integrated and merged-verified. The
 [verification packet](../assets/21f2-capture-coordination/README.md) records the
 precise source and public CLI/MCP evidence. This checkpoint builds on the
 [durable admission contract](21f2a-capture-admission.md); it does not complete

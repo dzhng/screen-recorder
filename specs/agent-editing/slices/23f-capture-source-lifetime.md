@@ -1,13 +1,16 @@
 # 23f — Captured-source deletion and verified working-file cleanup
 
-Status: source-only lifetime reconnaissance complete; implementation awaits the
-fresh capture/admission path in [21f](21f-public-camera-selection.md). Installed
+Status: source-only lifetime reconnaissance complete; implementation proceeds from
+merged [21f2 capture coordination](21f2-capture-coordination.md). Later21f3 uses
+this same borrower lifetime; completion of parent21f is not a prerequisite. Installed
 switching and obsolete-owner removal remain under [23](23-cutover.md).
 
 ## Contract
 
 Explicit recording deletion fences and joins every producer still borrowing the
-recording directory before removing it. Independently ready acquisitions and the
+recording directory before removing it. Capture cancellation/discard must use that
+same unfinished-borrower lifetime before deleting donor bytes; early independently
+published sources in21f3 cannot create an unjoined reader. Independently ready acquisitions and the
 assets/evidence/history they own survive donor deletion. Explicit verified audio
 working-file cleanup preserves canonical media and unverified inputs. Neither
 operation creates a composition or a new asset-GC policy.
@@ -33,6 +36,9 @@ deletion state and join their attempts before donor removal. Already-ready
 acquisition recovery keeps its independent publication contract.
 Use the existing shared recording-directory lease and native descriptor lifetime
 for donor reads; an acquisition-workspace lease cannot protect another tree.
+Share the unfinished-borrower fence/drain inside cancellation without invoking
+the complete RecordingDeletion path: its capture.quiesce re-enters the serialized
+capture queue. Keep quiescence with the existing capture owner.
 Retire attempt/job resources through their existing owners and preserve durable
 replay identity. Startup resumes fenced deletion through the same owner.
 

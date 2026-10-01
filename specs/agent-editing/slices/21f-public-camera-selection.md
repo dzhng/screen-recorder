@@ -1,7 +1,8 @@
 # 21f — Complete public selected-camera integration
 
 Status: selector-free capture facts and durable admission integrated and merged-verified;
-fresh-service coordinator wiring and atomic public selection remain open.
+fresh-service coordination is merged-verified. Independent source-publication
+authority and atomic public selection remain open.
 Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
@@ -21,13 +22,11 @@ returning a different request’s take. Return truthful settled source/admission
 facts through the existing capture lifecycle/registry, with CLI/MCP as adapters.
 Capture stop does not create a project or choose composition settings.
 
-The fresh project service currently has acquisition admission but no capture
-coordinator. Reuse/extract the existing allocation/lifecycle owner from the mixed
-RevisionStore/CaptureService boundary; terminal capture cannot seed an obsolete
-span revision. Keep one shared catalog and capture control order. Verify actual
-fresh-service allocation, source settlement and replay here before accepting the
-selector. Do not fill this gap with a parallel capture owner, compatibility wrapper
-or automatic project; final installed switching/removal remains under 23.
+The fresh project service now reuses the existing CaptureStore/CaptureService
+allocation, private control, recovery and shared queue. Its selector-free gate is
+merged-verified under21f2. Terminal capture seeds no span revision or project.
+Atomic selection reuses that coordinator; final installed switching/removal remains
+under23.
 
 Preserve menu-bar recording controls, microphone/system selection and cursor
 evidence. No new editing UI, start-time authoring settings, installed switch,
@@ -44,18 +43,15 @@ Keep the selector rejected while settling these owners in order:
    preserve that atomic rollback at its editing owner. Moving it into the
    coordinator's caught notification callback would silently weaken the contract.
    Fresh capture facts create neither span revisions nor a project.
-2. [Fresh-service coordination](21f2-capture-coordination.md) has its
-   [durable admission seam](21f2a-capture-admission.md) merged-verified. Wire that same
-   coordinator into the fresh service's catalog, private control
-   reports, startup reconciliation and close order. Replace its hard-coded
-   noncapturing job state with actual capture priority. Settle source admission
-   through existing acquisition jobs and replay identities; expose pending,
-   failed and ready facts honestly. A notification callback is not proof that
-   admission completed. Verify selector-free allocation/stop/replay/reopen first.
+2. [Fresh-service coordination](21f2-capture-coordination.md) and its
+   [durable admission seam](21f2a-capture-admission.md) are merged-verified. Reuse
+   their actual control/recovery/priority and source/job discovery contracts.
 3. [Atomic public camera selection](21f3-public-camera-selection.md) follows the
-   selector-free coordinator gate and verified [21e](21e-capture-project-adoption.md).
-   Expose schema, allocation fingerprint/binding, controller input and independent
-   outcomes together; exercise the complete caller-authored project path.
+   selector-free gate and verified [21e](21e-capture-project-adoption.md). First
+   establish [independent native publication authority](21f3a-independent-publication.md);
+   then expose schema, allocated binding, controller input and source outcomes
+   together through the complete caller-authored project path. [23f](23f-capture-source-lifetime.md)
+   supplies the shared donor lifetime for cancellation after early admission.
 
 These are internal implementation checkpoints, not parallel capture owners or
 new authoring operations. Preserve the installed path until 23; physical and

@@ -1,0 +1,232 @@
+{
+  "scope": "Merged selector-free capture coordination; real service/CLI/MCP and shared SQL/queue, scripted private device/media boundaries. No physical/model/media/installed acceptance.",
+  "commit": "d679bd33",
+  "sourceFiles": {
+    "apps/service/src/project-service.ts": "223b7265c4992b3fef1532640ad79d765f9023c29f1f3166c94aa9947e625d6c",
+    "apps/service/src/capture-admission.ts": "e81823e2f33c8a42c9b04cb866bc48291d3d593098e6ae8f3d8356e342a74ae2",
+    "apps/service/src/capture.ts": "3656734da6c854ab246c08cdb2b38e588a2a50dece5562729e8e144b9cdfb461",
+    "apps/service/src/control.ts": "c29bd5b31eee4be147278f2cdce49a7eb766f40a0a45c01327ebd690d9590dfc",
+    "apps/service/src/project-capture.test.ts": "b03bcb987ee907bc15ee8f6c6600c13e8db48602ec5bb03296631573723ebb96",
+    "apps/service/src/index.ts": "dafb81131c7509362a00146baac355a742704e6f302a23bc8c8a2d8508f23010",
+    "apps/service/src/source-export.ts": "50b21eef3e6262c74829f114a948184dfae278fe5863fc6ed557f35e1c1a3a85",
+    "apps/service/src/media-probe.ts": "2a2cdc6f4f452aa1c0ff62af4b31acadee5877e4c4c243c6455ff548e1bbae3b",
+    "apps/service/src/worker.ts": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3",
+    "packages/core/src/acquisitions.ts": "00b9628055fcebb093bfa697a74b3bb29bab9291117d8329ca518eb98ce813d6",
+    "packages/core/src/capture-store.ts": "167c82b3dc12f003c9a834459987aa4869786ad5e631b420c91c56936827896d",
+    "packages/core/src/jobs.ts": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda",
+    "packages/core/src/assets.ts": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c",
+    "packages/core/src/evidence.ts": "d64dd18b6a11ead06d289e6fabb5ac3f6bfb4ef845aa3f39733bb4716f3252f7",
+    "packages/core/src/catalog.ts": "786d0d86d281320b2273c516a7fe43f62e6b3374190ca26eb6e1b57a6838ca13",
+    "packages/protocol/src/capture.ts": "54961ab4dd4c1f7662e8547bb3c9a46683cca0a6a78c68cd3508552093937a9a",
+    "packages/protocol/src/operations.ts": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94",
+    "apps/cli/src/main.ts": "abe77bfd6b2fdff6ff4b69797635eb0d2848fea4de7d52809676964ec889ff6c",
+    "packages/test-harness/editing/capture-coordination.mjs": "a614c4557857a0fa9fe5f5e751d3b30aa84934e2227865d55b9780b7b378196f"
+  },
+  "compiledFiles": {
+    "apps/service/dist/project-service.js": "3bc8ec4bbd52c6ea2646f4d312b8fc6b24cda4327625cb4fb5506a49542af802",
+    "apps/service/dist/capture-admission.js": "e918cab8b81eae7a4e88245701403e103361702904e4d52c13d2e6a6462c2a42",
+    "apps/service/dist/capture.js": "c2c2c88bb4cd7ca589340c0fe85bfdd42f6893c873b020c481d944298851f9ee",
+    "apps/service/dist/control.js": "ac1942fb848eaf810d28d49492856992eb95bc057d7424f733ead115951ca7ac",
+    "apps/service/dist/index.js": "4f6a7c812d3eb26b4b0f9424b210223874f483d8c9d09d38d17d2a75c0f57fa4",
+    "apps/service/dist/source-export.js": "37739d3e18cf8e2df322b1c289d5e1cd539ddf40e6ffbb4edfde332e095a5891",
+    "apps/service/dist/media-probe.js": "4bf8c346b6dc414cc2aaa6cf969d700495b9f2da80727db3e0f07cd5eb6b76da",
+    "apps/service/dist/worker.js": "e740005682937b36cb9376dd1e16c12a74dceb7eb243ead5d0f30fbef9707fdf",
+    "packages/core/dist/acquisitions.js": "21537c7796a8f97bc09f96a56f860cbe318c76c339c36eaf67bffa7ba0635c07",
+    "packages/core/dist/capture-store.js": "60a7ea03e096a9ba8858c488f9bf7dd3929389d3067dbce6f7df78dae4717f7d",
+    "packages/core/dist/jobs.js": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292",
+    "packages/core/dist/assets.js": "c8e2af0cc4f1bd341e8146f69a7d26f06a25e6bc29cdb2b48518f0f076b53f4d",
+    "packages/core/dist/evidence.js": "b690608d5d43788b762a919572d76bd6100afbd3c19fa00cb98bb4668c63d48a",
+    "packages/core/dist/catalog.js": "5884c735f8862247281bb2bdee3a0b8b75d13fdaf45108783a96fe891e90ade2",
+    "packages/protocol/dist/capture.js": "c67a50a9135f1fcc4aa91e958efcfc3227bdab9ab31ca9e3ab36c357756b17ae",
+    "packages/protocol/dist/operations.js": "d13099f489fc8f3882bfff3ece5c9f8daaf90caefdcd311b2d3a8797268b142d",
+    "apps/cli/dist/main.js": "c59e8a3929f7ade8492db7dc1cd701e819773a979c2d368767e24dac99c3f7ee",
+    "packages/client/dist/index.js": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+  },
+  "packet": {
+    "path": "evidence.tar.gz",
+    "bytes": 45591,
+    "sha256": "58b03a4a6ae5469847f3fa0067fe6cbc859de09e02ecbc97457ec566904afeca"
+  },
+  "packetMembersChecked": 53,
+  "tests": {
+    "files": 8,
+    "passed": 133,
+    "failed": 0
+  },
+  "public": {
+    "passed": true,
+    "exchanges": 25,
+    "checks": {
+      "allocated": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+        "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+        "creationSequence": 1,
+        "createdAt": "2026-10-01T11:15:21.638Z",
+        "state": "recording",
+        "lifecycleSequence": 1,
+        "interruptionReason": null,
+        "interruptionMessage": null,
+        "finalizationError": null,
+        "sourceDurationUs": null,
+        "currentRevisionId": null,
+        "sourceAdmissions": []
+      },
+      "failed": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+        "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+        "creationSequence": 1,
+        "createdAt": "2026-10-01T11:15:21.638Z",
+        "state": "complete",
+        "lifecycleSequence": 5,
+        "interruptionReason": null,
+        "interruptionMessage": null,
+        "finalizationError": null,
+        "sourceDurationUs": 100,
+        "currentRevisionId": null,
+        "sourceAdmissions": [
+          {
+            "kind": "primary",
+            "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+            "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+            "job": {
+              "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+              "attemptId": "a443e15b-0d1d-4c98-aa59-eb2c0e7b9e9d",
+              "artifact": "acquisition.import",
+              "lane": "heavy",
+              "state": "failed",
+              "reason": "Cannot admit capture member: capture.journal.jsonl",
+              "generation": 1,
+              "errorCode": "NOT_FOUND",
+              "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+              "target": {
+                "kind": "acquisition",
+                "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+              },
+              "retryable": true,
+              "errorDetails": {
+                "filesystemCode": "ENOENT"
+              },
+              "result": null
+            },
+            "admissionError": null
+          }
+        ]
+      },
+      "ready": {
+        "recordingId": "34b29629-d77e-4d19-ad92-7bfe40fc9426",
+        "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+        "creationSequence": 1,
+        "createdAt": "2026-10-01T11:15:21.638Z",
+        "state": "complete",
+        "lifecycleSequence": 5,
+        "interruptionReason": null,
+        "interruptionMessage": null,
+        "finalizationError": null,
+        "sourceDurationUs": 100,
+        "currentRevisionId": null,
+        "sourceAdmissions": [
+          {
+            "kind": "primary",
+            "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+            "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+            "job": {
+              "jobId": "2ae38e80-ff83-4392-9ef1-3ee7e2bc6db6",
+              "attemptId": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+              "artifact": "acquisition.import",
+              "lane": "heavy",
+              "state": "ready",
+              "reason": null,
+              "generation": 2,
+              "errorCode": null,
+              "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+              "target": {
+                "kind": "acquisition",
+                "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+              },
+              "retryable": false,
+              "errorDetails": null,
+              "result": {
+                "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+              }
+            },
+            "admissionError": null
+          }
+        ]
+      },
+      "acquisition": {
+        "id": "a421173e-e168-4f8f-9773-cd1a886f08fd",
+        "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "a421173e-e168-4f8f-9773-cd1a886f08fd"
+          },
+          "sourceId": "e612fd6f-650c-43f6-b66a-c83696e19e97",
+          "generation": "f66be129-20c7-4fcc-9c65-275df4ea8385",
+          "receipt": {
+            "file": "/tmp/capture-coordination-public-RWT8nn/library/acquisitions/a421173e-e168-4f8f-9773-cd1a886f08fd/f66be129-20c7-4fcc-9c65-275df4ea8385/source.jsonl",
+            "journal": "capture.journal.jsonl",
+            "header": {
+              "sessionID": "e612fd6f-650c-43f6-b66a-c83696e19e97"
+            },
+            "cursorSamples": 0,
+            "geometryRecords": 0,
+            "displaySpaces": 0,
+            "pauseEvents": 0,
+            "audioIntervals": 0,
+            "lastSequence": 0,
+            "incompleteTail": false,
+            "finished": true,
+            "bytes": 0
+          }
+        },
+        "journal": {
+          "fileName": "f66be129-20c7-4fcc-9c65-275df4ea8385/source/capture.journal.jsonl",
+          "sha256": "ccad008d28888190c66030688aea1147decf7be9d6719720e6fcc41a26d7de6f",
+          "bytes": 52
+        },
+        "bindings": [
+          {
+            "assetId": "9d2e27093edffae4b7c2777930c25d79c527ab12d15b7a3f32d32fdcebb76c4e",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 100
+              }
+            ],
+            "sourceRoles": [
+              "video"
+            ],
+            "sourceToAssetOffsetUs": 0,
+            "supportBasis": "physical"
+          }
+        ]
+      },
+      "donorFreeReopen": true,
+      "noAutomaticProject": true
+    }
+  },
+  "logs": {
+    "merged-core-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "merged-service-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "merged-cli-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "merged-tests.log": {
+      "bytes": 1368,
+      "sha256": "c18b74dc16ee9c5e993a24e58c08293b5d853340aaf060fedaaf273ac6966b49"
+    },
+    "merged-public.log": {
+      "bytes": 242,
+      "sha256": "780976ec75b0aeda03255e6a6267cc2549e5813947263780b225c256362a4445"
+    }
+  }
+}
