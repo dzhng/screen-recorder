@@ -23,6 +23,10 @@ do not require it to select one supposedly correct editorial treatment.
 
 The agent discovers actual capabilities, gets/sets/reorders/bypasses clip/track/group/output stacks, inserts new narration into a processed track, applies optional denoise, replaces/splits media and verifies unchanged originals plus historical undo/package playback. Exceptions use individual clips/separate tracks, never parent-step overrides.
 
+The [prepared fixture brief](../assets/25-fixture-brief/README.md) binds existing
+media authorities and technical targets. It is not execution or acceptance;
+resolve its source/transcript/runtime gaps before the installed journey.
+
 Freeze a fixture brief identifying source media, requested target ranges/text,
 protected content, output settings, references and permitted treatments. Cover
 multiple sources, explicit speech cuts, local retiming, insert/overlap, independent

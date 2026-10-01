@@ -5180,3 +5180,12 @@ These are diagnostic choices, not production caching or response-policy changes.
 - **The reach:** A restarted fixture sees the same consumed attempts. Missing or refused raw output remains visible as a failure rather than becoming an implicit retry.
 - **Verdict:** sound; the record binds work performed to the existing explicit bound without adding production tracing hooks.
 - **Confidence:** high.
+
+## Make the external-caller request concrete with a short fixture (2026-10-01)
+
+- **When:** preparation of the 25 fixture brief, before its execution prerequisites.
+- **The choice:** Give the external test agent one short scratch project with named saved checkpoints covering every required primitive. Its request supplies exact marked cuts, an accepted retiming selection, a two-second camera/screen/microphone interlude, a processed pure split, voice treatment, pause and delivery. The fixture uses 1280×720 at 30 fps, balanced encoding with a 3 Mbps average-video override, a 600 ms pause and an explicit music gain curve. These values make the expected effects inspectable; they are not product defaults or a preferred editing style. The external caller still chooses operations, reversible layout and the zoom landmark.
+- **The gap:** Slice 25 required a bounded user brief but supplied neither an executable media request nor concrete output and placement parameters.
+- **The reach:** The future grader checks requested effects and protected media rather than judging taste or asking the person to identify more removals. The four-minute take remains the camera authority; its short use here cannot satisfy the independent physical gate. Preparation does not replace the installed journey or authorize a new model/capture operation.
+- **Verdict:** sound; a complete technical fixture can exercise caller-controlled composition without putting editorial judgment in the engine or editing the person's tutorial as development work.
+- **Confidence:** high. Reversible presentation discretion was already delegated by 25; no new product policy is chosen.

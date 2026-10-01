@@ -49,7 +49,7 @@ are ready. Acceptance dependencies do not prohibit isolated preparation.
 | [12 / 12b](slices/12-speech-evidence.md) | Current baseline parity; bounded evidence-quality characterization; alternate adoption only if justified | Broader acoustic coverage/timing, held-out quality and any alternate recipe |
 | [20 / 21](slices/20-camera-reproduction.md) | Exhaust the retained four-minute take; isolated public camera selection, lifecycle and source/project integration | One-frame physical sync, live interruption/pause/shutdown and stop completion |
 | [23](slices/23-cutover.md) | Remaining matched consumer ports and preservation checks | Installed switching and obsolete-owner removal after their actual prerequisites |
-| [24 / 25](slices/24-scale.md) | [Source-cardinality attribution](slices/24z-source-cardinality.md) with a separately pinned runtime, remaining dimensions and caller fixture brief | Contended timing is not an isolated result; final budgets and installed caller acceptance remain open |
+| [24 / 25](slices/24-scale.md) | [Source-cardinality attribution](slices/24z-source-cardinality.md) with a separately pinned runtime, remaining dimensions and the [prepared caller fixture brief](assets/25-fixture-brief/README.md) | Contended timing is not an isolated result; final budgets and installed caller acceptance remain open |
 
 The retained camera is 246 seconds and screen about 251 seconds. It already meets the
 user's requested take duration. The current coarse analysis validates only a
