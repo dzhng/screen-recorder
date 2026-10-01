@@ -1,0 +1,15 @@
+{
+  "scope": "Consumer artifact revision from external caller perspective; screenrec workflow not invoked during repository development",
+  "metadata": "Unchanged",
+  "freshReaders": {
+    "model": "gpt-6-luna",
+    "count": 2,
+    "tasks": "READ ONLY: independently ready camera, advertised screen-only schema, explicit supplied cut with no listening verdict",
+    "firstReader": "Operational actions correct, but misread external editorial ownership as a conflict; clarified the external-agent role",
+    "secondReader": "Correct ownership and actions; added explicit pending-primary/ready-camera sentence to remove remaining wording ambiguity",
+    "limit": "Reader outcomes are retained summaries, not an execution or audible verdict"
+  },
+  "validator": "Standard quick_validate.py attempted with system and bundled Python; both unavailable because PyYAML is missing. No dependency installed; no validator pass claimed.",
+  "verification": "Frontmatter byte-identical; local reference resolves; diff whitespace checked",
+  "changes": "No new editorial policy, automatic capture project, device activation or permission prompt"
+}

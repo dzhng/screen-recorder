@@ -5,8 +5,9 @@ description: For external agents carrying out a user's recording or editing requ
 
 # Screenrec
 
-You make the editorial decisions for the user's task. Screenrec makes zero
-editorial decisions; it only supplies primitives. Inspect recording evidence,
+As the external agent using this toolkit, you make the editorial decisions for
+the user's task. Screenrec makes zero editorial decisions; it only supplies
+primitives. Inspect recording evidence,
 choose edits within the user's request, then use the CLI to apply non-destructive
 operations and verify the result. Choose treatments from the user's intent,
 not an assumed house style.
@@ -27,11 +28,15 @@ every edit. When the user requests alternatives, keep those alternatives open.
    `--params - < request.json`. Reserve `--output` for advertised media delivery;
    redirect stdout to save JSON metadata.
 
-2. Resolve the intended recording with the discovery operations, then inspect
-   its state and revision. The latest recording may still be capturing or
-   processing. Pin the recording ID and revision for subsequent reads. A stop can
-   acknowledge `finalizing`; wait for the reported terminal state before importing
-   or treating the take as ready. Inspect a finalizing take's `finalizationError`;
+2. Resolve the intended recording/project with discovery and inspect its state.
+   Pin source identities and the actual editable revision. A source-only take
+   supplies media facts; create a project explicitly when the task needs one.
+   A stop can acknowledge `finalizing`; that is not media readiness. Follow
+   returned `sourceAdmissions` and wait for the selected acquisition's job to be
+   ready. Where independent publication is advertised, a ready source can be used
+   while its sibling remains pending; publication alone is not completed admission.
+   Pending primary publication does not block a ready camera acquisition.
+   Never import a growing capture journal. Inspect a finalizing take's `finalizationError`;
    `capture.stop` explicitly retries failed recovery, while ordinary reads do not.
    Canceling recovery retains ambiguous media; use explicit library deletion to
    remove it. A completed take remains available even if it reports pending cleanup;
@@ -76,10 +81,12 @@ preferences, accepted artifact identities and unresolved verdicts with the proje
 Reuse earlier approvals only for what was actually judged; a changed render needs
 verification of the changed behavior, not repetition of every passed comparison.
 
-Camera metadata in `capture.sources` and `capture.status` reports discovered
-devices and existing permission facts. It does not enable camera selection:
-the current `capture.start` schema accepts screen sources and audio choices.
-Do not add an unadvertised camera selector or treat discovery as activation.
+For capture, inspect `capture.sources` and `capture.status` for device identities
+and existing permissions; discovery activates nothing. Use only selectors
+advertised by the connected service's `capture.start`/`capture.restart` schemas.
+Select a camera explicitly when the request needs it, without device fallback or
+an automatic permission prompt. Capture publishes source facts and admission
+outcomes; choose project layout and placement through explicit editing operations.
 
 ## Managed projects and processing
 
