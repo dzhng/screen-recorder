@@ -1,15 +1,14 @@
 # 12b — Adopt verified source speech processing
 
 Status: [controlled public parity](../assets/12b-public-parity/README.md) passes
-raw ingestion, queries, explicit cuts/protected PCM/undo, restart and generation
-fencing. Actual-model/current-decoder parity remains unverified. The
-[existing prepared model](../assets/12b-public-parity/existing-model-verification.json)
-has all 22 registered files verified; the installed model owner reports ready.
-No new preparation is needed to attempt parity. Current generic model-owner
-readiness is not yet observed. This is independent of alternate-model research.
-Implementation dependencies: [10](10-project-evidence.md),
-[11](11-audio-inspection.md) and the
-[selected baseline](../../recording-for-ai/slices/04-local-speech-gate.md).
+preparation-state integration. [Actual selected-source parity](../assets/12b-public-parity/actual-inference/README.md)
+now passes current native inference, complete raw records, public queries, explicit
+cuts/protected PCM/undo, restart and generation fencing. Existing model files and
+preparation receipt remained unchanged; scratch readiness is declared. Current
+generic Models-owner readiness/preparation remains unverified. This bounded proof
+preserves the selected recipe and its known quality limits; broader12 research
+and release acceptance remain separate. Dependencies remain [10](10-project-evidence.md),
+[11](11-audio-inspection.md) and the [selected baseline](../../recording-for-ai/slices/04-local-speech-gate.md).
 Any replacement recipe additionally depends on [12](12-speech-evidence.md).
 
 ## Contract
@@ -47,11 +46,11 @@ paging and search, transcript-seeded captions, packages/history and cached reads
 verify all affected consumers. New generations/policies fence stale cursors while
 retained old evidence remains inspectable. Preparation does not approve adoption.
 
-The controlled probe is implemented; its declared-readiness scope does not close
-actual native inference parity:
+The shared probe preserves frozen-response coverage. Its explicit existing-model
+mode exercises actual inference without adopting files into a model owner:
 
 ```sh
-SCREENREC_NATIVE=/absolute/isolated/screenrec-native node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-editing/assets/12-speech
+SCREENREC_NATIVE=/absolute/isolated/screenrec-native node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-editing/assets/12-speech --existing-models /absolute/existing/parakeet-tdt-0.6b-v2
 ```
 
 ## Acceptance

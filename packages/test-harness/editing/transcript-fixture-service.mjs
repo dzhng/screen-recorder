@@ -3,8 +3,8 @@ import { mkdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Models, parakeetModel } from "../../../packages/core/dist/models.js";
 
-// Frozen ASR fixtures declare readiness; they do not prepare or run a model.
-// Keep registered pins/digest intact so real transcript ingestion validates the frozen receipt.
+// Both fixture modes declare scratch readiness; neither adopts files into a model owner.
+// Actual mode names already verified files; native checks their bytes before inference.
 const transcription = Models.prototype.transcription;
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
 const status = Models.prototype.status;
@@ -22,6 +22,10 @@ Models.prototype.transcription = function (modelId) {
     ...registered,
     status: declaredState,
     nativeRequest: async () => {
+      if (fixture.existingModels) {
+        assert.deepEqual(fixture.existingModels.files, parakeetModel.files);
+        return fixture.existingModels;
+      }
       const directory = join(
         process.argv[2],
         "library/models",

@@ -1,0 +1,225 @@
+{
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 3042604,
+    "sha256": "3274556b4e7c62fba18972f493cbeaa9af4fbb079d97c2fd04dd10f806b22b78",
+    "members": 51
+  },
+  "members": {
+    "actual-run/explicit-cut.wav": {
+      "bytes": 5380096,
+      "sha256": "e93c1d70e91c28ecb694889938b999af23a784405949f2c906e61b1dedee3484"
+    },
+    "actual-run/first.mov": {
+      "bytes": 2304761,
+      "sha256": "3d0f4fa12da12120a6ef1a2809b8e55a4bc6e4ed848aadd30cda4373babf64ac"
+    },
+    "actual-run/fixture.json": {
+      "bytes": 5742,
+      "sha256": "54a7a473389e5c702e8e45af999f8c6ca8d037be18de9414f84f1efe75c75e7b"
+    },
+    "actual-run/historical-restart.wav": {
+      "bytes": 5380096,
+      "sha256": "a5c629505071ecc99ce54efb7f77b09edf2e8e9bc6d4db0831727a13e53cd45d"
+    },
+    "actual-run/native-1.jsonl": {
+      "bytes": 9364,
+      "sha256": "9ddf9987263966c2e3b94ffd216027d0d4026872a590bba65b428ebe584f3637"
+    },
+    "actual-run/native-2.jsonl": {
+      "bytes": 9364,
+      "sha256": "f683d96966beb075d4ba58b8ded88c61069f27f386a2f74fcc8248f0977c4794"
+    },
+    "actual-run/native-requests.json": {
+      "bytes": 15036,
+      "sha256": "b0c9850db594172273519e500108d01221a668a0fe6b2c325d588619da270c9f"
+    },
+    "actual-run/original-fixture.wav": {
+      "bytes": 5380096,
+      "sha256": "a5c629505071ecc99ce54efb7f77b09edf2e8e9bc6d4db0831727a13e53cd45d"
+    },
+    "actual-run/report.json": {
+      "bytes": 581851,
+      "sha256": "5e5e1e9067a1fc7af8f8d4009f0403bbdd02d114a078219229e2d90601b3e49c"
+    },
+    "actual-run/service.log": {
+      "bytes": 507,
+      "sha256": "82cae480dbff9ab35fd186db8c92eb5b912aa65492e0cd32d64c60da5539ea4b"
+    },
+    "actual-run/undo-fixture.wav": {
+      "bytes": 5380096,
+      "sha256": "a5c629505071ecc99ce54efb7f77b09edf2e8e9bc6d4db0831727a13e53cd45d"
+    },
+    "preparation/build-inputs.json": {
+      "bytes": 33641,
+      "sha256": "686dc52dcfdd350c2368798d6b2079ac92b0b300b9076015d4c2a912889f2674"
+    },
+    "preparation/codex-review.log": {
+      "bytes": 3643,
+      "sha256": "04eb549f5fa93e0ce6580b6043d9178332325322267818ad1d9796278aaa3ba9"
+    },
+    "preparation/harness-final-lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preparation/harness-lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "preparation/journey-execution.json": {
+      "bytes": 1350,
+      "sha256": "0609ff73d502183552b8f519c6f85330ea0afe046219ede4c52a69b04d192c6a"
+    },
+    "preparation/journey.log": {
+      "bytes": 270,
+      "sha256": "b701652aecd03d294ce05b5fe7224ed771e6822ae1a3713c172e4dbfbfc74719"
+    },
+    "preparation/native-build-attempt-1.log": {
+      "bytes": 2438,
+      "sha256": "ccdc49d675ba76a7158b645a18180ce3346c5770407d606a0372dfbcbfb51581"
+    },
+    "preparation/native-build-attempt-2.log": {
+      "bytes": 19191,
+      "sha256": "9399dd4bd4e4ff3bc1964eeaae88c2be28ca9b09f8382848e79e95ccf79043bb"
+    },
+    "preparation/native-build-attempt-3.log": {
+      "bytes": 4217,
+      "sha256": "d3b5dfd904b33adfecab6a6ee8e41a7e5ead78ff0775ccecfa5b284561092d95"
+    },
+    "preparation/raw-parity-mutation-red.log": {
+      "bytes": 934,
+      "sha256": "9b6eca6926e6bb7b31ee8fd0c9e3aebda8afc7e424c47cc808011136011c4d71"
+    },
+    "preparation/raw-parity-mutation.json": {
+      "bytes": 215,
+      "sha256": "8cd267e33eecbc04dfec91a2db580d7336c3dd5d7faac76ba411b429e7271cd4"
+    },
+    "preparation/raw-parity-restored-green.log": {
+      "bytes": 219,
+      "sha256": "cb54ed7b7d435696c6e0125c4412e7395a6cadb9e522b664914b84f7e01378cf"
+    },
+    "preparation/raw-parity-test.log": {
+      "bytes": 219,
+      "sha256": "be57144c498bd140b66babf29716c94cb663f87bac830e26abf9d592d96d2059"
+    },
+    "preparation/run-journey.py": {
+      "bytes": 1652,
+      "sha256": "5f4ae831026d52488be4f69278751436f51cd7edcb0ca4dbf99384967d073f33"
+    },
+    "preparation/runtime-resolution.json": {
+      "bytes": 1993,
+      "sha256": "aa88df235c58f630e73987ed89b1af890d6df161d1f512615c6ee579c377afc7"
+    },
+    "preparation/runtime-versions.json": {
+      "bytes": 244,
+      "sha256": "2baa58e12bd21b0fa15cdd494ef34bb3e8b5e2dae12cd7cf36bbedbab0fa9d42"
+    },
+    "preparation/setup-failure.json": {
+      "bytes": 259,
+      "sha256": "10132ce2117118a23c5cfc08ee3434637644e9494983c4bf255b206e01225254"
+    },
+    "preparation/ts-build-attempt-1.log": {
+      "bytes": 4192,
+      "sha256": "bb326abee41ce6babe32f4751072eb9d6b9499c3996b762a5440d92dd8315044"
+    },
+    "preparation/ts-build.log": {
+      "bytes": 1092,
+      "sha256": "a12c9d72b2b81eb4c016e62370352ee080ae9d9b39043e2a11af57d9b0374b99"
+    },
+    "preparation/worker.json": {
+      "bytes": 713,
+      "sha256": "7c8918b7ab8025e60d6e854a2b4414dd28f389454a2da3ebf5907d6190360600"
+    },
+    "sources/helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift": {
+      "bytes": 8301,
+      "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+    },
+    "sources/helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift": {
+      "bytes": 4254,
+      "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+    },
+    "sources/helpers/mac/Sources/ScreenRecorderSpeech/SpeechModelFiles.swift": {
+      "bytes": 6628,
+      "sha256": "53937cdb9186aa85b48f4323a769c8cd25f7a7169ae34e7c5ad62d0a3c3d75ec"
+    },
+    "sources/helpers/mac/Package.swift": {
+      "bytes": 3728,
+      "sha256": "4e8194eec94c29a0f3792a269b5d6a68a087855c40652ddcf812f85788047123"
+    },
+    "sources/helpers/mac/Package.resolved": {
+      "bytes": 397,
+      "sha256": "c56a6e0b25958389401872266213b75dfa631eb0080556cd08ea6ea1c10a490b"
+    },
+    "sources/packages/core/src/models.ts": {
+      "bytes": 19682,
+      "sha256": "5b0879eeb65b23775305d38ccd579f364b4841e1721870a3c6ff8a5178ca7ef3"
+    },
+    "sources/packages/core/src/transcript-processing.ts": {
+      "bytes": 23205,
+      "sha256": "0d1448de6117ba8295aa3f6373d03dbef0adc93292dad6fa9b2d26358cac2bf3"
+    },
+    "sources/packages/core/src/transcript.ts": {
+      "bytes": 41205,
+      "sha256": "4f06c3f7ca94bf5a8556e36f9ed823f8ba3f47483f6f726445aee5d3a1ee6d3a"
+    },
+    "sources/packages/core/src/source-selection.ts": {
+      "bytes": 2792,
+      "sha256": "20e5d4b6dfb870ca1e535afcb03e222c4ceefb73fe5679c03d581be955807e06"
+    },
+    "sources/apps/service/src/worker.ts": {
+      "bytes": 7899,
+      "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+    },
+    "sources/apps/service/src/project-service.ts": {
+      "bytes": 46226,
+      "sha256": "1d2c50c00325deca7a2b8d13478844283b6e62f112148a054410b438bb92a594"
+    },
+    "sources/packages/test-harness/editing/duration-memory.mjs": {
+      "bytes": 23365,
+      "sha256": "5dd0a87785b5e48d54616109fb392b97d937bfbd54f785e5377b0a3f00aa6642"
+    },
+    "sources/packages/test-harness/editing/evidence-service.mjs": {
+      "bytes": 7172,
+      "sha256": "b3d0b670958927af3cf5fa6e7adfc2d2371211d16e876bc4aebf8ae55da6c1eb"
+    },
+    "sources/packages/test-harness/editing/generation-evidence.mjs": {
+      "bytes": 9499,
+      "sha256": "a0ba33f8ba9e35fe0a0b099ed8d99027ad3e0d04d8f2d4d84d70befc8c10916e"
+    },
+    "sources/packages/test-harness/editing/generation-transcript-service.mjs": {
+      "bytes": 1388,
+      "sha256": "d54fc9921941b6b0c03a33b5d5d43d9a0e4709cf5e046e4f991014c158212da2"
+    },
+    "sources/packages/test-harness/editing/speech-parity.mjs": {
+      "bytes": 18117,
+      "sha256": "5ba569f9f1cd9a6a6e1da3286e7c3a0f116e3e484692931859884f98f65cbeb8"
+    },
+    "sources/packages/test-harness/editing/transcript-fixture-service.mjs": {
+      "bytes": 1685,
+      "sha256": "7ed39b3eb6eef4f097362f576c5db8c71f0f23f4573918729a3b172edca1a8f4"
+    },
+    "sources/packages/test-harness/editing/existing-speech-model.mjs": {
+      "bytes": 2016,
+      "sha256": "e630271ee3d15a47d377196852d1d5838a906d658eeec654f1156608668ac6c3"
+    },
+    "sources/packages/test-harness/editing/speech-parity-records.mjs": {
+      "bytes": 536,
+      "sha256": "eb7d0e0d5b01d3c68f3edd1150aa6bcee7453e9b1f639dca4355035700e40f15"
+    },
+    "sources/packages/test-harness/editing/speech-parity-records.test.mjs": {
+      "bytes": 1033,
+      "sha256": "6f056673e74bd289ddb1192701b55f5eca1891cd58061718aa1c19fff763003d"
+    }
+  },
+  "externalWorker": {
+    "path": "/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native",
+    "bytes": 28873760,
+    "sha256": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+    "nativeSourcePinsUnchanged": 218,
+    "dependencySourceUnchanged": true,
+    "configuration": "debug",
+    "buildLog": "/tmp/screenrec-12b-actual-public-parity-evidence-20261001/native-build-attempt-3.log",
+    "frozenWorker": "Not used, recreated or replaced; prior frozen-worker path is unavailable.",
+    "workload": "One exact archived12.5s source, two6s intervals/25retained words, at most initial and simulated-generation replacement speech attempts. Public cuts use fixed320ms interval with full14s delivered PCM."
+  }
+}

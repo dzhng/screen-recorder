@@ -29,15 +29,14 @@ known best-effort filler/timing limits. Broader12 quality characterization and
 any alternate recipe remain separate; do not require a new model winner to
 exercise unchanged primitives.
 
-[Controlled12b integration](12b-public-parity/README.md) passes actual public
-ingestion, queries, explicit fixture cuts/protected PCM/undo, restart and stale
-generation refusal. [Read-only model verification](12b-public-parity/existing-model-verification.json)
-found all 22 registered files in the authoritative personal model directory, and
-the existing installed owner reports ready. Earlier scratch directories remain
-absent. Actual current-model execution and current generic owner readiness remain
-unverified; no preparation or inference was performed. Next compare the retained
-selected-source fixture through actual inference without copying/installing model
-files or repeating the accepted controlled preparation-state matrix.
+[Controlled12b integration](12b-public-parity/README.md) and
+[actual selected-source inference parity](12b-public-parity/actual-inference/README.md)
+pass public ingestion, queries, explicit fixture cuts/protected PCM/undo, restart
+and generation refusal. Existing registered model files and preparation receipt
+remain unchanged. Scratch readiness is declared; current generic preparation-owner
+readiness remains unverified. Reuse the accepted bounded parity packet rather than
+rerunning inference or its controlled preparation-state matrix. Broader12 quality
+and installed acceptance remain separate.
 
 In parallel, exhaust the retained approximately four-minute take under
 [20](../slices/20-camera-reproduction.md), prepare isolated

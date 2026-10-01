@@ -33,12 +33,13 @@ project/edit operations. It does not receive an automatically chosen composition
 
 For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
 and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
-now passes. The [existing prepared model](assets/12b-public-parity/existing-model-verification.json)
-has all 22 registered files verified and reports ready through the installed owner;
-matching current actual-model execution remains unverified. Compare requests, raw outputs,
-provenance, generations and explicit fixture edits through the existing source-processing/public owners. Do
-not require a new ASR winner or personal keep/remove answer first. A different
-model/alignment recipe needs its own evidence before adoption.
+and [actual selected-source inference parity](assets/12b-public-parity/actual-inference/README.md)
+pass requests, complete raw outputs, provenance, generations and explicit fixture
+edits through existing owners. Verified personal model files remain unchanged;
+scratch readiness is declared and current generic preparation-owner readiness
+remains open. Broader acoustic/lexical quality and any alternative recipe keep
+their own evidence gates. Do not repeat the accepted parity cohort or require a
+new ASR winner or personal keep/remove answer first.
 
 Work the independent branches below in parallel when their implementation seams
 are ready. Acceptance dependencies do not prohibit isolated preparation.

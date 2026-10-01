@@ -3,13 +3,13 @@ import { createHash } from "node:crypto";
 import { readFile, realpath, writeFile } from "node:fs/promises";
 import { appendFileSync } from "node:fs";
 import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
-import { mediaWorker } from "../../../apps/service/dist/worker.js";
+import { jsonWorker, mediaWorker } from "../../../apps/service/dist/worker.js";
 import { parakeetModel } from "../../core/dist/models.js";
 import { isDeepStrictEqual } from "node:util";
 
-// Only ASR output is frozen. Public admission, native probing and shared transcript ingestion are real.
+// Public admission, native probing and shared transcript ingestion are real in both fixture modes.
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
 if (fixture.readsFile) {
   const wordRecords = TranscriptStore.prototype.wordRecords;
@@ -27,9 +27,45 @@ if (fixture.readsFile) {
     return rows;
   };
 }
-const native = mediaWorker();
+const native = fixture.existingModels
+  ? jsonWorker({
+      executable: "/usr/bin/sandbox-exec",
+      args: [
+        "-p",
+        `(version 1)(allow default)(deny network*)(deny file-write* (subpath ${JSON.stringify(dirname(fixture.existingModels.directory))}))`,
+        process.env.SCREENREC_NATIVE,
+      ],
+    })
+  : mediaWorker();
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const observations = [];
+const observations = fixture.existingModels
+  ? await readFile(fixture.observationsFile, "utf8").then(
+      (bytes) => JSON.parse(bytes).calls,
+      (error) => {
+        if (error.code !== "ENOENT") throw error;
+        return [];
+      },
+    )
+  : [];
+let observationWrites = Promise.resolve();
+function persistObservations() {
+  observationWrites = observationWrites.then(() =>
+    writeFile(
+      fixture.observationsFile,
+      JSON.stringify(
+        {
+          boundary: fixture.existingModels
+            ? "Actual native inference with declared scratch readiness and existing read-only prepared files"
+            : "Frozen native ASR output; actual shared ingestion and public queries",
+          calls: observations,
+        },
+        null,
+        2,
+      ),
+    ),
+  );
+  return observationWrites;
+}
 const worker = async (operation, params, options) => {
   if (fixture.allowedOperations) {
     assert.ok(
@@ -53,22 +89,71 @@ const worker = async (operation, params, options) => {
       source.streamId === params.track.streamId &&
       isDeepStrictEqual(source.available, params.track.available),
   );
-  assert.ok(expected, "Frozen ASR received an unregistered byte source or stream");
+  assert.ok(expected, "ASR received an unregistered byte source or stream");
   assert.equal(params.track.sourceOffsetUs, expected.sourceOffsetUs);
   assert.deepEqual(params.track.available, expected.available);
   assert.deepEqual(params.models.files, parakeetModel.files);
   assert.equal(
     await realpath(params.models.directory),
     await realpath(
-      join(
-        process.argv[2],
-        "library/models",
-        parakeetModel.name,
-        parakeetModel.revision,
-        parakeetModel.folderName,
-      ),
+      fixture.existingModels?.directory ??
+        join(
+          process.argv[2],
+          "library/models",
+          parakeetModel.name,
+          parakeetModel.revision,
+          parakeetModel.folderName,
+        ),
     ),
   );
+  if (fixture.existingModels) {
+    assert.ok(
+      observations.length < 2,
+      "Actual parity permits initial and replacement inference attempts only",
+    );
+    const attempt = {
+      request: structuredClone(params),
+      sourceSha256: sha256,
+      output: params.output,
+      state: "reserved",
+      nativeInvoked: false,
+    };
+    observations.push(attempt);
+    const rawFile = join(fixture.rawOutputsDirectory, `native-${observations.length}.jsonl`);
+    try {
+      await persistObservations();
+      attempt.nativeInvoked = true;
+      attempt.result = await native(operation, params, options);
+      if (attempt.result.ok) {
+        const raw = await readFile(params.output);
+        await writeFile(rawFile, raw, { flag: "wx" });
+        attempt.rawFile = rawFile;
+        attempt.rawSha256 = hash(raw);
+        const baselineBytes = await readFile(expected.receiptFile);
+        assert.equal(hash(baselineBytes), expected.receiptSha256);
+        const baseline = JSON.parse(baselineBytes).data;
+        assert.equal(attempt.result.data.output.file, params.output);
+        assert.equal(attempt.result.data.output.bytes, raw.length);
+        assert.equal(attempt.result.data.output.sha256, attempt.rawSha256);
+        assert.deepEqual(attempt.result.data.engine, baseline.engine);
+        assert.deepEqual(attempt.result.data.segments, baseline.segments);
+        assert.equal(attempt.result.data.wordCount, baseline.wordCount);
+      }
+      attempt.state = attempt.result.ok ? "ready" : "refused";
+      return attempt.result;
+    } catch (error) {
+      attempt.state = "failed";
+      attempt.error = {
+        name: error.name,
+        code: error.code,
+        message: error.message,
+        stack: error.stack,
+      };
+      throw error;
+    } finally {
+      await persistObservations();
+    }
+  }
   const raw = await readFile(expected.rawFile);
   assert.equal(hash(raw), expected.rawSha256);
   const receipt = await readFile(expected.receiptFile);
@@ -95,17 +180,7 @@ const worker = async (operation, params, options) => {
     rawSha256: hash(raw),
     output: params.output,
   });
-  await writeFile(
-    fixture.observationsFile,
-    JSON.stringify(
-      {
-        boundary: "Frozen native ASR output; actual shared ingestion and public queries",
-        calls: observations,
-      },
-      null,
-      2,
-    ),
-  );
+  await persistObservations();
   return {
     ok: true,
     data,

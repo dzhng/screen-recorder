@@ -1,0 +1,155 @@
+{
+  "passed": true,
+  "scope": "Actual current native inference and public source-processing parity for exact retained selected-source fixture; scratch Models readiness declared; current generic Models-owner preparation/readiness unexercised.",
+  "baseCommit": "efd5fd81990406c49b4c9aa9df2b04fb70775d79",
+  "integratedDocumentation": [
+    "40d0b45d",
+    "697baf8f"
+  ],
+  "worker": {
+    "path": "/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native",
+    "bytes": 28873760,
+    "sha256": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+    "nativeSourcePinsUnchanged": 218,
+    "dependencySourceUnchanged": true,
+    "configuration": "debug",
+    "buildLog": "/tmp/screenrec-12b-actual-public-parity-evidence-20261001/native-build-attempt-3.log",
+    "frozenWorker": "Not used, recreated or replaced; prior frozen-worker path is unavailable.",
+    "workload": "One exact archived12.5s source, two6s intervals/25retained words, at most initial and simulated-generation replacement speech attempts. Public cuts use fixed320ms interval with full14s delivered PCM."
+  },
+  "runtimeAuthorityChecks": [
+    {
+      "from": "apps/service/dist/project-service.js",
+      "specifier": "@screenrec/core/models",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/core/dist/models.js",
+      "sha256": "90c6a772c5668be508caaf62331d94954b804747d21bd51f6ad52460ee304399"
+    },
+    {
+      "from": "apps/service/dist/project-service.js",
+      "specifier": "@screenrec/core/transcript-processing",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/core/dist/transcript-processing.js",
+      "sha256": "766ee0ec7c653a45dbcd3757b849faccb1d7523ee39207f489d758c32002271a"
+    },
+    {
+      "from": "apps/service/dist/project-service.js",
+      "specifier": "@screenrec/protocol",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/protocol/dist/index.js",
+      "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+    },
+    {
+      "from": "packages/core/dist/transcript-processing.js",
+      "specifier": "@screenrec/composition",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/composition/dist/index.js",
+      "sha256": "545277dbba07d6714dbfbe7023fafbf1e55afd32b52c9b446425e7e0b94a2f08"
+    },
+    {
+      "from": "apps/cli/dist/main.js",
+      "specifier": "@screenrec/client",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/client/dist/index.js",
+      "sha256": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+    },
+    {
+      "from": "apps/cli/dist/main.js",
+      "specifier": "@screenrec/protocol",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/protocol/dist/index.js",
+      "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+    },
+    {
+      "from": "packages/client/dist/index.js",
+      "specifier": "@screenrec/protocol",
+      "resolved": "/private/tmp/screenrec-12b-actual-public-parity-pass/packages/protocol/dist/index.js",
+      "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+    }
+  ],
+  "engine": {
+    "runtime": "FluidAudio",
+    "runtimeVersion": "0.15.7",
+    "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "decoder": "parakeet-tdt-batch",
+    "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+    "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+    "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+    "encoderPrecision": "int8",
+    "computeUnits": "cpuAndNeuralEngine",
+    "policy": "transcript-v1",
+    "kindPolicy": "word-kind-v1"
+  },
+  "fixture": {
+    "sha256": "3d0f4fa12da12120a6ef1a2809b8e55a4bc6e4ed848aadd30cda4373babf64ac",
+    "originUs": 250000,
+    "sourceOffsetUs": -250000,
+    "available": [
+      {
+        "startUs": 0,
+        "endUs": 6000000
+      },
+      {
+        "startUs": 6500000,
+        "endUs": 12500000
+      }
+    ],
+    "referenceRawSHA256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+  },
+  "actualAttempts": [
+    {
+      "state": "ready",
+      "nativeInvoked": true,
+      "rawSha256": "9ddf9987263966c2e3b94ffd216027d0d4026872a590bba65b428ebe584f3637",
+      "rawBytes": 9364,
+      "wordCount": 25
+    },
+    {
+      "state": "ready",
+      "nativeInvoked": true,
+      "rawSha256": "f683d96966beb075d4ba58b8ded88c61069f27f386a2f74fcc8248f0977c4794",
+      "rawBytes": 9364,
+      "wordCount": 25
+    }
+  ],
+  "normalization": "Only result.processingTime excluded from complete parsed raw equality. Untouched actual bytes retained; no clocks/tokens/confidence/words/segments/other fields normalized.",
+  "publicExchanges": 162,
+  "staleCursorRefusals": 8,
+  "modelPreservation": {
+    "fileCount": 22,
+    "registeredBytes": 464414912,
+    "fullBeforeAfterSnapshotsEqual": true,
+    "preparedReceiptUnchanged": true,
+    "actualPersonalModelsOwnerConstructed": false
+  },
+  "mediaPreservation": {
+    "explicitCutProtectedPCMAndUndo": {
+      "cut": {
+        "startUs": 1120000,
+        "endUs": 1440000
+      },
+      "beforeSha256": "9acacbcfe57d3da8ff39f9160e01a0ca93212de5df0eaaa2458eff12778578df",
+      "afterSha256": "9942f7ceb49f9912a687e74955d6de451fe47331e17f4a5b1c56b1b12b094412"
+    },
+    "rawAndSourcePreserved": true
+  },
+  "focusedTests": {
+    "rawComparison": true,
+    "boundaryErasureMutation": "RED expected Missing expected exception; restored GREEN",
+    "typeScriptServiceCLIBuild": true,
+    "harnessLint": true
+  },
+  "review": {
+    "rootInterim": "Identified uncounted failed/concurrent inference attempts; fixed synchronous reservation, request persistence before invocation, finally result/error and serialized writes. Root final settled review pending.",
+    "codexCLI": "Interrupted HTTP400 for known configured unsupported gpt-6.1-sol. Attempt should not have been retried. No completed CLI review; no further attempts/configuration changes.",
+    "rootFinal": "Clean settled shape/source/docs review. Synchronous attempt reservation and pre-dispatch persistence, failed-slot accounting/finally error recording, serialized writes, raw retention before complete receipt proof, one shared journey and declared readiness scopes reviewed. No further inference required.",
+    "self": "Refactor-clean, code-review, write-docs and audit-choices completed. Focused raw comparison test/mutation, owning TS builds/lint, actual public journey and artifact/link verification pass."
+  },
+  "limitations": [
+    "One selected-source fixture; no whole-corpus/held-out/filler/timing/quality or listening upgrade.",
+    "Generation recipe identity change is simulated; unchanged actual engine runs in both generations.",
+    "Model files verified and inferred directly read-only; readiness in scratch is declared and separate from installed-old owner status.",
+    "Functional evidence only, no inference/stop latency or physical/release acceptance.",
+    "Historical frozen worker unavailable and never recreated/replaced."
+  ],
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 3042604,
+    "sha256": "3274556b4e7c62fba18972f493cbeaa9af4fbb079d97c2fd04dd10f806b22b78",
+    "members": 51
+  }
+}

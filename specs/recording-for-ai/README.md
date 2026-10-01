@@ -22,6 +22,11 @@ now verifies retained native closure, independent results and publication retry.
 This changes no original physical synchronization, live shutdown or installed-app
 acceptance claim.
 
+[Actual selected-source speech parity](../agent-editing/assets/12b-public-parity/actual-inference/README.md)
+now preserves the chosen Parakeet pipeline through current native inference and
+public source processing. Its declared scratch readiness and bounded fixture do
+not upgrade original acoustic timing, listening or installed-release acceptance.
+
 This recording spec retains original release evidence and unfinished acceptance.
 It does not create another queue for the new editor. Reuse the saved human marks,
 accepted listening results and physical take; do not solicit personal keep/remove

@@ -78,7 +78,7 @@ try {
           home,
           trial,
           await transcript.configure(trial, report.cases.length),
-          new URL("./frozen-transcript-service.mjs", import.meta.url),
+          new URL("./transcript-fixture-service.mjs", import.meta.url),
         )
       : capture
         ? new JourneyService(

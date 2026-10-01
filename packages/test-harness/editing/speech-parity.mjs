@@ -3,15 +3,28 @@ import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promis
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { parseArgs } from "node:util";
+import { createRequire } from "node:module";
+import { realpath } from "node:fs/promises";
 import { readAudioWaveFile } from "../../core/dist/audio-wave.js";
+import { parakeetModel } from "../../core/dist/models.js";
+import { existingSpeechModelSnapshot } from "./existing-speech-model.mjs";
+import { comparableSpeechRecords } from "./speech-parity-records.mjs";
 import { changedTranscriptGeneration } from "./generation-evidence.mjs";
 import { hash, JourneyService, poll, root, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({
-  options: { reference: { type: "string" }, out: { type: "string" } },
+  options: {
+    reference: { type: "string" },
+    out: { type: "string" },
+    "existing-models": { type: "string" },
+  },
 });
 assert.ok(values.reference, "Pass --reference with the retained speech baseline");
-assert.ok(process.env.SCREENREC_NATIVE, "Select an isolated frozen native worker");
+assert.ok(process.env.SCREENREC_NATIVE, "Select an isolated native worker");
+const actualInference = !!values["existing-models"];
+const existingModels = actualInference
+  ? { directory: resolve(values["existing-models"]), files: parakeetModel.files }
+  : undefined;
 const reference = resolve(values.reference);
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "speech-parity-"));
 await mkdir(out, { recursive: true });
@@ -27,10 +40,12 @@ for (const [key, value] of Object.entries(baseline.models.pins)) assert.equal(en
 const home = await mkdtemp(join(tmpdir(), "sr-speech-parity-"));
 const report = {
   passed: false,
-  scope:
-    "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
-  actualModelParity:
-    "not exercised: declared readiness and frozen ASR cannot certify current native inference; recreated container bytes and current decoder differ from historical inputs",
+  scope: actualInference
+    ? "Declared scratch readiness with actual native inference from existing read-only prepared files; actual public source processing, queries, explicit cuts, restart and generation fencing"
+    : "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
+  actualModelParity: actualInference
+    ? "pending: current native inference must match complete retained selected-source records excluding only result.processingTime; actual Models-owner readiness/preparation is not tested"
+    : "not exercised: declared readiness and frozen ASR cannot certify current native inference; recreated container bytes and current decoder differ from historical inputs",
   listening: "not performed; no quality verdict changed",
   trace: [],
   exchanges: [],
@@ -42,32 +57,82 @@ const service = new JourneyService(
   home,
   report,
   configFile,
-  new URL("./frozen-transcript-service.mjs", import.meta.url),
+  new URL("./transcript-fixture-service.mjs", import.meta.url),
 );
 const call = service.call.bind(service);
 try {
+  report.runtimeResolution = [];
+  for (const [from, specifier, expected] of [
+    [
+      "apps/service/dist/project-service.js",
+      "@screenrec/core/models",
+      "packages/core/dist/models.js",
+    ],
+    [
+      "apps/service/dist/project-service.js",
+      "@screenrec/core/transcript-processing",
+      "packages/core/dist/transcript-processing.js",
+    ],
+    [
+      "apps/service/dist/project-service.js",
+      "@screenrec/protocol",
+      "packages/protocol/dist/index.js",
+    ],
+    [
+      "packages/core/dist/transcript-processing.js",
+      "@screenrec/composition",
+      "packages/composition/dist/index.js",
+    ],
+    ["apps/cli/dist/main.js", "@screenrec/client", "packages/client/dist/index.js"],
+    ["apps/cli/dist/main.js", "@screenrec/protocol", "packages/protocol/dist/index.js"],
+    ["packages/client/dist/index.js", "@screenrec/protocol", "packages/protocol/dist/index.js"],
+  ]) {
+    const resolved = await realpath(createRequire(join(root, from)).resolve(specifier));
+    assert.equal(
+      resolved,
+      await realpath(join(root, expected)),
+      "Owned runtime must resolve to this worktree",
+    );
+    report.runtimeResolution.push({
+      from,
+      specifier,
+      resolved,
+      sha256: hash(await readFile(resolved)),
+    });
+  }
   const narration = join(root, "fixtures/narrated-workbench/narration.mov");
   const originalHash = hash(await readFile(narration));
   assert.equal(originalHash, baseline.sourceSha256);
-  await run("ffmpeg", [
-    "-v",
-    "error",
-    "-nostdin",
-    "-i",
-    narration,
-    "-map",
-    "0:a:0",
-    "-c:a",
-    "pcm_f32le",
-    join(out, "narration.wav"),
-  ]);
-  await run("swiftc", [
-    "-parse-as-library",
-    join(root, "packages/test-harness/editing/selected-audio-fixture.swift"),
-    "-o",
-    join(out, "fixture"),
-  ]);
-  await run(join(out, "fixture"), [join(out, "narration.wav"), out]);
+  if (actualInference) {
+    report.existingModelsBefore = await existingSpeechModelSnapshot(
+      existingModels.directory,
+      existingModels.files,
+    );
+    assert.equal(report.existingModelsBefore.receipt.contents.modelDigest, engine.modelDigest);
+    const archive = join(root, "specs/agent-editing/assets/12b-public-parity/media.tar.xz");
+    report.fixtureArchiveSha256 = hash(await readFile(archive));
+    await run("tar", ["-xJf", archive, "-C", out, "first.mov"]);
+  } else {
+    await run("ffmpeg", [
+      "-v",
+      "error",
+      "-nostdin",
+      "-i",
+      narration,
+      "-map",
+      "0:a:0",
+      "-c:a",
+      "pcm_f32le",
+      join(out, "narration.wav"),
+    ]);
+    await run("swiftc", [
+      "-parse-as-library",
+      join(root, "packages/test-harness/editing/selected-audio-fixture.swift"),
+      "-o",
+      join(out, "fixture"),
+    ]);
+    await run(join(out, "fixture"), [join(out, "narration.wav"), out]);
+  }
   const source = join(out, "first.mov");
   const rawFile = join(frozen, "first-physical-selected.jsonl");
   const raw = await readFile(rawFile);
@@ -90,12 +155,22 @@ try {
     receiptFile,
     receiptSha256: hash(await readFile(receiptFile)),
   };
+  if (actualInference) {
+    const retainedFixture = await json(
+      join(root, "specs/agent-editing/assets/12b-public-parity/fixture.json"),
+    );
+    assert.equal(definition.sha256, retainedFixture.sources[0].sha256);
+  }
   const config = {
+    ...(actualInference ? { existingModels, rawOutputsDirectory: out } : {}),
     sources: [definition],
     engine,
     observationsFile: join(out, "native-requests.json"),
   };
-  await save("fixture.json", { ...config, modelState: { state: "absent" } });
+  await save(
+    "fixture.json",
+    actualInference ? config : { ...config, modelState: { state: "absent" } },
+  );
   await service.start();
   const importing = await call("asset.import", { requestId: "retained-speech", path: source });
   await poll(
@@ -108,11 +183,18 @@ try {
   assert.equal(asset.originUs, 250000);
   const selection = { assetId: asset.id, streamId: "track:1" };
   report.readiness = [];
-  for (const state of [
-    { state: "absent" },
-    { state: "preparing", receivedBytes: 0, totalBytes: 1 },
-    { state: "failed", code: "fixture", message: "Declared preparation failure", retryable: true },
-  ]) {
+  for (const state of actualInference
+    ? []
+    : [
+        { state: "absent" },
+        { state: "preparing", receivedBytes: 0, totalBytes: 1 },
+        {
+          state: "failed",
+          code: "fixture",
+          message: "Declared preparation failure",
+          retryable: true,
+        },
+      ]) {
     await service.stop();
     await save("fixture.json", { ...config, modelState: state });
     await service.start();
@@ -139,9 +221,21 @@ try {
       false,
     );
   }
-  await service.stop();
-  await save("fixture.json", config);
-  await service.start();
+  if (!actualInference) {
+    await service.stop();
+    await save("fixture.json", config);
+    await service.start();
+  } else {
+    for (const transport of ["cli", "mcp"]) {
+      const state = await call("model.status", { modelId: "parakeet" }, { transport });
+      assert.deepEqual(state, { state: "ready" });
+      report.readiness.push({
+        transport,
+        state,
+        scope: "Declared scratch readiness; not actual Models-owner status",
+      });
+    }
+  }
   const full = await poll(
     () => call("transcript.get", { ...selection, limit: 1000 }),
     (value) => value.state === "ready",
@@ -152,7 +246,10 @@ try {
     full,
   );
   assert.deepEqual(full.page.transcript.engine, engine);
-  assert.deepEqual(full.page.transcript.raw, { bytes: raw.length, sha256: hash(raw) });
+  const actualRaw = actualInference ? await readFile(join(out, "native-1.jsonl")) : raw;
+  if (actualInference)
+    assert.deepEqual(comparableSpeechRecords(actualRaw), comparableSpeechRecords(raw));
+  assert.deepEqual(full.page.transcript.raw, { bytes: actualRaw.length, sha256: hash(actualRaw) });
   assert.deepEqual(
     full.page.rows
       .filter((row) => row.type === "word")
@@ -176,7 +273,7 @@ try {
     full.generation,
     "raw.jsonl",
   );
-  assert.deepEqual(await readFile(retainedRaw), raw);
+  assert.deepEqual(await readFile(retainedRaw), actualRaw);
   const made = await call("project.create", {
     requestId: "explicit-speech-fixture",
     canvas: {
@@ -289,7 +386,7 @@ try {
   await service.stop();
   await service.start();
   assert.deepEqual(await audio(query.revisionId, "historical-restart"), before);
-  assert.deepEqual(await readFile(retainedRaw), raw);
+  assert.deepEqual(await readFile(retainedRaw), actualRaw);
   const undone = await call(
     "edit.undo",
     { projectId, requestId: "undo-explicit-cut", expectedRevisionId: removed.revision.id },
@@ -303,10 +400,27 @@ try {
     afterSha256: hash(after),
   };
   report.initialNativeRequests = await json(config.observationsFile);
-  report.generation = await changedTranscriptGeneration({ service, query, text: "Okay so", poll });
-  assert.deepEqual(await readFile(retainedRaw), raw);
+  report.generation = await changedTranscriptGeneration({
+    service,
+    query,
+    text: "Okay so",
+    poll,
+    actualInference,
+  });
+  assert.deepEqual(await readFile(retainedRaw), actualRaw);
   assert.equal(hash(await readFile(narration)), originalHash);
   report.nativeRequests = await json(config.observationsFile);
+  if (actualInference) {
+    assert.equal(
+      report.nativeRequests.calls.length,
+      2,
+      "Exactly initial and replacement actual speech calls",
+    );
+    const replacementRaw = await readFile(join(out, "native-2.jsonl"));
+    assert.deepEqual(comparableSpeechRecords(replacementRaw), comparableSpeechRecords(raw));
+    report.actualModelParity =
+      "Complete current native raw records match retained selected-source reference excluding only result.processingTime; scratch readiness declared; actual Models-owner preparation/readiness not exercised";
+  }
   report.checks.rawAndSourcePreserved = true;
   report.runtime = Object.fromEntries(
     await Promise.all(
@@ -317,7 +431,9 @@ try {
         "apps/cli/dist/main.js",
         "packages/test-harness/editing/speech-parity.mjs",
         "packages/test-harness/editing/evidence-service.mjs",
-        "packages/test-harness/editing/frozen-transcript-service.mjs",
+        "packages/test-harness/editing/transcript-fixture-service.mjs",
+        "packages/test-harness/editing/existing-speech-model.mjs",
+        "packages/test-harness/editing/speech-parity-records.mjs",
         "packages/test-harness/editing/generation-transcript-service.mjs",
       ].map(async (path) => [path, hash(await readFile(join(root, path)))]),
     ),
@@ -333,6 +449,19 @@ try {
     report.passed = false;
     process.exitCode = 1;
   });
+  if (actualInference && report.existingModelsBefore) {
+    try {
+      report.existingModelsAfter = await existingSpeechModelSnapshot(
+        existingModels.directory,
+        existingModels.files,
+      );
+      assert.deepEqual(report.existingModelsAfter, report.existingModelsBefore);
+    } catch (error) {
+      report.modelPreservationError = { message: error.message, stack: error.stack };
+      report.passed = false;
+      process.exitCode = 1;
+    }
+  }
   await save("report.json", report);
   await writeFile(join(out, "service.log"), service.logs.join(""));
   await rm(home, { recursive: true, force: true });

@@ -101,8 +101,14 @@ export async function changedSceneGeneration({
   };
 }
 
-/** Distinct transcript dependency pins and phrase consumers, with the established frozen ASR boundary. */
-export async function changedTranscriptGeneration({ service, query, text, poll }) {
+/** Distinct transcript dependency pins and phrase consumers; inference mode stays fixed across release. */
+export async function changedTranscriptGeneration({
+  service,
+  query,
+  text,
+  poll,
+  actualInference = false,
+}) {
   const call = service.call.bind(service);
   const requests = [
     { operation: "transcript.get", params: query, field: "rows" },
@@ -216,8 +222,9 @@ export async function changedTranscriptGeneration({ service, query, text, poll }
   }
   assert.deepEqual(await call("revision.get", query), document);
   return {
-    boundary:
-      "Simulated decoder recipe release. Native ASR responses are frozen; actual queue, raw ingestion and CLI/MCP transcript/phrase consumers execute. No fresh native ASR, shipped second binary or cache eviction is claimed.",
+    boundary: actualInference
+      ? "Simulated decoder recipe release with actual native inference in both generations. Readiness is declared; no shipped second binary or Models-owner adoption is claimed."
+      : "Simulated decoder recipe release. Native ASR responses are frozen; actual queue, raw ingestion and CLI/MCP transcript/phrase consumers execute. No fresh native ASR, shipped second binary or cache eviction is claimed.",
     baseline,
     originalJobs,
     recipeEvidence,

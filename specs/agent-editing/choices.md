@@ -5163,3 +5163,20 @@ the unconfigured SDK; oracle comparisons, telemetry and file writes follow it.
 Resident memory in the shared process remains descriptive, without treating the
 two arms as separate processes or borrowing the duration-memory ratio rule.
 These are diagnostic choices, not production caching or response-policy changes.
+## One public speech parity journey for frozen and actual inference (2026-10-01)
+
+- **When:** bounded12b actual selected-source parity extension.
+- **The choice:** Keep one public journey and one fixture service for both inference modes. When a caller supplies an existing model directory, the same admission, transcript, explicit cut, protected media, restart and generation operations run with real native speech replies. Without that option, the established frozen-response journey remains available. A separate actual-only script would copy the public checks and let their contracts drift independently. The readiness declaration stays a fixture input in both modes, rather than becoming a new production model API.
+- **The gap:** The plan required actual inference through the public owners but did not prescribe whether to extend the existing journey or duplicate it.
+- **The reach:** Future parity changes update the public-operation sequence once. The fixture's readiness declaration cannot be cited as production preparation-owner readiness, even when its native inference is real.
+- **Verdict:** sound; one operation sequence preserves matched inputs and makes the inference boundary explicit.
+- **Confidence:** high.
+
+### Keep bounded attempt evidence in the existing request record
+
+- **When:** root review of the same pass.
+- **The choice:** Reserve a speech attempt in the existing request record before calling native, save its exact request before launch, and save its reply or error afterward. A failed launch or a bad returned file still consumes its attempt. Writes to that small record execute in order, so two callbacks cannot overwrite each other's evidence. A success-only counter would hide failed work and allow more native attempts than the fixture authorized; a separate general-purpose tracing store would add another owner for this bounded experiment.
+- **The gap:** The request bound did not prescribe durable failure accounting or the record format.
+- **The reach:** A restarted fixture sees the same consumed attempts. Missing or refused raw output remains visible as a failure rather than becoming an implicit retry.
+- **Verdict:** sound; the record binds work performed to the existing explicit bound without adding production tracing hooks.
+- **Confidence:** high.

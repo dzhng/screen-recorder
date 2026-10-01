@@ -29,8 +29,10 @@ Subsequent [read-only verification](existing-model-verification.json) found all
 22 registered files (464,414,912 bytes) in the authoritative personal model
 directory. The existing installed model owner reports ready through its older
 parameter form; current generic purpose-owner readiness remains unobserved.
-No model was downloaded, installed, prepared or executed. Current native
-request/decoder parity still needs matching actual inference before 12b closes.
+This historical controlled packet performed no model preparation or inference.
+The subsequent [actual selected-source packet](actual-inference/README.md) now
+verifies current native request/decoder parity while preserving declared scratch
+readiness and the separate current preparation-owner limitation.
 The selected best-effort baseline and its recorded quality misses remain intact;
 no alternate recipe or general acoustic-cut guarantee is adopted.
 
