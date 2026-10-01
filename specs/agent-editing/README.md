@@ -43,6 +43,10 @@ preserves complete scalar receipts and first-error behavior. Full composition,
 project-store and project-evidence suites pass with original deadlines; the three
 previous project-evidence timeouts now have later passing checks. General scale
 and source-cardinality latency targets remain unresolved.
+The [24z8 source-frame correction](slices/24z8-source-frame-support.md) bounds
+worker support payloads while keeping complete core authority. Its public
+segment-rich diagnostic now reaches the native edge; actual frozen-worker
+full/narrow requests preserve receipts and PNG bytes.
 
 [09c audio export](slices/09c-audio-only-export.md) and
 [23i source service process](slices/23i-service-process-parity.md) retain their
@@ -343,6 +347,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z4 — Per-window resource bindings](slices/24z4-prepared-bindings.md) — full merged prepared suite and public WAV; original large deadline passes
 - [x] [24z5 — Asset presence at service boundaries](slices/24z5-service-asset-presence.md) — full merged service suite/public WAV; original diagnostic deadline passes
 - [x] [24z6 — Mixed composition append runs](slices/24z6-composition-appends.md) — scalar receipts/errors and bounded work; full project-evidence deadlines pass
+- [x] [24z8 — Demanded source-frame support](slices/24z8-source-frame-support.md) — bounded native payload, full support authority and public/frozen-native parity
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 

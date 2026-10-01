@@ -1,0 +1,115 @@
+{
+  "baseCommit": "8ef6f691c4c9422c5ce4b35f32c5383894a9a250",
+  "status": "Scoped source-frame wire support and complete source authority pass",
+  "intentionalDifference": "Native request availability now contains only the exact selected interval containing requested atUs. Complete core support, digest, gap/exclusion checks, clocks and physical picture selection are unchanged. Existing native picture implementation identity remains appropriate: actual full/narrow requests match bytes/receipts.",
+  "red": {
+    "testExitCode": 1,
+    "bodySegments": 200001,
+    "nativeControlLimitUnchanged": true,
+    "actualJobError": "JOB_FAILED: JSON frame exceeds the byte limit",
+    "strongerExpectedJobError": "MEDIA_WORKER_UNAVAILABLE: offline"
+  },
+  "green": {
+    "testExitCode": 0,
+    "workerEdgeReached": true,
+    "actualJobError": "MEDIA_WORKER_UNAVAILABLE: offline",
+    "bodySegmentsUnchanged": 200001,
+    "deadlineMsUnchanged": 5000
+  },
+  "nativeParity": {
+    "workerSHA": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+    "inputSHA256": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e",
+    "calls": 2,
+    "allReceiptsEqualApartFromOutputPath": true,
+    "allPNGBytesEqual": true,
+    "results": [
+      {
+        "name": "full",
+        "receipt": {
+          "actualSourceUs": 350000,
+          "assetId": "authored",
+          "bytes": 201,
+          "decodedSamples": 1,
+          "height": 48,
+          "mediaType": "image/png",
+          "readerOpens": 1,
+          "requestedSourceUs": 350000,
+          "sample": {
+            "endTimescale": 10240,
+            "endValue": "4608",
+            "originUs": 0,
+            "timescale": 10240,
+            "value": "3584"
+          },
+          "sourceHeight": 48,
+          "sourceWidth": 64,
+          "streamId": "track:1",
+          "width": 64
+        },
+        "sha256": "07572fd01ef1434a37fc2988b14ee17b741dbfcb4da5ca311a351c1e83b50762"
+      },
+      {
+        "name": "demanded",
+        "receipt": {
+          "actualSourceUs": 350000,
+          "assetId": "authored",
+          "bytes": 201,
+          "decodedSamples": 1,
+          "height": 48,
+          "mediaType": "image/png",
+          "readerOpens": 1,
+          "requestedSourceUs": 350000,
+          "sample": {
+            "endTimescale": 10240,
+            "endValue": "4608",
+            "originUs": 0,
+            "timescale": 10240,
+            "value": "3584"
+          },
+          "sourceHeight": 48,
+          "sourceWidth": 64,
+          "streamId": "track:1",
+          "width": 64
+        },
+        "sha256": "07572fd01ef1434a37fc2988b14ee17b741dbfcb4da5ca311a351c1e83b50762"
+      }
+    ]
+  },
+  "tests": {
+    "publicServiceAndSourceFrameIndex": {
+      "files": 4,
+      "passed": 49,
+      "exitCode": 0
+    },
+    "sourceIndexProcessing": {
+      "passed": 11,
+      "exitCode": 0
+    },
+    "finalSourceFrame": {
+      "passed": 18,
+      "exitCode": 0
+    },
+    "distinctAffectedTests": 61,
+    "supportGuardFalsification": {
+      "exitCode": 1,
+      "reason": "Removing complete supportDigest check allows ready publication after out-of-demand support mutation; restored guard passes."
+    },
+    "initialControlCorrection": "Initial test wrongly assumed ARTIFACT_CHANGED is retryable. Existing owner makes it terminal. Test now verifies refusal of retry and successful independent explicit point request after restoration; production retry semantics unchanged."
+  },
+  "checks": {
+    "coreBuild": 0,
+    "coreTypes": 0,
+    "serviceBuild": 0,
+    "lint": 0,
+    "format": 0,
+    "diffCheck": 0
+  },
+  "scope": "Two actual frozen-worker point requests only, on retained authored tiny movie. No worker rebuild, inference, capture, audible playback, UI/installed switch, original warm cohort or general latency/physical/visual quality claim. Public service fixtures use controlled native edge. Full core support reads/digest remain O(N).",
+  "archive": {
+    "file": "evidence.tar.gz",
+    "members": 35,
+    "bytes": 77744,
+    "sha256": "5b094e6dc942555a5b17dfe36be707a387c39b27a474f21772497e67ba941745",
+    "allMembersVerified": true
+  }
+}

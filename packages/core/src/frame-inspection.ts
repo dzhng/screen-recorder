@@ -424,9 +424,10 @@ export class MediaFrameInspection {
     const contains = (range: SelectionRange) =>
       compare(fromTime(range.startUs), fromTime(input.atUs)) <= 0 &&
       compare(fromTime(input.atUs), fromTime(range.endUs)) < 0;
+    const available = source.track.available.filter(contains);
     const reason = !source.stream.available.some(contains)
       ? "physical_gap"
-      : !source.track.available.some(contains)
+      : !available.length
         ? "acquisition_excluded"
         : null;
     const asset: CompositionAssetBinding = {
@@ -435,7 +436,7 @@ export class MediaFrameInspection {
       path: source.track.source,
       originUs: toSignedTime(subtract(fromTime(0), fromTime(source.track.sourceOffsetUs))),
     };
-    return { source, options: parsed.data, asset, reason };
+    return { source, options: parsed.data, asset, reason, available };
   }
   private requestSource(input: SourceFrameInput) {
     const { options, reason } = this.sourcePlan(input);
@@ -589,7 +590,8 @@ export class MediaFrameInspection {
           .render(
             {
               asset: plan.asset,
-              available: plan.source.track.available,
+              // Native admission needs only the demanded interval; the job pins complete support.
+              available: plan.available,
               atUs: plan.options.atUs,
               maxLongEdge: plan.options.maxLongEdge,
               output,

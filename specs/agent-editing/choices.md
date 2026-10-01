@@ -6238,3 +6238,26 @@ an underlying file exists.
 - **Verdict:** Sound; successful append validation avoids quadratic prefix visits while first-error and
   processing semantics remain intact. General performance budgets remain open.
 - **Confidence:** High.
+
+
+## Demanded source-frame support
+
+### Send only the requested interval while retaining complete source authority
+
+- **When:** 24z8 source-frame transport correction.
+- **Choice:** A caller requests a picture at one timestamp. The core still validates
+  the entire source and selected support, and stores the complete support digest.
+  The worker receives just the admitted interval containing that timestamp. It
+  checks point admission and decodes the same physical sample; it does not choose
+  pictures from the list of support intervals. Screenshot indexing still receives
+  complete support, including when its metadata-only timestamp is in a gap.
+- **Gap:** The plan specified bounded control messages but did not require sending
+  every support interval for a one-point native request. The full list overflowed
+  the existing bound before the worker could respond.
+- **Reach:** Worker support rows are bounded to one without increasing a limit,
+  adding a file handoff or changing the native picture implementation. Core support
+  work remains proportional to source metadata. Tests preserve complete authority,
+  including refusal when a later, unrequested support interval changes.
+- **Verdict:** Sound; full/narrow frozen-native requests preserve complete receipts
+  and image bytes, while the public segment-rich request reaches the worker edge.
+- **Confidence:** High.

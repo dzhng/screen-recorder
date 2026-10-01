@@ -50,7 +50,11 @@ const renderer: SourceFrameRenderer = {
     };
   },
 };
-async function fixture(render = renderer, imageRenderer?: SourceImageRenderer) {
+async function fixture(
+  render = renderer,
+  imageRenderer?: SourceImageRenderer,
+  deferExecution = false,
+) {
   const home = await mkdtemp("/tmp/source-frame-core-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home),
@@ -101,6 +105,7 @@ async function fixture(render = renderer, imageRenderer?: SourceImageRenderer) {
   let frames!: MediaFrameInspection;
   const jobs = new JobQueue({
     store: catalog,
+    deferExecution,
     providers: { newId: randomUUID },
     targets: {
       pin(target) {
@@ -461,4 +466,38 @@ test("image reads do not retry failed work; explicit retry reuses the pinned fra
   const ready = f.frames.request(f.imageRequest);
   expect(ready).toMatchObject({ state: "ready", jobId: initial.jobId });
   expect(await readFile(ready.published!.frame.file, "utf8")).toBe("picture");
+});
+
+test("support changes outside the demanded interval still refuse queued frames", async () => {
+  const f = await fixture(undefined, undefined, true);
+  const request = { assetId: f.asset.id, streamId: "track:1", atUs: 150000 };
+  const pending = f.frames.request(request);
+  const segment = f.catalog.catalog
+    .prepare("SELECT value FROM asset_segments WHERE assetId=? AND streamId=? AND ordinal=2")
+    .get(f.asset.id, "track:1")!.value as string;
+  const changed = { ...JSON.parse(segment), endUs: 900000 };
+  f.catalog.catalog
+    .prepare("UPDATE asset_segments SET value=? WHERE assetId=? AND streamId=? AND ordinal=2")
+    .run(JSON.stringify(changed), f.asset.id, "track:1");
+  f.jobs.start();
+  await f.jobs.idle();
+  expect(f.jobs.job(pending.jobId!)).toMatchObject({
+    state: "failed",
+    errorCode: "ARTIFACT_CHANGED",
+    reason: "Selected source support changed",
+  });
+  expect(f.calls).toEqual([]);
+  expect(f.cache.bytes).toBe(0);
+  f.catalog.catalog
+    .prepare("UPDATE asset_segments SET value=? WHERE assetId=? AND streamId=? AND ordinal=2")
+    .run(segment, f.asset.id, "track:1");
+  expect(() => f.jobs.retry(pending.jobId!)).toThrow("This job cannot be retried");
+  expect(f.frames.request(request)).toMatchObject({ state: "failed" });
+  f.frames.request({ ...request, atUs: 200000 });
+  await f.jobs.idle();
+  const ready = f.frames.request({ ...request, atUs: 200000 });
+  expect(ready).toMatchObject({ state: "ready", supportDigest: pending.supportDigest });
+  expect(ready.published!.frame.supportDigest).toBe(pending.supportDigest);
+  expect(f.calls[0]!.available).toEqual([{ startUs: 0, endUs: 400000 }]);
+  expect(await readFile(ready.published!.frame.file, "utf8")).toBe("selected track:1");
 });

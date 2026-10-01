@@ -959,7 +959,7 @@ test("asset job and cache presence checks preserve source validation without hyd
   expect(sourceRequests).toEqual([
     {
       asset: { assetId, streamId: "video:0", path: f.service.assets.path(assetId), originUs: 0 },
-      available,
+      available: [{ startUs: 0, endUs: 10 }],
       atUs: 0,
       maxLongEdge: 2,
       output: expect.any(String),
@@ -1098,6 +1098,7 @@ test("asset job diagnostics do not hydrate physical segment metadata", async () 
   if (!frame.ok) throw new Error(JSON.stringify(frame));
   const jobId = (frame.data as { jobId: string }).jobId;
   const failed = await f.job(jobId, "failed");
+  expect(failed).toMatchObject({ errorCode: "MEDIA_WORKER_UNAVAILABLE", reason: "offline" });
   // Observe valid segment-rich metadata before the separate damage/isolation control.
   const reads = vi.spyOn(DatabaseSync.prototype, "prepare");
   try {
