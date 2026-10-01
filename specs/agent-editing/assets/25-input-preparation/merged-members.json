@@ -1,0 +1,42 @@
+{
+  "consumer/frozen-recipe-facts.json": {
+    "bytes": 1614,
+    "sha256": "d6da89579e671cd4f59a958d015be79d9c5f80b373089bb32ddfb456aab2569d"
+  },
+  "producer/packages/test-harness/editing/acceptance-inputs.mjs": {
+    "bytes": 8337,
+    "sha256": "2efd49306abdebce7ec06f59e60f86d103d49fa56dbc11a0952db823af4fd610"
+  },
+  "producer/packages/test-harness/editing/acceptance-inputs.test.mjs": {
+    "bytes": 2172,
+    "sha256": "8306a1ebb38a96f524c2d17974437ee83a00338d781066386202ce3c9c82a9b8"
+  },
+  "producer/packages/test-harness/editing/acceptance.mjs": {
+    "bytes": 11959,
+    "sha256": "21770ba0fe3d6caae2385da0dd998cb03ce0ef5fe94971ae3b96b71822124c3a"
+  },
+  "root/archive-check.json": {
+    "bytes": 3219,
+    "sha256": "4fdf424501b71e43b92d64c637ddcd9da9962544cc7f102fb56ec342e768bb70"
+  },
+  "root/caller-inputs.json": {
+    "bytes": 13910,
+    "sha256": "54d95b64ccebe183a3fe8df6a1cbacdd4054301840f317c7783f340c16adf713"
+  },
+  "root/executed-source-closure.json": {
+    "bytes": 362,
+    "sha256": "0727a17809f9048e372b209b32236e5e1f0f3f28ab0df4f71ecdbff3c6034828"
+  },
+  "root/report.json": {
+    "bytes": 165395,
+    "sha256": "f91d170a177fe7d87dde7fb064f32009508f78a748e56a9c1d75f5e50c298166"
+  },
+  "root/screenrec-25-root-inputs.log": {
+    "bytes": 550,
+    "sha256": "fdd076238659c5e16d808c3fc73e5a000db5edfaef789a6b7104e9e1cef1a183"
+  },
+  "root/screenrec-25-root-resume.log": {
+    "bytes": 337,
+    "sha256": "82e7b7691bd1d878f803d9809a2d24005b2c1f403439ad71fa6e37c9a10f7054"
+  }
+}

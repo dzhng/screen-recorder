@@ -1,0 +1,50 @@
+{
+  "checkpoint": "bd245a3e",
+  "status": "Merged bounded admission and public WAV lifecycle pass; existing large-recipe deadline remains red",
+  "originalArchive": "124members independently verified;46candidate producer source pins match exactly",
+  "focusedConsumer": {
+    "exitCode": 0,
+    "passed": 1,
+    "otherCasesFiltered": 19,
+    "log": "root-checks/screenrec-24z2-root-focused.log"
+  },
+  "coreAndServiceBuilds": 0,
+  "publicWAV": {
+    "exitCode": 0,
+    "exchanges": 87,
+    "report": "public/report.json",
+    "oracle": {
+      "frames": 144000,
+      "channels": 2,
+      "sampleRate": 48000,
+      "pcmSha256": "d94fa58401d3357731f51430ecff8c66395b6ee53c17b9ba7b0a530e0812ed73",
+      "trimmedSourceFrames": [
+        0,
+        12000
+      ],
+      "gain": 0.5
+    },
+    "checks": [
+      "capabilities",
+      "oracle",
+      "lifecycle",
+      "videoRemoval",
+      "occupied",
+      "noVideo"
+    ],
+    "nativeSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "preservationBasis": "Native worker unchanged. WAV full-sample oracle equals earlier merged09c bytes. Existing AAC encoding proof is retained separately; this scope does not repeat it. Prior root metadata packet preserves full current producer snapshot; this archive adds changed prepared producer source/emitted bytes.",
+  "openClaims": [
+    "Existing5000ms large-recipe deadline",
+    "Timing/memory SLA",
+    "Full installed external-caller acceptance"
+  ],
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "members": 24,
+    "bytes": 132362,
+    "sha256": "a2f32c0fc66322d7b1f4ca42bcca8c05852d0307477a824b0ef8b2c9aee59449",
+    "allMembersVerified": true
+  }
+}

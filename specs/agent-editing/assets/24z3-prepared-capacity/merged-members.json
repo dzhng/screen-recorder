@@ -1,0 +1,26 @@
+{
+  "producer/packages/core/dist/prepared-audio.js": {
+    "bytes": 18945,
+    "sha256": "b904c6234e6b1b1e8a4f2869213d5f2c3db9c292a542b281cfcaf493faff31a6"
+  },
+  "producer/packages/core/src/prepared-audio.test.ts": {
+    "bytes": 39360,
+    "sha256": "64c6ee92cdf88b0ad01209ad8355c0fdeb03c79f2719d4eded917552491539f6"
+  },
+  "producer/packages/core/src/prepared-audio.ts": {
+    "bytes": 19521,
+    "sha256": "cd866e973eecb4fd23854b114565bb406870da1f8c056e27c1350619e57ab35d"
+  },
+  "root/archive-check.json": {
+    "bytes": 3219,
+    "sha256": "4fdf424501b71e43b92d64c637ddcd9da9962544cc7f102fb56ec342e768bb70"
+  },
+  "root/screenrec-24z3-root-boundary.log": {
+    "bytes": 365,
+    "sha256": "c4c01c3acbcbaa3d190ca3b46650b3fd1db30d098bf4e0d2b2ab36954d0a34c3"
+  },
+  "root/screenrec-24z3-root-build.log": {
+    "bytes": 46,
+    "sha256": "3cf3ddd5792d4b3066d05a6d72d06868b482741b35cda84d54d137e946182976"
+  }
+}

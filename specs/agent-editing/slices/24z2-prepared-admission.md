@@ -3,6 +3,8 @@
 Status: bounded-work implementation verified at the prepared request consumer;
 the existing large-recipe deadline remains red. Exact checks, source identity,
 failures and review are retained in the [evidence packet](../assets/24z2-prepared-admission/README.md).
+[Root integration](../assets/24z2-prepared-admission/merged-verification.json)
+adds the merged focused regression and full-sample public WAV lifecycle proof.
 
 ## Resource identity and occurrence identity
 

@@ -6152,3 +6152,30 @@ separating those facts from file-address resolution, and preserving scene
 preparation ordering. All three remain sound with high confidence after root
 integration. No map survives a publication await or another request; full source
 support, acquisition authority and both dependency checks remain required.
+
+## Prepared admission and caller preparation
+
+The [prepared admission ledger](assets/24z2-prepared-admission/choices.md)
+owns first-encounter resource order and real database-work observation through
+queued recovery. The [capacity ledger](assets/24z3-prepared-capacity/choices.md)
+owns the tiny declared-duration test of the native boundary. These remain sound,
+with high confidence: resources are deduplicated without erasing clip occurrences,
+and the boundary test drives actual admission without rendering a multi-GiB file.
+
+### Keep readiness checking separate from the caller's inference workflow
+
+- **When:** 25a integration.
+- **Choice:** A caller needs a prepared model before generating speech. A bounded
+  checker exercises public preparation and reopen in the existing isolated library,
+  preserving the empty fixture project. The fresh caller then discovers and chooses
+  its generation/edit calls independently. Running a scripted generation in this
+  checker would prime or substitute for that consumer journey.
+- **Gap:** The plan required model readiness and independent caller acceptance but
+  did not specify how to establish readiness without running the caller's task.
+- **Reach:** The maintained checker uses existing model and transport owners; it
+  adds no production provider, receipt-copy path or inference defaults. Its separate
+  [readiness evidence](assets/25a-model-readiness/README.md) cannot stand in for
+  generated-word, delivery, listening or installed acceptance.
+- **Verdict:** Sound; each check establishes its own prerequisite without assigning
+  editorial choices to the toolkit or falsely declaring the whole journey done.
+- **Confidence:** High.

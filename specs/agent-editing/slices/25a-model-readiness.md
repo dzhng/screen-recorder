@@ -33,3 +33,7 @@ separate, including the bounded crop and contextual treatment already supplied b
 the brief. Use saved human cuts without retranscribing merely for captions. The
 main empty project remains the starting point; the anchor proof is a separate
 scratch project. Changed integrated media needs its own relevant verification.
+
+[Root packet verification](../assets/25a-model-readiness/merged-verification.json)
+rehashes retained source/evidence and independently checks terminal reports and
+unchanged original identities after integration. The fresh caller owns generation.

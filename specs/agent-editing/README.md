@@ -22,34 +22,36 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: complete the prepared-audio admission work reduction
-and advance [25 fixture preparation](assets/25-fixture-brief/README.md).**
-[24z1 metadata batches](slices/24z1-source-metadata-resolution.md) are integrated;
-their [merged public work proof](assets/24z1-source-metadata-resolution/merged-verification.json)
-passes. Existing project-evidence deadline failures remain recorded separately.
-[09c audio export](slices/09c-audio-only-export.md) and
-[23i source service process](slices/23i-service-process-parity.md) are integrated.
-Their [merged public checks](assets/09c-23i-merged/README.md) pass in controlled
-scope; two existing large-fixture checks still fail at their unchanged deadlines,
-including isolated retries. Resolve those failures without claiming a latency pass
-or stopping independent primitive work.
+**Next implementation pickup: finish the fresh external-caller fixture journey.**
+[25 preparation](assets/25-input-preparation/merged-verification.json) and
+[25a registered voice readiness](slices/25a-model-readiness.md) are integrated.
+The isolated library preserves the admitted sources and empty starting revision;
+a fresh caller is now discovering and executing the frozen brief through the
+actual source service. Keep its evidence and failures separate from installed,
+visual, listening and physical acceptance. Literal occurrence captions and the
+saved human cuts do not require new ASR.
 
-[24z bounded source-cardinality attribution](slices/24z-source-cardinality.md)
-retains its separate dispatch prerequisites.
+[24z1 metadata batches](slices/24z1-source-metadata-resolution.md),
+[24z2 prepared admission](slices/24z2-prepared-admission.md) and
+[24z3 native PCM admission capacity](slices/24z3-prepared-capacity.md) have merged
+functional/work proofs. Existing project-evidence and large-recipe deadlines remain
+red. Identify their remaining expensive phase before another owner change; retain
+the original deadlines and do not repeat the timing cohort without a concrete fix.
+[09c audio export](slices/09c-audio-only-export.md) and
+[23i source service process](slices/23i-service-process-parity.md) retain their
+[merged public delivery/lifecycle proof](assets/09c-23i-merged/README.md).
+
+[24z source-cardinality attribution](slices/24z-source-cardinality.md) retains
+its separate dispatch prerequisites. None of these work proofs establishes a
+latency pass or prohibits independent implementation.
 Atomic public camera selection is [merged-verified](assets/21f3-public-camera-selection/merged-verification.json)
 through allocation, the actual native controller, crash recovery, independent
 admission and explicit project use, including empty allocated sources. Preserve
 that controlled checkpoint without inferring physical or installed acceptance.
-The historical [owner profile](assets/24z-owner-profile/README.md) completes
-its bounded reads. The [metadata correction](slices/24z1-source-metadata-resolution.md)
-removes repeated asset/acquisition resolution within each fresh phase without
-weakening checkpoint freshness. It adds no latency pass. The user has
-explicitly authorized model work, removing the authorization objection recorded
-in its [startup audit](assets/24z-owner-profile-preparation/dispatch-readiness.json).
-Preserve its pinned service, restored historical static resources and ordinary
-model-storage initialization in the isolated library. Review the existing metadata
-owners and prove a concrete change before new measurements. Do not poll or repeat
-the original timing cohort; host contention never blocks independent work.
+The historical [owner profile](assets/24z-owner-profile/README.md) preserves its
+completed bounded reads and [dispatch authority](assets/24z-owner-profile-preparation/dispatch-readiness.json).
+Preserve those pinned resources. Do not poll or repeat the original timing cohort;
+host contention never blocks independent work.
 Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
 Preserve installed span transactions until the explicit cutover in 23.
@@ -63,7 +65,7 @@ prerequisites do not prohibit isolated implementation preparation.
 | [12](slices/12-speech-evidence.md) | Preserve completed [12b baseline adoption](slices/12b-speech-processing.md); investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Preserve merged source process/discovery, complete remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
-| [24 / 25](slices/24-scale.md) | Preserve fresh metadata batches, remove duplicate prepared-admission work, and advance [fixture preparation](assets/25-fixture-brief/README.md) | Existing deadlines, isolated timing, final budgets and installed external-caller acceptance |
+| [24 / 25](slices/24-scale.md) | Preserve merged metadata/admission work and execute the prepared fresh-caller fixture | Existing deadlines, isolated timing, final budgets and installed external-caller acceptance |
 
 Reuse the [banked evidence](assets/integrated-evidence.md) and
 [source/runtime identities](assets/implementation-pickup.md):
@@ -326,6 +328,9 @@ implementation readiness from acceptance prerequisites.
 - [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
 - [ ] [24z — Source-selection cardinality](slices/24z-source-cardinality.md)
 - [x] [24z1 — Fresh source metadata batches](slices/24z1-source-metadata-resolution.md) — scoped functional/work proof; latency remains under 24z
+- [x] [24z2 — Unique prepared-input retention and one admission composition](slices/24z2-prepared-admission.md) — bounded work/lifecycle; existing deadline remains red
+- [x] [24z3 — Canonical native PCM admission capacity](slices/24z3-prepared-capacity.md) — supported queue/refused next frame; no large output claim
+- [x] [25a — Registered voice readiness](slices/25a-model-readiness.md) — isolated public preparation/reopen; generation and full caller acceptance separate
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

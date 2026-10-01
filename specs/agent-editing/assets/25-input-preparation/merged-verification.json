@@ -1,0 +1,39 @@
+{
+  "checkpoint": "190dd374",
+  "scope": "Merged public preparation resume and fixture-input tests; no new capture, inference or caller acceptance",
+  "publicResume": {
+    "passed": true,
+    "exchanges": 66,
+    "inputs": 12,
+    "home": "/tmp/screenrec-25-preparation-current/library-ACs9sl",
+    "originalProjectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+    "originalRevisionId": "73f31656-d0f2-4780-a132-db138697283a",
+    "modelSnapshot": "Before separate25a voice readiness; preserved original absent state",
+    "nativeLog": "Cumulative preparation journal, including prior admissions; not a claim all operations executed during this resume"
+  },
+  "inputTests": {
+    "passed": 3,
+    "exitCode": 0
+  },
+  "originalPackets": {
+    "preparationSource": 1084,
+    "preparationEvidence": 61,
+    "readinessEvidence": 21,
+    "externalRuntimeMatches": 172,
+    "nativeWorkerSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "supplement": "Exact frozen join/context math and independently pinned existing word-background input, supplied in response to fresh caller technical authority gap; no operation walkthrough",
+  "open": [
+    "Fresh caller workflow running independently",
+    "Integrated visual/listening scope",
+    "Physical synchronization",
+    "Installed cutover/acceptance"
+  ],
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "bytes": 33019,
+    "sha256": "9a29e6e5399e35924601b4ecca85675aaf320499a0c2c732fe13b015ce6f387d",
+    "members": 10,
+    "allMembersVerified": true
+  }
+}

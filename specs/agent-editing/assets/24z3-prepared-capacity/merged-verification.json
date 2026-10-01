@@ -1,0 +1,23 @@
+{
+  "checkpoint": "26101963",
+  "scope": "Merged native-capacity admission boundary only",
+  "focusedTest": {
+    "passed": 1,
+    "filtered": 20,
+    "exitCode": 0
+  },
+  "coreAndServiceBuilds": 0,
+  "preserved": "Canonical output capability and frozen native worker unchanged; no multi-GiB render or large-recipe rerun",
+  "open": [
+    "Existing large-recipe deadline",
+    "Physical/container maximum output confirmation",
+    "Installed acceptance"
+  ],
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "bytes": 19117,
+    "sha256": "55cffd6043dcf0cf674feac87b42349d942b63a4206539896d35938e4796e307",
+    "members": 6,
+    "allMembersVerified": true
+  }
+}

@@ -30,3 +30,6 @@ plus the existing project-output boundary, supply the focused neighboring checks
 No timing claim follows from this capacity check. The prior large-recipe deadline
 remains open and was not rerun for capacity arithmetic. Root integration owns
 the shared handoff and final acceptance boundary.
+
+[Root integration](../assets/24z3-prepared-capacity/merged-verification.json)
+verifies the same boundary on the merged producer with core/service builds.

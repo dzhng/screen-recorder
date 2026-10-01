@@ -1,0 +1,98 @@
+{
+  "producer/packages/core/dist/prepared-audio.d.ts": {
+    "bytes": 4922,
+    "sha256": "c2d9cdbfe244998378f49e2280126100eca72aef1755def0e8b64c66186d0777"
+  },
+  "producer/packages/core/dist/prepared-audio.js": {
+    "bytes": 19030,
+    "sha256": "fa6524054fb39a8804cbb6e44fe6f6936f79ffc2676659d174a156379df8a382"
+  },
+  "producer/packages/core/src/prepared-audio.test.ts": {
+    "bytes": 36192,
+    "sha256": "dfa6777abe16a0412436ec958f0691e9ca87ffe3f5c42daf1d010f96e031ccc1"
+  },
+  "producer/packages/core/src/prepared-audio.ts": {
+    "bytes": 19600,
+    "sha256": "d6bf5106188ebbd4526e6c26f260f88fad05d77a31b736ca58a8c155cf9a2540"
+  },
+  "producer/packages/test-harness/editing/audio-export.mjs": {
+    "bytes": 21278,
+    "sha256": "82b2701735ff726f2d16ce96e5e900e4dc939593ab5c345a21e27ad74539bb52"
+  },
+  "public/.screenrec-export-0e9c0916-051f-480c-a394-b1212cada29d/payload": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/.screenrec-export-0e9c0916-051f-480c-a394-b1212cada29d/prepared.json": {
+    "bytes": 255,
+    "sha256": "807808f53b213e7e6c27ee0bc40dc89c54e6c780a1590d5608af82e57afcb068"
+  },
+  "public/exports/cancel-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/cancel-retry.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/crash-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/pinned.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/native/operations.jsonl": {
+    "bytes": 26278,
+    "sha256": "b2bef15cb2711908490e7c916a0c409744995014647bc1d9ac7118f8a9b5cf8c"
+  },
+  "public/occupied.wav": {
+    "bytes": 20,
+    "sha256": "758417d9129a189ebfe53a8014e5c7140be464a2c63bfe7c72513e974f338328"
+  },
+  "public/original.f32": {
+    "bytes": 1152000,
+    "sha256": "3877fc40947a05155a3a369569710997b14dc392b840784e51f8a9ed5a14ec36"
+  },
+  "public/original.mov": {
+    "bytes": 1155214,
+    "sha256": "fd827c97b23a2fbdc1f2b2eb026daec0c0a4c4f2bb7403c47076e9ab2b330fc0"
+  },
+  "public/processed.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/report.json": {
+    "bytes": 258445,
+    "sha256": "e9928b2809ca197ca61e90d4ee37f50e395842248b91266c9222d9c48d961eb3"
+  },
+  "public/service.log": {
+    "bytes": 334,
+    "sha256": "349fc04a1a3601af0f473a26c512da0826eaa8a2756563956254ad8c67fa2cf4"
+  },
+  "public/undo-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/with-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/without-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "root-checks/screenrec-24z2-root-archive-check.json": {
+    "bytes": 117,
+    "sha256": "dc417d9c38ff842871a1edc6c1fe474955540733778756528e72c42738e4c562"
+  },
+  "root-checks/screenrec-24z2-root-focused.log": {
+    "bytes": 619,
+    "sha256": "ccc284755a312203103012d22360f7f6c0dfb4b885969faed5bfad7b071b860d"
+  },
+  "root-checks/screenrec-24z2-root-wav.log": {
+    "bytes": 235,
+    "sha256": "2daeeadcb366d49b386fbd1005bd3e62ed7388cfa6a60528c3539b83e0763b91"
+  }
+}

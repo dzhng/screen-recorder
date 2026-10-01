@@ -1,0 +1,31 @@
+{
+  "checkpoint": "26101963",
+  "scope": "Independent packet/source verification after integration; no repeated preparation or inference",
+  "originalEvidenceMembers": 21,
+  "originalSourceBaseMembers": 1084,
+  "originalSourceDeltaMembers": 4,
+  "reports": {
+    "adoption/report.json": {
+      "passed": true,
+      "exchanges": 616,
+      "originalIdentitiesEqual": true,
+      "terminalDistinctProcesses": 2
+    },
+    "ready-reuse/report.json": {
+      "passed": true,
+      "exchanges": 13,
+      "originalIdentitiesEqual": true,
+      "terminalDistinctProcesses": 2
+    }
+  },
+  "externalRuntimeCurrentMatches": 172,
+  "nativeSourceAndFixtureCurrentMatches": 176,
+  "generatedNativeCurrentMatch": "Existing generated RNNoise source now present and hash-identical; no worker rebuild",
+  "verificationRecord": "../25-input-preparation/merged-evidence.tar.gz:root/archive-check.json",
+  "ownerPreservation": "Model/preparation owners unchanged by merged metadata/prepared-audio work. Actual source consumer independently discovers and uses ready state.",
+  "remaining": [
+    "Fresh caller generation/edit/delivery/recovery",
+    "Integrated visual/listening scope",
+    "Installed acceptance"
+  ]
+}
