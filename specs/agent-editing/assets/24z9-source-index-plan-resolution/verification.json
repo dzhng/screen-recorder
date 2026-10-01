@@ -1,0 +1,109 @@
+{
+  "slice": "24z9",
+  "baseCommit": "a787335a7e55c2dc61c442317acfc55886f285b7",
+  "scope": "One complete sourcePlan within each existing request/execution planning phase",
+  "readWork": {
+    "readyRequest": {
+      "red": {
+        "headers": 8,
+        "segments": 8,
+        "acquisitions": 4
+      },
+      "green": {
+        "headers": 6,
+        "segments": 6,
+        "acquisitions": 3
+      }
+    },
+    "executionValidation": {
+      "red": {
+        "headers": 4,
+        "segments": 4,
+        "acquisitions": 2
+      },
+      "green": {
+        "headers": 2,
+        "segments": 2,
+        "acquisitions": 1
+      }
+    }
+  },
+  "oracle": {
+    "redAndGreen": "Exact encoded recipe, complete scene descriptor/digest/generation, complete index metadata, all seven coverage records, four requested/physical source-point pairs, four retained PNG byte reads and original fixture media pass before read-budget assertion",
+    "requestReply": "Complete ready reply equality within each producer; no fixture renderer calls during the ready query",
+    "executionBoundary": "Actual queued job enters public executor with already-aborted signal; synchronous recipe/plan validation occurs before existing reclaim cancellation check; separate normal queue run proves full index generation/delivery",
+    "physicalEvidence": "Synthetic fixture receipts/PNGs only; not native or visual quality acceptance"
+  },
+  "controls": {
+    "targetOrder": {
+      "redExitCode": 1,
+      "restoredExitCode": 0,
+      "failure": "Moved planning before target guard changes ARTIFACT_CHANGED to NOT_FOUND"
+    },
+    "completeSupport": {
+      "redExitCode": 1,
+      "restoredExitCode": 0,
+      "failure": "Replacing full selected support with empty point-at-zero support fails ordinary index generation"
+    }
+  },
+  "checks": {
+    "finalTests": {
+      "exitCode": 0,
+      "files": 6,
+      "passed": 61,
+      "log": "evidence/checks/24z9-final-suite.txt"
+    },
+    "sourceIndexFile": {
+      "exitCode": 0,
+      "passed": 14,
+      "log": "evidence/checks/24z9-source-suite.txt"
+    },
+    "build": {
+      "exitCode": 0,
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+      "log": "evidence/checks/24z9-build.txt"
+    },
+    "types": {
+      "exitCode": 0,
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json",
+      "log": "evidence/checks/24z9-final-types.txt"
+    },
+    "format": {
+      "exitCode": 0,
+      "log": "evidence/checks/24z9-format.txt"
+    },
+    "lint": {
+      "exitCode": 0,
+      "log": "evidence/checks/24z9-lint.txt"
+    }
+  },
+  "packet": {
+    "sha256": "974eb086228fd05e67586d4c03a39c23e31e60a1af8ac03f836aa0a0c6d4b191",
+    "members": 90,
+    "changedClosure": "Owner, consumer test and existing fixture snapshots only; 15 unchanged dependency sources referenced by committed-base hashes",
+    "finalPins": "evidence/final-source/source-pins.json",
+    "basePins": "evidence/base-authorities.json",
+    "runtimeResolution": "evidence/dependency-resolution.json",
+    "catalogs": [
+      "evidence/red/request/catalog",
+      "evidence/red/execution/catalog",
+      "evidence/green/request/catalog",
+      "evidence/green/execution/catalog"
+    ],
+    "instrumentation": "Test-only copying/serialization after bounded observation; exact instrumented test source pinned separately; shipped tests contain no retention hook"
+  },
+  "limits": {
+    "rootIntegration": "pending",
+    "publicTransportDelivery": "not claimed",
+    "sourceCardinalityP95": "open",
+    "generalScaleBudgets": "open",
+    "serviceStarts": 0,
+    "realCapture": 0,
+    "nativeWorkerCalls": 0,
+    "modelInference": 0,
+    "audiblePlayback": 0,
+    "installedSwitch": 0,
+    "timingCohorts": 0,
+    "deadlineOrLimitChanges": false
+  }
+}

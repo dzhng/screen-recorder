@@ -1,0 +1,41 @@
+{
+  "verdict": "clean isolated correction; integration remains root work",
+  "shape": {
+    "skill": ".agents/skills/refactor-clean/SKILL.md",
+    "resolution": "Existing helper consumes normalized options; no second selection resolution, optional plan, public API, facts wrapper or cache. Source request/execution maintain distinct fresh plans. Deleted duplicate partial assertions in the existing pagination/adoption fixture and used one complete shared oracle."
+  },
+  "diff": {
+    "skill": ".agents/skills/code-review/SKILL.md",
+    "resolution": "Target short circuit retained before source reads; recipe and cancellation precedence retained; full source support/duration still passed at original pre-cleanup resolution point. Portable adoption remains separate with exact encoded-recipe checks. All deliberate mutations restored before final checks."
+  },
+  "docs": {
+    "skill": ".agents/skills/write-docs/SKILL.md",
+    "resolution": "Leaf invariants explain full-source versus point support, fresh call boundaries and proof limits; unchanged authorities referenced rather than copied. Root owns hub linkage and global choices."
+  },
+  "tests": {
+    "skill": ".agents/skills/write-tests/SKILL.md",
+    "resolution": "One red request regression first, request correction green; one red execution regression next, execution correction green. Actual SQL counts at outer consumer; full normal output/delivery oracle. Target/full-support controls falsified then restored. Existing retry/cancellation/retention/undo/adoption checks pass unchanged."
+  },
+  "choices": {
+    "skill": ".agents/skills/audit-choices/SKILL.md",
+    "ledger": "choices.md",
+    "sound": 2,
+    "unsound": 0,
+    "needsUser": 0
+  },
+  "productionLines": {
+    "added": 8,
+    "deleted": 9,
+    "net": -1
+  },
+  "testLines": {
+    "added": 240,
+    "deleted": 15,
+    "net": 225
+  },
+  "separateClaims": [
+    "No CLI/Claude review run",
+    "No public service/transport run",
+    "Work accounting is not latency acceptance"
+  ]
+}

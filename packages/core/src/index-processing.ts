@@ -466,10 +466,9 @@ export class IndexProcessing {
     });
   }
   private sourceRecipe(
-    selection: SourceSelection,
+    options: ReturnType<MediaFrameInspection["sourcePlan"]>["options"],
     scenes: SceneEvidenceMetadata,
   ): SourceIndexInput {
-    const { options } = this.asset.frames.sourcePlan({ ...selection, atUs: 0 });
     return {
       ...options.selection,
       scenes,
@@ -479,7 +478,8 @@ export class IndexProcessing {
     };
   }
   requestSource(selection: SourceSelection) {
-    selection = this.asset.frames.sourcePlan({ ...selection, atUs: 0 }).source.selection;
+    const plan = this.asset.frames.sourcePlan({ ...selection, atUs: 0 });
+    selection = plan.source.selection;
     const dependency = this.asset.scenes.publishedSource(selection);
     if (!dependency.published)
       return {
@@ -491,7 +491,7 @@ export class IndexProcessing {
         published: null,
         dependencies: [{ artifact: "source-scenes", ...dependency }],
       };
-    const input = this.sourceRecipe(selection, dependency.published.evidence);
+    const input = this.sourceRecipe(plan.options, dependency.published.evidence);
     const identity = {
       target: { kind: "asset" as const, assetId: input.assetId },
       artifact,
@@ -622,12 +622,11 @@ export class IndexProcessing {
     if (job.target.kind !== "asset" || job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Source index requires an asset job");
     const input = JSON.parse(job.input) as SourceIndexInput;
-    if (
-      job.target.assetId !== input.assetId ||
-      !isDeepStrictEqual(input, this.sourceRecipe(input, input.scenes))
-    )
+    if (job.target.assetId !== input.assetId)
       throw new CatalogError("ARTIFACT_CHANGED", "Source index recipe changed");
-    const source = this.asset.frames.sourcePlan({ ...input, atUs: 0 }).source;
+    const { options, source } = this.asset.frames.sourcePlan({ ...input, atUs: 0 });
+    if (!isDeepStrictEqual(input, this.sourceRecipe(options, input.scenes)))
+      throw new CatalogError("ARTIFACT_CHANGED", "Source index recipe changed");
     await this.cleanupAsset(input.assetId, signal);
     return JSON.stringify(
       await materializeSourceIndex(

@@ -1,8 +1,243 @@
+import type { SourceSelection } from "./source-selection.js";
 import { portableSourceIndexMetadataSchema } from "./source-index.js";
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
+import { createHash } from "node:crypto";
+import { sourceIndexPolicy } from "./source-index-selection.js";
+import { encodeIndexRecord } from "./screenshot-index.js";
 import { readFile, unlink } from "node:fs/promises";
 import { CatalogError } from "./catalog.js";
 import { fixture, gate, png } from "./index-processing.fixture.js";
+function acquiredSelection(f: Awaited<ReturnType<typeof fixture>>) {
+  const selection = { ...f.selection, acquisitionId: "selection" };
+  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
+    selection.acquisitionId,
+    "fixture",
+    JSON.stringify({ kind: "import", path: f.home, files: {} }),
+    JSON.stringify({
+      id: selection.acquisitionId,
+      bindings: [
+        {
+          ...f.selection,
+          available: [
+            { startUs: 200000, endUs: 400000 },
+            { startUs: 600000, endUs: 1000000 },
+          ],
+        },
+      ],
+    }),
+  );
+  return selection;
+}
+function observeSourceMetadata(f: Awaited<ReturnType<typeof fixture>>) {
+  const work = { headers: 0, segments: 0, acquisitions: 0 };
+  const prepare = f.catalog.catalog.prepare.bind(f.catalog.catalog);
+  f.catalog.catalog.prepare = (sql, ...options) => {
+    const statement = prepare(sql, ...options);
+    const key = sql.startsWith("SELECT metadata FROM assets")
+      ? "headers"
+      : sql.startsWith("SELECT value FROM asset_segments")
+        ? "segments"
+        : sql.startsWith("SELECT metadata FROM acquisitions")
+          ? "acquisitions"
+          : null;
+    if (key === "segments") {
+      const read = statement.all.bind(statement);
+      vi.spyOn(statement, "all").mockImplementation((...args) => {
+        work.segments++;
+        return read(...args);
+      });
+    } else if (key) {
+      const read = statement.get.bind(statement);
+      vi.spyOn(statement, "get").mockImplementation((...args) => {
+        work[key]++;
+        return read(...args);
+      });
+    }
+    return statement;
+  };
+  return {
+    work,
+    restore: () => {
+      f.catalog.catalog.prepare = prepare;
+      vi.restoreAllMocks();
+    },
+  };
+}
+async function assertSourceIndex(
+  f: Awaited<ReturnType<typeof fixture>>,
+  selection: SourceSelection,
+) {
+  const result = f.index.getSource(selection);
+  expect(result.state).toBe("ready");
+  const metadata = result.page!.metadata;
+  const scenes = f.scenes.sourceStatus(selection).published!.evidence;
+  expect(scenes.source).toEqual({
+    kind: "asset",
+    streamId: "v",
+    ...(selection.acquisitionId === undefined ? {} : { acquisitionId: selection.acquisitionId }),
+    originUs: 1250000,
+    durationUs: 1200000,
+    supportDigest: createHash("sha256")
+      .update(
+        JSON.stringify([
+          { startUs: 200000, endUs: 400000 },
+          { startUs: 600000, endUs: 1000000 },
+        ]),
+      )
+      .digest("hex"),
+  });
+  const recipe = {
+    ...selection,
+    scenes,
+    selectionPolicy: sourceIndexPolicy.id,
+    implementationId: "fixture-frame",
+    maxLongEdge: 1600,
+  };
+  const publication = f.index.portableSource(metadata)!;
+  expect(publication.input).toBe(encodeIndexRecord(recipe));
+  expect(metadata).toEqual({
+    ...recipe,
+    generation: publication.attemptId,
+    durationUs: 1200000,
+    candidateCount: 4,
+    coverageCount: 7,
+    bytes: 4 * png.length,
+  });
+  expect(
+    result.page!.entries.map(({ candidate, frame }) => [
+      candidate.requestedSourceUs,
+      frame.actualSourceUs,
+    ]),
+  ).toEqual([
+    [200000, 200000],
+    [399999, 200000],
+    [600000, 600000],
+    [999999, 800000],
+  ]);
+  const reference = { ...selection, generation: metadata.generation };
+  const coverage = f.index.coverageSource({ ...reference, limit: 100 }).coverage;
+  expect(coverage).toEqual(
+    (
+      [
+        [null, 0, 200000, "support"],
+        [0, 200000, 399999, "sampled"],
+        [1, 399999, 400000, "unproven"],
+        [null, 400000, 600000, "support"],
+        [2, 600000, 999999, "sampled"],
+        [3, 999999, 1000000, "unproven"],
+        [null, 1000000, 1200000, "support"],
+      ] as const
+    ).map(([ordinal, startUs, endUs, evidence], sequence) => ({
+      sequence,
+      ordinal,
+      source: { startUs, endUs },
+      ...(ordinal === null
+        ? { state: "unavailable", basis: evidence }
+        : { state: "available", equality: evidence }),
+    })),
+  );
+  for (let ordinal = 0; ordinal < 4; ordinal++) {
+    const read = f.index.openReadSource({ ...reference, ordinal });
+    try {
+      const bytes = Buffer.alloc(read.bytes);
+      read.read(bytes, 0);
+      expect(bytes).toEqual(png);
+    } finally {
+      read.release();
+    }
+  }
+  expect(await readFile(f.path, "utf8")).toBe("immutable fixture media");
+  return { result, publication, coverage };
+}
+test("ready source index requests resolve their complete frame plan once", async () => {
+  const f = await fixture();
+  const selection = acquiredSelection(f);
+  f.index.requestSource(selection);
+  await f.jobs.idle();
+  f.index.requestSource(selection);
+  await f.jobs.idle();
+  const delivered = await assertSourceIndex(f, selection);
+  const before = f.index.requestSource(selection);
+  const calls = f.calls;
+  const { work, restore } = observeSourceMetadata(f);
+  let result;
+  try {
+    result = f.index.requestSource(selection);
+  } finally {
+    restore();
+  }
+  expect(result).toEqual(before);
+  expect(result.published!.evidence).toEqual(delivered.result.page!.metadata);
+  expect(f.calls).toBe(calls);
+  expect(work).toEqual({ headers: 6, segments: 6, acquisitions: 3 });
+});
+test("source index execution validates one fresh complete plan before cancellation", async () => {
+  const barrier = gate();
+  const f = await fixture({ barrier });
+  const selection = acquiredSelection(f);
+  f.scenes.prepareSource(selection);
+  await f.jobs.idle();
+  f.jobs.submit({
+    target: { kind: "asset", assetId: selection.assetId },
+    artifact: "barrier",
+    input: "hold",
+    lane: "heavy",
+  });
+  const queued = f.index.requestSource(selection);
+  const job = f.jobs.job(queued.jobId!);
+  expect(job.state).toBe("queued");
+  const canceled = Error("stop after synchronous source-index validation");
+  const { work, restore } = observeSourceMetadata(f);
+  try {
+    await expect(f.index.execute({ job, signal: AbortSignal.abort(canceled) })).rejects.toBe(
+      canceled,
+    );
+  } finally {
+    restore();
+    barrier.resolve();
+  }
+  await f.jobs.idle();
+  const delivered = await assertSourceIndex(f, selection);
+  expect(delivered.publication.input).toBe(job.input);
+  expect(delivered.publication.attemptId).toBe(job.attemptId);
+  expect(f.jobs.job(job.jobId).state).toBe("ready");
+  expect(work).toEqual({ headers: 2, segments: 2, acquisitions: 1 });
+});
+test("source index target mismatch refuses before metadata lookup and cancellation", async () => {
+  const barrier = gate();
+  const f = await fixture({ barrier });
+  const selection = acquiredSelection(f);
+  f.scenes.prepareSource(selection);
+  await f.jobs.idle();
+  f.jobs.submit({
+    target: { kind: "asset", assetId: selection.assetId },
+    artifact: "barrier",
+    input: "hold",
+    lane: "heavy",
+  });
+  const queued = f.index.requestSource(selection);
+  const original = f.jobs.job(queued.jobId!);
+  const job = {
+    ...original,
+    target: { kind: "asset" as const, assetId: "missing-target" },
+    input: encodeIndexRecord({ ...JSON.parse(original.input), assetId: "missing-input" }),
+  };
+  const { work, restore } = observeSourceMetadata(f);
+  try {
+    await expect(
+      f.index.execute({ job, signal: AbortSignal.abort(Error("canceled")) }),
+    ).rejects.toMatchObject({
+      code: "ARTIFACT_CHANGED",
+      message: "Source index recipe changed",
+      details: {},
+      retryable: false,
+    });
+    expect(work).toEqual({ headers: 0, segments: 0, acquisitions: 0 });
+  } finally {
+    restore();
+    barrier.resolve();
+  }
+});
 test("shared jobs publish source PNGs and exact gap coverage with bounded canonical pages", async () => {
   const f = await fixture();
   const { waiting, pending } = await f.prepare();
@@ -10,11 +245,10 @@ test("shared jobs publish source PNGs and exact gap coverage with bounded canoni
   expect(pending.jobId).toBeTruthy();
   expect(f.jobs.job(pending.jobId!).lane).toBe("heavy");
   await f.jobs.idle();
+  const delivered = await assertSourceIndex(f, f.selection);
   const result = f.index.getSource({ ...f.selection, limit: 1 });
-  expect(result.state).toBe("ready");
-  expect(result.page).toBeTruthy();
   const first = result.page!;
-  const publication = f.index.portableSource(first.metadata)!;
+  const publication = delivered.publication;
   expect(() =>
     f.index.adoptSourcePublication(
       portableSourceIndexMetadataSchema.parse(first.metadata),
@@ -28,18 +262,10 @@ test("shared jobs publish source PNGs and exact gap coverage with bounded canoni
     }),
   ).toThrow("recipe differs");
 
-  expect(first.entries[0]!.candidate.requestedSourceUs).toBe(200000);
-  expect(first.metadata.candidateCount).toBe(4);
+  expect(first.entries).toEqual([delivered.result.page!.entries[0]]);
   const continuation = f.index.getSource({ ...f.selection, cursor: first.nextCursor!, limit: 1 });
-  expect(continuation.page!.entries[0]!.candidate.requestedSourceUs).toBe(399999);
+  expect(continuation.page!.entries).toEqual([delivered.result.page!.entries[1]]);
   const ref = { ...f.selection, generation: first.metadata.generation };
-  const coverage = f.index.coverageSource({ ...ref, limit: 100 }).coverage;
-  expect(coverage.filter((r) => r.state === "unavailable").map((r) => r.source)).toEqual([
-    { startUs: 0, endUs: 200000 },
-    { startUs: 400000, endUs: 600000 },
-    { startUs: 1000000, endUs: 1200000 },
-  ]);
-  expect(coverage.some((r) => r.state === "available" && r.equality === "sampled")).toBe(true);
   const frame = f.index.frameSource({ ...ref, ordinal: 0 });
   expect(frame.published.frame.assetId).toBe(f.selection.assetId);
   for (const row of f.catalog.catalog.prepare("SELECT id FROM derived_cache").all())
@@ -52,7 +278,6 @@ test("shared jobs publish source PNGs and exact gap coverage with bounded canoni
   } finally {
     read.release();
   }
-  expect(await readFile(f.path, "utf8")).toBe("immutable fixture media");
   expect(() =>
     f.index.getSource({ ...f.selection, streamId: "w", cursor: first.nextCursor! }),
   ).toThrow("another selection");
