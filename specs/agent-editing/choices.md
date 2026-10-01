@@ -6143,3 +6143,12 @@ whole-file conversion. These choices were reviewed during root integration;
 all remain sound. The two medium-confidence tradeoffs are PCM temporary disk
 cost and using the existing MP4 mux for an AAC-only M4A file. No editorial choice
 or new permission gate is delegated to the product.
+
+## 24z1 — Fresh source metadata batches
+
+The [metadata owner ledger](assets/24z1-source-metadata-resolution/choices.md)
+records sharing complete source facts only within a synchronous validation phase,
+separating those facts from file-address resolution, and preserving scene
+preparation ordering. All three remain sound with high confidence after root
+integration. No map survives a publication await or another request; full source
+support, acquisition authority and both dependency checks remain required.

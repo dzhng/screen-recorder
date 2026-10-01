@@ -1,0 +1,74 @@
+{
+  "checkpoint": "dabf4d0cfa45aed993190d7ffc1c3eeda4a76852",
+  "status": "Merged public functional/work checks pass; existing deadline checks remain red",
+  "originalPacketArchive": "All805members, archive SHA and compressed/uncompressed catalog independently verified",
+  "public": {
+    "exitCode": 0,
+    "report": "public/report.json",
+    "exchanges": 50,
+    "arms": [
+      {
+        "cardinality": 2,
+        "rows": 250,
+        "pageRows": [
+          0,
+          43,
+          43,
+          43,
+          43,
+          43,
+          35
+        ],
+        "counts": {
+          "asset.header": 15,
+          "asset.segments": 15,
+          "acquisition": 30
+        },
+        "nativeCallsDuringRead": 0
+      },
+      {
+        "cardinality": 4,
+        "rows": 250,
+        "pageRows": [
+          0,
+          43,
+          43,
+          43,
+          43,
+          43,
+          35
+        ],
+        "counts": {
+          "asset.header": 15,
+          "asset.segments": 15,
+          "acquisition": 60
+        },
+        "nativeCallsDuringRead": 0
+      }
+    ]
+  },
+  "packageBuilds": {
+    "core": 0,
+    "service": 0,
+    "cli": 0
+  },
+  "projectEvidenceSuite": {
+    "exitCode": 1,
+    "passed": 31,
+    "deadlineFailures": 3,
+    "deadlineMs": 5000,
+    "log": "root-checks/screenrec-24z1-root-project-evidence.log",
+    "newRegressions": "Both pass; existing phrase initialization, capture tied-track and scene-only tied-track deadline cases fail. No deadlines, fixture sizes or assertions changed."
+  },
+  "scope": "New current service/catalog22 and actual native admissions; public rows/dependencies/coverage/checkpoint progression/originals checked. No latency, original warm cohort, inference, hardware, playback, installation or physical claim.",
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "members": 738,
+    "bytes": 3281224,
+    "sha256": "02b1d26edc80e8b8b4c82c86b6f5e3b320d9bda1cd334aa9d21e8688e6ca1ff7",
+    "allMembersVerified": true
+  },
+  "terminalCatalog": "Complete scratch home archived; read-only integrity_check=ok",
+  "independentCheckpointVerification": "14 distinct advancing checkpoint byte hashes, each matches its emitted public cursor manifestId/queryDigest",
+  "cleanup": "Harness children terminal; exact owned /tmp/screenrec-source-metadata-DJPgef removed only after full home/catalog/checkpoint bytes archived and verified"
+}

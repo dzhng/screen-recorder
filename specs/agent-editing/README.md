@@ -22,8 +22,11 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: integrate the [24z metadata-owner change](slices/24z-source-cardinality.md)
+**Next implementation pickup: complete the prepared-audio admission work reduction
 and advance [25 fixture preparation](assets/25-fixture-brief/README.md).**
+[24z1 metadata batches](slices/24z1-source-metadata-resolution.md) are integrated;
+their [merged public work proof](assets/24z1-source-metadata-resolution/merged-verification.json)
+passes. Existing project-evidence deadline failures remain recorded separately.
 [09c audio export](slices/09c-audio-only-export.md) and
 [23i source service process](slices/23i-service-process-parity.md) are integrated.
 Their [merged public checks](assets/09c-23i-merged/README.md) pass in controlled
@@ -37,9 +40,10 @@ Atomic public camera selection is [merged-verified](assets/21f3-public-camera-se
 through allocation, the actual native controller, crash recovery, independent
 admission and explicit project use, including empty allocated sources. Preserve
 that controlled checkpoint without inferring physical or installed acceptance.
-The historical [owner profile](assets/24z-owner-profile/README.md) now completes
-its bounded reads and identifies repeated asset/acquisition metadata resolution
-for investigation. It adds no latency pass. The user has
+The historical [owner profile](assets/24z-owner-profile/README.md) completes
+its bounded reads. The [metadata correction](slices/24z1-source-metadata-resolution.md)
+removes repeated asset/acquisition resolution within each fresh phase without
+weakening checkpoint freshness. It adds no latency pass. The user has
 explicitly authorized model work, removing the authorization objection recorded
 in its [startup audit](assets/24z-owner-profile-preparation/dispatch-readiness.json).
 Preserve its pinned service, restored historical static resources and ordinary
@@ -59,7 +63,7 @@ prerequisites do not prohibit isolated implementation preparation.
 | [12](slices/12-speech-evidence.md) | Preserve completed [12b baseline adoption](slices/12b-speech-processing.md); investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Preserve merged source process/discovery, complete remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
-| [24 / 25](slices/24-scale.md) | Investigate metadata resolution identified by [source-cardinality attribution](slices/24z-source-cardinality.md), and advance [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
+| [24 / 25](slices/24-scale.md) | Preserve fresh metadata batches, remove duplicate prepared-admission work, and advance [fixture preparation](assets/25-fixture-brief/README.md) | Existing deadlines, isolated timing, final budgets and installed external-caller acceptance |
 
 Reuse the [banked evidence](assets/integrated-evidence.md) and
 [source/runtime identities](assets/implementation-pickup.md):
@@ -321,6 +325,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24x — Bounded evidence continuations](slices/24x-evidence-continuations.md)
 - [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
 - [ ] [24z — Source-selection cardinality](slices/24z-source-cardinality.md)
+- [x] [24z1 — Fresh source metadata batches](slices/24z1-source-metadata-resolution.md) — scoped functional/work proof; latency remains under 24z
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

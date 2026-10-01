@@ -1,6 +1,8 @@
 # 24z1 — Fresh source metadata batches
 
-Status: implemented with functional/work-accounting proof. The preserved
+Status: integrated with [merged public functional/work proof](../assets/24z1-source-metadata-resolution/merged-verification.json).
+Root's full project-evidence file retains three unchanged deadline failures.
+The preserved
 source-cardinality latency budget and full production scale acceptance remain
 open under [24z](24z-source-cardinality.md).
 
@@ -49,6 +51,12 @@ contention; deadlines are unchanged. Candidate correctness and reduced work do
 not imply a 250 ms p95 pass. Any later timed measurement needs a named changed-code
 hypothesis and a coordinated whole-host window. Do not reopen the historical
 catalog, substitute its missing frozen worker or repeat its warm cohort.
+
+Root's merged archive also retains the complete terminal scratch catalog/media,
+checkpoint bytes and independent cursor/manifest/digest checks. The original
+candidate packet is unchanged. The two new regressions pass in the merged test
+file, while three existing larger cases time out; neither result supersedes the
+other.
 
 Delegated: internal batch/helper names and bounded observer organization.
 The request-local sharing and scene-order boundaries are disclosed in the packet's
