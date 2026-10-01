@@ -4,9 +4,9 @@ import {
   isSettled,
   type LifecycleEvent,
   type Recording,
-  type RevisionStore,
+  type CaptureStore,
   type FinalizationError,
-} from "@screenrec/core/library";
+} from "@screenrec/core/capture-store";
 import { CatalogError } from "@screenrec/core/catalog";
 import {
   NATIVE_SEQUENCE_LIMIT,
@@ -58,7 +58,7 @@ export class CaptureService {
     | undefined;
 
   constructor(
-    private readonly store: RevisionStore,
+    private readonly store: CaptureStore,
     private readonly home: string,
     /** The native capture session, reached over the app's private control channel. */
     private readonly native: ControlChannel["call"],

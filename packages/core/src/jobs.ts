@@ -2,7 +2,8 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { ResourceReferences, type ResourceKind } from "./references.js";
 import { setImmediate } from "node:timers/promises";
-import { isSettled, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { isSettled } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */

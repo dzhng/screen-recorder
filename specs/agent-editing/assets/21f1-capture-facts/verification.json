@@ -1,0 +1,91 @@
+{
+  "status": "21f1 verified; parent21f remains open",
+  "scope": "Selector-free durable capture-facts extraction, source/schema/SQL unit verification only",
+  "tests": {
+    "core": {
+      "passed": 102,
+      "failed": 0,
+      "files": 4,
+      "record": "core-final.json"
+    },
+    "serviceLifecycle": {
+      "passed": 35,
+      "failed": 0,
+      "files": 3,
+      "record": "service-lifecycle.json"
+    },
+    "freshEntry": {
+      "command": "vitest run src/project-service.test.ts -t 'fresh service owns capture facts' --maxWorkers=1",
+      "exitCode": 0,
+      "passedTests": 1,
+      "skippedTests": 15,
+      "scope": "Cleanup-only fake media worker; no native capture or model preparation",
+      "evidence": "Focused runner console result; no JSON reporter was requested for this selected test",
+      "assertions": [
+        "capture.start remains NOT_READY",
+        "cameraDeviceId remains INVALID_PARAMS",
+        "fresh capture and deletion tables exist and are empty",
+        "projects are empty",
+        "obsolete span/edit/undo tables are absent"
+      ]
+    }
+  },
+  "checks": {
+    "isolatedTypeScriptBuild": "passed",
+    "coreTypeCheckIncludingTests": "passed",
+    "serviceTypeCheckIncludingTests": "passed",
+    "changedFileLint": "passed",
+    "changedFileFormat": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "negativeControls": [
+    {
+      "record": "fresh-original-span-control.log",
+      "failure": "Original RevisionStore creates r0 where fresh capture requires null."
+    },
+    {
+      "record": "duration-control.log",
+      "failure": "Removing positive-safe-integer validation admits zero instead of refusing."
+    },
+    {
+      "record": "deletion-control.log",
+      "failure": "Reintroducing span-table cleanup makes fresh deletion fail on absent revisions table."
+    },
+    {
+      "record": "fresh-entry-control.log",
+      "failure": "Replacing CaptureStore with plain Catalog leaves no durable capture tables."
+    },
+    {
+      "record": "catalog-byte-control.log",
+      "failure": "A rejected-catalog path that rewrites user_version fails exact file-byte equality."
+    }
+  ],
+  "catalogOracle": {
+    "initialCurrentTimeoutMs": 5140.49075,
+    "focusedCurrentTimeoutMs": 13229.068292,
+    "originalBaselineTimeoutMs": 5552.501166,
+    "deadlineMs": 5000,
+    "resolution": "Use Buffer.equals for exact byte equality instead of structural Buffer assertion. Every format case and deadline preserved; final affected suite passes. No isolated performance claim.",
+    "invalidFormatCasesPreserved": 21,
+    "supportedFormatReopenCasesPreserved": 1,
+    "originalLibrarySourceSha256": "56f13fad657f0887b7bdf9188fc032fdc7c7821868640052cf4c42e6ef358502"
+  },
+  "setupIncidents": [
+    "Initial library concurrency test could not import unbuilt isolated dist/library.js; compiled owned TypeScript before verification.",
+    "New fresh-entry SQL fixture initially queried projects.id instead of actual projectId; corrected fixture query before green and deliberate negative control."
+  ],
+  "boundaries": [
+    "CaptureService control/recovery/shutdown behavior unchanged; it now depends directly on CaptureStore.",
+    "Installed source/span attachment and editing deletion stay inside the inherited successful transaction and rollback.",
+    "Fresh service has one CaptureStore catalog connection; no capture coordinator/routes, admission coordination or camera selector added.",
+    "Fresh capture facts create no span or project. Nullable currentRevisionId stays only until its real installed consumers leave at23.",
+    "No capture/native cohort/build, model work, profile, CLI review retry, installed switch or old-library migration/deletion."
+  ],
+  "next": "21f checkpoint2: wire the existing coordinator/private reports/startup-close/queue priority and durable source-admission facts. Atomic camera selector remains gated by complete21e.",
+  "review": "Root settled inspection and independent review clean; local shape/diff/docs and choices review clean.",
+  "artifacts": {
+    "manifest": "manifest.json",
+    "runtimeIdentities": "runtime-identities.json",
+    "review": "review.json"
+  }
+}

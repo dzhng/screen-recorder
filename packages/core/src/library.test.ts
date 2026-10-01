@@ -678,7 +678,7 @@ test("a catalog in another format, or unstamped with tables, is refused without 
     expect(() => new RevisionStore(path, providers)).toThrow(
       expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
     );
-    expect(readFileSync(path)).toEqual(before);
+    expect(readFileSync(path).equals(before)).toBe(true);
   }
 });
 

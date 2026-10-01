@@ -295,6 +295,10 @@
     "./voice-generation": {
       "types": "./dist/voice-generation.d.ts",
       "default": "./dist/voice-generation.js"
+    },
+    "./capture-store": {
+      "types": "./dist/capture-store.d.ts",
+      "default": "./dist/capture-store.js"
     }
   },
   "scripts": {

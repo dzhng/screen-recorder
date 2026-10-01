@@ -110,6 +110,42 @@ async function setup(worker: MediaWorker) {
   }
   return { home, path, service, call, job };
 }
+test("fresh service owns capture facts without enabling capture or creating span editing state", async () => {
+  const f = await setup(async (operation) => {
+    expect(operation).toBe("storage.clearRenderWorkspace");
+    return { ok: true, data: { removed: true } };
+  });
+  const start = {
+    requestId: "not-wired",
+    source: { kind: "display", displayId: 1 },
+    microphone: false,
+    systemAudio: false,
+  };
+  expect(await f.call("capture.start", start)).toMatchObject({
+    ok: false,
+    error: { code: "NOT_READY" },
+  });
+  expect(await f.call("capture.start", { ...start, cameraDeviceId: "not-exposed" })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PARAMS" },
+  });
+  await f.service.close();
+  const database = new DatabaseSync(join(f.home, "library/catalog.sqlite"), { readOnly: true });
+  try {
+    expect(database.prepare("SELECT recordingId FROM recordings").all()).toEqual([]);
+    expect(database.prepare("SELECT recordingId FROM recording_deletions").all()).toEqual([]);
+    expect(database.prepare("SELECT projectId FROM projects").all()).toEqual([]);
+    expect(
+      database
+        .prepare(
+          "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('revisions','edit_requests','undo_stack')",
+        )
+        .all(),
+    ).toEqual([]);
+  } finally {
+    database.close();
+  }
+});
 test("audio preparation pins its revision and reuses failed work until explicit retry", async () => {
   let attempts = 0;
   const f = await setup(async (operation) => {

@@ -49,7 +49,8 @@ import { ProjectStore } from "@screenrec/core/projects";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { AssetStore } from "@screenrec/core/assets";
-import { Catalog, CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@screenrec/core/catalog";
+import { CaptureStore } from "@screenrec/core/capture-store";
 import { JobQueue, type JobTargets } from "@screenrec/core/jobs";
 import {
   operationSchema,
@@ -79,7 +80,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   const runtime = join(library, "run");
   await prepareRuntimeDirectory(library);
   const ownership = await claimStartup(runtime);
-  let catalog: Catalog | undefined;
+  let catalog: CaptureStore | undefined;
   let jobs: JobQueue | undefined;
   let listener: LocalListener | undefined;
   let deletion: ProjectDeletion | undefined;
@@ -90,7 +91,10 @@ export async function startProjectService(options: { home: string; worker?: Medi
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
   try {
-    catalog = new Catalog(join(library, "catalog.sqlite"));
+    catalog = new CaptureStore(join(library, "catalog.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
     const assets = new AssetStore(catalog, library);
     await assets.recover();
     const acquisitions = new AcquisitionStore(catalog);

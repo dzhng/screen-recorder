@@ -5355,3 +5355,41 @@ When: 21d.
 - **Verdict:** Sound. The control observes real-file behavior at the actual owner,
   without asserting internal counters or building a parallel parser.
 - **Confidence:** High.
+
+### Share the capture implementation through an editing specialization — sound, high confidence
+
+When: 21f1 durable capture-facts extraction.
+
+- **Choice:** When native reports a finished take, both service paths use the same
+  implementation to check its identity, sequence and source duration. The installed
+  revision store extends that implementation only to create the first editable
+  span or remove its editing rows. Those additions run before the enclosing SQL
+  transaction commits: if the lifecycle write fails, its source and editing changes
+  are rolled back together. The fresh store has no such editing additions.
+- **Gap:** The plan required one surviving capture owner and atomic installed
+  behavior without choosing inheritance or composition for the mixed store.
+- **Reach:** The fresh service uses the capture store as its one catalog connection;
+  the installed service keeps its actual editing owner. Slice 23 can remove the
+  editing specialization without copying or replacing capture lifecycle logic.
+- **Verdict:** Sound. This preserves the real consumer transaction while avoiding
+  forwarding methods, observer-based commits and a second lifecycle or catalog.
+- **Confidence:** High.
+
+### Retain the installed recording field until its consumers leave — sound, high confidence
+
+When: 21f1 durable capture-facts extraction.
+
+- **Choice:** The installed app still reads a recording's `currentRevisionId` to
+  open its existing edit. That nullable field stays in the shared recording row;
+  a fresh capture leaves it null and creates no editing revision. Slice 23 removes
+  the field together with the old span and app consumers, rather than treating it
+  as permanent metadata for new projects.
+- **Gap:** Splitting capture ownership exposed an editing field in the existing
+  row shape; the checkpoint had to preserve real installed consumers without
+  introducing a migration or a translating wrapper.
+- **Reach:** New capture consumers cannot infer project existence from this field.
+  Its removal belongs to the explicit hard cutover, and the old library remains
+  untouched for deliberate media import.
+- **Verdict:** Sound. The temporary field has named live consumers and an explicit
+  removal boundary; it does not select a composition or duplicate editing state.
+- **Confidence:** High.

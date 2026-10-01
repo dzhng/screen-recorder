@@ -35,7 +35,7 @@ compatibility layer or migration is part of this checkpoint.
 
 Keep the selector rejected while settling these owners in order:
 
-1. Extract the existing catalog-backed allocation, lifecycle sequencing,
+1. [Extract durable capture facts](21f1-capture-facts.md): the existing catalog-backed allocation, lifecycle sequencing,
    discovery and deletion fences from the mixed revision store. CaptureService
    retains control order, recovery and shutdown. The installed recording path's
    source attachment and original span creation currently share a transaction;

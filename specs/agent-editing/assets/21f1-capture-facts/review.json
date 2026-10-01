@@ -1,0 +1,40 @@
+{
+  "verdict": "Clean bounded extraction; full21f is not complete.",
+  "shape": "CaptureStore owns one existing lifecycle and catalog connection. RevisionStore remains real editing specialization with synchronous transaction-bound source/delete methods, not a forwarding facade or observer. No mode flag, second catalog or automatic project.",
+  "diff": "Existing SQL/state/replay/fence methods moved without a duplicate implementation. Actual type/runtime consumers import capture facts directly. Fresh duration validation preserves old positive-domain semantics without timeline machinery; installed timeline validation remains first.",
+  "docs": "21f links21f1;21f1 records verified scope, limits and next checkpoint;23 names removal of obsolete span/currentRevisionId consumers together. Root shared handoffs remain root-owned.",
+  "choices": "Two sound/high-confidence entries appended to specs/agent-editing/choices.md: inherited transactional editing specialization and temporary installed row shape. No needs-user or unsound decisions remain.",
+  "size": {
+    "productionAdded": 454,
+    "productionRemoved": 414,
+    "productionNet": 40,
+    "newCaptureOwnerLines": 415,
+    "explanation": "Capture owner is predominantly moved code; net production growth is the two transaction-bound specialization seams, fresh duration validation and entry/import wiring.",
+    "newPublicOperations": 0,
+    "newCatalogConnections": 0,
+    "newSchemaColumns": 0,
+    "freshExistingCaptureTables": [
+      "recordings",
+      "recording_deletions"
+    ],
+    "typescriptLineClassification": {
+      "before": {
+        "logic": 5415,
+        "comments": 255,
+        "blank": 156
+      },
+      "after": {
+        "logic": 5448,
+        "comments": 258,
+        "blank": 156
+      },
+      "delta": {
+        "logic": 33,
+        "comments": 3,
+        "blank": 0
+      },
+      "method": "Nonblank source lines separated from whole-line comments; includes unchanged context in touched TypeScript files."
+    }
+  },
+  "CLIReview": "Not invoked per root instruction; root and independent code inspections completed."
+}

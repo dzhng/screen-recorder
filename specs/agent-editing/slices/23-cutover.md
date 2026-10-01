@@ -12,6 +12,12 @@ Follow architecture.md's cutover: one fresh library/catalog, capture-to-assets
 finalization with exact source mappings, explicit caller project construction,
 shared project inspection/render/export and the same CLI/MCP registry. Remove the old span revision interpreter, fixed-role movie/package requests and obsolete editing target schemas after parity.
 
+[21f1](21f1-capture-facts.md) separates durable capture facts from the installed
+editing specialization. Remove that specialization and obsolete recording
+`currentRevisionId` field together with their span/app consumers at hard cutover.
+The fresh capture row's temporary null field is not permanent project metadata;
+this removal does not migrate or rewrite the retained old library.
+
 ## Work and review surface
 
 Include processing discovery, get/set, routing and all processed inspection/export consumers in the same cutover. Remove old hidden gain/transition assumptions from the new path; do not preserve a second DSP or effect interpreter.

@@ -3,7 +3,8 @@ import { openDirectoryLease, type IdentifiedFile } from "./files.js";
 import { readRawCursor, type RawCursorOptions } from "./raw-cursor.js";
 import { lstat, mkdir, opendir, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
-import { isSettled, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { isSettled } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import type {

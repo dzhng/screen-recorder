@@ -1,0 +1,43 @@
+{
+  "base": "0ec7ff6eecf54eeac927734b0fa5b22acd9ad732",
+  "node": "v24.14.0",
+  "vitest": "5.0.0",
+  "sourceFiles": {
+    "apps/service/src/capture-cleanup.ts": "7668c29f4064b5cdd181267517d3d0afb7d70c7853056547a74882ef5b102573",
+    "apps/service/src/capture.ts": "dca797edd3409ab52a0cdeadde165a36cf8b108af439ba43ef833f55be8c3c61",
+    "apps/service/src/project-service.test.ts": "172d6dbbae1bd966960b5a43ea8ed8e43f7c7933cbab91a8512298ecbb4a59cf",
+    "apps/service/src/project-service.ts": "4a76b906b1ff993b670a750b90b545d6e0eb1a9baf1b76bd3d87eb3aebc3d5da",
+    "packages/core/package.json": "9452e17bad3d4153ef72efb4f67ab48f8d4243f38b15f97cfabeb66d02f3fb63",
+    "packages/core/src/capture-store.test.ts": "f0eb3f4ae7a55394c63d2f70858fec943ae8026f1375643895a51b1bdb5888dd",
+    "packages/core/src/capture-store.ts": "08341ca8ffb48477e76c35471f58b46143db7422c7eef4b8e96b2d87ff71035b",
+    "packages/core/src/jobs.ts": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda",
+    "packages/core/src/library.test.ts": "a80e179bca3858dd83a20d5c8042296533eb987930a17929bd60ea9da546cb9e",
+    "packages/core/src/library.ts": "6829c8a15ffbf870d778554cfc726f654962b36461dd6b6a1483e4fcdba204e2",
+    "packages/core/src/processing.ts": "ac57a4f49b29151f6c162bec4d7e189587b2073b806ae38bff3e69a2d3bb09f0",
+    "packages/core/src/scene-processing.ts": "cf7b72ef69d14d27b3a7cf487c161d679cbb6b2124f351cece0a9a33c672f4bc",
+    "packages/core/src/storage.ts": "b5db772b5e356922bd0865ab1ade79c3bd625c8fd28a83a23ef6f6f8a544d7c9",
+    "packages/core/src/transcript-processing.ts": "3e1baca793673ed795af4a89ec70ed79ba85bcc9d96fe5b8ada0f9f30fc7b604",
+    "packages/core/src/catalog.ts": "786d0d86d281320b2273c516a7fe43f62e6b3374190ca26eb6e1b57a6838ca13",
+    "packages/core/src/timeline.ts": "e516cf93d7d8b3644dd0a0bb4b9b1101c0ea3c62da1cee68b43a3cd7f8a694de",
+    "apps/service/src/main.ts": "9ec3a08d186ae05ee36908d25f6adc88fb6b837665e7bcdc76bd5ddced427082"
+  },
+  "compiledFiles": {
+    "apps/service/dist/capture-cleanup.js": "aedb127554c75a4158671c5c32951c6a75555198b1823326927549a4a27bf283",
+    "apps/service/dist/capture.js": "c2c2c88bb4cd7ca589340c0fe85bfdd42f6893c873b020c481d944298851f9ee",
+    "apps/service/dist/project-service.js": "dc8f8582c60731e2b94df1278d18bfdcb5f81ec423f38cf2139e081e92f105d7",
+    "packages/core/dist/capture-store.js": "0b8d36bfef93aad6dd5fab4d3265a5a8d3f5d4553c2c2e3d7e36322081bb71a5",
+    "packages/core/dist/jobs.js": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292",
+    "packages/core/dist/library.js": "ab976b6962a6c66057e077ffeef1328453564df46f5757f0bdd75d0aeb1b9592",
+    "packages/core/dist/processing.js": "840e2dc0be27a3e18f0a198c2ff53098fd9ea77267a41bac5b27b6190248f3c4",
+    "packages/core/dist/scene-processing.js": "399293384e98127ae6ef4cfe546364882cbcad4b7ddf13282c99bb50c5e904c4",
+    "packages/core/dist/storage.js": "273e2dc41c748aced5d0535a8ba8f676676d50db10f0ee80c759eb700bd88267",
+    "packages/core/dist/transcript-processing.js": "4cf2f47c448aecaa7e039b17af9b107cc71f860fbbc2901a4b8f2f8eab05ac1e",
+    "packages/core/dist/catalog.js": "5884c735f8862247281bb2bdee3a0b8b75d13fdaf45108783a96fe891e90ade2",
+    "packages/core/dist/timeline.js": "707c377f03ff76877efd879e3b85c76e92b91ffa3e3bec3662afe9ceb80afb94",
+    "apps/service/dist/main.js": "298995498f68ea25e83a35af73b6880a5a942cc0b9b4d55b161d17c601a0a22f"
+  },
+  "build": "Isolated sequential tsc -p for composition, protocol, core, client, service; final core/service rebuild and both check-types passed",
+  "nativeExecution": false,
+  "modelExecution": false,
+  "installedSwitch": false
+}

@@ -1,4 +1,4 @@
-import { Catalog, CatalogError } from "./catalog.js";
+import { CatalogError } from "./catalog.js";
 import {
   createOriginalRevision,
   createRevision,
@@ -7,62 +7,7 @@ import {
   type TimelineRevision,
   type TimeRange,
 } from "./timeline.js";
-export type RecordingState =
-  | "preparing"
-  | "recording"
-  | "paused"
-  | "finalizing"
-  | "complete"
-  | "interrupted"
-  | "canceled";
-export type FinalizationError = Readonly<{ code: string; message: string; retryable: boolean }>;
-export type Recording = Readonly<{
-  recordingId: string;
-  sourceId: string;
-  creationSequence: number;
-  createdAt: string;
-  state: RecordingState;
-  lifecycleSequence: number;
-  interruptionReason: string | null;
-  interruptionMessage: string | null;
-  finalizationError: FinalizationError | null;
-  sourceDurationUs: number | null;
-  currentRevisionId: string | null;
-}>;
-/** A capture session reports its device transitions here; core never derives them itself. */
-export type LifecycleEvent = Readonly<{ sourceId: string; sequence: number }> &
-  Readonly<
-    | { state: "recording" | "paused" | "canceled" }
-    | { state: "finalizing"; finalizationError?: FinalizationError | null }
-    | { state: "complete"; sourceDurationUs: number }
-    | {
-        state: "interrupted";
-        reason: string;
-        message?: string | null;
-        sourceDurationUs: number | null;
-      }
-  >;
-const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = {
-  preparing: ["recording", "finalizing", "interrupted", "canceled"],
-  recording: ["recording", "paused", "finalizing", "interrupted", "canceled"],
-  paused: ["paused", "recording", "finalizing", "interrupted", "canceled"],
-  finalizing: ["finalizing", "complete", "interrupted", "canceled"],
-  complete: ["complete"],
-  interrupted: ["interrupted"],
-  canceled: ["canceled"],
-};
-const recordingColumns =
-  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,interruptionMessage,finalizationError,sourceDurationUs,currentRevisionId";
-type RecordingRow = Omit<Recording, "finalizationError"> & { finalizationError: string | null };
-function readRecording(row: RecordingRow): Recording {
-  return {
-    ...row,
-    finalizationError:
-      row.finalizationError === null
-        ? null
-        : (JSON.parse(row.finalizationError) as FinalizationError),
-  };
-}
+import { CaptureStore, isSettled, type Recording } from "./capture-store.js";
 export type EditRequest = { requestId: string; expectedRevisionId: string } & (
   | { operation: "cut"; ranges: readonly TimeRange[] }
   | { operation: "trim"; range: TimeRange }
@@ -82,13 +27,6 @@ function argumentsKey(request: EditRequest): string {
           : null,
   ]);
 }
-/** A settled take can no longer leave its state, so a missing source is final rather than pending. */
-export function isSettled(state: RecordingState): boolean {
-  return nextStates[state].every((next) => next === state);
-}
-const unsettledStates = (Object.keys(nextStates) as RecordingState[]).filter(
-  (state) => !isSettled(state),
-);
 function settledWithoutVideo(recording: Recording): CatalogError {
   return isSettled(recording.state)
     ? new CatalogError("UNAVAILABLE", "This take has no usable video", {
@@ -97,33 +35,19 @@ function settledWithoutVideo(recording: Recording): CatalogError {
       })
     : new CatalogError("NOT_READY", "Source duration is not finalized", { state: recording.state });
 }
-export type RecordingCursor = Readonly<{ beforeSequence: number }>;
-/** What a caller asks a take to be allocated for, canonically, so a replay can be recognized. */
-export type AllocationRequest = Readonly<{ requestId: string; arguments: string }>;
-/** A take's identity, and whether this request had already been given it. */
-export type Allocation = Readonly<{ recording: Recording; replay: boolean }>;
 export type HistoryCursor = Readonly<{
   recordingId: string;
   afterOrdinal: number;
   throughOrdinal: number;
 }>;
-export class RevisionStore extends Catalog {
+export class RevisionStore extends CaptureStore {
   constructor(
     path: string,
-    private readonly providers: { now: () => string; newId: () => string },
+    providers: { now: () => string; newId: () => string },
     busyTimeoutMs = 1000,
   ) {
-    super(path, busyTimeoutMs);
+    super(path, providers, busyTimeoutMs);
     this.catalog.exec(`
-   CREATE TABLE IF NOT EXISTS recordings (
-    creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
-    allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
-    interruptionReason TEXT,interruptionMessage TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
-   ) STRICT;
-   CREATE INDEX IF NOT EXISTS recordings_state_sequence ON recordings(state,creationSequence);
-   CREATE TABLE IF NOT EXISTS recording_deletions (
-    recordingId TEXT PRIMARY KEY REFERENCES recordings(recordingId)
-   ) STRICT;
    CREATE TABLE IF NOT EXISTS revisions (
     recordingId TEXT NOT NULL REFERENCES recordings(recordingId),id TEXT NOT NULL,ordinal INTEGER NOT NULL,content TEXT NOT NULL,
     PRIMARY KEY(recordingId,id),UNIQUE(recordingId,ordinal)
@@ -138,295 +62,6 @@ export class RevisionStore extends Catalog {
    ) STRICT;
   `);
   }
-  /**
-   * Reserves the recording and capture-source identity a native start needs, before it runs, and
-   * says whether this is that request's first allocation or a replay of one already stored. The
-   * receipt is durable and carries the canonical arguments it was allocated for, so a request ID
-   * replayed after a lost answer names the same take across a relaunch, and the same ID reused for
-   * a different take is refused instead of being answered with the first one.
-   */
-  allocate(request?: AllocationRequest): Allocation {
-    return this.transaction(() => {
-      if (request) {
-        const stored = this.catalog
-          .prepare(
-            `SELECT ${recordingColumns},allocationArguments FROM recordings WHERE allocationRequestId=?`,
-          )
-          .get(request.requestId) as (Recording & { allocationArguments: string }) | undefined;
-        if (stored) {
-          const { allocationArguments, ...recording } = stored;
-          if (allocationArguments !== request.arguments)
-            throw new CatalogError(
-              "REQUEST_CONFLICT",
-              "Request ID was already used with different arguments",
-            );
-          return { recording: this.get(recording.recordingId), replay: true };
-        }
-      }
-      const recordingId = this.providers.newId();
-      this.catalog
-        .prepare(
-          "INSERT INTO recordings(recordingId,sourceId,allocationRequestId,allocationArguments,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,?,'preparing',0)",
-        )
-        .run(
-          recordingId,
-          this.providers.newId(),
-          request?.requestId ?? null,
-          request?.arguments ?? null,
-          this.providers.now(),
-        );
-      return { recording: this.get(recordingId), replay: false };
-    });
-  }
-  get(recordingId: string): Recording {
-    const row = this.catalog
-      .prepare(
-        `SELECT ${recordingColumns} FROM recordings WHERE recordingId=? AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)`,
-      )
-      .get(recordingId);
-    if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
-    return readRecording(row as RecordingRow);
-  }
-  /** Durable intent fences public access before asynchronous producer shutdown begins. */
-  markDeleting(recordingId: string): Recording | null {
-    return this.transaction(() => {
-      this.catalog
-        .prepare(`INSERT OR IGNORE INTO recording_deletions(recordingId)
-        SELECT recordingId FROM recordings WHERE recordingId=?`)
-        .run(recordingId);
-      return this.deleting(recordingId);
-    });
-  }
-  /** Deletion and storage accounting may inspect a marked recording's retained identity. */
-  deleting(recordingId: string): Recording | null {
-    const row = this.catalog
-      .prepare(`SELECT ${recordingColumns} FROM recordings
-      WHERE recordingId=? AND recordingId IN (SELECT recordingId FROM recording_deletions)`)
-      .get(recordingId) as RecordingRow | undefined;
-    return row ? readRecording(row) : null;
-  }
-  deletionsPage(afterId = "", limit = 50): { recordings: Recording[]; nextAfterId: string | null } {
-    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 200)
-      throw new CatalogError("INVALID_PARAMS", "Deletion page size must be 1–200");
-    const rows = this.catalog
-      .prepare(`SELECT ${recordingColumns} FROM recording_deletions JOIN recordings USING(recordingId)
-      WHERE recordingId>?
-      ORDER BY recordingId LIMIT ?`)
-      .all(afterId, limit + 1) as RecordingRow[];
-    return {
-      recordings: rows.slice(0, limit).map(readRecording),
-      nextAfterId: rows.length > limit ? rows[limit - 1]!.recordingId : null,
-    };
-  }
-  /** Finalize only after each resource owner has reclaimed its rows and files. Foreign keys keep
-   * an omitted owner from silently losing the recording identity needed to finish cleanup. */
-  finishDeletion(recordingId: string): void {
-    this.transaction(() => {
-      if (!this.deleting(recordingId)) {
-        if (this.catalog.prepare("SELECT 1 FROM recordings WHERE recordingId=?").get(recordingId))
-          throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
-        return;
-      }
-      for (const table of [
-        "undo_stack",
-        "edit_requests",
-        "revisions",
-        "recording_deletions",
-        "recordings",
-      ])
-        this.catalog.prepare(`DELETE FROM ${table} WHERE recordingId=?`).run(recordingId);
-    });
-  }
-  /** Native closure ends capture priority even if later deletion cleanup fails. */
-  settleDeletingCapture(recordingId: string): Recording {
-    return this.transaction(() => {
-      const recording = this.deleting(recordingId);
-      if (!recording)
-        throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
-      if (isSettled(recording.state)) return recording;
-      this.catalog
-        .prepare(
-          "UPDATE recordings SET state='canceled',interruptionReason=NULL,interruptionMessage=NULL,finalizationError=NULL WHERE recordingId=?",
-        )
-        .run(recordingId);
-      return {
-        ...recording,
-        state: "canceled",
-        interruptionReason: null,
-        interruptionMessage: null,
-        finalizationError: null,
-      };
-    });
-  }
-  /** Whether work for this take may still start or publish: it was neither discarded nor marked for deletion. */
-  isAvailable(recordingId: string): boolean {
-    return Boolean(
-      this.catalog
-        .prepare(
-          "SELECT 1 FROM recordings WHERE recordingId=? AND state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)",
-        )
-        .get(recordingId),
-    );
-  }
-  isDeleting(recordingId: string): boolean {
-    return Boolean(
-      this.catalog
-        .prepare("SELECT 1 FROM recording_deletions WHERE recordingId=?")
-        .get(recordingId),
-    );
-  }
-  /**
-   * Visits every take the catalog still holds, discarded and deleting ones included. A failed visit
-   * does not stop the rest; the first failure is rethrown once every take was visited.
-   */
-  async forEachRecording(
-    signal: AbortSignal,
-    visit: (recording: Pick<Recording, "recordingId" | "sourceId">) => Promise<void>,
-  ): Promise<void> {
-    let after = "";
-    let failed = false;
-    let firstError: unknown;
-    for (;;) {
-      signal.throwIfAborted();
-      const recording = this.catalog
-        .prepare(
-          "SELECT recordingId,sourceId FROM recordings WHERE recordingId>? ORDER BY recordingId LIMIT 1",
-        )
-        .get(after) as Pick<Recording, "recordingId" | "sourceId"> | undefined;
-      if (!recording) break;
-      after = recording.recordingId;
-      try {
-        await visit(recording);
-      } catch (error) {
-        signal.throwIfAborted();
-        if (!failed) firstError = error;
-        failed = true;
-      }
-    }
-    if (failed) throw firstError;
-  }
-  /** Creation sequences never move: later takes cannot enter an existing traversal. */
-  list(
-    cursor: RecordingCursor | null = null,
-    limit = 20,
-  ): { recordings: readonly Recording[]; nextCursor: RecordingCursor | null } {
-    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100)
-      throw new CatalogError("INVALID_PARAMS", "Recording page size must be 1–100");
-    if (cursor && (!Number.isSafeInteger(cursor.beforeSequence) || cursor.beforeSequence < 1))
-      throw new CatalogError("INVALID_PARAMS", "Invalid recording page cursor");
-    const rows = this.catalog
-      .prepare(
-        `SELECT ${recordingColumns} FROM recordings
-       WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) AND creationSequence < ?
-       ORDER BY creationSequence DESC LIMIT ?`,
-      )
-      .all(cursor?.beforeSequence ?? Number.MAX_SAFE_INTEGER, limit + 1) as RecordingRow[];
-    const recordings = rows.slice(0, limit).map(readRecording);
-    return {
-      recordings,
-      nextCursor:
-        rows.length > limit
-          ? { beforeSequence: recordings[recordings.length - 1]!.creationSequence }
-          : null,
-    };
-  }
-  /**
-   * Every take that can still change state, oldest first. A relaunched service reconciles these
-   * against their own durable media; nothing else may be left describing a capture that ended.
-   */
-  unsettled(): Recording[] {
-    return (
-      this.catalog
-        .prepare(
-          `SELECT ${recordingColumns} FROM recordings WHERE state IN (${unsettledStates
-            .map(() => "?")
-            .join(",")}) ORDER BY creationSequence`,
-        )
-        .all(...unsettledStates) as RecordingRow[]
-    ).map(readRecording);
-  }
-  latest(): Recording | null {
-    const row = this.catalog
-      .prepare(
-        `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) ORDER BY creationSequence DESC LIMIT 1`,
-      )
-      .get() as RecordingRow | undefined;
-    return row ? readRecording(row) : null;
-  }
-  /** One retained finalization for status when no current recovery or native take owns the view. */
-  pendingFinalization(): Recording | null {
-    const row = this.catalog
-      .prepare(`SELECT ${recordingColumns} FROM recordings
-      WHERE state='finalizing' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
-      ORDER BY creationSequence LIMIT 1`)
-      .get() as RecordingRow | undefined;
-    return row ? readRecording(row) : null;
-  }
-  /**
-   * Applies one reported capture transition. Re-delivery of an already applied sequence keeps the
-   * stored state, and an event from a superseded session or a settled take is refused outright.
-   */
-  ingestLifecycle(recordingId: string, event: LifecycleEvent): Recording {
-    if (!Number.isSafeInteger(event.sequence) || event.sequence < 1)
-      throw new RangeError("A lifecycle sequence must be a positive safe integer");
-    if (event.state === "finalizing" && event.finalizationError != null) {
-      const failure = event.finalizationError;
-      if (
-        typeof failure.code !== "string" ||
-        failure.code.length < 1 ||
-        failure.code.length > 128 ||
-        typeof failure.message !== "string" ||
-        failure.message.length > 4096 ||
-        typeof failure.retryable !== "boolean"
-      )
-        throw new CatalogError(
-          "INVALID_PARAMS",
-          "Finalization failure must be a bounded public error",
-        );
-    }
-    if (
-      event.state === "interrupted" &&
-      event.message != null &&
-      (typeof event.message !== "string" || event.message.length > 4096)
-    )
-      throw new CatalogError("INVALID_PARAMS", "Interruption message must be bounded text");
-    return this.transaction(() => {
-      const recording = this.get(recordingId);
-      if (event.sourceId !== recording.sourceId)
-        throw new CatalogError("INVALID_STATE", "Event belongs to another capture session", {
-          sourceId: recording.sourceId,
-          reportedSourceId: event.sourceId,
-        });
-      if (event.sequence <= recording.lifecycleSequence) return recording;
-      if (!nextStates[recording.state].includes(event.state))
-        throw new CatalogError(
-          "INVALID_STATE",
-          `A ${recording.state} recording cannot become ${event.state}`,
-          { state: recording.state, reportedState: event.state },
-        );
-      if (event.state === "complete" || event.state === "interrupted")
-        this.attachSource(recording, event.sourceDurationUs);
-      this.catalog
-        .prepare(
-          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=?,interruptionMessage=?,finalizationError=? WHERE recordingId=?",
-        )
-        .run(
-          event.state,
-          event.sequence,
-          event.state === "interrupted" ? event.reason : null,
-          event.state === "interrupted" ? (event.message ?? null) : null,
-          event.state === "finalizing"
-            ? JSON.stringify(
-                event.finalizationError === undefined
-                  ? recording.finalizationError
-                  : event.finalizationError,
-              )
-            : null,
-          recordingId,
-        );
-      return this.get(recordingId);
-    });
-  }
   private insertRevision(recordingId: string, revision: TimelineRevision): void {
     this.catalog
       .prepare("INSERT INTO revisions(recordingId,id,ordinal,content) VALUES (?,?,?,?)")
@@ -435,40 +70,16 @@ export class RevisionStore extends Catalog {
       .prepare("UPDATE recordings SET currentRevisionId=? WHERE recordingId=?")
       .run(revision.id, recordingId);
   }
-  /**
-   * A null duration is a validated report that no video survived, so it and an attached duration
-   * refuse each other in both directions rather than one silently replacing the other.
-   */
-  private attachSource(recording: Recording, sourceDurationUs: number | null): void {
-    if (recording.state === "canceled")
-      throw new CatalogError("INVALID_STATE", "A canceled take keeps no source", {
-        state: recording.state,
-      });
-    if (recording.sourceDurationUs !== null) {
-      if (recording.sourceDurationUs !== sourceDurationUs)
-        throw new CatalogError("INVALID_STATE", "Source duration is immutable", {
-          sourceDurationUs: recording.sourceDurationUs,
-        });
-      return;
-    }
-    if (sourceDurationUs === null) return;
-    if (isSettled(recording.state))
-      throw new CatalogError("INVALID_STATE", "This take already reported no usable video", {
-        state: recording.state,
-        interruptionReason: recording.interruptionReason,
-      });
+  /** Source attachment and its first editing revision commit or roll back together. */
+  protected override storeSource(recordingId: string, sourceDurationUs: number): void {
     const original = createOriginalRevision(sourceDurationUs, this.providers.now());
-    this.insertRevision(recording.recordingId, original);
-    this.catalog
-      .prepare("UPDATE recordings SET sourceDurationUs=? WHERE recordingId=?")
-      .run(sourceDurationUs, recording.recordingId);
+    this.insertRevision(recordingId, original);
+    super.storeSource(recordingId, sourceDurationUs);
   }
-  /** Attaches the validated source duration once, creating the original revision with it. */
-  registerSource(recordingId: string, sourceDurationUs: number): Recording {
-    return this.transaction(() => {
-      this.attachSource(this.get(recordingId), sourceDurationUs);
-      return this.get(recordingId);
-    });
+  protected override removeRecording(recordingId: string): void {
+    for (const table of ["undo_stack", "edit_requests", "revisions"])
+      this.catalog.prepare(`DELETE FROM ${table} WHERE recordingId=?`).run(recordingId);
+    super.removeRecording(recordingId);
   }
   /** A discarded take keeps its row for replay and refusal, but none of its timeline is readable. */
   private readable(recordingId: string): Recording {
