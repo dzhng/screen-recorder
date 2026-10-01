@@ -17,7 +17,11 @@ Independent sources can make publication progress even if another encounters an
 operational error. Global completion and both lease releases wait for settlement.
 
 [Verification](verification.json) records the exact fixture/runtime identities and
-gates. [The manifest](manifest.json) indexes the complete packet in
+gates. The default suite is the native CaptureTests executable, not the entire
+native repository. [Root merged verification](merged-verification.json) compares
+142 Swift source/test files and repeats the complete 20-case camera packet using
+the pinned binary; its [log](merged-camera-packet.log) records the passed result.
+[The manifest](manifest.json) indexes the complete packet in
 `evidence.tar.xz`, including generated source media, native results, closure-boundary
 counts, raw/canonical media, rational observations, journals, receipts, retries,
 refusals and regression controls. The fixture replaces only physical input:

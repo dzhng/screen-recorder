@@ -1,0 +1,46 @@
+{
+  "scope": "Root merged-tree verification of controlled NativeCapture camera closure/publication; no physical acceptance",
+  "commit": "efd5fd81",
+  "sourceComparison": {
+    "root": "/Users/david/dev/screen-recorder",
+    "committedWorktree": "/tmp/screenrec-camera-source-publication-pass",
+    "swiftFiles": 142,
+    "byteIdentical": true,
+    "scope": "All native Sources and ScreenRecorderCaptureTests Swift files"
+  },
+  "runtime": {
+    "path": "/tmp/screenrec-21b-native-build/debug/ScreenRecorderCaptureTests",
+    "sha256": "b6b613a0d5d91edf20c8a6bac66782a1d1ce89cd05cdc834f8194c5fdb8b700e"
+  },
+  "commandEnvironment": {
+    "SCREENREC_CAMERA_SOURCE_PUBLICATION_OUTPUT": "/tmp/screenrec-21b-root-camera-packet"
+  },
+  "result": {
+    "cases": 20,
+    "exitCode": 0,
+    "log": "merged-camera-packet.log"
+  },
+  "review": {
+    "shape": "Existing camera owners promoted; no duplicate pipeline, lifecycle or catalog",
+    "diff": "Independent retry verifies already-published camera facts; closure precedes publication cancellation; terminal failures remain terminal",
+    "docs": "Controlled source packet and default CaptureTests are distinguished from whole native repository, public selection and physical acceptance",
+    "choices": "Four banked choices reviewed and retained; no additional production choice in root integration",
+    "codexCLI": "Not retried: known configured model HTTP400; no CLI review pass claimed"
+  },
+  "limits": [
+    "Only ScreenRecorderCaptureTests built; no current screenrec-native executable built",
+    "Public camera selection, source admission/project integration and actual device acquisition remain open",
+    "No one-frame physical sync or ten-second completed-stop acceptance"
+  ],
+  "evidenceVerification": {
+    "archiveSHA256": "78d99172853bd986ebcf20c2c6923fd8f935bf78d7b77a4832cb39257b6e6e71",
+    "archiveBytes": 403952,
+    "members": 505,
+    "allMemberSizesAndHashesMatch": true
+  },
+  "verificationRuntimeAvailability": {
+    "path": "/tmp/screenrec-21b-native-build/debug/ScreenRecorderCaptureTests",
+    "existsNow": true,
+    "scope": "Observed after the successful merged camera run; temporary runtime availability is not guaranteed"
+  }
+}
