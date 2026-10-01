@@ -104,8 +104,11 @@ native clocks as well as their reported microseconds; do not fit shifts to outpu
 A containing sample can start before a clip's retained source start. Its own PTS
 can consequently lie in a removed interval even while its support overlaps the
 clip. Do not require that PTS to be retained by the legacy edited revision.
-For every new actual source PTS, request the original recording's public `r0`
-picture at the matched reported PTS. The legacy receipt exposes rounded
+Build the union of actual sample identities selected by both edited producers,
+including their before-cut results. Deduplicate only independently proven
+identical native stamps, not requests, rounded timestamps or visually similar
+pictures. For every selected identity, request the original recording's public
+`r0` clean picture at the matched reported PTS. The legacy receipt exposes rounded
 microseconds, not an exact native sample clock: require its actualSourceUs to
 match and the independent timing table to identify exactly one corresponding
 native stamp. Never add an unexposed clock field to a legacy receipt. Obtain the
@@ -116,11 +119,15 @@ adjustment explicitly; it changes only the reference request, never the edited
 request or clock. If no public integer instant can identify the exact sample,
 report the ambiguity rather than silently comparing different pictures.
 
-Compare every pixel of matched legacy-original and direct-source pictures under
-their actual embedded profiles; these are the raw-picture references. Compare the
-composition picture with the declared composition color path, retaining profile
-identities and complete difference metrics. Reuse existing color-reference and
-pixel readers from [23a](../assets/23a-recording-project-preservation/README.md),
+Require every legacy edited delivered PNG's decoded pixels to equal its own
+matched `r0` clean picture across the full image. Correct actualSourceUs metadata
+cannot excuse a wrong delivered image. Compare every pixel of matched
+legacy-original and direct-source pictures under their actual embedded profiles;
+these are the raw-picture references. Compare each composition picture against
+its own containing sample's reference through the declared composition color
+path, retaining profile identities and complete difference metrics. Reuse existing
+color-reference and pixel readers from
+[23a](../assets/23a-recording-project-preservation/README.md),
 without changing their profile handling or inventing a new acceptance threshold.
 The previously measured maximum one-code difference is an observation for those
 three images, not a blanket allowance for this case. Unexplained pixel differences
@@ -181,12 +188,12 @@ Same-request nearest versus containing selection, exact rational versus reported
 rounded clocks, the explicit output grid, declared color conversion and generated
 owner/delivery identities are classified differences, not silent regressions or
 permission to relax evidence. No physical-gap, photographic/full-release,
-continuous playback, SourceCardinality/final-scale, installed-switch or obsolete
+continuous playback, source-cardinality/final-scale, installed-switch or obsolete
 owner retirement claim follows. Parent release/presentation gates remain open.
 
 ## Next pickup
 
-After implementation authorization, add the focused entry point
+At root's implementation pickup after plan integration, add the focused entry point
 `packages/test-harness/editing/cutover-frames.mjs`, using existing public
 process/transport helpers and copied authority. Its explicit input paths select
 the owned output/home, banked old catalog, copied format22 fixture, pinned legacy

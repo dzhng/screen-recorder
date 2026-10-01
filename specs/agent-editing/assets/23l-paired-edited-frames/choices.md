@@ -91,3 +91,20 @@ The reach: references identify the same physical sample without changing public
 APIs or introducing a tolerance; absence of a unique representable reference
 remains explicit. Verdict: sound because qualification supplies the actual
 identity rather than a fabricated receipt field. Confidence: high.
+
+### Give both edited selectors their own complete raw-picture reference
+
+When: 23l independent planning review, 2026-10-01.
+
+The choice: collect the union of physical samples chosen by both edited
+producers, and obtain matched original `r0` and current direct-source references
+for each unique exact sample. A recording's nearest picture can differ from a
+project's containing picture at a join. Check every recording edited image
+against its own clean `r0` image, and every project picture against its own
+containing-sample reference with the declared color path. The gap: the initial
+plan collected references only for samples selected by the project, leaving a
+different recording-selected picture with a metadata check but no pixel oracle.
+The reach: each delivered image now has an independent reference; correct timing
+cannot hide unrelated or corrupted image bytes. Verdict: sound because it closes
+the complete-output contract without forcing the selectors to agree or adding
+another media case. Confidence: high.
