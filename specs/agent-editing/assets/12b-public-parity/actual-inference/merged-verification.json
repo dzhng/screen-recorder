@@ -1,0 +1,24 @@
+{
+  "scope": "Root merged-source and retained evidence review; no repeated inference",
+  "commit": "f44b0a08",
+  "trackedNativeSourcesByteIdentical": 218,
+  "allArchivedMembersVerified": 51,
+  "workerSHA256": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+  "workerStillMatches": true,
+  "rawComparisons": {
+    "completeRecords": 2,
+    "onlyExcludedField": "result.processingTime",
+    "newRawBytesRetainedUntouched": true
+  },
+  "modelBeforeAfterSnapshotsEqual": true,
+  "publicExchanges": 162,
+  "mergedRawComparisonTest": "1 passed,0 failed",
+  "newInferenceAttempts": 0,
+  "review": "Independent source/shape/docs review clean after bounded attempt-journal repair; both choices retained",
+  "limits": [
+    "Scratch model readiness remains declared",
+    "Current generic preparation-owner readiness and parent12b stay open",
+    "No new quality, performance, physical or installed-release acceptance"
+  ],
+  "cliReview": "Known configured model HTTP400 was erroneously attempted once more in delegated pass; no completed review or further retry/configuration change"
+}

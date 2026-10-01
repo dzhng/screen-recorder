@@ -12,4 +12,8 @@ The [shared runner](../../../../../packages/test-harness/editing/speech-parity.m
 
 The selected FluidAudio/Parakeet recipe is unchanged. This bounded selected-source proof adds no filler-coverage, acoustic timing, listening, whole-corpus quality, performance, physical-capture or installed-release acceptance. Existing quality misses remain open. The unavailable historical frozen worker was neither recreated nor replaced.
 
+[Root merged verification](merged-verification.json) checks the archived members,
+complete raw comparisons, preserved model snapshots and tracked native source pins
+without another inference run.
+
 Build setup failures and the interrupted CLI review are retained accurately. Root's settled independent shape/source/docs review is clean; the configured CLI review did not complete and must not be retried in this session. Prepared code dependencies were reused offline; disposable builds and personal model files are excluded from the archive.
