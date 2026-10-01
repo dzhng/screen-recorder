@@ -1,8 +1,9 @@
 # Independent sentence marking
 
 Status: the requested local marking page is prepared and its clock, export,
-seek and layout checks pass. Actual independent listening marks remain pending;
-12d and the parent speech gates stay open.
+seek and layout checks pass. The user's [actual independent marks](../12d-human-marks/README.md)
+are saved and reconciled; the scoped sentence/neighbor-label check passes.
+Parent corpus inventory/timing and dependent speech gates stay open.
 
 The current [guided waveform page](../12d-waveform-guidance/README.md) asks for
 one boundary at a time, starting with the opening “um” reported by the listener.
@@ -10,7 +11,8 @@ Click the waveform to select and hear a short preview, then press Next to confir
 The final confirmation saves the selections. There are no timestamp inputs or
 separate confirmation form. Optional Back revisits a boundary; Skip keeps an
 unclear edge unknown. No boundaries are prefilled and opening “um” has no
-independent range until the listener actually marks it.
+independent range until the listener actually marks it. The retained human export
+now contains both filler ranges and every requested sentence/neighbor edge.
 
 The source selection is the [frozen original packet](../12d-complete-sentence/manifest.json).
 Its ASR text helps identify words, but no proposed ASR times are prefilled. One
@@ -54,7 +56,7 @@ page packet; earlier manifests retain their original source hashes. The Codex
 CLI second review remains unavailable after its configured model rejection;
 no passing CLI review is claimed.
 
-The [choices ledger](../../choices.md) owns implementation decisions. After the
-listener saves, inspect the matching immutable binding and confirmation before
-reconciling only the actually marked ranges with 12d. A good-sounding cut or a
+The [choices ledger](../../choices.md) owns implementation decisions. The human
+reconciliation verifies the matching immutable binding and confirmation before
+using only the actually marked ranges for 12d. A good-sounding cut or a
 waveform is not a substitute for missing independent labels.

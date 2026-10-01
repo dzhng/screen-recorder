@@ -55,7 +55,9 @@ acceptance. The larger OS footprint remains separately reported.
 cropped filler presentation while preserving its original evidence. It verifies
 one explicit cut accepted by the user as clear and natural, now reproduced exactly
 through managed public CLI/MCP editing, preview/export and undo. Independent
-labels, other joins and the broader cleanup acceptance remain open.
+sentence/neighbor labels are now [reconciled](../assets/12d-human-marks/README.md),
+including exact marked protected-word preservation and the retained 15 ms filler
+prefix. Other labels/joins and broader cleanup acceptance remain open.
 
 The [boundary redraw owner](../assets/12-boundary-context/README.md#annotation-integrity)
 now preserves absolute human mark times when compatible candidate timestamps move,

@@ -19,19 +19,17 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs. Current pickup is
-[12 speech-cleanup evidence](slices/12-speech-evidence.md): independent audible
-word boundaries, filler/repetition inventory and removal intent still need their
-actual labels before12b adoption. The [local generation/ambience matrix](assets/19-acceptance/README.md)
+[12 speech-cleanup evidence](slices/12-speech-evidence.md): remaining corpus word
+boundaries, filler/repetition inventory and removal intent need independent
+labels before12b adoption. The [local generation/ambience matrix](assets/19-acceptance/README.md)
 is accepted, including the chosen200ms loop with a slight residual seam tolerated.
 Preserve that exact choice and the rejected alternatives; no further loop trial
 is requested.
-The requested [sentence marking page](assets/12d-sentence-marking/README.md) now
-uses [waveform clicks and Next](assets/12d-waveform-guidance/README.md), starting
-with the user's reported opening “um”. The original stays loaded in the browser,
-and click previews begin exactly at the selected point, following the user's preference.
-No boundaries are prefilled and saves remain separate from frozen evidence.
-Next pickup is the user's actual saved marks; drafts and synthetic verification
-positions do not count as independent evidence.
+The user's [ten actual sentence-marking boundaries](assets/12d-human-marks/README.md) are now
+reconciled: sentence/neighbor labels pass and marked protected-word PCM is
+unchanged. The frozen cut retains 15 ms of the marked middle filler. Next pickup
+is the broader corpus inventory, repetition/removal intent and other protected
+boundaries; drafts and synthetic positions do not count as independent evidence.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and
 [24y populated source-event duration](slices/24y-source-event-duration.md) pass
 independent exact-result, latency/memory and generation checks. Preserve those

@@ -1,0 +1,132 @@
+{
+  "binding": {
+    "clipSha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+    "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "sourceOriginUs": 48675,
+    "sourceRange": {
+      "startUs": 50518675,
+      "endUs": 57658675
+    },
+    "sampleRate": 48000,
+    "frames": 342720,
+    "packetSha256": "f3dafe81dab4c645126244ce7262a99bfcac3dd0221feb2cfd82a57760951307"
+  },
+  "review": {
+    "authority": "human listening confirmation",
+    "notes": "Guided waveform marking: each selected boundary confirmed with Next; skipped edges unknown. Opening um reported by the listener."
+  },
+  "marks": [
+    {
+      "id": "opening-um",
+      "text": "um",
+      "startSeconds": 0,
+      "endSeconds": 0.313,
+      "startUs": 50518675,
+      "endUs": 50831675,
+      "sourceRange": {
+        "startUs": 50518675,
+        "endUs": 50831675
+      }
+    },
+    {
+      "id": "w117",
+      "text": "uh",
+      "startSeconds": 3.595,
+      "endSeconds": 3.99,
+      "startUs": 54113675,
+      "endUs": 54508675,
+      "sourceRange": {
+        "startUs": 54113675,
+        "endUs": 54508675
+      }
+    },
+    {
+      "id": "w116",
+      "text": "paragraph",
+      "startSeconds": 1.91,
+      "endSeconds": 2.411,
+      "startUs": 52428675,
+      "endUs": 52929675,
+      "sourceRange": {
+        "startUs": 52428675,
+        "endUs": 52929675
+      }
+    },
+    {
+      "id": "w118",
+      "text": "this",
+      "startSeconds": 4.74,
+      "endSeconds": 4.849,
+      "startUs": 55258675,
+      "endUs": 55367675,
+      "sourceRange": {
+        "startUs": 55258675,
+        "endUs": 55367675
+      }
+    },
+    {
+      "id": "sentence",
+      "text": "Whole sentence",
+      "startSeconds": 0.348,
+      "endSeconds": 6.473,
+      "startUs": 50866675,
+      "endUs": 56991675,
+      "sourceRange": {
+        "startUs": 50866675,
+        "endUs": 56991675
+      }
+    }
+  ],
+  "independentAnnotations": {
+    "independentSentenceRange": {
+      "startUs": 50866675,
+      "endUs": 56991675
+    },
+    "protectedNeighbors": [
+      {
+        "wordId": "w116",
+        "text": "paragraph",
+        "independentRange": {
+          "startUs": 52428675,
+          "endUs": 52929675
+        }
+      },
+      {
+        "wordId": "w118",
+        "text": "this",
+        "independentRange": {
+          "startUs": 55258675,
+          "endUs": 55367675
+        }
+      }
+    ],
+    "independentFillerInventory": {
+      "scope": {
+        "startUs": 50518675,
+        "endUs": 57658675
+      },
+      "complete": false,
+      "targets": [
+        {
+          "id": "filler-um-clip-start",
+          "kind": "filler",
+          "text": "um",
+          "sourceRange": {
+            "startUs": 50518675,
+            "endUs": 50831675
+          }
+        },
+        {
+          "id": "filler-uh-54s",
+          "kind": "filler",
+          "text": "uh",
+          "sourceRange": {
+            "startUs": 54113675,
+            "endUs": 54508675
+          }
+        }
+      ]
+    },
+    "independentRepetitionIntent": null
+  }
+}

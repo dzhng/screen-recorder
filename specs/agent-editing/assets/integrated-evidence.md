@@ -94,8 +94,10 @@
   lossless counts/bytes and the documented bounded AAC seek difference.
   [Retimed acoustic conformance](11-retimed-acoustic/README.md) now verifies repeated preserve/follow occurrences, split/range PCM and independently checked axes.
 - The [complete-sentence filler candidate](12d-complete-sentence/README.md)
-  has user acceptance for clear neighboring words and a natural join; independent
-  word-boundary labels and the broader cleanup inventory remain open.
+  has user acceptance for clear neighboring words and a natural join. Its
+  [independent human ranges](12d-human-marks/README.md) now verify marked
+  protected-word preservation; the accepted cut retains 15 ms of the marked
+  middle filler. Broader cleanup inventory and quality acceptance remain open.
 - [Verbatim speech](12-verbatim/README.md) and
   [forced alignment](12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](12-alignment-text-coverage/README.md) fixes one

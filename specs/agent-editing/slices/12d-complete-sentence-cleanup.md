@@ -2,11 +2,13 @@
 
 Status: bounded native packet and managed public edit/preview/export/undo passed;
 the public lossless candidate exactly reproduces the accepted join. Independent
-word-boundary labels remain open. The user accepted neighboring speech and the
-join as clear and natural on 2026-09-29. Dependencies: [12](12-speech-evidence.md).
+sentence/neighbor labels are now [saved and reconciled](../assets/12d-human-marks/README.md).
+The parent corpus inventory/timing requirement remains open. The user accepted
+neighboring speech and the join as clear and natural on 2026-09-29.
+Dependencies: [12](12-speech-evidence.md).
 [Evidence and reproduction](../assets/12d-complete-sentence/README.md).
 The requested [local marking page](../assets/12d-sentence-marking/README.md) is
-prepared; actual independent labels remain pending.
+prepared and its actual human export is retained separately from frozen evidence.
 
 ## Contract
 
@@ -33,7 +35,9 @@ subjective acceptance follows from sample equality.
   the full support; movie clocks and public committed receipt agree. Sampled
   source/export stills preserve framing/content, with small-text readability
   limited by the explicitly chosen 640×404 canvas.
-- [ ] Independent audible sentence/neighbor boundary labels.
+- [x] Independent audible sentence/neighbor boundary labels; exact marked
+  protected-word PCM is preserved in the accepted candidate. The cut retains
+  15 ms of the marked middle filler; no exact whole-filler removal is claimed.
 - [ ] Parent slice 12 complete filler/repetition inventory and timing acceptance.
 
 The outer 250 ms guards are explicit presentation context based on inherited ASR,

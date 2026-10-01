@@ -1,0 +1,142 @@
+{
+  "date": "2026-09-30",
+  "savedRecord": {
+    "originalPath": "/tmp/screenrec-sentence-marking-20260930/marks-97e8e981-88f9-4ba5-8553-a2a32a0c7dc2.json",
+    "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9",
+    "bytes": 3063,
+    "confirmation": "human listening confirmation; user explicitly reported ok saved",
+    "completeMarkedEdges": 10
+  },
+  "checks": {
+    "exactSourceClipPacketBinding": true,
+    "exportRebuildIdentical": true,
+    "sourceClockWithoutDoubleOrigin": true,
+    "allEdgesOnExactSamplePositions": true,
+    "frozenWavHashesPreserved": [
+      {
+        "file": "original.wav",
+        "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb"
+      },
+      {
+        "file": "candidate-remove-uh.wav",
+        "sha256": "a16a92434c5e8bccbe6b527e3e938b9186d5055867d0fa2682317d3425b2b9fd"
+      }
+    ],
+    "protectedPcm": [
+      {
+        "id": "opening-um",
+        "text": "um",
+        "frames": 15024,
+        "originalFrames": [
+          0,
+          15024
+        ],
+        "candidateFrames": [
+          0,
+          15024
+        ],
+        "pcmSha256": "a46f4b6fb0d83c1d4969cb90f17c144115feb8c499b5df67a289eae08b33d416",
+        "exactlyEqual": true,
+        "changedSampleControlRejected": true
+      },
+      {
+        "id": "w116",
+        "text": "paragraph",
+        "frames": 24048,
+        "originalFrames": [
+          91680,
+          115728
+        ],
+        "candidateFrames": [
+          91680,
+          115728
+        ],
+        "pcmSha256": "de2e4625e6751242bcf96dc85d19cb966f28f3dd38537c8e8cb69854013235e8",
+        "exactlyEqual": true,
+        "changedSampleControlRejected": true
+      },
+      {
+        "id": "w118",
+        "text": "this",
+        "frames": 5232,
+        "originalFrames": [
+          227520,
+          232752
+        ],
+        "candidateFrames": [
+          207360,
+          212592
+        ],
+        "pcmSha256": "4c4c1d8ecdc8f93c486067ac38130f1ee843e3e4a2b610bca8709cb732f7d910",
+        "exactlyEqual": true,
+        "changedSampleControlRejected": true
+      }
+    ]
+  },
+  "sentence": {
+    "sourceRange": {
+      "startUs": 50866675,
+      "endUs": 56991675
+    },
+    "containedInOriginalContext": true,
+    "outerProposalErrorsMs": {
+      "start": 98,
+      "end": 417
+    }
+  },
+  "frozenCandidate": {
+    "cut": {
+      "startUs": 54128675,
+      "endUs": 54548675
+    },
+    "markedMiddleFiller": {
+      "startUs": 54113675,
+      "endUs": 54508675
+    },
+    "retainedFillerPrefixUs": 15000,
+    "retainedFillerPrefixFrames": 720,
+    "retainedPrefixFramesOutsideRamp": 480,
+    "removedAfterFillerEndUs": 40000,
+    "entireMarkedMiddleFillerRemoved": false,
+    "openingFillerFullyRetained": true,
+    "openingFillerMissingFromFrozenText": true,
+    "priorListeningVerdictPreserved": {
+      "verdict": "ACCEPTED_FOR_THIS_CANDIDATE",
+      "authority": "user listening feedback",
+      "date": "2026-09-29",
+      "question": "Compared with the original, does the candidate remove “uh” while keeping the neighboring words clear and the join natural?",
+      "answer": "Yes, clear and natural"
+    }
+  },
+  "asrProposalWordBoundaryErrors": [
+    {
+      "id": "w117",
+      "text": "uh",
+      "startErrorMs": 15,
+      "endErrorMs": 60
+    },
+    {
+      "id": "w116",
+      "text": "paragraph",
+      "startErrorMs": 140,
+      "endErrorMs": 159
+    },
+    {
+      "id": "w118",
+      "text": "this",
+      "startErrorMs": 170,
+      "endErrorMs": 41
+    }
+  ],
+  "limitations": [
+    "Opening um starts at the clip boundary; preceding extent outside this clip is unknown.",
+    "Only two fillers and two protected words in this short clip have human ranges; inventory remains explicitly incomplete.",
+    "Sentence endpoints do not supply unmarked internal word edges.",
+    "No repetition or removal-intent label, recipe selection, new listening verdict or aggregate quality pass."
+  ],
+  "scope": {
+    "independentSentenceNeighborLabelRequirement": "achieved",
+    "parent12And12b": "open",
+    "slice12d": "scoped labels achieved; parent inventory/timing requirement remains open"
+  }
+}

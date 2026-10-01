@@ -14,13 +14,15 @@ lead-in. The [playback update check](click-preview-update.json) records an actua
 muted click whose selected and initial playback positions are identical; its
 [capture](click-preview-check.jpg) is a synthetic probe, not human timing evidence.
 
-The opening filler is a listener-reported target, not a timed independent label.
+The opening filler began as a listener-reported target. Its
+[actual independently marked range](../12d-human-marks/README.md) is now retained
+alongside the other requested human boundaries.
 The server owns target identity and filler classification; the shared annotation
 clock exports only fully marked confirmed filler ranges. Skipped or partial
 edges cannot become independent ranges. The sentence target still covers
 “So … recording fixture”, excluding the opening filler. This bounded clip cannot
-prove a complete corpus inventory or repetition/removal intent. No acceptance
-gate closes until actual user marks are reviewed.
+prove a complete corpus inventory or repetition/removal intent. Human mark
+reconciliation closes only the scoped sentence/neighbor-label requirement.
 
 [Root verification](root-verification.json) covers real muted browser clicks,
 stable selected points while previews run, progression, Back, invalid endings,
@@ -48,5 +50,5 @@ dependency, permanent service or model was added. The configured Codex CLI
 review remains unavailable after its unsupported-model rejection; no successful
 CLI review is claimed. The [manifest](manifest.json) pins the initial guided page;
 the playback update check pins the current preview owner. Earlier
-marking manifests remain historical evidence. Actual saved human boundaries
-are the next pickup.
+marking manifests remain historical evidence. Broader corpus labels, intent and
+quality evaluation are the next pickup.

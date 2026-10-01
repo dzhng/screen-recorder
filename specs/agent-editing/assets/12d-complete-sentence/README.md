@@ -2,11 +2,12 @@
 
 Status: the explicit source selection and PCM preservation checks pass. Audible
 neighboring speech and join quality were accepted by the user on 2026-09-29:
-“Yes, clear and natural.” Independent protected-word timing remains unverified.
+“Yes, clear and natural.” The user's [independent human ranges](../12d-human-marks/README.md)
+now verify sentence/neighbor boundaries and exact marked protected-word PCM.
 No speech engine or cleanup recipe is selected by this packet.
-The [requested marking page](../12d-sentence-marking/README.md) is ready to collect
-actual independent audible sentence/neighbor/filler edges; its initial fields
-are blank and its exports remain separate from this frozen packet.
+The [requested marking page](../12d-sentence-marking/README.md) collected the
+independent audible sentence/neighbor/filler edges; its exports remain separate
+from this frozen packet.
 
 The original says, according to the frozen ASR proposal:
 **“So let’s do the first paragraph, uh, this page is a recording fixture.”**
@@ -21,9 +22,10 @@ pause removal is applied. The existing excerpt owner supplies its 5 ms join
 ramps; those affected samples are excluded from the unchanged-neighbor claim.
 
 The [annotations](annotations.json) retain source-clock word proposals and the
-inherited manual visual mark separately. Independent protected-word ranges,
-complete filler inventory and repetition intent stay empty. The user listening
-verdict applies only to this original/candidate pair.
+inherited manual visual mark separately. Their initially empty independent
+fields remain frozen; actual human ranges live in the separate reconciliation
+packet. Complete corpus inventory and repetition intent remain unverified.
+The user listening verdict applies only to this original/candidate pair.
 The outer window includes all proposed w111–w123 ranges with 250 ms guards. It
 starts before “So,” rather than inside “do”; these guards are a presentation
 choice based on ASR ranges, not an independent audible boundary claim.
@@ -49,9 +51,11 @@ paths; the two primary WAVs above are the retained copies.
 The [rejected short-context packet](../12-speech/README.md) is preserved unchanged.
 Its outer window began inside the proposed “do” and cannot demonstrate the full
 sentence. This replacement presentation supplies context, not missing independent
-word-boundary labels. The user has now accepted this join; next evidence is an
-independent timing annotation of the full sentence, then the broader inventory required
-by slice 12; timing and precision/recall gates remain unchanged.
+word-boundary labels. The user has now accepted this join and saved independent
+sentence/neighbor boundaries. The broader inventory required by slice 12 remains
+open; timing and precision/recall gates remain unchanged. The human packet
+records the opening filler omitted by the proposed text and the 15 ms marked
+middle-filler prefix retained by the frozen cut.
 
 Reproduce with the existing native worker and installed local packet inspector:
 

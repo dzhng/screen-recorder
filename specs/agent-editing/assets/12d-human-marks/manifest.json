@@ -1,0 +1,45 @@
+{
+  "kind": "independent-human-boundary-evidence",
+  "date": "2026-09-30",
+  "basedOnCommit": "ffd25d07",
+  "scope": "Actual requested clip labels; no full corpus quality acceptance",
+  "sourceOwners": [
+    {
+      "path": "packages/test-harness/editing/speech/annotation-time.mjs",
+      "bytes": 3524,
+      "sha256": "d532ac8fc0d48bb79800eb93cb138e704518dae420f0e9a593181d569b06e639"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-complete-sentence/manifest.json",
+      "bytes": 7250,
+      "sha256": "bffec2cd229ef13acee6451e4ca24c68dc976b8b97ca15dd3baeeaac197e3fe5"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-complete-sentence/annotations.json",
+      "bytes": 4131,
+      "sha256": "f3dafe81dab4c645126244ce7262a99bfcac3dd0221feb2cfd82a57760951307"
+    }
+  ],
+  "files": [
+    {
+      "path": "specs/agent-editing/assets/12d-human-marks/README.md",
+      "bytes": 2499,
+      "sha256": "bf81ca97e387764aad016ec85bee2513068bf02bfadd46645ca20bb59c7344a2"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-human-marks/human-marks.json",
+      "bytes": 3063,
+      "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-human-marks/independent-review.md",
+      "bytes": 1459,
+      "sha256": "bf39e25bca6b864d684bda6a6163715bbe1dfb76456eafdad362001f8d685a1d"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-human-marks/root-verification.json",
+      "bytes": 4144,
+      "sha256": "aa8b7118f126b28edb1c3437d1ac1d6f1db7fa03e0ee41a9806a40b854838306"
+    }
+  ]
+}
