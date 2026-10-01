@@ -77,10 +77,13 @@ export function buildAnnotationRecord(context, submitted) {
     independentAnnotations: submitted.confirmed
       ? {
           independentSentenceRange: range("sentence"),
-          protectedNeighbors: [
-            { wordId: "w116", text: "paragraph", independentRange: range("w116") },
-            { wordId: "w118", text: "this", independentRange: range("w118") },
-          ],
+          protectedNeighbors: context.targets
+            .filter((target) => target.kind !== "filler" && target.id !== "sentence")
+            .map((target) => ({
+              wordId: target.id,
+              text: target.text,
+              independentRange: range(target.id),
+            })),
           independentFillerInventory: fillers.length
             ? {
                 scope: structuredClone(expected.sourceRange),

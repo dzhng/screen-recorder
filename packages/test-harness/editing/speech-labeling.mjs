@@ -10,12 +10,18 @@ import { buildAnnotationRecord } from "./speech/annotation-time.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const { values } = parseArgs({
-  options: { out: { type: "string" }, port: { type: "string", default: "0" } },
+  options: {
+    out: { type: "string" },
+    port: { type: "string", default: "0" },
+    packet: { type: "string" },
+  },
 });
 assert(values.out, "Pass a separate output directory for human marks");
 const out = resolve(values.out);
 await mkdir(out, { recursive: true });
-const packet = join(root, "specs/agent-editing/assets/12d-complete-sentence");
+const packet = values.packet
+  ? resolve(values.packet)
+  : join(root, "specs/agent-editing/assets/12d-complete-sentence");
 const manifestBytes = await readFile(join(packet, "manifest.json"));
 const manifest = JSON.parse(manifestBytes);
 const annotationsBytes = await readFile(join(packet, "annotations.json"));
@@ -61,7 +67,7 @@ const context = {
   },
   text: annotations.originalText,
   durationSeconds: info.frames / info.sampleRate,
-  targets: [
+  targets: annotations.targets ?? [
     {
       id: "opening-um",
       text: "um",

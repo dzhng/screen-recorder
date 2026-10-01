@@ -246,7 +246,10 @@ async function saveMarks() {
         marks,
         confirmed: true,
         notes:
-          "Guided waveform marking: each selected boundary confirmed with Next; skipped edges unknown. Opening um reported by the listener.",
+          "Guided waveform marking: each selected boundary confirmed with Next; skipped edges unknown." +
+          (context.targets.some((target) => target.id === "opening-um")
+            ? " Opening um reported by the listener."
+            : ""),
       }),
     });
     const result = await response.json();
@@ -330,7 +333,7 @@ try {
     "Listen to the preview, then Next confirms your selected point. The last Next saves your marks.",
   );
   document.querySelector("#sentence-text").textContent =
-    `You reported an opening “um”. Suggested remaining sentence: ${context.text}`;
+    `${context.targets.some((target) => target.id === "opening-um") ? "You reported an opening “um”. Suggested remaining sentence:" : "Suggested transcript:"} ${context.text}`;
   document.querySelector("#provenance").textContent =
     `Original recording interval: ${sourceTime(0)} to ${sourceTime(context.durationSeconds)}. No boundary times are prefilled.`;
   await loadAudio();
