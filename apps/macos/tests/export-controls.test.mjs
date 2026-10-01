@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdtempSync, readdirSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readdirSync, realpathSync, rmSync } from "node:fs";
 import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -19,6 +19,10 @@ test(
   () => {
     const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-controls-"));
     try {
+      const firstDirectory = join(scratch, "exports");
+      const secondDirectory = join(scratch, "packages");
+      mkdirSync(firstDirectory);
+      mkdirSync(secondDirectory);
       const executable = compileControlsCheck(
         scratch,
         ["ExportController", "ServiceBundle", "NodeRuntime"],
@@ -90,7 +94,7 @@ import ScreenRecorderControls
             },
             reveal: { _ in }, changed: {}, failure: { failures.append($0) })
 
-        exports.export("take", kind: .video)
+        exports.export(.recording("take"), kind: .video)
         await until { exports.state.choosing == nil && chosen.count == 1 }
         precondition(script.count("export.create") == 0 && exports.state.requests.isEmpty,
             "Choosing no destination exports nothing")
@@ -98,14 +102,14 @@ import ScreenRecorderControls
 
         // A reply lost after admission: status adopts the admitted export under the same identity.
         script.revision = "r3"
-        destination = URL(fileURLWithPath: "/Users/me/Exports/demo.mp4")
+        destination = URL(fileURLWithPath: CommandLine.arguments[1]).appendingPathComponent("demo.mp4")
         script.createFailures = [(ServiceFailure(code: "TIMEOUT", message: "export.create did not answer in time"), true)]
-        exports.export("take", kind: .video)
+        exports.export(.recording("take"), kind: .video)
         await until { exports.state.requests.first?.unconfirmed != nil }
         let sent = script.calls.last { $0.0 == "export.create" }!.1
         let first = sent["exportId"] as! String
         precondition(sent["revisionId"] as? String == "r3", "The revision is pinned before the panel opens")
-        precondition(sent["directory"] as? String == "/Users/me/Exports" && sent["leaf"] as? String == "demo.mp4")
+        precondition(sent["directory"] as? String == CommandLine.arguments[1] && sent["leaf"] as? String == "demo.mp4")
         precondition(sent["kind"] as? String == "video")
         precondition(first == first.lowercased() && UUID(uuidString: first) != nil, "Export IDs are lowercase UUIDs")
         exports.tick()
@@ -114,9 +118,9 @@ import ScreenRecorderControls
             "An admitted request is found by status without being sent again")
 
         // A reply lost before admission: sending again reuses the identity and destination.
-        destination = URL(fileURLWithPath: "/Volumes/Work/take.zip")
+        destination = URL(fileURLWithPath: CommandLine.arguments[2]).appendingPathComponent("take.zip")
         script.createFailures = [(ServiceFailure(code: "SERVICE_STOPPED", message: "Service is shutting down"), false)]
-        exports.export("take", kind: .package)
+        exports.export(.recording("take"), kind: .package)
         await until { exports.state.requests.first?.unconfirmed != nil }
         let second = exports.state.requests[0].exportId
         exports.tick()
@@ -132,7 +136,7 @@ import ScreenRecorderControls
 
         // A definite refusal ends the request and says why.
         script.createFailures = [(ServiceFailure(code: "INVALID_PARAMS", message: "Parameters do not match"), false)]
-        exports.export("take", kind: .video)
+        exports.export(.recording("take"), kind: .video)
         await until { !failures.isEmpty }
         precondition(exports.state.requests.isEmpty && failures == ["INVALID_PARAMS: Parameters do not match"])
 
@@ -163,7 +167,7 @@ import ScreenRecorderControls
 `,
       );
       assert.match(
-        execFileSync(executable, [], { encoding: "utf8", timeout: 30_000 }),
+        execFileSync(executable, [realpathSync(firstDirectory), realpathSync(secondDirectory)], { encoding: "utf8", timeout: 30_000 }),
         /PASS native exports pin revisions/,
       );
     } finally {
@@ -379,12 +383,15 @@ import ScreenRecorderControls
         // The same opaque owner ID in different namespaces remains two different owners.
         var sameIdRecording = recording
         sameIdRecording["recordingId"] = projectOwner
-        script.statuses[recordingId] = script.json(sameIdRecording)
-        script.pages = [["exports": [["exportId": recordingId], ["exportId": projectId]], "nextCursor": NSNull()]]
+        let sameIdExport = "00000000-0000-4000-8000-000000000001"
+        sameIdRecording["exportId"] = sameIdExport
+        script.statuses[sameIdExport] = script.json(sameIdRecording)
+        script.pages = [["exports": [["exportId": sameIdExport], ["exportId": projectId]], "nextCursor": NSNull()]]
         let collisionRead = changes
         exports.discover()
         await until { changes > collisionRead }
-        exports.forgetRecording(projectOwner)
+        exports.forget(target: originalRecording.target)
+        exports.forget(target: .recording(projectOwner))
         precondition(exports.state.records == [originalProject], "Recording deletion must not retire the same-ID project")
 
         // A scripted cleanup-pending variation of the retained commit exercises native actions;
@@ -552,7 +559,7 @@ import ScreenRecorderControls
             },
             reveal: { revealed.append($0) }, changed: {}, failure: { failures.append($0) })
 
-        first.export(recordingId, kind: .video)
+        first.export(.recording(recordingId), kind: .video)
         await until(60, first.tick) { first.state.records.first?.committed == true || !failures.isEmpty }
         precondition(failures.isEmpty, "Export failed: \(failures)")
         let committed = first.state.records[0]
@@ -568,7 +575,7 @@ import ScreenRecorderControls
             call: { operation, params throws(ServiceFailure) in try await service.call(operation, params) },
             choose: { _, _ in URL(fileURLWithPath: directory).appendingPathComponent("demo.mp4") },
             reveal: { _ in }, changed: {}, failure: { failures.append($0) })
-        occupied.export(recordingId, kind: .video)
+        occupied.export(.recording(recordingId), kind: .video)
         await until(60, occupied.tick) { occupied.state.records.first?.state == "failed" || !failures.isEmpty }
         precondition(failures.isEmpty, "Occupied export was refused before admission: \(failures)")
         let failed = occupied.state.records[0].exportId

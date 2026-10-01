@@ -184,7 +184,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             deleteRecording(recordingId)
         case .exportRecording(let recordingId, let kind):
             guard state.service == .ready else { return }
-            exports.export(recordingId, kind: kind)
+            exports.export(.recording(recordingId), kind: kind)
         case .resendExport(let exportId):
             exports.resend(exportId)
         case .retryExport(let exportId):
@@ -320,7 +320,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 state.finishDelete(
                     recordingId, failure: confirmed ? nil : "The service did not confirm deletion.")
                 // Deletion retires the take's export intents; files already exported remain.
-                if confirmed { exports.forgetRecording(recordingId) }
+                if confirmed { exports.forget(target: .recording(recordingId)) }
             } catch {
                 state.finishDelete(recordingId, failure: error.localizedDescription)
             }

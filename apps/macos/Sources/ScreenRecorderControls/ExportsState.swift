@@ -14,9 +14,10 @@ public struct ExportsState: Equatable, Sendable {
         case package = "processed-package"
     }
 
-    /// A take whose export destination is being chosen. There is one save panel, so one choice.
+    /// One export destination being chosen; its identity also fences a replaced choice.
     public struct Choice: Equatable, Sendable {
-        public let recordingId: String
+        public let exportId: String
+        public let target: MediaTarget
         public let kind: Kind
     }
 
@@ -24,18 +25,18 @@ public struct ExportsState: Equatable, Sendable {
     /// again after a lost reply names the same export instead of creating a second one.
     public struct Request: Equatable, Sendable {
         public init(
-            exportId: String, recordingId: String, kind: Kind, revisionId: String,
+            exportId: String, target: MediaTarget, kind: Kind, revisionId: String,
             directory: String, leaf: String
         ) {
             self.exportId = exportId
-            self.recordingId = recordingId
+            self.target = target
             self.kind = kind
             self.revisionId = revisionId
             self.directory = directory
             self.leaf = leaf
         }
         public let exportId: String
-        public let recordingId: String
+        public let target: MediaTarget
         public let kind: Kind
         public let revisionId: String
         public let directory: String
@@ -127,10 +128,11 @@ public struct ExportsState: Equatable, Sendable {
     public var discoveryFailure: String?
 
     /// Only one destination can be chosen at a time; exporting another take afterwards is fine.
-    public mutating func beginChoice(recordingId: String, kind: Kind) -> Bool {
-        guard choosing == nil else { return false }
-        choosing = Choice(recordingId: recordingId, kind: kind)
-        return true
+    public mutating func beginChoice(target: MediaTarget, kind: Kind) -> Choice? {
+        guard choosing == nil else { return nil }
+        let choice = Choice(exportId: UUID().uuidString.lowercased(), target: target, kind: kind)
+        choosing = choice
+        return choice
     }
 
     public mutating func send(_ request: Request) {
@@ -184,10 +186,11 @@ public struct ExportsState: Equatable, Sendable {
         readFailures.removeValue(forKey: exportId)
     }
 
-    /// A deleted recording retires its exports in the service; their external files remain.
-    public mutating func forgetRecording(_ recordingId: String) {
-        for exportId in requests.filter({ $0.recordingId == recordingId }).map(\.exportId)
-            + records.filter({ $0.target == .recording(recordingId) }).map(\.exportId)
+    /// A deleted owner retires its exports in the service; their external files remain.
+    public mutating func forget(target: MediaTarget) {
+        if choosing?.target == target { choosing = nil }
+        for exportId in requests.filter({ $0.target == target }).map(\.exportId)
+            + records.filter({ $0.target == target }).map(\.exportId)
         {
             forget(exportId)
         }

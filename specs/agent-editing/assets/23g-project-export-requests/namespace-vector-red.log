@@ -1,0 +1,36 @@
+(node:59351) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native exports pin the revision, keep one identity through lost replies and rediscover pages (5502.00525ms)
+check/Check.swift:194: Precondition failed: Recording deletion must not retire the same-ID project
+✖ native exports consume retained recording and project statuses (5427.027666ms)
+✔ native preview consumes retained project receipts without a window or player (6167.839542ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11030.0145
+
+✖ failing tests:
+
+test at apps/macos/tests/export-controls.test.mjs:175:1
+✖ native exports consume retained recording and project statuses (5427.027666ms)
+  Error: Command failed: /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-export-owners-c58Z3t/check /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-export-owners-c58Z3t/receipts.json
+  check/Check.swift:194: Precondition failed: Recording deletion must not retire the same-ID project
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/export-controls.test.mjs:427:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    status: null,
+    signal: 'SIGTRAP',
+    output: [ null, '', 'check/Check.swift:194: Precondition failed: Recording deletion must not retire the same-ID project\n' ],
+    pid: 59582,
+    stdout: '',
+    stderr: 'check/Check.swift:194: Precondition failed: Recording deletion must not retire the same-ID project\n'
+  }

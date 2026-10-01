@@ -5697,3 +5697,62 @@ When: 21f2, coordination implementation.
   from an admitted failed job, preserving capture success through backpressure.
 - **Confidence:** Medium. This chooses an on-demand catalog selection strategy;
   it makes no large-library performance claim.
+
+## 23g — Explicit native project export requests
+
+### Pin the physical destination before the first request — sound, medium confidence
+
+When: 23g, malformed destination review and actual chooser-alias tracer.
+
+- **Choice:** A person chooses a folder through an alias. The app resolves that
+  folder with the operating system's realpath before sending the export request,
+  then preserves that same physical pathname and filename on every resend. If
+  the alias is later pointed somewhere else, the pending export still names the
+  originally chosen folder. Receipts must match that destination.
+- **Gap:** The plan required an immutable destination but had not reconciled the
+  chooser pathname with the broker, which already reports a realpath. Foundation
+  prettifies macOS private-directory aliases, so its URL resolver did not match
+  the actual broker; the operating system resolver supplies the same authority.
+- **Reach:** This deliberately normalizes the submitted directory before first
+  admission. It changes no filename, save-panel options or media settings; it
+  uses the existing OS resolver, with no custom resolution algorithm, protocol
+  operation or persistent state. A missing selected
+  folder is a visible refusal. Resend/status never resolve the alias again.
+- **Verdict:** Sound. Accepting an arbitrary first receipt destination would hide
+  a mismatch, while comparing an unresolved alias would refuse legitimate exports.
+- **Confidence:** Medium. This chooses the moment the physical folder is pinned;
+  the owned symlink and retargeted-alias control verifies its intended behavior.
+
+### Use the export identity to fence a destination choice — sound, high confidence
+
+When: 23g, held owner-read and chooser review.
+
+- **Choice:** Allocate the ordinary export UUID when its destination choice
+  begins. If its project is forgotten while the folder chooser is waiting, a
+  later result cannot send an export or clear a newer choice. The same UUID then
+  becomes the request identity if the person chooses a destination.
+- **Gap:** Owner and kind alone cannot distinguish two choices for the same
+  target. The plan fixed request replay identity but had not chosen this earlier
+  asynchronous choice boundary.
+- **Reach:** Canceling still admits nothing. No second token registry or take
+  lifecycle is created; known request/record identities also fence late replies.
+- **Verdict:** Sound. One existing export identity binds the asynchronous work
+  that can actually submit it, while different target namespaces stay independent.
+- **Confidence:** High.
+
+### Discard a stale discovery pass and use the existing resweep — sound, high confidence
+
+When: 23g, delayed status discovery across owner forgetting.
+
+- **Choice:** If a project is forgotten while an export discovery pass is
+  awaiting a reply, the app drops that old pass and requests one fresh sweep.
+  Existing records for other owners remain intact. The fresh service list is
+  authoritative; the stale reply cannot restore a deleted project's export.
+- **Gap:** An unseen export has no local request to fence its delayed discovery
+  receipt, and the plan had not selected how discovery should recover.
+- **Reach:** A bounded generation counter and the existing pending-sweep flag
+  replace the stale pass. There is no target tombstone registry, extra timer,
+  automatic export retry or second export lifecycle.
+- **Verdict:** Sound. It preserves namespace isolation without retaining an
+  indefinitely growing list of deleted targets in the native consumer.
+- **Confidence:** High.

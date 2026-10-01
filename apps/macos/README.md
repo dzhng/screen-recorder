@@ -33,6 +33,15 @@ only presents validated media and forwards user/playback events. Separating that
 platform boundary keeps protocol checks from requiring a window or player, without
 changing ordinary user-requested playback.
 
+Native export choices, unanswered requests and received receipts share the same
+recording/project target identity. The existing controller pins the selected
+revision before choosing a destination, resolves the chosen directory once to
+match the broker's physical path, and keeps that exact request after a lost reply.
+Forgetting an owner fences delayed reads, chooser results and export replies;
+status discovery resweeps without restoring the forgotten snapshot. Headless
+controller checks exercise these external boundaries without opening save panels
+or rendering media. Project library menus and installed acceptance remain separate.
+
 Node 24 is a personal-host prerequisite, not a bundled runtime. A Finder launch
 inherits launchd's minimal environment rather than a developer shell's PATH, so
 the build records the absolute interpreter it validated against and the app

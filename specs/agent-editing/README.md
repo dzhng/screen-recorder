@@ -55,8 +55,9 @@ Reuse the completed evidence rather than repeating it:
 - [23d export consumption](slices/23d-export-consumer-parity.md) and
   [23e preview consumption](slices/23e-preview-consumer-parity.md) are merged-verified
   for receipt ownership, truthful failure recovery and preview leases. The preview
-  presenter was compiled, not run. Remaining ports and installed acceptance stay
-  under 23.
+  presenter was compiled, not run. [23g explicit export requests](slices/23g-project-export-requests.md)
+  also passes typed target/snapshot/destination and late-reply controller gates.
+  Library menus, source lifetime and installed acceptance remain under23.
 
 The retained camera is 246 seconds and screen about 251 seconds: take duration is
 sufficient. Use originals, journals, recovered media and telemetry for the named
@@ -262,7 +263,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23d — Native export status and discovery parity](slices/23d-export-consumer-parity.md)
 - [x] [23e — Native preview receipt and lease parity](slices/23e-preview-consumer-parity.md)
 - [ ] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
-- [ ] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
+- [x] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

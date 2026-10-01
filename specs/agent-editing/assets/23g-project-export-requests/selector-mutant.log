@@ -1,0 +1,34 @@
+check/Check.swift:101: Precondition failed: Project selector must reach export.create
+✖ native project exports pin explicit owners and discard late forgotten replies (4465.746667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4509.428708
+
+✖ failing tests:
+
+test at apps/macos/tests/project-export-controls.test.mjs:9:1
+✖ native project exports pin explicit owners and discard late forgotten replies (4465.746667ms)
+  Error: Command failed: /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-project-export-controls-tRUPVq/check /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-project-export-controls-tRUPVq/chosen-link /private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-project-export-controls-tRUPVq/folder /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-project-export-controls-tRUPVq/other-folder
+  check/Check.swift:101: Precondition failed: Project selector must reach export.create
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/project-export-controls.test.mjs:216:22)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    status: null,
+    signal: 'SIGTRAP',
+    output: [ null, '', 'check/Check.swift:101: Precondition failed: Project selector must reach export.create\n' ],
+    pid: 69948,
+    stdout: '',
+    stderr: 'check/Check.swift:101: Precondition failed: Project selector must reach export.create\n'
+  }

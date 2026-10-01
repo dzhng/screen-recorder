@@ -1,4 +1,5 @@
 import AppKit
+import Darwin
 import ScreenRecorderControls
 import UniformTypeIdentifiers
 
@@ -23,6 +24,7 @@ final class ExportController {
     private var observing = false
     private var discovering = false
     private var pendingDiscovery = false
+    private var discoveryGeneration = 0
 
     init(
         call: @escaping Call, choose: @escaping Choose = ExportController.savePanel,
@@ -38,37 +40,48 @@ final class ExportController {
 
     // MARK: acting
 
-    func export(_ recordingId: String, kind: ExportsState.Kind) {
-        guard state.beginChoice(recordingId: recordingId, kind: kind) else { return }
+    func export(_ target: MediaTarget, kind: ExportsState.Kind) {
+        guard let choice = state.beginChoice(target: target, kind: kind) else { return }
         changed()
         Task { @MainActor in
-            defer { changed() }
+            defer {
+                if state.choosing == choice { state.choosing = nil }
+                changed()
+            }
             // The revision is pinned before the panel opens, so an edit made while a person picks
             // a folder does not change what they asked to export.
             let answer: Data
             do throws(ServiceFailure) {
-                answer = try await call("recording.get", ["recordingId": recordingId])
+                let operation: String
+                switch target {
+                case .recording: operation = "recording.get"
+                case .project: operation = "project.get"
+                }
+                answer = try await call(operation, target.parameters)
             } catch {
-                state.choosing = nil
+                guard state.choosing == choice else { return }
                 return failure(error.localizedDescription)
             }
-            guard let recording = try? JSONDecoder().decode(Recording.self, from: answer) else {
-                state.choosing = nil
-                return failure("The service returned an unreadable recording.")
+            guard state.choosing == choice else { return }
+            guard let owner = try? JSONDecoder().decode(Owner.self, from: answer), owner.target == target else {
+                return failure("The service returned an unreadable or different export owner.")
             }
-            guard let revisionId = recording.currentRevisionId else {
-                state.choosing = nil
-                return failure("This recording has no revision to export yet.")
+            guard let revisionId = owner.currentRevisionId else {
+                return failure("This item has no revision to export yet.")
             }
-            guard let destination = await choose(kind, Self.suggestedName(recording, revisionId, kind))
-            else {
-                state.choosing = nil
-                return
+            let destination = await choose(kind, Self.suggestedName(owner, revisionId, kind))
+            guard state.choosing == choice, let destination else { return }
+            // Foundation prettifies /private aliases; the broker's directory identity uses
+            // the physical realpath instead. Resolve once and keep that request for replay.
+            let directory = destination.deletingLastPathComponent().withUnsafeFileSystemRepresentation { path -> String? in
+                guard let path, let resolved = realpath(path, nil) else { return nil }
+                defer { free(resolved) }
+                return String(cString: resolved)
             }
+            guard let directory else { return failure("The selected export folder could not be resolved.") }
             let request = ExportsState.Request(
-                // The service accepts lowercase UUIDs only.
-                exportId: UUID().uuidString.lowercased(), recordingId: recordingId, kind: kind,
-                revisionId: revisionId, directory: destination.deletingLastPathComponent().path,
+                exportId: choice.exportId, target: target, kind: kind,
+                revisionId: revisionId, directory: directory,
                 leaf: destination.lastPathComponent)
             state.send(request)
             await send(request)
@@ -91,14 +104,17 @@ final class ExportController {
             defer { changed() }
             do throws(ServiceFailure) {
                 let answer = try await call("export.retry", ["exportId": exportId])
+                guard known(exportId) else { return }
                 state.update(try record(answer, exportId: exportId))
                 state.finish(exportId, failure: nil)
             } catch where Self.unanswered.contains(error.code) {
+                guard known(exportId) else { return }
                 state.finish(exportId, failure: nil)
                 state.readFailures[exportId] = error.localizedDescription
             } catch where error.code == "NOT_FOUND" {
                 state.forget(exportId)
             } catch {
+                guard known(exportId) else { return }
                 state.finish(exportId, failure: error.localizedDescription)
             }
         }
@@ -115,6 +131,7 @@ final class ExportController {
                 _ = try await call("export.abandon", ["exportId": exportId])
                 state.forget(exportId)
             } catch {
+                guard known(exportId) else { return }
                 state.finish(exportId, failure: error.localizedDescription)
             }
         }
@@ -130,8 +147,10 @@ final class ExportController {
         changed()
     }
 
-    func forgetRecording(_ recordingId: String) {
-        state.forgetRecording(recordingId)
+    func forget(target: MediaTarget) {
+        state.forget(target: target)
+        discoveryGeneration += 1
+        if discovering { pendingDiscovery = true }
         changed()
     }
 
@@ -150,6 +169,7 @@ final class ExportController {
                 let unconfirmed = state.requests.contains { $0.exportId == exportId }
                 do throws(ServiceFailure) {
                     let answer = try await call("export.status", ["exportId": exportId])
+                    guard known(exportId) else { continue }
                     let record = try record(answer, exportId: exportId)
                     if unconfirmed { state.admit(record) } else { state.update(record) }
                     changedAny = true
@@ -161,6 +181,7 @@ final class ExportController {
                         changedAny = true
                     }
                 } catch where error.code == "INVALID_RESPONSE" {
+                    guard known(exportId) else { continue }
                     state.readFailures[exportId] = error.localizedDescription
                     changedAny = true
                 } catch {
@@ -179,6 +200,7 @@ final class ExportController {
             return
         }
         discovering = true
+        let generation = discoveryGeneration
         Task { @MainActor in
             defer {
                 discovering = false
@@ -195,6 +217,7 @@ final class ExportController {
                     var params: [String: Any] = ["unfinishedOnly": true]
                     if !(cursor is NSNull) { params["cursor"] = cursor }
                     let data = try await call("export.list", params)
+                    guard generation == discoveryGeneration else { return }
                     guard let page = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                         let summaries = page["exports"] as? [[String: Any]]
                     else {
@@ -207,6 +230,7 @@ final class ExportController {
                         }
                         do throws(ServiceFailure) {
                             let answer = try await call("export.status", ["exportId": exportId])
+                            guard generation == discoveryGeneration else { return }
                             let record = try record(answer, exportId: exportId)
                             if state.requests.contains(where: { $0.exportId == exportId }) {
                                 state.admit(record)
@@ -216,6 +240,7 @@ final class ExportController {
                         } catch where error.code == "NOT_FOUND" {
                             // Retired between the page and its status read.
                         } catch {
+                            guard generation == discoveryGeneration else { return }
                             failedStatus = failedStatus ?? error.localizedDescription
                         }
                     }
@@ -223,6 +248,7 @@ final class ExportController {
                 } while !(cursor is NSNull)
                 state.discoveryFailure = failedStatus
             } catch {
+                guard generation == discoveryGeneration else { return }
                 state.discoveryFailure = error.localizedDescription
             }
         }
@@ -231,17 +257,21 @@ final class ExportController {
     // MARK: sending
 
     private func send(_ request: ExportsState.Request) async {
-        let params: [String: Any] = [
-            "exportId": request.exportId, "recordingId": request.recordingId,
+        var params: [String: Any] = [
+            "exportId": request.exportId,
             "kind": request.kind.rawValue, "revisionId": request.revisionId,
             "directory": request.directory, "leaf": request.leaf,
         ]
+        for (key, value) in request.target.parameters { params[key] = value }
         do throws(ServiceFailure) {
             let answer = try await call("export.create", params)
+            guard known(request.exportId) else { return }
             state.admit(try record(answer, exportId: request.exportId))
         } catch where Self.unanswered.contains(error.code) {
+            guard known(request.exportId) else { return }
             state.unanswered(request.exportId, reason: error.localizedDescription)
         } catch {
+            guard known(request.exportId) else { return }
             state.refuse(request.exportId)
             failure(error.localizedDescription)
         }
@@ -260,16 +290,39 @@ final class ExportController {
         guard record.exportId == exportId else {
             throw ServiceFailure(code: "INVALID_RESPONSE", message: "Export status returned a different exportId for \(exportId)")
         }
+        let request = state.requests.first { $0.exportId == exportId }
+        let previous = state.records.first { $0.exportId == exportId }
+        if let expected = request?.target ?? previous?.target {
+            guard record.target == expected,
+                record.revisionId == (request?.revisionId ?? previous?.revisionId),
+                record.kind == (request?.kind ?? previous?.kind),
+                record.directory == (request?.directory ?? previous?.directory),
+                record.leaf == (request?.leaf ?? previous?.leaf)
+            else {
+                throw ServiceFailure(code: "INVALID_RESPONSE", message: "Export status returned a different owner or snapshot for \(exportId)")
+            }
+        }
         return record
+    }
+
+    private func known(_ exportId: String) -> Bool {
+        state.requests.contains { $0.exportId == exportId } || state.records.contains { $0.exportId == exportId }
     }
 
     // MARK: destination
 
-    private static func suggestedName(_ recording: Recording, _ revisionId: String, _ kind: ExportsState.Kind)
+    private static func suggestedName(_ owner: Owner, _ revisionId: String, _ kind: ExportsState.Kind)
         -> String
     {
-        let when = ISO8601DateFormatter.fractional.date(from: recording.createdAt)
-            ?? ISO8601DateFormatter().date(from: recording.createdAt) ?? Date()
+        if case .project(let id) = owner.target {
+            let title = (owner.title ?? id).replacingOccurrences(of: "/", with: "-")
+                .replacingOccurrences(of: ":", with: "-")
+                .components(separatedBy: .controlCharacters).joined(separator: " ")
+            let name = title.trimmingCharacters(in: .whitespacesAndNewlines)
+            return "Project \(name.isEmpty ? id : name) \(revisionId)" + (kind == .video ? ".mp4" : ".zip")
+        }
+        let when = ISO8601DateFormatter.fractional.date(from: owner.createdAt)
+            ?? ISO8601DateFormatter().date(from: owner.createdAt) ?? Date()
         let stamp = DateFormatter()
         stamp.dateFormat = "yyyy-MM-dd 'at' HH.mm.ss"
         let base = "Recording \(stamp.string(from: when)) \(revisionId)"
@@ -296,9 +349,19 @@ final class ExportController {
         }
     }
 
-    private struct Recording: Decodable {
+    private struct Owner: Decodable {
+        let target: MediaTarget
         let createdAt: String
+        let title: String?
         let currentRevisionId: String?
+        private enum Keys: String, CodingKey { case createdAt, title, currentRevisionId }
+        init(from decoder: Decoder) throws {
+            target = try MediaTarget(from: decoder)
+            let fields = try decoder.container(keyedBy: Keys.self)
+            createdAt = try fields.decode(String.self, forKey: .createdAt)
+            title = try fields.decodeIfPresent(String.self, forKey: .title)
+            currentRevisionId = try fields.decodeIfPresent(String.self, forKey: .currentRevisionId)
+        }
     }
 }
 

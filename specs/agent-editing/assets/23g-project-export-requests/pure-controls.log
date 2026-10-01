@@ -1,0 +1,57 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+Fetching https://github.com/FluidInference/FluidAudio.git from cache
+Fetched https://github.com/FluidInference/FluidAudio.git from cache (0.19s)
+Creating working copy for https://github.com/FluidInference/FluidAudio.git
+Working copy of https://github.com/FluidInference/FluidAudio.git resolved at 0.15.7
+Fetching binary artifact https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache
+Fetched https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache (2.52s)
+Building for debugging...
+[0/7] Write sources
+[1/7] Write ScreenRecorderControlsTests-entitlement.plist
+[2/7] Write sources
+[3/7] Write swift-version--1AB21518FC5DEDBE.txt
+[5/15] Compiling ScreenRecorderControls ControlsMenu.swift
+[6/15] Compiling ScreenRecorderControls ControlsState.swift
+[7/15] Compiling ScreenRecorderControls Countdown.swift
+[8/15] Compiling ScreenRecorderControls ElapsedTime.swift
+[9/15] Compiling ScreenRecorderControls ExportMenu.swift
+[10/15] Compiling ScreenRecorderControls ExportsState.swift
+[11/15] Compiling ScreenRecorderControls MediaTarget.swift
+[12/15] Emitting module ScreenRecorderControls
+[13/22] Compiling ScreenRecorderControls Permissions.swift
+[14/22] Compiling ScreenRecorderControls Preferences.swift
+[15/22] Compiling ScreenRecorderControls RecordingOverlay.swift
+[16/22] Compiling ScreenRecorderControls RegionGeometry.swift
+[17/22] Compiling ScreenRecorderControls ShortcutDefaults.swift
+[18/22] Compiling ScreenRecorderControls StatusItemAppearance.swift
+[19/22] Compiling ScreenRecorderControls SystemShortcuts.swift
+[20/27] Compiling ScreenRecorderControlsTests ExportTests.swift
+[21/27] Compiling ScreenRecorderControlsTests MenuStateTests.swift
+[22/27] Compiling ScreenRecorderControlsTests OverlayTests.swift
+[23/27] Compiling ScreenRecorderControlsTests RegionSelectionTests.swift
+[24/27] Emitting module ScreenRecorderControlsTests
+[25/31] Compiling ScreenRecorderControlsTests SelectionTests.swift
+[26/31] Compiling ScreenRecorderControlsTests SettingsTests.swift
+[27/31] Compiling ScreenRecorderControlsTests ShortcutTests.swift
+[28/31] Compiling ScreenRecorderControlsTests main.swift
+[28/31] Write Objects.LinkFileList
+[29/31] Linking ScreenRecorderControlsTests
+[30/31] Applying ScreenRecorderControlsTests
+Build of product 'ScreenRecorderControlsTests' complete! (36.82s)
+PASS elapsed playback time reads as a recorder's clock
+PASS a selection becomes exactly the take it describes
+PASS an unplugged microphone stays this person's choice
+PASS a start whose answer was lost is resolved once, then a new take is asked for
+PASS the menu states what is recording, what was chosen and what cannot be done yet
+PASS explicit deletion retries and live storage observations remain honest
+PASS exports keep one identity through lost replies, retry, abandonment and cleanup
+PASS shortcuts are advertised only where this app actually holds them
+PASS the shortcuts macOS holds are read from its own table
+PASS a region drag becomes display-local capture coordinates
+PASS a refused start asks for the access it was missing
+PASS both permission submenus state missing access the same way
+PASS Settings… opens from the menu with ⌘,
+PASS recording defaults and the launch window preference survive a relaunch
+PASS the floating controls appear exactly while a take is live
+PASS the count runs three, two, one, and a count of zero starts at once
+PASS recording controls

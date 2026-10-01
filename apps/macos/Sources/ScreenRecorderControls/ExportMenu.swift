@@ -42,7 +42,7 @@ enum ExportMenu {
         let acting = exports.acting[request.exportId]
         var details = [
             MenuEntry(.status, path(request.directory, request.leaf), enabled: false),
-            MenuEntry(.status, "Revision \(request.revisionId) of \(request.recordingId)", enabled: false),
+            MenuEntry(.status, "Revision \(request.revisionId) of \(targetTitle(request.target))", enabled: false),
         ]
         if let reason = request.unconfirmed {
             details.append(MenuEntry(.status, "Request not confirmed — \(reason)", enabled: false))

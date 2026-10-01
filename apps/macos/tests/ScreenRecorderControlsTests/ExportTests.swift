@@ -31,14 +31,14 @@ func runExportTests() {
     precondition(exportsMenu(state, exports) == nil, "No exports section until there is an export to show")
 
     // One save panel at a time; the take is exportable again once the destination is chosen.
-    precondition(exports.beginChoice(recordingId: "rec-1", kind: .video), "A take can start an export")
-    precondition(!exports.beginChoice(recordingId: "rec-1", kind: .package), "A second panel is not opened")
+    precondition(exports.beginChoice(target: .recording("rec-1"), kind: .video) != nil, "A take can start an export")
+    precondition(exports.beginChoice(target: .recording("rec-1"), kind: .package) == nil, "A second panel is not opened")
     let menu = RecordingMenu.entries(for: state, exports: exports)
     precondition(entry(menu, "recording.export.video.rec-1")?.enabled == false
         && entry(menu, "recording.export.processed-package.rec-1")?.enabled == false,
         "Export choices wait while a destination is being chosen")
     let request = ExportsState.Request(
-        exportId: "e1", recordingId: "rec-1", kind: .video, revisionId: "r2",
+        exportId: "e1", target: .recording("rec-1"), kind: .video, revisionId: "r2",
         directory: "/Users/me/Exports", leaf: "demo.mp4")
     exports.send(request)
     precondition(entry(RecordingMenu.entries(for: state, exports: exports), "recording.export.video.rec-1")?.enabled == true,
@@ -112,7 +112,7 @@ func runExportTests() {
     exports.dismiss("e2")
     precondition(exports.records.map(\.exportId) == ["e2"], "Only settled commits are dismissed")
 
-    exports.forgetRecording("rec-1")
+    exports.forget(target: .recording("rec-1"))
     precondition(exports.records.isEmpty && exportsMenu(state, exports) == nil,
         "A deleted recording's exports leave the menu")
 
