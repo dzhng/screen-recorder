@@ -298,6 +298,7 @@ export async function copyImportedFile(
     throw new CatalogError(
       (error as NodeJS.ErrnoException).code === "ENOENT" ? "NOT_FOUND" : "INVALID_PATH",
       "Cannot open import source",
+      { filesystemCode: (error as NodeJS.ErrnoException).code },
     );
   }
   try {

@@ -392,3 +392,74 @@ test.each(["source", "parent"])(
     expect(f.acquisitions.intent(job.target.acquisitionId)).toMatchObject(frozen);
   },
 );
+
+test("post-freeze donor copy access failure preserves the acquisition for explicit retry", async () => {
+  const f = await fixture();
+  await writeFile(
+    join(f.donor, "capture.journal.jsonl"),
+    JSON.stringify({ sessionID: f.recording.sourceId }),
+  );
+  await writeFile(join(f.donor, "video.mov"), "video");
+  const exportSource = f.native.exportSource;
+  f.native.exportSource = async (...args) => {
+    const receipt = await exportSource(...args);
+    await chmod(f.donor, 0);
+    return receipt;
+  };
+  const job = f.admit(f.recording.recordingId);
+  f.queue.start();
+  let frozen;
+  try {
+    await f.queue.idle();
+    expect(f.queue.inspect(job.jobId)).toMatchObject({
+      state: "failed",
+      errorCode: "INVALID_PATH",
+      retryable: true,
+      result: null,
+    });
+    if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
+    frozen = f.acquisitions.intent(job.target.acquisitionId);
+    expect(frozen).toMatchObject({ files: { "video.mov": { bytes: 5 }, "narration.mov": null } });
+    expect(f.captures.catalog.prepare("SELECT id FROM assets").all()).toEqual([]);
+    expect(f.captures.catalog.prepare("SELECT * FROM source_evidence_generations").all()).toEqual(
+      [],
+    );
+  } finally {
+    await chmod(f.donor, 0o700);
+    f.native.exportSource = exportSource;
+  }
+  expect(f.admit(f.recording.recordingId)).toMatchObject({ jobId: job.jobId, state: "failed" });
+  f.queue.retry(job.jobId);
+  await f.queue.idle();
+  if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
+  expect(f.queue.inspect(job.jobId)).toMatchObject({
+    state: "ready",
+    result: { acquisitionId: job.target.acquisitionId },
+  });
+  expect(f.acquisitions.intent(job.target.acquisitionId)).toEqual(frozen);
+});
+
+test("explicit imports keep their existing post-freeze donor access disposition", async () => {
+  const f = await fixture();
+  await writeFile(
+    join(f.donor, "capture.journal.jsonl"),
+    JSON.stringify({ sessionID: f.recording.sourceId }),
+  );
+  await writeFile(join(f.donor, "video.mov"), "video");
+  const prepared = await f.importer.prepareImport("explicit", f.donor);
+  const intent = f.captures.transaction(() => f.acquisitions.admitImport(prepared));
+  const exportSource = f.native.exportSource;
+  f.native.exportSource = async (...args) => {
+    const receipt = await exportSource(...args);
+    await chmod(f.donor, 0);
+    return receipt;
+  };
+  try {
+    await expect(
+      f.importer.executeImport(intent.acquisitionId, "explicit-attempt", f.native, signal()),
+    ).rejects.toMatchObject({ code: "INVALID_PATH", retryable: false });
+    expect(f.acquisitions.intent(intent.acquisitionId)).toEqual(intent);
+  } finally {
+    await chmod(f.donor, 0o700);
+  }
+});

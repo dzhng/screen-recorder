@@ -162,7 +162,14 @@ async function sourceRoot(path: string): Promise<string> {
       { filesystemCode: (error as NodeJS.ErrnoException).code },
     );
   });
-  if (!(await lstat(root)).isDirectory())
+  const stat = await lstat(root).catch((error) => {
+    throw new CatalogError(
+      missing(error) ? "NOT_FOUND" : "INVALID_PATH",
+      "Cannot inspect capture source directory",
+      { filesystemCode: (error as NodeJS.ErrnoException).code },
+    );
+  });
+  if (!stat.isDirectory())
     throw new CatalogError("INVALID_PATH", "Capture source must be a directory");
   return root;
 }
@@ -181,7 +188,11 @@ async function observeMember(root: string, member: Member): Promise<IdentifiedFi
   });
   if (!file) return null;
   try {
-    const stat = await file.stat({ bigint: true });
+    const stat = await file.stat({ bigint: true }).catch((error) => {
+      throw new CatalogError("INVALID_PATH", `Cannot inspect capture member: ${member}`, {
+        filesystemCode: (error as NodeJS.ErrnoException).code,
+      });
+    });
     if (!stat.isFile() || stat.size > BigInt(Number.MAX_SAFE_INTEGER))
       throw new CatalogError("INVALID_PATH", `Capture member must be a regular file: ${member}`);
     return { path, bytes: Number(stat.size), identity: fileIdentity(stat) };
@@ -789,6 +800,13 @@ export class AcquisitionImporter {
             () => true,
             (error) => {
               if (missing(error)) return false;
+              if (intent.kind === "capture")
+                deferredReadFailure(
+                  new CatalogError("INVALID_PATH", "Cannot inspect frozen capture member", {
+                    filesystemCode: (error as NodeJS.ErrnoException).code,
+                  }),
+                  true,
+                );
               throw error;
             },
           );
@@ -916,6 +934,15 @@ export class AcquisitionImporter {
         });
         published = true;
         return value;
+      } catch (error) {
+        // Frozen donor opens preserve their OS cause; explicit imports keep their existing policy.
+        if (
+          intent.kind === "capture" &&
+          error instanceof CatalogError &&
+          typeof error.details.filesystemCode === "string"
+        )
+          deferredReadFailure(error, true);
+        throw error;
       } finally {
         if (!published) {
           if (indexed) this.evidence.removeUnpublished(indexed);
