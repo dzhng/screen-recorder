@@ -1,0 +1,293 @@
+{
+  "base": "40d0b45d",
+  "branch": "codex/selected-camera-input",
+  "scope": "21c internal selected acquisition and shared ingress/lifecycle only",
+  "toolchain": "Apple Swift 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101), arm64-apple-macosx26.0",
+  "runtime": {
+    "product": "ScreenRecorderCaptureTests",
+    "path": "/tmp/screenrec-21c-native-build/debug/ScreenRecorderCaptureTests",
+    "sha256": "30465fe2b01e56cb49feff3bfd89272614c044efb4e9e0f436fcb55d553a44c8",
+    "sourceManifest": "source-manifest.json",
+    "sourceFiles": 173,
+    "buildExit": 0,
+    "buildLog": "logs/screenrec-21c-reviewed-final-build.log",
+    "nativeWorkerBuilt": false,
+    "scratch": "/tmp/screenrec-21c-native-build",
+    "dependencies": "Existing offline checkouts/artifacts/repositories copied from21b; retained artifact paths remain read-only. Existing generated rnnoise copied into ignored local build path. No install or network."
+  },
+  "gates": [
+    {
+      "name": "selected input and SDK operation ownership",
+      "exit": 0,
+      "log": "logs/screenrec-21c-reviewed-final.log",
+      "scope": "23 actual NativeCapture selected/preparation/startup/routing/publication cases +6 actual stream-operation owner cases",
+      "runtime": "settled",
+      "passed": 29
+    },
+    {
+      "name": "camera source publication21b",
+      "exit": 0,
+      "log": "logs/screenrec-21c-reviewed-camera-source.log",
+      "scope": "All20 cases on updated CaptureInputSession/NativeCapture signatures",
+      "runtime": "settled",
+      "passed": 20
+    },
+    {
+      "name": "complete native default",
+      "exit": 0,
+      "log": "logs/screenrec-21c-reviewed-default.log",
+      "scope": "Whole existing default gate plus selected input/stream cases; no narrowed default",
+      "runtime": "settled",
+      "passed": 82
+    },
+    {
+      "name": "selected request/media",
+      "exit": 0,
+      "log": "logs/screenrec-21c-reviewed-selected-media.log",
+      "scope": "Request validation, camera/microphone/pause media, explicit early-startup and late-recording evidence limit",
+      "runtime": "settled"
+    },
+    {
+      "name": "selected graceful stop",
+      "exit": 0,
+      "log": "logs/screenrec-21c-reviewed-stop.log",
+      "scope": "Recording/paused/repeated stop, drain/result and delay wake",
+      "runtime": "settled"
+    },
+    {
+      "name": "primary audio publication/recovery",
+      "exit": 0,
+      "log": "logs/screenrec-21c-reviewed-primary-publication.log",
+      "scope": "Normal/interrupted/retry/conflict/missing publication, both PCM/support and recovery boundaries",
+      "runtime": "settled"
+    },
+    {
+      "name": "rational clock/cadence/pixels",
+      "exit": 0,
+      "log": "logs/screenrec-21c-cadence.log",
+      "scope": "2x multi-entry rational endpoints, exact ordered pictures, nominal overlaps, duplicate/backward refusal and pixels",
+      "runtime": "earlier own21c build; observed hash prefix6ac15042; conversion/retiming/camera bodies unchanged through final build, see preservation.json"
+    },
+    {
+      "name": "camera replay",
+      "exit": 0,
+      "log": "logs/screenrec-21c-replay.log",
+      "scope": "Content identity, receipt/link resume, conflict/changed input/cancellation/torn/unmapped/unsealed/truncated raw",
+      "runtime": "earlier own21c build; same unchanged camera publication bodies, see preservation.json"
+    },
+    {
+      "name": "service capture lifetime/finalizing",
+      "exit": 0,
+      "log": "logs/screenrec-21c-service-lifetime-green.log",
+      "scope": "Two unchanged unit suites against existing workspace dependencies; no native process/model/capture",
+      "runtime": "vitest5.0.0 with existing root and service node_modules symlinks",
+      "passed": 27
+    }
+  ],
+  "negativeControls": [
+    {
+      "name": "ignored exact device selection",
+      "exit": 133,
+      "log": "logs/screenrec-21c-negative-selection.log",
+      "observed": "Selected alternate5-picture input instead of requested3-picture input"
+    },
+    {
+      "name": "lost system audio routing",
+      "exit": 133,
+      "log": "logs/screenrec-21c-negative-system.log",
+      "observed": "NO_SYSTEM_AUDIO"
+    },
+    {
+      "name": "lost ordinary cursor forwarding",
+      "exit": 133,
+      "log": "logs/screenrec-21c-negative-cursor.log",
+      "observed": "Expected cursor journal values absent"
+    },
+    {
+      "name": "old startup lifecycle",
+      "exit": 133,
+      "log": "logs/screenrec-21c-negative-startup.log",
+      "observed": "Discarded old start resumed as recording"
+    },
+    {
+      "name": "held preparation before fence",
+      "exit": 133,
+      "log": "logs/screenrec-21c-preparation-red.log",
+      "observed": "Discard before writer left selecting"
+    },
+    {
+      "name": "writer refusal before local cleanup",
+      "exit": 133,
+      "log": "logs/screenrec-21c-writer-red-v2.log",
+      "observed": "Prepared resource release/size assertion failed"
+    },
+    {
+      "name": "parent cancellation before startup propagation",
+      "exit": 133,
+      "log": "logs/screenrec-21c-sdk-cancel-red.log",
+      "observed": "Later SDK operation began after caller cancellation"
+    }
+  ],
+  "setupAndHarnessCorrections": [
+    {
+      "log": "logs/screenrec-21c-writer-red.log",
+      "exit": 0,
+      "meaning": "First attempted writer regression used prior21-case runtime while build was pending. It did not exercise writer refusal and is not red proof; red-v2 does."
+    },
+    {
+      "log": "logs/screenrec-21c-selected-media.log",
+      "exit": 133,
+      "meaning": "Existing evidence-limit fixture first hit the limit during startup; mandatory post-start check now correctly refuses startup. Fixture separately pins startup refusal and recording interruption at same3-row limit, without timeout/limit relaxation."
+    },
+    {
+      "log": "logs/screenrec-21c-service-lifetime.log",
+      "exit": 1,
+      "meaning": "Initial zero-test setup lacked service workspace package links. Existing service node_modules symlink fixed resolution; all27 then passed. No install."
+    }
+  ],
+  "review": {
+    "shape": "One camera input/session/ingress owner; NativeCapture/CaptureTermination retain take authority; SDK owner only joins resource operations",
+    "independent": "Root and stop-latency reconciliation agent reviewed settled corrected production diff; findings on size reset, pending SDK start ownership and cancellation resolved; final review clean",
+    "codexCLI": "Not invoked: explicit session prohibition after previously recorded configured-model HTTP400; no model/config change",
+    "choices": "../../choices.md"
+  },
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 105692,
+    "sha256": "150d05f3a6467e0100c7abbbd29b853514dc01e86a7e214094e03ed41052cd2d",
+    "manifest": "manifest.json",
+    "members": 412,
+    "verified": "Every archived member size and SHA256 matched manifest after extraction",
+    "packets": [
+      "selected-input",
+      "camera-publication"
+    ]
+  },
+  "frozenWorker": {
+    "path": "/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    "state": "Unavailable at documented path before21c base, as root already recorded; not rebuilt/substituted",
+    "historicalObservedSHA256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "limits": [
+    "No physical device discovery, permission prompt, live capture or audible playback",
+    "No models/inference/download/install/installed switch",
+    "No performance verdict under unrelated CPU contention",
+    "One-frame synchronization, ten-second completed stop and installed acceptance remain open",
+    "Public cameraDeviceId rejected until21f; supplied allocation/proof/admission is21d",
+    "Camera journal/observations remain unbound probe identity, not native allocated source proof",
+    "Capture returns independent sources/timing; external caller chooses explicit project composition",
+    "No parent20/21 physical acceptance or actual-model parity claim from this test product"
+  ],
+  "logs": [
+    {
+      "path": "logs/screenrec-21c-cadence.log",
+      "bytes": 146,
+      "sha256": "480fa16417bccb14304e04c4f6d98252ddce8329dfb42f2fa9807fcf2dd287de"
+    },
+    {
+      "path": "logs/screenrec-21c-negative-cursor.log",
+      "bytes": 137,
+      "sha256": "0a4272347199efe93cdf0775e47f08fffdc9f0906d7c94f80fa4253a91a69e91"
+    },
+    {
+      "path": "logs/screenrec-21c-negative-selection.log",
+      "bytes": 83,
+      "sha256": "2f1576ec2f90ecc8e0ff8065090ab30031fcdd9eaf4bd881d290acabd7b82e93"
+    },
+    {
+      "path": "logs/screenrec-21c-negative-startup.log",
+      "bytes": 120,
+      "sha256": "ff22e78f1711d6a30b89f5cbeb63195d93c902c450228ac4d316376d89c054f1"
+    },
+    {
+      "path": "logs/screenrec-21c-negative-system.log",
+      "bytes": 268,
+      "sha256": "a5b543cbc764108a525acf7d41f7506db8ada641e9f24d8ada683b75701db407"
+    },
+    {
+      "path": "logs/screenrec-21c-preparation-green.log",
+      "bytes": 2139,
+      "sha256": "83bcdc5290971260bf3a5912dd0e0148ef9a84b84a1ee688fbb19d8db5268049"
+    },
+    {
+      "path": "logs/screenrec-21c-preparation-red.log",
+      "bytes": 143,
+      "sha256": "929be1e6fbddb0f6d1dd1f26f0477ece314ebb7914a2d14bca6c232ec0f88b95"
+    },
+    {
+      "path": "logs/screenrec-21c-replay.log",
+      "bytes": 144,
+      "sha256": "f041297a0580aa8eab898cb7db582b0ddb627461116ff68f8336bbce0e688ed2"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-camera-source.log",
+      "bytes": 244,
+      "sha256": "31ec166949d323b3a4d4af9f2f6b542721dff7b816c4dcf2fe9ee50394075c41"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-default.log",
+      "bytes": 7910,
+      "sha256": "6f7e94274db6ea382683c15020723978c19001468e18a2e3e20a53ea1dce1476"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-final-build.log",
+      "bytes": 441,
+      "sha256": "77c12a50bb661ae263804fd768aa20f24de2251ec8733ab07b7b050803859b4f"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-final.log",
+      "bytes": 3030,
+      "sha256": "e2a61836aa9797be22f27cd6bb30f348c70ff4563bdabfbabd191fea8326a60a"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-primary-publication.log",
+      "bytes": 276,
+      "sha256": "ab3763d565b104749634841a0c1bd92ca5639efcae982a672d0c7a5899a26f63"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-selected-media.log",
+      "bytes": 223,
+      "sha256": "501f984f313bbbae5169ea331ee9b5a3d37a9bdd3f36332f263be79209534442"
+    },
+    {
+      "path": "logs/screenrec-21c-reviewed-stop.log",
+      "bytes": 118,
+      "sha256": "de4102e14f9cc7f92a773a89184304a6d33dbf11896693d7c5440f982215ee21"
+    },
+    {
+      "path": "logs/screenrec-21c-sdk-cancel-red.log",
+      "bytes": 131,
+      "sha256": "c9edc339ef0df40527f5d6fc615046d58f229348d8f1a13b872465cfc2f18e43"
+    },
+    {
+      "path": "logs/screenrec-21c-selected-media.log",
+      "bytes": 173,
+      "sha256": "ed319a2e083a9b02bedee22daef0ed6c0a39cfa1b8590114a3667b5f8748b672"
+    },
+    {
+      "path": "logs/screenrec-21c-service-lifetime-green.log",
+      "bytes": 807,
+      "sha256": "867d6034aadb713842a1c289e4d90af0874721c13f01be0c327f7b294d71db0a"
+    },
+    {
+      "path": "logs/screenrec-21c-service-lifetime.log",
+      "bytes": 1750,
+      "sha256": "d33e4345e2642a5086bb8b45c66bbb8d3b56ff1f6ce91884274dd5eadf6f951d"
+    },
+    {
+      "path": "logs/screenrec-21c-writer-red-v2.log",
+      "bytes": 163,
+      "sha256": "46b8cd3b723b1dc6ab61d277be167051f0dcae17c607006df71e47aab84379f5"
+    },
+    {
+      "path": "logs/screenrec-21c-writer-red.log",
+      "bytes": 2139,
+      "sha256": "83bcdc5290971260bf3a5912dd0e0148ef9a84b84a1ee688fbb19d8db5268049"
+    }
+  ],
+  "documentationCheck": {
+    "localLinksResolved": 395,
+    "documentsChecked": 9,
+    "brokenLinks": 0
+  }
+}

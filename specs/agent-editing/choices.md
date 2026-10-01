@@ -5189,3 +5189,47 @@ These are diagnostic choices, not production caching or response-policy changes.
 - **The reach:** The future grader checks requested effects and protected media rather than judging taste or asking the person to identify more removals. The four-minute take remains the camera authority; its short use here cannot satisfy the independent physical gate. Preparation does not replace the installed journey or authorize a new model/capture operation.
 - **Verdict:** sound; a complete technical fixture can exercise caller-controlled composition without putting editorial judgment in the engine or editing the person's tutorial as development work.
 - **Confidence:** high. Reversible presentation discretion was already delegated by 25; no new product policy is chosen.
+
+### Fence startup cleanup within the existing take owner — sound, high confidence
+
+When: 21c (2026-10-01).
+
+- **Choice:** Suppose a screen lookup or camera start reply arrives after its take
+  was discarded and another take began. The existing generation identifier tells
+  which take still owns the work. Discard ends selection even before a writer
+  exists. Preparation checks that identifier after lookup and before opening the
+  selected camera, then NativeCapture checks again before writing shared state.
+  An obsolete returned input is released locally; a writer-construction refusal
+  also releases only its prepared resources. Neither cleanup can clear the newer
+  take. Failed active startup instead joins the existing termination operation,
+  which clears its size/state and ends its generation inside the owned task.
+- **Gap:** The plan required one lifecycle and stale-callback protection but did
+  not specify resource authority across asynchronous preparation/start replies.
+- **Reach:** NativeCapture/CaptureTermination retain take state; the stream owner
+  owns only SDK operations. Selected inputs inherit cancellation and cleanup
+  protection without a second take lifecycle or test-only production flags.
+- **Verdict:** Sound. Each cleanup acts on the resources it actually owns, and
+  obsolete work acquires no authority over a newer take.
+- **Confidence:** High.
+
+### Retain attempted SDK resources and join startup before drain — sound, high confidence
+
+When: 21c.
+
+- **Choice:** A screen stream's asynchronous start can acquire a resource before
+  returning success or failure. The SDK operation owner records the attempt before
+  awaiting it. If discard arrives during that wait, one cached drain task joins
+  startup and then stops each attempted stream once, including partial failure.
+  It prevents starting the next system-audio stream after drain owns the inputs.
+  Caller cancellation reaches only the startup task, with checks before each SDK
+  operation; it does not cancel drain. For example, canceling a held video start
+  still releases that video after its reply and never opens the audio stream.
+- **Gap:** The plan required a single physical drain, but did not specify how a
+  pending SDK start or partially acquired failed stream retained that authority.
+- **Reach:** ScreenCaptureInput uses this owner for real SDK operations. NativeCapture
+  still owns take state and termination; the resource owner has no recording,
+  pause, publication, source-allocation or project state.
+- **Verdict:** Sound. An error does not prove a resource was never acquired. Joining
+  startup then independently draining retains the cleanup obligation and prevents
+  both missed and repeated physical stops.
+- **Confidence:** High.

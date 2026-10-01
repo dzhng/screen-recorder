@@ -6,7 +6,7 @@ import Foundation
 @MainActor
 public final class NativeCapture {
     private var input: (any CaptureInputSession)?
-    private let prepareInput: @MainActor (CaptureRequest) async throws -> any CaptureInputSession
+    private let prepareInput: @MainActor (CaptureRequest, @MainActor () throws -> Void) async throws -> any CaptureInputSession
     private var generations = CaptureGeneration()
     private var sink: CaptureWriter?
     private var closedResult: CaptureResult?
@@ -73,9 +73,9 @@ public final class NativeCapture {
         }
     }
 
-    public init() { prepareInput = { try await ScreenCaptureInput.prepare($0) } }
+    public init() { prepareInput = { request, check in try await CaptureInputPreparation().prepare(request, checkInterruption: check) } }
 
-    package init(prepareInput: @escaping @MainActor (CaptureRequest) async throws -> any CaptureInputSession) {
+    package init(prepareInput: @escaping @MainActor (CaptureRequest, @MainActor () throws -> Void) async throws -> any CaptureInputSession) {
         self.prepareInput = prepareInput
     }
 
@@ -87,42 +87,71 @@ public final class NativeCapture {
         publicationCancellationRequested = false
         let generation = generations.begin()
         state = .selecting
+        failure = nil
+        func checkStartup() throws {
+            try Task.checkCancellation()
+            guard generations.accepts(generation), state == .selecting else { throw CancellationError() }
+            if let failure { throw failure }
+        }
         defer {
-            if state == .selecting {
+            if state == .selecting, generations.accepts(generation) {
                 state = .idle
                 generations.end(generation)
             }
         }
-        let prepared = try await prepareInput(request)
+        let prepared = try await prepareInput(request, checkStartup)
+        do { try checkStartup() }
+        catch {
+            // Preparation has not acquired take ownership. Release only its returned resources.
+            _ = await prepared.stop()
+            await prepared.discardMedia()
+            throw error
+        }
         let width = prepared.width
         let height = prepared.height
-        outputSize = (width, height)
         let onFailure: @Sendable (CaptureFailure) -> Void = { [weak self] reason in
             Task { @MainActor in self?.interrupt(reason, generation: generation) }
         }
-        let writer = try CaptureWriter(
-            request: request, width: width, height: height,
-            sessionID: request.sourceId ?? generation.uuidString,
-            requestedSourceRect: prepared.requestedSourceRect, onFailure: onFailure)
+        let writer: CaptureWriter
+        do {
+            writer = try CaptureWriter(request: request, width: width, height: height,
+                sessionID: request.sourceId ?? generation.uuidString,
+                requestedSourceRect: prepared.requestedSourceRect, onFailure: onFailure)
+        } catch {
+            _ = await prepared.stop()
+            await prepared.discardMedia()
+            throw error
+        }
+        outputSize = (width, height)
         var started = false
         defer {
             if !started {
                 writer.cancel()
-                input = nil
+                if generations.accepts(generation) { input = nil }
             }
         }
         sink = writer
         input = prepared
-        failure = nil
         do {
-            try await prepared.start(writer: writer, onFailure: onFailure) { [self] in
-                if let failure { throw failure }
-            }
+            try await prepared.start(writer: writer, output: writer, framesPerSecond: nil,
+                onFailure: onFailure, checkInterruption: checkStartup)
+            try checkStartup()
         } catch {
-            _ = await prepared.stop()
-            await prepared.discardMedia()
-            input = nil
-            sink = nil
+            // Startup rollback joins an already-owned discard; it cannot drain an input twice
+            // or clear a later generation after that discard finishes.
+            if generations.accepts(generation) {
+                _ = try? await termination.run { [self] in
+                    guard generations.accepts(generation), input != nil else { return nil }
+                    _ = await prepared.stop()
+                    await prepared.discardMedia()
+                    input = nil
+                    sink = nil
+                    outputSize = nil
+                    generations.end(generation)
+                    state = .idle
+                    return nil
+                }
+            }
             throw (error as? CaptureFailure) ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
         }
         state = .recording
@@ -170,6 +199,7 @@ public final class NativeCapture {
     }
 
     public func stop() async throws -> CaptureResult {
+        guard state != .selecting else { throw CaptureFailure("INVALID_STATE", "No capture is ready to stop.") }
         let task = termination.start { [self] in
             guard let sink, let generation = generations.current,
                 state == .recording || state == .paused || state == .finalizing
@@ -286,7 +316,15 @@ public final class NativeCapture {
     /// finalized, so no partial file is left claiming to be a recording.
     public func discard() async {
         _ = try? await termination.run { [self] in
-            guard let sink, let generation = generations.current, state != .idle else { return nil }
+            guard let generation = generations.current, state != .idle else { return nil }
+            if state == .selecting, sink == nil {
+                generations.end(generation)
+                outputSize = nil
+                failure = nil
+                state = .idle
+                return nil
+            }
+            guard let sink else { return nil }
             state = .finalizing
             if closedResult == nil { sink.cancel() }
             _ = await input?.stop()

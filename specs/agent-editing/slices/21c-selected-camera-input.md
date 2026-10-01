@@ -1,6 +1,6 @@
 # 21c — Selected camera input through the shared lifecycle
 
-Status: planned isolated implementation. Dependencies: [21b](21b-camera-source-publication.md).
+Status: implemented and verified in controlled native fixtures. [Evidence](../assets/21c-selected-camera-input/README.md). Dependencies: [21b](21b-camera-source-publication.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
 ## Contract
@@ -31,6 +31,26 @@ screen/microphone/system/cursor evidence. Negative controls must catch ignored
 selection and lost system/cursor routing. Preserve terminal source outcomes from 21b.
 Keep live hardware/pause/shutdown acceptance separately pending under20.
 
+## Verified scope and pickup
+
+Exact lazy selection, authorization refusal and omitted-camera behavior run through
+controlled physical boundaries and actual NativeCapture. Published camera pictures,
+source timestamps, both PCM roles and cursor journal values remain observable.
+Preparation and startup are fenced by generation before IO or shared-state writes.
+Discard can end selection before a writer exists; obsolete returned resources and
+writer refusal receive local cleanup. Active rollback joins the existing termination
+owner. The SDK resource owner joins pending startup, propagates caller cancellation
+to startup alone and drains attempted streams once. A discarded start cannot resume
+as recording, leak a pending stream, drain twice or erase a newer take.
+Pause removal, interruption, concurrent termination and publication cancellation/retry
+retain the shared lifecycle. The probe owns only cadence/delay/cursor measurement
+controls. Selection, system-audio, cursor and stale-start negative controls fail.
+
+The next owner is [21d source adoption](21d-captured-source-adoption.md). Journal
+identities and external observations keep their existing unbound probe meaning until
+that pass supplies allocation/proof binding. Public selectors, caller project edits,
+physical synchronization and completed-stop acceptance remain separate gates.
+
 ## Acceptance
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) and
@@ -38,7 +58,7 @@ Keep the relevant [preservation gates](../verification.md#preservation-matrix) a
 source/runtime identities, failures and limitations under this child’s assets and
 in the parent handoff. Prepared wiring, actual media parity and physical acceptance
 are distinct verdicts. The one-frame synchronization and ten-second completed-stop
-gates remain unchanged. No new capture, audible playback or installed switch.
+gates remain unchanged. No new live capture, audible playback or installed switch.
 
 ## Failure boundary and discretion
 

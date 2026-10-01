@@ -1,0 +1,27 @@
+{
+  "base": "40d0b45d",
+  "conversionRetimingTimingCopy": {
+    "byteIdentical": true,
+    "sha256": "86dff702a2200f27548bb48a54c06adaf2bc5b6c91806068bbfdea2f635fc8f1"
+  },
+  "cameraFiles": [
+    {
+      "file": "CameraWriter.swift",
+      "identicalAfterSymbolNormalization": true,
+      "normalizedSHA256": "0e9b265405f0fdfee49cce9fb48c491cc03915640ba0feb0c8a897bfba808cf7"
+    },
+    {
+      "file": "CameraMedia.swift",
+      "identicalAfterSymbolNormalization": true,
+      "normalizedSHA256": "19332b7e928b3a36c87e54e26e70234af62ab2aca9abc935db839c071588979e"
+    }
+  ],
+  "intentionalChanges": [
+    "Exact lazy selected device preparation and shared acquisition owner",
+    "Independent whole-system stream routes to the selected output",
+    "Ordinary cursor sampling delegates to screen; probe measurement can suppress it",
+    "Generation-fenced startup/rollback joins existing termination; selecting stop refuses before ownership",
+    "Shared evidence fallback code CAPTURE_EVIDENCE_FAILED; bounded concrete failures and retryability unchanged",
+    "Real SDK resource operation owner retains attempted starts, joins before drain, and propagates caller cancellation only to startup"
+  ]
+}

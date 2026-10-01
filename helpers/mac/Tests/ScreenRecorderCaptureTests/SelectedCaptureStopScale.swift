@@ -17,7 +17,7 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
     let input = PrerecordedCaptureInput(source: source, size: size)
     input.paceVideo = true
     input.probeDirectory = folder
-    let capture = NativeCapture(prepareInput: { _ in input })
+    let capture = NativeCapture(prepareInput: { _, _ in input })
     let probe = SelectedCaptureProbe()
     let request = try JSONDecoder().decode(SelectedCaptureRequest.self,
         from: JSONSerialization.data(withJSONObject: [

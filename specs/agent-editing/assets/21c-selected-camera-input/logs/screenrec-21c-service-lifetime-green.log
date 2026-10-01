@@ -1,0 +1,16 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-selected-camera-input-pass/apps/service
+
+(node:46924) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46923) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  27 passed (27)
+   Start at  01:59:21
+   Duration  10.11s (transform 53%, tests 33%, import 14%)
+
+  Transform  transforming modules took 9.51s · 53% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns

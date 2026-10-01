@@ -1,0 +1,2 @@
+SelectedCaptureRequestTests passed (pure descriptors, no permission/device APIs)
+PASS shared ingress camera offset/pause, separate results, exact canonical microphone PCM, final pause closure and earlier failure precedence

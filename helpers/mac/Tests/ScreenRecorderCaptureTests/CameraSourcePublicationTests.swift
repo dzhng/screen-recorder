@@ -49,7 +49,7 @@ func runCameraSourcePublicationTests(output: String? = nil) async throws {
                 try Data((rows.joined(separator: "\n") + "\n").utf8).write(to: path)
             }
         }
-        let capture = NativeCapture(prepareInput: { _ in input })
+        let capture = NativeCapture(prepareInput: { _, _ in input })
         try await capture.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"), outputDirectory: folder.path, microphone: hasAudio))
         try capture.pause()
         if mode == "conflict" || mode == "audio-retry-conflict-stays-terminal" { try Data("other camera output".utf8).write(to: folder.appendingPathComponent("camera/video.mov")) }

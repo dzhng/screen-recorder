@@ -1,0 +1,1 @@
+ScreenRecorderCaptureTests/SelectedCameraInputTests.swift:440: Precondition failed: Writer-init refusal must release prepared resources and publish no output size

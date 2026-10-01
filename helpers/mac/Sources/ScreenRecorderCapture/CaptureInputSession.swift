@@ -17,8 +17,8 @@ package protocol CaptureInputSession: AnyObject {
     var width: Int { get }
     var height: Int { get }
     var requestedSourceRect: CGRect? { get }
-    func start(writer: CaptureWriter, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
-        checkInterruption: () throws -> Void) async throws
+    func start(writer: CaptureWriter, output: any SCStreamOutput, framesPerSecond: Int?, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
+        checkInterruption: @escaping @MainActor () throws -> Void) async throws
     func startCursorSampling(writer: CaptureWriter)
     func observeDeviceLoss(onFailure: @escaping @Sendable (CaptureFailure) -> Void)
     func stop() async -> CaptureFailure?
@@ -41,9 +41,7 @@ package final class ScreenCaptureInput: CaptureInputSession {
     private let filter: SCContentFilter
     private let crop: CGRect?
     private let microphone: AVCaptureDevice?
-    package var probeOutput: (any SCStreamOutput)?
-    package var probeFramesPerSecond: Int?
-    private var streams: [SCStream] = []
+    private let acquisition = CaptureStreamInputs()
     private var delegate: CaptureStreamDelegate?
     private var microphoneObserver: NSObjectProtocol?
 
@@ -59,14 +57,13 @@ package final class ScreenCaptureInput: CaptureInputSession {
         self.requestedSourceRect = requestedSourceRect
     }
 
-    package static func prepare(_ request: CaptureRequest) async throws -> ScreenCaptureInput {
+    package static func requireAuthorization(_ request: CaptureRequest) throws {
         guard NativeCapture.screenPermission else {
             throw CaptureFailure(
                 "PERMISSION_REQUIRED",
                 "Allow Screen Recorder in System Settings > Privacy & Security > Screen & System Audio Recording, then relaunch. No permission was requested automatically."
             )
         }
-        let microphone: AVCaptureDevice?
         if request.microphone {
             guard AVCaptureDevice.authorizationStatus(for: .audio) == .authorized else {
                 throw CaptureFailure(
@@ -74,6 +71,13 @@ package final class ScreenCaptureInput: CaptureInputSession {
                     "Microphone access is not authorized. Enable it explicitly before recording narration."
                 )
             }
+        }
+    }
+
+    package static func prepare(_ request: CaptureRequest) async throws -> ScreenCaptureInput {
+        try requireAuthorization(request)
+        let microphone: AVCaptureDevice?
+        if request.microphone {
             let devices = microphoneCandidates()
             microphone =
                 request.microphoneDeviceID.flatMap { id in devices.first { $0.uniqueID == id } }
@@ -149,14 +153,14 @@ package final class ScreenCaptureInput: CaptureInputSession {
             requestedSourceRect: requestedSourceRect)
     }
 
-    package func start(writer: CaptureWriter, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
-        checkInterruption: () throws -> Void) async throws {
+    package func start(writer: CaptureWriter, output: any SCStreamOutput, framesPerSecond: Int?, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
+        checkInterruption: @escaping @MainActor () throws -> Void) async throws {
         let delegate = CaptureStreamDelegate(onFailure: onFailure)
         self.delegate = delegate
         let config = SCStreamConfiguration()
         config.width = width
         config.height = height
-        config.minimumFrameInterval = CMTime(value: 1, timescale: Int32(probeFramesPerSecond ?? 30))
+        config.minimumFrameInterval = CMTime(value: 1, timescale: Int32(framesPerSecond ?? 30))
         config.queueDepth = 3
         config.showsCursor = false
         config.showMouseClicks = false
@@ -170,9 +174,9 @@ package final class ScreenCaptureInput: CaptureInputSession {
         config.captureMicrophone = request.microphone
         config.microphoneCaptureDeviceID = microphone?.uniqueID
         let video = SCStream(filter: filter, configuration: config, delegate: delegate)
-        try video.addStreamOutput(probeOutput ?? writer, type: .screen, sampleHandlerQueue: writer.queue)
+        try video.addStreamOutput(output, type: .screen, sampleHandlerQueue: writer.queue)
         if request.microphone {
-            try video.addStreamOutput(probeOutput ?? writer, type: .microphone, sampleHandlerQueue: writer.queue)
+            try video.addStreamOutput(output, type: .microphone, sampleHandlerQueue: writer.queue)
         }
         var prepared = [video]
         if request.systemAudio {
@@ -191,18 +195,14 @@ package final class ScreenCaptureInput: CaptureInputSession {
             let audio = SCStream(
                 filter: SCContentFilter(display: display, excludingWindows: []),
                 configuration: audioConfig, delegate: delegate)
-            try audio.addStreamOutput(writer, type: .audio, sampleHandlerQueue: writer.queue)
+            try audio.addStreamOutput(output, type: .audio, sampleHandlerQueue: writer.queue)
             prepared.append(audio)
         }
         do {
-            for stream in prepared {
-                try await stream.startCapture()
-                streams.append(stream)
-                try checkInterruption()
-            }
+            try await acquisition.start(prepared.map { stream in
+                CaptureStreamOperation(start: { try await stream.startCapture() }, stop: { try await stream.stopCapture() })
+            }, checkInterruption: checkInterruption)
         } catch {
-            for stream in streams { try? await stream.stopCapture() }
-            streams = []
             throw (error as? CaptureFailure)
                 ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
         }
@@ -227,13 +227,7 @@ package final class ScreenCaptureInput: CaptureInputSession {
     package func stop() async -> CaptureFailure? {
         if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
         microphoneObserver = nil
-        let stopping = streams
-        streams = []
-        var failure: CaptureFailure?
-        for stream in stopping {
-            do { try await stream.stopCapture() }
-            catch { failure = failure ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription) }
-        }
+        let failure = await acquisition.stop().value
         delegate = nil
         return failure
     }

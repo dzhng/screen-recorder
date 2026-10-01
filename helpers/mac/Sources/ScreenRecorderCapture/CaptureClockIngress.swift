@@ -2,8 +2,8 @@
 import Foundation
 @preconcurrency import ScreenCaptureKit
 
-package enum ProbeRole: String, Codable { case screen, camera, microphone }
-package struct ProbeTime: Codable {
+package enum CaptureIngressRole: String, Codable { case screen, camera, microphone, system }
+package struct CaptureRationalTime: Codable {
     let value: Int64
     let timescale: Int32
     let epoch: Int64
@@ -12,13 +12,13 @@ package struct ProbeTime: Codable {
 }
 
 /// Streams clock observations and accepted camera mappings on the existing capture writer queue.
-package final class ProbeClockIngress: NSObject, SCStreamOutput, AVCaptureVideoDataOutputSampleBufferDelegate,
+package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVideoDataOutputSampleBufferDelegate,
     @unchecked Sendable {
     package let writer: CaptureWriter
     package let camera: CameraWriter
     private let observations: FileHandle
     package let observationURL: URL
-    package var cameraSession: AVCaptureSession?
+    package var cameraClock: (@Sendable () -> CMClockOrTimebase?)?
     private let failure: @Sendable (CaptureFailure) -> Void
     private var stopped = false
     private let maximumRows: Int
@@ -37,20 +37,31 @@ package final class ProbeClockIngress: NSObject, SCStreamOutput, AVCaptureVideoD
     }
     package func stream(_ stream: SCStream, didOutputSampleBuffer sample: CMSampleBuffer,
         of type: SCStreamOutputType) {
-        guard type == .screen || type == .microphone else { return }
-        accept(sample, role: type == .screen ? .screen : .microphone, from: stream.synchronizationClock)
+        acceptStream(sample, of: type, from: stream.synchronizationClock)
     }
     package func captureOutput(_ output: AVCaptureOutput, didOutput sample: CMSampleBuffer,
         from connection: AVCaptureConnection) {
-        accept(sample, role: .camera, from: cameraSession?.synchronizationClock)
+        accept(sample, role: .camera, from: cameraClock?())
     }
     package func captureOutput(_ output: AVCaptureOutput, didDrop sample: CMSampleBuffer,
         from connection: AVCaptureConnection) {
-        do { try log(sample, role: .camera, arrivalHostUs: CaptureHostTime.nowUs(), converted: nil, disposition: "device-dropped", sourceUs: nil, clock: cameraSession?.synchronizationClock) }
+        do { try log(sample, role: .camera, arrivalHostUs: CaptureHostTime.nowUs(), converted: nil, disposition: "device-dropped", sourceUs: nil, clock: cameraClock?()) }
         catch { fail(error) }
     }
     @discardableResult
-    package func accept(_ sample: CMSampleBuffer, role: ProbeRole, from clock: CMClockOrTimebase?) -> CaptureWriter.IngressReceipt? {
+    package func acceptStream(_ sample: CMSampleBuffer, of type: SCStreamOutputType,
+        from clock: CMClockOrTimebase?) -> CaptureWriter.IngressReceipt? {
+        let role: CaptureIngressRole
+        switch type {
+        case .screen: role = .screen
+        case .microphone: role = .microphone
+        case .audio: role = .system
+        @unknown default: return nil
+        }
+        return accept(sample, role: role, from: clock)
+    }
+    @discardableResult
+    package func accept(_ sample: CMSampleBuffer, role: CaptureIngressRole, from clock: CMClockOrTimebase?) -> CaptureWriter.IngressReceipt? {
         guard !stopped else { return nil }
         let arrival = CaptureHostTime.nowUs()
         do {
@@ -60,11 +71,18 @@ package final class ProbeClockIngress: NSObject, SCStreamOutput, AVCaptureVideoD
             let host = CMSyncConvertTime(sample.presentationTimeStamp, from: clock, to: CMClockGetHostTimeClock())
             let converted = try Self.convert(sample, from: clock)
             let receipt: CaptureWriter.IngressReceipt
-            var frame: ProbeCameraFrame?
+            var frame: CameraFrameMapping?
             if role == .camera {
                 (receipt, frame) = try camera.append(converted, state: writer.ingressState)
             } else {
-                receipt = writer.ingestObserved(converted, of: role == .screen ? .screen : .microphone)
+                let type: SCStreamOutputType
+                switch role {
+                case .screen: type = .screen
+                case .microphone: type = .microphone
+                case .system: type = .audio
+                case .camera: preconditionFailure("Camera has its independent writer")
+                }
+                receipt = writer.ingestObserved(converted, of: type)
             }
             try log(sample, role: role, arrivalHostUs: arrival, converted: host, disposition: receipt.disposition,
                 sourceUs: receipt.sourceUs, clock: clock, cameraFrame: frame)
@@ -78,30 +96,30 @@ package final class ProbeClockIngress: NSObject, SCStreamOutput, AVCaptureVideoD
     private func fail(_ error: Error) {
         guard !stopped else { return }
         stopped = true
-        failure((error as? CaptureFailure) ?? CaptureFailure("PROBE_EVIDENCE_FAILED", error.localizedDescription))
+        failure((error as? CaptureFailure) ?? CaptureFailure("CAPTURE_EVIDENCE_FAILED", error.localizedDescription))
     }
-    private func log(_ sample: CMSampleBuffer, role: ProbeRole, arrivalHostUs: Int64, converted: CMTime?,
-        disposition: String, sourceUs: Int64?, clock: CMClockOrTimebase?, cameraFrame: ProbeCameraFrame? = nil) throws {
+    private func log(_ sample: CMSampleBuffer, role: CaptureIngressRole, arrivalHostUs: Int64, converted: CMTime?,
+        disposition: String, sourceUs: Int64?, clock: CMClockOrTimebase?, cameraFrame: CameraFrameMapping? = nil) throws {
         guard !stopped else { return }
         struct Row: Codable {
-            let role: ProbeRole
+            let role: CaptureIngressRole
             let clockDomain: String
             let generation: String
-            let rawPTS: ProbeTime
-            let convertedHostPTS: ProbeTime?
+            let rawPTS: CaptureRationalTime
+            let convertedHostPTS: CaptureRationalTime?
             let arrivalHostUs: Int64
-            let duration: ProbeTime
+            let duration: CaptureRationalTime
             let sourceUs: Int64?
             let disposition: String
             let relativeRate: Double?
-            let cameraFrame: ProbeCameraFrame?
+            let cameraFrame: CameraFrameMapping?
         }
-        // A fixed-duration probe also bounds a pathological callback flood; never grow an array.
+        // Bound pathological callback floods without accumulating a take in memory.
         guard rows < maximumRows else { throw CaptureFailure("EVIDENCE_LIMIT", "Clock observation limit reached.") }
         let rate = clock.map { CMSyncGetRelativeRate($0, relativeTo: CMClockGetHostTimeClock()) }
-        let row = Row(role: role, clockDomain: role == .camera ? "camera-session" : "screen-stream", generation: generation, rawPTS: ProbeTime(sample.presentationTimeStamp),
-            convertedHostPTS: converted.map(ProbeTime.init), arrivalHostUs: arrivalHostUs,
-            duration: ProbeTime(sample.duration), sourceUs: sourceUs, disposition: disposition,
+        let row = Row(role: role, clockDomain: role == .camera ? "camera-session" : "screen-stream", generation: generation, rawPTS: CaptureRationalTime(sample.presentationTimeStamp),
+            convertedHostPTS: converted.map(CaptureRationalTime.init), arrivalHostUs: arrivalHostUs,
+            duration: CaptureRationalTime(sample.duration), sourceUs: sourceUs, disposition: disposition,
             relativeRate: rate.flatMap { $0.isFinite ? $0 : nil }, cameraFrame: cameraFrame)
         try observations.write(contentsOf: JSONEncoder().encode(row) + Data([10])); rows += 1
     }

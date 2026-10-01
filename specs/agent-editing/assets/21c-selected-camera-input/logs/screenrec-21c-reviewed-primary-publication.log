@@ -1,0 +1,2 @@
+PASS published canonical audio survives absent/torn terminal journal records with truthful completion and unchanged source bytes
+PASS actual NativeCapture normal/interrupted publication preserves independent PCM, both roles, exact shared support and requested-missing refusal

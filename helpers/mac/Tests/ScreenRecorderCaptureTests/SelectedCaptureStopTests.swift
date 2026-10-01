@@ -21,7 +21,7 @@ func runSelectedCaptureStopTests(output: String) async throws {
             from: JSONSerialization.data(withJSONObject: description))
         let input = PrerecordedCaptureInput(source: source)
         input.holdStop = true
-        let capture = NativeCapture(prepareInput: { _ in input })
+        let capture = NativeCapture(prepareInput: { _, _ in input })
         let probe = SelectedCaptureProbe()
         let task = Task { try await probe.record(capture, request: request,
             screenRequest: CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),

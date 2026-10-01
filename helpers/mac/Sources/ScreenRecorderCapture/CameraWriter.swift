@@ -24,7 +24,7 @@ package final class CameraWriter {
         self.directory = directory; self.framesPerSecond = framesPerSecond
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
     }
-    package func append(_ sample: CMSampleBuffer, state: CaptureWriter.IngressState) throws -> (receipt: CaptureWriter.IngressReceipt, frame: ProbeCameraFrame?) {
+    package func append(_ sample: CMSampleBuffer, state: CaptureWriter.IngressState) throws -> (receipt: CaptureWriter.IngressReceipt, frame: CameraFrameMapping?) {
         guard state.accepting else { return (.init(disposition: "sealed-or-failed", sourceUs: nil), nil) }
         let host = CMTimeConvertScale(sample.presentationTimeStamp, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
         let duration = sample.duration.isNumeric && sample.duration > .zero
@@ -77,14 +77,14 @@ package final class CameraWriter {
         guard sourceTime >= .zero, lastAcceptedTime == nil || sourceTime > lastAcceptedTime! else {
             omitted += 1; return (.init(disposition: "duplicate-or-reordered", sourceUs: nil), nil)
         }
-        let retimed = try ProbeClockIngress.retime(sample, to: sourceTime, duration: duration)
+        let retimed = try CaptureClockIngress.retime(sample, to: sourceTime, duration: duration)
         guard input.append(retimed) else { throw writer?.error ?? CaptureFailure("WRITE_FAILED", "Camera append failed.") }
         if first == nil {
             first = source
             try journal?.recordTrackStarted(role: "video", file: "video.mov", firstSourceUs: source,
                 sampleRate: nil, channelCount: nil)
         }
-        let frame = ProbeCameraFrame(ordinal: frames, start: ProbeTime(sourceTime), nominalEnd: ProbeTime(CMTimeAdd(sourceTime, duration)))
+        let frame = CameraFrameMapping(ordinal: frames, start: CaptureRationalTime(sourceTime), nominalEnd: CaptureRationalTime(CMTimeAdd(sourceTime, duration)))
         lastAcceptedTime = sourceTime
         end = CMTimeConvertScale(frame.nominalEnd.time, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
         frames += 1

@@ -1,0 +1,90 @@
+PASS camera publication exact 32×16 visible BGRA pixels, stride128, and timestamps
+PASS camera publication exact 34×16 visible BGRA pixels, stride192, and timestamps
+SelectedCaptureRequestTests passed (pure descriptors, no permission/device APIs)
+PASS fractional container endpoint recovers only supported source-clock ticks
+PASS generated capture exact finalized duration 4398701
+PASS generated capture exact finalized duration 7039757
+PASS generated capture exact finalized duration 33333
+PASS actual NativeCapture closes prerecorded writer, tears down partial input, ignores stale generation, and acquires no live cursor
+PASS selected: exact selected camera, independent native timing, cursor and requested audio routing
+PASS both-audio: exact selected camera, independent native timing, cursor and requested audio routing
+PASS camera acquisition omitted: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition denied: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition screen-denied: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition absent: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition disappeared: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition empty-selection: exact refusal/no fallback and no unauthorized or unselected IO
+PASS discarded startup is fenced across await/rollback; stale callback cannot clear or cancel a newer take; physical drain once
+PASS screen-start-failure: startup rollback drains once and publishes no completed camera
+PASS camera-start-failure: startup rollback drains once and publishes no completed camera
+PASS interrupted: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS pause-resume: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS cancel-retry: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS discard: both physical inputs drain once; no camera publication
+PASS concurrent: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS no-camera: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS probe-stopped-start: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS discarded-preparation: generation ends before writer; obsolete lookup cannot open selected IO or overwrite newer take
+PASS canceled-preparation: generation ends before writer; obsolete lookup cannot open selected IO or overwrite newer take
+PASS returned-preparation: generation ends before writer; obsolete lookup cannot open selected IO or overwrite newer take
+PASS writer refusal: local resource cleanup once, no activation/output overwrite or newer-take mutation
+PASS writer refusal across new generation: local resource cleanup once, no activation/output overwrite or newer-take mutation
+PASS held-sdk-start: actual stream resource owner joins SDK startup and drains attempted resources once
+PASS caller-canceled-sdk-start: actual stream resource owner joins SDK startup and drains attempted resources once
+PASS caller-canceled-before-start: actual stream resource owner joins SDK startup and drains attempted resources once
+PASS failed-sdk-start: actual stream resource owner joins SDK startup and drains attempted resources once
+PASS second-sdk-failure: actual stream resource owner joins SDK startup and drains attempted resources once
+PASS stopped-before-start: actual stream resource owner joins SDK startup and drains attempted resources once
+PASS camera source outcomes through actual NativeCapture: single closure, concurrent stop/discard, cancellation/retry/discard, operational retry, pinned input refusal, positive start, partial prefix, conflict, missing frames and terminal pause
+PASS canonical recovery preserves exact support, distinguishes unavailable/conflicting roles, retains video, and propagates lease/cancellation
+PASS terminal requests join one owner; old waiters caCASE complete A=96000 C=96000 R=96000 EOF=true diagnostic=nil
+CASE accepted-tail A=120000 C=96000 R=96000 EOF=true diagnostic=Optional("acceptedBeyondPhysicalEOF")
+CASE physical-tail A=40000 C=96000 R=40000 EOF=true diagnostic=Optional("unmappedPhysicalTail")
+CASE empty A=0 C=96000 R=0 EOF=true diagnostic=Optional("unmappedPhysicalTail")
+CASE grouped A=96000 C=96000 R=96000 EOF=true diagnostic=nil
+CASE 44100 A=88200 C=88200 R=88200 EOF=true diagnostic=nil
+nnot clean up a replacement take
+PASS late cursor deliveries cannot append after writer seal or cancel
+PASS elapsed playback time freezes across pauses and finalization
+PASS exact container representability precedes PCM acceptance without changing common native phase
+PASS source zero waits for an active usable frame
+PASS pause mapping and event
+PASS delayed samples, boundary audio, and repeated pauses
+PASS stale failure and finalizer after restart
+PASS held tail waits out encoder backpressure and decodes
+PASS stopped writer fails the held tail without waiting
+PASS a written take's journal reads back through the reader
+PASS streaming and recovery share timing without retaining streaming arrays
+PASS a malformed host timestamp rejects its record and keeps the proof before it
+PASS a torn last line reads as a crash boundary distinct from a bad record
+PASS an oversized unterminated run inside the journal reads as a bad record
+PASS a record the journal could not write leaves the sequence unbroken
+PASS journal inode lease: competing process, exec inheritance and negative control, replaced inode, missing journal
+PASS accepted PCM journal retains exact raw fields and separate addresses; public inspection refuses schema2
+Capture audio materializer tests passed
+PASS capture publication: repeated verification, intent/prepared/canonical restart boundaries, no-clobber and changed-input refusals
+PASS deferred pause placement preserves native source timing, recovery, streaming and open controls
+PASS a filled retina window maps corners and an asymmetric interior point
+PASS a resized window letterboxes inside unchanged output dimensions
+PASS out-of-capture points stay projected and outside, never clamped to an edge
+PASS a region uses its requested global rect and unexplained geometry places nothing
+PASS AppKit pointer readings convert through the zero-origin display height
+PASS a track batches samples and follows geometry epochs
+PASS readings are projected through the geometry contemporaneous with them
+PASS a delayed reading retains geometry across an empty batch
+PASS a reading no geometry explains cites epoch 0 and keeps its global point
+PASS geometry retained across a suspended cadence is bounded from the old end
+PASS a paused take records no samples and reports the readings it dropped
+PASS missed and refused readings are reported instead of filled in
+PASS unplaced geometry epochs gain one native timed placement without rewriting raw evidence
+PASS a sampler's cadence starts, suspends, resumes and stops without leaking a suspend
+PASS a blocked capture queue holds only the bound and refuses the rest
+PASS geometry and cursor evidence round-trip through the journal
+PASS edit-list take recovers 1000000us where an asset-timestamped cursor reports 700000us
+PASS unconfirmed sample tails resolve to no duration rather than a neighbour's
+PASS unfinalized fragmented take recovers 1033333us of 2999970us submitted
+PASS unrequested audio reports NOT_REQUESTED while requested audio still reports loss
+PASS video recovery preserves an empty middle edit as a gap
+PASS detailed native recovery preserves optional-audio bounds and truncated-journal gaps
+PASS bounded recovery receipt 325 bytes retains counts; complete native model 8800307 bytes remains available
+PASS display capture excludes this app's own windows by bundle identity

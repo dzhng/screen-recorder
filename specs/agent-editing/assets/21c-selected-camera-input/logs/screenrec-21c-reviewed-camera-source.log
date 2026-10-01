@@ -1,0 +1,1 @@
+PASS camera source outcomes through actual NativeCapture: single closure, concurrent stop/discard, cancellation/retry/discard, operational retry, pinned input refusal, positive start, partial prefix, conflict, missing frames and terminal pause

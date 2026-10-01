@@ -1,0 +1,1 @@
+Swift/ErrorType.swift:254: Fatal error: Error raised at top level: ScreenRecorderCapture.CaptureFailure(code: "EVIDENCE_LIMIT", message: "Clock observation limit reached.")

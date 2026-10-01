@@ -1,0 +1,1 @@
+ScreenRecorderCaptureTests/SelectedCameraInputTests.swift:100: Precondition failed: Requested routed capture must complete: Optional(ScreenRecorderCapture.CaptureFailure(code: "NO_SYSTEM_AUDIO", message: "System audio was requested but delivered no usable samples."))

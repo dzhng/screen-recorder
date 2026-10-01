@@ -40,6 +40,20 @@ probe. Discovery preserves device identities and order without choosing a camera
 activating an input or requesting permission. Public camera metadata is preparation
 evidence; the recording start contract still accepts screen sources and audio choices.
 
+## Selected camera input
+
+The internal [input preparation](Sources/ScreenRecorderCapture/CameraCaptureInput.swift)
+checks existing authorization before enumerating camera descriptors and opens only
+an exact selected identity. An omitted camera selection touches no camera boundary;
+an unavailable selection refuses without choosing another device. The shared input
+routes screen, microphone and whole-system audio through the [clock ingress](Sources/ScreenRecorderCapture/CaptureClockIngress.swift),
+and forwards ordinary cursor sampling. The selected-device probe supplies only
+measurement cadence, delay and cursor suppression. Pending SDK starts belong to
+the [stream operation owner](Sources/ScreenRecorderCapture/CaptureStreamInputs.swift);
+drain joins their replies and stops each attempted resource once. Preparation and
+startup checks fence obsolete generations before IO or shared-state writes. Public camera-start admission
+and durable source binding remain separate gates.
+
 ## Companion camera closure
 
 The selected-device probe consumes the same [camera writer](Sources/ScreenRecorderCapture/CameraWriter.swift)

@@ -1,0 +1,21 @@
+PASS selected: exact selected camera, independent native timing, cursor and requested audio routing
+PASS both-audio: exact selected camera, independent native timing, cursor and requested audio routing
+PASS camera acquisition omitted: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition denied: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition screen-denied: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition absent: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition disappeared: exact refusal/no fallback and no unauthorized or unselected IO
+PASS camera acquisition empty-selection: exact refusal/no fallback and no unauthorized or unselected IO
+PASS discarded startup is fenced across await/rollback; stale callback cannot clear or cancel a newer take; physical drain once
+PASS screen-start-failure: startup rollback drains once and publishes no completed camera
+PASS camera-start-failure: startup rollback drains once and publishes no completed camera
+PASS interrupted: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS pause-resume: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS cancel-retry: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS discard: both physical inputs drain once; no camera publication
+PASS concurrent: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS no-camera: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS probe-stopped-start: shared NativeCapture lifecycle, truthful camera source and single physical drain
+PASS discarded-preparation: generation ends before writer; obsolete lookup cannot open selected IO or overwrite newer take
+PASS canceled-preparation: generation ends before writer; obsolete lookup cannot open selected IO or overwrite newer take
+PASS returned-preparation: generation ends before writer; obsolete lookup cannot open selected IO or overwrite newer take

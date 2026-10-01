@@ -17,7 +17,7 @@ func runNativeCaptureInputTests() async throws {
     failed.probeDirectory = root.appendingPathComponent("failed")
     let healthy = PrerecordedCaptureInput(source: source)
     var inputs = [failed, healthy]
-    let capture = NativeCapture(prepareInput: { _ in inputs.removeFirst() })
+    let capture = NativeCapture(prepareInput: { _, _ in inputs.removeFirst() })
     func request(_ name: String) -> CaptureRequest {
         CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
             outputDirectory: root.appendingPathComponent(name).path, microphone: false, systemAudio: false)
@@ -40,7 +40,7 @@ func runNativeCaptureInputTests() async throws {
     precondition(capture.deviceState == "idle")
     let discarded = PrerecordedCaptureInput(source: source)
     discarded.probeDirectory = root.appendingPathComponent("discarded")
-    let discardedCapture = NativeCapture(prepareInput: { _ in discarded })
+    let discardedCapture = NativeCapture(prepareInput: { _, _ in discarded })
     try await discardedCapture.start(request("discarded"))
     await discardedCapture.discard()
     precondition(discarded.stops == 1 && discarded.discards == 1 && discarded.finalizations == 0)
@@ -81,7 +81,7 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
             process.waitUntilExit()
             precondition(process.terminationStatus == 0, "Interrupted writer child must close before recovery")
         } else {
-            var capture: NativeCapture? = NativeCapture(prepareInput: { _ in input })
+            var capture: NativeCapture? = NativeCapture(prepareInput: { _, _ in input })
             try await capture!.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
                 outputDirectory: folder.path, sourceId: mode, microphone: true, systemAudio: true))
             if input.holdStop {

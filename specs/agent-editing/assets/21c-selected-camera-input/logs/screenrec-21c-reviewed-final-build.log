@@ -1,0 +1,10 @@
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/7] Emitting module ScreenRecorderCapture
+[4/7] Compiling ScreenRecorderCapture NativeCapture.swift
+[5/7] Compiling ScreenRecorderCapture CaptureStreamInputs.swift
+[5/8] Write Objects.LinkFileList
+[6/8] Linking ScreenRecorderCaptureTests
+[7/8] Applying ScreenRecorderCaptureTests
+Build of product 'ScreenRecorderCaptureTests' complete! (16.11s)

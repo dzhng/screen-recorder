@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_PUBLICATION_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_CAMERA_INPUT_OUTPUT"] {
+  try await runSelectedCameraInputTests(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_PUBLICATION_OUTPUT"] {
   try await runCameraSourcePublicationTests(output: output)
 } else if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PIXELS"] != nil {
   try await runProbeCameraPixelPublicationTests()
@@ -54,6 +56,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_PUB
   try await runFractionalRecoveryDurationTest()
   try await runCaptureDurationTests()
   try await runNativeCaptureInputTests()
+  try await runSelectedCameraInputTests()
   try await runCameraSourcePublicationTests()
   try await runCanonicalRecoveryTests()
   try await runCaptureTerminationTests()

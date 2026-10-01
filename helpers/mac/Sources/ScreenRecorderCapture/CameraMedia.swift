@@ -3,10 +3,10 @@ import CryptoKit
 import Foundation
 import ScreenRecorderMedia
 
-package struct ProbeCameraFrame: Codable {
+package struct CameraFrameMapping: Codable {
     let ordinal: Int
-    let start: ProbeTime
-    let nominalEnd: ProbeTime
+    let start: CaptureRationalTime
+    let nominalEnd: CaptureRationalTime
     private enum CodingKeys: String, CodingKey { case ordinal, start; case nominalEnd = "end" }
     // Callback duration supplies provenance and the final endpoint, not inter-picture availability.
     func acquisitionRange(scale: Int32) throws -> CMTimeRange {
@@ -36,9 +36,9 @@ package enum CameraMedia {
         package let diagnostics: [String]
     }
     private struct Row: Decodable {
-        let role: ProbeRole
+        let role: CaptureIngressRole
         let disposition: String
-        let cameraFrame: ProbeCameraFrame?
+        let cameraFrame: CameraFrameMapping?
     }
     package static func invalid(_ message: String) -> CaptureFailure { CaptureFailure("INVALID_CAMERA_MAPPING", message) }
     private static func save<T: Encodable>(_ value: T, to url: URL) throws {
@@ -58,7 +58,7 @@ package enum CameraMedia {
         private(set) var torn = false
         init(_ url: URL) throws { input = try FileHandle(forReadingFrom: url) }
         deinit { try? input.close() }
-        func next() throws -> ProbeCameraFrame? {
+        func next() throws -> CameraFrameMapping? {
             while true {
                 try Task.checkCancellation()
                 if let end = pending.firstIndex(of: 10) {

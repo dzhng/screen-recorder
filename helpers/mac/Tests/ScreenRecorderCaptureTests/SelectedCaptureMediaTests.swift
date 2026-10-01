@@ -27,7 +27,7 @@ func runSelectedCaptureMediaTests(output: String, corpus: String) async throws {
     input.audio = URL(fileURLWithPath: corpus).appendingPathComponent("a-audio.wav")
     input.probeDirectory = folder
     input.pauseJournal = folder.appendingPathComponent("capture.journal.jsonl")
-    let capture = NativeCapture(prepareInput: { _ in input })
+    let capture = NativeCapture(prepareInput: { _, _ in input })
     try await capture.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
         outputDirectory: folder.path, microphone: true))
     try capture.pause()
@@ -79,7 +79,7 @@ func runSelectedCaptureMediaTests(output: String, corpus: String) async throws {
     retryInput.audio = input.audio
     retryInput.holdStop = true
     retryInput.companionFailure = CaptureFailure("CAMERA_CLOSURE", "offline companion closure failure")
-    let retry = NativeCapture(prepareInput: { _ in retryInput })
+    let retry = NativeCapture(prepareInput: { _, _ in retryInput })
     let retryFolder = root.appendingPathComponent("retry")
     try await retry.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
         outputDirectory: retryFolder.path, microphone: true))
@@ -99,13 +99,31 @@ func runSelectedCaptureMediaTests(output: String, corpus: String) async throws {
     limited.audio = input.audio
     limited.probeDirectory = root.appendingPathComponent("limited")
     limited.probeMaximumRows = 3
-    let bounded = NativeCapture(prepareInput: { _ in limited })
-    try await bounded.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
-        outputDirectory: limited.probeDirectory!.path, microphone: true))
-    let stopped = try await bounded.stop()
+    let bounded = NativeCapture(prepareInput: { _, _ in limited })
+    do {
+        try await bounded.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+            outputDirectory: limited.probeDirectory!.path, microphone: true))
+        preconditionFailure("Evidence failure during startup must refuse recording")
+    } catch let error as CaptureFailure { precondition(error.code == "EVIDENCE_LIMIT") }
+    precondition(limited.stops == 1 && limited.discards == 1 && limited.finalizations == 0 && bounded.deviceState == "idle")
+    let firstFrame = root.appendingPathComponent("limit-input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: firstFrame, timesUs: [0], endUs: 33333)
+    let running = PrerecordedCaptureInput(source: firstFrame)
+    running.probeDirectory = root.appendingPathComponent("limited-after-start")
+    running.probeMaximumRows = 3
+    let boundedRunning = NativeCapture(prepareInput: { _, _ in running })
+    try await boundedRunning.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: running.probeDirectory!.path, microphone: false, systemAudio: false))
+    let interrupted = InputGate()
+    boundedRunning.onInterruption = { reason in precondition(reason.code == "EVIDENCE_LIMIT"); interrupted.release() }
+    running.probe!.writer.queue.sync { () -> Void in
+        running.probe!.accept(running.finalCameraSample!, role: .camera, from: CMClockGetHostTimeClock())
+    }
+    await interrupted.wait()
+    let stopped = try await boundedRunning.stop()
     precondition(stopped.state == "interrupted" && stopped.failure?.code == "EVIDENCE_LIMIT")
-    let retained = try String(contentsOf: limited.probeDirectory!.appendingPathComponent("timestamps.jsonl"), encoding: .utf8)
-    precondition(retained.split(separator: "\n").count == 3 && limited.finalizations == 1)
+    let retained = try String(contentsOf: running.probeDirectory!.appendingPathComponent("timestamps.jsonl"), encoding: .utf8)
+    precondition(retained.split(separator: "\n").count == 3 && running.finalizations == 1)
     try JSONEncoder().encode(stopped).write(to: root.appendingPathComponent("limit-result.json"))
     print("PASS shared ingress camera offset/pause, separate results, exact canonical microphone PCM, final pause closure and earlier failure precedence")
 }
@@ -145,7 +163,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
         makeDataReadyCallback: nil, refcon: nil, formatDescription: image.formatDescription,
         sampleCount: 2, sampleTimingEntryCount: 2, sampleTimingArray: &timing,
         sampleSizeEntryCount: 0, sampleSizeArray: nil, sampleBufferOut: &multi) == noErr)
-    let converted = try ProbeClockIngress.convert(multi!, from: clock!)
+    let converted = try CaptureClockIngress.convert(multi!, from: clock!)
     var actual = [CMSampleTimingInfo](repeating: CMSampleTimingInfo(), count: 2)
     var count = 0
     precondition(CMSampleBufferGetSampleTimingInfoArray(converted, entryCount: 2,
@@ -165,7 +183,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
     writer.queue.sync { writer.ingest(screen, of: .screen) }
     let camera = try CameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: 60)
-    let ingress = try ProbeClockIngress(writer: writer, camera: camera, observations: root.appendingPathComponent("observations.jsonl"), failure: { _ in preconditionFailure("Unexpected probe failure") })
+    let ingress = try CaptureClockIngress(writer: writer, camera: camera, observations: root.appendingPathComponent("observations.jsonl"), failure: { _ in preconditionFailure("Unexpected probe failure") })
     var receipts: [CaptureWriter.IngressReceipt] = []
     let duration = sourcePath == nil ? CMTime(value: 3334, timescale: 100000) : CMTime(value: 1, timescale: 60)
     var cadence = (sourcePath == nil ? [0,3333,6667,6667,6666,10000] : [0,1,3,3])
@@ -197,7 +215,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     }
     // A later dropped callback must not append behind a torn row after ingress has failed.
     let stoppedURL = root.appendingPathComponent("stopped-observations.jsonl")
-    let stoppedIngress = try ProbeClockIngress(writer: writer, camera: camera,
+    let stoppedIngress = try CaptureClockIngress(writer: writer, camera: camera,
         observations: stoppedURL, failure: { failure in precondition(failure.code == "CLOCK_UNAVAILABLE") })
     writer.queue.sync { precondition(stoppedIngress.accept(image, role: .camera, from: nil) == nil) }
     let torn = Data("{\"role\":".utf8)

@@ -2,8 +2,9 @@
 
 Status: [passive discovery and permission facts](21a-camera-discovery.md) are
 verified in controlled public/native fixtures. [Closed camera source/publication](21b-camera-source-publication.md)
-is verified through actual controlled NativeCapture. Selected input, durable source
-adoption and project integration remain incomplete; physical acceptance is open.
+and [selected input](21c-selected-camera-input.md) are verified through actual
+controlled NativeCapture. Durable source adoption and project integration remain
+incomplete; physical acceptance is open.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and
@@ -33,10 +34,9 @@ Do not invent capture-start authoring settings or another authoring surface.
 
 ## Implementation graph
 
-[21a](21a-camera-discovery.md) and [21b closed source/publication](21b-camera-source-publication.md)
-are complete in controlled scope. Work
-[21c — Selected input](21c-selected-camera-input.md) and
-[21d — Durable source adoption](21d-captured-source-adoption.md) independently.
+[21a](21a-camera-discovery.md), [21b closed source/publication](21b-camera-source-publication.md)
+and [21c selected input](21c-selected-camera-input.md) are complete in controlled
+scope. Next is [21d durable source adoption](21d-captured-source-adoption.md).
 [21e — Caller-authored project integration](21e-capture-project-adoption.md) follows 21d.
 [21f — Public selection](21f-public-camera-selection.md) requires21c and21e.
 Each child has one owning seam and a separate verification packet. Parent21

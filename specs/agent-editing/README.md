@@ -21,15 +21,16 @@ Implement the remaining toolkit primitives through the existing owners. Read
 The external agent using the toolkit makes every editorial decision. The consumer
 skill is a product artifact, not this repository's development workflow.
 
-**Next pickup: [21c selected camera input](slices/21c-selected-camera-input.md).**
-[21b closed sources/publication](slices/21b-camera-source-publication.md) is verified
-through actual controlled NativeCapture; [21d durable source adoption](slices/21d-captured-source-adoption.md)
-can proceed independently. The [remaining 21 graph](slices/21-webcam.md#implementation-graph)
-then separates caller-authored project integration and public exposure. [21a passive discovery](slices/21a-camera-discovery.md)
-is verified in its controlled scope. Do not accept camera-start selectors before
-input, result and source finalization can honor them. Capture publishes source
-facts; the caller supplies canvas, tracks, placement and links through existing
-project/edit operations. It does not receive an automatically chosen composition.
+**Next pickup: [21d durable source adoption](slices/21d-captured-source-adoption.md).**
+[21c selected input](slices/21c-selected-camera-input.md) and
+[21b closed sources/publication](slices/21b-camera-source-publication.md) are verified
+through actual controlled NativeCapture. The [remaining 21 graph](slices/21-webcam.md#implementation-graph)
+separates source proof/binding, caller-authored project integration and public exposure.
+[21a passive discovery](slices/21a-camera-discovery.md) is verified in its controlled
+scope. Public camera-start selectors remain rejected until their complete path is
+ready. Capture publishes source facts; the caller supplies canvas, tracks, placement
+and links through existing project/edit operations. It receives no automatically
+chosen composition.
 
 For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
 and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
@@ -224,7 +225,7 @@ implementation readiness from acceptance prerequisites.
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
-- [ ] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
+- [x] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
 - [ ] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
 - [ ] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
 - [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)

@@ -17,10 +17,10 @@ four-minute camera take. The toolkit provides only primitives; the external
 caller makes every editorial decision. The consumer skill is not a repository
 development workflow.
 
-[Controlled camera source publication](../agent-editing/assets/21b-camera-source-publication/README.md)
-now verifies retained native closure, independent results and publication retry.
-This changes no original physical synchronization, live shutdown or installed-app
-acceptance claim.
+[Controlled camera input](../agent-editing/assets/21c-selected-camera-input/README.md) and
+[closed source publication](../agent-editing/assets/21b-camera-source-publication/README.md)
+verify internal native lifecycle scope. They change no original physical
+synchronization, live shutdown or installed-app acceptance claim.
 
 [Actual selected-source speech parity](../agent-editing/assets/12b-public-parity/actual-inference/README.md)
 now preserves the chosen Parakeet pipeline through current native inference and
