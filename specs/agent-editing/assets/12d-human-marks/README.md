@@ -32,5 +32,9 @@ integrity, scoped completion and the cut discrepancy. Focused shape/diff/docs
 review retains the already banked policy: preserve raw human evidence separately
 and keep accepted outputs unchanged. No production code, new test mechanism,
 model, capture or playback was added. [Manifest](manifest.json) pins the retained
-human record, checks and reviewer report. The next speech evidence is the broader
-independent inventory, intent and protected boundaries for other proposed cuts.
+human record, checks and reviewer report. The next speech evidence is broader
+independent lexical/filler coverage and acoustic/protected-word boundaries under
+parent12. The scoped12d packet is verified; personal repetition intent is not a
+development gate under [editorial control](../../architecture.md#editorial-control).
+Historical reports retain their original incomplete-inventory/intent fields
+without making them active requests.

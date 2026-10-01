@@ -23,8 +23,8 @@
   "files": [
     {
       "path": "specs/agent-editing/assets/12d-human-marks/README.md",
-      "bytes": 2499,
-      "sha256": "bf81ca97e387764aad016ec85bee2513068bf02bfadd46645ca20bb59c7344a2"
+      "bytes": 2774,
+      "sha256": "03cc80ebb0617ff33588257741eb9cd5d53bd78e5c4cb75b695c21e0c6055beb"
     },
     {
       "path": "specs/agent-editing/assets/12d-human-marks/human-marks.json",

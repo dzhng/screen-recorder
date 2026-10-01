@@ -4958,3 +4958,16 @@ the retained predictions on this small cohort, with no current runtime proof or
 recipe selection. Sound because its claim stays within the evidence that can be
 checked. Confidence is medium because broader acceptance still needs complete
 labels and its own preserved execution evidence.
+
+### Complete the fixed packet independently of aggregate quality — sound, high confidence
+
+When: scoped 12d completion audit, 2026-09-30. The sentence packet already has its
+source binding, explicit-cut media/undo proof, actual marked neighbors and its
+own accepted join. Its last open checkbox instead asks for the entire corpus
+speech-quality pass. That belongs to parent12, so 12d now records completion of
+its fixed packet while 12 stays open. The plan conflated an evidence packet's
+completion with selecting a production speech recipe. Keeping them coupled
+would hide completed primitives without supplying missing aggregate evidence.
+Future adoption still needs 12's technical quality and 12b's public parity. Sound
+because retained artifacts and independent reviews prove every requirement within 12d;
+the 15 ms filler prefix, existing scores and broader failures remain unchanged.

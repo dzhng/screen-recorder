@@ -20,8 +20,10 @@ passes native/public technical contracts and its own user audition. The
 [actual workbench edges](12f-human-marks/README.md) are reconciled. The unchanged
 baseline still fails the scoped human-edge diagnostic; the
 [frozen alignment comparison](12-human-frozen-comparison/README.md) passes that
-small cohort without selecting a recipe. Current pickup is technical corpus
-coverage/boundaries for12/12d, then speech-evidence parity in12b and physical20/21.
+small cohort without selecting a recipe. [12d's fixed sentence packet](../slices/12d-complete-sentence-cleanup.md)
+is verified; parent aggregate quality is not its completion condition. Current
+pickup is technical corpus coverage/boundaries for12, then speech-evidence parity
+in12b and physical20/21.
 The [editorial-control contract](../architecture.md#editorial-control) is binding:
 zero product editorial decisions, only primitives. The
 [repetition-intent solicitation](12-repetition-intent/README.md) is retired as a

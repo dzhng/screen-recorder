@@ -47,8 +47,8 @@
   "files": [
     {
       "path": "specs/agent-editing/assets/12f-human-marks/README.md",
-      "bytes": 2038,
-      "sha256": "488ffaee04602ac6f503e8acfe34820ed3b12f6ecb533322573e32ad16108c0c"
+      "bytes": 2203,
+      "sha256": "9a4c9525d5dc05ec2b1a08f59fb263dce19f1b7cbfb2d18f3886dd2a676f2f05"
     },
     {
       "path": "specs/agent-editing/assets/12f-human-marks/baseline-human-diagnostic.json",

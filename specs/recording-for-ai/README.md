@@ -18,7 +18,9 @@ also passes its isolated query gates. The new editor provides only primitives an
 the external agent using it makes those decisions. Its
 [editorial-control contract](../agent-editing/architecture.md#editorial-control)
 and [live handoff](../agent-editing/README.md#next-agent-prompt) own the current
-technical speech-evidence work. The retained sentence/workbench labels and
+technical speech-evidence work. The
+[fixed sentence annotation packet](../agent-editing/slices/12d-complete-sentence-cleanup.md)
+is verified within its scope. The retained sentence/workbench labels and
 explicit-cut tests remain valid within their scopes. The personal repetition
 keep/remove solicitation is retired as a project prerequisite; no answer is
 needed to implement the toolkit. Technical timing and quality gates remain open.

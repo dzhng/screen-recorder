@@ -1,11 +1,15 @@
 # 12d — Complete sentence cleanup annotation packet
 
-Status: bounded native packet and managed public edit/preview/export/undo passed;
+Status: verified scoped sentence/annotation packet. Bounded native packet and
+managed public edit/preview/export/undo passed;
 the public lossless candidate exactly reproduces the accepted join. Independent
 sentence/neighbor labels are now [saved and reconciled](../assets/12d-human-marks/README.md).
-The parent technical corpus coverage/timing requirement remains open. The user accepted
+The parent technical corpus coverage/timing requirement remains open in 12. The user accepted
 neighboring speech and the join as clear and natural on 2026-09-29.
-Dependencies: [12](12-speech-evidence.md).
+Parent evidence owner: [12](12-speech-evidence.md), whose aggregate quality pass
+is not a prerequisite for this fixed packet. Dependencies: retained source
+identity and the verified [10](10-project-evidence.md)/[11](11-audio-inspection.md)
+inspection and delivery owners.
 [Evidence and reproduction](../assets/12d-complete-sentence/README.md).
 The requested [local marking page](../assets/12d-sentence-marking/README.md) is
 prepared and its actual human export is retained separately from frozen evidence.
@@ -38,7 +42,13 @@ subjective acceptance follows from sample equality.
 - [x] Independent audible sentence/neighbor boundary labels; exact marked
   protected-word PCM is preserved in the accepted candidate. The cut retains
   15 ms of the marked middle filler; no exact whole-filler removal is claimed.
-- [ ] Parent slice 12 technical speech coverage and timing acceptance.
+
+Parent 12 owns full-corpus technical speech coverage, timing and recipe selection.
+Those open requirements do not make this completed fixed packet incomplete.
+Closure reinspection verified all 49 archived public members and every
+original/candidate/undo PCM frame against the frozen reference, plus actual human
+record/packet binding and every protected neighbor sample. No model, live service,
+native rerun, playback or new subjective acceptance was used.
 
 The outer 250 ms guards are explicit presentation context based on inherited ASR,
 not new word boundaries. Only the inherited filler interval is removed. Repeated

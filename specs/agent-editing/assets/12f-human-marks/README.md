@@ -1,7 +1,9 @@
 # Independently captured workbench range
 
 Status: actual human word edges are reconciled; scoped 12f is achieved. Parent 12
-and 12b remain open for broader labels, inventory/intent and recipe acceptance.
+and 12b remain open for broader technical labels, lexical/filler coverage and
+speech-evidence recipe acceptance. Personal keep/remove judgments are outside
+the development task under [editorial control](../../architecture.md#editorial-control).
 
 The user confirmed both waveform selections with Next on the
 [original-context page](../12f-workbench-marking/README.md), then explicitly

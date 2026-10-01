@@ -23,6 +23,8 @@ verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
 fresh-format portable delivery and unchanged accepted outputs.
+[12d sentence annotation packet](slices/12d-complete-sentence-cleanup.md) is
+verified within its fixed-fixture scope; aggregate speech quality belongs to 12.
 [12e exact marked-filler removal](slices/12e-human-labeled-cleanup.md) is accepted:
 native exclusion, protected-word preservation, public edit/delivery/export/undo
 and the user's independent complete-sentence audition pass. The
@@ -66,7 +68,7 @@ prepared runtimes and frozen worker identities. Do not replace the installed app
 or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
-Resolve remaining12/12d technical evidence toward12b; preserve accepted denoise and18
+Resolve remaining12 technical evidence toward12b; preserve accepted denoise and18
 contextual/ambience outputs. Then physical20→21,
 final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
 a scheduling graph. Further12b/23 consumer acceptance retains its missing quality or physical
@@ -190,7 +192,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
-- [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
+- [x] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
 - [x] [12e — Remove the independently marked fillers](slices/12e-human-labeled-cleanup.md)
 - [x] [12f — Independently identify the workbench boundary](slices/12f-workbench-boundary.md)
 - [x] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
