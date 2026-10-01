@@ -91,6 +91,28 @@ verified camera. Cancellation fences and joins unfinished donor borrowers throug
 merged-verified 23f before discarding bytes. Ready acquisition originals retain
 their independent ownership.
 
+### Empty allocated sources
+
+Startup can end after allocation but before creating a journal. Such a take must
+settle truthfully instead of remaining operationally pending forever. The managed
+reconciliation owner first proves actual controller idle/null status, persists
+finalizing and prevents another start on that allocation. A native empty-source
+observation relies on that composite ownership contract; a directory lock alone
+does not prove capture is idle.
+
+Only typed journal absence in an existing owned private source directory may use
+this path. Validate the bounded allocated kind/source/binding, retain and
+exclusively lock its directory descriptor, recheck directory identity and journal
+absence, and inspect every entry. A literally empty directory returns the existing
+zero-media recovery result with closed inputs and an unavailable source. It
+creates no journal, snapshot, source receipt, media or lock file. Unknown or raw
+members, a missing/replaced directory, permissions/I/O, contention or cancellation
+remain outer refusal; nonempty media cannot be discarded by this shortcut.
+Directory-only recovery and ordinary/recovered published-source authority remain
+unchanged. Verify the original never-started-take preservation control through
+the actual service and native worker, including retry/reopen and unchanged empty
+directory bytes, before closing this atomic checkpoint.
+
 ## Bounded verification
 
 Drive actual CLI/MCP through the fresh service/private control and compiled actual

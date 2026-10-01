@@ -27,7 +27,8 @@ Independent publication, camera clock/support, native crash-source authority and
 fresh capture coordination are merged-verified.
 Keep public camera selection rejected until allocation, the actual native
 controller, crash-source recovery, independent source admission and explicit project use pass
-together. Capture publishes source facts. The caller authors projects, canvas,
+together, including [empty allocated-source recovery](slices/21f3-public-camera-selection.md#empty-allocated-sources).
+Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
 Preserve installed span transactions until the explicit cutover in 23.
 
