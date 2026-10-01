@@ -5128,3 +5128,19 @@ When: 21b.
 - **Verdict:** Sound. It follows the existing writer's terminal journal-failure
   behavior and preserves raw closure independently of metadata availability.
 - **Confidence:** High.
+
+### Keep captured-source facts separate from composition choices — sound, high confidence
+
+When: spec reconciliation after the user's zero-editorial feedback (2026-10-01).
+The earlier plan promised automatic linked-project construction at capture finish,
+but did not specify which visual source went first or which picture covered the
+other. Those are presentation choices. Capture now publishes independent assets
+and exact common-clock mappings; the external caller creates the project and
+submits explicit placements/links through existing commands. The existing stores
+allocate IDs and preserve request replay. Documented single-AV defaults keep their
+scope. This changes automatic capture-finalization project construction into
+explicit caller construction, while preserving recording-to-project capability,
+independent edits and synchronized portable delivery. No new authoring API or
+capture-start setting is added. The correction follows the user's requirement
+that the toolkit make zero editorial decisions; it removes unspecified policy
+instead of selecting a layout on their behalf.

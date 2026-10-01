@@ -25,14 +25,17 @@ skill is a product artifact, not this repository's development workflow.
 [21b closed sources/publication](slices/21b-camera-source-publication.md) is verified
 through actual controlled NativeCapture; [21d durable source adoption](slices/21d-captured-source-adoption.md)
 can proceed independently. The [remaining 21 graph](slices/21-webcam.md#implementation-graph)
-then separates project construction and public exposure. [21a passive discovery](slices/21a-camera-discovery.md)
+then separates caller-authored project integration and public exposure. [21a passive discovery](slices/21a-camera-discovery.md)
 is verified in its controlled scope. Do not accept camera-start selectors before
-input, result and project finalization can honor them.
+input, result and source finalization can honor them. Capture publishes source
+facts; the caller supplies canvas, tracks, placement and links through existing
+project/edit operations. It does not receive an automatically chosen composition.
 
 For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
 and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
-now passes; matching current actual-model execution remains unverified because
-the recorded prepared-model directories are absent. Compare requests, raw outputs,
+now passes. The [existing prepared model](assets/12b-public-parity/existing-model-verification.json)
+has all 22 registered files verified and reports ready through the installed owner;
+matching current actual-model execution remains unverified. Compare requests, raw outputs,
 provenance, generations and explicit fixture edits through the existing source-processing/public owners. Do
 not require a new ASR winner or personal keep/remove answer first. A different
 model/alignment recipe needs its own evidence before adoption.
@@ -222,7 +225,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
 - [ ] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
 - [ ] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
-- [ ] [21e — Capture sources in the existing project owner](slices/21e-capture-project-adoption.md)
+- [ ] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
 - [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)

@@ -6,7 +6,8 @@ Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21
 ## Contract
 
 An advertised optional camera selector reaches the complete input, source-result,
-finalization and project path through CLI and MCP. No accepted selector is ignored.
+finalization and caller-authored project journey through CLI and MCP. No accepted
+selector is ignored.
 
 ## Seam and ownership
 
@@ -14,8 +15,9 @@ Add `cameraDeviceId` atomically across the existing protocol selection/native
 start shapes, service allocation/replay fingerprint, app controller and native
 input. Omission activates no camera; explicit unavailable/unauthorized identity
 refuses without fallback or prompt. Changed-camera replay conflicts instead of
-returning a different request’s take. Return truthful settled source/project facts
-through the existing capture lifecycle/registry, with CLI/MCP as adapters.
+returning a different request’s take. Return truthful settled source/admission
+facts through the existing capture lifecycle/registry, with CLI/MCP as adapters.
+Capture stop does not create a project or choose composition settings.
 
 Preserve menu-bar recording controls, microphone/system selection and cursor
 evidence. No new editing UI, start-time authoring settings, installed switch,
@@ -26,10 +28,11 @@ compatibility layer or migration is part of this checkpoint.
 Exercise actual isolated public CLI/MCP/service/controller paths with scripted
 device boundaries and prerecorded native inputs: omitted/selected/denied/absent/
 disconnected camera, pause/resume, cancel, restart, service loss, repeated
-finalization and publication retry. Verify exact selector delivery, camera media,
-project identity, source mapping, dependencies and explicit independent edits.
+finalization and publication retry. Use existing explicit project/edit operations
+for the fixture composition. Verify exact selector delivery, camera media, requested
+project identity, source mapping, dependencies and independent edits.
 Negative controls must fail for ignored camera ID, omitted result, zeroed offset,
-changed-camera replay or duplicate project. Controlled wiring is not live capture
+changed-camera replay or duplicate source admission/requested project. Controlled wiring is not live capture
 or physical synchronization acceptance.
 
 ## Acceptance

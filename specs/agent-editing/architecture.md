@@ -116,8 +116,10 @@ new project registry through an isolated service. The installed user-facing
 release is not declared complete at this stage. There is no legacy-to-project
 translation wrapper or alias protocol.
 
-Slice 23 is the cutover/removal owner. It changes capture finalization to publish
-assets and a project, routes inspection/render/export through the new owners,
+Slice 23 is the cutover/removal owner. Capture finalization publishes independent
+assets and exact source mappings. The caller constructs projects through existing
+project/edit operations; capture does not choose a multi-video composition.
+Cutover routes inspection/render/export through the new owners,
 updates app/CLI/skill consumers, and removes the span revision interpreter,
 fixed-role movie request, fixed-role package reader and old editing operations.
 Source capture, recovery, cursor sampling and source-evidence components survive

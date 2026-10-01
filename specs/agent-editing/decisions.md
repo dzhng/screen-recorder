@@ -39,11 +39,14 @@ separate video acquisition through existing owners, not a new camera catalog or
 a fourth media-role interpretation.
 
 All drafts identified an unresolved initial-document policy: fixture canvas/order/
-visibility is not authority for production presentation. 21e must freeze that
-contract through existing composition principles before implementation; it may
-not select a presenter treatment or invent start-time authoring controls. This
-plan does not silently supply a cosmetic answer. Physical20 acceptance and its
-unchanged stop/sync gates remain separate from these isolated checkpoints.
+visibility is not authority for production presentation. The user's zero-editorial
+requirement resolves it without selecting a layout: capture publishes independent
+sources and exact mappings, and the caller constructs the composition through
+existing project/edit commands. [21e](slices/21e-capture-project-adoption.md) verifies
+that explicit journey; source finalization and project/edit replay retain separate
+owners. No automatic project, presenter treatment or capture-start authoring
+controls are introduced. Physical 20 acceptance and unchanged stop/sync gates
+remain separate from these isolated checkpoints.
 
 ## Independent drafts
 

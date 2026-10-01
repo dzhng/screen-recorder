@@ -8,7 +8,9 @@ The installed product has one composition/time interpretation, preserving verifi
 
 ## Seam and ownership
 
-Follow architecture.md's cutover: one fresh library/catalog, capture-to-assets/project finalization, shared project inspection/render/export, same CLI/MCP registry. Remove the old span revision interpreter, fixed-role movie/package requests and obsolete editing target schemas after parity.
+Follow architecture.md's cutover: one fresh library/catalog, capture-to-assets
+finalization with exact source mappings, explicit caller project construction,
+shared project inspection/render/export and the same CLI/MCP registry. Remove the old span revision interpreter, fixed-role movie/package requests and obsolete editing target schemas after parity.
 
 ## Work and review surface
 

@@ -2,9 +2,12 @@
 
 Status: [controlled public parity](../assets/12b-public-parity/README.md) passes
 raw ingestion, queries, explicit cuts/protected PCM/undo, restart and generation
-fencing. Actual-model/current-decoder parity remains unverified; recorded prepared
-model directories are absent. This is independent of unfinished alternate-model
-research. Implementation dependencies: [10](10-project-evidence.md),
+fencing. Actual-model/current-decoder parity remains unverified. The
+[existing prepared model](../assets/12b-public-parity/existing-model-verification.json)
+has all 22 registered files verified; the installed model owner reports ready.
+No new preparation is needed to attempt parity. Current generic model-owner
+readiness is not yet observed. This is independent of alternate-model research.
+Implementation dependencies: [10](10-project-evidence.md),
 [11](11-audio-inspection.md) and the
 [selected baseline](../../recording-for-ai/slices/04-local-speech-gate.md).
 Any replacement recipe additionally depends on [12](12-speech-evidence.md).

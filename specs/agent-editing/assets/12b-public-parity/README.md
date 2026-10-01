@@ -24,9 +24,13 @@ requests/receipts, retained media and source/runtime identities. The
 comparison and early harness wiring failures before correction.
 
 The public preparation states are controlled inputs, not actual model jobs.
-The recorded earlier Parakeet directories were checked and are absent. No model
-was downloaded, installed, prepared or executed. Current native request/decoder
-parity still needs matching actual inference evidence before parent 12b closes.
+The recorded earlier scratch Parakeet directories were checked and are absent.
+Subsequent [read-only verification](existing-model-verification.json) found all
+22 registered files (464,414,912 bytes) in the authoritative personal model
+directory. The existing installed model owner reports ready through its older
+parameter form; current generic purpose-owner readiness remains unobserved.
+No model was downloaded, installed, prepared or executed. Current native
+request/decoder parity still needs matching actual inference before 12b closes.
 The selected best-effort baseline and its recorded quality misses remain intact;
 no alternate recipe or general acoustic-cut guarantee is adopted.
 

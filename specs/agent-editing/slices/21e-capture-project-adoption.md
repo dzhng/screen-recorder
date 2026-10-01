@@ -1,37 +1,40 @@
-# 21e — Capture sources in the existing project owner
+# 21e — Caller-authored projects from captured sources
 
 Status: planned isolated implementation. Dependencies: [21d](21d-captured-source-adoption.md), [04](04-projects.md), [09](09-first-preview.md) and [22](22-portable-projects.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
 ## Contract
 
-Settled captured assets can enter one durable project through existing project
-transactions, with truthful common-clock placement and independently editable
-occurrences. Retry never creates another project or repeats physical capture.
+The caller can place settled captured assets in a durable project through
+existing project/edit operations, with explicit canvas, tracks, placements and
+links. Source timing stays truthful and occurrences remain independently editable.
+Each existing mutation owner preserves its own replay identity; retry neither
+repeats capture nor duplicates the requested project or edits.
 
 ## Seam and ownership
 
-Service coordination uses existing `ProjectStore`, acquisition admission,
-composition edits and resource references. Freeze the ordinary identity-document
-contract before implementation: IDs, canvas, placements, video order/visibility
-and synchronization membership must follow named existing contracts, not an
-implementer’s presentation preference. If the existing contracts do not determine
-a value, correct the owning contract first and disclose that gap; an explicit
-fixture layout is not production authority. No automatic presenter styling,
-processing or capture-start layout/track/link settings are permitted.
+Use existing `ProjectStore`, acquisition admission, composition edits and
+resource references. Capture publishes source identities, support and common-clock
+mappings; it does not manufacture a project. The caller supplies its composition
+through the existing typed commands. Store-generated IDs and transaction replay
+remain implementation responsibilities. Preserve documented single-AV defaults
+without extending them into a multi-video capture layout. An explicit fixture
+composition is test input, not a global presentation policy. No capture-start
+authoring settings, automatic presenter styling or processing are permitted.
 
 Use clock-derived placement without independent zeroing or invented leading/tail
-support. The durable transaction/replay outcome binds admitted acquisitions and
-project identity. Preserve sources on adoption failure and expose a retryable
-technical outcome through existing lifecycle owners, not another finalization
-catalog or authoring API.
+support. Capture finalization and project/edit transactions retain separate existing
+replay outcomes. Preserve admitted sources if caller project construction fails;
+retry the failed explicit operation through its existing owner. Do not add a
+cross-owner finalization transaction, catalog or authoring API.
 
 ## Work and review surface
 
 Create the planned `webcam.mjs --case capture-to-project` fixture through actual
 isolated service/project paths. The fixture explicitly names canvas, tracks,
-placements and links. Verify repeated finalization, lost acknowledgement, crash
-between admission and project commit, restart and conflicting replay. Verify
+placements and links. Verify repeated source finalization and explicit project/edit
+replay separately, lost acknowledgement, crash between admission and requested
+project construction, restart and conflicting replay. Verify
 independent selected camera/screen/audio replacement and undo, original hashes,
 exact selected pictures/PCM and portable relocation. No personal editorial
 judgment or new recording is needed.

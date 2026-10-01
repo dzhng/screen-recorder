@@ -42,6 +42,13 @@ independently zero every stream. For separately captured files, capture-clock
 offsets live in source provenance and initial project placements. Missing leading
 or trailing media remains a gap, not a duration silently stretched to match video.
 
+Captured sources expose their independent acquisition/asset identities, exact
+shared-clock offsets and represented support. Capture finalization does not choose
+a multi-video composition or create a project. The caller uses existing
+`project.create` and `edit.apply` to specify canvas, tracks, source placements and
+synchronization membership. Technical IDs/replay remain store-owned; documented
+single-AV placement defaults do not authorize a screen/camera layering choice.
+
 ## Captured PCM publication
 
 The planned [capture repair](slices/20b-exact-capture-audio.md) defines one declared admitted source

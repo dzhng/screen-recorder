@@ -13,7 +13,9 @@ schema/lifecycle/finalization preparation.
 
 ## Contract
 
-A recording can capture screen, optional camera and audio into independently editable, synchronized assets and a project.
+A recording can capture screen, optional camera and audio into independent assets
+with exact shared-clock provenance. The external caller constructs a synchronized
+project through existing project and edit operations.
 
 ## Seam and ownership
 
@@ -22,11 +24,12 @@ capture lifecycle. Optional camera selection is explicit, with no device fallbac
 implicit activation or startup permission prompt. Reuse the same capture clock,
 termination, asset admission and project owners. Preserve independent media and
 raw clock/support provenance. Publication retry must not repeat physical closure.
-Finalization adopts separate assets and seeds clock-derived linked clips through
-existing project/composition construction, preserving the documented source/time
-mapping. Do not invent capture-start track/link/layout settings or another
-authoring surface. Later placement/link/layout changes use existing explicit
-composition edits; no presenter treatment or sound processing is chosen for the caller.
+Finalization adopts separate assets and returns their source/time mappings.
+It does not create a composition or choose the first visual source, video order,
+visibility, layout or synchronization membership. The external caller supplies
+canvas, tracks, placements and links through existing `project.create` and
+`edit.apply`; documented single-AV placement defaults retain their scope.
+Do not invent capture-start authoring settings or another authoring surface.
 
 ## Implementation graph
 
@@ -34,7 +37,7 @@ composition edits; no presenter treatment or sound processing is chosen for the 
 are complete in controlled scope. Work
 [21c — Selected input](21c-selected-camera-input.md) and
 [21d — Durable source adoption](21d-captured-source-adoption.md) independently.
-[21e — Project adoption](21e-capture-project-adoption.md) follows21d.
+[21e — Caller-authored project integration](21e-capture-project-adoption.md) follows 21d.
 [21f — Public selection](21f-public-camera-selection.md) requires21c and21e.
 Each child has one owning seam and a separate verification packet. Parent21
 stays open until its implementation children and actual physical/lifecycle

@@ -1,0 +1,23 @@
+{
+  "scope": "Spec reconciliation with user feedback and model/runtime availability; document validation only",
+  "observedAtUTC": "2026-10-01 07:51:03 UTC",
+  "markdownFiles": [
+    "specs/agent-editing/README.md",
+    "specs/agent-editing/architecture.md",
+    "specs/agent-editing/assets/12b-public-parity/README.md",
+    "specs/agent-editing/assets/implementation-pickup.md",
+    "specs/agent-editing/choices.md",
+    "specs/agent-editing/contracts.md",
+    "specs/agent-editing/decisions.md",
+    "specs/agent-editing/slices/12b-speech-processing.md",
+    "specs/agent-editing/slices/21-webcam.md",
+    "specs/agent-editing/slices/21e-capture-project-adoption.md",
+    "specs/agent-editing/slices/21f-public-camera-selection.md",
+    "specs/agent-editing/slices/23-cutover.md"
+  ],
+  "localLinksValidated": 384,
+  "review": "Independent settled shape/diff/docs review; stale initial-document directive and checklist title corrected",
+  "productCorrection": "Capture publishes source facts; external caller supplies composition through existing project/edit primitives",
+  "modelFacts": "22 registered files verified; installed older model owner ready; current generic owner and actual current inference unverified",
+  "runtimeAcceptanceClaimed": false
+}

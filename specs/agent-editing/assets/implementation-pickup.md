@@ -3,10 +3,14 @@
 The full editor remains incomplete; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
 catalog/package formats are fenced by their existing owners; [03d](../slices/03d-exact-media-admission.md)
-preserves exact physical media facts. The current isolated worker is
-`/tmp/screenrec-03d-native-build/debug/screenrec-native`, SHA256
+preserves exact physical media facts. The frozen isolated worker used by retained
+checks was `/tmp/screenrec-03d-native-build/debug/screenrec-native`, SHA256
 `45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773`.
-Historical workers and measurements retain their own identities below.
+On 2026-10-01 it became unavailable before the 24z profile startup. No identical
+retained copy was found at known recorded runtime paths. Do not replace it or use
+an unverified worker for its cohort. New current-source functional checks need a
+separately pinned scratch build with existing offline dependencies. Historical
+workers and measurements retain their own identities below.
 
 ## Current pickup
 
@@ -16,8 +20,10 @@ shared lifecycle; [21d](../slices/21d-captured-source-adoption.md) source adopti
 can proceed independently. [21b closed camera sources](21b-camera-source-publication/README.md)
 passes actual controlled native closure/publication and preservation gates.
 [Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
-public/native gates; input/result/project adoption must precede
-any new accepted camera-start selector. Preserve [12b](../slices/12b-speech-processing.md)
+public/native gates; input/result/source adoption and the caller-authored project
+journey must precede any new accepted camera-start selector. Capture returns exact
+source facts; existing project/edit operations execute the caller’s explicit
+composition. No capture-finalization layout or automatic project is authorized. Preserve [12b](../slices/12b-speech-processing.md)
 parity for the already selected baseline, including raw evidence, provenance, generations and
 known best-effort filler/timing limits. Broader12 quality characterization and
 any alternate recipe remain separate; do not require a new model winner to
@@ -25,9 +31,13 @@ exercise unchanged primitives.
 
 [Controlled12b integration](12b-public-parity/README.md) passes actual public
 ingestion, queries, explicit fixture cuts/protected PCM/undo, restart and stale
-generation refusal. Actual current-model execution remains unverified; exact
-prepared directories named by retained receipts are absent. No new preparation
-or inference was performed, and this does not close12b or broader12 quality.
+generation refusal. [Read-only model verification](12b-public-parity/existing-model-verification.json)
+found all 22 registered files in the authoritative personal model directory, and
+the existing installed owner reports ready. Earlier scratch directories remain
+absent. Actual current-model execution and current generic owner readiness remain
+unverified; no preparation or inference was performed. Next compare the retained
+selected-source fixture through actual inference without copying/installing model
+files or repeating the accepted controlled preparation-state matrix.
 
 In parallel, exhaust the retained approximately four-minute take under
 [20](../slices/20-camera-reproduction.md), prepare isolated
