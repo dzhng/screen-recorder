@@ -109,8 +109,10 @@ retained as raw controls without subtracting camera time; open-pause and delayed
 paused callbacks are rejected.
 
 All work uses `/tmp/screenrec-capture-facts`, based on `da1466f21bd19404053b51307194f21eaed9eaf6`.
-The source, runtime and retained cohort identities are pinned in
-`/tmp/screenrec-21f3b-evidence.json`. Current-source offline builds use
+The [durable packet](../assets/21f3b-independent-camera-clock/README.md) retains
+the original manifest, source freeze, complete cohorts, failure artifacts and
+source/runtime identities; its member manifest verifies every archived byte.
+The original working manifest remains `/tmp/screenrec-21f3b-evidence.json`. Current-source offline builds use
 `/tmp/screenrec-21f3b-build`; the 21f3a source, runtime and cohorts stay frozen.
 No installed worker, model, hardware capture, window or playback was used.
 
