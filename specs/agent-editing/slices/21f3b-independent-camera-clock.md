@@ -1,9 +1,11 @@
 # 21f3b — Camera support without primary pictures
 
-Status: actual absence probe is red: primary origin remains nil and offered camera
-pictures become outside-support. This is the next native prerequisite after
-[21f3a publication authority](21f3a-independent-publication.md), before
-[21f3 atomic public integration](21f3-public-camera-selection.md).
+Status: native prerequisite implemented and verified on the isolated source tree.
+[21f3a publication authority](21f3a-independent-publication.md) remains its base;
+[21f3 atomic public integration](21f3-public-camera-selection.md) is the next
+consumer, after integration and merged-tree verification. The original absence
+failure remains retained as evidence; camera-only admission is now a required
+default capture-test gate.
 
 ## Contract and owner
 
@@ -64,3 +66,86 @@ current-source capture-test builds reuse existing code dependencies. This proves
 controlled source support; physical synchronization and stop deadlines stay open.
 Review shape, code, documentation and choices; retain source/runtime identities
 and explicit permitted differences before commit.
+
+## Implementation and retained decisions
+
+[CaptureClock](../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClock.swift)
+remains the sole pause controller. A camera reads its raw host intervals through
+its fixed source origin; no extra lifecycle, pause controller or buffering was
+added. [CameraWriter](../../../helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift)
+commits its origin only after an accepted append and journals raw control times,
+including controls that precede that origin. Its closed source carries that
+projection into publication and recovery. Native closure passes shared input
+interruption to both sources while keeping a primary-only completion error, such
+as no primary pictures, out of a healthy camera's diagnostic.
+
+For a new independent origin only, conversion rounds down to a whole microsecond.
+The exact rational picture timestamp remains relative to that origin. Thus a
+first host timestamp of 1,000,000.75 microseconds has origin 1,000,000 and relative
+PTS 0.75 microseconds; canonical media quantization yields first support at one
+microsecond. Nearest rounding would put that first exact picture before zero and
+reject it. Established-primary and primary rounding remain unchanged. This
+choice and the fixture ordering control are disclosed in the
+[choices ledger](../choices.md#21f3b--independent-camera-origin).
+
+The preservation fixture explicitly establishes primary before camera admission.
+It offers the same prologue callback after the first accepted delayed camera
+picture, where it is rejected as reordered; it does not silently drop that
+callback. The original camera-first ordering is a separate positive control that
+retains the newly supported prologue picture. Existing positive camera support
+and five-picture assertions remain in their established-primary gate.
+
+## Verification evidence
+
+The implementation and arithmetic gates live in
+[IndependentCameraClockTests](../../../helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentCameraClockTests.swift)
+and the default camera-only requirement in
+[IndependentPublicationTests](../../../helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentPublicationTests.swift).
+The literal no-primary/later-primary pair retains identical camera picture
+hashes and support. Actual NativeCapture controls derive expected placement from
+retained host pause times. Recovery checks immutable journal bytes, source
+binding, support and picture verification. A pre-origin completed pause is
+retained as raw controls without subtracting camera time; open-pause and delayed
+paused callbacks are rejected.
+
+All work uses `/tmp/screenrec-capture-facts`, based on `da1466f21bd19404053b51307194f21eaed9eaf6`.
+The source, runtime and retained cohort identities are pinned in
+`/tmp/screenrec-21f3b-evidence.json`. Current-source offline builds use
+`/tmp/screenrec-21f3b-build`; the 21f3a source, runtime and cohorts stay frozen.
+No installed worker, model, hardware capture, window or playback was used.
+
+The original actual no-primary failure is retained at
+`/tmp/screenrec-21f3b-final-origin-red.log`. Isolated source mutations establish
+that the new gates fail for the intended reasons:
+`/tmp/screenrec-21f3b-rebase-red.log` rejects a later-primary rebase, and
+`/tmp/screenrec-21f3b-rounding-red.log` rejects nearest-rounding an independent
+fractional origin. Those mutation executions exited 133; production source was
+never mutated for those experiments.
+
+A cross-run comparison of the readable frozen 21f3a and first 21f3b publication
+receipts preserves all twelve timing/support results. Eleven also have the same
+picture digest. One independently encoded audio-retry-observations case differs
+in decoded pixels and encoded byte size; an isolated same-source rerun reproduces
+the frozen digest. Each run's raw-to-canonical picture proof passes. This is not
+a claim of deterministic pixels across separate encodes; its precise cause is
+unestablished. The intentionally corrupted receipt remains explicitly excluded.
+The comparison, pixel difference measurements and isolated control are retained
+with the evidence manifest.
+
+Shape, code and documentation review retained one clock owner and no compatibility
+layer. Root's independent production review found no defect and requested the
+pre-origin pause boundary, now covered. The configured CLI review was not retried:
+the known provider/model HTTP 400 remains the user's prohibition on that path.
+Primary clock/PCM, cursor and elapsed behavior continue through the default
+capture suite. These tiny prerecorded gates make no physical synchronization,
+large-take throughput or stop-deadline claim.
+
+Final current-source build: `/tmp/screenrec-21f3b-build-complete.log`, exit 0.
+The six final executions all exit 0: `final-clock`, `final-origin`,
+`final-independent`, `final-publication`, `final-selected-input`, and `final-full`
+under the `/tmp/screenrec-21f3b-` prefix. The first five retain their output
+folders plus matching `.log`; the full default suite retains its log. The default
+suite covers the unchanged primary clock/PCM, cursor and elapsed contracts once.
+The extra pre-origin-control mutation also fails at the raw-host-control oracle,
+with `/tmp/screenrec-21f3b-preorigin-red.log` retained. Merged-tree gates remain
+the integrating agent's responsibility.

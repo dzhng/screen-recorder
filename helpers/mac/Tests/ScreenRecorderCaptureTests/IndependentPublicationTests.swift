@@ -167,11 +167,12 @@ private func changedPrimaryAuthority(root: URL, source: URL) async throws {
     print("PASS retry rechecks immutable source proof and settles terminal unavailability without blocking the sibling")
 }
 
-/// The camera clock prerequisite has its own opt-in gate; publication cannot invent its missing origin.
+/// Required camera-only admission through the actual native lifecycle.
 @MainActor
-func runCameraWithoutPrimaryProbe(output: String) async throws {
-    let root = URL(fileURLWithPath: output)
-    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+func runCameraWithoutPrimaryTests(output: String? = nil) async throws {
+    let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("camera-without-primary")
+    if output != nil { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false) }
+    defer { if output == nil { try? FileManager.default.removeItem(at: root) } }
     let source = root.appendingPathComponent("input.mov")
     try await RecoveryFixture.writeVariableDurationVideo(to: source,
         timesUs: [0, 100000, 200000, 500000, 700000], endUs: 800000)
@@ -197,6 +198,8 @@ func runCameraWithoutPrimaryProbe(output: String) async throws {
         throw CaptureFailure("CAMERA_ORIGIN_REQUIRED", "Camera-only ingress must retain usable support when primary video never arrives.")
     }
     precondition(camera.binding == input.cameraBinding)
+    precondition(camera.diagnostic == nil && result.camera?.failure == nil && result.failure?.code == "NO_VIDEO",
+        "Primary-only completion failure must not become a healthy camera diagnostic")
     _ = try await CapturePublishedSource.recover(directory: folder.appendingPathComponent("camera").path)
     print("PASS usable bound camera publishes independently when primary video never arrives")
 }

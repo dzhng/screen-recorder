@@ -17,6 +17,7 @@ func runCameraProjectFixture(output: String) async throws {
     let folder = root.appendingPathComponent("capture")
     let input = PrerecordedCaptureInput(source: source)
     input.probeDirectory = folder
+    input.cameraBeforePrimary = false
     input.audio = audio.appendingPathComponent("narration.packed.mov")
     // Real-time writer backpressure is not the variable under this source-to-project check.
     input.videoDeliveryInterval = .milliseconds(10)
@@ -47,6 +48,7 @@ func runCameraSourcePublicationTests(output: String? = nil) async throws {
         let folder = root.appendingPathComponent(mode)
         let input = PrerecordedCaptureInput(source: source)
         input.probeDirectory = folder
+        input.cameraBeforePrimary = false
         input.cameraFramesEnabled = mode != "no-camera"
         let hasAudio = mode.hasPrefix("audio-retry") || mode == "camera-error-audio-progress"
         if hasAudio { input.audio = audioFolder.appendingPathComponent("narration.packed.mov") }

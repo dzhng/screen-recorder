@@ -30,6 +30,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var cursorFixture = false
     var cameraFramesEnabled = true
     var primaryFramesEnabled = true
+    var cameraBeforePrimary = true
     var beforeCameraClose: (() throws -> Void)?
     var afterCameraClose: (() throws -> Void)?
     var finalCameraSample: CMSampleBuffer?
@@ -117,12 +118,17 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             finalCameraSample = timed
             writer.queue.sync {
                 if let probe {
-                    if cameraFramesEnabled && writer.ingressState.clock.originUs == nil {
+                    let prologue = writer.ingressState.clock.originUs == nil
+                    if cameraFramesEnabled && prologue && cameraBeforePrimary {
                         probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
                     }
                     if primaryFramesEnabled { probe.accept(try! rawProbeSample(timed), role: .screen, from: sourceClock) }
                     let delayed = try! captureFixtureRetimed(timed, at: CMTimeAdd(timed.presentationTimeStamp, time(microseconds: 200000)))
                     if cameraFramesEnabled { probe.accept(try! rawProbeSample(delayed), role: .camera, from: sourceClock) }
+                    // Retain the prologue callback in the primary-first control, delivered out of order.
+                    if cameraFramesEnabled && prologue && !cameraBeforePrimary {
+                        probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
+                    }
                 } else if primaryFramesEnabled {
                     if let sharedIngress { sharedIngress.acceptStream(try! rawProbeSample(timed), of: .screen, from: sourceClock) }
                     else { captureOutput.stream!(stream, didOutputSampleBuffer: timed, of: .screen) }

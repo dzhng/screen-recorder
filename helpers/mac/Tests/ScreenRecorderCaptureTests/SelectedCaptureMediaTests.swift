@@ -26,6 +26,7 @@ func runSelectedCaptureMediaTests(output: String, corpus: String) async throws {
     let input = PrerecordedCaptureInput(source: video)
     input.audio = URL(fileURLWithPath: corpus).appendingPathComponent("a-audio.wav")
     input.probeDirectory = folder
+    input.cameraBeforePrimary = false
     input.pauseJournal = folder.appendingPathComponent("capture.journal.jsonl")
     let capture = NativeCapture(prepareInput: { _, _ in input })
     try await capture.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),

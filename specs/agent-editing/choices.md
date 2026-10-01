@@ -5885,3 +5885,46 @@ When: 23h, concrete menu and Settings wiring.
 - **Verdict:** Sound. It reuses the actual shared presentation boundary and keeps
   capture/status and aggregate storage independent of project paging.
 - **Confidence:** High.
+
+## 21f3b — Independent camera origin
+
+### Keep fractional first pictures with a downward microsecond origin — sound, high confidence
+
+When: 21f3b native camera clock prerequisite.
+
+- **Choice:** Suppose a camera's first accepted timestamp is 1,000,000.75
+  microseconds and primary video has not started. The stored origin is
+  1,000,000; the picture keeps its exact relative timestamp of 0.75 microseconds.
+  Rounding that origin to 1,000,001 would put the picture before source zero and
+  cause the ordering check to reject it. The existing media writer quantizes its
+  published container timestamps as before. A camera starting after primary
+  keeps the established primary-origin conversion rule.
+- **Gap:** The plan required a demonstrated fractional conversion rule while
+  retaining the existing integer-microsecond source-origin representation.
+- **Reach:** This preserves exact acquisition timing through the camera mapping
+  proof without widening the journal/public source schema or inventing alignment.
+- **Verdict:** Sound. The fractional control passes with downward conversion and
+  fails when only that conversion is changed to nearest rounding.
+- **Confidence:** High.
+
+### Preserve the established-primary fixture by declaring callback order — sound, medium confidence
+
+When: 21f3b preservation gate.
+
+- **Choice:** A camera callback offered before any primary picture can now be
+  accepted. The preservation control first delivers primary, then the delayed
+  camera picture, then the earlier prologue camera callback. That prologue is
+  still observed but is rejected as out of order. The same five accepted
+  pictures and positive camera start remain under test. A separate control keeps
+  the original camera-first callback order and requires the extra early picture.
+- **Gap:** The historical fixture combined an established-primary support claim
+  with a camera callback offered before primary existed. The new contract makes
+  that earlier callback meaningful, so one input order cannot test both claims.
+- **Reach:** The physical input fixture gains an explicit ordering control. It
+  changes no product mode or input policy, and every offered callback remains
+  visible in retained timestamp observations.
+- **Verdict:** Sound. Both acquisition orders are tested, and the intended new
+  support is not hidden by removing the early callback or weakening old timing
+  assertions. Separate encodes do not promise identical decoded pixels; the
+  retained cross-run exception is documented in the slice evidence.
+- **Confidence:** Medium.

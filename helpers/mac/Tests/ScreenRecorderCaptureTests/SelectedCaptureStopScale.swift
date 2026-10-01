@@ -17,6 +17,7 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
     let input = PrerecordedCaptureInput(source: source, size: size)
     input.paceVideo = true
     input.probeDirectory = folder
+    input.cameraBeforePrimary = false
     let capture = NativeCapture(prepareInput: { _, _ in input })
     let probe = SelectedCaptureProbe()
     let request = try JSONDecoder().decode(SelectedCaptureRequest.self,
@@ -52,8 +53,8 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
     let rows = try String(contentsOf: folder.appendingPathComponent("timestamps.jsonl"), encoding: .utf8)
         .split(separator: "\n").map { try JSONSerialization.jsonObject(with: Data($0.utf8)) as! [String: Any] }
     let dispositions = rows.filter { $0["role"] as? String == "camera" }.map { $0["disposition"] as! String }
-    precondition(dispositions == ["outside-support"] + Array(repeating: "accepted", count: input.offeredVideoFrames)
-        + ["sealed-or-failed"], "Only pre-origin and post-seal boundary probes may be omitted")
+    precondition(dispositions == ["accepted", "duplicate-or-reordered"] + Array(repeating: "accepted", count: input.offeredVideoFrames - 1)
+        + ["sealed-or-failed"], "Only reordered prologue and post-seal boundary probes may be omitted")
     precondition(camera.hostOriginUs == screen.hostOriginUs && camera.tracks[0].firstSampleUs == 200000)
     func seconds(_ elapsed: Duration) -> Double {
         Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18

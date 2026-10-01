@@ -18,7 +18,8 @@ package final class CameraWriter {
     private var width = 0
     private var height = 0
     private var format: CMFormatDescription?
-    private var pausedCount = 0
+    private var recordedPauseCount = 0
+    private var journalOpenPauseHostUs: Int64?
     private var origin: Int64?
 
     package init(directory: URL, framesPerSecond: Int, binding: CameraCaptureBinding? = nil) throws {
@@ -32,7 +33,11 @@ package final class CameraWriter {
         let duration = sample.duration.isNumeric && sample.duration > .zero
             ? sample.duration : CMTime(value: 1, timescale: Int32(framesPerSecond))
         let durationUs = CMTimeConvertScale(duration, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
-        guard let source = state.clock.sourceTime(for: host, durationUs: durationUs) else {
+        // A new independent origin rounds downward so exact fractional PTS never precedes it.
+        let candidateOrigin = origin ?? state.clock.originUs ?? CMTimeConvertScale(
+            sample.presentationTimeStamp, timescale: 1_000_000, method: .roundTowardNegativeInfinity).value
+        let clock = state.clock.projected(originUs: candidateOrigin)
+        guard let source = clock.sourceTime(for: host, durationUs: durationUs) else {
             omitted += 1; return (.init(disposition: "outside-support", sourceUs: nil), nil)
         }
         guard sample.isValid, CMSampleBufferDataIsReady(sample), sample.imageBuffer != nil,
@@ -51,9 +56,6 @@ package final class CameraWriter {
                     source: CaptureSource(kind: binding == nil ? "probe-camera" : "camera"), width: width, height: height,
                     microphone: false, systemAudio: false, cameraBinding: binding))
             self.journal = journal
-            origin = state.clock.originUs
-            try journal.recordOrigin(hostUs: origin!, placedPauses: state.clock.pauses)
-            pausedCount = state.clock.pauses.count
             let writer = try AVAssetWriter(outputURL: directory.appendingPathComponent("camera.raw.mov"), fileType: .mov)
             self.writer = writer
             writer.movieTimeScale = 1_000_000
@@ -70,7 +72,7 @@ package final class CameraWriter {
             guard writer.startWriting() else { throw writer.error ?? CaptureFailure("WRITE_FAILED", "Camera writer failed.") }
             writer.startSession(atSourceTime: .zero)
         }
-        try synchronizePauses(state.clock)
+        if origin != nil { try synchronizePauses(clock) }
         guard let input, input.isReadyForMoreMediaData else {
             dropped += 1; return (.init(disposition: "backpressure", sourceUs: nil), nil)
         }
@@ -81,6 +83,11 @@ package final class CameraWriter {
         }
         let retimed = try CaptureClockIngress.retime(sample, to: sourceTime, duration: duration)
         guard input.append(retimed) else { throw writer?.error ?? CaptureFailure("WRITE_FAILED", "Camera append failed.") }
+        if origin == nil {
+            origin = candidateOrigin
+            try journal?.recordOrigin(hostUs: candidateOrigin)
+            try synchronizePauses(clock)
+        }
         if first == nil {
             first = source
             try journal?.recordTrackStarted(role: "video", file: "video.mov", firstSourceUs: source,
@@ -94,13 +101,19 @@ package final class CameraWriter {
     }
     private func synchronizePauses(_ clock: CaptureClock) throws {
         guard let origin else { return }
-        while pausedCount < clock.pauses.count {
-            let pause = clock.pauses[pausedCount]
-            let earlier = clock.pauses.prefix(pausedCount).reduce(Int64(0)) { $0 + $1.elapsedPauseUs }
-            let begin = origin + pause.atSourceUs + earlier
-            try journal?.recordPauseBegan(hostUs: begin)
-            try journal?.recordPauseEnded(hostUs: begin + pause.elapsedPauseUs, pause: pause)
-            pausedCount += 1
+        let controls = clock.pauseProjection(originUs: origin)
+        while recordedPauseCount < controls.count {
+            let control = controls[recordedPauseCount]
+            if journalOpenPauseHostUs != control.startHostUs {
+                try journal?.recordPauseBegan(hostUs: control.startHostUs)
+            }
+            try journal?.recordPauseEnded(hostUs: control.endHostUs, pause: control.pause)
+            journalOpenPauseHostUs = nil
+            recordedPauseCount += 1
+        }
+        if let opened = clock.openPauseHostUs, journalOpenPauseHostUs != opened {
+            try journal?.recordPauseBegan(hostUs: opened)
+            journalOpenPauseHostUs = opened
         }
     }
     @MainActor
@@ -121,8 +134,9 @@ package final class CameraWriter {
                 throw CaptureFailure("NO_CAMERA", "Selected camera delivered no accepted frames.")
             }
         } catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("WRITE_FAILED", error.localizedDescription) }
+        let sourceClock = origin.map { clock.projected(originUs: $0) } ?? clock
         let closed = ClosedCameraSource(directory: directory, journal: journal, observations: observations,
-            clock: clock, width: width, height: height, frames: frames, dropped: dropped,
+            clock: sourceClock, width: width, height: height, frames: frames, dropped: dropped,
             omitted: omitted, sealed: sealed, failure: reason, binding: binding)
         if frames > 0 {
             do { try closed.pinIdentities() } catch { closed.identityFailure = error }

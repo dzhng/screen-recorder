@@ -1,7 +1,9 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_WITHOUT_PRIMARY_OUTPUT"] {
-    try await runCameraWithoutPrimaryProbe(output: output)
+if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_CLOCK_OUTPUT"] {
+    try await runIndependentCameraClockTests(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_WITHOUT_PRIMARY_OUTPUT"] {
+    try await runCameraWithoutPrimaryTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_INDEPENDENT_PUBLICATION_OUTPUT"] {
     try await runIndependentPublicationTests(output: output)
     try await runNativeCaptureInputTests()
@@ -73,6 +75,8 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_WITHOUT_PR
   try await runCaptureTerminationTests()
   try await runCaptureWriterTests()
   runCaptureClockTests()
+  try await runIndependentCameraClockTests()
+  try await runCameraWithoutPrimaryTests()
   await runHeldTailFrameTests()
   try await runCaptureJournalTests()
   try runCaptureJournalLeaseTests()

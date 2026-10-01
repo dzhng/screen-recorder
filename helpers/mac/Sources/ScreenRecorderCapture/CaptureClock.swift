@@ -38,18 +38,35 @@ public struct CaptureClock: Sendable {
     public mutating func start(at hostUs: Int64, durationUs: Int64 = 0) -> Bool {
         guard originUs == nil, accepts(hostUs: hostUs, durationUs: durationUs) else { return false }
         originUs = hostUs
-        // Completed controls can arrive before the first delayed frame. Place only intervals
-        // the retained source crosses, once, using the same removed-time rule as media.
-        var removedUs: Int64 = 0
-        for interval in intervals where interval.start >= hostUs {
-            let duration = interval.end - interval.start
-            pauses.append(
-                PauseEvent(
-                    atSourceUs: interval.start - hostUs - removedUs, elapsedPauseUs: duration))
-            removedUs += duration
-        }
+        pauses = pauseProjection(originUs: hostUs).compactMap(\.pause)
         return true
     }
+    package struct ProjectedPause: Sendable {
+        package let startHostUs: Int64
+        package let endHostUs: Int64
+        package let pause: PauseEvent?
+    }
+
+    /// A source reads the take's controls through its fixed origin; it never owns pause/resume.
+    package func projected(originUs: Int64) -> CaptureClock {
+        var projected = self
+        projected.originUs = originUs
+        projected.pauses = pauseProjection(originUs: originUs).compactMap(\.pause)
+        return projected
+    }
+    package var openPauseHostUs: Int64? { pausedAt }
+
+    package func pauseProjection(originUs: Int64) -> [ProjectedPause] {
+        var removedUs: Int64 = 0
+        return intervals.map { interval in
+            let pause = interval.start >= originUs
+                ? PauseEvent(atSourceUs: interval.start - originUs - removedUs,
+                    elapsedPauseUs: interval.end - interval.start) : nil
+            removedUs += max(0, interval.end - max(interval.start, originUs))
+            return ProjectedPause(startHostUs: interval.start, endHostUs: interval.end, pause: pause)
+        }
+    }
+
     public mutating func seal(at hostUs: Int64) { if sealedAt == nil { sealedAt = hostUs } }
     public mutating func pause(at hostUs: Int64) { if pausedAt == nil { pausedAt = hostUs } }
     public mutating func resume(at hostUs: Int64) {
