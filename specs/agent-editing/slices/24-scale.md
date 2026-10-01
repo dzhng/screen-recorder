@@ -26,7 +26,8 @@ pass. [Transcript duration memory](../assets/24-transcript-duration/README.md) a
 while preserving exact results and fresh generation checks. Populated event/cursor
 queries pass their [24y matched duration checkpoint](24y-source-event-duration.md),
 with an explicitly configured bounded SDK receiver and preserved default-client
-limitation. These isolated fixed-cardinality query-family checks do not establish
+limitation. [24z](24z-source-cardinality.md) targets the still-unmeasured source-selection
+cardinality dimension through the existing query/admission owners. These isolated fixed-cardinality query-family checks do not establish
 final post-cutover budgets, arbitrary source/routing/history cardinality or all
 external client capacities. The retained300-second audio streaming gate now passes unchanged in
 [24s](24s-audio-stream-budget.md), including its original debug deadline, sampled

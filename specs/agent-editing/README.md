@@ -257,6 +257,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24w — Bounded waveform queries across duration](slices/24w-waveform-duration-memory.md)
 - [x] [24x — Bounded evidence continuations](slices/24x-evidence-continuations.md)
 - [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
+- [ ] [24z — Source-selection cardinality](slices/24z-source-cardinality.md)
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants
