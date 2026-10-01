@@ -156,3 +156,8 @@ capture startup. Its catalog predates the capture-table contract. Already READY 
 no unfinished-donor recovery. No database-byte history, current-production SLA,
 profile or timing pass follows from this read-only check. Wait for active capture
 checks to finish before coordinating the separate bounded profile window.
+
+The later [coordinated window](../assets/24z-owner-profile-preparation/coordinated-window-preflight.json)
+confirmed those owned checks were terminal but found unrelated whole-host CPU
+contention. Dispatch was deferred before runtime re-verification or service start;
+actual profile/read attempts remain zero. Own-lane quiescence is insufficient.

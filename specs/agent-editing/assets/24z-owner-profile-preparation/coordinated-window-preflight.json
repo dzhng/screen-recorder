@@ -1,0 +1,22 @@
+{
+  "scope": "One coordinated historical owner-profile window; whole-host read-only process inspection only",
+  "recordedAtUTC": "2026-10-01T14:31:29Z",
+  "ownLanes": "Atomic camera implementation reports all functional/build sessions terminal and all owned journey children closed; root has no running build/test/service",
+  "wholeHost": {
+    "command": "ps -axo pid,ppid,%cpu,comm -r | head -25",
+    "status": "BUSY",
+    "observedContention": [
+      { "process": "Unrelated Google Chrome for Testing renderer", "cpuPercent": 155.0 },
+      { "process": "Its GPU helper", "cpuPercent": 25.6 }
+    ],
+    "inventoryLimit": "Tool output was inspected; complete raw process inventory was not retained. These observations establish deferral only."
+  },
+  "decision": "Defer dispatch; own-lane quiescence does not establish whole-host isolation",
+  "actualProfileAttempts": 0,
+  "actualPublicProjectReadAttempts": 0,
+  "actualServiceStarts": 0,
+  "runtimePinsReverifiedThisWindow": false,
+  "runtimePinBoundary": "Dispatch was refused at contention preflight, before runtime verification or service start. The earlier read-only authority report remains separate evidence.",
+  "preservation": "No timing cohort, original red result, historical runtime, catalog, worker or budget changed",
+  "nextBoundary": "A separately coordinated future window requires a fresh whole-host preflight and reverified pins before one bounded historical profile. No timer, polling or retry was created."
+}
