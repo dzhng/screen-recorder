@@ -28,6 +28,14 @@ state the exact missing technical fact before proposing any new human task.
 Distinguish isolated implementation readiness from release acceptance so an open
 quality/physical claim does not stop unrelated primitive work.
 
+Model work needed by the active release plan is authorized. Use isolated storage,
+preserve original model files and receipts, and keep accepted recipes unchanged
+unless a named quality gap justifies a separate measured change. Do not treat
+ordinary model preparation as a missing permission or ask the user to repeat
+accepted inference, auditions or recordings to exercise already verified work.
+Unfinished implementation and failed checks are work to resolve at their owners;
+report a blocker only when a concrete prerequisite prevents the next useful step.
+
 The product-use [screenrec skill](skills/screenrec/SKILL.md) is for the external
 agent consuming this toolkit, not the agent implementing this repository. Do not
 invoke it as a development workflow. Read or edit it as a product artifact when
