@@ -2,12 +2,17 @@
 
 The listener requested a task requiring only waveform clicks and Next, and
 reported an additional opening “um”. The page presents one boundary at a time.
-A click selects the blue line and plays a bounded preview around it; Next
+A click selects the blue line and plays a bounded preview starting exactly there; Next
 confirms the selection and advances. The final Next saves the confirmed marks
 locally. Back allows correction and Skip preserves an unclear edge as unknown.
 No timestamps need typing, no checkbox or separate save form is required, and
 loading the page starts no sound. The complete unchanged original remains in
 browser memory after loading.
+
+The user explicitly chose playback from the clicked point, replacing the initial
+lead-in. The [playback update check](click-preview-update.json) records an actual
+muted click whose selected and initial playback positions are identical; its
+[capture](click-preview-check.jpg) is a synthetic probe, not human timing evidence.
 
 The opening filler is a listener-reported target, not a timed independent label.
 The server owns target identity and filler classification; the shared annotation
@@ -41,6 +46,7 @@ for preview cancellation, and the existing shared owner for original-clock
 conversion. The old input rows, checkbox and form-save path are removed. No new
 dependency, permanent service or model was added. The configured Codex CLI
 review remains unavailable after its unsupported-model rejection; no successful
-CLI review is claimed. The [manifest](manifest.json) pins this packet; earlier
+CLI review is claimed. The [manifest](manifest.json) pins the initial guided page;
+the playback update check pins the current preview owner. Earlier
 marking manifests remain historical evidence. Actual saved human boundaries
 are the next pickup.

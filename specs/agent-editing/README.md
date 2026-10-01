@@ -27,8 +27,9 @@ Preserve that exact choice and the rejected alternatives; no further loop trial
 is requested.
 The requested [sentence marking page](assets/12d-sentence-marking/README.md) now
 uses [waveform clicks and Next](assets/12d-waveform-guidance/README.md), starting
-with the user's reported opening “um”. The original stays loaded in the browser;
-no boundaries are prefilled and saves remain separate from frozen evidence.
+with the user's reported opening “um”. The original stays loaded in the browser,
+and click previews begin exactly at the selected point, following the user's preference.
+No boundaries are prefilled and saves remain separate from frozen evidence.
 Next pickup is the user's actual saved marks; drafts and synthetic verification
 positions do not count as independent evidence.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and

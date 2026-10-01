@@ -4827,16 +4827,16 @@ but left exact layout unspecified. This affects the bounded evaluation page
 only and supplies no suggested boundary times. Sound because the listening task
 now follows the user's requested actions and preserves human boundary authority.
 
-### Preview around the clicked point without moving the selection — sound, medium confidence
+### Preview from the clicked point without moving the selection — sound, high confidence
 
 When: guided waveform page, 2026-09-30. Clicking selects a blue boundary line and
-plays a short excerpt beginning just before it and ending shortly after it.
+plays a short excerpt starting exactly at that point and ending shortly after it.
 The orange playback cursor moves while the selected point remains fixed. A
 second click cancels the earlier preview; an old cancelled playback request
 cannot clear the new preview's stop point. The user requested waveform clicks
-and Next, but did not specify audition behavior. Starting a preview on the
-click lets the user hear context without an additional Play action. Loading and
+and Next, then explicitly chose playback from the click instead of a lead-in.
+Starting a preview on the click lets the user audition that boundary without an additional Play action. Loading and
 Next start no sound; tests mute previews in a separate tab. The current short
 window is a reversible listening aid, not a proposed boundary or acceptance
-threshold. Sound because audio context helps the listener confirm the point,
-with medium confidence in the chosen preview window until user feedback.
+threshold. Sound because playback now follows the user's explicit preference;
+the point confirmed by Next remains unchanged.

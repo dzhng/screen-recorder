@@ -172,7 +172,7 @@ function drawWaveform() {
 async function preview() {
   const id = ++previewId;
   audio.pause();
-  audio.currentTime = Math.max(0, selected - 0.3);
+  audio.currentTime = selected;
   previewEnd = Math.min(context.durationSeconds, selected + 0.8);
   try {
     await audio.play();

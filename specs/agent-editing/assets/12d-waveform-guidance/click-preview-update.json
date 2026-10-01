@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-30",
+  "previousGuidanceCommit": "534241cc",
+  "userPreference": "Start playback exactly where I click.",
+  "observed": {
+    "currentTime": 3.602,
+    "muted": true,
+    "paused": false,
+    "selected": "Selected 3.602 s · blue line"
+  },
+  "selectedSeconds": 3.602,
+  "matchedStart": true,
+  "synthetic": true,
+  "humanGroundTruth": false,
+  "checks": [
+    "real muted browser click begins at selection",
+    "format, lint and module syntax pass",
+    "focused code review clean"
+  ],
+  "sourceOwners": [
+    {
+      "path": "packages/test-harness/editing/speech/annotation-page.mjs",
+      "bytes": 12969,
+      "sha256": "ee9b3cbc44da694806bb9ea021e327b75c933041dcd9a6bd66f7bc6c6d86e68a"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-page.html",
+      "bytes": 5903,
+      "sha256": "474351829643452429faa81f496a6eef6b5be3d65831ecb0b866e177590e74dc"
+    }
+  ],
+  "capture": {
+    "path": "specs/agent-editing/assets/12d-waveform-guidance/click-preview-check.jpg",
+    "bytes": 63839,
+    "sha256": "5ca3b6d078376ac9bceb1d5dac5962cba9b0811a5c3052b4e65f36590c047c1a"
+  },
+  "existingUserTab": "Could not inspect stale tab; left intact and opened updated page in new tab. No synthetic saves."
+}
