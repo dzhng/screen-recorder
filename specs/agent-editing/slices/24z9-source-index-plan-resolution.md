@@ -1,6 +1,6 @@
 # 24z9 — Complete source-index plans within each call
 
-Status: isolated owner correction verified; [the packet](../assets/24z9-source-index-plan-resolution/README.md) retains functional and work-accounting evidence. Root integration and the source-cardinality/general scale budgets remain separate.
+Status: owner correction integrated; [the packet](../assets/24z9-source-index-plan-resolution/README.md) retains functional and work-accounting evidence. [Merged consumer checks](../assets/24z9-source-index-plan-resolution/merged-verification.json) preserve the source-index contract; the existing recording-index relocation deadline fails in combined and isolated checks and has a separate owner investigation. Source-cardinality/general scale budgets remain open.
 
 ## Contract and ownership
 
@@ -16,4 +16,4 @@ The actual SQLite observer measures a ready source request and the public execut
 
 Deliberate target-order and incomplete-support controls fail, then pass after restoration. Existing cancellation, retry, scene-generation retention, adopted-generation and project undo controls remain green at their original deadlines. The packet retains only this changed closure, tiny producer catalogs and replies; unchanged dependencies are pinned to the committed base and previously banked owner authorities.
 
-No service, real capture, native worker, model/inference, playback, installed switch, original timing cohort or deadline/limit change is part of this evidence. Primitive delivery and bounded work are established; public transport delivery and latency acceptance are not claimed. Root owns shared pickup, global choices and integration.
+The isolated producer performs no service, real capture, native worker, model/inference, playback, installed switch, original timing cohort or deadline/limit change. Root integration adds the controlled service consumer suite and retains its complete build/test logs separately. Primitive delivery and bounded work are established; public transport delivery and latency acceptance are not claimed.

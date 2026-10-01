@@ -1,0 +1,67 @@
+{
+  "producerCommit": "3b2fff80cba3f5fe7a1749de5c86d40677788d5f",
+  "childCommit": "fdc54905f3257a2c20066a47cfa29989afb5d68c",
+  "childPacket": {
+    "sha256": "974eb086228fd05e67586d4c03a39c23e31e60a1af8ac03f836aa0a0c6d4b191",
+    "membersRehashed": 90,
+    "finalCheckoutPinsVerified": 3,
+    "unchangedCommittedBasePinsVerified": 15
+  },
+  "checks": {
+    "coreBuild": 0,
+    "coreTypes": 0,
+    "serviceBuild": 0,
+    "lint": 0,
+    "format": 0,
+    "mergedConsumers": {
+      "exitCode": 1,
+      "files": 8,
+      "passed": 78,
+      "failed": 1,
+      "log": "checks/merged-tests.txt"
+    },
+    "sourceIndexDomain": {
+      "exitCode": 0,
+      "passed": 8,
+      "log": "checks/source-index-domain.txt"
+    },
+    "distinctMergedChecks": {
+      "files": 9,
+      "passed": 86,
+      "failed": 1
+    },
+    "portableIsolated": {
+      "exitCode": 1,
+      "passed": 4,
+      "failed": 1,
+      "log": "checks/portable-isolated.txt"
+    }
+  },
+  "remainingFailure": {
+    "test": "scene chunks, retained images and coverage remain readable after library removal and relocation",
+    "path": "packages/core/src/portable-index.test.ts:149",
+    "deadlineMs": 5000,
+    "combinedElapsedMs": 5219,
+    "isolatedElapsedMs": 5081,
+    "authority": "Existing260image recording-index fixture; does not enter changed source-index planning path. No timeout-cause claim; separately delegated24z10 owner diagnosis."
+  },
+  "review": {
+    "shape": "Existing normalized-options helper and call-local variables; no new owner/cache/API. Complete shared oracle replaced duplicate partial checks.",
+    "diff": "Target mismatch short-circuit, fresh admission/execution, complete later support and existing post-cleanup materialization checks retained. Independent prior fresh review clean; root inspected final consolidated diff.",
+    "docs": "Changed owner invariants and separate producer/integration limits linked from hub.",
+    "choices": "Two sound choices in child choices.md; no new production discretion during integration."
+  },
+  "limits": {
+    "publicTransport": "not rerun for24z9",
+    "latency": "unmeasured; existing source-cardinality/final budgets open",
+    "nativeModelCapturePlaybackInstalled": "no work performed",
+    "deadlineOrLimitChanges": false
+  },
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "members": 13,
+    "bytes": 21628,
+    "sha256": "7db65376808d3101001424c26093571fff361eb306111134c5828ee29729388d",
+    "allMembersVerified": true
+  }
+}

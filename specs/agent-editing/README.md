@@ -22,117 +22,56 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: quantify duplicate full source-plan resolution in
-source screenshot-index admission/execution, then reuse one plan per synchronous
-call while preserving separate fresh execution and validation boundaries.**
-The [fresh source-caller fixture](slices/25b-fresh-caller.md) has executed the full
-brief, including genuine generation, delivery, history and empty-recipient package
-recovery with donor/model storage unavailable. Its producer is preserved separately
-from subsequent fixes. Full installed, listening and physical acceptance stay open.
+**Next implementation pickup: reslice and implement bounded large-result MCP
+delivery through the existing delivery owner, preserving the full result and
+replay identity with a default SDK client.** [24y's retained failure](slices/24y-source-event-duration.md#validation-client-capacity)
+shows that two complete inline representations exceed the default receive buffer.
+Make the large-result representation contract explicit; do not truncate receipts,
+raise limits or call an enlarged test-client buffer a production fix.
 
-[24z1 metadata batches](slices/24z1-source-metadata-resolution.md),
-[24z2 prepared admission](slices/24z2-prepared-admission.md),
-[24z3 PCM admission capacity](slices/24z3-prepared-capacity.md) and
-[24z4 resource bindings](slices/24z4-prepared-bindings.md) are integrated.
-The full merged prepared suite and public WAV lifecycle pass; the original
-large-recipe deadline now passes unchanged. The [24z5 service presence correction](slices/24z5-service-asset-presence.md)
-passes the full merged service suite, original diagnostic deadline and public WAV
-lifecycle. Both earlier audio-preservation deadline failures now have later passing
-current checks.
-The [24z6 composition append correction](slices/24z6-composition-appends.md)
-preserves complete scalar receipts and first-error behavior. Full composition,
-project-store and project-evidence suites pass with original deadlines; the three
-previous project-evidence timeouts now have later passing checks. General scale
-and source-cardinality latency targets remain unresolved.
-The [24z8 source-frame correction](slices/24z8-source-frame-support.md) bounds
-worker support payloads while keeping complete core authority. Its public
-segment-rich diagnostic now reaches the native edge; actual frozen-worker
-full/narrow requests preserve receipts and PNG bytes.
-[24z7 read-only scene-event resolution](slices/24z7-source-event-resolution.md)
-is merged: complete consumer oracles, fresh-generation refusal and preparation/error
-order pass while sharing source metadata within each synchronous phase. Its merged
-146-test consumer gate includes source-frame/index/public-service integration.
-The later [public scene-event check](assets/24z7-source-event-resolution/public-verification.json)
-adds current CLI/default-MCP delivery and exact source/project clock checks, with
-no native work during collection; latency remains unmeasured.
+In parallel, profile and correct the existing recording-index relocation deadline
+at its actual owner. [The merged source-index checks](assets/24z9-source-index-plan-resolution/merged-verification.json)
+retain the combined and isolated failures. The fixture does not enter the changed
+source-index planning path; no timeout cause is established. Reconcile the remaining
+[23 preservation/presentation matrix](slices/23-cutover.md) against banked outcomes
+before choosing another consumer pass. These lanes need no new capture or audition.
 
-[09c audio export](slices/09c-audio-only-export.md) and
-[23i source service process](slices/23i-service-process-parity.md) retain their
-[merged delivery/lifecycle proof](assets/09c-23i-merged/README.md).
-Preserve original failed checks alongside later material corrections; don't change
-deadlines, claim timeout causality or repeat a cohort without a concrete change.
-
-[24z source-cardinality attribution](slices/24z-source-cardinality.md) retains
-its separate dispatch prerequisites. None of these work proofs establishes a
-latency pass or prohibits independent implementation.
-Atomic public camera selection is [merged-verified](assets/21f3-public-camera-selection/merged-verification.json)
-through allocation, the actual native controller, crash recovery, independent
-admission and explicit project use, including empty allocated sources. Preserve
-that controlled checkpoint without inferring physical or installed acceptance.
-The historical [owner profile](assets/24z-owner-profile/README.md) preserves its
-completed bounded reads and [dispatch authority](assets/24z-owner-profile-preparation/dispatch-readiness.json).
-Preserve those pinned resources. Do not poll or repeat the original timing cohort;
-host contention never blocks independent work.
-Capture publishes source facts. The caller authors projects, canvas,
-tracks, placement and links through existing operations. Capture creates no project.
-Preserve installed span transactions until the explicit cutover in 23.
-
-Advance independent branches when their actual seams are ready. Release acceptance
-prerequisites do not prohibit isolated implementation preparation.
-
-| Remaining owner | Permitted next work | Separate open claim |
+| Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
-| [09c](slices/09c-audio-only-export.md) | Preserve merged WAV/AAC public delivery and lifecycle | Existing large-fixture deadlines, performance and installed acceptance |
-| [12](slices/12-speech-evidence.md) | Preserve completed [12b baseline adoption](slices/12b-speech-processing.md); investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
-| [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
-| [23](slices/23-cutover.md) | Preserve source process/discovery and complete the remaining presentation/preservation matrix | Presentation, installed switching and obsolete-owner removal after prerequisites |
-| [24 / 25](slices/24-scale.md) | Preserve completed source-caller proof; finish remaining owner corrections and named scale gaps | Existing deadlines, isolated timing, final budgets and installed external-caller acceptance |
+| [09c audio export](slices/09c-audio-only-export.md) / [23i process](slices/23i-service-process-parity.md) | [Merged public delivery/lifecycle](assets/09c-23i-merged/README.md); later [24z4](slices/24z4-prepared-bindings.md)/[24z5](slices/24z5-service-asset-presence.md) pass both original audio-preservation deadlines | General performance and installed release acceptance |
+| [24z owner corrections](slices/24z-source-cardinality.md) | [24z1–5 source/prepared owners](assets/implementation-pickup.md), [24z6 append runs](slices/24z6-composition-appends.md), [24z7 event metadata/public clocks](slices/24z7-source-event-resolution.md), [24z8 worker support](slices/24z8-source-frame-support.md), [24z9 index plans](slices/24z9-source-index-plan-resolution.md) preserve scoped output/work contracts | Source-cardinality p95, general final scale and default-client large replies; recording-index relocation deadline |
+| [12 speech evidence](slices/12-speech-evidence.md) | Selected baseline, actual model preparation and saved human comparisons remain banked | Broader lexical/acoustic coverage, omitted text, protected words/joins and held-out timing; no replacement selected |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | [Controlled allocation-to-project behavior](assets/21f3-public-camera-selection/merged-verification.json), retained originals/journals/recovery | Physical synchronization, live lifecycle and completed-stop deadline |
+| [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports and process ownership verified | Concrete presentation/preservation matrix, installed switching and obsolete-owner removal after prerequisites |
+| [25 external caller](slices/25-agent-acceptance.md) | [Fresh source-caller workflow](slices/25b-fresh-caller.md) completed the supplied brief, delivery, history and empty-recipient recovery | Full installed/listening/physical release gates and the planned one-shot harness execution mode |
 
-Reuse the [banked evidence](assets/integrated-evidence.md) and
-[source/runtime identities](assets/implementation-pickup.md):
+[Banked evidence](assets/integrated-evidence.md) and
+[source/runtime identities](assets/implementation-pickup.md) remain authoritative.
+Keep original failed checks beside later material corrections. Do not infer timeout
+causality, change deadlines or repeat a cohort without a concrete supported change.
+The original source-cardinality timing cohort retains its separate dispatch
+prerequisites; do not poll or repeat it. Host contention and open acceptance claims
+do not stop independent implementation.
 
-- [21a–21e](slices/21-webcam.md#implementation-graph) verify controlled capture,
-  admission and caller-authored projects, with preserved PNG/WAV outputs and
-  replacement/undo/history. These do not establish physical synchronization.
-- [12b selected-source parity](assets/12b-public-parity/actual-inference/README.md)
-  preserves raw evidence, generations and explicit fixture edits. Keep Parakeet's
-  selected best-effort limits; no replacement winner or personal keep/remove
-  answer is required to preserve this baseline.
-  [Generic model readiness](assets/12b-public-parity/model-readiness/merged-verification.json)
-  now verifies actual preparation, receipt creation and public ready-state
-  discovery/reopen against the current owner, with original model files unchanged.
-  [Public preparation](assets/12b-public-parity/public-model-preparation/README.md)
-  verifies the complete absent-to-ready path and failed-download retry through
-  actual CLI/MCP with a file-backed fetch edge. Selected-baseline adoption is
-  complete; broader quality and live download availability retain their limits.
-- [23](slices/23-cutover.md) owns the scoped consumer checkpoints and their limits.
-  Compiling a presenter does not verify its presentation or installed behavior.
+Reuse the retained 246-second camera and roughly 251-second screen, original
+journals, recovered media, saved marks and accepted verification. Preserve accepted
+retiming/denoise/voice and the chosen 200 ms ambience loop, including its tolerated
+slight seam. Do not retune or repeat accepted auditions, transfer their verdicts to
+changed output, or restart the retired repetition-intent solicitation.
 
-The retained camera is 246 seconds and screen about 251 seconds: duration is
-sufficient. Reuse originals, journals, recovered media and telemetry for the
-[named remaining camera question](slices/20-camera-reproduction.md). Preserve saved
-marks, accepted retiming/denoise/voice and the chosen 200 ms ambience loop with its
-tolerated slight seam. Do not repeat accepted auditions, retune that loop or
-transfer a verdict to changed output. The repetition-intent solicitation is retired.
+Model work within the planned primitives is authorized in isolated storage;
+preserve the selected baseline, original prepared files and accepted recipes.
+A named quality gap must justify a separate replacement experiment.
+No new capture, audible playback, native windows, Claude run, configured CLI-review
+retry, frozen-worker replacement or installed-app switch is authorized. Preserve
+installed span transactions until explicit cutover; capture publishes source facts
+and creates no project. The caller authors canvas, tracks, placements and links.
 
-Model work is authorized within the planned primitives; preserve the selected
-baseline and original prepared files while checking the current preparation owner
-in isolated storage. This authorizes necessary preparation/readiness work, not an
-unmotivated replacement model or repeated accepted inference/audition cohort.
-No new capture, audible playback, Claude run,
-configured CLI-review retry, frozen-worker replacement or installed-app switch is
-authorized. Bounded source verification uses separately pinned scratch builds with
-existing offline CODE dependencies. Any proposed human task must name the missing
-technical fact and explain why retained evidence cannot establish it; it is never
-a routine fallback. See [verification](verification.md#implementation-readiness-and-acceptance).
-
-Keep this pickup, checklist and owning Status lines consistent. Preparation,
-technical parity, measured quality and release acceptance are distinct. Missing
-or failed evidence stays open; continue independent primitive work.
-The [remaining-work audit](assets/acceptance-maintenance/remaining-work-audit.json)
-predates the requested 09c extension. Its named external evidence and deferred
-cutover requirements remain unfinished; it does not exclude this new independent
-implementation work.
+Any proposed human task must name the missing technical fact and explain why
+retained evidence cannot establish it. Missing evidence remains unverified;
+continue independent primitive work. Keep this pickup, checklist and owning Status
+lines consistent. Full release scope remains open; isolated readiness is not
+release acceptance.
 
 ## Outcome and boundaries
 
@@ -221,7 +160,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [09b — Agent-controlled output settings](slices/09b-output-settings.md)
-- [ ] [09c — Audio-only export](slices/09c-audio-only-export.md) — public implementation passes; existing deadline preservation remains open
+- [ ] [09c — Audio-only export](slices/09c-audio-only-export.md) — public implementation and both original deadline checks pass; general performance/installed acceptance remain open
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
@@ -357,6 +296,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z6 — Mixed composition append runs](slices/24z6-composition-appends.md) — scalar receipts/errors and bounded work; full project-evidence deadlines pass
 - [x] [24z7 — Read-only scene-event source resolution](slices/24z7-source-event-resolution.md) — fresh metadata phases and exact consumer output; merged consumer groups pass
 - [x] [24z8 — Demanded source-frame support](slices/24z8-source-frame-support.md) — bounded native payload, full support authority and public/frozen-native parity
+- [x] [24z9 — One complete source-index plan per call](slices/24z9-source-index-plan-resolution.md) — fresh request/execution and full delivery work proof; separate relocation deadline remains open
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 

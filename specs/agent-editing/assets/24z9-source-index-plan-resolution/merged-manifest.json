@@ -1,0 +1,76 @@
+{
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "members": 13,
+    "bytes": 21628,
+    "sha256": "7db65376808d3101001424c26093571fff361eb306111134c5828ee29729388d",
+    "allMembersVerified": true
+  },
+  "members": [
+    {
+      "path": "checks/core-build.txt",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "checks/core-types.txt",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "checks/format.txt",
+      "bytes": 203,
+      "sha256": "a149a4712c5619d5e223c8725482ba9c937ebe121cf24aaa1e104bb1b3645041"
+    },
+    {
+      "path": "checks/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "checks/merged-tests.txt",
+      "bytes": 2724,
+      "sha256": "520fc2d3024367ba0af623911b9c4cdcdcc6080bb0ecf0bac57d5c471befa04f"
+    },
+    {
+      "path": "checks/portable-isolated.txt",
+      "bytes": 1535,
+      "sha256": "5155c0ccad2718ffdfe93e9298ea9beb8b3eb5a789873d4fb6345ce891091dde"
+    },
+    {
+      "path": "checks/service-build.txt",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "checks/source-index-domain.txt",
+      "bytes": 606,
+      "sha256": "1ffca1506c0139691f1ce384dc1081425fc88b4e89b89f3a81db0f832c4ae9d8"
+    },
+    {
+      "path": "review.json",
+      "bytes": 591,
+      "sha256": "a00d72665e375cf328714ced13185065bca952fa802dfcde52daabaecc393b8a"
+    },
+    {
+      "path": "runtime/packages/core/dist/index-processing.js",
+      "bytes": 32182,
+      "sha256": "d19a53fa60e01385c43f27bd1b591ac165bd2196afabcd07e4a18aac70bfd096"
+    },
+    {
+      "path": "runtime/packages/core/src/index-processing.fixture.ts",
+      "bytes": 12887,
+      "sha256": "ef15afb7449c84097c8944cd797dfcd38a19e0abdda4d63a944337867d5adefe"
+    },
+    {
+      "path": "runtime/packages/core/src/index-processing.ts",
+      "bytes": 36155,
+      "sha256": "24a19eeee292db231de538d79c4b544076e7f5a822c2d19f6af27dd4ced66d3a"
+    },
+    {
+      "path": "runtime/packages/core/src/source-index-processing.test.ts",
+      "bytes": 19444,
+      "sha256": "af642cb3df5cdf223c050d525dfe7380d1a33e5383f804191d79c3c29b692e21"
+    }
+  ]
+}

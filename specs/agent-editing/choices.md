@@ -6272,3 +6272,13 @@ filename lookup while actual processing retains file-addressed selection. Comple
 synthetic producer catalogs remain evidence rather than deployable libraries. Root
 independently verified the archived hardlinks and both merged consumer groups;
 these choices establish neither public scene-event transport nor a latency budget.
+
+## Source-index plan reuse
+
+The [24z9 choices](assets/24z9-source-index-plan-resolution/choices.md) are sound,
+with high confidence. A source-index request passes freshly normalized frame
+options into its existing recipe helper. Execution resolves a separate fresh plan
+and uses its complete source support, including when timestamp zero is in a gap.
+The diagnostic uses the executor's existing cancellation boundary to isolate
+synchronous read work, then verifies ordinary generation and PNG delivery
+separately. Neither choice adds a public contract, cache or alternate source owner.
