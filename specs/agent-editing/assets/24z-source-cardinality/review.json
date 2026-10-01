@@ -1,0 +1,58 @@
+{
+  "verdict": "Clean diagnostic-only change; performance acceptance remains open, not green.",
+  "shape": "Two fixture/runner owners reuse JourneyService and evidence-service; no production endpoint, schema, cache, retry owner, client-capacity change or test-only production hook.",
+  "diff": "Complete independent literal oracle and public admission; actual empty page and nonnull progress; remaining-count continuation; default-client text/structured/CLI parity; warm timing excludes assertion/artifact overhead; no gate weakened.",
+  "docs": "24z records exact matched fixture, timing boundary, contended red, unavailable profile and open acceptance. Shared README/choices are root-owned and untouched.",
+  "rootReview": "Root interim and settled pre-timing reviews clean, including64-empty fixture and isolated module-resolution pins.",
+  "checks": [
+    {
+      "command": "Sequential isolated tsc -p: composition, protocol, core, client, service, cli",
+      "exitCode": 0
+    },
+    {
+      "command": "node --check both source-cardinality harness files",
+      "exitCode": 0
+    },
+    {
+      "command": "oxlint both source-cardinality harness files",
+      "exitCode": 0
+    },
+    {
+      "command": "oxfmt --check both source-cardinality harness files",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "command": "prepare public1024-acquisition fixture",
+      "exitCode": 0
+    },
+    {
+      "command": "verify correctness/default-client/CLI/pins/progress",
+      "exitCode": 0
+    },
+    {
+      "command": "verify --wrong-clock",
+      "exitCode": 1,
+      "expected": true
+    },
+    {
+      "command": "verify restored normal oracle",
+      "exitCode": 0
+    },
+    {
+      "command": "measure one20-pair cohort",
+      "exitCode": 1,
+      "expected": false,
+      "meaning": "Original red retained under documented contention."
+    },
+    {
+      "command": "bounded CPU-profile verify attempt",
+      "exitCode": 1,
+      "meaning": "Frozen worker missing before service start; profile unavailable."
+    }
+  ],
+  "CLIReview": "Not invoked, per root instruction: known unsupported account/model HTTP400. Root reviewed settled diff directly."
+}

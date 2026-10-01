@@ -1,6 +1,8 @@
 # 24z — Source-selection cardinality in bounded cursor reads
 
-Status: planned diagnostic; no production defect or fix selected. Dependencies:
+Status: **open**. Correctness diagnostic completed; the single timed cohort is red
+on a contended machine, and owner profiling is unavailable. No production defect
+or fix is selected. Dependencies:
 [24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
 Final production acceptance still follows [23](23-cutover.md).
 
@@ -49,6 +51,26 @@ can establish only this fixture’s default-client delivery; 24y's preserved def
 10 MiB failure for a large edit receipt remains open. Do not expand a client
 limit or compact production receipts to hide a failure.
 
+The [diagnostic harness](../../../packages/test-harness/editing/source-cardinality.mjs)
+separates public preparation, correctness verification and timed collection. Its
+[authored fixture](../../../packages/test-harness/editing/source-cardinality-fixture.mjs)
+places 1,024 clips at `i * 200000` microseconds, each 100,000 microseconds long.
+The first 64 select source `[0,100000)` and contain no cursor observation; the
+rest select `[350000,450000)`. One authored observation at capture time 650,000
+maps to asset time 400,000 through the admitted -250,000 offset. Thus the prefix
+must cross an empty continuation and then return occurrences 64–313. Both arms
+query the entire `[0,204700000)` project window. Arm 512 selects acquisition
+`i % 512`; arm 1,024 selects acquisition `i`. All other authored state and the
+populated catalog are shared controls.
+
+Collection timing starts before the first public MCP request and stops after the
+last ready response supplies row 250. Complete row/dependency/coverage comparisons,
+MCP text-versus-structured checks and artifact serialization happen outside that
+interval. Cold preparation is reported separately; warm collections must require
+one ready response per page. Saved checkpoint bytes must change as traversal
+advances, including when a page is empty. Module-resolution paths and hashes pin
+the isolated compiled owners, independently of external dependency symlinks.
+
 ## Acceptance and failure boundary
 
 Preserve the unchanged cached 250 ms p95 budget and source/dependency correctness.
@@ -64,3 +86,36 @@ Delegated: harness organization and bounded instrumentation/report names. This
 pass adds verification only unless a separately reviewed owner fix is justified
 by its red result. User feedback changing this contract updates the child before
 expansion; passed unrelated cohorts are not repeated to create activity.
+
+## Retained diagnostic and next boundary
+
+The [verification record](../assets/24z-source-cardinality/verification.json) and
+[curated evidence archive](../assets/24z-source-cardinality/evidence.tar.gz) retain
+public admission, complete independent oracles, default-client delivery, CLI
+parity, changed-query refusal, checkpoint progress and the deliberate wrong-clock
+failure followed by restored correctness. Source bytes deduplicate while all
+acquisition identities are publicly admitted and independently normalized.
+
+The one approved alternating timing cohort completed without a retry or budget
+change. Its original red measurements remain in the packet. Before/after process
+snapshots reveal substantial unrelated CPU workloads, so these measurements do
+not establish an isolated p95 or source-cardinality causality. Any later latency
+claim needs a whole-host contention preflight before launch; coordinating only
+this project's lanes does not establish that condition. Resident memory is
+descriptive only. Static dependency-resolution counts identify the existing read
+path's repeated work; they do not measure its share of elapsed time.
+
+The frozen worker's hash was verified for preparation and at timed-run startup;
+query logs contain only workspace cleanup, with no media or inference work. A
+subsequent bounded profile attempt failed its worker-file check with `ENOENT`
+before the service started. Known retained locations yielded no identical copy.
+The packet marks owner profiling unavailable; a current-source worker is not a
+substitute for this frozen cohort. The failed startup CPU trace is not a query
+profile. The prepared catalog remains retained for a separately scoped native-free
+query profile with its own verified runtime and explicit provenance; no substitute
+run was performed.
+
+Keep this child open. Further work needs reviewed runtime authority and owner
+attribution before selecting an optimization. This pass does not authorize another
+cohort, relax the budget, close the preserved default-SDK large-edit-receipt
+failure, or claim full slice-24 acceptance.

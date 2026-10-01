@@ -1,0 +1,274 @@
+{
+  "status": "OPEN: correctness verified; original timing red under contention; owner profiling unavailable",
+  "preparedHome": {
+    "path": "/private/tmp/sr-source-cardinality-uywBEr",
+    "retained": true,
+    "purpose": "Exact catalog retained for a future separately scoped native-free query profile with its own verified runtime/provenance; no substitute run was performed."
+  },
+  "scope": "Source-cardinality diagnostic only. No production change, full24 acceptance, physical capture claim, installed switch, media/inference query work or budget change.",
+  "runtime": {
+    "node": "v24.14.0",
+    "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+    "gitHead": "1ea252a9dd13035aa1f08e13da02f57dc95a32a5",
+    "files": {
+      "packages/core/dist/project-evidence.js": "946fdaa5ec7c34ea1647784818a8b56b8034a5b21082307b79f9f22673ca001d",
+      "packages/core/dist/capture-source-read.js": "f7dc5a63f3f0ea3686b4a31b12ddb9209b54f7f817eaaf54625eb0cf71f49f53",
+      "packages/core/dist/source-selection.js": "5a4014d962b99a1196a3bec54026b3fd35b1126fd0220f5ab58335ea597d427b",
+      "packages/core/dist/project-events.js": "91e8e922675d9d6381a1153f0a864ed1fc0f80caf8d978c0cb62c34763b56086",
+      "packages/test-harness/editing/source-cardinality.mjs": "10f8669412562e38f8ae8d47fea33cb870409e6f66b1853c1d374d4b9ee24e63",
+      "packages/test-harness/editing/source-cardinality-fixture.mjs": "6870a1faa4bbcb1f57046408518fb72c11971a6c869c474037063f6f8e5c2e64"
+    },
+    "resolvedModules": [
+      {
+        "importer": "apps/service/dist/project-service.js",
+        "specifier": "@screenrec/core/project-evidence",
+        "path": "/private/tmp/screenrec-source-cardinality-pass/packages/core/dist/project-evidence.js",
+        "sha256": "946fdaa5ec7c34ea1647784818a8b56b8034a5b21082307b79f9f22673ca001d"
+      },
+      {
+        "importer": "apps/service/dist/worker.js",
+        "specifier": "@screenrec/protocol",
+        "path": "/private/tmp/screenrec-source-cardinality-pass/packages/protocol/dist/index.js",
+        "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+      },
+      {
+        "importer": "packages/core/dist/project-evidence.js",
+        "specifier": "@screenrec/composition",
+        "path": "/private/tmp/screenrec-source-cardinality-pass/packages/composition/dist/index.js",
+        "sha256": "545277dbba07d6714dbfbe7023fafbf1e55afd32b52c9b446425e7e0b94a2f08"
+      },
+      {
+        "importer": "apps/cli/dist/main.js",
+        "specifier": "@screenrec/client",
+        "path": "/private/tmp/screenrec-source-cardinality-pass/packages/client/dist/index.js",
+        "sha256": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+      },
+      {
+        "importer": "packages/client/dist/index.js",
+        "specifier": "@screenrec/protocol",
+        "path": "/private/tmp/screenrec-source-cardinality-pass/packages/protocol/dist/index.js",
+        "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+      },
+      {
+        "importer": "packages/test-harness/editing/source-evidence-fixture.mjs",
+        "specifier": "@screenrec/protocol",
+        "path": "/private/tmp/screenrec-source-cardinality-pass/packages/protocol/dist/index.js",
+        "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+      }
+    ]
+  },
+  "preparation": {
+    "passed": true,
+    "setupMs": 316133.465125,
+    "catalogAcquisitions": 1024,
+    "deduplicatedVideoAssets": 1,
+    "nativeOperations": {
+      "media.sourceEvidence": 1024,
+      "media.probe": 1,
+      "storage.clearRenderWorkspace": 1
+    },
+    "independentNormalization": "cohort/normalized.jsonl; literal cursor observation and sequence asserted before public import"
+  },
+  "correctness": {
+    "passed": true,
+    "completeRowsPerCollection": 250,
+    "queriedOccurrences": 1024,
+    "leadingEmptyOccurrences": 64,
+    "pageRows": [
+      0,
+      43,
+      43,
+      43,
+      43,
+      43,
+      35
+    ],
+    "oracle": "Complete source/project clocks, coordinates/buttons, source ordinal, occurrence/acquisition identities and generations; exact512/1024 dependencies and all1024 occurrence coverage; complete authored revisions checked independently.",
+    "checkpointProgress": "Distinct pinned cursors and changed persisted traversal bytes, including empty first page; prefix retains nonnull continuation.",
+    "pinnedQueryRefusal": "ARTIFACT_CHANGED for changed full-window query",
+    "CLIParity": "All page bodies agree, normalizing only newly issued checkpoint UUIDs; text and structured MCP bodies match."
+  },
+  "defaultSDK": {
+    "configured": false,
+    "maxBufferBytes": 10485760,
+    "sdkReadBufferSha256": "0e5c9d7062e97b9fe501f45f553ac73b3461e21d861e6548ee0903ce2b08114d",
+    "maximumMcpResultBytes": {
+      "512": 2332770,
+      "1024": 4036706
+    },
+    "byteMeaning": "Serialized MCP result bytes exclude JSON-RPC envelope; successful actual default-client receipt establishes delivery.",
+    "largeEditReceiptLimitation": "24y default10MiB large edit receipt failure remains OPEN; no client capacity or production receipt change."
+  },
+  "wrongClock": {
+    "failedAsIntended": true,
+    "actualFirstProjectAtUs": 12850000,
+    "mutatedExpectedFirstProjectAtUs": 12850001,
+    "restoredVerificationPassed": true,
+    "evidence": "cohort/wrong-clock-rows.json"
+  },
+  "timing": {
+    "cohorts": 1,
+    "warmCollectionsPerArm": 20,
+    "armOrder": "Alternates512\u21921024 then1024\u2192512 each pair",
+    "budgetMs": 250,
+    "originalPassed": false,
+    "isolatedMachine": false,
+    "causalityEstablished": false,
+    "beforeAfterContext": "cohort/contention-summary.json retains relevant facts and full raw snapshot hashes/owned-scratch paths; unrelated inventories are not published",
+    "contention": "Unrelated sim processes consumed about200%CPU each before; unrelated rustc consumed163% after. Other workloads were also active. Original red and complete distribution retained, no replacement cohort.",
+    "boundary": "First MCP request through final ready response delivering row250. Oracle comparisons, extra text-body parsing, bytes telemetry, file writes and RSS observation happen afterward.",
+    "coldMeaning": "First collection per arm after service restart; retained manifests may already exist from correctness verification",
+    "arms": [
+      {
+        "cardinality": 512,
+        "p95Ms": 9983.332917000007,
+        "minMs": 1274.1845420000027,
+        "maxMs": 11255.446083000003,
+        "sampledRssBytes": [
+          324993024,
+          388268032,
+          396296192,
+          400261120,
+          411435008,
+          416776192,
+          410583040,
+          411271168,
+          419725312,
+          424034304,
+          428998656,
+          422477824,
+          429850624,
+          431751168,
+          439156736,
+          436781056,
+          431931392,
+          431947776,
+          436928512,
+          435388416
+        ],
+        "memoryMeaning": "Descriptive post-collection service RSS in one shared process; no duration ratio gate or per-arm attribution"
+      },
+      {
+        "cardinality": 1024,
+        "p95Ms": 17688.052999999993,
+        "minMs": 3330.251042000018,
+        "maxMs": 21634.611291999987,
+        "sampledRssBytes": [
+          374521856,
+          392216576,
+          404209664,
+          403439616,
+          412598272,
+          411860992,
+          413122560,
+          413138944,
+          431669248,
+          427196416,
+          428081152,
+          427343872,
+          433586176,
+          433618944,
+          434257920,
+          434290688,
+          434339840,
+          436011008,
+          435322880,
+          435322880
+        ],
+        "memoryMeaning": "Descriptive post-collection service RSS in one shared process; no duration ratio gate or per-arm attribution"
+      }
+    ],
+    "coldCollections": [
+      {
+        "cardinality": 512,
+        "totalMs": 12117.237708999999
+      },
+      {
+        "cardinality": 1024,
+        "totalMs": 13588.757917000003
+      }
+    ],
+    "warmDistributions": {
+      "512": [
+        9354.777875,
+        9983.332917000007,
+        11255.446083000003,
+        5734.829874999996,
+        5287.390000000014,
+        9767.452542000014,
+        8591.033292000007,
+        5943.327166000003,
+        3670.0307080000057,
+        6609.773125000007,
+        5052.774083999975,
+        4994.195041999978,
+        3175.782124999969,
+        2593.4756249999627,
+        1274.1845420000027,
+        7184.287583000027,
+        7254.766041999974,
+        5182.856375000032,
+        9410.263124999998,
+        6990.2564589999965
+      ],
+      "1024": [
+        9473.471041999997,
+        17688.052999999993,
+        12166.531457999998,
+        11795.51512499999,
+        13663.817958,
+        21634.611291999987,
+        9961.158374999999,
+        7853.070458000002,
+        7869.918999999994,
+        8860.73870799999,
+        9171.39070800002,
+        9918.391167000053,
+        3330.251042000018,
+        11175.531332999992,
+        9556.722000000009,
+        10844.34945899999,
+        11643.997584000055,
+        15172.806749999989,
+        17588.48524999997,
+        14950.27233399998
+      ]
+    }
+  },
+  "memory": {
+    "baselineServiceRssBytes": 145997824,
+    "meaning": "Descriptive after-collection RSS in the same service; not a peak or independent arm attribution, and no duration ratio gate."
+  },
+  "dependencyWork": {
+    "512": {
+      "basis": "ProjectEvidenceInspection.request resolves N; read validates N twice per nonterminal page. CaptureSourceRead.resolve performs two acquisition.get, one asset.get and one asset.path per resolve. Other catalog work excluded.",
+      "sourceResolutions": 7680,
+      "acquisitionMetadataGets": 15360,
+      "assetMetadataGets": 7680,
+      "assetPathHeaderReads": 7680
+    },
+    "1024": {
+      "basis": "ProjectEvidenceInspection.request resolves N; read validates N twice per nonterminal page. CaptureSourceRead.resolve performs two acquisition.get, one asset.get and one asset.path per resolve. Other catalog work excluded.",
+      "sourceResolutions": 15360,
+      "acquisitionMetadataGets": 30720,
+      "assetMetadataGets": 15360,
+      "assetPathHeaderReads": 15360
+    }
+  },
+  "queryNativeOperations": [
+    {
+      "operation": "storage.clearRenderWorkspace"
+    }
+  ],
+  "profile": {
+    "state": "unavailable",
+    "error": "ENOENT",
+    "stage": "Frozen worker SHA check, before service startup",
+    "worker": "/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    "expectedSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+    "ownerSampled": false,
+    "evidence": "profile-startup-failure/verify-report.json",
+    "traceMeaning": "The failed startup CPU trace is not a query-owner profile. Known retained paths had no identical copy; no rebuild, substitution or retry."
+  },
+  "nextBoundary": "24z remains open. Attribution and reviewed runtime authority are required before selecting an optimization; this packet does not authorize another cohort."
+}
