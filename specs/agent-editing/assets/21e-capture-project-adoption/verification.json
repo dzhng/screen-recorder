@@ -294,5 +294,8 @@
       "frames": 100800
     }
   ],
-  "packetSha256": "894974aff4efdc5d8ef89dcfbd35e22bfb06d998e779343309c47abbe64b1731"
+  "packetSha256": "9bb40f62dfb677a335017e3a2b3b087d832331bf7a1a83ed21cd68e4700bc022",
+  "packetBytes": 5629927,
+  "packetRegularFiles": 166,
+  "packetMemberNamesExactlyMatchManifest": true
 }
