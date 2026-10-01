@@ -1,19 +1,15 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, retain independent audio excerpts, maintain ambience across pauses, or generate durable replacement speech, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
+description: For external agents carrying out a user's recording or editing request through the screenrec CLI. Record, inspect, edit, preview and export local recordings or managed media projects; locate speech, inspect transcripts/audio/waveforms/spectrograms/frames, submit cuts, compose layers, configure processing, retime media, author captions/keyframes, retain excerpts, generate replacement speech and deliver media/packages.
 ---
 
 # Screenrec
 
-This skill is for the external agent using the toolkit on a user-requested task.
-The project makes zero editorial decisions; it only provides primitives. Exercise
-the caller's judgment only within the delegated task. Repository development or
-verification does not authorize editing the user's recording or asking personal
-keep/remove questions as implementation prerequisites.
-
-Make editorial decisions from recording evidence, then use the CLI to apply
-non-destructive edits and verify the result. The product supplies composable
-primitives; choose treatments from the user's intent, not an assumed house style.
+You make the editorial decisions for the user's task. Screenrec makes zero
+editorial decisions; it only supplies primitives. Inspect recording evidence,
+choose edits within the user's request, then use the CLI to apply non-destructive
+operations and verify the result. Choose treatments from the user's intent,
+not an assumed house style.
 Defaults and presets are starting settings, not requests to clean up every clip.
 When the user delegates editorial judgment, make explicit, reviewable choices
 within that scope; product flexibility is not a requirement to ask approval for

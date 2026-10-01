@@ -21,6 +21,12 @@ Human checks must have a bounded technical purpose; editorial work requires a
 separate user request. Missing technical evidence stays unverified. An unanswered
 editorial question is neither a project prerequisite nor approval to edit.
 
+The product-use [screenrec skill](skills/screenrec/SKILL.md) is for the external
+agent consuming this toolkit, not the agent implementing this repository. Do not
+invoke it as a development workflow. Read or edit it as a product artifact when
+needed, writing from the external caller's perspective. Keep repository guardrails
+here and in development skills; do not put them in the consumer's editing workflow.
+
 Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
 review and verification. Read the relevant SKILL.md before applying it. The Claude
 skill links point to those same copies.

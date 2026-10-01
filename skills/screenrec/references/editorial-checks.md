@@ -1,8 +1,8 @@
 # Editorial checks
 
-These optional techniques apply to an external caller's separately authorized
-editing task. They are not product policies or instructions to undertake editorial
-work during toolkit development. The project itself makes zero editorial decisions.
+These are optional techniques for your delegated editing task. You choose the
+edits and treatments; screenrec supplies primitives and makes zero editorial
+decisions.
 
 Use these checks to catch unintended effects, not to impose a style. Deliberate
 silence, hard cuts, noisy recordings and independent picture/sound edits can all
