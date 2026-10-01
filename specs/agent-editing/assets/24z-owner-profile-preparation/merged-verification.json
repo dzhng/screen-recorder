@@ -79,6 +79,20 @@
       "actualProjectReadAttempts": 0,
       "actualServiceStarts": 0,
       "disposition": "Both lane holds released immediately. No polling, timer, native call, seed query, pin/build repeat or profile retry launched."
+    },
+    {
+      "observedAtUTC": "2026-10-01T10:38:26.287108+00:00",
+      "status": "BUSY; dispatch deferred before service start",
+      "reason": "Unrelated testing renderer147.7% CPU. Root merged checks terminal; both implementation lanes confirmed no live test/build handles and held new CPU-heavy checks for this separate window.",
+      "rawInventory": {
+        "path": "/tmp/screenrec-24z-window-20261001T103826Z-processes.txt",
+        "sha256": "a35fe6f076977cfa4c67ffdd2dcd9ecf12d48aa22ac9cb0add0bd8c9bf461c99",
+        "includedInRepository": false
+      },
+      "actualProfileAttempts": 0,
+      "actualProjectReadAttempts": 0,
+      "actualServiceStarts": 0,
+      "disposition": "Both holds released immediately. No service, profile, query, native invocation, pin/build repeat, timer, polling or timing-cohort retry launched."
     }
   ]
 }
