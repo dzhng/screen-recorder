@@ -36,12 +36,12 @@ Atomic public camera selection is [merged-verified](assets/21f3-public-camera-se
 through allocation, the actual native controller, crash recovery, independent
 admission and explicit project use, including empty allocated sources. Preserve
 that controlled checkpoint without inferring physical or installed acceptance.
-The separately prepared historical profile remains undispatched. Its
-[startup audit](assets/24z-owner-profile-preparation/dispatch-readiness.json)
-found unconditional model-storage construction that mutates staging, conflicting
-with the current model-work restriction even after heavy host contention cleared.
-Do not change the pinned runtime to evade that constraint. A permitted dispatch
-still needs a quiet host window and reverified runtime authority. Do not poll,
+The separately prepared historical profile remains undispatched. The user has
+explicitly authorized model work, removing the authorization objection recorded
+in its [startup audit](assets/24z-owner-profile-preparation/dispatch-readiness.json).
+Use the pinned service and its ordinary model-storage initialization in the
+isolated library. Dispatch still needs a quiet host window and reverified runtime
+authority. Host contention defers this measurement without blocking other work. Do not poll,
 repeat the timing cohort or choose an optimization without owner attribution.
 Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
@@ -78,7 +78,11 @@ marks, accepted retiming/denoise/voice and the chosen 200 ms ambience loop with 
 tolerated slight seam. Do not repeat accepted auditions, retune that loop or
 transfer a verdict to changed output. The repetition-intent solicitation is retired.
 
-No new capture, audible playback, model preparation/install/download, Claude run,
+Model work is authorized within the planned primitives; preserve the selected
+baseline and original prepared files while checking the current preparation owner
+in isolated storage. This authorizes necessary preparation/readiness work, not an
+unmotivated replacement model or repeated accepted inference/audition cohort.
+No new capture, audible playback, Claude run,
 configured CLI-review retry, frozen-worker replacement or installed-app switch is
 authorized. Bounded source verification uses separately pinned scratch builds with
 existing offline CODE dependencies. Any proposed human task must name the missing

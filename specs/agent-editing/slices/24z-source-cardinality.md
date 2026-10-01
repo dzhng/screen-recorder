@@ -2,8 +2,8 @@
 
 Status: **open**. Correctness diagnostic completed; the single timed cohort is red
 on a contended machine; separate owner-profile preparation is complete, with actual
-profiling still undispatched. The latest startup audit identifies model-storage
-construction as an additional authorization constraint. No production defect
+profiling still undispatched. Model work is now explicitly authorized; the prior
+startup objection no longer prevents this isolated profile. No production defect
 or fix is selected. Dependencies:
 [24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
 Final production acceptance still follows [23](23-cutover.md).
@@ -170,8 +170,11 @@ reverification were deferred; no service, read, profile, timer or polling began.
 
 The [dispatch-readiness audit](../assets/24z-owner-profile-preparation/dispatch-readiness.json)
 found the heavy workloads absent and reverified runtime/import identities. Dispatch
-still cannot proceed under the current restriction: this pinned service always
+was withheld under the then-recorded restriction: this pinned service always
 constructs `Models`, whose constructor creates directories and clears/recreates
 staging. A query-only worker allowlist does not prevent that startup mutation.
-No service or profile began. Do not modify the historical runtime or substitute
-another service to evade its authority or the user's constraint.
+No service or profile began during that audit. The user subsequently explicitly
+authorized model work, so ordinary model-storage initialization is permitted in
+the isolated library. Preserve the historical runtime; dispatch remains subject
+to a fresh whole-host preflight and identity verification. Do not substitute a
+different service or transfer this profile to current-production acceptance.

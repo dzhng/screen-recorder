@@ -20,8 +20,9 @@ now [merged-verified](21f3-public-camera-selection/merged-verification.json)
 through actual independent recovery/admission and explicit portable project use.
 Remaining bounded owner attribution follows 24z's separate runtime and host-window
 contract. Its [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
-identifies model-owner staging mutation before any query; the current restriction
-prevents dispatch. No repeated cohort or physical acceptance follows from preparation.
+identifies model-owner staging mutation before any query; the user's subsequent
+model-work authorization permits that ordinary isolated startup. No repeated cohort
+or physical acceptance follows from preparation.
 The [native recovery prerequisite](21f3c-source-publication-recovery/merged-verification.json)
 is merged-verified and included in the completed controlled selector gate.
 [Camera support without primary pictures](../slices/21f3b-independent-camera-clock.md)
