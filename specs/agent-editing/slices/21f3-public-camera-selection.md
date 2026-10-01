@@ -3,9 +3,10 @@
 Status: selector-free 21f2, native
 [independent publication](21f3a-independent-publication.md) and the
 [camera-origin prerequisite](21f3b-independent-camera-clock.md) are merged-verified.
-The complete atomic selector checkpoint is in isolated preparation.
-[Crash-source publication recovery](21f3c-source-publication-recovery.md) must also
-pass before enabling selection. This is the third checkpoint
+The [native crash-source prerequisite](21f3c-source-publication-recovery.md) is
+merged-verified. The complete atomic selector checkpoint is in isolated integration;
+its actual recovery/admission and complete consumer gates must pass before enabling
+selection. This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 

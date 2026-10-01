@@ -1,9 +1,9 @@
 # 21f — Complete public selected-camera integration
 
 Status: selector-free capture facts and durable admission integrated and merged-verified;
-fresh-service coordination, independent publication and camera clock/support
-are merged-verified. Crash-source recovery authority and atomic public selection
-remain open.
+fresh-service coordination, independent publication, camera clock/support
+and native crash-source recovery authority are merged-verified. Complete atomic
+public selection remains open.
 Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 

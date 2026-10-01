@@ -1,0 +1,80 @@
+{
+  "scope": "Root merged native source, full packet/archive and linked cached CODE identity verification; no hardware/model/native execution in this check",
+  "integratedCommit": "03afe223",
+  "sourceArchiveMembersChecked": 267,
+  "packetMembersChecked": 13,
+  "archives": {
+    "source.tar.gz": {
+      "bytes": 31373812,
+      "sha256": "9ff27f7f4460ad0a24ef24f600e906078b786d602f4674243b9d15faccc38602"
+    },
+    "cohort.tar.gz": {
+      "bytes": 6421572,
+      "sha256": "5a8b46d979e6d2fc052677ab009e75aae2ff67aa991336442ebaf00435938d2f"
+    },
+    "external-code.tar.gz": {
+      "bytes": 1814869,
+      "sha256": "67f7a93f2a2c70833dfd8991fef5b8c8f4da8ee7ba2c3f5df97728ca3e6f6f1a"
+    }
+  },
+  "archiveRegularMembers": {
+    "source.tar.gz": 267,
+    "cohort.tar.gz": 805,
+    "external-code.tar.gz": 289
+  },
+  "externalCODE": {
+    "sources": 288,
+    "linkedObjects": 285,
+    "module": {
+      "path": "/tmp/screenrec-21f3c-build/arm64-apple-macosx/debug/Modules/FluidAudio.swiftmodule",
+      "bytes": 3164800,
+      "sha256": "abd5a9f380574cbda1c46d0cd32d467488fabd21627422604c70ec6d79d6ac62"
+    },
+    "revision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "checkoutStatus": "",
+    "NemoTextProcessingBinaryLinked": false
+  },
+  "runner": {
+    "path": "/tmp/screenrec-21f3c-final-runner",
+    "bytes": 35544880,
+    "sha256": "12e1e9f10e186e6b08c65bda75de2fc31074e563b9aec2c177d9b1e96b5f9233"
+  },
+  "permittedFormatting": [
+    {
+      "file": "helpers/mac/Tests/ScreenRecorderCaptureTests/FixtureCameraSession.swift",
+      "change": "Remove one blank line at EOF; compiled source archive retains exact original build input. No executable tokens or line positions changed.",
+      "compiledSha256": "a48fa418f8ff88165645239243290e133e974fcb03713c10abeb0733cff82f3f",
+      "committedSha256": "fc903998442f7b7d790edc591e97b5470c1e37aaf59c9ca3f8a0b9d472cc4e4a"
+    }
+  ],
+  "errors": [],
+  "observedAtUTC": "2026-10-01T14:19:14.248634+00:00",
+  "focusedGate": {
+    "exitCode": 0,
+    "command": "SCREENREC_SOURCE_RECOVERY_OUTPUT=/tmp/screenrec-21f3c-merged-evidence /tmp/screenrec-21f3c-final-runner",
+    "scope": "Actual native recovery and staged verification through the frozen runner with all merged production sources matched; one recorded test-only EOF formatting difference",
+    "log": "merged-focused.log"
+  },
+  "inheritedDefaultGate": {
+    "exitCode": 0,
+    "scope": "Complete child native default capture gate; not repeated by root"
+  },
+  "review": "Root and independent peer settled native shape/diff/docs review clean after refusal, closure, cancellation, fsync and diagnostic corrections",
+  "limits": [
+    "Atomic core/service/controller/importer and donor-independent READY portable gates remain with 21f3",
+    "Physical synchronization, live hardware, representative image quality and completed-stop deadline remain open",
+    "Intermediate direct-probe failed runner was not separately frozen; retained failure is not a complete runtime pin"
+  ],
+  "mergedArchive": {
+    "file": "merged-evidence.tar.gz",
+    "bytes": 3496213,
+    "sha256": "d6f1d484259bf73aaba3140aef066e93421ae2e1ec1f303a24c50edc953cd91f",
+    "regularMembers": 471
+  },
+  "documentation": {
+    "filesChecked": 11,
+    "localFileLinksValidated": 528,
+    "errors": [],
+    "sourceReview": "Root shape/diff/docs and independent settled source review clean; no additional product or editorial policy chosen"
+  }
+}

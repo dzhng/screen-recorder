@@ -1,7 +1,8 @@
 # 21f3c — Native crash-source publication recovery
 
-Status: native implementation and focused/default capture gates pass in the isolated worktree.
-Root integration review and the atomic consumer gate remain separate acceptance. The
+Status: native implementation is merged-verified by the
+[root source/runtime and focused check](../assets/21f3c-source-publication-recovery/merged-verification.json).
+The complete native default gate also passes; atomic consumer integration remains separate. The
 [scoped evidence packet](../assets/21f3c-source-publication-recovery/README.md) pins current source,
 runtime, complete recovered specimens and refusals. No physical acceptance is added.
 Prerequisites: [3a authority](21f3a-independent-publication.md),
