@@ -6315,3 +6315,43 @@ architecture judgments remain separate from the original whole-body deadline
 failure. The [setup-correction ledger](assets/24z11-receipt-setup-correction/choices.md)
 records the measured runner-lifecycle decision; the current merged check passes
 without changing deadlines or product behavior.
+
+
+## External-caller acceptance ownership
+
+### Correct the undefined one-shot executor promise
+
+- **When:** Acceptance maintenance after 24z11 integration.
+- **Choice:** The earlier plan named a Node command that supposedly ran a fresh
+  external caller, but supplied no caller or handoff interface. Implementing that
+  placeholder as the developer's preferred edit script would make the harness do
+  the caller's work and would fail the acceptance requirement it was meant to test.
+- **Gap:** A proposed probe command became an implementation TODO without defining
+  who would independently discover the toolkit and choose its calls. The actual
+  preparer intentionally creates unedited inputs and rejects execution mode.
+- **Reach:** Preparation stays with the current harness. The release checkpoint
+  still requires a fresh external caller through installed CLI/MCP and complete
+  delivery/recovery evidence. The completed source CLI journey is reused; no
+  default agent provider or automatic editorial script is added.
+- **Verdict:** Unsound planned mechanism, corrected. Judge the external caller's
+  actual results rather than adding an undefined executor to satisfy a placeholder.
+- **Confidence:** High; this preserves the user's explicit zero-editorial product
+  boundary and avoids repeating a completed caller cohort.
+
+### Use representative independent MCP coverage alongside the primary CLI journey
+
+- **When:** Remaining slice25 checkpoint reslice.
+- **Choice:** The fresh caller must independently interpret MCP schemas, inspect a
+  pinned revision, handle explicit replay/errors and receive real default-SDK
+  delivery. It need not synthesize and render every completed fixture effect again
+  merely to repeat the same work through another adapter.
+- **Gap:** The spec required CLI and MCP but did not prescribe duplicating every
+  effect. The retained caller uses CLI; preparation's MCP calls cannot stand in
+  for independent caller use.
+- **Reach:** The installed checkpoint retains both interfaces and complete outputs,
+  with unchanged accepted media/recipes reused. Physical/listening/final-scale
+  requirements remain open; this decision does not turn source proof into release.
+- **Verdict:** Sound; representative discovery, state/error and delivery checks
+  verify the distinct caller boundary while avoiding a redundant full media run.
+- **Confidence:** Medium; exact checkpoint inputs inherit the frozen brief and
+  pinned candidate, and broader coverage remains possible if a named gap emerges.

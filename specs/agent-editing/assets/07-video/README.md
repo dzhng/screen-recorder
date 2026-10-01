@@ -30,9 +30,13 @@ does not claim that SIGKILL can run Swift cleanup. Refusal checks also verify cl
 including unsupported layers/visual processing, odd canvases, unproven acquisition,
 and unavailable ancestors over a source's physically empty edit.
 
-[Existing frame checks](frame-preservation.txt) pass. Matched old-renderer requests
-for cuts and empty edits produce identical decoded-pixel hashes before and after
-the shared sample-support/orientation extraction (see temporal report preservation).
+[Existing frame checks](frame-preservation.txt) pass. This temporal report and
+the raster follow-up have empty `preservation` arrays, so they do not establish
+the optional old-renderer comparison. Later [native span-renderer comparisons](../10b-source-acquisition/native-video/report.json)
+retain equal decoded hashes for cuts and empty edits through `media.renderMovie`
+on both workers. That preserves the existing native path; it does not compare
+legacy public edits with the new composition entry. The [cutover correspondence](../acceptance-maintenance/cutover-outcomes.md)
+keeps those authority layers separate.
 The [falsification](wrong-source-red.txt) forces native source selection to zero and
 fails the expected counter at frame 5; restoration passes the temporal journey.
 

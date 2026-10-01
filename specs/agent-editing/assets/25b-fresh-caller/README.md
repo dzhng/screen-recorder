@@ -27,7 +27,10 @@ the developer supplied bound curves/background identity, without an operation
 walkthrough. Choices of requested styling and operations stayed with that caller.
 The toolkit made no editorial decisions.
 
-This verifies a source-service journey. Repeated incidental read filenames were
+This verifies the source CLI journey with an explicit socket. Archived `caller.py`
+uses CLI operations and `discover.py` uses CLI help; independent MCP caller use and
+installed/default discovery remain separate. The archive retains 464 request and
+463 reply files, not an exhaustive call count. Repeated incidental read filenames were
 reused on script resume; substantive mutations, failures and delivery receipts
 remain retained. The attempted fresh visual-review spawn hit the thread limit,
 so the documented adversarial fallback covers the six frames and enlarged crops.

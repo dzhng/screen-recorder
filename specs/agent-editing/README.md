@@ -46,7 +46,7 @@ no new capture or audition.
 | [12 speech evidence](slices/12-speech-evidence.md) | Selected baseline, actual model preparation and saved human comparisons remain banked | Broader lexical/acoustic coverage, omitted text, protected words/joins and held-out timing; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | [Controlled allocation-to-project behavior](assets/21f3-public-camera-selection/merged-verification.json), retained originals/journals/recovery | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports, process ownership and paired edit/history preservation verified | Remaining preservation correspondence, concrete presentation, installed switching and obsolete-owner removal after prerequisites |
-| [25 external caller](slices/25-agent-acceptance.md) | [Fresh source-caller workflow](slices/25b-fresh-caller.md) completed the supplied brief, delivery, history and empty-recipient recovery | Full installed/listening/physical release gates and the planned one-shot harness execution mode |
+| [25 external caller](slices/25-agent-acceptance.md) | [Fresh source-caller workflow](slices/25b-fresh-caller.md) completed the supplied brief, delivery, history and empty-recipient recovery | Independent MCP caller coverage, installed/default discovery and full listening/physical/final release gates |
 
 [Banked evidence](assets/integrated-evidence.md) and
 [source/runtime identities](assets/implementation-pickup.md) remain authoritative.

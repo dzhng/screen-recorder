@@ -1,7 +1,8 @@
 # 25 — External-caller primitive acceptance
 
 Status: the [fresh source-caller workflow](25b-fresh-caller.md) is executed and
-verified in its controlled scope. Full installed/release acceptance remains open.
+verified in its controlled source CLI scope. Independent MCP caller coverage and
+full installed/release acceptance remain open.
 [Input preparation](../assets/25-input-preparation/README.md) and
 [registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
 [focused CLI discovery](../assets/25-cli-discovery/README.md),
@@ -70,12 +71,28 @@ SCREENREC_NATIVE=/path/to/pinned/screenrec-native node packages/test-harness/edi
 
 `--resume` continues the same isolated preparation directory with the original
 import/project request IDs and native worker identity. This is a harness stage,
-not the external caller. Full execution without `--prepare` remains unimplemented;
-the planned fresh-caller invocation remains:
+not the external caller. `acceptance.mjs` owns preparation only. The former planned
+non-`--prepare` command did not specify an external caller or handoff protocol;
+implementing a developer-authored edit sequence would not satisfy the independent
+caller contract. No automatic editorial executor is required in that preparer.
 
-```sh
-node packages/test-harness/editing/acceptance.mjs --case tutorial --transport both
-```
+The remaining caller checkpoint uses a pinned installed candidate after its
+cutover prerequisites pass. Give a fresh external agent the frozen brief and
+advertised consumer interfaces; retain its direct CLI and MCP discovery, actual
+calls, complete replies, outputs and scoped verification. CLI remains primary.
+Alongside the CLI journey, representative independent MCP use must cover schema
+interpretation, revision-bound inspection, explicit replay/error handling and
+actual delivery through the default SDK. Reuse unchanged accepted output bytes
+and recipes; repeating every effect on both transports is not required.
+
+The [25b source caller](25b-fresh-caller.md) already supplies the thirteen-effect
+CLI workflow and must not be rerun merely to populate an obsolete command. Its
+explicit socket bypassed installed/default discovery. The preparer's alternating
+CLI/MCP calls are not independent caller MCP evidence. Preserve physical,
+listening, final-scale and unprimed visual gates separately. If a maintained
+launcher is later requested, its external-caller input/result interface needs an
+explicit contract; no agent provider or scripted editorial implementation is
+invented here.
 
 The prepared library has no new transcript or synthesized speech. Existing human
 marks bind the supplied cuts directly to their original narration bytes and clock.
