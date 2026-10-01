@@ -34,6 +34,13 @@ metadata and live tokens. [24z11 complete-result delivery](slices/24z11-operatio
 retains its measured setup correction and original failed deadlines. Neither pass
 changes transport limits, test deadlines or the external caller's decision ownership.
 
+An independent speech-evaluator correction is underway under [12](slices/12-speech-evidence.md).
+The established best-effort policy reports filler coverage without a recall/precision
+failure threshold. Remove the stale scorer gates and automatic promotion of optional
+fillers to required words, retaining explicit preservation targets and every other
+quality requirement. This requires no inference or accepted media rerun and does
+not close broader speech quality.
+
 [23j paired public state](slices/23j-state-preservation.md) closes the edit/history
 correspondence. Its historical MCP adapter exit events remain unrecorded; SDK close
 resolution is not termination proof. Map the other banked outcomes in the
