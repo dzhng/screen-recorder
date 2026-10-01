@@ -1,0 +1,951 @@
+{
+  "passed": true,
+  "scope": "Actual generic owner receipt through public CLI/MCP status and ready-idempotent prepare; network denied; controlled native startup only",
+  "trace": [
+    {
+      "operation": "model.list",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.list",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.list",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.list",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "model.list",
+        "params": {},
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": [
+          {
+            "modelId": "parakeet",
+            "purpose": "transcription",
+            "platform": {
+              "system": "darwin",
+              "architecture": "arm64"
+            },
+            "descriptorDigest": "2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "pins": {
+              "runtime": "FluidAudio",
+              "runtimeVersion": "0.15.7",
+              "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+              "decoder": "parakeet-tdt-batch",
+              "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+              "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+            },
+            "preparation": {
+              "runtimeSourceRequired": false,
+              "modelBytes": 464414912,
+              "runtimeBytes": 0
+            }
+          },
+          {
+            "modelId": "qwen3-tts-icl-v1",
+            "purpose": "voice",
+            "platform": {
+              "system": "darwin",
+              "architecture": "arm64"
+            },
+            "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+            "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+            "pins": {
+              "runtime": "mlx-audio",
+              "runtimeVersion": "0.5.6",
+              "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+              "decoder": "qwen3-tts-icl-v1",
+              "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+              "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f"
+            },
+            "generationProfile": {
+              "id": "qwen3-tts-icl-v1",
+              "scope": "Measured nonstream ICL execution profile; not universal model capacity or voice quality",
+              "defaults": {
+                "temperature": 0.9,
+                "top_k": 50,
+                "top_p": 1,
+                "repetition_penalty": 1.05,
+                "max_tokens": 256,
+                "lang_code": "english",
+                "stream": false
+              },
+              "defaultSeed": "18",
+              "seedMaximum": "18446744073709551615",
+              "temperature": {
+                "greedy": 0,
+                "minimumPositive": 0.000001,
+                "maximum": 1000000
+              },
+              "topKMaximum": 3072,
+              "effectiveRepetitionMinimum": 1.5,
+              "languages": [
+                "auto",
+                "chinese",
+                "english",
+                "german",
+                "italian",
+                "portuguese",
+                "spanish",
+                "japanese",
+                "korean",
+                "french",
+                "russian"
+              ],
+              "reference": {
+                "sampleRate": 24000,
+                "channels": 1,
+                "sampleFormat": "float32",
+                "maximumFrames": 480000,
+                "maximumEncodedBytes": 1985536,
+                "maximumCodecPositions": 250
+              },
+              "maximumTargetTokens": 1024,
+              "maximumPrefillPositions": 1325,
+              "maximumOutputTokens": 512,
+              "maximumRequestBytes": 1048576,
+              "stream": false,
+              "iclSourceFile": "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py",
+              "tokenizerFiles": [
+                "config.json",
+                "tokenizer_config.json",
+                "vocab.json",
+                "merges.txt"
+              ],
+              "repetitionMaximum": 3.3895313892515355e+38,
+              "topPMinimum": 0,
+              "codebookVocabularies": {
+                "first": 3072,
+                "residual": 2048
+              },
+              "filterSemantics": {
+                "greedy": "Temperature zero bypasses top-k and nucleus sampling.",
+                "topK": "Zero or at least the codebook vocabulary disables top-k independently for that codebook.",
+                "topP": "Zero or one disables nucleus sampling. If filtering would erase all valid candidates, the registered runtime preserves the first maximum-logit candidate; already-valid filtered results are unchanged.",
+                "repetition": "The effective floor applies only to first-codebook recent history (64 positions); residual codebooks receive no generated history."
+              }
+            },
+            "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+            "preparation": {
+              "runtimeSourceRequired": true,
+              "modelBytes": 2516143009,
+              "runtimeBytes": 488274953
+            }
+          }
+        ],
+        "id": "a6dc92ae-6643-46c0-b6ef-d3f00eb33fd7"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "a5f9f934-b7f1-4afb-9987-513dc5f8f168"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "e167376f-2b71-499e-a4f2-a54599d71f57"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.list",
+        "params": {},
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":[{\"modelId\":\"parakeet\",\"purpose\":\"transcription\",\"platform\":{\"system\":\"darwin\",\"architecture\":\"arm64\"},\"descriptorDigest\":\"2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482\",\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"pins\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\"},\"preparation\":{\"runtimeSourceRequired\":false,\"modelBytes\":464414912,\"runtimeBytes\":0}},{\"modelId\":\"qwen3-tts-icl-v1\",\"purpose\":\"voice\",\"platform\":{\"system\":\"darwin\",\"architecture\":\"arm64\"},\"descriptorDigest\":\"a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377\",\"modelDigest\":\"552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9\",\"pins\":{\"runtime\":\"mlx-audio\",\"runtimeVersion\":\"0.5.6\",\"runtimeRevision\":\"4ab7e6f7dedd69a136cfaa318c5dc8aed5119446\",\"decoder\":\"qwen3-tts-icl-v1\",\"model\":\"mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16\",\"modelRevision\":\"1eccf1cb2519b5a4e8a95b5f0544f3303568164f\"},\"generationProfile\":{\"id\":\"qwen3-tts-icl-v1\",\"scope\":\"Measured nonstream ICL execution profile; not universal model capacity or voice quality\",\"defaults\":{\"temperature\":0.9,\"top_k\":50,\"top_p\":1,\"repetition_penalty\":1.05,\"max_tokens\":256,\"lang_code\":\"english\",\"stream\":false},\"defaultSeed\":\"18\",\"seedMaximum\":\"18446744073709551615\",\"temperature\":{\"greedy\":0,\"minimumPositive\":0.000001,\"maximum\":1000000},\"topKMaximum\":3072,\"effectiveRepetitionMinimum\":1.5,\"languages\":[\"auto\",\"chinese\",\"english\",\"german\",\"italian\",\"portuguese\",\"spanish\",\"japanese\",\"korean\",\"french\",\"russian\"],\"reference\":{\"sampleRate\":24000,\"channels\":1,\"sampleFormat\":\"float32\",\"maximumFrames\":480000,\"maximumEncodedBytes\":1985536,\"maximumCodecPositions\":250},\"maximumTargetTokens\":1024,\"maximumPrefillPositions\":1325,\"maximumOutputTokens\":512,\"maximumRequestBytes\":1048576,\"stream\":false,\"iclSourceFile\":\"mlx_audio/tts/models/qwen3_tts/qwen3_tts.py\",\"tokenizerFiles\":[\"config.json\",\"tokenizer_config.json\",\"vocab.json\",\"merges.txt\"],\"repetitionMaximum\":3.3895313892515355e+38,\"topPMinimum\":0,\"codebookVocabularies\":{\"first\":3072,\"residual\":2048},\"filterSemantics\":{\"greedy\":\"Temperature zero bypasses top-k and nucleus sampling.\",\"topK\":\"Zero or at least the codebook vocabulary disables top-k independently for that codebook.\",\"topP\":\"Zero or one disables nucleus sampling. If filtering would erase all valid candidates, the registered runtime preserves the first maximum-logit candidate; already-valid filtered results are unchanged.\",\"repetition\":\"The effective floor applies only to first-codebook recent history (64 positions); residual codebooks receive no generated history.\"}},\"runtimeDigest\":\"3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001\",\"preparation\":{\"runtimeSourceRequired\":true,\"modelBytes\":2516143009,\"runtimeBytes\":488274953}}],\"id\":\"2e4f304b-3e12-4b85-90b2-320453e7d66b\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": [
+            {
+              "modelId": "parakeet",
+              "purpose": "transcription",
+              "platform": {
+                "system": "darwin",
+                "architecture": "arm64"
+              },
+              "descriptorDigest": "2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482",
+              "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+              "pins": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+              },
+              "preparation": {
+                "runtimeSourceRequired": false,
+                "modelBytes": 464414912,
+                "runtimeBytes": 0
+              }
+            },
+            {
+              "modelId": "qwen3-tts-icl-v1",
+              "purpose": "voice",
+              "platform": {
+                "system": "darwin",
+                "architecture": "arm64"
+              },
+              "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+              "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+              "pins": {
+                "runtime": "mlx-audio",
+                "runtimeVersion": "0.5.6",
+                "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+                "decoder": "qwen3-tts-icl-v1",
+                "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+                "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f"
+              },
+              "generationProfile": {
+                "id": "qwen3-tts-icl-v1",
+                "scope": "Measured nonstream ICL execution profile; not universal model capacity or voice quality",
+                "defaults": {
+                  "temperature": 0.9,
+                  "top_k": 50,
+                  "top_p": 1,
+                  "repetition_penalty": 1.05,
+                  "max_tokens": 256,
+                  "lang_code": "english",
+                  "stream": false
+                },
+                "defaultSeed": "18",
+                "seedMaximum": "18446744073709551615",
+                "temperature": {
+                  "greedy": 0,
+                  "minimumPositive": 0.000001,
+                  "maximum": 1000000
+                },
+                "topKMaximum": 3072,
+                "effectiveRepetitionMinimum": 1.5,
+                "languages": [
+                  "auto",
+                  "chinese",
+                  "english",
+                  "german",
+                  "italian",
+                  "portuguese",
+                  "spanish",
+                  "japanese",
+                  "korean",
+                  "french",
+                  "russian"
+                ],
+                "reference": {
+                  "sampleRate": 24000,
+                  "channels": 1,
+                  "sampleFormat": "float32",
+                  "maximumFrames": 480000,
+                  "maximumEncodedBytes": 1985536,
+                  "maximumCodecPositions": 250
+                },
+                "maximumTargetTokens": 1024,
+                "maximumPrefillPositions": 1325,
+                "maximumOutputTokens": 512,
+                "maximumRequestBytes": 1048576,
+                "stream": false,
+                "iclSourceFile": "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py",
+                "tokenizerFiles": [
+                  "config.json",
+                  "tokenizer_config.json",
+                  "vocab.json",
+                  "merges.txt"
+                ],
+                "repetitionMaximum": 3.3895313892515355e+38,
+                "topPMinimum": 0,
+                "codebookVocabularies": {
+                  "first": 3072,
+                  "residual": 2048
+                },
+                "filterSemantics": {
+                  "greedy": "Temperature zero bypasses top-k and nucleus sampling.",
+                  "topK": "Zero or at least the codebook vocabulary disables top-k independently for that codebook.",
+                  "topP": "Zero or one disables nucleus sampling. If filtering would erase all valid candidates, the registered runtime preserves the first maximum-logit candidate; already-valid filtered results are unchanged.",
+                  "repetition": "The effective floor applies only to first-codebook recent history (64 positions); residual codebooks receive no generated history."
+                }
+              },
+              "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+              "preparation": {
+                "runtimeSourceRequired": true,
+                "modelBytes": 2516143009,
+                "runtimeBytes": 488274953
+              }
+            }
+          ],
+          "id": "2e4f304b-3e12-4b85-90b2-320453e7d66b"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"569d3b06-840a-4e0d-9484-c0022164b466\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "569d3b06-840a-4e0d-9484-c0022164b466"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"3c2c3dc1-c1c3-420b-8ecf-3374bfd5ac55\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "3c2c3dc1-c1c3-420b-8ecf-3374bfd5ac55"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.list",
+        "params": {},
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": [
+          {
+            "modelId": "parakeet",
+            "purpose": "transcription",
+            "platform": {
+              "system": "darwin",
+              "architecture": "arm64"
+            },
+            "descriptorDigest": "2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "pins": {
+              "runtime": "FluidAudio",
+              "runtimeVersion": "0.15.7",
+              "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+              "decoder": "parakeet-tdt-batch",
+              "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+              "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+            },
+            "preparation": {
+              "runtimeSourceRequired": false,
+              "modelBytes": 464414912,
+              "runtimeBytes": 0
+            }
+          },
+          {
+            "modelId": "qwen3-tts-icl-v1",
+            "purpose": "voice",
+            "platform": {
+              "system": "darwin",
+              "architecture": "arm64"
+            },
+            "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+            "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+            "pins": {
+              "runtime": "mlx-audio",
+              "runtimeVersion": "0.5.6",
+              "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+              "decoder": "qwen3-tts-icl-v1",
+              "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+              "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f"
+            },
+            "generationProfile": {
+              "id": "qwen3-tts-icl-v1",
+              "scope": "Measured nonstream ICL execution profile; not universal model capacity or voice quality",
+              "defaults": {
+                "temperature": 0.9,
+                "top_k": 50,
+                "top_p": 1,
+                "repetition_penalty": 1.05,
+                "max_tokens": 256,
+                "lang_code": "english",
+                "stream": false
+              },
+              "defaultSeed": "18",
+              "seedMaximum": "18446744073709551615",
+              "temperature": {
+                "greedy": 0,
+                "minimumPositive": 0.000001,
+                "maximum": 1000000
+              },
+              "topKMaximum": 3072,
+              "effectiveRepetitionMinimum": 1.5,
+              "languages": [
+                "auto",
+                "chinese",
+                "english",
+                "german",
+                "italian",
+                "portuguese",
+                "spanish",
+                "japanese",
+                "korean",
+                "french",
+                "russian"
+              ],
+              "reference": {
+                "sampleRate": 24000,
+                "channels": 1,
+                "sampleFormat": "float32",
+                "maximumFrames": 480000,
+                "maximumEncodedBytes": 1985536,
+                "maximumCodecPositions": 250
+              },
+              "maximumTargetTokens": 1024,
+              "maximumPrefillPositions": 1325,
+              "maximumOutputTokens": 512,
+              "maximumRequestBytes": 1048576,
+              "stream": false,
+              "iclSourceFile": "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py",
+              "tokenizerFiles": [
+                "config.json",
+                "tokenizer_config.json",
+                "vocab.json",
+                "merges.txt"
+              ],
+              "repetitionMaximum": 3.3895313892515355e+38,
+              "topPMinimum": 0,
+              "codebookVocabularies": {
+                "first": 3072,
+                "residual": 2048
+              },
+              "filterSemantics": {
+                "greedy": "Temperature zero bypasses top-k and nucleus sampling.",
+                "topK": "Zero or at least the codebook vocabulary disables top-k independently for that codebook.",
+                "topP": "Zero or one disables nucleus sampling. If filtering would erase all valid candidates, the registered runtime preserves the first maximum-logit candidate; already-valid filtered results are unchanged.",
+                "repetition": "The effective floor applies only to first-codebook recent history (64 positions); residual codebooks receive no generated history."
+              }
+            },
+            "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+            "preparation": {
+              "runtimeSourceRequired": true,
+              "modelBytes": 2516143009,
+              "runtimeBytes": 488274953
+            }
+          }
+        ],
+        "id": "fc7a808f-fda9-4b3f-a724-de782923fe8e"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "f9326393-7ca9-4c11-8948-14bbdb41bac9"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "f4ddf84f-575a-41e1-be30-bed30aa33cfe"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.list",
+        "params": {},
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":[{\"modelId\":\"parakeet\",\"purpose\":\"transcription\",\"platform\":{\"system\":\"darwin\",\"architecture\":\"arm64\"},\"descriptorDigest\":\"2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482\",\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"pins\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\"},\"preparation\":{\"runtimeSourceRequired\":false,\"modelBytes\":464414912,\"runtimeBytes\":0}},{\"modelId\":\"qwen3-tts-icl-v1\",\"purpose\":\"voice\",\"platform\":{\"system\":\"darwin\",\"architecture\":\"arm64\"},\"descriptorDigest\":\"a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377\",\"modelDigest\":\"552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9\",\"pins\":{\"runtime\":\"mlx-audio\",\"runtimeVersion\":\"0.5.6\",\"runtimeRevision\":\"4ab7e6f7dedd69a136cfaa318c5dc8aed5119446\",\"decoder\":\"qwen3-tts-icl-v1\",\"model\":\"mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16\",\"modelRevision\":\"1eccf1cb2519b5a4e8a95b5f0544f3303568164f\"},\"generationProfile\":{\"id\":\"qwen3-tts-icl-v1\",\"scope\":\"Measured nonstream ICL execution profile; not universal model capacity or voice quality\",\"defaults\":{\"temperature\":0.9,\"top_k\":50,\"top_p\":1,\"repetition_penalty\":1.05,\"max_tokens\":256,\"lang_code\":\"english\",\"stream\":false},\"defaultSeed\":\"18\",\"seedMaximum\":\"18446744073709551615\",\"temperature\":{\"greedy\":0,\"minimumPositive\":0.000001,\"maximum\":1000000},\"topKMaximum\":3072,\"effectiveRepetitionMinimum\":1.5,\"languages\":[\"auto\",\"chinese\",\"english\",\"german\",\"italian\",\"portuguese\",\"spanish\",\"japanese\",\"korean\",\"french\",\"russian\"],\"reference\":{\"sampleRate\":24000,\"channels\":1,\"sampleFormat\":\"float32\",\"maximumFrames\":480000,\"maximumEncodedBytes\":1985536,\"maximumCodecPositions\":250},\"maximumTargetTokens\":1024,\"maximumPrefillPositions\":1325,\"maximumOutputTokens\":512,\"maximumRequestBytes\":1048576,\"stream\":false,\"iclSourceFile\":\"mlx_audio/tts/models/qwen3_tts/qwen3_tts.py\",\"tokenizerFiles\":[\"config.json\",\"tokenizer_config.json\",\"vocab.json\",\"merges.txt\"],\"repetitionMaximum\":3.3895313892515355e+38,\"topPMinimum\":0,\"codebookVocabularies\":{\"first\":3072,\"residual\":2048},\"filterSemantics\":{\"greedy\":\"Temperature zero bypasses top-k and nucleus sampling.\",\"topK\":\"Zero or at least the codebook vocabulary disables top-k independently for that codebook.\",\"topP\":\"Zero or one disables nucleus sampling. If filtering would erase all valid candidates, the registered runtime preserves the first maximum-logit candidate; already-valid filtered results are unchanged.\",\"repetition\":\"The effective floor applies only to first-codebook recent history (64 positions); residual codebooks receive no generated history.\"}},\"runtimeDigest\":\"3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001\",\"preparation\":{\"runtimeSourceRequired\":true,\"modelBytes\":2516143009,\"runtimeBytes\":488274953}}],\"id\":\"80e0586d-bebc-48bb-a324-086673f88893\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": [
+            {
+              "modelId": "parakeet",
+              "purpose": "transcription",
+              "platform": {
+                "system": "darwin",
+                "architecture": "arm64"
+              },
+              "descriptorDigest": "2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482",
+              "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+              "pins": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+              },
+              "preparation": {
+                "runtimeSourceRequired": false,
+                "modelBytes": 464414912,
+                "runtimeBytes": 0
+              }
+            },
+            {
+              "modelId": "qwen3-tts-icl-v1",
+              "purpose": "voice",
+              "platform": {
+                "system": "darwin",
+                "architecture": "arm64"
+              },
+              "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+              "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+              "pins": {
+                "runtime": "mlx-audio",
+                "runtimeVersion": "0.5.6",
+                "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+                "decoder": "qwen3-tts-icl-v1",
+                "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+                "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f"
+              },
+              "generationProfile": {
+                "id": "qwen3-tts-icl-v1",
+                "scope": "Measured nonstream ICL execution profile; not universal model capacity or voice quality",
+                "defaults": {
+                  "temperature": 0.9,
+                  "top_k": 50,
+                  "top_p": 1,
+                  "repetition_penalty": 1.05,
+                  "max_tokens": 256,
+                  "lang_code": "english",
+                  "stream": false
+                },
+                "defaultSeed": "18",
+                "seedMaximum": "18446744073709551615",
+                "temperature": {
+                  "greedy": 0,
+                  "minimumPositive": 0.000001,
+                  "maximum": 1000000
+                },
+                "topKMaximum": 3072,
+                "effectiveRepetitionMinimum": 1.5,
+                "languages": [
+                  "auto",
+                  "chinese",
+                  "english",
+                  "german",
+                  "italian",
+                  "portuguese",
+                  "spanish",
+                  "japanese",
+                  "korean",
+                  "french",
+                  "russian"
+                ],
+                "reference": {
+                  "sampleRate": 24000,
+                  "channels": 1,
+                  "sampleFormat": "float32",
+                  "maximumFrames": 480000,
+                  "maximumEncodedBytes": 1985536,
+                  "maximumCodecPositions": 250
+                },
+                "maximumTargetTokens": 1024,
+                "maximumPrefillPositions": 1325,
+                "maximumOutputTokens": 512,
+                "maximumRequestBytes": 1048576,
+                "stream": false,
+                "iclSourceFile": "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py",
+                "tokenizerFiles": [
+                  "config.json",
+                  "tokenizer_config.json",
+                  "vocab.json",
+                  "merges.txt"
+                ],
+                "repetitionMaximum": 3.3895313892515355e+38,
+                "topPMinimum": 0,
+                "codebookVocabularies": {
+                  "first": 3072,
+                  "residual": 2048
+                },
+                "filterSemantics": {
+                  "greedy": "Temperature zero bypasses top-k and nucleus sampling.",
+                  "topK": "Zero or at least the codebook vocabulary disables top-k independently for that codebook.",
+                  "topP": "Zero or one disables nucleus sampling. If filtering would erase all valid candidates, the registered runtime preserves the first maximum-logit candidate; already-valid filtered results are unchanged.",
+                  "repetition": "The effective floor applies only to first-codebook recent history (64 positions); residual codebooks receive no generated history."
+                }
+              },
+              "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+              "preparation": {
+                "runtimeSourceRequired": true,
+                "modelBytes": 2516143009,
+                "runtimeBytes": 488274953
+              }
+            }
+          ],
+          "id": "80e0586d-bebc-48bb-a324-086673f88893"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"157a9ede-4407-4865-8849-10549a38dc2d\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "157a9ede-4407-4865-8849-10549a38dc2d"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"4e5dfb4f-1aad-45fe-9ced-96f806c1f0da\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "4e5dfb4f-1aad-45fe-9ced-96f806c1f0da"
+        },
+        "isError": false
+      }
+    }
+  ],
+  "preparationRequests": [
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Decoder.mlmodelc/analytics/coremldata.bin",
+      "relative": "Decoder.mlmodelc/analytics/coremldata.bin",
+      "bytes": 243,
+      "sha256": "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Decoder.mlmodelc/coremldata.bin",
+      "relative": "Decoder.mlmodelc/coremldata.bin",
+      "bytes": 554,
+      "sha256": "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Decoder.mlmodelc/metadata.json",
+      "relative": "Decoder.mlmodelc/metadata.json",
+      "bytes": 3427,
+      "sha256": "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Decoder.mlmodelc/model.mil",
+      "relative": "Decoder.mlmodelc/model.mil",
+      "bytes": 13106,
+      "sha256": "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Decoder.mlmodelc/weights/weight.bin",
+      "relative": "Decoder.mlmodelc/weights/weight.bin",
+      "bytes": 14429952,
+      "sha256": "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Encoder.mlmodelc/analytics/coremldata.bin",
+      "relative": "Encoder.mlmodelc/analytics/coremldata.bin",
+      "bytes": 243,
+      "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Encoder.mlmodelc/coremldata.bin",
+      "relative": "Encoder.mlmodelc/coremldata.bin",
+      "bytes": 485,
+      "sha256": "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Encoder.mlmodelc/metadata.json",
+      "relative": "Encoder.mlmodelc/metadata.json",
+      "bytes": 2926,
+      "sha256": "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Encoder.mlmodelc/model.mil",
+      "relative": "Encoder.mlmodelc/model.mil",
+      "bytes": 959769,
+      "sha256": "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Encoder.mlmodelc/weights/weight.bin",
+      "relative": "Encoder.mlmodelc/weights/weight.bin",
+      "bytes": 445187200,
+      "sha256": "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/JointDecision.mlmodelc/analytics/coremldata.bin",
+      "relative": "JointDecision.mlmodelc/analytics/coremldata.bin",
+      "bytes": 243,
+      "sha256": "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/JointDecision.mlmodelc/coremldata.bin",
+      "relative": "JointDecision.mlmodelc/coremldata.bin",
+      "bytes": 534,
+      "sha256": "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/JointDecision.mlmodelc/metadata.json",
+      "relative": "JointDecision.mlmodelc/metadata.json",
+      "bytes": 2936,
+      "sha256": "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/JointDecision.mlmodelc/model.mil",
+      "relative": "JointDecision.mlmodelc/model.mil",
+      "bytes": 9722,
+      "sha256": "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/JointDecision.mlmodelc/weights/weight.bin",
+      "relative": "JointDecision.mlmodelc/weights/weight.bin",
+      "bytes": 3453388,
+      "sha256": "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Preprocessor.mlmodelc/analytics/coremldata.bin",
+      "relative": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+      "bytes": 243,
+      "sha256": "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Preprocessor.mlmodelc/coremldata.bin",
+      "relative": "Preprocessor.mlmodelc/coremldata.bin",
+      "bytes": 494,
+      "sha256": "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Preprocessor.mlmodelc/metadata.json",
+      "relative": "Preprocessor.mlmodelc/metadata.json",
+      "bytes": 2974,
+      "sha256": "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Preprocessor.mlmodelc/model.mil",
+      "relative": "Preprocessor.mlmodelc/model.mil",
+      "bytes": 27166,
+      "sha256": "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/Preprocessor.mlmodelc/weights/weight.bin",
+      "relative": "Preprocessor.mlmodelc/weights/weight.bin",
+      "bytes": 298880,
+      "sha256": "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/README.md",
+      "relative": "README.md",
+      "bytes": 1665,
+      "sha256": "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/parakeet-tdt-0.6b-v2-coreml/resolve/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet_vocab.json",
+      "relative": "parakeet_vocab.json",
+      "bytes": 18762,
+      "sha256": "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97"
+    }
+  ],
+  "home": "/private/tmp/screenrec-model-readiness-public-home-Cbwsz9",
+  "model": {
+    "modelId": "parakeet",
+    "purpose": "transcription",
+    "platform": {
+      "system": "darwin",
+      "architecture": "arm64"
+    },
+    "descriptorDigest": "2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482",
+    "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+    "pins": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+    },
+    "preparation": {
+      "runtimeSourceRequired": false,
+      "modelBytes": 464414912,
+      "runtimeBytes": 0
+    }
+  },
+  "inferenceAttempts": 0,
+  "additionalPreparation": {
+    "files": 22,
+    "bytes": 464414912,
+    "purpose": "Connect real receipt to public service; first scratch owner checkpoint already cleaned"
+  },
+  "allPreparations": {
+    "completePreparations": 3,
+    "filesCopied": 66,
+    "bytesCopied": 1393244736,
+    "failedFirstCheckpointRequests": 1,
+    "intermediatePublicStartupFailure": "Scratch library 0755 refused by service, prepared copy then removed; corrected to 0700"
+  },
+  "personalModelIdentitiesUnchanged": true,
+  "readyReceiptAndFilesUnchangedAcrossServiceReopen": true
+}

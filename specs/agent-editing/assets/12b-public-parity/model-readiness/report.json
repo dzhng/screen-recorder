@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "scope": "Current generic Models owner, full registered Parakeet preparation/readiness/reopen/nativeRequest; file-backed fetch edge, not public CLI/MCP model preparation transport or live Hub availability",
+  "home": "/private/tmp/screenrec-model-readiness-home-jl4EhO",
+  "model": {
+    "modelId": "parakeet",
+    "purpose": "transcription",
+    "platform": {
+      "system": "darwin",
+      "architecture": "arm64"
+    },
+    "descriptorDigest": "2ac68984f9d395c45560717234be263c15d0ee32f1c782c5a69cb30f176c6482",
+    "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+    "pins": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+    },
+    "preparation": {
+      "runtimeSourceRequired": false,
+      "modelBytes": 464414912,
+      "runtimeBytes": 0
+    }
+  },
+  "files": 22,
+  "registeredBytes": 464414912,
+  "installedOriginalUnchanged": true,
+  "inferenceAttempts": 0,
+  "originalAcceptedInferenceAttemptsRetained": 2,
+  "receiptAuthoredBy": "production Preparation.install",
+  "wholePublishedCopyVerified": true,
+  "ordinaryInspectionFetches": 0,
+  "requests": 23,
+  "ownership": "scratch model copies removed after evidence; personal Models owner never constructed"
+}

@@ -4,8 +4,12 @@ Status: [controlled public parity](../assets/12b-public-parity/README.md) passes
 preparation-state integration. [Actual selected-source parity](../assets/12b-public-parity/actual-inference/README.md)
 now passes current native inference, complete raw records, public queries, explicit
 cuts/protected PCM/undo, restart and generation fencing. Existing model files and
-preparation receipt remained unchanged; scratch readiness is declared. Current
-generic Models-owner readiness/preparation remains unverified. This bounded proof
+preparation receipt remained unchanged; scratch readiness is declared. [Current generic Models-owner preparation and readiness](../assets/12b-public-parity/model-readiness/README.md)
+now passes full registered-byte preparation, production receipt creation,
+reopen and native requests in isolated storage with a file-backed fetch edge.
+Actual CLI/MCP ready status, idempotent prepare and service reopen also pass
+against a genuine receipt. Live network availability and full public download
+transport remain outside that checkpoint. This bounded proof
 preserves the selected recipe and its known quality limits; broader12 research
 and release acceptance remain separate. Dependencies remain [10](10-project-evidence.md),
 [11](11-audio-inspection.md) and the [selected baseline](../../recording-for-ai/slices/04-local-speech-gate.md).
