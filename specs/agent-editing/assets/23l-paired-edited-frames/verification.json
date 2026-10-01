@@ -1,0 +1,285 @@
+{
+  "scope": "23l paired public frame membership and full output preservation; composition exact color correspondence remains unresolved",
+  "baseCommit": "56c65e2e",
+  "packet": {
+    "archive": {
+      "path": "/tmp/screenrec-23l-compact-final-evidence.tar.gz",
+      "bytes": 115469047,
+      "sha256": "5130aae4caa3a57c4ca790580e303f2a5dcd7de7ffeee3ee2c6013b63d10e4d0"
+    },
+    "parts": [
+      {
+        "file": "compact-evidence.tar.gz.part-000",
+        "bytes": 67108864,
+        "sha256": "a81d18c588b9d92c442eb74abe1c96d367b6c555b7fbdf95d130d089c3e7ce8b"
+      },
+      {
+        "file": "compact-evidence.tar.gz.part-001",
+        "bytes": 48360183,
+        "sha256": "aa72c77e63d2e166cdebadd4ee6e48224228bea46fea6e83452f5b816c271164"
+      }
+    ],
+    "memberCount": 4618,
+    "payloadFiles": 4617,
+    "payloadBytes": 201710624,
+    "manifest": {
+      "member": "files.json",
+      "bytes": 816620,
+      "sha256": "23f250f00dec95d9ce84650c07ab0a9195e14514f351edc2c4918bb3f495f8c7"
+    },
+    "verification": "Every retained archived file streaming SHA256/size verified; all7 existing authority bindings rehashed; all21 unique raw reconstructions direct PNG RGBA SHA/size verified; all54 normalized PNGs compared with raw in preparation; all original retained output/receipt/source/runtime hashes unchanged",
+    "reassembly": "cat compact-evidence.tar.gz.part-000 compact-evidence.tar.gz.part-001 > compact-evidence.tar.gz"
+  },
+  "originalConfiguredCandidate": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/23l-paired-edited-frames/0fde7084eabc64cafc053fac24b0fc9f7ee3211ff68e259df590356c30653300/screenrec-23l-evidence.tar.gz",
+    "bytes": 192439608,
+    "sha256": "0fde7084eabc64cafc053fac24b0fc9f7ee3211ff68e259df590356c30653300"
+  },
+  "authority": {
+    "primary": "runs/third/report.json",
+    "primarySHA256": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408",
+    "primaryExecutingHarness": "runs/third/harness.mjs",
+    "defaultCached": "runs/default-cache/report.json",
+    "defaultExecutingHarness": "runs/default-cache/harness.mjs",
+    "finalHarness": "producer/cutover-frames.mjs",
+    "independentTiming": "producer/FrameSampleSupport.swift",
+    "compilerCommands": "closure.json",
+    "toolchain": "toolchain.json",
+    "pixelAuthority": "Existing frozen21e color managed reader/source",
+    "completeCLI_And_MCP": "Full responses retained in each run report, including actual MCP text/structuredContent/inline bytes and nativeJSONL",
+    "allPixels": "pixels/outputs.json maps every execution; storage/rgba-reconstruction.json recovers each exact full RGBA from retained normalizedPNG; runs/third retains all original deliveredPNGs; immutable full archive keeps original rawarrays",
+    "visual": "visual/manifest.json plus full54images/all28pairs/details/overview; verification/visual-critique.json",
+    "productionSource": "producer/service +producer/cli emitted/source closure; exact frozen09c frame path sourcepins + resolvedSDKdependency package superset",
+    "negative": "verification/uncut-final.json",
+    "positive": "verification/complete-final.json",
+    "quality": "verification/quality-final.json",
+    "review": "verification/review.json"
+  },
+  "primaryInputs": {
+    "currentWorker": {
+      "path": "/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "oldWorker": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 11261136,
+      "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b"
+    },
+    "oldCatalog": {
+      "path": "/tmp/screenrec-23j-packet/fixtures/old-selected.sqlite",
+      "bytes": 10338304,
+      "sha256": "7f882c348f248e79ad4efaa609f3e36092a037876ef566ac7b36927dd18715eb"
+    },
+    "currentCatalog": {
+      "path": "/tmp/screenrec-25-relocation-recipient/library/catalog.sqlite",
+      "bytes": 6225920,
+      "sha256": "ba8be18f32048ab4ed94917a1df719716f51547d17c4d133e4e9fd7df16f9a9f"
+    },
+    "service": {
+      "path": "/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "cli": {
+      "path": "/tmp/screenrec-23l-runtime/cli.mjs",
+      "bytes": 1162696,
+      "sha256": "4dbdd9c1b0de9004652de59c30e1afc68ced7eeafdae4f90cdbef27a02e4e05d"
+    },
+    "probe": {
+      "path": "/tmp/screenrec-23l-runtime/sample-support",
+      "bytes": 157152,
+      "sha256": "28bf1fdbb7764f6418df8ec39106f52472ca6989a64ad4ec4a3da37bef74b92c"
+    },
+    "pixels": {
+      "path": "/tmp/screenrec-21e-image-pixels",
+      "bytes": 91832,
+      "sha256": "f70abec32be67626724512428addbf0fb248dcdfbb0f4db55056a8b603fabaf4"
+    },
+    "sdkClient": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/client/index.js",
+      "bytes": 29575,
+      "sha256": "e2f909e827a6e08870b400f44f9e90f9545ef5655d6e10f9cc7d0a91a374af45"
+    },
+    "sdkTransport": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/client/stdio.js",
+      "bytes": 7110,
+      "sha256": "ab9d226de9deb01552e61f07c639593f29c5f8e6115076ece497d21b18075d30"
+    },
+    "assets": [
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c.mov",
+        "bytes": 113175651,
+        "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c.mov",
+        "bytes": 25730774,
+        "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437.wav",
+        "bytes": 1152044,
+        "sha256": "3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70.mov",
+        "bytes": 48799617,
+        "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "bytes": 773236,
+        "sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78.png",
+        "bytes": 174,
+        "sha256": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45.wav",
+        "bytes": 480092,
+        "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55.wav",
+        "bytes": 2308096,
+        "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d.wav",
+        "bytes": 86458,
+        "sha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+        "bytes": 29414120,
+        "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c.wav",
+        "bytes": 925484,
+        "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15.wav",
+        "bytes": 480092,
+        "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805.mov",
+        "bytes": 424848170,
+        "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca.wav",
+        "bytes": 84538,
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774.mp4",
+        "bytes": 2526511,
+        "sha256": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774"
+      }
+    ],
+    "recordingService": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 1257228,
+      "sha256": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387"
+    },
+    "recordingCLI": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1076080,
+      "sha256": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1"
+    },
+    "projectService": {
+      "path": "/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "projectCLI": {
+      "path": "/tmp/screenrec-23l-runtime/cli.mjs",
+      "bytes": 1162696,
+      "sha256": "4dbdd9c1b0de9004652de59c30e1afc68ced7eeafdae4f90cdbef27a02e4e05d"
+    }
+  },
+  "defaultReader": {
+    "report": "default-reader.json",
+    "configuration": "No maxBufferSize option passed; actual SDK1.30.0 ReadBuffer default10485760",
+    "actualConsumedPNG": true,
+    "nativeFrameOperations": 0,
+    "publicExchanges": 4,
+    "nativeChildClose0": 3,
+    "serviceClose0": 2,
+    "SDKChildCloseCallbacks": 2,
+    "exitCodesNotExposed": "MCP transport public API proves callback from child close; does not expose exit statuses"
+  },
+  "finalSource": {
+    "harness": {
+      "path": "/tmp/screenrec-23l-packet/producer/cutover-frames.mjs",
+      "bytes": 30394,
+      "sha256": "6b257e10b5df2f6a95fdf984feab0da365b36bbde28228d725df02e8b8e4f2c9"
+    },
+    "timingProbe": {
+      "path": "/tmp/screenrec-23l-packet/producer/FrameSampleSupport.swift",
+      "bytes": 3807,
+      "sha256": "c47d1a4bfe11d8dbf28348df140f6f85754c4014712edf61dca7292e7b82b45c"
+    }
+  },
+  "gates": {
+    "membership": true,
+    "independentTailSupport": true,
+    "legacyEditedPixelsExact": true,
+    "matchedRawPixelsExact": true,
+    "CLI_MCP_MetadataAndPNG": true,
+    "completeSavedReceiptOracle": true,
+    "uncutMappingControlRefused": true,
+    "compositionPresentation": false,
+    "independentVisualCritique": "scoped static pass; no concrete visible defects; exact color/timing not established"
+  },
+  "scopeLimits": [
+    "Composition allpixel difference unresolved; measured max1 does not create acceptance tolerance",
+    "Scoped independent static visual verdict does not establish exact color or motion/timing",
+    "No physical acquisitionhole in retained donor, no photographic/fullrelease/continuousplayback/source-cardinality/scale/install/ownerretirement claim",
+    "No production/API/worker/model/source changes; no accepted-cohort repeat",
+    "Original reports/executing harness sources immutable; later saved-only checks and default cached reader separate authority",
+    "Actual service/native closes and SDK transport child-close callbacks observed; no invented MCP exit code"
+  ],
+  "preservation": {
+    "ownedHomes": "/tmp/screenrec-23l-third/{recording-home,project-home}",
+    "runtime": "/tmp/screenrec-23l-runtime",
+    "staging": "/tmp/screenrec-23l-packet",
+    "candidateArchives": "Original64MiB candidate and separately named final archive retained unchanged; no cleanup before root integration",
+    "originalsFrozenWorkersModelsInstalledLibrary": "Unchanged"
+  },
+  "fullArchive": {
+    "archive": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/23l-paired-edited-frames/f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b/screenrec-23l-evidence-default-final.tar.gz",
+      "bytes": 196661999,
+      "sha256": "f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b"
+    },
+    "memberCount": 4640,
+    "payloadFiles": 4639,
+    "payloadBytes": 817014602,
+    "manifest": {
+      "member": "files.json",
+      "bytes": 821104,
+      "sha256": "c7b53f37e111d180afd8b2722bae999b78f3aa3f9962f0c86b304ee29ade353e"
+    },
+    "scope": "Immutable original full packet retained outsideGit; original reports/output/rawbytes/runtime authority unchanged"
+  },
+  "storage": {
+    "references": "storage-references.json",
+    "rgbaReconstruction": "rgba-reconstruction.json",
+    "packetReferenceMember": "storage/references.json",
+    "packetReconstructionMember": "storage/rgba-reconstruction.json",
+    "omittedMembers": 28,
+    "omittedBytes": 615427782,
+    "preservedOutputs": true,
+    "profileHandlingUnchanged": true,
+    "sourceFixtureAndWorkerAuthorities": "Exact checked-in originals plus root durable frozen-native-workers copy, fullhash/size/rootpath bound per member",
+    "rawDuplicationQualification": "Exact raw bytes equal existing lossless normalizedPNG decode without color conversion; only those21 arrays omitted",
+    "fullArchivesOutsideGit": true
+  }
+}

@@ -1,0 +1,469 @@
+{
+  "scope": "Exactly two cached first-join CLI/default SDK MCP reads; all native media work fenced",
+  "passed": true,
+  "originalReport": {
+    "path": "/tmp/screenrec-23l-third/report.json",
+    "bytes": 2902696,
+    "sha256": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408"
+  },
+  "receiver": {
+    "configuration": "SDK default; maxBufferSize omitted",
+    "defaultBytes": 10485760
+  },
+  "provider": {
+    "scope": "Resolved existing SDK1.30.0 dependency identity after cached run; client/transport hashes recorded during execution; full package is retained under producer/providers, not all modules claimed loaded",
+    "sharedReadBuffer": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/shared/stdio.js",
+      "bytes": 1614,
+      "sha256": "edf22693bf4e4693d0fdca325ae52071de9fc777c9c45ae7af9037ebfc186028"
+    },
+    "receiver": "StdioClientTransport option omitted in executed cached branch; shared ReadBuffer defaults to10485760 bytes"
+  },
+  "inputs": {
+    "currentWorker": {
+      "path": "/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "oldWorker": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 11261136,
+      "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b"
+    },
+    "service": {
+      "path": "/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "cli": {
+      "path": "/tmp/screenrec-23l-runtime/cli.mjs",
+      "bytes": 1162696,
+      "sha256": "4dbdd9c1b0de9004652de59c30e1afc68ced7eeafdae4f90cdbef27a02e4e05d"
+    },
+    "sdkClient": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/client/index.js",
+      "bytes": 29575,
+      "sha256": "e2f909e827a6e08870b400f44f9e90f9545ef5655d6e10f9cc7d0a91a374af45"
+    },
+    "sdkTransport": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/client/stdio.js",
+      "bytes": 7110,
+      "sha256": "ab9d226de9deb01552e61f07c639593f29c5f8e6115076ece497d21b18075d30"
+    },
+    "recordingService": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 1257228,
+      "sha256": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387"
+    },
+    "recordingCLI": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1076080,
+      "sha256": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1"
+    },
+    "projectService": {
+      "path": "/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "projectCLI": {
+      "path": "/tmp/screenrec-23l-runtime/cli.mjs",
+      "bytes": 1162696,
+      "sha256": "4dbdd9c1b0de9004652de59c30e1afc68ced7eeafdae4f90cdbef27a02e4e05d"
+    }
+  },
+  "homeCatalogsBefore": {
+    "recording": {
+      "path": "/tmp/screenrec-23l-third/recording-home/library.sqlite",
+      "bytes": 10412032,
+      "sha256": "a820a051a1378cf71481b3e83af86cde68861e017f6cf16033dc5d07478ff7dd"
+    },
+    "project": {
+      "path": "/tmp/screenrec-23l-third/project-home/library/catalog.sqlite",
+      "bytes": 6348800,
+      "sha256": "fc5f8748057c9d91efb47f42a75a7b5ec25cba9d2eb114fb4d4c79f7ef4be537"
+    }
+  },
+  "processes": [
+    {
+      "label": "recording",
+      "command": "/usr/bin/sandbox-exec",
+      "args": [
+        "-f",
+        "/tmp/screenrec-23l-default-cache/authorities.sb",
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+      ],
+      "pid": 1831,
+      "stdout": "{\"event\":\"started\",\"pid\":1831,\"socketPath\":\"/tmp/screenrec-23l-third/recording-home/run/service.sock\"}\n",
+      "stderr": "(node:1831) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\nscreenrec-service: reconciliation complete\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "recording-MCP",
+      "pid": 1833,
+      "terminal": true,
+      "event": "SDK transport onclose from child close"
+    },
+    {
+      "label": "project",
+      "command": "/usr/bin/sandbox-exec",
+      "args": [
+        "-f",
+        "/tmp/screenrec-23l-default-cache/authorities.sb",
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/tmp/screenrec-23k-runtime/service.mjs"
+      ],
+      "pid": 1834,
+      "stdout": "{\"event\":\"started\",\"pid\":1834,\"socketPath\":\"/tmp/screenrec-23l-third/project-home/run/service.sock\"}\n",
+      "stderr": "(node:1834) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "project-MCP",
+      "pid": 1840,
+      "terminal": true,
+      "event": "SDK transport onclose from child close"
+    }
+  ],
+  "pictures": [
+    {
+      "side": "recording",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "atUs": 1000000,
+        "clean": true,
+        "maxLongEdge": 3120
+      },
+      "file": "/tmp/screenrec-23l-default-cache/recording-default.png",
+      "bytes": 730568,
+      "sha256": "d85842ffcc773e8c23ab57b2ec8ba87f6a800c45981d334c010ddcfcd58104a5",
+      "original": "/tmp/screenrec-23l-third/16-recording-after.png",
+      "cliData": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "7338dc16-c9ec-4f60-a688-2528aa15163c",
+        "published": {
+          "generation": 1,
+          "frame": {
+            "actualSourceUs": 2011429,
+            "bytes": 730568,
+            "distanceUs": 11429,
+            "file": "/private/tmp/screenrec-23l-third/recording-home/cache/derived/0f47028a-d0f3-46aa-875c-9121c2921672.cache",
+            "height": 1970,
+            "mediaType": "image/png",
+            "requestedSourceUs": 2000000,
+            "sourceHeight": 1970,
+            "sourceWidth": 3120,
+            "width": 3120,
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+            "requestedPlaybackUs": 1000000,
+            "actualPlaybackUs": 1011429,
+            "kept": {
+              "startUs": 2000000,
+              "endUs": 4000000
+            },
+            "clean": true,
+            "annotation": null,
+            "sourceEvidence": null,
+            "cacheId": "0f47028a-d0f3-46aa-875c-9121c2921672"
+          }
+        },
+        "dependency": null,
+        "delivery": {
+          "token": "b050cf95-7d67-4d6a-b3af-9ca937730c34",
+          "bytes": 730568,
+          "expiresAt": 1790895460764
+        },
+        "output": "/tmp/screenrec-23l-default-cache/recording-default.png"
+      },
+      "mcpData": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "7338dc16-c9ec-4f60-a688-2528aa15163c",
+        "published": {
+          "generation": 1,
+          "frame": {
+            "actualSourceUs": 2011429,
+            "bytes": 730568,
+            "distanceUs": 11429,
+            "file": "/private/tmp/screenrec-23l-third/recording-home/cache/derived/0f47028a-d0f3-46aa-875c-9121c2921672.cache",
+            "height": 1970,
+            "mediaType": "image/png",
+            "requestedSourceUs": 2000000,
+            "sourceHeight": 1970,
+            "sourceWidth": 3120,
+            "width": 3120,
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+            "requestedPlaybackUs": 1000000,
+            "actualPlaybackUs": 1011429,
+            "kept": {
+              "startUs": 2000000,
+              "endUs": 4000000
+            },
+            "clean": true,
+            "annotation": null,
+            "sourceEvidence": null,
+            "cacheId": "0f47028a-d0f3-46aa-875c-9121c2921672"
+          }
+        },
+        "dependency": null,
+        "delivery": {
+          "token": "b5fbc4d2-3ac1-44c2-a89b-034997741e90",
+          "bytes": 730568,
+          "expiresAt": 1790895460805
+        }
+      },
+      "inlineConsumed": true
+    },
+    {
+      "side": "project",
+      "params": {
+        "projectId": "d585e3b5-1d28-475c-a88f-8d60e1e3fda1",
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "atUs": 1000000,
+        "maxLongEdge": 3120
+      },
+      "file": "/tmp/screenrec-23l-default-cache/project-default.png",
+      "bytes": 839525,
+      "sha256": "4300921d12eb74c02a125ada64a5055539fbd19e7aad81170a49f812ed6925a5",
+      "original": "/tmp/screenrec-23l-third/17-project-after.png",
+      "cliData": {
+        "projectId": "d585e3b5-1d28-475c-a88f-8d60e1e3fda1",
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "atUs": 1000000,
+        "maxLongEdge": 3120,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v16",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "79a9ab93-3e85-4a72-b550-7293628f6418",
+        "published": {
+          "generation": 1,
+          "frame": {
+            "file": "/private/tmp/screenrec-23l-third/project-home/library/cache/derived/b9d89351-5fa3-46d8-ac97-f3370f2eca44.cache",
+            "mediaType": "image/png",
+            "width": 3120,
+            "height": 1970,
+            "sourceWidth": 3120,
+            "sourceHeight": 1970,
+            "bytes": 839525,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 60,
+              "sampleAtUs": 1000000,
+              "visibleRange": {
+                "startUs": 1000000,
+                "endUs": 1016666
+              },
+              "layers": [
+                {
+                  "kind": "video",
+                  "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+                  "streamId": "track:1",
+                  "sourceUs": 2000000,
+                  "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+                  "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+                  "availability": "available",
+                  "width": 3120,
+                  "height": 1970
+                }
+              ]
+            },
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "decodedImages": 0,
+            "pictures": [
+              {
+                "kind": "video",
+                "status": "available",
+                "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+                "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+                "streamId": "track:1",
+                "requestedSourceUs": 2000000,
+                "actualSourceUs": 1976107,
+                "sample": {
+                  "value": "1976107",
+                  "timescale": 1000000,
+                  "originUs": 0
+                }
+              }
+            ],
+            "atUs": 1000000,
+            "maxLongEdge": 3120,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v16",
+            "projectId": "d585e3b5-1d28-475c-a88f-8d60e1e3fda1",
+            "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+            "cacheId": "b9d89351-5fa3-46d8-ac97-f3370f2eca44"
+          }
+        },
+        "delivery": {
+          "token": "d418b279-7f31-45bb-b2c9-3a568798a9e6",
+          "bytes": 839525,
+          "expiresAt": 1790895460965
+        },
+        "output": "/tmp/screenrec-23l-default-cache/project-default.png"
+      },
+      "mcpData": {
+        "projectId": "d585e3b5-1d28-475c-a88f-8d60e1e3fda1",
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "atUs": 1000000,
+        "maxLongEdge": 3120,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v16",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "79a9ab93-3e85-4a72-b550-7293628f6418",
+        "published": {
+          "generation": 1,
+          "frame": {
+            "file": "/private/tmp/screenrec-23l-third/project-home/library/cache/derived/b9d89351-5fa3-46d8-ac97-f3370f2eca44.cache",
+            "mediaType": "image/png",
+            "width": 3120,
+            "height": 1970,
+            "sourceWidth": 3120,
+            "sourceHeight": 1970,
+            "bytes": 839525,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 60,
+              "sampleAtUs": 1000000,
+              "visibleRange": {
+                "startUs": 1000000,
+                "endUs": 1016666
+              },
+              "layers": [
+                {
+                  "kind": "video",
+                  "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+                  "streamId": "track:1",
+                  "sourceUs": 2000000,
+                  "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+                  "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+                  "availability": "available",
+                  "width": 3120,
+                  "height": 1970
+                }
+              ]
+            },
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "decodedImages": 0,
+            "pictures": [
+              {
+                "kind": "video",
+                "status": "available",
+                "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+                "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+                "streamId": "track:1",
+                "requestedSourceUs": 2000000,
+                "actualSourceUs": 1976107,
+                "sample": {
+                  "value": "1976107",
+                  "timescale": 1000000,
+                  "originUs": 0
+                }
+              }
+            ],
+            "atUs": 1000000,
+            "maxLongEdge": 3120,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v16",
+            "projectId": "d585e3b5-1d28-475c-a88f-8d60e1e3fda1",
+            "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+            "cacheId": "b9d89351-5fa3-46d8-ac97-f3370f2eca44"
+          }
+        },
+        "delivery": {
+          "token": "510f665a-bdd1-4060-b590-2b94e8854494",
+          "bytes": 839525,
+          "expiresAt": 1790895461012
+        }
+      },
+      "inlineConsumed": true
+    }
+  ],
+  "nativeOperations": [
+    {
+      "id": "worker-storage.clearRenderWorkspace",
+      "operation": "storage.clearRenderWorkspace",
+      "params": {
+        "expectedDirectory": {
+          "dev": "16777230",
+          "ino": "339467671"
+        }
+      }
+    },
+    {
+      "id": "worker-packageWorkspace.recover",
+      "operation": "packageWorkspace.recover",
+      "params": {
+        "parent": {
+          "dev": "16777230",
+          "ino": "339467435"
+        }
+      }
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    }
+  ],
+  "exchangesMember": "runs/default-cache/report.json",
+  "nativeMember": "runs/default-cache/native.jsonl",
+  "executingHarness": {
+    "path": "/tmp/screenrec-23l-packet/runs/default-cache/harness.mjs",
+    "bytes": 29493,
+    "sha256": "7ca7d4aa6f6cdaeb2205acefad720ff29d64ef6e06ae89f26eebfd0d8ce5fa4e"
+  }
+}

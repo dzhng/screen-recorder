@@ -1,0 +1,36 @@
+{
+  "archive": {
+    "path": "/tmp/screenrec-23l-compact-final-evidence.tar.gz",
+    "bytes": 115469047,
+    "sha256": "5130aae4caa3a57c4ca790580e303f2a5dcd7de7ffeee3ee2c6013b63d10e4d0"
+  },
+  "parts": [
+    {
+      "file": "compact-evidence.tar.gz.part-000",
+      "bytes": 67108864,
+      "sha256": "a81d18c588b9d92c442eb74abe1c96d367b6c555b7fbdf95d130d089c3e7ce8b"
+    },
+    {
+      "file": "compact-evidence.tar.gz.part-001",
+      "bytes": 48360183,
+      "sha256": "aa72c77e63d2e166cdebadd4ee6e48224228bea46fea6e83452f5b816c271164"
+    }
+  ],
+  "verifiedMembers": 4618,
+  "omittedMembers": 28,
+  "omittedBytes": 615427782,
+  "uniqueRawReconstructed": 21,
+  "allOriginalOutputReceiptRuntimeHashesUnchanged": true,
+  "authorityBindings": 7,
+  "rawExecutionMappings": 54,
+  "producer": {
+    "file": "storage-validation-producer.py",
+    "bytes": 5939,
+    "sha256": "6639640e0315b58ef74da3c55623bd5486ff1a11228ba8b267cee1ac89db2e6b",
+    "command": [
+      "/Users/david/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/tmp/23l-compact-verify.py"
+    ],
+    "scope": "Exact validation producer source, banked after its actual exit0; no extra runtime or media execution"
+  }
+}

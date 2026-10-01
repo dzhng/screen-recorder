@@ -1,7 +1,11 @@
 # 23l — Paired public edited frames
 
-Status: prospective. This plan has no new runtime, frame, pixel or tail verdict.
-It narrows the remaining frame row in the
+Status: scoped numeric verification executed. Paired join/tail membership,
+complete legacy/raw pixels and CLI/MCP delivery pass; composition pixel
+correspondence remains unresolved; independent visual critique found no concrete
+visible defects within the static comparison scope.
+[Evidence](../assets/23l-paired-edited-frames/README.md) owns complete outcomes and
+producer identities. This narrows the remaining frame row in the
 [saved correspondence](../assets/acceptance-maintenance/cutover-outcomes.md#frame-membership-and-presentation).
 The parent owns shared matrix updates and release acceptance.
 
@@ -125,9 +129,9 @@ cannot excuse a wrong delivered image. Compare every pixel of matched
 legacy-original and direct-source pictures under their actual embedded profiles;
 these are the raw-picture references. Compare each composition picture against
 its own containing sample's reference through the declared composition color
-path, retaining profile identities and complete difference metrics. Reuse existing
-color-reference and pixel readers from
-[23a](../assets/23a-recording-project-preservation/README.md),
+path, retaining profile identities and complete difference metrics. Reuse the
+frozen color-managed reader from
+[21e](../assets/21e-capture-project-adoption/manifest.json),
 without changing their profile handling or inventing a new acceptance threshold.
 The previously measured maximum one-code difference is an observation for those
 three images, not a blanket allowance for this case. Unexplained pixel differences
@@ -170,7 +174,11 @@ recording or audition. For any produced visual comparison, use repository-local
 compare-screenshots for the full matched pictures and screenshot-critique as the
 last independent check of the membership/presentation surface. Preserve profile
 handling and distinguish that focused verdict from photographic quality or playback.
-No image is produced or judged during this docs-only pass.
+The banked comparison set contains every delivered picture, with complete
+profile-normalized matched pairs and enlarged details. Numeric comparison is
+complete. The parent's fresh independent critic reviewed the complete set and
+found no concrete visible defect; this does not establish pixel/color equality
+or motion/timing acceptance.
 
 ## Intentional differences and remaining scope
 
@@ -193,15 +201,23 @@ owner retirement claim follows. Parent release/presentation gates remain open.
 
 ## Next pickup
 
-At root's implementation pickup after plan integration, add the focused entry point
-`packages/test-harness/editing/cutover-frames.mjs`, using existing public
-process/transport helpers and copied authority. Its explicit input paths select
-the owned output/home, banked old catalog, copied format22 fixture, pinned legacy
-app, current source service/CLI and frozen workers; no default may select the
-person's library. Bank the exact launch command and resolved inputs. First qualify
-sample timing, then execute the paired joins and qualified tail, bank/re-hash and
-await actual terminal events. Preserve originals, frozen workers, models and
-installed library; clean only owned scratch after banking. Harness structure and
-scratch naming are delegated; edits, clocks, oracle, differences and acceptance
-scope above are fixed. Review the [owned choices](../assets/23l-paired-edited-frames/choices.md).
-Root owns shared hub integration; this plan authorizes no runtime work by itself.
+Reconcile the saved packet without repeating this media case. The
+[harness](../../../packages/test-harness/editing/cutover-frames.mjs) has a
+`--verify-only` entry point for complete saved receipt checks and an
+`--uncut-oracle` control that fails the first-join mapping. Its later receipt
+checks consume the untouched executed report; they add no render or native call.
+The executed producer source is retained separately from the final harness.
+Its `--cached-only` follow-up consumes exactly the two saved first-join derivatives
+through the actual CLI and the unconfigured SDK's 10MiB receiver. Native media
+requests are refused before execution; unavailable cache never authorizes a
+replacement render. The original 64MiB media run and default-reader follow-up
+remain separate authorities.
+
+Diagnose composition differences through the banked frozen source/profile stages
+before any proposed product change or new scoped execution. Preserve the scoped
+independent visual verdict without upgrading it to numerical color equivalence.
+Preserve all owned homes/runtimes until parent integration/preservation, and keep
+originals, frozen workers, models and installed library unchanged. Root owns
+shared hub integration and any subsequent runtime pickup. Review the
+[owned choices](../assets/23l-paired-edited-frames/choices.md). Parent release and
+presentation gates remain open.

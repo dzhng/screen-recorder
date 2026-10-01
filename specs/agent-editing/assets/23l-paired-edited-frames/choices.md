@@ -1,8 +1,8 @@
 # 23l planning choices
 
-These decisions constrain the prospective
-[paired-frame gate](../../slices/23l-paired-edited-frames.md). No service, native
-probe, picture or decoder has run for this plan. Parent-requested zero-editorial,
+These decisions constrain the
+[paired-frame gate](../../slices/23l-paired-edited-frames.md). Planning choices
+remain givens; implementation choices are recorded below. Parent-requested zero-editorial,
 copied-authority, public-entry-point and conditional-tail boundaries are givens.
 
 ## Sound — medium confidence
@@ -108,3 +108,61 @@ The reach: each delivered image now has an independent reference; correct timing
 cannot hide unrelated or corrupted image bytes. Verdict: sound because it closes
 the complete-output contract without forcing the selectors to agree or adding
 another media case. Confidence: high.
+
+### Add complete saved receipt checks without repeating successful media work
+
+When: 23l implementation, 2026-10-01.
+
+The choice: the executed case proves sample selection, pixel comparisons and
+adapter delivery. Review adds exact frame index/cell, complete video-layer binding
+and clean-image field checks through a saved-only harness entry point. The same
+untouched actual report passes those checks; an uncut first-join oracle fails in
+its own process. The unbuilt alternative would render every accepted picture
+again solely to evaluate additional assertions. The gap: the first executing
+harness did not assert every receipt field required by the plan. The reach: the
+original executing source and the final saved checker are separately pinned;
+neither is falsely presented as the other producer. Verdict: sound because it
+closes the exact missing value checks through genuine captured outputs while
+preserving the user's prohibition on repeated accepted cohorts. Confidence: high.
+
+### Deduplicate full decoded pixel payloads only by their byte identity
+
+When: 23l evidence banking, 2026-10-01.
+
+The choice: every full decoded image remains recoverable, but identical RGBA
+outputs occupy one hash-named payload with a mapping for every execution. The
+original individual PNGs, profile receipts and diagnostic results stay separate.
+The alternative would store dozens of duplicate full image buffers, increasing
+archive cost without adding evidence. The gap: the plan required complete pixels
+but did not prescribe their storage representation. The reach: reconstruction
+uses actual byte hashes, never visually similar images or rounded timestamps.
+Verdict: sound because the complete output remains independently verifiable
+while banking avoids redundant bytes. Confidence: high.
+
+## Unsound choice corrected — high confidence
+
+### Preserve the configured receiver run and correct it through cached default reads
+
+When: 23l implementation review, 2026-10-01.
+
+The choice: the first media harness set the SDK receiver to 64MiB even though
+the intended caller uses its 10MiB default. Successful delivery then proved
+only the configured receiver. The corrected decision is to omit that option
+and actually consume the same saved derivatives through the default client.
+The parent explicitly required a two-read cache-only correction: no frame
+render is permitted, and a missing cache is evidence of refusal rather than
+permission to replace it. The gap: the original harness added a capacity choice
+that the plan never requested. The reach: raw configured evidence remains
+immutable; the separate default-read report owns the corrected delivery claim.
+Verdict: the original choice was unsound because capacity must match the declared
+consumer, not merely exceed the observed image size; the bounded correction
+passed for both producers. Confidence: high.
+
+## Storage correction — parent-directed
+
+The parent required a compact supplementary packet and
+unchanged durable full archives. Every unique raw array was proved exactly
+recoverable from a retained normalized PNG by direct RGBA decoding, so the
+compact packet uses that reference while the full archive keeps the original
+bytes. Existing fixtures and frozen workers retain their own exact authorities.
+This changes storage ownership, not the pixel reader, proof or acceptance rule.

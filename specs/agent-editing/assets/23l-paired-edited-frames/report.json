@@ -1,0 +1,2691 @@
+{
+  "scope": "Paired public membership, legacy/raw exact full pixels, CLI/MCP delivery; composition presentation unresolved",
+  "gates": {
+    "membership": true,
+    "independentTailSupport": true,
+    "legacyEditedPixelsExact": true,
+    "matchedRawPixelsExact": true,
+    "CLI_MCP_MetadataAndPNG": true,
+    "completeSavedReceiptOracle": true,
+    "uncutMappingControlRefused": true,
+    "compositionPresentation": false,
+    "independentVisualCritique": "scoped static pass; no concrete visible defects; exact color/timing not established"
+  },
+  "primaryReport": {
+    "archiveMember": "runs/third/report.json",
+    "sha256": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408"
+  },
+  "producerScope": "Original executing harness banked separately; final harness extends saved receipt oracle without rerender",
+  "inputs": {
+    "currentWorker": {
+      "path": "/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "oldWorker": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 11261136,
+      "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b"
+    },
+    "oldCatalog": {
+      "path": "/tmp/screenrec-23j-packet/fixtures/old-selected.sqlite",
+      "bytes": 10338304,
+      "sha256": "7f882c348f248e79ad4efaa609f3e36092a037876ef566ac7b36927dd18715eb"
+    },
+    "currentCatalog": {
+      "path": "/tmp/screenrec-25-relocation-recipient/library/catalog.sqlite",
+      "bytes": 6225920,
+      "sha256": "ba8be18f32048ab4ed94917a1df719716f51547d17c4d133e4e9fd7df16f9a9f"
+    },
+    "service": {
+      "path": "/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "cli": {
+      "path": "/tmp/screenrec-23l-runtime/cli.mjs",
+      "bytes": 1162696,
+      "sha256": "4dbdd9c1b0de9004652de59c30e1afc68ced7eeafdae4f90cdbef27a02e4e05d"
+    },
+    "probe": {
+      "path": "/tmp/screenrec-23l-runtime/sample-support",
+      "bytes": 157152,
+      "sha256": "28bf1fdbb7764f6418df8ec39106f52472ca6989a64ad4ec4a3da37bef74b92c"
+    },
+    "pixels": {
+      "path": "/tmp/screenrec-21e-image-pixels",
+      "bytes": 91832,
+      "sha256": "f70abec32be67626724512428addbf0fb248dcdfbb0f4db55056a8b603fabaf4"
+    },
+    "sdkClient": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/client/index.js",
+      "bytes": 29575,
+      "sha256": "e2f909e827a6e08870b400f44f9e90f9545ef5655d6e10f9cc7d0a91a374af45"
+    },
+    "sdkTransport": {
+      "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/cjs/client/stdio.js",
+      "bytes": 7110,
+      "sha256": "ab9d226de9deb01552e61f07c639593f29c5f8e6115076ece497d21b18075d30"
+    },
+    "assets": [
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c.mov",
+        "bytes": 113175651,
+        "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c.mov",
+        "bytes": 25730774,
+        "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437.wav",
+        "bytes": 1152044,
+        "sha256": "3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70.mov",
+        "bytes": 48799617,
+        "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "bytes": 773236,
+        "sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78.png",
+        "bytes": 174,
+        "sha256": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45.wav",
+        "bytes": 480092,
+        "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55.wav",
+        "bytes": 2308096,
+        "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d.wav",
+        "bytes": 86458,
+        "sha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+        "bytes": 29414120,
+        "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c.wav",
+        "bytes": 925484,
+        "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15.wav",
+        "bytes": 480092,
+        "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805.mov",
+        "bytes": 424848170,
+        "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca.wav",
+        "bytes": 84538,
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+      },
+      {
+        "path": "/tmp/screenrec-23l-third/project-home/library/assets/eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774.mp4",
+        "bytes": 2526511,
+        "sha256": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774"
+      }
+    ],
+    "recordingService": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 1257228,
+      "sha256": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387"
+    },
+    "recordingCLI": {
+      "path": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1076080,
+      "sha256": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1"
+    },
+    "projectService": {
+      "path": "/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "projectCLI": {
+      "path": "/tmp/screenrec-23l-runtime/cli.mjs",
+      "bytes": 1162696,
+      "sha256": "4dbdd9c1b0de9004652de59c30e1afc68ced7eeafdae4f90cdbef27a02e4e05d"
+    }
+  },
+  "qualification": {
+    "file": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/fixtures/narrated-workbench/video.mov",
+    "trackId": 1,
+    "segments": [
+      {
+        "targetStart": {
+          "timescale": 1000000,
+          "value": "0"
+        },
+        "ordinal": 0,
+        "sourceDuration": {
+          "timescale": 1000000,
+          "value": "134025574"
+        },
+        "targetDuration": {
+          "timescale": 1000000,
+          "value": "134025574"
+        },
+        "empty": false,
+        "sourceStart": {
+          "timescale": 1000000,
+          "value": "0"
+        }
+      }
+    ],
+    "samples": [
+      {
+        "start": {
+          "value": "0",
+          "timescale": 1000000
+        },
+        "roundedUs": 0,
+        "end": {
+          "value": "34266",
+          "timescale": 1000000
+        },
+        "mediaDuration": {
+          "value": "34266",
+          "timescale": 1000000
+        },
+        "mediaPTS": {
+          "value": "0",
+          "timescale": 1000000
+        },
+        "segment": 0
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "34266"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "67410"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "34266"
+        },
+        "roundedUs": 34266,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33144"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "67410"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "101181"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "67410"
+        },
+        "roundedUs": 67410,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33771"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "101181"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "134711"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "101181"
+        },
+        "roundedUs": 101181,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33530"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "134711"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "168702"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "134711"
+        },
+        "roundedUs": 134711,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33991"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "168702"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "203134"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "168702"
+        },
+        "roundedUs": 168702,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34432"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "203134"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "236298"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "203134"
+        },
+        "roundedUs": 203134,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33164"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "236298"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "273041"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "236298"
+        },
+        "roundedUs": 236298,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "36743"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "851277"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "886511"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "851277"
+        },
+        "roundedUs": 851277,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35234"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "886511"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "920438"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "886511"
+        },
+        "roundedUs": 886511,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33927"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "920438"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "952322"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "920438"
+        },
+        "roundedUs": 920438,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "31884"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "952322"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "987470"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "952322"
+        },
+        "roundedUs": 952322,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35148"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "987470"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1021160"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "987470"
+        },
+        "roundedUs": 987470,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33690"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1021160"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1054927"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1021160"
+        },
+        "roundedUs": 1021160,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33767"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1054927"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1087482"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1054927"
+        },
+        "roundedUs": 1054927,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32555"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1087482"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1121504"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1087482"
+        },
+        "roundedUs": 1087482,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34022"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1121504"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1156460"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1121504"
+        },
+        "roundedUs": 1121504,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34956"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1875067"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1908242"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1875067"
+        },
+        "roundedUs": 1875067,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33175"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1908242"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1940693"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1908242"
+        },
+        "roundedUs": 1908242,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32451"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1940693"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "1976107"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1940693"
+        },
+        "roundedUs": 1940693,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35414"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "1976107"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2011429"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "1976107"
+        },
+        "roundedUs": 1976107,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35322"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2011429"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2043810"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2011429"
+        },
+        "roundedUs": 2011429,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32381"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2043810"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2077258"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2043810"
+        },
+        "roundedUs": 2043810,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33448"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2077258"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2110796"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2077258"
+        },
+        "roundedUs": 2077258,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33538"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2110796"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2145113"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2110796"
+        },
+        "roundedUs": 2110796,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34317"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2860312"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2894557"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2860312"
+        },
+        "roundedUs": 2860312,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34245"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2894557"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2928139"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2894557"
+        },
+        "roundedUs": 2894557,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33582"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2928139"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2960657"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2928139"
+        },
+        "roundedUs": 2928139,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32518"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2960657"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "2996894"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2960657"
+        },
+        "roundedUs": 2960657,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "36237"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "2996894"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3030397"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "2996894"
+        },
+        "roundedUs": 2996894,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33503"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3030397"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3064021"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3030397"
+        },
+        "roundedUs": 3030397,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33624"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3064021"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3097882"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3064021"
+        },
+        "roundedUs": 3064021,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33861"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3097882"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3132104"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3097882"
+        },
+        "roundedUs": 3097882,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34222"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3132104"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3166562"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3132104"
+        },
+        "roundedUs": 3132104,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34458"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3850849"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3884881"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3850849"
+        },
+        "roundedUs": 3850849,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34032"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3884881"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3923659"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3884881"
+        },
+        "roundedUs": 3884881,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "38778"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3923659"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3954490"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3923659"
+        },
+        "roundedUs": 3923659,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "30831"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3954490"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "3991060"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3954490"
+        },
+        "roundedUs": 3954490,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "36570"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "3991060"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4025095"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "3991060"
+        },
+        "roundedUs": 3991060,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34035"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4025095"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4058022"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4025095"
+        },
+        "roundedUs": 4025095,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32927"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4058022"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4092752"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4058022"
+        },
+        "roundedUs": 4058022,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34730"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4092752"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4125541"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4092752"
+        },
+        "roundedUs": 4092752,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32789"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4125541"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4161487"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4125541"
+        },
+        "roundedUs": 4125541,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35946"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4873240"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4908944"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4873240"
+        },
+        "roundedUs": 4873240,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35704"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4908944"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4942596"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4908944"
+        },
+        "roundedUs": 4908944,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33652"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4942596"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "4972376"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4942596"
+        },
+        "roundedUs": 4942596,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "29780"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "4972376"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "5009389"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "4972376"
+        },
+        "roundedUs": 4972376,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "37013"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "5009389"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "5043763"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "5009389"
+        },
+        "roundedUs": 5009389,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34374"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "5043763"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "5076845"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "5043763"
+        },
+        "roundedUs": 5043763,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33082"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "5076845"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "5112542"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "5076845"
+        },
+        "roundedUs": 5076845,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35697"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "5112542"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "5146868"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "5112542"
+        },
+        "roundedUs": 5112542,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34326"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "131899234"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "131931338"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "131899234"
+        },
+        "roundedUs": 131899234,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32104"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "131931338"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "131966575"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "131931338"
+        },
+        "roundedUs": 131931338,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "35237"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "131966575"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "131998157"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "131966575"
+        },
+        "roundedUs": 131966575,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "31582"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "131998157"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "132032090"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "131998157"
+        },
+        "roundedUs": 131998157,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33933"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "132032090"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "132069671"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "132032090"
+        },
+        "roundedUs": 132032090,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "37581"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "132069671"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "132101654"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "132069671"
+        },
+        "roundedUs": 132069671,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "31983"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "132101654"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "132134857"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "132101654"
+        },
+        "roundedUs": 132101654,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "33203"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "132134857"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "132167821"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "132134857"
+        },
+        "roundedUs": 132134857,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "32964"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "133900164"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "133934295"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "133900164"
+        },
+        "roundedUs": 133900164,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34131"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "133934295"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "133969015"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "133934295"
+        },
+        "roundedUs": 133934295,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "34720"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "133969015"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "134006597"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "133969015"
+        },
+        "roundedUs": 133969015,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "37582"
+        }
+      },
+      {
+        "segment": 0,
+        "mediaPTS": {
+          "timescale": 1000000,
+          "value": "134006597"
+        },
+        "end": {
+          "timescale": 1000000,
+          "value": "134025574"
+        },
+        "start": {
+          "timescale": 1000000,
+          "value": "134006597"
+        },
+        "roundedUs": 134006597,
+        "mediaDuration": {
+          "timescale": 1000000,
+          "value": "37582"
+        }
+      }
+    ]
+  },
+  "tail": {
+    "requestedNumerator": "8041000000",
+    "requestedDenominator": "60",
+    "qualified": true
+  },
+  "allPairedOutcomes": [
+    {
+      "phase": "before",
+      "requestUs": 999999,
+      "old": {
+        "requestedSourceUs": 999999,
+        "actualSourceUs": 987470,
+        "actualPlaybackUs": 987470,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "8f042274ad0d63020a8aa5e675b12b800f8f916f466eb0311978f62b57faaf43"
+      },
+      "new": {
+        "frame": {
+          "index": 59,
+          "sampleAtUs": 983333,
+          "visibleRange": {
+            "startUs": 983333,
+            "endUs": 1000000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": {
+                "numerator": 2950000,
+                "denominator": 3
+              },
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": {
+              "numerator": 2950000,
+              "denominator": 3
+            },
+            "actualSourceUs": 952322,
+            "sample": {
+              "value": "952322",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "955b04fcff0c25a0db08c05d5aa37be524e47785a5cb4b753d0212ce83181135"
+      }
+    },
+    {
+      "phase": "before",
+      "requestUs": 1000000,
+      "old": {
+        "requestedSourceUs": 1000000,
+        "actualSourceUs": 987470,
+        "actualPlaybackUs": 987470,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "8f042274ad0d63020a8aa5e675b12b800f8f916f466eb0311978f62b57faaf43"
+      },
+      "new": {
+        "frame": {
+          "index": 60,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 987470,
+            "sample": {
+              "value": "987470",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "c6a24355f225127bf8af19e5676d36435e8671c1b8fe6ad86e6152a53b9b6936"
+      }
+    },
+    {
+      "phase": "before",
+      "requestUs": 1000001,
+      "old": {
+        "requestedSourceUs": 1000001,
+        "actualSourceUs": 987470,
+        "actualPlaybackUs": 987470,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "8f042274ad0d63020a8aa5e675b12b800f8f916f466eb0311978f62b57faaf43"
+      },
+      "new": {
+        "frame": {
+          "index": 60,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 987470,
+            "sample": {
+              "value": "987470",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "c6a24355f225127bf8af19e5676d36435e8671c1b8fe6ad86e6152a53b9b6936"
+      }
+    },
+    {
+      "phase": "before",
+      "requestUs": 2999999,
+      "old": {
+        "requestedSourceUs": 2999999,
+        "actualSourceUs": 2996894,
+        "actualPlaybackUs": 2996894,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "e43dc36e46907aa7da5798c378de4e88016d9113c0e9c197ddd96ad531c0599a"
+      },
+      "new": {
+        "frame": {
+          "index": 179,
+          "sampleAtUs": 2983333,
+          "visibleRange": {
+            "startUs": 2983333,
+            "endUs": 3000000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": {
+                "numerator": 8950000,
+                "denominator": 3
+              },
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": {
+              "numerator": 8950000,
+              "denominator": 3
+            },
+            "actualSourceUs": 2960657,
+            "sample": {
+              "value": "2960657",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "cee14b144d477706951c1027dac437d11dcc7e9642595b291cd184cbb8f29567"
+      }
+    },
+    {
+      "phase": "before",
+      "requestUs": 3000000,
+      "old": {
+        "requestedSourceUs": 3000000,
+        "actualSourceUs": 2996894,
+        "actualPlaybackUs": 2996894,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "e43dc36e46907aa7da5798c378de4e88016d9113c0e9c197ddd96ad531c0599a"
+      },
+      "new": {
+        "frame": {
+          "index": 180,
+          "sampleAtUs": 3000000,
+          "visibleRange": {
+            "startUs": 3000000,
+            "endUs": 3016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 3000000,
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 3000000,
+            "actualSourceUs": 2996894,
+            "sample": {
+              "value": "2996894",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "058ecadf86a849b68c8689cc054c39068829381f98fa9f042a865dc334deb578"
+      }
+    },
+    {
+      "phase": "before",
+      "requestUs": 3000001,
+      "old": {
+        "requestedSourceUs": 3000001,
+        "actualSourceUs": 2996894,
+        "actualPlaybackUs": 2996894,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "e43dc36e46907aa7da5798c378de4e88016d9113c0e9c197ddd96ad531c0599a"
+      },
+      "new": {
+        "frame": {
+          "index": 180,
+          "sampleAtUs": 3000000,
+          "visibleRange": {
+            "startUs": 3000000,
+            "endUs": 3016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 3000000,
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 3000000,
+            "actualSourceUs": 2996894,
+            "sample": {
+              "value": "2996894",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "058ecadf86a849b68c8689cc054c39068829381f98fa9f042a865dc334deb578"
+      }
+    },
+    {
+      "phase": "before",
+      "requestUs": 132025573,
+      "old": {
+        "requestedSourceUs": 132025573,
+        "actualSourceUs": 132032090,
+        "actualPlaybackUs": 132032090,
+        "kept": {
+          "startUs": 0,
+          "endUs": 134025574
+        },
+        "revisionId": "45c6c3c1-d292-457f-bf7d-9003f41ec5dc",
+        "PNGsha256": "7cd5510d4ceea2902c73722c9d3e275bb4a75792b9135035ef7b364222e08e51"
+      },
+      "new": {
+        "frame": {
+          "index": 7921,
+          "sampleAtUs": 132016666,
+          "visibleRange": {
+            "startUs": 132016666,
+            "endUs": 132033333
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": {
+                "numerator": 396050000,
+                "denominator": 3
+              },
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": {
+              "numerator": 396050000,
+              "denominator": 3
+            },
+            "actualSourceUs": 131998157,
+            "sample": {
+              "value": "131998157",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "8c158b76-364f-4df2-9770-bc317d7b509c",
+        "PNGsha256": "1152e53a9fd3a81b75f80fe780c74546f25112d5b01d778bb147455f287ea66c"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 999999,
+      "old": {
+        "requestedSourceUs": 999999,
+        "actualSourceUs": 987470,
+        "actualPlaybackUs": 987470,
+        "kept": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "8f042274ad0d63020a8aa5e675b12b800f8f916f466eb0311978f62b57faaf43"
+      },
+      "new": {
+        "frame": {
+          "index": 59,
+          "sampleAtUs": 983333,
+          "visibleRange": {
+            "startUs": 983333,
+            "endUs": 1000000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": {
+                "numerator": 2950000,
+                "denominator": 3
+              },
+              "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": {
+              "numerator": 2950000,
+              "denominator": 3
+            },
+            "actualSourceUs": 952322,
+            "sample": {
+              "value": "952322",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "955b04fcff0c25a0db08c05d5aa37be524e47785a5cb4b753d0212ce83181135"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 1000000,
+      "old": {
+        "requestedSourceUs": 2000000,
+        "actualSourceUs": 2011429,
+        "actualPlaybackUs": 1011429,
+        "kept": {
+          "startUs": 2000000,
+          "endUs": 4000000
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "d85842ffcc773e8c23ab57b2ec8ba87f6a800c45981d334c010ddcfcd58104a5"
+      },
+      "new": {
+        "frame": {
+          "index": 60,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 2000000,
+              "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 2000000,
+            "actualSourceUs": 1976107,
+            "sample": {
+              "value": "1976107",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "4300921d12eb74c02a125ada64a5055539fbd19e7aad81170a49f812ed6925a5"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 1000001,
+      "old": {
+        "requestedSourceUs": 2000001,
+        "actualSourceUs": 2011429,
+        "actualPlaybackUs": 1011429,
+        "kept": {
+          "startUs": 2000000,
+          "endUs": 4000000
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "d85842ffcc773e8c23ab57b2ec8ba87f6a800c45981d334c010ddcfcd58104a5"
+      },
+      "new": {
+        "frame": {
+          "index": 60,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 2000000,
+              "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 2000000,
+            "actualSourceUs": 1976107,
+            "sample": {
+              "value": "1976107",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "4300921d12eb74c02a125ada64a5055539fbd19e7aad81170a49f812ed6925a5"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 2999999,
+      "old": {
+        "requestedSourceUs": 3999999,
+        "actualSourceUs": 3991060,
+        "actualPlaybackUs": 2991060,
+        "kept": {
+          "startUs": 2000000,
+          "endUs": 4000000
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "c1211ba0f571d1b521a0f67aaa298c9cab64db7e0f8f5c3b71957cdb21340b77"
+      },
+      "new": {
+        "frame": {
+          "index": 179,
+          "sampleAtUs": 2983333,
+          "visibleRange": {
+            "startUs": 2983333,
+            "endUs": 3000000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": {
+                "numerator": 11950000,
+                "denominator": 3
+              },
+              "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": {
+              "numerator": 11950000,
+              "denominator": 3
+            },
+            "actualSourceUs": 3954490,
+            "sample": {
+              "value": "3954490",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "06fc5021c42fd0108c768291226221de84822c3a89a96991f044963eea374d73"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 3000000,
+      "old": {
+        "requestedSourceUs": 5000000,
+        "actualSourceUs": 5009389,
+        "actualPlaybackUs": 3009389,
+        "kept": {
+          "startUs": 5000000,
+          "endUs": 134025574
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "9245bb0bf1479df2014d6be915f75d38bf9b8aac61110a80fc253c1335be7bc1"
+      },
+      "new": {
+        "frame": {
+          "index": 180,
+          "sampleAtUs": 3000000,
+          "visibleRange": {
+            "startUs": 3000000,
+            "endUs": 3016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 5000000,
+              "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 5000000,
+            "actualSourceUs": 4972376,
+            "sample": {
+              "value": "4972376",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "274cd402132e864f31a00d5776f1dc158424afb72388732e3df4cff6c0ab2631"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 3000001,
+      "old": {
+        "requestedSourceUs": 5000001,
+        "actualSourceUs": 5009389,
+        "actualPlaybackUs": 3009389,
+        "kept": {
+          "startUs": 5000000,
+          "endUs": 134025574
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "9245bb0bf1479df2014d6be915f75d38bf9b8aac61110a80fc253c1335be7bc1"
+      },
+      "new": {
+        "frame": {
+          "index": 180,
+          "sampleAtUs": 3000000,
+          "visibleRange": {
+            "startUs": 3000000,
+            "endUs": 3016666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": 5000000,
+              "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": 5000000,
+            "actualSourceUs": 4972376,
+            "sample": {
+              "value": "4972376",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "274cd402132e864f31a00d5776f1dc158424afb72388732e3df4cff6c0ab2631"
+      }
+    },
+    {
+      "phase": "after",
+      "requestUs": 132025573,
+      "old": {
+        "requestedSourceUs": 134025573,
+        "actualSourceUs": 134006597,
+        "actualPlaybackUs": 132006597,
+        "kept": {
+          "startUs": 5000000,
+          "endUs": 134025574
+        },
+        "revisionId": "17ba0829-d15c-49eb-8d92-9640e4e27aa9",
+        "PNGsha256": "d80128bc31f544423b6982a55b1d90bb41bad65b031df29e13349e797618efda"
+      },
+      "new": {
+        "frame": {
+          "index": 7921,
+          "sampleAtUs": 132016666,
+          "visibleRange": {
+            "startUs": 132016666,
+            "endUs": 132025574
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "sourceUs": {
+                "numerator": 402050000,
+                "denominator": 3
+              },
+              "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:1",
+              "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+              "availability": "available",
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5e853037ff087ed26429c232e4f8a6ac05ecdac3fbe5dd0024da758c5a037532:1",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "requestedSourceUs": {
+              "numerator": 402050000,
+              "denominator": 3
+            },
+            "actualSourceUs": 134006597,
+            "sample": {
+              "value": "134006597",
+              "timescale": 1000000,
+              "originUs": 0
+            }
+          }
+        ],
+        "revisionId": "91e2b879-f690-4492-8a57-3bb34bd12a28",
+        "PNGsha256": "bee28e2eb61fc687e155ae25e0914d8fcaf9723f302ee31aef9382bb31d6b0fc"
+      }
+    }
+  ],
+  "allPixelComparisons": [
+    {
+      "kind": "raw",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "952322/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "2996894/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "2960657/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "132032090/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "131998157/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "2011429/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "1976107/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "3991060/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "3954490/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "5009389/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "4972376/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "raw",
+      "sample": "134006597/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/0-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/1-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/30-recording-raw.png",
+      "sample": "952322/1000000",
+      "bytes": 24585600,
+      "differentBytes": 5995,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/2-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/3-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 4680,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/4-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/5-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 4680,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/6-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/32-recording-raw.png",
+      "sample": "2996894/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/7-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/34-recording-raw.png",
+      "sample": "2960657/1000000",
+      "bytes": 24585600,
+      "differentBytes": 4043,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/8-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/32-recording-raw.png",
+      "sample": "2996894/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/9-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/32-recording-raw.png",
+      "sample": "2996894/1000000",
+      "bytes": 24585600,
+      "differentBytes": 4030,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/10-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/32-recording-raw.png",
+      "sample": "2996894/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/11-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/32-recording-raw.png",
+      "sample": "2996894/1000000",
+      "bytes": 24585600,
+      "differentBytes": 4030,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/12-recording-before.png",
+      "reference": "/tmp/screenrec-23l-third/36-recording-raw.png",
+      "sample": "132032090/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/13-project-before.png",
+      "reference": "/tmp/screenrec-23l-third/38-recording-raw.png",
+      "sample": "131998157/1000000",
+      "bytes": 24585600,
+      "differentBytes": 3695,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/14-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sample": "987470/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/15-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/30-recording-raw.png",
+      "sample": "952322/1000000",
+      "bytes": 24585600,
+      "differentBytes": 5995,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/16-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/40-recording-raw.png",
+      "sample": "2011429/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/17-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/42-recording-raw.png",
+      "sample": "1976107/1000000",
+      "bytes": 24585600,
+      "differentBytes": 5014,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/18-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/40-recording-raw.png",
+      "sample": "2011429/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/19-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/42-recording-raw.png",
+      "sample": "1976107/1000000",
+      "bytes": 24585600,
+      "differentBytes": 5014,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/20-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/44-recording-raw.png",
+      "sample": "3991060/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/21-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/46-recording-raw.png",
+      "sample": "3954490/1000000",
+      "bytes": 24585600,
+      "differentBytes": 4004,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/22-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/48-recording-raw.png",
+      "sample": "5009389/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/23-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/50-recording-raw.png",
+      "sample": "4972376/1000000",
+      "bytes": 24585600,
+      "differentBytes": 3970,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/24-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/48-recording-raw.png",
+      "sample": "5009389/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/25-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/50-recording-raw.png",
+      "sample": "4972376/1000000",
+      "bytes": 24585600,
+      "differentBytes": 3970,
+      "maximumChannelDifference": 1
+    },
+    {
+      "kind": "recording",
+      "file": "/tmp/screenrec-23l-third/26-recording-after.png",
+      "reference": "/tmp/screenrec-23l-third/52-recording-raw.png",
+      "sample": "134006597/1000000",
+      "bytes": 24585600,
+      "differentBytes": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "kind": "project",
+      "file": "/tmp/screenrec-23l-third/27-project-after.png",
+      "reference": "/tmp/screenrec-23l-third/52-recording-raw.png",
+      "sample": "134006597/1000000",
+      "bytes": 24585600,
+      "differentBytes": 3725,
+      "maximumChannelDifference": 1
+    }
+  ],
+  "MCPcloseEvents": [
+    {
+      "label": "recording-MCP",
+      "pid": 89877,
+      "terminal": true,
+      "event": "SDK transport onclose from child close"
+    },
+    {
+      "label": "project-MCP",
+      "pid": 89982,
+      "terminal": true,
+      "event": "SDK transport onclose from child close"
+    }
+  ],
+  "serviceCloseEvents": [
+    {
+      "label": "recording",
+      "command": "/usr/bin/sandbox-exec",
+      "args": [
+        "-f",
+        "/tmp/screenrec-23l-third/authorities.sb",
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+      ],
+      "pid": 89814,
+      "stdout": "{\"event\":\"started\",\"pid\":89814,\"socketPath\":\"/tmp/screenrec-23l-third/recording-home/run/service.sock\"}\n",
+      "stderr": "(node:89814) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\nscreenrec-service: reconciliation complete\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "label": "project",
+      "command": "/usr/bin/sandbox-exec",
+      "args": [
+        "-f",
+        "/tmp/screenrec-23l-third/authorities.sb",
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/tmp/screenrec-23k-runtime/service.mjs"
+      ],
+      "pid": 89896,
+      "stdout": "{\"event\":\"started\",\"pid\":89896,\"socketPath\":\"/tmp/screenrec-23l-third/project-home/run/service.sock\"}\n",
+      "stderr": "(node:89896) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    }
+  ],
+  "MCPReceiverConfig": {
+    "provider": "default installed SDK1.30.0 code",
+    "maxBufferSize": 67108864,
+    "scope": "Configured fixture receiver; no default receiver-capacity claim"
+  },
+  "preservedOriginals": "Copied catalogs/media; no donor or installed mutation; both worker pins rehashed unchanged",
+  "remaining": [
+    "composition pixel cause/acceptance",
+    "independent visual critique",
+    "no genuine physical gap donor",
+    "source-cardinality/final-scale",
+    "parent release/presentation gates"
+  ]
+}

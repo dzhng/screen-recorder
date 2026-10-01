@@ -1,0 +1,81 @@
+{
+  "status": "Scoped paired frame proof integrated; composition pixels remain open",
+  "base": "b7ea99c8",
+  "childImplementation": "764dc657cccbb298e35028f6bebd90f466d68f62",
+  "childStorage": "1de32612ab377cfcfcb1387b2672b2be276b7319",
+  "integration": "Net diff from56c65e2e; original196MB split parts never added to main history",
+  "checks": {
+    "currentSourceBindings": 208,
+    "currentEmittedBindings": 520,
+    "exactRawReconstructions": 21,
+    "publicExchanges": 311,
+    "publicPictures": 54,
+    "defaultCachedExchanges": 4,
+    "defaultReceiverBytes": 10485760,
+    "tailQualified": true,
+    "actualServiceCloseZero": true,
+    "actualSDKChildCloseCallbacks": true,
+    "MCPExitCodesExposed": false,
+    "compositionPixelsExact": false,
+    "scope": "Read-only root storage/source/public-receipt verification; no media rerun",
+    "defaultCachedMetadataAndOriginalPNGExact": true,
+    "syntaxExit": 0,
+    "scopedLintExit": 0,
+    "scopedFormatExit": 0,
+    "completeReceiptOraclePassed": true,
+    "uncutOracleExit": 1,
+    "toolingCorrection": "Unsupported ESLint and nonproject Prettier invocations retained separately; project oxlint/oxfmt pass without source edits"
+  },
+  "integrity": {
+    "retainedMembers": 4618,
+    "existingAuthorityBindings": 7,
+    "fullArchives": 2,
+    "currentHarnessAndTimingProbeExact": true,
+    "scope": "Storage/read-only integrity; no media or native execution"
+  },
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 1944,
+    "sha256": "d258eed0791b4d3375b58b2ad0edea230b487806b9a828fae7b20745760f2635",
+    "members": 8
+  },
+  "members": {
+    "integrity.json": {
+      "bytes": 202,
+      "sha256": "6229439c16303616b2969926761f759c7ec26f81365731908ea402fa7a1c83ff"
+    },
+    "correspondence.json": {
+      "bytes": 803,
+      "sha256": "0912abb556a34507ddbc79f10da02a34b0caa49a279ad9dcf7fa2dcba9f95ed1"
+    },
+    "receipt-check.log": {
+      "bytes": 186,
+      "sha256": "30d144ad63939b1d40be96004c09ddb5ba8f07b07ca3cc3d7ad54382a6b8e382"
+    },
+    "uncut-check.log": {
+      "bytes": 605,
+      "sha256": "cd4165a33de2b0869f59f5b87438f6291daf8896a73df86839d9887f6882e07c"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "format.log": {
+      "bytes": 202,
+      "sha256": "71c21a244d073a0b9b01cd87860c406d12885f79577724a752da348c9bcfaf2f"
+    },
+    "unsupported-eslint.log": {
+      "bytes": 570,
+      "sha256": "4ef7fa373c63012b1ce175778dff8aa5da82c28e0c496d5d84195538101ceecc"
+    },
+    "nonproject-prettier.log": {
+      "bytes": 240,
+      "sha256": "58b26b8e2b2649d51b7dad64aad18109b15f8ecf8bcc3fe8c2da3868d1187d2c"
+    }
+  },
+  "scopeLimits": [
+    "Actual MCP child-close callbacks, no exposed MCP exit codes",
+    "No media/native/model/service rerun by root",
+    "No invented composition pixel tolerance or physical/install/fullrelease claim"
+  ]
+}

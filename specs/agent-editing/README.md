@@ -22,9 +22,12 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: [23l paired edited frames](slices/23l-paired-edited-frames.md).**
-Execute the saved cuts through both public consumers, independently qualify sample
-timing, and validate every selected picture against its matched raw reference.
+**Next pickup: [24z current source-cardinality verification](slices/24z-source-cardinality.md).**
+Integrate the prepared current-production fixture and correctness proof, then run
+the unchanged timed cohort only after coordinated quiescence and a fresh whole-host
+check. [23l paired frames](assets/23l-paired-edited-frames/README.md) verifies public
+join membership, final sample support and default cached delivery; composition
+pixel correspondence remains open. Preserve its completed media cohort.
 [23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
 passes its merged complete saved-proof verifier and startup controls after
 [23n genuine model preparation](slices/23n-parakeet-model-readiness.md). Broader
@@ -281,7 +284,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
-- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — actual joins and independently qualified final support
+- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; composition pixels remain open
 - [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality and positive system remain open
 - [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)

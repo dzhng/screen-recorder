@@ -37,12 +37,13 @@ reports do contain `old-cuts` and `old-empty-edit` hash equality. The harness se
 The 10b [identities](../10b-source-acquisition/native-video/identities.json) pin its
 before worker `fae5e9122b1805b6c03fad000c1c27db4705222763aecb02049f63e1826df655`
 and current worker `329d439b1a42153d797228c987c55503e5e549009d6e70b3516a9f30cbe6075b`.
-None of these rows supplies a complete matched legacy-public/project-public
-edited join, physical gap or final-sample comparison. The saved take contains no
-physical gap; authored repeat/freeze/background in 10d has no old public cut/trim
-counterpart. Final sample support needs actual encoded duration evidence, separate
-from an authored freeze. Matched PTS, output frame grids,
-declared color conversion and explicit pointer treatments remain permitted differences.
+Those historical rows do not supply the paired public join/tail comparison.
+[23l](../23l-paired-edited-frames/README.md) now verifies those outcomes through both
+public consumers, with independent encoded sample duration and matched raw pictures.
+Composition pixel correspondence remains open. The saved take contains no physical
+gap; authored repeat/freeze/background in 10d has no old public cut/trim counterpart.
+Matched PTS, output frame grids, declared color conversion and explicit pointer
+treatments remain permitted differences; they do not create a numerical tolerance.
 
 ## Acquisition and excerpts
 

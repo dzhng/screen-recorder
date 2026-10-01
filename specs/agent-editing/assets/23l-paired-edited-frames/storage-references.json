@@ -1,0 +1,168 @@
+{
+  "scope": "Omitted bytes retain exact existing authorities, not summaries or fabricated replacement inputs",
+  "existingAuthorityReferences": [
+    {
+      "omittedMember": "fixtures/originals/video.mov",
+      "bytes": 29414120,
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "kind": "Existing checked-in retained fixture",
+      "repositoryPath": "fixtures/narrated-workbench/video.mov",
+      "gitBlob": "355861c27ca227f3a985bb141ccc3e1ac8945be4",
+      "authority": {
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/video.mov",
+        "bytes": 29414120,
+        "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+      }
+    },
+    {
+      "omittedMember": "fixtures/originals/narration.mov",
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "kind": "Existing checked-in retained fixture",
+      "repositoryPath": "fixtures/narrated-workbench/narration.mov",
+      "gitBlob": "37ea9320586448cfb234bc2edf9e21fdd22ef694",
+      "authority": {
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+        "bytes": 25730774,
+        "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+      }
+    },
+    {
+      "omittedMember": "fixtures/originals/capture.journal.jsonl",
+      "bytes": 2574002,
+      "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+      "kind": "Existing checked-in retained fixture",
+      "repositoryPath": "fixtures/narrated-workbench/capture.journal.jsonl",
+      "gitBlob": "a48d95d0e0be951754473c48e1cbf2c6317f26cf",
+      "authority": {
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/capture.journal.jsonl",
+        "bytes": 2574002,
+        "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+      }
+    },
+    {
+      "omittedMember": "fixtures/originals/recording.json",
+      "bytes": 213,
+      "sha256": "3b997886cd4fe0e77f06be0f5d6a11755185892a783535b9df1066381f4dc97e",
+      "kind": "Existing checked-in retained fixture",
+      "repositoryPath": "fixtures/narrated-workbench/recording.json",
+      "gitBlob": "9ae1107acf0a91e9719def95f055d2a0a0f71ff9",
+      "authority": {
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/recording.json",
+        "bytes": 213,
+        "sha256": "3b997886cd4fe0e77f06be0f5d6a11755185892a783535b9df1066381f4dc97e"
+      }
+    },
+    {
+      "omittedMember": "fixtures/originals/README.md",
+      "bytes": 1313,
+      "sha256": "06ad7337d185a62c3e9cc8e354d3427866611875cb4da4e8c5bd8d8a2ca5c77a",
+      "kind": "Existing checked-in retained fixture",
+      "repositoryPath": "fixtures/narrated-workbench/README.md",
+      "gitBlob": "37c53014eb1ebc5c0220d320a2110a1827f235a3",
+      "authority": {
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/README.md",
+        "bytes": 1313,
+        "sha256": "06ad7337d185a62c3e9cc8e354d3427866611875cb4da4e8c5bd8d8a2ca5c77a"
+      }
+    },
+    {
+      "omittedMember": "producer/current-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+      "kind": "Root preserved byte-identical frozen worker; copy not executed",
+      "authority": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928/screenrec-native",
+        "bytes": 30148624,
+        "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+      },
+      "preservationManifest": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/preservation.json",
+        "bytes": 1029,
+        "sha256": "726112870f59e74b54c7ab765121f9a9d5c8cc7327fb4a0995eea7c2a9f034a6"
+      }
+    },
+    {
+      "omittedMember": "producer/old-worker",
+      "bytes": 11261136,
+      "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b",
+      "kind": "Root preserved byte-identical frozen worker; copy not executed",
+      "authority": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b/screenrec-native",
+        "bytes": 11261136,
+        "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b"
+      },
+      "preservationManifest": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/preservation.json",
+        "bytes": 1029,
+        "sha256": "726112870f59e74b54c7ab765121f9a9d5c8cc7327fb4a0995eea7c2a9f034a6"
+      }
+    }
+  ],
+  "fullArchivePreservation": [
+    {
+      "original": {
+        "path": "/tmp/screenrec-23l-evidence-default-final.tar.gz",
+        "bytes": 196661999,
+        "sha256": "f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b"
+      },
+      "preserved": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/23l-paired-edited-frames/f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b/screenrec-23l-evidence-default-final.tar.gz",
+        "bytes": 196661999,
+        "sha256": "f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b"
+      },
+      "scope": "Byte-identical archival copy; never executed or rewritten"
+    },
+    {
+      "original": {
+        "path": "/tmp/screenrec-23l-evidence.tar.gz",
+        "bytes": 192439608,
+        "sha256": "0fde7084eabc64cafc053fac24b0fc9f7ee3211ff68e259df590356c30653300"
+      },
+      "preserved": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/23l-paired-edited-frames/0fde7084eabc64cafc053fac24b0fc9f7ee3211ff68e259df590356c30653300/screenrec-23l-evidence.tar.gz",
+        "bytes": 192439608,
+        "sha256": "0fde7084eabc64cafc053fac24b0fc9f7ee3211ff68e259df590356c30653300"
+      },
+      "scope": "Byte-identical archival copy; never executed or rewritten"
+    }
+  ],
+  "rawReconstruction": "storage/rgba-reconstruction.json",
+  "omittedBytes": 615427782,
+  "omittedMembers": [
+    "fixtures/originals/README.md",
+    "fixtures/originals/capture.journal.jsonl",
+    "fixtures/originals/narration.mov",
+    "fixtures/originals/recording.json",
+    "fixtures/originals/video.mov",
+    "pixels/0083abdb9d2754b835202c1e707ca3ee11d2cc8762982a6024566e7dd5fa9ae6.rgba",
+    "pixels/08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201.rgba",
+    "pixels/2d526758abc812132ab1d23af02e3521b7a445eb9eec904142e9858055ad5cda.rgba",
+    "pixels/3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad.rgba",
+    "pixels/3aa6b078db3ee5c45adc21dd3b68efc8e45099ae4b147e925a0e0e4ed249ad85.rgba",
+    "pixels/4107dd547b38114906539bcf46a55f7faa0a9ef6883ed097089c87842867e978.rgba",
+    "pixels/4961fc659fe081c73c5d24ea45c926a291ba297ac38ff574535cdffa70019e3d.rgba",
+    "pixels/56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677.rgba",
+    "pixels/5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529.rgba",
+    "pixels/71454ed1e0934377f68b3d80fe8290b1b0e2018a738c4841bbf01fc044f56bef.rgba",
+    "pixels/8652c0cf8832fa49c0408287ef11323068ed1504c85c2556ec61cda805386839.rgba",
+    "pixels/9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89.rgba",
+    "pixels/9dfea49b29558c3c3c11bd464048d30ab9c843ce4082a806af55dcdbf2853edb.rgba",
+    "pixels/ba740fd9fe4d3311183cd5c12c7b7c0fa19d109b23e797153d3486805d28c271.rgba",
+    "pixels/bbfcb79b8562244fbb3fd60dc6d999a8f58cdb13fa37fe3b1c2fc05af4fd1ce7.rgba",
+    "pixels/d86394a1e6560ea833f1f28d7d8999b7a4f1f5ceda0779a4b0ca9ddd4468b4a5.rgba",
+    "pixels/d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550.rgba",
+    "pixels/e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6.rgba",
+    "pixels/e613a4e66761448c0a973493e2da0a9f6b11e7a33fb27b54a9d1d2804a59873a.rgba",
+    "pixels/e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0.rgba",
+    "pixels/ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49.rgba",
+    "producer/current-worker",
+    "producer/old-worker"
+  ],
+  "originalManifest": {
+    "member": "files.json in immutable full archive",
+    "sha256": "c7b53f37e111d180afd8b2722bae999b78f3aa3f9962f0c86b304ee29ade353e"
+  },
+  "originalOutputsRetained": true,
+  "noEvidenceScopeOrProfileChange": true
+}

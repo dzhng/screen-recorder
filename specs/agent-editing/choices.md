@@ -6413,3 +6413,8 @@ The implemented [23m ledger](assets/23m-paired-partial-words-and-absent-role/cho
 retains reconstruction provenance and distinct runtime/verifier identities. Root
 and independent review accept those boundaries; neither reconstructed RPC bytes
 nor saved-verifier success implies a new inference or speech-quality verdict.
+
+The [23l ledger](assets/23l-paired-edited-frames/choices.md) owns the matched-selector
+and storage decisions. Root accepts compact storage only with exact reconstruction
+and immutable full archives retained separately; visual equivalence supplies no
+numerical tolerance or new production color policy.
