@@ -82,7 +82,7 @@
     "apps/macos/Sources/ScreenRecorder/CaptureController.swift": "a981aef9167fa5dde70f7ba2007875908b141b2484c4b48eba3205cafcb8d840",
     "packages/protocol/src/capture.ts": "54961ab4dd4c1f7662e8547bb3c9a46683cca0a6a78c68cd3508552093937a9a",
     "packages/protocol/src/operations.ts": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94",
-    "apps/cli/src/main.test.ts": "50ce842e21b33022db5923ffb2ed2ab332d730fadb151ac2949f67e165d24a77",
+    "apps/cli/src/main.test.ts": "6ef4c21efcab6b70c1805689936e6f73abe828fb54e8426024b3b4b51d0faadc",
     "apps/macos/tests/capture-start-interruption.test.mjs": "354987f78ee89a3120f51d6e991bdc238abacfe33933e73c8832b6d5fb518767",
     "apps/macos/tests/fixtures/capture-controller/ScriptedCapture.swift": "878d071657fb3d8eaac4268d78b6fb11e8011d557b1ccde5abcdfd5db47ac80a",
     "apps/macos/tests/fixtures/capture-controller/main.swift": "e97fbc606aa51bfa973cc7b884a1e889a4d8a5dc80c752e7835013cb5a7025ad",
@@ -100,5 +100,42 @@
     "Required camera descriptors and permission state in existing capture response schemas",
     "Public native camera descriptor type",
     "Optional native-controller test scratch-directory override"
-  ]
+  ],
+  "testRefinement": {
+    "reportedFailure": {
+      "origin": "Independent root merged verification",
+      "result": "First merged camera contract passed; subsequent merged post-build run timed out at the unchanged 20,000ms test deadline"
+    },
+    "change": "Move identical populated capture.sources CLI and MCP reads before the authorization loop; remove four redundant CLI startups and four duplicate MCP source calls",
+    "preserved": "All five status authorization states through both adapters; exact populated IDs/names/order; empty discovery; unsupported selectors rejected before native; no device actions; native scripted-controller discovery across all five states",
+    "deadlineMs": 20000,
+    "gates": [
+      {
+        "command": "node ../../node_modules/vitest/vitest.mjs run src/main.test.ts -t 'public camera discovery'",
+        "cwd": "apps/cli",
+        "exitCode": 0,
+        "testsPassed": 1,
+        "seconds": 5.13
+      },
+      {
+        "command": "node ../../node_modules/vitest/vitest.mjs run src/main.test.ts",
+        "cwd": "apps/cli",
+        "exitCode": 0,
+        "testsPassed": 21,
+        "seconds": 28.4
+      },
+      {
+        "command": "tsc -p tsconfig.check.json",
+        "cwd": "apps/cli",
+        "exitCode": 0
+      },
+      {
+        "command": "oxlint apps/cli/src/main.test.ts; oxfmt --check apps/cli/src/main.test.ts; git diff --check",
+        "exitCode": 0
+      }
+    ],
+    "review": "Shape/diff self-review, independent root settled review and independent read-only collaboration-agent review clean: source assertions moved verbatim; discovery input is invariant; all five status states remain through both adapters and scripted native discovery still covers every state. No deadline, production surface or assertion weakened. Collaboration reviewer also verified all 12 source hashes and inspected recorded gates without rerunning them; root merged rerun remains the integration gate.",
+    "negativeControl": "Prior response-field removal remains applicable: the moved assertions and tested public path are unchanged.",
+    "productionChanges": false
+  }
 }

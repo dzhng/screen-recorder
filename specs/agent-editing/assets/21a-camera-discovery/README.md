@@ -14,6 +14,10 @@ The [CLI/MCP test](../../../../apps/cli/src/main.test.ts) uses the actual servic
 and native control pipe with controlled facts. It verifies camera identities,
 order, empty discovery and every reported authorization state across both
 adapters. Removing the new response fields makes that public journey fail.
+Discovery and authorization have separate test inputs: unchanged populated
+discovery is checked once through each adapter, while status is checked for every
+authorization state. The scripted controller still checks discovery across those
+states. The public test retains its existing deadline.
 The [controller harness](../../../../apps/macos/tests/capture-start-interruption.test.mjs)
 compiles the actual native controller against scripted device and shareable-content
 boundaries. It preserves existing race cases and adds passive discovery checks.

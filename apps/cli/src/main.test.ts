@@ -866,6 +866,10 @@ it(
         stderr: "pipe",
       }),
     );
+    const sources = await read("capture.sources");
+    expect(sources.cameras).toEqual(cameras);
+    const mcpSources = await client.callTool({ name: "capture.sources", arguments: {} });
+    expect(mcpSources.structuredContent).toMatchObject({ ok: true, data: sources });
     for (const authorization of [
       "denied",
       "authorized",
@@ -874,10 +878,6 @@ it(
       "unknown",
     ]) {
       cameraPermission = authorization;
-      const sources = await read("capture.sources");
-      expect(sources.cameras).toEqual(cameras);
-      const mcpSources = await client.callTool({ name: "capture.sources", arguments: {} });
-      expect(mcpSources.structuredContent).toMatchObject({ ok: true, data: sources });
       const status = await read("capture.status");
       expect(status).toMatchObject({
         device: { state: "idle", selection: null, permissions: { camera: authorization } },
