@@ -213,6 +213,7 @@ implementation readiness from acceptance prerequisites.
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [x] [23a — Retained recording to identity-project preservation](slices/23a-recording-project-preservation.md)
 - [x] [23b — Matched export recovery preservation](slices/23b-export-recovery-preservation.md)
+- [x] [23c — Isolated project-library storage preservation](slices/23c-project-storage.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

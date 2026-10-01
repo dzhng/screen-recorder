@@ -5004,3 +5004,19 @@ The caller chooses how to use the primitives within that brief; the engine makes
 no editorial choice, and reviewers do not grade one preferred style. The plan
 left the test brief unspecified. This preserves the integration scenario set
 while keeping development and consumption of the toolkit distinct.
+
+### Shared-library storage categories — sound, medium confidence
+
+When: 23c (2026-09-30).
+
+- **Choice:** Count retained project-library files as shared bytes. When two
+  projects use one asset, the aggregate counts its actual file length once. It
+  does not estimate each project's share. Registered temporary derivatives remain
+  cache bytes, and private external export staging remains other bytes.
+- **Gap:** The plan required truthful storage preservation without assigning new
+  project-specific ownership categories to files shared by several projects.
+- **Reach:** The existing public aggregate shape stays usable through cutover;
+  scoped project accounting would require its own requested contract.
+- **Verdict:** Sound. One real byte observation avoids an invented allocation
+  policy and preserves the existing category meanings for recording consumers.
+- **Confidence:** Medium.

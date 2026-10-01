@@ -20,7 +20,8 @@ aggregate bytes, parameter refusal and shutdown through the actual socket.
 Filesystem holds are test-boundary controls; they create no product hook or
 second scanner. No real capture, media/model execution or app launch is used.
 
-Verification results and retained review limitations are in `verification.json`.
+Verification results and retained review limitations are in [verification](verification.json).
+[Root integration](root-verification.json) records the merged build and public tests.
 Independent root diff and shape review is clean; it checked the one-owner scanner,
 external staging authority, early shutdown cancellation and actual public scopes.
 The independent CLI review was attempted but could not start because its configured

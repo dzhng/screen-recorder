@@ -1,0 +1,18 @@
+{
+  "integrationCommit": "fed9b20b",
+  "scope": "Merged source build and focused public storage regression only",
+  "build": "turbo build --filter=@screenrec/service --filter=@screenrec/cli:6 tasks successful",
+  "focusedPublicCheck": {
+    "command": "bunx vitest run apps/service/src/project-storage.test.ts --maxWorkers=1",
+    "exitCode": 0,
+    "testsPassed": 2
+  },
+  "sourceIdentities": {
+    "packages/core/src/storage.ts": "d4c06228301934eabc719629d21ef4d396b0326523dbf204043e4e90d3a00c88",
+    "apps/service/src/main.ts": "9ec3a08d186ae05ee36908d25f6adc88fb6b837665e7bcdc76bd5ddced427082",
+    "apps/service/src/operations.ts": "bdfcf70af7f8c2416f0d5ad6e7d89f61c0d4ea5f92757085c251ce57c8b982b2",
+    "apps/service/src/project-service.ts": "1d2c50c00325deca7a2b8d13478844283b6e62f112148a054410b438bb92a594",
+    "apps/service/src/project-storage.test.ts": "570a45139b0fa681685f5d033e5338b41383c6bf1c5b15b7d9b8700d4f9e894a"
+  },
+  "limits": "Parent23, physical capture and installed switching remain open; no broader root/native gate rerun claimed."
+}

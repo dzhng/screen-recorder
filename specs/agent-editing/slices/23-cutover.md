@@ -27,6 +27,10 @@ The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) su
 
 [23b](23b-export-recovery-preservation.md) adds the bounded matched public acknowledgement-loss/restart checkpoint using the retained cached movies.
 
+[23c](23c-project-storage.md) preserves aggregate storage observations through the
+shared scanner in the isolated service. Its merged public tests and build pass;
+per-project allocation and installed consumer switching are outside that scope.
+
 ## Acceptance
 
 All preservation rows have result artifacts and permitted differences. Capture, clean-frame/pointer selection, transcript/evidence gaps, concurrency, preview/export publication and relocated inspection retain their guarantees. Search for obsolete timeline/target consumers and remove live references. New installed discovery uses the fresh library deliberately; no old jobs/history are migrated.

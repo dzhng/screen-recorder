@@ -187,6 +187,11 @@ its remaining quality, retiming or physical prerequisites.
   prepared-package-transfer completed the accepted12d public editing/rendering/undo
   journey and the retained-input current-worker AAC mixed full/range check; the
   worktree is released with saved outputs intact.
+- **Shared-library storage23c:** [the isolated preservation pass](23c-project-storage/README.md)
+  reuses the contained scanner for aggregate project-library bytes and cancels
+  scans before shutdown drain. Root reviewed the change, rebuilt the public JS
+  path and passed both merged public regressions. Parent23 and installed switching
+  remain open; no per-project allocation policy is added.
 - **Selected-device preparation20e/20e1:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is integrated and offline-verified. Root matched all19 code/test/harness source
   identities to the reviewed artifacts, rehashed all481 archive members, and ran
