@@ -40,17 +40,17 @@
       "includedInRepository": false
     }
   },
-  "retainedOutsideCheckout": {
-    "catalog": "/private/tmp/sr-source-cardinality-uywBEr",
-    "seedEvidence": "/tmp/screenrec-24z-source-cardinality-proof1",
-    "preparedRuntime": "/tmp/screenrec-source-owner-profile",
-    "worker": "/private/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native"
-  },
   "nextBoundary": "Separately coordinate a future window, confirm own lanes and inspect fresh whole-host preflight, reverify all pins, then obtain root release before exactly one bounded profile attempt. No timer, monitor or retry created.",
   "harnessPins": {
     "packages/test-harness/editing/evidence-service.mjs": "f5993b70c7d1c6b69f3d53287f58a6766d93a649a784e147ae91f45250211ecc",
     "packages/test-harness/editing/source-cardinality.mjs": "7251c1db9fad5bd48f595e7f9a722343b2d5bdf973dd7074c18fbcaa8dc7ac98",
     "packages/test-harness/editing/service-cpu-profile.mjs": "5230d3b117939871144da1b0d6378a96cdd249cd68461c4789e937a332b89673",
     "packages/test-harness/editing/service-cpu-profile.test.mjs": "144481bc72f10312e356beb1d6dc10fe68db215fc6897f0bdb1f7934d9f7c583"
+  },
+  "retainedLocations": {
+    "catalog": "/private/tmp/sr-source-cardinality-uywBEr",
+    "seedEvidence": "/tmp/screenrec-24z-source-cardinality-proof1",
+    "worker": "/private/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native",
+    "preparedCheckout": "/tmp/screenrec-source-owner-profile"
   }
 }

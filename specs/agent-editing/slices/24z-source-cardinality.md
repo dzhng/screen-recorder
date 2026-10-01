@@ -131,6 +131,8 @@ pinned runtime for owner attribution against the retained catalog. The original
 red cohort and its frozen-worker authority remain unchanged. Exact query sources,
 compiled modules and local import resolution are checked independently of the
 current worker's provenance; this runtime does not inherit a performance verdict.
+The [merged verification](../assets/24z-owner-profile-preparation/merged-verification.json)
+rechecks those identities and actual ESM SDK resolution without starting the service.
 
 The harness has an opt-in profile phase using the existing service IPC owner.
 Sampling ends before oracle comparisons and artifact serialization; native work

@@ -1,0 +1,54 @@
+{
+  "scope": "Root verification of merged preparation only; no project service, query, native invocation, build or profile launched by this check",
+  "observedAtUTC": "2026-10-01T09:20:49.653Z",
+  "integratedCommit": "753e383b",
+  "pinChecks": {
+    "sourceAndCompiledFiles": 350,
+    "cjsAndEsmLocalImportResolutions": 242,
+    "dependencyLinks": 21,
+    "harnessFiles": 4,
+    "seedFiles": 3,
+    "worker": {
+      "path": "/private/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native",
+      "sha256": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+      "seedNativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+    }
+  },
+  "sdkAuthority": {
+    "frozenPins": "runtime-pins.json.gz retains its four CJS resolutions unchanged",
+    "actualEsmResolutions": [
+      {
+        "specifier": "@modelcontextprotocol/sdk/client/index.js",
+        "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js",
+        "sha256": "db6cc643f5cc095b2fd0b70bf691d1775f07a317e97555e3928559e815f5e32a"
+      },
+      {
+        "specifier": "@modelcontextprotocol/sdk/client/stdio.js",
+        "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js",
+        "sha256": "298514feae7875117a119a2598b40f2346ef07c30152fa7ad2ffb6cfb51782bc"
+      },
+      {
+        "specifier": "@modelcontextprotocol/sdk/shared/protocol.js",
+        "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js",
+        "sha256": "8de524602541771e084f7185e7d0fc418b8142a9cae1bd80a3ee7c70e9a9e132"
+      },
+      {
+        "specifier": "@modelcontextprotocol/sdk/shared/stdio.js",
+        "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js",
+        "sha256": "0e5c9d7062e97b9fe501f45f553ac73b3461e21d861e6548ee0903ce2b08114d"
+      }
+    ],
+    "readOnlyReview": "ESM protocol close delegates the transport; stdio close captures the owned ChildProcess before clearing its handle, ends stdin, then uses bounded TERM/KILL escalation. A transport pid getter is not proof of liveness; the harness signals only its owned still-live ChildProcess."
+  },
+  "priorRootSyntheticCheck": {
+    "passed": 4,
+    "failed": 0,
+    "scope": "Four synthetic child IPC cases; previously completed root check, not rerun during this pin verification; no actual project service integration proved"
+  },
+  "originalRedPacket": "Unchanged from cd5bcb40; inspected with git diff against assets/24z-source-cardinality",
+  "metadataCorrection": "retainedLocations.preparedCheckout names the retained checkout accurately; compressed original pins remain unchanged",
+  "actualProfileAttempts": 0,
+  "actualProjectReadAttempts": 0,
+  "actualServiceStarts": 0,
+  "nextBoundary": "Separately coordinate a future window, confirm own lanes and inspect fresh whole-host preflight, reverify all pins, then obtain root release before exactly one bounded profile attempt. No timer, monitor or retry created."
+}

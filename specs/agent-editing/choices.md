@@ -5233,3 +5233,47 @@ When: 21c.
   startup then independently draining retains the cleanup obligation and prevents
   both missed and repeated physical stops.
 - **Confidence:** High.
+
+## Preserve query authority while preparing owner attribution (2026-10-01)
+
+### Keep the retained query implementation separate from the new worker
+
+- **When:** 24z owner-profile preparation and root integration.
+- **The choice:** The slow-query diagnostic used a worker that is now missing.
+  Keep that failed measurement and its identity intact. A future CPU profile uses
+  the exact retained query code and catalog in a separate checkout, with every
+  compiled file and local import checked. A separately identified current worker
+  may perform startup workspace cleanup, but the profiled query must invoke no
+  native operation. For example, changing camera admission on main cannot quietly
+  change the query implementation being profiled. Rebuilding a replacement and
+  assigning it the missing worker's authority would conceal a changed input.
+- **The gap:** The original worker's loss left attribution unavailable; the plan
+  did not specify how to resume that diagnosis while other implementation progressed.
+- **The reach:** Future attribution keeps the original measurement, query code and
+  new worker identities distinct. The retained checkout must remain available;
+  neither its preparation nor a later CPU trace establishes the latency budget.
+- **Verdict:** sound; preserves the failed cohort and makes the new experiment's
+  authority explicit without replacing a frozen runtime.
+- **Confidence:** high. Actual profile dispatch and attribution remain unverified.
+
+### Sample the service through opt-in IPC and retain bounded cleanup
+
+- **When:** the same preparation pass.
+- **The choice:** The parent harness sends start/stop messages over its existing
+  inter-process channel to the service. The service records its own CPU samples
+  only while delivering the requested rows; the parent's comparisons and report
+  writing occur afterward. If a read stalls or memory exceeds the operator guard,
+  the harness first requests a partial trace and starts transport closure. It
+  reserves time for flushing and shutdown, then may stop only its own still-live
+  child process. A bare process number can be reused after exit and is not cleanup
+  authority. The chosen guards are 60 seconds per arm, 180 seconds overall and
+  1 GiB service RSS; they bound this diagnostic, not the product's latency contract.
+- **The gap:** The plan required bounded owner attribution but did not prescribe
+  sampler placement, interrupted-trace delivery or cleanup ownership.
+- **The reach:** Instrumentation is opt-in harness code; normal service operations
+  and production schemas remain unchanged. Sampler overhead, idle time and unknown
+  frames stay visible rather than becoming a claim of exclusive query CPU cost.
+- **Verdict:** sound; measures the intended process and gives interruption a bounded
+  cleanup path without adding production instrumentation or raw-PID signaling.
+- **Confidence:** high for the ownership decision. Synthetic lifecycle controls pass;
+  actual service integration and the query profile remain open.
