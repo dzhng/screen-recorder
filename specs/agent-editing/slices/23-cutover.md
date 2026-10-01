@@ -3,9 +3,11 @@
 Status: isolated consumer preservation, source lifetime and
 [23h headless native library consumption](23h-native-library-consumption.md) are merged-verified.
 The [23i app-owned process candidate](23i-service-process-parity.md) is source-verified.
+[23j](23j-state-preservation.md) verifies paired public edit/history guarantees and
+exact authored source intervals; the remaining preservation rows stay separate.
 Concrete presentation and installed release acceptance remain open.
 Installed switching and obsolete-owner deletion have not started.
-The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md) identifies the remaining paired public state and actual service/native-consumer cases without adding another UI or repeating accepted media cohorts.
+The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md) identifies the remaining saved-outcome mappings and actual service/native-consumer cases without adding another UI or repeating accepted media cohorts.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract

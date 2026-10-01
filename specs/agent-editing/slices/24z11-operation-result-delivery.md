@@ -1,6 +1,6 @@
 # 24z11 — Complete large operation results over MCP
 
-Status: implemented and verified in the isolated worktree; root integration remains separate. The [changed-closure packet](../assets/24z11-operation-result-delivery/README.md) retains the complete saved receipt through default MCP and ordinary CLI, both service compositions, lifetime/capacity/error controls, and original failures. The retained [24y default-client failure](24y-source-event-duration.md#validation-client-capacity) remains historical authority; its configured-client proof is not relabeled as this production correction. General inline media capacity and final scale/installed acceptance remain open.
+Status: implementation merged; the original affected root gate is red (125/126, complete-receipt timeout at unchanged 5000ms). [Merged evidence](../assets/24z11-operation-result-delivery/merged-original.json) retains the failure and producer; phase measurement and correction are next. The [isolated packet](../assets/24z11-operation-result-delivery/README.md) retains its passing default MCP/CLI and lifetime/capacity/error checks. The [24y default-client failure](24y-source-event-duration.md#validation-client-capacity) remains historical authority. General inline media capacity and final scale/installed acceptance remain open.
 
 ## Contract and ownership
 

@@ -22,20 +22,23 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: implement [complete operation-result MCP delivery](slices/24z11-operation-result-delivery.md)
-through the existing delivery owner, preserving the full result and
-replay identity with a default SDK client.** [24y's retained failure](slices/24y-source-event-duration.md#validation-client-capacity)
-shows that two complete inline representations exceed the default receive buffer.
-Make the large-result representation contract explicit; do not truncate receipts,
-raise limits or call an enlarged test-client buffer a production fix.
+**Next implementation pickup: resolve the merged [24z11 complete-result gate](slices/24z11-operation-result-delivery.md).**
+The implementation is merged; builds/types/lint/format pass, but its first affected
+run passed 125/126 with the complete-receipt test exceeding the unchanged five-second
+deadline. [Original merged evidence](assets/24z11-operation-result-delivery/merged-original.json)
+retains the failure and producer. Measure the actual phases before changing the
+fixture boundary or code; do not raise a deadline or buffer. Default-client inline
+image/audio/batch budgeting follows this correction as a separate pre-consumption
+contract. Preserve complete values and live tokens when deferring attachments.
 
-The [24z10 relocation check](slices/24z10-portable-index-relocation.md) now separates
-unchanged fixture authoring from relocation through default runner hooks; complete
-merged values pass. Its original whole-setup deadline remains failed evidence,
-with no production speedup claim. In parallel, execute the paired public state
-case from the [23 preservation correspondence](assets/acceptance-maintenance/cutover-preservation.md).
-Map banked outcomes before adding another media case. These lanes need no new
-capture or audition.
+[23j paired public state](slices/23j-state-preservation.md) closes the edit/history
+correspondence. Its historical MCP adapter exit events remain unrecorded; SDK close
+resolution is not termination proof. Map the other banked outcomes in the
+[23 preservation correspondence](assets/acceptance-maintenance/cutover-preservation.md)
+before adding another media case. The [24z10 relocation check](slices/24z10-portable-index-relocation.md)
+preserves complete fixture values through runner setup hooks; the original whole-setup
+timeout remains failed evidence, with no product speedup claim. These lanes need
+no new capture or audition.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -43,7 +46,7 @@ capture or audition.
 | [24z owner corrections](slices/24z-source-cardinality.md) | [24z1–5 source/prepared owners](assets/implementation-pickup.md), [24z6 append runs](slices/24z6-composition-appends.md), [24z7 event metadata/public clocks](slices/24z7-source-event-resolution.md), [24z8 worker support](slices/24z8-source-frame-support.md), [24z9 index plans](slices/24z9-source-index-plan-resolution.md) preserve scoped output/work contracts; [24z10 relocation](slices/24z10-portable-index-relocation.md) preserves full fixture values | Source-cardinality p95, general final scale and default-client large replies; no original whole-setup timing pass |
 | [12 speech evidence](slices/12-speech-evidence.md) | Selected baseline, actual model preparation and saved human comparisons remain banked | Broader lexical/acoustic coverage, omitted text, protected words/joins and held-out timing; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | [Controlled allocation-to-project behavior](assets/21f3-public-camera-selection/merged-verification.json), retained originals/journals/recovery | Physical synchronization, live lifecycle and completed-stop deadline |
-| [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports and process ownership verified | Concrete presentation/preservation matrix, installed switching and obsolete-owner removal after prerequisites |
+| [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports, process ownership and paired edit/history preservation verified | Remaining preservation correspondence, concrete presentation, installed switching and obsolete-owner removal after prerequisites |
 | [25 external caller](slices/25-agent-acceptance.md) | [Fresh source-caller workflow](slices/25b-fresh-caller.md) completed the supplied brief, delivery, history and empty-recipient recovery | Full installed/listening/physical release gates and the planned one-shot harness execution mode |
 
 [Banked evidence](assets/integrated-evidence.md) and
@@ -261,6 +264,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
 - [x] [23h — Native library consumption](slices/23h-native-library-consumption.md)
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
+- [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

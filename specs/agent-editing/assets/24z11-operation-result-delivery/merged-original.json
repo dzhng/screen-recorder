@@ -1,0 +1,187 @@
+{
+  "status": "original merged gate red; correction pending",
+  "root": "05d82600",
+  "implementation": "7b339b61",
+  "child": "c7a033af0e52a5e301c59af0631ccff8fef5f748",
+  "archive": {
+    "path": "merged-original.tar.gz",
+    "bytes": 120518,
+    "sha256": "fbb72deba69b3888e5b99913137aa5e928841ec1de264f0effeb5521cff057b9",
+    "members": 39
+  },
+  "members": {
+    "checks/build.log": {
+      "bytes": 56,
+      "sha256": "2968f26cf8bf4e344cebe2bd8dc82bda49b8c66607349828c8c0bfb0504f267f"
+    },
+    "checks/format.log": {
+      "bytes": 204,
+      "sha256": "ffe5548feb1afa7ab83c62b9515b460005eeb52783ba3eb107d8b6b165afbc31"
+    },
+    "checks/lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/tests.log": {
+      "bytes": 2373,
+      "sha256": "282b204d473fd79aeda209d0bbf3a9857555af1fc37213410d3e3252d894a952"
+    },
+    "checks/types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "closure/apps/cli/README.md": {
+      "bytes": 4674,
+      "sha256": "fb01d6a82743ea89de6dd66166b0d237569b79ae5c223da6e89fb1b050c0dc1d"
+    },
+    "closure/apps/cli/dist/main.d.ts": {
+      "bytes": 31,
+      "sha256": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
+    },
+    "closure/apps/cli/dist/main.js": {
+      "bytes": 12403,
+      "sha256": "b94d75799aafb7ed9515930f1d2223754e9c6f0c76cbdb92678dc45715862fe8"
+    },
+    "closure/apps/cli/src/main.test.ts": {
+      "bytes": 35166,
+      "sha256": "8d80d51abd66eb649223616cad1663ba72b3111ba317f3867d8f6b91f97e080e"
+    },
+    "closure/apps/cli/src/main.ts": {
+      "bytes": 12754,
+      "sha256": "d013abf43f58672a3b16267bf504365d3b04743950a6ae16b944295ff89c384c"
+    },
+    "closure/apps/cli/src/result-delivery.test.ts": {
+      "bytes": 13091,
+      "sha256": "116b722484817d7c9abd854dbe5e56258b8d07247f77da4bc6431fa91a99e50a"
+    },
+    "closure/apps/service/dist/delivery.d.ts": {
+      "bytes": 1499,
+      "sha256": "375c3b370df18024ea0f9c45a1a676780ff979a8b9a083094a42249fa0f6c71c"
+    },
+    "closure/apps/service/dist/delivery.js": {
+      "bytes": 4362,
+      "sha256": "41094f9842bedccaf0f77286c376100867ec809b517535917feb8dd69ab81b44"
+    },
+    "closure/apps/service/dist/index.d.ts": {
+      "bytes": 993,
+      "sha256": "a335b3c911209d0f66aa22118c15b5e297d1df3365de9ae8ccfb2d6ae79dbecf"
+    },
+    "closure/apps/service/dist/index.js": {
+      "bytes": 7213,
+      "sha256": "83a70aa0f30001e731ffc9e361234f308bc6a32c77dc92c07bf35d542070632f"
+    },
+    "closure/apps/service/dist/main.d.ts": {
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    "closure/apps/service/dist/main.js": {
+      "bytes": 19883,
+      "sha256": "20703fa6218b6d2f253b316f9353b2e147a6ff3d0f6486fe8c81e208fabcdcfd"
+    },
+    "closure/apps/service/dist/project-service.d.ts": {
+      "bytes": 518,
+      "sha256": "0ff82e0d00863e52f11f2f0e54f8cc642c9206975297cc7a91395e4e855a26c9"
+    },
+    "closure/apps/service/dist/project-service.js": {
+      "bytes": 61216,
+      "sha256": "e1cf03644ed87cbf4dad045920e11dbfe709dade2aea40c85490327b00d5f552"
+    },
+    "closure/apps/service/src/delivery.ts": {
+      "bytes": 4907,
+      "sha256": "b67ff2eacc2454c7c6c72b90f6e458a0daf7015d264780ba79dff42c22cdb12e"
+    },
+    "closure/apps/service/src/index.ts": {
+      "bytes": 7136,
+      "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+    },
+    "closure/apps/service/src/main.ts": {
+      "bytes": 19541,
+      "sha256": "fea98214bffafe5ad042194984410d2de2ab064be4dab0a8caf43857ccd19d68"
+    },
+    "closure/apps/service/src/project-service.test.ts": {
+      "bytes": 46698,
+      "sha256": "efb8111eb1464f5cf9f017e96d283046e88c9510cd7d1f99ffbd4084e03c3f1b"
+    },
+    "closure/apps/service/src/project-service.ts": {
+      "bytes": 54468,
+      "sha256": "cc2c89b7fd2780279369382ebe975207f2d625a9599bfbfa4fbdb07bb8fb12a3"
+    },
+    "closure/apps/service/src/result-delivery.test.ts": {
+      "bytes": 10059,
+      "sha256": "bb419956921b248507acda5ca98d3ad3eaa0f8b9558c0a51321f9f15a813058c"
+    },
+    "closure/packages/client/dist/transport.d.ts": {
+      "bytes": 667,
+      "sha256": "17a5cc6a25f8f1551555d8bf6a6dee3903889681f35b34785f093bce6d5cd5d4"
+    },
+    "closure/packages/client/dist/transport.js": {
+      "bytes": 3087,
+      "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+    },
+    "closure/packages/client/src/transport.ts": {
+      "bytes": 3484,
+      "sha256": "c69d32ec2ac61f87705601b0679702ba2fe4ae7af90c726428138e33d0d9af7e"
+    },
+    "closure/packages/protocol/dist/framing.d.ts": {
+      "bytes": 1406,
+      "sha256": "930f899cb7ee0aace5e7f3711ebe3bad7d466d8a50f891efd0c978771bc61979"
+    },
+    "closure/packages/protocol/dist/framing.js": {
+      "bytes": 5431,
+      "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+    },
+    "closure/packages/protocol/dist/index.d.ts": {
+      "bytes": 6217,
+      "sha256": "07c476d26a30bb197084d598bcf10d0a88cf04b98406e011c5142aed0883b44f"
+    },
+    "closure/packages/protocol/dist/index.js": {
+      "bytes": 3294,
+      "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+    },
+    "closure/packages/protocol/dist/operations.d.ts": {
+      "bytes": 171994,
+      "sha256": "eace888f04179403e72fecb5e8b1c1afa6c565a0e793c6b83cfbf6bc33409da6"
+    },
+    "closure/packages/protocol/dist/operations.js": {
+      "bytes": 55563,
+      "sha256": "bce1bd6a0439b3f1d73860f4dff1a86d15427a7196c668346803c3057df71086"
+    },
+    "closure/packages/protocol/src/framing.ts": {
+      "bytes": 5338,
+      "sha256": "477d4324b8b2269c0d75be7c240b817d72f8a9ccd32cdff6183c64ecdda5efa2"
+    },
+    "closure/packages/protocol/src/index.ts": {
+      "bytes": 3832,
+      "sha256": "b5ec83ab37693413fa00f05458fde88a5084f998ef37bb3d6c8c1be74b429d57"
+    },
+    "closure/packages/protocol/src/operations.ts": {
+      "bytes": 54756,
+      "sha256": "a25a6fbdefd5cb981fca10bb0f95251ca7b7e41ac621d731ebe362586b695b7d"
+    },
+    "closure/skills/screenrec/SKILL.md": {
+      "bytes": 32686,
+      "sha256": "3e9434c7359f885f32b941e41bc030d2483cc5e96fff580690dacfe84ee13f04"
+    },
+    "closure/specs/agent-editing/slices/24z11-operation-result-delivery.md": {
+      "bytes": 4829,
+      "sha256": "388e9f08749e3749c2ed0f1546de3daa39402de2de74010d4afe26ce022bc69b"
+    }
+  },
+  "gate": {
+    "command": "node node_modules/vitest/vitest.mjs run packages/protocol/src packages/client/src apps/service/src/index.test.ts apps/service/src/delivery.test.ts apps/service/src/result-delivery.test.ts apps/service/src/project-service.test.ts apps/cli/src --maxWorkers=1 --silent=false",
+    "exitCode": 1,
+    "files": 11,
+    "passed": 125,
+    "failed": 1,
+    "failure": "complete retained receipt test exceeded unchanged5000ms deadline",
+    "durationSeconds": 125.65
+  },
+  "checks": {
+    "affectedBuild": "pass",
+    "affectedProductionAndTestTypes": "pass",
+    "changedTSLint": "pass",
+    "changedTSFormat": "pass"
+  },
+  "independentClosureVerification": "All six child emitted trees, six external package metadata pins, SDK345-file ESM tree and lock rehashed using producer canonical relative-path inventory; changed source/emitted files all match mergedroot. Original packet/archive left unchanged.",
+  "scope": "No timeout causality, merged completion, media capacity or full release claim."
+}

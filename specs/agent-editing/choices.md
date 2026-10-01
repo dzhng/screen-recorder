@@ -6290,3 +6290,25 @@ write and use the runner's setup lifecycle. Its sound choices separate authored
 setup from relocation, retain complete value proofs and avoid an unjustified
 production optimization. Confidence is high. The passing relocated-data gate
 does not turn the original whole-setup timeout into a product latency pass.
+
+
+## Paired public edit-state preservation
+
+The [23j ledger](assets/23j-state-preservation/choices.md) owns five sound choices.
+The medium-confidence source-mapping oracle and operation-specific failure/no-op
+cases compare shared guarantees without inventing identical representations.
+High-confidence fixture reuse, real socket acknowledgement loss and fenced native
+startup preserve genuine inputs and separate the replay mutant from the accepted
+producer. The SDK supplement pins current installed code only; neither it nor SDK
+close resolution substitutes for historical adapter exit evidence.
+
+
+## Complete operation-result delivery
+
+The [24z11 choices](assets/24z11-operation-result-delivery/choices.md) own four sound
+decisions. The medium-confidence conservative byte budget trades some inline
+replies for complete chunked delivery; the controlled replay fixture proves exact
+saved bytes without claiming old admissions/history. The outer transport preference
+and explicit existing lease owner have high confidence. No choice increases a
+limit, adds an operation endpoint or authorizes uncertain-write retries. These
+architecture judgments do not replace the pending merged receipt deadline check.
