@@ -22,8 +22,8 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: reslice and implement bounded large-result MCP
-delivery through the existing delivery owner, preserving the full result and
+**Next implementation pickup: implement [complete operation-result MCP delivery](slices/24z11-operation-result-delivery.md)
+through the existing delivery owner, preserving the full result and
 replay identity with a default SDK client.** [24y's retained failure](slices/24y-source-event-duration.md#validation-client-capacity)
 shows that two complete inline representations exceed the default receive buffer.
 Make the large-result representation contract explicit; do not truncate receipts,
@@ -297,6 +297,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z7 — Read-only scene-event source resolution](slices/24z7-source-event-resolution.md) — fresh metadata phases and exact consumer output; merged consumer groups pass
 - [x] [24z8 — Demanded source-frame support](slices/24z8-source-frame-support.md) — bounded native payload, full support authority and public/frozen-native parity
 - [x] [24z9 — One complete source-index plan per call](slices/24z9-source-index-plan-resolution.md) — fresh request/execution and full delivery work proof; separate relocation deadline remains open
+- [ ] [24z11 — Complete operation-result MCP delivery](slices/24z11-operation-result-delivery.md) — default-client result reconstruction; media attachment budgeting follows separately
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
