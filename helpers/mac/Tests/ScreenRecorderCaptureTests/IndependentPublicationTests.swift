@@ -240,3 +240,57 @@ private func retainClosureFacts(_ input: PrerecordedCaptureInput, in folder: URL
         "companionClosureCalls": input.finalizations, "inputDiscards": input.discards], options: [.sortedKeys])
         .write(to: folder.appendingPathComponent("closure-counts.json"))
 }
+
+/// A primary journal failure during encoder closure still traverses the shared interruption callback.
+@MainActor
+func runSharedInterruptionDuringFinishTests(output: String? = nil) async throws {
+    let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("shared-interruption-during-finish")
+    if output != nil { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false) }
+    defer { if output == nil { try? FileManager.default.removeItem(at: root) } }
+    let source = root.appendingPathComponent("input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: [0, 100000, 200000, 500000, 700000], endUs: 800000)
+    let directory = root.appendingPathComponent("capture")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = directory
+    input.cameraBinding = CameraCaptureBinding(recordingId: "shared-interruption-take",
+        sourceId: "shared-interruption-camera", deviceId: "prerecorded-camera")
+    input.videoDeliveryInterval = .milliseconds(10)
+    input.holdStop = true
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    var events: [String] = []
+    capture.onInterruption = { failure in events.append("interruption:\(failure.code)") }
+    input.beforeCameraClose = {
+        precondition(events == ["interruption:JOURNAL_FAILED"],
+            "The shared interruption must have reached NativeCapture before camera closure")
+        events.append("camera-close")
+    }
+    try await capture.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: directory.path, sourceId: "shared-interruption-primary", microphone: false))
+    try capture.pause()
+    let stopping = Task { try await capture.stop() }
+    await input.stopEntered.wait()
+    precondition(events.isEmpty)
+    // Finish must close the open pause. Its next journal write detects this replaced inode.
+    let journal = directory.appendingPathComponent("capture.journal.jsonl")
+    let original = directory.appendingPathComponent("original-primary.journal.jsonl")
+    try FileManager.default.moveItem(at: journal, to: original)
+    try FileManager.default.copyItem(at: original, to: journal)
+    input.releaseStop.release()
+    let result = try await stopping.value
+    try JSONEncoder().encode(result).write(to: directory.appendingPathComponent("native-result.json"))
+    try JSONEncoder().encode(capture.publication).write(to: directory.appendingPathComponent("publication-observation.json"))
+    try JSONEncoder().encode(events).write(to: directory.appendingPathComponent("closure-events.json"))
+    try retainClosureFacts(input, in: directory)
+    guard case .published(let camera) = capture.publication?.camera else {
+        preconditionFailure("A shared interruption must preserve usable camera support")
+    }
+    precondition(result.failure?.code == "JOURNAL_FAILED" && result.camera?.failure?.code == "JOURNAL_FAILED"
+        && camera.diagnostic?.code == "JOURNAL_FAILED",
+        "A shared interruption arriving during primary finish cannot disappear from camera authority")
+    precondition(camera.binding == input.cameraBinding && input.stops == 1 && input.finalizations == 1
+        && capture.deviceState == "idle")
+    let recovered = try await CapturePublishedSource.recover(directory: directory.appendingPathComponent("camera").path)
+    precondition(recovered.journal == camera.journal && recovered.diagnostic?.code == "JOURNAL_FAILED")
+    print("PASS shared journal interruption during primary finish survives camera closure, publication and recovery")
+}

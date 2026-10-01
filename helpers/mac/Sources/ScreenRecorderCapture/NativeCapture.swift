@@ -223,13 +223,12 @@ public final class NativeCapture {
                 sink.seal()
                 let inputFailure = await input?.stop()
                 failure = failure ?? inputFailure
-                let interruption = failure
-                let finished = await sink.finish(failure: interruption)
+                let finished = await sink.finish(failure: failure)
                 let finalClock = sink.queue.sync { sink.ingressState.clock }
                 // Publication cancellation cannot interrupt physical encoder closure or its snapshot.
                 let closingInput = input
                 let companion = await Task { @MainActor in
-                    await closingInput?.closeMedia(clock: finalClock, failure: interruption)
+                    await closingInput?.closeMedia(clock: finalClock, failure: self.failure)
                 }.value
                 closedCamera = companion?.camera
                 closedResult = finished

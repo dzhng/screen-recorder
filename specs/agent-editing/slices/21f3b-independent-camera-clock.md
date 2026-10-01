@@ -1,6 +1,7 @@
 # 21f3b — Camera support without primary pictures
 
-Status: native prerequisite implemented and verified on the isolated source tree.
+Status: native prerequisite and shared-interruption correction pass on the isolated
+source tree. Merged-source verification remains pending.
 [21f3a publication authority](21f3a-independent-publication.md) remains its base;
 [21f3 atomic public integration](21f3-public-camera-selection.md) is the next
 consumer, after integration and merged-tree verification. The original absence
@@ -135,8 +136,14 @@ The comparison, pixel difference measurements and isolated control are retained
 with the evidence manifest.
 
 Shape, code and documentation review retained one clock owner and no compatibility
-layer. Root's independent production review found no defect and requested the
-pre-origin pause boundary, now covered. The configured CLI review was not retried:
+layer. The initial root production review requested the pre-origin pause boundary,
+now covered. A later independent review found that a shared interruption arriving
+during primary encoder closure could be lost from camera diagnostics because its
+value had been captured before the await. The correction reads the current shared
+interruption inside companion closure; primary-only completion failures remain
+local. The deterministic regression replaces the primary journal after paused
+input drain, observes the real finish-time JOURNAL_FAILED interruption before
+camera closure, and verifies that camera publication and recovery retain it. The configured CLI review was not retried:
 the known provider/model HTTP 400 remains the user's prohibition on that path.
 Primary clock/PCM, cursor and elapsed behavior continue through the default
 capture suite. These tiny prerecorded gates make no physical synchronization,
@@ -151,3 +158,12 @@ suite covers the unchanged primary clock/PCM, cursor and elapsed contracts once.
 The extra pre-origin-control mutation also fails at the raw-host-control oracle,
 with `/tmp/screenrec-21f3b-preorigin-red.log` retained. Merged-tree gates remain
 the integrating agent's responsibility.
+
+
+The [shared-interruption correction packet](../assets/21f3b-shared-interruption/README.md)
+retains the failing original-source runner, corrected source/runtime identities,
+complete red/green/control artifacts and full-suite log. Its actual red exits 133
+at the lost-camera-diagnostic assertion; corrected regression, camera-only
+NO_VIDEO control and full default suite each exit 0. The original 21f3b packet and
+runtime are unchanged. This correction preserves an already-delivered shared
+interruption; it introduces no new error ownership or finalization lifecycle.
