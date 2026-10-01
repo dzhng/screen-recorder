@@ -1,0 +1,36 @@
+{
+  "verdict": "clean isolated test lifecycle correction",
+  "shape": {
+    "owner": "Existing portable-index relocation consumer and scoped runner hook",
+    "removed": "Rejected temporary transaction override; no alternate writer/interpreter remains",
+    "retained": "Unchanged fixture function and all ordinary store validation/transactions; unchanged production owners",
+    "cost": "No production logic, comments, cache, API, schema, dependency or configuration added. Test diff includes nesting indentation and complete value proof. No extra test cases or fixture adapters."
+  },
+  "diff": {
+    "fixtureBodyByteIdentical": true,
+    "cleanup": "Existing parent afterEach closes stores and removes only test scratch roots, including failed hook setup",
+    "oracle": "Both full entry-page replies, complete scene pages, all 520 expected coverage values, all 260 PNG bytes; prior refusals and public leased read remain",
+    "control": "A changed ordinal-0 PNG fails exact byte equality; restored five-file gate passes",
+    "productionDurability": "No production changes; actual observer retains 835 transactions"
+  },
+  "docs": {
+    "leafAndPacketLinks": "checked",
+    "rootHub": "Owned by root; new leaf pickup is pending integration",
+    "claims": "Original combined setup/relocation gate remains failed; no product latency or scale acceptance claimed"
+  },
+  "checks": {
+    "files": 5,
+    "testsPassed": 39,
+    "build": "passed",
+    "types": "passed",
+    "format": "passed",
+    "lint": "passed",
+    "cliOrClaudeReviews": "not invoked per authorized scope"
+  },
+  "diagnosticLimitations": [
+    "Initial CPU-prof attempt captured only Vitest coordinator and was retained without causal attribution",
+    "Original worker profile interrupted fixture finalization; exported values were retained on the unchanged final hook fixture",
+    "Transient elapsed observations varied; no repeated timing cohort or causal speedup claim",
+    "An initial formatter invocation used an unavailable Prettier path; repository oxfmt was then used and passed"
+  ]
+}

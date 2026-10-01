@@ -1,6 +1,6 @@
 import { recordingSceneOwner, recordingSceneIdentity } from "./scene-evidence.js";
 import { RetainedIndexRead } from "./index-read.js";
-import { test, expect, afterEach } from "vitest";
+import { test, expect, afterEach, beforeEach, describe } from "vitest";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync, renameSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
@@ -146,92 +146,131 @@ function framesWithoutPaths(entries: ReturnType<ScreenshotIndexStore["page"]>["e
     return { ...entry, frame };
   });
 }
-test("scene chunks, retained images and coverage remain readable after library removal and relocation", async () => {
-  const f = await fixture();
-  const sceneFirst = f.scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), limit: 1 }),
-    sceneNext = f.scenes.page({
-      identity: recordingSceneIdentity(f.sceneIdentity),
-      afterStartUs: 0,
-      limit: 100,
-    });
-  const first = f.index.page({ identity: f.identity, limit: 200 }),
-    next = f.index.page({ identity: f.identity, afterOrdinal: first.nextOrdinal!, limit: 200 });
-  const coverage = f.index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 }),
-    candidateCoverage = f.index.coveragePage({
-      identity: f.identity,
-      candidateOrdinal: 259,
-      limit: 1,
-    });
-  await writeSceneEvidencePages(
-    f.scenes,
-    recordingSceneIdentity(f.sceneIdentity),
-    join(f.root, "scenes"),
-  );
-  await writeScreenshotIndexPages(f.index, f.identity, f.revision, join(f.root, "index"));
-  f.store.close();
-  stores.delete(f.store);
-  rmSync(f.original, { recursive: true });
-  renameSync(join(f.root, "scenes"), join(f.root, "moved-scenes"));
-  renameSync(join(f.root, "index"), join(f.root, "moved-index"));
-  const scenes = new FileSceneEvidence(
-      join(f.root, "moved-scenes"),
-      recordingSceneIdentity(f.sceneIdentity),
-    ),
-    index = new FileScreenshotIndex(join(f.root, "moved-index"), f.identity, f.revision);
-  expect(scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), limit: 1 })).toEqual(
-    sceneFirst,
-  );
-  expect(
-    scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), afterStartUs: 0, limit: 100 }),
-  ).toEqual(sceneNext);
-  const movedFirst = index.page({ identity: f.identity, limit: 200 });
-  expect({ ...movedFirst, entries: framesWithoutPaths(movedFirst.entries) }).toEqual({
-    ...first,
-    entries: framesWithoutPaths(first.entries),
+describe("portable relocation", () => {
+  let f: Awaited<ReturnType<typeof fixture>>;
+  beforeEach(async () => {
+    f = await fixture();
   });
-  expect(
-    framesWithoutPaths(
-      index.page({ identity: f.identity, afterOrdinal: first.nextOrdinal!, limit: 200 }).entries,
-    ),
-  ).toEqual(framesWithoutPaths(next.entries));
-  expect(index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 })).toEqual(
-    coverage,
-  );
-  expect(index.coveragePage({ identity: f.identity, candidateOrdinal: 259, limit: 1 })).toEqual(
-    candidateCoverage,
-  );
-  expect(
-    index
-      .coveragePage({
+  test("scene chunks, retained images and coverage remain readable after library removal and relocation", async () => {
+    const sceneFirst = f.scenes.page({
+        identity: recordingSceneIdentity(f.sceneIdentity),
+        limit: 1,
+      }),
+      sceneNext = f.scenes.page({
+        identity: recordingSceneIdentity(f.sceneIdentity),
+        afterStartUs: 0,
+        limit: 100,
+      });
+    const first = f.index.page({ identity: f.identity, limit: 200 }),
+      next = f.index.page({ identity: f.identity, afterOrdinal: first.nextOrdinal!, limit: 200 });
+    const coverage = f.index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 }),
+      candidateCoverage = f.index.coveragePage({
         identity: f.identity,
         candidateOrdinal: 259,
-        afterSequence: candidateCoverage.nextSequence!,
         limit: 1,
-      })
-      .coverage.map((row) => row.equality),
-  ).toEqual(["unproven"]);
-  const image = index.openRead(f.identity, 259),
-    bytes = Buffer.alloc(image.bytes);
-  expect(image.read(bytes, 0)).toBe(png.length);
-  expect(bytes).toEqual(png);
-  image.release();
-  expect(() => image.read(bytes, 0)).toThrow("released");
-  expect(movedFirst.entries[0]!.frame.file.startsWith(join(f.root, "moved-index"))).toBe(true);
-  const manifest = JSON.parse(readFileSync(join(f.root, "moved-index", "pages.json"), "utf8"));
-  const entryFile = readFileSync(
-    join(f.root, "moved-index", manifest.indexes.entries[0].file),
-    "utf8",
-  );
-  expect(entryFile).not.toContain(f.original);
-  expect(() =>
-    index.coveragePage({ identity: f.identity, candidateOrdinal: 259, afterSequence: 0 }),
-  ).toThrow("outside");
-  expect(() => index.page({ identity: f.identity, afterOrdinal: 999 })).toThrow(
-    expect.objectContaining({ code: "NOT_FOUND" }),
-  );
-  expect(() => index.page({ identity: { ...f.identity, generation: "wrong" } })).toThrow(
-    "identity",
-  );
+      });
+    await writeSceneEvidencePages(
+      f.scenes,
+      recordingSceneIdentity(f.sceneIdentity),
+      join(f.root, "scenes"),
+    );
+    await writeScreenshotIndexPages(f.index, f.identity, f.revision, join(f.root, "index"));
+    f.store.close();
+    stores.delete(f.store);
+    rmSync(f.original, { recursive: true });
+    renameSync(join(f.root, "scenes"), join(f.root, "moved-scenes"));
+    renameSync(join(f.root, "index"), join(f.root, "moved-index"));
+    const scenes = new FileSceneEvidence(
+        join(f.root, "moved-scenes"),
+        recordingSceneIdentity(f.sceneIdentity),
+      ),
+      index = new FileScreenshotIndex(join(f.root, "moved-index"), f.identity, f.revision);
+    expect(scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), limit: 1 })).toEqual(
+      sceneFirst,
+    );
+    expect(
+      scenes.page({
+        identity: recordingSceneIdentity(f.sceneIdentity),
+        afterStartUs: 0,
+        limit: 100,
+      }),
+    ).toEqual(sceneNext);
+    const movedFirst = index.page({ identity: f.identity, limit: 200 });
+    expect({ ...movedFirst, entries: framesWithoutPaths(movedFirst.entries) }).toEqual({
+      ...first,
+      entries: framesWithoutPaths(first.entries),
+    });
+    const movedNext = index.page({
+      identity: f.identity,
+      afterOrdinal: first.nextOrdinal!,
+      limit: 200,
+    });
+    expect({ ...movedNext, entries: framesWithoutPaths(movedNext.entries) }).toEqual({
+      ...next,
+      entries: framesWithoutPaths(next.entries),
+    });
+    const allCoverage: ReturnType<typeof index.coveragePage>["coverage"] = [];
+    let coveragePage = index.coveragePage({ identity: f.identity, limit: 200 });
+    for (;;) {
+      allCoverage.push(...coveragePage.coverage);
+      if (coveragePage.nextSequence === null) break;
+      coveragePage = index.coveragePage({
+        identity: f.identity,
+        afterSequence: coveragePage.nextSequence,
+        limit: 200,
+      });
+    }
+    expect(allCoverage).toEqual(
+      Array.from({ length: 520 }, (_, sequence) => ({
+        kind: "coverage",
+        sequence,
+        ordinal: Math.floor(sequence / 2),
+        source: { startUs: sequence * 1_000_000, endUs: (sequence + 1) * 1_000_000 },
+        playback: { startUs: sequence * 1_000_000, endUs: (sequence + 1) * 1_000_000 },
+        equality: sequence % 2 ? "unproven" : "sampled",
+      })),
+    );
+    for (let ordinal = 0; ordinal < 260; ordinal++)
+      expect(readFileSync(join(f.root, "moved-index", "images", `${ordinal}.png`))).toEqual(png);
+    expect(index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 })).toEqual(
+      coverage,
+    );
+    expect(index.coveragePage({ identity: f.identity, candidateOrdinal: 259, limit: 1 })).toEqual(
+      candidateCoverage,
+    );
+    expect(
+      index
+        .coveragePage({
+          identity: f.identity,
+          candidateOrdinal: 259,
+          afterSequence: candidateCoverage.nextSequence!,
+          limit: 1,
+        })
+        .coverage.map((row) => row.equality),
+    ).toEqual(["unproven"]);
+    const image = index.openRead(f.identity, 259),
+      bytes = Buffer.alloc(image.bytes);
+    expect(image.read(bytes, 0)).toBe(png.length);
+    expect(bytes).toEqual(png);
+    image.release();
+    expect(() => image.read(bytes, 0)).toThrow("released");
+    expect(movedFirst.entries[0]!.frame.file.startsWith(join(f.root, "moved-index"))).toBe(true);
+    const manifest = JSON.parse(readFileSync(join(f.root, "moved-index", "pages.json"), "utf8"));
+    const entryFile = readFileSync(
+      join(f.root, "moved-index", manifest.indexes.entries[0].file),
+      "utf8",
+    );
+    expect(entryFile).not.toContain(f.original);
+    expect(() =>
+      index.coveragePage({ identity: f.identity, candidateOrdinal: 259, afterSequence: 0 }),
+    ).toThrow("outside");
+    expect(() => index.page({ identity: f.identity, afterOrdinal: 999 })).toThrow(
+      expect.objectContaining({ code: "NOT_FOUND" }),
+    );
+    expect(() => index.page({ identity: { ...f.identity, generation: "wrong" } })).toThrow(
+      "identity",
+    );
+  });
 });
 
 test("portable policies, pinned contexts, required members and retained image bytes fail explicitly", async () => {

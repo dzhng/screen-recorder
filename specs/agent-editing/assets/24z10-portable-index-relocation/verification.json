@@ -1,0 +1,89 @@
+{
+  "slice": "24z10",
+  "baseCommit": "3b2fff80cba3f5fe7a1749de5c86d40677788d5f",
+  "scope": "Test lifecycle only; original fixture setup and production owner work unchanged",
+  "originalRed": {
+    "rootIsolated": {
+      "passed": 4,
+      "failed": 1,
+      "failure": "5000 ms timeout measured 5081 ms"
+    },
+    "workerProfile": {
+      "durationMs": 6094.083,
+      "fixtureInclusiveMs": 5702.2,
+      "transactionInclusiveMs": 4543.0,
+      "appendCoverageInclusiveMs": 2990.1,
+      "appendCandidateInclusiveMs": 1504.0,
+      "exportReached": false
+    },
+    "actualProgress": {
+      "sceneAppendsMs": 480.1,
+      "candidateCoverageAppendsMs": 6374.7,
+      "candidates": 260,
+      "coverage": 520,
+      "sceneChunks": 52,
+      "transactions": 835,
+      "prepares": 7036,
+      "commitMs": 1912.255875
+    },
+    "coordinatorProfile": "Failed transport captured no core owner frames; retained, not used for attribution"
+  },
+  "finalObservation": {
+    "candidates": 260,
+    "coverage": 520,
+    "sceneChunks": 52,
+    "transactions": 835,
+    "fixtureCompletedMs": 1624.9,
+    "sceneExportCompletedMs": 1689.3,
+    "indexExportCompletedMs": 3754.0,
+    "fullOraclesCompletedMs": 4061.3,
+    "clock": "Module-local performance.now; work observer adds overhead; elapsed observations are not a latency distribution or causal speedup"
+  },
+  "oracle": {
+    "preserved": "Complete scene pages, full metadata/candidates/frame receipts/coverage counts for all 260 entries, both pagination replies, selected coverage/candidate continuation, relocated public lease and released-read refusal, pinned context and anchor refusals",
+    "extended": "Independent expected values for every one of 520 ordered coverage records and exact PNG bytes for every one of 260 exported images",
+    "storedValues": "values/catalog.sqlite, values/context.json, full scene/index pages and all 260 image members",
+    "fixtureFunctionUnchanged": true,
+    "fixtureFunctionSha256": "1e10924ed8d44a69ac3cee65be5a52ce3a57114a0ad83f554b048286e6ff442e",
+    "imageControl": {
+      "exitCode": 1,
+      "reason": "Alter only ordinal-0 exported PNG after relocation; full byte equality fails while ordinary ordinal-259 delivery remains independent"
+    },
+    "restoredGate": {
+      "exitCode": 0,
+      "files": 5,
+      "passed": 39
+    }
+  },
+  "commands": {
+    "tests": "node node_modules/vitest/vitest.mjs run packages/core/src/portable-index.test.ts packages/core/src/screenshot-index.test.ts packages/core/src/files.test.ts packages/core/src/scene-evidence.test.ts packages/core/src/index-processing.test.ts",
+    "build": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+    "types": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json",
+    "format": "node node_modules/oxfmt/bin/oxfmt --check packages/core/src/portable-index.test.ts",
+    "lint": "node node_modules/oxlint/bin/oxlint packages/core/src/portable-index.test.ts"
+  },
+  "checks": {
+    "tests": 0,
+    "build": 0,
+    "types": 0,
+    "format": 0,
+    "lint": 0
+  },
+  "rejectedExperiment": "Temporary fixture transaction callback override was tried, then rejected as a test-only alternate interpreter and discarded before final implementation. Its timing is not evidence for the shipped change. No production edits were made.",
+  "limits": {
+    "productLatencyImprovement": false,
+    "originalWholeSetupGatePassed": false,
+    "timingCohorts": 0,
+    "nativeCalls": 0,
+    "services": 0,
+    "capture": 0,
+    "mediaModelInference": 0,
+    "playback": 0,
+    "productionChanges": false,
+    "deadlineLimitChanges": false,
+    "hookTimeoutChanges": false,
+    "cacheApiSchemaChanges": false,
+    "rootIntegration": "pending",
+    "generalScaleAcceptance": "open"
+  }
+}
