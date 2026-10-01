@@ -8,7 +8,8 @@ identity, selected outputs and logs: core 39 pass; native 53 pass and two inheri
 performance timeouts. Separate maintenance owns those failures; no native-green
 claim is made. [Inherited speech labels](../assets/00-baseline/speech-labels.json)
 separate manual acoustic marks from ASR-only candidates. Complete independent
-filler/repetition annotation and listening acceptance remain slice 12 gates.
+lexical/filler coverage, acoustic boundaries and listening quality remain slice12
+technical gates; fixture targets do not define a product editorial policy.
 
 ## Contract
 
@@ -20,7 +21,13 @@ Create `packages/test-harness/editing/fixtures.mjs` and a feature-owned corpus m
 
 ## Work and review surface
 
-Generate two asymmetric numbered clips with different dimensions/frame rates, independent tones/impulses and explicit expected sample membership; add orientation, still-alpha, odd-canvas, missing-stream and gap cases. Freeze manually labeled filler/repetition targets and protected words in real narration. Capture existing single-source reference outputs in an isolated library. Keep physical webcam and independent audition gates pending if unavailable.
+Generate two asymmetric numbered clips with different dimensions/frame rates,
+independent tones/impulses and explicit expected sample membership; add orientation,
+still-alpha, odd-canvas, missing-stream and gap cases. Freeze acoustic word labels,
+externally specified target ranges and protected words in real narration. These
+are test inputs, not a demand to decide what the speaker should have said. Capture
+existing single-source reference outputs in an isolated library. Keep physical
+webcam and independent audition gates pending if unavailable.
 
 Create this planned probe in this slice:
 

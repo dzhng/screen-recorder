@@ -10,6 +10,12 @@ A fresh external agent completes the user's tutorial workflow using only the pro
 
 Independent agent journey through installed CLI and MCP; the production service/core/native stack is the system under test. Use real accepted corpus speech and a verified screen/camera take, plus imported media/music/stills.
 
+The test agent is an external caller using the project, not an embedded product
+component. It may make editorial decisions only within the supplied user's brief.
+The toolkit supplies primitives and makes zero editorial decisions. Evaluate
+whether it exposes useful evidence and faithfully executes that caller's requests;
+do not require it to select one supposedly correct editorial treatment.
+
 ## Work and review surface
 
 The agent discovers actual capabilities, gets/sets/reorders/bypasses clip/track/group/output stacks, inserts new narration into a processed track, applies optional denoise, replaces/splits media and verifies unchanged originals plus historical undo/package playback. Exceptions use individual clips/separate tracks, never parent-step overrides.
@@ -43,7 +49,10 @@ For human review use [preview-shots](../../../.agents/skills/preview-shots/SKILL
 
 No masked missing capability: imported replacement audio is not a pass for local synthesis; prerecorded presenter footage is not a pass for webcam capture; waveform inspection is not a claim of hearing. Report incomplete gates while preserving useful outputs and fix the owning slice.
 
-Delegated: Agent editorial choices within the user's brief, and reversible presentation choices. Engine guarantees, required features and truthfulness about verification are fixed.
+Delegated: External test-agent editorial choices within the supplied user's brief,
+and reversible test presentation choices. None of this delegates editorial
+authority to the product or turns development into editing the user's recording.
+Engine guarantees, required features and verification truthfulness are fixed.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 

@@ -30,5 +30,6 @@ unknown. Source and packet identity plus the actual clock bind every export.
 
 The [actual human record](../assets/12f-human-marks/README.md) supplies the final
 item. Preparation and synthetic saves remain separate evidence. This resolves one disputed word;
-broader corpus inventory, repetition intent, timing and recipe selection remain
-with parent12.
+broader technical corpus coverage, timing and speech-evidence recipe selection
+remain with parent12. Repetition-removal intent belongs to the external caller
+and is not a development gate.

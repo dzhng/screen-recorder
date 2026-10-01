@@ -4,7 +4,8 @@
 
 The local app owns the service. CLI and MCP call one operation registry. The
 service coordinates durable project/asset/job owners; one pure composition
-package determines all editorial meaning. Native workers execute media plans.
+package defines the deterministic meaning of caller-authored edits. Native
+workers execute media plans.
 An external agent provides editorial intelligence and chooses reference audio.
 
 ```mermaid
@@ -22,8 +23,12 @@ flowchart LR
 
 ## Editorial control
 
-The product provides composable media primitives; the caller chooses editorial
-policy. Expose supported settings, processing order, scope, links and bypass.
+The product makes **zero editorial decisions**. It only provides composable media
+primitives. The external agent using the project makes editorial decisions.
+Detection, transcription, filler labels and repeated-word search supply evidence
+and candidates; they do not decide that an occurrence is unwanted or authorize
+its removal. The caller names the edit, ranges, scope and treatments. Expose
+supported settings, processing order, scope, links and bypass.
 Conveniences produce inspectable ordinary edits, and presets supply overridable
 starting settings. An operation must not silently add a treatment because the
 engine judges it more natural or polished.
@@ -33,6 +38,13 @@ choose treatments from user intent, and verify the delivered result in context.
 Distill reusable audition feedback into its editorial checklist; keep preferences
 and accepted artifact identities with the project rather than making them global
 defaults. The skill's recommendations are optional techniques, not engine policy.
+
+Development agents verify those primitives with externally specified fixture
+targets and explicit operations. Technical tests can measure word timing,
+omitted speech, retained samples and damage at an authored join. They must not
+require the recording owner to decide whether a personal phrase was intentional
+as a condition for building the toolkit. Editorial intent belongs to a separately
+requested editing task, not a capability's implementation gate.
 
 Flexible composition still has exact timing, source preservation, deterministic
 edit semantics and truthful capability limits. Validate impossible combinations

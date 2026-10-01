@@ -4884,7 +4884,8 @@ pending until feedback on these changed bytes. The plan did not specify how a
 new labeled candidate should coexist with an accepted inherited cut. Replacing
 the old bytes or borrowing their approval would erase a useful comparison.
 This supplies one named-target fixture and leaves automatic discovery, complete
-inventory and repetition intent with their existing gates. Sound because each
+technical inventory/timing with their existing gates. Editorial repetition intent
+belongs to the external caller, not a product gate. Sound because each
 claim remains tied to the recording and judgment that actually support it.
 
 ### Count changed float encodings when reporting exact PCM — sound, high confidence
@@ -4929,18 +4930,18 @@ Future packets must explicitly name the words they ask the listener to mark;
 this does not infer removal intent or discover missing words. Sound because
 the target list already owns identity and the export now follows that owner.
 
-### Ask repetition intent using the surrounding original — sound, medium confidence
+### Retired personal repetition-intent solicitation — scope error corrected
 
-When: repetition-intent preparation, 2026-09-30. The proposed transcript says
-“Return to it” twice during pointer movements. The listener now gets 9.36 seconds
-of unchanged original narration covering both occurrences and can say whether
-the later one was deliberate. The plan required editorial intent before removal
-but left this listening context unspecified. A cropped later phrase would hide
-the earlier instruction that makes the choice meaningful. The context length
-is a reversible presentation choice; it supplies neither phrase boundaries nor
-approval to cut. Sound because original context supports the missing judgment
-without turning repeated text into an automatic removal rule. Confidence is
-medium because the ASR wording remains an unverified proposal.
+When: repetition-intent preparation and user correction, 2026-09-30. The proposed
+transcript said “Return to it” twice. Preparing unchanged surrounding audio
+proved source delivery, but asking the recording owner whether the later phrase
+was deliberate and making the answer block implementation was an unsound scope
+choice. The user clarified: zero editorial decisions, only primitives; the agent
+using the project makes those decisions. The solicitation is retired and its
+unanswered record remains historical. Future development measures evidence and
+executes fixture-specified edits; it does not undertake a personal editorial
+task. The audio proof remains valid and no keep/remove answer is inferred. This
+corrects the earlier sound verdict without inventing new acceptance evidence.
 
 ### Rescore retained outputs while disclosing missing preparation — sound, medium confidence
 

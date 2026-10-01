@@ -1,4 +1,4 @@
-# 12 — Validate speech cleanup evidence
+# 12 — Validate speech-evidence primitives
 
 Status: incomplete; no engine or recipe selected. Historical
 [baseline](../assets/12-speech/README.md), [verbatim](../assets/12-verbatim/README.md)
@@ -7,12 +7,16 @@ Actual sentence/workbench marks now support a separate
 [eight-edge comparison](../assets/12-human-frozen-comparison/README.md) that passes
 scoped alignment timing. Full inventory, omitted text, other protected words,
 independent joins and held-out quality remain open. The
-[original repetition-intent question](../assets/12-repetition-intent/README.md)
-is pending. Dependencies: [00](./00-corpus.md).
+[repetition-intent solicitation](../assets/12-repetition-intent/README.md)
+is retired as a development prerequisite. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
-Determine whether the available local speech/evidence workflow can support the user's requested filler/repetition cleanup and accurate cuts.
+Verify that local transcript, timing and inspection primitives expose useful
+speech evidence and that explicit caller-selected cuts execute accurately.
+The product makes zero editorial decisions; the external agent using it decides
+what to remove. It does not classify a repetition as unwanted or construct an
+editorial cleanup plan. See [editorial control](../architecture.md#editorial-control).
 
 ## Seam and ownership
 
@@ -30,7 +34,14 @@ node packages/test-harness/editing/speech-reproduction.mjs --corpus real-narrati
 
 ## Acceptance
 
-The fixed cleanup task removes every named filler/repetition while retaining protected words; verify cut joins separately. Report timing median/p95, precision/recall and sample counts against independent labels. Compare to the existing failed 135 ms median baseline without treating it as passing. Freeze the selected processing recipe for 12b.
+An explicit fixture edit removes exactly its declared target ranges while
+preserving declared protected words; verify cut joins separately. Fixture targets
+are supplied test inputs, not conclusions that the engine must draw about the
+speaker's intent. Measure lexical/filler coverage and timing median/p95 against
+independent acoustic labels, with sample counts and omissions reported. Preserve
+the existing failed baseline and unchanged timing thresholds. Freeze a justified
+speech-evidence recipe for12b; no editorial-removal policy is selected. The
+recording owner's personal keep/remove judgment is not an acceptance gate.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 
@@ -58,7 +69,8 @@ still fails baseline timing and passes timing for all three frozen alignment
 conditions on that cohort only. The omitted opening “um”, incomplete inventory,
 other protected words/joins and held-out quality remain unverified. No recipe
 is selected. The [original repetition context](../assets/12-repetition-intent/README.md)
-is preserved for the pending editorial-intent question before any new cut.
+is historical source-preservation evidence; its unanswered editorial question
+does not block the toolkit and must not be restarted as development work.
 
 [The precision diagnostic](../assets/12-alignment-precision/README.md) reduces peak
 resident memory to 3,574,104,064 bytes using float16 with the original frozen text.

@@ -3,6 +3,11 @@
 These are planned contracts, not currently available commands. The implementing
 slices materialize them in the shared protocol. [README](README.md) owns status.
 
+The product makes zero editorial decisions. Evidence reads and edit commands are
+primitives for an external agent; recognition/classification never authorizes a
+mutation. The [editorial-control contract](architecture.md#editorial-control)
+owns this boundary, including development and verification.
+
 ## Media identity and ownership
 
 An **asset** is immutable admitted media with a byte hash and probed streams. A

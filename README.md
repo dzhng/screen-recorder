@@ -4,6 +4,28 @@ A local macOS recorder that gives external AI agents inspectable narration, imag
 pointing history and non-destructive edits. Source media remains intact; the app,
 CLI and MCP share the same recording and editing contracts.
 
+## Product boundary
+
+**This project makes zero editorial decisions. It only provides primitives.**
+It supplies recording, transcription, timing, search and media-inspection
+evidence, plus precise, non-destructive operations for editing, processing,
+preview and export. The external agent using the project interprets the user's
+intent, makes every editorial decision and calls those operations.
+
+For filler and repetition removal, the toolkit exposes recognized words,
+candidate classifications, timestamps and surrounding media. The caller decides
+which occurrences to remove and submits explicit cuts. A repeated phrase is
+evidence, not a decision that it is accidental. The toolkit does not silently
+choose removals, pacing, fades, noise reduction, ambience, replacement speech or
+layouts. Deterministic execution, validation and documented parameter defaults
+implement the caller's request; they do not authorize additional edits.
+
+Development verifies evidence accuracy and execution of explicit fixture edits.
+Using real media as a test fixture does not make editing that recording a product
+deliverable or require its owner to supply personal keep/remove judgments.
+The [editorial-control contract](specs/agent-editing/architecture.md#editorial-control)
+defines this boundary for implementation and verification.
+
 ## Components
 
 - [Menu-bar app](apps/macos/README.md): owns the service child's lifetime and native controls.

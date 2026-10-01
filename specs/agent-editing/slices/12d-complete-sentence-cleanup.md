@@ -3,7 +3,7 @@
 Status: bounded native packet and managed public edit/preview/export/undo passed;
 the public lossless candidate exactly reproduces the accepted join. Independent
 sentence/neighbor labels are now [saved and reconciled](../assets/12d-human-marks/README.md).
-The parent corpus inventory/timing requirement remains open. The user accepted
+The parent technical corpus coverage/timing requirement remains open. The user accepted
 neighboring speech and the join as clear and natural on 2026-09-29.
 Dependencies: [12](12-speech-evidence.md).
 [Evidence and reproduction](../assets/12d-complete-sentence/README.md).
@@ -38,12 +38,13 @@ subjective acceptance follows from sample equality.
 - [x] Independent audible sentence/neighbor boundary labels; exact marked
   protected-word PCM is preserved in the accepted candidate. The cut retains
   15 ms of the marked middle filler; no exact whole-filler removal is claimed.
-- [ ] Parent slice 12 complete filler/repetition inventory and timing acceptance.
+- [ ] Parent slice 12 technical speech coverage and timing acceptance.
 
 The outer 250 ms guards are explicit presentation context based on inherited ASR,
 not new word boundaries. Only the inherited filler interval is removed. Repeated
-phrases are excluded because accidental versus deliberate repetition is not
-independently established. Root owns the parent handoff and choices ledger.
+phrases are excluded from this fixed fixture. Deciding whether a personal
+repetition is accidental is outside the toolkit's responsibility and is not a
+development prerequisite. Root owns the parent handoff and choices ledger.
 
 Review: shape/diff/docs checks retained one native excerpt owner and one focused
 fixed-corpus harness; no production abstraction or dependency added. Formatter

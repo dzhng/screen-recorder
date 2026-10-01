@@ -20,11 +20,13 @@ passes native/public technical contracts and its own user audition. The
 [actual workbench edges](12f-human-marks/README.md) are reconciled. The unchanged
 baseline still fails the scoped human-edge diagnostic; the
 [frozen alignment comparison](12-human-frozen-comparison/README.md) passes that
-small cohort without selecting a recipe. Current pickup is the pending
-[original repetition-intent question](12-repetition-intent/README.md), followed
-by broader corpus boundaries and filler inventory for12/12d, then12b adoption
-and physical20/21. Do not repeat accepted auditions or treat an unanswered intent
-question as approval to remove speech.
+small cohort without selecting a recipe. Current pickup is technical corpus
+coverage/boundaries for12/12d, then speech-evidence parity in12b and physical20/21.
+The [editorial-control contract](../architecture.md#editorial-control) is binding:
+zero product editorial decisions, only primitives. The
+[repetition-intent solicitation](12-repetition-intent/README.md) is retired as a
+project prerequisite. Do not restart it, edit the user's recording as a development
+deliverable or repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;
@@ -324,7 +326,7 @@ PASS for complete-sentence word clarity/naturalness. The
 [familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
 and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
 these comparisons again. The finite denoise matrix is accepted; the saved sentence/neighbor labels pass; remaining corpus boundaries,
-filler/repetition inventory and dependent12b cleanup adoption remain open.
+lexical/filler coverage and dependent12b speech-evidence adoption remain open.
 
 
 The [complete-sentence filler journey](12d-complete-sentence/README.md) now
@@ -333,6 +335,7 @@ undo. Root independently verifies full original/candidate/undo PCM and all49
 archived members; saved movie clocks/AAC gates pass. Lossless audio is exactly the
 accepted mono duplicated to stereo. The640×404 sampled visual proof has explicit
 small-text limits. The saved human sentence labels are now reconciled; other corpus labels,
-repetition intent and parent12 timing/cleanup acceptance remain open.
+parent12 technical timing/evidence acceptance remain open. Personal repetition
+intent is outside this development task.
 [12e](12e-labeled-cleanup/README.md) owns the changed two-filler candidate and its
 separate accepted audition.

@@ -14,18 +14,14 @@ with the current implementation pickup in its live Next Agent Prompt. The curren
 editing correction, [exact media admission](../agent-editing/slices/03d-exact-media-admission.md),
 is verified in the isolated service with capture/evidence clock preservation.
 The [populated source-event duration check](../agent-editing/slices/24y-source-event-duration.md)
-also passes its isolated query gates. The new editor’s current pickup is the
-independent speech-label evidence before physical capture
-acceptance and cutover. The requested [sentence marking page](../agent-editing/assets/12d-sentence-marking/README.md)
-uses [waveform clicks and Next](../agent-editing/assets/12d-waveform-guidance/README.md),
-including the opening “um”. Its [actual human boundaries](../agent-editing/assets/12d-human-marks/README.md)
-are now reconciled. The [exact two-filler candidate](../agent-editing/assets/12e-labeled-cleanup/README.md)
-passes native/public technical checks and its own user audition; broader corpus
-labels and intent remain open.
-[The actual workbench marks](../agent-editing/assets/12f-human-marks/README.md) now
-resolve that disputed endpoint. The [scoped frozen-output comparison](../agent-editing/assets/12-human-frozen-comparison/README.md)
-and pending [repetition-intent question](../agent-editing/assets/12-repetition-intent/README.md)
-own the next speech evidence; broader timing/recipe acceptance remains open.
+also passes its isolated query gates. The new editor provides only primitives and makes zero editorial decisions;
+the external agent using it makes those decisions. Its
+[editorial-control contract](../agent-editing/architecture.md#editorial-control)
+and [live handoff](../agent-editing/README.md#next-agent-prompt) own the current
+technical speech-evidence work. The retained sentence/workbench labels and
+explicit-cut tests remain valid within their scopes. The personal repetition
+keep/remove solicitation is retired as a project prerequisite; no answer is
+needed to implement the toolkit. Technical timing and quality gates remain open.
 The isolated [camera digest cost audit](../agent-editing/assets/20e-camera-digest-components/README.md)
 selects no additional production change; physical and live-stop gates remain open.
 Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.

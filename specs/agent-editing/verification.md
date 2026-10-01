@@ -55,13 +55,18 @@ pitch shift on a stable tone, intelligibility and joins on real narration.
 Target tone pitch error is below 1%; the speech listening judgment is independent.
 Do not threshold natural waveform discontinuities and call that a listening test.
 
-For speech cleanup, label audible fillers/repetitions and protected neighboring
-words in the real corpus. The agent must remove every named target in the small
-acceptance fixture without removing protected words. Report broader precision/
-recall and timing distributions with sample counts. An ASR transcript or forced
-aligner cannot be its own ground truth. Preserve the existing failed boundary
-measurement as baseline; target median ≤100 ms and p95 ≤250 ms on expanded marks,
-and separately inspect every edited join for clipped speech.
+For speech-evidence primitives, use independent acoustic labels in the real
+corpus to measure recognized speech, filler coverage and word boundaries. Repeated
+words must remain inspectable; the product does not judge their intent. Explicit
+fixture edits declare target ranges and protected words as inputs. Verify that
+only the requested targets are removed, retained media is preserved and undo
+restores it. Report precision/recall and timing distributions with sample counts
+and omissions. An ASR transcript or forced aligner cannot be its own ground truth.
+Preserve the existing failed boundary measurement as baseline; target median
+≤100 ms and p95 ≤250 ms on expanded marks, and inspect authored joins for clipped
+speech. These are technical quality gates. Personal keep/remove choices and
+accidental-versus-deliberate judgments are not project prerequisites; follow
+[editorial control](architecture.md#editorial-control).
 
 For voice replacement, fix desired texts and use same-take, external-file and
 past-project references. Evaluate requested words/pronunciation, voice identity,

@@ -21,8 +21,10 @@ partial diagnostics but cannot reuse an older transcript.
 A dataset contains `fillerTerms` and `clips`. Each clip adds `origin` (`human` or
 `synthetic`), `kind` (`canonical`, `held-out`, or `walkthrough`), `duration` in
 seconds, and manually labeled `words`. Every word has `text`, `start`, and `end`;
-`filler: true` marks a filler and `required: true` marks deliberate repetition or
-false-start words that the canonical fixture must preserve. `covers` records
+`filler: true` marks an acoustically labeled filler and `required: true` declares
+words that the fixture requires the experiment to preserve, including repeated
+or false-start words. These are supplied preservation targets, not an engine
+judgment of editorial intent. `covers` records
 which real clips exercise `repetition`, `false-start`, `silence`, and
 `technical-names`. The complete labeling, including ordinary neighboring words,
 is necessary for useful boundary measurements.

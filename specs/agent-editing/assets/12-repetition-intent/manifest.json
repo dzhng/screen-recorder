@@ -33,12 +33,12 @@
     "sourceRangeAuthority": "Unverified inherited outer cut; no new boundaries supplied"
   },
   "proposedContextText": "Okay, so let's move away, return to it. Because I'm just doing my pointer, moving away. Return to it. End the route.",
-  "intentStatus": "pending",
+  "intentStatus": "Historical unanswered solicitation; retired as project prerequisite, no answer inferred",
   "files": [
     {
       "path": "README.md",
-      "bytes": 1908,
-      "sha256": "bcc4b6c9baf9a3bd8149d16768fc02a5144e162acdb6077e494420a1baf4e82d"
+      "bytes": 1993,
+      "sha256": "31935876a11e393d15e9e1dd5140f6aba4522e46624fa65f62344bd6cf6e7848"
     },
     {
       "path": "intent.json",
@@ -70,5 +70,10 @@
       "bytes": 29710,
       "sha256": "fdfab637a750fd602f09f4025a7b095ea175cac2184b6bfba371e896183c65de"
     }
-  ]
+  ],
+  "scopeClarification": {
+    "date": "2026-09-30",
+    "authority": "User: Zero editorial decisions. It is only primitives. The agent that uses this project makes the decisions.",
+    "changes": "Documentation and active prerequisite only; original WAV, intent record, request, response and source verification unchanged"
+  }
 }

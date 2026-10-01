@@ -4,7 +4,10 @@ Status: not started. Dependencies: [10](./10-project-evidence.md), [11](./11-aud
 
 ## Contract
 
-Production source processing reproduces the accepted speech/evidence recipe, including any justified ASR/alignment change.
+Production source processing reproduces the accepted speech-evidence recipe,
+including any justified ASR/alignment change. This is recognition, timing and
+provenance only. The external caller selects removals and submits explicit edits;
+no editorial cleanup policy is part of the recipe.
 
 ## Seam and ownership
 
@@ -26,7 +29,12 @@ Add the scenarios assigned here in the [live journey inventory](../journeys.md)
 through actual public CLI/MCP and service paths. State-only checks do not replace
 delivered-media or listening/physical gates.
 
-Compare complete computed requests, transcript tokens/kinds, timings, generation behavior and target cleanup outcome to the frozen reproduction. Run through asset/project public reads and an explicit edit batch. Check model absent/preparing/failed/ready states, restart and no download during ordinary inspection.
+Compare complete computed requests, transcript tokens/kinds, timings and
+generation behavior to the frozen reproduction. Run through asset/project public
+reads and a fixture-specified explicit edit batch; compare its delivered output,
+protected media and undo. Check model absent/preparing/failed/ready states,
+restart and no download during ordinary inspection. The product must execute
+the supplied edit, not decide whether a repeated phrase should be removed.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 
@@ -37,4 +45,3 @@ If production differs from the frozen evidence, fix the integration before repea
 Delegated: Worker packaging and private implementation layout; not the accepted recipe, raw-evidence preservation or agent creative policy.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-

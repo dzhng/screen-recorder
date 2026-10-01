@@ -7,7 +7,7 @@ task list or a claim of shipped capabilities.
 
 ## Current pickup
 
-Read the [spec handoff](README.md#next-agent-prompt) and start at slice 00. Keep this
+Read the [spec handoff](README.md#next-agent-prompt) for the current pickup. Keep this
 map as user-decision rationale; operational status and research ownership live in
 the spec. Do not infer unlimited feature parity from the ambition to replace other
 editors. The root-level CLI skill remains the only implemented discovery deliverable.
@@ -93,6 +93,11 @@ remain technical research items, not permission to silently reduce agreed scope.
 
 ## Unknown knowns — preferences extracted from the user
 
+These are use cases and preferences for an external agent using the primitives,
+not product behavior or development tasks on the user's recording. The project
+makes zero editorial decisions; [editorial control](architecture.md#editorial-control)
+is authoritative.
+
 - **Audience:** both colleagues/customers and public tutorial viewers. Choose
   editorial treatment per project rather than imposing one house style.
 - **Speech cleanup:** remove audible fillers, accidental word repetitions, and
@@ -138,9 +143,10 @@ existing single-recording workflow.
   missed the timing target, and some boundaries clipped speech. The same evidence
   records amplitude detection confused by keyboard/mouse noise. Waveforms and
   silence candidates are evidence, not proof of safe cut points.
-- Current transcription can omit fillers. The requested speech-cleanup workflow
-  needs audio evidence beyond transcript matching; capability must be validated
-  on audible fillers, repetitions, and rushed passages, not inferred from a render.
+- Current transcription can omit fillers. The external caller needs audio evidence
+  beyond transcript matching. Validate lexical coverage, word timing and execution
+  of explicit fixture edits on real speech; do not require the engine or recording
+  owner to decide which personal repetitions are unwanted.
 - **OPEN research:** source/project time mapping under reordering, repeated source
   use and retiming; attachment identity; rendering/preview parity; audio stretch
   quality; imported-media handling; portable project dependencies; bounded

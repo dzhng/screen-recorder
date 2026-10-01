@@ -107,7 +107,8 @@
   scores remain frozen. The [comparison on actual human edges](12-human-frozen-comparison/README.md)
   passes timing for the frozen alignment outputs on that small cohort; broader
   corpus labels and recipe acceptance remain open. The
-  [original repetition-intent question](12-repetition-intent/README.md) is pending.
+  [repetition-intent solicitation](12-repetition-intent/README.md) is retired as a
+  development prerequisite; its original-source proof remains historical evidence.
 - [Verbatim speech](12-verbatim/README.md) and
   [forced alignment](12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](12-alignment-text-coverage/README.md) fixes one

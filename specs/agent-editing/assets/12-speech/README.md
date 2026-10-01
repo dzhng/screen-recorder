@@ -77,11 +77,13 @@ the difference inferred from two loaded-host measurements.
 
 Preserve the [accepted complete-context two-filler cut](../12e-labeled-cleanup/README.md)
 and [actual workbench range](../12f-human-marks/README.md); do not repeat their
-completed reviews. Next are broader inventory and actual
-accidental-versus-deliberate repetition intent, protected neighboring ranges and
-other join judgments. Future auditions need original complete context alongside
-one candidate and one clear purpose. The cropped repeated-phrase cut remains a
-historical comparison candidate, not an accepted editorial decision.
+completed reviews. Next are technical lexical/filler coverage, acoustic boundaries,
+protected neighboring ranges and explicit fixture-join quality. The project
+makes zero editorial decisions; the external agent using it selects removals.
+Personal accidental-versus-deliberate judgments are not development prerequisites.
+Future technical auditions need original complete context alongside one explicit
+fixture candidate and one clear purpose. The cropped repeated-phrase cut remains
+historical evidence, not a product decision or a task to continue.
 
 Expand the independent inventory to cover ASR omissions and measure full
 precision/recall. The [matched real-narration verbatim comparison](../12-verbatim/README.md)

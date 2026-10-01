@@ -5,6 +5,12 @@ description: Record, inspect, edit, and export local recordings, or edit, previe
 
 # Screenrec
 
+This skill is for the external agent using the toolkit on a user-requested task.
+The project makes zero editorial decisions; it only provides primitives. Exercise
+the caller's judgment only within the delegated task. Repository development or
+verification does not authorize editing the user's recording or asking personal
+keep/remove questions as implementation prerequisites.
+
 Make editorial decisions from recording evidence, then use the CLI to apply
 non-destructive edits and verify the result. The product supplies composable
 primitives; choose treatments from the user's intent, not an assumed house style.

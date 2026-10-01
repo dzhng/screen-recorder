@@ -1,6 +1,10 @@
 # Agent-operated video editing
 
 Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-30.
+Product boundary: **zero editorial decisions; only primitives**. The external
+agent using this project makes every editorial decision. Follow the
+[editorial-control contract](architecture.md#editorial-control) when interpreting
+any workflow, experiment or acceptance gate below.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -29,11 +33,14 @@ older accepted cut, whose bytes and verdict stay frozen.
 [verified actual human range](assets/12f-human-marks/README.md), resolving that
 word's disputed endpoint. The [comparison on actual human edges](assets/12-human-frozen-comparison/README.md)
 passes timing for the frozen alignment outputs on that small cohort; broader
-cleanup quality and recipe selection remain open. Current pickup is the
-[original repetition-intent question](assets/12-repetition-intent/README.md),
-then corpus word boundaries and filler inventory required by
-[12](slices/12-speech-evidence.md) before12b adoption. Do not infer editorial
-intent from repeated transcript text or unanswered questions.
+speech-evidence quality and recipe selection remain open. Current pickup is the
+remaining technical evidence gates in [12](slices/12-speech-evidence.md), then
+public-entry parity in12b: lexical coverage, boundary accuracy, provenance and
+execution of externally specified edits. The
+[repetition-intent solicitation](assets/12-repetition-intent/README.md) is retired
+as a project prerequisite. Do not restart it or turn development into editing
+the user's recording. No personal keep/remove judgment is needed to implement
+the primitives; failed technical measurements still remain failed.
 
 The [generation/ambience matrix](assets/19-acceptance/README.md) is accepted,
 including the chosen200ms loop with a slight residual seam tolerated. Preserve
@@ -59,7 +66,7 @@ prepared runtimes and frozen worker identities. Do not replace the installed app
 or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
-Resolve remaining12/12d labels toward12b; preserve accepted denoise and18
+Resolve remaining12/12d technical evidence toward12b; preserve accepted denoise and18
 contextual/ambience outputs. Then physical20→21,
 final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
 a scheduling graph. Further12b/23 consumer acceptance retains its missing quality or physical
@@ -123,7 +130,7 @@ implied; capabilities stay extensible through the one typed composition model.
 | --- | --- | --- |
 | Prove the risky mechanisms | Frozen media/voice/stretch experiments and exact timing contract | 00–01, 06, 12/12c, 13, 18, 20 |
 | First working edit | Import two clips, independently replace audio/video, undo, preview and export | 02–09 |
-| Give agents reliable evidence | Every repeated/reordered word/event, waveform/spectrogram, full audio delivery, verified cleanup pipeline | 10–12b |
+| Give agents reliable evidence | Every repeated/reordered word/event, waveform/spectrogram, full audio delivery and verified speech-evidence primitives | 10–12b |
 | Full composition | Ordered processing, retiming, presenter layers, keyframes, captions and local generated speech | 14–19 |
 | Record and carry projects | Separate synchronized webcam, durable dependencies and editable relocated packages | 20–22 |
 | One production engine | Cutover with preservation parity, scale checks and autonomous real-agent acceptance | 23–25 |
@@ -180,7 +187,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
 - [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
-- [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
+- [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
