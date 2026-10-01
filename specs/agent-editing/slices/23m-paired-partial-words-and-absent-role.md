@@ -1,7 +1,9 @@
 # 23m — Paired partial words and absent acquisition role
 
-Status: prospective, documentation only, from `db6b985b`. No runtime proof is
-claimed. This advances the [transcript/acquisition correspondence](../assets/acceptance-maintenance/cutover-outcomes.md)
+Status: scoped public projection proof passed from `d6c84191`; no production
+policy changes. The [owned packet](../assets/23m-paired-partial-words-and-absent-role/README.md)
+retains 114 complete exchanges, 22 page traversals and the original negative
+producer failure. This advances the [transcript/acquisition correspondence](../assets/acceptance-maintenance/cutover-outcomes.md)
 through actual installed recording and current source project public consumers.
 It is projection/protocol proof, not speech quality, listening or physical capture
 acceptance. The caller supplies a fixed technical cut; the product chooses no edit.
@@ -148,7 +150,7 @@ Preserve acquisition masks/physical holes exactly; no fitted sample shift, raise
 tolerance, hidden processing or listening claim. These deferred policies are owned
 by 08 and 23a, not new acceptance allowances fitted to 23m.
 
-## Prospective consumer gate and closure
+## Consumer gate and closure
 
 Use isolated homes, explicit sockets, actual CLI and default SDK MCP clients. For
 each pinned before/after transcript, start with limit2 then drain continuations
@@ -184,5 +186,42 @@ reference the existing source/media/raw authorities rather than duplicate whole
 archives. Apply local review and choices audit before a focused proof commit.
 Root owns archive integrity, merged checks and shared handoff updates. The
 [owned planning choices](../assets/23m-paired-partial-words-and-absent-role/choices.md)
-name the remaining reversible harness discretion. No UI or human editorial
+record the reviewed harness decisions. No UI or human editorial
 checkpoint belongs to this protocol case.
+
+The actual [scenario](../../../packages/test-harness/editing/cutover-words.mjs)
+prepared the accepted local files through public model.prepare in an owned home,
+then admitted the genuine acquisition and ran the actual transcript job/ingestion
+owners. The frozen speech reply is a **reconstructed fixture receipt**, derived
+from immutable raw segment values and retained public engine metadata; it is not
+original native RPC bytes. The incoming source, stream, acquisition support,
+offset and genuine prepared model request were checked before replay. Received
+raw SHA-256 remained `45a5ceb1c79225e3e35651dfb38de498df7843cdea222913fd113c2c82a6b885`.
+
+All 306 raw ordinals survived; legacy returned 306 word rows and current returned
+307 occurrences, with the exact two w1 fragments above. Full source and historical
+before/after rows matched their independent fixed arithmetic oracles. Legacy's
+one partial `so this` match and current's empty result retain their intentional
+difference; `this is` returned both complete matches (ordinals 2/3 and 164/165) on
+each side. CLI/default SDK MCP retain all returned fields and drain empty pages.
+Independent project traversals have different checkpoint IDs; complete tokens
+are banked and their owner/revision/manifest/query pins are checked, never erased
+to claim whole-envelope equality.
+
+Actual legacy CLI/MCP system selection returned system/not_requested. The current
+acquisition retains microphone:true/systemAudio:false and no system binding; no
+audio was read or silence invented. Only packageWorkspace.recover,
+media.audioCapabilities and media.sourceEvidence reached the unchanged workers.
+The single speech.transcribe request returned the matched frozen bytes without
+forwarding. Three actual services and three MCP child PIDs reached exit 0/close;
+the packet preserves native subprocess terminal events separately.
+
+The successful runtime producer is frozen independently from the subsequently
+formatted maintained harness and stronger saved metadata/cursor/lifetime verifier.
+Offline verification and three bounded real Node startup controls passed without
+repeating services, model preparation or media work. Removing a generation pin,
+query pin or actual MCP Node exit rejects the saved proof. The original long-path
+Unix-socket setup failure and missing-worker setup failure remain archived.
+This closes the scoped projection/not_requested gate only: positive system/hole
+and excerpt media correspondence, speech quality and phoneme preservation remain
+unverified by this packet.
