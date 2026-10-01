@@ -5648,3 +5648,52 @@ When: 23e.
 - **Verdict:** Sound. Time is an explicit external boundary; archived evidence
   is neither rewritten nor promoted into a live-service claim.
 - **Confidence:** High.
+
+## 21f2 — Fresh capture coordination
+
+### Discover each settled capture source through its existing acquisition job — sound, high confidence
+
+When: 21f2, public discovery contract before implementation.
+
+- **Choice:** Fresh recording reads and capture replies carry `sourceAdmissions`,
+  a bounded per-source list. Each entry names the allocated source and its existing
+  acquisition/job identities. Null acquisition and job identities, with no admission error, mean
+  that capture settled but admission has not succeeded yet. If an explicit import
+  already owns the internal request key, the entry derives a refusal from that
+  durable row. The completed take stays readable; it never borrows the other
+  import’s job or falsely calls a permanent conflict pending. Admitted entries reuse
+  the queue's real public job receipt; full metadata stays in `acquisition.get`.
+- **Gap:** The coordination plan required truthful source readiness but had not
+  chosen how a capture caller discovers the acquisition ID. Root accepted this
+  contract after inspecting native independent camera results and existing source
+  descriptors, before implementation.
+- **Reach:** This selector-free pass emits only authoritative eligible primary
+  sources. The later selected-camera pass adds its real independent source through
+  the same shape, without changing ordinary acquisition media roles. Reads cannot
+  admit work or retry failure, and a swallowed notification error cannot imply
+  admission succeeded.
+- **Verdict:** Sound. The list reflects independent source identities while the
+  existing acquisition and job owners retain all publication and retry facts.
+- **Confidence:** High.
+
+### Recover missed source admission from the capture and acquisition records — sound, medium confidence
+
+When: 21f2, coordination implementation.
+
+- **Choice:** A take can finish while the job queue is full. Its capture record
+  keeps the successful finish, while its source entry shows no acquisition or job
+  yet. Startup and the queue's existing capacity notification select a bounded
+  batch of settled primary sources with no matching acquisition intent. Each
+  admission still commits through the existing queue transaction. Once a job
+  exists, this recovery path leaves its failure or cancellation alone; only an
+  explicit job retry starts another attempt.
+- **Gap:** The plan required durable recovery without another queue or table but
+  did not choose how a notification lost before admission would be rediscovered.
+- **Reach:** Settled capture facts are sufficient to recover missed primary-source
+  admission. There is no second admission backlog to reconcile, filesystem scan,
+  timer or hidden retry of failed import work. A conflicting request remains a
+  visible refusal derived from its existing acquisition row.
+- **Verdict:** Sound. The same durable owners distinguish an unadmitted source
+  from an admitted failed job, preserving capture success through backpressure.
+- **Confidence:** Medium. This chooses an on-demand catalog selection strategy;
+  it makes no large-library performance claim.

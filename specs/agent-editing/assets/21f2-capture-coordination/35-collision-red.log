@@ -1,0 +1,59 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:45352) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-capture.test.ts (11 tests | 1 failed | 10 skipped) 103ms
+   × an explicit-import namespace collision refuses source admission without hiding completed capture facts 102ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > an explicit-import namespace collision refuses source admission without hiding completed capture facts
+AssertionError: expected { ok: false, error: { …(4) }, …(1) } to match object { ok: true, data: { …(4) } }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "data": {
+-     "recordingId": "5acc0e05-7596-4c4d-a377-92bc1b7855b6",
+-     "sourceAdmissions": [
+-       {
+-         "acquisitionId": null,
+-         "admissionError": {
+-           "code": "REQUEST_CONFLICT",
+-           "retryable": false,
+-         },
+-         "job": null,
+-         "kind": "primary",
+-         "sourceId": "72f5fbea-9bf9-40f7-b46f-9ce2aea698fd",
+-       },
+-     ],
+-     "sourceId": "72f5fbea-9bf9-40f7-b46f-9ce2aea698fd",
+-     "state": "complete",
+-   },
+-   "ok": true,
++   "ok": false,
+  }
+
+ ❯ apps/service/src/project-capture.test.ts:663:6
+    661|   }] };
+    662|   expect(await f.report({ recordingId, sourceId, sequence: 3, state: "…
+    663|     .toMatchObject({ ok: true, data: capture });
+       |      ^
+    664|   expect(await f.call("recording.get", { recordingId })).toMatchObject…
+    665|   expect(await f.call("recording.latest")).toMatchObject({ ok: true, d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 skipped (11)
+   Start at  04:04:57
+   Duration  3.04s (transform 82%, import 15%, tests 4%)
+
+  Transform  transforming modules took 2.37s · 82% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

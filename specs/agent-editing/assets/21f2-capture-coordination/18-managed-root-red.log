@@ -1,0 +1,32 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:36645) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-capture.test.ts (6 tests | 1 failed | 5 skipped) 53ms
+   × fresh capture allocates and replays through its private controller without editorial state 52ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > fresh capture allocates and replays through its private controller without editorial state
+AssertionError: expected '/tmp/project-capture-cyfnHm/recording…' to be '/tmp/project-capture-cyfnHm/library/r…' // Object.is equality
+
+Expected: "/tmp/project-capture-cyfnHm/library/recordings/19ce344a-4f94-4477-9e79-7eaf76f6b641/source"
+Received: "/tmp/project-capture-cyfnHm/recordings/19ce344a-4f94-4477-9e79-7eaf76f6b641/source"
+
+ ❯ apps/service/src/project-capture.test.ts:231:27
+    229|   expect(started).toMatchObject({ ok: true, data: { state: "recording"…
+    230|     sourceDurationUs: null, currentRevisionId: null } });
+    231|   expect(outputDirectory).toBe(join(home, "library", "recordings", (st…
+       |                           ^
+    232|   expect(await call("capture.start", params)).toMatchObject({ ok: true…
+    233|   expect(starts).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  03:53:03
+   Duration  1.20s (transform 69%, import 26%, tests 5%)
+

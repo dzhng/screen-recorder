@@ -1,0 +1,327 @@
+{
+  "boundary": "Raw command logs retained from the first tracer; stderr warnings/failures are not omitted. Final canonical gates are 40\u201346. Earlier positive runs are iteration evidence, not extra acceptance cohorts.",
+  "commands": [
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "01-allocation-red.log",
+      "result": "Expected red: fresh capture.start was not wired."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "02-allocation-green.log",
+      "result": "Fixture defect: parsed JsonLineOutcome instead of its value; native answer was not sent and test timed out."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "03-allocation-green.log",
+      "result": "Fixture defect: compared transport request IDs across otherwise identical replay results."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "04-allocation-green.log",
+      "result": "Allocation/replay tracer green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'source admission failure'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "05-admission-red.log",
+      "result": "Expected red: no sourceAdmissions discovery."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "06-core-build.log",
+      "result": "Core build."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "07-admission-green.log",
+      "result": "Fixture expectation corrected to the existing deferred-admission contract: not-yet-observed required files are retryable NOT_FOUND."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "08-admission-green.log",
+      "result": "Allocation and durable failure/reopen green."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.check.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "09-types.log",
+      "result": "Existing CaptureService.status explicit unknown return hid its real inferred shape."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.check.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "10-types.log",
+      "result": "Status inference restored; types green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'already-ended'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "11-ended-red.log",
+      "result": "Expected red: ended controller incorrectly returned a fresh service."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'already-ended'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "12-ended-green.log",
+      "result": "Ended controller refuses startup and releases ownership."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'private controller cannot'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "13-eof-green.log",
+      "result": "Already-ended and buffered EOF gates green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'failed queue admission'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "14-admission-rollback-green.log",
+      "result": "Real SQL admission refusal leaves read-only pending source and restart admits it."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'failed queue admission'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "15-admission-rollback-mutant.log",
+      "result": "Expected mutation failure: removed startup admission resume; IDs stayed null after reopen. Restored afterward."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'explicit source retry'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "16-ready-green.log",
+      "result": "Same acquisition/job explicit retry becomes ready and survives donor removal/reopen."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'fresh capture allocates'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "17-managed-root-red.log",
+      "result": "Managed-root control initially asserted inside scripted output callback; native answer was withheld and test timed out."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'fresh capture allocates'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "18-managed-root-red.log",
+      "result": "Expected direct red: actual outputDirectory used home/recordings instead of library/recordings."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "19-capture-green.log",
+      "result": "Managed root correction green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'fresh capture allocates'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "20-managed-storage-green.log",
+      "result": "Actual managed outputDirectory and aggregate storage byte increase green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'capture priority'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "21-capacity-green.log",
+      "result": "Capture priority, queue capacity rollback, and subsequent capacity admission green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'private lifecycle order'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "22-lifecycle-green.log",
+      "result": "Private sequence/source authority, cancel/restart, no-video and unsupported cleanup/delete green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'lost public start reply'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "23-recovery-green.log",
+      "result": "Lost public reply, same-take replay, startup recovery and stale native report green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'controller loss drains'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "24-shutdown-green.log",
+      "result": "Unanswered native start drains before catalog release."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "25-service-build.log",
+      "result": "Service build."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/cli/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "26-cli-build.log",
+      "result": "CLI build."
+    },
+    {
+      "command": "node packages/test-harness/editing/capture-coordination.mjs --out /tmp/screenrec-21f2-public",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "27-public-journey.log",
+      "result": "Worktree dependency link missing: MCP SDK unavailable before any service started. Linked existing dependency; no install."
+    },
+    {
+      "command": "node_modules/.bin/oxfmt --write apps/service/src/project-service.ts apps/service/src/capture-admission.ts apps/service/src/project-capture.test.ts apps/service/src/capture.ts apps/service/src/control.ts packages/core/src/acquisitions.ts packages/test-harness/editing/capture-coordination.mjs",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "28-format.log",
+      "result": "Changed-file formatting."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "29-core-build.log",
+      "result": "Core build."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "30-service-build.log",
+      "result": "Service build."
+    },
+    {
+      "command": "node packages/test-harness/editing/capture-coordination.mjs --out /tmp/screenrec-21f2-public",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "31-public-journey.log",
+      "result": "Scripted cleanup reply omitted existing removed:true receipt. Job failed INVALID_NATIVE_RESPONSE; raw exchanges retained in 31-public-journey-failure.json. No production workaround."
+    },
+    {
+      "command": "node packages/test-harness/editing/capture-coordination.mjs --out /tmp/screenrec-21f2-public",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "32-public-journey.log",
+      "result": "Initial compiled public journey green after fixing scripted boundary."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'capture priority'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "33-priority-mutant.log",
+      "result": "Expected mutation failure: hard-coded isCapturing false allowed running heavy job during capture. Restored afterward."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.check.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "34-review-types.log",
+      "result": "Review types green."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'namespace collision'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 1,
+      "log": "35-collision-red.log",
+      "result": "Expected red: durable foreign explicit import request caused successful capture report to fail."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts -t 'namespace collision'",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "36-collision-green.log",
+      "result": "Capture stays readable; durable admissionError carries conflict, independent import is never borrowed."
+    },
+    {
+      "command": "node_modules/.bin/oxfmt --write apps/service/src/project-service.ts apps/service/src/capture-admission.ts apps/service/src/project-capture.test.ts packages/core/src/acquisitions.ts packages/test-harness/editing/capture-coordination.mjs",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "37-review-format.log",
+      "result": "Review formatting."
+    },
+    {
+      "command": "node_modules/.bin/oxlint apps/service/src/project-service.ts apps/service/src/capture-admission.ts apps/service/src/project-capture.test.ts apps/service/src/capture.ts apps/service/src/control.ts packages/core/src/acquisitions.ts packages/test-harness/editing/capture-coordination.mjs",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "38-review-lint.log",
+      "result": "Four no-useless-escape warnings in one test assertion; replaced with semantic parsed-row assertion."
+    },
+    {
+      "command": "node_modules/.bin/oxfmt --write apps/service/src/capture-admission.ts apps/service/src/project-capture.test.ts packages/test-harness/editing/capture-coordination.mjs",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "39-final-format.log",
+      "result": "Final changed-file formatting."
+    },
+    {
+      "command": "node_modules/.bin/oxlint apps/service/src/project-service.ts apps/service/src/capture-admission.ts apps/service/src/project-capture.test.ts apps/service/src/capture.ts apps/service/src/control.ts packages/core/src/acquisitions.ts packages/test-harness/editing/capture-coordination.mjs",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "40-final-lint.log",
+      "result": "Final lint clean."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "41-final-core-build.log",
+      "result": "Final core build."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "42-final-service-build.log",
+      "result": "Final service build."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.check.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "43-final-service-types.log",
+      "result": "Final service types."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "44-final-core-types.log",
+      "result": "Final core types."
+    },
+    {
+      "command": "node node_modules/vitest/vitest.mjs run apps/service/src/project-capture.test.ts apps/service/src/capture-lifetime.test.ts apps/service/src/capture-finalizing.test.ts apps/service/src/project-storage.test.ts apps/service/src/index.test.ts packages/core/src/capture-store.test.ts packages/core/src/capture-acquisition.test.ts packages/core/src/jobs.test.ts",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "45-final-focused-tests.log",
+      "result": "Final 8-file /133-test gate; scripted boundaries, no native media run."
+    },
+    {
+      "command": "node packages/test-harness/editing/capture-coordination.mjs --out /tmp/screenrec-21f2-public-final",
+      "workingDirectory": "/private/tmp/screenrec-capture-facts",
+      "exitCode": 0,
+      "log": "46-final-public-journey.log",
+      "result": "Final compiled CLI/MCP journey: 26 exchanges; source field includes admissionError."
+    }
+  ]
+}

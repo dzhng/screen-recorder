@@ -1,0 +1,11 @@
+(node:43100) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+file:///private/tmp/screenrec-capture-facts/packages/test-harness/editing/capture-coordination.mjs:205
+  throw Error(`Source never reached ${state}`);
+        ^
+
+Error: Source never reached ready
+    at waitState (file:///private/tmp/screenrec-capture-facts/packages/test-harness/editing/capture-coordination.mjs:205:9)
+    at async file:///private/tmp/screenrec-capture-facts/packages/test-harness/editing/capture-coordination.mjs:264:17
+
+Node.js v24.14.0

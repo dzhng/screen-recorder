@@ -158,6 +158,13 @@ export function openControl(options: {
   for (const event of ["end", "close", "error"] as const) options.input.on(event, close);
   // A dead reader breaks control output before EOF reaches the input.
   options.output.on("error", close);
+  if (
+    options.input.readableEnded ||
+    options.input.destroyed ||
+    options.output.destroyed ||
+    options.output.writableEnded
+  )
+    queueMicrotask(close);
 
   return {
     emit,

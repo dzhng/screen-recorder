@@ -1,0 +1,32 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:28864) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | apps/service/src/project-capture.test.ts > fresh capture allocates and replays through its private controller without editorial state
+unsettled start for a2065136-406c-49be-ac2a-64b6574a6c1b: capture may still be running
+
+ ❯ apps/service/src/project-capture.test.ts (1 test | 1 failed) 5012ms
+   × fresh capture allocates and replays through its private controller without editorial state 5011ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > fresh capture allocates and replays through its private controller without editorial state
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/service/src/project-capture.test.ts:16:1
+     14| });
+     15|
+     16| test("fresh capture allocates and replays through its private controll…
+       | ^
+     17|   const home = await mkdtemp("/tmp/project-capture-");
+     18|   cleanup.push(() => rm(home, { recursive: true, force: true }));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  03:41:33
+   Duration  5.88s (tests 86%, transform 10%, import 4%)
+

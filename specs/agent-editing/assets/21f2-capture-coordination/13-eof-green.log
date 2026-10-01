@@ -1,0 +1,11 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:35265) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 2 skipped (4)
+   Start at  03:50:17
+   Duration  1.52s (transform 68%, import 25%, tests 6%)
+

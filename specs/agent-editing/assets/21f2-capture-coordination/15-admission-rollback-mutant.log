@@ -1,0 +1,75 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:35591) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | apps/service/src/project-capture.test.ts > failed queue admission stays pending without read mutations and resumes from durable settlement
+Error: fixture admission refused
+    at AcquisitionStore.admitCapture (/private/tmp/screenrec-capture-facts/packages/core/dist/acquisitions.js:194:14)
+    at /private/tmp/screenrec-capture-facts/apps/service/src/capture-admission.ts:26:42
+    at /private/tmp/screenrec-capture-facts/packages/core/dist/jobs.js:406:59
+    at CaptureStore.transaction (/private/tmp/screenrec-capture-facts/packages/core/dist/catalog.js:44:28)
+    at JobQueue.submitJob (/private/tmp/screenrec-capture-facts/packages/core/dist/jobs.js:403:34)
+    at JobQueue.submit (/private/tmp/screenrec-capture-facts/packages/core/dist/jobs.js:396:21)
+    at CaptureAdmission.resume (/private/tmp/screenrec-capture-facts/apps/service/src/capture-admission.ts:25:17)
+    at resumeCaptureAdmission (/private/tmp/screenrec-capture-facts/apps/service/src/project-service.ts:218:31)
+    at CaptureService.changed (/private/tmp/screenrec-capture-facts/apps/service/src/project-service.ts:1248:15)
+    at CaptureService.observed (/private/tmp/screenrec-capture-facts/apps/service/src/capture.ts:625:12) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1811,
+  errstr: 'constraint failed'
+}
+
+ ❯ apps/service/src/project-capture.test.ts (5 tests | 1 failed | 4 skipped) 1182ms
+   × failed queue admission stays pending without read mutations and resumes from durable settlement 1181ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > failed queue admission stays pending without read mutations and resumes from durable settlement
+AssertionError: expected { ok: true, data: { …(12) }, …(1) } to match object { ok: true, data: { …(2) } }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -1,14 +1,11 @@
+  {
+    "data": {
+      "sourceAdmissions": [
+        {
+-         "acquisitionId": Any<String>,
+-         "job": {
+-           "errorCode": "NOT_FOUND",
+-           "state": "failed",
+-         },
++         "acquisitionId": null,
++         "job": null,
+          "sourceId": "8f32cdbf-8354-414f-9a54-3841ae4f39c2",
+        },
+      ],
+      "state": "complete",
+    },
+
+ ❯ apps/service/src/project-capture.test.ts:126:76
+    124|   database.exec("DROP TRIGGER refuse_capture_admission");
+    125|   const reopened = await fixture(f.home);
+    126|   await expect.poll(() => reopened.call("recording.get", { recordingId…
+       |                                                                            ^
+    127|     ok: true, data: { state: "complete", sourceAdmissions: [{ sourceId,
+    128|       acquisitionId: expect.any(String), job: { state: "failed", error…
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/service/src/project-capture.test.ts:126:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  03:51:03
+   Duration  5.16s (transform 64%, tests 24%, import 13%)
+
+  Transform  transforming modules took 3.17s · 64% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

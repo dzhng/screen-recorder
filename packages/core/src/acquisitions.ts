@@ -55,6 +55,7 @@ export type AcquisitionMember = "journal" | "normalized" | (typeof publicationMe
 type Member = (typeof members)[number];
 type SourceFiles = Record<Member, IdentifiedFile | null>;
 export type PreparedAcquisition = { requestId: string; path: string; files: SourceFiles };
+const captureRequestPrefix = "capture:";
 export type AcquisitionImportIntent = PreparedAcquisition & {
   kind: "import";
   acquisitionId: string;
@@ -281,7 +282,7 @@ export class AcquisitionStore {
     if (!isAbsolute(path))
       throw new CatalogError("INVALID_PARAMS", "Capture source requires an absolute directory");
     const recording = captures.settledSource(recordingId);
-    const requestId = `capture:${recording.sourceId}`;
+    const requestId = `${captureRequestPrefix}${recording.sourceId}`;
     const row = this.catalog.catalog
       .prepare("SELECT id FROM acquisitions WHERE requestId=?")
       .get(requestId);
@@ -308,6 +309,35 @@ export class AcquisitionStore {
       .prepare("INSERT INTO acquisitions VALUES(?,?,?,NULL)")
       .run(acquisitionId, requestId, JSON.stringify(admission));
     return { ...admission, acquisitionId, requestId };
+  }
+  /** Read-only discovery uses the same source identity as capture admission. */
+  captureIntent(sourceId: string): CaptureAcquisitionIntent | null {
+    const row = this.catalog.catalog
+      .prepare("SELECT id FROM acquisitions WHERE requestId=?")
+      .get(`${captureRequestPrefix}${sourceId}`);
+    if (!row) return null;
+    const intent = this.intent(row.id as string);
+    if (intent.kind !== "capture" || intent.sourceId !== sourceId)
+      throw new CatalogError("REQUEST_CONFLICT", "Capture source request names another input");
+    return intent;
+  }
+  /** A missed notification leaves its eligible primary source in this durable backlog. */
+  pendingPrimaryCaptures(captures: CaptureStore): string[] {
+    if (captures.catalog !== this.catalog.catalog)
+      throw new CatalogError(
+        "INVALID_STATE",
+        "Capture admission requires the shared catalog connection",
+      );
+    // This bounded selection only finds candidates. Admission asks CaptureStore.settledSource
+    // inside its transaction, including the deletion fence, before reserving an acquisition.
+    return this.catalog.catalog
+      .prepare(`SELECT r.recordingId FROM recordings r
+      LEFT JOIN acquisitions a ON a.requestId=? || r.sourceId
+      WHERE r.state IN ('complete','interrupted') AND r.sourceDurationUs IS NOT NULL AND a.id IS NULL
+      AND r.recordingId NOT IN (SELECT recordingId FROM recording_deletions)
+      ORDER BY r.creationSequence LIMIT 100`)
+      .all(captureRequestPrefix)
+      .map((row) => row.recordingId as string);
   }
   freezeCaptureMember(acquisitionId: string, member: Member, file: IdentifiedFile | null): void {
     this.catalog.transaction(() => {

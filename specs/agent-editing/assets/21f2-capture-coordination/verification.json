@@ -1,0 +1,46 @@
+{
+  "status": "Implemented, focused verified and independently source-reviewed; root integration/merged verification pending.",
+  "base": "02619714ebb367e005a8c6e279414ed03deda34a",
+  "scope": "21f2 selector-free fresh-service capture coordination and source admission; scripted native controller and media worker boundaries only.",
+  "finalTests": {
+    "files": 8,
+    "passed": 133,
+    "newCaptureCases": 11,
+    "log": "45-final-focused-tests.log"
+  },
+  "publicJourney": {
+    "passed": true,
+    "exchanges": 26,
+    "receipt": "public-journey.json",
+    "log": "46-final-public-journey.log",
+    "actualAdapters": [
+      "CLI",
+      "MCP"
+    ],
+    "scriptedBoundaries": [
+      "private native capture controller",
+      "source evidence exporter",
+      "media probe",
+      "render workspace cleanup"
+    ]
+  },
+  "checks": [
+    "Same allocated take across start replay, lost public reply and reopen; private sequence/source identity fences.",
+    "Capture completion and acquisition readiness remain independent; explicit retry keeps acquisition/job identity and never creates a project.",
+    "SQL admission rollback and real queue capacity leave null pending IDs; reads do not mutate; restart/capacity resumes admission.",
+    "Actual explicit-import request collision remains a durable source admission error while capture stays discoverable.",
+    "Capture priority blocks heavy work; controller EOF/startup and unanswered native start close before catalog ownership releases.",
+    "Fresh managed root is used for actual private outputDirectory and aggregate byte observations; ready acquisition survives donor removal."
+  ],
+  "runtimeIdentities": "runtime-identities.json",
+  "commands": "commands-and-results.json",
+  "review": "review.json",
+  "choices": "../../choices.md",
+  "limitations": [
+    "No camera selector or fabricated camera source; actual camera binding/result authority remains later work.",
+    "No actual native media decoding, camera/device, physical synchronization, UI, audible playback, model/inference, profile, performance or completed-stop timing claim.",
+    "No installed switch, migration, auto project/span, recording deletion/cleanup port, extra queue or admission table.",
+    "Existing core capture deletion-fence tests pass; this pass does not claim a fresh public donor-deletion path."
+  ],
+  "ownedProcesses": "All command/test/CLI/MCP handles terminal before closeout; isolated homes cleaned."
+}

@@ -94,7 +94,7 @@ export class CaptureService {
     return captureSourcesSchema.parse(await this.ask("capture.sources", {}));
   }
 
-  async status(): Promise<unknown> {
+  async status() {
     const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
     const recovering =
       this.recovery && !this.store.isDeleting(this.recovery.recordingId)

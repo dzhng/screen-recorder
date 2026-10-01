@@ -1,0 +1,3 @@
+apps/service/src/project-service.ts(623,42): error TS2698: Spread types may only be created from object types.
+apps/service/src/project-service.ts(624,28): error TS18046: 'status' is of type 'unknown'.
+apps/service/src/project-service.ts(624,63): error TS18046: 'status' is of type 'unknown'.

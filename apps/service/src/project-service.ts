@@ -51,11 +51,16 @@ import { join } from "node:path";
 import { AssetStore } from "@screenrec/core/assets";
 import { CatalogError } from "@screenrec/core/catalog";
 import { CaptureStore } from "@screenrec/core/capture-store";
+import { CaptureService } from "./capture.js";
+import { CaptureAdmission } from "./capture-admission.js";
+import { openControl, type ControlChannel } from "./control.js";
+import type { Readable, Writable } from "node:stream";
 import { JobQueue, type JobTargets } from "@screenrec/core/jobs";
 import {
   operationSchema,
   operationNames,
   operationError,
+  captureReportSchema,
   type OperationResult,
 } from "@screenrec/protocol";
 import {
@@ -75,26 +80,66 @@ import {
 import { operationFailure } from "./operations.js";
 
 /** Isolated development entry; production capture switches to these owners at cutover. */
-export async function startProjectService(options: { home: string; worker?: MediaWorker }) {
+export async function startProjectService(options: {
+  home: string;
+  worker?: MediaWorker;
+  control?: { input: Readable; output: Writable };
+}) {
   const library = join(options.home, "library");
   const runtime = join(library, "run");
   await prepareRuntimeDirectory(library);
   const ownership = await claimStartup(runtime);
   let catalog: CaptureStore | undefined;
   let jobs: JobQueue | undefined;
-  let listener: LocalListener | undefined;
+  let listenerStarting: Promise<LocalListener> | undefined;
   let deletion: ProjectDeletion | undefined;
   let exports: MediaExports | undefined;
   let packages: ProjectPackages | undefined;
   let storage: ManagedStorage | undefined;
+  let controller: ControlChannel | undefined;
+  let captureControl: CaptureService | undefined;
+  let modelsOwner: Models | undefined;
+  let reconciliation: Promise<void> | undefined;
   const delivery = new DerivativeDelivery();
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
+  const pending = new Set<Promise<OperationResult>>();
+  let closing = false;
+  let closed: Promise<void> | undefined;
+  const close = (): Promise<void> => {
+    if (closed) return closed;
+    closing = true;
+    closed = Promise.resolve().then(async () => {
+      controller?.close();
+      modelLifetime.abort();
+      delivery.dispose();
+      // Own the eventual listener before control opens: EOF during bind must not publish a
+      // socket after shutdown released the catalog. Every owner drains before that release.
+      const results = await Promise.allSettled([
+        listenerStarting?.then((bound) => bound.close()),
+        captureControl?.close(),
+        reconciliation,
+        jobs?.close(),
+        deletion?.close(),
+        exports?.close(),
+        packages?.close(),
+        storage?.close(),
+        Promise.allSettled(pending),
+        Promise.allSettled(modelPreparations),
+        modelsOwner?.settled(),
+      ]);
+      for (const result of results) if (result.status === "rejected") console.error(result.reason);
+      catalog?.close();
+      ownership.release();
+    });
+    return closed;
+  };
   try {
     catalog = new CaptureStore(join(library, "catalog.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
+    const captures = catalog;
     const assets = new AssetStore(catalog, library);
     await assets.recover();
     const acquisitions = new AcquisitionStore(catalog);
@@ -114,6 +159,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const worker = options.worker ?? mediaWorker();
     const models = new Models(library);
+    modelsOwner = models;
     const transcriptStore = new TranscriptStore(
       catalog,
       library,
@@ -155,7 +201,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         }
       },
       isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
-      isCapturing: () => false,
+      isCapturing: () => captures.unsettled().length > 0,
     };
     await acquisitionImports.recover(new AbortController().signal);
     await sceneRecords.recoverPending("asset", new AbortController().signal);
@@ -172,12 +218,21 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
     let indexes: IndexProcessing;
+    const resumeCaptureAdmission = () => {
+      if (closing) return;
+      try {
+        captureAdmission.resume();
+      } catch (error) {
+        console.error(error);
+      }
+    };
     const queue = new JobQueue({
       deferExecution: true,
       store: catalog,
       targets,
       providers: { newId: randomUUID },
       onCapacity: () => {
+        resumeCaptureAdmission();
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
@@ -236,6 +291,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     jobs = queue;
+    const captureAdmission = new CaptureAdmission(captures, acquisitions, queue, library);
     pointers = new PointerPreparation({
       assets,
       acquisitions,
@@ -578,12 +634,10 @@ export async function startProjectService(options: { home: string; worker?: Medi
     );
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
-    queue.start();
-    for (const error of mediaExports.resumeRecovery()) console.error(error);
     const status = (jobId: string) => queue.inspect(jobId);
-    const pending = new Set<Promise<OperationResult>>();
-    let closing = false;
+    const describeCapture = captureAdmission.describe.bind(captureAdmission);
     const handle: LocalHandler = async (request): Promise<OperationResult> => {
+      if (closing) return operationError("SERVICE_STOPPED", "Service is closing", true);
       if (!operationNames.has(request.operation))
         return operationError("UNKNOWN_OPERATION", "Unknown service operation");
       const parsed = operationSchema.safeParse({
@@ -595,6 +649,69 @@ export async function startProjectService(options: { home: string; worker?: Medi
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "capture.sources":
+            return { ok: true, data: await requireCaptureControl().sources() };
+          case "capture.status": {
+            const status = await requireCaptureControl().status();
+            return {
+              ok: true,
+              data: {
+                ...status,
+                recording: status.recording ? describeCapture(status.recording) : null,
+              },
+            };
+          }
+          case "capture.start":
+            return {
+              ok: true,
+              data: describeCapture(await requireCaptureControl().start(operation.params)),
+            };
+          case "capture.restart":
+            return {
+              ok: true,
+              data: describeCapture(await requireCaptureControl().restart(operation.params)),
+            };
+          case "capture.pause":
+            return {
+              ok: true,
+              data: describeCapture(
+                await requireCaptureControl().pause(operation.params.recordingId),
+              ),
+            };
+          case "capture.resume":
+            return {
+              ok: true,
+              data: describeCapture(
+                await requireCaptureControl().resume(operation.params.recordingId),
+              ),
+            };
+          case "capture.stop":
+            return {
+              ok: true,
+              data: describeCapture(
+                await requireCaptureControl().stop(operation.params.recordingId),
+              ),
+            };
+          case "capture.cancel":
+            return {
+              ok: true,
+              data: describeCapture(
+                await requireCaptureControl().cancel(operation.params.recordingId),
+              ),
+            };
+          case "recording.get":
+            return { ok: true, data: describeCapture(captures.get(operation.params.recordingId)) };
+          case "recording.list": {
+            const page = captures.list(operation.params.cursor, operation.params.limit);
+            return {
+              ok: true,
+              data: { ...page, recordings: page.recordings.map(describeCapture) },
+            };
+          }
+          case "recording.latest": {
+            const recording = captures.latest();
+            return { ok: true, data: recording ? describeCapture(recording) : null };
+          }
           case "index.get": {
             const params = operation.params;
             if ("projectId" in params) return { ok: true, data: indexes.getProject(params) };
@@ -1147,58 +1264,79 @@ export async function startProjectService(options: { home: string; worker?: Medi
         return operationFailure(error);
       }
     };
-    listener = await listenLocal({
-      runtimeDirectory: runtime,
-      handler: (request, signal) => {
-        const task = Promise.resolve(handle(request, signal));
-        pending.add(task);
-        void task.then(
-          () => pending.delete(task),
-          () => pending.delete(task),
-        );
-        return task;
-      },
-    });
-    let closed: Promise<void> | undefined;
-    return {
-      socketPath: listener.socketPath,
-      assets,
-      close() {
-        if (!closed)
-          closed = (async () => {
-            closing = true;
-            modelLifetime.abort();
-            // Destination admission uses the export lifetime, not the socket's interest signal.
-            const exportsClosed = mediaExports.close();
-            const storageClosed = managedStorage.close();
-            await listener!.close();
-            await Promise.allSettled(pending);
-            delivery.dispose();
-            await projectDeletion.close();
-            await exportsClosed;
-            await storageClosed;
-            await projectPackages.close();
-            await queue.close();
-            await Promise.all(modelPreparations);
-            await models.settled();
-            catalog!.close();
-            ownership.release();
-          })();
-        return closed;
-      },
+    const serve: LocalHandler = (request, signal) => {
+      const task = Promise.resolve(handle(request, signal));
+      pending.add(task);
+      void task.then(
+        () => pending.delete(task),
+        () => pending.delete(task),
+      );
+      return task;
     };
+    function requireCaptureControl(): CaptureService {
+      if (!controller) throw new CatalogError("NOT_READY", "No capture controller is connected");
+      return captureCoordinator;
+    }
+    const captureCoordinator = new CaptureService(
+      captures,
+      library,
+      (operation, params) =>
+        controller
+          ? controller.call(operation, params)
+          : Promise.resolve(operationError("NOT_READY", "No capture controller is connected")),
+      worker,
+      console.error,
+      () => {
+        try {
+          resumeCaptureAdmission();
+        } finally {
+          queue.schedule();
+        }
+      },
+    );
+    captureControl = captureCoordinator;
+    listenerStarting = listenLocal({ runtimeDirectory: runtime, handler: serve });
+    if (options.control)
+      controller = openControl({
+        ...options.control,
+        dispatch: async (request) => {
+          if (closing) return operationError("SERVICE_STOPPED", "Service is closing", true);
+          if (request.operation !== "capture.report") return serve(request, modelLifetime.signal);
+          const report = captureReportSchema.safeParse(request.params);
+          if (!report.success) return operationError("INVALID_PARAMS", "Invalid capture report");
+          try {
+            return { ok: true, data: describeCapture(captureCoordinator.report(report.data)) };
+          } catch (error) {
+            return operationFailure(error);
+          }
+        },
+        onEnd: () => {
+          void close();
+        },
+      });
+    reconciliation = closing ? Promise.resolve() : captureCoordinator.reconcileStranded();
+    const listener = await listenerStarting;
+    if (closing) {
+      await close();
+      throw new CatalogError(
+        "SERVICE_STOPPED",
+        "Capture controller closed during startup",
+        {},
+        true,
+      );
+    }
+    controller?.emit({ event: "started", pid: process.pid, socketPath: listener.socketPath });
+    void reconciliation
+      .then(() => {
+        if (closing) return;
+        resumeCaptureAdmission();
+        queue.start();
+        for (const error of mediaExports.resumeRecovery()) console.error(error);
+      })
+      .catch(console.error);
+    return { socketPath: listener.socketPath, assets, close };
   } catch (error) {
-    modelLifetime.abort();
-    await Promise.all(modelPreparations);
-    await storage?.close();
-    await listener?.close();
-    delivery.dispose();
-    await deletion?.close();
-    await exports?.close();
-    await packages?.close();
-    await jobs?.close();
-    catalog?.close();
-    ownership.release();
+    await close();
     throw error;
   }
 }

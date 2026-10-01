@@ -1,0 +1,63 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:32364) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-capture.test.ts (2 tests | 1 failed | 1 skipped) 1080ms
+   × source admission failure remains discoverable through stop replay and service reopen 1079ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > source admission failure remains discoverable through stop replay and service reopen
+AssertionError: expected { ok: true, data: { …(11) }, …(1) } to match object { ok: true, data: { …(1) } }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "data": {
+-     "sourceAdmissions": [
+-       {
+-         "acquisitionId": Any<String>,
+-         "job": {
+-           "retryable": false,
+-           "state": "failed",
+-         },
+-         "kind": "primary",
++     "createdAt": "2026-10-01T10:43:59.769Z",
++     "creationSequence": 1,
++     "currentRevisionId": null,
++     "finalizationError": null,
++     "interruptionMessage": null,
++     "interruptionReason": null,
++     "lifecycleSequence": 3,
++     "recordingId": "ad6983b1-f7f3-417f-a7bc-83dba26e4bf0",
++     "sourceDurationUs": 100,
+      "sourceId": "c4409e3c-2964-40bd-9741-b3eab6fd93ca",
+-       },
+-     ],
++     "state": "complete",
+    },
+    "ok": true,
+  }
+
+ ❯ apps/service/src/project-capture.test.ts:74:69
+     72|   expect(await f.report({ recordingId, sourceId, sequence: 3, state: "…
+     73|     .toMatchObject({ ok: true, data: { state: "complete" } });
+     74|   await expect.poll(() => f.call("recording.get", { recordingId })).to…
+       |                                                                     ^
+     75|     ok: true, data: { sourceAdmissions: [{ kind: "primary", sourceId,
+     76|       acquisitionId: expect.any(String), job: { state: "failed", retry…
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/service/src/project-capture.test.ts:74:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  03:43:58
+   Duration  2.65s (transform 43%, tests 42%, import 15%)
+

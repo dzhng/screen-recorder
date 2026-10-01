@@ -1,0 +1,43 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:29823) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-capture.test.ts (1 test | 1 failed) 47ms
+   × fresh capture allocates and replays through its private controller without editorial state 46ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > fresh capture allocates and replays through its private controller without editorial state
+AssertionError: expected { ok: true, data: { …(11) }, …(1) } to deeply equal { ok: true, data: { …(11) }, …(1) }
+
+- Expected
++ Received
+
+@@ -10,8 +10,8 @@
+      "recordingId": "d892e868-bf2d-4672-aedd-f980a1c54763",
+      "sourceDurationUs": null,
+      "sourceId": "b6186eb8-69eb-41bd-84ed-b1c3a2582137",
+      "state": "recording",
+    },
+-   "id": "bfa8c8ea-c490-4811-ba08-67b5322d3750",
++   "id": "777215f0-023a-4cfa-b93e-e5bdd72efb6a",
+    "ok": true,
+  }
+
+ ❯ apps/service/src/project-capture.test.ts:52:47
+     50|   expect(started).toMatchObject({ ok: true, data: { state: "recording"…
+     51|     sourceDurationUs: null, currentRevisionId: null } });
+     52|   expect(await call("capture.start", params)).toEqual(started);
+       |                                               ^
+     53|   expect(starts).toBe(1);
+     54|   expect(await call("capture.start", { ...params, cameraDeviceId: "not…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  03:42:07
+   Duration  931ms (transform 70%, import 25%, tests 5%)
+

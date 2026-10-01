@@ -1,0 +1,4 @@
+apps/service/src/project-capture.test.ts:332:43: warning eslint(no-useless-escape): Unnecessary escape character '"' help: Replace `\"` with `"`.
+apps/service/src/project-capture.test.ts:332:53: warning eslint(no-useless-escape): Unnecessary escape character '"' help: Replace `\"` with `"`.
+apps/service/src/project-capture.test.ts:332:56: warning eslint(no-useless-escape): Unnecessary escape character '"' help: Replace `\"` with `"`.
+apps/service/src/project-capture.test.ts:332:69: warning eslint(no-useless-escape): Unnecessary escape character '"' help: Replace `\"` with `"`.

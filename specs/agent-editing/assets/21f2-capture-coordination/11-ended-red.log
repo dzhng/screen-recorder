@@ -1,0 +1,69 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:34685) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-capture.test.ts (3 tests | 1 failed | 2 skipped) 79ms
+   × an already-ended private controller cannot publish or retain a fresh service 77ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > an already-ended private controller cannot publish or retain a fresh service
+AssertionError: promise resolved "{ …(3) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "assets": AssetStore {
++     "dependencies": ResourceReferences {
++       "store": CaptureStore {
++         "catalog": DatabaseSync {
++           "isOpen": true,
++           "isTransaction": false,
++           Symbol(sqlite-type): "node:sqlite",
++         },
++         "providers": {
++           "newId": [Function randomUUID],
++           "now": [Function now],
++         },
++       },
++     },
++     "directory": "/tmp/project-capture-ended-hIWmoP/library/assets",
++     "libraryDirectory": "/tmp/project-capture-ended-hIWmoP/library",
++     "publications": Map {},
++     "staging": "/tmp/project-capture-ended-hIWmoP/library/staging/assets",
++     "store": CaptureStore {
++       "catalog": DatabaseSync {
++         "isOpen": true,
++         "isTransaction": false,
++         Symbol(sqlite-type): "node:sqlite",
++       },
++       "providers": {
++         "newId": [Function randomUUID],
++         "now": [Function now],
++       },
++     },
++   },
++   "close": [Function close],
++   "socketPath": "/tmp/project-capture-ended-hIWmoP/library/run/service.sock",
+  }
+
+ ❯ apps/service/src/project-capture.test.ts:97:22
+     95|   const start = startProjectService({ home, control: { input, output }…
+     96|     .then((service) => { cleanup.push(() => service.close()); return s…
+     97|   await expect(start).rejects.toMatchObject({ code: "SERVICE_STOPPED" …
+       |                      ^
+     98|   const restarted = await fixture(home);
+     99|   expect(await restarted.call("recording.list")).toMatchObject({ ok: t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  03:48:49
+   Duration  2.09s (transform 73%, import 23%, tests 4%)
+

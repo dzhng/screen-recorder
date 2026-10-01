@@ -1,0 +1,39 @@
+{
+  "verdict": "clean after resolved findings",
+  "selfReview": {
+    "skills": [
+      "refactor-clean",
+      "code-review",
+      "write-docs",
+      "write-tests",
+      "audit-choices"
+    ],
+    "shape": "One existing capture coordinator, catalog, acquisition owner and queue. Stateless service admission composition owns no table, lifecycle, timer or retry queue. One service close lifetime also owns pending listener startup.",
+    "diff": "Removed optional initialization guards after owners became definite; public admission diagnostics do not hide lifecycle facts; shared request prefix has one definition.",
+    "docs": "Child records source discovery, managed-root/lifetime rules, scripted evidence boundaries and pending root integration; parent handoff remains root-owned.",
+    "tests": "Actual public socket/private control channel and compiled CLI/MCP adapters; external worker replies scripted. Expected production regressions observed red; priority/startup mutants restored and final gates green."
+  },
+  "independentReview": {
+    "mode": "Root source review plus final independent source-only collision review relayed by root; not a native or media run.",
+    "findings": [
+      {
+        "finding": "EOF during socket bind could release the catalog and then return a late listener; already-ended input could miss end notification.",
+        "resolution": "Shared close owns the in-flight listener promise before opening control; startup refuses after close. openControl notices already-ended streams on a microtask. Both EOF cases and unanswered-start drain are checked."
+      },
+      {
+        "finding": "Fresh capture donors used home/recordings outside the managed library root.",
+        "resolution": "Fresh capture/coordinator admission use library root; actual private path and storage bytes checked. Installed main stays unchanged."
+      },
+      {
+        "finding": "An explicit import occupying the internal capture request made recording discovery and successful transition replies fail.",
+        "resolution": "Derive admissionError REQUEST_CONFLICT from durable conflicting row while preserving capture facts and null capture ownership; never borrow other import job/acquisition. Actual collision red/green checks plus clean final independent source-only review."
+      }
+    ],
+    "finalCollisionVerdict": "clean: narrow durable conflict handling, truthful null ownership/diagnostic, independent import preserved, read/replay controls and no auto-retry."
+  },
+  "limitations": [
+    "Codex CLI/Claude review retry not invoked per root scope.",
+    "No native/media/profile/inference/UI/physical capture checks; no installed service cutover.",
+    "Source-only recording deletion/cleanup port remains unavailable and outside this pass."
+  ]
+}

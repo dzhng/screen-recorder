@@ -1,0 +1,45 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-capture-facts
+
+(node:44452) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-capture.test.ts (10 tests | 1 failed | 9 skipped) 90ms
+   × capture priority holds heavy jobs and released capacity admits a pending settled source 89ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-capture.test.ts > capture priority holds heavy jobs and released capacity admits a pending settled source
+AssertionError: expected { ok: true, data: { …(13) }, …(1) } to match object { ok: true, data: { state: 'queued' } }
+(15 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "data": {
+-     "state": "queued",
++     "state": "running",
+    },
+    "ok": true,
+  }
+
+ ❯ apps/service/src/project-capture.test.ts:424:86
+    422|   await writeFile(path, "scripted background bytes");
+    423|   for (let index = 0; index < 32; index++) {
+    424|     expect(await f.call("asset.import", { requestId: `background-${ind…
+       |                                                                                      ^
+    425|       ok: true,
+    426|       data: { state: "queued" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  04:02:54
+   Duration  3.78s (transform 85%, import 13%, tests 2%)
+
+  Transform  transforming modules took 3.10s · 85% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
