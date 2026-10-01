@@ -5455,3 +5455,67 @@ When: 21e independent replacement and visual review.
   visible; the complete unprimed review records the enlargement rather than
   treating its blur as an unnoticed product-quality success.
 - **Confidence:** High.
+
+## 23d — Native export consumer parity
+
+### Keep unanswered replies separate from definite refusals — sound, high confidence
+
+When: 23d.
+
+- **Choice:** If the service accepts a retry but its reply is unreadable, times out
+  or is lost as the service stops or becomes unavailable,
+  the menu keeps its last readable receipt, shows the read failure, and includes
+  that export in ordinary status polling even when the old receipt said it had
+  stopped. A valid status resolves that uncertainty without repeating the retry.
+  A definite refusal stays an action failure and does not make a stopped export
+  poll forever. A valid read also cannot erase a separately refused action.
+- **Gap:** The old consumer silently treated decoding failure as success. Its
+  single action-error slot could not represent both a refused action and an
+  unreadable observation with different recovery rules.
+- **Reach:** Reply uncertainty is temporary view state in the existing export
+  state owner, not a second lifecycle or retry queue. It uses the existing shared
+  unanswered-request classification and does not schedule an additional mutation
+  or change transport deadlines. The service still owns
+  export state, retry, publication and cleanup.
+- **Verdict:** Sound. One visible uncertainty survives until authoritative
+  status resolves it, and the controller does not manufacture a successful
+  outcome from a reply it could not understand.
+- **Confidence:** High; the stopped-retry failure was reproduced before the fix.
+
+### Retain one traversal failure while discovering later exports — sound, high confidence
+
+When: 23d.
+
+- **Choice:** Suppose one saved export has an unreadable status and the next
+  export is valid. Discovery keeps the first failure visible, admits the valid
+  export, and follows the remaining pages. Reaching the final page does not
+  clear the earlier failure. A later wholly successful discovery clears it.
+- **Gap:** The existing global discovery-error slot did not specify whether one
+  bad item's status should stop later independent items or disappear at the
+  traversal's successful end.
+- **Reach:** The menu reports the first unresolved traversal problem rather
+  than collecting a new persistent error catalog. Users can still see and act
+  on the other service-described exports. Malformed list identities use the
+  same truthful failure path rather than being silently filtered out.
+- **Verdict:** Sound. A local read failure does not hide unrelated exports or
+  become a false success, while the existing consumer remains the sole owner.
+- **Confidence:** High.
+
+### Name the received owner without broadening project authoring — sound, high confidence
+
+When: 23d.
+
+- **Choice:** A received export carries one recording or project target. The
+  native record stores that distinction explicitly, and its menu names it. A
+  recording deletion cannot remove a project export merely because the two
+  owner identifiers have the same text. Receipts with neither or both owner
+  fields refuse, and a response for a different export ID cannot replace the
+  requested export's visible state.
+- **Gap:** The old record shape assumed every response belonged to a recording,
+  even though the existing service already returned real project receipts.
+- **Reach:** Recording save-panel choices and outbound create/replay requests
+  remain recording-owned until the separate cutover. No project chooser,
+  automatic project, forwarding facade or new service schema is introduced.
+- **Verdict:** Sound. The consumer preserves two existing ownership namespaces
+  instead of guessing ownership or inventing a new authoring flow.
+- **Confidence:** High.

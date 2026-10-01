@@ -91,10 +91,11 @@ final class ExportController {
             defer { changed() }
             do throws(ServiceFailure) {
                 let answer = try await call("export.retry", ["exportId": exportId])
-                if let record = try? JSONDecoder().decode(ExportsState.Record.self, from: answer) {
-                    state.update(record)
-                }
+                state.update(try record(answer, exportId: exportId))
                 state.finish(exportId, failure: nil)
+            } catch where Self.unanswered.contains(error.code) {
+                state.finish(exportId, failure: nil)
+                state.readFailures[exportId] = error.localizedDescription
             } catch where error.code == "NOT_FOUND" {
                 state.forget(exportId)
             } catch {
@@ -149,8 +150,7 @@ final class ExportController {
                 let unconfirmed = state.requests.contains { $0.exportId == exportId }
                 do throws(ServiceFailure) {
                     let answer = try await call("export.status", ["exportId": exportId])
-                    guard let record = try? JSONDecoder().decode(ExportsState.Record.self, from: answer)
-                    else { continue }
+                    let record = try record(answer, exportId: exportId)
                     if unconfirmed { state.admit(record) } else { state.update(record) }
                     changedAny = true
                 } catch where error.code == "NOT_FOUND" {
@@ -160,6 +160,9 @@ final class ExportController {
                         state.forget(exportId)
                         changedAny = true
                     }
+                } catch where error.code == "INVALID_RESPONSE" {
+                    state.readFailures[exportId] = error.localizedDescription
+                    changedAny = true
                 } catch {
                     // A transient read failure changes nothing a person can act on.
                 }
@@ -186,6 +189,7 @@ final class ExportController {
                 }
             }
             var cursor: Any = NSNull()
+            var failedStatus: String?
             do throws(ServiceFailure) {
                 repeat {
                     var params: [String: Any] = ["unfinishedOnly": true]
@@ -196,23 +200,28 @@ final class ExportController {
                     else {
                         throw ServiceFailure(code: "INVALID_RESPONSE", message: "export.list returned unreadable data")
                     }
-                    for exportId in summaries.compactMap({ $0["exportId"] as? String }) {
+                    for summary in summaries {
+                        guard let exportId = summary["exportId"] as? String else {
+                            failedStatus = failedStatus ?? "INVALID_RESPONSE: export.list returned an unreadable export identity"
+                            continue
+                        }
                         do throws(ServiceFailure) {
                             let answer = try await call("export.status", ["exportId": exportId])
-                            if let record = try? JSONDecoder().decode(ExportsState.Record.self, from: answer) {
-                                if state.requests.contains(where: { $0.exportId == exportId }) {
-                                    state.admit(record)
-                                } else {
-                                    state.update(record)
-                                }
+                            let record = try record(answer, exportId: exportId)
+                            if state.requests.contains(where: { $0.exportId == exportId }) {
+                                state.admit(record)
+                            } else {
+                                state.update(record)
                             }
                         } catch where error.code == "NOT_FOUND" {
                             // Retired between the page and its status read.
+                        } catch {
+                            failedStatus = failedStatus ?? error.localizedDescription
                         }
                     }
                     cursor = page["nextCursor"] ?? NSNull()
                 } while !(cursor is NSNull)
-                state.discoveryFailure = nil
+                state.discoveryFailure = failedStatus
             } catch {
                 state.discoveryFailure = error.localizedDescription
             }
@@ -229,10 +238,7 @@ final class ExportController {
         ]
         do throws(ServiceFailure) {
             let answer = try await call("export.create", params)
-            guard let record = try? JSONDecoder().decode(ExportsState.Record.self, from: answer) else {
-                return state.unanswered(request.exportId, reason: "The service returned an unreadable export.")
-            }
-            state.admit(record)
+            state.admit(try record(answer, exportId: request.exportId))
         } catch where Self.unanswered.contains(error.code) {
             state.unanswered(request.exportId, reason: error.localizedDescription)
         } catch {
@@ -242,7 +248,20 @@ final class ExportController {
     }
 
     /// Failures that leave open whether the service admitted the request.
-    private static let unanswered: Set = ["TIMEOUT", "SERVICE_STOPPED", "SERVICE_UNAVAILABLE"]
+    private static let unanswered: Set = ["TIMEOUT", "SERVICE_STOPPED", "SERVICE_UNAVAILABLE", "INVALID_RESPONSE"]
+
+    private func record(_ data: Data, exportId: String) throws(ServiceFailure) -> ExportsState.Record {
+        let record: ExportsState.Record
+        do {
+            record = try JSONDecoder().decode(ExportsState.Record.self, from: data)
+        } catch {
+            throw ServiceFailure(code: "INVALID_RESPONSE", message: "Unreadable export status for \(exportId): \(error.localizedDescription)")
+        }
+        guard record.exportId == exportId else {
+            throw ServiceFailure(code: "INVALID_RESPONSE", message: "Export status returned a different exportId for \(exportId)")
+        }
+        return record
+    }
 
     // MARK: destination
 

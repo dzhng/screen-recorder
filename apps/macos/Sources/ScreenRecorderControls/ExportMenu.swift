@@ -21,7 +21,7 @@ enum ExportMenu {
     }
 
     static func title(for exports: ExportsState) -> String {
-        let attention = !exports.failures.isEmpty || exports.discoveryFailure != nil
+        let attention = !exports.failures.isEmpty || !exports.readFailures.isEmpty || exports.discoveryFailure != nil
             || exports.requests.contains { $0.unconfirmed != nil }
             || exports.records.contains { $0.abandoning || $0.cleanupPending || $0.stopped }
         if attention { return "Exports — needs attention" }
@@ -50,6 +50,9 @@ enum ExportMenu {
         if let failure = exports.failures[request.exportId] {
             details.append(MenuEntry(.status, failure, enabled: false))
         }
+        if let failure = exports.readFailures[request.exportId] {
+            details.append(MenuEntry(.status, failure, enabled: false))
+        }
         let actionable = ready && request.unconfirmed != nil && acting == nil
         details.append(contentsOf: [
             .separator(),
@@ -69,12 +72,15 @@ enum ExportMenu {
         let acting = exports.acting[record.exportId]
         var details = [
             MenuEntry(.status, record.output ?? path(record.directory, record.leaf), enabled: false),
-            MenuEntry(.status, "Revision \(record.revisionId) of \(record.recordingId)", enabled: false),
+            MenuEntry(.status, "Revision \(record.revisionId) of \(targetTitle(record.target))", enabled: false),
         ]
         if let reason = record.reason {
             details.append(MenuEntry(.status, reason, enabled: false))
         }
         if let failure = exports.failures[record.exportId] {
+            details.append(MenuEntry(.status, failure, enabled: false))
+        }
+        if let failure = exports.readFailures[record.exportId] {
             details.append(MenuEntry(.status, failure, enabled: false))
         }
         details.append(.separator())
@@ -104,6 +110,13 @@ enum ExportMenu {
         }
         return MenuEntry(
             .status, "\(kindTitle(record.kind)) — \(record.leaf) — \(stateTitle(record))", submenu: details)
+    }
+
+    private static func targetTitle(_ target: ExportsState.Target) -> String {
+        switch target {
+        case .recording(let id): "recording \(id)"
+        case .project(let id): "project \(id)"
+        }
     }
 
     static func stateTitle(_ record: ExportsState.Record) -> String {

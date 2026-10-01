@@ -18,7 +18,7 @@ private func record(
     retryable: Bool = false, abandoning: Bool = false, cleanupPending: Bool = false
 ) -> ExportsState.Record {
     .init(
-        exportId: exportId, recordingId: recordingId, kind: .video, revisionId: "r2", state: state,
+        exportId: exportId, target: .recording(recordingId), kind: .video, revisionId: "r2", state: state,
         directory: "/Users/me/Exports", leaf: "demo.mp4", output: output, reason: nil,
         retryable: retryable, abandoning: abandoning, cleanupPending: cleanupPending)
 }

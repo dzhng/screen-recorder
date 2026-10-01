@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "scope": "Isolated native export consumer with retained public payloads and scripted external Call responses; no media rerun or installed switch",
+  "checks": {
+    "focusedControllerTests": 2,
+    "pureControlsGroups": 16,
+    "format": true,
+    "lint": true,
+    "syntax": true,
+    "diffWhitespace": true
+  },
+  "retainedPayloads": 4,
+  "receivedOwners": [
+    "recording",
+    "project"
+  ],
+  "receivedFields": [
+    "exportId",
+    "target",
+    "kind",
+    "revisionId",
+    "state",
+    "directory",
+    "leaf",
+    "output",
+    "reason",
+    "retryable",
+    "abandoning",
+    "cleanupPending"
+  ],
+  "acceptedRetryReplyFailures": [
+    "INVALID_RESPONSE",
+    "TIMEOUT",
+    "SERVICE_STOPPED",
+    "SERVICE_UNAVAILABLE"
+  ],
+  "retryRecovery": "ordinary status; no repeated mutation; definite refusals stay settled",
+  "falsifications": [
+    "original recording-only decoder rejects retained project status",
+    "malformed discovery erased at final page",
+    "unreadable accepted retry from stopped receipt not observed",
+    "malformed-only recovery excludes accepted retry TIMEOUT"
+  ],
+  "scriptedVariations": [
+    "neither/both owner",
+    "malformed or wrong-exportId response",
+    "same-ID recording/project collision",
+    "stopped and cleanup-pending lifecycle states",
+    "accepted retry with unreadable/lost reply"
+  ],
+  "excluded": [
+    "bundled-service media test",
+    "media render",
+    "ASR/models",
+    "native worker build/replacement",
+    "physical capture",
+    "application launch or installed switch",
+    "screenshot aesthetic acceptance"
+  ],
+  "allOwnedProcessesTerminal": true,
+  "packetBytes": 63722,
+  "packetSha256": "41e0115f37755762d6bc2127efddf71933f873242d6bac00c004a0e86a26f6d9",
+  "packetRegularFiles": 41,
+  "packetMemberNamesExactlyMatchManifest": true,
+  "allPayloadAndCurrentSourceHashesMatch": true
+}

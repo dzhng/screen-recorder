@@ -221,6 +221,267 @@ import ScreenRecorderControls
 );
 
 test(
+  "native exports consume retained recording and project statuses",
+  { timeout: 120_000 },
+  async () => {
+    const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-owners-"));
+    try {
+      const retained = JSON.parse(
+        await readFile(
+          join(root, "specs/agent-editing/assets/23b-export-recovery-preservation/report.json"),
+          "utf8",
+        ),
+      );
+      const receipts = retained.attempts
+        .filter((attempt) => attempt.operation === "export.status" && attempt.response.ok)
+        .map((attempt) => attempt.response.data);
+      const fixture = join(scratch, "receipts.json");
+      await writeFile(fixture, JSON.stringify(receipts));
+      const executable = compile(
+        scratch,
+        ["ExportController", "ServiceBundle", "NodeRuntime"],
+        String.raw`
+import AppKit
+import ScreenRecorderControls
+
+@MainActor final class Script {
+    var calls: [(String, [String: Any])] = []
+    var statuses: [String: Data] = [:]
+    var retries: [String: Data] = [:]
+    var acceptedRetries: [String: Data] = [:]
+    var refusedRetries: [String: ServiceFailure] = [:]
+    var lostRetryReplies: [String: ServiceFailure] = [:]
+    var pages: [[String: Any]] = []
+    func json(_ value: Any) -> Data { try! JSONSerialization.data(withJSONObject: value) }
+    func call(_ operation: String, _ params: [String: Any]) async throws(ServiceFailure) -> Data {
+        calls.append((operation, params))
+        switch operation {
+        case "export.list": return json(pages.removeFirst())
+        case "export.retry":
+            let id = params["exportId"] as! String
+            if let refusal = refusedRetries[id] { throw refusal }
+            if let accepted = acceptedRetries[id] { statuses[id] = accepted }
+            if let lost = lostRetryReplies[id] { throw lost }
+            return retries[id]!
+        case "export.status":
+            guard let value = statuses[params["exportId"] as! String] else {
+                throw ServiceFailure(code: "NOT_FOUND", message: "Export retired")
+            }
+            return value
+        default: throw ServiceFailure(code: "UNKNOWN_OPERATION", message: operation)
+        }
+    }
+}
+
+@main struct Check {
+    @MainActor static func until(_ condition: () -> Bool) async {
+        for _ in 0..<200 where !condition() { try? await Task.sleep(for: .milliseconds(10)) }
+        precondition(condition(), "Controller did not publish its result")
+    }
+    @MainActor static func menu(_ exports: ExportController) -> [MenuEntry] {
+        var controls = ControlsState()
+        controls.service = .ready
+        return RecordingMenu.entries(for: controls, exports: exports.state)
+    }
+    static func flatten(_ entries: [MenuEntry]) -> [MenuEntry] {
+        entries.flatMap { [$0] + flatten($0.submenu) }
+    }
+    @MainActor static func main() async throws {
+        let data = try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
+        let receipts = try JSONSerialization.jsonObject(with: data) as! [[String: Any]]
+        let script = Script()
+        for receipt in receipts {
+            let raw = script.json(receipt)
+            let record = try JSONDecoder().decode(ExportsState.Record.self, from: raw)
+            let target: ExportsState.Target = if let id = receipt["projectId"] as? String {
+                .project(id)
+            } else { .recording(receipt["recordingId"] as! String) }
+            let snapshot = receipt["snapshot"] as! [String: Any]
+            let destination = receipt["destination"] as! [String: Any]
+            precondition(record.target == target && record.exportId == receipt["exportId"] as! String)
+            precondition(record.revisionId == snapshot["revisionId"] as! String && record.kind == .video)
+            precondition(record.directory == destination["directory"] as! String && record.leaf == destination["leaf"] as! String)
+            precondition(record.state == receipt["state"] as! String && record.output == receipt["output"] as? String)
+            precondition(record.reason == receipt["reason"] as? String && record.retryable == receipt["retryable"] as! Bool)
+            precondition(record.abandoning == receipt["abandoning"] as! Bool && record.cleanupPending == receipt["cleanupPending"] as! Bool)
+            if record.state == "running" { script.statuses[record.exportId] = raw }
+        }
+        let recording = receipts.first { $0["recordingId"] != nil }!
+        let project = receipts.first { $0["projectId"] != nil }!
+        let recordingId = recording["exportId"] as! String, projectId = project["exportId"] as! String
+        let cursor: [String: Any] = ["recordingId": NSNull(), "projectId": NSNull(),
+            "unfinishedOnly": true, "afterExportId": recordingId]
+        script.statuses["malformed"] = Data("{}".utf8)
+        script.pages = [
+            ["exports": [["exportId": "malformed"], ["exportId": recordingId]], "nextCursor": cursor],
+            ["exports": [["exportId": projectId]], "nextCursor": NSNull()],
+        ]
+        var changes = 0
+        var revealed: [URL] = []
+        let exports = ExportController(
+            call: { operation, params throws(ServiceFailure) in try await script.call(operation, params) },
+            choose: { _, _ in preconditionFailure("Discovery must not choose a destination") },
+            reveal: { revealed.append($0) }, changed: { changes += 1 },
+            failure: { preconditionFailure("No create failure expected: \($0)") })
+        exports.discover()
+        await until { changes > 0 }
+        precondition(exports.state.records.map(\.exportId) == [recordingId, projectId], "A malformed item must not hide later items/pages")
+        precondition(exports.state.discoveryFailure?.contains("INVALID_RESPONSE") == true,
+            "Malformed status must remain visible after the last successful page")
+        let lists = script.calls.filter { $0.0 == "export.list" }.map { $0.1 }
+        precondition(lists.count == 2 && NSDictionary(dictionary: lists[1]["cursor"] as! [String: Any]).isEqual(to: cursor))
+        let originalRecording = try JSONDecoder().decode(ExportsState.Record.self, from: script.json(recording))
+        let originalProject = try JSONDecoder().decode(ExportsState.Record.self, from: script.json(project))
+        precondition(exports.state.records == [originalRecording, originalProject], "Controller retains all public receipt fields")
+        let projectOwner = project["projectId"] as! String
+        let detail = "Revision \(originalProject.revisionId) of project \(projectOwner)"
+        precondition(flatten(menu(exports)).contains { $0.title == detail }, "Menu names the actual project owner")
+        precondition(flatten(menu(exports)).contains { $0.title.contains("Unreadable export status for malformed") },
+            "Discovery failure is visible through the real menu")
+
+        // Neither/both owners are malformed, not implicit recording/project defaults.
+        for fields in [[String: Any](), ["recordingId": "other", "projectId": projectOwner]] {
+            var malformed = project
+            malformed.removeValue(forKey: "projectId")
+            malformed.merge(fields) { _, replacement in replacement }
+            precondition((try? JSONDecoder().decode(ExportsState.Record.self, from: script.json(malformed))) == nil)
+        }
+
+        // A successful new traversal clears only the previous discovery failure.
+        script.pages = [["exports": [["exportId": projectId]], "nextCursor": NSNull()]]
+        let discovered = changes
+        exports.discover()
+        await until { changes > discovered }
+        precondition(exports.state.discoveryFailure == nil && exports.state.records == [originalRecording, originalProject])
+
+        // Status decoding failures keep the last good receipt visible, and recover on a good read.
+        script.statuses[projectId] = Data("{}".utf8)
+        exports.tick()
+        await until { exports.state.readFailures[projectId] != nil }
+        let unreadable = exports.state.readFailures[projectId]!
+        precondition(unreadable.contains("INVALID_RESPONSE") && exports.state.records.last == originalProject)
+        precondition(flatten(menu(exports)).contains { $0.title == unreadable }, "Polling failure is visible")
+        script.retries[projectId] = Data("{}".utf8)
+        script.refusedRetries[projectId] = ServiceFailure(code: "INVALID_PARAMS", message: "Retry was refused")
+        exports.retry(projectId)
+        await until { exports.state.acting[projectId] == nil }
+        precondition(exports.state.failures[projectId]?.contains("Retry was refused") == true)
+        script.refusedRetries[projectId] = nil
+        let refusedRetry = exports.state.failures[projectId]
+        script.statuses[projectId] = script.json(project)
+        exports.tick()
+        await until { exports.state.readFailures[projectId] == nil }
+        precondition(exports.state.failures[projectId] == refusedRetry, "A good poll does not erase a refused action")
+
+        // A status returned for another export never overwrites either known identity.
+        script.statuses[projectId] = script.json(recording)
+        exports.tick()
+        await until { exports.state.readFailures[projectId] != nil }
+        precondition(exports.state.readFailures[projectId]!.contains("different exportId"))
+        precondition(exports.state.records == [originalRecording, originalProject])
+        script.statuses[projectId] = script.json(project)
+        exports.tick()
+        await until { exports.state.readFailures[projectId] == nil }
+
+        // A stopped export with an accepted-but-unreadable retry is recovered by status alone.
+        let committed = receipts.first { $0["projectId"] != nil && $0["state"] as? String == "committed" }!
+        var stopped = project
+        stopped["state"] = "failed"
+        stopped["retryable"] = true
+        script.statuses[projectId] = script.json(stopped)
+        script.pages = [["exports": [["exportId": projectId]], "nextCursor": NSNull()]]
+        let stoppedRead = changes
+        exports.discover()
+        await until { changes > stoppedRead }
+        precondition(exports.state.records.last?.settled == true && !exports.state.observed.contains(projectId))
+        script.refusedRetries[projectId] = ServiceFailure(code: "INVALID_PARAMS", message: "Retry was refused")
+        exports.retry(projectId)
+        await until { exports.state.acting[projectId] == nil }
+        precondition(exports.state.failures[projectId]?.contains("Retry was refused") == true)
+        precondition(!exports.state.observed.contains(projectId), "A definite refusal does not make a settled export poll forever")
+        script.refusedRetries[projectId] = nil
+        script.acceptedRetries[projectId] = script.json(committed)
+        for code in ["INVALID_RESPONSE", "TIMEOUT", "SERVICE_STOPPED", "SERVICE_UNAVAILABLE"] {
+            script.statuses[projectId] = script.json(stopped)
+            script.pages = [["exports": [["exportId": projectId]], "nextCursor": NSNull()]]
+            let beforeRead = changes
+            exports.discover()
+            await until { changes > beforeRead }
+            script.lostRetryReplies[projectId] = code == "INVALID_RESPONSE" ? nil
+                : ServiceFailure(code: code, message: "Accepted retry reply unavailable")
+            let mutationsBeforeRecovery = script.calls.filter { $0.0 == "export.retry" }.count
+            exports.retry(projectId)
+            await until { exports.state.acting[projectId] == nil }
+            precondition(exports.state.observed.contains(projectId), "Accepted retry uncertainty \(code) needs status recovery even when the old receipt was settled")
+            precondition(flatten(menu(exports)).contains { $0.title.contains(code) })
+            exports.tick()
+            await until { exports.state.records.last?.committed == true }
+            precondition(exports.state.readFailures[projectId] == nil && !exports.state.observed.contains(projectId))
+            precondition(script.calls.filter { $0.0 == "export.retry" }.count == mutationsBeforeRecovery + 1,
+                "Status recovery does not resend the accepted retry for \(code)")
+        }
+        script.lostRetryReplies[projectId] = nil
+        script.acceptedRetries[projectId] = nil
+        script.statuses[projectId] = script.json(project)
+
+        // The same opaque owner ID in different namespaces remains two different owners.
+        var sameIdRecording = recording
+        sameIdRecording["recordingId"] = projectOwner
+        script.statuses[recordingId] = script.json(sameIdRecording)
+        script.pages = [["exports": [["exportId": recordingId], ["exportId": projectId]], "nextCursor": NSNull()]]
+        let collisionRead = changes
+        exports.discover()
+        await until { changes > collisionRead }
+        exports.forgetRecording(projectOwner)
+        precondition(exports.state.records == [originalProject], "Recording deletion must not retire the same-ID project")
+
+        // A scripted cleanup-pending variation of the retained commit exercises native actions;
+        // the completed retry response is the untouched retained public project receipt.
+        var cleanup = committed
+        cleanup["cleanupPending"] = true
+        script.statuses[projectId] = script.json(cleanup)
+        script.pages = [["exports": [["exportId": projectId]], "nextCursor": NSNull()]]
+        let cleanupRead = changes
+        exports.discover()
+        await until { changes > cleanupRead }
+        let pending = exports.state.records[0]
+        precondition(pending.target == originalProject.target && pending.revisionId == originalProject.revisionId
+            && pending.directory == originalProject.directory && pending.leaf == originalProject.leaf)
+        precondition(pending.committed && pending.cleanupPending && !pending.settled)
+        precondition(flatten(menu(exports)).contains { $0.action?.id == "export.retry.\(projectId)" && $0.title == "Retry Cleanup" && $0.enabled })
+        precondition(!flatten(menu(exports)).contains { $0.action?.id == "export.dismiss.\(projectId)" })
+        script.retries[projectId] = script.json(committed)
+        exports.retry(projectId)
+        await until { exports.state.acting[projectId] == nil }
+        let settled = try JSONDecoder().decode(ExportsState.Record.self, from: script.json(committed))
+        precondition(exports.state.records == [settled] && exports.state.failures[projectId] == nil)
+        precondition(settled.settled && exports.state.observed.isEmpty)
+        let retries = script.calls.filter { $0.0 == "export.retry" }.map { $0.1 }
+        precondition(retries.allSatisfy { NSDictionary(dictionary: $0).isEqual(to: ["exportId": projectId]) },
+            "Retries retain the original export identity and do not choose a new owner or destination")
+        exports.reveal(projectId)
+        precondition(revealed == [URL(fileURLWithPath: committed["output"] as! String)])
+        precondition(flatten(menu(exports)).contains { $0.action?.id == "export.dismiss.\(projectId)" && $0.enabled })
+        exports.dismiss(projectId)
+        precondition(exports.state.records.isEmpty)
+        precondition(!script.calls.contains { ["export.create", "recording.get", "project.get"].contains($0.0) },
+            "Received project exports do not create a new project-selection or authoring flow")
+        print("PASS native exports consume retained recording and project statuses")
+    }
+}
+`,
+      );
+      assert.match(
+        execFileSync(executable, [fixture], { encoding: "utf8", timeout: 30_000 }),
+        /PASS native exports consume retained recording and project statuses/,
+      );
+    } finally {
+      rmSync(scratch, { recursive: true, force: true });
+    }
+  },
+);
+
+test(
   "native exports commit through the bundled service and rediscover an unfinished export after restart",
   { timeout: 180_000 },
   async () => {

@@ -44,15 +44,20 @@ public struct ExportsState: Equatable, Sendable {
         public var unconfirmed: String?
     }
 
+    public enum Target: Equatable, Sendable {
+        case recording(String)
+        case project(String)
+    }
+
     /// One export as `export.status` last described it.
     public struct Record: Equatable, Sendable, Decodable {
         public init(
-            exportId: String, recordingId: String, kind: Kind, revisionId: String, state: String,
+            exportId: String, target: Target, kind: Kind, revisionId: String, state: String,
             directory: String, leaf: String, output: String?, reason: String?, retryable: Bool,
             abandoning: Bool, cleanupPending: Bool
         ) {
             self.exportId = exportId
-            self.recordingId = recordingId
+            self.target = target
             self.kind = kind
             self.revisionId = revisionId
             self.state = state
@@ -65,7 +70,7 @@ public struct ExportsState: Equatable, Sendable {
             self.cleanupPending = cleanupPending
         }
         public let exportId: String
-        public let recordingId: String
+        public let target: Target
         public let kind: Kind
         public let revisionId: String
         public let state: String
@@ -85,7 +90,7 @@ public struct ExportsState: Equatable, Sendable {
         public var settled: Bool { !abandoning && (committed ? !cleanupPending : stopped) }
 
         private enum Keys: String, CodingKey {
-            case exportId, recordingId, kind, snapshot, state, destination, output, reason
+            case exportId, recordingId, projectId, kind, snapshot, state, destination, output, reason
             case retryable, abandoning, cleanupPending
         }
         private enum SnapshotKeys: String, CodingKey { case revisionId }
@@ -96,9 +101,17 @@ public struct ExportsState: Equatable, Sendable {
             let snapshot = try fields.nestedContainer(keyedBy: SnapshotKeys.self, forKey: .snapshot)
             let destination = try fields.nestedContainer(
                 keyedBy: DestinationKeys.self, forKey: .destination)
+            let target: Target
+            switch (fields.contains(.recordingId), fields.contains(.projectId)) {
+            case (true, false): target = .recording(try fields.decode(String.self, forKey: .recordingId))
+            case (false, true): target = .project(try fields.decode(String.self, forKey: .projectId))
+            default:
+                throw DecodingError.dataCorrupted(.init(
+                    codingPath: decoder.codingPath, debugDescription: "Export requires exactly one recording or project owner"))
+            }
             self.init(
                 exportId: try fields.decode(String.self, forKey: .exportId),
-                recordingId: try fields.decode(String.self, forKey: .recordingId),
+                target: target,
                 kind: try fields.decode(Kind.self, forKey: .kind),
                 revisionId: try snapshot.decode(String.self, forKey: .revisionId),
                 state: try fields.decode(String.self, forKey: .state),
@@ -122,6 +135,8 @@ public struct ExportsState: Equatable, Sendable {
     public var acting: [String: Action] = [:]
     /// The last refused action per export, shown until the next action on it.
     public var failures: [String: String] = [:]
+    /// A reply that could not establish export state, resolved by the next valid status.
+    public var readFailures: [String: String] = [:]
     public var discoveryFailure: String?
 
     /// Only one destination can be chosen at a time; exporting another take afterwards is fine.
@@ -145,6 +160,7 @@ public struct ExportsState: Equatable, Sendable {
     /// A definite refusal ends the request: nothing was admitted under its ID.
     public mutating func refuse(_ exportId: String) {
         requests.removeAll { $0.exportId == exportId }
+        readFailures.removeValue(forKey: exportId)
     }
 
     public mutating func unanswered(_ exportId: String, reason: String) {
@@ -162,6 +178,7 @@ public struct ExportsState: Equatable, Sendable {
     }
 
     public mutating func update(_ record: Record, newest: Bool = false) {
+        readFailures.removeValue(forKey: record.exportId)
         if let index = records.firstIndex(where: { $0.exportId == record.exportId }) {
             records[index] = record
         } else if newest {
@@ -177,12 +194,13 @@ public struct ExportsState: Equatable, Sendable {
         records.removeAll { $0.exportId == exportId }
         acting.removeValue(forKey: exportId)
         failures.removeValue(forKey: exportId)
+        readFailures.removeValue(forKey: exportId)
     }
 
     /// A deleted recording retires its exports in the service; their external files remain.
     public mutating func forgetRecording(_ recordingId: String) {
         for exportId in requests.filter({ $0.recordingId == recordingId }).map(\.exportId)
-            + records.filter({ $0.recordingId == recordingId }).map(\.exportId)
+            + records.filter({ $0.target == .recording(recordingId) }).map(\.exportId)
         {
             forget(exportId)
         }
@@ -213,6 +231,8 @@ public struct ExportsState: Equatable, Sendable {
     /// Exports whose status can still change without a person acting here.
     public var observed: [String] {
         requests.filter { $0.unconfirmed != nil }.map(\.exportId)
-            + records.filter { !$0.settled || acting[$0.exportId] != nil }.map(\.exportId)
+            + records.filter {
+                !$0.settled || acting[$0.exportId] != nil || readFailures[$0.exportId] != nil
+            }.map(\.exportId)
     }
 }
