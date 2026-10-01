@@ -228,3 +228,11 @@ coordination. Run the existing measure phase once with unchanged250ms p95 and tw
 alternating warm collections per arm, without coverage/profiling instrumentation.
 A non-ready reply fails immediately. Preserve a red result rather than retrying,
 polling host contention, changing a limit or inventing another required slice.
+
+The [single coordinated preflight](../assets/24z-current-preparation/coordinated-preflight.json)
+after preparation integration found unrelated active graphics/simulation work.
+Dispatch was deferred before runtime reverification or service startup. The raw
+whole-host inventory stays outside Git with its complete hash and criteria; no
+measure phase, timing sample, host polling or retry occurred. The prepared namespace
+and immutable preparation/correctness packet remain available for a separately
+coordinated window. This condition supplies no latency verdict or causal claim.

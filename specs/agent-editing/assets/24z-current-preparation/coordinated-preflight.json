@@ -1,0 +1,63 @@
+{
+  "argv": [
+    "ps",
+    "-axo",
+    "pid,ppid,etime,pcpu,rss,command"
+  ],
+  "startedAt": "2026-10-01T23:26:14.989100+00:00",
+  "endedAt": "2026-10-01T23:26:15.055921+00:00",
+  "exit": 0,
+  "stderr": "",
+  "raw": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/measurement/whole-host-preflight.txt",
+    "bytes": 248813,
+    "sha256": "791bfd333357eac16249282e576bf90f7dcd7ab1e61c59da0ee338698666c58a"
+  },
+  "criteria": {
+    "ownedLanes": "Root11587b57/a5f1054d integration and pushes terminal; other owned agents terminal except network-only official metadata reading with no local work",
+    "rejectIf": [
+      "Any active compiler/build/simulation/benchmark/model-inference/media-render/archiver workload in complete process inventory",
+      "Any unrelated individual process at or above100percent CPU (one full logical core)"
+    ],
+    "ordinaryActivity": "Ordinary desktop/background activity below this threshold is retained and disclosed; qualifying a single snapshot does not prove whole-run isolation or causality",
+    "method": "One complete ps inventory; no host polling or retry"
+  },
+  "decision": "DEFER before runtime reverification/service startup/timing",
+  "qualified": false,
+  "observations": [
+    {
+      "pid": 29488,
+      "process": "Unrelated Chrome for Testing renderer",
+      "cpuPercent": 130.6
+    },
+    {
+      "pid": 24112,
+      "process": "Its GPU helper",
+      "cpuPercent": 67.1
+    },
+    {
+      "pid": 29616,
+      "process": "Unrelated battlegame layout_sweep",
+      "cpuPercent": 98.3
+    },
+    {
+      "pid": 24103,
+      "process": "Unrelated node scene.mjs producer",
+      "cpuPercent": 33.0
+    }
+  ],
+  "criteriaFailures": [
+    "Renderer exceeds100percent core-hog criterion",
+    "Active unrelated simulation/graphics workload"
+  ],
+  "actualMeasureDispatches": 0,
+  "actualTimingCollections": 0,
+  "runtimeReverifiedThisWindow": false,
+  "preparedNamespace": "/private/tmp/sr-source-cardinality-9n1Avz",
+  "preparedAuthorityCommit": "b83b31d1f7e0f742f9c0b4872204356dc737a331",
+  "preservation": "Accepted preparation/correctness and historical evidence unchanged; no timer, host polling or retry",
+  "criteriaFile": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/measurement/preflight-criteria.json",
+    "sha256": "5826db239be1b4ee65949ed55be89ba2267f2f687eb02ba5cd68126e8a9909e4"
+  }
+}
