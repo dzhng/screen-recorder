@@ -24,7 +24,8 @@ ramps; those affected samples are excluded from the unchanged-neighbor claim.
 The [annotations](annotations.json) retain source-clock word proposals and the
 inherited manual visual mark separately. Their initially empty independent
 fields remain frozen; actual human ranges live in the separate reconciliation
-packet. Complete corpus inventory and repetition intent remain unverified.
+packet. Complete corpus inventory remains unverified. Repetition-removal intent
+belongs to the external caller and is not a development gate.
 The user listening verdict applies only to this original/candidate pair.
 The outer window includes all proposed w111–w123 ranges with 250 ms guards. It
 starts before “So,” rather than inside “do”; these guards are a presentation

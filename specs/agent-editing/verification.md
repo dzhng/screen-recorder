@@ -117,9 +117,11 @@ similarity; speaker embeddings alone do not establish correct pronunciation.
 Keep the generated asset usable even when the model is later unavailable.
 
 An audio-capable independent reviewer can provide listening evidence. If no such
-reviewer is available, request the user's audition and record the gate as
-unverified; do not block unrelated work or infer a pass from silence. The external
-agent's autonomous export behavior must disclose that limitation in its report.
+reviewer is available, record the gate as unverified and continue unrelated work.
+A user audition is a separate bounded technical task under the reuse and
+authorization rules above, not the default fallback for every missing listening
+verdict. The external agent's autonomous export report discloses that limitation;
+silence supplies no verdict.
 
 ## Visual gates
 

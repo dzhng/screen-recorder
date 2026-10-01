@@ -26,7 +26,8 @@ constant poison and source reconstruction.
 audition. [Listening disposition](listening.json) records the user's explicit
 “pass” for these exact files. This acceptance is independent of the earlier cut
 and its separate approval. The clip-edge opening label does not establish preceding extent outside
-the clip, and the inventory and repetition intent remain incomplete.
+the clip, and the inventory remains incomplete. Repetition-removal intent belongs
+to the external caller and is not a development gate.
 
 The public check reuses the [filler journey](../../../../packages/test-harness/editing/filler-removal.mjs)
 through actual acquisition, editing, CLI/MCP delivery and history owners.

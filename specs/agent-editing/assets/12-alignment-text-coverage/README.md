@@ -55,18 +55,18 @@ The result supports the local text-coverage explanation but cannot establish
 complete non-regression: the predeclared collateral-error criterion is unresolved
 for unmarked shifts, and there is no independent filler boundary label.
 
-## Evidence boundary and next experiment
+## Evidence boundary and later marks
 
 The original marks are preserved, including workbench end 5.643675 seconds.
 The aligned end remains 5.088675 seconds (−555 ms); agreement with another model
-is not annotation evidence. The existing narrow visual panel begins after both
-candidate endpoints. The next bounded diagnosis should show both candidate
-endpoints and the original mark in a wider panel, retaining the annotation's
-independent visual provenance and requiring audible review before any label
-correction. Visual envelopes alone cannot satisfy listening or word identity.
+is not annotation evidence. The later wider panel preserves both candidate
+endpoints and the original mark; the [actual independent marks](../12f-human-marks/README.md)
+resolve the disputed reference separately. Neither replaces this trial's frozen
+marks or scores. Visual envelopes alone cannot satisfy listening or word identity.
 
-Full audible filler inventory, protected words, editorial repetition intent and
-new-cut joins remain unverified. No speaker playback occurred. The historical
+Full audible filler inventory, protected words and new-cut joins remain
+unverified. Repetition-removal intent belongs to the external caller and is not a
+development gate. No speaker playback occurred. The historical
 narrator audition approves only its original cut, not this trial. The later [wider boundary context](../12-boundary-context/README.md) includes both
 predicted ends and the unchanged mark; it does not establish lexical or listening
 acceptance. Do not use this development recording

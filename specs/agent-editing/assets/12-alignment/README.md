@@ -77,14 +77,13 @@ The subsequent [text-coverage diagnostic](../12-alignment-text-coverage/README.m
 changes only one supplied word and preserves the complete comparison. It supports
 a local explanation for Return but does not pass the global gates.
 
-## Next discriminating experiment
+## Later evidence and current scope
 
-The shared early `workbench` end across different engines and Qwen's early second
-`return` start warrant bounded acoustic evidence around those exact marked edges.
-Recheck the independent marks with an unprimed reviewer and actual listening
-where available; preserve current marks and scores unless that separate evidence
-proves an annotation error. Separately test a predeclared chunk/context strategy
-on fixed text if continuity across long silence/repetition is the hypothesized
-alignment failure. Do not cherry-pick per-word times between engines or call a
-better median a completed cleanup feature. Full audible filler inventory,
-protected words, editorial repetition intent and joins remain open.
+The historical proposal to recheck `workbench` is superseded by the
+[actual independent marks](../12f-human-marks/README.md). Preserve the frozen
+scores above; those later marks have their own comparison and scope. This report
+does not schedule another annotation, alignment or listening trial. Any further
+technical experiment follows the [active speech-evidence contract](../../slices/12-speech-evidence.md).
+Full audible inventory, protected words and joins retain their technical limits.
+Repetition-removal intent belongs to the external caller; the
+[former solicitation](../12-repetition-intent/README.md) is retired.
