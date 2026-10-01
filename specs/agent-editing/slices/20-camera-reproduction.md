@@ -11,6 +11,9 @@ may proceed from the verified offline owners while physical proof remains open.
 The [digest cost audit](../assets/20e-camera-digest-components/README.md) preserves
 full-picture parity in two isolated release publications. Their context-specific
 latency still exceeds ten seconds; no new production fix or physical pass follows.
+A [digest-stage prefix diagnostic](../assets/20e-camera-digest-prefix/README.md)
+was compiled but deferred after contention preflights, with zero timing attempts.
+Its stage hypotheses remain unresolved; compilation is not a performance result.
 
 The [retained marker diagnostic](../assets/20-retained-marker-resolution/README.md)
 extends candidate visibility with finer samples and preserves a separate clock

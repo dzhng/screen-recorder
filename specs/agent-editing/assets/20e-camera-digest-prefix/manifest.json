@@ -1,0 +1,269 @@
+{
+  "members": [
+    {
+      "path": "ProbeCameraMedia.original.swift",
+      "bytes": 16267,
+      "sha256": "92a9d55c2dbcdf8edc851143e0da8210e692b6998aecc93f23214631cfb00e67"
+    },
+    {
+      "path": "compiled.json",
+      "bytes": 655,
+      "sha256": "a99b6a060cbb0ce36932a8d39fd0621142bc86c8e1577a459af35feaf175e987"
+    },
+    {
+      "path": "contract.json",
+      "bytes": 1712,
+      "sha256": "72adebacb57370f8b7374969b5c878690a5b0dc77d186576d669cf7542643580"
+    },
+    {
+      "path": "debug-build.log",
+      "bytes": 2936,
+      "sha256": "22aea64a9e3c5720f91f3c77a9a5d72996e716fe457fe6f5bda3e9abf30dc33f"
+    },
+    {
+      "path": "release-build.log",
+      "bytes": 406,
+      "sha256": "0210d3c5382142bfc1ca965db076de24aee77a3093dd9be4ac3f2d97af80a0c2"
+    },
+    {
+      "path": "input-provenance.json",
+      "bytes": 881,
+      "sha256": "d3379166c687715c7c2c4cdc4f79a510f076797aded7a4ec125e06b912cda304"
+    },
+    {
+      "path": "instrumentation.patch",
+      "bytes": 8606,
+      "sha256": "66881f9cceb19b91c99fbaff787a2ea1b2ddb88b0ed11e561c86ca7e7e9e2ce1"
+    },
+    {
+      "path": "owner-equivalence.json",
+      "bytes": 491,
+      "sha256": "c996f02a9c03523487c99a706308c7742c69aeea8f288514aae8ce89200bf458"
+    },
+    {
+      "path": "pre-run-inputs.json",
+      "bytes": 623,
+      "sha256": "9e8b9c4da36b573bffa4bffd304f1c636dccd8edb765aa5b0915925dea3188dd"
+    },
+    {
+      "path": "runtime-context.json",
+      "bytes": 1707,
+      "sha256": "7534bf1a20f8a300d8278210ad54aad76736e976b1ff9bdd3b55b823e3b9d51e"
+    },
+    {
+      "path": "source-pins.json",
+      "bytes": 5431,
+      "sha256": "6435dfecaebf8dc443d47549b3244f0686cc7e82a90946124ec975db4d0745c2"
+    },
+    {
+      "path": "package/Package.swift",
+      "bytes": 362,
+      "sha256": "cfe9b9f518a24d397d6519287b6526583ed9ca4abc313eeb3e3f2679b2efb3b6"
+    },
+    {
+      "path": "package/Sources/CameraDigestDiagnostic/main.swift",
+      "bytes": 483,
+      "sha256": "5c1a75882cc7fb7977e510c4c0db9456402c35566577189609668e2406574403"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift",
+      "bytes": 23857,
+      "sha256": "fb87c5c85b8d1c4be5aac7e190495e20eb538fd18dd7e4aee525acd84292d0aa"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureAudioPublication.swift",
+      "bytes": 20966,
+      "sha256": "468c81667ef89068dbd2b87a1a2d89f993cf725f9f341e3f95c094f5b2a4f1e3"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureClock.swift",
+      "bytes": 7697,
+      "sha256": "cf149b216739060494499b97110931e1d60cc0aeb4f4310693f28b97b52af346"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureExclusion.swift",
+      "bytes": 1179,
+      "sha256": "80774ca7a86a7b82d072d201a2e1891fa642d4296bcba6797f6d84b9432b6a26"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureGeneration.swift",
+      "bytes": 464,
+      "sha256": "a8bec021dd514fc3d55f693f9f3b02e5952304cd46150eb2259e94db2f98e00d"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureInputSession.swift",
+      "bytes": 12342,
+      "sha256": "c341cbde18eff789e7e3ea56c8e2d378a18d5220b3da86af0bf282944b117c44"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureJournal.swift",
+      "bytes": 33058,
+      "sha256": "966ad7634ba2265cdd23524fb7901645e6612ab2d414021008b9c6b276fe1dce"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureJournalLease.swift",
+      "bytes": 5007,
+      "sha256": "dca292503b892375da4622a0d41b06eb9b919a24eb29200cec87c35851e5fe6f"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CapturePCM.swift",
+      "bytes": 6629,
+      "sha256": "1ccd07f8535e42296bb1978f9d847a115027ea2bcac4360748695aa9b2cb07f0"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureTermination.swift",
+      "bytes": 1162,
+      "sha256": "c1e4daac4a36b4cf6de60036bda1b870b9c350e9e72ba83910b5b011afb8a0f5"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureTypes.swift",
+      "bytes": 6435,
+      "sha256": "2d8a55764d64dcb7588e77cce2a5f0b03428bbabaf4f4e9d3d53ad9346d48788"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CaptureWriter.swift",
+      "bytes": 27998,
+      "sha256": "949b720916cd19ffbdbd5f546b12f050e7f92ba805e784389342b0396e189415"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/CursorGeometry.swift",
+      "bytes": 21105,
+      "sha256": "078a6edea8e0ac6bac3be0f50f346ddb0e550066e647b9ca64e49a3aeed3d821"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/HeldTailFrame.swift",
+      "bytes": 4567,
+      "sha256": "ec3a3c953efe6349a5fe31d75007aaf5d8bed0c35652c9a00f3ff82e73468acf"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/JournalPCM.swift",
+      "bytes": 4556,
+      "sha256": "3f9bf60d4a7014c749271b8ec563816f5d2a8849fe607fb46f0873288837e804"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/NativeCapture.swift",
+      "bytes": 13828,
+      "sha256": "c436b75eddc2292b517dce94f9b6584a9f48cc0d223d1eb068f3c2a410842890"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/PCMContainerTime.swift",
+      "bytes": 1585,
+      "sha256": "da67ba33dc2257bd64f3a5ee88927be90aabe80f2a06d561d59d083f01bf6d6e"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/ProbeCameraMedia.swift",
+      "bytes": 21204,
+      "sha256": "9a4700f5ca40477b53f866bbf0ba0b2ac60c6712c22522b63f81d28a305e266d"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/ProbeCameraWriter.swift",
+      "bytes": 8995,
+      "sha256": "0f03bf4f3b2511d56abbdebf945db93ca7f432d14d27e5662b3d65481fdde7e7"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/ProbeClockIngress.swift",
+      "bytes": 9130,
+      "sha256": "f36765663baefd706165a019f19ae4847bfb7bcee380f99e7ea798ac130566ae"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+      "bytes": 15475,
+      "sha256": "34bf6c63e7dd925a53fffb592b6829c44d8fd81b47185bad42b96e8812d3b3fe"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderCapture/SelectedCaptureRequest.swift",
+      "bytes": 3932,
+      "sha256": "13fcaac33f588b4bb944eea8ee733f52fde6dcdc427097765341a20956138d16"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/AudioSourceReader.swift",
+      "bytes": 9246,
+      "sha256": "b5e3597563f242616d40f3d1acb083761189d0a2ebc5859ab55d4f7ce53efe9e"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/CompositionAsset.swift",
+      "bytes": 356,
+      "sha256": "476ac84ce713677f7f6f224c9f927e029e2db52a611dc8bcb01d267f972ab65b"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/CompositionProcessing.swift",
+      "bytes": 1594,
+      "sha256": "379184261dfd28dd3e43dc6fa09a617757b2cf032f23dfc6aa4847d69951643c"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/DescriptorAudioType.swift",
+      "bytes": 4572,
+      "sha256": "c5afe4755917274add5bbbe67464cf7b5866618aa6ab7a268217599747df2f77"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/ExactRange.swift",
+      "bytes": 3093,
+      "sha256": "03a66858dd978d2c097f57295a355fcbf1b84d206e99fb9a58e5c65b5f116dd0"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/ExactTime.swift",
+      "bytes": 8410,
+      "sha256": "dab2c730deb23755afa6b48bf6195515f28dd2fa23f3bd0287fd0caf87d83a08"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/FontFile.swift",
+      "bytes": 1971,
+      "sha256": "66d8ad10b2be5eb2767a3586915e30a51919c2190b582e70c05e94d9c0a343c8"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/FontProbe.swift",
+      "bytes": 1594,
+      "sha256": "0ec09fce93cb1edad991f2b11e7aae25605ef3f7ed87366ba05f46ecc7f45a17"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/MediaInput.swift",
+      "bytes": 11346,
+      "sha256": "b749fa4404417abe557a3a93f637f8091489d819dead849b811363331c4f40a1"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/MediaProbe.swift",
+      "bytes": 9566,
+      "sha256": "068bf915122503383ef8f5a0ea466f6513c1806fef2f7f3d80d826d981dd9d6c"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/NativeFailure.swift",
+      "bytes": 924,
+      "sha256": "f1bd1d2d2d0054f0332e0beddb3813610caee74fefa15e0d6191d8d88dface24"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/OutputFile.swift",
+      "bytes": 6879,
+      "sha256": "988395df260ad7e569665d04d211550e18b7f584c46eda062450eb63620e9556"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/ProcessResources.swift",
+      "bytes": 380,
+      "sha256": "9369096425832a6a433926aad68804116f430e9518c23e5f3a92172be89c6844"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/SampleTiming.swift",
+      "bytes": 3364,
+      "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/ScalarProgram.swift",
+      "bytes": 4611,
+      "sha256": "31c3fcb425e50d2db40f67637a13cbf36b23d9781cf7006d8a572c6009078086"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/StillImageSource.swift",
+      "bytes": 3640,
+      "sha256": "ad1f087ca97cf0bcb56ca9a6047d6e69fc97562bfc6c18a8954827e8caa2f66d"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/TimeSpan.swift",
+      "bytes": 3250,
+      "sha256": "295003ddcc92365d9b67e3075fc4e4735b989e79054c00f7b1c89c8ea9aaf36d"
+    },
+    {
+      "path": "package/Sources/ScreenRecorderMedia/VideoDisplay.swift",
+      "bytes": 2733,
+      "sha256": "8461a048b39772ec6aa5bca1091049a49ec0fae2a1e7709b7aeced253efb3012"
+    }
+  ]
+}

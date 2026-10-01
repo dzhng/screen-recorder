@@ -1,0 +1,73 @@
+{
+  "scope": "Compiled diagnostic preparation only, zero timing attempts",
+  "baseCommit": "ae8df999017a19bdc8228a6e3082ab3b6f15a4fd",
+  "owner": "Historical ProbeCameraMedia, promoted to CameraMedia in21b; this packet preserves its stated historical source",
+  "limitOccupiedPictures": 128,
+  "compiled": {
+    "debug": {
+      "path": "/tmp/screenrec-camera-digest-diagnostic-20261001/build/arm64-apple-macosx/debug/CameraDigestDiagnostic",
+      "bytes": 4103808,
+      "sha256": "88dfd1319f291ab3ffbb922f9def4b04fc72e3d6cc5470a858c432321494f14f",
+      "buildLog": "/tmp/screenrec-camera-digest-diagnostic-20261001/debug-build.log"
+    },
+    "release": {
+      "path": "/tmp/screenrec-camera-digest-diagnostic-20261001/build/arm64-apple-macosx/release/CameraDigestDiagnostic",
+      "bytes": 2845352,
+      "sha256": "4d3e14b6803772aab5b8089a49e54c19d5510250e026a3c11bb68b2dd5346cbd",
+      "buildLog": "/tmp/screenrec-camera-digest-diagnostic-20261001/release-build.log"
+    }
+  },
+  "guards": {
+    "secondsPerMode": 30,
+    "sampledRSSBytes": 1073741824,
+    "plannedRunsPerMode": 1
+  },
+  "cohortAttempts": {
+    "debug": 0,
+    "release": 0
+  },
+  "contentionPreflights": [
+    {
+      "observedAtUTC": "2026-10-01T07:14:15.234745+00:00",
+      "disposition": "No diagnostic binary launched; contention gate rejected before first mode.",
+      "activeProcessIds": [
+        14186,
+        14191
+      ],
+      "competingWork": "Unrelated WASM build",
+      "originalSnapshotSHA256": "a2f67fecb27de22ec4b162ecb3d6f9b114a383c4b083fdce6e18247aad699c36",
+      "scope": "Full unrelated process inventory remains in owned scratch; compact relevant facts retained here",
+      "cohortAttempts": {
+        "debug": 0,
+        "release": 0
+      }
+    },
+    {
+      "observedAtUTC": "2026-10-01T07:15:50.804526+00:00",
+      "disposition": "No diagnostic binary launched; fresh contention gate rejected before first mode. Root explicitly instructed deferral after another competing build/test.",
+      "activeProcessIds": [
+        18282,
+        18306
+      ],
+      "competingWork": "Unrelated panel-facing Vitest run",
+      "originalSnapshotSHA256": "568955f747ec140e5e42d1f28d9b1e59e6675d78e795f8d84a3a19cf1f58776e",
+      "scope": "Full unrelated process inventory remains in owned scratch; compact relevant facts retained here",
+      "cohortAttempts": {
+        "debug": 0,
+        "release": 0
+      }
+    }
+  ],
+  "unverified": [
+    "Digest stage timings",
+    "Measured prefix parity between builds",
+    "Any whole-publication latency or physical synchronization claim"
+  ],
+  "archive": {
+    "file": "preparation.tar.xz",
+    "members": 53,
+    "bytes": 73100,
+    "sha256": "df65e717e89220c8819b713edf42f99f60cb21321d7a15ecb01d90f78ce21709"
+  },
+  "review": "No production edits or optimization selected; retained exact source and timer patch; unrelated process inventory excluded"
+}
