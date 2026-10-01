@@ -161,7 +161,7 @@ the integrating agent's responsibility.
 
 
 The [shared-interruption correction packet](../assets/21f3b-shared-interruption/README.md)
-retains the failing original-source runner, corrected source/runtime identities,
+retains the failing original-source runner identity, corrected source/runtime identities,
 complete red/green/control artifacts and full-suite log. Its actual red exits 133
 at the lost-camera-diagnostic assertion; corrected regression, camera-only
 NO_VIDEO control and full default suite each exit 0. The original 21f3b packet and

@@ -32,7 +32,8 @@ and the isolated rerun are retained. The deliberately malformed receipt is
 explicitly excluded from that comparison.
 
 This immutable packet predates the independent review's shared-interruption
-window investigation during primary encoder closure. Any resulting fix and its
-verification belong to a later source/runtime packet; these bytes must not be
-rewritten to imply they exercised that later change. Merged-source verification
-is owned by the integrating agent. No configured CLI review was retried.
+finding during primary encoder closure. The
+[separate correction packet](../21f3b-shared-interruption/README.md) owns its fix,
+red/green regression and later source/runtime identities. These original bytes
+remain unchanged. Merged-source verification is owned by the integrating agent.
+No configured CLI review was retried.
