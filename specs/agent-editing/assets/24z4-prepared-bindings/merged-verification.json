@@ -1,0 +1,50 @@
+{
+  "checkpoint": "6094279f",
+  "originalArchiveMembersVerified": 24,
+  "currentCandidateSourceMatches": [
+    "package.json",
+    "packages/core/package.json",
+    "packages/core/src/assets.ts",
+    "packages/core/src/jobs.ts",
+    "packages/core/src/prepared-audio.test.ts",
+    "packages/core/src/prepared-audio.ts",
+    "packages/core/src/project-store.fixture.ts",
+    "packages/core/src/project-window.ts",
+    "packages/core/src/projects.ts"
+  ],
+  "rootPreparedSuite": {
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "includesUnchangedLargeRecipeDeadline": true
+  },
+  "coreAndServiceBuilds": 0,
+  "publicWAV": {
+    "passed": true,
+    "exchanges": 80,
+    "checks": [
+      "capabilities",
+      "oracle",
+      "lifecycle",
+      "videoRemoval",
+      "occupied",
+      "noVideo"
+    ],
+    "workerSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+    "expectedPCMOracleSHA256": "d94fa58401d3357731f51430ecff8c66395b6ee53c17b9ba7b0a530e0812ed73"
+  },
+  "archive": {
+    "members": 23,
+    "bytes": 152157,
+    "sha256": "93393c000da1cf2391fa6c4c686fc1d3a170cf25afa9230aee027fd89069d401",
+    "allMembersVerified": true
+  },
+  "open": [
+    "Service diagnostics check until24z5 merged verification",
+    "Existing project-evidence deadlines",
+    "General latency/memory",
+    "Installed/release acceptance"
+  ],
+  "review": "Existing map owns distinct bindings; occurrence recipe and fresh execution unchanged. Tiny consumer drives actual SQLite and renderer arguments; no new persistent cache/public interface. Original large test unchanged."
+}

@@ -33,3 +33,6 @@ test body. This single result does not identify the cause of earlier timeouts or
 establish general latency. The separate service diagnostics fixture and its
 segment hydration owner remain outside this pass. Root owns shared handoff and
 integration.
+
+[Root integration](../assets/24z4-prepared-bindings/merged-verification.json)
+adds the full prepared suite and actual public full-sample WAV/lifecycle proof.

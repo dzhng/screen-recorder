@@ -1,7 +1,9 @@
 # 24z2 — Prepared audio admission work
 
 Status: bounded-work implementation verified at the prepared request consumer;
-the existing large-recipe deadline remains red. Exact checks, source identity,
+its historical large-recipe deadline failure remains retained. The current
+[merged binding proof](../assets/24z4-prepared-bindings/merged-verification.json)
+passes that unchanged check. Exact checks, source identity,
 failures and review are retained in the [evidence packet](../assets/24z2-prepared-admission/README.md).
 [Root integration](../assets/24z2-prepared-admission/merged-verification.json)
 adds the merged focused regression and full-sample public WAV lifecycle proof.
@@ -39,5 +41,6 @@ portable adoption and independent recipient reads after donor output removal.
 The unchanged many-clip recipe test was run once after the material fix and still
 exceeded its original deadline. Work-count reduction does not establish that
 deadline or explain either original timeout. No timing cohort or default changes
-were made. Next work must identify the remaining expensive phase before selecting
-another owner change; this pass adds no timeout diagnosis beyond its work proof.
+were made. The later binding correction and current deadline verdict belong to
+[24z4](24z4-prepared-bindings.md); this pass adds no timeout diagnosis beyond its
+work proof. Remaining phase attribution follows the current README pickup.

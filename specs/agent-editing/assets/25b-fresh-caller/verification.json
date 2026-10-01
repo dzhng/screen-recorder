@@ -1,0 +1,109 @@
+{
+  "scope": "Fresh source consumer workflow only; all13brief checkpoints exercised",
+  "report": "report.json",
+  "independentChecks": {
+    "pre-split-audio.wav == post-split-audio.wav": {
+      "bytes": 4445808,
+      "sha256": "f2dde3b3004426a2fe7da9a7795715221c7e4bdd88e1f047694a5c676c13ac46"
+    },
+    "pre-split-audio.wav == undo-split-audio.wav": {
+      "bytes": 4445808,
+      "sha256": "f2dde3b3004426a2fe7da9a7795715221c7e4bdd88e1f047694a5c676c13ac46"
+    },
+    "pre-split-frame.png == post-split-frame.png": {
+      "bytes": 143440,
+      "sha256": "459eed92ac65dfdb5ac1c692108dfc1d2080092e30be954d1aa5ed8671cd1ca0"
+    },
+    "interlude-original-audio.wav == picture-replaced-audio.wav": {
+      "bytes": 772096,
+      "sha256": "c3d359b5b5da0b07ea77276628994c4fbe33239a038a6c63be269a4d1259dccf"
+    },
+    "interlude-original-frame.png == audio-replaced-frame.png": {
+      "bytes": 311200,
+      "sha256": "6568860f1c151f0cda8c54f1759d8fec7622ef8bf693f2559e8017431d4454ba"
+    },
+    "actualVoiceNeighbors": {
+      "declaredPrefixFrames48k": 127856,
+      "declaredSuffixBeforeFrame48k": 153296,
+      "declaredSuffixAfterFrame48k": 156656,
+      "bothExact": true,
+      "outputShiftFrames48k": 3360
+    },
+    "rawVoice": {
+      "frames": 21120,
+      "allPCMExact": true,
+      "durableAssetSHA256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    "retime": {
+      "frames": 246478,
+      "both48kStereoChannelsExactAcceptedMono": true
+    },
+    "relocationAudio": {
+      "frames": 923374,
+      "bytes": 7391088,
+      "sha256": "c7226b66696d035787356fc52e529120213840198328fccbf528c39ab1a3efcc",
+      "donorAndRecipientAndUndoExact": true
+    },
+    "package": {
+      "bytes": 650728645,
+      "sha256": "45ae2611531762386b09b6850b8ed24061d5b6511e9f52852ef536d5ee5a5616",
+      "members": 80,
+      "everyMemberCRCAndSHA256Read": true,
+      "everyAssetFilenameDigestVerified": true,
+      "path": "/tmp/screenrec-25-fresh-caller/primitive-fixture.zip",
+      "hugeOriginalAssetsNotDuplicatedInGit": true,
+      "preservedPath": "/Users/david/.codex/artifacts/screen-recorder/25b-fresh-caller/primitive-fixture.zip",
+      "preservedCopy": {
+        "method": "Exclusive byte copy outside temporary directory; requested Node clone flag unsupported (ENOSYS)",
+        "bytes": 650728645,
+        "sha256": "45ae2611531762386b09b6850b8ed24061d5b6511e9f52852ef536d5ee5a5616"
+      }
+    }
+  },
+  "metadataArchive": {
+    "members": 1517,
+    "bytes": 1815592,
+    "sha256": "2d03bbda597acdc781ce4cbfb5b8bbe415cceea8a436b75d69f0adaf92bfd6e0",
+    "allMembersVerified": true
+  },
+  "mediaArchive": {
+    "members": 49,
+    "bytes": 40905989,
+    "sha256": "75a6f8d90cd7d73d2c9c1f88be4c95f32561f3a22c5a14cb15d221d5940f03a9",
+    "allMembersVerified": true
+  },
+  "mediaAliasFiles": 83,
+  "uniqueMediaBlobs": 49,
+  "producer": {
+    "sourceStartupCheckpoint": "26101963",
+    "laterCommits": "Between source startup26101963 and snapshot at5f9e78ee, later commits changed evidence/docs only. Subsequent24z4 source change is outside this caller producer.",
+    "rootService": {
+      "pid": 24946,
+      "session": 43475,
+      "socket": "/tmp/screenrec-25-preparation-current/library-ACs9sl/run/service.sock"
+    },
+    "recipientService": {
+      "pid": 31159,
+      "session": 52934,
+      "socket": "/tmp/screenrec-25-relocation-recipient/run/service.sock"
+    },
+    "sourceMembers": 1085,
+    "workerSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+    "external": "Previously rehashed172files from original09c archive; Node identity in25a packet",
+    "scope": "Actual source service producer at caller run; no installed switch"
+  },
+  "missingOrLimited": [
+    "Repeated incidental read files on script resume overwritten; substantive mutation/failure/delivery receipts retained",
+    "No unprimed visual agent; documented adversarial fallback",
+    "Integrated listening unaccepted",
+    "Physical synchronization unverified",
+    "Installed cutover and fullrelease/scale acceptance open"
+  ],
+  "review": "No production/consumer-skill edits. Independent external caller learned public schemas and made requested decisions. Frozen recipe facts supplied after a technical-authority gap; root lifecycle only. Actual generated/output bytes and preserved failures are banked.",
+  "producerArchive": {
+    "members": 1085,
+    "bytes": 3493331,
+    "sha256": "2f2dac1ee4fed06238978145cdfcde2e3842de22fbaa12ae763afc5dec647d8b",
+    "allMembersVerified": true
+  }
+}

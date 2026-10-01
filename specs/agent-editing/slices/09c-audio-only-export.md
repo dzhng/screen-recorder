@@ -2,7 +2,10 @@
 
 Status: implemented and verified in the isolated native/service scope. Float32
 WAV and AAC/M4A have separate passing public verdicts, including the merged tree.
-Two existing large-fixture deadline checks remain red in root verification.
+The historical two deadline failures remain preserved. Later
+[prepared bindings](24z4-prepared-bindings.md) and
+[service presence](24z5-service-asset-presence.md) pass both unchanged checks
+on the merged tree; general timing remains separate.
 Installed release acceptance, performance and personal speech quality are not
 claimed by this slice.
 Dependencies: [09](09-first-preview.md), [09b](09b-output-settings.md),
@@ -84,7 +87,7 @@ replies, source/runtime pins, decoded fixtures and lifecycle observations.
 The [native FILE packet](../assets/09c-native-audio-file/README.md) proves the AAC
 sink, rendition matrix, finite conversion, refusal and movie-mux preservation.
 The [merged checkpoint](../assets/09c-23i-merged/README.md) retains actual public
-delivery after service-process integration and the unresolved deadline failures.
+delivery after service-process integration and its then-failing deadline checks.
 Use deterministic video/audio fixtures with asymmetric stereo channels, known
 sample boundaries and explicit edit requests. Reuse retained processing fixtures
 and accepted evidence where applicable; no new personal recording or editorial

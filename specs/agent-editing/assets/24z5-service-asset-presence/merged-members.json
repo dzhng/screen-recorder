@@ -1,0 +1,102 @@
+{
+  "producer/apps/service/dist/project-service.d.ts": {
+    "bytes": 518,
+    "sha256": "0ff82e0d00863e52f11f2f0e54f8cc642c9206975297cc7a91395e4e855a26c9"
+  },
+  "producer/apps/service/dist/project-service.js": {
+    "bytes": 61206,
+    "sha256": "7d25e9944bc9b96a4237f11a6737f81ee12d851357414b48f0aa60f676f96cc0"
+  },
+  "producer/apps/service/src/project-service.test.ts": {
+    "bytes": 45226,
+    "sha256": "b63986dfe9d4a4dd494dbba28ef2f247908fc46ad26b8f12a35f1a9f44dcdf60"
+  },
+  "producer/apps/service/src/project-service.ts": {
+    "bytes": 54458,
+    "sha256": "0dd081b562127acf2ff1cbd7e65300606a834ca61be99081e8733f432087335d"
+  },
+  "producer/packages/core/dist/source-selection.js": {
+    "bytes": 2883,
+    "sha256": "d1da509c971193c30623fafb173a9e7777310b68bf1ab8eb107bf0454c3edde3"
+  },
+  "producer/packages/core/src/source-selection.ts": {
+    "bytes": 3376,
+    "sha256": "5044070615742e3827ed82e2a1a71bc27bbaed26fba398bff51954084a39ab2a"
+  },
+  "public/.screenrec-export-b6e7d59e-4126-4630-b70f-97b17491dd4f/payload": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/.screenrec-export-b6e7d59e-4126-4630-b70f-97b17491dd4f/prepared.json": {
+    "bytes": 255,
+    "sha256": "7c40ebc602ceecde1431c91d8d64592876cb5bcfdf2ad8e8d8a166bf00a866e2"
+  },
+  "public/exports/cancel-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/cancel-retry.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/crash-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/pinned.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/native/operations.jsonl": {
+    "bytes": 26278,
+    "sha256": "c3434a619ec886ea87f373ba5e03f38469b5ca407fd53b89aa51e441b51b07dd"
+  },
+  "public/occupied.wav": {
+    "bytes": 20,
+    "sha256": "758417d9129a189ebfe53a8014e5c7140be464a2c63bfe7c72513e974f338328"
+  },
+  "public/original.f32": {
+    "bytes": 1152000,
+    "sha256": "3877fc40947a05155a3a369569710997b14dc392b840784e51f8a9ed5a14ec36"
+  },
+  "public/original.mov": {
+    "bytes": 1155214,
+    "sha256": "fd827c97b23a2fbdc1f2b2eb026daec0c0a4c4f2bb7403c47076e9ab2b330fc0"
+  },
+  "public/processed.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/report.json": {
+    "bytes": 239344,
+    "sha256": "3e4d7b698adc0db6b95f52dad381c4bd83c41f746a31a54d994c1dedd6a8ab5b"
+  },
+  "public/service.log": {
+    "bytes": 338,
+    "sha256": "db8f1110c2be9b35e2de7d445f4f3c814752e7b4f0058655b154220dfa2a9130"
+  },
+  "public/undo-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/with-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/without-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "root/screenrec-24z5-root-build.log": {
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  "root/screenrec-24z5-root-service.log": {
+    "bytes": 352,
+    "sha256": "0fb1b686b9c987d8a7845579144d829894cfbe7e27932ef10548266b7843a0af"
+  },
+  "root/screenrec-24z5-root-wav.log": {
+    "bytes": 237,
+    "sha256": "25d4f9006b32e81d5544d38fecb712503fe2681adcc167a9be81197960325f7d"
+  }
+}

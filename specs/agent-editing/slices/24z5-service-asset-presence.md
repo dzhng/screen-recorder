@@ -30,3 +30,7 @@ successful retry/cache publication and delivered bytes. Corruption and deletion
 controls distinguish source validation from owner presence. The packet owns the
 bounded-read counts and unchanged diagnostics deadline result. Root owns shared
 handoff and integration; no general latency or timeout-cause claim follows.
+
+[Root integration](../assets/24z5-service-asset-presence/merged-verification.json)
+adds the full service suite and actual public WAV lifecycle on the merged
+metadata/binding producer. Historical child source identities remain unchanged.

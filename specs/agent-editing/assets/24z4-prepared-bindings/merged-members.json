@@ -1,0 +1,94 @@
+{
+  "producer/packages/core/dist/project-window.d.ts": {
+    "bytes": 1014755,
+    "sha256": "cd6b0473a787b552764ae402705f6f357da6dd75ce4710d2b7c47bcfc08ad638"
+  },
+  "producer/packages/core/dist/project-window.js": {
+    "bytes": 7321,
+    "sha256": "657c5ffcfea0b66d897489ccc8a8d422768b1165942eab443de5c2a960c46956"
+  },
+  "producer/packages/core/src/prepared-audio.test.ts": {
+    "bytes": 42932,
+    "sha256": "15c27a2aaafb23ae9b36d4d11dbccb637c2980194bf3860ce8b389a44259f493"
+  },
+  "producer/packages/core/src/project-window.ts": {
+    "bytes": 8457,
+    "sha256": "0ed9352108268607b49385726f1dc3067d5d0a1e2d51a94e68f796237ace1213"
+  },
+  "public/.screenrec-export-cced0fca-8399-47d5-812b-85260a32f051/payload": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/.screenrec-export-cced0fca-8399-47d5-812b-85260a32f051/prepared.json": {
+    "bytes": 255,
+    "sha256": "30db69322a8bd89c2da1e5660a3c7c22fa4b5c85b669d2cdea543daa45159626"
+  },
+  "public/exports/cancel-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/cancel-retry.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/crash-after-commit.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/exports/pinned.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/native/operations.jsonl": {
+    "bytes": 26278,
+    "sha256": "11e61fff08012c9c6aa0850224c46839a4facb00d5315d52ef7092b00878893a"
+  },
+  "public/occupied.wav": {
+    "bytes": 20,
+    "sha256": "758417d9129a189ebfe53a8014e5c7140be464a2c63bfe7c72513e974f338328"
+  },
+  "public/original.f32": {
+    "bytes": 1152000,
+    "sha256": "3877fc40947a05155a3a369569710997b14dc392b840784e51f8a9ed5a14ec36"
+  },
+  "public/original.mov": {
+    "bytes": 1155214,
+    "sha256": "fd827c97b23a2fbdc1f2b2eb026daec0c0a4c4f2bb7403c47076e9ab2b330fc0"
+  },
+  "public/processed.wav": {
+    "bytes": 1156096,
+    "sha256": "f0f0447ef782a47c176a2ed8dc0cf0873c940c5f65d1047631fb98f86b2ceeb2"
+  },
+  "public/report.json": {
+    "bytes": 239344,
+    "sha256": "eec3838095e0cd512fe0c73046c3e3d058305a2e970e43b17cbe7deb944bc882"
+  },
+  "public/service.log": {
+    "bytes": 338,
+    "sha256": "96c2d465111e6334d37cfe8570f1dd5a667088fd12e90ee896e45295751e20d8"
+  },
+  "public/undo-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/with-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "public/without-video.wav": {
+    "bytes": 1156096,
+    "sha256": "52ac7673ce68c6e972dff2a656e505083605bd7f557d4f16407a1787714ee7ee"
+  },
+  "root/screenrec-24z4-root-build.log": {
+    "bytes": 46,
+    "sha256": "3cf3ddd5792d4b3066d05a6d72d06868b482741b35cda84d54d137e946182976"
+  },
+  "root/screenrec-24z4-root-prepared.log": {
+    "bytes": 352,
+    "sha256": "710ace31134474646c69ce0e762132de31f2224d7f9ff9848621de199228750a"
+  },
+  "root/screenrec-24z4-root-wav.log": {
+    "bytes": 237,
+    "sha256": "460916518ffd9c0d37669e06f491cdf0e9d3978b492e53e10b6f1d10858827af"
+  }
+}

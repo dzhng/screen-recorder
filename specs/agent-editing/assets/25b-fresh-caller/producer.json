@@ -1,0 +1,18 @@
+{
+  "sourceStartupCheckpoint": "26101963",
+  "laterCommits": "Between source startup26101963 and snapshot at5f9e78ee, later commits changed evidence/docs only. Subsequent24z4 source change is outside this caller producer.",
+  "rootService": {
+    "pid": 24946,
+    "session": 43475,
+    "socket": "/tmp/screenrec-25-preparation-current/library-ACs9sl/run/service.sock"
+  },
+  "recipientService": {
+    "pid": 31159,
+    "session": 52934,
+    "socket": "/tmp/screenrec-25-relocation-recipient/run/service.sock"
+  },
+  "sourceMembers": 1085,
+  "workerSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+  "external": "Previously rehashed172files from original09c archive; Node identity in25a packet",
+  "scope": "Actual source service producer at caller run; no installed switch"
+}

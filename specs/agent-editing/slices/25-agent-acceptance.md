@@ -1,10 +1,17 @@
 # 25 — External-caller primitive acceptance
 
-Status: whole-workflow acceptance not started. The [input preparation checkpoint](../assets/25-input-preparation/README.md) verifies retained-byte identities, independent source clocks/support, public asset admission and resumable scratch project setup. It does not execute or accept the fresh external-caller workflow. [Focused CLI discovery](../assets/25-cli-discovery/README.md), [shared-reference discovery](../assets/25-discovery-references/README.md), and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
+Status: the [fresh source-caller workflow](25b-fresh-caller.md) is executed and
+verified in its controlled scope. Full installed/release acceptance remains open.
+[Input preparation](../assets/25-input-preparation/README.md) and
+[registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
+[focused CLI discovery](../assets/25-cli-discovery/README.md),
+[shared-reference discovery](../assets/25-discovery-references/README.md), and
+[CLI test ownership](../assets/25-cli-test-ownership/README.md) retain earlier
+per-feature evidence. Dependencies: [24](24-scale.md), [09b](09b-output-settings.md).
 
-The same isolated fixture library now has genuine [registered voice readiness](25a-model-readiness.md).
-Literal occurrence text can bind an actual clip/source interval without a new
-narration transcript; generation and delivery remain the fresh caller's work.
+Literal occurrence text and the supplied human cuts need no new narration ASR.
+Source execution, numerical/visual checks, listening and installed acceptance have
+separate verdicts; the source journey cannot silently close the parent release gate.
 
 ## Contract
 

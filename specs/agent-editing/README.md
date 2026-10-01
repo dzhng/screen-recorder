@@ -22,24 +22,29 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: finish the fresh external-caller fixture journey.**
-[25 preparation](assets/25-input-preparation/merged-verification.json) and
-[25a registered voice readiness](slices/25a-model-readiness.md) are integrated.
-The isolated library preserves the admitted sources and empty starting revision;
-a fresh caller is now discovering and executing the frozen brief through the
-actual source service. Keep its evidence and failures separate from installed,
-visual, listening and physical acceptance. Literal occurrence captions and the
-saved human cuts do not require new ASR.
+**Next implementation pickup: trace the remaining project-evidence deadline phases
+before selecting another bounded owner correction.**
+The [fresh source-caller fixture](slices/25b-fresh-caller.md) has executed the full
+brief, including genuine generation, delivery, history and empty-recipient package
+recovery with donor/model storage unavailable. Its producer is preserved separately
+from subsequent fixes. Full installed, listening and physical acceptance stay open.
 
 [24z1 metadata batches](slices/24z1-source-metadata-resolution.md),
-[24z2 prepared admission](slices/24z2-prepared-admission.md) and
-[24z3 native PCM admission capacity](slices/24z3-prepared-capacity.md) have merged
-functional/work proofs. Existing project-evidence and large-recipe deadlines remain
-red. Identify their remaining expensive phase before another owner change; retain
-the original deadlines and do not repeat the timing cohort without a concrete fix.
+[24z2 prepared admission](slices/24z2-prepared-admission.md),
+[24z3 PCM admission capacity](slices/24z3-prepared-capacity.md) and
+[24z4 resource bindings](slices/24z4-prepared-bindings.md) are integrated.
+The full merged prepared suite and public WAV lifecycle pass; the original
+large-recipe deadline now passes unchanged. The [24z5 service presence correction](slices/24z5-service-asset-presence.md)
+passes the full merged service suite, original diagnostic deadline and public WAV
+lifecycle. Both earlier audio-preservation deadline failures now have later passing
+current checks.
+Existing project-evidence deadlines and general scale targets remain unresolved.
+
 [09c audio export](slices/09c-audio-only-export.md) and
 [23i source service process](slices/23i-service-process-parity.md) retain their
-[merged public delivery/lifecycle proof](assets/09c-23i-merged/README.md).
+[merged delivery/lifecycle proof](assets/09c-23i-merged/README.md).
+Preserve original failed checks alongside later material corrections; don't change
+deadlines, claim timeout causality or repeat a cohort without a concrete change.
 
 [24z source-cardinality attribution](slices/24z-source-cardinality.md) retains
 its separate dispatch prerequisites. None of these work proofs establishes a
@@ -64,8 +69,8 @@ prerequisites do not prohibit isolated implementation preparation.
 | [09c](slices/09c-audio-only-export.md) | Preserve merged WAV/AAC public delivery and lifecycle | Existing large-fixture deadlines, performance and installed acceptance |
 | [12](slices/12-speech-evidence.md) | Preserve completed [12b baseline adoption](slices/12b-speech-processing.md); investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
-| [23](slices/23-cutover.md) | Preserve merged source process/discovery, complete remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
-| [24 / 25](slices/24-scale.md) | Preserve merged metadata/admission work and execute the prepared fresh-caller fixture | Existing deadlines, isolated timing, final budgets and installed external-caller acceptance |
+| [23](slices/23-cutover.md) | Preserve source process/discovery and complete the remaining presentation/preservation matrix | Presentation, installed switching and obsolete-owner removal after prerequisites |
+| [24 / 25](slices/24-scale.md) | Preserve completed source-caller proof; finish remaining owner corrections and named scale gaps | Existing deadlines, isolated timing, final budgets and installed external-caller acceptance |
 
 Reuse the [banked evidence](assets/integrated-evidence.md) and
 [source/runtime identities](assets/implementation-pickup.md):
@@ -331,6 +336,9 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z2 — Unique prepared-input retention and one admission composition](slices/24z2-prepared-admission.md) — bounded work/lifecycle; existing deadline remains red
 - [x] [24z3 — Canonical native PCM admission capacity](slices/24z3-prepared-capacity.md) — supported queue/refused next frame; no large output claim
 - [x] [25a — Registered voice readiness](slices/25a-model-readiness.md) — isolated public preparation/reopen; generation and full caller acceptance separate
+- [x] [24z4 — Per-window resource bindings](slices/24z4-prepared-bindings.md) — full merged prepared suite and public WAV; original large deadline passes
+- [x] [24z5 — Asset presence at service boundaries](slices/24z5-service-asset-presence.md) — full merged service suite/public WAV; original diagnostic deadline passes
+- [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

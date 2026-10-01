@@ -1,0 +1,65 @@
+{
+  "checkpoint": "a244a296",
+  "originalArchiveMembersVerified": 43,
+  "currentCandidateSourceMatches": [
+    "apps/service/package.json",
+    "apps/service/src/operation-errors.ts",
+    "apps/service/src/project-service.test.ts",
+    "apps/service/src/project-service.ts",
+    "apps/service/src/render.ts",
+    "apps/service/src/worker.ts",
+    "package.json",
+    "packages/client/package.json",
+    "packages/core/dist/assets.js",
+    "packages/core/dist/cache.js",
+    "packages/core/dist/cached-derivative.js",
+    "packages/core/dist/frame-inspection.js",
+    "packages/core/dist/jobs.js",
+    "packages/core/package.json",
+    "packages/core/src/assets.ts",
+    "packages/core/src/cache.ts",
+    "packages/core/src/cached-derivative.ts",
+    "packages/core/src/frame-inspection.ts",
+    "packages/core/src/jobs.ts",
+    "packages/protocol/package.json"
+  ],
+  "expectedRootProducerDifferences": [
+    "packages/core/dist/source-selection.js",
+    "packages/core/src/source-selection.ts"
+  ],
+  "differenceAuthority": "Root24z1 metadata owner already integrated. Original child pins remain immutable; changed root selection bytes are banked with current executed service producer, and full17consumer tests/publicWAV run against them.",
+  "rootServiceSuite": {
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "includesUnchanged200001SegmentDiagnostics": true
+  },
+  "serviceBuild": 0,
+  "publicWAV": {
+    "passed": true,
+    "exchanges": 80,
+    "checks": [
+      "capabilities",
+      "oracle",
+      "lifecycle",
+      "videoRemoval",
+      "occupied",
+      "noVideo"
+    ],
+    "workerSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+    "expectedPCMOracleSHA256": "d94fa58401d3357731f51430ecff8c66395b6ee53c17b9ba7b0a530e0812ed73"
+  },
+  "archive": {
+    "members": 25,
+    "bytes": 134339,
+    "sha256": "406efe4abc56a223d34083765ee08bf41f4bce256b8bf66ea314dfe239d52d7c",
+    "allMembersVerified": true
+  },
+  "open": [
+    "Existing project-evidence deadlines",
+    "General latency/memory",
+    "Installed/release acceptance"
+  ],
+  "review": "Two existing service callbacks verify asset presence through the existing boolean owner; missing-row error unchanged. Detailed source validation remains independent. Damaged detail no longer causes incidental parser errors in presence-only paths; no new helper/API or default changes. Original diagnostic body unchanged."
+}

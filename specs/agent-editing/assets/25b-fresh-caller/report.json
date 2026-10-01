@@ -1,0 +1,408 @@
+{
+  "status": "Fresh source-only consumer fixture authored, delivered and recovered; release/installed/listening/physical acceptance not inferred",
+  "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+  "finalRevisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+  "exactDurationUs": {
+    "numerator": 76947875,
+    "denominator": 4
+  },
+  "checkpoints": {
+    "marked-original": {
+      "revisionId": "4911a7bd-66e7-46a4-a7c7-8cbe8caf1bd7",
+      "ordinal": 1
+    },
+    "marked-cuts": {
+      "revisionId": "402e572d-7e5c-489d-b55d-e3d20cabeceb",
+      "ordinal": 2
+    },
+    "marked-speech": {
+      "revisionId": "4319e8df-6d8d-4cc8-bd6d-cda936a3d5ef",
+      "ordinal": 3
+    },
+    "retime-original": {
+      "revisionId": "365b36ae-6d37-4ecc-aae7-4b7066626762",
+      "ordinal": 4
+    },
+    "retime-split": {
+      "revisionId": "52516237-3a78-46a8-8e03-4c2364709713",
+      "ordinal": 5
+    },
+    "retimed-block": {
+      "revisionId": "d830e919-d756-453c-86af-206261483e6b",
+      "ordinal": 6
+    },
+    "marked-speech-exact-join": {
+      "revisionId": "d5fa7aa6-a4f3-4b61-bc8e-02f18c3cd0f4",
+      "ordinal": 7
+    },
+    "pre-pure-split": {
+      "revisionId": "d5fa7aa6-a4f3-4b61-bc8e-02f18c3cd0f4",
+      "ordinal": 7
+    },
+    "pure-split": {
+      "revisionId": "abbbee28-9fe5-4d07-8331-6c2e68e5f090",
+      "ordinal": 8
+    },
+    "piece-edited": {
+      "revisionId": "e4e1d533-27f7-4e99-801b-2618278ab496",
+      "ordinal": 9
+    },
+    "10-undo-piece": {
+      "revisionId": "7135d60f-3b14-47dd-b7d6-0d5a1904ee61",
+      "ordinal": 10
+    },
+    "11-undo-split": {
+      "revisionId": "e2b0b361-7729-4e63-b7a2-10e967aee992",
+      "ordinal": 11
+    },
+    "camera-interlude": {
+      "revisionId": "f8be5746-e964-46b5-99a5-d72e0109f221",
+      "ordinal": 12
+    },
+    "picture-replacement": {
+      "revisionId": "dde7c327-3ff6-4da7-9cea-90b069bdda2e",
+      "ordinal": 13
+    },
+    "14-undo-picture": {
+      "revisionId": "e0bc6196-972b-4ad4-bbc2-8bfc1cb69e03",
+      "ordinal": 14
+    },
+    "audio-replacement-keep": {
+      "revisionId": "1def962a-c524-4dd0-856b-b70fb0e90bce",
+      "ordinal": 15
+    },
+    "16-undo-audio": {
+      "revisionId": "cc33b9aa-d838-4770-b8d8-d1230ee549c9",
+      "ordinal": 16
+    },
+    "audio-replacement-reset": {
+      "revisionId": "f56e7fb9-e9b3-4b81-a23e-7c63ad6e0f86",
+      "ordinal": 17
+    },
+    "18-undo-reset": {
+      "revisionId": "c0c5f6ed-868a-4745-9966-1cb90bc019fe",
+      "ordinal": 18
+    },
+    "stacks-base": {
+      "revisionId": "c0c5f6ed-868a-4745-9966-1cb90bc019fe",
+      "ordinal": 18
+    },
+    "marked-a-ordered": {
+      "revisionId": "c18d865a-bab7-4449-9f53-ad3010908687",
+      "ordinal": 19
+    },
+    "marked-a-reordered": {
+      "revisionId": "6ef15e31-bf12-4218-902b-cf2e7d36f74c",
+      "ordinal": 20
+    },
+    "marked-a-bypassed": {
+      "revisionId": "c8e5bb62-16b8-4dc1-bf01-bbf9e931e1cb",
+      "ordinal": 21
+    },
+    "stack-marked-a-restore": {
+      "revisionId": "249d9e9e-9574-45ad-876c-55e2608616f0",
+      "ordinal": 22
+    },
+    "narration-ordered": {
+      "revisionId": "f5ad2764-6370-4f94-9a9a-0de4fade7bd1",
+      "ordinal": 23
+    },
+    "narration-reordered": {
+      "revisionId": "7253bf90-eb62-4192-8140-31ddf5c9d66b",
+      "ordinal": 24
+    },
+    "narration-bypassed": {
+      "revisionId": "50122935-540d-47cc-8dec-2c90ddd8704a",
+      "ordinal": 25
+    },
+    "stack-narration-restore": {
+      "revisionId": "d4cfea6e-5095-46d2-a9e7-f66f30639b03",
+      "ordinal": 26
+    },
+    "audio-nested-ordered": {
+      "revisionId": "309da4c5-ae4e-4021-b32e-1e9af0ed6e02",
+      "ordinal": 27
+    },
+    "audio-nested-reordered": {
+      "revisionId": "b0b4551b-3561-4ef0-8a64-c949acd26a00",
+      "ordinal": 28
+    },
+    "audio-nested-bypassed": {
+      "revisionId": "d52d5ef9-d871-45ba-aead-06fb5635ed35",
+      "ordinal": 29
+    },
+    "stack-audio-nested-restore": {
+      "revisionId": "6e5d39ab-d5d2-4172-abee-60d88bccbfbd",
+      "ordinal": 30
+    },
+    "audio-root-ordered": {
+      "revisionId": "b42d1e86-45fe-436e-9170-d485f490fd8e",
+      "ordinal": 31
+    },
+    "audio-root-reordered": {
+      "revisionId": "a89f9339-2f3a-413c-973d-735b3e6358e6",
+      "ordinal": 32
+    },
+    "audio-root-bypassed": {
+      "revisionId": "2ef0bebd-6627-41cd-8bdc-1eb98056dc2d",
+      "ordinal": 33
+    },
+    "stack-audio-root-restore": {
+      "revisionId": "8c089dda-e905-4ee7-b727-e0d4cf039fb8",
+      "ordinal": 34
+    },
+    "output-ordered": {
+      "revisionId": "8480a65b-0727-47a7-b6e9-500bad8f054b",
+      "ordinal": 35
+    },
+    "output-reordered": {
+      "revisionId": "96cf0361-2cf9-4b07-8f2a-394ad75c3a67",
+      "ordinal": 36
+    },
+    "output-bypassed": {
+      "revisionId": "7923a4d7-e4ab-445a-92fc-2fe61fa9e79f",
+      "ordinal": 37
+    },
+    "stack-output-restore": {
+      "revisionId": "08e97ace-13d2-4dea-8e9d-c31a70bd2e08",
+      "ordinal": 38
+    },
+    "processed-track-ready": {
+      "revisionId": "bb44b166-71f8-4313-b5bd-a3b50a8404f9",
+      "ordinal": 39
+    },
+    "voice-original-context": {
+      "revisionId": "8f6dd147-17fe-418c-901c-0bb85fae26ed",
+      "ordinal": 40
+    },
+    "local-voice-context": {
+      "revisionId": "5479e2fe-9f17-44c8-b1f5-055df4fb92b3",
+      "ordinal": 41
+    },
+    "music-and-pause": {
+      "revisionId": "7d01912b-775d-4276-b5b8-772268f13328",
+      "ordinal": 42
+    },
+    "music-muted": {
+      "revisionId": "ed04d078-0ec9-4b0c-aca6-b558d644fb8e",
+      "ordinal": 43
+    },
+    "23-undo-music-mute": {
+      "revisionId": "d3bbc6dc-0cab-457b-8f7a-602f2c5542ec",
+      "ordinal": 44
+    },
+    "music-level-half": {
+      "revisionId": "320db4f6-0153-40bd-949e-29d701643dda",
+      "ordinal": 45
+    },
+    "25-undo-music-level": {
+      "revisionId": "9a22cf44-c81c-45f7-8e6e-bf136d69bb5f",
+      "ordinal": 46
+    },
+    "captions-and-zoom": {
+      "revisionId": "bc9b5160-804b-48ce-8140-05010a8c8f3c",
+      "ordinal": 47
+    },
+    "lost-response-recovered": {
+      "revisionId": "bd849b63-d96c-4fe1-99ff-f243b3dc0321",
+      "ordinal": 48
+    },
+    "31-undo-lost-response": {
+      "revisionId": "84f56946-afdf-4ec4-bdff-7b65edd81163",
+      "ordinal": 49
+    },
+    "final-contrast": {
+      "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+      "ordinal": 50
+    },
+    "recipient-restore-denoise": {
+      "revisionId": "2a2dc9b2-5f79-4210-a9b4-d286b7af63df",
+      "ordinal": 51
+    },
+    "recipient-undo-denoise": {
+      "revisionId": "70b0715d-4252-4274-b639-0abcf071263e",
+      "ordinal": 52
+    },
+    "recipient-stale-clock-recomputed": {
+      "revisionId": "6484ec3a-822a-4f4b-9736-cb3a13825f6f",
+      "ordinal": 54
+    },
+    "recipient-undo-stale-insertion": {
+      "revisionId": "43118e0c-25b5-40e8-a129-5f76971951a6",
+      "ordinal": 55
+    },
+    "recipient-undo-stale-shift": {
+      "revisionId": "5dcca1bf-4007-4c84-a908-247f5a9ee130",
+      "ordinal": 56
+    }
+  },
+  "artifacts": {
+    "preview": "/tmp/screenrec-25-fresh-caller/primitive-fixture-preview.mp4",
+    "movie": "/tmp/screenrec-25-fresh-caller/primitive-fixture.mp4",
+    "editablePackage": "/tmp/screenrec-25-fresh-caller/primitive-fixture.zip",
+    "relocatedPreview": "/tmp/screenrec-25-fresh-caller/recipient-fixture-preview.mp4"
+  },
+  "evidence": {
+    "preservation": "preservation.json",
+    "numeric": "numeric-checks.json",
+    "rawAndContextRecipe": "context-comparison.json",
+    "actualVoiceNeighborPreservation": "voice-rendered-protection.json",
+    "splitPictures": "split-picture-proof.json",
+    "relocationAndModelReadiness": "relocation-proof.json",
+    "genuineStaleClockRecomputation": "stale-clock-proof.json",
+    "lostResponseIdempotency": "lost-response-proof.json",
+    "encoderAndStreamSettings": "delivered-movie-asset.reply.json",
+    "choicesAndLimits": "choices-and-limits.json"
+  },
+  "recipient": {
+    "projectId": "e6ee7e31-96c7-4ebb-9161-4b8c5f7a0071",
+    "revisionId": "0989995a-b2f1-43b4-9c09-bed2f14f0bc7"
+  },
+  "recovery": {
+    "donorUnavailable": "Root stopped service and renamed donor home; all recipient operations ran before donor restoration",
+    "changedSeedRefusal": "MODEL_NOT_PREPARED, retryable true; original preparedmodel not copied",
+    "genuineStaleClock": {
+      "shiftUs": 100000,
+      "recomputed": true,
+      "bothChangesUndoneToByteIdenticalAudio": true
+    },
+    "lostResponse": "First CLI response deliberately discarded on receiving side; exact saved request replayed twice to same committedrevision"
+  },
+  "verificationScope": {
+    "rawVoice": "Actual local synthesis completed EOS; durable asset hash equals frozenraw; delivered all21120Float32samples match oldraw exactly despite differentWAVheader",
+    "context24kRecipe": "121680frames; maxFloat32arithmeticdifference7.45e-9 against frozencontext",
+    "actualContext48k": "240000->243360frames; protected prefix and suffix through exact declared join boundaries bit-exact after expected3360sample shift",
+    "retime": "246478frames; both project stereo channels equal accepted mono firstchannel allsamples; exact4/5 authored with rationalendpoints",
+    "split": "Full48kstereoWAV and undo byte-exact; four before/afterPNG samples covering bothpieces/neighbor/tail byte-exact. Whole movie containers differ, so no full encodedvideo byte-equality claim",
+    "orderedStacks": "clip, track, nestedgroup, rootgroup, output get/set/reorder/bypass preserved; gain0.5/RNNoise order has real PCM difference; denoise restored+undo inrecipient with channelidentity/duration",
+    "music": "Mute and half-level changeonly interlude samples; alloutside PCM exact",
+    "visual": "Root inspected six full final frames and enlargedcaption/insetcrops, with independentbyte/pixelcheck. Bounded adversarial fallback at adversarial-visual-review.md; no unprimedagentreviewavailable. No generalvisualacceptance claim.",
+    "delivery": "Balancedpreset average3,000,000bits/s resolved; public re-admission verifies actual1280x720/578frames/30fps timing/H264high3.1/AAC48kstereo",
+    "listening": "No playback permitted/performed; changedintegratedquality remains unaccepted",
+    "physical": "No new capture or physicalsyncmeasurement",
+    "release": "No installedservice switch or fullrelease/scaleacceptance"
+  },
+  "failuresRetained": [
+    "INVALID_PARAMS unreducedfractioncurve keys",
+    "INVALID_EDIT ripplecrossed still",
+    "INVALID_EDIT reanchor attempted intervalchange",
+    "STALE_REVISION deliberateoldpointer and genuinechangedclock",
+    "INVALID_PARAMS nonUUIDexportId",
+    "INVALID_PACKAGE /tmp symlinkpath; canonical/private/tmp succeeded",
+    "MODEL_NOT_PREPARED expectedchangedseed inemptyrecipient"
+  ],
+  "implementationFailureFound": false,
+  "briefCheckpointOutcomes": [
+    {
+      "checkpoint": "Marked speech",
+      "savedRevision": {
+        "revisionId": "d5fa7aa6-a4f3-4b61-bc8e-02f18c3cd0f4",
+        "ordinal": 7
+      },
+      "outcome": "Two bound fillers removed; accepted source order retained; exact stepped5msjoin and protectedneighbors verified."
+    },
+    {
+      "checkpoint": "Retimed block",
+      "savedRevision": {
+        "revisionId": "d830e919-d756-453c-86af-206261483e6b",
+        "ordinal": 6
+      },
+      "outcome": "Only frames31206..91680 slowed4/5 pitchpreserve; 246478renderedframes firstchannel equal acceptedcontrol."
+    },
+    {
+      "checkpoint": "Pure split",
+      "savedRevision": {
+        "revisionId": "abbbee28-9fe5-4d07-8331-6c2e68e5f090",
+        "ordinal": 8
+      },
+      "outcome": "Processedclip split; fullaudio byte-equal, fourpicture samples across bothpieces equal; onepiece independently changed and undone to presplit output."
+    },
+    {
+      "checkpoint": "Camera interlude",
+      "savedRevision": {
+        "revisionId": "f8be5746-e964-46b5-99a5-d72e0109f221",
+        "ordinal": 12
+      },
+      "outcome": "Two admitted movie sources and realmicrophone overlap2s; still first1s; visiblemembership retained; physicalsynchronization unverified."
+    },
+    {
+      "checkpoint": "Independent replacements",
+      "savedRevision": {
+        "revisionId": "f56e7fb9-e9b3-4b81-a23e-7c63ad6e0f86",
+        "ordinal": 17
+      },
+      "outcome": "Picture/audio protection verified; compatible gain retained underkeep, reset explicitly clears; undo restores interlude."
+    },
+    {
+      "checkpoint": "Ordered stacks",
+      "savedRevision": {
+        "revisionId": "96cf0361-2cf9-4b07-8f2a-394ad75c3a67",
+        "ordinal": 36
+      },
+      "outcome": "Clip/track/nestedgroup/rootgroup/output get,set,reorder,bypass retained; gain0.5/RNNoise order has measuredPCM effect; originalnarration inserted into gain1processedtrack with emptyownstack."
+    },
+    {
+      "checkpoint": "Optional denoise",
+      "savedRevision": {
+        "revisionId": "c18d865a-bab7-4449-9f53-ad3010908687",
+        "ordinal": 19
+      },
+      "outcome": "Reversiblelearnedbranch,bypass,restorationand actualrecipientundo; duration/channelidentityverified; finaldemonstration dry; no newlisteningacceptance."
+    },
+    {
+      "checkpoint": "Music",
+      "savedRevision": {
+        "revisionId": "7d01912b-775d-4276-b5b8-772268f13328",
+        "ordinal": 42
+      },
+      "outcome": "Requested 0->.125->.125->0 ramps; independent mute/halflevel only change interlude; outsideaudio exact."
+    },
+    {
+      "checkpoint": "Captions and zoom",
+      "savedRevision": {
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+        "ordinal": 50
+      },
+      "outcome": "Literal Primitive fixture and generatedoccurrenceboundpaid; callerchose redArial48caption and counter2landmark; six start/middle/endframesand rootboundedreview, no unprimedagentreviewavailable."
+    },
+    {
+      "checkpoint": "Local voice",
+      "savedRevision": {
+        "revisionId": "5479e2fe-9f17-44c8-b1f5-055df4fb92b3",
+        "ordinal": 41
+      },
+      "outcome": "Actualnewlocalpaid generationEOS/rawPCMexact; exactcrop,gain,120sampleoverlaps and historicalbackgroundonlyinwordcontext; recipecomparisonand actualunchangedneighbors retained; listeningunaccepted."
+    },
+    {
+      "checkpoint": "Explicit pause",
+      "savedRevision": {
+        "revisionId": "7d01912b-775d-4276-b5b8-772268f13328",
+        "ordinal": 42
+      },
+      "outcome": "600ms admittednormallevelambientloop; explicit gain1, no extra ramps or overlap; no regeneration/retuning."
+    },
+    {
+      "checkpoint": "Delivery",
+      "savedRevision": {
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+        "ordinal": 50
+      },
+      "outcome": "1280x720/30fps; discoveredbalancedpreset plus average3Mbps override; preview/movie/packagecommitted; encodedstreamgeometry/timingverified."
+    },
+    {
+      "checkpoint": "Recovery",
+      "savedRevision": {
+        "revisionId": "6484ec3a-822a-4f4b-9736-cb3a13825f6f",
+        "ordinal": 54
+      },
+      "outcome": "Forcedstaleclock recomputed fromactualshifteddocument; lostresponse receiving-side discard recoverssamewrite; packagedhistoryadoptedandundoworkswithoutdonor/models; changedseed refuses MODEL_NOT_PREPARED."
+    }
+  ],
+  "publicCallFiles": {
+    "requestGlob": "*.request.json",
+    "replyGlob": "*.reply.json",
+    "savedReplyFiles": 463,
+    "scope": "All substantive mutations, failures, corrected retries and delivery evidence retained. Some repeated incidental housekeeping reads reused filenames when scripts resumed; original versions are not separately present in this directory."
+  },
+  "sourceOnlyBoundary": "No repository files changed; no capture/device discovery/playback/nativewindows/installedswitching; no originalmedia/model edits; root owned service lifecycle."
+}

@@ -6179,3 +6179,40 @@ and the boundary test drives actual admission without rendering a multi-GiB file
 - **Verdict:** Sound; each check establishes its own prerequisite without assigning
   editorial choices to the toolkit or falsely declaring the whole journey done.
 - **Confidence:** High.
+
+## Window bindings and source-caller evidence
+
+The [binding ledger](assets/24z4-prepared-bindings/choices.md) owns its tiny
+repeated-stream fixture and scratch path relocation control. It remains sound,
+with high confidence: each execution window must resolve current paths while
+preserving every clip occurrence and distinct stream. This adds no persistent cache.
+
+### Preserve binary evidence once while retaining every filename identity
+
+- **When:** 25b source-caller evidence banking.
+- **Choice:** Split, undo and held-frame checks intentionally produce identical
+  files. The evidence stores one blob for each distinct byte digest and a mapping
+  from every captured filename to that blob. All request/reply identities and frame
+  names remain inspectable; duplicate audio bytes do not multiply repository cost.
+  The large editable package stays at its verified local path, with complete member
+  digests and all package metadata banked. Its original media already have retained
+  source authorities; copying them into Git again would add hundreds of megabytes.
+- **Gap:** The plan required durable output proof but did not define storage for
+  duplicate artifacts or a package containing the full retained four-minute take.
+- **Reach:** Future reviewers can inspect each delivered unique artifact and every
+  filename mapping. The packet records the actual package hash/member CRC checks;
+  it does not pretend the full package blob is included in Git or that a metadata
+  manifest alone proves output correctness.
+- **Verdict:** Sound; full artifact identity and comparisons survive without
+  redundant original media. The local complete package must remain preserved.
+- **Confidence:** High.
+
+## Service asset presence
+
+The [presence ledger](assets/24z5-service-asset-presence/choices.md) owns tiny
+successful retry/publication and corruption-after-publication controls. Both are
+sound, with high confidence. Presence asks only whether the asset row exists;
+source inspection still parses and validates physical detail. Missing rows retain
+the original error. This deliberately removes incidental parser failures from
+presence-only checks; it does not claim parity for damaged catalogs or prove that
+an underlying file exists.
