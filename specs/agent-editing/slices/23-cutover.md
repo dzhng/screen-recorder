@@ -44,6 +44,13 @@ status/discovery failures within the existing native consumer. Its isolated
 verification preserves recording create/save-panel behavior; it does not switch
 the installed app or introduce a project-selection interface.
 
+[23f](23f-capture-source-lifetime.md) owns the remaining fresh captured-source
+deletion/verified working-file cleanup port, including unfinished acquisition
+borrowers and donor-free preservation. Native library menu cutover follows the
+actual service primitive: recording rows expose source facts/deletion, and
+caller-created projects expose composition preview/export/deletion. Listing those
+projects is a consumer operation; no project is inferred or created for a take.
+
 ## Acceptance
 
 All preservation rows have result artifacts and permitted differences. Capture, clean-frame/pointer selection, transcript/evidence gaps, concurrency, preview/export publication and relocated inspection retain their guarantees. Search for obsolete timeline/target consumers and remove live references. New installed discovery uses the fresh library deliberately; no old jobs/history are migrated.

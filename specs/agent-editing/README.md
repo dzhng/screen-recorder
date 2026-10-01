@@ -239,6 +239,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23b — Matched export recovery preservation](slices/23b-export-recovery-preservation.md)
 - [x] [23c — Isolated project-library storage preservation](slices/23c-project-storage.md)
 - [x] [23d — Native export status and discovery parity](slices/23d-export-consumer-parity.md)
+- [ ] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)
