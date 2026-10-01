@@ -1,6 +1,15 @@
 # 18 — Reproduce local reference speech
 
-Status: complete for the fixed word/phrase reproduction matrix. Frozen offline runtime/performance, lexical correctness, calibrated splice visuals and the [current user listening verdict](../assets/listening-review-2026-09-30.md) supply its acceptance. Preserve the accepted word context and [shorter phrase](../assets/18-voice-phrase-lead/README.md), including its sample-exact accepted ending; speaker-only mode remains rejected. Managed reference-origin retention is verified through [19e](19e-retained-audio-excerpts.md) and [19f](19f-public-voice-jobs.md). The rejected source pause leaves speech-free ambience and loop acceptance open under [19](19-voice-assets.md); approval of these exact contexts does not approve other source regions or recipes. Dependencies: [00](./00-corpus.md).
+Status: complete for the fixed word/phrase reproduction matrix. Frozen offline
+runtime/performance, lexical correctness, calibrated splice visuals and the
+[current user listening verdict](../assets/listening-review-2026-09-30.md) supply
+its acceptance. Preserve the accepted word context and
+[shorter phrase](../assets/18-voice-phrase-lead/README.md), including its exact
+accepted ending; speaker-only mode remains rejected. Managed reference retention
+is verified through [19e](19e-retained-audio-excerpts.md) and
+[19f](19f-public-voice-jobs.md). The original source pause remains rejected;
+[19](19-voice-assets.md) owns the separately accepted ambience loop. Neither
+verdict transfers to another region or recipe. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

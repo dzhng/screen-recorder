@@ -1,6 +1,12 @@
 # 19 — Durable local generation and replacement
 
-Status: complete for the frozen local generation/replacement and finite ambience matrix. [Acceptance evidence](../assets/19-acceptance/README.md) joins public parity, retained reference/runtime/lifecycle/transfer proofs, exact accepted contextual auditions and the user-selected200ms room-tone loop. The source sounds speech-free; a slight residual seam is explicitly tolerated. Rejected loops remain retained. Installed cutover and whole-workflow acceptance remain23/25. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
+Status: complete for the frozen local generation/replacement and finite ambience
+matrix. [Acceptance evidence](../assets/19-acceptance/README.md) joins public parity,
+retained reference/runtime/lifecycle/transfer proofs, accepted contextual auditions
+and the user-selected 200 ms room-tone loop, including its tolerated slight seam.
+Rejected loops remain retained. Installed cutover and whole-workflow acceptance
+remain under 23/25. Dependencies: [02](./02-assets.md), [04](./04-projects.md),
+[11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
 
 [Runtime relocation](19b-voice-runtime-relocation.md) and
 [registered adoption](19d-voice-settings.md) provide the standalone prepared
