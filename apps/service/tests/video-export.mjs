@@ -30,7 +30,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { once } from "node:events";
 import { fileURLToPath } from "node:url";
-import { RecordingStorage } from "@screenrec/core/storage";
+import { ManagedStorage } from "@screenrec/core/storage";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
@@ -290,7 +290,7 @@ async function fixture(
       },
     },
   });
-  const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
+  const storage = new ManagedStorage(store, cache, home, (signal, recordingId) =>
     exports.usage(
       recordingId === undefined ? undefined : { kind: "recording", recordingId },
       signal,

@@ -1,3 +1,4 @@
+import { ManagedStorage } from "@screenrec/core/storage";
 import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
 import { voiceRenderer } from "./voice.js";
 import { AudioExtraction } from "@screenrec/core/audio-extraction";
@@ -84,6 +85,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let deletion: ProjectDeletion | undefined;
   let exports: MediaExports | undefined;
   let packages: ProjectPackages | undefined;
+  let storage: ManagedStorage | undefined;
   const delivery = new DerivativeDelivery();
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
@@ -546,6 +548,10 @@ export async function startProjectService(options: { home: string; worker?: Medi
       project: { store: projects, preview, package: projectPackages },
     });
     exports = mediaExports;
+    const managedStorage = new ManagedStorage(null, cache, library, (signal) =>
+      mediaExports.usage(undefined, signal),
+    );
+    storage = managedStorage;
     queue.startAdmission((job) => {
       if (job.target.kind === "project") {
         if (job.artifact === "preview") return preview.admit(job);
@@ -903,6 +909,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
               },
             };
           }
+          case "storage.usage":
+            if (operation.params.recordingId !== undefined)
+              return operationError(
+                "NOT_READY",
+                "This service measures aggregate project-library storage",
+              );
+            return { ok: true, data: await managedStorage.usage() };
           case "project.create":
             return {
               ok: true,
@@ -1153,11 +1166,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
             modelLifetime.abort();
             // Destination admission uses the export lifetime, not the socket's interest signal.
             const exportsClosed = mediaExports.close();
+            const storageClosed = managedStorage.close();
             await listener!.close();
             await Promise.allSettled(pending);
             delivery.dispose();
             await projectDeletion.close();
             await exportsClosed;
+            await storageClosed;
             await projectPackages.close();
             await queue.close();
             await Promise.all(modelPreparations);
@@ -1171,6 +1186,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   } catch (error) {
     modelLifetime.abort();
     await Promise.all(modelPreparations);
+    await storage?.close();
     await listener?.close();
     delivery.dispose();
     await deletion?.close();

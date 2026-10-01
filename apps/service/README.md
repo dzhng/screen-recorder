@@ -85,3 +85,13 @@ projects no longer depend on that handle or donor files.
 
 [Portable-project scope and evidence](../../specs/agent-editing/slices/22-portable-projects.md)
 separate the verified asset-only path from retained owner classes still refused.
+
+## Storage observations
+
+[Managed storage](../../packages/core/src/storage.ts) measures live regular-file
+lengths with one contained, cancellable scanner. In the fresh project library,
+retained files are shared across projects; this aggregate does not estimate a
+project's share of an asset. Registered derivatives remain cache bytes. Models
+and donor files are excluded, while private export staging is measured by the
+publication owner outside the managed root. Closing the service aborts and drains
+observations before closing the catalog.

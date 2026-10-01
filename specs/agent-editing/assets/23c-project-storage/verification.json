@@ -1,0 +1,80 @@
+{
+  "scope": "Isolated fresh-library aggregate storage preservation; installed engine unchanged",
+  "gates": [
+    {
+      "command": "node ../../node_modules/vitest/vitest.mjs run src/storage.test.ts",
+      "cwd": "packages/core",
+      "exitCode": 0,
+      "testsPassed": 14,
+      "defaultTestDeadlineMs": 5000
+    },
+    {
+      "command": "node ../../node_modules/vitest/vitest.mjs run src/project-storage.test.ts src/project-service.test.ts",
+      "cwd": "apps/service",
+      "exitCode": 0,
+      "testsPassed": 17
+    },
+    {
+      "command": "node ../../node_modules/typescript/bin/tsc -p tsconfig.json",
+      "cwd": "packages/core",
+      "exitCode": 0
+    },
+    {
+      "command": "node ../../node_modules/typescript/bin/tsc -p tsconfig.check.json",
+      "cwd": "packages/core",
+      "exitCode": 0
+    },
+    {
+      "command": "node ../../node_modules/typescript/bin/tsc -p tsconfig.check.json",
+      "cwd": "apps/service",
+      "exitCode": 0
+    },
+    {
+      "command": "oxlint changed production/test files",
+      "exitCode": 0
+    },
+    {
+      "command": "oxfmt --check changed production/test files",
+      "exitCode": 0
+    },
+    {
+      "command": "node --check apps/service/tests/video-export.mjs; git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "negativeControls": [
+    {
+      "case": "Public aggregate before handler implementation",
+      "outcome": "storage.usage returned failure instead of successful live bytes"
+    },
+    {
+      "case": "Cancel storage only after pending handler drain",
+      "outcome": "shutdown regression failed: one extra filesystem read after stop; expected zero"
+    },
+    {
+      "case": "Exact baseline large storage fixture",
+      "outcome": "Passed unchanged with default deadline before final modified full suite passed"
+    }
+  ],
+  "retainedFailures": [
+    "Early focused runs of unchanged large file/reservation fixture exceeded default 5-second deadline under shared-host contention; no deadline or production algorithm was changed. Exact baseline and final full focused suite passed.",
+    "Initial held-file observer compared an alias path to a canonical path and did not enter; observer corrected before product validation.",
+    "Initial shutdown assertion expected an operation reply after listener close; actual existing transport closes with TRUNCATED_FRAME. Final regression verifies no further file opens and descriptor closure.",
+    "An early test used stale copied core dist after export callback argument order changed; rebuilding local core eliminated the mismatch.",
+    "Codex CLI review could not start: configured gpt-6.1-sol unsupported by this account. No CLI review pass is claimed."
+  ],
+  "review": {
+    "shape": "One scanner, lifetime and safe file counter; no adapter, parallel scanner or scope-allocation policy",
+    "diff": "Self-review clean; actual recording callers and standalone export harness updated",
+    "docs": "Developer service principles and slice/evidence leaf match scope",
+    "independent": "Root read-only integration review clean: one scanner owner, explicit aggregate scope, existing external staging admission, early shutdown abort and actual public/schema coverage. CLI review unavailable and not counted."
+  },
+  "limits": [
+    "No installed app or storage switch",
+    "No capture-to-project publication claim",
+    "No per-project allocation or asset GC policy",
+    "No model/capture/media execution or listening",
+    "Native external staging containment reused by code review; no new live staging experiment",
+    "Root/full/native acceptance gates remain with parent 23"
+  ]
+}

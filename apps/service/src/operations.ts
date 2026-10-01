@@ -4,7 +4,7 @@ import type { LibraryTimelineInspection } from "./timeline-inspection.js";
 import type { PackageFrameInspection } from "./package-frames.js";
 import type { MediaExports } from "./exports.js";
 import type { PackageInspection } from "./packages.js";
-import type { RecordingStorage } from "@screenrec/core/storage";
+import type { ManagedStorage } from "@screenrec/core/storage";
 import type { RecordingDeletion } from "./deletion.js";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
 import type { DerivedCache } from "@screenrec/core/cache";
@@ -37,7 +37,7 @@ export type OperationContext = {
   packages: PackageInspection;
   deletion: RecordingDeletion;
   index: IndexProcessing;
-  storage: RecordingStorage;
+  storage: ManagedStorage;
   store: RevisionStore;
   capture: CaptureService;
   health: () => unknown;

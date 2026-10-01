@@ -17,19 +17,20 @@ type DirectoryIdentity = { path: string; dev: bigint; ino: bigint };
 type Location = { area: "home" | "recordings" | "recording" | "files"; category: Category };
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
-/** Actual regular-file lengths, never artifact metadata or an estimate of SQLite row ownership. */
-export class RecordingStorage {
+/** Actual regular-file lengths, never artifact metadata or an estimate of SQLite row ownership.
+ * Without a recording catalog, retained library bytes remain shared across projects. */
+export class ManagedStorage {
   private readonly home: string;
   private readonly homeIdentity: DirectoryIdentity;
   private readonly lifetime = new AbortController();
   private readonly active = new Map<string | undefined, Promise<StorageUsage>>();
   constructor(
-    private readonly store: RevisionStore,
+    private readonly store: RevisionStore | null,
     private readonly cache: DerivedCache,
     home: string,
     private readonly exportUsage?: (
-      recordingId: string | undefined,
       signal: AbortSignal,
+      recordingId: string | undefined,
     ) => Promise<number>,
   ) {
     this.home = realpathSync(home);
@@ -38,6 +39,7 @@ export class RecordingStorage {
   }
 
   private recording(id: string): Recording | null {
+    if (this.store === null) return null;
     const deleting = this.store.deleting(id);
     if (deleting) return deleting;
     try {
@@ -188,7 +190,7 @@ export class RecordingStorage {
             const child = join(path, entry.name);
             if (location.area === "home" && entry.name === "models") continue;
             let next: Location = { area: "files", category: location.category };
-            if (location.area === "home" && entry.name === "recordings")
+            if (this.store !== null && location.area === "home" && entry.name === "recordings")
               next = { area: "recordings", category: "sharedBytes" };
             else if (location.area === "recordings" && this.recording(entry.name))
               next = { area: "recording", category: "otherBytes" };
@@ -245,7 +247,7 @@ export class RecordingStorage {
         await walk(this.home, { area: "home", category: "sharedBytes" }, [this.homeIdentity]);
       }
       if (this.exportUsage) {
-        const bytes = await this.exportUsage(recordingId, this.lifetime.signal);
+        const bytes = await this.exportUsage(this.lifetime.signal, recordingId);
         this.lifetime.signal.throwIfAborted();
         if (
           !Number.isSafeInteger(bytes) ||
@@ -265,7 +267,7 @@ export class RecordingStorage {
       if (error instanceof CatalogError) throw error;
       throw new CatalogError(
         "STORAGE_IO",
-        "Cannot inspect managed recording storage",
+        "Cannot inspect managed storage",
         {
           cause: (error as NodeJS.ErrnoException).code ?? "UNKNOWN",
         },

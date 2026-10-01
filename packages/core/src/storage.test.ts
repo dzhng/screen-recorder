@@ -16,7 +16,7 @@ import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
 import { RevisionStore } from "./library.js";
 import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
-import { RecordingStorage } from "./storage.js";
+import { ManagedStorage } from "./storage.js";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs/promises")>();
@@ -38,7 +38,7 @@ async function fixture(cacheBudget?: number) {
   cleanups.push(() => store.close());
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), cacheBudget);
   await cache.reconcile();
-  const storage = new RecordingStorage(store, cache, home);
+  const storage = new ManagedStorage(store, cache, home);
   cleanups.push(() => storage.close());
   const take = store.allocate().recording;
   async function file(path: string, bytes: number) {
@@ -453,4 +453,31 @@ test("live inspection tolerates actual LRU eviction while preserving another rec
     await Promise.allSettled([inspection]);
     vi.mocked(filesystem.open).mockImplementation(actual.open);
   }
+});
+
+test("shared-library aggregation counts registered cache bytes and retains unowned partial bytes", async () => {
+  const { home, store, cache, take, file } = await fixture();
+  const storage = new ManagedStorage(null, cache, home);
+  cleanups.push(() => storage.close());
+  const first = await storage.usage();
+  await file(join(home, "assets", "retained.bin"), 11);
+  await file(join(home, "recordings", take.recordingId, "source", "residue.bin"), 13);
+  const cached = cache.reserve({ kind: "recording", recordingId: take.recordingId });
+  await file(cached.path, 17);
+  await file(join(home, "cache", "derived", "unregistered.tmp"), 19);
+  await file(join(home, "models", "weights.bin"), 1000);
+  const outside = await mkdtemp("/tmp/storage-donor-");
+  cleanups.push(() => rm(outside, { recursive: true, force: true }));
+  await file(join(outside, "media.bin"), 2000);
+  await symlink(outside, join(home, "linked-donor"));
+  expect(await storage.usage()).toMatchObject({
+    recordingId: null,
+    sourceBytes: 0,
+    evidenceBytes: 0,
+    cacheBytes: 17,
+    sharedBytes: first.sharedBytes + 43,
+    totalBytes: first.totalBytes + 60,
+  });
+  await expect(storage.usage(take.recordingId)).rejects.toMatchObject({ code: "NOT_FOUND" });
+  expect(store.get(take.recordingId).recordingId).toBe(take.recordingId);
 });

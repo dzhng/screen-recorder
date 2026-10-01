@@ -5,7 +5,7 @@ import { MediaExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { clearRenderWorkspace, previewRenderer } from "./render.js";
-import { RecordingStorage } from "@screenrec/core/storage";
+import { ManagedStorage } from "@screenrec/core/storage";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/screenshot-index";
 import { randomUUID } from "node:crypto";
@@ -93,7 +93,7 @@ async function main(): Promise<void> {
   let exports: MediaExports | undefined;
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
-  let storage: RecordingStorage | undefined;
+  let storage: ManagedStorage | undefined;
   let packages: PackageInspection | undefined;
   let cacheReady: Promise<void> = Promise.resolve();
   let cacheFailure: unknown;
@@ -123,7 +123,7 @@ async function main(): Promise<void> {
     });
     evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
     cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
-    storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
+    storage = new ManagedStorage(store, cache, home, (signal, recordingId) =>
       exports!.usage(
         recordingId === undefined ? undefined : { kind: "recording", recordingId },
         signal,
