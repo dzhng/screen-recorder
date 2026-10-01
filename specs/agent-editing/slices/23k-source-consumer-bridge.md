@@ -1,8 +1,10 @@
 # 23k — Source metadata and composed native consumers
 
-Status: prospective, 2026-10-01; documentation only. No proof has executed.
+Status: scoped source verified, 2026-10-01, from `0c9257ae`.
+The [owned packet](../assets/23k-source-consumer-bridge/README.md) retains actual
+metadata exchanges and separate historical consumption; no live-ready or player claim.
 Prerequisite: [23h scoped consumer proof](23h-native-library-consumption.md).
-Target: close actual source-service metadata pagination and selected-owner
+Verified scope: actual source-service metadata pagination and selected-owner
 dispatch, plus historical preview receipt consumption through the composed
 Foundation controllers. It does not close live default-preview readiness,
 rendering, concrete presentation, playback or installed release acceptance.
@@ -122,7 +124,7 @@ Do not run broad media cohorts, CLI/Claude review, media-worker builds or repeat
 accepted audio/images. Existing menu, deletion, export and service lifetime
 preservation retain their owning evidence; new failures require a bounded reslice.
 
-The future focused entry point is
+The focused entry point is
 `node --test apps/macos/tests/library-preview-bridge.test.mjs` with an explicitly
 owned SCREENREC_HOME and pinned source-service/Node/worker paths from the existing
 [process fixture](../../../packages/test-harness/editing/service-process.mjs).
@@ -137,12 +139,12 @@ future visual acceptance retains its comparison and independent critique steps.
 
 ## Next agent pickup
 
-Read AGENTS and repo-local implement-spec/write-tests/review before implementing.
-Resolve the owned service/runtime fixture and exact startup allowlist first, then
-build the focused composed consumer check. Delegate internal test organization
-and naming; retain the two distinct evidence scopes and production owners above.
-If no six-project fixture exists, use the specified public empty-project setup.
-If genuine production failure appears, report it and reslice before an API fix.
-Update this leaf and its owned evidence/choices after proof. Root owns shared
-README/matrix integration. Do not mark live preview-ready, UI, installed,
-physical/listening, historical adapter-exit or full release gates passed.
+Review/reconcile the banked proof without repeating this cohort. Production
+controllers and service source are unchanged. The executed fresh metadata fixture
+uses only media.audioCapabilities at startup; package workspace recovery remains
+lazy and unexecuted here. The forwarding fence admits only that one operation.
+Root owns shared README/matrix integration and the next release/presentation
+scope. Do not mark live default preview-ready, UI, installed, physical/listening,
+historical adapter-exit or full release gates passed. For future changes, retain
+the two evidence scopes and production owners above; report/reslice any genuine
+production defect before an API fix.

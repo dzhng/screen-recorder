@@ -1,0 +1,284 @@
+{
+  "status": "Scoped source consumer proof green; release/presentation/live default ready remain open",
+  "sourceCheckpoint": "0c9257ae",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 5372172,
+    "sha256": "fbe23dd992617c8b4b3125229642f83e18204f5df5ce987ae7744f0d497eff70",
+    "regularMembers": 566,
+    "allPayloadsRehashed": 565
+  },
+  "report": {
+    "bytes": 30891,
+    "sha256": "e06fa3c583bf94a088283aea05127c0153bbf8daee2e43e637de8d46e79eab57"
+  },
+  "closure": {
+    "sourceCheckpoint": "0c9257ae",
+    "bundleInputs": 259,
+    "matchingSourceInputs": 164,
+    "configurationInputs": 18,
+    "payloadsPinned": 556,
+    "intermediateLimits": "Initial outer JS assertion source was not snapshotted before later edits. Its recorded source hash, full actual exchanges, generated observer/fence, compiled consumer, Check.swift and producer identities remain; only final producer closes current source proof.",
+    "catalog": {
+      "userVersion": 22,
+      "counts": {
+        "projects": 6,
+        "assets": 0,
+        "acquisitions": 0,
+        "jobs": 0,
+        "recordings": 0
+      },
+      "schemaSource": "actual current-format public writers; no private row edits",
+      "catalogSHA256": "f59698fc2b34a8309a9d7935ea227ca240cad6cdf44f0a9e6d69afe0d8546817"
+    }
+  },
+  "producer": {
+    "service": {
+      "path": "/private/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "worker": {
+      "path": "/private/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "node": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "bytes": 119133456,
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    },
+    "executable": {
+      "path": "/private/tmp/screenrec-23k-final/consumer/check",
+      "bytes": 898312,
+      "sha256": "bae3c933f66616838b3cd4ad30e0d35acadaaadf98e0c2a08f791e0b2d71e38c"
+    },
+    "controlsLibrary": {
+      "path": "/private/tmp/screenrec-23k-final/consumer/libScreenRecorderControls.dylib",
+      "bytes": 958944,
+      "sha256": "1a14be5025261f45e1682f8affd9e354ebe186106f548f5866fc403c58aa6b3b"
+    },
+    "sources": [
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorder/LibraryController.swift",
+        "bytes": 17371,
+        "sha256": "48e949d1f3dbabf7bacdaff0b7a5b8f511b6d186a714a01fc25888d17d1cca93"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewController.swift",
+        "bytes": 10566,
+        "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewWindow.swift",
+        "bytes": 4387,
+        "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorder/ServiceHost.swift",
+        "bytes": 19008,
+        "sha256": "f93ee5829aee33840596bfc3570b2693f122dbdde5642480f818e698d6eafe05"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorder/ServiceBundle.swift",
+        "bytes": 3612,
+        "sha256": "f0d65d5b23e49a3f8cb9a7b870812252d7adebd9da45b0f2afd918a700be903c"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorder/NodeRuntime.swift",
+        "bytes": 6375,
+        "sha256": "b8cbf7c51415f7d5c4395fb2e6c4a7deb4ca108f3588ed78a021857ffd40879a"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ControlsMenu.swift",
+        "bytes": 24418,
+        "sha256": "f447dcd207cb4166fe348b95adf54bfd41072999ba1a6b3e5a9c832710e55271"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ControlsState.swift",
+        "bytes": 24353,
+        "sha256": "8bc77aaa54c416043806b3a3d11361655e78b0266659f87a4efde6e4652a3e57"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/Countdown.swift",
+        "bytes": 1169,
+        "sha256": "5c412cdef19e3a897ab2f213df42246993ff9baec59b1516d0aae119444eb5f8"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ElapsedTime.swift",
+        "bytes": 1369,
+        "sha256": "d7cf2ba13af85ca10d8fc8d545004253eccbc700d6caa32de5c625458e43a242"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift",
+        "bytes": 6456,
+        "sha256": "f803f316c53aa1c512c01ebe15d9cea405f40b9d688484dbf90971d0b2af7e69"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ExportsState.swift",
+        "bytes": 10002,
+        "sha256": "ab97bc7b61348a969f2e1d965d8ef0c55e98215908d3cb345a7da0d9745afc6a"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/LibraryState.swift",
+        "bytes": 5284,
+        "sha256": "bf265abaa6c406d56e6177efc7bbc5a1353eec697a5cf6529c337afdaaa15cfd"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/MediaTarget.swift",
+        "bytes": 1205,
+        "sha256": "0da48b89d937e3408abd02dc64e2e4673a4590c12b9c2ce63757e719720019d6"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/Permissions.swift",
+        "bytes": 3958,
+        "sha256": "5709217d4c622adcf3fd2bf7e94e517fede03ae5903e20f0f3f5bdc41141cade"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/Preferences.swift",
+        "bytes": 4759,
+        "sha256": "d5a3b2a67a22e7dc010493d5a720fc1f5e5598228f5fd12d29d86ce52029440b"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/RecordingOverlay.swift",
+        "bytes": 1537,
+        "sha256": "be400989c5413c4b477152907b92ee27ddaf6dfb283269d7e6df72317e9506ff"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/RegionGeometry.swift",
+        "bytes": 2006,
+        "sha256": "3f7f4f8094788821040f5c6b404b0491f344e15af1ed37eae7ad9f4ec11024cc"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ShortcutDefaults.swift",
+        "bytes": 4052,
+        "sha256": "4f8184e11b8ce3531a75fd28ef1b3dcbf4bfc06d9be6f19d773622bb11bd64d2"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/StatusItemAppearance.swift",
+        "bytes": 1161,
+        "sha256": "f41416008d78c39b4cc753918f8b491eace4267d3c55815263a9e00f633acca8"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/Sources/ScreenRecorderControls/SystemShortcuts.swift",
+        "bytes": 3433,
+        "sha256": "028c9ed8986bccf215d0a67cd1a7d7f0e1985b5c2ee8e1c126b9ae0424283411"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/tests/library-preview-bridge.test.mjs",
+        "bytes": 11034,
+        "sha256": "71bcf785e964ef6deb8322a0f72f63dde36c9ba407dfc03df19432706751cd7b"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/tests/fixtures/library-preview-bridge.swift",
+        "bytes": 16099,
+        "sha256": "881537eda9b7984fdd1a1d33194ca11a769177696b660e2c4633d7bd0f9c435e"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/apps/macos/tests/fixtures/swift-controls.mjs",
+        "bytes": 1526,
+        "sha256": "11979e6524d554debfa409162da2125ce598c295d76f1f465f27bf7aeddc824b"
+      }
+    ],
+    "historicalPins": [
+      {
+        "member": "project.get-initial.request.json",
+        "bytes": 57,
+        "sha256": "a59438063911b36436f9c6f6dc57ab502ad5d1ad06b1cbcb6b3e7b6bebdc02e2"
+      },
+      {
+        "member": "project.get-initial.reply.json",
+        "bytes": 258,
+        "sha256": "6fe4b81d87afc9490a6734381a4bf9c5610f9eb48ce9cfddb07a856822a0f5c1"
+      },
+      {
+        "member": "primitive-fixture-preview-poll-0.request.json",
+        "bytes": 266,
+        "sha256": "a12a3b9b496ffbb0c75994df7a506b517429808ebe2498be934ed729ca5ae843"
+      },
+      {
+        "member": "primitive-fixture-preview-poll-0.reply.json",
+        "bytes": 1076,
+        "sha256": "f8542fb37962c6ad03aa33b8626a6b3ac1a2d8c69fd49af0608d0ea1717896bd"
+      },
+      {
+        "member": "primitive-fixture-preview-poll-3.request.json",
+        "bytes": 266,
+        "sha256": "a12a3b9b496ffbb0c75994df7a506b517429808ebe2498be934ed729ca5ae843"
+      },
+      {
+        "member": "primitive-fixture-preview-poll-3.reply.json",
+        "bytes": 4581,
+        "sha256": "4618064a97f12ee895e08489b5173b5186c1aff49a890938cdf9aa9e3cdd1e3d"
+      },
+      {
+        "member": "recipient-initial-project.list.request.json",
+        "bytes": 2,
+        "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      },
+      {
+        "member": "recipient-initial-project.list.reply.json",
+        "bytes": 97,
+        "sha256": "649553468ebbef76459a4abe706db8457b17d3e273c5c83aaa961ee46cd362f7"
+      }
+    ],
+    "historicalProducer": {
+      "sourceStartupCheckpoint": "26101963",
+      "laterCommits": "Between source startup26101963 and snapshot at5f9e78ee, later commits changed evidence/docs only. Subsequent24z4 source change is outside this caller producer.",
+      "rootService": {
+        "pid": 24946,
+        "session": 43475,
+        "socket": "/tmp/screenrec-25-preparation-current/library-ACs9sl/run/service.sock"
+      },
+      "recipientService": {
+        "pid": 31159,
+        "session": 52934,
+        "socket": "/tmp/screenrec-25-relocation-recipient/run/service.sock"
+      },
+      "sourceMembers": 1085,
+      "workerSHA256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+      "external": "Previously rehashed172files from original09c archive; Node identity in25a packet",
+      "scope": "Actual source service producer at caller run; no installed switch"
+    }
+  },
+  "toolchain": {
+    "swiftCompiler": {
+      "path": "/Library/Developer/CommandLineTools/usr/bin/swift-frontend",
+      "bytes": 357109680,
+      "sha256": "f0bce5c648dcd580f0016ebd49c7a4db1cd501fe2b357b75e60dbe5667851e1e"
+    },
+    "swiftVersion": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0\n",
+    "sdkPath": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+    "macOS": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+    "bun": {
+      "path": "/Users/david/.bun/bin/bun",
+      "bytes": 63096576,
+      "sha256": "e0c90ec15d33363e6b70713d56bc3b2c7585c17f40a0fe0f8fd9305901d4e233"
+    },
+    "bunVersion": "1.3.14",
+    "linkedConsumer": "/tmp/screenrec-23k-final/consumer/check:\n\t/private/tmp/screenrec-23k-final/consumer/libScreenRecorderControls.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)\n\t/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (compatibility version 1.0.0, current version 2.0.0)\n\t/System/Library/Frameworks/AVKit.framework/Versions/A/AVKit (compatibility version 1.0.0, current version 1.0.0)\n\t/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 2685.60.104)\n\t/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 5026.5.4)\n\t/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 5026.5.4)\n\t/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)\n\t/usr/lib/swift/libswiftAVFoundation.dylib (compatibility version 1.0.0, current version 2420.7.1, weak)\n\t/usr/lib/swift/libswiftCore.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/usr/lib/swift/libswiftCoreAudio.dylib (compatibility version 1.0.0, current version 411.255.0, weak)\n\t/usr/lib/swift/libswiftCoreFoundation.dylib (compatibility version 1.0.0, current version 120.100.0, weak)\n\t/usr/lib/swift/libswiftCoreImage.dylib (compatibility version 1.0.0, current version 2.2.0, weak)\n\t/usr/lib/swift/libswiftCoreMIDI.dylib (compatibility version 1.0.0, current version 6.0.0, weak)\n\t/usr/lib/swift/libswiftCoreMedia.dylib (compatibility version 1.0.0, current version 3320.8.5, weak)\n\t/usr/lib/swift/libswiftDispatch.dylib (compatibility version 1.0.0, current version 1542.100.32)\n\t/usr/lib/swift/libswiftIOKit.dylib (compatibility version 1.0.0, current version 1.0.0, weak)\n\t/usr/lib/swift/libswiftMetal.dylib (compatibility version 1.0.0, current version 373.2.0, weak)\n\t/usr/lib/swift/libswiftOSLog.dylib (compatibility version 1.0.0, current version 10.0.0, weak)\n\t/usr/lib/swift/libswiftObjectiveC.dylib (compatibility version 1.0.0, current version 951.7.0, weak)\n\t/usr/lib/swift/libswiftQuartzCore.dylib (compatibility version 1.0.0, current version 5.0.0, weak)\n\t/usr/lib/swift/libswiftSpatial.dylib (compatibility version 1.0.0, current version 1.0.0, weak)\n\t/usr/lib/swift/libswiftUniformTypeIdentifiers.dylib (compatibility version 1.0.0, current version 877.5.1, weak)\n\t/usr/lib/swift/libswiftXPC.dylib (compatibility version 1.0.0, current version 128.120.2, weak)\n\t/usr/lib/swift/libswift_Builtin_float.dylib (compatibility version 0.0.0, current version 0.0.0, weak)\n\t/usr/lib/swift/libswift_Concurrency.dylib (compatibility version 0.0.0, current version 0.0.0)\n\t/usr/lib/swift/libswiftos.dylib (compatibility version 1.0.0, current version 1082.0.0, weak)\n\t/usr/lib/swift/libswiftsimd.dylib (compatibility version 1.0.0, current version 23.0.0, weak)\n",
+    "actualServiceBundleCommand": [
+      "bun",
+      "build",
+      "apps/service/dist/project-main.js",
+      "--target=node",
+      "--outfile=/tmp/screenrec-23k-runtime/service.mjs",
+      "--metafile=/tmp/screenrec-23k-runtime/service.meta.json"
+    ],
+    "bundleCwd": "/Users/david/dev/screen-recorder",
+    "note": "Foundation/AppKit/AVKit are platform providers; linked classes establish no construction/playback. Exact Foundation compiler commands are runs/final/compiler.json."
+  },
+  "gates": {
+    "actualMetadataAndHistoricalComposed": "passed; final consumer close0, source OS exit + samePID Node callback0, actual frozen worker close0",
+    "negativeMissingPin": "expected consumer close1; exact pin oracle fails, historical only",
+    "defaultLibraryAndPreview": "2/2 complete tests terminal0",
+    "syntaxLintFormatWhitespace": "passed; no TypeScript production change, Swift6 checks actual types"
+  },
+  "runtimeScope": "No UI, capture, discovery, admission, inference, model work, media generation, playback, native worker build or installed switch",
+  "mutableScratch": "Runtime, compiled consumers and complete packet remain under /tmp/screenrec-23k-*; all children terminal. Only the three owned fresh metadata homes were removed after bank/rehash. Raw closed catalogs remain in the immutable archive. Original/donor/installed homes, workers and models untouched.",
+  "ownedHomesRemovedAfterBankRehash": [
+    "/tmp/screenrec-23k-compile/home",
+    "/tmp/screenrec-23k-corrected/home",
+    "/tmp/screenrec-23k-final/home"
+  ]
+}

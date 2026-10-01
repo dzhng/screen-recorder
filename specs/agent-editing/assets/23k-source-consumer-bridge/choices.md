@@ -1,7 +1,7 @@
 # 23k planning choices
 
-These choices belong to the prospective [source consumer bridge](../../slices/23k-source-consumer-bridge.md).
-They authorize no execution in the documentation pass.
+These choices belong to the [source consumer bridge](../../slices/23k-source-consumer-bridge.md).
+Planning choices retain their scope; implementation evidence lives in the packet.
 
 ## Sound — medium confidence
 
@@ -36,3 +36,31 @@ The gap: the banked 23j catalog has one project and 25b retains no nonempty actu
 page. The reach: only metadata fixture setup is added; no media, models, migrations
 or automatic capture-to-project behavior follows. Verdict: sound because the
 public writer establishes honest current-format paging inputs. Confidence: high.
+
+### Observe the actual child without changing its production lifetime owner
+
+When: 23k implementation, 2026-10-01.
+
+The choice: ServiceHost reports its actual source-service PID at readiness. The
+test subscribes to that PID's operating-system exit event with DispatchSource and
+awaits it after normal shutdown. A same-process Node entry observer retains raw
+control bytes and the Node exit callback. The Node callback's code and OS exit
+event are separate facts, joined by exact PID; shutdown returning alone is not
+terminal proof. The gap: the plan required actual termination, but ServiceHost
+exposes no public child-close callback. The reach: production transport and
+lifetime remain unchanged, with no guessed-PID polling, extra service process or
+test-only production hook. Verdict: sound because direct OS observation supplies
+the missing terminal fact without inventing an owner. Confidence: high.
+
+### Record the compiler invocation through the existing helper
+
+When: 23k implementation, 2026-10-01.
+
+The choice: the shared Foundation compile helper accepts an optional observation
+callback. This check banks the actual arguments before each compiler call; default
+checks retain their commands and timeouts. The gap: the existing helper emitted
+no command record, while this pass needs exact compiler provenance. The reach:
+future consumer checks can record their actual build without copying the compile
+implementation or changing product code. Verdict: sound because one helper still
+owns compiler invocation, and both existing default checks remain green.
+Confidence: high.

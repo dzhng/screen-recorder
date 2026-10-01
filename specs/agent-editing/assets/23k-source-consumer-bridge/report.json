@@ -1,0 +1,935 @@
+{
+  "passed": true,
+  "scope": "Actual source metadata pagination/get and stopped action dispatch; separate unchanged historical composed readiness replay. No live default ready, media, presentation, installed or performance claim.",
+  "sourceCheckpoint": "0c9257ae",
+  "producer": {
+    "service": {
+      "path": "/private/tmp/screenrec-23k-runtime/service.mjs",
+      "bytes": 4263510,
+      "sha256": "5ab11f43d227103835b3e1f5b572ad7876455d909c7e0ad35edb1d8769f053cb"
+    },
+    "worker": {
+      "path": "/private/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "node": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "bytes": 119133456,
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    },
+    "executable": {
+      "path": "/private/tmp/screenrec-23k-final/consumer/check",
+      "bytes": 898312,
+      "sha256": "bae3c933f66616838b3cd4ad30e0d35acadaaadf98e0c2a08f791e0b2d71e38c"
+    },
+    "controlsLibrary": {
+      "path": "/private/tmp/screenrec-23k-final/consumer/libScreenRecorderControls.dylib",
+      "bytes": 958944,
+      "sha256": "1a14be5025261f45e1682f8affd9e354ebe186106f548f5866fc403c58aa6b3b"
+    }
+  },
+  "rawAuthority": "runs/final/source-exchanges.json + green.jsonl + source-control.jsonl + native.jsonl",
+  "createdProjects": [
+    {
+      "projectId": "25b64640-af39-4d39-80f5-4e5c4bc68e79",
+      "title": "Explicit project 1",
+      "createdAt": "2026-10-01T21:48:07.476Z",
+      "currentRevisionId": "1d480f7e-faf0-46eb-9ea5-6a0814b577ea"
+    },
+    {
+      "projectId": "c8fe5788-6a2a-4640-b8ca-11e2191e2dc3",
+      "title": "Explicit project 2",
+      "createdAt": "2026-10-01T21:48:07.480Z",
+      "currentRevisionId": "5bbd2c30-b470-4a88-9efd-4c4dadbf83cb"
+    },
+    {
+      "projectId": "1202c818-f5cc-4e23-a3b8-b2ea2c89006f",
+      "title": "Explicit project 3",
+      "createdAt": "2026-10-01T21:48:07.482Z",
+      "currentRevisionId": "a9997d18-9026-4f32-a5e1-d9031cb546be"
+    },
+    {
+      "projectId": "0ee8baa3-bace-41a1-8756-4f9342718660",
+      "title": "Explicit project 4",
+      "createdAt": "2026-10-01T21:48:07.485Z",
+      "currentRevisionId": "f850378b-33c2-4b82-a4be-04105a9e7d73"
+    },
+    {
+      "projectId": "106c8b26-2013-4b45-b7be-92e466b4ae07",
+      "title": "Explicit project 5",
+      "createdAt": "2026-10-01T21:48:07.488Z",
+      "currentRevisionId": "8e842d7c-41be-4044-bf1c-ad00a05d165d"
+    },
+    {
+      "projectId": "6f366fe9-a7da-42ae-af83-be82cc75b7d9",
+      "title": "Explicit project 6",
+      "createdAt": "2026-10-01T21:48:07.491Z",
+      "currentRevisionId": "1499bde7-a3fe-4340-b0b8-ef99f2e8e5db"
+    }
+  ],
+  "publicMetadataRequests": [
+    {
+      "id": "app-95F75683-862B-4D41-9ECF-FD04770DF255",
+      "params": {
+        "limit": 5
+      },
+      "operation": "recording.list"
+    },
+    {
+      "id": "app-94750E60-C5D2-45BA-AB84-DA07214DE938",
+      "params": {
+        "limit": 5
+      },
+      "operation": "project.list"
+    },
+    {
+      "id": "app-A9555C7D-9BFE-46CF-BEA6-53206F4443F9",
+      "operation": "project.list",
+      "params": {
+        "limit": 5,
+        "cursor": {
+          "afterSequence": 5
+        }
+      }
+    },
+    {
+      "operation": "project.list",
+      "params": {
+        "limit": 5
+      },
+      "id": "app-CD5CFD2B-4393-4BB8-A4A8-8FC0BE724DF8"
+    },
+    {
+      "id": "app-E36BCB4A-5C83-4BD8-B905-F9076BE89171",
+      "operation": "project.get",
+      "params": {
+        "projectId": "1202c818-f5cc-4e23-a3b8-b2ea2c89006f"
+      }
+    }
+  ],
+  "states": [
+    {
+      "nextCursor": {
+        "afterSequence": 5
+      },
+      "projects": [
+        {
+          "createdAt": "2026-10-01T21:48:07.476Z",
+          "currentRevisionId": "1d480f7e-faf0-46eb-9ea5-6a0814b577ea",
+          "projectId": "25b64640-af39-4d39-80f5-4e5c4bc68e79",
+          "title": "Explicit project 1"
+        },
+        {
+          "createdAt": "2026-10-01T21:48:07.480Z",
+          "currentRevisionId": "5bbd2c30-b470-4a88-9efd-4c4dadbf83cb",
+          "projectId": "c8fe5788-6a2a-4640-b8ca-11e2191e2dc3",
+          "title": "Explicit project 2"
+        },
+        {
+          "createdAt": "2026-10-01T21:48:07.482Z",
+          "currentRevisionId": "a9997d18-9026-4f32-a5e1-d9031cb546be",
+          "projectId": "1202c818-f5cc-4e23-a3b8-b2ea2c89006f",
+          "title": "Explicit project 3"
+        },
+        {
+          "createdAt": "2026-10-01T21:48:07.485Z",
+          "currentRevisionId": "f850378b-33c2-4b82-a4be-04105a9e7d73",
+          "projectId": "0ee8baa3-bace-41a1-8756-4f9342718660",
+          "title": "Explicit project 4"
+        },
+        {
+          "createdAt": "2026-10-01T21:48:07.488Z",
+          "currentRevisionId": "8e842d7c-41be-4044-bf1c-ad00a05d165d",
+          "projectId": "106c8b26-2013-4b45-b7be-92e466b4ae07",
+          "title": "Explicit project 5"
+        }
+      ],
+      "state": "actual-first-page"
+    },
+    {
+      "projects": [
+        {
+          "createdAt": "2026-10-01T21:48:07.491Z",
+          "currentRevisionId": "1499bde7-a3fe-4340-b0b8-ef99f2e8e5db",
+          "projectId": "6f366fe9-a7da-42ae-af83-be82cc75b7d9",
+          "title": "Explicit project 6"
+        }
+      ],
+      "state": "actual-continuation-page"
+    }
+  ],
+  "stoppedDispatch": [
+    {
+      "params": {
+        "projectId": "1202c818-f5cc-4e23-a3b8-b2ea2c89006f"
+      },
+      "refusedBeforeForward": "preview.get",
+      "scope": "actual-metadata"
+    }
+  ],
+  "historicalPresenter": [
+    {
+      "presenter": "close"
+    },
+    {
+      "presenter": "open",
+      "title": "Preparing Preview \u2014 1202c818-f5cc-4e23-a3b8-b2ea2c89006f"
+    },
+    {
+      "presenter": "close"
+    },
+    {
+      "presenter": "close"
+    },
+    {
+      "presenter": "close"
+    },
+    {
+      "presenter": "open",
+      "title": "Preparing Preview \u2014 1463f786-68d9-4303-9f7b-f86bc0cb98c2"
+    },
+    {
+      "canRetry": false,
+      "message": "Preparing preview \u2014 processing\u2026",
+      "presenter": "show",
+      "title": "Preview \u2014 1463f786-68d9-4303-9f7b-f86bc0cb98c2 \u2014 191943db-0f9a-4904-9463-8abbde18dc42"
+    },
+    {
+      "file": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/cache/derived/5c776d1f-c2f2-4f59-9627-95f3b4e1e066.cache",
+      "mediaType": "video/mp4",
+      "presenter": "play-arguments-only",
+      "title": "Preview \u2014 1463f786-68d9-4303-9f7b-f86bc0cb98c2 \u2014 191943db-0f9a-4904-9463-8abbde18dc42"
+    },
+    {
+      "presenter": "close"
+    },
+    {
+      "presenter": "close"
+    },
+    {
+      "presenter": "open",
+      "title": "Preparing Preview \u2014 1463f786-68d9-4303-9f7b-f86bc0cb98c2"
+    },
+    {
+      "canRetry": false,
+      "message": "Preparing preview \u2014 processing\u2026",
+      "presenter": "show",
+      "title": "Preview \u2014 1463f786-68d9-4303-9f7b-f86bc0cb98c2 \u2014 191943db-0f9a-4904-9463-8abbde18dc42"
+    },
+    {
+      "presenter": "close"
+    }
+  ],
+  "historicalRequests": [
+    {
+      "data": {
+        "nextCursor": null,
+        "recordings": []
+      },
+      "operation": "recording.list",
+      "params": {
+        "limit": 5
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {
+        "nextCursor": null,
+        "projects": []
+      },
+      "operation": "project.list",
+      "params": {
+        "limit": 5
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {
+        "nextCursor": null,
+        "projects": [
+          {
+            "createdAt": "2026-10-01T17:24:20.695Z",
+            "currentRevisionId": "73f31656-d0f2-4780-a132-db138697283a",
+            "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+            "title": "External caller primitive fixture"
+          }
+        ]
+      },
+      "operation": "project.list",
+      "params": {
+        "limit": 5
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": true
+    },
+    {
+      "data": {
+        "delivery": null,
+        "jobId": "9a2c1b31-9dc6-4dc8-9ee5-d7d7fac829d9",
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "published": null,
+        "range": {
+          "endUs": 19236969,
+          "startUs": 0
+        },
+        "reason": null,
+        "retryable": false,
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "bufferDurationSeconds": null,
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "gpu": null,
+              "hardware": "auto",
+              "id": null
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "initialBufferDelayPercent": null,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "lookAheadFrames": null,
+            "maximumQuantizer": null,
+            "minimumQuantizer": null,
+            "nonDroppableFrameRate": null,
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 3000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "state": "processing"
+      },
+      "operation": "preview.get",
+      "params": {
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {
+        "delivery": {
+          "bytes": 2526511,
+          "expiresAt": 1790878998795,
+          "token": "63d236f6-d134-4ba1-abe0-fd970a16d4fb"
+        },
+        "jobId": "9a2c1b31-9dc6-4dc8-9ee5-d7d7fac829d9",
+        "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-waNepq/preview.mp4",
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "published": {
+          "generation": 1,
+          "preview": {
+            "audio": {
+              "channels": 2,
+              "clippedSamples": 0,
+              "decoderContext": {
+                "maximumPrerollFrames": 0,
+                "maximumTailFrames": 0,
+                "policy": "bounded-current-retained-run",
+                "sampleRate": 48000
+              },
+              "frames": 923374,
+              "maximumBlockFrames": 8192,
+              "peak": 0.3172680735588074,
+              "peakResidentBytes": 101777408,
+              "sampleRate": 48000,
+              "sourceWork": {
+                "decoded": [
+                  {
+                    "float32Bytes": 545308,
+                    "frames": 136327,
+                    "sampleRate": 24000
+                  },
+                  {
+                    "float32Bytes": 3542860,
+                    "frames": 760913,
+                    "sampleRate": 48000
+                  }
+                ],
+                "descriptorDeliveredBytes": 0,
+                "descriptorInputs": 0,
+                "descriptorReadBytes": 0,
+                "preparedRetimeRuns": 1,
+                "unknownReadInputs": 8
+              },
+              "unavailable": [
+                {
+                  "clipId": "clip:a5ac718ef50ba58a670b33eee3f4ac379e2dee7b1546def6487103a4e54bb79b:9",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:3989880c4de37d28607a711bca2c864851700510ab00101b837bede386964fea:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:2a2b2ee631c8deed3ed7963a8ad8aadfd846a5b968c84781173f4306600e8eb5:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:afc897c17b001422793460da2695af1f8daaf2a70402de02c816da916ff9bd4b:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:afc897c17b001422793460da2695af1f8daaf2a70402de02c816da916ff9bd4b:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:2de0b6b8c8bf02525d5415a77308c1e3e9b4b7c16e893ca555d12fdc056bb794:2",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:3",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:83782b6c1443ee934f2174a9315fd21efea026afa01728b533365ffd7c444774:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:4",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:83782b6c1443ee934f2174a9315fd21efea026afa01728b533365ffd7c444774:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:2",
+                  "ranges": []
+                }
+              ]
+            },
+            "bytes": 2526511,
+            "cacheId": "5c776d1f-c2f2-4f59-9627-95f3b4e1e066",
+            "codec": "h264",
+            "durationUs": 19236969,
+            "encodedAudio": {
+              "channels": 2,
+              "durationTimescale": 6000000,
+              "durationValue": 115421750,
+              "sampleRate": 48000
+            },
+            "encodedVideo": {
+              "level": "3.1",
+              "profile": "high"
+            },
+            "file": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/cache/derived/5c776d1f-c2f2-4f59-9627-95f3b4e1e066.cache",
+            "frameCount": 578,
+            "height": 720,
+            "implementationId": "native-composition-movie-v21",
+            "mediaType": "video/mp4",
+            "peakResidentBytes": 101777408,
+            "preparedResourceId": null,
+            "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+            "range": {
+              "endUs": 19236969,
+              "startUs": 0
+            },
+            "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+            "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "constant"
+                },
+                "sampleRate": 48000
+              },
+              "container": "mp4",
+              "video": {
+                "bufferDurationSeconds": null,
+                "codec": "h264",
+                "color": "rec709",
+                "dataRateLimits": [],
+                "encoder": {
+                  "gpu": null,
+                  "hardware": "auto",
+                  "id": null
+                },
+                "entropy": "cabac",
+                "frameReordering": false,
+                "initialBufferDelayPercent": null,
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "level": "auto",
+                "lookAheadFrames": null,
+                "maximumQuantizer": null,
+                "minimumQuantizer": null,
+                "nonDroppableFrameRate": null,
+                "openGop": false,
+                "powerEfficient": false,
+                "prioritizeSpeed": false,
+                "profile": "high",
+                "rateControl": {
+                  "bitrate": 3000000,
+                  "mode": "average"
+                },
+                "spatialAdaptiveQuantization": true,
+                "temporalCompression": true
+              }
+            },
+            "width": 1280
+          }
+        },
+        "range": {
+          "endUs": 19236969,
+          "startUs": 0
+        },
+        "reason": null,
+        "retryable": false,
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "bufferDurationSeconds": null,
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "gpu": null,
+              "hardware": "auto",
+              "id": null
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "initialBufferDelayPercent": null,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "lookAheadFrames": null,
+            "maximumQuantizer": null,
+            "minimumQuantizer": null,
+            "nonDroppableFrameRate": null,
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 3000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "state": "ready"
+      },
+      "operation": "preview.get",
+      "params": {
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {
+        "createdAt": "2026-10-01T17:24:20.695Z",
+        "currentRevisionId": "73f31656-d0f2-4780-a132-db138697283a",
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "title": "External caller primitive fixture"
+      },
+      "operation": "project.get",
+      "params": {
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {},
+      "operation": "artifact.close",
+      "params": {
+        "token": "63d236f6-d134-4ba1-abe0-fd970a16d4fb"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {
+        "delivery": null,
+        "jobId": "9a2c1b31-9dc6-4dc8-9ee5-d7d7fac829d9",
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "published": null,
+        "range": {
+          "endUs": 19236969,
+          "startUs": 0
+        },
+        "reason": null,
+        "retryable": false,
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "bufferDurationSeconds": null,
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "gpu": null,
+              "hardware": "auto",
+              "id": null
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "initialBufferDelayPercent": null,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "lookAheadFrames": null,
+            "maximumQuantizer": null,
+            "minimumQuantizer": null,
+            "nonDroppableFrameRate": null,
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 3000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "state": "processing"
+      },
+      "operation": "preview.get",
+      "params": {
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {
+        "delivery": {
+          "bytes": 2526511,
+          "expiresAt": 1790878998795,
+          "token": "63d236f6-d134-4ba1-abe0-fd970a16d4fb"
+        },
+        "jobId": "9a2c1b31-9dc6-4dc8-9ee5-d7d7fac829d9",
+        "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-waNepq/preview.mp4",
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "published": {
+          "generation": 1,
+          "preview": {
+            "audio": {
+              "channels": 2,
+              "clippedSamples": 0,
+              "decoderContext": {
+                "maximumPrerollFrames": 0,
+                "maximumTailFrames": 0,
+                "policy": "bounded-current-retained-run",
+                "sampleRate": 48000
+              },
+              "frames": 923374,
+              "maximumBlockFrames": 8192,
+              "peak": 0.3172680735588074,
+              "peakResidentBytes": 101777408,
+              "sampleRate": 48000,
+              "sourceWork": {
+                "decoded": [
+                  {
+                    "float32Bytes": 545308,
+                    "frames": 136327,
+                    "sampleRate": 24000
+                  },
+                  {
+                    "float32Bytes": 3542860,
+                    "frames": 760913,
+                    "sampleRate": 48000
+                  }
+                ],
+                "descriptorDeliveredBytes": 0,
+                "descriptorInputs": 0,
+                "descriptorReadBytes": 0,
+                "preparedRetimeRuns": 1,
+                "unknownReadInputs": 8
+              },
+              "unavailable": [
+                {
+                  "clipId": "clip:a5ac718ef50ba58a670b33eee3f4ac379e2dee7b1546def6487103a4e54bb79b:9",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:3989880c4de37d28607a711bca2c864851700510ab00101b837bede386964fea:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:2a2b2ee631c8deed3ed7963a8ad8aadfd846a5b968c84781173f4306600e8eb5:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:afc897c17b001422793460da2695af1f8daaf2a70402de02c816da916ff9bd4b:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:afc897c17b001422793460da2695af1f8daaf2a70402de02c816da916ff9bd4b:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:2de0b6b8c8bf02525d5415a77308c1e3e9b4b7c16e893ca555d12fdc056bb794:2",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:3",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:83782b6c1443ee934f2174a9315fd21efea026afa01728b533365ffd7c444774:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:4",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:83782b6c1443ee934f2174a9315fd21efea026afa01728b533365ffd7c444774:0",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:728f582188abeaef1d9929ca3c1b763873d8a35266f73d7167d0dba73b3a9e1e:2",
+                  "ranges": []
+                }
+              ]
+            },
+            "bytes": 2526511,
+            "cacheId": "5c776d1f-c2f2-4f59-9627-95f3b4e1e066",
+            "codec": "h264",
+            "durationUs": 19236969,
+            "encodedAudio": {
+              "channels": 2,
+              "durationTimescale": 6000000,
+              "durationValue": 115421750,
+              "sampleRate": 48000
+            },
+            "encodedVideo": {
+              "level": "3.1",
+              "profile": "high"
+            },
+            "file": "/private/tmp/screenrec-25-preparation-current/library-ACs9sl/library/cache/derived/5c776d1f-c2f2-4f59-9627-95f3b4e1e066.cache",
+            "frameCount": 578,
+            "height": 720,
+            "implementationId": "native-composition-movie-v21",
+            "mediaType": "video/mp4",
+            "peakResidentBytes": 101777408,
+            "preparedResourceId": null,
+            "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+            "range": {
+              "endUs": 19236969,
+              "startUs": 0
+            },
+            "retimeImplementationId": "retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1",
+            "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "constant"
+                },
+                "sampleRate": 48000
+              },
+              "container": "mp4",
+              "video": {
+                "bufferDurationSeconds": null,
+                "codec": "h264",
+                "color": "rec709",
+                "dataRateLimits": [],
+                "encoder": {
+                  "gpu": null,
+                  "hardware": "auto",
+                  "id": null
+                },
+                "entropy": "cabac",
+                "frameReordering": false,
+                "initialBufferDelayPercent": null,
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "level": "auto",
+                "lookAheadFrames": null,
+                "maximumQuantizer": null,
+                "minimumQuantizer": null,
+                "nonDroppableFrameRate": null,
+                "openGop": false,
+                "powerEfficient": false,
+                "prioritizeSpeed": false,
+                "profile": "high",
+                "rateControl": {
+                  "bitrate": 3000000,
+                  "mode": "average"
+                },
+                "spatialAdaptiveQuantization": true,
+                "temporalCompression": true
+              }
+            },
+            "width": 1280
+          }
+        },
+        "range": {
+          "endUs": 19236969,
+          "startUs": 0
+        },
+        "reason": null,
+        "retryable": false,
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42",
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "bufferDurationSeconds": null,
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "gpu": null,
+              "hardware": "auto",
+              "id": null
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "initialBufferDelayPercent": null,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "lookAheadFrames": null,
+            "maximumQuantizer": null,
+            "minimumQuantizer": null,
+            "nonDroppableFrameRate": null,
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 3000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "state": "ready"
+      },
+      "operation": "preview.get",
+      "params": {
+        "projectId": "1463f786-68d9-4303-9f7b-f86bc0cb98c2",
+        "revisionId": "191943db-0f9a-4904-9463-8abbde18dc42"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    },
+    {
+      "data": {},
+      "operation": "artifact.close",
+      "params": {
+        "token": "63d236f6-d134-4ba1-abe0-fd970a16d4fb"
+      },
+      "scope": "historical-replay",
+      "scriptedPageContainer": false
+    }
+  ],
+  "terminal": {
+    "consumer": {
+      "code": 0,
+      "signal": null
+    },
+    "sourceOSExitEvents": [
+      {
+        "event": "source-os-exit",
+        "pid": 34454
+      }
+    ],
+    "sourceNodeExitCallbacks": [
+      {
+        "event": "source-node-exit",
+        "pid": 34454,
+        "code": 0
+      }
+    ],
+    "frozenNativeCloseEvents": [
+      {
+        "event": "close",
+        "operation": "media.audioCapabilities",
+        "pid": 34456,
+        "code": 0,
+        "signal": null,
+        "stdout": "{\"data\":{\"retime\":\"retime-signalsmith-a670068d9aeb64913331d5cc29337b19a457a7df-exact-joint-48k-p1-follow-avconverter-rational-v1\",\"rnnoise\":\"rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2\"},\"id\":\"worker-media.audioCapabilities\",\"ok\":true}\n",
+        "stderr": ""
+      }
+    ],
+    "negativeConsumer": {
+      "code": 1,
+      "signal": null
+    }
+  },
+  "negativeControl": "FAIL Historical preview request must retain the first returned revision",
+  "preservation": "Both complete default library and preview tests pass2/2; raw log in logs. No controls wiring/media cohort repeated."
+}
