@@ -31,6 +31,31 @@ Preserve menu-bar recording controls, microphone/system selection and cursor
 evidence. No new editing UI, start-time authoring settings, installed switch,
 compatibility layer or migration is part of this checkpoint.
 
+## Implementation checkpoints
+
+Keep the selector rejected while settling these owners in order:
+
+1. Extract the existing catalog-backed allocation, lifecycle sequencing,
+   discovery and deletion fences from the mixed revision store. CaptureService
+   retains control order, recovery and shutdown. The installed recording path's
+   source attachment and original span creation currently share a transaction;
+   preserve that atomic rollback at its editing owner. Moving it into the
+   coordinator's caught notification callback would silently weaken the contract.
+   Fresh capture facts create neither span revisions nor a project.
+2. Wire that same coordinator into the fresh service's catalog, private control
+   reports, startup reconciliation and close order. Replace its hard-coded
+   noncapturing job state with actual capture priority. Settle source admission
+   through existing acquisition jobs and replay identities; expose pending,
+   failed and ready facts honestly. A notification callback is not proof that
+   admission completed. Verify selector-free allocation/stop/replay/reopen first.
+3. After [21e](21e-capture-project-adoption.md) is verified, expose selection across
+   schema, allocation fingerprint, controller and native input together. Exercise
+   the full public selected-source and caller-authored project path.
+
+These are internal implementation checkpoints, not parallel capture owners or
+new authoring operations. Preserve the installed path until 23; physical and
+completed-stop acceptance retain their separate evidence requirements.
+
 ## Work and review surface
 
 Exercise actual isolated public CLI/MCP/service/controller paths with scripted
