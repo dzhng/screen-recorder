@@ -6365,3 +6365,13 @@ shared handoff retains their bounds. The [23k planning choices](assets/23k-sourc
 own the separate actual-page and historical-ready fixtures, including public empty
 projects when no suitable paging input exists. Neither choice establishes live
 default-preview readiness, presentation or release acceptance.
+
+## Merged evaluator policy and partial-word planning
+
+The [12g ledger](assets/12g-evaluator-policy/choices.md) owns synthetic CLI contract
+inputs and the unchanged metric oracle; they establish scorer policy rather than
+human quality. The [23m ledger](assets/23m-paired-partial-words-and-absent-role/choices.md)
+owns pagination and the partial-search negative control. Root review accepts their
+existing-owner boundaries: compare distinct public representations in the harness,
+keep real model readiness separate from frozen inference output, and retain absent
+roles as source facts. No product compatibility layer or editorial policy follows.

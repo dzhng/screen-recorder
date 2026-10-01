@@ -1,7 +1,6 @@
 # 12g — Keep filler measurement separate from required preservation
 
-Status: implemented and isolated scorer verification passed; root integration
-pending. This applies the existing selected best-effort policy; parent12 quality
+Status: implemented and merged scorer verification passed, 2026-10-01. This applies the existing selected best-effort policy; parent12 quality
 remains open.
 
 ## Contract and ownership

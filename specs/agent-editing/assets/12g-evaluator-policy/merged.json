@@ -1,0 +1,55 @@
+{
+  "status": "merged scorer contract green",
+  "implementation": "db6b985b",
+  "child": "146cadb10809348c0c0d55fa0bb3bb34ff3f317b",
+  "gate": {
+    "command": "node --test packages/test-harness/speech/evaluate.test.mjs",
+    "exitCode": 0,
+    "passed": 13,
+    "failed": 0,
+    "durationMs": 3929.236834
+  },
+  "checks": {
+    "scopedLint": 0,
+    "scopedFormat": 0,
+    "diffCheck": 0
+  },
+  "independentVerification": {
+    "childPayloads": 94,
+    "changedClosure": 5,
+    "unchangedEntrySources": 7,
+    "actualEmittedEntries": 2,
+    "historicalTrees": 11,
+    "exactBeforeAfterMetrics": true
+  },
+  "scope": "Synthetic scorer policy proof only; full12 remains open. Original red/14 additional CLI controls and child archive unchanged. No selected-model, metric, timing/resource/provenance/audition/coverage threshold changes.",
+  "root": "db6b985b7312424f04dfb2e8d58d4e11209ff70f",
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 2810,
+    "sha256": "17c2b6a88ec2f0fa1d20f7a572d388e00063faa1452e68f0b0b3f3e7d163d627",
+    "members": 5
+  },
+  "members": {
+    "tests.log": {
+      "bytes": 2400,
+      "sha256": "50d5ec7b2b986f363d9de338e37631394c675ee0cd4651ee154a3778bb6aadba"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "format.log": {
+      "bytes": 203,
+      "sha256": "e1ce2da6f38835b3dc090b00a0fa2a77e097fde9d79cb9bc8c9e252bbbbbd3a9"
+    },
+    "authority.json": {
+      "bytes": 3176,
+      "sha256": "c7f9ef93ef15151743ac4d32bbcf69138b2a8c90b2e121d2209910b0c9d1b100"
+    },
+    "review.md": {
+      "bytes": 583,
+      "sha256": "7ffc91690857f9c9c3c7260919647ca5f83cd8f5615a4036414d6a31127986bc"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 # 23k — Source metadata and composed native consumers
 
-Status: scoped source verified, 2026-10-01, from `0c9257ae`.
+Status: scoped source and merged consumer gates verified, 2026-10-01. The
+[merged manifest](../assets/23k-source-consumer-bridge/merged.json) pins integration.
 The [owned packet](../assets/23k-source-consumer-bridge/README.md) retains actual
 metadata exchanges and separate historical consumption; no live-ready or player claim.
 Prerequisite: [23h scoped consumer proof](23h-native-library-consumption.md).
@@ -46,10 +47,10 @@ closure forwarding only metadata operations. Record request/response bytes and
 native child lifetime. Allow project.create only for fixture preparation, then
 project.list, project.get and recording.list; the last is LibraryController's
 existing refresh companion, not recording work. Before startup, declare and pin
-the required startup worker operations against current source: the retained
-startup authority uses media.audioCapabilities and packageWorkspace.recover.
-Forward only independently confirmed necessary startup operations, scoped to the
-owned home; reject every other native operation before execution. Refuse native
+the required startup worker operations against current source. The verified fresh
+metadata home forwards only media.audioCapabilities; the lazy package workspace
+is not opened. Keep that observed one-operation fence; broader recovery fixtures
+do not authorize extra work here. Reject every other native operation before execution. Refuse native
 capture callbacks. No media admission, decoder, render, inference or model work.
 
 Exercise first page, continuation and previous navigation through the real

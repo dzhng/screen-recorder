@@ -52,7 +52,11 @@ historical MCP adapters or other cohorts.
 
 Review of shape, diff and docs found no production defect; product code is
 unchanged. [Choices](choices.md) explain the two scopes and observation seams.
-Root owns integration. Live default rendering/readiness, concrete menus/windows,
+Root integration and focused gates pass. Live default rendering/readiness, concrete menus/windows,
 player behavior, physical/listening, installed switching and release acceptance
 remain open under their existing gates. No capture, discovery, inference, model
 work, editorial decision or accepted media cohort was performed.
+
+The [merged verification](merged.json) owns root integration checks and independently
+verified child source/payload identities. Its [packet](merged.tar.gz) retains actual
+merged logs and scope; it does not extend the child claim to full release acceptance.

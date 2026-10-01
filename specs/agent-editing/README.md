@@ -22,33 +22,27 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: [23k source metadata and composed native consumers](slices/23k-source-consumer-bridge.md).**
-Execute actual metadata pagination and selected-owner dispatch through the existing
-Foundation controllers, then separately consume unchanged historical preview replies
-with an inert presenter. The two evidence scopes must remain distinct; no live
-render, playback, installed switching or media-worker rebuild belongs to this pass.
+**Next pickup: paired preservation through existing public consumers.** The
+edited-frame plan is being scoped from the saved [23j cuts](slices/23j-state-preservation.md).
+[23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
+follows genuine isolated Parakeet preparation through the ordinary model owner;
+frozen ASR output alone cannot establish readiness. Keep same-request frame
+selection distinct from matched-source picture comparisons. Authored freeze,
+repeat and empty intervals have no legacy cut/trim counterpart.
 
-[24z12 MCP media admission](slices/24z12-mcp-media-admission.md) passes the full merged
-140-test consumer gate. Oversized envelopes defer before consumption with complete
-metadata and live tokens. [24z11 complete-result delivery](slices/24z11-operation-result-delivery.md)
-retains its measured setup correction and original failed deadlines. Neither pass
-changes transport limits, test deadlines or the external caller's decision ownership.
+[23k composed native consumers](slices/23k-source-consumer-bridge.md) passes its
+merged check and unchanged default consumer checks. Actual metadata paging and
+selected-owner dispatch remain separate from historical readiness consumed with
+an inert presenter; live rendering and presentation are still unverified.
+[12g evaluator policy](slices/12g-evaluator-policy.md) passes its merged scorer
+checks: filler rates remain informational, explicit required words retain their
+existing enforcement, and broader speech quality remains open.
 
-An independent speech-evaluator correction is underway under [12](slices/12-speech-evidence.md).
-The established best-effort policy reports filler coverage without a recall/precision
-failure threshold. Remove the stale scorer gates and automatic promotion of optional
-fillers to required words, retaining explicit preservation targets and every other
-quality requirement. This requires no inference or accepted media rerun and does
-not close broader speech quality.
-
-[23j paired public state](slices/23j-state-preservation.md) closes the edit/history
-correspondence. Its historical MCP adapter exit events remain unrecorded; SDK close
-resolution is not termination proof. Map the other banked outcomes in the
+[24z11 complete results](slices/24z11-operation-result-delivery.md) and
+[24z12 MCP media admission](slices/24z12-mcp-media-admission.md) retain their merged
+consumer proof without changing transport limits or deadlines. The
 [23 preservation correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-before adding another media case. The [24z10 relocation check](slices/24z10-portable-index-relocation.md)
-preserves complete fixture values through runner setup hooks; the original whole-setup
-timeout remains failed evidence, with no product speedup claim. These lanes need
-no new capture or audition.
+owns remaining outcome gaps. Reuse closed cohorts rather than repeat them.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -183,6 +177,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
 - [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
+- [x] [12g — Evaluator best-effort filler policy](slices/12g-evaluator-policy.md) — scorer contract only; parent speech quality remains open
 - [x] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [x] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
@@ -275,7 +270,8 @@ implementation readiness from acceptance prerequisites.
 - [x] [23h — Native library consumption](slices/23h-native-library-consumption.md)
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
-- [ ] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
+- [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
+- [ ] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — genuine model readiness precedes frozen ingestion
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

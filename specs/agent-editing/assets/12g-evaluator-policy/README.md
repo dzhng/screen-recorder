@@ -42,3 +42,7 @@ retained separately. The corrected probe removes network provenance without
 changing compared identity and verifies pending status; this required no product
 change. [choices.md](choices.md) records the reviewed fixture and oracle decisions.
 No media, model, download, capture, UI or audition was executed.
+
+The [merged verification](merged.json) owns root integration checks and independently
+verified child source/payload identities. Its [packet](merged.tar.gz) retains actual
+merged logs and scope; it does not extend the child claim to full release acceptance.

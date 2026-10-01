@@ -53,8 +53,9 @@ Its sourceStatus refuses model_not_prepared and execution obtains Models.nativeR
 before invoking speech.transcribe. Frozen output cannot bypass those genuine checks.
 Under the existing authorization for isolated model work, admit accepted local files
 through public `model.prepare {modelId:"parakeet", modelSource:...}` if needed,
-preserving original files/receipts. This documentation pass executes none. Never
-download, switch the model, write a readiness receipt or override model.status.
+preserving original files/receipts. This projection pass consumes separately
+established readiness; it never downloads models, switches the model, writes a
+readiness receipt or overrides model.status.
 The existing fixture service's declared scratch readiness is not this prerequisite.
 If genuine readiness cannot be established, name the exact missing files/status;
 do not claim the paired transcript gate passed or substitute inference.

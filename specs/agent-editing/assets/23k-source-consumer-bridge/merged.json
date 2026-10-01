@@ -1,0 +1,185 @@
+{
+  "status": "merged composed consumer gates green",
+  "implementation": "7879b2f8",
+  "child": "76b8774eb3005ff1d2fa56da054f6d65846c5af4",
+  "gates": {
+    "composed": {
+      "passed": 1,
+      "exitCode": 0,
+      "durationMs": 39615.142833
+    },
+    "unchangedDefaults": {
+      "passed": 2,
+      "exitCode": 0,
+      "durationMs": 67290.059417
+    }
+  },
+  "checks": {
+    "scopedLint": 0,
+    "scopedFormat": 0,
+    "diffCheck": 0
+  },
+  "independentVerification": {
+    "childPayloads": 565,
+    "bundleInputs": 259,
+    "sourceInputs": 164,
+    "configurationInputs": 18,
+    "consumerSources": 24,
+    "completePublicExchanges": 11
+  },
+  "catalog": [
+    {
+      "path": "home/library/catalog.sqlite",
+      "userVersion": 22,
+      "counts": {
+        "projects": 6,
+        "assets": 0,
+        "acquisitions": 0,
+        "jobs": 0,
+        "recordings": 0
+      }
+    }
+  ],
+  "scope": "Actual metadata paging/get/dispatch and separate unchanged historical readiness consumption; inert play callback reads no movie. Source/native/consumer terminal events retained. No live default preview render, presentation, installed/physical/listening/full-release or historical MCP exit claim.",
+  "root": "db6b985b7312424f04dfb2e8d58d4e11209ff70f",
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 730544,
+    "sha256": "5e8bc3ace067385b2179d900bafb80a735bf48f9be0356a0116bab99e4f7ba42",
+    "members": 33
+  },
+  "members": {
+    "authority.json": {
+      "bytes": 8710,
+      "sha256": "3dc800eeb63dd58d1c85aed0eeda8478e54aeb7c4b2989f55f80e8bb49b627ba"
+    },
+    "compiler.json": {
+      "bytes": 3065,
+      "sha256": "d09c0c0088ef71c1b16dfd2468ee37ce4d88c58de901a4ae924db54e50b455cb"
+    },
+    "consumer/Check.swift": {
+      "bytes": 16099,
+      "sha256": "881537eda9b7984fdd1a1d33194ca11a769177696b660e2c4633d7bd0f9c435e"
+    },
+    "consumer/ScreenRecorderControls.abi.json": {
+      "bytes": 149,
+      "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+    },
+    "consumer/ScreenRecorderControls.swiftdoc": {
+      "bytes": 41776,
+      "sha256": "35a6b97809f6481182ec1eaf28b28b015dc6a593046255bce56821df48842184"
+    },
+    "consumer/ScreenRecorderControls.swiftmodule": {
+      "bytes": 334556,
+      "sha256": "694bc2f894d65b659ec57cd2ebfc6d35c550a0e567b6716684fec01f38fd52aa"
+    },
+    "consumer/ScreenRecorderControls.swiftsourceinfo": {
+      "bytes": 88856,
+      "sha256": "2ffdf0c600eb33756044337e278488fe87511be4c1a8904a3adbbe5e1abb8d3c"
+    },
+    "consumer/check": {
+      "bytes": 898312,
+      "sha256": "23b003756b1429d7ce877aa1e7dab419eaa97a86aec08499849bb09fd6e9f1ab"
+    },
+    "consumer/libScreenRecorderControls.dylib": {
+      "bytes": 958944,
+      "sha256": "2aae41b2196ddfffd2fd76977e584d35d342b7bbafee15cf55829ad1d10271b8"
+    },
+    "consumer.json": {
+      "bytes": 528,
+      "sha256": "9d296f2de7b98593475f1e196f35f6068cae16a7c0b7828b0d142af1d2b1b55c"
+    },
+    "default-consumers.log": {
+      "bytes": 23986,
+      "sha256": "aeddab6cdcec12c4d1fe43d972bb937a66a4f639e1298e8ab95248be0799e204"
+    },
+    "gate.log": {
+      "bytes": 309,
+      "sha256": "71589cea782fec9a2d3992eb9ab2d38f3f0b9cbb47a747d5561f44a92f5dc61c"
+    },
+    "green.jsonl": {
+      "bytes": 23396,
+      "sha256": "0fc4c44cc38def74ebb4c0e81feff85dc51979f03d2bc656df98c095968c7387"
+    },
+    "historical/primitive-fixture-preview-poll-0.reply.json": {
+      "bytes": 1076,
+      "sha256": "f8542fb37962c6ad03aa33b8626a6b3ac1a2d8c69fd49af0608d0ea1717896bd"
+    },
+    "historical/primitive-fixture-preview-poll-0.request.json": {
+      "bytes": 266,
+      "sha256": "a12a3b9b496ffbb0c75994df7a506b517429808ebe2498be934ed729ca5ae843"
+    },
+    "historical/primitive-fixture-preview-poll-3.reply.json": {
+      "bytes": 4581,
+      "sha256": "4618064a97f12ee895e08489b5173b5186c1aff49a890938cdf9aa9e3cdd1e3d"
+    },
+    "historical/primitive-fixture-preview-poll-3.request.json": {
+      "bytes": 266,
+      "sha256": "a12a3b9b496ffbb0c75994df7a506b517429808ebe2498be934ed729ca5ae843"
+    },
+    "historical/project.get-initial.reply.json": {
+      "bytes": 258,
+      "sha256": "6fe4b81d87afc9490a6734381a4bf9c5610f9eb48ce9cfddb07a856822a0f5c1"
+    },
+    "historical/project.get-initial.request.json": {
+      "bytes": 57,
+      "sha256": "a59438063911b36436f9c6f6dc57ab502ad5d1ad06b1cbcb6b3e7b6bebdc02e2"
+    },
+    "historical/recipient-initial-project.list.reply.json": {
+      "bytes": 97,
+      "sha256": "649553468ebbef76459a4abe706db8457b17d3e273c5c83aaa961ee46cd362f7"
+    },
+    "historical/recipient-initial-project.list.request.json": {
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    "home/library/catalog.sqlite": {
+      "bytes": 380928,
+      "sha256": "69d5270f33e7a7d23c2da6e7b180efc7a5c83b56c78d1e1f930be5b8f2d5dfe4"
+    },
+    "home/run/service.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "inputs.json": {
+      "bytes": 6084,
+      "sha256": "222265de2cee27407280a141368475a8d52321176add0561bc9e66d4310d7673"
+    },
+    "missing-pin.jsonl": {
+      "bytes": 7162,
+      "sha256": "0f2d6271fac7fa0ff44638811fe63e12ca36be4b2ace6de805bd2e0517cff70b"
+    },
+    "native.jsonl": {
+      "bytes": 650,
+      "sha256": "92891e50035ca8372fb3528633d6f689e9ec826c78edac38a591934972ae65be"
+    },
+    "negative-control.json": {
+      "bytes": 420,
+      "sha256": "faca99d4116534cf499e62487e0bbc1eace9b0740ecd901ad1d34899780969d7"
+    },
+    "source-control.jsonl": {
+      "bytes": 13170,
+      "sha256": "bbb249a5d97b45a26f2ae67037c9d906b7e58c15fc763e75e0af318ec4294575"
+    },
+    "source-exchanges.json": {
+      "bytes": 13862,
+      "sha256": "24b445fccc2d64b398bd3504852bb331d187842a3631a7926683f276652a094b"
+    },
+    "source-observer.mjs": {
+      "bytes": 582,
+      "sha256": "78a8c8933f28b046654f76e0ba56cca5141e5d932a3caaa57eeca8f707238ea6"
+    },
+    "startup-worker.mjs": {
+      "bytes": 1146,
+      "sha256": "91497e4611f1d4b398f500e1feec5780d40bcf42ec77480ab4dffac4c598995b"
+    },
+    "catalog-facts.json": {
+      "bytes": 204,
+      "sha256": "0fd433e50c230fe173597301bea356ddeed155fd64150ff7c813acd2d988ebb7"
+    },
+    "review.md": {
+      "bytes": 900,
+      "sha256": "d63254812d8721467ae4bcd227fd29c5cc7e575f19e2124a837dd8d5414a8efa"
+    }
+  }
+}

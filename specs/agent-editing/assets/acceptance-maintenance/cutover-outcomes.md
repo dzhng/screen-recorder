@@ -38,7 +38,10 @@ The 10b [identities](../10b-source-acquisition/native-video/identities.json) pin
 before worker `fae5e9122b1805b6c03fad000c1c27db4705222763aecb02049f63e1826df655`
 and current worker `329d439b1a42153d797228c987c55503e5e549009d6e70b3516a9f30cbe6075b`.
 None of these rows supplies a complete matched legacy-public/project-public
-edited join, physical gap or held-tail comparison. Matched PTS, output frame grids,
+edited join, physical gap or final-sample comparison. The saved take contains no
+physical gap; authored repeat/freeze/background in 10d has no old public cut/trim
+counterpart. Final sample support needs actual encoded duration evidence, separate
+from an authored freeze. Matched PTS, output frame grids,
 declared color conversion and explicit pointer treatments remain permitted differences.
 
 ## Acquisition and excerpts
@@ -63,7 +66,8 @@ The 21f3 camera-selection archive's `final/numeric/report.json` preserves 100800
 frames through requested visual changes, undo and relocation, SHA
 `d5fbdc8b04e302fa23e2e515218ab7a650f994dd13486c8a05283fa151aea665`.
 Both that case and 23a disable system audio. Complete matched public system-only
-and absent-role correspondence remain missing. A later two-track fixture must
+and absent-role correspondence remain missing. The [23m plan](../../slices/23m-paired-partial-words-and-absent-role.md)
+scopes the latter using truthful not_requested metadata. A later two-track fixture must
 explicitly author legacy-equivalent gains/ramps; the new toolkit cannot infer those
 treatments from the old engine's automatic policy.
 
@@ -82,7 +86,9 @@ The [10c phrase project](../10c-public-phrases/project.json) retains the partial
 “Okay,” source word [1120000,1440000), fragment [1120000,1300000), project fragment
 [6000000,6180000), with `partial:true`. Its negative control shows the false match
 when the partial-word barrier is removed. This is new-public proof; a matched
-legacy/project edited partial-word comparison was not located.
+legacy/project edited partial-word comparison remains prospective under
+[23m](../../slices/23m-paired-partial-words-and-absent-role.md), which preserves both
+public row shapes and compares their retained interval meaning in the harness.
 
 The linked original transcript generation report retains eight complete
 `ARTIFACT_CHANGED` errors, all 14 fresh rows and two phrase matches. The audit
