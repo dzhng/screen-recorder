@@ -1,0 +1,54 @@
+{
+  "existingImmutablePacket": "/tmp/screenrec-23l-packet",
+  "references": [
+    {
+      "path": "/tmp/screenrec-23l-packet/runs/third/report.json",
+      "archiveRelativePath": "runs/third/report.json",
+      "bytes": 2902696,
+      "sha256": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/pixels/outputs.json",
+      "archiveRelativePath": "pixels/outputs.json",
+      "bytes": 14966,
+      "sha256": "106d64fb28f379c25f67ec701047d1cce8c51126097bd6a55a3196c80d299d4f"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/producer/native-frame-authority/pins.json",
+      "archiveRelativePath": "producer/native-frame-authority/pins.json",
+      "bytes": 1419,
+      "sha256": "40a24111d22e08013d990cfd0e0fc30a4b8e96a620e4fb4a7a5c07c62fa6322f"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/producer/native-frame-authority/complete-frozen-source-pins.json",
+      "archiveRelativePath": "producer/native-frame-authority/complete-frozen-source-pins.json",
+      "bytes": 30293,
+      "sha256": "743cfa48553638ba6732e94a2739c4dd938f85b4275cb336f4998dc2e0319581"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/producer/FrameImagePixels.swift",
+      "archiveRelativePath": "producer/FrameImagePixels.swift",
+      "bytes": 2027,
+      "sha256": "fad481a23d56d34c6557b3dd599c4ccac9b55bd3dc028a935e72f86c6767e302"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/verification/report.json",
+      "archiveRelativePath": "verification/report.json",
+      "bytes": 76878,
+      "sha256": "d984484dabacee05968043aa89f41592687fb6d30f36e3d332aecccb6326dc87"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/visual/manifest.json",
+      "archiveRelativePath": "visual/manifest.json",
+      "bytes": 29330,
+      "sha256": "aca2c72cdabc77cbd6f1a380e9956f6d643326f2940f18669bb7a5a5aa9ad44d"
+    },
+    {
+      "path": "/tmp/screenrec-23l-packet/visual/all-pixel-metrics.json",
+      "archiveRelativePath": "visual/all-pixel-metrics.json",
+      "bytes": 16474,
+      "sha256": "7d56801bfc66d305f43a9f5822311993d43e61192de0dfbe65a86ccfb5bf8bb4"
+    }
+  ],
+  "source/runtimeAuthority": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408"
+}

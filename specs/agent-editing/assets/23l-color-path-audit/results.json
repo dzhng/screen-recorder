@@ -1,0 +1,1130 @@
+{
+  "scope": "Read-only lossless PNG sample bytes versus already saved color-managed RGBA; no rendering/regeneration/native work",
+  "reportSHA256": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408",
+  "sources": [
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift",
+      "bytes": 33802,
+      "sha256": "7600e036331e19da377102c494e1b029caba4ac3c42a589d526d11856523f7de"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift",
+      "bytes": 3642,
+      "sha256": "f80f8c45a8d3ed68510ee9fe7c01d50a98ae340a316bdd4e9a43176d924744e6"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/SourceFrameRenderer.swift",
+      "bytes": 3910,
+      "sha256": "0f4b5d6ce3f79d7d41c37d31fe0560372cecda2a20e1ce0f3d726436113098f7"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift",
+      "bytes": 6431,
+      "sha256": "989fd1103e62fee0bad1863bf13bdcca74fc99a0ae086c2c2c84526c29b9f3cf"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/PresentationSource.swift",
+      "bytes": 11684,
+      "sha256": "f1d1f3ecda91d56679379b1e4e495d01cb5e19310b060bc75c9751f043865e62"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/FrameSource.swift",
+      "bytes": 10451,
+      "sha256": "9ed6b6cbf29578e079dd995442c2263170674fce4ee5b7d482ddd5d1ebd1461e"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/SampleSelection.swift",
+      "bytes": 3521,
+      "sha256": "d8be6d9e687131427accbd28ef8065ee083fd4441e3c19fd0f9c51f022d72f3a"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift",
+      "bytes": 3364,
+      "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+    }
+  ],
+  "inputPins": [
+    {
+      "original": "/tmp/screenrec-23l-third/30-recording-raw.png",
+      "sha256": "08c139ef8e76f28c214bd3dbb4f00c06f243afdc95431231480bab0c6119c97f",
+      "bytes": 816930,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        79,
+        957,
+        6,
+        928
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "df148bb83b831c4fefbf44f41b6efc32077bf26e3aa1f64e9d1d6720d16f16e9",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/30-recording-raw.png.rgba",
+        "banked": "pixels/e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0.rgba",
+        "bytes": 24585600,
+        "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 1970,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/1-project-before.png",
+      "sha256": "955b04fcff0c25a0db08c05d5aa37be524e47785a5cb4b753d0212ce83181135",
+      "bytes": 933795,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        79,
+        957,
+        6,
+        928
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "71454ed1e0934377f68b3d80fe8290b1b0e2018a738c4841bbf01fc044f56bef",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/1-project-before.png.rgba",
+        "banked": "pixels/71454ed1e0934377f68b3d80fe8290b1b0e2018a738c4841bbf01fc044f56bef.rgba",
+        "bytes": 24585600,
+        "sha256": "71454ed1e0934377f68b3d80fe8290b1b0e2018a738c4841bbf01fc044f56bef"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "height": 1970,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": true,
+        "width": 3120,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/28-recording-raw.png",
+      "sha256": "8f042274ad0d63020a8aa5e675b12b800f8f916f466eb0311978f62b57faaf43",
+      "bytes": 756841,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        81,
+        1035,
+        7,
+        847
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "82d911a503e9770a97a7b03981254323d3f69ab27a6372e35d9a7930cde25fe1",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/28-recording-raw.png.rgba",
+        "banked": "pixels/ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49.rgba",
+        "bytes": 24585600,
+        "sha256": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "height": 1970,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "width": 3120
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/3-project-before.png",
+      "sha256": "c6a24355f225127bf8af19e5676d36435e8671c1b8fe6ad86e6152a53b9b6936",
+      "bytes": 868686,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        80,
+        1034,
+        6,
+        850
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "4107dd547b38114906539bcf46a55f7faa0a9ef6883ed097089c87842867e978",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/3-project-before.png.rgba",
+        "banked": "pixels/4107dd547b38114906539bcf46a55f7faa0a9ef6883ed097089c87842867e978.rgba",
+        "bytes": 24585600,
+        "sha256": "4107dd547b38114906539bcf46a55f7faa0a9ef6883ed097089c87842867e978"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "height": 1970,
+        "outputProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/34-recording-raw.png",
+      "sha256": "bf52f8fc725bfb11cc454a9bfbdb4e9d74bf294629819ce348d702818d6c228f",
+      "bytes": 704679,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        96,
+        1144,
+        6,
+        724
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "3a4f4f849161be351eee3fc042dc0b4240aacdbd9318408d47f3567157a9149a",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/34-recording-raw.png.rgba",
+        "banked": "pixels/e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6.rgba",
+        "bytes": 24585600,
+        "sha256": "e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "width": 3120,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 1970,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/7-project-before.png",
+      "sha256": "cee14b144d477706951c1027dac437d11dcc7e9642595b291cd184cbb8f29567",
+      "bytes": 811452,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        96,
+        1142,
+        6,
+        726
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "bbfcb79b8562244fbb3fd60dc6d999a8f58cdb13fa37fe3b1c2fc05af4fd1ce7",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/7-project-before.png.rgba",
+        "banked": "pixels/bbfcb79b8562244fbb3fd60dc6d999a8f58cdb13fa37fe3b1c2fc05af4fd1ce7.rgba",
+        "bytes": 24585600,
+        "sha256": "bbfcb79b8562244fbb3fd60dc6d999a8f58cdb13fa37fe3b1c2fc05af4fd1ce7"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "width": 3120,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "height": 1970
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/32-recording-raw.png",
+      "sha256": "e43dc36e46907aa7da5798c378de4e88016d9113c0e9c197ddd96ad531c0599a",
+      "bytes": 702943,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        96,
+        1151,
+        7,
+        716
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "1b3de927173d390a5611e87c4d332564ee60f8396f42abf3d7631e5e7b90affa",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/32-recording-raw.png.rgba",
+        "banked": "pixels/5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529.rgba",
+        "bytes": 24585600,
+        "sha256": "5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "opaque": true,
+        "height": 1970,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/9-project-before.png",
+      "sha256": "058ecadf86a849b68c8689cc054c39068829381f98fa9f042a865dc334deb578",
+      "bytes": 806478,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        96,
+        1150,
+        5,
+        719
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "2d526758abc812132ab1d23af02e3521b7a445eb9eec904142e9858055ad5cda",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/9-project-before.png.rgba",
+        "banked": "pixels/2d526758abc812132ab1d23af02e3521b7a445eb9eec904142e9858055ad5cda.rgba",
+        "bytes": 24585600,
+        "sha256": "2d526758abc812132ab1d23af02e3521b7a445eb9eec904142e9858055ad5cda"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "height": 1970,
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/38-recording-raw.png",
+      "sha256": "b26d864d262576f8497b2a8512e303c5edf80ca2718e84c4c6253b4bce988e44",
+      "bytes": 690985,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        120,
+        1168,
+        3,
+        679
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "e17f748ecc3a3dc2294d14bb0ea3728004e9bd4901ca5455ad6e540d6a1bbe51",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/38-recording-raw.png.rgba",
+        "banked": "pixels/56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677.rgba",
+        "bytes": 24585600,
+        "sha256": "56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "height": 1970,
+        "width": 3120,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/13-project-before.png",
+      "sha256": "1152e53a9fd3a81b75f80fe780c74546f25112d5b01d778bb147455f287ea66c",
+      "bytes": 791814,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        120,
+        1166,
+        3,
+        681
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "e613a4e66761448c0a973493e2da0a9f6b11e7a33fb27b54a9d1d2804a59873a",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/13-project-before.png.rgba",
+        "banked": "pixels/e613a4e66761448c0a973493e2da0a9f6b11e7a33fb27b54a9d1d2804a59873a.rgba",
+        "bytes": 24585600,
+        "sha256": "e613a4e66761448c0a973493e2da0a9f6b11e7a33fb27b54a9d1d2804a59873a"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "height": 1970,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/42-recording-raw.png",
+      "sha256": "4f667ee717de8ab2357e6ddb032f5653ed1f5f78290e5fffd6b9e7da3c0a50ad",
+      "bytes": 730869,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        91,
+        1094,
+        5,
+        780
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "cd16b83d5cec6143106259b7098299e1e35ff908f67130fe01e9e12cec51e87d",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/42-recording-raw.png.rgba",
+        "banked": "pixels/d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550.rgba",
+        "bytes": 24585600,
+        "sha256": "d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "height": 1970,
+        "width": 3120,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/17-project-after.png",
+      "sha256": "4300921d12eb74c02a125ada64a5055539fbd19e7aad81170a49f812ed6925a5",
+      "bytes": 839525,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        89,
+        1093,
+        5,
+        783
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "8652c0cf8832fa49c0408287ef11323068ed1504c85c2556ec61cda805386839",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/17-project-after.png.rgba",
+        "banked": "pixels/8652c0cf8832fa49c0408287ef11323068ed1504c85c2556ec61cda805386839.rgba",
+        "bytes": 24585600,
+        "sha256": "8652c0cf8832fa49c0408287ef11323068ed1504c85c2556ec61cda805386839"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "width": 3120,
+        "height": 1970
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/46-recording-raw.png",
+      "sha256": "9b2f0af805bba4376d253d3eb7c5811e6937d20ebb54c93fc05f1055bbfdcef1",
+      "bytes": 697674,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        93,
+        1136,
+        4,
+        737
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "b9e9ca2282f9c99e54f6fd4ba1d34efc9750f713a7433487df9cf68540d15b5b",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/46-recording-raw.png.rgba",
+        "banked": "pixels/9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89.rgba",
+        "bytes": 24585600,
+        "sha256": "9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 1970,
+        "opaque": true,
+        "width": 3120,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/21-project-after.png",
+      "sha256": "06fc5021c42fd0108c768291226221de84822c3a89a96991f044963eea374d73",
+      "bytes": 798853,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        93,
+        1137,
+        4,
+        736
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "9dfea49b29558c3c3c11bd464048d30ab9c843ce4082a806af55dcdbf2853edb",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/21-project-after.png.rgba",
+        "banked": "pixels/9dfea49b29558c3c3c11bd464048d30ab9c843ce4082a806af55dcdbf2853edb.rgba",
+        "bytes": 24585600,
+        "sha256": "9dfea49b29558c3c3c11bd464048d30ab9c843ce4082a806af55dcdbf2853edb"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "height": 1970,
+        "width": 3120,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/50-recording-raw.png",
+      "sha256": "c1211ba0f571d1b521a0f67aaa298c9cab64db7e0f8f5c3b71957cdb21340b77",
+      "bytes": 693011,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        95,
+        1160,
+        4,
+        711
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "69c48ef0cd9565492b52e20fc2c214e7feca77a692aed1b3ca56355f1ced0b03",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/50-recording-raw.png.rgba",
+        "banked": "pixels/08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201.rgba",
+        "bytes": 24585600,
+        "sha256": "08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": true,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "height": 1970,
+        "outputProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/23-project-after.png",
+      "sha256": "274cd402132e864f31a00d5776f1dc158424afb72388732e3df4cff6c0ab2631",
+      "bytes": 794453,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        95,
+        1162,
+        4,
+        709
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "4961fc659fe081c73c5d24ea45c926a291ba297ac38ff574535cdffa70019e3d",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/23-project-after.png.rgba",
+        "banked": "pixels/4961fc659fe081c73c5d24ea45c926a291ba297ac38ff574535cdffa70019e3d.rgba",
+        "bytes": 24585600,
+        "sha256": "4961fc659fe081c73c5d24ea45c926a291ba297ac38ff574535cdffa70019e3d"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "height": 1970,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "width": 3120,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/52-recording-raw.png",
+      "sha256": "d80128bc31f544423b6982a55b1d90bb41bad65b031df29e13349e797618efda",
+      "bytes": 691457,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 2,
+      "channels": 3,
+      "filters": [
+        0,
+        121,
+        1166,
+        3,
+        680
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "346ef1c920be34619f6cd28f9a44331d8bf7c2df16336fe1db653b2800aa599c",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/52-recording-raw.png.rgba",
+        "banked": "pixels/3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad.rgba",
+        "bytes": 24585600,
+        "sha256": "3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "width": 3120,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "height": 1970,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      }
+    },
+    {
+      "original": "/tmp/screenrec-23l-third/27-project-after.png",
+      "sha256": "bee28e2eb61fc687e155ae25e0914d8fcaf9723f302ee31aef9382bb31d6b0fc",
+      "bytes": 792436,
+      "width": 3120,
+      "height": 1970,
+      "colorType": 6,
+      "channels": 4,
+      "filters": [
+        0,
+        121,
+        1166,
+        3,
+        680
+      ],
+      "colorChunks": [
+        {
+          "kind": "sRGB",
+          "bytes": 1,
+          "hex": "00"
+        }
+      ],
+      "encodedSamplesSHA256": "3aa6b078db3ee5c45adc21dd3b68efc8e45099ae4b147e925a0e0e4ed249ad85",
+      "normalized": {
+        "original": "/tmp/screenrec-23l-third/27-project-after.png.rgba",
+        "banked": "pixels/3aa6b078db3ee5c45adc21dd3b68efc8e45099ae4b147e925a0e0e4ed249ad85.rgba",
+        "bytes": 24585600,
+        "sha256": "3aa6b078db3ee5c45adc21dd3b68efc8e45099ae4b147e925a0e0e4ed249ad85"
+      },
+      "normalizedDifferences": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pixelReceipt": {
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 3120,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 1970
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "sample": "952322/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/30-recording-raw.png",
+        "/tmp/screenrec-23l-third/1-project-before.png"
+      ],
+      "encodedDifferences": [
+        4195,
+        823,
+        977,
+        0
+      ],
+      "normalizedDifferences": [
+        4195,
+        823,
+        977,
+        0
+      ],
+      "signs": {
+        "1": 2531,
+        "-1": 3464
+      },
+      "differentPixels": 5903,
+      "borderPixels": 0,
+      "bounds": [
+        98,
+        20,
+        3078,
+        1797
+      ],
+      "tupleConflicts": 283
+    },
+    {
+      "sample": "987470/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/28-recording-raw.png",
+        "/tmp/screenrec-23l-third/3-project-before.png"
+      ],
+      "encodedDifferences": [
+        2703,
+        873,
+        1104,
+        0
+      ],
+      "normalizedDifferences": [
+        2703,
+        873,
+        1104,
+        0
+      ],
+      "signs": {
+        "1": 2577,
+        "-1": 2103
+      },
+      "differentPixels": 4547,
+      "borderPixels": 0,
+      "bounds": [
+        98,
+        22,
+        3079,
+        1791
+      ],
+      "tupleConflicts": 240
+    },
+    {
+      "sample": "2960657/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/34-recording-raw.png",
+        "/tmp/screenrec-23l-third/7-project-before.png"
+      ],
+      "encodedDifferences": [
+        2527,
+        588,
+        928,
+        0
+      ],
+      "normalizedDifferences": [
+        2527,
+        588,
+        928,
+        0
+      ],
+      "signs": {
+        "1": 1979,
+        "-1": 2064
+      },
+      "differentPixels": 3928,
+      "borderPixels": 0,
+      "bounds": [
+        98,
+        21,
+        3073,
+        1767
+      ],
+      "tupleConflicts": 259
+    },
+    {
+      "sample": "2996894/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/32-recording-raw.png",
+        "/tmp/screenrec-23l-third/9-project-before.png"
+      ],
+      "encodedDifferences": [
+        2473,
+        598,
+        959,
+        0
+      ],
+      "normalizedDifferences": [
+        2473,
+        598,
+        959,
+        0
+      ],
+      "signs": {
+        "1": 2036,
+        "-1": 1994
+      },
+      "differentPixels": 3914,
+      "borderPixels": 0,
+      "bounds": [
+        98,
+        21,
+        3073,
+        1767
+      ],
+      "tupleConflicts": 295
+    },
+    {
+      "sample": "131998157/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/38-recording-raw.png",
+        "/tmp/screenrec-23l-third/13-project-before.png"
+      ],
+      "encodedDifferences": [
+        2404,
+        515,
+        776,
+        0
+      ],
+      "normalizedDifferences": [
+        2404,
+        515,
+        776,
+        0
+      ],
+      "signs": {
+        "1": 1744,
+        "-1": 1951
+      },
+      "differentPixels": 3604,
+      "borderPixels": 0,
+      "bounds": [
+        205,
+        25,
+        3064,
+        1766
+      ],
+      "tupleConflicts": 207
+    },
+    {
+      "sample": "1976107/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/42-recording-raw.png",
+        "/tmp/screenrec-23l-third/17-project-after.png"
+      ],
+      "encodedDifferences": [
+        3345,
+        717,
+        952,
+        0
+      ],
+      "normalizedDifferences": [
+        3345,
+        717,
+        952,
+        0
+      ],
+      "signs": {
+        "1": 2199,
+        "-1": 2815
+      },
+      "differentPixels": 4923,
+      "borderPixels": 0,
+      "bounds": [
+        98,
+        21,
+        3078,
+        1766
+      ],
+      "tupleConflicts": 208
+    },
+    {
+      "sample": "3954490/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/46-recording-raw.png",
+        "/tmp/screenrec-23l-third/21-project-after.png"
+      ],
+      "encodedDifferences": [
+        2535,
+        651,
+        818,
+        0
+      ],
+      "normalizedDifferences": [
+        2535,
+        651,
+        818,
+        0
+      ],
+      "signs": {
+        "1": 1866,
+        "-1": 2138
+      },
+      "differentPixels": 3903,
+      "borderPixels": 0,
+      "bounds": [
+        198,
+        25,
+        3064,
+        1764
+      ],
+      "tupleConflicts": 214
+    },
+    {
+      "sample": "4972376/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/50-recording-raw.png",
+        "/tmp/screenrec-23l-third/23-project-after.png"
+      ],
+      "encodedDifferences": [
+        2533,
+        636,
+        801,
+        0
+      ],
+      "normalizedDifferences": [
+        2533,
+        636,
+        801,
+        0
+      ],
+      "signs": {
+        "1": 1836,
+        "-1": 2134
+      },
+      "differentPixels": 3871,
+      "borderPixels": 0,
+      "bounds": [
+        192,
+        25,
+        3064,
+        1764
+      ],
+      "tupleConflicts": 222
+    },
+    {
+      "sample": "134006597/1000000",
+      "files": [
+        "/tmp/screenrec-23l-third/52-recording-raw.png",
+        "/tmp/screenrec-23l-third/27-project-after.png"
+      ],
+      "encodedDifferences": [
+        2437,
+        503,
+        785,
+        0
+      ],
+      "normalizedDifferences": [
+        2437,
+        503,
+        785,
+        0
+      ],
+      "signs": {
+        "1": 1720,
+        "-1": 2005
+      },
+      "differentPixels": 3631,
+      "borderPixels": 0,
+      "bounds": [
+        205,
+        25,
+        3064,
+        1766
+      ],
+      "tupleConflicts": 212
+    }
+  ]
+}
