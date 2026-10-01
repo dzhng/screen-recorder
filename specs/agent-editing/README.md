@@ -33,7 +33,7 @@ In parallel, profile and correct the existing recording-index relocation deadlin
 at its actual owner. [The merged source-index checks](assets/24z9-source-index-plan-resolution/merged-verification.json)
 retain the combined and isolated failures. The fixture does not enter the changed
 source-index planning path; no timeout cause is established. Reconcile the remaining
-[23 preservation/presentation matrix](slices/23-cutover.md) against banked outcomes
+[23 preservation/presentation correspondence](assets/acceptance-maintenance/cutover-preservation.md) against banked outcomes
 before choosing another consumer pass. These lanes need no new capture or audition.
 
 | Owner | Current evidence | Remaining contract |
