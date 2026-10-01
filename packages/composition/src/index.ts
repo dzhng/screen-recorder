@@ -132,3 +132,12 @@ export type { OutputSettings, OutputSettingsInput } from "./output-settings.js";
 export { outputCapabilities } from "./output-settings.js";
 
 export { sampleAt } from "./sample-clock.js";
+
+export {
+  audioOutputSettingsSchema,
+  resolvedAudioOutputSettingsSchema,
+  resolveAudioOutputSettings,
+  normalizeAudioOutputRequest,
+  audioOutputCapabilities,
+} from "./output-settings.js";
+export type { AudioOutputSettings, AudioOutputSettingsInput } from "./output-settings.js";

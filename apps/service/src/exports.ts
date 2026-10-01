@@ -1,4 +1,9 @@
-import { normalizeOutputRequest, type OutputSettingsInput } from "@screenrec/composition";
+import {
+  normalizeOutputRequest,
+  normalizeAudioOutputRequest,
+  type AudioOutputSettingsInput,
+  type OutputSettingsInput,
+} from "@screenrec/composition";
 import { ResourceReferences, resourceKinds } from "@screenrec/core/references";
 import { resourceIdentity } from "@screenrec/core/project-package";
 import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.js";
@@ -37,15 +42,20 @@ import {
 import type { ManagedFiles } from "./managed-files.js";
 import type { MediaWorker } from "./worker.js";
 
+import type {
+  MediaAudioInspection,
+  PinnedProjectAudioExport,
+} from "@screenrec/core/audio-inspection";
+
 type Request = {
   exportId: string;
-  settings?: OutputSettingsInput | undefined;
+  settings?: OutputSettingsInput | AudioOutputSettingsInput | undefined;
   revisionId?: string | undefined;
   directory: string;
   leaf: string;
 } & (
   | { kind: "video" | "processed-package"; recordingId: string }
-  | { kind: "video" | "processed-package"; projectId: string }
+  | { kind: "video" | "audio" | "processed-package"; projectId: string }
 );
 type ExportOwner = Extract<JobOwner, { kind: "recording" | "project" }>;
 type ExportCursor = {
@@ -55,7 +65,7 @@ type ExportCursor = {
   afterExportId: string;
 };
 type Snapshot = ReturnType<RevisionStore["pinPackageSnapshot"]>["snapshot"];
-type ReadyPreview = Pick<PreviewArtifact, "cacheId" | "bytes"> & {
+type ReadyRendition = Pick<PreviewArtifact, "cacheId" | "bytes"> & {
   generation: number;
 };
 type Intent = {
@@ -66,11 +76,11 @@ type Intent = {
   targetKind: "recording" | "project";
   targetId: string;
   request: string;
-  snapshot: Snapshot | PinnedProjectPreview | PinnedProjectPackage;
+  snapshot: Snapshot | PinnedProjectPreview | PinnedProjectAudioExport | PinnedProjectPackage;
   destination: { directory: string; identity: DirectoryIdentity; leaf: string };
   staging: DirectoryIdentity | null;
   stagingCleared: 0 | 1;
-  preview: ReadyPreview | null;
+  preview: ReadyRendition | null;
   sourceEvidence: SourceEvidenceMetadata | null;
   receipt: PublicationReceipt | null;
   abandoning: boolean;
@@ -179,6 +189,7 @@ export class MediaExports {
       project?: {
         store: ProjectStore;
         preview: ProjectPreviewInspection;
+        audio?: MediaAudioInspection;
         package?: ProjectPackages;
       };
     },
@@ -189,7 +200,7 @@ export class MediaExports {
       ON jobs(targetKind,targetId,revisionId,input) WHERE artifact='${recoveryArtifact}';
     CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, targetKind TEXT NOT NULL CHECK(targetKind IN ('recording','project')), targetId TEXT NOT NULL,
-      kind TEXT NOT NULL CHECK(kind IN ('video','processed-package')),
+      kind TEXT NOT NULL CHECK(kind IN ('video','audio','processed-package')),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
       staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)),
       preview TEXT, sourceEvidence TEXT, packageEvidence TEXT, assembly TEXT, receipt TEXT,
@@ -217,6 +228,29 @@ export class MediaExports {
         "Project exports are unavailable in this service",
       );
     return this.owners.project;
+  }
+  private projectAudio() {
+    const audio = this.project().audio;
+    if (!audio)
+      throw new CatalogError("NOT_READY", "Project audio exports are unavailable", {}, true);
+    return audio;
+  }
+  private prepareProjectMedia(
+    kind: Request["kind"],
+    input:
+      | {
+          projectId: string;
+          revisionId?: string | undefined;
+          settings?: OutputSettingsInput | AudioOutputSettingsInput | undefined;
+        }
+      | PinnedProjectPreview
+      | PinnedProjectAudioExport,
+  ) {
+    return kind === "audio"
+      ? this.projectAudio().prepareExport(
+          input as Parameters<MediaAudioInspection["prepareExport"]>[0],
+        )
+      : this.project().preview.prepare(input as Parameters<ProjectPreviewInspection["prepare"]>[0]);
   }
   private projectPackage() {
     const packages = this.project().package;
@@ -401,11 +435,24 @@ export class MediaExports {
     if (job.artifact !== artifact || !this.matches(job, intent))
       throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
     if (this.hasPreparedInput(intent)) return { state: "ready" };
-    let ready;
+    let ready: {
+      state: string;
+      reason: string | null;
+      retryable: boolean;
+      jobId: string | null;
+      published: { generation: number; preview: { cacheId: string; bytes: number } } | null;
+    };
     if (intent.targetKind === "project") {
       if (intent.kind === "processed-package") return { state: "ready" };
-      const pinned = intent.snapshot as PinnedProjectPreview;
-      ready = this.project().preview.resume(pinned);
+      if (intent.kind === "audio") {
+        const audio = this.projectAudio().resumeExport(intent.snapshot as PinnedProjectAudioExport);
+        ready = {
+          ...audio,
+          published: audio.published
+            ? { generation: audio.published.generation, preview: audio.published.audio }
+            : null,
+        };
+      } else ready = this.project().preview.resume(intent.snapshot as PinnedProjectPreview);
     } else {
       if (!intent.sourceEvidence) {
         this.recording().processing.prepare(intent.targetId);
@@ -661,9 +708,12 @@ export class MediaExports {
       );
     const targetKind = "projectId" in request ? "project" : "recording";
     const targetId = "projectId" in request ? request.projectId : request.recordingId;
-    if (request.settings && (targetKind !== "project" || request.kind !== "video"))
-      throw new CatalogError("INVALID_PARAMS", "Output settings require a project video export");
-    const settingsRequest = normalizeOutputRequest(request.settings);
+    if (request.settings && (targetKind !== "project" || request.kind === "processed-package"))
+      throw new CatalogError("INVALID_PARAMS", "Output settings require a project media export");
+    const settingsRequest =
+      request.kind === "audio"
+        ? normalizeAudioOutputRequest(request.settings as AudioOutputSettingsInput)
+        : normalizeOutputRequest(request.settings as OutputSettingsInput);
     const key = JSON.stringify([
       request.kind,
       targetKind,
@@ -685,8 +735,9 @@ export class MediaExports {
           existing.kind !== "processed-package" &&
           !this.hasPreparedInput(existing)
         ) {
-          const prepared = await this.project().preview.prepare(
-            existing.snapshot as PinnedProjectPreview,
+          const prepared = await this.prepareProjectMedia(
+            existing.kind,
+            existing.snapshot as PinnedProjectPreview | PinnedProjectAudioExport,
           );
           prepared.submit(() => {
             this.requireAdmission(existing.exportId);
@@ -706,7 +757,7 @@ export class MediaExports {
     }
     const preparedPreview =
       targetKind === "project" && request.kind !== "processed-package"
-        ? await this.project().preview.prepare({
+        ? await this.prepareProjectMedia(request.kind, {
             projectId: targetId,
             revisionId: request.revisionId,
             settings: request.settings,
@@ -974,7 +1025,14 @@ export class MediaExports {
       return cleanupPending(intent) ? this.recover(exportId) : this.status(exportId);
     if (
       intent.targetKind === "project" &&
-      intent.kind !== "processed-package" &&
+      intent.kind === "audio" &&
+      !this.hasPreparedInput(intent)
+    ) {
+      await this.projectAudio().retryExport(intent.snapshot as PinnedProjectAudioExport);
+    }
+    if (
+      intent.targetKind === "project" &&
+      intent.kind === "video" &&
       !this.hasPreparedInput(intent)
     ) {
       const pinned = intent.snapshot as PinnedProjectPreview;

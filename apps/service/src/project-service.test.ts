@@ -125,7 +125,9 @@ test("fresh service owns capture facts without enabling capture or creating span
     ok: false,
     error: { code: "NOT_READY" },
   });
-  expect(await f.call("capture.start", { ...start, cameraDeviceId: "not-exposed" })).toMatchObject({
+  expect(
+    await f.call("capture.start", { ...start, cameraDeviceId: "selected-camera" }),
+  ).toMatchObject({
     ok: false,
     error: { code: "NOT_READY" },
   });

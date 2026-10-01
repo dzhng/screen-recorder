@@ -389,6 +389,17 @@ audio or video, inspect both planes: the requested replacement must change while
 the protected plane keeps its source and timing. A downloaded preview is a viewing
 artifact; it does not establish that a durable export intent has published.
 
+For a final audio file, inspect `output.capabilities` with `kind: "audio"`, then
+use project `export.create` with `kind: "audio"` and pin the intended revision.
+Choose the advertised standalone format in `settings`; omission selects the
+lossless project WAV rendition. AAC/M4A settings explicitly choose output rate,
+layout and encoding controls. Audio export works while video remains; removing
+video is a separate undoable edit only when the user's task requires it.
+Poll the same `exportId` until committed and deliver its actual output path.
+Preserve the original request for replay/retry; changed settings need a new export
+identity. A ready `audio.get` rendition is inspection audio, not a published export.
+Do not substitute video output, raw source audio or an unsupported codec.
+
 Before choosing project video delivery settings, inspect `output.capabilities` and
 operation help. Presets are defaults: override individual controls or pass the
 returned resolved settings. Keep canvas dimensions/frame rate in the composition.

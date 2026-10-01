@@ -376,6 +376,37 @@ export function projectAudioRenderer(
 ): ProjectAudioRenderer {
   return {
     implementationId: "native-composition-audio-v10",
+    encodingImplementationId: "native-aac-file-v1",
+    validateOutput: async (settings) => {
+      nativeResult(
+        await worker(
+          "media.validateAudioOutput",
+          { settings },
+          { signal: admissionSignal, timeoutMs: 5000 },
+        ),
+      );
+    },
+    encode: async ({ source, input, settings, output }, signal) =>
+      withRenderedFile(
+        worker,
+        { attemptParent: workspace, output, filename: "audio.m4a" },
+        signal,
+        async (file, execute) =>
+          nativeResult(
+            await execute(
+              "media.encodeAudioFile",
+              { source: "/dev/fd/3", input, settings, output: file },
+              {
+                signal,
+                timeoutMs: renderWindowDeadlineMs({
+                  startUs: 0,
+                  endUs: Math.floor((input.frames * 1000000) / input.sampleRate),
+                }),
+                descriptors: [source.fd],
+              },
+            ),
+          ),
+      ),
     ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     render: async ({ window, assets, output, prepared }, signal) =>
       withRenderedFile(

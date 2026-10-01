@@ -1,5 +1,9 @@
 import {
   selectionRangeSchema,
+  resolveAudioOutputSettings,
+  resolvedAudioOutputSettingsSchema,
+  type AudioOutputSettings,
+  type AudioOutputSettingsInput,
   sampleAt,
   fromTime,
   toTime,
@@ -25,7 +29,13 @@ import {
 import type { PreparedAudioStore, PreparedAudioRead } from "./prepared-audio.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
-import type { Job, JobExecution, JobQueue } from "./jobs.js";
+import {
+  JobDependencyLost,
+  type Job,
+  type JobAdmission,
+  type JobExecution,
+  type JobQueue,
+} from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { CatalogError } from "./catalog.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
@@ -108,6 +118,17 @@ export type ProjectAudioInput = {
   tap?: ProcessingTap | undefined;
 };
 export type ProjectAudioRenderer = ProjectRenderSupport & {
+  encodingImplementationId?: string;
+  validateOutput?(settings: AudioOutputSettings): Promise<void>;
+  encode?(
+    request: {
+      source: { fd: number; bytes: number };
+      input: { sampleRate: 48000; channels: 2; frames: number };
+      settings: AudioOutputSettings;
+      output: string;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
   render(
     request: {
       prepared?: PreparedAudioRead | undefined;
@@ -128,6 +149,15 @@ export type ProjectAudioArtifact = z.infer<typeof projectAudioReceiptSchema> & {
   mediaType: "audio/wav";
   layout: "stereo";
   cacheId: string;
+};
+export type PinnedProjectAudioExport = ProjectAudioInput &
+  z.infer<typeof projectOptionsSchema> & {
+    revisionId: string;
+    settings: AudioOutputSettings;
+    encodingImplementationId?: string | undefined;
+  };
+export type ProjectAudioExportInput = ProjectAudioInput & {
+  settings?: AudioOutputSettingsInput | undefined;
 };
 export type MediaAudioInput = SourceAudioInput | ProjectAudioInput;
 const artifact = "audio";
@@ -372,8 +402,11 @@ export class MediaAudioInspection {
         "Project audio window must contain at least one sample",
       );
     const bytes = BigInt(sampleRange.end - sampleRange.start) * 8n + 44n;
-    if (bytes > BigInt(Number.MAX_SAFE_INTEGER))
-      throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
+    if (bytes > 0xffff_ffffn + 8n)
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Project PCM exceeds the Float32 WAV container limit",
+      );
     this.owners.cache.checkCapacity(Number(bytes));
     return { ...plan, retained };
   }
@@ -407,16 +440,29 @@ export class MediaAudioInspection {
     };
   }
   private async requestProject(input: ProjectAudioInput) {
-    const plan = this.projectPlan(input);
-    const { selection, identity } = this.projectRecipe(input, plan);
+    return (await this.prepareProject(input)).submit();
+  }
+  private async prepareProject(input: ProjectAudioInput, plan = this.projectPlan(input)) {
+    const { selection, identity, options } = this.projectRecipe(input, plan);
     const prior = this.owners.jobs.status(identity);
     if (!plan.retained && !prior.jobId && !prior.published)
       await validateProjectAudio(this.owners.project!.renderer, plan);
+    return {
+      snapshot: { ...selection, ...options },
+      submit: (admitted?: () => void) => this.submitProject(identity, selection, admitted),
+    };
+  }
+  private submitProject(
+    identity: ReturnType<MediaAudioInspection["projectRecipe"]>["identity"],
+    selection: ReturnType<MediaAudioInspection["projectRecipe"]>["selection"],
+    admitted?: () => void,
+  ) {
     const status = submitCachedDerivative<ProjectAudioArtifact>(
       this.owners.jobs,
       this.owners.cache,
       identity,
       "heavy",
+      admitted ? { admitted } : {},
     );
     return {
       ...selection,
@@ -428,6 +474,256 @@ export class MediaAudioInspection {
         ? { generation: status.published.generation, audio: status.published.value }
         : null,
     };
+  }
+
+  /** Export pins the existing PCM recipe; encoded renditions depend on that same job/cache. */
+  async prepareExport(input: ProjectAudioExportInput | PinnedProjectAudioExport) {
+    let settings: AudioOutputSettings;
+    try {
+      settings = resolveAudioOutputSettings(input.settings);
+    } catch (error) {
+      if (error instanceof z.ZodError)
+        throw new CatalogError("INVALID_PARAMS", "Invalid standalone audio output settings", {
+          issues: error.issues,
+        });
+      throw error;
+    }
+    const plan = this.projectPlan(input);
+    const recipe = this.projectRecipe(input, plan);
+    const snapshot: PinnedProjectAudioExport = {
+      ...recipe.selection,
+      ...recipe.options,
+      settings,
+      ...(settings.container === "m4a"
+        ? { encodingImplementationId: this.owners.project!.renderer.encodingImplementationId }
+        : {}),
+    };
+    if (
+      "implementationId" in input &&
+      (input.implementationId !== snapshot.implementationId ||
+        input.retimeImplementationId !== snapshot.retimeImplementationId)
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned project audio implementation is unavailable",
+        { implementationId: input.implementationId },
+        true,
+      );
+    if (
+      settings.container === "m4a" &&
+      "encodingImplementationId" in input &&
+      input.encodingImplementationId !== snapshot.encodingImplementationId
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned audio encoding implementation is unavailable",
+        { implementationId: input.encodingImplementationId },
+        true,
+      );
+    if (
+      settings.container === "m4a" &&
+      !this.owners.jobs.status(this.exportIdentity(snapshot)).jobId
+    ) {
+      if (
+        !this.owners.project?.renderer.encodingImplementationId ||
+        !this.owners.project.renderer.encode ||
+        !this.owners.project.renderer.validateOutput
+      )
+        throw new CatalogError("NOT_READY", "Standalone AAC output is unavailable", {}, true);
+      await this.owners.project.renderer.validateOutput(settings);
+    }
+    const prepared = await this.prepareProject(input, plan);
+    return {
+      snapshot,
+      submit: (admitted?: () => void) => {
+        if (settings.container === "wav") return prepared.submit(admitted);
+        prepared.submit();
+        return this.submitExport(snapshot, admitted);
+      },
+    };
+  }
+  private exportIdentity(pinned: PinnedProjectAudioExport) {
+    const { projectId, revisionId, settings, encodingImplementationId, ...pcm } = pinned;
+    return {
+      target: { kind: "project" as const, projectId, revisionId },
+      artifact: "audio-file",
+      input: JSON.stringify({ pcm, settings, encodingImplementationId }),
+    };
+  }
+  private submitExport(pinned: PinnedProjectAudioExport, admitted?: () => void) {
+    const status = submitCachedDerivative<{
+      cacheId: string;
+      bytes: number;
+      settings: AudioOutputSettings;
+    }>(this.owners.jobs, this.owners.cache, this.exportIdentity(pinned), "heavy", {
+      deferred: true,
+      ...(admitted ? { admitted } : {}),
+    });
+    return {
+      ...status,
+      published: status.published
+        ? { generation: status.published.generation, audio: status.published.value }
+        : null,
+    };
+  }
+  private exportRecipe(pinned: PinnedProjectAudioExport) {
+    const recipe = this.projectRecipe(pinned);
+    if (
+      pinned.settings.container === "m4a" &&
+      pinned.encodingImplementationId !== this.owners.project!.renderer.encodingImplementationId
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned audio encoding implementation is unavailable",
+        { implementationId: pinned.encodingImplementationId },
+        true,
+      );
+    if (
+      pinned.implementationId !== recipe.options.implementationId ||
+      pinned.retimeImplementationId !== recipe.options.retimeImplementationId
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned project audio implementation is unavailable",
+        { implementationId: pinned.implementationId },
+        true,
+      );
+    return recipe;
+  }
+  resumeExport(pinned: PinnedProjectAudioExport) {
+    const recipe = this.exportRecipe(pinned);
+    if (!this.owners.jobs.status(recipe.identity).jobId)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned project audio dependency has not been admitted",
+        {},
+        true,
+      );
+    const pcm = this.submitProject(recipe.identity, recipe.selection);
+    return pinned.settings.container === "wav" ? pcm : this.submitExport(pinned);
+  }
+  async retryExport(pinned: PinnedProjectAudioExport) {
+    const prepared = await this.prepareExport(pinned);
+    prepared.submit();
+    const pcm = this.owners.jobs.status(this.projectRecipe(pinned).identity);
+    if (pcm.jobId && !pcm.published) this.owners.jobs.retry(pcm.jobId);
+    if (pinned.settings.container === "m4a") {
+      const file = this.owners.jobs.status(this.exportIdentity(pinned));
+      if (file.jobId && !file.published) this.owners.jobs.retry(file.jobId);
+    }
+    return this.resumeExport(pinned);
+  }
+  private encodedSnapshot(job: Job) {
+    if (job.target.kind !== "project" || job.artifact !== "audio-file")
+      throw new CatalogError("UNSUPPORTED_JOB", "Encoded audio requires a pinned project");
+    const options = z
+      .strictObject({
+        pcm: projectOptionsSchema,
+        settings: resolvedAudioOutputSettingsSchema,
+        encodingImplementationId: z.string().min(1),
+      })
+      .parse(JSON.parse(job.input));
+    if (options.settings.container !== "m4a")
+      throw new CatalogError("INVALID_JOB", "Encoded audio requires M4A settings");
+    if (options.encodingImplementationId !== this.owners.project?.renderer.encodingImplementationId)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned audio encoding implementation is unavailable",
+        { implementationId: options.encodingImplementationId },
+        true,
+      );
+    return {
+      ...options.pcm,
+      encodingImplementationId: options.encodingImplementationId,
+      settings: options.settings,
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+    };
+  }
+  admitExport(job: Job): ReturnType<JobAdmission> {
+    const pinned = this.encodedSnapshot(job);
+    const recipe = this.exportRecipe(pinned);
+    const pcm = this.submitProject(recipe.identity, recipe.selection);
+    if (pcm.published) return { state: "ready" };
+    if (!pcm.jobId || ["failed", "canceled", "unavailable"].includes(pcm.state))
+      throw new CatalogError(
+        "DEPENDENCY_FAILED",
+        pcm.reason ?? "Project PCM is unavailable",
+        { dependency: pcm.jobId },
+        pcm.retryable,
+      );
+    return { state: "waiting", dependency: pcm.jobId };
+  }
+  private async executeEncoded({ job, signal }: JobExecution): Promise<string> {
+    const pinned = this.encodedSnapshot(job);
+    const recipe = this.exportRecipe(pinned);
+    const status = this.owners.jobs.status(recipe.identity);
+    if (!status.published)
+      throw new CatalogError("NOT_READY", "Project PCM is not ready", {}, true);
+    const pcm = JSON.parse(status.published.result) as ProjectAudioArtifact;
+    const output = this.owners.cache.reserve(job.target);
+    try {
+      const value = await this.owners.cache.withDescriptor(pcm.cacheId, async (source) => {
+        if (source.bytes !== pcm.bytes) invalid("PCM cache size changed");
+        const encoded = await this.owners.project!.renderer.encode!(
+          {
+            source,
+            input: { sampleRate: 48000, channels: 2, frames: pcm.frames },
+            settings: pinned.settings,
+            output: output.path,
+          },
+          signal,
+        );
+        const receipt = z
+          .object({
+            file: z.string(),
+            bytes: integer.positive(),
+            settings: resolvedAudioOutputSettingsSchema,
+            sampleRate: integer.positive(),
+            channels: z.union([z.literal(1), z.literal(2)]),
+            inputFrames: integer,
+            durationUs: integer,
+            encodedFrames: integer,
+            contentFrames: integer,
+          })
+          .parse(encoded);
+        if (
+          receipt.file !== output.path ||
+          !isDeepStrictEqual(receipt.settings, pinned.settings) ||
+          receipt.sampleRate !== pinned.settings.audio.sampleRate ||
+          receipt.channels !== (pinned.settings.audio.layout === "mono" ? 1 : 2) ||
+          receipt.inputFrames !== pcm.frames ||
+          receipt.contentFrames !==
+            Math.floor((pcm.frames * pinned.settings.audio.sampleRate) / 48000) ||
+          receipt.encodedFrames < receipt.contentFrames ||
+          receipt.durationUs !== Math.floor((pcm.frames * 1000000) / 48000)
+        )
+          invalid("Encoded audio changed the pinned rendition or duration");
+        return receipt;
+      });
+      signal.throwIfAborted();
+      const cached = await this.owners.cache.publish(output.id);
+      signal.throwIfAborted();
+      if (cached.bytes !== value.bytes) invalid("Encoded audio size differs from its file");
+      return JSON.stringify({
+        ...value,
+        ...pinned,
+        mediaType: "audio/mp4",
+        layout: pinned.settings.audio.layout,
+        input: {
+          sampleRate: pcm.sampleRate,
+          channels: pcm.channels,
+          frames: pcm.frames,
+          sampleRange: pcm.sampleRange,
+        },
+        cacheId: output.id,
+      });
+    } catch (error) {
+      this.owners.cache.remove(output.id);
+      if (error instanceof CatalogError && error.code === "ARTIFACT_EXPIRED")
+        throw new JobDependencyLost("Project PCM disappeared before encoding");
+      throw error;
+    }
   }
   private async renderProject(
     job: Pick<Job, "target" | "artifact" | "input">,
@@ -546,6 +842,7 @@ export class MediaAudioInspection {
     } satisfies Omit<SourceAudioArtifact, "cacheId">;
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.artifact === "audio-file") return this.executeEncoded({ job, signal });
     if (job.target.kind !== "project" && job.target.kind !== "asset")
       throw new CatalogError("UNSUPPORTED_JOB", "Audio requires a project or asset selection");
     const output = this.owners.cache.reserve(job.target);

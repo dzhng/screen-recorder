@@ -319,24 +319,24 @@ final class ExportController {
                 .replacingOccurrences(of: ":", with: "-")
                 .components(separatedBy: .controlCharacters).joined(separator: " ")
             let name = title.trimmingCharacters(in: .whitespacesAndNewlines)
-            return "Project \(name.isEmpty ? id : name) \(revisionId)" + (kind == .video ? ".mp4" : ".zip")
+            return "Project \(name.isEmpty ? id : name) \(revisionId)" + (kind == .video ? ".mp4" : kind == .audio ? ".wav" : ".zip")
         }
         let when = ISO8601DateFormatter.fractional.date(from: owner.createdAt)
             ?? ISO8601DateFormatter().date(from: owner.createdAt) ?? Date()
         let stamp = DateFormatter()
         stamp.dateFormat = "yyyy-MM-dd 'at' HH.mm.ss"
         let base = "Recording \(stamp.string(from: when)) \(revisionId)"
-        return base + (kind == .video ? ".mp4" : ".zip")
+        return base + (kind == .video ? ".mp4" : kind == .audio ? ".wav" : ".zip")
     }
 
     static func savePanel(kind: ExportsState.Kind, suggestedName: String) async -> URL? {
         let panel = NSSavePanel()
-        panel.title = kind == .video ? "Export Video" : "Export AI Package"
+        panel.title = kind == .video ? "Export Video" : kind == .audio ? "Export Audio" : "Export AI Package"
         if kind == .package {
             panel.directoryURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
         }
         panel.nameFieldStringValue = suggestedName
-        panel.allowedContentTypes = [kind == .video ? .mpeg4Movie : .zip]
+        panel.allowedContentTypes = [kind == .video ? .mpeg4Movie : kind == .audio ? .wav : .zip]
         panel.canCreateDirectories = true
         // Choosing where to save is this person's business, not the take's: a panel that opens
         // while one is recording stays out of it, as this app's own panels do.

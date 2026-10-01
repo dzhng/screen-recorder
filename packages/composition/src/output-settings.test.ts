@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import {
   normalizeOutputRequest,
+  resolveAudioOutputSettings,
   outputPresets,
   outputSettingsSchema,
   resolveOutputSettings,
@@ -95,4 +96,20 @@ test("look-ahead intent is refused when the SDK would ignore it", () => {
       video: { rateControl: { mode: "quality", quality: 1 }, lookAheadFrames: 8 },
     }),
   ).toThrow(/Look-ahead/);
+});
+
+test("audio settings resolve independently and refuse video or unsupported PCM renditions", () => {
+  expect(resolveAudioOutputSettings()).toEqual({
+    container: "wav",
+    audio: { codec: "pcm-f32", sampleRate: 48000, layout: "stereo" },
+  });
+  expect(resolveAudioOutputSettings({ container: "m4a" }).audio.codec).toBe("aac");
+  for (const input of [
+    { video: {} },
+    { preset: "balanced" },
+    { container: "mp3" },
+    { container: "wav", audio: { sampleRate: 44100 } },
+    { container: "wav", audio: { layout: "mono" } },
+  ])
+    expect(() => resolveAudioOutputSettings(input as never)).toThrow();
 });

@@ -1,0 +1,86 @@
+{
+  "Users/david/.nvm/versions/node/v24.14.0/bin/node": {
+    "bytes": 119133456,
+    "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+  },
+  "opt/homebrew/Cellar/dav1d/1.5.4/lib/libdav1d.7.dylib": {
+    "bytes": 830176,
+    "sha256": "60c3a42a79582241ac77bbbba4c0137c2209204aecbc59e5d6392c2dc0a5b439"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg": {
+    "bytes": 426224,
+    "sha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe": {
+    "bytes": 236912,
+    "sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libavcodec.62.28.102.dylib": {
+    "bytes": 9682432,
+    "sha256": "ebd3bf33b2a77e20956afb20746bc6ac072a38d335c9569f064df187df622c6c"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libavdevice.62.3.102.dylib": {
+    "bytes": 131632,
+    "sha256": "638723866e3aaf80908fc713bbe2d6cd52f5fa82954b5b699e4dea8c260c128b"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libavfilter.11.14.102.dylib": {
+    "bytes": 2947456,
+    "sha256": "c1ed8d2fa94ece36293ae27808bb62d126bad85ae455ce839af5cca46f65f413"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libavformat.62.12.102.dylib": {
+    "bytes": 2322672,
+    "sha256": "be544c848c089a48f911df13f139e3a5bb6c669bd140e7bda37c049a313a00e1"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libavutil.60.26.102.dylib": {
+    "bytes": 626784,
+    "sha256": "367d15a2453235a7a42c7ac40fab116fdc0fce8514b17f9244749ed814cbb945"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libswresample.6.3.102.dylib": {
+    "bytes": 87104,
+    "sha256": "ecf2dddd8b1f8fc4555a148ab3e67a7081b09bbd9d5f40a158395a10fb08ae96"
+  },
+  "opt/homebrew/Cellar/ffmpeg/8.1.2_1/lib/libswscale.9.5.102.dylib": {
+    "bytes": 587600,
+    "sha256": "585ecd19451f258cba1acddef53b71ebcfa01797d7811b74e6461e4b717e37b3"
+  },
+  "opt/homebrew/Cellar/lame/4.0/lib/libmp3lame.0.dylib": {
+    "bytes": 215872,
+    "sha256": "5150d16a2b09a8f6f3475dcc837fdf5435d4f97e817ca12306fec8da5614647c"
+  },
+  "opt/homebrew/Cellar/libvmaf/3.2.0/lib/libvmaf.3.dylib": {
+    "bytes": 901472,
+    "sha256": "c2d788b0cce9486c0002ea66d802ab50d797afc48f69597df0954de24d069eaa"
+  },
+  "opt/homebrew/Cellar/libvpx/1.16.0/lib/libvpx.12.dylib": {
+    "bytes": 1746656,
+    "sha256": "e7376dca3d10474e7f603c7a8cf86d5c3c7030265c5f7be3d0137755cbf997f1"
+  },
+  "opt/homebrew/Cellar/mpg123/1.33.6/lib/libmpg123.0.dylib": {
+    "bytes": 271808,
+    "sha256": "214fe1502ab44b4c2d0f677616fc03033086eb026968f8f80deeaf4e32706762"
+  },
+  "opt/homebrew/Cellar/openssl@3/3.6.3/lib/libcrypto.3.dylib": {
+    "bytes": 4856256,
+    "sha256": "a12805a18cd5e4f733fa8727b91afa08b587f9da5a760517cd79cb508a3a3f71"
+  },
+  "opt/homebrew/Cellar/openssl@3/3.6.3/lib/libssl.3.dylib": {
+    "bytes": 872080,
+    "sha256": "ffd8ac6981000def0928367924b6cb1e7a98712efbc06e2a2f3f750138bd89ca"
+  },
+  "opt/homebrew/Cellar/opus/1.6.1/lib/libopus.0.dylib": {
+    "bytes": 357824,
+    "sha256": "435581a316f3dd41982f3101caa6be6ec974572e31765cd0e29c7cbe30198609"
+  },
+  "opt/homebrew/Cellar/svt-av1/4.2.0/lib/libSvtAv1Enc.4.2.0.dylib": {
+    "bytes": 3057440,
+    "sha256": "bac7066bcd47c31971f61e57cdd0eccabb2ec2ef3ca5aa1e08bd5ca51cd54608"
+  },
+  "opt/homebrew/Cellar/x264/r3222/lib/libx264.165.dylib": {
+    "bytes": 1263600,
+    "sha256": "e0d737b88c67ac30e8561d9267d10495529cfede1af45838914c0b522c37a26d"
+  },
+  "opt/homebrew/Cellar/x265/4.2/lib/libx265.216.dylib": {
+    "bytes": 7502000,
+    "sha256": "2c195f99496aca5475f5dd8d66fbd7465e50dc9e792f6e80572bf2cc03b3e789"
+  }
+}

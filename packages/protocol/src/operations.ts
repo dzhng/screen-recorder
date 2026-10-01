@@ -1,5 +1,6 @@
 import {
   outputSettingsSchema,
+  audioOutputSettingsSchema,
   selectionRangeSchema,
   compositionSchema,
   mediaClipSchema,
@@ -309,10 +310,13 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Read one target's authored ordered processing stack at a pinned revision; this does not execute processors.",
     ),
   z
-    .object({ operation: z.literal("output.capabilities"), params: z.object({}).strict() })
+    .object({
+      operation: z.literal("output.capabilities"),
+      params: z.object({ kind: z.enum(["video", "audio"]).optional() }).strict(),
+    })
     .strict()
     .describe(
-      "Discover project movie encoding controls, editable presets, backend capabilities and unsupported combinations. Internal mixing is 48000 Hz stereo; encoded AAC rate/layout is independently selectable. Requested bitrate is not measured file bitrate.",
+      "Discover standalone audio formats and rendition limits with kind:audio without initializing a video encoder; omit kind or use kind:video for project movie encoding controls, editable presets, backend capabilities and unsupported combinations. Internal mixing is 48000 Hz stereo; encoded AAC rate/layout is independently selectable. Requested bitrate is not measured file bitrate.",
     ),
   z
     .object({ operation: z.literal("processing.capabilities"), params: z.object({}).strict() })
@@ -432,15 +436,23 @@ export const operationSchema = z.discriminatedUnion("operation", [
         project
           .extend({
             ...exportDestination,
-            kind: z.enum(["video", "processed-package"]),
+            kind: z.literal("video"),
             settings: outputSettingsSchema.optional(),
           })
           .strict(),
+        project
+          .extend({
+            ...exportDestination,
+            kind: z.literal("audio"),
+            settings: audioOutputSettingsSchema.optional(),
+          })
+          .strict(),
+        project.extend({ ...exportDestination, kind: z.literal("processed-package") }).strict(),
       ]),
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video or an editable processed-package ZIP; recordings export video or their processed-package ZIP. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), or an editable processed-package ZIP; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Recordings export video or their processed-package ZIP. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
     ),
   z
     .object({

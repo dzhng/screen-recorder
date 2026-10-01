@@ -11,6 +11,7 @@ public struct ExportsState: Equatable, Sendable {
 
     public enum Kind: String, Equatable, Sendable, Decodable {
         case video
+        case audio
         case package = "processed-package"
     }
 

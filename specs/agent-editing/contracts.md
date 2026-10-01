@@ -530,9 +530,9 @@ and PNG/JPEG stills, verified by the import slice's fixtures. Probe unsupported
 streams and report them; no claim to every format. Preserve original frame timing,
 orientation and bytes. Initial output is SDR Rec.709 MP4 H.264/AAC and portable
 editable packages; current WAV delivery is an inspection/media artifact.
-[Audio-only export](slices/09c-audio-only-export.md) plans a first-class project
-`export.create` kind with explicit supported audio formats and the same durable
-publication controls. Exporting audio does not remove project video; the caller
+[Audio-only export](slices/09c-audio-only-export.md) supplies the first-class project
+`export.create` audio kind: exact Float32 WAV or verified AAC/M4A renditions with
+the same durable publication controls. Exporting audio does not remove project video; the caller
 may separately remove it through existing edits. HDR imports need
 an explicit validated SDR transform before rendering, never silent washed-out
 output. Lossless video intermediates or additional video codecs are not required
@@ -540,7 +540,7 @@ to complete this plan. An agent can use other tools to prepare unsupported input
 
 Canvas dimensions and rational frame rate are caller-selected. Default is the
 first visual source's oriented dimensions and a declared 30 fps project clock;
-empty/audio-only projects require explicit canvas metadata. Planned audio-only
+empty/audio-only projects require explicit canvas metadata. Audio-only
 export does not render that canvas or require a video encoder. Presets are
 convenience only.
 The baseline profile accepts positive even dimensions up to 8192 per edge subject

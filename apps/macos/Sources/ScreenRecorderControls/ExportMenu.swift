@@ -32,6 +32,7 @@ enum ExportMenu {
     static func kindTitle(_ kind: ExportsState.Kind) -> String {
         switch kind {
         case .video: "Video"
+        case .audio: "Audio"
         case .package: "AI Package"
         }
     }

@@ -114,3 +114,13 @@ originals and evidence independently; deleting its donor cannot mutate a project
 Explicit imports derive managed donor ownership from frozen canonical members,
 so selecting a directory through an alias cannot escape that lifetime.
 The installed recording-editing path retains its separate, real artifact retirement.
+
+## Standalone audio publication
+
+Audio export pins the existing project PCM recipe and uses the same export intent,
+queue and atomic destination publication as video. WAV delivery reuses inspection
+PCM; encoded audio is another rendition in the same audio owner and derived cache.
+Output settings own format meaning, defaults and codec validation. Audio readiness
+never depends on visual preparation, and exporting never edits the document.
+The [audio export contract](../../specs/agent-editing/slices/09c-audio-only-export.md)
+separates tested standalone formats from future codec support.

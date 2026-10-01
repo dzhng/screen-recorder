@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "packets": {
+    "09c-audio-export": {
+      "source-runtime.tar.gz": {
+        "members": 1065,
+        "bytes": 3527386,
+        "sha256": "0beca759b7a4dfd770d51e2b8935014dc8b4e2de581a46459d2b69734dc9f1eb"
+      },
+      "external-runtime.tar.gz": {
+        "members": 173,
+        "bytes": 254302,
+        "sha256": "aba8e33bf2ed73a71fe4916d4c6367f934fdeb67a2de3fb72f9a0a7fc2e706ae"
+      },
+      "external-tools.tar.gz": {
+        "members": 21,
+        "bytes": 55083067,
+        "sha256": "208e10c227f3f09e9616b849326405de49e3dabe16c430de967993b4a2395779"
+      },
+      "evidence.tar.gz": {
+        "members": 197,
+        "bytes": 3272875,
+        "sha256": "a486f1cafa8353d9cd2ed7e5e79139357ff20f782c2126c345ef630774db50f8"
+      }
+    },
+    "09c-native-audio-file": {
+      "source-reference.tar.gz": {
+        "members": 174,
+        "bytes": 31149537,
+        "sha256": "6c55f0a1f04006ba7eb008cf6e43c4dd0b942c0c5a5704987d34e76fb42f93c5"
+      },
+      "source-final-delta.tar.gz": {
+        "members": 6,
+        "bytes": 23605,
+        "sha256": "f5f7020b4368696011fca5a7e97974a614a079f0cd4b04e5d1cdeea92a99bc19"
+      },
+      "external-code.tar.gz": {
+        "members": 353,
+        "bytes": 1985382,
+        "sha256": "a9c93e63c5856eab0dac0160135aa87809d38bb725d01a24b254948b2beecb28"
+      },
+      "runtime.tar.gz": {
+        "members": 9,
+        "bytes": 86161554,
+        "sha256": "44389a1805a936e19dabc3259837d6daf127d56513b0385264cf44fdfa2e2981"
+      },
+      "evidence.tar.xz": {
+        "members": 317,
+        "bytes": 59445148,
+        "sha256": "007de3891a6446b621d3e50f38143853a3fa8df8f03ad88611bfb621c2528a33"
+      },
+      "packet-count-candidate-source-delta.tar.gz": {
+        "members": 2,
+        "bytes": 7177,
+        "sha256": "7d742789d2c44b36e2e37ce2842400845274c0a4a4e9e3a2714badced2832f9b"
+      },
+      "final-reader-mutant-source-delta.tar.gz": {
+        "members": 1,
+        "bytes": 2501,
+        "sha256": "39991c3a078dc39be1d3c0c4502402b11d24974cfa03d4993ba999de9921a459"
+      },
+      "streaming-mutant-source-delta.tar.gz": {
+        "members": 1,
+        "bytes": 2638,
+        "sha256": "c5ea2e8c942835b53179960b7ffd1316c04db2032c83366424ab02fe5ce417a3"
+      }
+    }
+  }
+}

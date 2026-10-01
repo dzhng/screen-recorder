@@ -9,7 +9,7 @@ import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { projectComposition } from "@screenrec/core/project-window";
 import { selectSource } from "@screenrec/core/source-selection";
-import { outputCapabilities } from "@screenrec/composition";
+import { outputCapabilities, audioOutputCapabilities } from "@screenrec/composition";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
@@ -281,7 +281,7 @@ export async function startProjectService(options: {
           return mediaFrames.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
-          job.artifact === "audio"
+          ["audio", "audio-file"].includes(job.artifact)
         )
           return mediaAudio.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "project.evidence")
@@ -629,7 +629,7 @@ export async function startProjectService(options: {
       cache,
       worker,
       files,
-      project: { store: projects, preview, package: projectPackages },
+      project: { store: projects, preview, audio: mediaAudio, package: projectPackages },
     });
     exports = mediaExports;
     const managedStorage = new ManagedStorage(null, cache, library, (signal) =>
@@ -638,6 +638,7 @@ export async function startProjectService(options: {
     storage = managedStorage;
     queue.startAdmission((job) => {
       if (job.target.kind === "project") {
+        if (job.artifact === "audio-file") return mediaAudio.admitExport(job);
         if (job.artifact === "preview") return preview.admit(job);
         if (job.artifact === "frame") return mediaFrames.admit(job);
         if (job.artifact === "screenshot-index") return indexes.admitProject(job);
@@ -1118,6 +1119,8 @@ export async function startProjectService(options: {
               ),
             };
           case "output.capabilities":
+            if (operation.params.kind === "audio")
+              return { ok: true, data: audioOutputCapabilities };
             return {
               ok: true,
               data: outputCapabilities(

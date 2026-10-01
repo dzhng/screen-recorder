@@ -1,8 +1,16 @@
+import { outputPresets } from "../../../packages/composition/dist/index.js";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
+import { appendFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 
 // One-shot fixture barriers control commit entry and reply timing. All bytes and publication
 // receipts come from the production native worker; ordinary requests pass through.
+if (process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE)
+  outputPresets.balanced.audio.rateControl = {
+    mode: "constant",
+    bitrate: Number(process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE),
+  };
 const native = mediaWorker();
 let armed,
   holding = false;
@@ -27,13 +35,34 @@ async function hold(fault, signal, result) {
   });
 }
 const worker = async (operation, params, options) => {
-  const fault = operation === "publication.commit" ? armed : undefined;
+  if (process.argv[3]) {
+    await mkdir(process.argv[3], { recursive: true });
+    await appendFile(
+      join(process.argv[3], "operations.jsonl"),
+      JSON.stringify({ operation, params }) + "\n",
+    );
+  }
+  if (JSON.parse(process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS ?? "[]").includes(operation))
+    return {
+      ok: false,
+      error: {
+        code: "NOT_READY",
+        message: "Unavailable fixture operation",
+        retryable: false,
+        details: {},
+      },
+    };
+  const fault =
+    (operation === "publication.commit" && armed?.point !== "after-encode") ||
+    (operation === "media.encodeAudioFile" && armed?.point === "after-encode")
+      ? armed
+      : undefined;
   if (!fault) return native(operation, params, options);
   armed = undefined;
   if (fault.point === "before-commit") await hold(fault, options?.signal);
   const result = await native(operation, params, options);
-  if (fault.point === "after-commit") {
-    if (!result.ok || result.data?.state !== "committed")
+  if (fault.point === "after-commit" || fault.point === "after-encode") {
+    if (!result.ok || (fault.point === "after-commit" && result.data?.state !== "committed"))
       throw new Error(`Expected real committed publication: ${JSON.stringify(result)}`);
     await hold(fault, options?.signal, result);
   }

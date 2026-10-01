@@ -21,15 +21,17 @@ export async function exportJourney({
   armFault,
   crashService,
   evidence,
+  kind = "video",
 }) {
   await mkdir(join(out, "exports"), { recursive: true });
   const directory = await realpath(join(out, "exports"));
+  const extension = kind === "audio" ? "wav" : "mp4";
   const request = {
     projectId,
-    kind: "video",
+    kind,
     exportId: randomUUID(),
     directory,
-    leaf: "pinned.mp4",
+    leaf: `pinned.${extension}`,
   };
   const created = await call("export.create", request);
   assert.equal(created.snapshot.revisionId, revisionId);
@@ -44,7 +46,7 @@ export async function exportJourney({
     (
       await call(
         "export.create",
-        { ...request, leaf: "changed.mp4" },
+        { ...request, leaf: `changed.${extension}` },
         { transport: "mcp", error: true },
       )
     ).code,
@@ -93,7 +95,7 @@ export async function exportJourney({
     ...request,
     revisionId,
     exportId: randomUUID(),
-    leaf: "cancel-retry.mp4",
+    leaf: `cancel-retry.${extension}`,
   };
   const hit = await armFault("before-commit");
   const canceledCreated = await call("export.create", canceledRequest, { transport: "mcp" });
@@ -139,7 +141,7 @@ export async function exportJourney({
       ...request,
       revisionId,
       exportId: randomUUID(),
-      leaf: `${outcome}-after-commit.mp4`,
+      leaf: `${outcome}-after-commit.${extension}`,
     };
     faultRequests.push(heldRequest);
     const observe = await armFault("after-commit");

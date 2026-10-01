@@ -143,6 +143,66 @@ export const outputSettingsSchema = z
   .strict();
 export type OutputSettingsInput = z.input<typeof outputSettingsSchema>;
 
+/** Standalone PCM keeps the verified project rendition; AAC uses the same controls as video. */
+const pcmAudio = z.strictObject({
+  codec: z.literal("pcm-f32"),
+  sampleRate: z.literal(48000),
+  layout: z.literal("stereo"),
+});
+export const resolvedAudioOutputSettingsSchema = z.discriminatedUnion("container", [
+  z.strictObject({ container: z.literal("wav"), audio: pcmAudio }),
+  z.strictObject({
+    container: z.literal("m4a"),
+    audio: audio.extend({ sampleRate: z.union([z.literal(44100), z.literal(48000)]) }),
+  }),
+]);
+export const audioOutputSettingsSchema = z.discriminatedUnion("container", [
+  z.strictObject({ container: z.literal("wav").optional(), audio: pcmAudio.partial().optional() }),
+  z.strictObject({
+    container: z.literal("m4a"),
+    audio: audio
+      .extend({ sampleRate: z.union([z.literal(44100), z.literal(48000)]) })
+      .partial()
+      .optional(),
+  }),
+]);
+export type AudioOutputSettings = z.infer<typeof resolvedAudioOutputSettingsSchema>;
+export type AudioOutputSettingsInput = z.input<typeof audioOutputSettingsSchema>;
+export function normalizeAudioOutputRequest(input?: AudioOutputSettingsInput) {
+  return audioOutputSettingsSchema.parse(input ?? {});
+}
+export function resolveAudioOutputSettings(input?: AudioOutputSettingsInput): AudioOutputSettings {
+  const value = normalizeAudioOutputRequest(input);
+  return resolvedAudioOutputSettingsSchema.parse(
+    value.container === "m4a"
+      ? { container: "m4a", audio: { ...outputPresets.balanced.audio, ...value.audio } }
+      : {
+          container: "wav",
+          audio: { codec: "pcm-f32", sampleRate: 48000, layout: "stereo", ...value.audio },
+        },
+  );
+}
+export const audioOutputCapabilities = {
+  containers: ["wav", "m4a"],
+  wav: {
+    codec: "pcm-f32",
+    sampleRates: [48000],
+    layouts: ["stereo"],
+    maximumDataBytes: 0xffff_ffff - 36,
+  },
+  m4a: {
+    codec: "aac",
+    sampleRates: [44100, 48000],
+    layouts: ["mono", "stereo"],
+    nativeValidationRequired: true,
+  },
+  internalAudio: { sampleRate: 48000, channels: 2 },
+  maximumInternalPCMFrames: Math.floor((0xffff_ffff - 36) / 8),
+  semantics:
+    "Full pinned project mix. WAV preserves Float32 samples; AAC conversion and packet padding are separate from project duration. No automatic treatments or video preparation.",
+  unavailable: ["MP3", "FLAC", "ALAC", "Ogg", "WAV rendition conversion"],
+};
+
 function preset(bits: number): OutputSettings {
   return {
     container: "mp4",
@@ -250,6 +310,7 @@ export function outputCapabilities(inventory: Record<string, unknown>) {
     );
   return {
     target: "project",
+    audioOnly: audioOutputCapabilities,
     container: ["mp4"],
     videoCodecs: ["h264"],
     color: ["rec709"],

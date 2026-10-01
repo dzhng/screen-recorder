@@ -1,6 +1,8 @@
 # 09c — Audio-only export
 
-Status: planned; audio-only `export.create` is not implemented or verified.
+Status: implemented and verified in the isolated native/service scope. Float32
+WAV and AAC/M4A have separate passing verdicts. Installed release acceptance,
+performance and personal speech quality are not claimed by this slice.
 Dependencies: [09](09-first-preview.md), [09b](09b-output-settings.md),
 [11a](11a-audio-delivery.md) and [14a](14a-prepared-audio.md).
 
@@ -74,7 +76,11 @@ Add a bounded public CLI/MCP journey at the existing editing harness seam:
 node packages/test-harness/editing/audio-export.mjs --out /tmp/audio-export-evidence
 ```
 
-This harness is planned, not an existing executable or evidence of readiness.
+The harness exercises the public CLI and MCP against a pinned native worker.
+The [public evidence packet](../assets/09c-audio-export/README.md) retains requests,
+replies, source/runtime pins, decoded fixtures and lifecycle observations.
+The [native FILE packet](../assets/09c-native-audio-file/README.md) proves the AAC
+sink, rendition matrix, finite conversion, refusal and movie-mux preservation.
 Use deterministic video/audio fixtures with asymmetric stereo channels, known
 sample boundaries and explicit edit requests. Reuse retained processing fixtures
 and accepted evidence where applicable; no new personal recording or editorial
@@ -114,3 +120,41 @@ No new project type, alternate audio engine, raw encoder-command interface or
 development-only compatibility layer is required. Split further only if standalone
 encoding reveals a distinct unresolved backend contract; keep the working WAV
 checkpoint available and document the precise remaining format limitation.
+
+## Verified implementation boundary
+
+`kind: "audio"` uses the existing durable export intent, job queue, derived cache
+and destination publication. WAV publishes the existing full processed project
+PCM: 48000 Hz, stereo, Float32, with no sample changes. M4A adds an encoded
+derivative of that same PCM, pins its encoding implementation independently, and
+uses the existing AAC controls. Verified standalone rates are 44100 and 48000 Hz
+with mono or stereo layout. Native preflight remains authoritative for each
+rate-control combination. Unsupported formats and WAV rendition changes refuse;
+no new codec dependency or format substitution is provided.
+
+The standalone AAC sink writes an audio-only ISO MPEG-4 container at the M4A
+path. Its standard edit list removes visible encoder priming. Presented
+`contentFrames` and decoder-visible `encodedFrames` are distinct: the latter may
+include trailing compressed-packet padding. Both survive in the public audio-file
+job result. Presented content is checked against the finite resampling quota;
+authored duration stays pinned to the original project PCM clock.
+
+The exact WAV oracle checks every sample against independently authored gain,
+split and trim results. Public checks also change the later revision's audio gain,
+remove and undo video independently, replay across a changed AAC default, refuse
+occupied destinations and unsupported settings, and cancel a held completed
+encode before explicit retry. No visual preparation or encoder capability request
+is observed. Export leaves the project document, revision head and original source
+bytes unchanged.
+
+The native consumer decodes audio status/list receipts and labels the existing
+export menu truthfully; its WAV save default and existing video/package defaults
+are verified headlessly. This slice introduces no audio picker or GUI workflow.
+Catalog format 22 records the widened export-kind constraint; prior catalog
+formats remain refused under the existing fresh-library policy.
+
+The existing prepared-audio, full/range delivery and project export suites stay
+green. The controlled fixtures establish primitive correctness and container
+behavior; they do not repeat accepted human auditions or establish speech quality
+for every input. Full PCM still inherits the WAV file-size and cache-capacity
+limits. No latency or memory SLA is inferred from functional runs on this host.
