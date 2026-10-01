@@ -1,7 +1,7 @@
 import Foundation
 
 /// Recording and project identifiers remain separate namespaces, including in service receipts.
-public enum MediaTarget: Equatable, Sendable, Decodable {
+public enum MediaTarget: Hashable, Sendable, Decodable {
     case recording(String)
     case project(String)
 

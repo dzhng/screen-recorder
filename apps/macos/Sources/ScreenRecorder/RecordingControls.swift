@@ -48,6 +48,19 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             self?.state.failure = message
             self?.render()
         })
+    private lazy var library: LibraryController = LibraryController(
+        call: { [weak self] operation, params throws(ServiceFailure) in
+            guard let self else { throw Self.noService }
+            return try await self.service().call(operation, params)
+        }, changed: { [weak self] in
+            guard let self else { return }
+            state.library = library.state
+            render()
+        }, closePreview: { [weak self] in self?.preview.close(target: $0) },
+        forgetExports: { [weak self] in self?.exports.forget(target: $0) },
+        deleted: { [weak self] in self?.readStorage() },
+        preview: { [weak self] in self?.preview.open($0) },
+        export: { [weak self] in self?.exports.export($0, kind: $1) })
     private lazy var overlay = RecordingOverlayPanel(
         preferences: preferences, perform: { [weak self] action in self?.perform(action) })
     private lazy var countdown = StartCountdown(shortcuts: shortcuts)
@@ -66,8 +79,6 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     /// Bounded status cadence, including controls issued by another client.
     private static let tick: TimeInterval = 0.5
-    /// How many recent takes the menu lists.
-    private static let recentTakes = 5
 
     init(home: String, preferences: Preferences, quit: @escaping () -> Void) {
         self.quit = quit
@@ -100,6 +111,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .ready: state.service = .ready
         case .unavailable(_, let message): state.service = .unavailable(message)
         }
+        library.serviceChanged(ready: state.service == .ready)
         if state.service == .ready {
             refresh()
             exports.discover()
@@ -137,6 +149,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     func perform(_ action: ControlsAction) {
         state.failure = nil
         let chosen = state.selection.recordingDefaults
+        if library.perform(action) { render(); return }
         switch action {
         case .selectDisplay(let id):
             if let display = state.sources.displays.first(where: { $0.id == id }) {
@@ -177,14 +190,9 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             capture("capture.cancel", live())
         case .restart:
             restart()
-        case .previewRecording(let recordingId):
-            guard state.service == .ready else { return }
-            preview.open(.recording(recordingId))
-        case .deleteRecording(let recordingId):
-            deleteRecording(recordingId)
-        case .exportRecording(let recordingId, let kind):
-            guard state.service == .ready else { return }
-            exports.export(.recording(recordingId), kind: kind)
+        case .previewRecording, .deleteRecording, .exportRecording,
+            .previewProject, .exportProject, .deleteProject, .nextProjects, .previousProjects, .refreshLibrary:
+            break // LibraryController handles these before capture selections.
         case .resendExport(let exportId):
             exports.resend(exportId)
         case .retryExport(let exportId):
@@ -309,26 +317,6 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         }
     }
 
-    private func deleteRecording(_ recordingId: String) {
-        guard state.beginDelete(recordingId) else { return }
-        preview.close(target: .recording(recordingId))
-        Task { @MainActor in
-            do throws(ServiceFailure) {
-                let receipt = try await service().call(
-                    "recording.delete", ["recordingId": recordingId], as: DeleteAnswer.self)
-                let confirmed = receipt.recordingId == recordingId && receipt.deleted
-                state.finishDelete(
-                    recordingId, failure: confirmed ? nil : "The service did not confirm deletion.")
-                // Deletion retires the take's export intents; files already exported remain.
-                if confirmed { exports.forget(target: .recording(recordingId)) }
-            } catch {
-                state.finishDelete(recordingId, failure: error.localizedDescription)
-            }
-            render()
-            refresh()
-        }
-    }
-
     /// A library scan may be slow. It never occupies the status read, and overlapping explicit
     /// refreshes coalesce so a deletion finishing mid-scan gets a fresh observation afterward.
     private func readStorage() {
@@ -428,12 +416,14 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         readPermissions()
         read(everything: true)
         readStorage()
+        library.refresh()
     }
 
     /// Status-only polling observes external controls without re-enumerating idle sources.
     private func tick() {
         preview.tick()
         exports.tick()
+        library.tick()
         read(everything: false)
     }
 
@@ -452,8 +442,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             if everything || previous?.recordingId != state.device?.recordingId
                 || previous?.state != state.device?.state {
                 await readSources()
-                await readRecent()
-                await readProcessing()
+                library.refreshRecordings()
             }
             reading = false
             render()
@@ -500,46 +489,6 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         } catch {
             state.sourcesUnavailable(code: error.code, description: error.localizedDescription)
         }
-    }
-
-    private func readRecent() async {
-        guard
-            let answer = try? await service().call(
-                "recording.list", ["limit": Self.recentTakes], as: RecentAnswer.self)
-        else { return }
-        state.recent = answer.recordings.map {
-            ControlsState.RecentTake(
-                recordingId: $0.recordingId, createdAt: $0.createdAt, state: $0.state,
-                sourceDurationUs: $0.sourceDurationUs, interruptionReason: $0.interruptionReason,
-                finalizationError: $0.finalizationError)
-        }
-    }
-
-    /// What the service is still preparing for the newest take. Artifacts report themselves; the
-    /// screenshot index answers through its own read, so both are asked the same question here.
-    private func readProcessing() async {
-        guard let take = state.recent.first, take.state != "recording" else {
-            state.processing = nil
-            return
-        }
-        var artifacts: [ControlsState.ArtifactProgress] = []
-        for artifact in ["source", "scenes", "transcript"] {
-            guard
-                let answer = try? await service().call(
-                    "processing.status", ["recordingId": take.recordingId, "artifact": artifact],
-                    as: ProcessingAnswer.self)
-            else { continue }
-            artifacts.append(
-                .init(artifact: artifact, state: answer.state, reason: answer.reason))
-        }
-        if let index = try? await service().call(
-            "index.get", ["recordingId": take.recordingId, "limit": 1], as: ProcessingAnswer.self)
-        {
-            artifacts.append(
-                .init(artifact: "index", state: index.page == nil ? index.state : "ready",
-                    reason: index.reason))
-        }
-        state.processing = .init(recordingId: take.recordingId, artifacts: artifacts)
     }
 
     private static let noService = ServiceFailure(
@@ -654,31 +603,6 @@ private struct SourcesAnswer: Decodable {
     let microphones: [Microphone]
 }
 
-private struct RecentAnswer: Decodable {
-    struct Take: Decodable {
-        let recordingId: String
-        let createdAt: String
-        let state: String
-        let sourceDurationUs: Int64?
-        let interruptionReason: String?
-        let finalizationError: ControlsState.FinalizationError?
-    }
-    let recordings: [Take]
-}
-
 private struct StartedTake: Decodable {
     let state: String
-}
-
-private struct ProcessingAnswer: Decodable {
-    let state: String
-    let reason: String?
-    /// Present once the screenshot index has something to read.
-    let page: EmptyPage?
-    struct EmptyPage: Decodable {}
-}
-
-private struct DeleteAnswer: Decodable {
-    let recordingId: String
-    let deleted: Bool
 }

@@ -1,0 +1,10 @@
+{
+  "base": "4ad1c6779291d2594f162becaffa8c52b83690cf",
+  "root23fPrerequisite": "74958fe7",
+  "archive": "evidence.tar.gz",
+  "sha256": "57f5f1949e63d5512b4ee6f73118c78340f0fa076a6baadf81126c4251bb9847",
+  "bytes": 64465,
+  "members": 32,
+  "uncompressedMemberBytes": 386936,
+  "scope": "headless native consumer and actual app compilation only; no app launch/visual/physical/media/model/installed or performance claim"
+}

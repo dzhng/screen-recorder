@@ -29,11 +29,7 @@ public struct ControlsState: Equatable, Sendable {
     public var permissions: Permissions?
     public var sources = SourceCatalog()
     public var selection = CaptureSelection()
-    public var recent: [RecentTake] = []
-    /// Only requests made in this menu, retained while the catalog hides a pending deletion.
-    public var deletions: [String: DeleteRequest] = [:]
-    /// What the service is still preparing for the newest take, by artifact name.
-    public var processing: TakeProcessing?
+    public var library = LibraryState()
     /// Whether this app is counting a take in before it starts. It belongs to the app rather than
     /// the service — no take exists yet — but the menu has to say so, because while it counts the
     /// only thing Start can mean is "never mind".
@@ -195,11 +191,15 @@ public struct ControlsState: Equatable, Sendable {
         public var awaitedMicrophone: MicrophoneChoice?
     }
 
-    public struct RecentTake: Equatable, Sendable {
+    public struct RecentTake: Equatable, Sendable, Decodable {
         public init(
             recordingId: String, createdAt: String, state: String, sourceDurationUs: Int64?,
-            interruptionReason: String?, finalizationError: FinalizationError? = nil
+            interruptionReason: String?, finalizationError: FinalizationError? = nil,
+            currentRevisionId: String? = nil, sourceId: String? = nil, sourceAdmissions: [LibraryState.SourceAdmission]? = nil
         ) {
+            self.currentRevisionId = currentRevisionId
+            self.sourceAdmissions = sourceAdmissions
+            self.sourceId = sourceId
             self.recordingId = recordingId
             self.createdAt = createdAt
             self.state = state
@@ -209,16 +209,33 @@ public struct ControlsState: Equatable, Sendable {
         }
         public let recordingId: String
         public let createdAt: String
+        public let currentRevisionId: String?
+        public let sourceId: String?
+        public let sourceAdmissions: [LibraryState.SourceAdmission]?
         public let state: String
         public let sourceDurationUs: Int64?
         public let interruptionReason: String?
         public let finalizationError: FinalizationError?
-    }
-
-    public struct DeleteRequest: Equatable, Sendable {
-        public let take: RecentTake
-        public var failure: String?
-        public var isPending: Bool { failure == nil }
+        private enum Keys: String, CodingKey {
+            case createdAt, currentRevisionId, sourceId, sourceAdmissions, state, sourceDurationUs,
+                interruptionReason, finalizationError
+        }
+        public init(from decoder: Decoder) throws {
+            guard case .recording(let id) = try MediaTarget(from: decoder) else {
+                throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Expected a recording owner"))
+            }
+            let fields = try decoder.container(keyedBy: Keys.self)
+            guard fields.contains(.currentRevisionId) else {
+                throw DecodingError.keyNotFound(Keys.currentRevisionId, .init(codingPath: decoder.codingPath, debugDescription: "Missing recording revision observation"))
+            }
+            self.init(recordingId: id, createdAt: try fields.decode(String.self, forKey: .createdAt),
+                state: try fields.decode(String.self, forKey: .state), sourceDurationUs: try fields.decodeIfPresent(Int64.self, forKey: .sourceDurationUs),
+                interruptionReason: try fields.decodeIfPresent(String.self, forKey: .interruptionReason),
+                finalizationError: try fields.decodeIfPresent(FinalizationError.self, forKey: .finalizationError),
+                currentRevisionId: try fields.decodeIfPresent(String.self, forKey: .currentRevisionId),
+                sourceId: try fields.decodeIfPresent(String.self, forKey: .sourceId),
+                sourceAdmissions: try fields.decodeIfPresent([LibraryState.SourceAdmission].self, forKey: .sourceAdmissions))
+        }
     }
 
     /// One artifact's readiness for one take, as the service reports it.
@@ -273,25 +290,6 @@ public struct ControlsState: Equatable, Sendable {
         }
         public let totalBytes: Int64
         public let observedAt: String
-    }
-
-    /// A retry keeps its original explicit identity even after ordinary discovery hides the take.
-    public mutating func beginDelete(_ recordingId: String) -> Bool {
-        guard service == .ready, deletions[recordingId]?.isPending != true,
-            let take = deletions[recordingId]?.take ?? recent.first(where: { $0.recordingId == recordingId })
-        else { return false }
-        deletions[recordingId] = DeleteRequest(take: take)
-        return true
-    }
-
-    public mutating func finishDelete(_ recordingId: String, failure: String?) {
-        guard deletions[recordingId] != nil else { return }
-        if let failure {
-            deletions[recordingId]?.failure = failure
-        } else {
-            deletions.removeValue(forKey: recordingId)
-            recent.removeAll { $0.recordingId == recordingId }
-        }
     }
 
     /// Native acquisition and service recovery both retain a take until finalization settles.

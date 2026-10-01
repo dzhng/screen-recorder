@@ -61,9 +61,9 @@ func runMenuStateTests() {
     var preparing = ready()
     let take = ControlsState.RecentTake(
         recordingId: "rec-5", createdAt: "2026-09-18T01:02:03Z", state: "complete",
-        sourceDurationUs: 9_000_000, interruptionReason: nil)
-    preparing.recent = [take]
-    preparing.processing = .init(
+        sourceDurationUs: 9_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
+    preparing.library.recent = [take]
+    preparing.library.processing = .init(
         recordingId: "rec-5",
         artifacts: [
             .init(artifact: "source", state: "ready", reason: nil),
@@ -79,13 +79,17 @@ func runMenuStateTests() {
     precondition(
         preparedRow.title.hasSuffix("— transcribing, choosing screenshots"),
         "The take itself says what is still being prepared: \(preparedRow.title)")
-    preparing.processing = .init(
+    preparing.library.processing = .init(
         recordingId: "rec-5",
         artifacts: [.init(artifact: "transcript", state: "failed", reason: "model missing")])
     precondition(
         statusLines(RecordingMenu.entries(for: preparing)).first
             == "Preparing the last take — transcript failed",
         "A failed artifact stays visible")
+    preparing.take = .init(recordingId: "new-take", state: "complete", interruptionReason: nil, sourceDurationUs: 1)
+    let staleProcessing = RecordingMenu.entries(for: preparing)
+    precondition(!statusLines(staleProcessing).contains { $0.contains("Preparing the last take") },
+        "A last-good library row cannot label its older processing as the current take")
     precondition(
         row(live, "capture.startOrStop").title == "Finish Recording",
         "One control starts and finishes a take")
@@ -168,10 +172,10 @@ func runMenuStateTests() {
         "The system audio label must not suggest one tab or application")
 
     var stored = ready()
-    stored.recent = [
+    stored.library.recent = [
         ControlsState.RecentTake(
             recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z", state: "complete",
-            sourceDurationUs: 65_000_000, interruptionReason: nil)
+            sourceDurationUs: 65_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
     ]
     let recent = RecordingMenu.entries(for: stored)
     guard let takes = recent.first(where: { $0.title == "Recent Recordings" })?.submenu.first
@@ -185,8 +189,8 @@ func runMenuStateTests() {
         ], "Preview, both export choices and deletion name the stored take")
     for (status, duration, available) in [("complete", Int64(1), true), ("interrupted", 1, true),
         ("interrupted", 0, false), ("recording", 1, false), ("canceled", 1, false)] {
-        stored.recent = [.init(recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z",
-            state: status, sourceDurationUs: duration, interruptionReason: nil)]
+        stored.library.recent = [.init(recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z",
+            state: status, sourceDurationUs: duration, interruptionReason: nil, currentRevisionId: "r-existing")]
         precondition(row(RecordingMenu.entries(for: stored), "recording.preview.rec-9").enabled == available,
             "Only usable finalized media exposes Preview")
     }
@@ -197,20 +201,20 @@ func runMenuStateTests() {
 func runRecentStorageTests() {
     var state = ready()
     let first = ControlsState.RecentTake(recordingId: "first", createdAt: "2026-09-15T18:04:05Z",
-        state: "complete", sourceDurationUs: 1_000_000, interruptionReason: nil)
+        state: "complete", sourceDurationUs: 1_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
     let sibling = ControlsState.RecentTake(recordingId: "sibling", createdAt: first.createdAt,
-        state: "complete", sourceDurationUs: 2_000_000, interruptionReason: nil)
-    state.recent = [first, sibling]
-    precondition(!state.beginDelete("unknown"), "The menu cannot invent a delete target")
-    precondition(state.beginDelete("first"), "The chosen explicit ID begins deletion")
-    precondition(!state.beginDelete("first"), "Repeated pending clicks do not issue another request")
+        state: "complete", sourceDurationUs: 2_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
+    state.library.recent = [first, sibling]
+    precondition(!state.library.beginDelete(.recording("unknown")), "The menu cannot invent a delete target")
+    precondition(state.library.beginDelete(.recording("first")), "The chosen explicit ID begins deletion")
+    precondition(!state.library.beginDelete(.recording("first")), "Repeated pending clicks do not issue another request")
     var menu = RecordingMenu.entries(for: state)
     precondition(!row(menu, "recording.delete.first").enabled, "Pending deletion cannot be clicked twice")
     precondition(row(menu, "recording.delete.first").title == "Deleting…", "Pending is not success")
     precondition(row(menu, "recording.delete.sibling").enabled, "Another recording remains usable")
     // Intent hides the take from ordinary library discovery before physical cleanup completes.
-    state.recent = [sibling]
-    state.finishDelete("first", failure: "DELETE_FAILED: disk is unavailable")
+    state.library.recent = [sibling]
+    state.library.finishDelete(.recording("first"), failure: "DELETE_FAILED: disk is unavailable")
     menu = RecordingMenu.entries(for: state)
     precondition(row(menu, "recording.delete.first").title == "Retry Delete", "A hidden failed take keeps its retry")
     precondition(row(menu, "recording.delete.first").action == .deleteRecording("first"), "Retry keeps its original target")
@@ -223,22 +227,22 @@ func runRecentStorageTests() {
     state.service = .unavailable("offline")
     precondition(!row(RecordingMenu.entries(for: state), "recording.delete.first").enabled,
         "Retry waits until the service can accept it")
-    precondition(!state.beginDelete("first"), "Unavailable service refuses actions outside menu clicks too")
+
     state.service = .ready
-    precondition(state.beginDelete("first"), "Retry resolves the retained target without rediscovery")
-    state.finishDelete("first", failure: nil)
+    precondition(state.library.beginDelete(.recording("first")), "Retry resolves the retained target without rediscovery")
+    state.library.finishDelete(.recording("first"), failure: nil)
     menu = RecordingMenu.entries(for: state)
     precondition(find(menu, "recording.delete.first") == nil, "Only confirmed success removes the pending row")
     precondition(row(menu, "recording.delete.sibling").enabled, "Success preserves sibling actions")
 
-    precondition(menu.contains { $0.title == "Recording Storage: not measured" }, "No receipt is not zero bytes")
+    precondition(menu.contains { $0.title == "Library Storage: not measured" }, "No receipt is not zero bytes")
     let observedAt = "2026-09-16T09:10:11.000Z"
     precondition(ElapsedTime.shortTime(of: observedAt) == ElapsedTime.shortTime(of: "2026-09-16T09:10:11Z"),
         "Service ISO timestamps with milliseconds use the same readable local date")
     state.storage = .init(totalBytes: 12_345_678, observedAt: observedAt)
     let measured = RecordingMenu.entries(for: state)
     let expectedBytes = ByteCountFormatter.string(fromByteCount: 12_345_678, countStyle: .file)
-    precondition(measured.contains { $0.title == "Recording Storage: \(expectedBytes) (last scan)" },
+    precondition(measured.contains { $0.title == "Library Storage: \(expectedBytes) (last scan)" },
         "The total comes from the service and is labeled as an observation")
     state.storageRefreshing = true
     let refreshing = RecordingMenu.entries(for: state)
@@ -248,7 +252,7 @@ func runRecentStorageTests() {
     state.storageRefreshing = false
     state.storageFailure = "TIMEOUT: scan did not answer"
     let failed = RecordingMenu.entries(for: state)
-    precondition(failed.contains { $0.title == "Recording Storage: \(expectedBytes) (last scan)" },
+    precondition(failed.contains { $0.title == "Library Storage: \(expectedBytes) (last scan)" },
         "Failure retains the explicitly dated old observation instead of inventing zero")
     precondition(failed.flatMap(\.submenu).contains { $0.title == "Storage unavailable — TIMEOUT: scan did not answer" }
         && row(failed, "storage.refresh").enabled, "A failed scan says why and offers refresh")

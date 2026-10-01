@@ -1,0 +1,286 @@
+import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { test } from "node:test";
+import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
+
+test(
+  "native library reads explicit project pages and preserves fresh source facts",
+  { timeout: 90_000 },
+  () => {
+    const scratch = mkdtempSync(join(tmpdir(), "screenrec-library-controls-"));
+    try {
+      const executable = compileControlsCheck(
+        scratch,
+        ["LibraryController", "ServiceBundle", "NodeRuntime"],
+        String.raw`
+import Foundation
+import ScreenRecorderControls
+@MainActor final class Script {
+    var calls: [(String, [String: Any])] = []
+    static var exchanges: [[String: Any]] = []
+    var next: Any = ["afterSequence": 7]
+    var projects: [[String: Any]] = [["projectId": "same", "title": "Caller project", "createdAt": "2026-10-01T01:00:00Z", "currentRevisionId": "r-project"]]
+    var recording: [String: Any] = ["recordingId": "same", "createdAt": "2026-10-01T01:00:00Z", "state": "complete", "sourceId": "source-one", "creationSequence": 1, "lifecycleSequence": 3, "interruptionReason": NSNull(), "interruptionMessage": NSNull(), "finalizationError": NSNull(), "sourceDurationUs": 9000000, "currentRevisionId": NSNull(), "sourceAdmissions": []]
+    var deletes: [MediaTarget] = []
+    var deletedTargets: Set<MediaTarget> = []
+    var wrongDelete = false
+    var lostDelete: String?
+    var failure: (String, String)?
+    var hold: String?
+    var held: CheckedContinuation<Data, Never>?
+    var heldAnswer: Data?
+    var job: [String: Any] = ["jobId": "job-one", "state": "running", "attemptId": "attempt-one", "artifact": "acquisition.import", "lane": "heavy", "generation": 1, "reason": NSNull(), "errorCode": NSNull(), "errorDetails": NSNull(), "retryable": false, "inputSha256": String(repeating: "1", count: 64), "result": NSNull(), "target": ["kind": "acquisition", "acquisitionId": "acq-one"]]
+    func count(_ operation: String) -> Int { calls.filter { $0.0 == operation }.count }
+    func release() { let waiting = held; held = nil; waiting?.resume(returning: heldAnswer!); heldAnswer = nil }
+
+    func call(_ operation: String, _ params: [String: Any]) async throws(ServiceFailure) -> Data {
+        calls.append((operation, params))
+        if let failure, failure.0 == operation {
+            self.failure = nil
+            Self.exchanges.append(["operation": operation, "params": params, "error": failure.1])
+            throw ServiceFailure(code: failure.1, message: "scripted refusal")
+        }
+        let answer: [String: Any]
+        switch operation {
+        case "recording.list": answer = ["recordings": deletedTargets.contains(.recording(recording["recordingId"] as! String)) ? [] : [recording], "nextCursor": NSNull()]
+        case "project.list": answer = ["projects": projects.filter { !deletedTargets.contains(.project($0["projectId"] as? String ?? "")) }, "nextCursor": next]
+        case "recording.get": answer = recording
+        case "job.get": answer = job
+        case "processing.status": answer = ["state": params["artifact"] as? String == "transcript" ? "processing" : "ready", "reason": NSNull()]
+        case "index.get": answer = ["state": "ready", "page": [:], "reason": NSNull()]
+        case "recording.delete", "project.delete":
+            deletes.append(params["projectId"] == nil ? .recording(params["recordingId"] as! String) : .project(params["projectId"] as! String))
+            if !wrongDelete { deletedTargets.insert(deletes.last!) }
+            answer = wrongDelete ? ["projectId": "wrong-target", "deleted": true] : params.merging(["deleted": true]) { first, _ in first }
+        default: throw ServiceFailure(code: "UNKNOWN_OPERATION", message: operation)
+        }
+        if let lostDelete, operation.hasSuffix(".delete") {
+            self.lostDelete = nil
+            Self.exchanges.append(["operation": operation, "params": params, "error": lostDelete, "admittedReceipt": answer])
+            throw ServiceFailure(code: lostDelete, message: "accepted deletion lost its reply")
+        }
+        Self.exchanges.append(["operation": operation, "params": params, "answer": answer])
+        let bytes = try! JSONSerialization.data(withJSONObject: answer)
+        if hold == operation {
+            hold = nil; heldAnswer = bytes
+            return await withCheckedContinuation { held = $0 }
+        }
+        return bytes
+    }
+}
+@main struct Check {
+    @MainActor static func until(_ ready: () -> Bool) async {
+        for _ in 0..<200 where !ready() { try? await Task.sleep(for: .milliseconds(10)) }
+        precondition(ready(), "Timed out")
+    }
+    @MainActor static func main() async {
+        let script = Script()
+        var closed: [MediaTarget] = [], forgotten: [MediaTarget] = [], previews: [MediaTarget] = []
+        var exports: [(MediaTarget, ExportsState.Kind)] = []
+        let library = LibraryController(call: { operation, params throws(ServiceFailure) in try await script.call(operation, params) }, changed: {}, closePreview: { closed.append($0) }, forgetExports: { forgotten.append($0) }, deleted: {}, preview: { previews.append($0) }, export: { exports.append(($0, $1)) })
+        library.serviceChanged(ready: true)
+        await until { !library.state.projectsRefreshing && library.state.recent.count == 1 }
+        precondition(library.state.projects.map(\.projectId) == ["same"])
+        var state = ControlsState(); state.service = .ready; state.library = library.state
+        func actions(_ rows: [MenuEntry]) -> [MenuEntry] { rows.flatMap { [$0] + actions($0.submenu) } }
+        let menu = actions(RecordingMenu.entries(for: state))
+        precondition(menu.first { $0.action == .previewRecording("same") }?.enabled == false, "Duration does not invent a recording composition")
+        precondition(menu.first { $0.action == .previewProject("same") }?.enabled == true)
+        precondition(!script.calls.contains { ["processing.status", "index.get"].contains($0.0) })
+        precondition(library.perform(.previewProject("same")))
+        precondition(library.perform(.exportProject("same", .package)))
+        precondition(library.perform(.previewRecording("same")))
+        precondition(previews == [.project("same")] && exports.count == 1 && exports[0].0 == .project("same") && exports[0].1 == .package, "Explicit actions preserve namespace and refuse a fresh recording composition")
+        precondition(!library.perform(.pauseOrResume), "Capture transport remains with its existing owner")
+        script.projects = [["projectId": "later", "title": "Later caller project", "createdAt": "2026-10-01T02:00:00Z", "currentRevisionId": "r-later"]]; script.next = NSNull()
+        library.nextProjects()
+        await until { library.state.projects.first?.projectId == "later" && !library.state.projectsRefreshing }
+        precondition((script.calls.last { $0.0 == "project.list" }!.1["cursor"] as! [String: Int]) == ["afterSequence": 7])
+        precondition(library.state.hasPreviousPage && library.state.nextCursor == nil)
+        // A bad page retains the last usable page and cannot invent navigation.
+        let lastProjects = library.state.projects
+        script.projects = [["projectId": "broken"]]
+        library.refreshProjects()
+        await until { library.state.projectFailure != nil && !library.state.projectsRefreshing }
+        precondition(library.state.projects == lastProjects && library.state.nextCursor == nil)
+        script.failure = ("project.list", "SERVICE_UNAVAILABLE")
+        library.refreshProjects()
+        await until { library.state.projectFailure?.contains("SERVICE_UNAVAILABLE") == true }
+        precondition(library.state.projects == lastProjects)
+        script.projects = [["projectId": "later", "title": "Later caller project", "createdAt": "2026-10-01T02:00:00Z", "currentRevisionId": "r-later"]]
+        library.refreshProjects()
+        await until { library.state.projectFailure == nil && !library.state.projectsRefreshing }
+        library.delete(.recording("same"))
+        await until { forgotten == [.recording("same")] }
+        precondition(closed == [.recording("same")] && library.state.projects.first?.projectId == "later")
+        await until { library.state.recent.isEmpty && !library.state.projectsRefreshing }
+        library.delete(.project("later"))
+        await until { forgotten == [.recording("same"), .project("later")] }
+        precondition(closed == forgotten)
+
+        // Installed recording revisions preserve ordinary artifact reads and delivery dispatch.
+        let installed = Script()
+        installed.recording["currentRevisionId"] = "r-recording"
+        installed.recording.removeValue(forKey: "sourceAdmissions")
+        var installedPreview: [MediaTarget] = []
+        let old = LibraryController(call: { op, params throws(ServiceFailure) in try await installed.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { installedPreview.append($0) }, export: { _, _ in })
+        old.serviceChanged(ready: true)
+        await until { old.state.processing?.artifacts.count == 4 }
+        precondition(installed.count("processing.status") == 3 && installed.count("index.get") == 1)
+        precondition(old.state.processing?.summary == "transcribing")
+        old.perform(.previewRecording("same")); precondition(installedPreview == [.recording("same")])
+        installed.recording["recordingId"] = "new-installed-take"
+        installed.failure = ("processing.status", "NOT_READY")
+        old.refreshRecordings()
+        await until { old.state.progressFailure?.contains("NOT_READY") == true }
+        precondition(old.state.recent.first?.recordingId == "new-installed-take" && old.state.processing == nil, "Failed reads for a new take must not label the previous owner's processing as the last take")
+        old.refreshRecordings()
+        await until { old.state.processing?.recordingId == "new-installed-take" && old.state.progressFailure == nil }
+        let lastProgress = old.state.processing
+        installed.failure = ("processing.status", "NOT_READY")
+        old.refreshRecordings()
+        await until { old.state.progressFailure?.contains("NOT_READY") == true }
+        precondition(old.state.processing == lastProgress, "Same-owner processing failure retains its last good observation")
+        old.serviceChanged(ready: false)
+        precondition(old.state.processing == nil, "Service replacement clears obsolete processing context")
+
+        // Pending source admission is discovered without restarting work; terminal jobs stop reads.
+        let source = Script()
+        source.recording["sourceAdmissions"] = [["kind": "primary", "sourceId": "source-one", "acquisitionId": NSNull(), "job": NSNull(), "admissionError": NSNull()]]
+        let progress = LibraryController(call: { op, params throws(ServiceFailure) in try await source.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { _ in }, export: { _, _ in })
+        progress.serviceChanged(ready: true)
+        await until { progress.state.recent.count == 1 }
+        source.recording["sourceAdmissions"] = [["kind": "primary", "sourceId": "source-one", "acquisitionId": "acq-one", "job": source.job, "admissionError": NSNull()]]
+        progress.tick()
+        await until { progress.state.recent.first?.sourceAdmissions?.first?.job?.state == "running" }
+        precondition(source.count("recording.get") == 1 && source.count("job.get") == 0)
+        source.job["state"] = "ready"
+        progress.tick()
+        await until { progress.state.recent.first?.sourceAdmissions?.first?.job?.state == "ready" }
+        for _ in 0..<10 { progress.tick(); await Task.yield() }
+        precondition(source.count("job.get") == 1 && !source.calls.contains { ["job.retry", "acquisition.import", "processing.status", "index.get"].contains($0.0) })
+
+        // A delayed job answer for the old row cannot clear the next row's failed processing read.
+        let overlapping = Script()
+        overlapping.recording["sourceAdmissions"] = [["kind": "primary", "sourceId": "source-one", "acquisitionId": "acq-one", "job": overlapping.job, "admissionError": NSNull()]]
+        let progressOwner = LibraryController(call: { op, params throws(ServiceFailure) in try await overlapping.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { _ in }, export: { _, _ in })
+        progressOwner.serviceChanged(ready: true)
+        await until { progressOwner.state.recent.count == 1 && !progressOwner.state.projectsRefreshing }
+        overlapping.hold = "job.get"; progressOwner.tick()
+        await until { overlapping.held != nil }
+        overlapping.recording["recordingId"] = "new-progress-owner"
+        overlapping.recording["currentRevisionId"] = "r-new"
+        overlapping.recording.removeValue(forKey: "sourceAdmissions")
+        overlapping.failure = ("processing.status", "NOT_READY")
+        progressOwner.refreshRecordings()
+        await until { progressOwner.state.progressFailure?.contains("NOT_READY") == true }
+        overlapping.release()
+        for _ in 0..<20 { await Task.yield() }
+        precondition(progressOwner.state.recent.first?.recordingId == "new-progress-owner" && progressOwner.state.progressFailure?.contains("NOT_READY") == true, "An obsolete job reply must not clear another owner's read failure")
+        progressOwner.serviceChanged(ready: false)
+
+        // Lost/malformed deletion keeps the typed identity even after discovery hides its owner.
+        let lost = Script()
+        var lostClosed: [MediaTarget] = [], lostForgotten: [MediaTarget] = []
+        let deletion = LibraryController(call: { op, params throws(ServiceFailure) in try await lost.call(op, params) }, changed: {}, closePreview: { lostClosed.append($0) }, forgetExports: { lostForgotten.append($0) }, deleted: {}, preview: { _ in }, export: { _, _ in })
+        deletion.serviceChanged(ready: true)
+        await until { deletion.state.projects.count == 1 && deletion.state.recent.count == 1 }
+        lost.lostDelete = "TIMEOUT"
+        deletion.delete(.project("same"))
+        await until { deletion.state.deletions[.project("same")]?.failure?.contains("TIMEOUT") == true }
+        deletion.refreshProjects()
+        await until { deletion.state.projects.isEmpty && !deletion.state.projectsRefreshing }
+        precondition(deletion.state.recent.first?.recordingId == "same" && lostForgotten.isEmpty)
+        deletion.serviceChanged(ready: false)
+        let before = lost.count("project.delete")
+        deletion.delete(.project("same")); await Task.yield()
+        precondition(lost.count("project.delete") == before, "Unavailable service refuses deletion outside menu clicks")
+        deletion.serviceChanged(ready: true)
+        lost.wrongDelete = true
+        deletion.delete(.project("same"))
+        await until { deletion.state.deletions[.project("same")]?.failure != nil || !lostForgotten.isEmpty }
+        precondition(lostForgotten.isEmpty && deletion.state.deletions[.project("same")]?.failure?.contains("INVALID_RESPONSE") == true, "A different typed deletion receipt must not forget the selected owner")
+        lost.wrongDelete = false
+        deletion.delete(.project("same"))
+        await until { lostForgotten == [.project("same")] }
+        precondition(lost.calls.filter { $0.0 == "project.delete" }.allSatisfy { ($0.1["projectId"] as? String) == "same" && $0.1["recordingId"] == nil })
+        precondition(deletion.state.recent.first?.recordingId == "same")
+
+        // A page read held over deletion cannot restore the deleted project on release.
+        let late = Script()
+        let fenced = LibraryController(call: { op, params throws(ServiceFailure) in try await late.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { _ in }, export: { _, _ in })
+        fenced.serviceChanged(ready: true)
+        await until { fenced.state.projects.count == 1 && !fenced.state.projectsRefreshing }
+        late.hold = "project.list"; fenced.refreshProjects()
+        await until { late.held != nil }
+        fenced.delete(.project("same"))
+        await until { fenced.state.deletions.isEmpty && fenced.state.projects.isEmpty }
+        late.release()
+        for _ in 0..<20 { await Task.yield() }
+        precondition(fenced.state.projects.isEmpty, "Late discovery cannot restore a deleted owner")
+        // A changed page or service generation rejects old answers, including old action receipts.
+        let changed = Script()
+        let generation = LibraryController(call: { op, params throws(ServiceFailure) in try await changed.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { _ in }, export: { _, _ in })
+        generation.serviceChanged(ready: true)
+        await until { generation.state.projects.count == 1 && !generation.state.projectsRefreshing }
+        changed.projects = [["projectId": "page-two", "title": "Second page", "createdAt": "2026-10-01T02:00:00Z", "currentRevisionId": "r-two"]]; changed.next = NSNull()
+        generation.nextProjects()
+        await until { generation.state.projects.first?.projectId == "page-two" && !generation.state.projectsRefreshing }
+        changed.hold = "project.list"; generation.refreshProjects()
+        await until { changed.held != nil }
+        changed.projects = [["projectId": "page-one", "title": "First page", "createdAt": "2026-10-01T01:00:00Z", "currentRevisionId": "r-one"]]; changed.next = ["afterSequence": 7]
+        generation.previousProjects()
+        await until { generation.state.projects.first?.projectId == "page-one" && !generation.state.projectsRefreshing }
+        changed.release()
+        for _ in 0..<20 { await Task.yield() }
+        precondition(generation.state.projects.first?.projectId == "page-one" && !generation.state.hasPreviousPage)
+        changed.hold = "recording.list"; generation.refreshRecordings()
+        await until { changed.held != nil }
+        changed.recording["recordingId"] = "replacement"
+        generation.serviceChanged(ready: false); generation.serviceChanged(ready: true)
+        await until { generation.state.recent.first?.recordingId == "replacement" }
+        changed.release()
+        for _ in 0..<20 { await Task.yield() }
+        precondition(generation.state.recent.first?.recordingId == "replacement", "Old service catalog must not replace a current observation")
+        let lastRecording = generation.state.recent
+        changed.recording["projectId"] = "also-project"
+        generation.refreshRecordings()
+        await until { generation.state.recordingFailure != nil }
+        precondition(generation.state.recent == lastRecording, "Dual namespace recording response remains visibly malformed")
+        changed.recording.removeValue(forKey: "projectId")
+        generation.refreshRecordings()
+        await until { generation.state.recordingFailure == nil }
+        // Every ambiguity classification retains one exact target for explicit replay.
+        for code in ["INVALID_RESPONSE", "SERVICE_STOPPED", "SERVICE_UNAVAILABLE"] {
+            let ambiguous = Script()
+            var retired: [MediaTarget] = []
+            let recovery = LibraryController(call: { op, params throws(ServiceFailure) in try await ambiguous.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { retired.append($0) }, deleted: {}, preview: { _ in }, export: { _, _ in })
+            recovery.serviceChanged(ready: true)
+            await until { recovery.state.projects.count == 1 && !recovery.state.projectsRefreshing }
+            ambiguous.lostDelete = code
+            recovery.delete(.project("same"))
+            await until { recovery.state.deletions[.project("same")]?.failure?.contains(code) == true }
+            precondition(retired.isEmpty && ambiguous.count("project.delete") == 1)
+            recovery.delete(.project("same"))
+            await until { retired == [.project("same")] }
+            precondition(ambiguous.count("project.delete") == 2)
+            recovery.serviceChanged(ready: false)
+        }
+        for consumer in [library, old, progress, deletion, fenced, generation] { consumer.serviceChanged(ready: false) }
+        print("PASS native library pages, typed deletion and source-only recording facts")
+        print(String(data: try! JSONSerialization.data(withJSONObject: Script.exchanges), encoding: .utf8)!)
+    }
+}
+`,
+      );
+      const output = execFileSync(executable, { encoding: "utf8", timeout: 30_000 });
+      assert.match(output, /PASS native library pages/);
+      process.stdout.write(output);
+    } finally {
+      rmSync(scratch, { recursive: true, force: true });
+    }
+  },
+);

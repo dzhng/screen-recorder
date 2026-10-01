@@ -1,8 +1,13 @@
 # 23h — Native library consumption
 
-Status: bounded consumer contract after [23f source lifetime](23f-capture-source-lifetime.md),
+Status: scoped native consumer verified by headless exchanges, actual app compilation
+and independent source review. Presentation and installed release gates remain open.
+Prerequisites: [23f source lifetime](23f-capture-source-lifetime.md),
 [23e preview](23e-preview-consumer-parity.md) and [23g export requests](23g-project-export-requests.md).
 Installed switching remains under [23](23-cutover.md).
+The [consumer packet](../assets/23h-native-library-consumption/README.md) owns the
+headless exchange, direct compiler and preservation evidence; it establishes no
+window, playback or installed-library claim.
 
 ## Contract and owner
 
@@ -59,3 +64,13 @@ boundary, plus reversible menu wording that truthfully reflects service facts.
 No new endpoint, catalog, polling system, editing GUI, migration or compatibility
 facade. Review shape, code, documentation and choices; retain exact source and
 scripted exchanges before committing the scoped consumer claim.
+
+
+## Observation lifetime
+
+Last-good processing observations are retained only for their exact recording
+owner. Selecting a newer take or replacing the service clears that context; a
+failed read cannot describe the previous take as the newest one. A pending job
+read also loses authority when a new recording catalog request begins, so its late
+answer cannot clear another take's read failure. These are consumer observation
+fences, not additional preparation or recording lifecycles.

@@ -294,7 +294,7 @@ struct SettingsView: View {
     /// can leave this window open instead of reopening the menu.
     @ViewBuilder
     private var activitySection: some View {
-        if let processing = model.state.processing, !processing.artifacts.isEmpty {
+        if let processing = model.state.library.processing, !processing.artifacts.isEmpty {
             Section {
                 ForEach(processing.artifacts, id: \.artifact) { artifact in
                     LabeledContent(Self.artifactNames[artifact.artifact] ?? artifact.artifact) {

@@ -15,6 +15,12 @@ public enum ControlsAction: Hashable, Sendable {
     case pauseOrResume
     case cancel
     case restart
+    case previewProject(String)
+    case exportProject(String, ExportsState.Kind)
+    case deleteProject(String)
+    case nextProjects
+    case previousProjects
+    case refreshLibrary
     case previewRecording(String)
     case deleteRecording(String)
     /// Choose a destination and export the take's current revision.
@@ -45,6 +51,12 @@ public enum ControlsAction: Hashable, Sendable {
         case .pauseOrResume: "capture.pauseOrResume"
         case .cancel: "capture.cancel"
         case .restart: "capture.restart"
+        case .previewProject(let id): "project.preview.\(id)"
+        case .exportProject(let id, let kind): "project.export.\(kind.rawValue).\(id)"
+        case .deleteProject(let id): "project.delete.\(id)"
+        case .nextProjects: "library.projects.next"
+        case .previousProjects: "library.projects.previous"
+        case .refreshLibrary: "library.refresh"
         case .previewRecording(let id): "recording.preview.\(id)"
         case .deleteRecording(let id): "recording.delete.\(id)"
         case .exportRecording(let id, let kind): "recording.export.\(kind.rawValue).\(id)"
@@ -133,6 +145,8 @@ public enum RecordingMenu {
         rows.append(.separator())
         rows.append(
             MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state, exports: exports)))
+        rows.append(MenuEntry(.status, "Projects", submenu: projectEntries(for: state, exports: exports)))
+        rows.append(MenuEntry(.command(.refreshLibrary), "Refresh Library", enabled: state.service == .ready))
         rows.append(contentsOf: ExportMenu.entries(for: state, exports: exports))
         rows.append(contentsOf: storageEntries(for: state))
         rows.append(.separator())
@@ -147,7 +161,9 @@ public enum RecordingMenu {
         if state.service == .starting { return statusTitle(for: state) }
         if state.take?.state == "finalizing" { return statusTitle(for: state) }
         if let device = state.device, device.state != .idle { return statusTitle(for: state) }
-        return state.processing?.summary.map { "Preparing the last take — \($0)" }
+        if let take = state.take, let processing = state.library.processing,
+            take.recordingId != processing.recordingId { return nil }
+        return state.library.processing?.summary.map { "Preparing the last take — \($0)" }
     }
 
     /// The one line that says what this app is doing right now. A running take's time comes from
@@ -175,6 +191,8 @@ public enum RecordingMenu {
     static func notes(for state: ControlsState) -> [String] {
         var notes: [String] = []
         if let failure = state.failure { notes.append(failure) }
+        if let failure = state.library.recordingFailure { notes.append("Recordings unavailable — \(failure)") }
+        if let failure = state.library.progressFailure { notes.append("Preparation status unavailable — \(failure)") }
         if let failure = state.take?.finalizationError {
             notes.append("Finalization failed — \(failure.code): \(failure.message)")
         }
@@ -336,26 +354,34 @@ public enum RecordingMenu {
 
     /// Recent library takes expose the shared preview operation and the two export choices.
     private static func recentEntries(for state: ControlsState, exports: ExportsState) -> [MenuEntry] {
-        let takes = state.recent + state.deletions.values
-            .map(\.take)
-            .filter { pending in !state.recent.contains { $0.recordingId == pending.recordingId } }
+        let takes = state.library.recent + state.library.deletions.values
+            .compactMap(\.take)
+            .filter { pending in !state.library.recent.contains { $0.recordingId == pending.recordingId } }
             .sorted { $0.recordingId < $1.recordingId }
         guard !takes.isEmpty else {
             return [MenuEntry(.status, "No recordings yet.", enabled: false)]
         }
         return takes.map { take in
-            let request = state.deletions[take.recordingId]
+            let request = state.library.deletions[.recording(take.recordingId)]
             let pending = request?.isPending == true
             var details = [MenuEntry(.status, take.recordingId, enabled: false)]
             if let failure = take.finalizationError {
                 details.append(MenuEntry(.status, "Finalization failed — \(failure.code): \(failure.message)", enabled: false))
+            }
+            if take.currentRevisionId == nil {
+                details.append(MenuEntry(.status, "No recording composition", enabled: false))
+                if let sourceId = take.sourceId { details.append(MenuEntry(.status, "Source: \(sourceId)", enabled: false)) }
+                for admission in take.sourceAdmissions ?? [] {
+                    details.append(MenuEntry(.status, admission.sourceId + " — " + admission.title, enabled: false))
+                }
+                if take.sourceAdmissions?.isEmpty == true { details.append(MenuEntry(.status, "No admitted sources reported", enabled: false)) }
             }
             if let failure = request?.failure {
                 details.append(MenuEntry(.status, "Delete not confirmed — \(failure)", enabled: false))
             }
             let playable = state.service == .ready && request == nil
                 && (take.state == "complete" || take.state == "interrupted")
-                && (take.sourceDurationUs ?? 0) > 0
+                && (take.sourceDurationUs ?? 0) > 0 && take.currentRevisionId != nil
             // One save panel at a time; a take can still be exported again once a choice is made.
             let exportable = playable && exports.choosing == nil
             details.append(contentsOf: [
@@ -374,12 +400,44 @@ public enum RecordingMenu {
                     enabled: state.service == .ready && !pending),
             ])
             var suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
-            if suffix.isEmpty, state.processing?.recordingId == take.recordingId,
-                let working = state.processing?.summary {
+            if suffix.isEmpty, state.library.processing?.recordingId == take.recordingId,
+                let working = state.library.processing?.summary {
                 suffix = " — \(working)"
             }
             return MenuEntry(.status, recentTitle(of: take) + suffix, submenu: details)
         }
+    }
+
+    private static func projectEntries(for state: ControlsState, exports: ExportsState) -> [MenuEntry] {
+        var rows: [MenuEntry] = []
+        if let failure = state.library.projectFailure { rows.append(MenuEntry(.status, "Projects unavailable — \(failure)", enabled: false)) }
+        if state.library.projectsRefreshing { rows.append(MenuEntry(.status, "Reading projects…", enabled: false)) }
+        for project in state.library.projects {
+            let target = MediaTarget.project(project.projectId)
+            let request = state.library.deletions[target]
+            guard request == nil else { continue }
+            let usable = state.service == .ready && request == nil
+            rows.append(MenuEntry(.status, project.title, submenu: [
+                MenuEntry(.status, project.projectId, enabled: false),
+                MenuEntry(.status, project.currentRevisionId, enabled: false),
+                MenuEntry(.command(.previewProject(project.projectId)), "Preview", enabled: usable),
+                MenuEntry(.command(.exportProject(project.projectId, .video)), "Export Video…", enabled: usable && exports.choosing == nil),
+                MenuEntry(.command(.exportProject(project.projectId, .package)), "Export AI Package…", enabled: usable && exports.choosing == nil),
+                MenuEntry(.command(.deleteProject(project.projectId)), "Delete Project", enabled: usable),
+            ]))
+        }
+        for request in state.library.deletions.values.sorted(by: { $0.target.id < $1.target.id }) {
+            guard case .project(let id) = request.target else { continue }
+            rows.append(MenuEntry(.status, request.title, submenu: [
+                MenuEntry(.status, id, enabled: false),
+                MenuEntry(.status, request.failure.map { "Delete not confirmed — \($0)" } ?? "Deleting…", enabled: false),
+                MenuEntry(.command(.deleteProject(id)), request.isPending ? "Deleting…" : "Retry Delete", enabled: state.service == .ready && !request.isPending),
+            ]))
+        }
+        if state.library.projects.isEmpty && rows.isEmpty { rows.append(MenuEntry(.status, "No projects on this page.", enabled: false)) }
+        rows.append(MenuEntry(.command(.previousProjects), "Previous Projects", enabled: state.service == .ready && state.library.hasPreviousPage && !state.library.projectsRefreshing))
+        rows.append(MenuEntry(.command(.nextProjects), "Next Projects", enabled: state.service == .ready && state.library.nextCursor != nil && !state.library.projectsRefreshing))
+        return rows
     }
 
     private static func storageEntries(for state: ControlsState) -> [MenuEntry] {
@@ -387,10 +445,10 @@ public enum RecordingMenu {
         let title: String
         if let storage = state.storage {
             let bytes = ByteCountFormatter.string(fromByteCount: storage.totalBytes, countStyle: .file)
-            title = "Recording Storage: \(bytes) (last scan)"
+            title = "Library Storage: \(bytes) (last scan)"
             details.append(MenuEntry(.status, "Scanned \(ElapsedTime.shortTime(of: storage.observedAt))", enabled: false))
         } else {
-            title = state.storageRefreshing ? "Recording Storage: measuring…" : "Recording Storage: not measured"
+            title = state.storageRefreshing ? "Library Storage: measuring…" : "Library Storage: not measured"
         }
         if let failure = state.storageFailure {
             details.append(MenuEntry(.status, "Storage unavailable — \(failure)", enabled: false))

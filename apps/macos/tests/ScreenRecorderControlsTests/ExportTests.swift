@@ -25,8 +25,8 @@ private func record(
 
 func runExportTests() {
     var state = ready()
-    state.recent = [.init(recordingId: "rec-1", createdAt: "2026-09-15T18:04:05Z", state: "complete",
-        sourceDurationUs: 4_000_000, interruptionReason: nil)]
+    state.library.recent = [.init(recordingId: "rec-1", createdAt: "2026-09-15T18:04:05Z", state: "complete",
+        sourceDurationUs: 4_000_000, interruptionReason: nil, currentRevisionId: "r-existing")]
     var exports = ExportsState()
     precondition(exportsMenu(state, exports) == nil, "No exports section until there is an export to show")
 

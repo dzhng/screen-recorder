@@ -5846,4 +5846,41 @@ When: 21f3a cancellation regression.
   lifetime. Retained-file native recovery proves only what its bytes authorize.
 - **Verdict:** Sound. Canceling an attempt cannot erase completed publication,
   while historical publication cannot bypass current ownership and admission.
+
+## 23h — Native library consumption
+
+### Keep a cursor trail, not a second project catalog — sound, medium confidence
+
+When: 23h, library page extraction.
+
+- **Choice:** A person moves from one Projects page to the next, then back. The
+  controller remembers only the service cursors needed to request those pages;
+  it does not retain past project rows or scan the library to reconstruct recency.
+  Each request asks for five projects, matching the existing bounded recording
+  menu. The displayed order remains the service's ascending creation order.
+- **Gap:** The plan required explicit bounded navigation but did not choose its
+  page size or backward-navigation storage.
+- **Reach:** Navigation retains one small cursor per explicitly visited page;
+  metadata stays authoritative at the service. There is no catalog, pagination
+  endpoint, project association or background full-library scan to maintain.
+- **Verdict:** Sound. The current page remains small and backward navigation
+  reuses the public list contract without caching a second library.
+- **Confidence:** Medium. The page size is a reversible menu presentation choice,
+  not a large-library performance claim.
+
+### Publish the library observation into the shared controls value — sound, high confidence
+
+When: 23h, concrete menu and Settings wiring.
+
+- **Choice:** After a library reply, its controller copies its observation into
+  the controls' shared view value. The menu and Settings read that same snapshot;
+  neither issues library requests or settles deletion itself. A person changing
+  capture settings still uses the existing capture owner and preferences.
+- **Gap:** The plan chose a Foundation controller but did not choose how its
+  observations reach the two existing presentation consumers.
+- **Reach:** The controller is the sole asynchronous library writer. The copied
+  value carries no task, catalog connection, clock or lifecycle; it preserves the
+  existing pure menu and Settings consumers without a second read owner.
+- **Verdict:** Sound. It reuses the actual shared presentation boundary and keeps
+  capture/status and aggregate storage independent of project paging.
 - **Confidence:** High.
