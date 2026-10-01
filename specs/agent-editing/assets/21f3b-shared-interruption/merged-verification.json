@@ -1,0 +1,70 @@
+{
+  "scope": "Corrected merged camera-clock/publication prerequisite; actual prerecorded native capture only",
+  "mergedSourceCommit": "192dc9ffb6981658417ab73226e0610f4d3943d7",
+  "sourceCorrectionCommit": "d6344a2c303b835e164c01eabc2a6c00ee3f08e8",
+  "runtime": {
+    "path": "/tmp/screenrec-21f3b-interruption-merged-build/debug/ScreenRecorderCaptureTests",
+    "bytes": 34764160,
+    "sha256": "de547fb9faa39a8dbdbbe50efd12cfb0f7e6e71db9e81c95576abde528e06fca"
+  },
+  "mergedArchive": {
+    "path": "merged-evidence.tar.gz",
+    "bytes": 88843,
+    "sha256": "a982ab958aa1ff3ccf959f8efdb2872154b18c1d7125cb74a6516b3c5297ed4f",
+    "members": 27
+  },
+  "sourceAndCodePins": 277,
+  "completeRegressionOutputFiles": 19,
+  "originalPacketPinsVerified": {
+    "cameraClock": 1441,
+    "sharedInterruption": 65
+  },
+  "originalCohortFilesVerified": 1019,
+  "sourceComparison": {
+    "sourceFreezeMembersCompared": 277,
+    "currentRootDifferences": [
+      {
+        "path": "helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift",
+        "difference": "bytes"
+      },
+      {
+        "path": "helpers/mac/Tests/managed-files.test.mjs",
+        "difference": "bytes"
+      }
+    ]
+  },
+  "verification": [
+    {
+      "command": "swift build --package-path helpers/mac --scratch-path /tmp/screenrec-21f3b-interruption-merged-build --disable-automatic-resolution --skip-update --jobs 2 --product ScreenRecorderCaptureTests",
+      "exitCode": 0,
+      "elapsedSeconds": 63.43,
+      "log": "build.log"
+    },
+    {
+      "command": "SCREENREC_SHARED_INTERRUPTION_OUTPUT=/tmp/screenrec-21f3b-interruption-merged-evidence /tmp/screenrec-21f3b-interruption-merged-build/debug/ScreenRecorderCaptureTests",
+      "result": "All regression assertions and recovery completed; complete owned output retained",
+      "log": "regression.log",
+      "exitCodeSampling": "Executed as first step of the combined shell; its exit was not sampled separately."
+    },
+    {
+      "command": "/tmp/screenrec-21f3b-interruption-merged-build/debug/ScreenRecorderCaptureTests",
+      "exitCode": 0,
+      "printedPassGroups": 102,
+      "log": "full.log",
+      "coverage": "Complete default capture suite including required independent-camera and shared-interruption gates"
+    }
+  ],
+  "review": "Root shape/source/docs/choices review and independent original/corrected diagnostic review clean after the finding was fixed. Configured CLI reviewer not retried.",
+  "preservation": "All277 frozen correction source/code files match current root except ManagedFiles.swift and its test, previously verified by23f. Original3a/3b runners and packets remain unchanged. Existing20-case publication and29 selected-input evidence stays scoped to original3b source; no repeat was necessary for the isolated interruption-read correction.",
+  "excludedClaims": [
+    "public camera selector/allocation-to-project integration",
+    "physical synchronization",
+    "live hardware lifecycle",
+    "ten-second completed-stop deadline",
+    "representative image quality",
+    "audible playback",
+    "model preparation/inference",
+    "installed switch",
+    "performance acceptance"
+  ]
+}

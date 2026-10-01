@@ -7,8 +7,8 @@ controlled NativeCapture. [Durable source adoption](21d-captured-source-adoption
 passes current native/public retry and portable verification, including a read-only
 retained-take check. [Caller-authored projects](21e-capture-project-adoption.md)
 pass merged public media, replacement/undo and portable-history verification.
-Selector-free capture integration, public selection and physical acceptance
-remain open.
+Selector-free capture integration, independent publication and camera clock/support
+are merged-verified. Atomic public selection and physical acceptance remain open.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and
@@ -44,7 +44,8 @@ scope. [21d durable source adoption](21d-captured-source-adoption.md) is verifie
 [21e caller-authored project integration](21e-capture-project-adoption.md) is
 verified. Next is [21f](21f-public-camera-selection.md#implementation-checkpoints):
 capture facts, durable admission and fresh coordination are merged-verified.
-Independent publication and camera clock/support precede atomic public selection. The verified21c/21e prerequisites do not
+Independent publication and camera clock/support are merged-verified; atomic public
+selection remains the next checkpoint. The verified21c/21e prerequisites do not
 permit a selector that cannot reach that complete path.
 Each child has one owning seam and a separate verification packet. Parent21
 stays open until its implementation children and actual physical/lifecycle

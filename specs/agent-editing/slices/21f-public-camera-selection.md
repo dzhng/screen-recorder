@@ -1,8 +1,8 @@
 # 21f — Complete public selected-camera integration
 
 Status: selector-free capture facts and durable admission integrated and merged-verified;
-fresh-service coordination is merged-verified. Independent source-publication
-authority and atomic public selection remain open.
+fresh-service coordination, independent publication and camera clock/support
+are merged-verified. Atomic public selection remains open.
 Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
@@ -48,9 +48,9 @@ Keep the selector rejected while settling these owners in order:
    their actual control/recovery/priority and source/job discovery contracts.
 3. [Atomic public camera selection](21f3-public-camera-selection.md) follows the
    selector-free gate and verified [21e](21e-capture-project-adoption.md). First
-   establish [independent native publication authority](21f3a-independent-publication.md);
-   prove [independent camera clock/support](21f3b-independent-camera-clock.md),
-   then expose schema, allocated binding, controller input and source outcomes
+   reuse merged-verified [independent native publication authority](21f3a-independent-publication.md)
+   and [independent camera clock/support](21f3b-independent-camera-clock.md);
+   expose schema, allocated binding, controller input and source outcomes
    together through the complete caller-authored project path. [23f](23f-capture-source-lifetime.md)
    supplies the shared donor lifetime for cancellation after early admission.
 

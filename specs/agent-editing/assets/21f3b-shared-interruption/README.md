@@ -27,8 +27,9 @@ The corrected camera-only `NO_VIDEO` control and complete default capture suite
 also exit 0. Independent settled correction review and root production/test
 review are clean. The configured CLI reviewer was not retried. This is controlled
 native evidence, with no hardware, model, playback, installed-worker change or
-claim about stop deadlines. Corrected merged-source verification remains the
-integrating agent's responsibility.
+claim about stop deadlines. The [merged checkpoint](merged-verification.json) verifies the corrected root
+build, complete default capture gate and retained regression output. The original
+source/runtime packets remain unchanged.
 
 The [earlier camera-clock packet](../21f3b-independent-camera-clock/README.md)
 retains its original source, artifacts and cross-encode exception unchanged.

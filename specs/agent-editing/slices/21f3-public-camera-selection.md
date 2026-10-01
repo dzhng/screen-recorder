@@ -1,9 +1,9 @@
 # 21f3 — Atomic public camera selection and bound source outcomes
 
-Status: selector-free 21f2 and native
-[independent publication](21f3a-independent-publication.md) are merged-verified.
-Finish the [camera-origin prerequisite](21f3b-independent-camera-clock.md) before
-this complete atomic selector checkpoint. This is the third checkpoint
+Status: selector-free 21f2, native
+[independent publication](21f3a-independent-publication.md) and the
+[camera-origin prerequisite](21f3b-independent-camera-clock.md) are merged-verified.
+The complete atomic selector checkpoint is in isolated implementation. This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 

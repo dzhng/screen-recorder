@@ -22,8 +22,9 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: [21f3b independent camera clock/support](slices/21f3b-independent-camera-clock.md), then [atomic public camera selection](slices/21f3-public-camera-selection.md).**
-Independent publication and fresh capture coordination are merged-verified.
+**Next pickup: [21f3 atomic public camera selection](slices/21f3-public-camera-selection.md).**
+Independent publication, camera clock/support and fresh capture coordination are
+merged-verified.
 Keep public camera selection rejected until allocation, the actual native
 controller, recovery, independent source admission and explicit project use pass
 together. Capture publishes source facts. The caller authors projects, canvas,
@@ -241,7 +242,7 @@ implementation readiness from acceptance prerequisites.
     - [x] [21f2a — Durable deferred capture admission](slices/21f2a-capture-admission.md)
   - [ ] [21f3 — Atomic public camera selection](slices/21f3-public-camera-selection.md)
     - [x] [21f3a — Independent closed-source publication](slices/21f3a-independent-publication.md)
-    - [ ] [21f3b — Camera support without primary pictures](slices/21f3b-independent-camera-clock.md)
+    - [x] [21f3b — Camera support without primary pictures](slices/21f3b-independent-camera-clock.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
@@ -333,4 +334,6 @@ The [original planning report](assets/planning/validation.json) freezes the orig
 27-slice graph. The [maintenance validation](assets/planning/maintenance.json)
 checks the expanded graph and local links after implementation reslicing. The
 [camera maintenance review](assets/planning/camera-maintenance.json) validates
-the remaining camera seams. These document checks are distinct from runtime acceptance.
+the remaining camera seams. The [feedback maintenance review](assets/planning/feedback-maintenance.json)
+reconciles the current handoff and accepted results. These document checks are
+distinct from runtime acceptance.

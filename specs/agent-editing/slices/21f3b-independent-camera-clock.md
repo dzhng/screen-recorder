@@ -1,10 +1,10 @@
 # 21f3b — Camera support without primary pictures
 
-Status: native prerequisite and shared-interruption correction pass on the isolated
-source tree. Merged-source verification remains pending.
+Status: native prerequisite and shared-interruption correction are merged-verified.
 [21f3a publication authority](21f3a-independent-publication.md) remains its base;
 [21f3 atomic public integration](21f3-public-camera-selection.md) is the next
-consumer, after integration and merged-tree verification. The original absence
+consumer. The [merged checkpoint](../assets/21f3b-shared-interruption/merged-verification.json)
+links the corrected source and complete default capture gate. The original absence
 failure remains retained as evidence; camera-only admission is now a required
 default capture-test gate.
 
