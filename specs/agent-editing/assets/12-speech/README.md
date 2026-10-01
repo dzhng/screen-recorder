@@ -90,4 +90,6 @@ precision/recall. The [matched real-narration verbatim comparison](../12-verbati
 records the alternative on this same corpus; it remains research-only and fails
 the unchanged timing/completeness gate. The frozen alignment and precision trials
 have already been measured and remain scoped numerical evidence. Forced alignment
-cannot supply missing semantic labels. No processing recipe is accepted for12b.
+cannot supply missing semantic labels. No alternate processing recipe is accepted.
+[12b](../../slices/12b-speech-processing.md) separately preserves the already
+selected baseline through public parity without changing these quality results.

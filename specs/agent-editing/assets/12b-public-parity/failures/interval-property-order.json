@@ -1,0 +1,1004 @@
+{
+  "passed": false,
+  "scope": "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
+  "actualModelParity": "unverified: retained prepared model directory is unavailable; recreated container bytes and current decoder execution are not the historical inference inputs",
+  "listening": "not performed; no quality verdict changed",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "retained-speech",
+          "path": "/tmp/screenrec-12b-public-parity-third/first.mov"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "45f73c96-8a9c-4b8f-891b-aa4906eb343d",
+          "attemptId": "a95609f7-bfbe-47fe-95c5-5a35fbec9b7f",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "7fbf4c779e57c7e5115cf98823e7b313086fc9157bb54350319d5eef8ade687f",
+          "target": {
+            "kind": "import",
+            "importId": "24b2e63a-8718-45a1-91a9-21d38cf5105a"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "13ef8e8f-3d53-4fd3-a455-5d2faaf8da9d"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "45f73c96-8a9c-4b8f-891b-aa4906eb343d"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "45f73c96-8a9c-4b8f-891b-aa4906eb343d",
+          "attemptId": "a95609f7-bfbe-47fe-95c5-5a35fbec9b7f",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "7fbf4c779e57c7e5115cf98823e7b313086fc9157bb54350319d5eef8ade687f",
+          "target": {
+            "kind": "import",
+            "importId": "24b2e63a-8718-45a1-91a9-21d38cf5105a"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70"
+          }
+        },
+        "id": "a18ba4d7-201e-43eb-9468-e95f24684d40"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 250000,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 12500000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "segmentCount": 4
+            }
+          ],
+          "id": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "bytes": 2304761,
+          "createdAt": "2026-10-01T06:27:29.649Z",
+          "fileName": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70.mov"
+        },
+        "id": "d816755a-554d-4f79-9f06-0b6baf4849e3"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "absent"
+        },
+        "id": "407dd483-7945-48a3-8bd7-0ae3118b794a"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "absent"
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "886d899c-5a13-4e97-9d74-90bb0aa5b369"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "1da25d6b-e370-403a-8f60-0dbdc740a826"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"absent\"},\"id\":\"a331ba49-2d58-43c3-a0f8-0ffe13b1aec9\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "absent"
+          },
+          "id": "a331ba49-2d58-43c3-a0f8-0ffe13b1aec9"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"absent\"},\"dependencies\":[],\"page\":null},\"id\":\"f22da16f-1be5-4a1f-a96a-092a16c94160\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "absent"
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "f22da16f-1be5-4a1f-a96a-092a16c94160"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"ffbb61f2-4fa2-4a46-a2ca-a74028c23b11\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "ffbb61f2-4fa2-4a46-a2ca-a74028c23b11"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 1
+        },
+        "id": "c0743554-507b-4f21-bb00-c17adeaf2043"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 1
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "ec7e1188-bf6f-48d7-ba19-875c823f970b"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "b4886358-14c8-4bae-a007-69514e5d14ae"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":1},\"id\":\"62b16092-2cd9-4bbf-88c8-5872ff8b7271\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 1
+          },
+          "id": "62b16092-2cd9-4bbf-88c8-5872ff8b7271"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":1},\"dependencies\":[],\"page\":null},\"id\":\"2561db77-7527-449e-a95d-66b3a9bdf28e\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "preparing",
+              "receivedBytes": 0,
+              "totalBytes": 1
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "2561db77-7527-449e-a95d-66b3a9bdf28e"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"8346fcc7-550d-4072-8993-9050b933928e\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "8346fcc7-550d-4072-8993-9050b933928e"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "failed",
+          "code": "fixture",
+          "message": "Declared preparation failure",
+          "retryable": true
+        },
+        "id": "170bc1b5-10f7-49aa-925e-ef5bf4946e9f"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "failed",
+            "code": "fixture",
+            "message": "Declared preparation failure",
+            "retryable": true
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "3b86f1c6-678c-47b9-8c5f-d8f9126df56a"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "d727de45-23f4-437c-9407-9f358f8e3b7e"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"failed\",\"code\":\"fixture\",\"message\":\"Declared preparation failure\",\"retryable\":true},\"id\":\"82cf0b77-19e5-4b23-a9d2-83f14f1e9eb3\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "failed",
+            "code": "fixture",
+            "message": "Declared preparation failure",
+            "retryable": true
+          },
+          "id": "82cf0b77-19e5-4b23-a9d2-83f14f1e9eb3"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"failed\",\"code\":\"fixture\",\"message\":\"Declared preparation failure\",\"retryable\":true},\"dependencies\":[],\"page\":null},\"id\":\"ba37db86-91ef-4ab5-a191-04535600a33f\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "failed",
+              "code": "fixture",
+              "message": "Declared preparation failure",
+              "retryable": true
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "ba37db86-91ef-4ab5-a191-04535600a33f"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"1a8c9994-27e3-45bc-83d1-34c08971f720\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "1a8c9994-27e3-45bc-83d1-34c08971f720"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "limit": 1000
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "45455b17-b2af-4bc6-942a-801c412cd733",
+          "published": null,
+          "models": {
+            "state": "ready"
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "c696947b-3d62-4274-bb79-fc375defcbd6"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "limit": 1000
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+          "streamId": "track:1",
+          "state": "failed",
+          "reason": "Frozen ASR received an unregistered byte source or stream",
+          "retryable": true,
+          "jobId": "45455b17-b2af-4bc6-942a-801c412cd733",
+          "published": null,
+          "models": {
+            "state": "ready"
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "6ddd2118-f7a4-4034-8602-3319952446bb"
+      }
+    }
+  ],
+  "checks": {},
+  "baseline": {
+    "manifestSha256": "01f3eead42bb58ada7dcb2793871da875e809f0ed9e5afae9680b583650b9e69",
+    "engine": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "encoderPrecision": "int8",
+      "computeUnits": "cpuAndNeuralEngine",
+      "policy": "transcript-v1",
+      "kindPolicy": "word-kind-v1"
+    }
+  },
+  "readiness": [
+    {
+      "transport": "cli",
+      "state": {
+        "state": "absent"
+      },
+      "unavailable": {
+        "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "absent"
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "absent"
+      },
+      "unavailable": {
+        "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "absent"
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "cli",
+      "state": {
+        "state": "preparing",
+        "receivedBytes": 0,
+        "totalBytes": 1
+      },
+      "unavailable": {
+        "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 1
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "preparing",
+        "receivedBytes": 0,
+        "totalBytes": 1
+      },
+      "unavailable": {
+        "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 1
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "cli",
+      "state": {
+        "state": "failed",
+        "code": "fixture",
+        "message": "Declared preparation failure",
+        "retryable": true
+      },
+      "unavailable": {
+        "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "failed",
+          "code": "fixture",
+          "message": "Declared preparation failure",
+          "retryable": true
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "failed",
+        "code": "fixture",
+        "message": "Declared preparation failure",
+        "retryable": true
+      },
+      "unavailable": {
+        "assetId": "4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "failed",
+          "code": "fixture",
+          "message": "Declared preparation failure",
+          "retryable": true
+        },
+        "dependencies": [],
+        "page": null
+      }
+    }
+  ],
+  "error": {
+    "message": "retained ASR ingestion: {\"assetId\":\"4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70\",\"streamId\":\"track:1\",\"state\":\"failed\",\"reason\":\"Frozen ASR received an unregistered byte source or stream\",\"retryable\":true,\"jobId\":\"45455b17-b2af-4bc6-942a-801c412cd733\",\"published\":null,\"models\":{\"state\":\"ready\"},\"dependencies\":[],\"page\":null}",
+    "stack": "AssertionError [ERR_ASSERTION]: retained ASR ingestion: {\"assetId\":\"4f4297b04ea1772e6bb089201289eed545e20563e1a0fa81bc42e60cec8d0b70\",\"streamId\":\"track:1\",\"state\":\"failed\",\"reason\":\"Frozen ASR received an unregistered byte source or stream\",\"retryable\":true,\"jobId\":\"45455b17-b2af-4bc6-942a-801c412cd733\",\"published\":null,\"models\":{\"state\":\"ready\"},\"dependencies\":[],\"page\":null}\n    at poll (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:26:12)\n    at async file:///Users/david/dev/screen-recorder/packages/test-harness/editing/speech-parity.mjs:145:16"
+  }
+}

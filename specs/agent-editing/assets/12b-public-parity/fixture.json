@@ -1,0 +1,37 @@
+{
+  "sources": [
+    {
+      "sha256": "3d0f4fa12da12120a6ef1a2809b8e55a4bc6e4ed848aadd30cda4373babf64ac",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "endUs": 6000000,
+          "startUs": 0
+        },
+        {
+          "endUs": 12500000,
+          "startUs": 6500000
+        }
+      ],
+      "rawFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected.jsonl",
+      "rawSha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac",
+      "receiptFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected-response.json",
+      "receiptSha256": "0aa9344a602dbeebaf8e2387c2e6ca9285a35a6e40fccb25c55a708357ac9bb3"
+    }
+  ],
+  "engine": {
+    "runtime": "FluidAudio",
+    "runtimeVersion": "0.15.7",
+    "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "decoder": "parakeet-tdt-batch",
+    "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+    "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+    "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+    "encoderPrecision": "int8",
+    "computeUnits": "cpuAndNeuralEngine",
+    "policy": "transcript-v1",
+    "kindPolicy": "word-kind-v1"
+  },
+  "observationsFile": "/tmp/screenrec-12b-public-parity-final/native-requests.json"
+}

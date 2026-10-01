@@ -1,0 +1,34 @@
+{
+  "scope": "Retained-camera diagnostic; no physical synchronization acceptance",
+  "sourceCameraSha256Verified": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805",
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 80767796,
+    "sha256": "b84ae5e3f62e5cc79022b4a831f4508d77e5bfc7fd609d9baee4dfd2055b8bd5",
+    "verifiedPayloadFiles": 109
+  },
+  "freshVisualReview": {
+    "coverage": "18 full inspection PNGs,56 confirmation PNGs,10 edge JPGs,all four contact sheets inspected with view_image",
+    "findings": [
+      "Initial frame-01 visibly identifies number2; later panel numbers are clipped and annotation numbers are not photographed identities.",
+      "Panel strips change dark/intermediate to bright then dark; several before-threshold pictures are already partly illuminated.",
+      "Pictures2502-2504 show monitor/camera motion without panel illumination;2506 and3318 are already partially bright before the chosen threshold samples.",
+      "The last two initial full inspection pictures contain wall/ceiling and cannot verify flashes."
+    ],
+    "verdict": "Visible brightness candidates supported; event identity, physical onset/exposure and audio alignment remain unverified for clipped panels."
+  },
+  "rootReview": "Root inspected all three band confirmation sheets and the initial full frame; agrees with partial-predecessor/motion/clipping findings. Earlier all-numbers-unreadable wording is corrected here for initial2 only.",
+  "limits": [
+    "Detector was developed on this recording, not an independent false-positive/generalization evaluation.",
+    "Threshold sample brackets are not physical onset bounds.",
+    "No inferred events in missing intervals or whole-take sync pass.",
+    "No sources changed, capture, playback, installation, download or app switch.",
+    "Original camera hash freshly verified once; other source identities remain those of the retained original manifest."
+  ],
+  "mappingArchive": {
+    "file": "mapping.tar.xz",
+    "bytes": 245312,
+    "sha256": "f149e923186678cc59ddfe6383f721d3146fba93aae61f27e52536751ab4840b",
+    "verifiedPayloadFiles": 8
+  }
+}

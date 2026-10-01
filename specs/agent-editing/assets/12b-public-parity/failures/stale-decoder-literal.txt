@@ -1,0 +1,27 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected one known transcript recipe literal
+
+1 !== 2
+
+    at load (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/generation-transcript-service.mjs:18:12)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at loadWithHooks (node:internal/modules/customization_hooks:374:18)
+    at #loadSync (node:internal/modules/esm/loader:813:14)
+    at ModuleLoader.load (node:internal/modules/esm/loader:781:26)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:526:31)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:577:36)
+    at afterResolve (node:internal/modules/esm/loader:625:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:631:12)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:160:33) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 2,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

@@ -1,0 +1,69 @@
+{
+  "protocol": "V3 fixed-edge geometry after v2 falsely detected event29 moving text: fixed1920\u00d730 bottom camera band,20\u00d710 cells. Frozen time windows screen+.38 baseline[-.65,-.25), search[-.25,+.30]. A >=200px contiguous horizontal run must change from baseline<80 to current>180 with rise>100. Same rule for50 events. No per-event geometry/time alignment. Candidate windows require before/at/after visual confirmation; no one-frame pass.",
+  "summary": {
+    "candidateNumbers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      29,
+      38,
+      39,
+      40
+    ],
+    "candidateCount": 28,
+    "coverage": "Inherited event-window associations2\u201325: screen8.658278\u2013123.670064 (115.011786s). Isolated29 at143.678275; late38\u201340:188.653004\u2013198.665447 (10.012443s). No inferred markers in missing intervals. Candidate26 supplementary clipped edge only.",
+    "initialCalibration": {
+      "event": 2,
+      "offsetSeconds": 0.38863500000000073,
+      "thresholdSampleOffsetBracket": [
+        0.3219650000000005,
+        0.4219679999999997
+      ],
+      "rule": "Exactly first matching2 only; no slope/timewarp/medianrefit or per-event clock alignment."
+    },
+    "maximumAbsoluteMeasuredThresholdResidualSeconds": 0.05061300000000557,
+    "worstThresholdSampleResidualBracket": [
+      -0.14486199999999627,
+      0.12885700000000178
+    ],
+    "physical33msGate": "UNVERIFIED",
+    "ocrNumbers": "No independent OCR or readable number proof. Shared panel flashes are visible but clipped; identities inherit baseline cadence/window associations.",
+    "thresholdOnsetVsPhysical": "Sample brackets characterize detector crossings only; not physical onset bounds. Event17 before-threshold frame1428 already shows partial flash.",
+    "fullTakeCoverage": "246s camera/251s screen retained; no whole-take synchronization claim."
+  },
+  "researchLedger": {
+    "sourceIdentityPolicy": "Reused historical manifest sha256 and checked presence/size; no source rehash or source/repository mutation.",
+    "historicalBaseline": "specs/agent-editing/assets/20-physical-sync/summary.json unchanged",
+    "protocolV1": "1920\u00d7180 bottom band,20\u00d710cells, frozen timingwindows and60/90rise thresholds. INVALID onset detector due movingtext false positives. Initial FFmpeg filter expression failed due depth; replaced per-frame eq terms with equivalent50 interval terms; no detector change.",
+    "protocolV2": "Sameband/cells/windows,>=200px contiguous horizontal baseline<80/current>180/rise>100. Candidate29 false earlyonset from movingtext; partialflash predecessor17 makes adjacent samplebracket unsuitable as physical onset.",
+    "protocolV3": "Samecells/windows/photometry; fixedbottom30px selects clippedlowerframeedge. Emits2\u201325,29,38\u201340; drops26. Development diagnostic only, no independent false-positive rate/generalization claim.",
+    "selectedFrames": 841,
+    "bandDecodeElapsedSeconds": 15.02842402458191,
+    "rawDecodedFrames": 4428,
+    "decodedCadence": "2860 intervals round66.67ms;1452 round33.34ms; remainder in historical telemetry.",
+    "stoppingReason": "Existing evidence cannot resolve whole-duration physical marker coverage or<=33ms onset/drift uncertainty; further detector tuning would not supply missing samples or readable numbers.",
+    "nextTechnicalAction": "Reconcile retained marker-picture ordinals with journal/native presentation source-clock mapping through existing20e2 owner using exact mapping/identity evidence rather than fitted clock correction. Preserve decoder-coordinate caveat until mapping proven. No new capture needed.",
+    "visualReviewStatus": "Main agent inspected supplied comparison strips. Fresh screenshot-critique remains for root; no full physical slice acceptance."
+  }
+}

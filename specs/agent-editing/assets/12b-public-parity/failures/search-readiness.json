@@ -1,0 +1,2883 @@
+{
+  "passed": false,
+  "scope": "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
+  "actualModelParity": "unverified: retained prepared model directory is unavailable; recreated container bytes and current decoder execution are not the historical inference inputs",
+  "listening": "not performed; no quality verdict changed",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "transcript.search",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "retained-speech",
+          "path": "/tmp/screenrec-12b-public-parity-fourth/first.mov"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "e77a4f03-6fda-463f-b1d5-8fdd499aae75",
+          "attemptId": "05164699-8c5e-49bc-bcd6-2a969a4e16c9",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "6734f1d4537bdabea3fde27bb4f6fb82e5cd521032b9fa65ccecb404ae201729",
+          "target": {
+            "kind": "import",
+            "importId": "70f33661-5d35-423e-9cdc-62fd654c38f7"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "8d1b9581-8f6f-4a6c-a5c6-7cf268c15e12"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "e77a4f03-6fda-463f-b1d5-8fdd499aae75"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "e77a4f03-6fda-463f-b1d5-8fdd499aae75",
+          "attemptId": "05164699-8c5e-49bc-bcd6-2a969a4e16c9",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "6734f1d4537bdabea3fde27bb4f6fb82e5cd521032b9fa65ccecb404ae201729",
+          "target": {
+            "kind": "import",
+            "importId": "70f33661-5d35-423e-9cdc-62fd654c38f7"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+          }
+        },
+        "id": "46bfd822-22a6-4061-abf0-112d84abb188"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 250000,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 12500000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "segmentCount": 4
+            }
+          ],
+          "id": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "bytes": 2304761,
+          "createdAt": "2026-10-01T06:29:24.330Z",
+          "fileName": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov"
+        },
+        "id": "01d6a028-a043-4fa9-bc15-a27f36d7e047"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "absent"
+        },
+        "id": "8f93401e-96dc-4ee1-9b4c-02c97eb3c718"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "absent"
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "9f69737c-1101-4d67-887f-1bdb04d3ab67"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "80651d28-1db4-40f4-b27a-6d774b888728"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"absent\"},\"id\":\"cfd10ce4-5064-413d-8fb1-c1501939d52e\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "absent"
+          },
+          "id": "cfd10ce4-5064-413d-8fb1-c1501939d52e"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"absent\"},\"dependencies\":[],\"page\":null},\"id\":\"cfe17a9c-b4fd-4460-8d52-e378298e5ff2\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "absent"
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "cfe17a9c-b4fd-4460-8d52-e378298e5ff2"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"39035912-2edf-44a1-a7e8-9086bbab423c\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "39035912-2edf-44a1-a7e8-9086bbab423c"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 1
+        },
+        "id": "844b30c0-81ad-4cb2-b3bc-f65023a35873"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 1
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "23f92c62-516d-4f20-8012-54adcfef8875"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "a397b7fd-92f8-4c3e-94e2-6763fb946cbe"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":1},\"id\":\"55a33600-d138-47fb-8d91-5b64889e5829\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 1
+          },
+          "id": "55a33600-d138-47fb-8d91-5b64889e5829"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":1},\"dependencies\":[],\"page\":null},\"id\":\"36247835-1fb1-48df-9fd3-323f8eb44f9c\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "preparing",
+              "receivedBytes": 0,
+              "totalBytes": 1
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "36247835-1fb1-48df-9fd3-323f8eb44f9c"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"95b43e1e-0825-491a-b6fc-133d67c5e5a1\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "95b43e1e-0825-491a-b6fc-133d67c5e5a1"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "failed",
+          "code": "fixture",
+          "message": "Declared preparation failure",
+          "retryable": true
+        },
+        "id": "86b373e0-34f1-4894-82c7-e80241561b8f"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "failed",
+            "code": "fixture",
+            "message": "Declared preparation failure",
+            "retryable": true
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "5bcd1d68-ca9b-42a1-a87b-965c0ca1deed"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "10e1a291-c8f0-43ad-b97f-c54410ebc78d"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"failed\",\"code\":\"fixture\",\"message\":\"Declared preparation failure\",\"retryable\":true},\"id\":\"04bcdd5e-e4ff-4267-bf4b-8c8bceb153a6\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "failed",
+            "code": "fixture",
+            "message": "Declared preparation failure",
+            "retryable": true
+          },
+          "id": "04bcdd5e-e4ff-4267-bf4b-8c8bceb153a6"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"failed\",\"code\":\"fixture\",\"message\":\"Declared preparation failure\",\"retryable\":true},\"dependencies\":[],\"page\":null},\"id\":\"351fd284-a5a4-42ac-a22d-9b930bea85d9\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "failed",
+              "code": "fixture",
+              "message": "Declared preparation failure",
+              "retryable": true
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "351fd284-a5a4-42ac-a22d-9b930bea85d9"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"e9e20abe-4b99-4365-b109-b921f780bb8d\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "e9e20abe-4b99-4365-b109-b921f780bb8d"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "limit": 1000
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "a6c8d42d-09b5-465b-9413-966bb7beb4ef",
+          "published": null,
+          "models": {
+            "state": "ready"
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "6df03f19-5632-4289-9efb-252daa21a97c"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "limit": 1000
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "state": "ready",
+          "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+          "page": {
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+              },
+              "sourceId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+              "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-speech-parity-xTvjZp/library/assets/2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 25,
+              "gapCount": 1,
+              "maxWordUs": 1120000,
+              "raw": {
+                "bytes": 9366,
+                "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+              }
+            },
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Okay,",
+                "kind": "speech",
+                "confidence": 0.8691406,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1120000,
+                  "endUs": 1440000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "so",
+                "kind": "speech",
+                "confidence": 0.99902344,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1600000,
+                  "endUs": 1920000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "this",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1920000,
+                  "endUs": 2240000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2240000,
+                  "endUs": 2560000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "the",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2560000,
+                  "endUs": 2880000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "recorder",
+                "kind": "speech",
+                "confidence": 0.9873047,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3200000,
+                  "endUs": 4320000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "workbench.",
+                "kind": "speech",
+                "confidence": 0.9607422,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4320000,
+                  "endUs": 5360000
+                },
+                "partial": false
+              },
+              {
+                "type": "gap",
+                "reason": "not_acquired",
+                "sourceRange": {
+                  "startUs": 6000000,
+                  "endUs": 6500000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w7",
+                "ordinal": 7,
+                "text": "First,",
+                "kind": "speech",
+                "confidence": 0.8251953,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 7060000,
+                  "endUs": 7380000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w8",
+                "ordinal": 8,
+                "text": "I'm",
+                "kind": "speech",
+                "confidence": 0.9949544,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 7460000,
+                  "endUs": 7620000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w9",
+                "ordinal": 9,
+                "text": "going",
+                "kind": "speech",
+                "confidence": 0.72558594,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 7620000,
+                  "endUs": 7700000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w10",
+                "ordinal": 10,
+                "text": "to",
+                "kind": "speech",
+                "confidence": 0.9433594,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 7700000,
+                  "endUs": 7780000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w11",
+                "ordinal": 11,
+                "text": "draw",
+                "kind": "speech",
+                "confidence": 0.9996745,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 7860000,
+                  "endUs": 8100000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w12",
+                "ordinal": 12,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 0.9941406,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 8100000,
+                  "endUs": 8260000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w13",
+                "ordinal": 13,
+                "text": "circle",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 8260000,
+                  "endUs": 8900000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w14",
+                "ordinal": 14,
+                "text": "around",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 8900000,
+                  "endUs": 9220000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w15",
+                "ordinal": 15,
+                "text": "C3",
+                "kind": "speech",
+                "confidence": 0.95825195,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 9220000,
+                  "endUs": 9860000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w16",
+                "ordinal": 16,
+                "text": "and",
+                "kind": "speech",
+                "confidence": 0.9423828,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 10820000,
+                  "endUs": 10900000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w17",
+                "ordinal": 17,
+                "text": "I'm",
+                "kind": "speech",
+                "confidence": 0.992513,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 10980000,
+                  "endUs": 11140000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w18",
+                "ordinal": 18,
+                "text": "going",
+                "kind": "speech",
+                "confidence": 0.98876953,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 11140000,
+                  "endUs": 11300000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w19",
+                "ordinal": 19,
+                "text": "to",
+                "kind": "speech",
+                "confidence": 0.9980469,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 11300000,
+                  "endUs": 11380000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w20",
+                "ordinal": 20,
+                "text": "draw",
+                "kind": "speech",
+                "confidence": 0.9996745,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 11380000,
+                  "endUs": 11620000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w21",
+                "ordinal": 21,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 0.99902344,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 11620000,
+                  "endUs": 11780000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w22",
+                "ordinal": 22,
+                "text": "wave",
+                "kind": "speech",
+                "confidence": 0.9875488,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 11780000,
+                  "endUs": 12020000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w23",
+                "ordinal": 23,
+                "text": "between",
+                "kind": "speech",
+                "confidence": 0.9951172,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 12020000,
+                  "endUs": 12180000
+                },
+                "partial": false
+              },
+              {
+                "type": "word",
+                "id": "w24",
+                "ordinal": 24,
+                "text": "C3.",
+                "kind": "speech",
+                "confidence": 0.5291341,
+                "segment": 1,
+                "sourceRange": {
+                  "startUs": 12260000,
+                  "endUs": 12420000
+                },
+                "partial": false
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "eef3078b-d630-4df1-8abc-dadb2f22d3b5"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+          "streamId": "track:1",
+          "limit": 1000
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"state\":\"ready\",\"generation\":\"62c234bd-dc48-480b-a8d0-2a913595d268\",\"page\":{\"transcript\":{\"owner\":{\"kind\":\"asset\",\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\"},\"sourceId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"generation\":\"62c234bd-dc48-480b-a8d0-2a913595d268\",\"source\":{\"kind\":\"asset\",\"streamId\":\"track:1\",\"supportDigest\":\"b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060\",\"durationUs\":12500000},\"engine\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\",\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"encoderPrecision\":\"int8\",\"computeUnits\":\"cpuAndNeuralEngine\",\"policy\":\"transcript-v1\",\"kindPolicy\":\"word-kind-v1\"},\"track\":{\"source\":\"/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-speech-parity-xTvjZp/library/assets/2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov\",\"streamId\":\"track:1\",\"sourceOffsetUs\":-250000},\"segmentCount\":2,\"wordCount\":25,\"gapCount\":1,\"maxWordUs\":1120000,\"raw\":{\"bytes\":9366,\"sha256\":\"ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac\"}},\"rows\":[{\"type\":\"word\",\"id\":\"w0\",\"ordinal\":0,\"text\":\"Okay,\",\"kind\":\"speech\",\"confidence\":0.8691406,\"segment\":0,\"sourceRange\":{\"startUs\":1120000,\"endUs\":1440000},\"partial\":false},{\"type\":\"word\",\"id\":\"w1\",\"ordinal\":1,\"text\":\"so\",\"kind\":\"speech\",\"confidence\":0.99902344,\"segment\":0,\"sourceRange\":{\"startUs\":1600000,\"endUs\":1920000},\"partial\":false},{\"type\":\"word\",\"id\":\"w2\",\"ordinal\":2,\"text\":\"this\",\"kind\":\"speech\",\"confidence\":0.9995117,\"segment\":0,\"sourceRange\":{\"startUs\":1920000,\"endUs\":2240000},\"partial\":false},{\"type\":\"word\",\"id\":\"w3\",\"ordinal\":3,\"text\":\"is\",\"kind\":\"speech\",\"confidence\":0.9995117,\"segment\":0,\"sourceRange\":{\"startUs\":2240000,\"endUs\":2560000},\"partial\":false},{\"type\":\"word\",\"id\":\"w4\",\"ordinal\":4,\"text\":\"the\",\"kind\":\"speech\",\"confidence\":0.9995117,\"segment\":0,\"sourceRange\":{\"startUs\":2560000,\"endUs\":2880000},\"partial\":false},{\"type\":\"word\",\"id\":\"w5\",\"ordinal\":5,\"text\":\"recorder\",\"kind\":\"speech\",\"confidence\":0.9873047,\"segment\":0,\"sourceRange\":{\"startUs\":3200000,\"endUs\":4320000},\"partial\":false},{\"type\":\"word\",\"id\":\"w6\",\"ordinal\":6,\"text\":\"workbench.\",\"kind\":\"speech\",\"confidence\":0.9607422,\"segment\":0,\"sourceRange\":{\"startUs\":4320000,\"endUs\":5360000},\"partial\":false},{\"type\":\"gap\",\"reason\":\"not_acquired\",\"sourceRange\":{\"startUs\":6000000,\"endUs\":6500000},\"partial\":false},{\"type\":\"word\",\"id\":\"w7\",\"ordinal\":7,\"text\":\"First,\",\"kind\":\"speech\",\"confidence\":0.8251953,\"segment\":1,\"sourceRange\":{\"startUs\":7060000,\"endUs\":7380000},\"partial\":false},{\"type\":\"word\",\"id\":\"w8\",\"ordinal\":8,\"text\":\"I'm\",\"kind\":\"speech\",\"confidence\":0.9949544,\"segment\":1,\"sourceRange\":{\"startUs\":7460000,\"endUs\":7620000},\"partial\":false},{\"type\":\"word\",\"id\":\"w9\",\"ordinal\":9,\"text\":\"going\",\"kind\":\"speech\",\"confidence\":0.72558594,\"segment\":1,\"sourceRange\":{\"startUs\":7620000,\"endUs\":7700000},\"partial\":false},{\"type\":\"word\",\"id\":\"w10\",\"ordinal\":10,\"text\":\"to\",\"kind\":\"speech\",\"confidence\":0.9433594,\"segment\":1,\"sourceRange\":{\"startUs\":7700000,\"endUs\":7780000},\"partial\":false},{\"type\":\"word\",\"id\":\"w11\",\"ordinal\":11,\"text\":\"draw\",\"kind\":\"speech\",\"confidence\":0.9996745,\"segment\":1,\"sourceRange\":{\"startUs\":7860000,\"endUs\":8100000},\"partial\":false},{\"type\":\"word\",\"id\":\"w12\",\"ordinal\":12,\"text\":\"a\",\"kind\":\"speech\",\"confidence\":0.9941406,\"segment\":1,\"sourceRange\":{\"startUs\":8100000,\"endUs\":8260000},\"partial\":false},{\"type\":\"word\",\"id\":\"w13\",\"ordinal\":13,\"text\":\"circle\",\"kind\":\"speech\",\"confidence\":1,\"segment\":1,\"sourceRange\":{\"startUs\":8260000,\"endUs\":8900000},\"partial\":false},{\"type\":\"word\",\"id\":\"w14\",\"ordinal\":14,\"text\":\"around\",\"kind\":\"speech\",\"confidence\":1,\"segment\":1,\"sourceRange\":{\"startUs\":8900000,\"endUs\":9220000},\"partial\":false},{\"type\":\"word\",\"id\":\"w15\",\"ordinal\":15,\"text\":\"C3\",\"kind\":\"speech\",\"confidence\":0.95825195,\"segment\":1,\"sourceRange\":{\"startUs\":9220000,\"endUs\":9860000},\"partial\":false},{\"type\":\"word\",\"id\":\"w16\",\"ordinal\":16,\"text\":\"and\",\"kind\":\"speech\",\"confidence\":0.9423828,\"segment\":1,\"sourceRange\":{\"startUs\":10820000,\"endUs\":10900000},\"partial\":false},{\"type\":\"word\",\"id\":\"w17\",\"ordinal\":17,\"text\":\"I'm\",\"kind\":\"speech\",\"confidence\":0.992513,\"segment\":1,\"sourceRange\":{\"startUs\":10980000,\"endUs\":11140000},\"partial\":false},{\"type\":\"word\",\"id\":\"w18\",\"ordinal\":18,\"text\":\"going\",\"kind\":\"speech\",\"confidence\":0.98876953,\"segment\":1,\"sourceRange\":{\"startUs\":11140000,\"endUs\":11300000},\"partial\":false},{\"type\":\"word\",\"id\":\"w19\",\"ordinal\":19,\"text\":\"to\",\"kind\":\"speech\",\"confidence\":0.9980469,\"segment\":1,\"sourceRange\":{\"startUs\":11300000,\"endUs\":11380000},\"partial\":false},{\"type\":\"word\",\"id\":\"w20\",\"ordinal\":20,\"text\":\"draw\",\"kind\":\"speech\",\"confidence\":0.9996745,\"segment\":1,\"sourceRange\":{\"startUs\":11380000,\"endUs\":11620000},\"partial\":false},{\"type\":\"word\",\"id\":\"w21\",\"ordinal\":21,\"text\":\"a\",\"kind\":\"speech\",\"confidence\":0.99902344,\"segment\":1,\"sourceRange\":{\"startUs\":11620000,\"endUs\":11780000},\"partial\":false},{\"type\":\"word\",\"id\":\"w22\",\"ordinal\":22,\"text\":\"wave\",\"kind\":\"speech\",\"confidence\":0.9875488,\"segment\":1,\"sourceRange\":{\"startUs\":11780000,\"endUs\":12020000},\"partial\":false},{\"type\":\"word\",\"id\":\"w23\",\"ordinal\":23,\"text\":\"between\",\"kind\":\"speech\",\"confidence\":0.9951172,\"segment\":1,\"sourceRange\":{\"startUs\":12020000,\"endUs\":12180000},\"partial\":false},{\"type\":\"word\",\"id\":\"w24\",\"ordinal\":24,\"text\":\"C3.\",\"kind\":\"speech\",\"confidence\":0.5291341,\"segment\":1,\"sourceRange\":{\"startUs\":12260000,\"endUs\":12420000},\"partial\":false}],\"nextCursor\":null}},\"id\":\"e288c8cc-203a-42ac-b938-d11de075a8c3\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+            "streamId": "track:1",
+            "state": "ready",
+            "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+            "page": {
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+                },
+                "sourceId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                  "durationUs": 12500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v1",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "track": {
+                  "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-speech-parity-xTvjZp/library/assets/2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": -250000
+                },
+                "segmentCount": 2,
+                "wordCount": 25,
+                "gapCount": 1,
+                "maxWordUs": 1120000,
+                "raw": {
+                  "bytes": 9366,
+                  "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+                }
+              },
+              "rows": [
+                {
+                  "type": "word",
+                  "id": "w0",
+                  "ordinal": 0,
+                  "text": "Okay,",
+                  "kind": "speech",
+                  "confidence": 0.8691406,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w1",
+                  "ordinal": 1,
+                  "text": "so",
+                  "kind": "speech",
+                  "confidence": 0.99902344,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w2",
+                  "ordinal": 2,
+                  "text": "this",
+                  "kind": "speech",
+                  "confidence": 0.9995117,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1920000,
+                    "endUs": 2240000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w3",
+                  "ordinal": 3,
+                  "text": "is",
+                  "kind": "speech",
+                  "confidence": 0.9995117,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 2240000,
+                    "endUs": 2560000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w4",
+                  "ordinal": 4,
+                  "text": "the",
+                  "kind": "speech",
+                  "confidence": 0.9995117,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 2560000,
+                    "endUs": 2880000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w5",
+                  "ordinal": 5,
+                  "text": "recorder",
+                  "kind": "speech",
+                  "confidence": 0.9873047,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 3200000,
+                    "endUs": 4320000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w6",
+                  "ordinal": 6,
+                  "text": "workbench.",
+                  "kind": "speech",
+                  "confidence": 0.9607422,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 4320000,
+                    "endUs": 5360000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "gap",
+                  "reason": "not_acquired",
+                  "sourceRange": {
+                    "startUs": 6000000,
+                    "endUs": 6500000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w7",
+                  "ordinal": 7,
+                  "text": "First,",
+                  "kind": "speech",
+                  "confidence": 0.8251953,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 7060000,
+                    "endUs": 7380000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w8",
+                  "ordinal": 8,
+                  "text": "I'm",
+                  "kind": "speech",
+                  "confidence": 0.9949544,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 7460000,
+                    "endUs": 7620000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w9",
+                  "ordinal": 9,
+                  "text": "going",
+                  "kind": "speech",
+                  "confidence": 0.72558594,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 7620000,
+                    "endUs": 7700000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w10",
+                  "ordinal": 10,
+                  "text": "to",
+                  "kind": "speech",
+                  "confidence": 0.9433594,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 7700000,
+                    "endUs": 7780000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w11",
+                  "ordinal": 11,
+                  "text": "draw",
+                  "kind": "speech",
+                  "confidence": 0.9996745,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 7860000,
+                    "endUs": 8100000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w12",
+                  "ordinal": 12,
+                  "text": "a",
+                  "kind": "speech",
+                  "confidence": 0.9941406,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 8100000,
+                    "endUs": 8260000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w13",
+                  "ordinal": 13,
+                  "text": "circle",
+                  "kind": "speech",
+                  "confidence": 1,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 8260000,
+                    "endUs": 8900000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w14",
+                  "ordinal": 14,
+                  "text": "around",
+                  "kind": "speech",
+                  "confidence": 1,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 8900000,
+                    "endUs": 9220000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w15",
+                  "ordinal": 15,
+                  "text": "C3",
+                  "kind": "speech",
+                  "confidence": 0.95825195,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 9220000,
+                    "endUs": 9860000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w16",
+                  "ordinal": 16,
+                  "text": "and",
+                  "kind": "speech",
+                  "confidence": 0.9423828,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 10820000,
+                    "endUs": 10900000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w17",
+                  "ordinal": 17,
+                  "text": "I'm",
+                  "kind": "speech",
+                  "confidence": 0.992513,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 10980000,
+                    "endUs": 11140000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w18",
+                  "ordinal": 18,
+                  "text": "going",
+                  "kind": "speech",
+                  "confidence": 0.98876953,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 11140000,
+                    "endUs": 11300000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w19",
+                  "ordinal": 19,
+                  "text": "to",
+                  "kind": "speech",
+                  "confidence": 0.9980469,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 11300000,
+                    "endUs": 11380000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w20",
+                  "ordinal": 20,
+                  "text": "draw",
+                  "kind": "speech",
+                  "confidence": 0.9996745,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 11380000,
+                    "endUs": 11620000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w21",
+                  "ordinal": 21,
+                  "text": "a",
+                  "kind": "speech",
+                  "confidence": 0.99902344,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 11620000,
+                    "endUs": 11780000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w22",
+                  "ordinal": 22,
+                  "text": "wave",
+                  "kind": "speech",
+                  "confidence": 0.9875488,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 11780000,
+                    "endUs": 12020000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w23",
+                  "ordinal": 23,
+                  "text": "between",
+                  "kind": "speech",
+                  "confidence": 0.9951172,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 12020000,
+                    "endUs": 12180000
+                  },
+                  "partial": false
+                },
+                {
+                  "type": "word",
+                  "id": "w24",
+                  "ordinal": 24,
+                  "text": "C3.",
+                  "kind": "speech",
+                  "confidence": 0.5291341,
+                  "segment": 1,
+                  "sourceRange": {
+                    "startUs": 12260000,
+                    "endUs": 12420000
+                  },
+                  "partial": false
+                }
+              ],
+              "nextCursor": null
+            }
+          },
+          "id": "e288c8cc-203a-42ac-b938-d11de075a8c3"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "project.create",
+        "params": {
+          "requestId": "explicit-speech-fixture",
+          "canvas": {
+            "width": 32,
+            "height": 32,
+            "fps": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+            "title": "Untitled",
+            "createdAt": "2026-10-01T06:29:38.079Z",
+            "currentRevisionId": "ebcdc1cd-ec38-4742-b7ed-5877c9bd5663"
+          },
+          "revision": {
+            "id": "ebcdc1cd-ec38-4742-b7ed-5877c9bd5663",
+            "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+            "ordinal": 0,
+            "createdAt": "2026-10-01T06:29:38.079Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 32,
+                "height": 32,
+                "fps": {
+                  "numerator": 1,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "4208f488-a943-4d44-82a7-e4ccf902b3e8"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "requestId": "repeat-fixture",
+          "expectedRevisionId": "ebcdc1cd-ec38-4742-b7ed-5877c9bd5663",
+          "operations": [
+            {
+              "operation": "track.add",
+              "label": "speech",
+              "track": {
+                "kind": "audio",
+                "order": 0
+              }
+            },
+            {
+              "operation": "place",
+              "label": "clip0",
+              "clip": {
+                "trackId": {
+                  "label": "speech"
+                },
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 6000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 6000000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "clip1",
+              "clip": {
+                "trackId": {
+                  "label": "speech"
+                },
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 6000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 8000000,
+                    "endUs": 14000000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"revision\":{\"id\":\"ccdc819e-8972-48e5-827a-8f410ef9c08c\",\"projectId\":\"f35a1c79-49d5-4b12-90c1-128c48781468\",\"ordinal\":1,\"createdAt\":\"2026-10-01T06:29:38.107Z\",\"operation\":\"apply\",\"document\":{\"canvas\":{\"width\":32,\"height\":32,\"fps\":{\"numerator\":1,\"denominator\":1},\"background\":\"#000000ff\"},\"tracks\":[{\"id\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"kind\":\"audio\",\"order\":0}],\"groups\":[],\"clips\":[{\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1\",\"trackId\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"placement\":{\"kind\":\"project\",\"range\":{\"startUs\":0,\"endUs\":6000000}},\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"source\":{\"kind\":\"range\",\"range\":{\"startUs\":0,\"endUs\":6000000}}},{\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2\",\"trackId\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"placement\":{\"kind\":\"project\",\"range\":{\"startUs\":8000000,\"endUs\":14000000}},\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"source\":{\"kind\":\"range\",\"range\":{\"startUs\":0,\"endUs\":6000000}}}],\"syncGroups\":[],\"processing\":[]}},\"edit\":{\"changed\":true,\"createdIds\":[{\"kind\":\"track\",\"id\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\"},{\"kind\":\"clip\",\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1\"},{\"kind\":\"clip\",\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2\"}],\"labels\":{\"speech\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"clip0\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1\",\"clip1\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2\"},\"normalized\":[{\"operationIndex\":0,\"changes\":[{\"kind\":\"track\",\"id\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"value\":{\"id\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"kind\":\"audio\",\"order\":0}}]},{\"operationIndex\":1,\"changes\":[{\"kind\":\"clip\",\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1\",\"value\":{\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1\",\"trackId\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"placement\":{\"kind\":\"project\",\"range\":{\"startUs\":0,\"endUs\":6000000}},\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"source\":{\"kind\":\"range\",\"range\":{\"startUs\":0,\"endUs\":6000000}}}}]},{\"operationIndex\":2,\"changes\":[{\"kind\":\"clip\",\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2\",\"value\":{\"id\":\"clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2\",\"trackId\":\"track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0\",\"placement\":{\"kind\":\"project\",\"range\":{\"startUs\":8000000,\"endUs\":14000000}},\"assetId\":\"2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3\",\"streamId\":\"track:1\",\"source\":{\"kind\":\"range\",\"range\":{\"startUs\":0,\"endUs\":6000000}}}}]}],\"clipLineage\":[],\"removedAttachments\":[],\"processingLineage\":[],\"touchedFixedAnchors\":[],\"linkChanges\":[]}},\"id\":\"120fba0d-a8a8-4134-9415-7b46f403c437\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "revision": {
+              "id": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+              "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+              "ordinal": 1,
+              "createdAt": "2026-10-01T06:29:38.107Z",
+              "operation": "apply",
+              "document": {
+                "canvas": {
+                  "width": 32,
+                  "height": 32,
+                  "fps": {
+                    "numerator": 1,
+                    "denominator": 1
+                  },
+                  "background": "#000000ff"
+                },
+                "tracks": [
+                  {
+                    "id": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                    "kind": "audio",
+                    "order": 0
+                  }
+                ],
+                "groups": [],
+                "clips": [
+                  {
+                    "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                    "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                    "placement": {
+                      "kind": "project",
+                      "range": {
+                        "startUs": 0,
+                        "endUs": 6000000
+                      }
+                    },
+                    "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                    "streamId": "track:1",
+                    "source": {
+                      "kind": "range",
+                      "range": {
+                        "startUs": 0,
+                        "endUs": 6000000
+                      }
+                    }
+                  },
+                  {
+                    "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                    "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                    "placement": {
+                      "kind": "project",
+                      "range": {
+                        "startUs": 8000000,
+                        "endUs": 14000000
+                      }
+                    },
+                    "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                    "streamId": "track:1",
+                    "source": {
+                      "kind": "range",
+                      "range": {
+                        "startUs": 0,
+                        "endUs": 6000000
+                      }
+                    }
+                  }
+                ],
+                "syncGroups": [],
+                "processing": []
+              }
+            },
+            "edit": {
+              "changed": true,
+              "createdIds": [
+                {
+                  "kind": "track",
+                  "id": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0"
+                },
+                {
+                  "kind": "clip",
+                  "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1"
+                },
+                {
+                  "kind": "clip",
+                  "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2"
+                }
+              ],
+              "labels": {
+                "speech": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "clip0": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "clip1": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2"
+              },
+              "normalized": [
+                {
+                  "operationIndex": 0,
+                  "changes": [
+                    {
+                      "kind": "track",
+                      "id": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                      "value": {
+                        "id": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                        "kind": "audio",
+                        "order": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operationIndex": 1,
+                  "changes": [
+                    {
+                      "kind": "clip",
+                      "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                      "value": {
+                        "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                        "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                        "placement": {
+                          "kind": "project",
+                          "range": {
+                            "startUs": 0,
+                            "endUs": 6000000
+                          }
+                        },
+                        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                        "streamId": "track:1",
+                        "source": {
+                          "kind": "range",
+                          "range": {
+                            "startUs": 0,
+                            "endUs": 6000000
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "operationIndex": 2,
+                  "changes": [
+                    {
+                      "kind": "clip",
+                      "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                      "value": {
+                        "id": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                        "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                        "placement": {
+                          "kind": "project",
+                          "range": {
+                            "startUs": 8000000,
+                            "endUs": 14000000
+                          }
+                        },
+                        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                        "streamId": "track:1",
+                        "source": {
+                          "kind": "range",
+                          "range": {
+                            "startUs": 0,
+                            "endUs": 6000000
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "clipLineage": [],
+              "removedAttachments": [],
+              "processingLineage": [],
+              "touchedFixedAnchors": [],
+              "linkChanges": []
+            }
+          },
+          "id": "120fba0d-a8a8-4134-9415-7b46f403c437"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "revisionId": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+          "limit": 1000
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "domain": "transcript",
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "revisionId": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+          "range": {
+            "startUs": 0,
+            "endUs": 14000000
+          },
+          "trackIds": [
+            "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0"
+          ],
+          "policy": "project-transcript-v1",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "36869a62-ae4b-44b2-adf7-6f9decefad03",
+          "published": null,
+          "dependencies": [
+            {
+              "selection": {
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1"
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+                },
+                "sourceId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                  "durationUs": 12500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v1",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "track": {
+                  "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-speech-parity-xTvjZp/library/assets/2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": -250000
+                },
+                "segmentCount": 2,
+                "wordCount": 25,
+                "gapCount": 1,
+                "maxWordUs": 1120000,
+                "raw": {
+                  "bytes": 9366,
+                  "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+                }
+              },
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "a6c8d42d-09b5-465b-9413-966bb7beb4ef"
+            }
+          ],
+          "page": null
+        },
+        "id": "01f3e08a-44b3-402e-8feb-be7465a07754"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "revisionId": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+          "limit": 1000
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "revisionId": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+          "state": "ready",
+          "dependencies": [
+            {
+              "selection": {
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1"
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+                },
+                "sourceId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                  "durationUs": 12500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v1",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "track": {
+                  "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-speech-parity-xTvjZp/library/assets/2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": -250000
+                },
+                "segmentCount": 2,
+                "wordCount": 25,
+                "gapCount": 1,
+                "maxWordUs": 1120000,
+                "raw": {
+                  "bytes": 9366,
+                  "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+                }
+              },
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "a6c8d42d-09b5-465b-9413-966bb7beb4ef"
+            }
+          ],
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Okay,",
+                "kind": "speech",
+                "confidence": 0.8691406,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1120000,
+                  "endUs": 1440000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 1120000,
+                      "endUs": 1440000
+                    },
+                    "project": {
+                      "startUs": 1120000,
+                      "endUs": 1440000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "so",
+                "kind": "speech",
+                "confidence": 0.99902344,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1600000,
+                  "endUs": 1920000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 1600000,
+                      "endUs": 1920000
+                    },
+                    "project": {
+                      "startUs": 1600000,
+                      "endUs": 1920000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "this",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1920000,
+                  "endUs": 2240000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 1920000,
+                      "endUs": 2240000
+                    },
+                    "project": {
+                      "startUs": 1920000,
+                      "endUs": 2240000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2240000,
+                  "endUs": 2560000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 2240000,
+                      "endUs": 2560000
+                    },
+                    "project": {
+                      "startUs": 2240000,
+                      "endUs": 2560000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "the",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2560000,
+                  "endUs": 2880000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 2560000,
+                      "endUs": 2880000
+                    },
+                    "project": {
+                      "startUs": 2560000,
+                      "endUs": 2880000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "recorder",
+                "kind": "speech",
+                "confidence": 0.9873047,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3200000,
+                  "endUs": 4320000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 3200000,
+                      "endUs": 4320000
+                    },
+                    "project": {
+                      "startUs": 3200000,
+                      "endUs": 4320000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "workbench.",
+                "kind": "speech",
+                "confidence": 0.9607422,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4320000,
+                  "endUs": 5360000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:1",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 4320000,
+                      "endUs": 5360000
+                    },
+                    "project": {
+                      "startUs": 4320000,
+                      "endUs": 5360000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Okay,",
+                "kind": "speech",
+                "confidence": 0.8691406,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1120000,
+                  "endUs": 1440000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 1120000,
+                      "endUs": 1440000
+                    },
+                    "project": {
+                      "startUs": 9120000,
+                      "endUs": 9440000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "so",
+                "kind": "speech",
+                "confidence": 0.99902344,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1600000,
+                  "endUs": 1920000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 1600000,
+                      "endUs": 1920000
+                    },
+                    "project": {
+                      "startUs": 9600000,
+                      "endUs": 9920000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "this",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 1920000,
+                  "endUs": 2240000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 1920000,
+                      "endUs": 2240000
+                    },
+                    "project": {
+                      "startUs": 9920000,
+                      "endUs": 10240000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2240000,
+                  "endUs": 2560000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 2240000,
+                      "endUs": 2560000
+                    },
+                    "project": {
+                      "startUs": 10240000,
+                      "endUs": 10560000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "the",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2560000,
+                  "endUs": 2880000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 2560000,
+                      "endUs": 2880000
+                    },
+                    "project": {
+                      "startUs": 10560000,
+                      "endUs": 10880000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "recorder",
+                "kind": "speech",
+                "confidence": 0.9873047,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3200000,
+                  "endUs": 4320000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 3200000,
+                      "endUs": 4320000
+                    },
+                    "project": {
+                      "startUs": 11200000,
+                      "endUs": 12320000
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "workbench.",
+                "kind": "speech",
+                "confidence": 0.9607422,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4320000,
+                  "endUs": 5360000
+                },
+                "partial": false,
+                "clipId": "clip:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:2",
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1",
+                "trackId": "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0",
+                "trackRank": 0,
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 4320000,
+                      "endUs": 5360000
+                    },
+                    "project": {
+                      "startUs": 12320000,
+                      "endUs": 13360000
+                    }
+                  }
+                ]
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "16a2be85-08f4-4f90-8578-43a93eb4ebce"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.search",
+        "params": {
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "revisionId": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+          "text": "Okay so",
+          "limit": 500
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "domain": "transcript.search",
+          "text": "Okay so",
+          "projectId": "f35a1c79-49d5-4b12-90c1-128c48781468",
+          "revisionId": "ccdc819e-8972-48e5-827a-8f410ef9c08c",
+          "range": {
+            "startUs": 0,
+            "endUs": 14000000
+          },
+          "trackIds": [
+            "track:02869086a871da1c6ced3a399d00699a83ebc852357ba4968e9148b82b80ba6e:0"
+          ],
+          "policy": "project-transcript-v1",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "56ebadd4-ddd5-4698-a1ef-16de6675be38",
+          "published": null,
+          "dependencies": [
+            {
+              "selection": {
+                "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "streamId": "track:1"
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3"
+                },
+                "sourceId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+                "generation": "62c234bd-dc48-480b-a8d0-2a913595d268",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                  "durationUs": 12500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v1",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "track": {
+                  "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-speech-parity-xTvjZp/library/assets/2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3.mov",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": -250000
+                },
+                "segmentCount": 2,
+                "wordCount": 25,
+                "gapCount": 1,
+                "maxWordUs": 1120000,
+                "raw": {
+                  "bytes": 9366,
+                  "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+                }
+              },
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "a6c8d42d-09b5-465b-9413-966bb7beb4ef"
+            }
+          ],
+          "page": null
+        },
+        "id": "1df8ae73-f83c-4cd5-afd0-d56ce4271607"
+      }
+    }
+  ],
+  "checks": {},
+  "baseline": {
+    "manifestSha256": "01f3eead42bb58ada7dcb2793871da875e809f0ed9e5afae9680b583650b9e69",
+    "engine": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "encoderPrecision": "int8",
+      "computeUnits": "cpuAndNeuralEngine",
+      "policy": "transcript-v1",
+      "kindPolicy": "word-kind-v1"
+    }
+  },
+  "readiness": [
+    {
+      "transport": "cli",
+      "state": {
+        "state": "absent"
+      },
+      "unavailable": {
+        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "absent"
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "absent"
+      },
+      "unavailable": {
+        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "absent"
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "cli",
+      "state": {
+        "state": "preparing",
+        "receivedBytes": 0,
+        "totalBytes": 1
+      },
+      "unavailable": {
+        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 1
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "preparing",
+        "receivedBytes": 0,
+        "totalBytes": 1
+      },
+      "unavailable": {
+        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 1
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "cli",
+      "state": {
+        "state": "failed",
+        "code": "fixture",
+        "message": "Declared preparation failure",
+        "retryable": true
+      },
+      "unavailable": {
+        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "failed",
+          "code": "fixture",
+          "message": "Declared preparation failure",
+          "retryable": true
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "failed",
+        "code": "fixture",
+        "message": "Declared preparation failure",
+        "retryable": true
+      },
+      "unavailable": {
+        "assetId": "2b50e3d9b33b2989fe1b0bdb0a2358a36b80e45a813b7c6a279425273816f9b3",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "failed",
+          "code": "fixture",
+          "message": "Declared preparation failure",
+          "retryable": true
+        },
+        "dependencies": [],
+        "page": null
+      }
+    }
+  ],
+  "error": {
+    "message": "Cannot read properties of null (reading 'entries')",
+    "stack": "TypeError: Cannot read properties of null (reading 'entries')\n    at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/speech-parity.mjs:230:31"
+  }
+}

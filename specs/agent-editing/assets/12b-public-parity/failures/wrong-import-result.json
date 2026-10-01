@@ -1,0 +1,128 @@
+{
+  "passed": false,
+  "scope": "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
+  "actualModelParity": "unverified: retained prepared model directory is unavailable; recreated container bytes and current decoder execution are not the historical inference inputs",
+  "listening": "not performed; no quality verdict changed",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "retained-speech",
+          "path": "/tmp/screenrec-12b-public-parity-initial/first.mov"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "e4c284a0-1624-44ad-a50d-c979f2979ea4",
+          "attemptId": "05d8bdd6-af3f-4d66-831d-6bb626f2027c",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "a031e2e76ede81226a552f7ec5408e7beae08f232612fb700abc7948326420ba",
+          "target": {
+            "kind": "import",
+            "importId": "3c9febb4-089b-4504-901c-1c2236ad3d9e"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "f93573fc-b91b-462b-8b49-275d08a53cb7"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "e4c284a0-1624-44ad-a50d-c979f2979ea4"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "e4c284a0-1624-44ad-a50d-c979f2979ea4",
+          "attemptId": "05d8bdd6-af3f-4d66-831d-6bb626f2027c",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "a031e2e76ede81226a552f7ec5408e7beae08f232612fb700abc7948326420ba",
+          "target": {
+            "kind": "import",
+            "importId": "3c9febb4-089b-4504-901c-1c2236ad3d9e"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "a90460192c6e6909bbfa48f57df28e58d76042805550245e6bcc7bed1c304a66"
+          }
+        },
+        "id": "1d11939a-d8d3-4897-b9d2-f6d4cc380068"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {},
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "id": "5ca50555-80ee-405e-90d3-72b1104bf9e2",
+        "ok": false,
+        "error": {
+          "code": "INVALID_PARAMS",
+          "message": "Parameters do not match the operation schema.",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    }
+  ],
+  "checks": {},
+  "baseline": {
+    "manifestSha256": "01f3eead42bb58ada7dcb2793871da875e809f0ed9e5afae9680b583650b9e69",
+    "engine": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "encoderPrecision": "int8",
+      "computeUnits": "cpuAndNeuralEngine",
+      "policy": "transcript-v1",
+      "kindPolicy": "word-kind-v1"
+    }
+  },
+  "error": {
+    "message": "asset.get: {\"id\":\"5ca50555-80ee-405e-90d3-72b1104bf9e2\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: asset.get: {\"id\":\"5ca50555-80ee-405e-90d3-72b1104bf9e2\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n\nfalse !== true\n\n    at JourneyService.call (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:121:12)\n    at async file:///Users/david/dev/screen-recorder/packages/test-harness/editing/speech-parity.mjs:64:17"
+  }
+}

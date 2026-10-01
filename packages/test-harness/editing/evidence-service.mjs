@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 import { parakeetModel } from "../../core/dist/models.js";
+import { isDeepStrictEqual } from "node:util";
 
 // Only ASR output is frozen. Public admission, native probing and shared transcript ingestion are real.
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
@@ -50,7 +51,7 @@ const worker = async (operation, params, options) => {
     (source) =>
       source.sha256 === sha256 &&
       source.streamId === params.track.streamId &&
-      JSON.stringify(source.available) === JSON.stringify(params.track.available),
+      isDeepStrictEqual(source.available, params.track.available),
   );
   assert.ok(expected, "Frozen ASR received an unregistered byte source or stream");
   assert.equal(params.track.sourceOffsetUs, expected.sourceOffsetUs);
@@ -80,7 +81,13 @@ const worker = async (operation, params, options) => {
   );
   await writeFile(params.output, raw);
   options.signal.throwIfAborted();
+  const data = {
+    ...retained,
+    output: { file: params.output, bytes: raw.length, sha256: hash(raw) },
+  };
   observations.push({
+    request: params,
+    receipt: data,
     sourceSha256: sha256,
     streamId: params.track.streamId,
     sourceOffsetUs: params.track.sourceOffsetUs,
@@ -101,7 +108,7 @@ const worker = async (operation, params, options) => {
   );
   return {
     ok: true,
-    data: { ...retained, output: { file: params.output, bytes: raw.length, sha256: hash(raw) } },
+    data,
   };
 };
 try {

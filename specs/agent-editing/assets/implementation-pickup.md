@@ -11,11 +11,19 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-First implement [12b](../slices/12b-speech-processing.md) public parity for the
-already selected baseline, preserving raw evidence, provenance, generations and
+Continue [21](../slices/21-webcam.md) isolated camera integration, beginning with
+public discovery/permission metadata; input/result/project adoption must precede
+any new accepted camera-start selector. Preserve [12b](../slices/12b-speech-processing.md)
+parity for the already selected baseline, including raw evidence, provenance, generations and
 known best-effort filler/timing limits. Broader12 quality characterization and
 any alternate recipe remain separate; do not require a new model winner to
 exercise unchanged primitives.
+
+[Controlled12b integration](12b-public-parity/README.md) passes actual public
+ingestion, queries, explicit fixture cuts/protected PCM/undo, restart and stale
+generation refusal. Actual current-model execution remains unverified; exact
+prepared directories named by retained receipts are absent. No new preparation
+or inference was performed, and this does not close12b or broader12 quality.
 
 In parallel, exhaust the retained approximately four-minute take under
 [20](../slices/20-camera-reproduction.md), prepare isolated
@@ -84,7 +92,12 @@ the narrow independent-C follow-pitch learned check against retained14d media.
 pass; the finite denoise acceptance above supplies its scoped quality verdicts. [03d preservation](03d-consumer-cutover/README.md)
 records fresh-format reauthoring with identical frozen dry/processed bytes.
 
-Physical20 still lacks its stated camera duration/precision proof. The historical
+Physical20 still lacks its required interval-wide timing/precision proof; the
+retained take itself meets the requested duration. The
+[finer marker diagnostic](20-retained-marker-resolution/README.md) supports more
+candidate flashes, but clipped numbers and partial illumination prevent physical
+onset bounds. Its camera coordinate comparison leaves all threshold residuals
+unchanged; screen mapping and cross-decoder correspondence remain open. The historical
 [prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)
 preserved4428 pictures and took26.915 seconds through actual media closure. The
 [bounded hashing pass](20e-camera-picture-hashing/README.md) removes per-row copies

@@ -21,9 +21,15 @@ Implement the remaining toolkit primitives through the existing owners. Read
 The external agent using the toolkit makes every editorial decision. The consumer
 skill is a product artifact, not this repository's development workflow.
 
-**Next pickup: [12b public speech-evidence parity](slices/12b-speech-processing.md).**
-Preserve the already selected Parakeet baseline and its disclosed best-effort
-fillers/timing limits. Compare requests, raw outputs, provenance, generations and
+**Next pickup: [21 isolated camera integration](slices/21-webcam.md), starting with
+public discovery and permission reporting through existing owners.** Do not accept
+camera-start selectors before input, result and project finalization can honor them.
+
+For [12b](slices/12b-speech-processing.md), preserve the already selected Parakeet baseline and its disclosed best-effort
+fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
+now passes; matching current actual-model execution remains unverified because
+the recorded prepared-model directories are absent. Compare requests, raw outputs,
+provenance, generations and
 explicit fixture edits through the existing source-processing/public owners. Do
 not require a new ASR winner or personal keep/remove answer first. A different
 model/alignment recipe needs its own evidence before adoption.
@@ -42,7 +48,10 @@ The retained camera is 246 seconds and screen about 251 seconds. It already meet
 user's requested take duration. The current coarse analysis validates only a
 shorter camera-marker interval; duration is not the missing input. Use existing
 originals, journals, recovered media and event telemetry before considering any
-new recording. [20](slices/20-camera-reproduction.md) owns the measurement question,
+new recording. The [finer retained-data diagnostic](assets/20-retained-marker-resolution/README.md)
+adds candidate visibility and clock-coordinate evidence, with physical onset
+and event identity limits preserved. [20](slices/20-camera-reproduction.md) owns
+the measurement question,
 uncertainty and stopping condition. Never request a routine replacement tutorial.
 
 Preserve [banked evidence](assets/integrated-evidence.md), including 12d/12e/12f,

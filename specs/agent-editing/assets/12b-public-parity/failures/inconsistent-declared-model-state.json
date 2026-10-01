@@ -1,0 +1,421 @@
+{
+  "passed": false,
+  "scope": "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
+  "actualModelParity": "unverified: retained prepared model directory is unavailable; recreated container bytes and current decoder execution are not the historical inference inputs",
+  "listening": "not performed; no quality verdict changed",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "transcript.retry",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "MODEL_NOT_PREPARED",
+        "message": "model_not_prepared",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "retained-speech",
+          "path": "/tmp/screenrec-12b-public-parity-second/first.mov"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "252aed86-08bb-401b-a24f-73c611593f41",
+          "attemptId": "d482c04a-e433-469c-b165-b8f637224797",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "cb13291def8c26d634f235f0da83f3b88bf512c4e825e403cfa1ce5e0a6c6d54",
+          "target": {
+            "kind": "import",
+            "importId": "4a381d18-f8a5-46b5-952b-e600a5999124"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "434d4ad9-d88f-48b2-94db-25a63e5675ec"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "252aed86-08bb-401b-a24f-73c611593f41"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "252aed86-08bb-401b-a24f-73c611593f41",
+          "attemptId": "d482c04a-e433-469c-b165-b8f637224797",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "cb13291def8c26d634f235f0da83f3b88bf512c4e825e403cfa1ce5e0a6c6d54",
+          "target": {
+            "kind": "import",
+            "importId": "4a381d18-f8a5-46b5-952b-e600a5999124"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1"
+          }
+        },
+        "id": "0222a8fa-360c-4549-b6d8-a23a79f57fef"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 250000,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 12500000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "segmentCount": 4
+            }
+          ],
+          "id": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+          "bytes": 2304761,
+          "createdAt": "2026-10-01T06:25:57.157Z",
+          "fileName": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1.mov"
+        },
+        "id": "d980367a-5485-49f2-8bac-fda3e7907d0c"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "absent"
+        },
+        "id": "7d80b9fe-49d6-48d7-a1fa-52b4a595912c"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+          "streamId": "track:1",
+          "state": "unavailable",
+          "reason": "model_not_prepared",
+          "retryable": true,
+          "jobId": null,
+          "published": null,
+          "models": {
+            "state": "absent"
+          },
+          "dependencies": [],
+          "page": null
+        },
+        "id": "0cfb7469-d6ff-4e4d-b760-47fdb81433b2"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "MODEL_NOT_PREPARED",
+          "message": "model_not_prepared",
+          "retryable": true,
+          "details": {}
+        },
+        "id": "0b359f03-f00f-4c04-8249-5a597e6525fd"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"absent\"},\"id\":\"29f14b7f-fb26-4254-b1cb-062453858ec5\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "absent"
+          },
+          "id": "29f14b7f-fb26-4254-b1cb-062453858ec5"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1\",\"streamId\":\"track:1\",\"state\":\"unavailable\",\"reason\":\"model_not_prepared\",\"retryable\":true,\"jobId\":null,\"published\":null,\"models\":{\"state\":\"absent\"},\"dependencies\":[],\"page\":null},\"id\":\"409fbd81-cc5b-45be-b51e-12efda09b127\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "reason": "model_not_prepared",
+            "retryable": true,
+            "jobId": null,
+            "published": null,
+            "models": {
+              "state": "absent"
+            },
+            "dependencies": [],
+            "page": null
+          },
+          "id": "409fbd81-cc5b-45be-b51e-12efda09b127"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.retry",
+        "params": {
+          "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": true
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":false,\"error\":{\"code\":\"MODEL_NOT_PREPARED\",\"message\":\"model_not_prepared\",\"retryable\":true,\"details\":{}},\"id\":\"8faa9293-5a19-48a3-95f9-c1c1b2d88202\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": false,
+          "error": {
+            "code": "MODEL_NOT_PREPARED",
+            "message": "model_not_prepared",
+            "retryable": true,
+            "details": {}
+          },
+          "id": "8faa9293-5a19-48a3-95f9-c1c1b2d88202"
+        },
+        "isError": true
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "absent"
+        },
+        "id": "fdfd66f4-c5f8-4c80-9b8c-57647289addc"
+      }
+    }
+  ],
+  "checks": {},
+  "baseline": {
+    "manifestSha256": "01f3eead42bb58ada7dcb2793871da875e809f0ed9e5afae9680b583650b9e69",
+    "engine": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "encoderPrecision": "int8",
+      "computeUnits": "cpuAndNeuralEngine",
+      "policy": "transcript-v1",
+      "kindPolicy": "word-kind-v1"
+    }
+  },
+  "readiness": [
+    {
+      "transport": "cli",
+      "state": {
+        "state": "absent"
+      },
+      "unavailable": {
+        "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "absent"
+        },
+        "dependencies": [],
+        "page": null
+      }
+    },
+    {
+      "transport": "mcp",
+      "state": {
+        "state": "absent"
+      },
+      "unavailable": {
+        "assetId": "d21ee7d03421630877ca13d84a036f235fbd65d0e8676b5dd3ac60907647d1b1",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "model_not_prepared",
+        "retryable": true,
+        "jobId": null,
+        "published": null,
+        "models": {
+          "state": "absent"
+        },
+        "dependencies": [],
+        "page": null
+      }
+    }
+  ],
+  "error": {
+    "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n+   state: 'absent'\n-   receivedBytes: 0,\n-   state: 'preparing',\n-   totalBytes: 1\n  }\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n+   state: 'absent'\n-   receivedBytes: 0,\n-   state: 'preparing',\n-   totalBytes: 1\n  }\n\n    at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/speech-parity.mjs:120:14"
+  }
+}

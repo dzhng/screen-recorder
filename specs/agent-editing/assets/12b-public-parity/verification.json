@@ -1,0 +1,35 @@
+{
+  "scope": "Controlled public baseline integration, not current native inference acceptance",
+  "focusedChecks": {
+    "coreTranscriptTests": 30,
+    "boundaryScorerTests": 4,
+    "mergedPublicStorageTests": 2,
+    "publicExchanges": 93,
+    "generationCursorRefusals": 8
+  },
+  "review": "Independent read-only harness review and root shape/diff/docs review resolved bounds, complete PCM, raw provenance and scratch lifetime findings.",
+  "knownModelDirectories": "Recorded19c,12-speech,10b-native,10b-public and earlier synthetic preparation paths inspected and absent; no downloads or preparation attempted.",
+  "retainedFiles": {
+    "fixture.json": {
+      "bytes": 1448,
+      "sha256": "a49ede0254ad3e2ab376166bb3c15d521412c93ceac9398f669fe53069f141b5"
+    },
+    "report.json": {
+      "bytes": 488875,
+      "sha256": "263da814e2896eeb476d76e67bccccf867fb06e2f83752204dfca0b66a15c7c8"
+    },
+    "service.log": {
+      "bytes": 1183,
+      "sha256": "f51201f4688f31c8863d9a27b6bcf19c158777cff15bd91e230e4d38eadb0235"
+    },
+    "media.tar.xz": {
+      "bytes": 2583924,
+      "sha256": "5f65336410e79771086025e7097a5a1ea5ec0c674ee1b85afe4352b7ff03e9e5"
+    },
+    "native-requests.json": {
+      "bytes": 7567,
+      "sha256": "2776100bcd2e9297142f0ac32bd7f2d2a16af310d9eadecd6dc352d1e42e91d9"
+    }
+  },
+  "limits": "not exercised: declared readiness and frozen ASR cannot certify current native inference; recreated container bytes and current decoder differ from historical inputs"
+}

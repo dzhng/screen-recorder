@@ -1,6 +1,9 @@
 # 12b — Adopt verified source speech processing
 
-Status: public parity pass not started; independent of unfinished alternate-model
+Status: [controlled public parity](../assets/12b-public-parity/README.md) passes
+raw ingestion, queries, explicit cuts/protected PCM/undo, restart and generation
+fencing. Actual-model/current-decoder parity remains unverified; recorded prepared
+model directories are absent. This is independent of unfinished alternate-model
 research. Implementation dependencies: [10](10-project-evidence.md),
 [11](11-audio-inspection.md) and the
 [selected baseline](../../recording-for-ai/slices/04-local-speech-gate.md).
@@ -41,10 +44,11 @@ paging and search, transcript-seeded captions, packages/history and cached reads
 verify all affected consumers. New generations/policies fence stale cursors while
 retained old evidence remains inspectable. Preparation does not approve adoption.
 
-Create this planned probe in this slice:
+The controlled probe is implemented; its declared-readiness scope does not close
+actual native inference parity:
 
 ```sh
-node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-editing/assets/12-speech
+SCREENREC_NATIVE=/absolute/isolated/screenrec-native node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-editing/assets/12-speech
 ```
 
 ## Acceptance

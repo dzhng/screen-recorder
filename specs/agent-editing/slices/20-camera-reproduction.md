@@ -12,6 +12,11 @@ The [digest cost audit](../assets/20e-camera-digest-components/README.md) preser
 full-picture parity in two isolated release publications. Their context-specific
 latency still exceeds ten seconds; no new production fix or physical pass follows.
 
+The [retained marker diagnostic](../assets/20-retained-marker-resolution/README.md)
+extends candidate visibility with finer samples and preserves a separate clock
+coordinate comparison. Partial predecessor flashes and clipped numbers prevent
+a physical onset bound; no synchronization acceptance is added.
+
 ## Seam and ownership
 
 Feature-owned native capture reproduction using ScreenCaptureKit and AVCaptureSession candidates. Emit separate source tracks plus timing observations; no presenter layout is baked into captured pixels.
@@ -34,9 +39,10 @@ It already meets the user's requested duration. The current physical detector's
 strong camera-marker result covers roughly 70 seconds; that is the scope of the
 analysis, not the length of the recording or proof that the rest is unusable.
 
-The next bounded measurement question is whether existing full-resolution frames,
-event telemetry and journal/source-clock mapping can extend validated marker
-coverage and tighten onset uncertainty. Preserve the frozen analysis as baseline,
+Finer samples now support a wider candidate interval, and the journal/native
+comparison shows that camera coordinate translation leaves the measured residuals
+unchanged. The next bounded question is the screen source-clock mapping and
+cross-decoder picture correspondence. Preserve the frozen analysis as baseline,
 declare any changed detector/selection rule, inspect its false positives and
 report supported intervals plus uncertainty. Do not fit away drift, recenter each
 event, loosen the one-frame target or infer unseen markers from cadence. Stop
