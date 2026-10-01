@@ -1,0 +1,122 @@
+{
+  "status": "merged affected gate passed after setup-only correction",
+  "root": "96d24ec8",
+  "implementation": "7b339b61",
+  "correction": "96d24ec8",
+  "childCorrection": "b461986f9d69f8d1fed97896ab6d09ea0e0107d8",
+  "archive": {
+    "path": "merged-corrected.tar.gz",
+    "bytes": 4359,
+    "sha256": "d8f266711a49d9d3ab8871bec1399dcb31270748d9bf6540571d738cf69af54e",
+    "members": 5
+  },
+  "members": {
+    "checks/corrected-format.log": {
+      "bytes": 202,
+      "sha256": "aaf44b97224ddcb271bf1f79bc2275b85425c3c19d5610879fc0aa45d0d6671f"
+    },
+    "checks/corrected-lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/corrected-tests.log": {
+      "bytes": 1371,
+      "sha256": "8c695730af62f4c7dcdf6224b1eae5702589e42a7e91e89ed9e66c0d752f6396"
+    },
+    "checks/corrected-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "closure/apps/cli/src/result-delivery.test.ts": {
+      "bytes": 13594,
+      "sha256": "3b6995096c1588c5fbe8bbbc06e4bb029968acbf5d9807d64601d340dba7addf"
+    }
+  },
+  "gate": {
+    "command": "node node_modules/vitest/vitest.mjs run packages/protocol/src packages/client/src apps/service/src/index.test.ts apps/service/src/delivery.test.ts apps/service/src/result-delivery.test.ts apps/service/src/project-service.test.ts apps/cli/src --maxWorkers=1 --silent=false",
+    "exitCode": 0,
+    "files": 11,
+    "passed": 126,
+    "failed": 0,
+    "durationSeconds": 51.13,
+    "testTimeoutMs": 5000,
+    "hookTimeoutMs": 10000,
+    "deadlines": "unchanged"
+  },
+  "correctionScope": "Exact fixture and SDK connection use scoped runner setup; all65 dispatch-through-telemetry lines remain unchanged except indentation. No product code changed.",
+  "originalFailures": [
+    "merged-original.json",
+    "../24z11-receipt-setup-correction/verification.json"
+  ],
+  "productionIdentity": "All18 changed emitted pins unchanged; every362 shared child emitted file equals mergedroot. Root also retains14 additional prior emitted files, explicitly inventoried rather than claimed loaded or deleted. Original child archive unchanged.",
+  "preservedIgnoredRuntime": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/24z11-result-runtime/96d24ec8/runtime.tar.gz",
+    "bytes": 1169725,
+    "sha256": "af4a7a5032114303caddbee61cecfccc9c78f8cb98760f32d4cf7be17ecf2daf",
+    "members": 377,
+    "trees": {
+      "packages/protocol/dist": {
+        "files": 10,
+        "bytes": 257395,
+        "sha256": "286a41864d962e00ab32f5d29a6413a911a1137db57d5b467c6e099eae1ee8da"
+      },
+      "packages/client/dist": {
+        "files": 6,
+        "bytes": 9634,
+        "sha256": "de8e028a37969d1b0912715a103ca62d3c4bfca4f8b210fd077bc0ace4d7e753"
+      },
+      "apps/service/dist": {
+        "files": 90,
+        "bytes": 606531,
+        "sha256": "dfc13d6629b7904e1aaf98ed40990210f78d68b8297e72c310a805a1f8fb42a3"
+      },
+      "apps/cli/dist": {
+        "files": 6,
+        "bytes": 47975,
+        "sha256": "e7697382bba1069601f551d800ea17b5bcf2039da601594e35bd3492c409e597"
+      },
+      "packages/core/dist": {
+        "files": 198,
+        "bytes": 5376201,
+        "sha256": "2c5ec56e00603fe1462896f7d26bd4e056e6922f83a45f9ad8f187a655145c68"
+      },
+      "packages/composition/dist": {
+        "files": 66,
+        "bytes": 1419223,
+        "sha256": "8ec9eb8b72bc87c6d58d5b155df2c9423b9efb0a339f9f0184ed3540f6d981de"
+      }
+    },
+    "rootAdditionalEmittedFiles": {
+      "packages/protocol/dist": [],
+      "packages/client/dist": [],
+      "apps/service/dist": [
+        "video-exports.d.ts",
+        "video-exports.js",
+        "voice-pins.d.ts",
+        "voice-pins.js"
+      ],
+      "apps/cli/dist": [
+        "media.d.ts",
+        "media.js"
+      ],
+      "packages/core/dist": [
+        "project-capture.d.ts",
+        "project-capture.js",
+        "project-frames.d.ts",
+        "project-frames.js",
+        "speech-models.d.ts",
+        "speech-models.js",
+        "waveform.d.ts",
+        "waveform.js"
+      ],
+      "packages/composition/dist": []
+    },
+    "purpose": "Exact actual root runtime directory bytes, including original child closure, retained outside owned worktree before archive; directory inventory does not claim all modules were loaded. No media/model/native files included."
+  },
+  "review": {
+    "production": "Root and independent peer clean within complete-result scope",
+    "correction": "Root verified all9 payloads/all18 emitted identities/all65 operation-oracle lines; setup-only decision has measured justification.",
+    "quality": "Affected production and test typechecks, changed TS lint/format and diff checks pass."
+  },
+  "scope": "Original whole-body deadline remains failed evidence. No timing causality/speedup, universal inline-media capacity, final scale or release acceptance claim."
+}

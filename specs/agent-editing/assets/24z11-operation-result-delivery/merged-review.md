@@ -28,3 +28,12 @@ The original merged archive preserves that producer and every check log; it is n
 replaced by isolated green evidence. Production review is clean, but the merged
 gate remains red pending measured fixture/verification work. No causality or speedup
 is inferred from the timeout.
+
+The setup-only correction is now merged as `96d24ec8`. Root verified all nine
+correction payloads, all 18 unchanged emitted identities and all 65 operation/oracle
+lines unchanged except indentation. The corrected affected gate passes 126/126
+with the same test/hook defaults; original125/126 and isolated115/126 failures
+remain retained. No performance causality or original whole-body pass is claimed.
+All362 child emitted files match root; fourteen additional prior root emitted
+files are explicitly inventoried in the preserved runtime archive, without claiming
+they were loaded. This closes the scoped operation-result gate, not media admission.

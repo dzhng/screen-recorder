@@ -27,6 +27,7 @@ retry, timeout increase or production change followed them.
 
 The [original implementation packet](../24z11-operation-result-delivery/README.md)
 and its historical receipt authority remain unchanged. This packet records only
-the setup boundary correction; its green gate does not relabel either original
-failure. Root integration remains separate. [Choices](choices.md) and
+the setup boundary correction; its green receipt-file gate does not relabel either original
+failure. The later [merged 126/126 result](../24z11-operation-result-delivery/merged-corrected.json)
+is separate current evidence, with unchanged deadlines. [Choices](choices.md) and
 [review](review.json) explain the decision and focused review.

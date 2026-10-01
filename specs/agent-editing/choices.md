@@ -6311,4 +6311,7 @@ replies for complete chunked delivery; the controlled replay fixture proves exac
 saved bytes without claiming old admissions/history. The outer transport preference
 and explicit existing lease owner have high confidence. No choice increases a
 limit, adds an operation endpoint or authorizes uncertain-write retries. These
-architecture judgments do not replace the pending merged receipt deadline check.
+architecture judgments remain separate from the original whole-body deadline
+failure. The [setup-correction ledger](assets/24z11-receipt-setup-correction/choices.md)
+records the measured runner-lifecycle decision; the current merged check passes
+without changing deadlines or product behavior.

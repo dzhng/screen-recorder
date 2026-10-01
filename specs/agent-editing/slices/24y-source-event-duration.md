@@ -74,9 +74,11 @@ body contributes at most one service frame and its quoted text at most two, plus
 this fixture's fixed JSON-RPC framing. The unchanged full receipt must deep-equal
 CLI in both representations. This is a bounded client configuration, not a service
 limit change, compacted receipt or latency/memory budget relaxation. It establishes
-no universal bound for inline media or concurrent buffered replies. External SDK
-clients retaining their default can still encounter the preserved limitation; do
-not report that default-client failure as fixed.
+no universal bound for inline media or concurrent buffered replies. At this historical checkpoint, external SDK clients retaining their default still
+encountered the limitation. The subsequent [24z11 production correction](24z11-operation-result-delivery.md)
+delivers complete results through existing artifact leases and passes the merged
+default-client gate; that does not retroactively turn this configured-client proof
+into a production fix.
 
 The [verification](../assets/24y-source-event-duration/verification.json) retains
 both twelve-trial implementations/root checks, complete source/project payloads,

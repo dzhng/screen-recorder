@@ -13,8 +13,9 @@ and native exits remain recorded. No accepted runtime cohort was repeated.
 
 Before result-delivery integration, all 170 source and 386 emitted inputs matched
 root. The subsequent 24z11 transport change preserves operation/core state owners
-and has its own affected consumer gate, currently red at the retained-receipt test
-deadline. The frozen state cohort is not relabeled as a runtime run of that later
+and has its own affected consumer gate: the initial retained-receipt deadline
+failure is banked, and the later setup-only correction passes all 126 checks.
+The frozen state cohort is not relabeled as a runtime run of that later
 producer. The merged harness passes syntax validation; root links its scoped
 proof into the canonical correspondence and ledger. Other preservation rows,
 installed switching, presentation and full release remain open.

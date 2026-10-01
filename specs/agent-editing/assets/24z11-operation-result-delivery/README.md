@@ -24,8 +24,10 @@ the former's existing no-device-dispatch oracle. Complete native byte comparison
 replaces redundant deep traversal in the receipt test without reducing its data.
 No deadline or limit changed and no timing cause or speedup is claimed.
 
-The [original merged gate](merged-original.json) retains the later root timeout;
-the isolated pass does not override it. General inline image/audio/batch capacity,
+The [original merged gate](merged-original.json) retains the later root timeout.
+The [setup correction](../24z11-receipt-setup-correction/README.md) preserves all
+operation oracles; [126/126 corrected merged checks](merged-corrected.json) pass
+with unchanged deadlines. Earlier failures remain distinct evidence. General inline image/audio/batch capacity,
 final scale, physical, listening and installed acceptance remain separate. [Choices](choices.md) records
 the remaining discretionary decisions; [review](review.json) reports shape, code
 and documentation closeout.
