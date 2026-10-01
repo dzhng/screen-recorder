@@ -24,7 +24,12 @@ bounded publication facts in the same catalog transaction; no auxiliary source
 lifecycle table. Include selection in its existing replay fingerprint; native
 receives the stored recording/source/device authority rather than inventing it.
 Keep immutable allocation/replay arguments separate from evolving publication
-facts. The shared catalog format fence covers both CaptureStore and its installed
+facts. Retain each source's last accepted immutable receipt beside its current
+native observation in that existing publication JSON. Receipt identity stays fixed
+across operational refusal or terminal unavailability; eligibility uses only the
+current native outcome and physical closure, never that cached receipt. This is
+bounded source evidence, not a second transition engine or ownership table.
+The shared catalog format fence covers both CaptureStore and its installed
 RevisionStore specialization: advance that one format and create fresh scratch
 catalogs rather than adding migrations, ALTER statements or schema modes. Older
 catalogs are refused unchanged. The installed executable and library stay untouched;
