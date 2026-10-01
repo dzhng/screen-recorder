@@ -22,8 +22,9 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next implementation pickup: quantify repeated selection resolution in the
-scene-enabled source-event dependency path before selecting an owner correction.**
+**Next implementation pickup: quantify duplicate full source-plan resolution in
+source screenshot-index admission/execution, then reuse one plan per synchronous
+call while preserving separate fresh execution and validation boundaries.**
 The [fresh source-caller fixture](slices/25b-fresh-caller.md) has executed the full
 brief, including genuine generation, delivery, history and empty-recipient package
 recovery with donor/model storage unavailable. Its producer is preserved separately
@@ -47,6 +48,10 @@ The [24z8 source-frame correction](slices/24z8-source-frame-support.md) bounds
 worker support payloads while keeping complete core authority. Its public
 segment-rich diagnostic now reaches the native edge; actual frozen-worker
 full/narrow requests preserve receipts and PNG bytes.
+[24z7 read-only scene-event resolution](slices/24z7-source-event-resolution.md)
+is merged: complete consumer oracles, fresh-generation refusal and preparation/error
+order pass while sharing source metadata within each synchronous phase. Its merged
+146-test consumer gate includes source-frame/index/public-service integration.
 
 [09c audio export](slices/09c-audio-only-export.md) and
 [23i source service process](slices/23i-service-process-parity.md) retain their
@@ -347,6 +352,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z4 — Per-window resource bindings](slices/24z4-prepared-bindings.md) — full merged prepared suite and public WAV; original large deadline passes
 - [x] [24z5 — Asset presence at service boundaries](slices/24z5-service-asset-presence.md) — full merged service suite/public WAV; original diagnostic deadline passes
 - [x] [24z6 — Mixed composition append runs](slices/24z6-composition-appends.md) — scalar receipts/errors and bounded work; full project-evidence deadlines pass
+- [x] [24z7 — Read-only scene-event source resolution](slices/24z7-source-event-resolution.md) — fresh metadata phases and exact consumer output; merged consumer groups pass
 - [x] [24z8 — Demanded source-frame support](slices/24z8-source-frame-support.md) — bounded native payload, full support authority and public/frozen-native parity
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)

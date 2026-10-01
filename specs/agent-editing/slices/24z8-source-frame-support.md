@@ -2,10 +2,11 @@
 
 Status: scoped transport correction, full-source authority, public service/index
 checks and actual frozen-native parity pass. The [packet](../assets/24z8-source-frame-support/README.md)
-retains red/green tests, native requests/receipts/PNGs and producer pins. A source-frame request emits
-all selected support intervals even though the frozen native renderer uses them
-only to admit the explicitly requested point. Segment-rich support can exceed the
-existing native control frame before any native operation starts.
+retains red/green tests, native requests/receipts/PNGs and producer pins.
+
+The frozen native renderer uses support only to admit the explicitly requested
+point. A one-point request must not fill its control message with unrelated
+support intervals; complete source authority belongs in the core.
 
 ## Preserve authority, bound the worker request
 

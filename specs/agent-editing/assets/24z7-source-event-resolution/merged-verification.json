@@ -1,0 +1,46 @@
+{
+  "producerCommit": "4bdcae90f8be42623a6fe405bbcfaca16b79a9b8",
+  "childCommit": "fed81d0e06c8a7168e2c06237ee74865f1554fa1",
+  "integratedCommit": "4bdcae90",
+  "childArchive": {
+    "sha256": "9d576dd9916bca081362ac2ac812855ec55ffb77932f9e515c72a449f556cc1b",
+    "logicalMembersVerified": 1852,
+    "regularFiles": 363,
+    "hardlinks": 1489,
+    "sourcePins": 300,
+    "rootSourceDifferences": [
+      "packages/core/src/frame-inspection.ts",
+      "packages/core/src/source-frame-inspection.test.ts"
+    ],
+    "differenceOwner": "Previously committed24z8; original child producer unchanged. Remaining298pins match."
+  },
+  "checks": {
+    "coreBuild": 0,
+    "coreTypes": 0,
+    "serviceBuild": 0,
+    "lint": 0,
+    "format": 0,
+    "diffCheck": 0,
+    "affectedSuite": {
+      "exitCode": 0,
+      "files": 11,
+      "passed": 137,
+      "log": "checks/screenrec-24z7-root-affected.log"
+    },
+    "retentionOwnership": {
+      "exitCode": 0,
+      "files": 2,
+      "passed": 9,
+      "log": "checks/screenrec-24z7-root-retention.log"
+    }
+  },
+  "review": "Independent fresh source/diff review clean; root integration checks cover both consumer groups. Configured CLI retry remains prohibited.",
+  "scope": "Scoped merged source/work correctness and actual controlled public service tests. No new native/model/media/capture/playback/installed/cohort work by this integration. Public scene-event CLI/MCP journey and source-cardinality p95/general scale targets remain separate; no timeout-cause claim.",
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "members": 30,
+    "bytes": 118150,
+    "sha256": "cd0153f4beab1550a1f01416b5b61353043944c3f6a61bb78307fe88e19bc419",
+    "allMembersVerified": true
+  }
+}

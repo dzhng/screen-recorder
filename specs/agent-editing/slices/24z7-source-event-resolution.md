@@ -1,6 +1,6 @@
 # 24z7 — Read-only source-event metadata resolution
 
-Status: implemented in an isolated worktree with [functional and work-accounting evidence](../assets/24z7-source-event-resolution/README.md); root integration remains separate. The source-cardinality p95 and general scale budgets remain open under [24z](24z-source-cardinality.md).
+Status: merged source correction with [functional/work proof](../assets/24z7-source-event-resolution/README.md) and [root integration](../assets/24z7-source-event-resolution/merged-verification.json). Both affected consumer groups pass. The source-cardinality p95 and general scale budgets remain open under [24z](24z-source-cardinality.md).
 
 ## Contract and owner
 

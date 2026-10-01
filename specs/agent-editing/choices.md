@@ -6261,3 +6261,14 @@ an underlying file exists.
 - **Verdict:** Sound; full/narrow frozen-native requests preserve complete receipts
   and image bytes, while the public segment-rich request reaches the worker edge.
 - **Confidence:** High.
+
+
+## Read-only scene-event source resolution
+
+The [24z7 choices](assets/24z7-source-event-resolution/choices.md) are sound, with
+high confidence. One synchronous lookup owner shares authoritative catalog rows;
+every later validation phase starts fresh. Scene-status facts omit the unused
+filename lookup while actual processing retains file-addressed selection. Complete
+synthetic producer catalogs remain evidence rather than deployable libraries. Root
+independently verified the archived hardlinks and both merged consumer groups;
+these choices establish neither public scene-event transport nor a latency budget.

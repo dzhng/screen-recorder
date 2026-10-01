@@ -1,0 +1,152 @@
+[
+  {
+    "path": "apps/service/dist/project-service.js",
+    "bytes": 61206,
+    "sha256": "7d25e9944bc9b96a4237f11a6737f81ee12d851357414b48f0aa60f676f96cc0"
+  },
+  {
+    "path": "apps/service/dist/worker.js",
+    "bytes": 6940,
+    "sha256": "e740005682937b36cb9376dd1e16c12a74dceb7eb243ead5d0f30fbef9707fdf"
+  },
+  {
+    "path": "apps/service/src/project-service.test.ts",
+    "bytes": 45349,
+    "sha256": "07d275c96bcbaebfe5d2c4e04924ca3f2cdc6cb2f75638d9482dfe52590869da"
+  },
+  {
+    "path": "apps/service/src/project-service.ts",
+    "bytes": 54458,
+    "sha256": "0dd081b562127acf2ff1cbd7e65300606a834ca61be99081e8733f432087335d"
+  },
+  {
+    "path": "apps/service/src/worker.ts",
+    "bytes": 7899,
+    "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+  },
+  {
+    "path": "checks/screenrec-24z7-root-affected.log",
+    "bytes": 2304,
+    "sha256": "e9b8945ab74ae468fa9083bcb4c4188c303db847fdae8f3d77ce6a5f142f1a56"
+  },
+  {
+    "path": "checks/screenrec-24z7-root-retention.log",
+    "bytes": 774,
+    "sha256": "1d764fae77324021d7ad8e098fa4690a0e0ebce1b350d23863c3e4120bab19f0"
+  },
+  {
+    "path": "checks/screenrec-24z7-root-verification.json",
+    "bytes": 220,
+    "sha256": "94b2690efcf54aa8dc3081ce6644f37ca068f7a32aabba0170fa04bd2d91e247"
+  },
+  {
+    "path": "packages/core/dist/capture-source-read.js",
+    "bytes": 13268,
+    "sha256": "2db22a55d81787c1d300a64106b08227918415b93d6873dcc791cd612c58fa21"
+  },
+  {
+    "path": "packages/core/dist/frame-inspection.js",
+    "bytes": 29850,
+    "sha256": "f184a5d0ec3dbdd48e9489d675bed880641065d2c92f4d9d8ea9dec85bce044f"
+  },
+  {
+    "path": "packages/core/dist/index-processing.js",
+    "bytes": 32146,
+    "sha256": "91c8af8342def562db4c1046fc7a5bb8cf5740367fcb50aa4858207ca956291e"
+  },
+  {
+    "path": "packages/core/dist/project-evidence.js",
+    "bytes": 21684,
+    "sha256": "d92c38286ce2507b905136886c6d55d2e378cf2a658885c99d00f7e286e82191"
+  },
+  {
+    "path": "packages/core/dist/scene-evidence.js",
+    "bytes": 26885,
+    "sha256": "93bbe487360c665ddf0415f68d5003e54fe409b1908199ffa12881c5fbc91191"
+  },
+  {
+    "path": "packages/core/dist/scene-processing.js",
+    "bytes": 14062,
+    "sha256": "8ef526d8eb4f1ece845846d4d357731959c4dee9043d630d52ead42287ebfffb"
+  },
+  {
+    "path": "packages/core/dist/scene-source-read.js",
+    "bytes": 3190,
+    "sha256": "b92cad9a70ff4c31b2b017702556098b96062dac37bb08fee867c618f8840497"
+  },
+  {
+    "path": "packages/core/dist/source-events.js",
+    "bytes": 7498,
+    "sha256": "7c8a7287ee07c722c797b1b79e6a0415a18ec58b979f67c61a6fc4a170765539"
+  },
+  {
+    "path": "packages/core/dist/source-selection.js",
+    "bytes": 4344,
+    "sha256": "820ebb559130be988312955ddd496639ab2b76ce172588d4d57eaafbb2fdf949"
+  },
+  {
+    "path": "packages/core/src/capture-source-read.ts",
+    "bytes": 13900,
+    "sha256": "39179f77cbc148903a97efce49070ddd203b6f3b3136b4ffd63415bb3c64293a"
+  },
+  {
+    "path": "packages/core/src/frame-inspection.ts",
+    "bytes": 33453,
+    "sha256": "ff5fa3141cf5adce9b8667b557b69cd4202e74f06c3b31bf1cbcc5cb64cbedcd"
+  },
+  {
+    "path": "packages/core/src/index-processing.ts",
+    "bytes": 36093,
+    "sha256": "5a569fa8f8ab5622e353264363e0aae0a2a103b537b680a4f02355c1dd30ce03"
+  },
+  {
+    "path": "packages/core/src/project-evidence.test.ts",
+    "bytes": 69355,
+    "sha256": "aa2ead047ed86a11afbb3103f3f75c523e5d49c718aaa7a145312153f967cdc4"
+  },
+  {
+    "path": "packages/core/src/project-evidence.ts",
+    "bytes": 23007,
+    "sha256": "0721b1d21c1d327238d79f44ec2c39002559c2841e98d5458f307f4e9ea8a8ef"
+  },
+  {
+    "path": "packages/core/src/scene-evidence.ts",
+    "bytes": 30488,
+    "sha256": "72064ff3e99bba88db2493a8505f09fa587d53aaac93717588180dbea7b1151d"
+  },
+  {
+    "path": "packages/core/src/scene-processing.ts",
+    "bytes": 15162,
+    "sha256": "091e8948f93acdd08ee995e2223efdeb4a03ec3c4788b58b6ba4b0f1f2b1f1b9"
+  },
+  {
+    "path": "packages/core/src/scene-source-read.ts",
+    "bytes": 4007,
+    "sha256": "9e0a053fc1bdf6d8b53d72cf88820178f1eeb87770e391042f4011479dbde969"
+  },
+  {
+    "path": "packages/core/src/source-events.ts",
+    "bytes": 7891,
+    "sha256": "317a6db500e9ebdae4c707bee353c40988bf92e2a766a989fb085d375a0b0f23"
+  },
+  {
+    "path": "packages/core/src/source-frame-inspection.test.ts",
+    "bytes": 17837,
+    "sha256": "c979dbcd2cb62818638b9592c91812cc6857b8f0f9eb368e2c410301d2fa73be"
+  },
+  {
+    "path": "packages/core/src/source-index-processing.test.ts",
+    "bytes": 12230,
+    "sha256": "e448c5139386de9738e5f12c325b445c2c809cd26ffe6b52a1bccd386589439b"
+  },
+  {
+    "path": "packages/core/src/source-selection.ts",
+    "bytes": 4961,
+    "sha256": "efda3aaf0a311b668d69d76e0f973a7dc27c3a8448a4badda2cb6b91b2729e74"
+  },
+  {
+    "path": "review/independent-integration.txt",
+    "bytes": 534,
+    "sha256": "f12278971f76eac0331ba6b5efc61c38740c7a5bb2c29e85f20c3ffe7624b660"
+  }
+]
