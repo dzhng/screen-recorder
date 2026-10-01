@@ -8,9 +8,11 @@ import { startProjectService } from "../../../apps/service/dist/project-service.
 import { jsonWorker, mediaWorker } from "../../../apps/service/dist/worker.js";
 import { parakeetModel } from "../../core/dist/models.js";
 import { isDeepStrictEqual } from "node:util";
+import { installServiceProfiler } from "./service-cpu-profile.mjs";
 
 // Public admission, native probing and shared transcript ingestion are real in both fixture modes.
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
+const stopProfiler = fixture.cpuProfile ? installServiceProfiler(fixture.cpuProfile) : undefined;
 if (fixture.readsFile) {
   const wordRecords = TranscriptStore.prototype.wordRecords;
   TranscriptStore.prototype.wordRecords = function (identity, query) {
@@ -189,7 +191,11 @@ const worker = async (operation, params, options) => {
 try {
   const service = await startProjectService({ home: process.argv[2], worker });
   let closing;
-  const close = () => (closing ??= service.close().then(() => process.disconnect()));
+  const close = () =>
+    (closing ??= service
+      .close()
+      .finally(() => stopProfiler?.())
+      .then(() => process.disconnect()));
   process.on("message", (message) => {
     if (message === "close") void close();
   });

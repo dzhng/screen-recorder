@@ -1,0 +1,47 @@
+{
+  "verdict": "Clean preparation-only harness change; actual runtime lifecycle and owner attribution remain unverified.",
+  "shape": "One opt-in child CPU sampler reuses existing evidence service IPC; source-cardinality runner retains traversal/oracle ownership. Production owners, schemas, cache and client capacities unchanged.",
+  "diff": "Root settled review clean after explicit flush reserves, live ChildProcess ownership, native-call boundary and bounded synthetic tests. Ordinary phases retain frozen worker authority; profile has separate seed/current-worker provenance and exact source/compiled/local-import pins.",
+  "docs": "24z links preparation proof and states zero profile/read attempts, contention deferral and future coordination boundary. Shared README/choices untouched.",
+  "CLIReview": "Not invoked, per root instruction. No service, profile or build in closeout.",
+  "choices": [
+    {
+      "decision": "Pin the retained query implementation even if current main evolves",
+      "reason": "Owner attribution must address original retained diagnostic; separately pinned current worker is permitted only outside profiled reads, which must invoke no native operation.",
+      "assessment": "Sound; high confidence; zero actual profile validation yet."
+    },
+    {
+      "decision": "Reuse compiled code and existing dependencies inside isolated checkout",
+      "reason": "Avoid rebuild drift while proving all local workspace imports remain isolated.",
+      "assessment": "Sound; exact file and resolution pins verified."
+    },
+    {
+      "decision": "Opt-in IPC sampler and bounded shutdown",
+      "reason": "Sample service owner rather than parent assertion/serialization work; preserve partial profile on controlled interruption without signaling reused PIDs.",
+      "assessment": "Sound; four synthetic lifecycle tests pass; actual service integration deferred."
+    },
+    {
+      "decision": "Defer dispatch after busy whole-host snapshot",
+      "reason": "Own-lane quiescence cannot establish isolation; preserves original red without retry or causal claim.",
+      "assessment": "Sound; explicit zero attempts, no polling."
+    }
+  ],
+  "size": {
+    "packages/test-harness/editing/evidence-service.mjs": {
+      "lines": 210,
+      "bytes": 7395
+    },
+    "packages/test-harness/editing/source-cardinality.mjs": {
+      "lines": 732,
+      "bytes": 27791
+    },
+    "packages/test-harness/editing/service-cpu-profile.mjs": {
+      "lines": 127,
+      "bytes": 4503
+    },
+    "packages/test-harness/editing/service-cpu-profile.test.mjs": {
+      "lines": 120,
+      "bytes": 4790
+    }
+  }
+}

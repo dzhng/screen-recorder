@@ -1,0 +1,56 @@
+{
+  "status": "PREPARED; actual profile deferred by whole-host contention",
+  "actualProfileAttempts": 0,
+  "actualProjectReadAttempts": 0,
+  "actualServiceStarts": 0,
+  "originalRedCohort": "Unchanged; specs/agent-editing/assets/24z-source-cardinality",
+  "authority": "Separate owner-attribution profile only; does not replace frozen-worker cohort, establish latency acceptance or source-cardinality causality",
+  "runtimePins": {
+    "file": "runtime-pins.json.gz",
+    "sha256": "9af395397dcdc950b2fb1ff9f05d94d6e644e2a3c6f08413e669293c5008eb13",
+    "uncompressedSha256": "48cf1ca81271cc5acf14930b48ae7dfd06589162f1b9c2cebc213c7f518d22d7",
+    "sourceFiles": 176,
+    "compiledFiles": 174,
+    "localImportResolutions": 242,
+    "dependencyLinks": 21
+  },
+  "setup": "Reused exact compiled JavaScript from retained owned worktree; existing external code dependencies linked, internal workspace dependencies resolved into new owned checkout. No build, download, model copy, native invocation or installed switch. Initial bookkeeping count included four harness source files (180 instead of 176); production-only verification passed with no hash failures.",
+  "syntheticTests": {
+    "command": "node --test packages/test-harness/editing/service-cpu-profile.test.mjs",
+    "passed": 4,
+    "failed": 0,
+    "durationMs": 1144.920792,
+    "scope": "Synthetic child IPC only; own-process CPU/raw-sample delivery, interruption flush, RSS guard, arm deadline. Each test has 5s timeout and cleanup kill after 2s.",
+    "projectServices": 0,
+    "nativeInvocations": 0
+  },
+  "staticChecks": {
+    "nodeCheckFourHarnessFiles": "passed",
+    "oxlintFourHarnessFiles": "passed",
+    "oxfmtFourHarnessFiles": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "preflight": {
+    "at": "2026-10-01T09:03:07.490656+00:00",
+    "status": "BUSY; dispatch deferred, no polling or retry",
+    "reason": "Unrelated compiler processes at 303.2% and 250.3% CPU, testing browser renderers at 155.8% and 63.7%, plus other scene/render work. Own-lane coordination does not establish whole-host isolation.",
+    "rawInventory": {
+      "retainedPath": "/tmp/screenrec-owner-profile-preparation-processes.txt",
+      "sha256": "252edeb9b0e05c4f0e8901917d8f6b2ae3523bc4f60f640ddc07eb03ae70e135",
+      "includedInRepository": false
+    }
+  },
+  "retainedOutsideCheckout": {
+    "catalog": "/private/tmp/sr-source-cardinality-uywBEr",
+    "seedEvidence": "/tmp/screenrec-24z-source-cardinality-proof1",
+    "preparedRuntime": "/tmp/screenrec-source-owner-profile",
+    "worker": "/private/tmp/screenrec-12b-actual-native-build/arm64-apple-macosx/debug/screenrec-native"
+  },
+  "nextBoundary": "Separately coordinate a future window, confirm own lanes and inspect fresh whole-host preflight, reverify all pins, then obtain root release before exactly one bounded profile attempt. No timer, monitor or retry created.",
+  "harnessPins": {
+    "packages/test-harness/editing/evidence-service.mjs": "f5993b70c7d1c6b69f3d53287f58a6766d93a649a784e147ae91f45250211ecc",
+    "packages/test-harness/editing/source-cardinality.mjs": "7251c1db9fad5bd48f595e7f9a722343b2d5bdf973dd7074c18fbcaa8dc7ac98",
+    "packages/test-harness/editing/service-cpu-profile.mjs": "5230d3b117939871144da1b0d6378a96cdd249cd68461c4789e937a332b89673",
+    "packages/test-harness/editing/service-cpu-profile.test.mjs": "144481bc72f10312e356beb1d6dc10fe68db215fc6897f0bdb1f7934d9f7c583"
+  }
+}

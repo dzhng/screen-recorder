@@ -1,7 +1,8 @@
 # 24z — Source-selection cardinality in bounded cursor reads
 
 Status: **open**. Correctness diagnostic completed; the single timed cohort is red
-on a contended machine, and owner profiling is unavailable. No production defect
+on a contended machine; separate owner-profile preparation is complete, with actual
+profiling deferred by whole-host contention. No production defect
 or fix is selected. Dependencies:
 [24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
 Final production acceptance still follows [23](23-cutover.md).
@@ -121,3 +122,26 @@ Keep this child open. Further work needs reviewed runtime authority and owner
 attribution before selecting an optimization. This pass does not authorize another
 cohort, relax the budget, close the preserved default-SDK large-edit-receipt
 failure, or claim full slice-24 acceptance.
+
+## Separate owner-profile preparation
+
+The [preparation record](../assets/24z-owner-profile-preparation/verification.json)
+and [review](../assets/24z-owner-profile-preparation/review.json) preserve a separately
+pinned runtime for owner attribution against the retained catalog. The original
+red cohort and its frozen-worker authority remain unchanged. Exact query sources,
+compiled modules and local import resolution are checked independently of the
+current worker's provenance; this runtime does not inherit a performance verdict.
+
+The harness has an opt-in profile phase using the existing service IPC owner.
+Sampling ends before oracle comparisons and artifact serialization; native work
+inside a profiled read is refused. Synthetic lifecycle checks cover delivery,
+interruption and operator limits, but do not establish actual service integration.
+
+Preparation recorded **zero actual profile attempts, project read attempts or
+service starts**. The whole-host preflight showed substantial unrelated compiler
+and renderer activity, so dispatch was deferred without polling or retry. Raw
+process inventories remain outside the repository; their hashes are retained.
+A future attempt requires a separately coordinated window, fresh whole-host
+inspection and reverified runtime pins. The prepared catalog and isolated runtime
+remain available even if the main camera implementation changes. No owner
+attribution, optimization or broader acceptance is claimed.

@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { profileLimits } from "./service-cpu-profile.mjs";
 import { mkdir, mkdtemp, readFile, realpath, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { createRequire } from "node:module";
@@ -21,12 +23,18 @@ const { values } = parseArgs({
   options: {
     out: { type: "string" },
     phase: { type: "string", default: "verify" },
+    prepared: { type: "string" },
     "wrong-clock": { type: "boolean", default: false },
   },
 });
 assert(values.out, "Use one retained output directory for prepare, verify and measure phases");
-assert(["prepare", "verify", "measure"].includes(values.phase));
+assert(["prepare", "verify", "measure", "profile"].includes(values.phase));
 assert(!values["wrong-clock"] || values.phase === "verify");
+const profiling = values.phase === "profile";
+assert(
+  profiling === Boolean(values.prepared),
+  "Only profile uses an existing --prepared evidence directory",
+);
 const out = resolve(values.out);
 await mkdir(out, { recursive: true });
 const report = {
@@ -51,7 +59,21 @@ const report = {
 };
 const name = values["wrong-clock"] ? "wrong-clock" : values.phase;
 const save = () => writeFile(join(out, `${name}-report.json`), JSON.stringify(report, null, 2));
-const fixtureFile = join(out, "fixture.json");
+if (profiling) {
+  report.scope =
+    "Service-owner CPU attribution only, one retained-catalog read per arm; no latency SLA or source-cardinality causality claim";
+  report.controls = {
+    occurrences,
+    leadingEmpty,
+    rowLimit,
+    range,
+    cardinalities: [512, 1024],
+    collectionsPerArm: 1,
+    expectedPageRows: [0, 43, 43, 43, 43, 43, 35],
+    limits: profileLimits,
+  };
+}
+const fixtureFile = join(profiling ? resolve(values.prepared) : out, "fixture.json");
 const configuration = join(out, `${name}-service.json`);
 const operationsFile = join(out, `${name}-native.jsonl`);
 const prepared =
@@ -68,6 +90,7 @@ await writeFile(
         ? ["media.probe", "media.sourceEvidence", "storage.clearRenderWorkspace"]
         : ["storage.clearRenderWorkspace"],
     operationsFile,
+    ...(profiling ? { cpuProfile: { directory: out } } : {}),
   }),
 );
 const service = new JourneyService(
@@ -78,11 +101,75 @@ const service = new JourneyService(
 );
 const call = (operation, params, options = {}) =>
   service.call(operation, params, { transport: "mcp", ...options });
-let client;
+let client, watchdog, softDeadline, armDeadline, armHardDeadline, activeProfileArm;
+let overallEndsAt = Infinity,
+  profileStopAttempted = false,
+  closingTransports;
+const abort = new AbortController();
+const closeTransports = () =>
+  (closingTransports ??= Promise.allSettled([client?.close(), service.mcp?.close()]));
+const abortProfile = (error) => {
+  abort.abort(error);
+  void closeTransports();
+};
+const hardStop = (error) => {
+  abortProfile(error);
+  const child = service.child;
+  if (child && child.exitCode === null && child.signalCode === null) child.kill("SIGKILL");
+};
+const recordProfile = (value) => {
+  if (value && !report.profiles.some((profile) => profile.arm === value.arm))
+    report.profiles.push(value);
+  if (value?.arm === activeProfileArm) activeProfileArm = undefined;
+};
+async function profileContext(stage) {
+  const snapshot = (await run("ps", ["-axo", "pid,ppid,etime,pcpu,rss,command"], { timeout: 2000 }))
+    .stdout;
+  const file = join(out, `profile-${stage}-processes.txt`);
+  await writeFile(file, snapshot);
+  report.contexts ??= [];
+  report.contexts.push({
+    stage,
+    at: new Date().toISOString(),
+    file,
+    sha256: hash(snapshot),
+    meaning:
+      "Raw context, not proof of whole-host isolation; execution requires separate coordinated preflight",
+  });
+}
+function cpuRequest(action, arm, reason) {
+  const id = randomUUID(),
+    type = `cpu.${action}`;
+  return new Promise((resolve, reject) => {
+    const finish = (error, result) => {
+      clearTimeout(timer);
+      service.child.off("message", received);
+      service.child.off("exit", exited);
+      if (error) reject(error);
+      else resolve(result);
+    };
+    const received = (message) => {
+      if (message.id === id && message.type === type)
+        finish(message.error ? new Error(message.error) : null, message.result);
+    };
+    const exited = () => finish(new Error("Profile service exited before its acknowledgment"));
+    const timer = setTimeout(
+      () => finish(new Error("CPU profiler control deadline")),
+      Math.max(1, Math.min(profileLimits.controlMs, overallEndsAt - performance.now())),
+    );
+    service.child.on("message", received);
+    service.child.once("exit", exited);
+    service.child.send({ id, type, arm, reason }, (error) => {
+      if (error) finish(error);
+    });
+  });
+}
 try {
   assert.equal(
     hash(await readFile(process.env.SCREENREC_NATIVE)),
-    "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+    profiling
+      ? "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba"
+      : "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
   );
   report.runtime = {
     node: process.version,
@@ -97,6 +184,13 @@ try {
     "packages/core/dist/project-events.js",
     "packages/test-harness/editing/source-cardinality.mjs",
     "packages/test-harness/editing/source-cardinality-fixture.mjs",
+    ...(profiling
+      ? [
+          "packages/test-harness/editing/service-cpu-profile.mjs",
+          "packages/test-harness/editing/evidence-service.mjs",
+          "packages/test-harness/editing/source-evidence-fixture.mjs",
+        ]
+      : []),
   ])
     report.runtime.files[file] = hash(await readFile(join(root, file)));
   report.runtime.resolvedModules = [];
@@ -133,7 +227,119 @@ try {
       sha256: hash(await readFile(path)),
     });
   }
+  if (profiling) {
+    const retained = resolve(values.prepared);
+    const manifest = JSON.parse(
+      await readFile(
+        join(root, "specs/agent-editing/assets/24z-source-cardinality/manifest.json"),
+        "utf8",
+      ),
+    );
+    for (const file of ["fixture.json", "build-identity.json", "measure-report.json"])
+      assert.equal(
+        hash(await readFile(join(retained, file))),
+        manifest.files[`cohort/${file}`].sha256,
+        "Retained seed evidence changed",
+      );
+    const seed = JSON.parse(await readFile(join(retained, "measure-report.json"), "utf8"));
+    assert.equal(
+      seed.runtime.nativeSha256,
+      "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+    );
+    assert.equal(home, seed.home);
+    assert.notEqual(
+      await realpath(process.env.SCREENREC_NATIVE),
+      "/private/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    );
+    const identity = JSON.parse(await readFile(join(retained, "build-identity.json"), "utf8"));
+    const prefixes = [
+      "packages/core/",
+      "packages/composition/",
+      "packages/protocol/",
+      "packages/client/",
+      "apps/service/",
+      "apps/cli/",
+    ];
+    const matched = {};
+    const imports = new Map();
+    for (const [field, count] of [
+      ["sourceFiles", 176],
+      ["builtFiles", 174],
+    ]) {
+      const files = Object.entries(identity[field]).filter(([file]) =>
+        prefixes.some((prefix) => file.startsWith(prefix)),
+      );
+      assert.equal(files.length, count);
+      for (const [file, sha256] of files) {
+        const bytes = await readFile(join(root, file));
+        assert.equal(hash(bytes), sha256, `${file} differs from the retained query implementation`);
+        if (field === "builtFiles")
+          for (const match of bytes
+            .toString()
+            .matchAll(/(?:from\s*|import\s*\(\s*)["'](@screenrec\/[^"']+)["']/g)) {
+            const path = await realpath(createRequire(join(root, file)).resolve(match[1]));
+            assert(
+              path.startsWith((await realpath(root)) + "/"),
+              "Workspace import escaped the profile checkout",
+            );
+            assert.equal(
+              hash(await readFile(path)),
+              identity.builtFiles[path.slice((await realpath(root)).length + 1)],
+            );
+            imports.set(`${file}:${match[1]}`, {
+              importer: file,
+              specifier: match[1],
+              path,
+              sha256: hash(await readFile(path)),
+            });
+          }
+      }
+      matched[field] = count;
+    }
+    report.provenance = {
+      retained,
+      home,
+      seedNativeSha256: seed.runtime.nativeSha256,
+      profileNativePath: await realpath(process.env.SCREENREC_NATIVE),
+      profileNativeSha256: report.runtime.nativeSha256,
+      matched,
+      imports: [...imports.values()],
+    };
+    report.profiles = [];
+    report.runtime.sdkLifecycle = {};
+    for (const module of [
+      "@modelcontextprotocol/sdk/client/stdio.js",
+      "@modelcontextprotocol/sdk/shared/protocol.js",
+    ]) {
+      const file = new URL(import.meta.resolve(module));
+      report.runtime.sdkLifecycle[module] = {
+        file: file.pathname,
+        sha256: hash(await readFile(file)),
+      };
+    }
+    report.profileAttribution =
+      "One read per arm, with fresh revision-context initialization and no warmup; service CPU deltas include inspector control and sampling overhead. No latency SLA or cardinality-causality claim.";
+    await writeFile(join(out, "profile-attempt.json"), JSON.stringify(report.provenance, null, 2), {
+      flag: "wx",
+    });
+    await profileContext("before");
+    overallEndsAt = performance.now() + profileLimits.overallMs;
+    softDeadline = setTimeout(
+      () => abortProfile(new Error("Overall profile deadline: reserved flush/shutdown interval")),
+      profileLimits.overallMs - profileLimits.controlMs - profileLimits.shutdownMs,
+    );
+    watchdog = setTimeout(() => {
+      hardStop(new Error("Overall profile hard cap"));
+    }, profileLimits.overallMs);
+  }
   await service.start();
+  if (profiling)
+    service.child.on("message", (message) => {
+      if (message.type === "cpu.guard") {
+        recordProfile(message.profile);
+        abortProfile(new Error(`Service CPU-profile guard: ${message.reason}`));
+      }
+    });
   if (values.phase === "prepare") {
     const started = performance.now();
     const fixture = await prepareCardinality(home, out, call);
@@ -176,7 +382,22 @@ try {
         rows = [],
         pages = [],
         seen = new Set();
-      let cursor;
+      let cursor, nativeBefore, nativeCallBoundary;
+      if (profiling) {
+        nativeBefore = await readFile(operationsFile, "utf8");
+        armDeadline = setTimeout(
+          () => abortProfile(new Error("Arm profile deadline: reserved flush interval")),
+          profileLimits.armMs - profileLimits.controlMs,
+        );
+        armHardDeadline = setTimeout(
+          () => hardStop(new Error("Arm profile hard cap")),
+          profileLimits.armMs,
+        );
+        activeProfileArm = arm.cardinality;
+        profileStopAttempted = false;
+        const started = await cpuRequest("start", arm.cardinality);
+        assert.equal(started.pid, service.child.pid);
+      }
       const started = performance.now();
       do {
         const params = {
@@ -192,7 +413,11 @@ try {
         let requests = 0;
         for (;;) {
           if (transport === "mcp") {
-            delivered = await client.callTool({ name: "cursor.raw", arguments: params });
+            delivered = profiling
+              ? await client.callTool({ name: "cursor.raw", arguments: params }, undefined, {
+                  signal: abort.signal,
+                })
+              : await client.callTool({ name: "cursor.raw", arguments: params });
             assert.equal(
               delivered.structuredContent?.ok,
               true,
@@ -202,6 +427,10 @@ try {
           } else response = await call("cursor.raw", params, { transport });
           requests++;
           if (response.state === "ready") break;
+          assert(
+            !profiling,
+            "Profile requires existing ready evidence; no preparation polling is permitted",
+          );
           assert(
             ["queued", "processing"].includes(response.state),
             `Evidence preparation: ${response.state} (${response.reason})`,
@@ -228,9 +457,40 @@ try {
           delivered,
         });
         cursor = next;
-        assert(pages.length <= occurrences, "Continuation exceeded one checkpoint per occurrence");
+        assert(
+          pages.length <= (profiling ? 7 : occurrences),
+          "Continuation exceeded its page bound",
+        );
+        if (profiling && rows.length < rowLimit)
+          assert(pages.length < 7, "Profile would require an eighth page");
       } while (rows.length < rowLimit);
       const totalMs = performance.now() - started;
+      if (profiling) {
+        profileStopAttempted = true;
+        recordProfile(await cpuRequest("stop", arm.cardinality, "complete"));
+        clearTimeout(armDeadline);
+        clearTimeout(armHardDeadline);
+        const nativeAfter = await readFile(operationsFile, "utf8");
+        assert.equal(nativeAfter, nativeBefore, "A profiled read invoked native work");
+        nativeCallBoundary = {
+          before: {
+            bytes: Buffer.byteLength(nativeBefore),
+            sha256: hash(nativeBefore),
+            count: nativeBefore.trim().split("\n").filter(Boolean).length,
+          },
+          after: {
+            bytes: Buffer.byteLength(nativeAfter),
+            sha256: hash(nativeAfter),
+            count: nativeAfter.trim().split("\n").filter(Boolean).length,
+          },
+          invocationsDuringRead: 0,
+        };
+        abort.signal.throwIfAborted();
+        assert.deepEqual(
+          pages.map(({ response }) => response.page.rows.length),
+          report.controls.expectedPageRows,
+        );
+      }
       // Time delivery of the whole prefix; oracle comparisons, serialization telemetry and file IO are outside it.
       for (const page of pages) {
         const { response, delivered, params } = page;
@@ -255,7 +515,7 @@ try {
           page.mcpResultBytes = Buffer.byteLength(JSON.stringify(delivered));
         }
         delete page.delivered;
-        if (label === "warm")
+        if (label === "warm" || profiling)
           assert.equal(page.requests, 1, "A warm collection must use already prepared evidence");
       }
       if (values["wrong-clock"])
@@ -274,6 +534,7 @@ try {
       );
       const result = {
         cardinality: arm.cardinality,
+        ...(nativeCallBoundary ? { nativeCallBoundary } : {}),
         label,
         transport,
         totalMs,
@@ -336,7 +597,8 @@ try {
       return { result, rows, pages };
     };
     const cold = new Map();
-    for (const arm of prepared.arms) cold.set(arm.cardinality, await collect(arm, "cold"));
+    for (const arm of prepared.arms)
+      cold.set(arm.cardinality, await collect(arm, profiling ? "profile" : "cold"));
     if (values.phase === "measure") {
       for (let repeat = 0; repeat < report.controls.warmCollectionsPerArm; repeat++) {
         const order = repeat % 2 ? [...prepared.arms].reverse() : prepared.arms;
@@ -362,7 +624,7 @@ try {
             "Descriptive post-collection service RSS in one shared process; no duration ratio gate or per-arm attribution",
         };
       });
-    } else {
+    } else if (!profiling) {
       for (const arm of prepared.arms) {
         const mcp = cold.get(arm.cardinality);
         const cli = await collect(arm, "parity", "cli");
@@ -392,6 +654,14 @@ try {
       }
       report.pinnedRefusal = "ARTIFACT_CHANGED for changed full-window query";
     }
+    if (profiling)
+      assert.deepEqual(
+        report.profiles.map(({ arm, reason }) => ({ arm, reason })),
+        [
+          { arm: 512, reason: "complete" },
+          { arm: 1024, reason: "complete" },
+        ],
+      );
     report.passed = report.arms ? report.arms.every((arm) => arm.p95Ms <= 250) : true;
     if (!report.passed)
       throw new Error(
@@ -402,8 +672,47 @@ try {
   report.error = { message: error.message, stack: error.stack };
   throw error;
 } finally {
-  await client?.close();
-  await service.stop();
+  clearTimeout(armDeadline);
+  clearTimeout(softDeadline);
+  if (
+    profiling &&
+    activeProfileArm !== undefined &&
+    !profileStopAttempted &&
+    service.child?.connected &&
+    performance.now() < overallEndsAt
+  ) {
+    profileStopAttempted = true;
+    try {
+      recordProfile(await cpuRequest("stop", activeProfileArm, "interrupted"));
+    } catch (error) {
+      report.profileFlushError = error.message;
+    }
+  }
+  if (profiling) {
+    const transports = await closeTransports();
+    const serviceResult = await Promise.allSettled([service.stop()]);
+    report.shutdownErrors = [...transports, ...serviceResult]
+      .filter((result) => result.status === "rejected")
+      .map((result) => result.reason.message);
+    if (report.shutdownErrors.length) {
+      report.passed = false;
+      process.exitCode = 1;
+    }
+  } else {
+    await client?.close();
+    await service.stop();
+  }
+  clearTimeout(watchdog);
+  clearTimeout(armHardDeadline);
+  if (profiling && report.contexts?.length) {
+    try {
+      await profileContext("after");
+    } catch (error) {
+      report.contextError = error.message;
+      report.passed = false;
+      process.exitCode = 1;
+    }
+  }
   report.nativeOperations = (await readFile(operationsFile, "utf8"))
     .trim()
     .split("\n")
