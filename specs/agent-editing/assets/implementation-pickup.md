@@ -15,7 +15,9 @@ workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21f atomic public selection](../slices/21f3-public-camera-selection.md).
+Continue [crash-source publication recovery](../slices/21f3c-source-publication-recovery.md)
+before enabling [21f atomic public selection](../slices/21f3-public-camera-selection.md).
+Independent allocation/controller preparation may continue in its isolated branch.
 [Camera support without primary pictures](../slices/21f3b-independent-camera-clock.md)
 and its shared-interruption correction are
 [merged-verified](21f3b-shared-interruption/merged-verification.json).

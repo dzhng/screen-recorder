@@ -1,0 +1,35 @@
+{
+  "kind": "crash-source-recovery-plan-validation",
+  "observedAtUTC": "2026-10-01T13:42:16.255208+00:00",
+  "scope": "Spec and handoff review only; native recovery and complete selector gates remain unverified",
+  "sourceCheckpoint": "2ed83bff",
+  "independentDrafts": [
+    "fewest-slices",
+    "risk-first",
+    "single-owner seams"
+  ],
+  "synthesis": [
+    "Private recovery basis in the sole source receipt, with complete original journals preserved and consumed prefix separately pinned",
+    "Shared existing native support inspector; unchanged ordinary completion verification",
+    "Existing lifecycle reconciliation identity persisted before dispatch; not claimed as lost native generation or timing provenance",
+    "Capture-only staged full receipt and its own frozen identity verified against admitted canonical descriptors; fact stripped before generic ingestion and transient proof removed before READY"
+  ],
+  "settledReview": {
+    "risk": "No concrete remaining incompatibility in verifier, normalizer or freeze consumers",
+    "ownership": "Receipt self-identity, staged member resolution, generic receipt deep equality and transient proof lifetime made explicit",
+    "root": "One authority owner, no parallel support arithmetic, no journal rewrite, one queue/handoff; parent statuses agree"
+  },
+  "feedbackPreserved": [
+    "Zero editorial decisions; all authorship belongs to the external caller",
+    "Consumer screenrec skill stays a caller artifact",
+    "Retained four-minute take, saved marks and accepted audition identities reused",
+    "Chosen 200 ms room-tone loop retained with tolerated seam; no retuning",
+    "No routine human repetition or personal keep/remove prerequisite",
+    "Physical, acoustic, installed and failed performance claims remain scoped and open"
+  ],
+  "nextPickup": "21f3c native crash-source authority, then complete atomic 21f3 allocation-to-project gate before selector exposure",
+  "runtimeAcceptanceClaimed": false,
+  "productionFilesChanged": false,
+  "localFileLinksValidated": 551,
+  "errors": []
+}

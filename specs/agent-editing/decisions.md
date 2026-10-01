@@ -48,6 +48,49 @@ owners. No automatic project, presenter treatment or capture-start authoring
 controls are introduced. Physical 20 acceptance and unchanged stop/sync gates
 remain separate from these isolated checkpoints.
 
+## Crash-source authority prerequisite
+
+Three fresh read-only drafts examined recovery with distinct fewest-slices,
+risk-first and ownership lenses. All found a gap between readable recovered media
+and admissible captured-source evidence: media recovery can succeed after a crash,
+but ordinary source authority requires a completion record that the crash prevented.
+[21f3c](slices/21f3c-source-publication-recovery.md) resolves that native contract
+before the complete public-selection checkpoint. Allocation/controller preparation
+can continue in isolation; no selector is exposed from a partial gate.
+
+The fewest-slices draft placed private recovery provenance in the existing source
+receipt. The other drafts proposed a new journal containing the validated prefix
+and a recovery event. Keep the first storage choice: preserve the complete original
+journal, including a torn tail, and pin the consumed prefix separately inside the
+sole authority receipt. A crash is then visible as a crash; a synthesized finish
+cannot masquerade as normal completion. This avoids a second journal meaning or
+changing camera's journal locator. Existing completed receipts retain their strict
+verification; none is upgraded or rewritten.
+
+Adopt the ownership draft's shared video-support inspector and the risk draft's
+generation fence. Recovery and source verification use one inspection primitive,
+so a recovered duration is checked against actual media rather than duplicated
+arithmetic. If a crash lost the first native publication report, the service stores
+one reconciliation identity before dispatching recovery. That identity orders
+service work; it does not pretend to recover the lost native generation or prove
+timing. Existing lifecycle sequencing rejects late native reports.
+
+The settled consumer review found an additional gate: the importer currently
+expects ordinary completion. Carry the entire private source receipt into its
+existing staged workspace and verify it through the same native authority owner,
+using pinned canonical descriptors and the receipt's own frozen whole hash. A
+verified recovered-support fact replaces the absent completion comparison only
+for explicit recovery provenance. Merely
+ignoring missing completion or trusting the public duration would admit unproved
+sources. Consume that fact before evidence ingestion and remove the transient
+staged authority before READY, retaining its frozen identity in the unfinished
+capture intent. Ordinary portable evidence has no new receipt inventory or donor
+dependency. The atomic selection checkpoint verifies the complete admission and
+donor-deletion journey.
+
+These are technical preservation choices. They add no layout, automatic project,
+editing policy, personal recording task, new capture or release acceptance claim.
+
 ## Independent drafts
 
 Three fresh, independent whole-plan drafts received the same discovery brief and

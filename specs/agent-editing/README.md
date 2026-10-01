@@ -22,11 +22,11 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: [21f3 atomic public camera selection](slices/21f3-public-camera-selection.md).**
+**Next pickup: [21f3c crash-source publication recovery](slices/21f3c-source-publication-recovery.md), then atomic public camera selection.**
 Independent publication, camera clock/support and fresh capture coordination are
 merged-verified.
 Keep public camera selection rejected until allocation, the actual native
-controller, recovery, independent source admission and explicit project use pass
+controller, crash-source recovery, independent source admission and explicit project use pass
 together. Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
 Preserve installed span transactions until the explicit cutover in 23.
@@ -37,7 +37,7 @@ prerequisites do not prohibit isolated implementation preparation.
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
 | [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and current generic preparation readiness |
-| [20 / 21](slices/21-webcam.md#implementation-graph) | Independent camera support, then atomic public selection | Physical synchronization, live lifecycle and completed-stop deadline |
+| [20 / 21](slices/21-webcam.md#implementation-graph) | Crash-source publication recovery, then atomic public selection | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
 | [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md) and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
 
@@ -243,6 +243,7 @@ implementation readiness from acceptance prerequisites.
   - [ ] [21f3 — Atomic public camera selection](slices/21f3-public-camera-selection.md)
     - [x] [21f3a — Independent closed-source publication](slices/21f3a-independent-publication.md)
     - [x] [21f3b — Camera support without primary pictures](slices/21f3b-independent-camera-clock.md)
+    - [ ] [21f3c — Native crash-source publication recovery](slices/21f3c-source-publication-recovery.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
@@ -337,3 +338,8 @@ checks the expanded graph and local links after implementation reslicing. The
 the remaining camera seams. The [feedback maintenance review](assets/planning/feedback-maintenance.json)
 reconciles the current handoff and accepted results. These document checks are
 distinct from runtime acceptance.
+
+The [crash-source recovery review](assets/planning/camera-recovery-maintenance.json)
+records the native authority prerequisite and its staged admission contract.
+It preserves completed-source checks and original journals without adding an
+editorial policy or claiming physical acceptance.

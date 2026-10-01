@@ -45,7 +45,7 @@ scope. [21d durable source adoption](21d-captured-source-adoption.md) is verifie
 verified. Next is [21f](21f-public-camera-selection.md#implementation-checkpoints):
 capture facts, durable admission and fresh coordination are merged-verified.
 Independent publication and camera clock/support are merged-verified; atomic public
-selection remains the next checkpoint. The verified21c/21e prerequisites do not
+selection follows the new [crash-source recovery prerequisite](21f3c-source-publication-recovery.md). The verified21c/21e prerequisites do not
 permit a selector that cannot reach that complete path.
 Each child has one owning seam and a separate verification packet. Parent21
 stays open until its implementation children and actual physical/lifecycle

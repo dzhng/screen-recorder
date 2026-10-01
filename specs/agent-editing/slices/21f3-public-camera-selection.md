@@ -3,7 +3,9 @@
 Status: selector-free 21f2, native
 [independent publication](21f3a-independent-publication.md) and the
 [camera-origin prerequisite](21f3b-independent-camera-clock.md) are merged-verified.
-The complete atomic selector checkpoint is in isolated implementation. This is the third checkpoint
+The complete atomic selector checkpoint is in isolated preparation.
+[Crash-source publication recovery](21f3c-source-publication-recovery.md) must also
+pass before enabling selection. This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 
@@ -77,8 +79,13 @@ lifecycle transaction and native sequence; no second source transition engine.
 Immutable source-journal authority comes from 21f3a. Resolve the logical journal
 member from its published receipt, freeze the entire immutable file, and stage it
 under the importer's existing journal name. Do not freeze the growing live journal
-or relax whole-file identity. Existing recovery verifies each source's publication
-authority independently through allocated paths; a pending primary cannot hide a
+or relax whole-file identity. Stage the complete private source receipt and consume
+the native-verified admission fact under the
+[recovery proof contract](21f3c-source-publication-recovery.md#admission-consumes-the-complete-proof).
+Missing ordinary completion does not authorize skipping its replacement support
+proof. Existing recovery verifies each source's publication
+authority independently through allocated paths, including the
+[pre-completion crash prerequisite](21f3c-source-publication-recovery.md); a pending primary cannot hide a
 verified camera. Cancellation fences and joins unfinished donor borrowers through
 merged-verified 23f before discarding bytes. Ready acquisition originals retain
 their independent ownership.
