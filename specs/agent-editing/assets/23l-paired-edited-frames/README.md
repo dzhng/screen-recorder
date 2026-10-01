@@ -32,6 +32,9 @@ BGRA buffer with Rec.709 attachments, then publishes PNG through FrameImage;
 direct source publication uses its source buffer and default CIContext. The
 banked files match the frozen worker's exact source pins. No cause was proved and
 no production source, profile, worker or policy changed.
+The [lossless sample/source audit](../23l-color-path-audit/README.md) establishes
+that the differences already exist in encoded PNG values; the saved display oracle
+changes none of them. Missing intermediate buffers still prevent precise attribution.
 
 The final sample's independent native PTS is 134006597µs and duration 37582µs.
 Its mapped occupied segment clips support at 134025574µs, containing the requested

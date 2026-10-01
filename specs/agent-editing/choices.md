@@ -6418,3 +6418,8 @@ The [23l ledger](assets/23l-paired-edited-frames/choices.md) owns the matched-se
 and storage decisions. Root accepts compact storage only with exact reconstruction
 and immutable full archives retained separately; visual equivalence supplies no
 numerical tolerance or new production color policy.
+
+The [color-path audit ledger](assets/23l-color-path-audit/choices.md) limits attribution
+to retained encoded samples and rejects an oracle-only explanation. Root verified
+its exact archive/source/reference pins; missing intermediate buffers still prevent
+a production correction or numerical acceptance policy.
