@@ -1,34 +1,22 @@
-import { type RevisionStore } from "@screenrec/core/library";
+import type { CaptureSources } from "./capture-sources.js";
+import type { CaptureStore } from "@screenrec/core/capture-store";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { JobQueue } from "@screenrec/core/jobs";
-import type { DerivedCache } from "@screenrec/core/cache";
-import type { SourceEvidenceStore } from "@screenrec/core/evidence";
-import type { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
-import type { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
-import type { TranscriptStore } from "@screenrec/core/transcript";
 import type { CaptureService } from "./capture.js";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { ManagedFiles } from "./managed-files.js";
+import type { RecordingArtifactRetirement } from "./recording-artifact-retirement.js";
 
 type Owners = {
-  store: RevisionStore;
+  store: CaptureStore;
   jobs: JobQueue;
-  cache: DerivedCache;
-  source: SourceEvidenceStore;
-  scenes: SceneEvidenceStore;
-  index: ScreenshotIndexStore;
-  transcripts: TranscriptStore;
   capture: Pick<CaptureService, "quiesce">;
   delivery: DerivativeDelivery;
-  cleanupReady: () => Promise<void>;
-  exports?: {
-    retireOwner(
-      owner: { kind: "recording"; recordingId: string },
-      signal: AbortSignal,
-    ): Promise<void>;
-  };
-  files: Pick<ManagedFiles, "removeRecordingDirectory" | "removeCacheFiles" | "recordingDirectory">;
-};
+  files: Pick<ManagedFiles, "removeRecordingDirectory" | "recordingDirectory">;
+} & (
+  | { artifacts: RecordingArtifactRetirement; sources?: never }
+  | { sources: CaptureSources; artifacts?: never }
+);
 type Deleted = { recordingId: string; deleted: true };
 
 /** Orders existing resource owners; the catalog marker is the restart journal. */
@@ -51,18 +39,23 @@ export class RecordingDeletion {
   }
 
   private async remove(recordingId: string): Promise<Deleted> {
-    const { jobs, capture, cache, source, scenes, index, transcripts, store, cleanupReady, files } =
-      this.owners;
+    const { jobs, capture, files, artifacts, sources } = this.owners;
     const signal = this.lifetime.signal;
     try {
+      if (sources) {
+        await jobs.drainOwner({ kind: "recording", recordingId });
+        return await sources.retire(recordingId, signal, async (lifetime) => {
+          await capture.quiesce(recordingId);
+          return this.reclaim(recordingId, signal, lifetime);
+        });
+      }
       // A refusal from one owner must not abandon another owner's still-running shutdown.
       const stopped = await Promise.allSettled([
         jobs.drainOwner({ kind: "recording", recordingId: recordingId }),
         capture.quiesce(recordingId),
       ]);
       for (const result of stopped) if (result.status === "rejected") throw result.reason;
-      await this.owners.exports?.retireOwner({ kind: "recording", recordingId }, signal);
-      await cleanupReady();
+      await artifacts?.prepare(recordingId, signal);
       signal.throwIfAborted();
       const lifetime = await files
         .recordingDirectory(recordingId, signal)
@@ -71,20 +64,7 @@ export class RecordingDeletion {
           throw error;
         });
       try {
-        await cache.purgeOwner({ kind: "recording", recordingId: recordingId }, ({ ids, root }) =>
-          files.removeCacheFiles(ids, root, signal, lifetime?.handle),
-        );
-        await source.purge({ kind: "recording", recordingId }, signal);
-        await scenes.reclaim({ kind: "recording", recordingId }, () => false, signal);
-        await files.removeRecordingDirectory(recordingId, signal, lifetime?.handle);
-        await index.forgetOwner({ kind: "recording", recordingId }, signal);
-        // Native removed the transcript files with the recording root; only catalog rows remain.
-        await transcripts.purge({ kind: "recording", recordingId }, signal);
-        signal.throwIfAborted();
-        await jobs.forgetOwner({ kind: "recording", recordingId: recordingId });
-        signal.throwIfAborted();
-        store.finishDeletion(recordingId);
-        return { recordingId, deleted: true };
+        return await this.reclaim(recordingId, signal, lifetime?.handle);
       } finally {
         await lifetime?.handle.close();
       }
@@ -98,6 +78,23 @@ export class RecordingDeletion {
         true,
       );
     }
+  }
+
+  private async reclaim(
+    recordingId: string,
+    signal: AbortSignal,
+    lifetime?: { readonly fd: number },
+  ): Promise<Deleted> {
+    const { jobs, store, files, artifacts, sources } = this.owners;
+    await artifacts?.purge(recordingId, signal, lifetime);
+    await files.removeRecordingDirectory(recordingId, signal, lifetime);
+    await artifacts?.forget(recordingId, signal);
+    signal.throwIfAborted();
+    sources?.forget(recordingId);
+    await jobs.forgetOwner({ kind: "recording", recordingId });
+    signal.throwIfAborted();
+    store.finishDeletion(recordingId);
+    return { recordingId, deleted: true };
   }
 
   async resume(reportFailure: (error: unknown) => void): Promise<void> {

@@ -1,3 +1,4 @@
+import { constants, openSync, closeSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -9,6 +10,7 @@ import {
   lstat,
   realpath,
   symlink,
+  rename,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -22,7 +24,7 @@ async function fixture(t) {
   const root = await realpath(await mkdtemp(join(tmpdir(), "managed-files-")));
   t.after(() => rm(root, { recursive: true, force: true }));
   const home = join(root, "home");
-  await mkdir(join(home, "cache", "derived"), { recursive: true });
+  await mkdir(join(home, "cache", "derived"), { recursive: true, mode: 0o700 });
   const identity = async (path) => {
     const s = await lstat(path, { bigint: true });
     return { dev: String(s.dev), ino: String(s.ino) };
@@ -34,22 +36,40 @@ async function fixture(t) {
     expectedCacheRoot: await identity(join(home, "cache", "derived")),
   };
 }
-function call(operation, params) {
-  const p = spawnSync(native, [], {
-    input: JSON.stringify({ id: "storage-test", operation, params }) + "\n",
-    encoding: "utf8",
-    timeout: 30000,
-  });
-  assert.equal(p.error, undefined);
-  assert.equal(p.status, 0, p.stderr);
-  return JSON.parse(p.stdout);
+function recordingDescriptor(operation, params) {
+  if (operation !== "storage.removeRecordingDirectory") return undefined;
+  try {
+    return openSync(
+      join(params.home, "recordings", params.recordingId),
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW,
+    );
+  } catch (error) {
+    if (["ENOENT", "ENOTDIR", "ELOOP"].includes(error.code)) return undefined;
+    throw error;
+  }
+}
+function call(operation, params, descriptors) {
+  const fd = descriptors === undefined ? recordingDescriptor(operation, params) : undefined;
+  try {
+    const p = spawnSync(native, [], {
+      input: JSON.stringify({ id: "storage-test", operation, params }) + "\n",
+      encoding: "utf8",
+      timeout: 30000,
+      stdio: ["pipe", "pipe", "pipe", ...(descriptors ?? (fd === undefined ? [] : [fd]))],
+    });
+    assert.equal(p.error, undefined);
+    assert.equal(p.status, 0, p.stderr);
+    return JSON.parse(p.stdout);
+  } finally {
+    if (fd !== undefined) closeSync(fd);
+  }
 }
 test("recording deletion preserves sibling and model data and retries missing targets", async (t) => {
   const f = await fixture(t),
     recordingId = randomUUID(),
     sibling = randomUUID();
   for (const id of [recordingId, sibling]) {
-    await mkdir(join(f.home, "recordings", id, "source"), { recursive: true });
+    await mkdir(join(f.home, "recordings", id, "source"), { recursive: true, mode: 0o700 });
     await writeFile(join(f.home, "recordings", id, "source", "video.mov"), id);
   }
   await mkdir(join(f.home, "models"));
@@ -114,7 +134,7 @@ test("recording roots and ancestors cannot be symlinks; descendant links are unl
   await symlink(outside, target);
   assert.equal(call("storage.removeRecordingDirectory", params).error.code, "INVALID_STORAGE");
   await rm(target);
-  await mkdir(target);
+  await mkdir(target, { mode: 0o700 });
   await symlink(outside, join(target, "link"));
   assert.deepEqual(call("storage.removeRecordingDirectory", params).data, { removed: true });
   assert.equal(await readFile(join(outside, "sentinel"), "utf8"), "external");
@@ -167,8 +187,8 @@ for (const cache of [false, true])
     const external = cache
       ? join(outside, "derived", `${id}.cache`)
       : join(outside, id, "source", "video.mov");
-    await mkdir(resolve(inside, ".."), { recursive: true });
-    await mkdir(resolve(external, ".."), { recursive: true });
+    await mkdir(resolve(inside, ".."), { recursive: true, mode: 0o700 });
+    await mkdir(resolve(external, ".."), { recursive: true, mode: 0o700 });
     await writeFile(inside, "owned");
     await writeFile(external, "external-sentinel");
     const dylib = join(f.root, "swap.dylib");
@@ -192,7 +212,9 @@ for (const cache of [false, true])
           ids: [id],
         }
       : { home: f.home, expectedHome: f.expectedHome, recordingId: id };
+    const fd = recordingDescriptor(operation, params);
     const run = spawnSync(native, [], {
+      stdio: ["pipe", "pipe", "pipe", ...(fd === undefined ? [] : [fd])],
       input: JSON.stringify({ id: "race", operation, params }) + "\n",
       encoding: "utf8",
       timeout: 30000,
@@ -205,6 +227,7 @@ for (const cache of [false, true])
         SCREENREC_SWAP_EXTERNAL: outside,
       },
     });
+    if (fd !== undefined) closeSync(fd);
     assert.equal(run.status, 0, run.stderr);
     assert.match(run.stderr, /managed-swap-complete/);
     assert.deepEqual(JSON.parse(run.stdout).data, { removed: true });
@@ -222,7 +245,7 @@ test(
       wide = randomUUID(),
       deep = randomUUID();
     const wideRoot = join(f.home, "recordings", wide);
-    await mkdir(wideRoot, { recursive: true });
+    await mkdir(wideRoot, { recursive: true, mode: 0o700 });
     for (let batch = 0; batch < 32; batch++)
       await Promise.all(
         Array.from({ length: 64 }, (_, i) =>
@@ -240,10 +263,15 @@ test(
     await assert.rejects(lstat(wideRoot), { code: "ENOENT" });
     let nested = join(f.home, "recordings", deep);
     for (let depth = 0; depth <= 64; depth++) {
-      await mkdir(nested, { recursive: true });
+      await mkdir(nested, { recursive: true, mode: 0o700 });
       nested = join(nested, "nested");
     }
-    const child = spawn(native, [], { stdio: ["pipe", "pipe", "pipe"] });
+    const fd = recordingDescriptor("storage.removeRecordingDirectory", {
+      home: f.home,
+      recordingId: deep,
+    });
+    t.after(() => closeSync(fd));
+    const child = spawn(native, [], { stdio: ["pipe", "pipe", "pipe", fd] });
     const lines = createInterface({ input: child.stdout });
     const responses = lines[Symbol.asyncIterator]();
     let stderr = "";
@@ -340,4 +368,37 @@ test("native directory identity comparisons preserve inode bits above JavaScript
   };
   assert.deepEqual(request("9007199254740993").data, { removed: true });
   assert.equal(request("9007199254740992").error.code, "INVALID_STORAGE");
+});
+
+test("a replaced named recording refuses the stale descriptor and preserves both directories", async (t) => {
+  const f = await fixture(t),
+    recordingId = randomUUID();
+  const target = join(f.home, "recordings", recordingId),
+    moved = join(f.home, "moved");
+  await mkdir(target, { recursive: true, mode: 0o700 });
+  await writeFile(join(target, "original"), "original donor");
+  const params = { home: f.home, expectedHome: f.expectedHome, recordingId };
+  const fd = recordingDescriptor("storage.removeRecordingDirectory", params);
+  try {
+    assert.equal(call("storage.recordingDirectory", params, [fd]).ok, true);
+    await rename(target, moved);
+    await mkdir(target, { mode: 0o700 });
+    await writeFile(join(target, "replacement"), "replacement directory");
+    assert.equal(
+      call("storage.removeRecordingDirectory", params, [fd]).error.code,
+      "INVALID_STORAGE",
+    );
+    assert.equal(await readFile(join(moved, "original"), "utf8"), "original donor");
+    assert.equal(await readFile(join(target, "replacement"), "utf8"), "replacement directory");
+    assert.equal(
+      call("storage.removeRecordingDirectory", params, []).error.code,
+      "INVALID_STORAGE",
+    );
+    assert.equal(await readFile(join(target, "replacement"), "utf8"), "replacement directory");
+  } finally {
+    closeSync(fd);
+  }
+  assert.deepEqual(call("storage.removeRecordingDirectory", params).data, { removed: true });
+  assert.deepEqual(call("storage.removeRecordingDirectory", params, []).data, { removed: true });
+  assert.equal(await readFile(join(moved, "original"), "utf8"), "original donor");
 });

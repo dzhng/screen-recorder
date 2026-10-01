@@ -1,3 +1,4 @@
+import { RecordingArtifactRetirement } from "./recording-artifact-retirement.js";
 import { CaptureCleanup } from "./capture-cleanup.js";
 import { sourceExporter } from "./source-export.js";
 import { LibraryTimelineInspection } from "./timeline-inspection.js";
@@ -376,20 +377,23 @@ async function main(): Promise<void> {
   const deletion = new RecordingDeletion({
     store: catalog,
     jobs: queue,
-    cache,
-    source: evidence,
-    scenes: sceneEvidence,
-    index: indexEvidence,
-    transcripts: transcriptStore,
     capture,
     delivery: transfers,
     files,
-    exports: exportOwner,
-    cleanupReady: async () => {
-      await Promise.all([cacheReady, evidenceCleanup]);
-      if (cacheFailure) throw cacheFailure;
-      await clearRenderWorkspace(worker, renderWorkspace, cleanupLifetime.signal);
-    },
+    artifacts: new RecordingArtifactRetirement({
+      cache,
+      source: evidence,
+      scenes: sceneEvidence,
+      index: indexEvidence,
+      transcripts: transcriptStore,
+      files,
+      exports: exportOwner,
+      cleanupReady: async () => {
+        await Promise.all([cacheReady, evidenceCleanup]);
+        if (cacheFailure) throw cacheFailure;
+        await clearRenderWorkspace(worker, renderWorkspace, cleanupLifetime.signal);
+      },
+    }),
   });
 
   function resumeProcessing(): void {

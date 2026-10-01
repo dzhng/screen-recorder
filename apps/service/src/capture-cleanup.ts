@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { lstat, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/catalog";
 import { openDirectoryLease } from "@screenrec/core/files";
-import { type RevisionStore } from "@screenrec/core/library";
+import type { CaptureStore } from "@screenrec/core/capture-store";
 import { isSettled } from "@screenrec/core/capture-store";
 import type { JobExecution, JobQueue } from "@screenrec/core/jobs";
 import { nativeResult, MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
@@ -37,7 +37,7 @@ function cleanupResult(value: unknown): RoleResult[] {
 /** Recording lifetime and queue ownership stay shared with source processing and deletion. */
 export class CaptureCleanup {
   constructor(
-    private readonly store: RevisionStore,
+    private readonly store: CaptureStore,
     private readonly jobs: JobQueue,
     private readonly home: string,
     private readonly worker: MediaWorker,

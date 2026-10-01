@@ -1,9 +1,11 @@
 # 23f — Captured-source deletion and verified working-file cleanup
 
-Status: source-only lifetime reconnaissance complete; implementation proceeds from
-merged [21f2 capture coordination](21f2-capture-coordination.md). Later21f3 uses
-this same borrower lifetime; completion of parent21f is not a prerequisite. Installed
-switching and obsolete-owner removal remain under [23](23-cutover.md).
+Status: verified fresh service and native file-lifetime checkpoint on the integrated
+[21f2 capture coordinator](21f2-capture-coordination.md).
+[Evidence and retained failed controls](../assets/23f-capture-source-lifetime/README.md)
+cover public deletion/cleanup, donor borrowing, ready-source preservation and the
+required native descriptor fix. Installed switching and obsolete-owner removal
+remain under [23](23-cutover.md).
 
 ## Contract
 
@@ -32,7 +34,9 @@ no per-project allocation or second storage scanner.
 
 An unfinished capture acquisition is an acquisition-owned job, so draining only
 recording jobs is insufficient. For unfinished acquisitions, fence admission/retry against the recording's
-deletion state and join their attempts before donor removal. Already-ready
+deletion state and join their attempts before donor removal. Explicit imports also
+borrow managed donors: their frozen canonical member paths preserve that ownership
+through caller aliases. External imports retain their independent lifetime. Already-ready
 acquisition recovery keeps its independent publication contract.
 Use the existing shared recording-directory lease and native descriptor lifetime
 for donor reads; an acquisition-workspace lease cannot protect another tree.
@@ -41,6 +45,12 @@ the complete RecordingDeletion path: its capture.quiesce re-enters the serialize
 capture queue. Keep quiescence with the existing capture owner.
 Retire attempt/job resources through their existing owners and preserve durable
 replay identity. Startup resumes fenced deletion through the same owner.
+
+Cancel/discard enters that same donor-retirement scope before native cancellation,
+which can itself discard files. Its temporary fence does not pre-author a canceled
+take: completion can win the native race. Release the fence before notifying source
+admission of that retained completion. Canceled/deleting capture facts remain the
+durable availability authority; there is no second deletion journal.
 
 A ready acquisition already owns copied journal/proof/media and resource references.
 Recording deletion removes its donor tree, not those acquisition-owned originals,
@@ -69,12 +79,16 @@ usable with the donor unavailable. Assert exact originals and no project mutatio
 reuse existing retained media rather than generating speech or repeating auditions.
 A control that omits acquisition draining or its donor lease must fail.
 
-Use existing pinned native file/cleanup operations only on scratch paths where
-necessary to prove descriptor and proof semantics. Scripted worker controls isolate
-coordination but do not claim actual native removal/proof acceptance. Verify source
-and runtime identity before reuse; no frozen-worker replacement or native rebuild
-is implied by this contract. Keep installed deletion/cleanup preservation green
-through meaningful focused checks.
+Scripted worker controls isolate coordination; actual file/cleanup operations on
+scratch paths prove descriptor and publication-proof semantics separately.
+The retained worker accepted a stale descriptor and removed a replacement directory.
+That observed failure authorized the narrow native file-owner fix and an isolated
+offline build in `/tmp/screenrec-23f-files-build`. Its complete production native
+source manifest and new worker hash are retained with the evidence. No historical
+worker was replaced, and only file/cleanup operations ran on the new worker.
+Native removal now requires the supplied descriptor to identify the selected
+recording directory; a mismatch preserves both directories. Missing targets remain
+idempotent. Installed deletion/cleanup preservation uses its real artifact owners.
 
 ## Acceptance boundary and discretion
 

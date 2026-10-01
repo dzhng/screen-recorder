@@ -1,3 +1,4 @@
+import { openDirectoryLease } from "./files.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, mkdir, readFile, rm, writeFile, chmod } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -19,8 +20,7 @@ const signal = () => new AbortController().signal;
 async function fixture() {
   const root = await mkdtemp(join(tmpdir(), "capture-acquisition-"));
   cleanup.push(() => rm(root, { recursive: true, force: true }));
-  const donor = join(root, "donor", "source");
-  await mkdir(donor, { recursive: true });
+  let donor: string;
   async function reopen() {
     const captures = new CaptureStore(join(root, "catalog.sqlite"), {
       newId: randomUUID,
@@ -126,6 +126,8 @@ async function fixture() {
   }
   const state = await reopen();
   const recording = state.captures.allocate().recording;
+  donor = join(root, "recordings", recording.recordingId, "source");
+  await mkdir(donor, { recursive: true, mode: 0o700 });
   state.captures.ingestLifecycle(recording.recordingId, {
     sourceId: recording.sourceId,
     sequence: 1,
@@ -462,4 +464,37 @@ test("explicit imports keep their existing post-freeze donor access disposition"
   } finally {
     await chmod(f.donor, 0o700);
   }
+});
+
+test("a busy donor lease preserves frozen capture identity for explicit retry", async () => {
+  const f = await fixture();
+  await writeFile(
+    join(f.donor, "capture.journal.jsonl"),
+    JSON.stringify({ sessionID: f.recording.sourceId }),
+  );
+  const job = f.admit(f.recording.recordingId);
+  f.queue.start();
+  await f.queue.idle();
+  if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
+  const frozen = f.acquisitions.intent(job.target.acquisitionId);
+  await writeFile(join(f.donor, "video.mov"), "video");
+  const lease = await openDirectoryLease(dirname(f.donor), "exclusive");
+  try {
+    f.queue.retry(job.jobId);
+    await f.queue.idle();
+    expect(f.queue.inspect(job.jobId)).toMatchObject({
+      state: "failed",
+      errorCode: "RECORDING_BUSY",
+      retryable: true,
+    });
+    expect(f.acquisitions.intent(job.target.acquisitionId)).toEqual(frozen);
+  } finally {
+    await lease.close();
+  }
+  f.queue.retry(job.jobId);
+  await f.queue.idle();
+  expect(f.queue.inspect(job.jobId)).toMatchObject({
+    state: "ready",
+    result: { acquisitionId: job.target.acquisitionId },
+  });
 });

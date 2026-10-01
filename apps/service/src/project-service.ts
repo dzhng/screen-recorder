@@ -1,3 +1,5 @@
+import { RecordingDeletion } from "./deletion.js";
+import { CaptureCleanup } from "./capture-cleanup.js";
 import { ManagedStorage } from "@screenrec/core/storage";
 import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
 import { voiceRenderer } from "./voice.js";
@@ -50,9 +52,9 @@ import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { AssetStore } from "@screenrec/core/assets";
 import { CatalogError } from "@screenrec/core/catalog";
-import { CaptureStore } from "@screenrec/core/capture-store";
+import { CaptureStore, isSettled } from "@screenrec/core/capture-store";
 import { CaptureService } from "./capture.js";
-import { CaptureAdmission } from "./capture-admission.js";
+import { CaptureSources } from "./capture-sources.js";
 import { openControl, type ControlChannel } from "./control.js";
 import type { Readable, Writable } from "node:stream";
 import { JobQueue, type JobTargets } from "@screenrec/core/jobs";
@@ -93,6 +95,7 @@ export async function startProjectService(options: {
   let jobs: JobQueue | undefined;
   let listenerStarting: Promise<LocalListener> | undefined;
   let deletion: ProjectDeletion | undefined;
+  let recordingDeletion: RecordingDeletion | undefined;
   let exports: MediaExports | undefined;
   let packages: ProjectPackages | undefined;
   let storage: ManagedStorage | undefined;
@@ -121,6 +124,7 @@ export async function startProjectService(options: {
         reconciliation,
         jobs?.close(),
         deletion?.close(),
+        recordingDeletion?.close(),
         exports?.close(),
         packages?.close(),
         storage?.close(),
@@ -180,14 +184,25 @@ export async function startProjectService(options: {
     const targets: JobTargets = {
       pin(target) {
         if (target.kind === "import") assets.intent(target.importId);
-        else if (target.kind === "acquisition") acquisitions.intent(target.acquisitionId);
-        else if (target.kind === "asset") assets.get(target.assetId);
+        else if (target.kind === "acquisition") {
+          if (!captureSources.available(target.acquisitionId))
+            throw new CatalogError("NOT_FOUND", "Capture source donor is unavailable");
+        } else if (target.kind === "asset") assets.get(target.assetId);
         else if (target.kind === "project")
           projects.requireRevision(target.projectId, target.revisionId);
-        else throw new CatalogError("NOT_READY", "Unsupported project service job target");
+        else if (target.kind === "recording" && target.revisionId === null) {
+          const recording = captures.get(target.recordingId);
+          if (!isSettled(recording.state) || recording.state === "canceled")
+            throw new CatalogError(
+              "INVALID_STATE",
+              "Source-owned work requires a settled available recording",
+            );
+          return { ...target, revisionId: null };
+        } else throw new CatalogError("NOT_READY", "Unsupported project service job target");
         return target;
       },
       isAvailable(target) {
+        if (target.kind === "recording") return captures.isAvailable(target.recordingId);
         if (target.kind === "asset") return assets.has(target.assetId);
         if (target.kind === "project")
           return projects.hasRevision(target.projectId, target.revisionId);
@@ -200,12 +215,16 @@ export async function startProjectService(options: {
           throw error;
         }
       },
-      isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
+      isDeleting: (owner) =>
+        owner.kind === "recording"
+          ? captures.isDeleting(owner.recordingId)
+          : owner.kind === "project" && projects.isDeleting(owner.projectId),
       isCapturing: () => captures.unsettled().length > 0,
     };
     await acquisitionImports.recover(new AbortController().signal);
     await sceneRecords.recoverPending("asset", new AbortController().signal);
     await transcriptStore.recoverPendingAssets(new AbortController().signal);
+    let captureCleanup: CaptureCleanup;
     let pointers: PointerPreparation;
     let preview: ProjectPreviewInspection;
     let mediaFrames: MediaFrameInspection;
@@ -218,10 +237,10 @@ export async function startProjectService(options: {
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
     let indexes: IndexProcessing;
-    const resumeCaptureAdmission = () => {
+    const resumeCaptureSources = () => {
       if (closing) return;
       try {
-        captureAdmission.resume();
+        captureSources.resume();
       } catch (error) {
         console.error(error);
       }
@@ -232,7 +251,7 @@ export async function startProjectService(options: {
       targets,
       providers: { newId: randomUUID },
       onCapacity: () => {
-        resumeCaptureAdmission();
+        resumeCaptureSources();
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
@@ -269,6 +288,7 @@ export async function startProjectService(options: {
           return exports!.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "preview")
           return preview.execute({ job, signal });
+        if (job.artifact === "capture-cleanup") return captureCleanup.execute({ job, signal });
         if (job.target.kind === "acquisition" && job.artifact === "acquisition.import") {
           const acquisition = await acquisitionImports.executeImport(
             job.target.acquisitionId,
@@ -291,7 +311,8 @@ export async function startProjectService(options: {
       },
     });
     jobs = queue;
-    const captureAdmission = new CaptureAdmission(captures, acquisitions, queue, library);
+    captureCleanup = new CaptureCleanup(captures, queue, library, worker);
+    const captureSources = new CaptureSources(captures, acquisitions, queue, library, files);
     pointers = new PointerPreparation({
       assets,
       acquisitions,
@@ -635,7 +656,7 @@ export async function startProjectService(options: {
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
     const status = (jobId: string) => queue.inspect(jobId);
-    const describeCapture = captureAdmission.describe.bind(captureAdmission);
+    const describeCapture = captureSources.describe.bind(captureSources);
     const handle: LocalHandler = async (request): Promise<OperationResult> => {
       if (closing) return operationError("SERVICE_STOPPED", "Service is closing", true);
       if (!operationNames.has(request.operation))
@@ -649,6 +670,13 @@ export async function startProjectService(options: {
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "recording.delete":
+            return {
+              ok: true,
+              data: await recordingDeletion!.delete(operation.params.recordingId),
+            };
+          case "recording.cleanup":
+            return { ok: true, data: captureCleanup.request(operation.params.recordingId) };
           case "capture.sources":
             return { ok: true, data: await requireCaptureControl().sources() };
           case "capture.status": {
@@ -1288,13 +1316,22 @@ export async function startProjectService(options: {
       console.error,
       () => {
         try {
-          resumeCaptureAdmission();
+          resumeCaptureSources();
         } finally {
           queue.schedule();
         }
       },
+      captureSources,
     );
     captureControl = captureCoordinator;
+    recordingDeletion = new RecordingDeletion({
+      store: captures,
+      jobs: queue,
+      capture: captureCoordinator,
+      delivery,
+      files,
+      sources: captureSources,
+    });
     listenerStarting = listenLocal({ runtimeDirectory: runtime, handler: serve });
     if (options.control)
       controller = openControl({
@@ -1314,7 +1351,12 @@ export async function startProjectService(options: {
           void close();
         },
       });
-    reconciliation = closing ? Promise.resolve() : captureCoordinator.reconcileStranded();
+    reconciliation = closing
+      ? Promise.resolve()
+      : (async () => {
+          await recordingDeletion!.resume((error) => console.error(error));
+          await captureCoordinator.reconcileStranded();
+        })();
     const listener = await listenerStarting;
     if (closing) {
       await close();
@@ -1329,7 +1371,7 @@ export async function startProjectService(options: {
     void reconciliation
       .then(() => {
         if (closing) return;
-        resumeCaptureAdmission();
+        resumeCaptureSources();
         queue.start();
         for (const error of mediaExports.resumeRecovery()) console.error(error);
       })

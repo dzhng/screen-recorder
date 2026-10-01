@@ -1,0 +1,603 @@
+{
+  "scope": "Actual source-lifetime, native file-descriptor and verified cleanup evidence",
+  "archive": {
+    "bytes": 207025,
+    "sha256": "32f5b7393c7c9c4cb0dd653df5875b2f1ccdc82a1372557c04d2b962eac13b90"
+  },
+  "members": {
+    "commands.json": {
+      "bytes": 1643,
+      "sha256": "29b253c36328778698198ab8029cc9690e00867eb43bcf20f4ef41950823e4dc"
+    },
+    "controls/descriptor-control.json": {
+      "bytes": 448,
+      "sha256": "6a8cff1cb85e7b9ab16b64c209aad3ed8e1c10dcba94f3bf6f641b0ac86dd091"
+    },
+    "controls/descriptor-control.mjs": {
+      "bytes": 2524,
+      "sha256": "f844d752b3221a0525bf87e3aea5196b1c28255d243136317fd72449de782f77"
+    },
+    "controls/descriptor-current.json": {
+      "bytes": 574,
+      "sha256": "2b646768a51fde640c9346c59bce2339fb85386e92dcca68c6caf2a38c7819de"
+    },
+    "controls/descriptor-current.mjs": {
+      "bytes": 2733,
+      "sha256": "53bf63639c05dbb7e14e1826d57abc6b82fd2b30c3dddc31d737a327bd33b94c"
+    },
+    "controls/mutations-reproduce.py": {
+      "bytes": 2731,
+      "sha256": "48bf303f4eeff55fa8e77f5e1fe9aceb02c282e85d217e19c05bed2d893b626c"
+    },
+    "controls/mutations.json": {
+      "bytes": 1157,
+      "sha256": "be3bcc24fa0b466b1d107a34e07a0f524184eaeccff5ebbe81b828d3e01a0de6"
+    },
+    "controls/mutations.py": {
+      "bytes": 2810,
+      "sha256": "e39706b083db02316a999b344a6ea935c91e81fb5683f17fe535cbc2fe9e03b7"
+    },
+    "controls/screenrec-23f-omit-discard-scope.patch": {
+      "bytes": 483,
+      "sha256": "a78ae73cac95ded0e0e693092531f361808c8ea626c1fc27332fc4aa9be26df1"
+    },
+    "controls/screenrec-23f-omit-donor-lease.patch": {
+      "bytes": 551,
+      "sha256": "ec7f417f37dbcbcb30f1c3271494c5b8bf660d55c6ef69c2ecad37a7b63923fa"
+    },
+    "controls/screenrec-23f-omit-drain.patch": {
+      "bytes": 543,
+      "sha256": "4729d000d3540a87407e288ae38688ce1dfab2c1a5bc9b4ebdf9c5e42a11fbc4"
+    },
+    "controls/screenrec-23f-omit-ready-exception.patch": {
+      "bytes": 544,
+      "sha256": "e9defc98e2c2f7356c9a100d3140620d0bdb2e09e2a207b22f84afde16ff9077"
+    },
+    "final-code.diff": {
+      "bytes": 102084,
+      "sha256": "0c2a43dd8668c249bbabffdbdc9479b8b808a4566e76b05dda91ad6f3ad822b6"
+    },
+    "logs/screenrec-23f-borrower-green.log": {
+      "bytes": 559,
+      "sha256": "b74538363279c19cfe5ea314f89f3bc71d6041d93bb053599b1b7b8f752177bb"
+    },
+    "logs/screenrec-23f-borrower-red.log": {
+      "bytes": 2983,
+      "sha256": "510ffd49956e5b67a8b1078fd347fe4168d7367279206042d9310e5543699404"
+    },
+    "logs/screenrec-23f-busy-donor-green.log": {
+      "bytes": 413,
+      "sha256": "d6dc66126199e3aa1a07cbf1eb3fcbfba4d7049d3cda11f3e45e6b0b49cded1f"
+    },
+    "logs/screenrec-23f-busy-donor-red.log": {
+      "bytes": 1551,
+      "sha256": "a63597ccf4e44ea5628e7cba8d7bdc32a9ecff1eb5ba1076dc7856c2699ba1d7"
+    },
+    "logs/screenrec-23f-cancel-borrower-green.log": {
+      "bytes": 655,
+      "sha256": "08f4b2a6585f54b227bb00c5d433b23d105fb0d9855ed856c9e212b5351e12d1"
+    },
+    "logs/screenrec-23f-cancel-complete-green.log": {
+      "bytes": 400,
+      "sha256": "83e49cb8d6a6f8d280042d45440d87598b29fc46100bde20f4d74fc31dbf256b"
+    },
+    "logs/screenrec-23f-cancel-complete-red.log": {
+      "bytes": 1887,
+      "sha256": "ea7bff11a633bd2f11aeea07582bb129e79688a8dfb79c2c1ae28e31ab2e9ae7"
+    },
+    "logs/screenrec-23f-descriptor-control.log": {
+      "bytes": 1042,
+      "sha256": "352027778f12aeb0b8ede2746bbf243d46c0c749543f3601aab2679a9ff8907a"
+    },
+    "logs/screenrec-23f-descriptor-current.log": {
+      "bytes": 744,
+      "sha256": "bb379540adc3e644ef06de9bf3101f60d4da50473b440792024eaf31ce7e81dd"
+    },
+    "logs/screenrec-23f-donor-lease-green.log": {
+      "bytes": 814,
+      "sha256": "4ed25a4ccf61f8045eb737682a08be0f1cc5384fb19498ceb70847cdb659a0b3"
+    },
+    "logs/screenrec-23f-donor-lease-red.log": {
+      "bytes": 1685,
+      "sha256": "1379f2a61cdc98ab3513f19b0f6a7506e33965f55a48bf16c808eeb873f9acfd"
+    },
+    "logs/screenrec-23f-explicit-donor-green.log": {
+      "bytes": 982,
+      "sha256": "56e5dc61bf00f93f76a89b81560963532941a3bc46b1a4d662562401a4c022d4"
+    },
+    "logs/screenrec-23f-explicit-donor-red.log": {
+      "bytes": 1683,
+      "sha256": "4e3b5fe4a5a0c6232ea2f90bafd2c096eedcf24d367606a6933151961b463f08"
+    },
+    "logs/screenrec-23f-final-core-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/screenrec-23f-final-core-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/screenrec-23f-final-focused.log": {
+      "bytes": 1771,
+      "sha256": "d24570ffbd20ea71c94a1bf9a8643095f618eb69520363c124424237c8ef2a47"
+    },
+    "logs/screenrec-23f-final-format.log": {
+      "bytes": 203,
+      "sha256": "71e03b7e30f1d161422bddbf466e88dee3808f09c44084496f266bdde5630199"
+    },
+    "logs/screenrec-23f-final-installed-cleanup.log": {
+      "bytes": 402,
+      "sha256": "6a76f0bd46c1e6c82636701b1392204885d96b81afac20d34279a294e1c95263"
+    },
+    "logs/screenrec-23f-final-lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/screenrec-23f-final-native-cleanup.log": {
+      "bytes": 497,
+      "sha256": "7c9cad20704cd5b4f228f7a0623a65e169a45b197e2ad1d2962c2f4cb9c25fa0"
+    },
+    "logs/screenrec-23f-final-native-files.log": {
+      "bytes": 1061,
+      "sha256": "c2062a08cedf4b4a001a90412afae3c06d93051f6e7f8517c93a767f8f70a9da"
+    },
+    "logs/screenrec-23f-final-service-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/screenrec-23f-final-service-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/screenrec-23f-first-green.log": {
+      "bytes": 557,
+      "sha256": "fb18ca0af27c082bef10ee807f9bf80d544b0ad1c74ff2a3440e0b20852084d2"
+    },
+    "logs/screenrec-23f-first-red.log": {
+      "bytes": 1581,
+      "sha256": "78d603d7dc727bee9c0e058663ac8c5b1a3d98d03be7f5afc3f950c22db44e81"
+    },
+    "logs/screenrec-23f-installed-capture-green.log": {
+      "bytes": 366,
+      "sha256": "ce41aa901ad9bcf2c137e7d5f5d3e477d501190206b2d1792d22f85174b014ed"
+    },
+    "logs/screenrec-23f-lifetime-current.log": {
+      "bytes": 559,
+      "sha256": "d966c04e84c8bad55612c88ca5510d7a4927418cbbf441baba1a82d0c4877715"
+    },
+    "logs/screenrec-23f-lint.log": {
+      "bytes": 506,
+      "sha256": "c9a395836158b5a1314a3020d667162bfd0d868f7fae021447dff185624136a2"
+    },
+    "logs/screenrec-23f-native-build.log": {
+      "bytes": 23684,
+      "sha256": "913d777428626a479f4cf2c0c41f9d034fb7fa7ff63a4fab33de157219efbae5"
+    },
+    "logs/screenrec-23f-native-cleanup-current.log": {
+      "bytes": 492,
+      "sha256": "354ce84247b868fa4a94cec808fd288f9570c426551a09fec9a9fe8601263c93"
+    },
+    "logs/screenrec-23f-native-cleanup.log": {
+      "bytes": 497,
+      "sha256": "058d01b8cfa0e72aec58ba5771e47b2f274a3f45da440d8ffa43edc8084b15bf"
+    },
+    "logs/screenrec-23f-native-files.log": {
+      "bytes": 1063,
+      "sha256": "6bbdafbd0d67d70a9c061c7f0b1cd10ebf1eb3290bbab7472fdcd4addb7a1f15"
+    },
+    "logs/screenrec-23f-omit-discard-scope-red.log": {
+      "bytes": 1597,
+      "sha256": "40224c8bdeb13c504998e1b0d68b0064ba9011741f4eb8c535f5146a187b39b0"
+    },
+    "logs/screenrec-23f-omit-donor-lease-red.log": {
+      "bytes": 1342,
+      "sha256": "947bbfccdfda11a9c22312bc6e09f4f62debd93c18a3a389012d1b2dd57dad59"
+    },
+    "logs/screenrec-23f-omit-drain-red.log": {
+      "bytes": 1350,
+      "sha256": "e2be0c551ad7d4d1e34b9a4877f75e6cb2cd058cfbf373e217e70c74b6d3859c"
+    },
+    "logs/screenrec-23f-omit-ready-exception-red.log": {
+      "bytes": 1539,
+      "sha256": "84b6b0c255e2570e46ed61094ec514def71f39ac063694313d459e7537e036e7"
+    },
+    "logs/screenrec-23f-preservation.log": {
+      "bytes": 42008,
+      "sha256": "5a99f5a96a484660aeb6076f55f4e6824c42898ec09e9b830f7b0a0af8e2af74"
+    },
+    "logs/screenrec-23f-ready-preservation-green.log": {
+      "bytes": 400,
+      "sha256": "568257665b3a8b92bb0b0172a6317e4b0a7345264616111d7f62d0f9a183039a"
+    },
+    "logs/screenrec-23f-refusal-green.log": {
+      "bytes": 654,
+      "sha256": "bc75da60957e260a79962aaedb009b6b8780687b5dc713f24a6d9c44bd16fad3"
+    },
+    "logs/screenrec-23f-reopen-green.log": {
+      "bytes": 655,
+      "sha256": "e157ce8cdfb110175c5a63804fb6cbd845e15975438a5c97eac90b657b6a214c"
+    },
+    "logs/screenrec-23f-service-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/screenrec-23f-types.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "package-evidence.py": {
+      "bytes": 8255,
+      "sha256": "e2bf2a554195ec664b8ea3d232723914476ab9b706b415375e02bf878bc2a975"
+    },
+    "receipts/native-cleanup/native-pins.json": {
+      "bytes": 16960,
+      "sha256": "8cfb39e976bb5f20690d0c16347b8bc2b927f79034e4a1bbfff2962eae0a49fd"
+    },
+    "receipts/native-cleanup/unverified-cleanup.json": {
+      "bytes": 6316,
+      "sha256": "c1528983a787549a5374abb7e9c7360e2a3fb1d8383cc73b8a83f7188279bc67"
+    },
+    "receipts/native-cleanup/verified-cleanup.json": {
+      "bytes": 24978,
+      "sha256": "6a97162d2109edfe47a56587f39bc33a5970004c77a66e6a7edf8f8eeca26cc1"
+    },
+    "receipts/native-cleanup-current/native-pins.json": {
+      "bytes": 34040,
+      "sha256": "93aabdb1b55117688b9d09bdc43f57001b2549e9af058395fd1719da07614c13"
+    },
+    "receipts/native-cleanup-current/unverified-cleanup.json": {
+      "bytes": 5413,
+      "sha256": "53f361884751e7aae7f5771ddb7eff18a6c9b2fa38938e04e644671b575cee6f"
+    },
+    "receipts/native-cleanup-current/verified-cleanup.json": {
+      "bytes": 22271,
+      "sha256": "405bb230f5f7916a85356870a51b7972289e7261d400c5e6dfc48f42acf47088"
+    },
+    "receipts/native-final/native-pins.json": {
+      "bytes": 34040,
+      "sha256": "93aabdb1b55117688b9d09bdc43f57001b2549e9af058395fd1719da07614c13"
+    },
+    "receipts/native-final/unverified-cleanup.json": {
+      "bytes": 6315,
+      "sha256": "133f332031499f42769403dace19208902e48da79ee687e155f4f4154b541c80"
+    },
+    "receipts/native-final/verified-cleanup.json": {
+      "bytes": 28585,
+      "sha256": "806b3a64d116a29fa922c78018af5ed748d0c2ca2dce608be3a2f57de59890e6"
+    },
+    "review.json": {
+      "bytes": 746,
+      "sha256": "ca0a32a01b8652530ec143a3be7203617f8fa219446ed467bcd06cee05e00a91"
+    },
+    "runtime/files-build-pins.json": {
+      "bytes": 16839,
+      "sha256": "7d0932ba9925bd8542bf1f977e27c765f3db295161505379f4e55f24a93deccd"
+    },
+    "runtime/native-cleanup-old-harness.mjs": {
+      "bytes": 9255,
+      "sha256": "ecda95696eabc283ea9703d4fc5c842f33e38c68121f352e043ee89bde3fe07c"
+    },
+    "scope.md": {
+      "bytes": 6185,
+      "sha256": "7c54ebe0719cc0a72b9ec048659c328fcde7871c46ecab1f915fdc5e03ec7068"
+    },
+    "sources/apps/service/src/capture-cleanup.ts": {
+      "bytes": 4479,
+      "sha256": "4074c52e68e7cf2491144bd4a859360de1370e60a64cf29b07a5ebd97dc230d6"
+    },
+    "sources/apps/service/src/capture-source-lifetime.test.ts": {
+      "bytes": 20770,
+      "sha256": "113f6b55f59d081ef36b9f68bd4175713faa9f0d884a0141751ad498a6d8a5bf"
+    },
+    "sources/apps/service/src/capture-sources.ts": {
+      "bytes": 6487,
+      "sha256": "9e088a4f0de05e8cad56c00bf2835db64cc788ba5bbea48f3367c0643cf773da"
+    },
+    "sources/apps/service/src/capture.ts": {
+      "bytes": 30291,
+      "sha256": "a27fb6dcfbfaf1379ee77601d491bc0e2bb7712e4ed92269096261aa2f22057e"
+    },
+    "sources/apps/service/src/deletion.test.ts": {
+      "bytes": 17452,
+      "sha256": "19bda31ae602f21b5341b377cd0e0300130fdf28980f0a2a261f9e7d6aba2068"
+    },
+    "sources/apps/service/src/deletion.ts": {
+      "bytes": 4782,
+      "sha256": "e64354f50df16331ffec3209dbe3f226f0096872bcbb71e6b22ae1e37b2d5d39"
+    },
+    "sources/apps/service/src/main.ts": {
+      "bytes": 19485,
+      "sha256": "ee94ba2fc8df27d0f20e200478578d358be4e1e8c4bc621e32d0d755ffe18cdb"
+    },
+    "sources/apps/service/src/managed-files.ts": {
+      "bytes": 4426,
+      "sha256": "1eb766fa3110fe706ca2a28d5b5d07210ce463bbe7194eb014fa68857e67d29e"
+    },
+    "sources/apps/service/src/project-capture.fixture.ts": {
+      "bytes": 7244,
+      "sha256": "234860a2514ca3676432104885717cea1fe66471158b3877024c80e118fe85ae"
+    },
+    "sources/apps/service/src/project-capture.test.ts": {
+      "bytes": 23345,
+      "sha256": "1cdc0b4f9868d82ce1e5908872d4366bb038a913210405bab89acce362af4f38"
+    },
+    "sources/apps/service/src/project-service.ts": {
+      "bytes": 53428,
+      "sha256": "4f04681b9b89bd0186a13fe88fac75f47a605dc88986152a825765de867dccb1"
+    },
+    "sources/apps/service/src/recording-artifact-retirement.ts": {
+      "bytes": 2008,
+      "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+    },
+    "sources/apps/service/src/source-export.ts": {
+      "bytes": 5066,
+      "sha256": "50b21eef3e6262c74829f114a948184dfae278fe5863fc6ed557f35e1c1a3a85"
+    },
+    "sources/apps/service/src/worker.ts": {
+      "bytes": 7899,
+      "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+    },
+    "sources/apps/service/tests/capture-source-lifetime.mjs": {
+      "bytes": 10093,
+      "sha256": "cd583dac09f1a037d7003294f56eb2634b9571ab7b6fe6dccf7f7b0b8ddf85f9"
+    },
+    "sources/helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift": {
+      "bytes": 11233,
+      "sha256": "b5f542cbcc4cb1246a5a932f476e5e8a79691097ddd1240d951e13c23d9e0333"
+    },
+    "sources/helpers/mac/Tests/managed-files.test.mjs": {
+      "bytes": 15402,
+      "sha256": "01142ee602cec46cebd82059faf312d56b0c3e5c4aafb8f08a973748e7d3e48e"
+    },
+    "sources/packages/core/src/acquisitions.ts": {
+      "bytes": 46346,
+      "sha256": "bf211cda049d017f69156946ac960ae922be80929e2351ac17f2a6804ea28d7b"
+    },
+    "sources/packages/core/src/assets.ts": {
+      "bytes": 30268,
+      "sha256": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c"
+    },
+    "sources/packages/core/src/capture-acquisition.test.ts": {
+      "bytes": 18791,
+      "sha256": "1af25b6d8549e4c3f644cb0fbcf162e02365d7edf275c32e1ba2e9f3db7a4ccf"
+    },
+    "sources/packages/core/src/capture-store.ts": {
+      "bytes": 18535,
+      "sha256": "167c82b3dc12f003c9a834459987aa4869786ad5e631b420c91c56936827896d"
+    },
+    "sources/packages/core/src/evidence.ts": {
+      "bytes": 22929,
+      "sha256": "d64dd18b6a11ead06d289e6fabb5ac3f6bfb4ef845aa3f39733bb4716f3252f7"
+    },
+    "sources/packages/core/src/files.ts": {
+      "bytes": 13290,
+      "sha256": "de4a61c4f0710a846a7bee4d8d4225c3c88edbf79feed85e786875fc03a91ba4"
+    },
+    "sources/packages/core/src/jobs.ts": {
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+    },
+    "sources/packages/core/src/library.ts": {
+      "bytes": 10026,
+      "sha256": "6829c8a15ffbf870d778554cfc726f654962b36461dd6b6a1483e4fcdba204e2"
+    },
+    "sources/packages/core/src/references.ts": {
+      "bytes": 3017,
+      "sha256": "f91af872820c19912a5b758681e4d1c1571bb2c76575b227a97ca100f20587d0"
+    },
+    "sources/packages/core/src/storage.ts": {
+      "bytes": 10777,
+      "sha256": "b5db772b5e356922bd0865ab1ade79c3bd625c8fd28a83a23ef6f6f8a544d7c9"
+    },
+    "sources/packages/protocol/src/operations.ts": {
+      "bytes": 53717,
+      "sha256": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94"
+    }
+  },
+  "sources": {
+    "apps/service/src/capture-cleanup.ts": {
+      "bytes": 4479,
+      "sha256": "4074c52e68e7cf2491144bd4a859360de1370e60a64cf29b07a5ebd97dc230d6"
+    },
+    "apps/service/src/capture-source-lifetime.test.ts": {
+      "bytes": 20770,
+      "sha256": "113f6b55f59d081ef36b9f68bd4175713faa9f0d884a0141751ad498a6d8a5bf"
+    },
+    "apps/service/src/capture-sources.ts": {
+      "bytes": 6487,
+      "sha256": "9e088a4f0de05e8cad56c00bf2835db64cc788ba5bbea48f3367c0643cf773da"
+    },
+    "apps/service/src/capture.ts": {
+      "bytes": 30291,
+      "sha256": "a27fb6dcfbfaf1379ee77601d491bc0e2bb7712e4ed92269096261aa2f22057e"
+    },
+    "apps/service/src/deletion.test.ts": {
+      "bytes": 17452,
+      "sha256": "19bda31ae602f21b5341b377cd0e0300130fdf28980f0a2a261f9e7d6aba2068"
+    },
+    "apps/service/src/deletion.ts": {
+      "bytes": 4782,
+      "sha256": "e64354f50df16331ffec3209dbe3f226f0096872bcbb71e6b22ae1e37b2d5d39"
+    },
+    "apps/service/src/main.ts": {
+      "bytes": 19485,
+      "sha256": "ee94ba2fc8df27d0f20e200478578d358be4e1e8c4bc621e32d0d755ffe18cdb"
+    },
+    "apps/service/src/managed-files.ts": {
+      "bytes": 4426,
+      "sha256": "1eb766fa3110fe706ca2a28d5b5d07210ce463bbe7194eb014fa68857e67d29e"
+    },
+    "apps/service/src/project-capture.fixture.ts": {
+      "bytes": 7244,
+      "sha256": "234860a2514ca3676432104885717cea1fe66471158b3877024c80e118fe85ae"
+    },
+    "apps/service/src/project-capture.test.ts": {
+      "bytes": 23345,
+      "sha256": "1cdc0b4f9868d82ce1e5908872d4366bb038a913210405bab89acce362af4f38"
+    },
+    "apps/service/src/project-service.ts": {
+      "bytes": 53428,
+      "sha256": "4f04681b9b89bd0186a13fe88fac75f47a605dc88986152a825765de867dccb1"
+    },
+    "apps/service/src/recording-artifact-retirement.ts": {
+      "bytes": 2008,
+      "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+    },
+    "apps/service/src/source-export.ts": {
+      "bytes": 5066,
+      "sha256": "50b21eef3e6262c74829f114a948184dfae278fe5863fc6ed557f35e1c1a3a85"
+    },
+    "apps/service/src/worker.ts": {
+      "bytes": 7899,
+      "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+    },
+    "apps/service/tests/capture-source-lifetime.mjs": {
+      "bytes": 10093,
+      "sha256": "cd583dac09f1a037d7003294f56eb2634b9571ab7b6fe6dccf7f7b0b8ddf85f9"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift": {
+      "bytes": 11233,
+      "sha256": "b5f542cbcc4cb1246a5a932f476e5e8a79691097ddd1240d951e13c23d9e0333"
+    },
+    "helpers/mac/Tests/managed-files.test.mjs": {
+      "bytes": 15402,
+      "sha256": "01142ee602cec46cebd82059faf312d56b0c3e5c4aafb8f08a973748e7d3e48e"
+    },
+    "packages/core/src/acquisitions.ts": {
+      "bytes": 46346,
+      "sha256": "bf211cda049d017f69156946ac960ae922be80929e2351ac17f2a6804ea28d7b"
+    },
+    "packages/core/src/assets.ts": {
+      "bytes": 30268,
+      "sha256": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c"
+    },
+    "packages/core/src/capture-acquisition.test.ts": {
+      "bytes": 18791,
+      "sha256": "1af25b6d8549e4c3f644cb0fbcf162e02365d7edf275c32e1ba2e9f3db7a4ccf"
+    },
+    "packages/core/src/capture-store.ts": {
+      "bytes": 18535,
+      "sha256": "167c82b3dc12f003c9a834459987aa4869786ad5e631b420c91c56936827896d"
+    },
+    "packages/core/src/evidence.ts": {
+      "bytes": 22929,
+      "sha256": "d64dd18b6a11ead06d289e6fabb5ac3f6bfb4ef845aa3f39733bb4716f3252f7"
+    },
+    "packages/core/src/files.ts": {
+      "bytes": 13290,
+      "sha256": "de4a61c4f0710a846a7bee4d8d4225c3c88edbf79feed85e786875fc03a91ba4"
+    },
+    "packages/core/src/jobs.ts": {
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+    },
+    "packages/core/src/library.ts": {
+      "bytes": 10026,
+      "sha256": "6829c8a15ffbf870d778554cfc726f654962b36461dd6b6a1483e4fcdba204e2"
+    },
+    "packages/core/src/references.ts": {
+      "bytes": 3017,
+      "sha256": "f91af872820c19912a5b758681e4d1c1571bb2c76575b227a97ca100f20587d0"
+    },
+    "packages/core/src/storage.ts": {
+      "bytes": 10777,
+      "sha256": "b5db772b5e356922bd0865ab1ade79c3bd625c8fd28a83a23ef6f6f8a544d7c9"
+    },
+    "packages/protocol/src/operations.ts": {
+      "bytes": 53717,
+      "sha256": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94"
+    }
+  },
+  "compiled": {
+    "apps/service/dist/capture-cleanup.js": {
+      "sha256": "04c2d2afd9809fb566a30740bcf33bbff097cca038ecf0ee19195b03450f87a0",
+      "bytes": 4252
+    },
+    "apps/service/dist/capture-sources.js": {
+      "sha256": "6b6c3469087850d8db3e993eb487e32408292f8055277029ddb0a64214b9b7e6",
+      "bytes": 6354
+    },
+    "apps/service/dist/capture.js": {
+      "sha256": "4629b1cbd7e1dc2a6bd316dfcaff374d58e4f65efd55b14235b6aa41b9d3ef55",
+      "bytes": 29338
+    },
+    "apps/service/dist/deletion.js": {
+      "sha256": "27479b0b91ce57e5592bd58b0eec707ac9af16388452abb0ff71351246e42e46",
+      "bytes": 4204
+    },
+    "apps/service/dist/main.js": {
+      "sha256": "67706819223ed3d4ff5f07ff9d0be52912178c1e27846f65017cbc846ff42746",
+      "bytes": 19821
+    },
+    "apps/service/dist/managed-files.js": {
+      "sha256": "71a1636494ca58b39b0c32c45bae4ef9614a826a804cc42da01ef1b5fb584616",
+      "bytes": 3610
+    },
+    "apps/service/dist/project-service.js": {
+      "sha256": "0543ed2812d3c064735fb96305b3bc54374b232e574d4801d469e39d13265068",
+      "bytes": 59892
+    },
+    "apps/service/dist/recording-artifact-retirement.js": {
+      "sha256": "6c15f039f21accb314514984f56b529af229f375b68ea26ae3fc8b69f5fc1ffa",
+      "bytes": 1105
+    },
+    "apps/service/dist/source-export.js": {
+      "sha256": "37739d3e18cf8e2df322b1c289d5e1cd539ddf40e6ffbb4edfde332e095a5891",
+      "bytes": 4911
+    },
+    "apps/service/dist/worker.js": {
+      "sha256": "e740005682937b36cb9376dd1e16c12a74dceb7eb243ead5d0f30fbef9707fdf",
+      "bytes": 6940
+    },
+    "packages/core/dist/acquisitions.js": {
+      "sha256": "1b2ed02d5247bb5407730f0842effc646d257f6a29f3366edb14118cbc74d341",
+      "bytes": 44263
+    },
+    "packages/core/dist/assets.js": {
+      "sha256": "c8e2af0cc4f1bd341e8146f69a7d26f06a25e6bc29cdb2b48518f0f076b53f4d",
+      "bytes": 29023
+    },
+    "packages/core/dist/capture-store.js": {
+      "sha256": "60a7ea03e096a9ba8858c488f9bf7dd3929389d3067dbce6f7df78dae4717f7d",
+      "bytes": 16594
+    },
+    "packages/core/dist/evidence.js": {
+      "sha256": "b690608d5d43788b762a919572d76bd6100afbd3c19fa00cb98bb4668c63d48a",
+      "bytes": 20479
+    },
+    "packages/core/dist/files.js": {
+      "sha256": "13200c7063ebf04224c219b2d0274fcc6460d8bb9982ba88239a7fd69c1a6863",
+      "bytes": 12883
+    },
+    "packages/core/dist/jobs.js": {
+      "sha256": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292",
+      "bytes": 52766
+    },
+    "packages/core/dist/library.js": {
+      "sha256": "ab976b6962a6c66057e077ffeef1328453564df46f5757f0bdd75d0aeb1b9592",
+      "bytes": 9733
+    },
+    "packages/core/dist/references.js": {
+      "sha256": "1ca9a514c70af828422fccbb3cfc0e4d8d1efb0ee9f11309a635e5ff1980754b",
+      "bytes": 2490
+    },
+    "packages/core/dist/storage.js": {
+      "sha256": "273e2dc41c748aced5d0535a8ba8f676676d50db10f0ee80c759eb700bd88267",
+      "bytes": 11090
+    },
+    "packages/protocol/dist/operations.js": {
+      "sha256": "d13099f489fc8f3882bfff3ece5c9f8daaf90caefdcd311b2d3a8797268b142d",
+      "bytes": 54503
+    }
+  },
+  "references": {
+    "specs/agent-editing/assets/20d6-settled-cleanup/prerecorded-source.tar.xz": {
+      "sha256": "540fec15e56048cc4ee91cd5cd596b056fc55bca02237e3808458851e00824bb",
+      "bytes": 12316
+    },
+    "specs/agent-editing/assets/21d-captured-source-adoption/manifest.json": {
+      "sha256": "a6d66155d1cc6bb5b53022d60cc515b74532bf12fb84600b4df7edc0386c659f",
+      "bytes": 21291
+    }
+  }
+}

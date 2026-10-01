@@ -92,6 +92,18 @@ separate the verified asset-only path from retained owner classes still refused.
 lengths with one contained, cancellable scanner. In the fresh project library,
 retained files are shared across projects; this aggregate does not estimate a
 project's share of an asset. Registered derivatives remain cache bytes. Models
-and donor files are excluded, while private export staging is measured by the
-publication owner outside the managed root. Closing the service aborts and drains
+and external donor files are excluded. Managed capture donors remain counted while
+active, unfinished or fenced for deletion. Private export staging is measured by
+the publication owner outside the managed root. Closing the service aborts and drains
 observations before closing the catalog.
+
+
+## Captured-source lifetime
+
+[Capture sources](src/capture-sources.ts) share admission and donor retirement.
+Deletion and discard fence unfinished borrowers, join their queue attempts, and
+hold the recording directory through native removal. A ready acquisition owns its
+originals and evidence independently; deleting its donor cannot mutate a project.
+Explicit imports derive managed donor ownership from frozen canonical members,
+so selecting a directory through an alias cannot escape that lifetime.
+The installed recording-editing path retains its separate, real artifact retirement.

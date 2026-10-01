@@ -50,9 +50,9 @@ retained receipts without windows or playback; the concrete presenter and existi
 player/service fixtures compile. Project selection and actual installed playback
 acceptance remain outside that checkpoint.
 
-[23f](23f-capture-source-lifetime.md) owns the remaining fresh captured-source
-deletion/verified working-file cleanup port, including unfinished acquisition
-borrowers and donor-free preservation. Native library menu cutover follows the
+[23f](23f-capture-source-lifetime.md) verifies fresh captured-source deletion and
+verified working-file cleanup, including unfinished managed-donor imports,
+cancel/discard ordering, donor-free preservation and native descriptor refusal. Native library menu cutover follows the
 actual service primitive: recording rows expose source facts/deletion, and
 caller-created projects expose composition preview/export/deletion. Listing those
 projects is a consumer operation; no project is inferred or created for a take.

@@ -1,3 +1,4 @@
+import { RecordingArtifactRetirement } from "./recording-artifact-retirement.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, mkdir, writeFile, readFile, rm, lstat, symlink } from "node:fs/promises";
 import { join } from "node:path";
@@ -91,7 +92,10 @@ async function fixture(
       },
     },
   };
-  const deletion = new RecordingDeletion(owners);
+  const deletion = new RecordingDeletion({
+    ...owners,
+    artifacts: new RecordingArtifactRetirement(owners),
+  });
   let closed = false;
   async function closeOwners() {
     if (closed) return;

@@ -1,0 +1,180 @@
+import { realpathSync } from "node:fs";
+import { join } from "node:path";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { CatalogError } from "@screenrec/core/catalog";
+import { CaptureStore, type Recording } from "@screenrec/core/capture-store";
+import { JobQueue } from "@screenrec/core/jobs";
+import type { ManagedFiles } from "./managed-files.js";
+import { sourceDirectory } from "./capture.js";
+import { operationFailure } from "./operations.js";
+import type { OperationFailure } from "@screenrec/protocol";
+
+export type CaptureSourceAdmission = {
+  kind: "primary";
+  sourceId: string;
+  acquisitionId: string | null;
+  job: ReturnType<JobQueue["inspect"]> | null;
+  admissionError: OperationFailure["error"] | null;
+};
+
+/** Owns capture-source admission and donor retirement on the shared acquisition transaction and queue. */
+export class CaptureSources {
+  private readonly retiring = new Map<string, number>();
+  private readonly recordings: string;
+  constructor(
+    private readonly captures: CaptureStore,
+    private readonly acquisitions: AcquisitionStore,
+    private readonly jobs: JobQueue,
+    private readonly home: string,
+    private readonly files: Pick<ManagedFiles, "recordingDirectory" | "removeRecordingDirectory">,
+  ) {
+    this.recordings = join(realpathSync(home), "recordings");
+  }
+
+  resume(): void {
+    for (const recordingId of this.acquisitions.pendingPrimaryCaptures(this.captures)) {
+      if (this.retiring.has(recordingId)) continue;
+      this.jobs.submit(() => {
+        const intent = this.acquisitions.admitCapture(
+          this.captures,
+          recordingId,
+          sourceDirectory(this.home, recordingId),
+        );
+        return {
+          target: { kind: "acquisition", acquisitionId: intent.acquisitionId },
+          artifact: "acquisition.import",
+          lane: "heavy",
+          input: "capture",
+        };
+      });
+    }
+  }
+
+  /** Ready acquisitions own their originals; every unfinished managed donor must remain available. */
+  available(acquisitionId: string): boolean {
+    return this.acquisitions
+      .recordingDonors(acquisitionId, this.recordings)
+      .every(
+        (recordingId) => !this.retiring.has(recordingId) && this.captures.isAvailable(recordingId),
+      );
+  }
+
+  private *unfinishedJobs(recordingId: string): Generator<string[]> {
+    let afterId = "";
+    for (;;) {
+      const imports = this.acquisitions.unfinishedRecordingImports(
+        recordingId,
+        this.recordings,
+        afterId,
+      );
+      if (!imports.length) return;
+      yield imports.flatMap((intent) => {
+        const { jobId } = this.jobs.status({
+          target: { kind: "acquisition", acquisitionId: intent.acquisitionId },
+          artifact: "acquisition.import",
+          input: intent.kind === "capture" ? "capture" : JSON.stringify(intent.files),
+        });
+        return jobId ? [jobId] : [];
+      });
+      afterId = imports.at(-1)!.acquisitionId;
+    }
+  }
+
+  /** Cancel can lose to completed capture, so its transient fence cannot author a terminal state. */
+  async retire<T>(
+    recordingId: string,
+    signal: AbortSignal,
+    action: (lifetime: { readonly fd: number } | undefined) => Promise<T>,
+  ): Promise<T> {
+    this.retiring.set(recordingId, (this.retiring.get(recordingId) ?? 0) + 1);
+    try {
+      let failed = false;
+      let failure: unknown;
+      for (const jobs of this.unfinishedJobs(recordingId)) {
+        const stopped = await Promise.allSettled(jobs.map((jobId) => this.jobs.drainJob(jobId)));
+        for (const result of stopped)
+          if (result.status === "rejected") {
+            if (!failed) failure = result.reason;
+            failed = true;
+          }
+      }
+      if (failed) throw failure;
+      signal.throwIfAborted();
+      const lifetime = await this.files
+        .recordingDirectory(recordingId, signal)
+        .catch((error: NodeJS.ErrnoException) => {
+          if (error.code === "ENOENT") return undefined;
+          throw error;
+        });
+      try {
+        signal.throwIfAborted();
+        return await action(lifetime?.handle);
+      } finally {
+        await lifetime?.handle.close();
+      }
+    } finally {
+      const remaining = this.retiring.get(recordingId)! - 1;
+      if (remaining === 0) this.retiring.delete(recordingId);
+      else this.retiring.set(recordingId, remaining);
+    }
+  }
+
+  forget(recordingId: string): void {
+    for (const jobs of this.unfinishedJobs(recordingId))
+      for (const jobId of jobs) this.jobs.forgetJob(jobId);
+  }
+
+  discard(
+    recordingId: string,
+    signal: AbortSignal,
+    action: () => Promise<Recording>,
+  ): Promise<Recording> {
+    return this.retire(recordingId, signal, async (lifetime) => {
+      const recording = await action();
+      if (recording.state === "canceled") {
+        await this.files.removeRecordingDirectory(recordingId, signal, lifetime);
+        this.forget(recordingId);
+      }
+      return recording;
+    });
+  }
+
+  describe(
+    snapshot: Pick<Recording, "recordingId">,
+  ): Recording & { sourceAdmissions: CaptureSourceAdmission[] } {
+    const recording = this.captures.get(snapshot.recordingId);
+    try {
+      this.captures.settledSource(recording.recordingId);
+    } catch (error) {
+      if (error instanceof CatalogError && ["NOT_READY", "UNAVAILABLE"].includes(error.code))
+        return { ...recording, sourceAdmissions: [] };
+      throw error;
+    }
+    let intent: ReturnType<AcquisitionStore["captureIntent"]> = null;
+    let admissionError: OperationFailure["error"] | null = null;
+    try {
+      intent = this.acquisitions.captureIntent(recording.sourceId);
+    } catch (error) {
+      if (!(error instanceof CatalogError) || error.code !== "REQUEST_CONFLICT") throw error;
+      // The conflicting row is durable refusal evidence, never this source's acquisition/job.
+      admissionError = operationFailure(error).error;
+    }
+    const status = intent
+      ? this.jobs.status({
+          target: { kind: "acquisition", acquisitionId: intent.acquisitionId },
+          artifact: "acquisition.import",
+          input: "capture",
+        })
+      : null;
+    const sourceAdmissions: CaptureSourceAdmission[] = [
+      {
+        kind: "primary",
+        sourceId: recording.sourceId,
+        acquisitionId: intent?.acquisitionId ?? null,
+        job: status?.jobId ? this.jobs.inspect(status.jobId) : null,
+        admissionError,
+      },
+    ];
+    return { ...recording, sourceAdmissions };
+  }
+}

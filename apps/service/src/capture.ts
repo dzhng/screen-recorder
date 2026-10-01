@@ -1,3 +1,4 @@
+import type { CaptureSources } from "./capture-sources.js";
 import { lstat, mkdir, readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
@@ -65,6 +66,7 @@ export class CaptureService {
     private readonly worker: MediaWorker,
     private readonly log: (message: string) => void = () => {},
     private readonly changed: (recording: Recording) => void = () => {},
+    private readonly sourceLifetime?: CaptureSources,
   ) {}
 
   /**
@@ -389,20 +391,28 @@ export class CaptureService {
         );
       return current;
     }
-    let current = recording;
-    if (current.state !== "canceled") {
-      const report = await this.endNativeCapture(current);
-      if (report) current = this.report(report);
-      else {
-        return this.reconcile(current, true);
+    const discard = async () => {
+      let current = recording;
+      if (current.state !== "canceled") {
+        const report = await this.endNativeCapture(current);
+        if (report) current = this.report(report);
+        else return this.reconcile(current, true);
+        // A joined finalization can win; the terminal rule preserves that take for explicit deletion.
+        current = this.author(current, { state: "canceled" });
       }
-      // A cancel that joined finalization can receive a finished take. The catalog's terminal
-      // rule refuses that cancellation, preserving media for an explicit library deletion.
-      current = this.author(current, { state: "canceled" });
+      return current;
+    };
+    if (this.sourceLifetime) {
+      try {
+        return await this.sourceLifetime.discard(recordingId, this.lifetime.signal, discard);
+      } finally {
+        // Completion may win while admission is fenced; release that fence before notifying consumers.
+        if (this.store.isAvailable(recordingId)) this.observed(this.store.get(recordingId));
+      }
     }
-    // Only this take's own allocated directory is removed, and only once it is discarded, so a
-    // late native write lands in a directory nothing discovers.
-    await rm(recordingDirectory(this.home, recordingId), { recursive: true, force: true });
+    const current = await discard();
+    if (current.state === "canceled")
+      await rm(recordingDirectory(this.home, recordingId), { recursive: true, force: true });
     return current;
   }
 
@@ -465,11 +475,18 @@ export class CaptureService {
               { recordingId: current.recordingId },
               true,
             );
-          this.author(selected, { state: "canceled" });
-          await rm(recordingDirectory(this.home, current.recordingId), {
-            recursive: true,
-            force: true,
-          });
+          const canceled = this.author(selected, { state: "canceled" });
+          if (this.sourceLifetime)
+            await this.sourceLifetime.discard(
+              current.recordingId,
+              this.lifetime.signal,
+              async () => canceled,
+            );
+          else
+            await rm(recordingDirectory(this.home, current.recordingId), {
+              recursive: true,
+              force: true,
+            });
         } else {
           this.settleRecovered(selected, recovered);
         }

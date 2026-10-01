@@ -103,9 +103,14 @@ enum ManagedFiles {
         if recording {
             guard let parent = try directory(homeFD, "recordings") else { return }
             defer { close(parent) }
-            try names[0].withCString {
-                try removeEntry(parent, $0, depth: 0, requireDirectory: true)
-            }
+            guard let selected = try directory(parent, names[0]) else { return }
+            defer { close(selected) }
+            var info = stat()
+            guard fstat(selected, &info) == 0 else { throw Descriptors.failure("Inspect recording directory") }
+            let identity = InodeIdentity(info)
+            try identity.check(3)
+            try lockPrivateDirectory(3, busyCode: "RECORDING_BUSY")
+            try removeOwnedDirectory(parent, names[0], 3, identity)
         } else {
             guard let cache = try directory(homeFD, "cache") else { return }
             defer { close(cache) }
@@ -132,7 +137,7 @@ enum ManagedFiles {
     }
 
     private static func removeEntry(
-        _ parent: Int32, _ name: UnsafePointer<CChar>, depth: Int, requireDirectory: Bool = false
+        _ parent: Int32, _ name: UnsafePointer<CChar>, depth: Int
     ) throws {
         var info = stat()
         if fstatat(parent, name, &info, AT_SYMLINK_NOFOLLOW) != 0 {
@@ -140,10 +145,6 @@ enum ManagedFiles {
             throw Descriptors.failure("Inspect managed entry")
         }
         guard (info.st_mode & S_IFMT) == S_IFDIR else {
-            if requireDirectory {
-                throw NativeFailure(
-                    "INVALID_STORAGE", "Recording root must be a real directory.", retryable: true)
-            }
             if unlinkat(parent, name, 0) != 0 && errno != ENOENT {
                 throw Descriptors.failure("Remove managed entry")
             }

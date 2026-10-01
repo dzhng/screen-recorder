@@ -15,9 +15,18 @@ import {
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
-import { constants, openSync, fstatSync, closeSync } from "node:fs";
-import { chmod, lstat, mkdir, open, opendir, realpath, rm } from "node:fs/promises";
-import { dirname, isAbsolute, join } from "node:path";
+import { constants, openSync, fstatSync, closeSync, realpathSync } from "node:fs";
+import {
+  chmod,
+  lstat,
+  mkdir,
+  open,
+  opendir,
+  realpath,
+  rm,
+  type FileHandle,
+} from "node:fs/promises";
+import { dirname, isAbsolute, join, relative, sep } from "node:path";
 import { acquisitionContextSchema, type AcquisitionContext } from "@screenrec/composition";
 import {
   AssetStore,
@@ -154,6 +163,12 @@ function portableAcquisition(value: Acquisition): PortableAcquisition {
   });
 }
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
+
+/** Frozen member paths are canonical; a managed recording owns every descendant of its directory. */
+function donorRecordingId(recordings: string, path: string): string | null {
+  const [recordingId, member] = relative(recordings, path).split(sep);
+  return recordingId && recordingId !== ".." && member ? recordingId : null;
+}
 
 async function sourceRoot(path: string): Promise<string> {
   const root = await realpath(path).catch((error) => {
@@ -339,6 +354,43 @@ export class AcquisitionStore {
       .all(captureRequestPrefix)
       .map((row) => row.recordingId as string);
   }
+  /** Ready originals no longer borrow donor trees; imported aliases resolve through frozen members. */
+  recordingDonors(acquisitionId: string, recordings: string): string[] {
+    const intent = this.intent(acquisitionId);
+    if (this.ready(acquisitionId) || intent.kind === "package") return [];
+    if (intent.kind === "capture") return [intent.recordingId];
+    return [
+      ...new Set(
+        Object.values(intent.files).flatMap((file) => {
+          const id = file && donorRecordingId(recordings, file.path);
+          return id ? [id] : [];
+        }),
+      ),
+    ].sort();
+  }
+
+  /** Bound the catalog result; admission fences prevent new borrowers entering this traversal. */
+  unfinishedRecordingImports(
+    recordingId: string,
+    recordings: string,
+    afterId = "",
+  ): (AcquisitionImportIntent | CaptureAcquisitionIntent)[] {
+    const prefix = join(recordings, recordingId) + sep;
+    return this.catalog.catalog
+      .prepare(`SELECT id,requestId,admission FROM acquisitions WHERE metadata IS NULL AND id>?
+        AND ((json_extract(admission,'$.kind')='capture' AND json_extract(admission,'$.recordingId')=?)
+          OR (json_extract(admission,'$.kind')='import' AND EXISTS (
+            SELECT 1 FROM json_each(admission,'$.files') member
+            WHERE substr(json_extract(member.value,'$.path'),1,length(?))=?)))
+        ORDER BY id LIMIT 64`)
+      .all(afterId, recordingId, prefix, prefix)
+      .map((row) => ({
+        ...JSON.parse(row.admission as string),
+        acquisitionId: row.id as string,
+        requestId: row.requestId as string,
+      }));
+  }
+
   freezeCaptureMember(acquisitionId: string, member: Member, file: IdentifiedFile | null): void {
     this.catalog.transaction(() => {
       const intent = this.intent(acquisitionId);
@@ -441,6 +493,7 @@ export class AcquisitionStore {
 /** Executes admitted capture copies and indexing on the shared preparation queue. */
 export class AcquisitionImporter {
   private readonly directory: string;
+  private readonly recordings: string;
   constructor(
     private readonly catalog: Catalog,
     private readonly store: AcquisitionStore,
@@ -449,6 +502,7 @@ export class AcquisitionImporter {
     library: string,
   ) {
     this.directory = join(library, "acquisitions");
+    this.recordings = join(realpathSync(library), "recordings");
   }
   async prepareImport(requestId: string, path: string): Promise<PreparedAcquisition> {
     if (!requestId || !isAbsolute(path))
@@ -459,10 +513,38 @@ export class AcquisitionImporter {
     const replay = this.store.replay(requestId, path);
     if (replay) return replay;
     const root = await sourceRoot(path);
-    const files = {} as SourceFiles;
-    for (const member of members) files[member] = await observeMember(root, member);
-    return { requestId, path, files };
+    const recordingId = donorRecordingId(this.recordings, join(root, "capture.journal.jsonl"));
+    const donor = recordingId ? await this.leaseDonor(recordingId) : undefined;
+    try {
+      const files = {} as SourceFiles;
+      for (const member of members) files[member] = await observeMember(root, member);
+      return { requestId, path, files };
+    } finally {
+      await donor?.close();
+    }
   }
+  private async leaseDonor(recordingId: string): Promise<FileHandle> {
+    return openDirectoryLease(join(this.recordings, recordingId), "shared").catch(
+      (error: NodeJS.ErrnoException) => {
+        if (error instanceof CatalogError) throw error;
+        if (["EAGAIN", "EWOULDBLOCK"].includes(error.code ?? ""))
+          throw new CatalogError(
+            "RECORDING_BUSY",
+            "Capture donor is being retired",
+            { recordingId, filesystemCode: error.code },
+            true,
+          );
+        throw new CatalogError(
+          missing(error) ? "NOT_FOUND" : "INVALID_PATH",
+          "Cannot lease capture donor directory",
+          {
+            filesystemCode: error.code,
+          },
+        );
+      },
+    );
+  }
+
   private async freezeCapture(
     intent: CaptureAcquisitionIntent,
     signal: AbortSignal,
@@ -806,6 +888,7 @@ export class AcquisitionImporter {
     signal: AbortSignal,
   ): Promise<Acquisition> {
     const lifetime = await this.lease(false);
+    const donors: FileHandle[] = [];
     try {
       const intent = this.store.intent(acquisitionId);
       if (intent.kind === "package")
@@ -814,6 +897,16 @@ export class AcquisitionImporter {
         .prepare("SELECT metadata FROM acquisitions WHERE id=?")
         .get(acquisitionId)!;
       if (ready.metadata !== null) return JSON.parse(ready.metadata as string);
+      for (const recordingId of this.store.recordingDonors(acquisitionId, this.recordings)) {
+        donors.push(
+          await this.leaseDonor(recordingId).catch((error) => {
+            if (intent.kind === "capture")
+              deferredReadFailure(error, Object.keys(intent.files).length > 0);
+            throw error;
+          }),
+        );
+        signal.throwIfAborted();
+      }
       const files =
         intent.kind === "capture" ? await this.freezeCapture(intent, signal) : intent.files;
       const owner = { kind: "acquisition" as const, id: acquisitionId };
@@ -874,6 +967,7 @@ export class AcquisitionImporter {
         const output = join(directory, "source.jsonl");
         const receipt = await native.exportSource(sourceDirectory, output, signal, canonical, [
           lifetime.fd,
+          ...donors.map((donor) => donor.fd),
         ]);
         const sourceId = receipt.header?.sessionID;
         if (typeof sourceId !== "string" || !sourceId)
@@ -981,7 +1075,7 @@ export class AcquisitionImporter {
         }
       }
     } finally {
-      await lifetime.close();
+      await Promise.all([...donors, lifetime].map((handle) => handle.close()));
     }
   }
   private *acquired(identity: SourceEvidenceMetadata, role: "video" | "narration" | "system") {

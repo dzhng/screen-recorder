@@ -1,0 +1,77 @@
+{
+  "status": "verified scoped source-lifetime checkpoint",
+  "base": "d679bd33",
+  "observedAtUTC": "2026-10-01T12:10:16.310146+00:00",
+  "gates": {
+    "focused": {
+      "files": 8,
+      "tests": 85,
+      "exitCode": 0
+    },
+    "installedCapture": {
+      "tests": 24,
+      "exitCode": 0,
+      "finalCompiledCleanupCase": 1
+    },
+    "nativeFiles": {
+      "tests": 9,
+      "exitCode": 0
+    },
+    "freshPublicNativeCleanup": {
+      "tests": 2,
+      "exitCode": 0
+    },
+    "scopedOmissionControls": {
+      "expectedRed": 4,
+      "restored": true
+    },
+    "coreServiceBuildsTypes": "passed",
+    "formatLint": "passed"
+  },
+  "native": {
+    "new": {
+      "path": "/tmp/screenrec-23f-files-build/arm64-apple-macosx/debug/screenrec-native",
+      "sha256": "bb8980df1913dc25bb3fefb4938445c140a614c24a51c0041f84c5fdf1bab92c"
+    },
+    "historicalUnchanged": {
+      "path": "/tmp/screenrec-21d-native-build/arm64-apple-macosx/debug/screenrec-native",
+      "sha256": "8f2d759e6f3e9abefea9496f7c2eae9299726abd50f3acb4edb993be150b3094"
+    },
+    "productionSourceManifest": "runtime/files-build-pins.json",
+    "productionSourceEntries": 120
+  },
+  "retainedFailures": [
+    "public operations unavailable before port",
+    "donor removed before acquisition/import closure",
+    "missing shared donor lease",
+    "completion kept source admission fenced",
+    "busy lease misclassified as changed source",
+    "old native descriptor ignored and replacement removed",
+    "initial installed test attempt used stale compiled service; rebuilt current TypeScript and all24 passed"
+  ],
+  "limits": [
+    "Scripted acquisition media responses isolate coordination; no new native media-admission claim.",
+    "Actual native calls limited to scratch file/cleanup operations.",
+    "Offline native build reused existing code dependencies; historical runtimes unchanged.",
+    "No capture, playback, model work, installed switch, old-library mutation, asset GC or performance acceptance."
+  ],
+  "changeCost": {
+    "productionLogic": {
+      "added": 475,
+      "deleted": 173
+    },
+    "productionComments": {
+      "added": 11,
+      "deleted": 7
+    },
+    "tests": {
+      "added": 1127,
+      "deleted": 199
+    },
+    "docsAndGenerated": {
+      "added": 785,
+      "deleted": 15
+    },
+    "basis": "Staged code before this generated cost field; includes moved helper/owner lines, excludes binary archive."
+  }
+}

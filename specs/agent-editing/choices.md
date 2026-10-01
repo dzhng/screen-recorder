@@ -5756,3 +5756,49 @@ When: 23g, delayed status discovery across owner forgetting.
 - **Verdict:** Sound. It preserves namespace isolation without retaining an
   indefinitely growing list of deleted targets in the native consumer.
 - **Confidence:** High.
+
+## 23f — Captured-source lifetime
+
+### Keep canceled import work retryable when native completion wins — sound, high confidence
+
+When: 23f source retirement.
+
+- **Choice:** A user cancels a take while an import still borrows its files. The
+  source owner first stops and joins that import with the queue's existing job
+  cancellation operation. The native recorder can then report that completion
+  already won. In that case the temporary admission fence is released, the
+  completed source is announced again, and the stopped import remains eligible
+  for an explicit retry. A successful discard instead retires its unfinished job
+  resources while keeping the original acquisition request identity.
+- **Gap:** The plan required one shared fence but did not choose which queue
+  cancellation contract to use when discarding the take can still be refused.
+- **Reach:** Borrower cancellation does not invent permanent acquisition deletion
+  or silently retry failed work. Ready acquisitions stay outside donor retirement.
+- **Verdict:** Sound. Permanent owner deletion would prevent legitimate retry after
+  completion wins; authoring canceled before native responds would destroy that
+  completed-take outcome. Both public race and omission controls pin the choice.
+- **Confidence:** High.
+
+### Require the held descriptor for removal of an existing recording directory — sound, high confidence
+
+When: 23f native descriptor correction.
+
+- **Choice:** The service opens the donor directory, but its name is replaced
+  before native removal runs. Native compares the selected entry with the held
+  descriptor and refuses the mismatch, leaving both directories alone. An
+  existing target with no supplied descriptor is also refused. A target already
+  absent succeeds without reaching outside that name.
+- **Gap:** An actual scratch control showed the previous native operation ignored
+  the supplied descriptor and deleted the replacement. The correction could have
+  retained an unanchored fallback for callers omitting it.
+- **Reach:** Every real removal caller must carry its directory lifetime into the
+  native operation. Historical workers remain separately pinned and cannot prove
+  this corrected contract; the new worker needs its own source and binary identity.
+- **Verdict:** Sound. The existing service already supplies that descriptor; the
+  fallback would preserve the observed wrong-directory removal. Direct native
+  fixtures now exercise the same inherited descriptor contract.
+- **Confidence:** High.
+
+Internal owner decomposition, fixture extraction and bounded catalog paging used
+explicitly delegated implementation discretion. No new persisted field, queue,
+periodic cleanup policy, project creation or asset garbage collection was added.
