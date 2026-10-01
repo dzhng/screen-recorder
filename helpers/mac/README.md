@@ -70,8 +70,18 @@ pins complete raw/observation bytes and preserves native picture presentation,
 positive start, shared pause removal and the physical terminal bound. A successful
 camera publication is verified again when another source still needs retry;
 missing/conflicting camera media remains terminal. The [21b evidence](../../specs/agent-editing/assets/21b-camera-source-publication/README.md)
-records the controlled scope. Public device acquisition and source adoption remain
-separate work.
+records the controlled scope.
+
+Read-only admission uses that same camera verifier on the caller's immutable
+canonical descriptor. A local same-byte mapping snapshot and receipt retain
+complete picture identity and exact native support after the original raw inputs
+disappear. The receipt's pre-terminal journal prefix binds source identity, shared
+origin and pauses; it permits later terminal appends and does not attest their
+payload. Complete journal retention belongs to source admission. Historical
+unbound receipts without their original digest timescale require actual raw
+authority and cannot silently become portable proof. [21d evidence](../../specs/agent-editing/assets/21d-captured-source-adoption/README.md)
+separates that boundary from supplied production bindings and future service
+capture allocation. Public device acquisition remains separate work.
 
 ## Capture timing
 

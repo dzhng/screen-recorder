@@ -13,6 +13,7 @@ import {
 } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
 import { compositionAsset, portableAssetSchema } from "./assets.js";
+import { sourcePublicationFiles } from "./source-admission.js";
 import {
   projectSnapshotReferencesSchema,
   validateProjectSnapshot,
@@ -243,10 +244,10 @@ export function resourceMembers(
       bytes: acquisition.receipt.bytes,
       sha256: null,
     },
-    ...Object.entries(acquisition.receipt.publications ?? {}).map(([role, proof]) => ({
-      path: `acquisitions/${acquisition.id}/${role}.publication.json`,
-      bytes: Number(proof.receipt.bytes),
-      sha256: proof.receipt.sha256,
+    ...sourcePublicationFiles(acquisition.receipt).map(({ name, identity }) => ({
+      path: `acquisitions/${acquisition.id}/${name}`,
+      bytes: Number(identity.bytes),
+      sha256: identity.sha256,
     })),
   ];
 }

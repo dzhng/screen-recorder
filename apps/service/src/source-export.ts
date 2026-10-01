@@ -12,22 +12,22 @@ import type { SourceExporter } from "@screenrec/core/processing";
 import type { SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MAX_MEDIA_TIMEOUT_MS, nativeResult, type MediaWorker } from "./worker.js";
 
-/** Canonical verification budgets segment work separately from file size: a sparse file can
- * be tiny but expensive. Ten minutes is a bounded observation allowance for the measured
- * per-role workload (two sequential roles), not a universal platform timing guarantee. */
+/** Canonical verification budgets source work separately from file size: sparse media can
+ * be tiny but expensive. The bounded allowance does not establish a capture-stop guarantee. */
 async function verificationDeadline(directory: string, canonicalBytes: number | undefined) {
   const published = await Promise.all(
-    sourcePublicationMembers.map(async (name) =>
-      lstat(join(directory, name)).then(
+    sourcePublicationMembers.map(async (name) => ({
+      name,
+      exists: await lstat(join(directory, name)).then(
         (info) => info.isFile(),
         (error) => {
           if (error.code === "ENOENT") return false;
           throw error;
         },
       ),
-    ),
+    })),
   );
-  if (!published.some(Boolean)) return undefined; // Preserve the legacy worker budget.
+  if (!published.some((member) => member.exists)) return undefined; // Preserve the legacy worker budget.
   const size = async (name: string) => {
     const file = await open(
       join(directory, name),
@@ -46,7 +46,13 @@ async function verificationDeadline(directory: string, canonicalBytes: number | 
   };
   const bytes =
     (await size("capture.journal.jsonl")) +
-    (canonicalBytes ?? (await size("narration.mov")) + (await size("system.mov")));
+    (await size("camera.mapping.jsonl")) +
+    (canonicalBytes ??
+      (await size("narration.mov")) +
+        (await size("system.mov")) +
+        (published.some((member) => member.name === "camera.publication.json" && member.exists)
+          ? await size("video.mov")
+          : 0));
   return Math.min(MAX_MEDIA_TIMEOUT_MS, 600_000 + publicationDeadlineMs(bytes));
 }
 

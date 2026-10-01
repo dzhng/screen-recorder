@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "scope": "Once-only read-only actual retained iPhone canonical/shared-verifier scan followed by raw-less historical-proof refusal; no publication or identity upgrade",
+  "originalRoot": "/private/tmp/screenrec-20e2-final-recovery/take",
+  "originalInputManifest": "../20e-camera-presentation/evidence.tar.gz final-recovery/receipt.json; ../../../../fixtures/screen-camera-timing/manifest.json",
+  "setup": "Exact-byte private journal/receipt/mapping copies; macOS cp -c cloned historical raw authority; original canonical ordinary O_NOFOLLOW descriptor inherited via /dev/fd/3. Node forced clone unsupported before worker dispatch; no media verification attempt on that preparation failure.",
+  "canonical": {
+    "bytes": 419344906,
+    "sha256": "974663bf829190327e83ebef37318c0f45a36e97448d7093506379f305e3fd12"
+  },
+  "raw": {
+    "bytes": 424848170,
+    "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+  },
+  "pictureSHA256": "66f1c50c6ba4536b3c1c5caccb5c1d213b0bb802b115777eb18da61f5260d86a",
+  "representedFrames": 4428,
+  "visibleBGRADigestBytes": 36727603200,
+  "requiredVerifierWork": {
+    "success": "Two canonical full-file identity hashes; two raw full-file identity hashes around native scale metadata; two mapping full-file identity hashes plus one complete ordered mapping parse; one complete canonical decoded-picture/PTS digest; bounded receipt and original journal reads.",
+    "rawLessRefusal": "Receipt/journal checks and initial mapping/canonical identity hashes occur before the missing raw authority is detected. No picture scan occurs.",
+    "ioScope": "These are owner-required logical reads/digests, not measured storage traffic; AVFoundation metadata/sample I/O is not separately instrumented. No extra broad original hash pass."
+  },
+  "historicalBoundary": "probe-camera BBED6493-8AA8-41C1-94CD-34B39C6B94F2 remains unbound, finished:false, origin15210261897. The raw clone supplies only original native digest-scale authority; no binding/prefix/support fields were added to the receipt.",
+  "verification": {
+    "ok": true,
+    "data": {
+      "audioIntervals": 0,
+      "bytes": 0,
+      "cursorSamples": 0,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-21d-retained-boundary/evidence.jsonl",
+      "finished": false,
+      "geometryRecords": 0,
+      "header": {
+        "height": 1080,
+        "microphone": false,
+        "schemaVersion": 1,
+        "sessionID": "BBED6493-8AA8-41C1-94CD-34B39C6B94F2",
+        "source": {
+          "kind": "probe-camera"
+        },
+        "systemAudio": false,
+        "width": 1920
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastSequence": 3,
+      "normalizationVersion": 2,
+      "originHostUs": 15210261897,
+      "pauseEvents": 0,
+      "publications": {
+        "video": {
+          "canonical": {
+            "bytes": "419344906",
+            "sha256": "974663bf829190327e83ebef37318c0f45a36e97448d7093506379f305e3fd12"
+          },
+          "mapping": {
+            "bytes": "15128168",
+            "sha256": "ff2a43b0a6f22f378d977b17e9c6e8d2eb8790a9cd3e797aed075feb3d079ec5"
+          },
+          "receipt": {
+            "bytes": "642",
+            "sha256": "685e18d64478bbf2ca347ff8b8329f2cd15f1a26b49bc8fda67d785199abcdb5"
+          },
+          "representedFrames": 4428,
+          "support": {
+            "endUs": 250114773,
+            "startUs": 4147523
+          }
+        }
+      }
+    }
+  },
+  "rawLess": {
+    "ok": false,
+    "error": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "message": "Historical camera proof requires original raw timescale authority.",
+      "retryable": false,
+      "details": {}
+    }
+  }
+}

@@ -1,0 +1,586 @@
+{
+  "scope": "Isolated21d current-source admission; no fresh capture allocation or physical/timing acceptance",
+  "archive": {
+    "bytes": 46285,
+    "sha256": "daf44ec9b6c77d4c02d78a771a33ee2c73e7efa767d4fb48b760c9358c274614"
+  },
+  "members": [
+    {
+      "path": "native/fractional/.screenrec-output-55EB8F10-67BA-4C4C-8AE0-1F6633CDC0EB/camera.mov",
+      "bytes": 4873,
+      "sha256": "1c7bf0e9ac1cb679f5fa5157f3c7743f2b10ea4f9db81d55c8e7307ba3b4f416"
+    },
+    {
+      "path": "native/fractional/camera.closed.json",
+      "bytes": 92,
+      "sha256": "99e292002e540b7febe955c12b8d851ea4b9fb1260ad9f34acaa86b1b268520c"
+    },
+    {
+      "path": "native/fractional/camera.mapping.jsonl",
+      "bytes": 337,
+      "sha256": "5d22ce4ea48e50471ae9825d138e138ffebca702a223e9e51e84bad5447b5d47"
+    },
+    {
+      "path": "native/fractional/camera.publication.json",
+      "bytes": 1026,
+      "sha256": "7c85aeb4782364225aa3f98ef1ba3a6a8b88cd744f58b28ee4cb759f4cf62539"
+    },
+    {
+      "path": "native/fractional/camera.raw.mov",
+      "bytes": 6870,
+      "sha256": "7b0dae287bce1ce09e68d2bacc76155dae06607c9d2149ef702ffc0a45c80645"
+    },
+    {
+      "path": "native/fractional/capture.journal.jsonl",
+      "bytes": 888,
+      "sha256": "68150bcc98ae82069a2a4a2bb36175fc352c4cc7815c8bca6ca5daf2d47308ff"
+    },
+    {
+      "path": "native/fractional/video.mov",
+      "bytes": 4873,
+      "sha256": "1c7bf0e9ac1cb679f5fa5157f3c7743f2b10ea4f9db81d55c8e7307ba3b4f416"
+    },
+    {
+      "path": "native/fractional-evidence.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native/growing-mapping.jsonl",
+      "bytes": 338,
+      "sha256": "ac2a4bfe9ef2424e304217945766083b70ac242e98b71b8ec5cc9b05a0078f34"
+    },
+    {
+      "path": "native/legacy-scale/.screenrec-output-B2B3BE01-815D-473D-B787-619B765E92F6/camera.mov",
+      "bytes": 4873,
+      "sha256": "1c7bf0e9ac1cb679f5fa5157f3c7743f2b10ea4f9db81d55c8e7307ba3b4f416"
+    },
+    {
+      "path": "native/legacy-scale/camera.closed.json",
+      "bytes": 92,
+      "sha256": "99e292002e540b7febe955c12b8d851ea4b9fb1260ad9f34acaa86b1b268520c"
+    },
+    {
+      "path": "native/legacy-scale/camera.mapping.jsonl",
+      "bytes": 337,
+      "sha256": "5d22ce4ea48e50471ae9825d138e138ffebca702a223e9e51e84bad5447b5d47"
+    },
+    {
+      "path": "native/legacy-scale/camera.publication.json",
+      "bytes": 861,
+      "sha256": "f78cffdb780b930d8bc6832c3721d7d53c64becff34b4101bbc35051412460ee"
+    },
+    {
+      "path": "native/legacy-scale/capture.journal.jsonl",
+      "bytes": 202,
+      "sha256": "c4ec03e559e299b790f89a371cb9d988476c7e5d6c9baeb1358884bacf1b4404"
+    },
+    {
+      "path": "native/legacy-scale/video.mov",
+      "bytes": 4873,
+      "sha256": "1c7bf0e9ac1cb679f5fa5157f3c7743f2b10ea4f9db81d55c8e7307ba3b4f416"
+    },
+    {
+      "path": "native/normal/camera/.screenrec-output-BBE74867-A474-42E0-9A6A-586FFD9F0FB9/camera.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/normal/camera/camera.closed.json",
+      "bytes": 92,
+      "sha256": "8a95de2b08dcc82fb6d8e81ff8d01b00ccabc9f541d49b0bdb960f5244d80171"
+    },
+    {
+      "path": "native/normal/camera/camera.mapping.jsonl",
+      "bytes": 549,
+      "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+    },
+    {
+      "path": "native/normal/camera/camera.publication.json",
+      "bytes": 993,
+      "sha256": "c75c4fd7bcfe11d2f7474c59896e318d2853d5e429c6b3ffbac8e68ae4033931"
+    },
+    {
+      "path": "native/normal/camera/camera.raw.mov",
+      "bytes": 2257,
+      "sha256": "ca1b9bf57c05cf3c1791cf66f749e7260ba906c38f41620c90981c5c95b6e3ff"
+    },
+    {
+      "path": "native/normal/camera/capture-result.json",
+      "bytes": 604,
+      "sha256": "e9b5ee58891601cb18155181986e5b24f7287b13ff019a0bb00e4ba4e2cd1810"
+    },
+    {
+      "path": "native/normal/camera/capture.journal.jsonl",
+      "bytes": 1205,
+      "sha256": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc"
+    },
+    {
+      "path": "native/normal/camera/video.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/normal/capture.journal.jsonl",
+      "bytes": 640,
+      "sha256": "fcb342e98e8e5a2f7467be3e8e1e887e93977a51e2c2ce16acda8d961879820f"
+    },
+    {
+      "path": "native/normal/video.mov",
+      "bytes": 1985,
+      "sha256": "fcf3dcab515567d9462bba72423814dedb45471d0ba8514643fded2260345c58"
+    },
+    {
+      "path": "native/normal-evidence.jsonl",
+      "bytes": 70,
+      "sha256": "e4a2201a9ab37403791321aa62b83a2f79a173388e3a2397ed86fae991b600c8"
+    },
+    {
+      "path": "native/post-prefix-clock/.screenrec-output-BBE74867-A474-42E0-9A6A-586FFD9F0FB9/camera.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/post-prefix-clock/camera.closed.json",
+      "bytes": 92,
+      "sha256": "8a95de2b08dcc82fb6d8e81ff8d01b00ccabc9f541d49b0bdb960f5244d80171"
+    },
+    {
+      "path": "native/post-prefix-clock/camera.mapping.jsonl",
+      "bytes": 549,
+      "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+    },
+    {
+      "path": "native/post-prefix-clock/camera.publication.json",
+      "bytes": 993,
+      "sha256": "c75c4fd7bcfe11d2f7474c59896e318d2853d5e429c6b3ffbac8e68ae4033931"
+    },
+    {
+      "path": "native/post-prefix-clock/camera.raw.mov",
+      "bytes": 2257,
+      "sha256": "ca1b9bf57c05cf3c1791cf66f749e7260ba906c38f41620c90981c5c95b6e3ff"
+    },
+    {
+      "path": "native/post-prefix-clock/capture-result.json",
+      "bytes": 604,
+      "sha256": "e9b5ee58891601cb18155181986e5b24f7287b13ff019a0bb00e4ba4e2cd1810"
+    },
+    {
+      "path": "native/post-prefix-clock/capture.journal.jsonl",
+      "bytes": 1268,
+      "sha256": "3811a37adaf9cf0985a893597d4605e28a880b3ecb1389e855a03475cf61a2ee"
+    },
+    {
+      "path": "native/post-prefix-clock/video.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/retry-firstUs/.screenrec-output-BBE74867-A474-42E0-9A6A-586FFD9F0FB9/camera.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/retry-firstUs/camera.closed.json",
+      "bytes": 92,
+      "sha256": "8a95de2b08dcc82fb6d8e81ff8d01b00ccabc9f541d49b0bdb960f5244d80171"
+    },
+    {
+      "path": "native/retry-firstUs/camera.mapping.jsonl",
+      "bytes": 549,
+      "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+    },
+    {
+      "path": "native/retry-firstUs/camera.publication.json",
+      "bytes": 993,
+      "sha256": "e62e263a7ac44878926569bc7a29003d5fcfad29d0c0861812755d8583d896fe"
+    },
+    {
+      "path": "native/retry-firstUs/camera.raw.mov",
+      "bytes": 2257,
+      "sha256": "ca1b9bf57c05cf3c1791cf66f749e7260ba906c38f41620c90981c5c95b6e3ff"
+    },
+    {
+      "path": "native/retry-firstUs/capture-result.json",
+      "bytes": 604,
+      "sha256": "e9b5ee58891601cb18155181986e5b24f7287b13ff019a0bb00e4ba4e2cd1810"
+    },
+    {
+      "path": "native/retry-firstUs/capture.journal.jsonl",
+      "bytes": 1205,
+      "sha256": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc"
+    },
+    {
+      "path": "native/retry-firstUs/video.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/retry-pictureSHA256/.screenrec-output-BBE74867-A474-42E0-9A6A-586FFD9F0FB9/camera.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/retry-pictureSHA256/camera.closed.json",
+      "bytes": 92,
+      "sha256": "8a95de2b08dcc82fb6d8e81ff8d01b00ccabc9f541d49b0bdb960f5244d80171"
+    },
+    {
+      "path": "native/retry-pictureSHA256/camera.mapping.jsonl",
+      "bytes": 549,
+      "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+    },
+    {
+      "path": "native/retry-pictureSHA256/camera.publication.json",
+      "bytes": 993,
+      "sha256": "ccf0e94c80ca3a757ceded9aca2e17a8759fe9233e1c6c84c0b84675b62238f5"
+    },
+    {
+      "path": "native/retry-pictureSHA256/camera.raw.mov",
+      "bytes": 2257,
+      "sha256": "ca1b9bf57c05cf3c1791cf66f749e7260ba906c38f41620c90981c5c95b6e3ff"
+    },
+    {
+      "path": "native/retry-pictureSHA256/capture-result.json",
+      "bytes": 604,
+      "sha256": "e9b5ee58891601cb18155181986e5b24f7287b13ff019a0bb00e4ba4e2cd1810"
+    },
+    {
+      "path": "native/retry-pictureSHA256/capture.journal.jsonl",
+      "bytes": 1205,
+      "sha256": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc"
+    },
+    {
+      "path": "native/retry-pictureSHA256/video.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/retry-support/.screenrec-output-BBE74867-A474-42E0-9A6A-586FFD9F0FB9/camera.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/retry-support/camera.closed.json",
+      "bytes": 92,
+      "sha256": "8a95de2b08dcc82fb6d8e81ff8d01b00ccabc9f541d49b0bdb960f5244d80171"
+    },
+    {
+      "path": "native/retry-support/camera.mapping.jsonl",
+      "bytes": 549,
+      "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+    },
+    {
+      "path": "native/retry-support/camera.publication.json",
+      "bytes": 993,
+      "sha256": "116007eba81d092e9229bd7d9bc1426a19a053b92ac43637dc654f108e7b380a"
+    },
+    {
+      "path": "native/retry-support/camera.raw.mov",
+      "bytes": 2257,
+      "sha256": "ca1b9bf57c05cf3c1791cf66f749e7260ba906c38f41620c90981c5c95b6e3ff"
+    },
+    {
+      "path": "native/retry-support/capture-result.json",
+      "bytes": 604,
+      "sha256": "e9b5ee58891601cb18155181986e5b24f7287b13ff019a0bb00e4ba4e2cd1810"
+    },
+    {
+      "path": "native/retry-support/capture.journal.jsonl",
+      "bytes": 1205,
+      "sha256": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc"
+    },
+    {
+      "path": "native/retry-support/video.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/self-contained/.screenrec-output-BBE74867-A474-42E0-9A6A-586FFD9F0FB9/camera.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/self-contained/camera.mapping.jsonl",
+      "bytes": 549,
+      "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+    },
+    {
+      "path": "native/self-contained/camera.publication.json",
+      "bytes": 993,
+      "sha256": "c75c4fd7bcfe11d2f7474c59896e318d2853d5e429c6b3ffbac8e68ae4033931"
+    },
+    {
+      "path": "native/self-contained/capture-result.json",
+      "bytes": 604,
+      "sha256": "e9b5ee58891601cb18155181986e5b24f7287b13ff019a0bb00e4ba4e2cd1810"
+    },
+    {
+      "path": "native/self-contained/capture.journal.jsonl",
+      "bytes": 1205,
+      "sha256": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc"
+    },
+    {
+      "path": "native/self-contained/video.mov",
+      "bytes": 1288,
+      "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+    },
+    {
+      "path": "native/self-contained-evidence.jsonl",
+      "bytes": 70,
+      "sha256": "e4a2201a9ab37403791321aa62b83a2f79a173388e3a2397ed86fae991b600c8"
+    },
+    {
+      "path": "native/torn-mapping.jsonl",
+      "bytes": 338,
+      "sha256": "804b70d47c90c3dd40259f1dabf985bef842bb6883996f44d678aebe93c50503"
+    },
+    {
+      "path": "preserved-audio-retry/camera/.screenrec-output-0795F2DA-4088-409C-81B5-DAE6E059D7CB/camera.mov",
+      "bytes": 8997,
+      "sha256": "f1f31138802a59493427d5d3b22e308b3ccdbe9608fbee97447514d923939511"
+    },
+    {
+      "path": "preserved-audio-retry/camera/camera.closed.json",
+      "bytes": 93,
+      "sha256": "346057e08022b615b2a4eee0edcaa9d3744d8e577f71c476c5917ad5709aea13"
+    },
+    {
+      "path": "preserved-audio-retry/camera/camera.mapping.jsonl",
+      "bytes": 9989,
+      "sha256": "02997ae2b98460b6356610ddec849efe372e4a311474ec280ccc4c9ede490b63"
+    },
+    {
+      "path": "preserved-audio-retry/camera/camera.publication.json",
+      "bytes": 882,
+      "sha256": "91a89176a93de10d87aad5f177ee28846f6f24c37308036dcbe197c1523c649f"
+    },
+    {
+      "path": "preserved-audio-retry/camera/camera.raw.mov",
+      "bytes": 10022,
+      "sha256": "3bf02e21c110b95de0eeba7c8e3caf310aa3e984d53205d3aa9baeaeabe9aaca"
+    },
+    {
+      "path": "preserved-audio-retry/camera/capture-result.json",
+      "bytes": 492,
+      "sha256": "d5bd4f0b104cc68e022bd166cca29af417b9e03605ca1478b7529e6f8cc14002"
+    },
+    {
+      "path": "preserved-audio-retry/camera/capture.journal.jsonl",
+      "bytes": 1094,
+      "sha256": "c29dec78f2303b765f490ae891aca8537095339f2598a1db92fbe92a2eba9852"
+    },
+    {
+      "path": "preserved-audio-retry/camera/video.mov",
+      "bytes": 8997,
+      "sha256": "f1f31138802a59493427d5d3b22e308b3ccdbe9608fbee97447514d923939511"
+    },
+    {
+      "path": "preserved-audio-retry/capture.journal.jsonl",
+      "bytes": 5053,
+      "sha256": "6135d5aafb3558cdbfd03e38979d062f14fc263ce7d89c440b4283338127b894"
+    },
+    {
+      "path": "preserved-audio-retry/closure-counts.json",
+      "bytes": 123,
+      "sha256": "d57552705ac5f8e73915f75d313ad257b70a51f2fafc91f0a33bd807f126147c"
+    },
+    {
+      "path": "preserved-audio-retry/narration.mov",
+      "bytes": 384697,
+      "sha256": "e5e7b9285b3209ec2c135504eac4ead4fc720b133adbfdd543ee9098c1e94040"
+    },
+    {
+      "path": "preserved-audio-retry/narration.publication.json",
+      "bytes": 673,
+      "sha256": "34633a2978c9dcf9b0c8b66c7fec08454d8b9ede564f029daace39f71755e8aa"
+    },
+    {
+      "path": "preserved-audio-retry/native-result.json",
+      "bytes": 1128,
+      "sha256": "4125d1f2097190d33546b529295588eabb710c0b218663fb5f4efd4a4b4a08c4"
+    },
+    {
+      "path": "preserved-audio-retry/timestamps.jsonl",
+      "bytes": 9989,
+      "sha256": "02997ae2b98460b6356610ddec849efe372e4a311474ec280ccc4c9ede490b63"
+    },
+    {
+      "path": "preserved-audio-retry/video.mov",
+      "bytes": 10298,
+      "sha256": "6133c954de79f1d3ce82f31166a86c6a1f80cfb5c1b1d300cc57d76ab56ea03b"
+    },
+    {
+      "path": "retained/camera.publication.json",
+      "bytes": 642,
+      "sha256": "685e18d64478bbf2ca347ff8b8329f2cd15f1a26b49bc8fda67d785199abcdb5"
+    },
+    {
+      "path": "retained/capture.journal.jsonl",
+      "bytes": 376,
+      "sha256": "98cd1cdf5a6635b710aadeb2f76885099d0dc5e0430ee74f7b41911b3ff8f7b4"
+    },
+    {
+      "path": "retained/check.mjs",
+      "bytes": 2390,
+      "sha256": "f3f5387cf301ce3712f3a2f3be0364c9260ab12184b8a0241455882e03613cb8"
+    },
+    {
+      "path": "retained/raw-less-refusal.json",
+      "bytes": 200,
+      "sha256": "96c385428a3f09aace15e3b9c8e51abdcd5715c94933c7ade8a8f19087c3facb"
+    },
+    {
+      "path": "retained/request.json",
+      "bytes": 194,
+      "sha256": "04700b41f5326c068a57a5a5e30f58df44ec13b1cf9b6f37445417ac4e178de8"
+    },
+    {
+      "path": "retained/response.json",
+      "bytes": 1313,
+      "sha256": "982e59fb89640cd7f2bd98c926ce9c9cc4097a99c124af46f4a249041ad193d1"
+    },
+    {
+      "path": "screenrec-21d-admission-clipped.log",
+      "bytes": 862,
+      "sha256": "d701bb39c330065fc1f8c78f1a4ba9f528f4f93da6de768079cf3336ed015387"
+    },
+    {
+      "path": "screenrec-21d-clipped-build.log",
+      "bytes": 399,
+      "sha256": "965f022ac6d4eb33f7cb063db12f7c73cef766594266e9bace0011a1acc21f2b"
+    },
+    {
+      "path": "screenrec-21d-default-preservation.log",
+      "bytes": 8772,
+      "sha256": "765034bb3010f8f4b47b3713c52c377d15b9081c391508c79df9df653558a646"
+    },
+    {
+      "path": "screenrec-21d-lint-review.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "screenrec-21d-publication-preservation.log",
+      "bytes": 244,
+      "sha256": "31ec166949d323b3a4d4af9f2f6b542721dff7b816c4dcf2fe9ee50394075c41"
+    },
+    {
+      "path": "screenrec-21d-retained-check.log",
+      "bytes": 296,
+      "sha256": "b2e4b23293f18b8fe383d7445971b7a24146168c043af2717a0b9d307758f054"
+    },
+    {
+      "path": "screenrec-21d-ts-tests.log",
+      "bytes": 1042,
+      "sha256": "c88ec56404b7cedb766bf4ef324e97e0cae0f2839e4a656c1748114cdb604c5a"
+    },
+    {
+      "path": "screenrec-21d-type-review.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "screenrec-21d-worker-build.log",
+      "bytes": 440,
+      "sha256": "b8e14187fa198fe52e0a7337a266025d6cc534fb3a9fac745fdda2df3d57d70f"
+    },
+    {
+      "path": "source-runtime-pins.json",
+      "bytes": 3933,
+      "sha256": "82aff9d6ddf3e466772eadd7af65b756c3034c4b2b8f199c1849dda62306b295"
+    }
+  ],
+  "runtimes": {
+    "/tmp/screenrec-21d-native-build/debug/ScreenRecorderCaptureTests": {
+      "bytes": 33678960,
+      "sha256": "1dd342acb89e071401ec45da46182c66af51cfc521ff11fc32f5be0602801a7b"
+    },
+    "/tmp/screenrec-21d-native-build/debug/screenrec-native": {
+      "bytes": 29255424,
+      "sha256": "8f2d759e6f3e9abefea9496f7c2eae9299726abd50f3acb4edb993be150b3094"
+    }
+  },
+  "sources": {
+    "apps/service/src/source-export.ts": {
+      "bytes": 5066,
+      "sha256": "50b21eef3e6262c74829f114a948184dfae278fe5863fc6ed557f35e1c1a3a85"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/CameraCaptureInput.swift": {
+      "bytes": 12487,
+      "sha256": "0ae9742906d5519056cd6e350d292e92d0df691b68040f3e59f044bcd7ff8673"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift": {
+      "bytes": 30524,
+      "sha256": "dcd4c4e3e45a8e363cb4f7bf15c1b96fae46f44f5e4ee8501502c00bb4f97947"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift": {
+      "bytes": 8105,
+      "sha256": "c2727b2ef516d6a589141456d20508a3143a086ff81674c532fc387728f52669"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift": {
+      "bytes": 24051,
+      "sha256": "d2d184ecb51ea0858629a17f2f0934975441fc7451d67ac753ce626e63a2341f"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift": {
+      "bytes": 33370,
+      "sha256": "128b3b820e024a700bde321fbfefd985e6c5e2de8280a079354622586659802b"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureTypes.swift": {
+      "bytes": 8898,
+      "sha256": "f1672f2595def8182020e8a54fb2fbb7458ae58d6ec6701103a0f1311e53cbe2"
+    },
+    "helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift": {
+      "bytes": 5751,
+      "sha256": "7a2b15220bf578678f6fb98156636994d35b3647cbd988b25b67959d967c9591"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/MediaRecovery.swift": {
+      "bytes": 18728,
+      "sha256": "18531c267a41f96f65d8ed23fb81d7da78b0006694d9f983ed65248df0c1e4a5"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift": {
+      "bytes": 9253,
+      "sha256": "7743d3fa383a828b71f13da6fdde57818af51ced721a8aeb92e12e378e7877fa"
+    },
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift": {
+      "bytes": 4934,
+      "sha256": "f807cbdb62810fe53a5d4d37d42408b6d5c98797d3719bd75867343e63e10ef5"
+    },
+    "packages/core/src/acquisitions.ts": {
+      "bytes": 34960,
+      "sha256": "3d9d6407de8708b241233e5ee04345859a5f1682fc55871b4ef1cc3b55335a14"
+    },
+    "packages/core/src/evidence.test.ts": {
+      "bytes": 29832,
+      "sha256": "7d6c81fcd989f25a6e93c9d1805ee43d7e08892214d9a85907097a54c2e38df7"
+    },
+    "packages/core/src/evidence.ts": {
+      "bytes": 22929,
+      "sha256": "d64dd18b6a11ead06d289e6fabb5ac3f6bfb4ef845aa3f39733bb4716f3252f7"
+    },
+    "packages/core/src/processing.ts": {
+      "bytes": 11288,
+      "sha256": "e360129a3b1b42e66232973598a7f5fdacb89a1cc47a843566e6805a5cf3d7d5"
+    },
+    "packages/core/src/project-package.ts": {
+      "bytes": 20707,
+      "sha256": "a3a709af49e6096e7ef4ae8b5e0d1525c3da664bc3238f05721b9bc43bafe04a"
+    },
+    "packages/core/src/source-admission.ts": {
+      "bytes": 4688,
+      "sha256": "7d3d863e77a0ce3555e9ebef0e609f4c0fc0f5c58f3345913fb1287d28cfb17d"
+    },
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraJournalProvenanceTests.swift": {
+      "bytes": 3698,
+      "sha256": "6e376ede6c288cef8ec859468c73558bd51b6d4aaf3c5467cec1e19728c04887"
+    },
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraSourceAdmissionTests.swift": {
+      "bytes": 16772,
+      "sha256": "d0366c61042d97a8d7695023f96d853f241588d8216bb6d39ac488b272911116"
+    },
+    "packages/test-harness/editing/camera-source-admission.mjs": {
+      "bytes": 11997,
+      "sha256": "e98fbbc16ffa91b6a70c5db11bad90e5986d8be65dff864319fa8f54cd05a1ed"
+    }
+  }
+}

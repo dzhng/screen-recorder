@@ -5,6 +5,7 @@ import Foundation
 package final class CameraWriter {
     private let directory: URL
     private let framesPerSecond: Int
+    private let binding: CameraCaptureBinding?
     private var writer: AVAssetWriter?
     private var input: AVAssetWriterInput?
     private var journal: CaptureJournal?
@@ -20,8 +21,9 @@ package final class CameraWriter {
     private var pausedCount = 0
     private var origin: Int64?
 
-    package init(directory: URL, framesPerSecond: Int) throws {
-        self.directory = directory; self.framesPerSecond = framesPerSecond
+    package init(directory: URL, framesPerSecond: Int, binding: CameraCaptureBinding? = nil) throws {
+        try binding?.validate()
+        self.directory = directory; self.framesPerSecond = framesPerSecond; self.binding = binding
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
     }
     package func append(_ sample: CMSampleBuffer, state: CaptureWriter.IngressState) throws -> (receipt: CaptureWriter.IngressReceipt, frame: CameraFrameMapping?) {
@@ -45,9 +47,9 @@ package final class CameraWriter {
             let size = CMVideoFormatDescriptionGetDimensions(description)
             width = Int(size.width); height = Int(size.height)
             let journal = try CaptureJournal(directory: directory.path,
-                header: CaptureJournalHeader(schemaVersion: 1, sessionID: UUID().uuidString,
-                    source: CaptureSource(kind: "probe-camera"), width: width, height: height,
-                    microphone: false, systemAudio: false))
+                header: CaptureJournalHeader(schemaVersion: 1, sessionID: binding?.sourceId ?? UUID().uuidString,
+                    source: CaptureSource(kind: binding == nil ? "probe-camera" : "camera"), width: width, height: height,
+                    microphone: false, systemAudio: false, cameraBinding: binding))
             self.journal = journal
             origin = state.clock.originUs
             try journal.recordOrigin(hostUs: origin!, placedPauses: state.clock.pauses)
@@ -121,7 +123,7 @@ package final class CameraWriter {
         } catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("WRITE_FAILED", error.localizedDescription) }
         let closed = ClosedCameraSource(directory: directory, journal: journal, observations: observations,
             clock: clock, width: width, height: height, frames: frames, dropped: dropped,
-            omitted: omitted, sealed: sealed, failure: reason)
+            omitted: omitted, sealed: sealed, failure: reason, binding: binding)
         if frames > 0 {
             do { try closed.pinIdentities() } catch { closed.identityFailure = error }
         }

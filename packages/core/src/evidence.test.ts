@@ -81,6 +81,26 @@ test("pages equal-time raw samples with explicit range and stable continuation",
   ).toEqual({ samples: [{ sequence: 3, ...f.samples[2] }], nextSequence: null });
 });
 
+test("declared camera evidence cannot be indexed without its verified publication", async () => {
+  const f = fixture();
+  const receipt = {
+    ...f.receipt,
+    header: {
+      sessionID: f.identity.sourceId,
+      schemaVersion: 1,
+      source: { kind: "camera" },
+      cameraBinding: {
+        recordingId: f.identity.owner.recordingId,
+        sourceId: f.identity.sourceId,
+        deviceId: "fixture-camera",
+      },
+    },
+  };
+  await expect(f.evidence.ingest({ ...f.identity, file: f.file, receipt })).rejects.toThrow(
+    "camera publication",
+  );
+});
+
 test("generations and recording identities never share pages; duplicate ingestion preserves evidence", async () => {
   const f = fixture();
   const metadata = await f.evidence.ingest({ ...f.identity, file: f.file, receipt: f.receipt });

@@ -82,9 +82,16 @@ package enum MediaRecovery {
         catch let failure as CaptureFailure where ["JOURNAL_MISSING", "INVALID_JOURNAL"].contains(failure.code) {
             layout = nil
         }
+        let cameraReceipt = URL(fileURLWithPath: directory).appendingPathComponent("camera.publication.json")
+        if layout == 1 && FileManager.default.fileExists(atPath: cameraReceipt.path) {
+            return try await recoverCamera(directory: directory)
+        }
         guard layout == 2 else {
             let result = await inspect(directory: directory)
             try Task.checkCancellation()
+            if result.journal?.header?.source.kind == "camera" || result.journal?.header?.cameraBinding != nil {
+                return try await recoverCamera(directory: directory)
+            }
             if let failure = result.tracks.compactMap(\.failure).first(where: { $0.code == "MEDIA_UNAVAILABLE" }) { throw failure }
             return result
         }
@@ -141,6 +148,29 @@ package enum MediaRecovery {
             tracks: tracks, journal: journal,
             journalFailure: journal.invalidAtSequence == nil ? nil : CaptureFailure("INVALID_JOURNAL", "Recovery used only the validated journal prefix."),
             cleanupFailure: cleanupFailure)
+    }
+
+    /// Camera recovery and admission consume the same canonical picture/support authority.
+    private static func recoverCamera(directory: String) async throws -> RecoveredCapture {
+        let root = URL(fileURLWithPath: directory)
+        let lease = try CaptureJournalLease(directory: directory)
+        defer { lease.release() }
+        let canonical = root.appendingPathComponent("video.mov")
+        if !FileManager.default.fileExists(atPath: canonical.path) {
+            _ = try await CameraMedia.publish(lease: lease, observationURL: root.appendingPathComponent("camera.mapping.jsonl"))
+        }
+        let verified = try await CameraMedia.readPublished(lease: lease, canonical: canonical)
+        let journal = try CaptureJournal.readEvidence(directory: directory, maximumBytes: 268_435_456,
+            retainTiming: false, geometry: { _ in }, samples: { _ in }, displaySpace: { _ in },
+            descriptor: lease.descriptor, layout: 1)
+        let span = try verified.identity.support.roundedSpan()
+        let track = RecoveredTrack(role: "video", file: "video.mov", intervals: [span],
+            decodedSamples: nil, representedFrames: JournalInteger(wrappedValue: Int64(verified.identity.representedFrames)),
+            decodeReachedEnd: true, acquisitionVerified: true,
+            failure: verified.diagnostics.isEmpty ? nil : CaptureFailure("PARTIAL_CAMERA", verified.diagnostics.joined(separator: ", ")))
+        try lease.check()
+        return RecoveredCapture(durationUs: span.endUs, tracks: [track], journal: journal,
+            journalFailure: journal.invalidAtSequence == nil ? nil : CaptureFailure("INVALID_JOURNAL", "Recovery used only the validated journal prefix."))
     }
 
     package static func inspect(directory: String) async -> RecoveredCapture {

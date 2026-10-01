@@ -9,6 +9,7 @@ import {
 } from "@screenrec/composition";
 import {
   verifySourceEvidence,
+  sourcePublicationFiles,
   sourcePublicationMembers as publicationMembers,
 } from "./source-admission.js";
 import { createHash, randomUUID } from "node:crypto";
@@ -35,6 +36,7 @@ import {
 } from "./files.js";
 import {
   validateSourceReceipt,
+  type CameraPublicationProof,
   type SourceEvidenceMetadata,
   type SourceEvidenceStore,
 } from "./evidence.js";
@@ -360,12 +362,9 @@ export class AcquisitionImporter {
         journal: identify(paths.journal, value.journal.bytes),
         normalized: identify(paths.normalized, value.evidence.receipt.bytes),
         ...Object.fromEntries(
-          Object.entries(value.evidence.receipt.publications ?? {}).map(([role, proof]) => [
-            `${role}.publication.json`,
-            identify(
-              join(dirname(paths.journal), `${role}.publication.json`),
-              Number(proof.receipt.bytes),
-            ),
+          sourcePublicationFiles(value.evidence.receipt).map(({ name, identity }) => [
+            name,
+            identify(join(dirname(paths.journal), name), Number(identity.bytes)),
           ]),
         ),
       },
@@ -392,7 +391,7 @@ export class AcquisitionImporter {
           if (roles.has(role))
             throw new CatalogError("INVALID_PACKAGE", "Acquisition repeats a source role");
           roles.add(role);
-          if (role === "video") continue;
+          if (role === "video" && !acquisition.receipt.publications?.video) continue;
           const file = native.assetFiles.get(binding.assetId);
           if (!file) throw new CatalogError("INVALID_PACKAGE", "Missing canonical source input");
           const proof = acquisition.receipt.publications?.[role];
@@ -439,7 +438,12 @@ export class AcquisitionImporter {
         const asset = native.assets.get(binding.assetId);
         if (!asset) throw new CatalogError("INVALID_PACKAGE", "Missing bound asset metadata");
         for (const role of binding.sourceRoles) {
-          const expected = this.binding(asset, role, audio.get(role) ?? []);
+          const expected = this.binding(
+            asset,
+            role,
+            audio.get(role) ?? [],
+            acquisition.receipt.publications?.video,
+          );
           if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
             throw new CatalogError(
               "INVALID_PACKAGE",
@@ -473,22 +477,15 @@ export class AcquisitionImporter {
     const packageIdentity = createHash("sha256")
       .update(JSON.stringify([acquisition, files.journal.sha256, files.normalized.sha256]))
       .digest("hex");
-    const proofMembers = Object.entries(acquisition.receipt.publications ?? {}).map(
-      ([role, proof]) => {
-        const name = `${role}.publication.json` as (typeof publicationMembers)[number];
-        const member = files[name];
-        if (
-          !member ||
-          member.sha256 !== proof.receipt.sha256 ||
-          member.bytes !== Number(proof.receipt.bytes)
-        )
-          throw new CatalogError(
-            "INVALID_PACKAGE",
-            "Publication proof differs from package inventory",
-          );
-        return [name, member] as const;
-      },
-    );
+    const proofMembers = sourcePublicationFiles(acquisition.receipt).map(({ name, identity }) => {
+      const member = files[name];
+      if (!member || member.sha256 !== identity.sha256 || member.bytes !== Number(identity.bytes))
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Publication proof differs from package inventory",
+        );
+      return [name, member] as const;
+    });
     if (
       this.store.ready(acquisition.id) &&
       !isDeepStrictEqual(portableAcquisition(this.store.get(acquisition.id)), acquisition)
@@ -613,6 +610,7 @@ export class AcquisitionImporter {
                 this.assets.get(binding.assetId),
                 role,
                 this.acquired(evidence, role),
+                acquisition.receipt.publications?.video,
               );
               if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
                 throw new CatalogError(
@@ -690,10 +688,16 @@ export class AcquisitionImporter {
         for (const name of publicationMembers) {
           const proof = intent.files[name];
           if (proof)
-            await copyImportedFile(proof.path, join(sourceDirectory, name), signal, proof, 65_536);
+            await copyImportedFile(
+              proof.path,
+              join(sourceDirectory, name),
+              signal,
+              proof,
+              name === "camera.mapping.jsonl" ? 268_435_456 : 65_536,
+            );
         }
         const canonical = Object.fromEntries(
-          (["narration", "system"] as const).flatMap((role) => {
+          (["video", "narration", "system"] as const).flatMap((role) => {
             const file = intent.files[`${role}.mov`];
             return file ? [[role, file]] : [];
           }),
@@ -734,12 +738,17 @@ export class AcquisitionImporter {
             (value) => this.assets.retain(owner, [value.id]),
             {
               ...source,
-              ...(sourceRole !== "video" && receipt.publications?.[sourceRole]
+              ...(receipt.publications?.[sourceRole]
                 ? { sha256: receipt.publications[sourceRole]!.canonical.sha256 }
                 : {}),
             },
           );
-          const binding = this.binding(asset, sourceRole, this.acquired(indexed, sourceRole));
+          const binding = this.binding(
+            asset,
+            sourceRole,
+            this.acquired(indexed, sourceRole),
+            receipt.publications?.video,
+          );
           const same = bindings.find(
             (row) => row.assetId === binding.assetId && row.streamId === binding.streamId,
           );
@@ -801,6 +810,7 @@ export class AcquisitionImporter {
     asset: Asset,
     sourceRole: Acquisition["bindings"][number]["sourceRoles"][number],
     intervals: Iterable<{ startUs: number; endUs: number }>,
+    camera?: CameraPublicationProof,
   ): Acquisition["bindings"][number] {
     const kind = sourceRole === "video" ? "video" : "audio";
     const streams = compositionAsset(asset).streams.filter((stream) => stream.kind === kind);
@@ -812,6 +822,20 @@ export class AcquisitionImporter {
       );
     const stream = streams[0]!;
     let available = stream.available;
+    if (sourceRole === "video" && camera) {
+      const verified = [
+        {
+          startUs: toTime(subtract(fromTime(camera.support.startUs), fromTime(asset.originUs))),
+          endUs: toTime(subtract(fromTime(camera.support.endUs), fromTime(asset.originUs))),
+        },
+      ];
+      if (!isDeepStrictEqual(available, verified))
+        throw new CatalogError(
+          "INVALID_EVIDENCE",
+          "Camera physical support differs from verified source support",
+        );
+      available = verified;
+    }
     if (sourceRole !== "video") {
       available = [];
       for (const interval of intervals) {

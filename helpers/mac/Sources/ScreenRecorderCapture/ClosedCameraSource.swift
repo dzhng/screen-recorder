@@ -14,6 +14,7 @@ package final class ClosedCameraSource {
     let omitted: Int
     let sealed: Bool
     let failure: CaptureFailure?
+    let binding: CameraCaptureBinding?
     var rawIdentity: CaptureMediaIdentity?
     var observationIdentity: CaptureMediaIdentity?
     var identityFailure: (any Error)?
@@ -23,10 +24,11 @@ package final class ClosedCameraSource {
 
     init(directory: URL, journal: CaptureJournal?, observations: URL, clock: CaptureClock,
         width: Int, height: Int, frames: Int, dropped: Int, omitted: Int, sealed: Bool,
-        failure: CaptureFailure?) {
+        failure: CaptureFailure?, binding: CameraCaptureBinding? = nil) {
         self.directory = directory; self.journal = journal; self.observations = observations
         self.clock = clock; self.width = width; self.height = height; self.frames = frames
         self.dropped = dropped; self.omitted = omitted; self.sealed = sealed; self.failure = failure
+        self.binding = binding
     }
     package func releaseJournal() { journal?.lease.release() }
 
@@ -34,9 +36,10 @@ package final class ClosedCameraSource {
         let raw = try CaptureMediaIdentity.read(directory.appendingPathComponent("camera.raw.mov"))
         guard rawIdentity.map({ $0 == raw }) ?? true else { throw CameraMedia.invalid("Closed camera payload changed.") }
         rawIdentity = raw
-        let evidence = try CaptureMediaIdentity.read(observations)
+        let evidence = try CaptureMediaIdentity.read(observations, maximumBytes: 268_435_456)
         guard observationIdentity.map({ $0 == evidence }) ?? true else { throw CameraMedia.invalid("Closed camera observations changed.") }
         observationIdentity = evidence
+        _ = try CameraMedia.retainMapping(observations: observations, directory: directory, identity: evidence)
     }
 }
 
@@ -74,12 +77,12 @@ extension CameraMedia {
             }
         }
         var result = CaptureResult(state: reason == nil ? "complete" : "interrupted",
-            source: CaptureSource(kind: "probe-camera"), width: closed.width, height: closed.height,
+            source: CaptureSource(kind: closed.binding == nil ? "probe-camera" : "camera"), width: closed.width, height: closed.height,
             durationUs: receipt?.endUs ?? 0, hostOriginUs: closed.clock.originUs, pauses: closed.clock.pauses,
             tracks: receipt.map { [CapturedTrack(role: "video", file: "video.mov", firstSampleUs: $0.firstUs,
                 lastSampleEndUs: $0.endUs, samples: $0.representedFrames, droppedSamples: closed.dropped,
                 omittedSamples: closed.omitted, heldTailUs: 0, sampleRate: nil, channelCount: nil)] } ?? [],
-            failure: reason, systemAudioScope: "disabled")
+            failure: reason, systemAudioScope: "disabled", cameraBinding: closed.binding)
         // Persist the result file before the one terminal append. An operational write failure
         // can retry without claiming journal completion or repeating physical closure.
         let resultURL = closed.directory.appendingPathComponent("capture-result.json")

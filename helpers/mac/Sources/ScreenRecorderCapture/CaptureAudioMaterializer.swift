@@ -7,7 +7,7 @@ import ScreenRecorderMedia
 package struct CaptureMediaIdentity: Codable, Sendable, Equatable {
   @JournalInteger package var bytes: Int64
   package let sha256: String
-  package static func read(_ url: URL) throws -> CaptureMediaIdentity {
+  package static func read(_ url: URL, maximumBytes: Int64? = nil) throws -> CaptureMediaIdentity {
     let inherited = try MediaDescriptor(url: url, writable: false)
     let descriptor =
       inherited.map { fcntl($0.descriptor, F_DUPFD_CLOEXEC, 0) }
@@ -23,6 +23,9 @@ package struct CaptureMediaIdentity: Codable, Sendable, Equatable {
     }
     guard info.st_mode & S_IFMT == S_IFREG, info.st_size >= 0 else {
       throw CaptureFailure("INVALID_MEDIA", "Media identity requires a regular file.")
+    }
+    guard maximumBytes.map({ info.st_size <= $0 }) ?? true else {
+      throw CaptureFailure("EVIDENCE_LIMIT", "Media identity input exceeds its read budget.")
     }
     var hash = SHA256()
     var bytes: Int64 = 0

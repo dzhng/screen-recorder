@@ -6,7 +6,7 @@ import ScreenRecorderMedia
 public struct CaptureJournalHeader: Codable, Sendable {
     public init(
         schemaVersion: Int, sessionID: String, source: CaptureSource, width: Int, height: Int,
-        microphone: Bool, systemAudio: Bool
+        microphone: Bool, systemAudio: Bool, cameraBinding: CameraCaptureBinding? = nil
     ) {
         self.schemaVersion = schemaVersion
         self.sessionID = sessionID
@@ -15,6 +15,7 @@ public struct CaptureJournalHeader: Codable, Sendable {
         self.height = height
         self.microphone = microphone
         self.systemAudio = systemAudio
+        self.cameraBinding = cameraBinding
     }
 
     public let schemaVersion: Int
@@ -24,6 +25,7 @@ public struct CaptureJournalHeader: Codable, Sendable {
     public let height: Int
     public let microphone: Bool
     public let systemAudio: Bool
+    public let cameraBinding: CameraCaptureBinding?
 
     /// Whether the take asked for this role at all. A take always records video; audio roles are
     /// requested per take, and a role the header never asked for cannot have been lost.
@@ -327,6 +329,7 @@ public final class CaptureJournal {
         return summary
     }
 
+    /// Both layouts retain/verify prefixes through the same decoded-record byte boundary.
     package static func readEvidence(
         directory: String, maximumBytes: Int?, retainTiming: Bool,
         geometry: (JournalGeometry) throws -> Void,
@@ -336,18 +339,19 @@ public final class CaptureJournal {
         audioAcquired: (JournalAudioSamples) throws -> Void = { _ in },
         pcmOrigin: (JournalPCMOrigin) throws -> Void = { _ in },
         pcmTrack: (JournalPCMTrack) throws -> Void = { _ in },
-        pcmAppend: ((JournalPCMAppend) throws -> Void)? = nil,
+        pcmAppend: ((JournalPCMAppend) throws -> Void)? = nil, retainPrefix: Bool = false,
         through prefix: JournalPrefix? = nil, descriptor: Int32? = nil, layout: Int = 1
     ) throws -> CaptureJournalSummary {
         if let prefix {
-            guard pcmAppend != nil, prefix.bytes > 0,
+            guard prefix.bytes > 0,
                 prefix.sha256.count == 64,
                 prefix.sha256.allSatisfy({ $0.isASCII && ($0.isNumber || ("a"..."f").contains(String($0))) })
             else { throw CaptureFailure("INVALID_JOURNAL_PREFIX", "Invalid journal prefix token.") }
         }
         var summary = CaptureJournalSummary()
         var pcm = JournalPCMState()
-        var prefixHash = pcmAppend == nil ? nil : SHA256()
+        let retainsPrefix = retainPrefix || pcmAppend != nil || prefix != nil
+        var prefixHash = retainsPrefix ? SHA256() : nil
         var prefixBytes: Int64 = 0
         // At most one pending interval per supported role; the stream never accumulates gaps.
         var pendingAudio: [String: JournalAudioSamples] = [:]
@@ -462,7 +466,7 @@ public final class CaptureJournal {
                 }
             case .other: break
             }
-            if pcmAppend != nil {
+            if retainsPrefix {
                 prefixHash?.update(data: line)
                 prefixHash?.update(data: Data([10]))
                 prefixBytes += Int64(line.count) + 1

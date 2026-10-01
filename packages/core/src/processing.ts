@@ -19,7 +19,9 @@ export type SourceExporter = (
   directory: string,
   output: string,
   signal: AbortSignal,
-  canonical?: Partial<Record<"narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>>,
+  canonical?: Partial<
+    Record<"video" | "narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>
+  >,
   lifetimes?: readonly number[],
 ) => Promise<SourceEvidenceReceipt>;
 

@@ -79,6 +79,21 @@ public struct CaptureVideoDevice: Codable, Sendable, Equatable {
     public let name: String
 }
 
+/// Supplied camera identity; service allocation validation belongs to the capture lifecycle owner.
+public struct CameraCaptureBinding: Codable, Sendable, Equatable {
+    public let recordingId: String
+    public let sourceId: String
+    public let deviceId: String
+    public init(recordingId: String, sourceId: String, deviceId: String) {
+        self.recordingId = recordingId; self.sourceId = sourceId; self.deviceId = deviceId
+    }
+    package func validate() throws {
+        guard [recordingId, sourceId, deviceId].allSatisfy({ !$0.isEmpty && $0.utf16.count <= 256 }) else {
+            throw CaptureFailure("INVALID_REQUEST", "Camera binding requires bounded take, source and device identities.")
+        }
+    }
+}
+
 public struct CaptureFailure: Error, LocalizedError, Codable, Sendable {
     public var errorDescription: String? { message }
     public let code: String
@@ -135,7 +150,8 @@ public struct CaptureResult: Codable, Sendable {
         state: String, source: CaptureSource, width: Int, height: Int, durationUs: Int64,
         hostOriginUs: Int64?, pauses: [PauseEvent], tracks: [CapturedTrack],
         failure: CaptureFailure?, systemAudioScope: String, cursor: CursorStats = CursorStats(),
-        cleanupFailure: CaptureFailure? = nil, camera: CapturedCameraSource? = nil
+        cleanupFailure: CaptureFailure? = nil, camera: CapturedCameraSource? = nil,
+        cameraBinding: CameraCaptureBinding? = nil
     ) {
         self.state = state
         self.source = source
@@ -150,6 +166,7 @@ public struct CaptureResult: Codable, Sendable {
         self.systemAudioScope = systemAudioScope
         self.cursor = cursor
         self.camera = camera
+        self.cameraBinding = cameraBinding
     }
 
     public let state: String
@@ -165,6 +182,7 @@ public struct CaptureResult: Codable, Sendable {
     public let systemAudioScope: String
     public let cursor: CursorStats
     public let camera: CapturedCameraSource?
+    public let cameraBinding: CameraCaptureBinding?
 }
 
 /// Independent camera media facts; screen/audio tracks keep their original meanings.
@@ -179,12 +197,14 @@ public struct CapturedCameraSource: Codable, Sendable {
     public let pauses: [PauseEvent]
     public let tracks: [CapturedTrack]
     public let failure: CaptureFailure?
+    public let cameraBinding: CameraCaptureBinding?
 
     package init(directory: String, result: CaptureResult) {
         self.directory = directory; source = result.source; state = result.state
         width = result.width; height = result.height; durationUs = result.durationUs
         hostOriginUs = result.hostOriginUs; pauses = result.pauses
         tracks = result.tracks; failure = result.failure
+        cameraBinding = result.cameraBinding
     }
 }
 
@@ -194,13 +214,14 @@ extension CaptureResult {
         CaptureResult(state: state, source: source, width: width, height: height,
             durationUs: durationUs, hostOriginUs: hostOriginUs, pauses: pauses, tracks: tracks,
             failure: failure, systemAudioScope: systemAudioScope, cursor: cursor,
-            cleanupFailure: cleanupFailure, camera: camera).withFailure(camera?.failure)
+            cleanupFailure: cleanupFailure, camera: camera, cameraBinding: cameraBinding).withFailure(camera?.failure)
     }
 
     package func withFailure(_ other: CaptureFailure?) -> CaptureResult {
         guard failure == nil, let reason = other else { return self }
         return CaptureResult(state: "interrupted", source: source, width: width, height: height,
             durationUs: durationUs, hostOriginUs: hostOriginUs, pauses: pauses, tracks: tracks,
-            failure: reason, systemAudioScope: systemAudioScope, cursor: cursor, cleanupFailure: cleanupFailure, camera: camera)
+            failure: reason, systemAudioScope: systemAudioScope, cursor: cursor, cleanupFailure: cleanupFailure,
+            camera: camera, cameraBinding: cameraBinding)
     }
 }

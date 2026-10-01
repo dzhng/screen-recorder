@@ -5277,3 +5277,81 @@ When: 21c.
   cleanup path without adding production instrumentation or raw-PID signaling.
 - **Confidence:** high for the ownership decision. Synthetic lifecycle controls pass;
   actual service integration and the query profile remain open.
+
+
+### Preserve the exact closed mapping inside the source — sound, high confidence
+
+When: 21d (2026-10-01).
+
+- **Choice:** A camera source used to depend on its take's external timestamp file.
+  Admission now retains the original closed bytes under the source directory,
+  and its receipt identifies those bytes. Deleting the external file or moving a
+  portable project therefore leaves the same evidence available. It never reads
+  an implicit parent directory or replaces a conflicting local snapshot.
+- **Gap:** The plan required self-contained mapping evidence without specifying
+  how the original byte identity survived movement.
+- **Reach:** Publication, recovery, fresh acquisition import and portable packages
+  share the existing publication-member inventory. No new media role or catalog
+  is introduced, and later lifecycle work must supply this same evidence.
+- **Verdict:** Sound. Keeping the original bytes preserves the evidence's meaning
+  without manufacturing another timing representation.
+- **Confidence:** High.
+
+### Retain camera facts through the existing journal parser — sound, high confidence
+
+When: 21d.
+
+- **Choice:** Camera proof needs to remember which journal bytes established its
+  source identity, common origin and pauses before finalization. The existing
+  parser can retain that byte prefix directly; a fake audio callback is no longer
+  required to request it. Reading through a supplied prefix always checks its
+  length and hash. Later terminal rows may still be appended, but that prefix
+  does not attest their state or duration payload. Admission separately keeps the
+  complete journal, while the camera verifier refuses later origin/pause changes.
+- **Gap:** The plan required shared journal authority, while prefix retention
+  previously followed the packed-audio callback rather than the evidence need.
+- **Reach:** Audio parsing and its existing defaults remain unchanged. Camera
+  proof uses the same torn-tail, sequence and exact-byte interpretation, so
+  later producers cannot quietly substitute another parser or clock history.
+- **Verdict:** Sound. One parser decides what the journal says; requesting its
+  byte identity does not create a second lifecycle owner.
+- **Confidence:** High.
+
+### Keep the picture digest's original timescale — sound, high confidence
+
+When: 21d.
+
+- **Choice:** A picture digest includes its exact native timestamp serialized at
+  a particular tick rate. New receipts retain that positive native rate along
+  with exact rational support. Suppose an older unbound receipt lacks it: the
+  verifier may read the actual original raw movie through one held ordinary
+  descriptor, check its bytes, and obtain that rate. If the raw authority is gone,
+  proof-bearing admission refuses; guessing the canonical movie's rate could
+  change the digest's meaning. Neither the old receipt nor its probe identity is
+  rewritten to imply production allocation.
+- **Gap:** Historical receipts retained the digest but omitted its timestamp
+  serialization rate; the plan forbade fabrication without specifying this
+  truthful remaining verification boundary.
+- **Reach:** New sources are portable without raw media. Historical raw-less
+  sources do not gain that claim automatically. Canonical support and offsets
+  remain exact rational values rather than projected integer labels.
+- **Verdict:** Sound. Verification uses an existing physical authority or refuses
+  its missing scope instead of silently changing the preservation contract.
+- **Confidence:** High.
+
+### Exercise mapping growth through the actual internal reader — sound, high confidence
+
+When: 21d.
+
+- **Choice:** A real mapping file can grow after it was opened. A deterministic
+  fixture opens the existing reader, appends bytes and checks refusal beyond its
+  captured boundary, alongside stable and torn input. Only that reader's internal
+  package constructor/next operation is visible to the fixture; there is no public
+  flag or alternate production path.
+- **Gap:** The reader's initial file-size limit alone did not bound subsequent
+  reads, and the production consumer needed a meaningful growth control.
+- **Reach:** The bounded reader continues to serve publication and admission.
+  Its narrow package visibility is an internal fixture boundary, not caller API.
+- **Verdict:** Sound. The control observes real-file behavior at the actual owner,
+  without asserting internal counters or building a parallel parser.
+- **Confidence:** High.

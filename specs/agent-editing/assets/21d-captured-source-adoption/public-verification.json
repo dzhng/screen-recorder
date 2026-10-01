@@ -1,0 +1,809 @@
+{
+  "scope": "Current-source independent camera acquisition, immutable proof and portable relocation; supplied identity, no service capture allocation or physical acceptance",
+  "passed": true,
+  "trace": [
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "mcp",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "package.open",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "package.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "package.close",
+      "transport": "cli",
+      "ok": true,
+      "state": "closed"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "checks": {
+    "normal": {
+      "sourceHashes": {
+        "video.mov": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf",
+        "capture.journal.jsonl": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc",
+        "camera.publication.json": "c75c4fd7bcfe11d2f7474c59896e318d2853d5e429c6b3ffbac8e68ae4033931",
+        "camera.mapping.jsonl": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+      },
+      "acquisition": {
+        "id": "992e64de-ad8c-4b6e-8608-57320ae28254",
+        "sourceId": "fixture-camera-source",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "992e64de-ad8c-4b6e-8608-57320ae28254"
+          },
+          "sourceId": "fixture-camera-source",
+          "generation": "3c2ddd71-f429-44af-9bff-2e7702d360ef",
+          "receipt": {
+            "audioIntervals": 0,
+            "bytes": 70,
+            "completion": {
+              "durationUs": 300000,
+              "sequence": 5,
+              "state": "complete"
+            },
+            "cursorSamples": 0,
+            "displaySpaces": 0,
+            "file": "/tmp/screenrec-camera-admission-9eb3fK/library/acquisitions/992e64de-ad8c-4b6e-8608-57320ae28254/3c2ddd71-f429-44af-9bff-2e7702d360ef/source.jsonl",
+            "finished": true,
+            "geometryRecords": 0,
+            "header": {
+              "cameraBinding": {
+                "deviceId": "fixture-selected-device",
+                "recordingId": "fixture-take",
+                "sourceId": "fixture-camera-source"
+              },
+              "height": 16,
+              "microphone": false,
+              "schemaVersion": 1,
+              "sessionID": "fixture-camera-source",
+              "source": {
+                "kind": "camera"
+              },
+              "systemAudio": false,
+              "width": 32
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastSequence": 5,
+            "normalizationVersion": 2,
+            "originHostUs": 130174973109,
+            "pauseEvents": 1,
+            "publications": {
+              "video": {
+                "canonical": {
+                  "bytes": "1288",
+                  "sha256": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf"
+                },
+                "mapping": {
+                  "bytes": "549",
+                  "sha256": "b92bb29a9d8d501945e710de6a6da1332818715befc1e97f576fe339ffaec31b"
+                },
+                "receipt": {
+                  "bytes": "993",
+                  "sha256": "c75c4fd7bcfe11d2f7474c59896e318d2853d5e429c6b3ffbac8e68ae4033931"
+                },
+                "representedFrames": 3,
+                "support": {
+                  "endUs": 300000,
+                  "startUs": 200000
+                }
+              }
+            }
+          }
+        },
+        "journal": {
+          "fileName": "3c2ddd71-f429-44af-9bff-2e7702d360ef/source/capture.journal.jsonl",
+          "sha256": "e20cfbe315e8baebfe67611e6cc731f2e7df61a81268cac1c0325fcf4df4c4dc",
+          "bytes": 1205
+        },
+        "bindings": [
+          {
+            "assetId": "7503242d1409e54dbb5ecf1fb246484ba49352c52786427103f4b3f046ee2ddf",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 100000
+              }
+            ],
+            "sourceRoles": [
+              "video"
+            ],
+            "sourceToAssetOffsetUs": -200000,
+            "supportBasis": "physical"
+          }
+        ]
+      },
+      "ordinaryAssetImport": true
+    },
+    "missing-receipt": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Declared camera requires verified camera publication.",
+      "retryable": false
+    },
+    "missing-mapping": {
+      "code": "INVALID_MEDIA",
+      "reason": "Cannot open media identity input.",
+      "retryable": false
+    },
+    "changed-mapping": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Canonical camera or mapping differs from publication.",
+      "retryable": false
+    },
+    "wrong-binding": {
+      "code": "INVALID_JOURNAL_PREFIX",
+      "reason": "Journal does not match the declared validated prefix.",
+      "retryable": false
+    },
+    "wrong-receipt-binding": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Production camera requires bound exact publication proof.",
+      "retryable": false
+    },
+    "absent-bound-prefix": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Production camera requires bound exact publication proof.",
+      "retryable": false
+    },
+    "absent-bound-timescale": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Production camera requires bound exact publication proof.",
+      "retryable": false
+    },
+    "wrong-origin": {
+      "code": "INVALID_JOURNAL_PREFIX",
+      "reason": "Journal does not match the declared validated prefix.",
+      "retryable": false
+    },
+    "wrong-support": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Malformed retained camera publication.",
+      "retryable": false
+    },
+    "wrong-pause": {
+      "code": "INVALID_JOURNAL_PREFIX",
+      "reason": "Journal does not match the declared validated prefix.",
+      "retryable": false
+    },
+    "changed-canonical": {
+      "code": "INVALID_CAMERA_MAPPING",
+      "reason": "Canonical camera or mapping differs from publication.",
+      "retryable": false
+    },
+    "fractional": {
+      "id": "d9792e1e-5e02-44d1-95e3-255afd46a3b1",
+      "sourceId": "fixture-camera-fractional",
+      "evidence": {
+        "owner": {
+          "kind": "acquisition",
+          "acquisitionId": "d9792e1e-5e02-44d1-95e3-255afd46a3b1"
+        },
+        "sourceId": "fixture-camera-fractional",
+        "generation": "a74fffc1-66a9-4828-998c-870db6b308fc",
+        "receipt": {
+          "audioIntervals": 0,
+          "bytes": 0,
+          "completion": {
+            "durationUs": 66667,
+            "failureCode": "PARTIAL_CAMERA",
+            "failureMessage": "unmappedRawTail",
+            "sequence": 3,
+            "state": "interrupted"
+          },
+          "cursorSamples": 0,
+          "displaySpaces": 0,
+          "file": "/tmp/screenrec-camera-admission-9eb3fK/library/acquisitions/d9792e1e-5e02-44d1-95e3-255afd46a3b1/a74fffc1-66a9-4828-998c-870db6b308fc/source.jsonl",
+          "finished": true,
+          "geometryRecords": 0,
+          "header": {
+            "cameraBinding": {
+              "deviceId": "fixture-selected-device",
+              "recordingId": "fixture-take",
+              "sourceId": "fixture-camera-fractional"
+            },
+            "height": 16,
+            "microphone": false,
+            "schemaVersion": 1,
+            "sessionID": "fixture-camera-fractional",
+            "source": {
+              "kind": "camera"
+            },
+            "systemAudio": false,
+            "width": 32
+          },
+          "incompleteTail": false,
+          "journal": "capture.journal.jsonl",
+          "lastSequence": 3,
+          "normalizationVersion": 2,
+          "originHostUs": 1000000,
+          "pauseEvents": 0,
+          "publications": {
+            "video": {
+              "canonical": {
+                "bytes": "4873",
+                "sha256": "1c7bf0e9ac1cb679f5fa5157f3c7743f2b10ea4f9db81d55c8e7307ba3b4f416"
+              },
+              "mapping": {
+                "bytes": "337",
+                "sha256": "5d22ce4ea48e50471ae9825d138e138ffebca702a223e9e51e84bad5447b5d47"
+              },
+              "receipt": {
+                "bytes": "1026",
+                "sha256": "7c85aeb4782364225aa3f98ef1ba3a6a8b88cd744f58b28ee4cb759f4cf62539"
+              },
+              "representedFrames": 2,
+              "support": {
+                "endUs": {
+                  "denominator": 3,
+                  "numerator": 200000
+                },
+                "startUs": 0
+              }
+            }
+          }
+        }
+      },
+      "journal": {
+        "fileName": "a74fffc1-66a9-4828-998c-870db6b308fc/source/capture.journal.jsonl",
+        "sha256": "68150bcc98ae82069a2a4a2bb36175fc352c4cc7815c8bca6ca5daf2d47308ff",
+        "bytes": 888
+      },
+      "bindings": [
+        {
+          "assetId": "1c7bf0e9ac1cb679f5fa5157f3c7743f2b10ea4f9db81d55c8e7307ba3b4f416",
+          "streamId": "track:1",
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": {
+                "numerator": 200000,
+                "denominator": 3
+              }
+            }
+          ],
+          "sourceRoles": [
+            "video"
+          ],
+          "sourceToAssetOffsetUs": 0,
+          "supportBasis": "physical"
+        }
+      ]
+    },
+    "restart": {
+      "original": {
+        "jobId": "c66221e8-ceff-4765-8417-71dd1557d875",
+        "attemptId": "a9cf7ebd-c18d-4139-81d2-0462f0ab12ee",
+        "artifact": "acquisition.import",
+        "lane": "heavy",
+        "state": "running",
+        "reason": null,
+        "generation": 1,
+        "errorCode": null,
+        "inputSha256": "df12449d7682337ebbc018898f9224ed0f3e543ef9ca6b5a2b722bee0f241897",
+        "target": {
+          "kind": "acquisition",
+          "acquisitionId": "3d475aca-c1bd-4252-bda9-4a7a4736bebf"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": null
+      },
+      "replay": {
+        "jobId": "c66221e8-ceff-4765-8417-71dd1557d875",
+        "attemptId": "a9cf7ebd-c18d-4139-81d2-0462f0ab12ee",
+        "artifact": "acquisition.import",
+        "lane": "heavy",
+        "state": "failed",
+        "reason": "interrupted",
+        "generation": 1,
+        "errorCode": "JOB_INTERRUPTED",
+        "inputSha256": "df12449d7682337ebbc018898f9224ed0f3e543ef9ca6b5a2b722bee0f241897",
+        "target": {
+          "kind": "acquisition",
+          "acquisitionId": "3d475aca-c1bd-4252-bda9-4a7a4736bebf"
+        },
+        "retryable": true,
+        "errorDetails": null,
+        "result": null
+      },
+      "retry": {
+        "jobId": "c66221e8-ceff-4765-8417-71dd1557d875",
+        "attemptId": "c9fc1bf4-8257-4fe7-89ad-228ebe66ad1d",
+        "artifact": "acquisition.import",
+        "lane": "heavy",
+        "state": "running",
+        "reason": null,
+        "generation": 2,
+        "errorCode": null,
+        "inputSha256": "df12449d7682337ebbc018898f9224ed0f3e543ef9ca6b5a2b722bee0f241897",
+        "target": {
+          "kind": "acquisition",
+          "acquisitionId": "3d475aca-c1bd-4252-bda9-4a7a4736bebf"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": null
+      },
+      "ready": {
+        "jobId": "c66221e8-ceff-4765-8417-71dd1557d875",
+        "attemptId": "c9fc1bf4-8257-4fe7-89ad-228ebe66ad1d",
+        "artifact": "acquisition.import",
+        "lane": "heavy",
+        "state": "ready",
+        "reason": null,
+        "generation": 2,
+        "errorCode": null,
+        "inputSha256": "df12449d7682337ebbc018898f9224ed0f3e543ef9ca6b5a2b722bee0f241897",
+        "target": {
+          "kind": "acquisition",
+          "acquisitionId": "3d475aca-c1bd-4252-bda9-4a7a4736bebf"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": {
+          "acquisitionId": "3d475aca-c1bd-4252-bda9-4a7a4736bebf"
+        }
+      }
+    },
+    "operationalRetry": {
+      "inaccessible": {
+        "jobId": "41ec6873-9b63-4ef6-ba61-2ee88af712c7",
+        "attemptId": "fc1c000d-1860-4f4b-a5f2-ab7e0443beda",
+        "artifact": "acquisition.import",
+        "lane": "heavy",
+        "state": "failed",
+        "reason": "EACCES: permission denied, lstat '/private/tmp/screenrec-camera-admission-9eb3fK/donor/narration.mov'",
+        "generation": 2,
+        "errorCode": "JOB_FAILED",
+        "inputSha256": "df12449d7682337ebbc018898f9224ed0f3e543ef9ca6b5a2b722bee0f241897",
+        "target": {
+          "kind": "acquisition",
+          "acquisitionId": "bee5ef97-c608-44c8-b2c0-458cb979d6b7"
+        },
+        "retryable": true,
+        "errorDetails": null,
+        "result": null
+      },
+      "repaired": {
+        "jobId": "41ec6873-9b63-4ef6-ba61-2ee88af712c7",
+        "attemptId": "49a60514-b795-4259-abc7-782ef00a50ff",
+        "artifact": "acquisition.import",
+        "lane": "heavy",
+        "state": "ready",
+        "reason": null,
+        "generation": 3,
+        "errorCode": null,
+        "inputSha256": "df12449d7682337ebbc018898f9224ed0f3e543ef9ca6b5a2b722bee0f241897",
+        "target": {
+          "kind": "acquisition",
+          "acquisitionId": "bee5ef97-c608-44c8-b2c0-458cb979d6b7"
+        },
+        "retryable": false,
+        "errorDetails": null,
+        "result": {
+          "acquisitionId": "bee5ef97-c608-44c8-b2c0-458cb979d6b7"
+        }
+      }
+    },
+    "portable": {
+      "projectId": "cb27d960-89d9-4a6d-85b8-f588a8d0b68c",
+      "proofPreserved": true,
+      "donorAndOriginalLibraryRemoved": true,
+      "archiveRemoved": true
+    }
+  }
+}

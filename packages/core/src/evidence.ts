@@ -3,6 +3,7 @@ import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { SourceEvidenceReader, type RecordQuery, type EvidenceIndex } from "./evidence-read.js";
+import { selectionRangeSchema, type SelectionRange } from "@screenrec/composition";
 
 export type EvidenceOwner =
   | Readonly<{ kind: "recording"; recordingId: string }>
@@ -28,6 +29,17 @@ export type EvidenceIdentity = Readonly<{
   sourceId: string;
   generation: string;
 }>;
+export type SourceFileProof = Readonly<{ bytes: string; sha256: string }>;
+export type SourcePublicationProof = Readonly<{
+  canonical: SourceFileProof;
+  receipt: SourceFileProof;
+}>;
+export type CameraPublicationProof = SourcePublicationProof &
+  Readonly<{
+    mapping: SourceFileProof;
+    support: SelectionRange;
+    representedFrames: number;
+  }>;
 export type SourceEvidenceReceipt = Readonly<{
   normalizationVersion?: 2;
   file: string;
@@ -55,15 +67,11 @@ export type SourceEvidenceReceipt = Readonly<{
     failureCode?: string | null;
     failureMessage?: string | null;
   }> | null;
-  publications?: Partial<
-    Record<
-      "narration" | "system",
-      {
-        canonical: { bytes: string; sha256: string };
-        receipt: { bytes: string; sha256: string };
-      }
-    >
-  >;
+  publications?: Readonly<{
+    narration?: SourcePublicationProof;
+    system?: SourcePublicationProof;
+    video?: CameraPublicationProof;
+  }>;
   bytes: number;
 }>;
 export type SourceEvidenceMetadata = EvidenceIdentity & { receipt: SourceEvidenceReceipt };
@@ -216,23 +224,50 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
       invalid("Invalid capture completion provenance");
   }
   if (receipt.publications !== undefined) {
-    if (header.schemaVersion !== 2) invalid("Publication proof requires the packed journal layout");
     for (const [role, proof] of Object.entries(object(receipt.publications))) {
-      if (!["narration", "system"].includes(role)) invalid("Invalid publication role");
+      if (!["video", "narration", "system"].includes(role)) invalid("Invalid publication role");
+      if (role !== "video" && header.schemaVersion !== 2)
+        invalid("Audio publication proof requires the packed journal layout");
       const identity = object(proof);
-      for (const kind of ["canonical", "receipt"]) {
+      for (const kind of role === "video"
+        ? ["canonical", "receipt", "mapping"]
+        : ["canonical", "receipt"]) {
         const file = object(identity[kind]);
         if (
           typeof file.bytes !== "string" ||
           !/^[1-9][0-9]*$/.test(file.bytes) ||
-          BigInt(file.bytes) > BigInt(kind === "receipt" ? 65536 : Number.MAX_SAFE_INTEGER) ||
+          BigInt(file.bytes) >
+            BigInt(
+              kind === "receipt" ? 65536 : kind === "mapping" ? maxBytes : Number.MAX_SAFE_INTEGER,
+            ) ||
           typeof file.sha256 !== "string" ||
           !/^[a-f0-9]{64}$/.test(file.sha256)
         )
           invalid("Invalid verified publication identity");
       }
+      if (
+        role === "video" &&
+        (!integer(identity.representedFrames) ||
+          identity.representedFrames === 0 ||
+          !selectionRangeSchema.safeParse(identity.support).success)
+      )
+        invalid("Invalid verified camera support");
     }
   } else if (header.schemaVersion === 2) invalid("Packed evidence requires verified publications");
+  const camera = header.source != null && object(header.source).kind === "camera";
+  if (camera || header.cameraBinding !== undefined) {
+    const binding = object(header.cameraBinding);
+    if (
+      !camera ||
+      binding.sourceId !== sourceId ||
+      ![binding.recordingId, binding.sourceId, binding.deviceId].every(
+        (id) => typeof id === "string" && id.length > 0 && id.length <= 256,
+      )
+    )
+      invalid("Invalid supplied camera binding");
+    if (!object(receipt.publications ?? {}).video)
+      invalid("Declared camera requires verified camera publication");
+  }
   return receipt as SourceEvidenceReceipt;
 }
 

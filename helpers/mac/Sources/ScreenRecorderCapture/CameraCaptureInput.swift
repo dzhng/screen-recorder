@@ -8,8 +8,9 @@ package struct CaptureCameraSelection {
     package let id: String
     package let directory: URL
     package let observations: URL
-    package init(id: String, directory: URL, observations: URL) {
-        self.id = id; self.directory = directory; self.observations = observations
+    package let binding: CameraCaptureBinding?
+    package init(id: String, directory: URL, observations: URL, binding: CameraCaptureBinding? = nil) {
+        self.id = id; self.directory = directory; self.observations = observations; self.binding = binding
     }
 }
 
@@ -57,6 +58,10 @@ package struct CaptureInputPreparation {
             measurement.framesPerSecond.map({ $0 > 0 && $0 <= Int(Int32.max) }) ?? true else {
             throw CaptureFailure("INVALID_REQUEST", "Camera selection and measurement cadence must be valid.")
         }
+        try camera.binding?.validate()
+        guard camera.binding.map({ $0.deviceId == camera.id }) ?? true else {
+            throw CaptureFailure("INVALID_REQUEST", "Camera binding differs from the selected device.")
+        }
         try requireScreenAuthorization(request)
         guard cameraAuthorized() else {
             throw CaptureFailure("CAMERA_PERMISSION_REQUIRED", "Camera access must already be authorized. No permission was requested automatically.")
@@ -98,9 +103,10 @@ package final class CameraCaptureInput: CaptureInputSession {
     package func start(writer: CaptureWriter, output: any SCStreamOutput, framesPerSecond: Int?,
         onFailure: @escaping @Sendable (CaptureFailure) -> Void, checkInterruption: @escaping @MainActor () throws -> Void) async throws {
         let cameraWriter = try CameraWriter(directory: selection.directory,
-            framesPerSecond: measurement.framesPerSecond ?? 30)
+            framesPerSecond: measurement.framesPerSecond ?? 30, binding: selection.binding)
         let ingress = try CaptureClockIngress(writer: writer, camera: cameraWriter,
-            observations: selection.observations, failure: onFailure)
+            observations: selection.binding == nil ? selection.observations : selection.directory.appendingPathComponent(CameraMedia.mappingFile),
+            failure: onFailure)
         self.ingress = ingress
         ingress.cameraClock = { [camera] in camera.synchronizationClock }
         observeDeviceLoss(onFailure: onFailure)

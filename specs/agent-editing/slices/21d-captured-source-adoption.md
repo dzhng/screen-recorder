@@ -1,6 +1,8 @@
 # 21d — Durable adoption of independent captured sources
 
-Status: planned isolated implementation. Dependencies: [21b](21b-camera-source-publication.md), [10b](10b-source-acquisition.md) and [20d](20d-capture-publication.md).
+Status: implemented through current-source native and fresh-service admission,
+retry and portable relocation; [evidence](../assets/21d-captured-source-adoption/README.md).
+Dependencies: [21b](21b-camera-source-publication.md), [10b](10b-source-acquisition.md) and [20d](20d-capture-publication.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
 ## Contract
@@ -38,6 +40,19 @@ allocation. Historical retained probe journals remain historical, unallocated
 evidence; do not rewrite them to manufacture production provenance. The later
 21f/23 capture port must reuse the surviving allocation/lifecycle owner without
 instantiating the obsolete span-revision store in the fresh service.
+
+The camera receipt retains exact rational support and the digest's original native
+timescale, together with a same-byte local mapping snapshot. Its journal prefix
+binds header identity, shared origin and pause facts; later terminal appends are
+allowed, so their state/duration payload is not attested by that prefix. Admission
+separately inventories the complete journal. Historical unbound proof lacking its
+native scale requires the actual original raw authority; raw-less portability is
+refused rather than guessing the canonical timescale or rewriting the receipt.
+
+The surviving proof, import and portable owners are ready for caller-authored
+[21e](21e-capture-project-adoption.md) integration. Public camera-start acceptance
+still requires [21f](21f-public-camera-selection.md)'s fresh lifecycle/allocation
+work and does not follow from supplied bindings in these fixtures.
 
 ## Work and review surface
 

@@ -8,10 +8,30 @@ import { copyImportedFile, hashFile, type IdentifiedFile } from "./files.js";
 import { sourceEvidenceRecords, type RecordRow, type SourceEvidenceReceipt } from "./evidence.js";
 import type { SourceExporter } from "./processing.js";
 
+const publicationNames = {
+  narration: "narration.publication.json",
+  system: "system.publication.json",
+  video: "camera.publication.json",
+} as const;
 export const sourcePublicationMembers = [
-  "narration.publication.json",
-  "system.publication.json",
+  ...Object.values(publicationNames),
+  "camera.mapping.jsonl",
 ] as const;
+
+/** Publication dependencies have one inventory meaning across managed and portable acquisitions. */
+export function sourcePublicationFiles(receipt: Pick<SourceEvidenceReceipt, "publications">) {
+  const files: {
+    name: (typeof sourcePublicationMembers)[number];
+    identity: { bytes: string; sha256: string };
+  }[] = [];
+  for (const role of ["video", "narration", "system"] as const) {
+    const proof = receipt.publications?.[role];
+    if (proof) files.push({ name: publicationNames[role], identity: proof.receipt });
+  }
+  if (receipt.publications?.video)
+    files.push({ name: "camera.mapping.jsonl", identity: receipt.publications.video.mapping });
+  return files;
+}
 export type SourceAdmissionFiles = {
   journal: IdentifiedFile & { sha256: string };
   normalized: { bytes: number; sha256: string };
@@ -39,14 +59,9 @@ export async function verifySourceEvidence(input: {
   try {
     for (const [name, file] of [
       ["capture.journal.jsonl", files.journal],
-      ...Object.entries(expected.publications ?? {}).map(([role, proof]) => {
-        const name = `${role}.publication.json` as (typeof sourcePublicationMembers)[number];
+      ...sourcePublicationFiles(expected).map(({ name, identity }) => {
         const file = files[name];
-        if (
-          !file ||
-          file.bytes !== Number(proof.receipt.bytes) ||
-          file.sha256 !== proof.receipt.sha256
-        )
+        if (!file || file.bytes !== Number(identity.bytes) || file.sha256 !== identity.sha256)
           throw new CatalogError("INVALID_PACKAGE", "Publication proof differs from inventory");
         return [name, file] as const;
       }),

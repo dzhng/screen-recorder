@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_CAMERA_INPUT_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_ADMISSION_OUTPUT"] {
+  try await runCameraSourceAdmissionTests(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_CAMERA_INPUT_OUTPUT"] {
   try await runSelectedCameraInputTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_PUBLICATION_OUTPUT"] {
   try await runCameraSourcePublicationTests(output: output)
@@ -51,6 +53,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_CAMERA_I
 {
   try await runCaptureAudioGapProbe(output: output, corpus: corpus)
 } else {
+  try await runCameraSourceAdmissionTests()
   try await runProbeCameraPixelPublicationTests()
   try runSelectedCaptureRequestTests()
   try await runFractionalRecoveryDurationTest()

@@ -3,6 +3,23 @@ import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
 
+package enum SourceEvidencePublication: Encodable, Sendable {
+    case audio(CaptureAudioPublication.VerifiedSource)
+    case video(CameraMedia.VerifiedSource)
+    package var canonical: CaptureMediaIdentity {
+        switch self {
+        case .audio(let proof): proof.canonical
+        case .video(let proof): proof.canonical
+        }
+    }
+    package func encode(to encoder: Encoder) throws {
+        switch self {
+        case .audio(let proof): try proof.encode(to: encoder)
+        case .video(let proof): try proof.encode(to: encoder)
+        }
+    }
+}
+
 /// Compact receipt for a caller-owned derivative. Timing arrays and raw records stay off the wire.
 package struct SourceEvidenceExport: Encodable {
     package let normalizationVersion = 2
@@ -24,7 +41,7 @@ package struct SourceEvidenceExport: Encodable {
     package let finished: Bool
     package let lastLifecycle: JournalLifecycle?
     package let completion: JournalCompletion?
-    package let publications: [String: CaptureAudioPublication.VerifiedSource]?
+    package let publications: [String: SourceEvidencePublication]?
     package let bytes: Int
 
     /// The caller supplies a finalized/recovered source. A missing finished record remains visible
@@ -53,16 +70,18 @@ package struct SourceEvidenceExport: Encodable {
             throw CaptureFailure("EVIDENCE_LIMIT", "Journal exceeds the evidence read budget.")
         }
         let layout = try CaptureJournal.layout(directory: source.path)
-        var publications: [String: CaptureAudioPublication.VerifiedSource] = [:]
+        if let canonical, !Set(canonical.keys).isSubset(of: ["video", "narration", "system"]) {
+            throw CaptureFailure("INVALID_REQUEST", "Unexpected canonical source role.")
+        }
+        var publications: [String: SourceEvidencePublication] = [:]
         var acquired: [JournalAudioSamples] = []
         // Staged imports supply a closed set of immutable descriptor locators. Recording-owned
-        // reads resolve only the two fixed canonical members under the journal lease.
-        let lease = layout == 2 ? try CaptureJournalLease(directory: source.path) : nil
+        // reads resolve canonical members under the existing journal lease.
+        let hasCameraProof = FileManager.default.fileExists(atPath: source.appendingPathComponent("camera.publication.json").path)
+        let lease = layout == 2 || hasCameraProof ? try CaptureJournalLease(directory: source.path) : nil
+        defer { lease?.release() }
         if let lease {
-            if let canonical, !Set(canonical.keys).isSubset(of: ["narration", "system"]) {
-                throw CaptureFailure("INVALID_REQUEST", "Unexpected canonical audio role.")
-            }
-            for role in ["narration", "system"] {
+            for role in layout == 2 ? ["narration", "system"] : [] {
                 let receipt = source.appendingPathComponent("\(role).publication.json")
                 let audio = canonical.map { $0[role] } ??
                     (FileManager.default.fileExists(atPath: source.appendingPathComponent("\(role).mov").path)
@@ -71,7 +90,7 @@ package struct SourceEvidenceExport: Encodable {
                 guard let audio else { throw CaptureFailure("PUBLICATION_FAILED", "Canonical audio is missing.") }
                 let verified = try await CaptureAudioPublication.readPublished(
                     lease: lease, role: role, canonical: URL(fileURLWithPath: audio))
-                publications[role] = verified.identity
+                publications[role] = .audio(verified.identity)
                 acquired += verified.audio
             }
         }
@@ -126,6 +145,13 @@ package struct SourceEvidenceExport: Encodable {
         guard summary.header != nil else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a readable journal header.")
         }
+        if hasCameraProof || summary.header?.source.kind == "camera" || summary.header?.cameraBinding != nil {
+            let selected = canonical == nil ? source.appendingPathComponent("video.mov").path : canonical?["video"]
+            guard let lease, hasCameraProof, let video = selected
+            else { throw CaptureFailure("INVALID_CAMERA_MAPPING", "Declared camera requires verified camera publication.") }
+            let verified = try await CameraMedia.readPublished(lease: lease, canonical: URL(fileURLWithPath: video))
+            publications["video"] = .video(verified.identity)
+        }
         struct Provenance: Encodable {
             let header: CaptureJournalHeader?
             let lastLifecycle: JournalLifecycle?
@@ -147,7 +173,7 @@ package struct SourceEvidenceExport: Encodable {
             lastCursorSourceUs: summary.lastCursorSourceUs, lastSequence: summary.lastSequence,
             incompleteTail: summary.incompleteTail, invalidAtSequence: summary.invalidAtSequence,
             finished: summary.finished, lastLifecycle: summary.lastLifecycle,
-            completion: summary.completion, publications: layout == 2 ? publications : nil, bytes: bytes)
+            completion: summary.completion, publications: layout == 2 || hasCameraProof ? publications : nil, bytes: bytes)
     }
 }
 
