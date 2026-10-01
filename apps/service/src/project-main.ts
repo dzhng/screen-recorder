@@ -3,7 +3,6 @@ import { CONTROL_FRAME_BYTES, encodeJsonLine, personalHome } from "@screenrec/pr
 import { startProjectService } from "./project-service.js";
 import { StartupFailure } from "./startup.js";
 
-// This process entry prepares the fresh-library release without changing the installed entry.
 try {
   const service = await startProjectService({
     home: personalHome(),
