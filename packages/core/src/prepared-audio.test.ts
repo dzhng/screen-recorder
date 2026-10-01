@@ -752,6 +752,91 @@ test("admission resolves pinned inputs once and retains resources without droppi
   expect(f.reads).toBe(1);
 });
 
+test("prepared PCM admission honors the native WAV header capacity before queueing", async () => {
+  const f = await fixture([], "unit-test-native-boundary", true);
+  const source = join(f.home, "declared-long-source.wav");
+  await writeFile(source, wave(1));
+  const asset = await f.current.assets.import(source, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "track:1",
+        kind: "audio",
+        codec: "pcm_f32le",
+        decodable: true,
+        startUs: 0,
+        endUs: 11184800000,
+        segments: [{ startUs: 0, endUs: 11184800000, empty: false }],
+        sampleRate: 48000,
+        channels: 2,
+      },
+    ],
+  }));
+  const place = (requestId: string, endUs: number) => {
+    const created = f.current.projects.create({
+      requestId,
+      canvas: f.placed.revision.document.canvas,
+    });
+    const { revision } = f.current.projects.apply(created.project.projectId, {
+      requestId: "place",
+      expectedRevisionId: created.revision.id,
+      operations: [
+        { operation: "track.add", label: "audio", track: { kind: "audio", order: 0 } },
+        {
+          operation: "place",
+          clip: {
+            trackId: { label: "audio" },
+            assetId: asset.id,
+            streamId: "track:1",
+            source: { kind: "range", range: { startUs: 0, endUs } },
+            placement: { kind: "project", range: { startUs: 0, endUs } },
+          },
+        },
+      ],
+    });
+    return { projectId: created.project.projectId, revisionId: revision.id };
+  };
+  const supported = place("supported", 11184799980);
+  const refused = place("refused", 11184800000);
+  for (const [input, end] of [
+    [supported, 536870399],
+    [refused, 536870400],
+  ] as const)
+    expect(
+      projectComposition(f.current.projects, f.current.assets, input).window(
+        {},
+        { implementationId: "unit-test-native-boundary" },
+        "audio",
+      ).window.manifest.sampleRange,
+    ).toEqual({ start: 0, end });
+  const queued = await f.current.prepared.request(supported);
+  expect(queued.state).toBe("queued");
+  const job = f.current.jobs.job(queued.jobId!);
+  expect(JSON.parse(job.input).sampleRange).toEqual({ start: 0, end: 536870399 });
+  const jobs = f.current.catalog.catalog.prepare("SELECT * FROM jobs ORDER BY jobId").all();
+  const references = f.current.catalog.catalog
+    .prepare("SELECT * FROM resource_references WHERE ownerKind='job-input' ORDER BY resourceId")
+    .all();
+  expect(
+    new ResourceReferences(f.current.catalog).dependencies({ kind: "job-input", id: job.jobId }),
+  ).toEqual([{ kind: "asset", id: asset.id }]);
+  await expect(f.current.prepared.request(refused)).rejects.toThrow(
+    expect.objectContaining({
+      code: "LIMIT_EXCEEDED",
+      message: "Prepared PCM exceeds the native WAV container limit",
+    }),
+  );
+  expect(f.current.catalog.catalog.prepare("SELECT * FROM jobs ORDER BY jobId").all()).toEqual(
+    jobs,
+  );
+  expect(
+    f.current.catalog.catalog
+      .prepare("SELECT * FROM resource_references WHERE ownerKind='job-input' ORDER BY resourceId")
+      .all(),
+  ).toEqual(references);
+  expect(f.reads).toBe(0);
+});
+
 test("portable prepared recipes retain a complete many-clip execution graph", async () => {
   const f = await fixture();
   let revision = f.current.projects.revision(f.input.projectId, f.input.revisionId);

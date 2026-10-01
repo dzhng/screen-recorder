@@ -1,0 +1,55 @@
+{
+  "baselineCommit": "398e0d5d56c0363035a4ea13ef67850bad6f4442",
+  "sources": [
+    {
+      "path": "baseline/packages/core/src/prepared-audio.test.ts",
+      "bytes": 36192,
+      "sha256": "dfa6777abe16a0412436ec958f0691e9ca87ffe3f5c42daf1d010f96e031ccc1"
+    },
+    {
+      "path": "baseline/packages/core/src/prepared-audio.ts",
+      "bytes": 19600,
+      "sha256": "d6bf5106188ebbd4526e6c26f260f88fad05d77a31b736ca58a8c155cf9a2540"
+    },
+    {
+      "path": "candidate/helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift",
+      "bytes": 4354,
+      "sha256": "1bbab776e5f6617fb20fc6da5388ee3c9f53e71b1bbfdecb71599994e7528048"
+    },
+    {
+      "path": "candidate/helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift",
+      "bytes": 41710,
+      "sha256": "39bf626ce1f820d896cac9114b47e7360c55878cb37602cbfa462dd8a452bd64"
+    },
+    {
+      "path": "candidate/packages/composition/dist/output-settings.js",
+      "bytes": 16241,
+      "sha256": "65e90d967fb631cc2a1b5f4adbba9778fd46b2e38bd702ddc220aa4fd5c6ff94"
+    },
+    {
+      "path": "candidate/packages/composition/src/output-settings.ts",
+      "bytes": 16437,
+      "sha256": "b9153d8cab53ad55f5c9ccdc5e7911c72b78e1a756af0fd3803ec6736806a071"
+    },
+    {
+      "path": "candidate/packages/core/src/prepared-audio.test.ts",
+      "bytes": 39360,
+      "sha256": "64c6ee92cdf88b0ad01209ad8355c0fdeb03c79f2719d4eded917552491539f6"
+    },
+    {
+      "path": "candidate/packages/core/src/prepared-audio.ts",
+      "bytes": 19521,
+      "sha256": "cd866e973eecb4fd23854b114565bb406870da1f8c056e27c1350619e57ab35d"
+    }
+  ],
+  "unchangedRuntimeClosure": {
+    "path": "../24z2-prepared-admission/source-pins.json",
+    "bytes": 20938,
+    "sha256": "df1b5737e6146f4d01ed201e76e55ae475465129fc3c9cc66e287fbf9e3925f4"
+  },
+  "runtime": {
+    "node": "24.14.0",
+    "vitest": "5.0.0",
+    "typescript": "7.0.2"
+  }
+}

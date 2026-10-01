@@ -1,0 +1,77 @@
+[
+  {
+    "path": "baseline/packages/core/src/prepared-audio.test.ts",
+    "bytes": 36192,
+    "sha256": "dfa6777abe16a0412436ec958f0691e9ca87ffe3f5c42daf1d010f96e031ccc1"
+  },
+  {
+    "path": "baseline/packages/core/src/prepared-audio.ts",
+    "bytes": 19600,
+    "sha256": "d6bf5106188ebbd4526e6c26f260f88fad05d77a31b736ca58a8c155cf9a2540"
+  },
+  {
+    "path": "candidate/helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift",
+    "bytes": 4354,
+    "sha256": "1bbab776e5f6617fb20fc6da5388ee3c9f53e71b1bbfdecb71599994e7528048"
+  },
+  {
+    "path": "candidate/helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift",
+    "bytes": 41710,
+    "sha256": "39bf626ce1f820d896cac9114b47e7360c55878cb37602cbfa462dd8a452bd64"
+  },
+  {
+    "path": "candidate/packages/composition/dist/output-settings.js",
+    "bytes": 16241,
+    "sha256": "65e90d967fb631cc2a1b5f4adbba9778fd46b2e38bd702ddc220aa4fd5c6ff94"
+  },
+  {
+    "path": "candidate/packages/composition/src/output-settings.ts",
+    "bytes": 16437,
+    "sha256": "b9153d8cab53ad55f5c9ccdc5e7911c72b78e1a756af0fd3803ec6736806a071"
+  },
+  {
+    "path": "candidate/packages/core/src/prepared-audio.test.ts",
+    "bytes": 39360,
+    "sha256": "64c6ee92cdf88b0ad01209ad8355c0fdeb03c79f2719d4eded917552491539f6"
+  },
+  {
+    "path": "candidate/packages/core/src/prepared-audio.ts",
+    "bytes": 19521,
+    "sha256": "cd866e973eecb4fd23854b114565bb406870da1f8c056e27c1350619e57ab35d"
+  },
+  {
+    "path": "logs/focused.log",
+    "bytes": 770,
+    "sha256": "9a38de8079b921053cbe5c3e541f581e497411fa1907f052dcdf4031c43d11ce"
+  },
+  {
+    "path": "logs/format.log",
+    "bytes": 203,
+    "sha256": "2e23e7acf037a89f2efee31a3e8a76582cd3a295fd48dcd86bd0bc220b93b927"
+  },
+  {
+    "path": "logs/green.log",
+    "bytes": 655,
+    "sha256": "d2182a70c4e5d3bed7b4a1b9dd719100f2542532a54f63e44253cc1ccdf07643"
+  },
+  {
+    "path": "logs/lint.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "logs/red.log",
+    "bytes": 1823,
+    "sha256": "6f564592fab0b93b73960876f13cba911cccbe1a7eb82f1f3c27e9394750c26b"
+  },
+  {
+    "path": "logs/types.log",
+    "bytes": 29,
+    "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+  },
+  {
+    "path": "source-pins.json",
+    "bytes": 1897,
+    "sha256": "6946eacc2087754daa7dc61c7feb90ab77d9cf32628c386661aa2365c05043b0"
+  }
+]

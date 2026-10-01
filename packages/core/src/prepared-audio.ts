@@ -4,6 +4,7 @@ import { isDeepStrictEqual } from "node:util";
 import { mkdir, open, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import {
+  audioOutputCapabilities,
   executionWindowManifestSchema,
   isMediaClip,
   type ProcessingTap,
@@ -235,8 +236,7 @@ export class PreparedAudioStore {
       };
     const plan = composition.window({}, this.owners.renderer, "audio");
     const frames = plan.window.manifest.sampleRange.end - plan.window.manifest.sampleRange.start;
-    // The existing native float WAV writer has a 32-bit RIFF byte count.
-    if (BigInt(frames) * BigInt(plan.window.manifest.rendition.channels) * 4n + 36n > 0xffffffffn)
+    if (frames > audioOutputCapabilities.maximumInternalPCMFrames)
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Prepared PCM exceeds the native WAV container limit",

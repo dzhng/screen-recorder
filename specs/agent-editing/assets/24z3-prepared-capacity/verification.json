@@ -1,0 +1,123 @@
+{
+  "baselineCommit": "398e0d5d56c0363035a4ea13ef67850bad6f4442",
+  "scope": "PreparedAudioStore admission uses canonical internal PCM capacity",
+  "status": "reachable mismatch confirmed red; capacity boundary and focused neighbors green",
+  "boundaryPlans": [
+    {
+      "frames": 536870399,
+      "endUs": 11184799980,
+      "dataBytes": 4294963192,
+      "nativeAllowed": true,
+      "greenOutcome": "queued"
+    },
+    {
+      "frames": 536870400,
+      "endUs": 11184800000,
+      "dataBytes": 4294963200,
+      "nativeAllowed": false,
+      "redOutcome": "queued",
+      "greenOutcome": "LIMIT_EXCEEDED before new job or temporary reference"
+    }
+  ],
+  "nativeGuard": {
+    "source": "helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift",
+    "expression": "frames * channels * 4 <= UInt32.max - 4096",
+    "preparedPath": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift AudioWaveWriter(sampleRate:rate, frames:plan.range.end-plan.range.start, channels:2)",
+    "unchanged": true
+  },
+  "capacityOwner": {
+    "source": "packages/composition/src/output-settings.ts",
+    "field": "audioOutputCapabilities.maximumInternalPCMFrames",
+    "unchanged": true
+  },
+  "checks": [
+    {
+      "name": "consumer red",
+      "log": "red.log",
+      "exitCode": 1,
+      "verdict": "expected red: first unsupported plan queued instead of refusing",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 20
+    },
+    {
+      "name": "consumer green",
+      "log": "green.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 1,
+      "skipped": 20
+    },
+    {
+      "name": "focused admission, preservation, cancellation, adoption, public output boundary and settings",
+      "log": "focused.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 7,
+      "skipped": 34
+    },
+    {
+      "name": "core type check",
+      "log": "types.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused lint",
+      "log": "lint.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused format check",
+      "log": "format.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    }
+  ],
+  "fixture": {
+    "importedBoundarySourceBytes": 52,
+    "probeEndUs": 11184800000,
+    "rendererCalls": 0,
+    "execution": "existing JobQueue startup barrier remains closed",
+    "unsupportedRequestChangesJobs": false,
+    "unsupportedRequestChangesTemporaryReferences": false
+  },
+  "commands": {
+    "redGreen": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts -t \"prepared PCM admission honors the native WAV header capacity\" --maxWorkers=1",
+    "focused": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts packages/core/src/project-audio.test.ts packages/composition/src/output-settings.test.ts -t \"prepared PCM admission honors|admission resolves pinned inputs once|retains exact PCM|portable preparation retains original recipe|canceling a fully staged result|full project PCM reserves the native WAV header allowance|audio settings resolve independently\" --maxWorkers=1",
+    "types": "bun run check-types (packages/core)",
+    "lint": "node node_modules/oxlint/bin/oxlint packages/core/src/prepared-audio.ts packages/core/src/prepared-audio.test.ts",
+    "format": "node node_modules/oxfmt/bin/oxfmt --check packages/core/src/prepared-audio.ts packages/core/src/prepared-audio.test.ts"
+  },
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 44885,
+    "sha256": "766f693cc3288feeb8ad7fd1d15c05acde38366568b4c226c8743033d7ab5f55"
+  },
+  "members": {
+    "path": "archive-members.json",
+    "bytes": 2413,
+    "sha256": "350a32d31faadae7c6f683ed9d3e2bbf587f3641ac4e06a9faee054ece982672"
+  },
+  "sourcePins": {
+    "path": "source-pins.json",
+    "bytes": 1897,
+    "sha256": "6946eacc2087754daa7dc61c7feb90ab77d9cf32628c386661aa2365c05043b0"
+  },
+  "review": {
+    "shape": "Consumes existing canonical frame capacity; deletes local minimal-header arithmetic; no new constant or control surface",
+    "diff": "Same errorcode/message, APIs, recipes and retained output lookup; native source unchanged",
+    "tests": "Explicit boundary frame values and compiled sample windows; actual PreparedAudioStore.request; complete job/reference inventory parity on refusal; no large allocation/rendering",
+    "docs": "Own leaf states capacity invariant; own packet records reachable red/green; root owns shared hub; links checked",
+    "choices": "One sound/high-confidence fixture-layout choice in choices.md"
+  },
+  "limits": [
+    "Admission correctness only; no physical multi-GiB render",
+    "No native build or frozen worker change",
+    "No new provider/hook/flag/schema/cache behavior",
+    "No large-recipe test retry, deadline/fixture/default change or latency claim",
+    "Existing 24z2 large-recipe 5000ms failure remains open",
+    "No model work, capture, UI or playback"
+  ]
+}
