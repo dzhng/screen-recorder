@@ -1,0 +1,155 @@
+{
+  "base": "c7a033af0e52a5e301c59af0631ccff8fef5f748",
+  "rootMergedImplementation": "7b339b61",
+  "originalSource": {
+    "path": "apps/cli/src/result-delivery.test.ts",
+    "bytes": 13091,
+    "sha256": "116b722484817d7c9abd854dbe5e56258b8d07247f77da4bc6431fa91a99e50a",
+    "authority": "../24z11-operation-result-delivery/manifest.json + original changed-closure.tar.gz; git c7a033af:apps/cli/src/result-delivery.test.ts"
+  },
+  "correctedSource": {
+    "path": "apps/cli/src/result-delivery.test.ts",
+    "bytes": 13594,
+    "sha256": "3b6995096c1588c5fbe8bbbc06e4bb029968acbf5d9807d64601d340dba7addf"
+  },
+  "bodyComparison": {
+    "dispatchThroughFinalTelemetryLines": 65,
+    "unchangedExceptIndentation": true
+  },
+  "runtime": {
+    "unchangedEmittedEntries": 18,
+    "identities": {
+      "apps/cli/dist/main.js": {
+        "bytes": 12403,
+        "sha256": "b94d75799aafb7ed9515930f1d2223754e9c6f0c76cbdb92678dc45715862fe8"
+      },
+      "apps/cli/dist/main.d.ts": {
+        "bytes": 31,
+        "sha256": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
+      },
+      "apps/service/dist/delivery.js": {
+        "bytes": 4362,
+        "sha256": "41094f9842bedccaf0f77286c376100867ec809b517535917feb8dd69ab81b44"
+      },
+      "apps/service/dist/delivery.d.ts": {
+        "bytes": 1499,
+        "sha256": "375c3b370df18024ea0f9c45a1a676780ff979a8b9a083094a42249fa0f6c71c"
+      },
+      "apps/service/dist/index.js": {
+        "bytes": 7213,
+        "sha256": "83a70aa0f30001e731ffc9e361234f308bc6a32c77dc92c07bf35d542070632f"
+      },
+      "apps/service/dist/index.d.ts": {
+        "bytes": 993,
+        "sha256": "a335b3c911209d0f66aa22118c15b5e297d1df3365de9ae8ccfb2d6ae79dbecf"
+      },
+      "apps/service/dist/main.js": {
+        "bytes": 19883,
+        "sha256": "20703fa6218b6d2f253b316f9353b2e147a6ff3d0f6486fe8c81e208fabcdcfd"
+      },
+      "apps/service/dist/main.d.ts": {
+        "bytes": 11,
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      "apps/service/dist/project-service.js": {
+        "bytes": 61216,
+        "sha256": "e1cf03644ed87cbf4dad045920e11dbfe709dade2aea40c85490327b00d5f552"
+      },
+      "apps/service/dist/project-service.d.ts": {
+        "bytes": 518,
+        "sha256": "0ff82e0d00863e52f11f2f0e54f8cc642c9206975297cc7a91395e4e855a26c9"
+      },
+      "packages/client/dist/transport.js": {
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      "packages/client/dist/transport.d.ts": {
+        "bytes": 667,
+        "sha256": "17a5cc6a25f8f1551555d8bf6a6dee3903889681f35b34785f093bce6d5cd5d4"
+      },
+      "packages/protocol/dist/framing.js": {
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      "packages/protocol/dist/framing.d.ts": {
+        "bytes": 1406,
+        "sha256": "930f899cb7ee0aace5e7f3711ebe3bad7d466d8a50f891efd0c978771bc61979"
+      },
+      "packages/protocol/dist/index.js": {
+        "bytes": 3294,
+        "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+      },
+      "packages/protocol/dist/index.d.ts": {
+        "bytes": 6217,
+        "sha256": "07c476d26a30bb197084d598bcf10d0a88cf04b98406e011c5142aed0883b44f"
+      },
+      "packages/protocol/dist/operations.js": {
+        "bytes": 55563,
+        "sha256": "bce1bd6a0439b3f1d73860f4dff1a86d15427a7196c668346803c3057df71086"
+      },
+      "packages/protocol/dist/operations.d.ts": {
+        "bytes": 171994,
+        "sha256": "eace888f04179403e72fecb5e8b1c1afa6c565a0e793c6b83cfbf6bc33409da6"
+      }
+    },
+    "authority": "../24z11-operation-result-delivery/manifest.json",
+    "originalManifest": {
+      "bytes": 16395,
+      "sha256": "98fb9c24b803902337504e10be07ed42364c1fcbc74df76ef8ffaeeee7443ced"
+    },
+    "originalArchive": {
+      "bytes": 123324,
+      "sha256": "d53841e4e199db4ecd267486f2ba1039320bfc961cc401cbb4995b6034fc8cb2"
+    }
+  },
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 7589,
+    "sha256": "e9db9e7217058501d58702d0ad2469b0f10c41d7870445596732a663106e03d8",
+    "members": {
+      "diagnostic/profile.py": {
+        "bytes": 3448,
+        "sha256": "408da806180aa914c657c86aba3668d101ddf49e34ec6c21ae206ae606abfbce"
+      },
+      "diagnostic/instrumented-result-delivery.test.ts": {
+        "bytes": 13902,
+        "sha256": "25bac9f329aab544ec6934fcb2a7f623a0263897e7d16a43ba97625003d0a35e"
+      },
+      "diagnostic/profile.log": {
+        "bytes": 2855,
+        "sha256": "84e8d94bd2e506681c1fedd3db4e2fc2117d9a88f96ee1a8e222fe729c14fd19"
+      },
+      "checks/root-original-red.log": {
+        "bytes": 2373,
+        "sha256": "282b204d473fd79aeda209d0bbf3a9857555af1fc37213410d3e3252d894a952"
+      },
+      "checks/final-affected.log": {
+        "bytes": 7702,
+        "sha256": "3c1da1f1de6fed6f9e931bc9979825fc67bc49972af265c149deac60a4deb537"
+      },
+      "checks/types.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks/lint.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks/format.log": {
+        "bytes": 203,
+        "sha256": "27036eaeff37509e8bb573e8f4be84f1b0c87ed3b2e7a6be7acb93622a4c3dc4"
+      },
+      "closure/apps/cli/src/result-delivery.test.ts": {
+        "bytes": 13594,
+        "sha256": "3b6995096c1588c5fbe8bbbc06e4bb029968acbf5d9807d64601d340dba7addf"
+      }
+    }
+  },
+  "diagnosticTimestamps": {
+    "profile.py": "2026-10-01T20:52:27.771463+00:00",
+    "profiled-result-delivery.test.ts": "2026-10-01T20:52:28.156372+00:00",
+    "profile.log": "2026-10-01T20:52:53.714777+00:00",
+    "original-result-delivery.test.ts": "2026-10-01T20:52:28.155316+00:00"
+  },
+  "timestampNote": "UTC modification timestamps of retained producer/output snapshots. Runner Start at timestamps remain in raw logs in host America/Los_Angeles timezone; phase durations use monotonic performance.now()."
+}

@@ -2,7 +2,7 @@ import { execFile, execFileSync } from "node:child_process";
 import { promisify } from "node:util";
 import { createHash } from "node:crypto";
 import { mkdtemp, rm } from "node:fs/promises";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import {
@@ -23,7 +23,7 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
-test("production project service replays the retained receipt through default MCP without new clip authoring", async () => {
+async function retainedReceiptFixture() {
   const archive = new URL(
     "../../../specs/agent-editing/assets/24y-source-event-duration/sdk-capacity-evidence.tar.gz",
     import.meta.url,
@@ -119,71 +119,81 @@ test("production project service replays the retained receipt through default MC
       stderr: "pipe",
     }),
   );
-  const delivered = await client.callTool({ name: "edit.apply", arguments: params });
-  const descriptor = deliveredResponseSchema.parse(delivered.structuredContent);
-  const chunks: Buffer[] = [];
-  for (let offset = 0; offset < descriptor.resultDelivery.bytes;) {
-    const read = responseSchema.parse(
-      (
-        await client.callTool({
-          name: "artifact.read",
-          arguments: { token: descriptor.resultDelivery.token, offset },
-        })
-      ).structuredContent,
-    );
-    if (!read.ok) throw Error(read.error.message);
-    const chunk = z.object({ data: z.string(), nextOffset: z.int() }).parse(read.data);
-    chunks.push(Buffer.from(chunk.data, "base64"));
-    expect(chunk.nextOffset).toBeGreaterThan(offset);
-    offset = chunk.nextOffset;
-  }
-  const bytes = Buffer.concat(chunks);
-  expect(createHash("sha256").update(bytes).digest("hex")).toBe(descriptor.resultDelivery.sha256);
-  const complete = responseSchema.parse(JSON.parse(bytes.toString()));
-  expect({ id: complete.id, ok: complete.ok }).toEqual({ id: descriptor.id, ok: true });
-  if (!complete.ok) throw Error(complete.error.message);
-  expect(Buffer.from(JSON.stringify(complete.data)).equals(raw)).toBe(true);
-  expect(db.prepare("SELECT COUNT(*) AS n FROM project_requests").get()).toEqual({ n: 1 });
-  expect(db.prepare("SELECT COUNT(*) AS n FROM project_revisions").get()).toEqual({ n: 0 });
-  const cli = promisify(execFile)(
-    process.execPath,
-    [
-      new URL("../dist/main.js", import.meta.url).pathname,
-      "edit.apply",
-      "--socket",
-      service.socketPath,
-      "--params",
-      "-",
-      "--id",
-      "cli",
-    ],
-    { maxBuffer: RESPONSE_FRAME_BYTES },
-  );
-  cli.child.stdin?.end(JSON.stringify(params));
-  const ordinary = responseSchema.parse(JSON.parse((await cli).stdout));
-  expect({ id: ordinary.id, ok: ordinary.ok }).toEqual({ id: "cli", ok: true });
-  if (!ordinary.ok) throw Error(ordinary.error.message);
-  expect(Buffer.from(JSON.stringify(ordinary.data)).equals(raw)).toBe(true);
-  await client.callTool({
-    name: "artifact.close",
-    arguments: { token: descriptor.resultDelivery.token },
+  return { raw, params, service, db, client };
+}
+describe("retained production receipt", () => {
+  let fixture: Awaited<ReturnType<typeof retainedReceiptFixture>>;
+  beforeEach(async () => {
+    fixture = await retainedReceiptFixture();
   });
-  console.info(
-    JSON.stringify({
-      authority: "24y/place-9500.json",
-      storageEdge:
-        "unchanged saved receipt in a synthetic replay row; no new clip edits or historical catalog reuse",
-      receiptBytes: raw.length,
-      receiptSha256: createHash("sha256").update(raw).digest("hex"),
-      defaultSdk: true,
-      mcpResultBytes: Buffer.byteLength(JSON.stringify(delivered)),
-      descriptor,
-      reconstructedBytes: bytes.length,
-      exactReceiptBytes: true,
-      replayRows: 1,
-      authoredRevisions: 0,
-    }),
-  );
+  test("production project service replays the retained receipt through default MCP without new clip authoring", async () => {
+    const { raw, params, service, db, client } = fixture;
+    const delivered = await client.callTool({ name: "edit.apply", arguments: params });
+    const descriptor = deliveredResponseSchema.parse(delivered.structuredContent);
+    const chunks: Buffer[] = [];
+    for (let offset = 0; offset < descriptor.resultDelivery.bytes;) {
+      const read = responseSchema.parse(
+        (
+          await client.callTool({
+            name: "artifact.read",
+            arguments: { token: descriptor.resultDelivery.token, offset },
+          })
+        ).structuredContent,
+      );
+      if (!read.ok) throw Error(read.error.message);
+      const chunk = z.object({ data: z.string(), nextOffset: z.int() }).parse(read.data);
+      chunks.push(Buffer.from(chunk.data, "base64"));
+      expect(chunk.nextOffset).toBeGreaterThan(offset);
+      offset = chunk.nextOffset;
+    }
+    const bytes = Buffer.concat(chunks);
+    expect(createHash("sha256").update(bytes).digest("hex")).toBe(descriptor.resultDelivery.sha256);
+    const complete = responseSchema.parse(JSON.parse(bytes.toString()));
+    expect({ id: complete.id, ok: complete.ok }).toEqual({ id: descriptor.id, ok: true });
+    if (!complete.ok) throw Error(complete.error.message);
+    expect(Buffer.from(JSON.stringify(complete.data)).equals(raw)).toBe(true);
+    expect(db.prepare("SELECT COUNT(*) AS n FROM project_requests").get()).toEqual({ n: 1 });
+    expect(db.prepare("SELECT COUNT(*) AS n FROM project_revisions").get()).toEqual({ n: 0 });
+    const cli = promisify(execFile)(
+      process.execPath,
+      [
+        new URL("../dist/main.js", import.meta.url).pathname,
+        "edit.apply",
+        "--socket",
+        service.socketPath,
+        "--params",
+        "-",
+        "--id",
+        "cli",
+      ],
+      { maxBuffer: RESPONSE_FRAME_BYTES },
+    );
+    cli.child.stdin?.end(JSON.stringify(params));
+    const ordinary = responseSchema.parse(JSON.parse((await cli).stdout));
+    expect({ id: ordinary.id, ok: ordinary.ok }).toEqual({ id: "cli", ok: true });
+    if (!ordinary.ok) throw Error(ordinary.error.message);
+    expect(Buffer.from(JSON.stringify(ordinary.data)).equals(raw)).toBe(true);
+    await client.callTool({
+      name: "artifact.close",
+      arguments: { token: descriptor.resultDelivery.token },
+    });
+    console.info(
+      JSON.stringify({
+        authority: "24y/place-9500.json",
+        storageEdge:
+          "unchanged saved receipt in a synthetic replay row; no new clip edits or historical catalog reuse",
+        receiptBytes: raw.length,
+        receiptSha256: createHash("sha256").update(raw).digest("hex"),
+        defaultSdk: true,
+        mcpResultBytes: Buffer.byteLength(JSON.stringify(delivered)),
+        descriptor,
+        reconstructedBytes: bytes.length,
+        exactReceiptBytes: true,
+        replayRows: 1,
+        authoredRevisions: 0,
+      }),
+    );
+  });
 });
 test("deferred media metadata leaves its nested lease usable instead of reading or closing it", async () => {
   const home = await mkdtemp("/tmp/mcp-nested-result-");

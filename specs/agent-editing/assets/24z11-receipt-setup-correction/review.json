@@ -1,0 +1,15 @@
+{
+  "verdict": "shape/code/docs clean for correction; required affected integration gate RED",
+  "shape": "One existing test now has a coherent fixture setup helper and one scoped runner hook. Existing cleanup remains afterEach. No second runtime, producer, replay transaction or production owner.",
+  "code": "Full verification body compared against original65 lines after indentation normalization. Fixture inputs, SDK settings, complete byte/persistence oracles, test names/count and default budgets preserved. No ignored type errors or cast suppression.",
+  "docs": "Correction packet links unchanged implementation authority and distinguishes original red, bounded diagnostic and corrected gate. Shared hub/leaf/global choices remain root-owned.",
+  "choices": "Sound high-confidence lifecycle boundary in choices.md; no production defect inferred from partial diagnostic.",
+  "structuralCost": {
+    "productionAdded": 0,
+    "productionDeleted": 0,
+    "testRawAdded": 75,
+    "testRawDeleted": 65,
+    "testNetAdded": 10,
+    "note": "65-line body is reindented; added structure is fixture return/helper closure and scoped setup/test suite. Machine evidence is separate."
+  }
+}

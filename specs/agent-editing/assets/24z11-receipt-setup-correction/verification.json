@@ -1,0 +1,110 @@
+{
+  "status": "receipt setup correction passes its three cases; affected integration gate remains red",
+  "rootOriginalRed": {
+    "tests": 126,
+    "passed": 125,
+    "failed": 1,
+    "testTimeoutMs": 5000,
+    "fullGateDurationSeconds": 125.65,
+    "raw": "evidence.tar.gz:checks/root-original-red.log",
+    "immutable": true
+  },
+  "boundedDiagnostic": {
+    "command": "node node_modules/vitest/vitest.mjs run apps/cli/src/result-delivery.test.ts -t \"production project service\" --reporter=verbose --disableConsoleIntercept",
+    "result": "red at unchanged 5s test deadline",
+    "producer": "evidence.tar.gz:diagnostic/profile.py",
+    "instrumentedSource": "evidence.tar.gz:diagnostic/instrumented-result-delivery.test.ts",
+    "raw": "evidence.tar.gz:diagnostic/profile.log",
+    "phases": [
+      {
+        "profile": "24z11-receipt",
+        "phase": "retained-tar-extraction",
+        "ms": 482.79783399999724,
+        "totalMs": 482.79783399999724
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "retained-authority-hash",
+        "ms": 8.849165999999968,
+        "totalMs": 491.6469999999972
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "receipt-json-and-schema",
+        "ms": 160.98983399999997,
+        "totalMs": 652.6368339999972
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "fixture-arguments-authoring",
+        "ms": 18.053291000000172,
+        "totalMs": 670.6901249999974
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "service-startup",
+        "ms": 167.36808400000155,
+        "totalMs": 838.0582089999989
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "fixture-storage-seeding",
+        "ms": 65.11129100000107,
+        "totalMs": 903.1695
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "sdk-bootstrap",
+        "ms": 2042.1843339999978,
+        "totalMs": 2945.3538339999977
+      },
+      {
+        "profile": "24z11-receipt",
+        "phase": "operation-to-descriptor",
+        "ms": 1648.8129160000026,
+        "totalMs": 4594.16675
+      }
+    ],
+    "fixtureAndSdkSetupMs": 2945.3538339999977,
+    "descriptorMs": 1648.8129160000026,
+    "unobservedAfterTimeout": [
+      "complete artifact reads",
+      "complete byte/storage oracles",
+      "ordinary CLI and full byte oracle",
+      "artifact.close"
+    ],
+    "runnerTransformSeconds": 14.52,
+    "runnerTransformOutsideBody": true,
+    "restoration": "Temporary source restored byte-for-byte by try/finally; snapshot exactly equals git c7a033af source before edit."
+  },
+  "correction": {
+    "setup": "Scoped beforeEach prepares exact same archive authority/arguments/scratch rows/scripted startup/default SDK connection.",
+    "body": "Begins at actual edit.apply; all65 original lines through final telemetry unchanged except indentation. No operation, chunk read, hash/byte comparison, persistence oracle, ordinary CLI or close moved into setup.",
+    "hookTimeoutMs": 10000,
+    "testTimeoutMs": 5000,
+    "timeoutOverridesAdded": false,
+    "productChanges": false
+  },
+  "finalGate": {
+    "command": "node node_modules/vitest/vitest.mjs run packages/protocol/src packages/client/src apps/service/src/index.test.ts apps/service/src/delivery.test.ts apps/service/src/result-delivery.test.ts apps/service/src/project-service.test.ts apps/cli/src --maxWorkers=1 --silent=false",
+    "files": 11,
+    "tests": 126,
+    "passed": 115,
+    "failed": 11,
+    "raw": "evidence.tar.gz:checks/final-affected.log",
+    "correctedReceiptFile": "all three cases passed",
+    "remainingFailures": "10 unchanged apps/cli/src/main.test.ts cases and one unchanged apps/service/src/delivery.test.ts case timed out; no subsequent retry or product/deadline change",
+    "durationSeconds": 177.05
+  },
+  "quality": {
+    "testInclusiveTypecheck": "node node_modules/typescript/bin/tsc -p apps/cli/tsconfig.check.json: pass",
+    "lint": "node_modules/.bin/oxlint apps/cli/src/result-delivery.test.ts: pass",
+    "format": "node_modules/.bin/oxfmt --check apps/cli/src/result-delivery.test.ts: pass",
+    "diffCheck": "pass"
+  },
+  "claims": [
+    "Setup boundary is now explicit; original failures remain red evidence.",
+    "No general latency cause, speedup, original whole-body deadline pass, product throughput change or whole-spec acceptance claimed.",
+    "Original child implementation/evidence and historical receipt archive remain immutable. No native, media/model cohort, alternate transaction/runtime interpreter or installed switching."
+  ]
+}
