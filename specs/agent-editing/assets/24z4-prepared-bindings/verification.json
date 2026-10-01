@@ -1,0 +1,164 @@
+{
+  "baselineCommit": "d62507031fd52726a9f90687340f588fb36d4fac",
+  "scope": "Project window resource binding deduplication before path lookup",
+  "status": "consumer red/green and focused checks pass; original large recipe passes one unchanged-deadline rerun",
+  "contract": {
+    "owner": "packages/core/src/project-window.ts projectCompositionFromRevision.window",
+    "identity": "existing JSON tuple [asset.id, source.streamId]",
+    "mapLifetime": "new map for each window construction",
+    "recipeOccurrencesUnchanged": true,
+    "distinctStreamsPreserved": true,
+    "persistentCache": false,
+    "referenceBehaviorChanged": false
+  },
+  "boundedWork": {
+    "fixtureClipOccurrences": 5,
+    "uniqueAssets": 2,
+    "distinctAssetStreamBindings": 3,
+    "observedOriginalCatalogHeaderReads": 7,
+    "correctedCatalogHeaderReadCeiling": 5,
+    "correctedBudget": "two complete asset reads plus one path-header lookup per distinct binding",
+    "observation": "Real DatabaseSync.prepare forwards calls while PreparedAudioStore.request executes",
+    "manyClipSourceTrace": {
+      "clipOccurrences": 4001,
+      "distinctAssetStreamBindings": 1,
+      "windowConstructions": "fresh admission and independent job execution",
+      "originalPathHeaderReads": 8002,
+      "correctedPathHeaderReads": 2,
+      "removedPathHeaderReads": 8000,
+      "claim": "source-based work counts; not measured timings or timeout cause"
+    }
+  },
+  "valueProof": {
+    "queuedJobManifest": "complete compiler manifest; source clipId/assetId/streamId values independently match authored revision",
+    "rendererBindings": "exact assetId/streamId/path/originUs tuples including both streams of the second asset",
+    "freshExecutionAuthority": "second scratch file renamed and catalog filename updated after admission, before existing startup barrier opens; renderer receives both streams at current moved path",
+    "publishedRecipe": "complete original manifest unchanged by path relocation"
+  },
+  "originalLargeRecipe": {
+    "namedTest": "portable prepared recipes retain a complete many-clip execution graph",
+    "testBodyUnchanged": true,
+    "testBodySha256": "da398c7ca9dc2611922ce494643c542c70e77cae3772b8701ae053d8401f0e89",
+    "clipOccurrences": 4001,
+    "minimumRecipeBytes": 2097152,
+    "deadlineMs": 5000,
+    "deadlineChanged": false,
+    "defaultCoverageChanged": false,
+    "runCount": 1,
+    "verdict": "pass",
+    "causeOfPriorTimeoutsEstablished": false
+  },
+  "checks": [
+    {
+      "name": "initial development red",
+      "log": "red.log",
+      "exitCode": 1,
+      "verdict": "expected red: 7 catalog header reads exceeds 5",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 21,
+      "sourceNote": "Earlier test before scratch-path freshness extension; final exact-source red follows"
+    },
+    {
+      "name": "initial development green",
+      "log": "green.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 1,
+      "skipped": 21,
+      "sourceNote": "Earlier test before scratch-path freshness extension"
+    },
+    {
+      "name": "final consumer falsification",
+      "log": "red-final.log",
+      "exitCode": 1,
+      "verdict": "expected red: 7 catalog header reads exceeds 5",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 21,
+      "sourceNote": "Exact candidate test with archived baseline project-window.ts"
+    },
+    {
+      "name": "final consumer restored",
+      "log": "green-final.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 1,
+      "skipped": 21,
+      "sourceNote": "Exact candidate test and owner"
+    },
+    {
+      "name": "affected prepared/project-audio/frame suites excluding original large recipe",
+      "log": "focused.log",
+      "exitCode": 0,
+      "verdict": "pass",
+      "passed": 46,
+      "skipped": 2
+    },
+    {
+      "name": "original large recipe sole permitted rerun",
+      "log": "large-once.log",
+      "exitCode": 0,
+      "verdict": "pass at original 5000ms default deadline",
+      "passed": 1,
+      "skipped": 21,
+      "runCount": 1,
+      "processDurationMs": 942
+    },
+    {
+      "name": "core types",
+      "log": "types.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused lint",
+      "log": "lint.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused formatting",
+      "log": "format.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    }
+  ],
+  "commands": {
+    "consumer": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts -t \"prepared window bindings resolve repeated resources once and retain distinct streams\" --maxWorkers=1",
+    "focused": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts packages/core/src/project-audio.test.ts packages/core/src/frame-inspection.test.ts -t '^(?!portable prepared recipes retain a complete many-clip execution graph)' --maxWorkers=1",
+    "largeOnce": "node node_modules/vitest/vitest.mjs run packages/core/src/prepared-audio.test.ts -t 'portable prepared recipes retain a complete many-clip execution graph' --maxWorkers=1",
+    "types": "bun run check-types (packages/core)",
+    "lint": "node node_modules/oxlint/bin/oxlint packages/core/src/project-window.ts packages/core/src/prepared-audio.test.ts",
+    "format": "node node_modules/oxfmt/bin/oxfmt --check packages/core/src/project-window.ts packages/core/src/prepared-audio.test.ts"
+  },
+  "review": {
+    "shape": "existing per-window map is the sole binding identity owner; path lookup follows its uniqueness check; 3 added/1 deleted production lines",
+    "diff": "same complete recipe, binding order, stream identities, origin and fresh window path authority; no API/schema/cache/reference change",
+    "tests": "actual prepared consumer, real catalog reads, complete recipe and exact renderer values; tiny two-resource fixture; original large test body pinned unchanged",
+    "docs": "own invariant leaf and evidence packet only; root owns hub/shared choices and integration",
+    "choices": "one sound/high-confidence fixture freshness choice in choices.md"
+  },
+  "limits": [
+    "No general latency or timeout-cause claim",
+    "No service 200001-segment test or hydration fix",
+    "No deadline, accepted fixture size or default coverage changes",
+    "No native build, frozen worker, model, capture, playback, UI or CLI review",
+    "No root checkout or external caller home/process changes"
+  ],
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 60593,
+    "sha256": "59f1f061496a8260ea4c5a5516b883e66c3178bf77bf19656fddb65c20dc1aa2"
+  },
+  "members": {
+    "path": "archive-members.json",
+    "bytes": 3912,
+    "sha256": "ce10c5122917ac0a811791c7fbc57b59d145a0c845e433c2e8a7a7bee368096f"
+  },
+  "sourcePins": {
+    "path": "source-pins.json",
+    "bytes": 2375,
+    "sha256": "a830e3b5685e314fc5016c73240197a933548f1609c3346629133e74646eebb5"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "baselineCommit": "d62507031fd52726a9f90687340f588fb36d4fac",
+  "sources": [
+    {
+      "path": "baseline/packages/core/src/prepared-audio.test.ts",
+      "bytes": 39360,
+      "sha256": "64c6ee92cdf88b0ad01209ad8355c0fdeb03c79f2719d4eded917552491539f6"
+    },
+    {
+      "path": "baseline/packages/core/src/project-window.ts",
+      "bytes": 8391,
+      "sha256": "bf8b0c5eb2293ac7165ec995bd4c9278a066f87d62a3e5ce86e5d7c57879a214"
+    },
+    {
+      "path": "candidate/package.json",
+      "bytes": 2061,
+      "sha256": "3786a657c586fd4169be6157ff53a0d1fb92d4e3f7d43ec2fc7e0dc0bae7e541"
+    },
+    {
+      "path": "candidate/packages/core/package.json",
+      "bytes": 9263,
+      "sha256": "03f9b5c1f82d8c97d2a31925c48a5a01a2045fc73a2b76002193d5ed7fc19862"
+    },
+    {
+      "path": "candidate/packages/core/src/assets.ts",
+      "bytes": 30268,
+      "sha256": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c"
+    },
+    {
+      "path": "candidate/packages/core/src/jobs.ts",
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+    },
+    {
+      "path": "candidate/packages/core/src/prepared-audio.test.ts",
+      "bytes": 42932,
+      "sha256": "15c27a2aaafb23ae9b36d4d11dbccb637c2980194bf3860ce8b389a44259f493"
+    },
+    {
+      "path": "candidate/packages/core/src/prepared-audio.ts",
+      "bytes": 19521,
+      "sha256": "cd866e973eecb4fd23854b114565bb406870da1f8c056e27c1350619e57ab35d"
+    },
+    {
+      "path": "candidate/packages/core/src/project-store.fixture.ts",
+      "bytes": 695,
+      "sha256": "e93e6d960e673de53cc8061db4a7e5c149e65b7d22a458611cb0be85aff418e8"
+    },
+    {
+      "path": "candidate/packages/core/src/project-window.ts",
+      "bytes": 8457,
+      "sha256": "0ed9352108268607b49385726f1dc3067d5d0a1e2d51a94e68f796237ace1213"
+    },
+    {
+      "path": "candidate/packages/core/src/projects.ts",
+      "bytes": 29738,
+      "sha256": "3756a56e033564a4f7bc1c88324e5da519c0325bc93311be3abe13dea39474b3"
+    }
+  ],
+  "unchangedCompositionRuntimeClosure": {
+    "path": "../24z2-prepared-admission/source-pins.json",
+    "bytes": 20938,
+    "sha256": "df1b5737e6146f4d01ed201e76e55ae475465129fc3c9cc66e287fbf9e3925f4"
+  },
+  "unchangedCompositionEntriesVerified": 33,
+  "runtime": {
+    "node": "v24.14.0",
+    "vitest": "5.0.0",
+    "typescript": "7.0.2"
+  }
+}

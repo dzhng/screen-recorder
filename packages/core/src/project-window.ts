@@ -190,7 +190,9 @@ export function projectCompositionFromRevision(
       const bindings = new Map<string, CompositionAssetBinding>();
       for (const source of compositionMediaInputs(bound.manifest)) {
         const asset = metadata.get(source.assetId)!;
-        bindings.set(JSON.stringify([asset.id, source.streamId]), {
+        const key = JSON.stringify([asset.id, source.streamId]);
+        if (bindings.has(key)) continue;
+        bindings.set(key, {
           assetId: asset.id,
           streamId: source.streamId,
           path: assets.path(asset.id),

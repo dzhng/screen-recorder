@@ -3,7 +3,11 @@ import { fstatSync } from "node:fs";
 import { DerivedCache } from "./cache.js";
 import { MediaAudioInspection } from "./audio-inspection.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
-import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
+import {
+  projectComposition,
+  projectCompositionFromRevision,
+  type AudioWindowInput,
+} from "./project-window.js";
 import { afterEach, expect, test, vi } from "vitest";
 import { DatabaseSync } from "node:sqlite";
 import { mkdtemp, readFile, readdir, rm, writeFile, rename, realpath } from "node:fs/promises";
@@ -47,6 +51,7 @@ async function fixture(
 ) {
   const home = await realpath(await mkdtemp("/tmp/prepared-audio-"));
   let reads = 0;
+  const renderedAssets: AudioWindowInput["assets"][] = [];
   let hold: ((result: StagedJobResult) => Promise<void>) | undefined;
   async function connect() {
     const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -103,8 +108,9 @@ async function fixture(
       probe,
       renderer: {
         implementationId,
-        render: async ({ window, output }) => {
+        render: async ({ window, output, assets }) => {
           reads++;
+          renderedAssets.push(assets);
           const frames = window.manifest.sampleRange.end - window.manifest.sampleRange.start;
           const bytes = wave(frames);
           await writeFile(output, bytes);
@@ -193,6 +199,7 @@ async function fixture(
     get reads() {
       return reads;
     },
+    renderedAssets,
     setHold: (value: typeof hold) => {
       hold = value;
     },
@@ -835,6 +842,91 @@ test("prepared PCM admission honors the native WAV header capacity before queuei
       .all(),
   ).toEqual(references);
   expect(f.reads).toBe(0);
+});
+
+test("prepared window bindings resolve repeated resources once and retain distinct streams", async () => {
+  const f = await fixture([], "unit-test-native-boundary", true);
+  const source = join(f.home, "two-streams.wav"),
+    bytes = wave(48000);
+  bytes.writeFloatLE(-0.99, 44);
+  await writeFile(source, bytes);
+  const other = await f.current.assets.import(source, { kind: "import" }, async (path) => {
+    const probe = await f.current.probe(path);
+    return { ...probe, streams: [probe.streams[0], { ...probe.streams[0], id: "track:2" }] };
+  });
+  const occurrences = [
+    { assetId: f.asset.id, streamId: "track:1" },
+    { assetId: other.id, streamId: "track:1" },
+    { assetId: other.id, streamId: "track:2" },
+    { assetId: other.id, streamId: "track:2" },
+  ];
+  const { revision } = f.current.projects.apply(f.input.projectId, {
+    requestId: "repeated-streams",
+    expectedRevisionId: f.input.revisionId,
+    operations: occurrences.map((selection, index) => ({
+      operation: "place",
+      clip: {
+        ...selection,
+        trackId: f.placed.edit.labels.track!,
+        source: { kind: "range", range: { startUs: 0, endUs: 1000 } },
+        placement: {
+          kind: "project",
+          range: { startUs: 1000000 + index * 1000, endUs: 1001000 + index * 1000 },
+        },
+      },
+    })),
+  });
+  const input = { projectId: f.input.projectId, revisionId: revision.id };
+  const expected = projectComposition(f.current.projects, f.current.assets, input).window(
+    {},
+    { implementationId: "unit-test-native-boundary" },
+    "audio",
+  ).window.manifest;
+  const assetPath = f.current.assets.path(f.asset.id),
+    otherPath = f.current.assets.path(other.id);
+  const expectedAssets = [
+    { assetId: f.asset.id, streamId: "track:1", path: assetPath, originUs: 0 },
+    { assetId: other.id, streamId: "track:1", path: otherPath, originUs: 0 },
+    { assetId: other.id, streamId: "track:2", path: otherPath, originUs: 0 },
+  ];
+  const statements = vi.spyOn(DatabaseSync.prototype, "prepare");
+  let pending;
+  try {
+    pending = await f.current.prepared.request(input);
+    // Two complete asset reads plus one path-header lookup per distinct binding.
+    expect
+      .soft(
+        statements.mock.calls.filter(([sql]) => sql === "SELECT metadata FROM assets WHERE id=?")
+          .length,
+      )
+      .toBeLessThanOrEqual(5);
+  } finally {
+    statements.mockRestore();
+  }
+  expect(JSON.parse(f.current.jobs.job(pending.jobId!).input)).toEqual(expected);
+  expect(
+    expected.sources.map(({ clipId, assetId, streamId }) => ({ clipId, assetId, streamId })),
+  ).toEqual(
+    revision.document.clips.map((clip) => ({
+      clipId: clip.id,
+      ...("assetId" in clip ? { assetId: clip.assetId, streamId: clip.streamId } : {}),
+    })),
+  );
+  const movedPath = otherPath + ".moved";
+  await rename(otherPath, movedPath);
+  f.current.catalog.catalog
+    .prepare("UPDATE assets SET metadata=json_set(metadata,'$.fileName',?) WHERE id=?")
+    .run(other.fileName + ".moved", other.id);
+  f.current.jobs.start();
+  await f.current.jobs.idle();
+  expect(f.renderedAssets).toEqual([
+    expectedAssets.map((binding) =>
+      binding.assetId === other.id ? { ...binding, path: movedPath } : binding,
+    ),
+  ]);
+  const ready = await f.current.prepared.request(input);
+  expect(ready.state).toBe("ready");
+  expect(JSON.parse(ready.published!.input)).toEqual(expected);
 });
 
 test("portable prepared recipes retain a complete many-clip execution graph", async () => {
