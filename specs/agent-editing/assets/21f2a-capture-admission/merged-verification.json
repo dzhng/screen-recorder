@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-10-01T10:34:45.442941+00:00",
+  "integratedCommits": [
+    "ccc9ea67",
+    "8197ab18",
+    "64379afb"
+  ],
+  "verdict": "Merged durable capture admission verified at source/SQL boundary; fresh-service coordinator wiring remains21f2",
+  "originalPacket": {
+    "archive": {
+      "file": "evidence.tar.gz",
+      "bytes": 6005,
+      "sha256": "f953943292a541cd777eb27e7f666418a5fcb048238de216029f1af7c0087e3e"
+    },
+    "exactArchivedAndLoosePayloadsVerified": 11
+  },
+  "mergedSourceIdentitiesMatched": 11,
+  "mergedCompiledIdentitiesMatched": 7,
+  "checks": {
+    "coreBuild": {
+      "file": "merged-core-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exitCode": 0
+    },
+    "focusedTests": {
+      "file": "merged-tests.log",
+      "bytes": 1030,
+      "sha256": "f94bf35b79c6857f14bcf00f864329be78c360b7c687610d3c918fdb4941d0cb",
+      "exitCode": 0
+    }
+  },
+  "focusedTests": {
+    "files": 5,
+    "passed": 107,
+    "failed": 0,
+    "command": "node node_modules/vitest/vitest.mjs run packages/core/src/capture-acquisition.test.ts packages/core/src/acquisitions.test.ts packages/core/src/capture-store.test.ts packages/core/src/jobs.test.ts packages/core/src/files.test.ts --maxWorkers=1"
+  },
+  "review": "Root shape/diff/docs and independent corrected scope clean; three choices retained. Choice append conflict resolved by preserving both integrated21e/23d and new21f2a entries.",
+  "evidenceLimits": "Original24/98 and mutation raw-log gaps remain disclosed in unchanged original packet. Newly retained merged logs prove this current gate. Runner wall durations are not performance measurements.",
+  "notExecuted": [
+    "native media worker",
+    "capture",
+    "models or inference",
+    "audible playback",
+    "UI or app launch",
+    "host profile",
+    "installed switch"
+  ],
+  "next": "21f2 fresh coordinator/private controller reports/startup/close/capture priority and durable admission status; no selector until complete path passes."
+}

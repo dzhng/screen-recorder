@@ -16,8 +16,8 @@ workers and measurements retain their own identities below.
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
 Continue [21f](../slices/21f-public-camera-selection.md#implementation-checkpoints)
-selector-free durable admission and fresh coordinator wiring before public
-selection. [21e caller-authored projects](21e-capture-project-adoption/README.md)
+selector-free fresh coordinator wiring through the merged durable admission
+owner before public selection. [21e caller-authored projects](21e-capture-project-adoption/README.md)
 are integrated; [merged verification](21e-capture-project-adoption/merged-verification.json)
 passes the public journey through the current capture store with all reviewed
 PNG/WAV bytes unchanged. No project is created by capture.
@@ -55,6 +55,11 @@ its [merged verification](21f1-capture-facts/merged-verification.json) checks so
 compiled runtime and archived evidence identities and the focused transaction,
 lifecycle, deletion and fresh-store gates. It does not wire fresh capture routes
 or advertise camera selection.
+[21f2a durable admission](21f2a-capture-admission/README.md) is integrated;
+[merged verification](21f2a-capture-admission/merged-verification.json) passes107
+focused tests and exact source/compiled/packet identities. Admission freezes
+immutable observations inside the acquisition and preserves explicit retry; it
+creates no project. The remaining21f2 work is actual coordinator/control wiring.
 [23d native export consumption](23d-export-consumer-parity/README.md) is integrated;
 [merged verification](23d-export-consumer-parity/merged-verification.json) preserves
 recording/project receipt ownership and status recovery through the actual consumer.

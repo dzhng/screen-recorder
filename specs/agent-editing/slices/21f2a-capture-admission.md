@@ -1,7 +1,7 @@
 # 21f2a — Durable deferred admission of captured sources
 
-Status: implemented and verified at the source/SQL boundary; scoped independent
-and root source reviews are clean. Root integration and merged gate remain pending. This is the acquisition-owned prerequisite of
+Status: integrated and merged-verified at the source/SQL boundary; root and
+independent corrected-scope reviews are clean. This is the acquisition-owned prerequisite of
 [21f2](21f2-capture-coordination.md); fresh controller wiring remains planned.
 
 ## Contract and ownership
@@ -45,11 +45,16 @@ capture, physical synchronization or a completed-stop time.
 
 ## Evidence and next pickup
 
+[The merged verification](../assets/21f2a-capture-admission/merged-verification.json)
+checks all source/compiled pins and archived payloads, and passes the current core
+build plus 107 tests across capture facts, admission, explicit imports, jobs and
+file copying. Its retained logs supplement the unchanged original packet.
+
 The [durable verification packet](../assets/21f2a-capture-admission/verification.json)
 retains commands/results, the raw-log limitation, failed controls and final
 source/compiled/runtime pins. Its [review disposition](../assets/21f2a-capture-admission/review.json)
-records the resolved operational findings and clean scoped source re-review;
-root integration and the merged gate remain pending. The
+records the resolved operational findings and clean scoped source re-review.
+The merged supplement above closes its originally pending integration gate. The
 [choices ledger](../choices.md#name-automatic-capture-admission-by-its-allocated-source--sound-medium-confidence)
 records the internal source-based replay identity, acquisition-owned immutable
 observations and authoritative positive source eligibility as inherited decisions.

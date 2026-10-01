@@ -1,7 +1,7 @@
 # 21f2 — Fresh-service capture coordination and source admission
 
 Status: control wiring planned. The durable acquisition admission seam
-[21f2a](21f2a-capture-admission.md) is verified at the source/SQL boundary.
+[21f2a](21f2a-capture-admission.md) is integrated and merged-verified at the source/SQL boundary.
 This remains the selector-free second checkpoint of [21f](21f-public-camera-selection.md).
 
 ## Contract

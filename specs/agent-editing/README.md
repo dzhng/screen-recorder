@@ -22,9 +22,9 @@ The external caller makes every editorial decision. The consumer skill is a
 product artifact, not the repository's development workflow.
 
 **Next pickup: [21f selector-free admission and coordinator integration](slices/21f-public-camera-selection.md#implementation-checkpoints).**
-Finish durable source admission in the existing acquisition/job owners, then wire
-the surviving coordinator into the fresh service. [21f1 capture facts](slices/21f1-capture-facts.md)
-is merged-verified. Public camera selection stays rejected until its complete
+Wire the surviving coordinator into the fresh service through
+[21f2](slices/21f2-capture-coordination.md). [21f1 capture facts](slices/21f1-capture-facts.md)
+and [21f2a durable admission](slices/21f2a-capture-admission.md) are merged-verified. Public camera selection stays rejected until its complete
 path passes. Capture publishes source facts; the caller authors canvas, tracks,
 placement and links through existing project/edit operations. Capture creates no
 project. Preserve installed span transactions until the explicit cutover in 23.
@@ -227,6 +227,8 @@ implementation readiness from acceptance prerequisites.
 - [x] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
 - [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
   - [x] [21f1 — Durable capture facts independent of editing](slices/21f1-capture-facts.md)
+  - [ ] [21f2 — Fresh-service capture coordination](slices/21f2-capture-coordination.md)
+    - [x] [21f2a — Durable deferred capture admission](slices/21f2a-capture-admission.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)

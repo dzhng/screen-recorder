@@ -1,7 +1,7 @@
 # 21f — Complete public selected-camera integration
 
-Status: first selector-free extraction checkpoint integrated and merged-verified;
-fresh-service coordinator/admission wiring and atomic public selection remain open.
+Status: selector-free capture facts and durable admission integrated and merged-verified;
+fresh-service coordinator wiring and atomic public selection remain open.
 Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
@@ -44,8 +44,8 @@ Keep the selector rejected while settling these owners in order:
    preserve that atomic rollback at its editing owner. Moving it into the
    coordinator's caught notification callback would silently weaken the contract.
    Fresh capture facts create neither span revisions nor a project.
-2. [Fresh-service coordination](21f2-capture-coordination.md) starts with the
-   [durable admission seam](21f2a-capture-admission.md). Then wire that same
+2. [Fresh-service coordination](21f2-capture-coordination.md) has its
+   [durable admission seam](21f2a-capture-admission.md) merged-verified. Wire that same
    coordinator into the fresh service's catalog, private control
    reports, startup reconciliation and close order. Replace its hard-coded
    noncapturing job state with actual capture priority. Settle source admission
