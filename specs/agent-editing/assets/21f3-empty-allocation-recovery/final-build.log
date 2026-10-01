@@ -1,0 +1,67 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/6] Compiling ScreenRecorderCapture CaptureSourcePublication.swift
+[4/6] Emitting module ScreenRecorderCapture
+[4/9] Write sources
+[7/11] Compiling ScreenRecorderWire MediaRecovery.swift
+[8/11] Emitting module ScreenRecorderWire
+[9/14] Emitting module ScreenRecorderCaptureTests
+[10/14] Compiling ScreenRecorderCaptureTests main.swift
+[11/14] Compiling ScreenRecorderCaptureTests EmptyCaptureRecoveryTests.swift
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:94:20: error: type 'Any' does not conform to the 'Sendable' protocol
+ 92 |         try await refused(invalid, "invalid-authority-\(UUID().uuidString)", retryable: false)
+ 93 |     }
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+    |                    `- error: type 'Any' does not conform to the 'Sendable' protocol
+ 95 |     canceled.cancel()
+ 96 |     let cancellation = try await canceled.value
+
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:94:20: error: type 'Any' does not conform to the 'Sendable' protocol
+ 92 |         try await refused(invalid, "invalid-authority-\(UUID().uuidString)", retryable: false)
+ 93 |     }
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+    |                    `- error: type 'Any' does not conform to the 'Sendable' protocol
+ 95 |     canceled.cancel()
+ 96 |     let cancellation = try await canceled.value
+
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:94:9: error: type 'Any' does not conform to the 'Sendable' protocol
+ 92 |         try await refused(invalid, "invalid-authority-\(UUID().uuidString)", retryable: false)
+ 93 |     }
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+    |         `- error: type 'Any' does not conform to the 'Sendable' protocol
+ 95 |     canceled.cancel()
+ 96 |     let cancellation = try await canceled.value
+
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:95:14: error: type 'Any' does not conform to the 'Sendable' protocol
+ 93 |     }
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+ 95 |     canceled.cancel()
+    |              `- error: type 'Any' does not conform to the 'Sendable' protocol
+ 96 |     let cancellation = try await canceled.value
+ 97 |     precondition(cancellation["ok"] as? Bool == false && cancellation["data"] == nil,
+
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:96:43: error: type 'Any' does not conform to the 'Sendable' protocol
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+ 95 |     canceled.cancel()
+ 96 |     let cancellation = try await canceled.value
+    |                                           `- error: type 'Any' does not conform to the 'Sendable' protocol
+ 97 |     precondition(cancellation["ok"] as? Bool == false && cancellation["data"] == nil,
+ 98 |         "Cancellation must remain an outer refusal")
+
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:96:34: error: non-Sendable type 'Task<[String : Any], any Error>' cannot exit main actor-isolated context in call to nonisolated property 'value'
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+ 95 |     canceled.cancel()
+ 96 |     let cancellation = try await canceled.value
+    |                                  `- error: non-Sendable type 'Task<[String : Any], any Error>' cannot exit main actor-isolated context in call to nonisolated property 'value'
+ 97 |     precondition(cancellation["ok"] as? Bool == false && cancellation["data"] == nil,
+ 98 |         "Cancellation must remain an outer refusal")
+
+/Users/david/.codex/worktrees/empty-capture-recovery/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/EmptyCaptureRecoveryTests.swift:96:43: error: non-Sendable type '[String : Any]' of nonisolated property 'value' cannot be sent to main actor-isolated context
+ 94 |     let canceled = Task { try await emptyRecoveryWire(params, root: root, name: "canceled-empty") }
+ 95 |     canceled.cancel()
+ 96 |     let cancellation = try await canceled.value
+    |                                           `- error: non-Sendable type '[String : Any]' of nonisolated property 'value' cannot be sent to main actor-isolated context
+ 97 |     precondition(cancellation["ok"] as? Bool == false && cancellation["data"] == nil,
+ 98 |         "Cancellation must remain an outer refusal")

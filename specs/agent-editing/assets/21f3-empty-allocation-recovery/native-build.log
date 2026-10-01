@@ -1,0 +1,12 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+Building for debugging...
+[0/6] Write screenrec-native-entitlement.plist
+[0/6] Write sources
+[2/6] Write swift-version--1AB21518FC5DEDBE.txt
+[4/9] Compiling ScreenRecorderNative ParentLifetime.swift
+[5/9] Compiling ScreenRecorderNative main.swift
+[6/9] Emitting module ScreenRecorderNative
+[6/9] Write Objects.LinkFileList
+[7/9] Linking screenrec-native
+[8/9] Applying screenrec-native
+Build of product 'screenrec-native' complete! (1.57s)

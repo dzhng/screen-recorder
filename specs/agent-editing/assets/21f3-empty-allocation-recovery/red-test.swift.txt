@@ -1,0 +1,36 @@
+import Darwin
+import Foundation
+import ScreenRecorderMedia
+import ScreenRecorderWire
+
+@MainActor
+func runEmptyCaptureRecoveryTests(output: String? = nil) async throws {
+    let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("empty-capture-recovery")
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+    defer { if output == nil { try? FileManager.default.removeItem(at: root) } }
+    let source = root.appendingPathComponent("primary")
+    try FileManager.default.createDirectory(at: source, withIntermediateDirectories: false,
+        attributes: [.posixPermissions: 0o700])
+    let params: [String: Any] = ["directory": source.path,
+        "sourceAuthority": ["kind": "primary", "sourceId": "empty-source"]]
+    let result = try await emptyRecoveryWire(params, root: root, name: "empty-primary")
+    guard result["ok"] as? Bool == true, let data = result["data"] as? [String: Any],
+        data["inputsClosed"] as? Bool == true, data["durationUs"] as? Int == 0,
+        let outcome = data["sourcePublication"] as? [String: Any], outcome["state"] as? String == "unavailable",
+        let error = outcome["error"] as? [String: Any], error["code"] as? String == "NO_SOURCE_MEDIA" else {
+        throw NativeFailure("TEST_FAILED", "Empty allocation did not close unavailable: \(result)")
+    }
+    let members = try FileManager.default.contentsOfDirectory(atPath: source.path)
+    precondition(members.isEmpty,
+        "Empty recovery cannot manufacture authority files")
+    print("PASS native empty allocated source closes unavailable without manufacturing authority")
+}
+
+@MainActor
+private func emptyRecoveryWire(_ params: [String: Any], root: URL, name: String) async throws -> [String: Any] {
+    let request = try JSONSerialization.data(withJSONObject: ["id": name, "operation": "media.recover", "params": params], options: [.sortedKeys])
+    try request.write(to: root.appendingPathComponent("\(name)-request.json"))
+    let response = await NativeWire.respond(to: String(decoding: request, as: UTF8.self))
+    try response.write(to: root.appendingPathComponent("\(name)-response.json"))
+    return try JSONSerialization.jsonObject(with: response) as! [String: Any]
+}

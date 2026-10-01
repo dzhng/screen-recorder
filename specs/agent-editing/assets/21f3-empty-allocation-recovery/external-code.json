@@ -1,0 +1,1447 @@
+{
+  "checkoutPath": "/tmp/screenrec-21f3c-build/checkouts/FluidAudio",
+  "revision": "41540ea237350afe5117a082b5c28eda642d0612",
+  "checkoutStatus": "",
+  "sources": {
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Canary/CanaryConfig.swift": {
+      "bytes": 3001,
+      "sha256": "decf5eaef890e7031f36b152d90a076e6d6150bff39743a51072ed7327dfcb43"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Canary/CanaryKeywordBooster.swift": {
+      "bytes": 8016,
+      "sha256": "69c449660997ee6bedd6a2e339dd2f9a4c9d1002e7311bbd7d94d591e9a98282"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Canary/CanaryManager.swift": {
+      "bytes": 15093,
+      "sha256": "65333dd7966158742dcf9760e2053f73c34eadffb0d54c2102b35e49cd32ff36"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Canary/CanaryModels.swift": {
+      "bytes": 5748,
+      "sha256": "8f04d7ad49b2588922480e71a809be46f4551f03385e6f78d40aae959a735d55"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Cohere/CohereAsrConfig.swift": {
+      "bytes": 6194,
+      "sha256": "9e0fe4c2bf53b7c07c713831607290768c4dfc86f1c75a50535815bad8f25292"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Cohere/CoherePipeline.swift": {
+      "bytes": 40872,
+      "sha256": "44ce0215c8c48446a61f800c55352a101f13ac50f4fe24f1367cf472de3ee02c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Paraformer/ParaformerCif.swift": {
+      "bytes": 2558,
+      "sha256": "165aa104428f01a838d5e9c3c7aaddca5252b5d13f110dd38e969ac0ef85c86f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Paraformer/ParaformerConfig.swift": {
+      "bytes": 1533,
+      "sha256": "193137821e5d45e54aa3786d12897a41b7d6bfbaa9b757ab59395dff385feda2"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Paraformer/ParaformerManager.swift": {
+      "bytes": 22822,
+      "sha256": "321b794b37514a579b0e61ac86253326e830c9aecf7d6ddd7fabacba0cfa1d6b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Paraformer/ParaformerModels.swift": {
+      "bytes": 7250,
+      "sha256": "368e13e3b5689c2d85dec846c185ce33d0c7b299e343c6af3981e37203c96f5b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/AsrTypes.swift": {
+      "bytes": 9837,
+      "sha256": "5ad1bea12ce12875b23ee842e4c38c24d222b34bd5c1836d97f8df60f4c6d84c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/AudioBuffer.swift": {
+      "bytes": 5972,
+      "sha256": "ce97a63f55767802316c2806f6cbf0133b534367f0e584a04ac43466ffab7e01"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/ParakeetLanguageModels.swift": {
+      "bytes": 12759,
+      "sha256": "a1d4334a7ba252b7cda2b9ab954f6770efd604355f723e32903d9e889f03d9f5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CTC/ARPALanguageModel.swift": {
+      "bytes": 5451,
+      "sha256": "8abd8501cf5a86272b578890b8e0d2add24020e7ea17154036ba61b5001efc33"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CTC/CtcDecoder.swift": {
+      "bytes": 10520,
+      "sha256": "ec6a2ee506cc563e829d4b5dc6de24a16f847a5644979f7d3c5c8cdf5431d3e5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/BKTree/BKTree.swift": {
+      "bytes": 4429,
+      "sha256": "f05ddbdf9ae74efbe3a1c707368717bcd680baee16d6cab5a6811b715a9fb4b2"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/BKTree/VocabularyRescorer+CandidateMatching.swift": {
+      "bytes": 11197,
+      "sha256": "e9279deab8e36948dace1152d2ef25c24b57965729861b994d3ecf90e8a9ca66"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/ContextBiasingConstants.swift": {
+      "bytes": 19585,
+      "sha256": "8f5a1b156de767bbeda530036da542f5895aafb5c582ddbeeb507b3f3a1c6dd7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/CustomVocabularyContext.swift": {
+      "bytes": 16946,
+      "sha256": "74f00f170bed9071e9ba7104a03a5abbd666ca1362f142b502c01fe33dd73a90"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/Rescorer/VocabularyRescorer+TokenEvaluation.swift": {
+      "bytes": 15986,
+      "sha256": "633777523e8a417bf4b2f4413bde3936bec5f982b3743f32113bc29c12b49bf6"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/Rescorer/VocabularyRescorer+TokenRescoring.swift": {
+      "bytes": 62190,
+      "sha256": "d621e73c1e3e1371e5add2b927895c7a56497b4418f7c6cb4caacdb4695faed1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/Rescorer/VocabularyRescorer+Utilities.swift": {
+      "bytes": 14233,
+      "sha256": "9fcef3028b4457637a0fea5c2787ddaadc2ca9cba62ebeef1bef33422060ad95"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/Rescorer/VocabularyRescorer.swift": {
+      "bytes": 19783,
+      "sha256": "af05bd81f42de168b3e47fc7cb6d8c89445de4e85aa802857b09fe781aa49718"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/VocabularyBoostingSession.swift": {
+      "bytes": 8059,
+      "sha256": "dc38890035eddcfce037f8a21e6ca54675da6a70bf96614542884f954e7ad1ea"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/WordSpotting/BpeTokenizer.swift": {
+      "bytes": 6972,
+      "sha256": "80dd40b4483ddaecc6a37d71f3e8328f89773ddbf3ac5da05e90298e2b0f91f4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/WordSpotting/CtcDPAlgorithm.swift": {
+      "bytes": 16106,
+      "sha256": "96c2fc9beabba1dab54d35e2f952b3bdbb337e4c41ee1f4397ac1c912ff82e41"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/WordSpotting/CtcKeywordSpotter+Inference.swift": {
+      "bytes": 18607,
+      "sha256": "0384a92498312bc7dc842a0158130287c5423a5f9f51220878f47d64a51314a0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/WordSpotting/CtcKeywordSpotter.swift": {
+      "bytes": 12822,
+      "sha256": "2e6ecdaa84139fd355255371cfb26878e6073c17c965d52dbbd9096307380773"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/WordSpotting/CtcModels.swift": {
+      "bytes": 11790,
+      "sha256": "32f9ba5b284941b05ea241435ed51c337fcf82ab8ebb1929eb5558d6b2ec3c33"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/CustomVocabulary/WordSpotting/CtcTokenizer.swift": {
+      "bytes": 5025,
+      "sha256": "86a2170fc080fe067327dfed22392d472a8e1895c51d504fb2c30ec01e5143b4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/SlidingWindowAsrManager.swift": {
+      "bytes": 40341,
+      "sha256": "ebfcf4cf0b208bb69040968379be50243888e4581cb3a8b94e7040adcd86e28c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/SlidingWindowAsrSession.swift": {
+      "bytes": 6834,
+      "sha256": "76efe7ffb34488f4841a666d503b685cc2b4c2c14298c54145011c7f1a50b002"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrManager+Pipeline.swift": {
+      "bytes": 6482,
+      "sha256": "d6fbd425e41e298bf01f3bb217b0b99f1d4fcc8d0f9e3607e545ca7e3b315e5e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrManager+TokenProcessing.swift": {
+      "bytes": 9405,
+      "sha256": "12220cd05e7f2d6440510e9912ba5016320b4e3ac461beac5b874586a3414563"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrManager+Transcription.swift": {
+      "bytes": 18770,
+      "sha256": "8c595860efbc009546f5e0c6a6289135ee88cb9596d9674a82f26f14f30df4c7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrManager.swift": {
+      "bytes": 22834,
+      "sha256": "a9ee46add000b9b528fe75635559034c07e4d1823db7f1a50870eddd319a7fb2"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrModels.swift": {
+      "bytes": 28273,
+      "sha256": "0cb67e52f22044b1fa9cbaeed89af1809138767811804a62a947ab3d16d23346"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/ChunkProcessor.swift": {
+      "bytes": 66052,
+      "sha256": "3ca6c33b9244018387ad3345cd9af118e49b6a5cefb42a23c587ea7d14dee3d0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/BlasIndex.swift": {
+      "bytes": 290,
+      "sha256": "be146e4b9921415be7c0db3912ee0ce3f12d5365e02605d755b3120dd64b2eb8"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/EncoderFrameView.swift": {
+      "bytes": 3858,
+      "sha256": "96965f971d2a764af30d4bba3e87c74d088a9554aa012cb3310b052f47a6bea9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtConfig.swift": {
+      "bytes": 1528,
+      "sha256": "a2212f872784d9bb8d0f10799e100c82237b7d3ae5ad69ab6b50e982ed2d159d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtDecoderState.swift": {
+      "bytes": 4475,
+      "sha256": "594c949dd47aa9b4015054fe04386d4f4229c4888571c36052e7d4656261f087"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtDecoderV2.swift": {
+      "bytes": 3003,
+      "sha256": "4d2716a9ebc0598663eda793377b3e06b27c2d37c6868ba0647e2d0006a0d830"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtDecoderV3.swift": {
+      "bytes": 36215,
+      "sha256": "44bc626b7a0241413f9d3e5f76916785c4714f4bda4cec1182cf797d10928aa1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtDurationMapping.swift": {
+      "bytes": 1435,
+      "sha256": "9f93809fbfce54769b4d21a92ce7827efbd8e016d5bd4308ecc7ce3e70cb56ec"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtFrameNavigation.swift": {
+      "bytes": 4771,
+      "sha256": "07b109a94dfc771e596478b696523e8113f34bdf87712d27c49bc776a8b91e84"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtHypothesis.swift": {
+      "bytes": 1392,
+      "sha256": "9919881f99b4a0874d3c2d5393a9aed33ba62b0873524048fcb180ae336a6b8e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtJointDecision.swift": {
+      "bytes": 2958,
+      "sha256": "900797bf5953dbf7cfbad75ad436c9c98311fe70929c49124e1cdcf65a49cfe9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtJointInputProvider.swift": {
+      "bytes": 1726,
+      "sha256": "b751371f72f92ec74121851f45aa42ba5600a2e57050b72468e7ed6a0fe3d68b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtModelInference.swift": {
+      "bytes": 12449,
+      "sha256": "c017a57b3ff0c97f1a3741debc2af944297df6818cd9f9613e1e7bd7fa6c1cf8"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/DualDecodeArbitration.swift": {
+      "bytes": 18765,
+      "sha256": "5be20860e788da15aab266583b7a3af010b1e42e53d7839f5e83ce1d814cdd96"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/EOU/StreamingEouAsrManager.swift": {
+      "bytes": 31085,
+      "sha256": "a76c84cc35284a1ca0a82c3639f48192fc194004a0f5d67a500399389ceef9ae"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/EncoderCacheManager.swift": {
+      "bytes": 2895,
+      "sha256": "7f9a350689e54ff5b6cb1df0ab4761eca80412b62351f985062375d0cf3b05c4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/NemotronChunkSize.swift": {
+      "bytes": 882,
+      "sha256": "4e33ed5aa38ed33314a4bd07de7f6ac2d5b47cf2ecfaa6c218d859e9ad1cb7f4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/NemotronMelExtractor.swift": {
+      "bytes": 2789,
+      "sha256": "0e7d081b15ba0a71d64e1c006221e6697628befc653fba5303b1097f6732aeac"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/NemotronMultilingualStreamingConfig.swift": {
+      "bytes": 6236,
+      "sha256": "427fae040cecb58fef3dc371bec84abe5e425398076708e000a9068c98687d12"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/NemotronMultilingualTokenizer.swift": {
+      "bytes": 3786,
+      "sha256": "563ab601f881f31ce8297dace0cc98655646b5b67ebd19e78d597505668a654e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/NemotronStreamingConfig.swift": {
+      "bytes": 2983,
+      "sha256": "81865c93bc79d7462db9800bac5d02affbfbd1407037b441daa3d60a0dc47eb1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/NemotronVocabularyBias.swift": {
+      "bytes": 24481,
+      "sha256": "b3c1e4d4f9bcb4d5d353c0648aa8c58fb4d1d46801027dec5ffa6732ab8fa824"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronAsrManager+Pipeline.swift": {
+      "bytes": 17564,
+      "sha256": "93ea3bcb2038650b2a3d6833b80d6f61249e0b51807cdb7ac1407685513cb07b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronAsrManager.swift": {
+      "bytes": 16488,
+      "sha256": "f0b5f077b35bba35c71f62228235ff4d72a8be380f402052549bcb75a34afbe7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+BlankRescue.swift": {
+      "bytes": 18996,
+      "sha256": "f3513fa19a1fe128613d331b10bce7668bfe764413a022f436cafa447640bb74"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+Buffers.swift": {
+      "bytes": 17661,
+      "sha256": "93b616e416af61d3e575fce41a8bc0891229160f4d3011c57ba45556a130d1ee"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+Decode.swift": {
+      "bytes": 28216,
+      "sha256": "b66181449d9373b9a95411887429406d3d6b490e8052ff76da8446390f9d75e5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+Pipeline.swift": {
+      "bytes": 29641,
+      "sha256": "97f11320b8909456732cbc7bf98b270a826b2bd4bb5d4e044a8b7263b594d07e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+Shared.swift": {
+      "bytes": 24247,
+      "sha256": "788f157fedf00a791c4fab19f80abe6049563e4906c3848cfa70287318c725a9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager.swift": {
+      "bytes": 55846,
+      "sha256": "914792152e66fcec15c5e004d031ffbfa6f00131d53d6a38ed7b1cca5e659cd6"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/ParakeetModelVariant.swift": {
+      "bytes": 8244,
+      "sha256": "e1f202e45dd2a571ae96059679bdd10908f27f83e980054d52e592a3606b34b0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/RnntDecoder.swift": {
+      "bytes": 11960,
+      "sha256": "890b4b700a73b97937e7b4223a7cf37fa1f0e39733f8322b369dc25586f97456"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/StreamingAsrManager.swift": {
+      "bytes": 3318,
+      "sha256": "05a254f44492a0f88baadd43f81d89fd05867cdb88cf6a1f7824f4719ba71c26"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/StreamingAsrUtils.swift": {
+      "bytes": 2605,
+      "sha256": "facd3ab47fb93bc759c365c72b76abd0b4b74f9a961bf643b687767c6d47d659"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Tokenizer.swift": {
+      "bytes": 1630,
+      "sha256": "8d918abcdf71e7c549064dc0cad26771046dfadd8c76b34a9420aaa78b00dfc9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/TokenDeduplication/SequenceMatch.swift": {
+      "bytes": 364,
+      "sha256": "bc93b0e6bbe0f494f13182524a5f5ae23ad50270b6d886ae3ad207978bdcf703"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/TokenDeduplication/SequenceMatcher.swift": {
+      "bytes": 9955,
+      "sha256": "e2c3b644b85a6254cf50c5cec2896337f168d0c6a8ec39be56c14b56b04bc942"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/StreamingUnifiedAsrManager.swift": {
+      "bytes": 25985,
+      "sha256": "ba8f5b592a3abd17ddb7c6a268a5c824d0612664ddd26be548f62345025ef10f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/UnifiedAsrManager.swift": {
+      "bytes": 22213,
+      "sha256": "ee3e32c676f0033037bf79acb89be33da2d1bfb998cdef7ee40da44db41e808f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/UnifiedConfig.swift": {
+      "bytes": 3544,
+      "sha256": "6207b36ebd3483b23632dad508c30a3f7170e713ed740e5695729e1bd0f1629a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/UnifiedFeatureProviders.swift": {
+      "bytes": 2184,
+      "sha256": "d306e7dcac5f9755f1645137e023f486e61c48a0cc85a32065de9f72f68b3f60"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/UnifiedMelExtractor.swift": {
+      "bytes": 5067,
+      "sha256": "23f3251633ff527cf111abb156e5bfc23369ebd972a6aa4feb78d8abccbc295b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/UnifiedRnntDecoder.swift": {
+      "bytes": 5955,
+      "sha256": "afd1fc784a32b8be0d1230a66bebf7b288a4830326e37399fa33c14ea3927c7b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Unified/UnifiedStreamingWindower.swift": {
+      "bytes": 3821,
+      "sha256": "1f497e161065377e5621bc7e025b2327adc9dcafe3d48313831343e4f23751d5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/SenseVoice/SenseVoiceConfig.swift": {
+      "bytes": 1854,
+      "sha256": "e87a64b04ba4e0cd7c0667322a4f812c72059714b3c7641af32dee7260ae201e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/SenseVoice/SenseVoiceManager.swift": {
+      "bytes": 5970,
+      "sha256": "7539b51f6ed8bbf76b1ebfb4ac38c26d4220c024032efe90122df55c5416afb9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/SenseVoice/SenseVoiceModels.swift": {
+      "bytes": 7960,
+      "sha256": "fde7c47fe76328981fb8659a283d7889b405bda7ac42ba751c48f29fad88478c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Shared/LogitsArgmax.swift": {
+      "bytes": 1912,
+      "sha256": "5d0efab9c53711e249a8fbd409bbb71a0570c56093e63afd2e2d6957545ee944"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Shared/PunctuationCommitLayer.swift": {
+      "bytes": 14379,
+      "sha256": "aa42966cc0ded40fbc03e3d6444119c8d54df8f8afcf1d2f81130a9e0437d9f7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Clustering/SpeakerManager.swift": {
+      "bytes": 25994,
+      "sha256": "13460d2f383e56d5a1e6f8303ed512aebde85b087605e77b65d8240178f57ac1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Clustering/SpeakerOperations.swift": {
+      "bytes": 20102,
+      "sha256": "4080c54d1acb65debbe75cac882b7c2330405b9867b55a4e864aa778acbd2008"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Clustering/SpeakerTypes.swift": {
+      "bytes": 9550,
+      "sha256": "bdf22f625e173b0fc4f5294d3ef4ec4f9825e035c0aca023ce33508673a29316"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Core/DiarizerManager.swift": {
+      "bytes": 21056,
+      "sha256": "b164061ddb658cb05c8c634c27663614551b95045a9a70991b2e14530030d4cb"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Core/DiarizerModels.swift": {
+      "bytes": 4946,
+      "sha256": "490fca93350eacea3daee9a2f515f2fd28dfe8683fb6c1e0962c748a326e67dc"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Core/DiarizerTypes.swift": {
+      "bytes": 10042,
+      "sha256": "f4717efe53a23f2df4788dc4a3f5097c0617ff606a3c5b2ea3f9ac3cc985925b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/DiarizationDER.swift": {
+      "bytes": 8593,
+      "sha256": "071ee96b21c1c1101ae33d3952d250231cbb53b2f379de5ffaa6110248233cae"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/DiarizerProtocol.swift": {
+      "bytes": 4790,
+      "sha256": "bea1c3523f08310809098dc875e687116da838fed61bd61106256cee79605082"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/DiarizerTimeline.swift": {
+      "bytes": 49468,
+      "sha256": "1fabe6ee9fe82f0a851d752ff0a46f3324ec810bfacd19795cffd8664d405e43"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Extraction/EmbeddingExtractor.swift": {
+      "bytes": 8717,
+      "sha256": "b72785802f69700d6db56fd1b93f9d1bf172fb050fc9dfd86580abd7a7045c7e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/HungarianAssignment.swift": {
+      "bytes": 3739,
+      "sha256": "8dc3f8ef8e255f9f3a595f6afde210a25409df3de142c4546d57ba623d2a3b46"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/LS-EEND/LSEENDDiarizer.swift": {
+      "bytes": 13406,
+      "sha256": "77842adb68e197c29aba9a1080a686526eae3b4fabc9e854f7b0c2d36f76571a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/LS-EEND/LSEENDInference.swift": {
+      "bytes": 9017,
+      "sha256": "f4a80842f78a28076c48183755f852becb075bc24e4ce61425f3ce2d8081bd6b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/LS-EEND/LSEENDPreprocessor.swift": {
+      "bytes": 13110,
+      "sha256": "968aacb47d444416c83ee83e0154b59c432500acac51ed2be9341938000c5caf"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/LS-EEND/LSEENDTypes.swift": {
+      "bytes": 5180,
+      "sha256": "97bfecf705012631798fefd3d6b40d89db225e1f982358904bfa5356fbc57197"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/AHCClustering.swift": {
+      "bytes": 7247,
+      "sha256": "6d4469390620a07fbdbdddc986b5d59bf7aa1d00848f24e51bcbfb752a2aa56e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/ConstrainedClusterAssignment.swift": {
+      "bytes": 1899,
+      "sha256": "bd997ad7030a03f7f26d3def0395d28a82b60c82dd39901dabbc232225e471ab"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/KMeansClustering.swift": {
+      "bytes": 8465,
+      "sha256": "d9dfaa4a5a728841a4c5c6581ef3a931dcbd69597509ba3f683220fa2f7062fe"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/SpeakerCountConstraints.swift": {
+      "bytes": 2685,
+      "sha256": "04eb39e25609ab4c9c750b49be2348c4d932413669e043a6d218b4ed0d835737"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift": {
+      "bytes": 32461,
+      "sha256": "5af3e04c6fbf5dd9e8d7ad29f818936ca51d11d8a69d0a79c418cdfd9fe1139e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift": {
+      "bytes": 41295,
+      "sha256": "5ac1c05b04068c76617c3c78bdf779e703e4bccec8874d3220f77331d0bf6f10"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerModels.swift": {
+      "bytes": 6815,
+      "sha256": "89407ffa029ca71aa63c419020cd6898f61b48bfa1a12b0dc114f6a94fc6641c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerTypes.swift": {
+      "bytes": 28528,
+      "sha256": "ff7e63e82330e48c7986ca5a5a6194a8f1a2304d2f5dd3afa1249932d8b6d271"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/PreparedDiarization.swift": {
+      "bytes": 731,
+      "sha256": "68f4e93218676cd694e67d73214779281e384c28e3e0518401b32964661c96bf"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Extraction/OfflineEmbeddingExtractor.swift": {
+      "bytes": 42200,
+      "sha256": "7b497d3cace01e8c98fce343838e8a322cce2d39275f9fb85d0352685f5af71c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Extraction/PLDATransform.swift": {
+      "bytes": 7302,
+      "sha256": "5a3a8fd2166c37c6400c04ccd76b3aadf9c8da00de866520cee197e35ae7f706"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Extraction/WeightInterpolation.swift": {
+      "bytes": 5451,
+      "sha256": "c51c661d523b7a35595b188192049ac403d3a0c3507bad8fe6dd5e7d2603e17f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Segmentation/OfflineSegmentationProcessor.swift": {
+      "bytes": 23428,
+      "sha256": "8085de7a588cd9e1c2c7a1824a229ae9d4691d9a69301cb114fe1fb1d68d4d9f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/OfflineReconstruction.swift": {
+      "bytes": 19956,
+      "sha256": "10a0db69e2cbc9acdd5495ee75020a3db979ea8830823a3e85b23177782ac348"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/VDSPOperations.swift": {
+      "bytes": 11493,
+      "sha256": "0d5ee57d7155e566ce3021f58164aa28ed5f29dfa5212337d0222f17ce0a0850"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/ZeroVoteReembedder.swift": {
+      "bytes": 5585,
+      "sha256": "00498cbbf1e0f29e544de5d32e49b8e320674081beec90c92dc79cb0f0947400"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Segmentation/AudioValidation.swift": {
+      "bytes": 1403,
+      "sha256": "98b1a20267cbc162b6d1ab1e60b9aac0dcef6c1d61c308fe88f1d31b8e386abc"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Segmentation/SegmentationProcessor.swift": {
+      "bytes": 7975,
+      "sha256": "baa4127250df7d129eb20e6195e5dbd5c2935a283d8279ae2bad6e75b91786c8"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Segmentation/SlidingWindow.swift": {
+      "bytes": 553,
+      "sha256": "c1f672c970d79abb4aa2d598c6a53f279e57a6cbda0bd93f2ee04828a64d0d5c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Sortformer/Offline/OfflineSortformerDiarizer.swift": {
+      "bytes": 15966,
+      "sha256": "0030b5bd119f47e452d7ba9e7120330a2e8b3fdf58bedbcc64c5ef9b31eb5332"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Sortformer/Offline/SortformerSpeakerStitcher.swift": {
+      "bytes": 3804,
+      "sha256": "5491e3ec88a1dd4fd51f477eca7df4226569259e134c33e1143fa4849ad7e418"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Sortformer/SortformerDiarizer.swift": {
+      "bytes": 40564,
+      "sha256": "3e5c6141e62a416e8d4682ddf582e1fe798939e07ba80718424698a1307ac90d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Sortformer/SortformerModelInference.swift": {
+      "bytes": 15453,
+      "sha256": "77e49788f47101ad746b053409fbb458e08a619ab7e8357e17de10ce4565ec10"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Sortformer/SortformerStateUpdater.swift": {
+      "bytes": 22902,
+      "sha256": "03024eedcc0d670555a022a99b3d9d4aa41d15ecd30bed4862a53161fdf35e00"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Diarizer/Sortformer/SortformerTypes.swift": {
+      "bytes": 16698,
+      "sha256": "77d562938e29fc639bc1f4287b4e82f2a5e41f075a9b9184fa092034a0f143ad"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/FluidAudioSwift.swift": {
+      "bytes": 1099,
+      "sha256": "b93698f9fa15e4e0aff5f9d40ebe2c3d1bca1f8118f94b88053eda0a71e64215"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ITN/TextNormalizer.swift": {
+      "bytes": 11537,
+      "sha256": "b94cfb36aa44e1956c7e1f455577b5e4f1aa5d551e61ca4946bad44063f22fa8"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ModelNames.swift": {
+      "bytes": 74315,
+      "sha256": "39d2c08dab5d36ce92092ada2960cd322665d26d1de05a83512a81f17ef165b1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/ModelRegistry.swift": {
+      "bytes": 7518,
+      "sha256": "4c760c5cbb06ffbea4aa7b3c994c9633bc813a6ff1d0000072fcfa63e7de032d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ANEMemoryOptimizer.swift": {
+      "bytes": 8056,
+      "sha256": "f23c6f3b180685876442e4c4ef1f38fd123894c4a5db613dd155203db134a062"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ANEMemoryUtils.swift": {
+      "bytes": 9289,
+      "sha256": "806534befb51620e221ca9ffe8af712e359c9ed7df18230313abfe536b7772bd"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ASRConstants.swift": {
+      "bytes": 3853,
+      "sha256": "2ceb61acf79d3760d8ab4ac3c2f1c86378bc1065c85086de6e06e86603460dbb"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AppLogger.swift": {
+      "bytes": 5506,
+      "sha256": "a0b12a9818c4922d40ba4b88067add8da50c5da5179df14ab19989bdc1038e7c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AssetDownloader.swift": {
+      "bytes": 4339,
+      "sha256": "7f37359bed7c18b4c77099d6190115788e4872610a129e6b1e73ac43a674015f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AudioConverter.swift": {
+      "bytes": 23138,
+      "sha256": "68334f0e8e633f5685dd7e126a9efdb8185e96cc3cfceaff94941e9d89e8fb0a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AudioMelSpectrogram.swift": {
+      "bytes": 24088,
+      "sha256": "97f1b74eb7bd4e485dca6c6afc4ee58b1eb0e20bd7919453e6d3e07151ac3642"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AudioSampleSource.swift": {
+      "bytes": 2382,
+      "sha256": "8e9e5d43d92be388e4d79b253d8b3d6baff3ba7a9b2057edee1e05e011cb105e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AudioSource.swift": {
+      "bytes": 93,
+      "sha256": "c055bc7e5ce26e00c7a808cd473fb6b1966c73d4eb3b410e0ce02450bcab481a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AudioSourceFactory.swift": {
+      "bytes": 8278,
+      "sha256": "24e4c38eceab165dc39c757e0f83c705a8770412dc2a5e1326daf9da0033a3b6"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/AudioStream.swift": {
+      "bytes": 18484,
+      "sha256": "62ea128be89488c10e0beea8f7a6c11c6dcac0ce9ac6303a379460b4b84bdece"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/DownloadTypes.swift": {
+      "bytes": 6246,
+      "sha256": "fdbf48c584242351a6382212f90055950d548fb8e7ca36be992b13133fc04c1f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/FileDownloader.swift": {
+      "bytes": 29273,
+      "sha256": "a1c95bb781ef9b984a5eced334c52038573075bb343dd270b18b60b4fc9198a9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/HFClient.swift": {
+      "bytes": 7595,
+      "sha256": "e6420415722c7fce903a20046b47d83ac0539f7c9dd500d5a5ea0bc4cb275dfa"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/HFTreeLister.swift": {
+      "bytes": 4438,
+      "sha256": "141f537187465004c7b805aad8b05ee61c08b5df017175df6140f3ff78533c31"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/ModelCache.swift": {
+      "bytes": 9750,
+      "sha256": "1cef89255655effbede1e8c60ec2012aaddc6695eca63397ba634e75497bd778"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/ModelHub.swift": {
+      "bytes": 36436,
+      "sha256": "647aa1454145ed86293b021cb09d8551c1f6aa1c2cfa1710527ad614e059b3a9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/ProgressReporter.swift": {
+      "bytes": 7563,
+      "sha256": "14d6eddb85921205d58bc3a89719ce47b6a7e854b5ea0be1d793eca108cefbbe"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/RetryPolicy.swift": {
+      "bytes": 6042,
+      "sha256": "cc3d3a347e52d2889d2ffd3f9e3cc6551c433e352d8c78b4a302f658077cd3f6"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Float16Conversion.swift": {
+      "bytes": 1574,
+      "sha256": "d3788e46d02213aff5dccd721a03a0b430e14cb087a4de4144d75cdb306a3c07"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/MLArrayCache.swift": {
+      "bytes": 2345,
+      "sha256": "c7d73b553cf46687f9a39c1c294685429aee5487a3a48b6ad54c968e55506c73"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/MLModel+Prediction.swift": {
+      "bytes": 349,
+      "sha256": "879f1d8afbae2b10d4a871063e0f4fb6b2fd57509a6abdf74879e6cc54737b49"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/MLModelConfigurationUtils.swift": {
+      "bytes": 2348,
+      "sha256": "564932accd438ed3564187d1d446b262ab726242e79af4afb6d0d88fb8520452"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/MLMultiArray+Extensions.swift": {
+      "bytes": 573,
+      "sha256": "978ae98c09444c3120797e5491571a790be4f62c11765863d7fa7556bde3fba9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ModelWarmup.swift": {
+      "bytes": 5392,
+      "sha256": "872452819ae42350c350969887046c428715d3c13bc461eac53aaa81e4c45848"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/PerformanceMetrics.swift": {
+      "bytes": 980,
+      "sha256": "acd6ec19aaedd4d59d71334aa3ad1f8bf4b91cb3ddb8549c4b84922e278eb1e1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ProgressEmitter.swift": {
+      "bytes": 1365,
+      "sha256": "e2901338330c71140c58cae6c2db059e75c5564f47d7a93d159965438bdf981a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/StringUtils.swift": {
+      "bytes": 1442,
+      "sha256": "aec25a9e20fd6fef857296022f7316dc239dc89a9b3538d5e80de66bd2485348"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/SystemInfo.swift": {
+      "bytes": 5387,
+      "sha256": "d59af422362a39646d2ded56dfec7d9ba432d2a048a66b7a644cc6635d96cde7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/TokenLanguageFilter.swift": {
+      "bytes": 7416,
+      "sha256": "827183578a468150ab3e8a1990533c6581d773e2180b97f43bf7a8b695971f46"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/ZeroCopyFeatureProvider.swift": {
+      "bytes": 979,
+      "sha256": "6995a2d3b2eb816e5cfb3e01b2596af0ed929c4ef71431ab69344b9a153a217c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Speaker/CampPlusEmbedder.swift": {
+      "bytes": 2931,
+      "sha256": "80518cf47bdd7ada627cc1a0fb3066c2e95a9255e15652a8de60d5b973e27f9a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/Speaker/CampPlusModels.swift": {
+      "bytes": 4006,
+      "sha256": "d3044b645fecb5a8216b65546b97299125f61f713d3b4d2e9dd9c8becaf0ead4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/G2P/G2PModel.swift": {
+      "bytes": 8562,
+      "sha256": "988c4ec3e2aac2d9a1580c2ab88b15e87c696ed8c458a7df64bbbfcaaa803ee2"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/G2P/MultilingualG2PError.swift": {
+      "bytes": 635,
+      "sha256": "764b66b5be8441938b0dd2e8667454ef62a02134c86a538cccecd8b59a44eecb"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/G2P/MultilingualG2PLanguage.swift": {
+      "bytes": 1745,
+      "sha256": "4586dfd15c38e677a8f2b426d6cf32f582714ce73d2a68a377b89056f68e036b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/G2P/MultilingualG2PModel.swift": {
+      "bytes": 6688,
+      "sha256": "e3ad3f8da58d43650c407e6f8b25ae0a104f7c12d8dfbf17f1f9a0d9c183a083"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/Assets/InflectModelStore.swift": {
+      "bytes": 3407,
+      "sha256": "5d09ba93f4fcac1bf1f165d7ce3f26a4749326b2d7f155fe387f16f36905b6fd"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/Assets/InflectResourceDownloader.swift": {
+      "bytes": 2144,
+      "sha256": "5644a575c7d1a8d3439012993a9534ceef100b62664bafab1563a9ab61d77bd9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/InflectConstants.swift": {
+      "bytes": 1922,
+      "sha256": "bf5c39ac2c5bc3338a3b06a42d7a0b5ab1ff7b4119ae14c6257ac731a8b38ea7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/InflectError.swift": {
+      "bytes": 1586,
+      "sha256": "818b22bca6a8c14ea1f06d81680e70344cdc6062b161e70a4a9ad17e58c721f0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/InflectManager.swift": {
+      "bytes": 7700,
+      "sha256": "3d13bc147c4f1594117bace2707b27ef4d99bf07085fa952d99ad05bbc0edf08"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/InflectSymbols.swift": {
+      "bytes": 3449,
+      "sha256": "3d3b0ae0e7b45ec998f30bb9bdf8cca94917accb7dd26c55cd9be03f60bd0e7c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/InflectVariant.swift": {
+      "bytes": 600,
+      "sha256": "cce4d1b163f30db6eef507c16e7fed393f8299a653b88ed2737c4f26c55a3c96"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/Pipeline/InflectNoise.swift": {
+      "bytes": 1627,
+      "sha256": "e8a4a41044e96fc0d7021a6c9219152c17e3a38e8be6dfa75dfb481cf69fd0b1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Inflect/Pipeline/InflectSynthesizer.swift": {
+      "bytes": 7708,
+      "sha256": "d0184643135c979aab573d0edfb01ee3183c57ca6de75532a78094cca00082ba"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Assets/KokoroAneModelCacheMigration.swift": {
+      "bytes": 7042,
+      "sha256": "35619746f32b4196d07ec1ec9fc0df000d42e4c23d9f9c6bea8f4711e538156b"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Assets/KokoroAneResourceDownloader.swift": {
+      "bytes": 18565,
+      "sha256": "7e4cf35e5376325723cd0059dd90cbe11c82cb0d64c2853a5e8ce4e9c02b67e9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Assets/KokoroAneVocab.swift": {
+      "bytes": 2068,
+      "sha256": "50b1019b541629689766cb255c7bd78a6768d78e2ed71e334f4b7aac1e7cf600"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/English/KokoroAneEnglishPhonemizer.swift": {
+      "bytes": 13696,
+      "sha256": "aba4ee60e328b4584494427a91723473a1400ed89b80ab058f1f2223900f1fc0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinBertTokenizer.swift": {
+      "bytes": 5949,
+      "sha256": "595dd2c497f21a5fdd066422e89bb440cc41c9a08da2107eac2fcdb4856296e3"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinBopomofoMap.swift": {
+      "bytes": 8515,
+      "sha256": "10463625849cf0f48a65fdd39b820e3fd741c90e1cbf298f45a0abde44d21dbc"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinCustomLexicon.swift": {
+      "bytes": 10213,
+      "sha256": "98e1fd5ab8d859c6028479541b985a401cc8dd76b00bd340cd483bbdc2f25396"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinErhua.swift": {
+      "bytes": 2828,
+      "sha256": "82da896be168c4a81192969e25f6cf3e637cc363b68bf69a87cc2cc0580f81bf"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinG2P.swift": {
+      "bytes": 19214,
+      "sha256": "4b8e4b161ad31a6c7af6ab6d2eaa92d1a65dcdb8865dc4e87813b301c6fcb033"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinG2pwModel.swift": {
+      "bytes": 7490,
+      "sha256": "b5173dc3901f4e5905f3ef69624ac9d83d20b82507d8289ec1b5eb850c624091"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinJiebaHmm.swift": {
+      "bytes": 6904,
+      "sha256": "03ceedd6a10ab560f9f38eee1168a714942dbddb51ed73e08019b19031730b48"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinJiebaTables.swift": {
+      "bytes": 9340,
+      "sha256": "656fdffd7696a24038ef20fb462a3b2adf4224631cfb10c519ea78dde88251e9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinNumberNormalizer.swift": {
+      "bytes": 9807,
+      "sha256": "28dfd53499880428357a3f36e00e41e7bef4d1fe0041fac59687c321bf19969c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinPinyinDict.swift": {
+      "bytes": 5675,
+      "sha256": "bb828068e217bfd0ac163a218523e34647cdb3fdb918e75e8f57251c01942154"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinPinyinNormalizer.swift": {
+      "bytes": 4408,
+      "sha256": "aa03aaebe283299314c4609612db5601f32b7d85cf0a2979a003317689247156"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinPolyphoneCatalog.swift": {
+      "bytes": 7349,
+      "sha256": "d6f1f885f047a6b450c5375aec18307543a324ae64e6a07a3cf5f1e916a73a56"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinToneSandhi.swift": {
+      "bytes": 3066,
+      "sha256": "a291aa1950dc4d3f45e26653c88966dca1f43199e9095b0aadfc117d61c26ab0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinToneSandhiPOS.swift": {
+      "bytes": 7909,
+      "sha256": "ff6cb35201e7b396e24efe7dd7168fc9dc095635192d8cd6c7ee81e11e0f2aa5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/KokoroAneConstants.swift": {
+      "bytes": 10672,
+      "sha256": "0a32010de69fa1474455cb93c24ee171a7bcef1a09bbbcdc48d008a7650e626c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/KokoroAneError.swift": {
+      "bytes": 2969,
+      "sha256": "5ef1387098d1474eb6a479f3dbcd1b7663007dcaccc91423a07119df61bb18c0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/KokoroAneManager.swift": {
+      "bytes": 18950,
+      "sha256": "48a23245b4851257c0fff5db03db789c453aaa4dec6465266623a17739d3a065"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Pipeline/KokoroAneModelStore.swift": {
+      "bytes": 17200,
+      "sha256": "0ade7098a548eb4f19d58c107f148fee7373ab0d7f321bb0a68c195ef78ab9b0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Pipeline/KokoroAneSynthesizer+Conversion.swift": {
+      "bytes": 7948,
+      "sha256": "b3cd79d87d860bc12abe01c775ed1b3ca359caa6c7b308e79f0da6f88e6d16aa"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Pipeline/KokoroAneSynthesizer+Types.swift": {
+      "bytes": 3629,
+      "sha256": "b94200d1021e0a0ca05fe08b62278595b1d334cd96aeb5e472ebaa13d40f4965"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Pipeline/KokoroAneSynthesizer.swift": {
+      "bytes": 11205,
+      "sha256": "d420dc7060cc31006a213ad3f69395fa500af5eb11ed4ff377a4b1027dc18ab3"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/Pipeline/KokoroAneVoicePack.swift": {
+      "bytes": 3790,
+      "sha256": "78bfaf8948c98b792ff4677d7c44e016a8a847234eb79a5b4f06f8ed1f4bfced"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/G2p/LuxTtsEnglishNormalizer.swift": {
+      "bytes": 10398,
+      "sha256": "0f26356397654be489918c339fbfa7c5393d117e15b33d74b0b3e739314e7506"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/G2p/LuxTtsG2p.swift": {
+      "bytes": 29711,
+      "sha256": "667c9ee0e132517d4d111f1e625fa0fdf5f90c86186a38cb7e9ccc94945f6b33"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsConstants.swift": {
+      "bytes": 2442,
+      "sha256": "b1c1d93a8490ff421b85a0a172358f378f38ef8a0c9cc8490f2b9bfa0f8972ed"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsError.swift": {
+      "bytes": 1828,
+      "sha256": "11750df9639b66e6ad50b5e0355b3a876e92e86c028d71e728972422a92f1fdc"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsManager.swift": {
+      "bytes": 7507,
+      "sha256": "7d4c0cbb62c8e892cb17479ddbcf734a6c7f639c4b6cb3a079f90b8cb900898d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsMelExtractor.swift": {
+      "bytes": 7786,
+      "sha256": "02fd9ec387aa8bb0817e0a8df5986dea1b6187f242514af54f6c97624589302d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsModelStore.swift": {
+      "bytes": 8157,
+      "sha256": "cbf2634a7b76a9782c4786a905c68927c7f57cc93294f3c2d8014529cb9452c3"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsSolver.swift": {
+      "bytes": 2827,
+      "sha256": "979625bd798ce195804905b1e2bf44cae3693be1c79f7f0a2f847107b79a8350"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsSynthesizer.swift": {
+      "bytes": 16998,
+      "sha256": "a6bdf790e22e5c33a9efa0c2b5a07dd27e81fa2dfce653ad14ce1aeeb9a4c1a9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/LuxTtsTokenizer.swift": {
+      "bytes": 2876,
+      "sha256": "d2bc5d889b0bc54d85429f89705a8748a52576276df5ea6553d39a61408190ef"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/NeuTts/NeuTtsConstants.swift": {
+      "bytes": 1780,
+      "sha256": "dd97d0a9ff787e7748f2c487201d754489a8332ef529adbbd237f809846b162d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/NeuTts/NeuTtsManager.swift": {
+      "bytes": 2831,
+      "sha256": "db02eb8a1cde368f0c55bf5926cf88ff23467964b43bd1b65ee88918ca82515e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/NeuTts/NeuTtsModels.swift": {
+      "bytes": 4891,
+      "sha256": "9a835c66e21a47b4556bfa482273c03f595d322bbe76a2ca1e16f281f5fc3d97"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/NeuTts/NeuTtsPrompt.swift": {
+      "bytes": 4103,
+      "sha256": "0db73020e7fa305c3a54f04e23027c53e93507a72bba935f8726fb313a5ba380"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/NeuTts/NeuTtsSynthesizer.swift": {
+      "bytes": 10339,
+      "sha256": "9d4b3322a69db37047dc66b09861d140c6372947a41f21d73d80358701914cab"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/NeuTts/Tokenizer/NeuTtsBpeTokenizer.swift": {
+      "bytes": 6946,
+      "sha256": "21ebc2068926d689adb7c1b8e7dabfe93f2138ec53174078758445619bff3521"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Assets/PocketTtsConstantsLoader.swift": {
+      "bytes": 19538,
+      "sha256": "ca55b7218c9541bfc0f5dab4fb32dc86e117f3caf69ca05ad9b7c206f4e6f7c0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Assets/PocketTtsResourceDownloader.swift": {
+      "bytes": 24442,
+      "sha256": "729e50a00f79d7da746a18415c367db0fae00cd40da7e996be0ffb573991ff52"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsLayerKeys.swift": {
+      "bytes": 8944,
+      "sha256": "7d5be7f423de3a261331d2df74c74f44f4653f421c83e1a48d8147e8c4010cac"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsMimiKeys.swift": {
+      "bytes": 5750,
+      "sha256": "2b112e24bec59f0329872af1843e1f23e8d88d00b810d0bac5094fb5767aa555"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsModelStore.swift": {
+      "bytes": 26467,
+      "sha256": "91c01fae346a0ca7fdb795fa5f412bed018057c5996f947d89d23a14937060b5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSession.swift": {
+      "bytes": 21518,
+      "sha256": "1028ff2e679908e1ddebf4aa1a6d1360f00bb500255bbc94c659259eabebd648"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsStateEngine.swift": {
+      "bytes": 17426,
+      "sha256": "afc5371344851a3aa06a2c14fe85d9acc38b515fc85d82cf645f1c7f31e98718"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSynthesizer+Flow.swift": {
+      "bytes": 5399,
+      "sha256": "048bb6e2ff8294274fd598fe9314dffbc7d6baaa69ed60d59ae31acc873024dd"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSynthesizer+KVCache.swift": {
+      "bytes": 25322,
+      "sha256": "2c052e2b1055674e34a86eb23558a9568e49ffc4e94702c59e3625337a299bcd"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSynthesizer+Mimi.swift": {
+      "bytes": 6637,
+      "sha256": "fd620cdb46dd95ac71013d8c8215d88c583ed6646f34442ba1ed22f9d62394c0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSynthesizer+State.swift": {
+      "bytes": 3592,
+      "sha256": "53d1bd889f9a36abc5e70d5e908c778ed3aa6821f5e7241bec826bae10b65f36"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSynthesizer+Types.swift": {
+      "bytes": 1101,
+      "sha256": "66a1654c050e51097d74088304a1d4584b695829c6d75eb5257340d0f64a60e8"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsSynthesizer.swift": {
+      "bytes": 54420,
+      "sha256": "601e19387a17ec01184d6ee6cc0764225ee173c73864c0380397eacc530c50d3"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsVoiceCloner.swift": {
+      "bytes": 18546,
+      "sha256": "67b3ce2a156d6639ff880bbaac2604cb7a3be6d3598905733dbbe4a6ba011043"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/PocketTTSError.swift": {
+      "bytes": 691,
+      "sha256": "0e539b68366b4b5c3f5308d1931764520d7ba00012fe42c9fe76bc56986e92e6"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/PocketTtsComputeUnits.swift": {
+      "bytes": 4130,
+      "sha256": "c35b1b67539fbe541856edf159879bd2dd62f399ff23e5ec2c698c95a4493eb9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/PocketTtsConstants.swift": {
+      "bytes": 9010,
+      "sha256": "041cbc8d36e40095e13ce7b366bb3b06458e9236bcf72d5b8235063b27471fd7"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/PocketTtsManager.swift": {
+      "bytes": 16987,
+      "sha256": "84d822540d6e76f79366565c1c3ed97c686074e89183d82e4a4b29dd94b096e5"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Tokenizer/SentencePieceProto.swift": {
+      "bytes": 5181,
+      "sha256": "4d21f803bb5d5a50541f15647af8a56374f3219b4b8c2a8420562905a680f2f4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Tokenizer/SentencePieceTokenizer.swift": {
+      "bytes": 4229,
+      "sha256": "26af4252e78e0b36291c238296ead8e309ada3791f0638b482b12fbc8c48e898"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/SSML/SSMLProcessor.swift": {
+      "bytes": 3958,
+      "sha256": "eed79f66c35287ecd8a602a66d69a11e3097e87f0fbac2298770fd7ae3492321"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/SSML/SSMLTagParser.swift": {
+      "bytes": 4861,
+      "sha256": "d82d8e823292db44c3a703f78c6427e5a7f23b7c8c2db0294a057025ec2823e9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/SSML/SSMLTypes.swift": {
+      "bytes": 3389,
+      "sha256": "411666fb61ced255c6b55bcc724a7d64a14b436165319720a619311dd2619a88"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/SSML/SayAsInterpreter.swift": {
+      "bytes": 15756,
+      "sha256": "53cc623b8ac0d0ccbbca26557ff9e4d5263b24e271ae28eae3d54fb55541c8df"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/AudioPostProcessor.swift": {
+      "bytes": 5130,
+      "sha256": "353716e93bade6d49af58f6216e2ebbd3ef3831a15ed79cb9947ebbb5f66a562"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/EnglishInitialisms.swift": {
+      "bytes": 3406,
+      "sha256": "e3e80079ed3bb32f56006d8add6786738675f560f5bb3cc7712c078ad898600c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/EnglishTextNormalizer.swift": {
+      "bytes": 12104,
+      "sha256": "8ee8654b11d3d9fe5f1c9e3ebf8e3b0a10bc4691fc66995345c38ba40e94e929"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/LexiconAssetCache.swift": {
+      "bytes": 2956,
+      "sha256": "649283e835dcaf5ddfa1e5d9a113e75fdb1db58cd5d4a1cf60e8de150427a79d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/NemoTextNormalizer.swift": {
+      "bytes": 2008,
+      "sha256": "16d4a8125641b088c373337b9d22cdfc759fa98e1723da9d1723204bdbe5560d"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/PhonemeChunker.swift": {
+      "bytes": 3911,
+      "sha256": "92be549f9cbf3e72a8297861db85818db67b4280db9d4fbf72d86f2ed0a130e9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/TTSError.swift": {
+      "bytes": 631,
+      "sha256": "243f63c7aee66ee87a134a0dedbfe5b65fcaa373cbe92831d79bde38a9333e79"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/TtsCacheDirectory.swift": {
+      "bytes": 1804,
+      "sha256": "b3b21e9671e530d768461f706a85ad3fd50947a0d99822779d5695884d80993e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Shared/TtsComputeUnitPreset.swift": {
+      "bytes": 3464,
+      "sha256": "f4b86bd615370094c4f1b4c97eee8a8a3e171f17a1e900754c59d17e74317aab"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Assets/StyleTTS2ModelStore.swift": {
+      "bytes": 10490,
+      "sha256": "a81981e29907e87846648f819e97e8d05778222fa39b4dedf94ebfe6e85c44a0"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Assets/StyleTTS2ResourceDownloader.swift": {
+      "bytes": 7112,
+      "sha256": "64d6e95cc189b180aa5479ac05c0aa846e2a420a96b040c969d2ba04e3e5c088"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Preprocess/StyleTTS2MelExtractor.swift": {
+      "bytes": 9807,
+      "sha256": "63c2c24235945230820a079bf47a6cad87e66656814096d514d1fed5a0f5596e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Sampler/StyleTTS2DiffusionSchedule.swift": {
+      "bytes": 3315,
+      "sha256": "ca6f8865f3978e74e13deb403ff7d33f704b1e63e44c097f6cd0e078f48c13c9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Synthesize/StyleTTS2GlueOps.swift": {
+      "bytes": 6766,
+      "sha256": "e86bd33ae318a9b33e1ede0186338b819751c51705b76c6046bd5cfe0c69ece3"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Synthesize/StyleTTS2MultiArray.swift": {
+      "bytes": 3286,
+      "sha256": "4a0d45226c4417e8e7379d6a22925f9d6ab1f0f919fca8c95a2018caf42c6779"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Synthesize/StyleTTS2Synthesizer.swift": {
+      "bytes": 20151,
+      "sha256": "6aa7493faea13814fb0aba85bda56bdf9f9c006227d16c6e56eade69bdb97318"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Tokenizer/StyleTTS2Phonemizer.swift": {
+      "bytes": 11800,
+      "sha256": "07fe0184e795347ebeb8def8c46ab270abfd80af8150eb14ed2055af15f73ab4"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Tokenizer/StyleTTS2TextCleaner.swift": {
+      "bytes": 3382,
+      "sha256": "e673f50c2f789bec484ddf79248bc29de4669cca8ca85b78ed175d32b4f915ae"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/StyleTTS2Constants.swift": {
+      "bytes": 4283,
+      "sha256": "738c432b5bc8d9b8888227ee488972a7b7864bf00a93d4803eee796059190ecb"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/StyleTTS2Error.swift": {
+      "bytes": 2060,
+      "sha256": "f2a6a30b28fe84787f95c4c585bff34761c766caa80124bcda95960d6d9fd769"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/StyleTTS2Manager.swift": {
+      "bytes": 13993,
+      "sha256": "a71063f57c33141b0753c479b90daad1aa89a0a3222531a7e058c45b743917b3"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Assets/Supertonic3ModelStore.swift": {
+      "bytes": 8594,
+      "sha256": "71bc1914880234e28d3935db176daddcd1f3ae8499c8ce807ece03bf63203a36"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Assets/Supertonic3ResourceDownloader.swift": {
+      "bytes": 4532,
+      "sha256": "21d9d5c134ac92af0de252c857a6934ea7289b44e5bee2fb9c378ea7f9fc0d4a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Pipeline/Preprocess/Supertonic3TextChunker.swift": {
+      "bytes": 6294,
+      "sha256": "007236c16ec59905011936adf40e96644ca294ae64f0be815f907dc16b3be326"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Pipeline/Preprocess/Supertonic3UnicodeProcessor.swift": {
+      "bytes": 7307,
+      "sha256": "1fc3fe4c6ab447e6b76fe1a0e7070359a903793d5037af206d7f1edfb97a60f9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Pipeline/Synthesize/Supertonic3LatentSampler.swift": {
+      "bytes": 3608,
+      "sha256": "060e76f7d81624f4948dd37a300e055e7eef4d523f48ef6391d510f0797603df"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Pipeline/Synthesize/Supertonic3MultiArray.swift": {
+      "bytes": 3239,
+      "sha256": "0fd8845e8ea30cad38bd91d8a10be415242cc631e220537b0997fa7d6b187580"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Pipeline/Synthesize/Supertonic3Synthesizer.swift": {
+      "bytes": 13295,
+      "sha256": "b41060045384d6681d174417ca9d70eeeb54371d178ce330388576f716a21af1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Supertonic3Constants.swift": {
+      "bytes": 5239,
+      "sha256": "f52d6fee66ee6fa8b3086f59228f1bd3e4346f6a225e29107c3b9bb12c14b780"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Supertonic3Error.swift": {
+      "bytes": 2675,
+      "sha256": "b4afbf7d0fd718f1f15944074177404dfc744d466f7aceea77bd355321bdcb73"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Supertonic3Manager.swift": {
+      "bytes": 5946,
+      "sha256": "4d5b3e4aa48dc7dc0ac765fb16662e779e2728e5bcdaa62a9516480013831e1c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Supertonic3Types.swift": {
+      "bytes": 9962,
+      "sha256": "3422395cb736df6a27c7f3a97b459fbf469c6be94dba5c01f9c8bed1846e9c9c"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/TtsBackend.swift": {
+      "bytes": 3117,
+      "sha256": "55b8a040f8b41255113ba48d961d4d2d17afedb12feefd492cc22b25a9cf7d97"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/TtsConstants.swift": {
+      "bytes": 445,
+      "sha256": "5c5ae4554921a78b464226838df94ee4dedce01ca51bbba02599a980d3f113df"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/VAD/Fsmn/FsmnVadManager.swift": {
+      "bytes": 9400,
+      "sha256": "10fdf423c5dd7f9dbdbe5945ac4d70f868debbcdf3af1584f7ca21fad14b2b19"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/VAD/Fsmn/FsmnVadModels.swift": {
+      "bytes": 3771,
+      "sha256": "1a08e60ac014f7e93853c310a5c918635ed032a4672c3685caa341a30ccf85e9"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/VAD/VadManager+SpeechSegmentation.swift": {
+      "bytes": 9754,
+      "sha256": "0f70b4fe9a339f2027a38eeb58136b5a29d74f835dcc0d614ad45a13dd6647a1"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/VAD/VadManager+Streaming.swift": {
+      "bytes": 4330,
+      "sha256": "ce1107d710778c7a9419429f02e5ff9ae24ca38b9b3240475aef9ecd8c59726e"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/VAD/VadManager.swift": {
+      "bytes": 15126,
+      "sha256": "1cd09b15f40e83bc0889c6c1d784a51fe2c9a0e121308feb2203ad521608be3f"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/VAD/VadTypes.swift": {
+      "bytes": 8132,
+      "sha256": "bcb3fc84f9a85e4e70cfef4f1f131de9cd9b08d81e5f0add02b208f3009a13d8"
+    },
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DerivedSources/resource_bundle_accessor.swift": {
+      "bytes": 696,
+      "sha256": "4131d4a856d2741391d3ac1517d262e6debbaf9d3460128eddc3b51553d3a0ec"
+    }
+  },
+  "module": {
+    "path": "/tmp/screenrec-empty-recovery-build/debug/Modules/FluidAudio.swiftmodule",
+    "bytes": 3164800,
+    "sha256": "f078e625c39d312f195cd50ceaa79e9e7bb8f423a509cdcb9028cd6a29389713"
+  },
+  "linkedObjects": [
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AHCClustering.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ANEMemoryOptimizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ANEMemoryUtils.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ARPALanguageModel.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ASRConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AppLogger.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager+Pipeline.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager+TokenProcessing.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager+Transcription.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AsrModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AsrTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AssetDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioBuffer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioConverter.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioMelSpectrogram.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioPostProcessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioSampleSource.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioSource.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioSourceFactory.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioStream.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/AudioValidation.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/BKTree.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/BlasIndex.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/BpeTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CampPlusEmbedder.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CampPlusModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryKeywordBooster.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CanaryModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ChunkProcessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CohereAsrConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CoherePipeline.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ConstrainedClusterAssignment.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ContextBiasingConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CtcDPAlgorithm.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CtcDecoder.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CtcKeywordSpotter+Inference.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CtcKeywordSpotter.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CtcModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CtcTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/CustomVocabularyContext.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizationDER.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerProtocol.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerTimeline.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DiarizerTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DownloadTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/DualDecodeArbitration.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/EmbeddingExtractor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/EncoderCacheManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/EncoderFrameView.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/EnglishInitialisms.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/EnglishTextNormalizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/FileDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Float16Conversion.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/FluidAudioSwift.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/FsmnVadManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/FsmnVadModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/G2PModel.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/HFClient.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/HFTreeLister.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/HungarianAssignment.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectError.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectModelStore.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectNoise.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectResourceDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectSymbols.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectSynthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/InflectVariant.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KMeansClustering.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneEnglishPhonemizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneError.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneModelCacheMigration.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneModelStore.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneResourceDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneSynthesizer+Conversion.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneSynthesizer+Types.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneSynthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneVocab.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/KokoroAneVoicePack.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDDiarizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDInference.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDPreprocessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LSEENDTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LexiconAssetCache.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LogitsArgmax.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsEnglishNormalizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsError.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsG2p.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsMelExtractor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsModelStore.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsSolver.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsSynthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/LuxTtsTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MLArrayCache.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MLModel+Prediction.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MLModelConfigurationUtils.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MLMultiArray+Extensions.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinBertTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinBopomofoMap.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinCustomLexicon.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinErhua.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinG2P.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinG2pwModel.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinJiebaHmm.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinJiebaTables.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinNumberNormalizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinPinyinDict.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinPinyinNormalizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinPolyphoneCatalog.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinToneSandhi.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MandarinToneSandhiPOS.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ModelCache.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ModelHub.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ModelNames.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ModelRegistry.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ModelWarmup.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MultilingualG2PError.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MultilingualG2PLanguage.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/MultilingualG2PModel.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemoTextNormalizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronChunkSize.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronMelExtractor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronMultilingualStreamingConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronMultilingualTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronStreamingConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NemotronVocabularyBias.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsBpeTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsPrompt.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/NeuTtsSynthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineDiarizerManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineDiarizerModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineDiarizerTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineEmbeddingExtractor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineReconstruction.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineSegmentationProcessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/OfflineSortformerDiarizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PLDATransform.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerCif.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ParaformerModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ParakeetLanguageModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ParakeetModelVariant.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PerformanceMetrics.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PhonemeChunker.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTTSError.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsComputeUnits.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsConstantsLoader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsLayerKeys.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsMimiKeys.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsModelStore.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsResourceDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSession.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsStateEngine.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+Flow.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+KVCache.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+Mimi.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+State.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer+Types.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsSynthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PocketTtsVoiceCloner.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PreparedDiarization.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ProgressEmitter.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ProgressReporter.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/PunctuationCommitLayer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/RetryPolicy.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/RnntDecoder.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SSMLProcessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SSMLTagParser.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SSMLTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SayAsInterpreter.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SegmentationProcessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SenseVoiceConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SenseVoiceManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SenseVoiceModels.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SentencePieceProto.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SentencePieceTokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SequenceMatch.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SequenceMatcher.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SlidingWindow.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SlidingWindowAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SlidingWindowAsrSession.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerDiarizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerModelInference.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerSpeakerStitcher.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerStateUpdater.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SortformerTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerCountConstraints.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerOperations.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SpeakerTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingAsrUtils.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingEouAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronAsrManager+Pipeline.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+BlankRescue.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Buffers.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Decode.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Pipeline.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager+Shared.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingNemotronMultilingualAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StreamingUnifiedAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StringUtils.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Constants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2DiffusionSchedule.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Error.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2GlueOps.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Manager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2MelExtractor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2ModelStore.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2MultiArray.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Phonemizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2ResourceDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2Synthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/StyleTTS2TextCleaner.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Constants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Error.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3LatentSampler.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Manager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3ModelStore.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3MultiArray.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3ResourceDownloader.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Synthesizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3TextChunker.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3Types.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Supertonic3UnicodeProcessor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/SystemInfo.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TTSError.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDecoderState.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDecoderV2.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDecoderV3.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtDurationMapping.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtFrameNavigation.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtHypothesis.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtJointDecision.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtJointInputProvider.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TdtModelInference.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TextNormalizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TokenLanguageFilter.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/Tokenizer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TtsBackend.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TtsCacheDirectory.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TtsComputeUnitPreset.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/TtsConstants.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedAsrManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedConfig.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedFeatureProviders.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedMelExtractor.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedRnntDecoder.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/UnifiedStreamingWindower.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VBxClustering.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VDSPOperations.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VadManager+SpeechSegmentation.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VadManager+Streaming.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VadManager.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VadTypes.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyBoostingSession.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+CandidateMatching.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+TokenEvaluation.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+TokenRescoring.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer+Utilities.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/VocabularyRescorer.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/WeightInterpolation.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ZeroCopyFeatureProvider.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/ZeroVoteReembedder.swift.o",
+    "/tmp/screenrec-empty-recovery-build/arm64-apple-macosx/debug/FluidAudio.build/resource_bundle_accessor.swift.o"
+  ],
+  "preservedCodeArchive": "../21f3c-source-publication-recovery/external-code.tar.gz",
+  "nemo": "Traits disabled; linked normalizer Swift CODE appears in sources. Cached NemoTextProcessing artifact referenced in existing workspace-state metadata, not linked. No model-weight bytes accessed.",
+  "packageManifest": {
+    "path": "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Package.swift",
+    "bytes": 2691,
+    "sha256": "24403773b80f127cc918574d0f9f3c5dc86a9b8d11ac8c944185bd62784ef6ec"
+  },
+  "bundledCodeResources": {
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/G2p/Resources/luxtts_en_us_g2p_aux.json": {
+      "bytes": 37000,
+      "sha256": "e67d7d3097daf9e14f56f81c64109d44dc5bca2d60252b1724282ce1065b029a"
+    },
+    "/tmp/screenrec-empty-recovery-build/checkouts/FluidAudio/Sources/FluidAudio/TTS/LuxTts/G2p/Resources/luxtts_en_us_lexicon.tsv.zz": {
+      "bytes": 982385,
+      "sha256": "c6caf56e109a87a4fd8244fa722389a9091e4b6071279b77e3a97e96601fa79e"
+    }
+  },
+  "linkedObjectPins": "verification.json#linkedObjectPins"
+}

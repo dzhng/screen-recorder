@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import Darwin
 import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
@@ -71,7 +72,9 @@ package enum MediaRecovery {
     package static func recover(directory: String, sourceAuthority: CaptureRecoveryAuthority? = nil) async throws -> RecoveredCapture {
         guard let sourceAuthority else { return try await recoverMedia(directory: directory) }
         try Task.checkCancellation()
-        let lease = try CaptureJournalLease(directory: directory)
+        guard let lease = try CaptureJournalLease.existing(directory: directory) else {
+            return try recoverEmptyAllocation(directory: directory, authority: sourceAuthority)
+        }
         defer { lease.release() }
         let layout: Int
         do { layout = try CaptureJournal.layout(directory: directory) }
@@ -107,6 +110,47 @@ package enum MediaRecovery {
             result.sourcePublication = failure.retryable ? .pending(failure) : .unavailable(CaptureFailure(bounded: error))
         }
         return result
+    }
+
+    /// Managed reconciliation has already proved native idle and fenced this finalizing allocation.
+    /// This directory lease pins the empty observation; it cannot independently prove capture idle.
+    private static func recoverEmptyAllocation(directory: String, authority: CaptureRecoveryAuthority) throws -> RecoveredCapture {
+        try CaptureSourcePublication.validateAuthority(authority)
+        try Task.checkCancellation()
+        var selected = stat()
+        guard lstat(directory, &selected) == 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        guard selected.st_mode & S_IFMT == S_IFDIR else {
+            throw CaptureFailure("INVALID_JOURNAL", "Empty source ownership requires a directory.")
+        }
+        guard let canonical = realpath(directory, nil) else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        defer { free(canonical) }
+        let fd = Darwin.open(canonical, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
+        guard fd >= 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        defer { close(fd) }
+        let identity = InodeIdentity(selected)
+        try identity.check(fd)
+        try ManagedFiles.lockPrivateDirectory(fd, busyCode: "CAPTURE_BUSY")
+        func check() throws {
+            try identity.check(fd)
+            try ManagedFiles.checkDirectoryEntry(AT_FDCWD, directory, identity, failing: { _ in
+                NativeFailure("JOURNAL_CHANGED", "Empty source directory was replaced.", retryable: true)
+            })
+            var journal = stat()
+            if fstatat(fd, "capture.journal.jsonl", &journal, AT_SYMLINK_NOFOLLOW) == 0 {
+                throw CaptureFailure("JOURNAL_CHANGED", "Capture journal appeared during empty-source recovery.")
+            }
+            guard errno == ENOENT else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+        }
+        try check()
+        guard try Descriptors.isEmpty(fd, failing: { action in
+            NativeFailure("JOURNAL_UNAVAILABLE", "\(action): \(String(cString: strerror(errno))).", retryable: true)
+        }) else { throw CaptureFailure("JOURNAL_UNAVAILABLE", "Source members remain without a capture journal.") }
+        try Task.checkCancellation()
+        try check()
+        return RecoveredCapture(durationUs: 0, tracks: [], journal: nil,
+            journalFailure: CaptureFailure("JOURNAL_MISSING", "Empty allocation has no capture journal."),
+            inputsClosed: true, sourcePublication: .unavailable(CaptureFailure(
+                "NO_SOURCE_MEDIA", "Allocated source directory contains no retained members.")))
     }
 
     private static func recoverMedia(directory: String, leased: CaptureJournalLease? = nil) async throws -> RecoveredCapture {

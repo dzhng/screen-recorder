@@ -124,14 +124,22 @@ package enum CaptureSourcePublication {
         }
     }
 
-    package static func validateAuthority(_ authority: CaptureRecoveryAuthority, lease: CaptureJournalLease, layout: Int) throws {
-        let facts = try summary(lease: lease, descriptor: lease.descriptor, layout: layout)
+    package static func validateAuthority(_ authority: CaptureRecoveryAuthority) throws {
         try authority.binding?.validate()
         guard !authority.sourceId.isEmpty, authority.sourceId.utf16.count <= 256,
+            (authority.kind == .camera) == (authority.binding != nil),
+            authority.binding.map({ $0.sourceId == authority.sourceId }) ?? true else {
+            throw invalid("Recovery requires bounded allocated source/device authority.")
+        }
+    }
+
+    package static func validateAuthority(_ authority: CaptureRecoveryAuthority, lease: CaptureJournalLease, layout: Int) throws {
+        let facts = try summary(lease: lease, descriptor: lease.descriptor, layout: layout)
+        try validateAuthority(authority)
+        guard
             facts.header?.sessionID == authority.sourceId,
             facts.header?.cameraBinding == authority.binding,
             (authority.kind == .camera) == (facts.header?.source.kind == "camera"),
-            (authority.kind == .camera) == (authority.binding != nil),
             layout == (authority.kind == .camera ? 1 : 2) else {
             throw invalid("Recovery differs from allocated source/device authority.")
         }

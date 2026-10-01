@@ -81,7 +81,6 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_EMPTY_CAPTURE_REC
   try await runIndependentPublicationTests()
   try await runSharedInterruptionDuringFinishTests()
   try await runSourcePublicationRecoveryTests()
-  try await runEmptyCaptureRecoveryTests()
   try await runCanonicalRecoveryTests()
   try await runCaptureTerminationTests()
   try await runCaptureWriterTests()

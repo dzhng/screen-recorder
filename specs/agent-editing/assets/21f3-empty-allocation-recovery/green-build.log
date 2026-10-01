@@ -1,0 +1,46 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/7] Compiling ScreenRecorderCapture CaptureJournalLease.swift
+[4/7] Emitting module ScreenRecorderCapture
+[5/7] Compiling ScreenRecorderCapture CaptureSourcePublication.swift
+[6/16] Compiling ScreenRecorderCapture SelectedCaptureProbe.swift
+[7/16] Compiling ScreenRecorderCapture NativeCapture.swift
+[8/16] Compiling ScreenRecorderCapture CaptureJournal.swift
+[9/16] Compiling ScreenRecorderCapture ClosedCameraSource.swift
+[10/16] Compiling ScreenRecorderCapture CaptureAudioPublication.swift
+[11/16] Compiling ScreenRecorderCapture CaptureWriter.swift
+[12/16] Compiling ScreenRecorderCapture CameraWriter.swift
+[13/16] Compiling ScreenRecorderCapture CameraMedia.swift
+[14/16] Compiling ScreenRecorderCapture CaptureAudioMaterializer.swift
+[14/17] Write sources
+[16/20] Compiling ScreenRecorderWire MediaRecovery.swift
+[17/20] Emitting module ScreenRecorderWire
+[18/20] Compiling ScreenRecorderWire SourceEvidenceExport.swift
+[19/21] Compiling ScreenRecorderWire Wire.swift
+[20/41] Compiling ScreenRecorderCaptureTests CaptureJournalLeaseTests.swift
+[21/41] Compiling ScreenRecorderCaptureTests DeferredPauseTests.swift
+[22/41] Compiling ScreenRecorderCaptureTests IndependentCameraClockTests.swift
+[23/42] Compiling ScreenRecorderCaptureTests MediaRecoveryTests.swift
+[24/42] Compiling ScreenRecorderCaptureTests SelectedCaptureMediaTests.swift
+[25/42] Compiling ScreenRecorderCaptureTests CaptureAudioGapProbe.swift
+[26/42] Compiling ScreenRecorderCaptureTests NativeCaptureInputTests.swift
+[27/42] Compiling ScreenRecorderCaptureTests ProbeCameraPixelPublicationTests.swift
+[28/42] Compiling ScreenRecorderCaptureTests PCMJournalTests.swift
+[29/42] Compiling ScreenRecorderCaptureTests EmptyCaptureRecoveryTests.swift
+[30/42] Compiling ScreenRecorderCaptureTests CaptureWriterTests.swift
+[31/42] Compiling ScreenRecorderCaptureTests ProbeCameraReplayTests.swift
+[32/42] Compiling ScreenRecorderCaptureTests SelectedCameraInputTests.swift
+[33/42] Compiling ScreenRecorderCaptureTests SourcePublicationRecoveryTests.swift
+[34/42] Compiling ScreenRecorderCaptureTests CaptureAudioPublicationTests.swift
+[35/42] Compiling ScreenRecorderCaptureTests CameraSourcePublicationTests.swift
+[36/42] Compiling ScreenRecorderCaptureTests CanonicalRecoveryTests.swift
+[37/42] Compiling ScreenRecorderCaptureTests CameraJournalProvenanceTests.swift
+[38/42] Compiling ScreenRecorderCaptureTests CameraSourceAdmissionTests.swift
+[39/42] Emitting module ScreenRecorderCaptureTests
+[40/42] Compiling ScreenRecorderCaptureTests CaptureAudioMaterializerTests.swift
+[40/43] Write Objects.LinkFileList
+[41/43] Linking ScreenRecorderCaptureTests
+[42/43] Applying ScreenRecorderCaptureTests
+Build of product 'ScreenRecorderCaptureTests' complete! (5.25s)

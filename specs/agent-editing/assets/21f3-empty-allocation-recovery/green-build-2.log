@@ -1,0 +1,10 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/6] Emitting module ScreenRecorderWire
+[4/6] Compiling ScreenRecorderWire MediaRecovery.swift
+[4/7] Write Objects.LinkFileList
+[5/7] Linking ScreenRecorderCaptureTests
+[6/7] Applying ScreenRecorderCaptureTests
+Build of product 'ScreenRecorderCaptureTests' complete! (1.70s)

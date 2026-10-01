@@ -1,0 +1,23 @@
+{
+  "archiveHashesAndMembers": "passed",
+  "sourceAndRuntimePins": "passed",
+  "linkedObjectPins": "passed",
+  "size": {
+    "production": [
+      63,
+      5
+    ],
+    "comments": [
+      3,
+      0
+    ],
+    "tests": [
+      119,
+      1
+    ],
+    "docs": [
+      70,
+      0
+    ]
+  }
+}

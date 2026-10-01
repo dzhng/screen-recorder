@@ -10,9 +10,16 @@ package final class CaptureJournalLease: Sendable {
     package var descriptor: Int32 { handles.withLock { $0.journal } }
     private let journalIdentity: (dev_t, ino_t)
     private let directoryIdentity: (dev_t, ino_t)
+    private struct MissingJournal: Error { let failure: CaptureFailure }
 
     package convenience init(directory: String) throws {
-        try self.init(directory: directory, creating: false)
+        do { try self.init(directory: directory, creating: false) }
+        catch let missing as MissingJournal { throw missing.failure }
+    }
+    /// Only journal ENOENT returns nil; missing directories and operational failures still refuse.
+    package static func existing(directory: String) throws -> CaptureJournalLease? {
+        do { return try CaptureJournalLease(directory: directory, creating: false) }
+        catch is MissingJournal { return nil }
     }
     static func create(directory: String) throws -> CaptureJournalLease {
         try CaptureJournalLease(directory: directory, creating: true)
@@ -26,8 +33,10 @@ package final class CaptureJournalLease: Sendable {
         let flags = O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK | (creating ? O_RDWR | O_CREAT | O_EXCL : O_RDONLY)
         let descriptor = openat(parent, "capture.journal.jsonl", flags, S_IRUSR | S_IWUSR)
         guard descriptor >= 0 else {
+            let missing = !creating && errno == ENOENT
             let reason = Self.failure("Cannot open capture journal.")
             close(parent)
+            if missing { throw MissingJournal(failure: reason) }
             throw reason
         }
         do {

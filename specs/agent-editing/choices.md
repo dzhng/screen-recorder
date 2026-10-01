@@ -5964,3 +5964,39 @@ When: 21f3c native checkpoint.
 - **Verdict:** Sound. The digest records all observed support while avoiding a second support
   representation or an unbounded receipt.
 - **Confidence:** High.
+
+## 21f3 — Empty allocated-source recovery correction
+
+### Empty allocations report one fixed absence fact — sound, medium confidence
+
+When: empty allocated-source native correction.
+
+- **Choice:** A take was allocated, but native startup left its private source directory empty.
+  After managed reconciliation proves capture idle and owns that directory exclusively, the
+  reply says inputs are closed and the source is unavailable with `NO_SOURCE_MEDIA`. Its media
+  receipt has zero duration, no tracks and an explicit missing-journal diagnostic. It does not
+  invent requested tracks or a source receipt to explain an allocation that never wrote a journal.
+- **Gap:** The plan specified an unavailable zero-media result but left its bounded diagnostic
+  and empty-track representation unspecified.
+- **Reach:** The service can settle the never-started take without a fabricated completion or
+  source publication. Directory-only recovery retains its existing per-track diagnostics.
+- **Verdict:** Sound. The result describes complete observed absence; any retained member refuses
+  before this fact can be returned.
+- **Confidence:** Medium. The diagnostic wording remains a product contract once persisted.
+
+### Preserve journal-only callers while exposing typed absence — sound, high confidence
+
+When: empty allocated-source native correction.
+
+- **Choice:** A missing capture journal now has a typed internal distinction inside the existing
+  journal lease owner. The authority-requested recovery caller can receive no journal lease and
+  then prove directory emptiness. Existing journal-only callers still receive their previous
+  `JOURNAL_UNAVAILABLE` error; a missing directory, permissions error or live journal owner never
+  becomes this absence result.
+- **Gap:** The plan required a typed absence trigger without specifying how to preserve existing
+  journal-only error behavior.
+- **Reach:** Absence of a journal is explicitly weaker than source closure. Future callers must
+  perform their own authorized observation rather than interpreting the optional lease as success.
+- **Verdict:** Sound. One owner classifies the filesystem result and no public error or source
+  authority check is relaxed.
+- **Confidence:** High.
