@@ -16,7 +16,7 @@ import { SourceEvents } from "./source-events.js";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import type { EditOperation } from "@screenrec/composition";
 import { Catalog } from "./catalog.js";
 import { SourceEvidenceStore } from "./evidence.js";
@@ -1073,6 +1073,100 @@ function capturedClip(
   if (operation.operation !== "place") throw new Error("Expected placement");
   return { ...operation, clip: { ...operation.clip, acquisitionId } };
 }
+test("cursor dependency validation shares metadata within each fresh phase", async () => {
+  const f = await fixture();
+  const captures = await Promise.all([
+    f.capture([cursorSample(600)]),
+    f.capture([cursorSample(600)]),
+  ]);
+  const input = f.create([
+    { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+    ...Array.from({ length: 8 }, (_, n) =>
+      capturedClip(f.asset.id, captures[n % 2]!.id, `clip-${n}`, "video", n * 1000, (n + 1) * 1000),
+    ),
+  ]);
+  const query = { ...input, domain: "cursor" as const, limit: 1 };
+  await f.ready(query);
+  const first = await f.evidence.cursor(query);
+  const work = { headers: 0, segments: 0, acquisitions: 0 };
+  const prepare = f.catalog.catalog.prepare.bind(f.catalog.catalog);
+  f.catalog.catalog.prepare = (sql, ...options) => {
+    const statement = prepare(sql, ...options);
+    const key = sql.startsWith("SELECT metadata FROM assets")
+      ? "headers"
+      : sql.startsWith("SELECT value FROM asset_segments")
+        ? "segments"
+        : sql.startsWith("SELECT metadata FROM acquisitions")
+          ? "acquisitions"
+          : null;
+    if (key === "segments") {
+      const read = statement.all.bind(statement);
+      vi.spyOn(statement, "all").mockImplementation((...args) => {
+        work.segments++;
+        return read(...args);
+      });
+    } else if (key) {
+      const read = statement.get.bind(statement);
+      vi.spyOn(statement, "get").mockImplementation((...args) => {
+        work[key]++;
+        return read(...args);
+      });
+    }
+    return statement;
+  };
+  try {
+    const next = await f.evidence.cursor({ ...query, cursor: first.page!.nextCursor });
+    expect(next.page!.rows).toMatchObject([
+      {
+        acquisitionId: captures[1]!.id,
+        sourceAtUs: 100,
+        captureAtUs: 600,
+        projectAtUs: 1100,
+        observation: { x: 12, y: 34, buttons: 0 },
+      },
+    ]);
+    expect(next.page!.nextCursor).not.toBeNull();
+    expect(work).toEqual({ headers: 2, segments: 10, acquisitions: 4 });
+  } finally {
+    f.catalog.catalog.prepare = prepare;
+    vi.restoreAllMocks();
+  }
+});
+test("cursor metadata is resolved again after checkpoint publication and on the next request", async () => {
+  const f = await fixture();
+  const captured = await f.capture([cursorSample(600)]);
+  const input = f.create([
+    { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+    capturedClip(f.asset.id, captured.id, "first", "video", 0, 1000),
+    capturedClip(f.asset.id, captured.id, "next", "video", 1000, 2000),
+  ]);
+  const query = { ...input, domain: "cursor" as const, limit: 1 };
+  await f.ready(query);
+  const first = await f.evidence.cursor(query);
+  const original = await readFile(f.assets.path(f.asset.id));
+  const publish = f.cache.publish.bind(f.cache);
+  let checkpoint: string | undefined;
+  f.cache.publish = async (id) => {
+    const published = await publish(id);
+    checkpoint = id;
+    f.catalog.catalog
+      .prepare("UPDATE acquisitions SET metadata=? WHERE id=?")
+      .run(
+        JSON.stringify({ ...captured, evidence: { ...captured.evidence, generation: "replaced" } }),
+        captured.id,
+      );
+    return published;
+  };
+  await expect(
+    f.evidence.cursor({ ...query, cursor: first.page!.nextCursor }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+  expect(checkpoint).toBeDefined();
+  expect(f.cache.acquire(checkpoint!)).toBeNull();
+  await expect(
+    f.evidence.cursor({ ...query, cursor: first.page!.nextCursor }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+  expect(await readFile(f.assets.path(f.asset.id))).toEqual(original);
+});
 test("capture source and project reads preserve raw clocks, exact retimes and missing context coverage", async () => {
   const f = await fixture();
   const capture = await f.capture([

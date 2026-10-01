@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, realpath, writeFile } from "node:fs/promises";
 import { appendFileSync } from "node:fs";
+import { DatabaseSync } from "node:sqlite";
 import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
 import { dirname, join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
@@ -12,6 +13,33 @@ import { installServiceProfiler } from "./service-cpu-profile.mjs";
 
 // Public admission, native probing and shared transcript ingestion are real in both fixture modes.
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
+if (fixture.metadataReadsFile) {
+  const prepare = DatabaseSync.prototype.prepare;
+  DatabaseSync.prototype.prepare = function (sql, ...options) {
+    const statement = prepare.call(this, sql, ...options);
+    const owner = sql.startsWith("SELECT metadata FROM assets")
+      ? "asset.header"
+      : sql.startsWith("SELECT value FROM asset_segments")
+        ? "asset.segments"
+        : sql.startsWith("SELECT metadata FROM acquisitions")
+          ? "acquisition"
+          : null;
+    if (owner) {
+      const method = owner === "asset.segments" ? "all" : "get";
+      const read = statement[method];
+      statement[method] = function (...params) {
+        const result = read.apply(this, params);
+        appendFileSync(
+          fixture.metadataReadsFile,
+          JSON.stringify({ owner, rows: Array.isArray(result) ? result.length : result ? 1 : 0 }) +
+            "\n",
+        );
+        return result;
+      };
+    }
+    return statement;
+  };
+}
 const stopProfiler = fixture.cpuProfile ? installServiceProfiler(fixture.cpuProfile) : undefined;
 if (fixture.readsFile) {
   const wordRecords = TranscriptStore.prototype.wordRecords;

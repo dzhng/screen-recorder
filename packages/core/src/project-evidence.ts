@@ -243,11 +243,12 @@ export class ProjectEvidenceInspection {
     prepare: boolean,
     domain: Query["domain"],
   ): Dependency[] {
-    return selections.map((selection) => {
-      if (domain === "events" || domain === "cursor") {
-        if (!this.options.events)
-          throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
-        const capture = this.options.events.resolve(selection, domain, prepare);
+    if (selections.length === 0) return [];
+    if (domain === "events" || domain === "cursor") {
+      if (!this.options.events)
+        throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
+      return this.options.events.resolveMany(selections, domain, prepare).map((capture, index) => {
+        const selection = selections[index]!;
         const ready = capture.coverage.some((value) => value.state === "ready");
         return {
           selection,
@@ -263,7 +264,9 @@ export class ProjectEvidenceInspection {
           retryable: capture.scene?.retryable ?? false,
           jobId: capture.scene?.jobId ?? null,
         };
-      }
+      });
+    }
+    return selections.map((selection) => {
       const status = prepare
         ? this.options.transcripts.publishedSource(selection)
         : this.options.transcripts.sourceStatus(selection);

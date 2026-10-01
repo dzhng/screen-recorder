@@ -61,6 +61,16 @@ export class SourceEvents {
       ),
     };
   }
+  resolveMany(
+    selections: readonly SourceSelection[],
+    domain: CaptureDomain,
+    prepare = false,
+  ): SourceEventContext[] {
+    // Scene preparation can submit work; preserve its per-source validation/admission order.
+    if (domain === "events" && this.options.scenes)
+      return selections.map((selection) => this.resolve(selection, domain, prepare));
+    return this.options.capture.resolveMany(selections, domain);
+  }
   next(
     context: SourceEventContext,
     range: { startUs: number; endUs: number },

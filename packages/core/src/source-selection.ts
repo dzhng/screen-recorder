@@ -40,10 +40,31 @@ export function selectSourceMetadata(
     | undefined,
   input: SourceSelection,
 ) {
+  const selected = selectSourceSupport(compositionAsset(asset), acquisition, input);
+  return {
+    selection: selected.selection,
+    stream: selected.stream,
+    durationUs: selected.durationUs,
+    supportDigest: selected.supportDigest,
+    track: {
+      source: path,
+      streamId: selected.stream.id,
+      sourceOffsetUs: toSignedTime(subtract(fromTime(0), fromTime(asset.originUs))),
+      available: selected.available,
+    },
+  };
+}
+
+/** Evidence needs the same source authority and support without a renderable file address. */
+export function selectSourceSupport(
+  asset: ReturnType<typeof compositionAsset>,
+  acquisition: Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> | undefined,
+  input: SourceSelection,
+) {
   const selection = sourceSelectionSchema.parse(input);
   if (asset.id !== selection.assetId || acquisition?.id !== selection.acquisitionId)
     throw new CatalogError("INVALID_PARAMS", "Source metadata differs from selection");
-  const stream = compositionAsset(asset).streams.find((value) => value.id === selection.streamId);
+  const stream = asset.streams.find((value) => value.id === selection.streamId);
   if (!stream || stream.kind === "image")
     throw new CatalogError(
       "UNSUPPORTED_MEDIA",
@@ -66,12 +87,8 @@ export function selectSourceMetadata(
     stream,
     durationUs: stream.bounds.endUs,
     supportDigest,
-    track: {
-      source: path,
-      streamId: stream.id,
-      sourceOffsetUs: toSignedTime(subtract(fromTime(0), fromTime(asset.originUs))),
-      available,
-    },
+    binding,
+    available,
   };
 }
 

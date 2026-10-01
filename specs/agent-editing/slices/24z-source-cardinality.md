@@ -5,7 +5,9 @@ on a contended machine. [Historical owner attribution](../assets/24z-owner-profi
 now completes two bounded reads and identifies repeated asset/acquisition metadata
 resolution as the next owner to investigate. The first dispatch's missing static
 resources were corrected with exact historical bytes; its failure is retained.
-Model initialization is authorized. No query fix or latency pass is claimed. Dependencies:
+Model initialization is authorized. The [24z1 source metadata pass](24z1-source-metadata-resolution.md)
+implements a scoped owner fix with functional/work-accounting proof; no latency
+pass is claimed. Dependencies:
 [24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
 Final production acceptance still follows [23](23-cutover.md).
 
@@ -197,3 +199,12 @@ owner change and prove its affected contracts before new measurements. Backgroun
 apps remained active; this is attribution, not isolated timing or an explanation
 of the original red cohort. The unchanged p95 budget and final-production gate
 remain open.
+
+## Metadata owner correction
+
+[24z1](24z1-source-metadata-resolution.md) removes repeated asset/acquisition
+resolution within each synchronous capture-dependency phase. Fresh checks remain
+on both sides of checkpoint publication. Its public proof uses a new isolated
+catalog, four admissions and the retained authored input; no historical runtime,
+original warm cohort or budget changes. Keep this parent open for coordinated
+latency and final-production acceptance.

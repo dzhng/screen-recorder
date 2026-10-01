@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "cardinalityArms": [
+    {
+      "cardinality": 2,
+      "rowCount": 250,
+      "pageRows": [
+        0,
+        43,
+        43,
+        43,
+        43,
+        43,
+        35
+      ],
+      "metadataReads": {
+        "asset.header": 15,
+        "asset.segments": 15,
+        "acquisition": 30
+      },
+      "checkpointCount": 7,
+      "nativeCallsDuringRead": 0
+    },
+    {
+      "cardinality": 4,
+      "rowCount": 250,
+      "pageRows": [
+        0,
+        43,
+        43,
+        43,
+        43,
+        43,
+        35
+      ],
+      "metadataReads": {
+        "asset.header": 15,
+        "asset.segments": 15,
+        "acquisition": 60
+      },
+      "checkpointCount": 7,
+      "nativeCallsDuringRead": 0
+    }
+  ],
+  "regression": {
+    "before": {
+      "headers": 8,
+      "segments": 20,
+      "acquisitions": 8
+    },
+    "after": {
+      "headers": 2,
+      "segments": 10,
+      "acquisitions": 4
+    }
+  },
+  "postAwaitFalsification": "Expected ARTIFACT_CHANGED becomes stale successful rows with second validation removed; exact source restored and green",
+  "checks": {
+    "projectEvidenceFull": "34/34 pass",
+    "settledNewRegressions": "2/2 pass",
+    "broaderOwners": "104/107 pass; three unchanged 5s deadlines failed under contention, retained",
+    "coreTypes": 0,
+    "lint": 0,
+    "format": 0
+  },
+  "remaining": "Original p95 RED9983/17688ms and full-scale 250ms SLA remain open; no original warm cohort repeated",
+  "originals": {
+    "movieSha256": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e",
+    "journalSha256": "982052e678ea7a4031c3c464803b13b8fd8ac88523e569c1c84c33268338b90d",
+    "archiveSha256": "9c1b841b84d217755c476d8540f84c8f705f22c637153357495fe360f8ba3bd2"
+  },
+  "archive": {
+    "file": "evidence.tar.gz",
+    "bytes": 4222912,
+    "sha256": "f0603e025798733e68615a74e3fc822923b07b411012c8a070c3bd6612019cd4"
+  },
+  "runtimeGraphInputs": 407,
+  "archivedFiles": 805,
+  "nativeWorker": {
+    "path": "/tmp/screenrec-09c-native-presented-worker",
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+    "bytes": 30148624
+  },
+  "fixtureCatalog": {
+    "file": "catalog.sqlite.gz",
+    "bytes": 303708,
+    "sha256": "098a2c1a8f605138b04f82328d22463123de5164327c3a2cf5db1529ad221ed5",
+    "uncompressedBytes": 7712768,
+    "uncompressedSha256": "4cea6faa7185f1e7d79ffb2cdab07a1d438f76a0bcc00591f936c0f87358c8d7",
+    "purpose": "Terminal fresh functional fixture catalog, read-only integrity check; never historical catalog"
+  },
+  "cleanup": {
+    "ownedDependencyRootsRemoved": [
+      "node_modules",
+      "apps/service/node_modules",
+      "apps/cli/node_modules",
+      "packages/core/node_modules",
+      "packages/client/node_modules",
+      "packages/protocol/node_modules",
+      "packages/composition/node_modules",
+      "packages/test-harness/node_modules"
+    ],
+    "freshFixtureHomeRemoved": "/tmp/screenrec-source-metadata-nOG5OQ",
+    "serviceAndMcpChildrenTerminal": true,
+    "nativeWorkerUnmodified": true
+  },
+  "formattedSourceTransfer": {
+    "harnessSnapshots": "Exact oxfmt transfer to final source",
+    "productionEmission": "Three modules exact emitted byte equality; CaptureSourceRead equal after formatting normalization",
+    "scope": "NoCheck emission comparison only; previous real core type gate passed",
+    "correctedAttempt": "Post-cleanup missing Node typeRoots refusal retained; explicit existing typeRoots emission exits 0"
+  },
+  "performanceDisposition": {
+    "priority": "P2 owner work reduction; full-scale latency remains open",
+    "trigger": "A project cursor dependency phase selects N acquisitions of shared assets and revalidates after publication",
+    "beforePerPhase": "2N asset header reads, full physical segment reconstruction per selection, 2N acquisition reads",
+    "afterPerPhase": "One complete asset read/lowering per distinct asset, one acquisition read per distinct identity; every phase starts fresh",
+    "evidence": "Historical nearest-script metadata attribution ~49%/56%, plus retained red/green work counts and full public correctness",
+    "dismissed": [
+      {
+        "choice": "Header-only support projection",
+        "reason": "Physical segments define exact occupied support and must still be loaded"
+      },
+      {
+        "choice": "Durable or cross-request metadata cache",
+        "reason": "Could retain stale generation or support across an awaited checkpoint publication"
+      },
+      {
+        "choice": "New endpoint, schema or larger budgets",
+        "reason": "Existing owners express the facts and existing refusal/work contracts remain intact"
+      },
+      {
+        "choice": "Prepared SQLite statement reuse in this pass",
+        "reason": "Not selected before measuring the named batch correction; remains a separate changed-code hypothesis if additional work is warranted"
+      }
+    ]
+  }
+}
