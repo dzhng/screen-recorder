@@ -1,0 +1,104 @@
+{
+  "scope": "Isolated public camera discovery and existing permission metadata only",
+  "gates": [
+    {
+      "command": "swift build --package-path helpers/mac --scratch-path /tmp/screenrec-camera-discovery-native --skip-update --disable-automatic-resolution --jobs 2 --target ScreenRecorderCapture",
+      "exitCode": 0,
+      "seconds": 170.48,
+      "nativeScope": "Library compilation only; retained cached dependencies; no worker/app replacement"
+    },
+    {
+      "command": "SCREENREC_CAPTURE_CONTROLLER_BUILD=/tmp/screenrec-camera-discovery-native node --test apps/macos/tests/capture-start-interruption.test.mjs",
+      "exitCode": 0,
+      "casesPassed": 6,
+      "nativeScope": "Actual controller compiled with scripted native and shareable-content boundaries"
+    },
+    {
+      "command": "node ../../node_modules/vitest/vitest.mjs run src/main.test.ts",
+      "cwd": "apps/cli",
+      "exitCode": 0,
+      "testsPassed": 21
+    },
+    {
+      "command": "node ../../node_modules/vitest/vitest.mjs run src/capture.test.ts src/capture-finalizing.test.ts src/capture-lifetime.test.ts",
+      "cwd": "apps/service",
+      "exitCode": 0,
+      "testsPassed": 51,
+      "seconds": 111.84
+    },
+    {
+      "command": "node ../../node_modules/vitest/vitest.mjs run src/index.test.ts",
+      "cwd": "packages/protocol",
+      "exitCode": 0,
+      "testsPassed": 12
+    },
+    {
+      "command": "tsc -p tsconfig.json",
+      "cwd": "packages/protocol and apps/service",
+      "exitCode": 0
+    },
+    {
+      "command": "tsc -p tsconfig.check.json",
+      "cwd": "packages/protocol, apps/cli and apps/service",
+      "exitCode": 0
+    },
+    {
+      "command": "oxlint changed TypeScript/JavaScript files; oxfmt --check changed TypeScript/JavaScript files",
+      "exitCode": 0
+    },
+    {
+      "command": "node --check packages/test-harness/editing/capture-terminal-boundaries.mjs; git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "negativeControl": {
+    "mutation": "Remove cameras and camera authorization fields from public response schemas and rebuild protocol",
+    "result": "Actual CLI capture.sources returned a failure; public adapter journey failed; restored fields/build and full suite passed"
+  },
+  "fixtureCorrections": [
+    "Synchronous CLI execution blocked the test process that answered native control messages; passive metadata reads now use asynchronous subprocesses.",
+    "MCP responses include their own transport request identity; compare normalized operation results rather than identical request IDs.",
+    "Root review identified one lost indentation in the consumer skill; corrected and limited the skill diff to public capability interpretation.",
+    "Executable-fixture sweep found the terminal-boundary journey idle response; updated its required camera authorization field without rerunning its media experiment."
+  ],
+  "review": {
+    "shape": "One native camera candidates/reporting owner, shared permission-name mapping; no new capture engine, authoring surface or compatibility fallback",
+    "diff": "Self review and independent root settled diff/shape review clean after repairing consumer-skill indentation and updating the additional terminal-boundary response producer. Root checked unchanged probe semantics, exact ordered IDs/names/empty/all authorization states across adapters, unsupported selector refusal before native, and SDK/device-only scripted boundaries.",
+    "docs": "Native device principles and external-caller capability limit match implemented scope",
+    "codex": "Known account/model incompatibility; not attempted again and no CLI review pass claimed"
+  },
+  "limits": [
+    "No hardware discovery or permission read/request in verification",
+    "No live input activation/capture/UI/audio",
+    "No camera-start schema or default device",
+    "No camera result/finalization/project-adoption implementation",
+    "No installed app/worker replacement",
+    "Physical sync, live interruption and shutdown remain with20/21"
+  ],
+  "sourceSHA256": {
+    "helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift": "c436b75eddc2292b517dce94f9b6584a9f48cc0d223d1eb068f3c2a410842890",
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureTypes.swift": "2d8a55764d64dcb7588e77cce2a5f0b03428bbabaf4f4e9d3d53ad9346d48788",
+    "helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift": "34bf6c63e7dd925a53fffb592b6829c44d8fd81b47185bad42b96e8812d3b3fe",
+    "apps/macos/Sources/ScreenRecorder/CaptureController.swift": "a981aef9167fa5dde70f7ba2007875908b141b2484c4b48eba3205cafcb8d840",
+    "packages/protocol/src/capture.ts": "54961ab4dd4c1f7662e8547bb3c9a46683cca0a6a78c68cd3508552093937a9a",
+    "packages/protocol/src/operations.ts": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94",
+    "apps/cli/src/main.test.ts": "50ce842e21b33022db5923ffb2ed2ab332d730fadb151ac2949f67e165d24a77",
+    "apps/macos/tests/capture-start-interruption.test.mjs": "354987f78ee89a3120f51d6e991bdc238abacfe33933e73c8832b6d5fb518767",
+    "apps/macos/tests/fixtures/capture-controller/ScriptedCapture.swift": "878d071657fb3d8eaac4268d78b6fb11e8011d557b1ccde5abcdfd5db47ac80a",
+    "apps/macos/tests/fixtures/capture-controller/main.swift": "e97fbc606aa51bfa973cc7b884a1e889a4d8a5dc80c752e7835013cb5a7025ad",
+    "packages/test-harness/editing/capture-terminal-boundaries.mjs": "641220d225c5fc650adafb5920b36d97a1780e56940f998d9312d6e1aaf6bad8",
+    "skills/screenrec/SKILL.md": "c29af7a02dbb71eb43d0cd1fcdffb3a4165661526e2313465be77c8b8f7c3ab8"
+  },
+  "nativeModule": {
+    "path": "/tmp/screenrec-camera-discovery-native/debug/Modules/ScreenRecorderCapture.swiftmodule",
+    "bytes": 552416,
+    "sha256": "0309d71ab8c56bd3a000452ee43aa67c627d7bd80a0d1324680acbbc38842963",
+    "scope": "Compiled library module; no executable device action"
+  },
+  "baseCommit": "bc18552e",
+  "structuralSurfaces": [
+    "Required camera descriptors and permission state in existing capture response schemas",
+    "Public native camera descriptor type",
+    "Optional native-controller test scratch-directory override"
+  ]
+}

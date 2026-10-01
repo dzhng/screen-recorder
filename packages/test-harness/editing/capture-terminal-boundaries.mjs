@@ -30,7 +30,7 @@ if (process.send) {
               sourceId: null,
               elapsedUs: null,
               selection: null,
-              permissions: { screen: true, microphone: "authorized" },
+              permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
             },
           },
         }) + "\n",

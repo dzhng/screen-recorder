@@ -14,7 +14,7 @@ const idleNative: OperationResult = {
     sourceId: null,
     elapsedUs: null,
     selection: null,
-    permissions: { screen: true, microphone: "authorized" },
+    permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
   },
 };
 
@@ -115,7 +115,7 @@ test("deletion quiescence waits behind a held start and keeps source files", asy
           sourceId: null,
           elapsedUs: null,
           selection: null,
-          permissions: { screen: true, microphone: "authorized" },
+          permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
         },
       };
     },
@@ -204,7 +204,7 @@ test.each(["TIMEOUT", "SERVICE_STOPPED", "INVALID_STATE"])(
                 sourceId: recording.sourceId,
                 elapsedUs: 1,
                 selection: null,
-                permissions: { screen: true, microphone: "authorized" },
+                permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
               },
             },
       async () => {
@@ -263,7 +263,7 @@ test("deletion waits for running recovery and does not admit recovery for anothe
               sourceId: null,
               elapsedUs: null,
               selection: null,
-              permissions: { screen: true, microphone: "authorized" },
+              permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
             },
           };
     },
@@ -399,7 +399,7 @@ test("proved native closure releases heavy work while deletion files and intent 
           sourceId: null,
           elapsedUs: null,
           selection: null,
-          permissions: { screen: true, microphone: "authorized" },
+          permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
         },
       };
     },

@@ -34,7 +34,7 @@ public final class SelectedCaptureProbe {
         case "status":
             return try JSONSerialization.data(withJSONObject: [
                 "screen": NativeCapture.screenPermission,
-                "camera": Self.permission(.video), "microphone": Self.permission(.audio),
+                "camera": NativeCapture.cameraPermission, "microphone": NativeCapture.microphonePermission,
                 "bundleIdentifier": Bundle.main.bundleIdentifier ?? "unbundled",
                 "executable": Bundle.main.executableURL?.path ?? "unknown",
             ])
@@ -44,7 +44,7 @@ public final class SelectedCaptureProbe {
             }
             let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
             return try JSONSerialization.data(withJSONObject: [
-                "cameras": Self.cameras().map { ["id": $0.uniqueID, "name": $0.localizedName] },
+                "cameras": NativeCapture.cameraDevices().map { ["id": $0.id, "name": $0.name] },
                 "microphones": ScreenCaptureInput.microphoneCandidates().map { ["id": $0.uniqueID, "name": $0.localizedName] },
                 "displays": content.displays.map { ["id": $0.displayID, "width": $0.width, "height": $0.height] },
                 "windows": content.windows.map { ["id": $0.windowID, "title": $0.title ?? ""] as [String: Any] },
@@ -61,13 +61,13 @@ public final class SelectedCaptureProbe {
             try request.validate()
             // Every grant is checked before enumeration, capture inputs or output creation.
             try request.requireAuthorization(screen: NativeCapture.screenPermission,
-                camera: AVCaptureDevice.authorizationStatus(for: .video) == .authorized,
-                microphone: AVCaptureDevice.authorizationStatus(for: .audio) == .authorized)
+                camera: NativeCapture.cameraPermission == "authorized",
+                microphone: NativeCapture.microphonePermission == "authorized")
             let root = URL(fileURLWithPath: request.outputDirectory)
             guard !FileManager.default.fileExists(atPath: root.path) else {
                 throw CaptureFailure("INVALID_REQUEST", "Evidence destination must not already exist.")
             }
-            let devices = Self.cameras()
+            let devices = NativeCapture.cameraCandidates()
             try SelectedCaptureRequest.requireDevice(request.cameraID, among: devices.map(\.uniqueID), role: "camera")
             guard let camera = devices.first(where: { $0.uniqueID == request.cameraID }) else {
                 throw CaptureFailure("SOURCE_UNAVAILABLE", "Selected camera disappeared.")
@@ -128,19 +128,6 @@ public final class SelectedCaptureProbe {
     private static func read(_ path: String?) throws -> SelectedCaptureRequest {
         guard let path else { throw CaptureFailure("INVALID_REQUEST", "Supply a selected-device request file.") }
         return try JSONDecoder().decode(SelectedCaptureRequest.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
-    }
-    private static func permission(_ kind: AVMediaType) -> String {
-        switch AVCaptureDevice.authorizationStatus(for: kind) {
-        case .authorized: "authorized"
-        case .denied: "denied"
-        case .restricted: "restricted"
-        case .notDetermined: "not_determined"
-        @unknown default: "unknown"
-        }
-    }
-    private static func cameras() -> [AVCaptureDevice] {
-        AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .external, .continuityCamera],
-            mediaType: .video, position: .unspecified).devices
     }
 }
 

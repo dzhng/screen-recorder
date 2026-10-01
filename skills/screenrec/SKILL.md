@@ -76,6 +76,11 @@ preferences, accepted artifact identities and unresolved verdicts with the proje
 Reuse earlier approvals only for what was actually judged; a changed render needs
 verification of the changed behavior, not repetition of every passed comparison.
 
+Camera metadata in `capture.sources` and `capture.status` reports discovered
+devices and existing permission facts. It does not enable camera selection:
+the current `capture.start` schema accepts screen sources and audio choices.
+Do not add an unadvertised camera selector or treat discovery as activation.
+
 ## Managed projects and processing
 
 When the connected service supports managed projects, discover the project and pin

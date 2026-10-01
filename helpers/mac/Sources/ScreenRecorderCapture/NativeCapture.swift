@@ -30,14 +30,27 @@ public final class NativeCapture {
     public var elapsedSourceUs: Int64? { sink?.elapsedSourceUs() }
 
     public static var screenPermission: Bool { CGPreflightScreenCaptureAccess() }
-    public static var microphonePermission: String {
-        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+    public static var microphonePermission: String { authorization(.audio) }
+    public static var cameraPermission: String { authorization(.video) }
+
+    private static func authorization(_ media: AVMediaType) -> String {
+        switch AVCaptureDevice.authorizationStatus(for: media) {
         case .authorized: "authorized"
         case .denied: "denied"
         case .restricted: "restricted"
         case .notDetermined: "not_determined"
         @unknown default: "unknown"
         }
+    }
+
+    /// Discovery preserves native device order and never chooses or activates a camera.
+    public static func cameraDevices() -> [CaptureVideoDevice] {
+        cameraCandidates().map { CaptureVideoDevice(id: $0.uniqueID, name: $0.localizedName) }
+    }
+
+    package static func cameraCandidates() -> [AVCaptureDevice] {
+        AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .external, .continuityCamera],
+            mediaType: .video, position: .unspecified).devices
     }
 
     /// Every microphone a take could be asked to narrate through. Enumeration alone reaches no

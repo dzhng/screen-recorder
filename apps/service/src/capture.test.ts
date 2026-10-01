@@ -41,7 +41,7 @@ it(
               sourceId: null,
               elapsedUs: null,
               selection: null,
-              permissions: { screen: true, microphone: "authorized" },
+              permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
             },
           };
         if (operation === "capture.cancel") {
@@ -259,7 +259,7 @@ function capturingPeer(
           sourceId: take?.sourceId ?? null,
           elapsedUs: take ? 1_500_000 : null,
           selection: take ? selection : null,
-          permissions: { screen: true, microphone: "authorized" },
+          permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
         },
       };
     return {
@@ -820,7 +820,7 @@ function heldStartPeer(): NativePeer {
           sourceId: held?.sourceId ?? null,
           elapsedUs: held ? 0 : null,
           selection: null,
-          permissions: { screen: true, microphone: "authorized" },
+          permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
         },
       };
     return {

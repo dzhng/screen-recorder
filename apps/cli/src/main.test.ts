@@ -12,6 +12,7 @@ import {
   JsonLineStream,
   CONTROL_FRAME_BYTES,
   controlMessageSchema,
+  type OperationResult,
 } from "@screenrec/protocol";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
@@ -22,7 +23,7 @@ afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
 
-async function serviceFixture() {
+async function serviceFixture(peer?: (operation: string) => OperationResult) {
   const home = await mkdtemp("/tmp/scr-cli-");
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const store = new RevisionStore(join(home, "library.sqlite"), {
@@ -59,6 +60,7 @@ async function serviceFixture() {
     await exited;
     clearTimeout(timer);
   });
+  const asked: string[] = [];
   let diagnostic = "";
   child.stderr.on("data", (bytes) => {
     diagnostic += bytes;
@@ -78,6 +80,15 @@ async function serviceFixture() {
           continue;
         }
         const message = controlMessageSchema.parse(frame.value);
+        if (message.event === "call" && peer) {
+          asked.push(message.request.operation);
+          child.stdin.write(
+            JSON.stringify({
+              event: "result",
+              response: { id: message.request.id, ...peer(message.request.operation) },
+            }) + "\n",
+          );
+        }
         if (message.event === "started") {
           clearTimeout(timer);
           resolve();
@@ -89,7 +100,12 @@ async function serviceFixture() {
       }
     });
   });
-  return { home, socket: join(home, "run/service.sock"), recordingId: recording.recordingId };
+  return {
+    home,
+    socket: join(home, "run/service.sock"),
+    recordingId: recording.recordingId,
+    asked,
+  };
 }
 
 type AdvertisedTool = {
@@ -804,3 +820,93 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
   }
   expect(closes).toBe(2);
 });
+
+it(
+  "CLI and MCP preserve public camera discovery and permission facts without activating devices",
+  { timeout: 20_000 },
+  async () => {
+    let cameras = [
+      { id: "camera-2", name: "External camera" },
+      { id: "camera-1", name: "Built-in camera" },
+    ];
+    let cameraPermission = "denied";
+    const f = await serviceFixture((operation) => {
+      if (operation === "capture.sources")
+        return { ok: true, data: { displays: [], windows: [], microphones: [], cameras } };
+      if (operation === "capture.status")
+        return {
+          ok: true,
+          data: {
+            state: "idle",
+            recordingId: null,
+            sourceId: null,
+            elapsedUs: null,
+            selection: null,
+            permissions: { screen: true, microphone: "authorized", camera: cameraPermission },
+          },
+        };
+      throw Error(`Unexpected device action: ${operation}`);
+    });
+    const read = async (operation: string) => {
+      const { stdout } = await promisify(execFile)(
+        process.execPath,
+        [entry, operation, "--socket", f.socket, "--id", "camera-discovery"],
+        { cwd: "/", encoding: "utf8", timeout: 10_000 },
+      );
+      const response = JSON.parse(stdout);
+      expect(response.ok).toBe(true);
+      return response.data;
+    };
+    const client = new Client({ name: "camera-discovery-test", version: "1" });
+    cleanup.push(() => client.close());
+    await client.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [entry, "mcp", "--socket", f.socket],
+        stderr: "pipe",
+      }),
+    );
+    for (const authorization of [
+      "denied",
+      "authorized",
+      "restricted",
+      "not_determined",
+      "unknown",
+    ]) {
+      cameraPermission = authorization;
+      const sources = await read("capture.sources");
+      expect(sources.cameras).toEqual(cameras);
+      const mcpSources = await client.callTool({ name: "capture.sources", arguments: {} });
+      expect(mcpSources.structuredContent).toMatchObject({ ok: true, data: sources });
+      const status = await read("capture.status");
+      expect(status).toMatchObject({
+        device: { state: "idle", selection: null, permissions: { camera: authorization } },
+        recording: null,
+      });
+      const mcpStatus = await client.callTool({ name: "capture.status", arguments: {} });
+      expect(mcpStatus.structuredContent).toMatchObject({ ok: true, data: status });
+    }
+    cameras = [];
+    expect((await read("capture.sources")).cameras).toEqual([]);
+    expect(
+      (await client.callTool({ name: "capture.sources", arguments: {} })).structuredContent,
+    ).toMatchObject({ ok: true, data: { cameras: [] } });
+    const unsupported = {
+      requestId: "unsupported-camera",
+      source: { kind: "window", windowId: 1 },
+      cameraDeviceId: "camera-2",
+    };
+    expect(cli(f.socket, "capture.start", unsupported).result).toMatchObject({
+      ok: false,
+      error: { code: "INVALID_PARAMS" },
+    });
+    expect(
+      (await client.callTool({ name: "capture.start", arguments: unsupported })).structuredContent,
+    ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+    expect(
+      f.asked.every(
+        (operation) => operation === "capture.sources" || operation === "capture.status",
+      ),
+    ).toBe(true);
+  },
+);

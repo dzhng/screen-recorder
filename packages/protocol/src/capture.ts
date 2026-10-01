@@ -8,6 +8,7 @@ import { z } from "zod";
 const id = z.string().min(1);
 const absolutePath = z.string().min(1).startsWith("/");
 const finite = z.number().finite();
+const authorization = z.enum(["authorized", "denied", "restricted", "not_determined", "unknown"]);
 
 export const captureSourceSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("display"), displayId: z.int().nonnegative() }).strict(),
@@ -84,7 +85,8 @@ export type CaptureReport = z.infer<typeof captureReportSchema>;
 export const capturePermissionsSchema = z
   .object({
     screen: z.boolean(),
-    microphone: z.enum(["authorized", "denied", "restricted", "not_determined", "unknown"]),
+    microphone: authorization,
+    camera: authorization,
   })
   .strict();
 
@@ -105,8 +107,9 @@ export const captureDeviceSchema = z
   .strict();
 
 /**
- * Everything a take can be pointed at. Listing reaches no device and requests no permission;
- * `microphones` names what a narrated take could use, and an empty list is an honest answer.
+ * Source and device discovery facts. Listing activates no input and requests no permission;
+ * `microphones` names what a narrated take could use. Camera descriptors are discovery
+ * facts, not a claim that capture.start supports camera selection. An empty list is honest.
  */
 export const captureSourcesSchema = z
   .object({
@@ -116,6 +119,7 @@ export const captureSourcesSchema = z
     windows: z.array(
       z.object({ id: z.int(), title: z.string(), application: z.string() }).strict(),
     ),
+    cameras: z.array(z.object({ id: id, name: z.string() }).strict()),
     microphones: z.array(z.object({ id: id, name: z.string(), isDefault: z.boolean() }).strict()),
   })
   .strict();

@@ -20,6 +20,13 @@ final class Signal {
 @MainActor
 final class ScriptedCapture {
     static var latest: ScriptedCapture?
+    static let screenPermission = true
+    static let microphonePermission = "authorized"
+    static var cameraPermission = "denied"
+    static var cameras = [CaptureVideoDevice(id: "camera-b", name: "External camera"), CaptureVideoDevice(id: "camera-a", name: "Built-in camera")]
+    static func cameraDevices() -> [CaptureVideoDevice] { cameras }
+    static func microphoneDevices() -> [CaptureAudioDevice] { [] }
+
     var onInterruption: ((CaptureFailure) -> Void)?
     var deviceState = "idle"
     var elapsedSourceUs: Int64? = 10
@@ -100,3 +107,13 @@ struct FixtureStartHold {
     func hold(recordingId: String) async {}
 }
 func diagnostic(_ value: String) {}
+
+
+struct ScriptedShareableContent {
+    struct Display { let displayID: UInt32; let width: Int; let height: Int }
+    struct Application { let applicationName: String }
+    struct Window { let windowID: UInt32; let title: String?; let owningApplication: Application? }
+    let displays: [Display] = []
+    let windows: [Window] = []
+    static func excludingDesktopWindows(_ exclude: Bool, onScreenWindowsOnly: Bool) async throws -> Self { Self() }
+}

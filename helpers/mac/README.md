@@ -32,6 +32,14 @@ unknown physical timing and unavailable attached ancestors still refuse. Decoder
 reuse remains keyed by media, while the exclusion applies to each compiled picture. Profile adoption evidence belongs to the
 [editing spec](../../specs/agent-editing/assets/07-video/README.md).
 
+## Device discovery
+
+[Native capture](Sources/ScreenRecorderCapture/NativeCapture.swift) owns camera
+enumeration and authorization reporting for the public controller and selected-device
+probe. Discovery preserves device identities and order without choosing a camera,
+activating an input or requesting permission. Public camera metadata is preparation
+evidence; the recording start contract still accepts screen sources and audio choices.
+
 ## Capture timing
 
 All delivered tracks use the ScreenCaptureKit host timestamp domain. The first complete video

@@ -1013,7 +1013,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("capture.sources"), params: z.object({}).strict() })
     .strict()
-    .describe("List the displays, windows and microphones this host can capture."),
+    .describe(
+      "List screen sources, microphones and camera discovery identities without activating devices. Camera discovery does not enable camera selection in capture.start.",
+    ),
   z
     .object({
       operation: z.literal("capture.start"),
@@ -1025,7 +1027,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("capture.status"), params: z.object({}).strict() })
     .strict()
     .describe(
-      "Read native device state and the active or recovering take. A finalizing take can retain finalizationError across service restart; stop explicitly retries failed recovery.",
+      "Read native device state, screen/microphone/camera permission facts and the active or recovering take. A finalizing take can retain finalizationError across service restart; stop explicitly retries failed recovery.",
     ),
   z
     .object({ operation: z.literal("capture.pause"), params: recording })

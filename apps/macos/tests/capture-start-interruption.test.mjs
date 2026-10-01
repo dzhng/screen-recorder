@@ -8,6 +8,10 @@ import { test } from "node:test";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const helper = join(root, "helpers/mac");
+const scratch = process.env.SCREENREC_CAPTURE_CONTROLLER_BUILD;
+const buildOptions = scratch
+  ? ["--scratch-path", scratch, "--skip-update", "--disable-automatic-resolution", "--jobs", "2"]
+  : [];
 const fixtures = fileURLToPath(new URL("./fixtures/capture-controller/", import.meta.url));
 
 test(
@@ -18,13 +22,17 @@ test(
     try {
       execFileSync(
         "swift",
-        ["build", "--package-path", helper, "--target", "ScreenRecorderCapture"],
+        ["build", "--package-path", helper, ...buildOptions, "--target", "ScreenRecorderCapture"],
         { stdio: "pipe", timeout: 60_000 },
       );
-      const bin = execFileSync("swift", ["build", "--package-path", helper, "--show-bin-path"], {
-        encoding: "utf8",
-        timeout: 10_000,
-      }).trim();
+      const bin = execFileSync(
+        "swift",
+        ["build", "--package-path", helper, ...buildOptions, "--show-bin-path"],
+        {
+          encoding: "utf8",
+          timeout: 10_000,
+        },
+      ).trim();
       const source = readFileSync(
         join(root, "apps/macos/Sources/ScreenRecorder/CaptureController.swift"),
         "utf8",
@@ -39,7 +47,10 @@ test(
       // product needs no debug operation, conditional branch or broader capture protocol for this test.
       writeFileSync(
         join(temporary, "CaptureController.swift"),
-        source.replace(binding, "private let capture = ScriptedCapture()"),
+        source
+          .replace(binding, "private let capture = ScriptedCapture()")
+          .replaceAll("NativeCapture.", "ScriptedCapture.")
+          .replaceAll("SCShareableContent.", "ScriptedShareableContent."),
       );
       for (const name of ["ScriptedCapture.swift", "main.swift"])
         copyFileSync(join(fixtures, name), join(temporary, name));
@@ -72,6 +83,7 @@ test(
         ["stop-ack"],
         ["cancel-publication"],
         ["cancel-before-stop"],
+        ["camera-discovery"],
       ]) {
         const result = spawnSync(executable, args, { encoding: "utf8", timeout: 5_000 });
         assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}\n${result.error ?? ""}`);

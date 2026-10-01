@@ -69,6 +69,16 @@ public struct CaptureAudioDevice: Codable, Sendable, Equatable {
     public let isDefault: Bool
 }
 
+/// A camera's discovery identity and display name; discovery supplies no default selection.
+public struct CaptureVideoDevice: Codable, Sendable, Equatable {
+    public init(id: String, name: String) {
+        self.id = id
+        self.name = name
+    }
+    public let id: String
+    public let name: String
+}
+
 public struct CaptureFailure: Error, LocalizedError, Codable, Sendable {
     public var errorDescription: String? { message }
     public let code: String

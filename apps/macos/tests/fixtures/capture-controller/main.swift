@@ -3,6 +3,27 @@ import ScreenRecorderCapture
 
 let controller = CaptureController(fixtureWindow: nil)
 let native = ScriptedCapture.latest!
+if CommandLine.arguments.contains("camera-discovery") {
+    func response(_ operation: String) async throws -> [String: Any] {
+        guard case .success(let bytes) = await controller.handle(operation, Data("{}".utf8)) else { fatalError("Discovery refused") }
+        return try JSONSerialization.jsonObject(with: bytes) as! [String: Any]
+    }
+    for permission in ["denied", "authorized", "restricted", "not_determined", "unknown"] {
+        ScriptedCapture.cameraPermission = permission
+        let sources = try await response("capture.sources")
+        let cameras = sources["cameras"] as! [[String: String]]
+        precondition(cameras == [["id": "camera-b", "name": "External camera"], ["id": "camera-a", "name": "Built-in camera"]])
+        let status = try await response("capture.status")
+        precondition((status["permissions"] as! [String: Any])["camera"] as? String == permission)
+        precondition(status["state"] as? String == "idle" && status["selection"] is NSNull)
+    }
+    ScriptedCapture.cameras = []
+    let empty = try await response("capture.sources")
+    precondition(empty["cameras"] as! [[String: String]] == [])
+    precondition(native.stopCount == 0 && native.discardCount == 0 && native.deviceState == "idle")
+    print("PASS actual controller preserves camera order, names, empty discovery and all authorization states without device actions")
+    exit(0)
+}
 let fails = CommandLine.arguments.contains("failed-start")
 native.failStart = fails
 func request(_ identity: String) throws -> Data {

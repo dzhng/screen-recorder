@@ -166,6 +166,9 @@ final class CaptureController {
                     "application": $0.owningApplication?.applicationName ?? "",
                 ]
             },
+            "cameras": fixtureWindow != nil
+                ? []
+                : NativeCapture.cameraDevices().map { ["id": $0.id, "name": $0.name] },
             "microphones": fixtureWindow != nil
                 ? []
                 : NativeCapture.microphoneDevices().map {
@@ -196,6 +199,7 @@ final class CaptureController {
             "permissions": [
                 "screen": NativeCapture.screenPermission,
                 "microphone": NativeCapture.microphonePermission,
+                "camera": NativeCapture.cameraPermission,
             ],
         ]
     }
