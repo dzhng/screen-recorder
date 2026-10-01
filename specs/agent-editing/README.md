@@ -22,7 +22,16 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: [24z bounded source-cardinality attribution](slices/24z-source-cardinality.md).**
+**Next implementation pickup: [09c audio-only export](slices/09c-audio-only-export.md),
+after any in-flight checkpoint.** The user requested audio-only formats through
+`export.create`, completing the existing video → extracted/processed/trimmed audio
+workflow. Implement this through the current audio and export owners; video removal
+is a separate explicit caller edit. Start with the verified WAV sink and verify
+additional standalone formats before advertising them. This is new independent
+primitive work, not blocked by the release or profiling claims below.
+
+[24z bounded source-cardinality attribution](slices/24z-source-cardinality.md)
+retains its separate dispatch prerequisites.
 Atomic public camera selection is [merged-verified](assets/21f3-public-camera-selection/merged-verification.json)
 through allocation, the actual native controller, crash recovery, independent
 admission and explicit project use, including empty allocated sources. Preserve
@@ -43,6 +52,7 @@ prerequisites do not prohibit isolated implementation preparation.
 
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
+| [09c](slices/09c-audio-only-export.md) | First-class audio export through existing output settings, audio execution and export publication | WAV public lifecycle and additional standalone formats are planned, not verified |
 | [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and current generic preparation readiness |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
@@ -79,8 +89,9 @@ Keep this pickup, checklist and owning Status lines consistent. Preparation,
 technical parity, measured quality and release acceptance are distinct. Missing
 or failed evidence stays open; continue independent primitive work.
 The [remaining-work audit](assets/acceptance-maintenance/remaining-work-audit.json)
-found no additional independent port in the inspected owners; its named external
-evidence and deferred cutover requirements remain unfinished.
+predates the requested 09c extension. Its named external evidence and deferred
+cutover requirements remain unfinished; it does not exclude this new independent
+implementation work.
 
 ## Outcome and boundaries
 
@@ -169,6 +180,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [09b — Agent-controlled output settings](slices/09b-output-settings.md)
+- [ ] [09c — Audio-only export](slices/09c-audio-only-export.md)
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
