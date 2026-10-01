@@ -6061,3 +6061,27 @@ When: 21f3 recovered-source admission review.
   completion mode; consumers do not recreate that judgment from one receipt field.
 - **Confidence:** High. The public recovery control preserves the journal bytes
   and original completion while admitting the shorter verified source.
+
+## 12b — Selected-model preparation verification
+
+### Serve verified local bytes at the external fetch boundary — sound, medium confidence
+
+When: generic model readiness and public preparation checkpoints.
+
+- **Choice:** When a scratch service receives `model.prepare`, its ordinary
+  preparation owner requests every registered model file, verifies the bytes and
+  writes its own receipt. The test supplies those exact bytes from the already
+  verified local model directory at the fetch boundary. A deliberate HTTP failure
+  and a held response make failure, retry and preparing observable. The owner's
+  implementation and public routes run normally; no ready receipt is fabricated.
+- **Gap:** The adoption plan required actual preparation and public state behavior
+  but did not specify whether this proof must contact the live hosting service.
+- **Reach:** This verifies local preparation and transport behavior reproducibly
+  while preserving the selected model and personal files. It cannot establish
+  current host availability, credentials or a live network transfer; those claims
+  remain separate. A live-download check can use the same production owner later.
+- **Verdict:** Sound. The external response is a declared fixture, while byte
+  verification, receipt creation, status, retry and reopen retain their real owner.
+  Existing actual inference supplies the separate execution proof.
+- **Confidence:** Medium. This is sufficient for selected-baseline adoption, but
+  deployment environments can still require a separate live-download check.
