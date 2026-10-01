@@ -1,0 +1,114 @@
+{
+  "checkedAt": "2026-10-01T10:04:44.921656+00:00",
+  "integratedCommits": [
+    "7534c094",
+    "aa49255f"
+  ],
+  "scope": "Merged caller-authored captured-source project through current fresh CaptureStore service and unchanged native worker; no physical capture or listening claim",
+  "passed": true,
+  "archive": {
+    "bytes": 5629927,
+    "sha256": "9bb40f62dfb677a335017e3a2b3b087d832331bf7a1a83ed21cd68e4700bc022",
+    "regularMembers": 166,
+    "allNamesAndHashesMatch": true,
+    "metadataSidecars": 0
+  },
+  "sourcePinsMatched": 9,
+  "binaryPinsMatched": 3,
+  "runtime": {
+    "historicalPacketFiles": 174,
+    "unchangedPins": 165,
+    "captureFactsExtractionChanges": {
+      "packages/core/dist/jobs.js": {
+        "bytes": 52766,
+        "sha256": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292"
+      },
+      "packages/core/dist/library.js": {
+        "bytes": 9733,
+        "sha256": "ab976b6962a6c66057e077ffeef1328453564df46f5757f0bdd75d0aeb1b9592"
+      },
+      "packages/core/dist/processing.js": {
+        "bytes": 11432,
+        "sha256": "840e2dc0be27a3e18f0a198c2ff53098fd9ea77267a41bac5b27b6190248f3c4"
+      },
+      "packages/core/dist/scene-processing.js": {
+        "bytes": 13995,
+        "sha256": "399293384e98127ae6ef4cfe546364882cbcad4b7ddf13282c99bb50c5e904c4"
+      },
+      "packages/core/dist/storage.js": {
+        "bytes": 11090,
+        "sha256": "273e2dc41c748aced5d0535a8ba8f676676d50db10f0ee80c759eb700bd88267"
+      },
+      "packages/core/dist/transcript-processing.js": {
+        "bytes": 21506,
+        "sha256": "4cf2f47c448aecaa7e039b17af9b107cc71f860fbbc2901a4b8f2f8eab05ac1e"
+      },
+      "apps/service/dist/capture-cleanup.js": {
+        "bytes": 4294,
+        "sha256": "aedb127554c75a4158671c5c32951c6a75555198b1823326927549a4a27bf283"
+      },
+      "apps/service/dist/capture.js": {
+        "bytes": 28666,
+        "sha256": "c2c2c88bb4cd7ca589340c0fe85bfdd42f6893c873b020c481d944298851f9ee"
+      },
+      "apps/service/dist/project-service.js": {
+        "bytes": 52013,
+        "sha256": "dc8f8582c60731e2b94df1278d18bfdcb5f81ec423f38cf2139e081e92f105d7"
+      }
+    },
+    "additionalCompiledOwner": {
+      "packages/core/dist/capture-store.js": {
+        "bytes": 16091,
+        "sha256": "0b8d36bfef93aad6dd5fab4d3265a5a8d3f5d4553c2c2e3d7e36322081bb71a5"
+      }
+    },
+    "reasonForMergedJourney": "The fresh service now uses CaptureStore; verify its actual admission/project/media consumers after integration."
+  },
+  "journey": {
+    "report": {
+      "path": "/private/tmp/screenrec-21e-root-merged-project-20261001/report.json",
+      "bytes": 956275,
+      "sha256": "af8d242e33225c2c881363fd3b25d79dd5ae277438652e047edefcbc9f374cb4"
+    },
+    "log": {
+      "path": "/tmp/screenrec-21e-root-merged-project-20261001.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks": [
+      "admissionBeforeProject",
+      "sourceColor",
+      "authoring",
+      "exactBaseline",
+      "replacements",
+      "portable"
+    ],
+    "publicExchanges": 246,
+    "pngsByteIdenticalToReviewedPacket": 28,
+    "wavsByteIdenticalToPacket": 12,
+    "completePCMAndPixelIdentitiesEqual": true,
+    "portable": {
+      "packageSHA256": "1d8511c537fc0c22086a3f355e522b567bfa8668ce4bb468a840637d85002eed",
+      "projectId": "57fb2308-8107-4dd0-a724-73a4a23cd42f",
+      "originalHomeRemoved": true,
+      "archiveRemoved": true,
+      "completeHistoryDocumentsEqual": true
+    },
+    "negativeControls": [
+      "one-sample audio shift",
+      "camera independently zeroed",
+      "wrong source picture"
+    ]
+  },
+  "reviews": {
+    "settledImplementation": "Clean root inspection of fixture-only producer defaults, explicit source-clock composition, replay/rollback and byte-exact same-path media assertions",
+    "visual": "All28 merged PNGs are byte-identical to the complete unprimed-reviewed packet; retain its fixture support/blur/fringe limitations.",
+    "choices": "Three scoped sound decisions retained; one-code RGB allowance remains specific to this cross-context numeric fixture, not a general product guarantee."
+  },
+  "boundaries": [
+    "No new native fixture publication or default cohort repeat at root",
+    "No original recording, accepted audio or model operation",
+    "No installed switch or new capture",
+    "No physical synchronization, arbitrary color handling, listening or completed-stop acceptance"
+  ],
+  "next": "21f selector-free durable admission and fresh coordinator wiring; expose camera selection only after its complete path verifies."
+}

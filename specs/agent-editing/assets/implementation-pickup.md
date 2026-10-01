@@ -15,8 +15,13 @@ workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21e](../slices/21e-capture-project-adoption.md) caller-authored project
-integration. [21d source admission](21d-captured-source-adoption/README.md) is
+Continue [21f](../slices/21f-public-camera-selection.md#implementation-checkpoints)
+selector-free durable admission and fresh coordinator wiring before public
+selection. [21e caller-authored projects](21e-capture-project-adoption/README.md)
+are integrated; [merged verification](21e-capture-project-adoption/merged-verification.json)
+passes the public journey through the current capture store with all reviewed
+PNG/WAV bytes unchanged. No project is created by capture.
+[21d source admission](21d-captured-source-adoption/README.md) is
 integrated; [merged verification](21d-captured-source-adoption/merged-verification.json)
 checks complete native source parity and passes the focused native/unit gates.
 Its retained current 21b screen/camera/microphone fixture is available without

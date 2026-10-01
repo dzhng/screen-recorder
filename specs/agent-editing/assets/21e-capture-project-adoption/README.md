@@ -52,3 +52,9 @@ reviewed unchanged; the full native publication cohort was not repeated. Root
 independent review covers the implementation; the known-unavailable configured
 CLI review was not retried. No hardware capture, discovery, audible playback,
 model preparation, installed switch or timing benchmark ran.
+
+[Merged verification](merged-verification.json) checks the corrected archive's
+complete inventory and passes the journey through the current fresh capture
+store. All public PNG/WAV bytes remain identical to the reviewed packet, including
+historical and relocated replacements. The root reused the authored input and
+existing worker; it did not repeat native fixture publication or old cohorts.

@@ -1,6 +1,8 @@
 # 21e — Caller-authored projects from captured sources
 
-Status: isolated caller-authored media journey verified; physical acceptance remains open. Dependencies: [21d](21d-captured-source-adoption.md), [04](04-projects.md), [09](09-first-preview.md) and [22](22-portable-projects.md).
+Status: integrated and [merged-verified](../assets/21e-capture-project-adoption/merged-verification.json)
+through the current fresh capture store; physical acceptance remains open.
+Dependencies: [21d](21d-captured-source-adoption.md), [04](04-projects.md), [09](09-first-preview.md) and [22](22-portable-projects.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
 The [verification packet](../assets/21e-capture-project-adoption/README.md) retains

@@ -5,8 +5,10 @@ verified in controlled public/native fixtures. [Closed camera source/publication
 and [selected input](21c-selected-camera-input.md) are verified through actual
 controlled NativeCapture. [Durable source adoption](21d-captured-source-adoption.md)
 passes current native/public retry and portable verification, including a read-only
-retained-take check. Caller-authored project integration, public selection and
-physical acceptance remain open.
+retained-take check. [Caller-authored projects](21e-capture-project-adoption.md)
+pass merged public media, replacement/undo and portable-history verification.
+Selector-free capture integration, public selection and physical acceptance
+remain open.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and
@@ -39,10 +41,11 @@ Do not invent capture-start authoring settings or another authoring surface.
 [21a](21a-camera-discovery.md), [21b closed source/publication](21b-camera-source-publication.md)
 and [21c selected input](21c-selected-camera-input.md) are complete in controlled
 scope. [21d durable source adoption](21d-captured-source-adoption.md) is verified.
-Next is [21e — Caller-authored project integration](21e-capture-project-adoption.md).
-[21f](21f-public-camera-selection.md#implementation-checkpoints) can prepare its
-selector-free lifecycle extraction independently; public selection requires21c
-and21e's complete caller-authored journey.
+[21e caller-authored project integration](21e-capture-project-adoption.md) is
+verified. Next is [21f](21f-public-camera-selection.md#implementation-checkpoints):
+its capture-facts extraction passes; durable admission and fresh coordinator
+wiring precede atomic public selection. The verified21c/21e prerequisites do not
+permit a selector that cannot reach that complete path.
 Each child has one owning seam and a separate verification packet. Parent21
 stays open until its implementation children and actual physical/lifecycle
 acceptance pass.
