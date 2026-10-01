@@ -1,0 +1,222 @@
+{
+  "baseCommit": "5343aec492e757352cd05e26d67c895864594cae",
+  "observedCheckout": "/Users/david/dev/screen-recorder",
+  "auditKind": "Read-only implementation trace; no runtime/quality/acceptance gate",
+  "finding": "No concrete detection-driven editorial edit or recognized-word filtering in the audited managed-project closure",
+  "compatibilityQualification": "Retained recording PCM route keeps documented joinRampUs5000 and source-count gain1/0.5; managed composition does not inherit that route",
+  "limits": [
+    "Recognition accuracy and misses, physical capture, auditions, renderer output, runtime lifecycle and whole unrelated repository not verified by source inspection",
+    "Third-party/model recognizer behavior not asserted beyond retained raw result and configured engine",
+    "Installed switching/deletion and legacy-policy migration not performed"
+  ],
+  "sources": [
+    {
+      "path": "specs/agent-editing/architecture.md",
+      "scope": "contract",
+      "bytes": 11622,
+      "sha256": "8d9706382245cdff28fbaee14c522e50fc143c5b792761b8bab2d51e83c31648",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift",
+      "scope": "recognition and word retention",
+      "bytes": 4254,
+      "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderSpeech/WordTimingMerger.swift",
+      "scope": "recognition and word retention",
+      "bytes": 5467,
+      "sha256": "35521560f6a61537bf8f318817c7703322c53f824bd9ba381ddff5229daf4f7b",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift",
+      "scope": "recognition and word retention",
+      "bytes": 8301,
+      "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/word-kind.ts",
+      "scope": "recognition and word retention",
+      "bytes": 762,
+      "sha256": "02d61654027a0910fef4b919ca10ed1ad3fbc6662fa40b0670db1dc4ee731bd8",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/transcript.ts",
+      "scope": "recognition and word retention",
+      "bytes": 41205,
+      "sha256": "4f06c3f7ca94bf5a8556e36f9ed823f8ba3f47483f6f726445aee5d3a1ee6d3a",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/transcript-read.ts",
+      "scope": "evidence reads and artifact lifetime",
+      "bytes": 19665,
+      "sha256": "1c282fa9d76d900ce9864699c20d8a36b89ef06becd186e35ffb3103a9fdb149",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/transcript-pages.ts",
+      "scope": "evidence reads and artifact lifetime",
+      "bytes": 14766,
+      "sha256": "5a0e0d8fd1ce70e608348295c0b912b2112d87d724eec5cb761dcc9025b016b5",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/project-transcript.ts",
+      "scope": "evidence reads and artifact lifetime",
+      "bytes": 8795,
+      "sha256": "b96ef9e33589c1542c5b5b3e4feffd598c0a80ae2abed891393c4d6b390a5924",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/transcript-processing.ts",
+      "scope": "evidence reads and artifact lifetime",
+      "bytes": 23242,
+      "sha256": "3e1baca793673ed795af4a89ec70ed79ba85bcc9d96fe5b8ada0f9f30fc7b604",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "apps/service/src/package-transcript.ts",
+      "scope": "evidence reads and artifact lifetime",
+      "bytes": 4880,
+      "sha256": "9dd7ab11af4c1402730c1d42e0949760053589c12e1c3beb86fce141b2231555",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "apps/service/src/capture-cleanup.ts",
+      "scope": "evidence reads and artifact lifetime",
+      "bytes": 4479,
+      "sha256": "4074c52e68e7cf2491144bd4a859360de1370e60a64cf29b07a5ebd97dc230d6",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/protocol/src/operations.ts",
+      "scope": "explicit public mutation boundary",
+      "bytes": 54756,
+      "sha256": "a25a6fbdefd5cb981fca10bb0f95251ca7b7e41ac621d731ebe362586b695b7d",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "apps/service/src/operations.ts",
+      "scope": "explicit public mutation boundary",
+      "bytes": 21898,
+      "sha256": "0d7963695e9cab3be81fb133fde381d44ce87361530169f0c198ad042285bee3",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "scope": "explicit public mutation boundary",
+      "bytes": 54468,
+      "sha256": "cc2c89b7fd2780279369382ebe975207f2d625a9599bfbfa4fbdb07bb8fb12a3",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/projects.ts",
+      "scope": "explicit public mutation boundary",
+      "bytes": 29738,
+      "sha256": "3756a56e033564a4f7bc1c88324e5da519c0325bc93311be3abe13dea39474b3",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/core/src/text-seeds.ts",
+      "scope": "explicit public mutation boundary",
+      "bytes": 6300,
+      "sha256": "7f9827d2eec4915ef8fb5817301a3e22d065de443204c48fd7b009a1bfd2b9be",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/composition/src/edits.ts",
+      "scope": "authored composition execution",
+      "bytes": 48627,
+      "sha256": "b275cfd1a852ae73531128873134fdb58590e0ac2eae86dbf10ba4dcf5503f3f",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/composition/src/partition.ts",
+      "scope": "authored composition execution",
+      "bytes": 7724,
+      "sha256": "2241250f258940a4cf6c133e7a7703406b0398648ecefea0c1d9e674c0248c1b",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/composition/src/ripple.ts",
+      "scope": "authored composition execution",
+      "bytes": 8592,
+      "sha256": "2dbaef851c434a28755a43dad58a5a4542f233bbfcae0de2857002fa08003f38",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/composition/src/processing-state.ts",
+      "scope": "authored composition execution",
+      "bytes": 17323,
+      "sha256": "3b689096aa53ecf283ee361537c3d97eae836503ecd19930df01ba4bfc6d83eb",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "packages/composition/src/schema.ts",
+      "scope": "authored composition execution",
+      "bytes": 14304,
+      "sha256": "4239c969c9048669e87baef0a2944d3bd77f3b53b526d2a7ea24916bd9d20a20",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift",
+      "scope": "authored composition execution",
+      "bytes": 41710,
+      "sha256": "39bf626ce1f820d896cac9114b47e7360c55878cb37602cbfa462dd8a452bd64",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift",
+      "scope": "retained recording compatibility",
+      "bytes": 12749,
+      "sha256": "f4fe7ee2878aa0b675fa222b712aadb949010c8f89e5c12b0dffcb77ba266a6e",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift",
+      "scope": "retained recording compatibility",
+      "bytes": 5063,
+      "sha256": "6f49e4b9f66fdd37562d7c9bf550842f25e1b6645f8c103f5b5e5e2e72503f73",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift",
+      "scope": "retained recording compatibility",
+      "bytes": 8316,
+      "sha256": "9df63b461461e153bba9885bf9d53c7dccfe6dcf5e2a26193a34ff781d358805",
+      "observedCheckoutMatchesBase": true,
+      "ownedCheckoutMatchesBase": true
+    }
+  ]
+}
