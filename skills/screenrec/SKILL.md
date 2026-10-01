@@ -36,6 +36,11 @@ every edit. When the user requests alternatives, keep those alternatives open.
    merely to obtain inline JSON. The result lease does not renew nested media
    tokens. After expiry or restart, use only the operation's advertised recovery
    or exact-request replay contract; an unavailable token does not imply rollback.
+   Ready media can also remain metadata-only when its complete MCP message would
+   exceed transport bounds. A batch can defer all its images together; its item
+   errors and delivery tokens stay intact. Read the needed tokens through the
+   artifact operations and manage each expiry independently. Metadata-only delivery
+   does not mean the media is empty.
    Pin source identities and the actual editable revision. A source-only take
    supplies media facts; create a project explicitly when the task needs one.
    A stop can acknowledge `finalizing`; that is not media readiness. Follow

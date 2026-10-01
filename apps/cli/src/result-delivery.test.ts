@@ -255,9 +255,24 @@ test("deferred media metadata leaves its nested lease usable instead of reading 
     name: "frame.get",
     arguments: { assetId: "source", streamId: "video", atUs: 0 },
   });
-  deliveredResponseSchema.parse(response.structuredContent);
+  const descriptor = deliveredResponseSchema.parse(response.structuredContent);
   expect(response.content).toHaveLength(1);
   expect({ reads, closes }).toEqual({ reads: 0, closes: 0 });
+  const renewed = responseSchema.parse(
+    (
+      await client.callTool({
+        name: "artifact.renew",
+        arguments: { token: descriptor.resultDelivery.token },
+      })
+    ).structuredContent,
+  );
+  expect(renewed.ok).toBe(true);
+  // The outer JSON receipt and nested media remain independent leases.
+  await client.callTool({
+    name: "artifact.close",
+    arguments: { token: descriptor.resultDelivery.token },
+  });
+  expect(() => delivery.read(descriptor.resultDelivery.token, 0, 1)).toThrow("expired or closed");
   const read = responseSchema.parse(
     (
       await client.callTool({
@@ -269,7 +284,7 @@ test("deferred media metadata leaves its nested lease usable instead of reading 
   if (!read.ok) throw Error(read.error.message);
   const data = z.object({ data: z.string() }).parse(read.data);
   expect(Buffer.from(data.data, "base64")).toEqual(media);
-  expect({ reads, closes }).toEqual({ reads: 1, closes: 0 });
+  expect({ reads, closes }).toEqual({ reads: 1, closes: 1 });
 });
 test("default MCP preserves a complete large failure and its error outcome", async () => {
   const error = {

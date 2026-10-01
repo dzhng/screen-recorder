@@ -1,0 +1,391 @@
+{
+  "status": "implemented; scoped verification passed; root integration pending",
+  "base": "f40af66239367fff5d263a20f112eeaa6ae16460",
+  "worktree": "/Users/david/.codex/worktrees/mcp-media-admission/screen-recorder",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 161727,
+    "sha256": "fffc02d70384b661240be384d5e02991152491f29326c11114128a4cf9a14ba9",
+    "members": 53
+  },
+  "members": {
+    "attempts.md": {
+      "bytes": 2728,
+      "sha256": "d41d1059f5273cd6b0edfafed2b58ccab299d9adfb1d3169e1aeefd1e471adc0"
+    },
+    "base/apps/cli/src/artifact-delivery.ts": {
+      "bytes": 11246,
+      "sha256": "1d5cf7502dcc7ca64d084ad39e18c1640b171f3cd877dc6f55e2166b86e976e5"
+    },
+    "base/apps/cli/src/main.ts": {
+      "bytes": 12754,
+      "sha256": "d013abf43f58672a3b16267bf504365d3b04743950a6ae16b944295ff89c384c"
+    },
+    "base/apps/cli/src/result-delivery.test.ts": {
+      "bytes": 13594,
+      "sha256": "3b6995096c1588c5fbe8bbbc06e4bb029968acbf5d9807d64601d340dba7addf"
+    },
+    "base/skills/screenrec/SKILL.md": {
+      "bytes": 32686,
+      "sha256": "3e9434c7359f885f32b941e41bc030d2483cc5e96fff580690dacfe84ee13f04"
+    },
+    "base/specs/agent-editing/slices/24z12-mcp-media-admission.md": {
+      "bytes": 4996,
+      "sha256": "e62e5a153563b04ea5854621f2094a893ae7d1b09e8e814398247273aae39a59"
+    },
+    "baseline-build/dist/artifact-delivery.d.ts": {
+      "bytes": 8010,
+      "sha256": "76892d5cd0542554cf63bf81cd35814b7c3690e8b6986dea7eaa84deda411545"
+    },
+    "baseline-build/dist/artifact-delivery.js": {
+      "bytes": 10780,
+      "sha256": "a0775f7056624ab7f506852ace5bd37b93a0a2d49ac3118f4148ce309e0c7dae"
+    },
+    "baseline-build/dist/main.d.ts": {
+      "bytes": 31,
+      "sha256": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
+    },
+    "baseline-build/dist/main.js": {
+      "bytes": 12403,
+      "sha256": "b94d75799aafb7ed9515930f1d2223754e9c6f0c76cbdb92678dc45715862fe8"
+    },
+    "baseline-build/src/artifact-delivery.ts": {
+      "bytes": 11246,
+      "sha256": "1d5cf7502dcc7ca64d084ad39e18c1640b171f3cd877dc6f55e2166b86e976e5"
+    },
+    "baseline-build/src/main.ts": {
+      "bytes": 12754,
+      "sha256": "d013abf43f58672a3b16267bf504365d3b04743950a6ae16b944295ff89c384c"
+    },
+    "baseline-build/tsconfig.json": {
+      "bytes": 117,
+      "sha256": "5c54ead9ac29579117853ab938db84b12ea06a4970f690fb4a0300e3dcd9cb33"
+    },
+    "checks/baseline-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/cancellation-corrected.txt": {
+      "bytes": 398,
+      "sha256": "cee69803070109dee125ca8dc3a04013d0c11faa6c9a6c3fbf58a3dc44474563"
+    },
+    "checks/cli-types-final.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/final-tests-initial-callback-error.txt": {
+      "bytes": 2554,
+      "sha256": "ca19c0a76ac0aa98f4a37267eec59755e7d8a6dd08b8eb4972122f343833c939"
+    },
+    "checks/final-tests.txt": {
+      "bytes": 1572,
+      "sha256": "7ae2da7ab2f56be62a04533dc160dd305b50845926ea201749d6c5bcffa11d5c"
+    },
+    "checks/format.txt": {
+      "bytes": 203,
+      "sha256": "89209311d51b3a7f8caad5ab52ffafad6caffe4f9d649d8e1c89a4d570bab13d"
+    },
+    "checks/green-single-initial-timeout.txt": {
+      "bytes": 1763,
+      "sha256": "0aa76888852b1b45e2cd6f693f8a155a951376b164be18a38c9c3de109644f51"
+    },
+    "checks/green-single.txt": {
+      "bytes": 637,
+      "sha256": "0e6a44828f6706c6d4732830f2a8130f0bd315d750fc98199d02aa8ca3263b43"
+    },
+    "checks/lint.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks/media-and-result.txt": {
+      "bytes": 554,
+      "sha256": "d26fdb39f83a24cce53fb90cf809411784afa8e66dc003921a3819e09821bb05"
+    },
+    "checks/media-progress.txt": {
+      "bytes": 9449,
+      "sha256": "0b7ad00f7303e58c4248e7287a4eb374c441b8d93b5b86b5b6103665a564cecb"
+    },
+    "checks/media-progress2.txt": {
+      "bytes": 1619,
+      "sha256": "2e50a540c6297de379d5abc5e6606ce76d068930da701cd365463e0ad1167932"
+    },
+    "checks/media-progress3.txt": {
+      "bytes": 3006,
+      "sha256": "3115ad499f5da4417499262b2880678373a3be2dae6b5540af31acefdb81a308"
+    },
+    "checks/media-progress4.txt": {
+      "bytes": 383,
+      "sha256": "dfee88317dd6b8a4f65a5e870c407293c54d3f778a47a8d9f48bd1fe571181cf"
+    },
+    "checks/red-aggregate.txt": {
+      "bytes": 1359,
+      "sha256": "93b554e058ebf70b5f5b81696042cf9d76e2ad0f86133507ab6d7da9f46287ce"
+    },
+    "checks/red-single.txt": {
+      "bytes": 1337,
+      "sha256": "fda2f4e71b7b8856ab08cf3b49901ddb3a2804ca6ff0da7ebcf81c2d8494525b"
+    },
+    "checks/types.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "closure/apps/cli/dist/artifact-delivery.d.ts": {
+      "bytes": 11989,
+      "sha256": "557a6293314ffa4a5c0bb7bcdf76eb288e3426172b10b78e45f40384c8ecb913"
+    },
+    "closure/apps/cli/dist/artifact-delivery.js": {
+      "bytes": 11883,
+      "sha256": "8335dfa4ec00713aa9567ad6f438148e8ddba2c88d3a2a9909ef1b2c718f99af"
+    },
+    "closure/apps/cli/dist/main.d.ts": {
+      "bytes": 31,
+      "sha256": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
+    },
+    "closure/apps/cli/dist/main.js": {
+      "bytes": 10233,
+      "sha256": "fcc9b816e92424a8cf4d1237dd529bf1ac5fd22efd011f18c6e2d29e8714be9e"
+    },
+    "closure/apps/cli/dist/mcp-result.d.ts": {
+      "bytes": 830,
+      "sha256": "c5a5440009fc03437c96d5f9732d0f3fef908af8cbf167d82f1c69eb1ff979b6"
+    },
+    "closure/apps/cli/dist/mcp-result.js": {
+      "bytes": 6182,
+      "sha256": "22249155f070c249ed781365a016006bbb2a47cc095ddab9d9b9e945afec214f"
+    },
+    "closure/apps/cli/src/artifact-delivery.ts": {
+      "bytes": 12425,
+      "sha256": "c61a68a567c6fc5963bf6175f44f1fc32823c2c1a57b38ed7bb005290a35af51"
+    },
+    "closure/apps/cli/src/main.ts": {
+      "bytes": 10764,
+      "sha256": "4a448456221f6a409cf4bda53467f40a7744645be70e9bff5cf71f242c1b36da"
+    },
+    "closure/apps/cli/src/mcp-media.test.ts": {
+      "bytes": 23376,
+      "sha256": "c656039087e1a33fee740756248e0f3cbc69a456391841966798e96c326e569e"
+    },
+    "closure/apps/cli/src/mcp-result.ts": {
+      "bytes": 6710,
+      "sha256": "d2239f19b1d30fa968dd951295058122e46f0ff6eb8a2252c3ad00a67f7f0212"
+    },
+    "closure/apps/cli/src/result-delivery.test.ts": {
+      "bytes": 14146,
+      "sha256": "51021c4833490dade6a0e00445b79e75116b4d8b90595b2f9f3362598327570e"
+    },
+    "closure/skills/screenrec/SKILL.md": {
+      "bytes": 33046,
+      "sha256": "2a0297d5be2e4108f1c8817b48d45a7832eb00aab3c4313665d3b5c99e2f9bd9"
+    },
+    "closure/specs/agent-editing/slices/24z12-mcp-media-admission.md": {
+      "bytes": 5901,
+      "sha256": "2fad426582d71c8434f64170ee4a247dd9907d81ddef1f30943759e3ae342580"
+    },
+    "commands.json": {
+      "bytes": 1455,
+      "sha256": "bad903a647ca344e305ca972628295b0a3e419c57af0149f151371c8da140fbc"
+    },
+    "error-closure.md": {
+      "bytes": 3926,
+      "sha256": "e3462d94514fce71c8f97e718a52c00019aefe552d2823896fee5059875965a5"
+    },
+    "media-evidence.ndjson": {
+      "bytes": 7639,
+      "sha256": "5f678293dc3e461ca07c0106ca32364658e6a0e9b88eb21a1c8193694b688d9c"
+    },
+    "node-internal-errors.js": {
+      "bytes": 69406,
+      "sha256": "fd278208fae3a83b51a0b948540629ed4e5fd8c7860cb8e4775c6dbf25779750"
+    },
+    "node-net.js": {
+      "bytes": 70232,
+      "sha256": "347d5db0206f222e11223e7b515457f837b400bd915070618883b6aa27496719"
+    },
+    "original-single.test.ts": {
+      "bytes": 5077,
+      "sha256": "1a3eafeb217830a3295b74b6aa704c9cbc731fe384496bbd4aeb1544e66877a9"
+    },
+    "review.md": {
+      "bytes": 2309,
+      "sha256": "1588eccb325f25b119ba3b5580cd1b787cba2534f3c870db6b1ac59e743d18ea"
+    },
+    "runtime-authority.json": {
+      "bytes": 122247,
+      "sha256": "f7904cd62cf5de62a4fe20a7ff563623e473c9a21028b5a42e5b643066ef1f6d"
+    },
+    "source-authority.json": {
+      "bytes": 53824,
+      "sha256": "eaa973187418b1b0eb9ac623da91642f48a26ef8c4c9e4ede6560935ce4c7130"
+    }
+  },
+  "changedClosure": [
+    {
+      "path": "apps/cli/src/main.ts",
+      "bytes": 10764,
+      "sha256": "4a448456221f6a409cf4bda53467f40a7744645be70e9bff5cf71f242c1b36da",
+      "baseSha256": "d013abf43f58672a3b16267bf504365d3b04743950a6ae16b944295ff89c384c"
+    },
+    {
+      "path": "apps/cli/src/artifact-delivery.ts",
+      "bytes": 12425,
+      "sha256": "c61a68a567c6fc5963bf6175f44f1fc32823c2c1a57b38ed7bb005290a35af51",
+      "baseSha256": "1d5cf7502dcc7ca64d084ad39e18c1640b171f3cd877dc6f55e2166b86e976e5"
+    },
+    {
+      "path": "apps/cli/src/mcp-result.ts",
+      "bytes": 6710,
+      "sha256": "d2239f19b1d30fa968dd951295058122e46f0ff6eb8a2252c3ad00a67f7f0212",
+      "baseSha256": null
+    },
+    {
+      "path": "apps/cli/src/mcp-media.test.ts",
+      "bytes": 23376,
+      "sha256": "c656039087e1a33fee740756248e0f3cbc69a456391841966798e96c326e569e",
+      "baseSha256": null
+    },
+    {
+      "path": "apps/cli/src/result-delivery.test.ts",
+      "bytes": 14146,
+      "sha256": "51021c4833490dade6a0e00445b79e75116b4d8b90595b2f9f3362598327570e",
+      "baseSha256": "3b6995096c1588c5fbe8bbbc06e4bb029968acbf5d9807d64601d340dba7addf"
+    },
+    {
+      "path": "skills/screenrec/SKILL.md",
+      "bytes": 33046,
+      "sha256": "2a0297d5be2e4108f1c8817b48d45a7832eb00aab3c4313665d3b5c99e2f9bd9",
+      "baseSha256": "3e9434c7359f885f32b941e41bc030d2483cc5e96fff580690dacfe84ee13f04"
+    },
+    {
+      "path": "specs/agent-editing/slices/24z12-mcp-media-admission.md",
+      "bytes": 5901,
+      "sha256": "2fad426582d71c8434f64170ee4a247dd9907d81ddef1f30943759e3ae342580",
+      "baseSha256": "e62e5a153563b04ea5854621f2094a893ae7d1b09e8e814398247273aae39a59"
+    }
+  ],
+  "compiledEmittedPins": 362,
+  "compiledSourcePins": 181,
+  "scope": "Owned producer replies and default SDK, not arbitrary foreign errors or universal RPC admission",
+  "gate": {
+    "files": 11,
+    "passed": 126,
+    "failed": 0,
+    "exitCode": 0,
+    "durationSeconds": 35.76,
+    "newMediaTests": 14,
+    "unchangedDiscoveryTestsNotRepeated": 14,
+    "testTimeoutMs": 5000,
+    "hookTimeoutMs": 10000,
+    "originalMerged126Gate": false,
+    "command": "node node_modules/vitest/vitest.mjs run packages/protocol/src packages/client/src/transport.test.ts apps/service/src/index.test.ts apps/service/src/delivery.test.ts apps/service/src/result-delivery.test.ts apps/service/src/project-service.test.ts apps/cli/src --maxWorkers=1 --silent=false"
+  },
+  "checks": {
+    "scopedBuild": 0,
+    "scopedTypes": 0,
+    "cliTypesAfterTestCallbackFix": 0,
+    "lint": 0,
+    "format": 0,
+    "diffCheck": 0
+  },
+  "originalRed": {
+    "single": "checks/red-single.txt",
+    "aggregate": "checks/red-aggregate.txt",
+    "meaning": "First unexpected automatic read; stopped before completed overflowing child reply"
+  },
+  "defaultSdkOverflowProof": "Both complete synthetic intended envelopes rejected by installed unconfigured ReadBuffer; exact byte lengths separately retained",
+  "wireEvidence": [
+    {
+      "fixture": "single PNG",
+      "automaticCalls": {
+        "reads": 0,
+        "renewals": 0,
+        "closes": 0
+      },
+      "defaultSdkSyntheticWireRejection": true,
+      "rawBytes": 8388608,
+      "sha256": "8f4a683275238f8023b84ec871ef5e43c8d7a53bc9f1b5a92c8253d7fe69cb12",
+      "base64Bytes": 11184812,
+      "intendedWireBytes": 11185739,
+      "deferredWireBytes": 877,
+      "calls": {
+        "reads": 16,
+        "renewals": 0,
+        "closes": 0
+      },
+      "exactBytes": true
+    },
+    {
+      "fixture": "eight PNGs",
+      "automaticCalls": {
+        "reads": 0,
+        "renewals": 0,
+        "closes": 0
+      },
+      "defaultSdkSyntheticWireRejection": true,
+      "rawBytes": [
+        1048576,
+        1048576,
+        1048576,
+        1048576,
+        1048576,
+        1048576,
+        1048576,
+        1048576
+      ],
+      "sha256": [
+        "af6bc14f1c16c30beba0c11b133ce5eec3d3ef2226f10cfaa6f02c9d16081667",
+        "afbab17c6a68148e34336098eec1b4366d64eb71251acdcc33b4c1288516ff3e",
+        "7f825dd4f64d82b6de201f2b8fb78e1807629d8c0e4aeae3515108ef97d0d115",
+        "82df21b2451b8f84425bfa137129ade6b39ece9ed9f3086161b366cd1238a4f4",
+        "f9c0c8ea7970297fbf51afb2343fdeed507dfb68529aaa8eae7dd04ecbca490d",
+        "b0557fb74c6dff456e25b15eb4b74b6efe2aeb1a72c03877836f2125be4dfa20",
+        "496c39f6b10c09bf2aeaec02cd1628f39ef8349cf49b2f31097260bef9f37c2c",
+        "bf812209da0b3a3b1eed8ab170d13e9d1f224d07c7962e3fe6e039a57d16665a"
+      ],
+      "base64Bytes": 11184832,
+      "intendedWireBytes": 11191487,
+      "deferredWireBytes": 5967,
+      "calls": {
+        "reads": 16,
+        "renewals": 0,
+        "closes": 0
+      },
+      "exactBytes": true
+    },
+    {
+      "fixture": "admitted audio",
+      "rawBytes": 7,
+      "sha256": "ee34f979929444345ae88a9c3f5400cde17721fb407cc6262d4ea3046a36d334",
+      "wireBytes": 741,
+      "exactContent": true,
+      "calls": {
+        "reads": 1,
+        "renewals": 1,
+        "closes": 1
+      }
+    },
+    {
+      "fixture": "admitted JSON",
+      "rawBytes": 68,
+      "sha256": "becbb2a571937d64f115721d90fe1658284f4ae9e9652ea7f949bd2993b96340",
+      "wireBytes": 813,
+      "exactContent": true,
+      "calls": {
+        "reads": 1,
+        "renewals": 1,
+        "closes": 1
+      }
+    },
+    {
+      "fixture": "actual RPC identity",
+      "numericBytes": 8387535,
+      "escapedBytes": 8394736,
+      "exactMediaBytes": 6289956,
+      "completeContent": true
+    }
+  ],
+  "limits": "No limit/deadline/SDK buffer changes. No native/media/model/capture/inference/playback/window/installed switch or accepted cohort. SDK close used for child cleanup; no independent historical process-finality claim. Unchanged owners use base/24z11 references, not duplicate source archive."
+}

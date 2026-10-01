@@ -1,7 +1,8 @@
 # 24z12 — Admit complete MCP media messages before consumption
 
-Status: next implementation after the merged 24z11 correction. This closes the
-remaining default-client media-envelope gap, not final scale or release acceptance.
+Status: implemented in the scoped [evidence packet](../assets/24z12-mcp-media-admission/README.md);
+integration pending. Verification uses owned socket responses and the default SDK.
+Final scale and full release acceptance remain open.
 
 ## Contract
 
@@ -55,6 +56,19 @@ Trace actual owned media read/renew failures and client connection diagnostics.
 Budget their real fixed messages and input-derived socket costs; pin any platform
 formatting relied on. Do not mirror an error registry, use an unexplained reserve
 or justify a bound with arbitrary scripted multi-megabyte foreign failures.
+
+The [MCP framing owner](../../../apps/cli/src/mcp-result.ts) constructs both the
+predicted envelope and admitted content. The artifact consumer owns readiness,
+buffer policies and fresh read-time validation. Metadata is measured in both of
+its serialized forms; byte estimates saturate at the protocol bound rather than
+allocating a placeholder payload. Conservative JSON quoting can defer an otherwise
+legal raw buffer: callers retain complete evidence and ordinary live leases.
+
+Owned late failures include the listener's capacity refusal and pipe connection
+diagnostics. The packet pins the Node formatter, finite system-error names,
+selected-path cost and current read/renew/transport closure. This is a scoped
+owned-producer/default-client bound; arbitrary foreign errors and huge request
+identities are outside its contract.
 
 ## Verification and discretion
 

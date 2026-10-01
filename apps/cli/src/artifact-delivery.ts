@@ -6,6 +6,23 @@ import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
 import { ARTIFACT_CHUNK_BYTES, resultSchema, type OperationResponse } from "@screenrec/protocol";
 
+export const batchReferences = new Map<string, "atUs" | "ordinal">([
+  ["frame.batch", "atUs"],
+  ["index.frames", "ordinal"],
+]);
+export const artifactOperations = new Set([
+  ...batchReferences.keys(),
+  "index.frame",
+  "frame.get",
+  "frame.retry",
+  "audio.get",
+  "audio.retry",
+  "waveform.get",
+  "waveform.retry",
+  "spectrogram.get",
+  "spectrogram.retry",
+]);
+
 export class ArtifactDeliveryError extends Error {
   constructor(
     readonly code: string,
@@ -41,20 +58,35 @@ const chunk = z.object({
 type ArtifactType = "image/png" | "audio/wav" | "video/mp4" | "application/json";
 type ArtifactInfo = { bytes: number; mediaType: ArtifactType };
 
-/** One transport validator for buffered model content and streamed playable files. */
-async function consumeArtifact<T>(
-  selection: ServiceSelection,
-  result: OperationResponse,
-  consume: (info: ArtifactInfo, chunks: AsyncIterable<Buffer>) => Promise<T>,
-): Promise<T | null> {
+// Buffer policies also describe the outcome the MCP framer must admit before consumption.
+function bufferedPolicy({ bytes, mediaType }: ArtifactInfo): true | false | ArtifactDeliveryError {
+  if (mediaType === "audio/wav" && bytes > 48 * 1024 ** 2) return false;
+  if (mediaType === "video/mp4")
+    return new ArtifactDeliveryError(
+      "INVALID_REQUEST",
+      "Playable previews must be streamed to a file",
+    );
+  if (mediaType === "image/png" && bytes > 32 * 1024 ** 2)
+    return new ArtifactDeliveryError(
+      "LIMIT_EXCEEDED",
+      "Image exceeds its buffered delivery byte limit",
+    );
+  if (mediaType === "application/json" && bytes > 4 * 1024 ** 2)
+    return new ArtifactDeliveryError(
+      "LIMIT_EXCEEDED",
+      "JSON evidence exceeds its buffered delivery byte limit",
+    );
+  return true;
+}
+
+export function describeArtifact(result: OperationResponse) {
   if (!result.ok) return null;
   const data = result.data as { state?: unknown } | null;
   if (!data || data.state !== "ready") return null;
   const parsed = ready.safeParse(data);
   if (!parsed.success)
     throw new ArtifactDeliveryError("INVALID_RESPONSE", "Ready artifact has no valid delivery");
-  const { token, bytes } = parsed.data.delivery;
-  let expiresAt = parsed.data.delivery.expiresAt;
+  const { bytes } = parsed.data.delivery;
   const mediaType: ArtifactType =
     "frame" in parsed.data.published
       ? "image/png"
@@ -65,6 +97,25 @@ async function consumeArtifact<T>(
           : "waveform" in parsed.data.published
             ? parsed.data.published.waveform.mediaType
             : "video/mp4";
+  return {
+    bytes,
+    mediaType,
+    delivery: parsed.data.delivery,
+    buffered: bufferedPolicy({ bytes, mediaType }),
+  };
+}
+
+/** One transport validator for buffered model content and streamed playable files. */
+async function consumeArtifact<T>(
+  selection: ServiceSelection,
+  result: OperationResponse,
+  consume: (info: ArtifactInfo, chunks: AsyncIterable<Buffer>) => Promise<T>,
+): Promise<T | null> {
+  const description = describeArtifact(result);
+  if (!description) return null;
+  const { token, bytes } = description.delivery;
+  let expiresAt = description.delivery.expiresAt;
+  const { mediaType } = description;
   const socket = await resolveServiceSocket(selection);
   async function* chunks() {
     let offset = 0;
@@ -149,30 +200,12 @@ export async function artifactBytes(
   selection: ServiceSelection,
   result: OperationResponse,
 ): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" | "application/json" } | null> {
-  const parsed = result.ok ? ready.safeParse(result.data) : null;
-  // Large audio remains a renewable artifact for MCP callers instead of becoming one huge message.
-  if (
-    parsed?.success &&
-    "audio" in parsed.data.published &&
-    parsed.data.delivery.bytes > 48 * 1024 ** 2
-  )
-    return null;
+  const description = describeArtifact(result);
+  // Large audio remains renewable instead of becoming one huge message.
+  if (description?.buffered === false) return null;
   return consumeArtifact(selection, result, async ({ bytes, mediaType }, chunks) => {
-    if (mediaType === "video/mp4")
-      throw new ArtifactDeliveryError(
-        "INVALID_REQUEST",
-        "Playable previews must be streamed to a file",
-      );
-    if (mediaType === "image/png" && bytes > 32 * 1024 ** 2)
-      throw new ArtifactDeliveryError(
-        "LIMIT_EXCEEDED",
-        "Image exceeds its buffered delivery byte limit",
-      );
-    if (mediaType === "application/json" && bytes > 4 * 1024 ** 2)
-      throw new ArtifactDeliveryError(
-        "LIMIT_EXCEEDED",
-        "JSON evidence exceeds its buffered delivery byte limit",
-      );
+    const buffered = bufferedPolicy({ bytes, mediaType });
+    if (mediaType === "video/mp4" || buffered instanceof ArtifactDeliveryError) throw buffered;
     const output = Buffer.alloc(bytes);
     let offset = 0;
     for await (const chunk of chunks) {
@@ -282,6 +315,19 @@ const batchResponse = {
   ]),
 };
 
+export function describeBatch(
+  result: Extract<OperationResponse, { ok: true }>,
+  reference: keyof typeof batchResponse,
+) {
+  const parsed = batchResponse[reference].safeParse(result.data);
+  if (!parsed.success)
+    throw new ArtifactDeliveryError(
+      "INVALID_RESPONSE",
+      "Batch response does not match its request",
+    );
+  return parsed.data;
+}
+
 // Drain every ready item's lease even when another read or output write fails.
 export async function consumeBatch(
   selection: ServiceSelection,
@@ -294,13 +340,7 @@ export async function consumeBatch(
   errorDetails: (error: unknown) => Extract<OperationResponse, { ok: false }>["error"],
 ): Promise<OperationResponse> {
   if (!result.ok) return result;
-  const parsed = batchResponse[reference].safeParse(result.data);
-  if (!parsed.success)
-    throw new ArtifactDeliveryError(
-      "INVALID_RESPONSE",
-      "Batch response does not match its request",
-    );
-  const batch = parsed.data;
+  const batch = describeBatch(result, reference);
   const items = [];
   for (const [index, item] of batch.items.entries()) {
     try {

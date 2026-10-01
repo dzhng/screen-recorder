@@ -4,11 +4,13 @@ import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import {
-  artifactBytes,
   artifactFile,
+  artifactOperations,
+  batchReferences,
   ArtifactDeliveryError,
   consumeBatch,
 } from "./artifact-delivery.js";
+import { mcpContent, mcpInlineBytes, mcpResult } from "./mcp-result.js";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import {
@@ -22,7 +24,6 @@ import {
   operationSchema,
   FrameError,
   REQUEST_FRAME_BYTES,
-  MCP_RESULT_INLINE_BYTES,
   parseRequest,
   encodeJsonLine,
   operationError,
@@ -35,23 +36,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 
-const batchReferences = new Map<string, "atUs" | "ordinal">([
-  ["frame.batch", "atUs"],
-  ["index.frames", "ordinal"],
-]);
 const previewOperations = new Set(["preview.get", "preview.retry"]);
-const artifactOperations = new Set([
-  ...batchReferences.keys(),
-  "index.frame",
-  "frame.get",
-  "frame.retry",
-  "audio.get",
-  "audio.retry",
-  "waveform.get",
-  "waveform.retry",
-  "spectrogram.get",
-  "spectrogram.retry",
-]);
 
 function failure(
   id: string,
@@ -129,13 +114,13 @@ function request(id: string, operation: string, params: unknown): OperationReque
 function invoke(
   selection: ServiceSelection,
   sending: OperationRequest,
-  deliverResult: true,
+  deliverResult: number,
 ): Promise<OperationWireResponse>;
 function invoke(selection: ServiceSelection, sending: OperationRequest): Promise<OperationResponse>;
 async function invoke(
   selection: ServiceSelection,
   sending: OperationRequest,
-  deliverResult?: true,
+  deliverResult?: number,
 ): Promise<OperationWireResponse> {
   try {
     const socketPath = await resolveServiceSocket(selection);
@@ -144,7 +129,7 @@ async function invoke(
         socketPath,
         {
           ...sending,
-          resultDelivery: { inlineBytes: MCP_RESULT_INLINE_BYTES },
+          resultDelivery: { inlineBytes: deliverResult },
         },
         selection.signal ? { signal: selection.signal } : {},
       );
@@ -185,77 +170,19 @@ async function mcp(selection: ServiceSelection) {
   }));
   server.setRequestHandler(CallToolRequestSchema, async (call, extra) => {
     const id = randomUUID();
-    let answer: OperationWireResponse;
     try {
-      answer = await invoke(
-        { ...selection, signal: extra.signal },
-        request(id, call.params.name, call.params.arguments ?? {}),
-        true,
+      const sending = request(id, call.params.name, call.params.arguments ?? {});
+      const selected = {
+        socketPath: await resolveServiceSocket({ ...selection, signal: extra.signal }),
+        signal: extra.signal,
+      };
+      const answer = await invoke(selected, sending, mcpInlineBytes(extra.requestId));
+      return await mcpResult(selected, sending.operation, answer, extra.requestId, (error) =>
+        errorResult(id, error),
       );
     } catch (error) {
-      answer = errorResult(id, error);
+      return mcpContent(errorResult(id, error));
     }
-    if ("resultDelivery" in answer)
-      return {
-        content: [{ type: "text" as const, text: JSON.stringify(answer) }],
-        structuredContent: answer,
-        isError: !answer.ok,
-      };
-    let result = answer;
-    const images: { type: "image"; data: string; mimeType: string }[] = [];
-    const batchReference = batchReferences.get(call.params.name);
-    if (batchReference) {
-      try {
-        result = await consumeBatch(
-          { ...selection, signal: extra.signal },
-          result,
-          batchReference,
-          async (media) => {
-            images.push({
-              type: "image",
-              data: media.bytes.toString("base64"),
-              mimeType: media.mediaType,
-            });
-            return { contentIndex: images.length };
-          },
-          (error) => errorResult(id, error).error,
-        );
-      } catch (error) {
-        result = errorResult(id, error);
-      }
-    }
-    let media: Awaited<ReturnType<typeof artifactBytes>> = null;
-    if (artifactOperations.has(call.params.name) && !batchReference) {
-      try {
-        media = await artifactBytes({ ...selection, signal: extra.signal }, result);
-      } catch (error) {
-        result = errorResult(id, error);
-      }
-    }
-    return {
-      content: [
-        { type: "text" as const, text: JSON.stringify(result) },
-        ...images,
-        ...(media
-          ? media.mediaType === "application/json"
-            ? [
-                {
-                  type: "text" as const,
-                  text: media.bytes.toString("utf8"),
-                },
-              ]
-            : [
-                {
-                  type: media.mediaType === "image/png" ? ("image" as const) : ("audio" as const),
-                  data: media.bytes.toString("base64"),
-                  mimeType: media.mediaType,
-                },
-              ]
-          : []),
-      ],
-      structuredContent: result,
-      isError: !result.ok,
-    };
   });
   await server.connect(new StdioServerTransport());
 }
