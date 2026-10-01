@@ -1,0 +1,78 @@
+{
+  "README.md": {
+    "bytes": 5112,
+    "sha256": "7b9cf78880a7500d87e1bbafc7694e4cea949a29a4c913db7714d3b6c61e7e78"
+  },
+  "evidence-pins.json": {
+    "bytes": 176276,
+    "sha256": "6b86741475f7bb8989f3bd428a1261e5f2f3e1872e1b4c97241bf5b02002addc"
+  },
+  "evidence.tar.gz": {
+    "bytes": 11998371,
+    "sha256": "b4cd0c822d2c85bd92877ab3b37ee16fb6dd2de91ae462fb01b01eecacb8fdf9"
+  },
+  "external-code-match.json": {
+    "bytes": 21048,
+    "sha256": "6291fef1004a8b575b3112082ace630345db6a3441c348c442a087b549666c5b"
+  },
+  "external-derived-resource-accessor.swift.txt": {
+    "bytes": 699,
+    "sha256": "0a57042b06b54ff13221f946c404f5389d8de4d50a8e8f914e3d78389d1cd65e"
+  },
+  "ordinary-native-source-pins.json": {
+    "bytes": 39609,
+    "sha256": "83a793286a599e997eb480b63e75814e2c03b8c5e68809395758c1d4c437d2ee"
+  },
+  "ordinary-native-source.tar.gz": {
+    "bytes": 389843,
+    "sha256": "cfd5bfeb87f06d95e56fc8bcc352864b1f96e04611f32f1883e6d0e1f5d4e5d8"
+  },
+  "ordinary-source-runtime-pins.json": {
+    "bytes": 145385,
+    "sha256": "f57e346513bacc3175faacd24c0a74a66b9c5bc56ba45231a8ed8ab3f31ee5ee"
+  },
+  "ordinary-source-runtime.tar.gz": {
+    "bytes": 3238246,
+    "sha256": "15c8ab8b7a956f9620db1d3f13fa51fa04904abf4c8d3e0fa298055719f21a20"
+  },
+  "ordinary-test-helpers.tar.gz": {
+    "bytes": 7033,
+    "sha256": "07e7032e6b0db39e73f3840fb119b2a834782bead2fb1dff29f65ad1a67e04dd"
+  },
+  "packet-check.json": {
+    "bytes": 394,
+    "sha256": "cc5bcaceea9dfb970f30bbc37dd629d9fb10a051a0674f7331dd7b88cdc8013f"
+  },
+  "recovery-native-source-pins.json": {
+    "bytes": 4141,
+    "sha256": "7d19c44c70ae6fddbf6c5bcd3e0cc58157cfd43965013d1cf22d686694967be7"
+  },
+  "recovery-native-source.tar.gz": {
+    "bytes": 48006,
+    "sha256": "0e9b1829fc2f10ba8e8f65f4bf955c0f690f731ceb31d8a7a81423e2dda2a724"
+  },
+  "runtime-linkage.txt": {
+    "bytes": 14721,
+    "sha256": "dca1dd1072f9b4612cd16fecac61583358ca8df217a34523628dd30ba4fc0234"
+  },
+  "runtime-pins.json": {
+    "bytes": 3310,
+    "sha256": "0c075178dea3cbb70d02f3c26fb75b671a215f79283c76470fbaa5fa58c2f090"
+  },
+  "runtime.tar.gz": {
+    "bytes": 57512839,
+    "sha256": "420c99f9f90af563a436957f1bb8bfca42f443b78657f03951d4210164a5f785"
+  },
+  "source-runtime-pins.json": {
+    "bytes": 206390,
+    "sha256": "f4cae2c3613bab63c4e69cdd0b8d9a2dbdf01042112ddab32c469e4ad2b3f666"
+  },
+  "source-runtime.tar.gz": {
+    "bytes": 3949782,
+    "sha256": "ab9375559ba7eb48a2adf6e15c69979942cafc11a9828802489032ba17104d18"
+  },
+  "verification.json": {
+    "bytes": 8854,
+    "sha256": "bd96c5ae0813d5edd25a00886c8d9da9a28026f9498dec76f25ea746dfbec316"
+  }
+}

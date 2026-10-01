@@ -1,4 +1,10 @@
 import { Catalog, CatalogError } from "./catalog.js";
+import {
+  readCapturePublication,
+  type CapturePublication,
+  type CapturePublishedSource,
+  type CapturePublicationState,
+} from "./capture-publication.js";
 export type RecordingState =
   | "preparing"
   | "recording"
@@ -11,6 +17,8 @@ export type FinalizationError = Readonly<{ code: string; message: string; retrya
 export type Recording = Readonly<{
   recordingId: string;
   sourceId: string;
+  camera: Readonly<{ sourceId: string; deviceId: string }> | null;
+  publication: CapturePublication | null;
   creationSequence: number;
   createdAt: string;
   state: RecordingState;
@@ -22,7 +30,11 @@ export type Recording = Readonly<{
   currentRevisionId: string | null;
 }>;
 /** A capture session reports its device transitions here; core never derives them itself. */
-export type LifecycleEvent = Readonly<{ sourceId: string; sequence: number }> &
+export type LifecycleEvent = Readonly<{
+  sourceId: string;
+  sequence: number;
+  publication?: unknown;
+}> &
   Readonly<
     | { state: "recording" | "paused" | "canceled" }
     | { state: "finalizing"; finalizationError?: FinalizationError | null }
@@ -44,11 +56,23 @@ const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = 
   canceled: ["canceled"],
 };
 const recordingColumns =
-  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,interruptionMessage,finalizationError,sourceDurationUs,currentRevisionId";
-type RecordingRow = Omit<Recording, "finalizationError"> & { finalizationError: string | null };
+  "recordingId,sourceId,cameraSourceId,cameraDeviceId,publication,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,interruptionMessage,finalizationError,sourceDurationUs,currentRevisionId";
+type RecordingRow = Omit<Recording, "finalizationError" | "camera" | "publication"> & {
+  finalizationError: string | null;
+  publication: string | null;
+  cameraSourceId: string | null;
+  cameraDeviceId: string | null;
+};
 function readRecording(row: RecordingRow): Recording {
+  const { cameraSourceId, cameraDeviceId, ...recording } = row;
   return {
-    ...row,
+    ...recording,
+    camera:
+      cameraSourceId === null ? null : { sourceId: cameraSourceId, deviceId: cameraDeviceId! },
+    publication:
+      row.publication === null
+        ? null
+        : (JSON.parse(row.publication) as CapturePublicationState).observation,
     finalizationError:
       row.finalizationError === null
         ? null
@@ -64,7 +88,11 @@ const unsettledStates = (Object.keys(nextStates) as RecordingState[]).filter(
 );
 export type RecordingCursor = Readonly<{ beforeSequence: number }>;
 /** What a caller asks a take to be allocated for, canonically, so a replay can be recognized. */
-export type AllocationRequest = Readonly<{ requestId: string; arguments: string }>;
+export type AllocationRequest = Readonly<{
+  requestId: string;
+  arguments: string;
+  cameraDeviceId?: string;
+}>;
 /** A take's identity, and whether this request had already been given it. */
 export type Allocation = Readonly<{ recording: Recording; replay: boolean }>;
 /** Durable take facts on the one catalog connection; editorial state belongs to its consumer. */
@@ -78,8 +106,10 @@ export class CaptureStore extends Catalog {
     this.catalog.exec(`
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
+    cameraSourceId TEXT UNIQUE,cameraDeviceId TEXT,publication TEXT,
     allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
-    interruptionReason TEXT,interruptionMessage TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
+    interruptionReason TEXT,interruptionMessage TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT,
+    CHECK ((cameraSourceId IS NULL)=(cameraDeviceId IS NULL))
    ) STRICT;
    CREATE INDEX IF NOT EXISTS recordings_state_sequence ON recordings(state,creationSequence);
    CREATE TABLE IF NOT EXISTS recording_deletions (
@@ -95,16 +125,27 @@ export class CaptureStore extends Catalog {
    * a different take is refused instead of being answered with the first one.
    */
   allocate(request?: AllocationRequest): Allocation {
+    if (
+      request?.cameraDeviceId !== undefined &&
+      (request.cameraDeviceId.length === 0 || request.cameraDeviceId.length > 256)
+    )
+      throw new CatalogError(
+        "INVALID_PARAMS",
+        "Camera device identity must be bounded and nonempty",
+      );
     return this.transaction(() => {
       if (request) {
         const stored = this.catalog
           .prepare(
             `SELECT ${recordingColumns},allocationArguments FROM recordings WHERE allocationRequestId=?`,
           )
-          .get(request.requestId) as (Recording & { allocationArguments: string }) | undefined;
+          .get(request.requestId) as (RecordingRow & { allocationArguments: string }) | undefined;
         if (stored) {
           const { allocationArguments, ...recording } = stored;
-          if (allocationArguments !== request.arguments)
+          if (
+            allocationArguments !== request.arguments ||
+            recording.cameraDeviceId !== (request.cameraDeviceId ?? null)
+          )
             throw new CatalogError(
               "REQUEST_CONFLICT",
               "Request ID was already used with different arguments",
@@ -113,13 +154,17 @@ export class CaptureStore extends Catalog {
         }
       }
       const recordingId = this.providers.newId();
+      const sourceId = this.providers.newId();
+      const cameraSourceId = request?.cameraDeviceId === undefined ? null : this.providers.newId();
       this.catalog
         .prepare(
-          "INSERT INTO recordings(recordingId,sourceId,allocationRequestId,allocationArguments,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,?,'preparing',0)",
+          "INSERT INTO recordings(recordingId,sourceId,cameraSourceId,cameraDeviceId,allocationRequestId,allocationArguments,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,?,?,?,'preparing',0)",
         )
         .run(
           recordingId,
-          this.providers.newId(),
+          sourceId,
+          cameraSourceId,
+          request?.cameraDeviceId ?? null,
           request?.requestId ?? null,
           request?.arguments ?? null,
           this.providers.now(),
@@ -136,14 +181,39 @@ export class CaptureStore extends Catalog {
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
     return readRecording(row as RecordingRow);
   }
-  /** Admission authority for a source whose capture lifecycle can no longer change. */
-  settledSource(recordingId: string): Recording {
+  /** Source publication can finish before its sibling; no growing take journal is admission authority. */
+  publishedSource(recordingId: string, sourceId: string): CapturePublishedSource {
     const recording = this.get(recordingId);
-    if (!isSettled(recording.state))
-      throw new CatalogError("NOT_READY", "Capture has not settled", {}, true);
-    if (recording.state === "canceled" || recording.sourceDurationUs === null)
-      throw new CatalogError("UNAVAILABLE", "Capture has no usable video source");
-    return recording;
+    if (recording.state === "canceled")
+      throw new CatalogError("UNAVAILABLE", "Capture was discarded");
+    const kind =
+      sourceId === recording.sourceId
+        ? "primary"
+        : sourceId === recording.camera?.sourceId
+          ? "camera"
+          : null;
+    if (kind === null) throw new CatalogError("NOT_FOUND", "Capture does not own the named source");
+    const outcome = recording.publication?.[kind];
+    if (outcome == null && isSettled(recording.state))
+      throw new CatalogError("UNAVAILABLE", "Capture has no published source", { sourceId });
+    if (outcome?.state === "unavailable")
+      throw new CatalogError("UNAVAILABLE", outcome.error.message, {
+        sourceId,
+        cause: outcome.error.code,
+      });
+    if (!recording.publication?.inputsClosed || outcome?.state !== "published")
+      throw new CatalogError("NOT_READY", "Capture source has not published", { sourceId }, true);
+    return outcome.source;
+  }
+  /** Physical inputs, including drain, retain queue priority; publication after closure does not. */
+  isCapturing(): boolean {
+    return Boolean(
+      this.catalog
+        .prepare(`SELECT 1 FROM recordings
+      WHERE state IN ('preparing','recording','paused','finalizing')
+      AND coalesce(json_extract(publication,'$.observation.inputsClosed'),0)=0 LIMIT 1`)
+        .get(),
+    );
   }
   /** Durable intent fences public access before asynchronous producer shutdown begins. */
   markDeleting(recordingId: string): Recording | null {
@@ -353,6 +423,14 @@ export class CaptureStore extends Catalog {
           reportedSourceId: event.sourceId,
         });
       if (event.sequence <= recording.lifecycleSequence) return recording;
+      const stored = this.catalog
+        .prepare("SELECT publication FROM recordings WHERE recordingId=?")
+        .get(recordingId)!.publication as string | null;
+      const previous = stored === null ? null : (JSON.parse(stored) as CapturePublicationState);
+      const publication =
+        event.publication === undefined
+          ? previous
+          : readCapturePublication(event.publication, recording, previous);
       if (!nextStates[recording.state].includes(event.state))
         throw new CatalogError(
           "INVALID_STATE",
@@ -363,7 +441,7 @@ export class CaptureStore extends Catalog {
         this.attachSource(recording, event.sourceDurationUs);
       this.catalog
         .prepare(
-          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=?,interruptionMessage=?,finalizationError=? WHERE recordingId=?",
+          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=?,interruptionMessage=?,finalizationError=?,publication=? WHERE recordingId=?",
         )
         .run(
           event.state,
@@ -377,6 +455,7 @@ export class CaptureStore extends Catalog {
                   : event.finalizationError,
               )
             : null,
+          publication === null ? null : JSON.stringify(publication),
           recordingId,
         );
       return this.get(recordingId);

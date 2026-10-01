@@ -1,0 +1,932 @@
+{
+  "helpers/mac/Package.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3728,
+    "sha256": "4e8194eec94c29a0f3792a269b5d6a68a087855c40652ddcf812f85788047123"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/RetainedPCMSource.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5004,
+    "sha256": "1f8bef9f58c481ff1b82a161ae4d63b97663837cd8cc41c614e46e5c5d199d3f"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift": {
+    "origin": "unchanged current file",
+    "bytes": 8316,
+    "sha256": "9df63b461461e153bba9885bf9d53c7dccfe6dcf5e2a26193a34ff781d358805"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift": {
+    "origin": "unchanged current file",
+    "bytes": 41710,
+    "sha256": "39bf626ce1f820d896cac9114b47e7360c55878cb37602cbfa462dd8a452bd64"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/CompositionGain.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1831,
+    "sha256": "9e0207e7ffbb9edb547c18d89b83bf96f533d6ca4297ab0926291d439a9ecd0e"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift": {
+    "origin": "unchanged current file",
+    "bytes": 10396,
+    "sha256": "cc6758594eb2a41531e5750f465464897bc8bf8ac38560f41a2bb01213dcd393"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2575,
+    "sha256": "3162a40dc79836362ba1f167240752a3555a9fb38a1990da804ac37bfd3ba149"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/SelectedAudioConversion.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6644,
+    "sha256": "787db9fc41b0817734c1906b3e6693b317de533ccffc0cb1c3f2dca500f69e27"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift": {
+    "origin": "unchanged current file",
+    "bytes": 4354,
+    "sha256": "1bbab776e5f6617fb20fc6da5388ee3c9f53e71b1bbfdecb71599994e7528048"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5063,
+    "sha256": "6f49e4b9f66fdd37562d7c9bf550842f25e1b6645f8c103f5b5e5e2e72503f73"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift": {
+    "origin": "unchanged current file",
+    "bytes": 12749,
+    "sha256": "f4fe7ee2878aa0b675fa222b712aadb949010c8f89e5c12b0dffcb77ba266a6e"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift": {
+    "origin": "unchanged current file",
+    "bytes": 15472,
+    "sha256": "997605adcad747754fa9cb30c29a553fedd468b60c4f4486253aa4dd8d6df11d"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift": {
+    "origin": "unchanged current file",
+    "bytes": 18042,
+    "sha256": "c59bdb5c698af7564e8ef9eb4fed6ba31fa91e99d3b7ccfcac37c300772aaa79"
+  },
+  "helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1489,
+    "sha256": "d61693aac87b62a80904eeec41a92bbd294fc683e9d96897813d517ff731b61b"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/ArchiveAssembly.swift": {
+    "origin": "unchanged current file",
+    "bytes": 12186,
+    "sha256": "c2157fdb63c010c406612cc8acb265fca07f7aeb0e499ccda98f4b38560b3be6"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/FrameOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1895,
+    "sha256": "1432b1ddb90e0ce282e8dc823c059e59a8c375328bd2f58278f34b61b78fedd6"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/ArchiveOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9330,
+    "sha256": "8ed5b86e79dbb0da7587fb816d366677d0fceab3dd2dc04ad7d672710e5a28c2"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SourceAudioOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 625,
+    "sha256": "658a96876921384b990df752134e197de24f805c9354a44cfa34834f78681ef7"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SourceVisualSamplesOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 379,
+    "sha256": "831cccf1e7eb3456d7d86602ed6b62d7ce07dac6d0167651d50ff0c825785066"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/Wire.swift": {
+    "origin": "91774655086aea326e1d04ad89c6c0e5edf325f8",
+    "bytes": 11127,
+    "sha256": "c924f7f53df69048ec89d025f3b250c081e0c6ab9c748ec736190770c7450444"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/PublicationOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 16068,
+    "sha256": "e738ff32c0c9f11b1a0797569f05e92647736bb56ecaa5bb71c7ea07b0d217e9"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/RetainedAudioInput.swift": {
+    "origin": "unchanged current file",
+    "bytes": 940,
+    "sha256": "37509d943082a414fb9c8c7ddcc4a2b896348b13006ad8e84ac7f8f9c979cde0"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SourceFrameOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 428,
+    "sha256": "a5a1d9ce91a6444f1d5c8befe4e71753632b0deaf97fa263a90e946d9f211aae"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/MovieOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3439,
+    "sha256": "fbe2abcbb2068ad8bdb9734ba5364fddc3ddfb1c08668e82c777ffe74773b79a"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/AudioOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1129,
+    "sha256": "ad6b1479164d858525b4f43d3d33d29a0f8fd167fb4a562e7f6ad013d7f15cb4"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SourceImageOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 416,
+    "sha256": "f49a3349312220cf8d61afcdadab7acf65fcc5872105a8bfa1aff6f90d10c618"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/CompositionVideoOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2874,
+    "sha256": "cc3f93c7fdaae0b0c279ff00a8e4accac5272a3bbc8715a28cb973a7d727d496"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift": {
+    "origin": "unchanged current file",
+    "bytes": 11233,
+    "sha256": "b5f542cbcc4cb1246a5a932f476e5e8a79691097ddd1240d951e13c23d9e0333"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/Descriptors.swift": {
+    "origin": "unchanged current file",
+    "bytes": 4673,
+    "sha256": "27948f5a70f17fcb2cc64025a063291d9918b7db3f37418a2d1b6c14799a8b56"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift": {
+    "origin": "0ec7ff6eecf54eeac927734b0fa5b22acd9ad732",
+    "bytes": 9253,
+    "sha256": "7743d3fa383a828b71f13da6fdde57818af51ced721a8aeb92e12e378e7877fa"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/ArchiveExtraction.swift": {
+    "origin": "unchanged current file",
+    "bytes": 12168,
+    "sha256": "944c88f58534d107d22e2d6aaaac79afd80c6af587db1c0a8fdd53ee0f14d650"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/AcousticImageOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1853,
+    "sha256": "378bbca7e4c3afe1b04ee15e7211d35645eb65cfd9a54ec72bbd8381d46b12ca"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/PackageWorkspace.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6102,
+    "sha256": "31d709081f590e97f37131ad12b3f6140f012a14dd24fa2ec2ba9e3054791713"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/CompositionMovieOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5930,
+    "sha256": "48dfc957fab29baf007726cb964d74ea36a4108dadf962692ead8c75e777aacc"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/ProbeOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1845,
+    "sha256": "1e5abb53c3dc43a86645ea033b7f0723f80320ad3643d2f7336801e85e649fff"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/CompositionAudioOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1382,
+    "sha256": "13574bf8f81fe98cd5151ea4155ae1bffecf7c59346473f99478e99badf1ea01"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/PresentationEvidenceOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1152,
+    "sha256": "04e392c1ae20b653ae21b2b5496cb22f56ac473f1aba77565bca198511ee5211"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SelectedAudioConversionOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 781,
+    "sha256": "6349b1bab55e8184a2886449f0b653c74b0d7e9a80f72803bc410b577f3c0b50"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/MediaRecovery.swift": {
+    "origin": "0ec7ff6eecf54eeac927734b0fa5b22acd9ad732",
+    "bytes": 18728,
+    "sha256": "18531c267a41f96f65d8ed23fb81d7da78b0006694d9f983ed65248df0c1e4a5"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9289,
+    "sha256": "8b1fb55d208fbf0c3d93ae6f90ad4bcf670011a6cec8b94eb72669cd4952c9bf"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/CompositionFrameOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 559,
+    "sha256": "d4f1d7e52ba6541edc895a1a6df7c71e33f20117353f2de8d00471fddbd83f95"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/SpeechOperation.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2322,
+    "sha256": "52dbff5325b3e071f777e84ec73afbf7b976c15ac75bad2571fd3a5997d8c0ee"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/WireRequest.swift": {
+    "origin": "unchanged current file",
+    "bytes": 4173,
+    "sha256": "6bc5fa6c138c0065704feba70929b7ad126d0df446603efed3dcd5edcac53b0c"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/RenderWorkspace.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1431,
+    "sha256": "646ef565cff0cf96055e333703c36ed611707ad856666235ca5d6c08576d98bf"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/PreparedPointers.swift": {
+    "origin": "unchanged current file",
+    "bytes": 8620,
+    "sha256": "5d4e3e0b5ce891f1bf5fb1ed1e8437e12998cda6564ea3b8b604d6f12f521df8"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift": {
+    "origin": "unchanged current file",
+    "bytes": 8954,
+    "sha256": "a37121714876096b8c99e55459b91d86dc83f34a8569a69811659edd677cc209"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3642,
+    "sha256": "f80f8c45a8d3ed68510ee9fe7c01d50a98ae340a316bdd4e9a43176d924744e6"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/SourceFrameRenderer.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3910,
+    "sha256": "0f4b5d6ce3f79d7d41c37d31fe0560372cecda2a20e1ce0f3d726436113098f7"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/PointerSchedule.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6420,
+    "sha256": "d5d22380e3bb153eb299a4b76f4f0fcb77e5375ba906db608031fd796757671f"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/PresentationSource.swift": {
+    "origin": "unchanged current file",
+    "bytes": 11684,
+    "sha256": "f1d1f3ecda91d56679379b1e4e495d01cb5e19310b060bc75c9751f043865e62"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/OutputSettings.swift": {
+    "origin": "unchanged current file",
+    "bytes": 21172,
+    "sha256": "dfdee4de1dae0c022cf5efc2b7ebc118d0a81425fbf0746d6bc1bb305316cc48"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/TextRaster.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6552,
+    "sha256": "2af264db3ddd0f72fe628281ecc617b50fff5f6689b81738f7cb2e68ebf22cc4"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift": {
+    "origin": "unchanged current file",
+    "bytes": 33802,
+    "sha256": "7600e036331e19da377102c494e1b029caba4ac3c42a589d526d11856523f7de"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift": {
+    "origin": "unchanged current file",
+    "bytes": 13398,
+    "sha256": "b76d8d10b67c9c3b7348deb5ebef1de9aeb2ba7023d093420a08bd327a291cf9"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/VideoRenderer.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9336,
+    "sha256": "10f31968bf373d93a6d8189c9241cbb99acf0f70083f0e1e5769aea6eec20564"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/FrameTypes.swift": {
+    "origin": "unchanged current file",
+    "bytes": 7594,
+    "sha256": "ef3ffb2e1c9fc2566f277beab51dd09a4bbe5ba1534d874ba13705f6dafff100"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/MovieClock.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1521,
+    "sha256": "c92081605837a1ff6b128208067e129a68f8390c43c60c10f4cb584180a9981b"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/SampleSelection.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3521,
+    "sha256": "d8be6d9e687131427accbd28ef8065ee083fd4441e3c19fd0f9c51f022d72f3a"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/VisualSamples.swift": {
+    "origin": "unchanged current file",
+    "bytes": 521,
+    "sha256": "2875b5cf764ad844414532081e79b5d4514ce7370e9278b819019a4181686a73"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/RetainedJSONLines.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3793,
+    "sha256": "ab9c53108b60d39c7dec67eaa6e4799ef2e65b5adffe3aceef47f33b41006571"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/PresentationEvidence.swift": {
+    "origin": "unchanged current file",
+    "bytes": 7942,
+    "sha256": "2986592f60870690b0a7c2c6bacb3125811b8c7c24139c81d29a0931491258ac"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/FrameSource.swift": {
+    "origin": "unchanged current file",
+    "bytes": 10451,
+    "sha256": "9ed6b6cbf29578e079dd995442c2263170674fce4ee5b7d482ddd5d1ebd1461e"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/VideoColorPolicy.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2232,
+    "sha256": "f76d1890cac6165e281fdbcb5cd36e6c7df5ac5001c130bd24e5f2c224550c70"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6431,
+    "sha256": "989fd1103e62fee0bad1863bf13bdcca74fc99a0ae086c2c2c84526c29b9f3cf"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/SourceVisualSamples.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6066,
+    "sha256": "9c7a39aac77aca121b4f4903e4cd1d158df32491c31d96ab2df894d08424758d"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/SourceImageRenderer.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2583,
+    "sha256": "707eede0b68dcb3885e2a85a852b414b2fa24579ac9f67e4bb54da3dbc4b1315"
+  },
+  "helpers/mac/Sources/ScreenRecorderFrames/CursorOverlay.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9632,
+    "sha256": "3ba61e525a32e99fe2597741f4a41b0733c3a2fde1dc860f90bb94511815c982"
+  },
+  "helpers/mac/Sources/ScreenRecorderSpeech/SpeechModelFiles.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6628,
+    "sha256": "53937cdb9186aa85b48f4323a769c8cd25f7a7169ae34e7c5ad62d0a3c3d75ec"
+  },
+  "helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift": {
+    "origin": "unchanged current file",
+    "bytes": 8301,
+    "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+  },
+  "helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift": {
+    "origin": "unchanged current file",
+    "bytes": 4254,
+    "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+  },
+  "helpers/mac/Sources/ScreenRecorderSpeech/WordTimingMerger.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5467,
+    "sha256": "35521560f6a61537bf8f318817c7703322c53f824bd9ba381ddff5229daf4f7b"
+  },
+  "helpers/mac/Sources/ScreenRecorderNative/ParentLifetime.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2228,
+    "sha256": "a33b7f06a88c1da5b31e51254f9b0091c0fe184d8574f951fe375c8ce60fde70"
+  },
+  "helpers/mac/Sources/ScreenRecorderNative/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 404,
+    "sha256": "b1fb28064fe0f3970801808e63dcea056975e32c1d041c3bfd7543b1c6e1970c"
+  },
+  "helpers/mac/Sources/CLibArchive/include/archive.h": {
+    "origin": "unchanged current file",
+    "bytes": 53839,
+    "sha256": "618cd16c8fa40ddabc44f2d3eb3a35860f6b1d1d856b62a7f4f035b7a319bdab"
+  },
+  "helpers/mac/Sources/CLibArchive/include/archive_entry.h": {
+    "origin": "unchanged current file",
+    "bytes": 33975,
+    "sha256": "3695eb0193741b16b99e06cf1fc5e6db427b68a9475696ef746c024ae0a6ae72"
+  },
+  "helpers/mac/Tests/CameraReproduction/SparseStorage.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9781,
+    "sha256": "5107a8c57b113bc364ab1d92f0d3c01854eecb0445dcc82c7e0596e7e7b6a92d"
+  },
+  "helpers/mac/Tests/CameraReproduction/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 14297,
+    "sha256": "f47f1d8730d0f4fc55d5953e768f11d18009b42a3cd3407b3737f6e7dbf8cf7c"
+  },
+  "helpers/mac/Tests/SelectedAudio/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 12630,
+    "sha256": "fdefc8785bea8ceb3b6b26709393de8828941b837d72aa57a398a5f9ed05b475"
+  },
+  "helpers/mac/Tests/TextFidelity/browser.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1830,
+    "sha256": "8b39b8ee52d81874f81573b0e643d61089eb13fcf2c412c3b06b91868cac9516"
+  },
+  "helpers/mac/Tests/RenderMembership/playback.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5197,
+    "sha256": "196b9edc16cad52cf2217671eb3904cf4fdc2325d0cbdb44a95b7de1c9e42987"
+  },
+  "helpers/mac/Tests/RenderMembership/gap.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2717,
+    "sha256": "62999ef581a9778d1b747b7fb356a656a2519cbb807757fd4683a17ad13f7229"
+  },
+  "helpers/mac/Tests/RenderMembership/window.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2975,
+    "sha256": "95de1485268fad2cf86ae1f7b69455136e1d2c3f39e0b494d0198b22f8f8f5f6"
+  },
+  "helpers/mac/Tests/RenderMembership/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9364,
+    "sha256": "565bfafc667f1a62aa7a1af65e9e2e1dc863fae98597cee602fa458282d63a14"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureClockTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9382,
+    "sha256": "668344e5cc046b1b14d51187349c2a53b9e5e277ea81f55b33ec345be0fa1661"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CursorGeometryTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 30775,
+    "sha256": "f7fb90de984b35c653ea41c82843a1704b2e944af7e9a0419f76de06474474ab"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureAudioMaterializerTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 23522,
+    "sha256": "6c04a5846e250c718006c7593aac6d465218de4f08c9fd38a9000a9ccbf235c0"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraJournalProvenanceTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3698,
+    "sha256": "6e376ede6c288cef8ec859468c73558bd51b6d4aaf3c5467cec1e19728c04887"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/DeferredPauseTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 4652,
+    "sha256": "6b769fe7da09b03761a92ef8b0cc824f08703938d1c7a99f45dddeae34a10322"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/PCMJournalTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 10984,
+    "sha256": "6254c045cf447229627dfb5d0706e7c49453200a0d48608f6c755160d07709a9"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/ProbeCameraPixelPublicationTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3462,
+    "sha256": "d085fd5a3d193cad290cb1b8502a86f5dce905ea766cc646ed291408896094ee"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureStreamInputTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3994,
+    "sha256": "83cec8099d61c4f96c93201c54a9278c1d1869642fb936d120a90322163fb518"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureTerminationTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3783,
+    "sha256": "4819a1792f6f357f1a914a655c2e49aed10b7285c4f36bcd0ceccab98daba229"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCameraInputTests.swift": {
+    "origin": "18940e0e7a6628dfa966931f7efc3d781fc86396",
+    "bytes": 33903,
+    "sha256": "8e54098d7d6b2e5a902ec2d5edcb93530f5bd900a0bbd5d5be578cc20e3324f5"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureWriterTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6478,
+    "sha256": "75fab99ffa3c35662e95d0d1f293c1358fd09ac839a915f4ae1b97afc32e2787"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/PCMAdmissionProbe.swift": {
+    "origin": "unchanged current file",
+    "bytes": 8142,
+    "sha256": "ec67cd3346188f8e0b92e8cf504fd44b363a6f5d9c76438529951f998b3b0723"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CanonicalRecoveryTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 11162,
+    "sha256": "4294ee320268d70a8f5d930169df64bf7191466131e92814cc008cec361b46bb"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureStopScale.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5046,
+    "sha256": "9a9041ac2425080f8982b3629efd4ae0cc56de13420cdbc972836280ceec7f12"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/MediaRecoveryTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 14758,
+    "sha256": "cdb42eeada8f61d1aa193d58be046b70f6ec8adf30fc8a8432757cc19b37ad8b"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureJournalTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9507,
+    "sha256": "9f9568758e7b575b1d9ca10cce4c283a04b595fd88f1631e77474f0faf340700"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureStopTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3707,
+    "sha256": "84a1a9f0a3e74b3b92a5080cdbcd0a66ca5fbe9b49ab57ceec775ba3890759ea"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/NativeCaptureInputTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 17315,
+    "sha256": "5c364187a5f360121a187dad47b05fd91c5d9447d43dead37c7d6273a0a3239a"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraSourcePublicationTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 18500,
+    "sha256": "ce3dcb7ffa6310f54dbe8ee82b562ca958a621fbf08e9cea796d54a8160ee59d"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraSourceAdmissionTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 16772,
+    "sha256": "d0366c61042d97a8d7695023f96d853f241588d8216bb6d39ac488b272911116"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/HeldTailFrameTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 8521,
+    "sha256": "b4b66ba456e75b206245117e48d5fda977808afdc688552eb6fd067d9a03fdbb"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureAudioGapProbe.swift": {
+    "origin": "unchanged current file",
+    "bytes": 14072,
+    "sha256": "6d6109165b9226091c34fd49a2df270e72c5c57340f72f1cca8bdec8826e4792"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureJournalLeaseTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5717,
+    "sha256": "e63477d824efdb082b432428ecfe95d751d1ab6defb4258bf065bcbecc0dc0ad"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureAudioFormatProbe.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5247,
+    "sha256": "603ff6e9d4918b7514f48dfd3add88275260bc9993ea6d106cf2278a34871fad"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentPublicationTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 20120,
+    "sha256": "d54fb3c30c04089e9565fabced92c1809d89a71b6a9aed7561f5413ced4ec1ac"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureExclusionTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1526,
+    "sha256": "54354ace6d8bfe54e68dc432f9db355b8ebbc38b5fd1043cc72fe7b122c56d3c"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureAudioPublicationTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 17007,
+    "sha256": "0214e15d90fd1867172e6f38a1563d65e53085b557ea51b9f10a14d9ef193d2c"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/PrerecordedCaptureInput.swift": {
+    "origin": "72e2070e4ba95285a5d465f27eb7726e39c21dd2",
+    "bytes": 14673,
+    "sha256": "e91e03faaab922c249f1ffb6637c6d6a41219a6f7d302c610cd7fc56b706d7b5"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/ProbeCameraReplayTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 7493,
+    "sha256": "f8599b4df65f136d7302f2ba6be5a50434a9d01de6a07550b3429f551093d666"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureRequestTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2958,
+    "sha256": "229e76d135c70b21a4247ba730f8d837e5f4c33abdc6d8ec1b5de56a5ac07ee8"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift": {
+    "origin": "a21d40847adc21ea301b3594044ffdecf6cb7df0",
+    "bytes": 5967,
+    "sha256": "0cedb116234c08a2c300acceab2b82d3df425cf7faea4438d715096f5a9f0ac8"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/PCMAdmissionWindows.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5304,
+    "sha256": "4a4a2beea1f84cebff955edce104dd2b89e1268956db78ff6e74f5206c999bff"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentCameraClockTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 23409,
+    "sha256": "a9b5d7f86308f251d4f6bb52990533871a23f9289fedb372c0d19bf1086de061"
+  },
+  "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureMediaTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 21655,
+    "sha256": "35f0d043336c13dde147d5641365245b0882b0c864b2a14286efbc2fd13d46f5"
+  },
+  "helpers/mac/Tests/ScreenRecorderFrameTests/FixtureMedia.swift": {
+    "origin": "unchanged current file",
+    "bytes": 11245,
+    "sha256": "910fc34d6651513dcfb13782100500b34a20065e6fc28492e5b2349b53d3a8e2"
+  },
+  "helpers/mac/Tests/ScreenRecorderFrameTests/ExactPresentationTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 7163,
+    "sha256": "e2d6e629f03df142cf9543e24d89dae9c6892dba9394d22c3261def1a6dfb5c9"
+  },
+  "helpers/mac/Tests/ScreenRecorderFrameTests/PresentationEvidenceTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2568,
+    "sha256": "c4e71eb58df8f0149c6a30195bd98337560d3b66f72f2827ddd0e5c6424bf1e6"
+  },
+  "helpers/mac/Tests/ScreenRecorderFrameTests/DescriptorLifetimeTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1959,
+    "sha256": "9787a240c67dc1d0b13b5ddf092ecc25064acedf8908a1b7c35de8dc255fad8f"
+  },
+  "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 48126,
+    "sha256": "ed95c2c2ef2390bb8d808567c4057888cb44195544b30cb3fada1a33d478be5f"
+  },
+  "helpers/mac/Tests/ScreenRecorderFrameTests/SourceSceneBoundsTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1764,
+    "sha256": "b916298ac424c128eda83042c8f3b62d2ed10ab86d1e6f8b6a04c612bb1a2864"
+  },
+  "helpers/mac/Tests/CompositionVideo/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1633,
+    "sha256": "dbaf82845fdacf331293476cae882e7cd0bfc748ae0a5383d532765531c2888a"
+  },
+  "helpers/mac/Tests/ScreenRecorderAudioTests/StreamingTests.swift": {
+    "origin": "unchanged current file",
+    "bytes": 6034,
+    "sha256": "1bd3e069faa2350a9d85a36c458b3697639e5e7e25e94fa830cc14fba0004140"
+  },
+  "helpers/mac/Tests/ScreenRecorderAudioTests/FixtureAudio.swift": {
+    "origin": "unchanged current file",
+    "bytes": 11977,
+    "sha256": "92a2b920d0bbf0487499dcbc281e87f34c04149c799b24a27e7bc493c4938063"
+  },
+  "helpers/mac/Tests/ScreenRecorderAudioTests/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 54011,
+    "sha256": "f0d7a2046c85ef2ed708be867ff6c6cb368adaed867195953396a811bd88f0a2"
+  },
+  "helpers/mac/Tests/SourceAudio/MixedSourceFixture.swift": {
+    "origin": "unchanged current file",
+    "bytes": 7115,
+    "sha256": "734cc3978d2532ac8befbee92646b7ec8de35b828b4bb2754fc13ff5c0eab384"
+  },
+  "helpers/mac/Tests/SourceAudio/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 33999,
+    "sha256": "8e7a30209d4a0c920ae4adb84b47c3047c1d1249ce4329d7a64b468c1cafd5c0"
+  },
+  "helpers/mac/Tests/ScalarProgram/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 770,
+    "sha256": "6a3b9aa2038d3032edc3533cd4053e1027fbd3e4738772fde5d78602e1a75268"
+  },
+  "helpers/mac/Tests/SourceFrame/fixture.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1350,
+    "sha256": "cfd3feaad87fa9800c2863815fd001026297fb5c4f54ea9189a40c5fdb658d07"
+  },
+  "helpers/mac/Tests/ScreenRecorderSpeechTests/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5984,
+    "sha256": "68d049bf5e7fc20a30802a81a0a2f069c8346abb283ec154cd8d4a6f96f65e45"
+  },
+  "helpers/mac/Tests/CompositionAudio/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 9184,
+    "sha256": "dd7a7de728b795f4157d8a007a1a7d051e0fb2ca6f7572d04abefdd86c490f68"
+  },
+  "helpers/mac/Tests/fixtures/managed-files-interpose.c": {
+    "origin": "unchanged current file",
+    "bytes": 1990,
+    "sha256": "1397229cbfb0f3445bf663b97a088fcde9ae92d0106309e422ecb952f47f6eac"
+  },
+  "helpers/mac/Tests/fixtures/publication-write-interpose.c": {
+    "origin": "unchanged current file",
+    "bytes": 1478,
+    "sha256": "8c7db618257e4e9e32fd0aae35e6f05171440a36b1f1aeb10ff641f5c111eb24"
+  },
+  "helpers/mac/Tests/MovieTiming/gaps.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2108,
+    "sha256": "ff8f9d7d82b8cbd90bd592d444923eb7aae02aca4763f0ccef16646058596be9"
+  },
+  "helpers/mac/Tests/MovieTiming/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 4685,
+    "sha256": "b81baf3346685ca28ba11553f1d69a1da7fc18732ce1eb557bc7f1a5504a2c27"
+  },
+  "helpers/mac/Tests/SpeechLab/narration.swift": {
+    "origin": "unchanged current file",
+    "bytes": 1569,
+    "sha256": "db970b54d687b6da4c91ab84baab1bd06489a87aad1a3f859bbf96e859abceed"
+  },
+  "helpers/denoise/provenance.json": {
+    "origin": "unchanged current file",
+    "bytes": 2899,
+    "sha256": "350efedc54fe089a045ade892c385d487dd3bdb98f873d6a173010fe796d4ec1"
+  },
+  "helpers/denoise/Package.swift": {
+    "origin": "unchanged current file",
+    "bytes": 659,
+    "sha256": "c51bdafb40f4eea85f9ecbf594b80d9345d567d2cc967e978d39eda64cc227ce"
+  },
+  "helpers/denoise/Sources/ScreenRecorderDenoise/RNNoiseProcessor.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2637,
+    "sha256": "be29565afd97bf6e9b5c67756de39406c8161db007907c155d26ae634fec662f"
+  },
+  "helpers/denoise/Sources/CRNNoise/include/rnnoise.h": {
+    "origin": "unchanged current file",
+    "bytes": 3825,
+    "sha256": "15ca0f5c0db9dfa48907e91a32995d37e57552b0e14fef5ebb8d3dc073528f83"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/celt_lpc.h": {
+    "origin": "unchanged current file",
+    "bytes": 1746,
+    "sha256": "2190d9bd519c4528770a28fb0e8b599eb195782fb5dcd91378eb92e3ca7d5148"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/vec_neon.h": {
+    "origin": "unchanged current file",
+    "bytes": 13616,
+    "sha256": "4e943966503518091da521d406e2627f044d3752d4aaa400bdd584571330006c"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/cpu_support.h": {
+    "origin": "unchanged current file",
+    "bytes": 1776,
+    "sha256": "acb2591c1dfb97783a0a68fea76279dcb1155f0b7e6b95f51448a590f301c4b2"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/kiss_fft.c": {
+    "origin": "unchanged current file",
+    "bytes": 16923,
+    "sha256": "2a9f9ee0d961ec6516864477640d78aedbf1c3ecbe1680727b4b93d486c09679"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/rnn.h": {
+    "origin": "unchanged current file",
+    "bytes": 1850,
+    "sha256": "2fe9f33534fbfa35a7d5c81323f1ec4e9ec06e28328815c7c88880e83f994566"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/model.c": {
+    "origin": "unchanged current file",
+    "bytes": 133,
+    "sha256": "3ecdc2895626d3300accc82f7c63cc406ae138a2d858b4fd0ae886188b83e1ca"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/denoise.c": {
+    "origin": "unchanged current file",
+    "bytes": 13964,
+    "sha256": "f12ac3cc97d798cdfd7c7bd4366a08a72c5516c382056c891b61a61cb17eb031"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/pitch.h": {
+    "origin": "unchanged current file",
+    "bytes": 4645,
+    "sha256": "020be5b3fbc5289cd76930b0534efaa25dbda0cecd8643ee345cfd9d875a3818"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/nnet.h": {
+    "origin": "unchanged current file",
+    "bytes": 5638,
+    "sha256": "3552cf2fcfc4db28ac683bcc8a5dc7b72fad7140b3df43d0f8d2d5afe3abe4dd"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/vec.h": {
+    "origin": "unchanged current file",
+    "bytes": 11167,
+    "sha256": "54b02c6922e5180e040b8be28cf878783f550efc0e425d1d90b081e8c50932f5"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/rnnoise_tables.c": {
+    "origin": "unchanged current file",
+    "bytes": 56951,
+    "sha256": "f81353479c6f8912755a4cf5838590c36ba2c523a4a438e4f949743fb4945623"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/parse_lpcnet_weights.c": {
+    "origin": "unchanged current file",
+    "bytes": 7528,
+    "sha256": "d523113abe3c387b5481d8aa75d61b22f5e6cbcf54110f68cf901204d443de12"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/_kiss_fft_guts.h": {
+    "origin": "unchanged current file",
+    "bytes": 6010,
+    "sha256": "0214dfe2aabb3b81d88fe814b8253fc2ec6da12bbbc98e08c1011a5bd60e3b29"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/nnet_arch.h": {
+    "origin": "unchanged current file",
+    "bytes": 9447,
+    "sha256": "76068e63007b072b0c20410cee89c0ab5158438d5201b466850354c0aee33688"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/kiss_fft.h": {
+    "origin": "unchanged current file",
+    "bytes": 6335,
+    "sha256": "434613feace5466e73fb6593f3abeaca6c7da3ec5af3f4a475f54a6962324526"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/common.h": {
+    "origin": "unchanged current file",
+    "bytes": 1474,
+    "sha256": "f4975c4ee283a030b08dff4fe26847cc84e2fae340794922fae32aba5cc8e4e6"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/celt_lpc.c": {
+    "origin": "unchanged current file",
+    "bytes": 4887,
+    "sha256": "58eca412376dfd954f4940709df521cf1d2cbee1b7ca2b166bd0bffbda2c5b8d"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/pitch.c": {
+    "origin": "unchanged current file",
+    "bytes": 14085,
+    "sha256": "cfe6f5ffb4b5f5967ce2e64f22cc978c1f8196eecdb2fa532d4dd1ff56f6ca58"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/denoise.h": {
+    "origin": "unchanged current file",
+    "bytes": 2284,
+    "sha256": "3ea8149b47b51b76a1eef308cc38168731693b74ed3f64330b55583f92dcc071"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/nnet.c": {
+    "origin": "unchanged current file",
+    "bytes": 4444,
+    "sha256": "3a2c1dc09ad7e9dfe3cf32cfb94694935dc462488da8f513d1f308db39f7c087"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/rnn.c": {
+    "origin": "unchanged current file",
+    "bytes": 2912,
+    "sha256": "c40bbe40082448005873fe970d8963870ab2c9993b7c38d6939ca48f4f31a7bd"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/opus_types.h": {
+    "origin": "unchanged current file",
+    "bytes": 4954,
+    "sha256": "e2c1075e26567b8d57706d2f0042e36d5d440721fc3fd27a6fce9f0fc8a31557"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/vec_avx.h": {
+    "origin": "unchanged current file",
+    "bytes": 25041,
+    "sha256": "1ec412cd21043f8533dc52373b21436bc871eee8c3061deadbaa3ee184afa919"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/rnnoise_data.h": {
+    "origin": "unchanged current file",
+    "bytes": 926,
+    "sha256": "09ff880bddd0fc74a2ae0e5ec6c8d65714031b08d0c3f672493acd9e189c5855"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/nnet_default.c": {
+    "origin": "unchanged current file",
+    "bytes": 1456,
+    "sha256": "1402eb611b7fcc1fe7fa18639f0395e0af47a783ef87450318411483516e9011"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/arch.h": {
+    "origin": "unchanged current file",
+    "bytes": 7628,
+    "sha256": "1686a3ca5817bb7d99049a1801c6ab3a7e91a5d0a6804b1c1cafb36e5eeb62f8"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/x86/x86_arch_macros.h": {
+    "origin": "unchanged current file",
+    "bytes": 1618,
+    "sha256": "b6118942870b62ff78731edc3025e55230c3fadaf28ec2f4024d786210631505"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/x86/dnn_x86.h": {
+    "origin": "unchanged current file",
+    "bytes": 3462,
+    "sha256": "8b17955037daf4f9def4975d4b24c343b822abe62f6ad09a9d204ad00eb3aa33"
+  },
+  "helpers/denoise/Sources/CRNNoise/src/x86/x86cpu.h": {
+    "origin": "unchanged current file",
+    "bytes": 3456,
+    "sha256": "84897794ee10e1ee34f8d9aa5926629fcd95d72c15767fb3d0770ff39c054db0"
+  },
+  "helpers/denoise/Tests/Parity/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3956,
+    "sha256": "4fc9d352ce8e40057a326da1f1b328ce827d0e1c7c22b58b521aa3f3cab2db38"
+  },
+  "helpers/stretch/Package.swift": {
+    "origin": "unchanged current file",
+    "bytes": 787,
+    "sha256": "d042c35d9cba232e79705fcaa73f6b6f827711c919f0cb405cdef4e79ba53092"
+  },
+  "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3883,
+    "sha256": "2b7046811a16f66ebfe7e6b82b9aea99c4ba025b5060efac174eb4f354bf9e13"
+  },
+  "helpers/stretch/Sources/CSignalsmith/Paged.cpp": {
+    "origin": "unchanged current file",
+    "bytes": 4800,
+    "sha256": "6b8ddbbddde4ffc07b6032fa9da108ee919efd3d9887356235575eaf41701c99"
+  },
+  "helpers/stretch/Sources/CSignalsmith/Exact.h": {
+    "origin": "unchanged current file",
+    "bytes": 1348,
+    "sha256": "4473a533c357299d02133cdb20a7c049929a212446a781f5d28f0a88936df8f7"
+  },
+  "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp": {
+    "origin": "unchanged current file",
+    "bytes": 1582,
+    "sha256": "37a6e79a905bb4be070d4f0cea80e621f283e1b26d8235d5d4305180400b6658"
+  },
+  "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h": {
+    "origin": "unchanged current file",
+    "bytes": 1412,
+    "sha256": "383a81f0fc696f5d0182eb7db2f9ec1f0c0494fbd2a9b4fe223422ea1682a5bd"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/sources.json": {
+    "origin": "unchanged current file",
+    "bytes": 1530,
+    "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-stretch.h": {
+    "origin": "unchanged current file",
+    "bytes": 35446,
+    "sha256": "1188667959ac19dd40c0a6abbce694e44705615ec4f0e8db8af0f1cfb4c5dea7"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/fft.h": {
+    "origin": "unchanged current file",
+    "bytes": 45242,
+    "sha256": "fb55f69ac14cdbac66b9c76053069ff63bc36d18af20d8c028b9acc0aad6516a"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/linear.h": {
+    "origin": "unchanged current file",
+    "bytes": 36585,
+    "sha256": "9e777fe14653d496f5e0678fe4b9d8b01a0909bb2130bf4757a21ccad7292a02"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/stft.h": {
+    "origin": "unchanged current file",
+    "bytes": 24313,
+    "sha256": "7422ff5ddc2a017dc0587dcce99ce5ba30a2414bc2996081f6b00d56905d9b8c"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/platform/fft-linear.h": {
+    "origin": "unchanged current file",
+    "bytes": 7270,
+    "sha256": "7c2ed61df7895af7b1a37f1073f833abdc971953277ece58128c9c7b4ca6cef2"
+  },
+  "helpers/stretch/Tests/Parity/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 2479,
+    "sha256": "e6fcc6c1c1a5f04909bf8425fcb38f610d9fab4a3a386cadd817646144ba2e8a"
+  },
+  "helpers/stretch/Tests/FileParity/main.swift": {
+    "origin": "unchanged current file",
+    "bytes": 5970,
+    "sha256": "61f504ef2088e477d7b104d71df69a9c8b3f537edee2d27f719e5cbfb63bc038"
+  }
+}

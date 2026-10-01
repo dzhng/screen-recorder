@@ -6000,3 +6000,64 @@ When: empty allocated-source native correction.
 - **Verdict:** Sound. One owner classifies the filesystem result and no public error or source
   authority check is relaxed.
 - **Confidence:** High.
+
+## 21f3 — Atomic public camera selection
+
+### Keep receipt identity separate from current donor availability — sound, high confidence
+
+When: 21f3 capture publication persistence.
+
+- **Choice:** Keep each source's last accepted publication receipt beside its
+  latest native observation in the recording's existing publication JSON. The
+  receipt prevents a retry from silently replacing source identity. The current
+  observation decides whether donor work may proceed; a receipt saved earlier
+  does not overrule a new read failure. Already-ready acquisitions own their
+  copies independently.
+- **Gap:** Native can report a published source as pending or unavailable when a
+  retry detects an operational refusal or changed authority. Freezing the whole
+  outcome would retain stale success; forgetting its receipt would lose the
+  identity a later retry must preserve.
+- **Reach:** One bounded JSON value on the existing recording row, with no new
+  lifecycle, ownership table or queue. Public discovery exposes the current
+  typed observation rather than internal receipt-history storage.
+- **Verdict:** Sound. It preserves the native publisher's existing availability
+  changes and immutable source authority through the same capture-facts owner.
+- **Confidence:** High.
+
+### Allocate every selected source destination before starting inputs — sound, high confidence
+
+When: 21f3 empty-start crash verification.
+
+- **Choice:** The existing service allocation step creates a private directory
+  for each allocated source before forwarding native start. The bound camera
+  writer accepts an existing directory only when it is owned, private and empty;
+  probe destinations keep their existing creation behavior.
+- **Gap:** Creating the camera destination during input preparation left a
+  selected take with a missing camera path if the controller died beforehand.
+  Missing storage is not proof of an empty source. Simply accepting any existing
+  directory would also permit the mapping writer to truncate retained evidence.
+- **Reach:** Recovery can close genuinely empty allocated sources through its
+  existing authority check. Retained mapping and unknown members refuse before
+  any camera member is opened, and replay keeps the original allocation.
+- **Verdict:** Sound. Allocation owns destinations; native owns recovery and
+  publication. No missing-directory fallback or second lifecycle is introduced.
+- **Confidence:** High. Actual controller crash and retained-member controls
+  exercise both sides of the boundary.
+
+### Keep completion interpretation in native verification — sound, high confidence
+
+When: 21f3 recovered-source admission review.
+
+- **Choice:** The importer compares the complete native-verified publication
+  authority with the allocated receipt, while retaining generic evidence exactly
+  as normalized. An original completion in an untrusted journal tail does not
+  override native's recovered support.
+- **Gap:** Rechecking completion duration in TypeScript rejected valid recovered
+  authority when the original completion extended beyond retained media.
+- **Reach:** Admission preserves both facts: usable support comes from verified
+  canonical media, and generic evidence still records the original completion.
+  Private recovery authority is removed before the acquisition becomes ready.
+- **Verdict:** Sound. The component that verifies the media and journal owns the
+  completion mode; consumers do not recreate that judgment from one receipt field.
+- **Confidence:** High. The public recovery control preserves the journal bytes
+  and original completion while admitting the shorter verified source.

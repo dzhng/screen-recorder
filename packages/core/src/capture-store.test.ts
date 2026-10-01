@@ -21,6 +21,149 @@ afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
 });
 
+test("camera allocation is durable and cannot change on a replay", () => {
+  const { store, path, providers } = fixture();
+  const request = {
+    requestId: "selected-camera",
+    arguments: JSON.stringify(["screen", "camera-a"]),
+    cameraDeviceId: "camera-a",
+  };
+  const allocated = store.allocate(request).recording;
+  expect(allocated.camera).toEqual({ sourceId: "take-3", deviceId: "camera-a" });
+  expect(allocated.camera?.sourceId).not.toBe(allocated.sourceId);
+  store.close();
+  const reopened = new CaptureStore(path, providers);
+  stores.push(reopened);
+  expect(reopened.allocate(request)).toEqual({ recording: allocated, replay: true });
+  expect(() => reopened.allocate({ ...request, cameraDeviceId: "camera-b" })).toThrowError(
+    expect.objectContaining({ code: "REQUEST_CONFLICT" }),
+  );
+  expect(reopened.get(allocated.recordingId)).toEqual(allocated);
+  expect(reopened.allocate().recording.camera).toBeNull();
+});
+
+test("physical closure makes a published camera eligible while primary publication is pending", () => {
+  const { store, path, providers } = fixture();
+  const recording = store.allocate({
+    requestId: "independent-camera",
+    arguments: "camera-a",
+    cameraDeviceId: "camera-a",
+  }).recording;
+  const { recordingId, sourceId, camera } = recording;
+  if (!camera) throw new Error("Missing camera allocation");
+  const identity = { bytes: 10, sha256: "a".repeat(64) };
+  const receipt = {
+    kind: "camera",
+    sourceId: camera.sourceId,
+    sourceDurationUs: 100,
+    originHostUs: 200,
+    binding: { recordingId, sourceId: camera.sourceId, deviceId: camera.deviceId },
+    journal: { file: "capture.journal.jsonl", ...identity, lastSequence: 3, layout: 1 },
+    members: Object.fromEntries(
+      ["video.mov", "camera.publication.json", "camera.mapping.jsonl"].map((name) => [
+        name,
+        { ...identity, bytes: "10" },
+      ]),
+    ),
+  };
+  const publication = {
+    generation: "native-generation",
+    sourceId,
+    inputsClosed: false,
+    primary: null,
+    camera: null,
+  };
+  store.ingestLifecycle(recordingId, { sourceId, sequence: 1, state: "recording", publication });
+  expect(store.isCapturing()).toBe(true);
+  expect(() => store.publishedSource(recordingId, camera.sourceId)).toThrowError(
+    expect.objectContaining({ code: "NOT_READY" }),
+  );
+  const closed = {
+    ...publication,
+    inputsClosed: true,
+    primary: {
+      state: "pending",
+      error: { code: "IO_ERROR", message: "Primary output held", retryable: true },
+    },
+    camera: { state: "published", source: receipt },
+  };
+  const finalizing = store.ingestLifecycle(recordingId, {
+    sourceId,
+    sequence: 2,
+    state: "finalizing",
+    publication: closed,
+  });
+  expect(finalizing.state).toBe("finalizing");
+  expect(finalizing.sourceDurationUs).toBeNull();
+  expect(store.isCapturing()).toBe(false);
+  expect(store.publishedSource(recordingId, camera.sourceId)).toEqual(receipt);
+  expect(() => store.publishedSource(recordingId, sourceId)).toThrowError(
+    expect.objectContaining({ code: "NOT_READY" }),
+  );
+  store.close();
+  const reopened = new CaptureStore(path, providers);
+  stores.push(reopened);
+  expect(reopened.publishedSource(recordingId, camera.sourceId)).toEqual(receipt);
+  expect(reopened.get(recordingId).publication).toEqual(closed);
+  expect(reopened.isCapturing()).toBe(false);
+  const retrying = {
+    ...closed,
+    primary: { state: "unavailable", error: { code: "NO_VIDEO", message: "Primary has no video" } },
+    camera: {
+      state: "pending",
+      error: { code: "IO_ERROR", message: "Camera cannot be reread", retryable: true },
+    },
+  };
+  reopened.ingestLifecycle(recordingId, {
+    sourceId,
+    sequence: 3,
+    state: "finalizing",
+    publication: retrying,
+  });
+  expect(() => reopened.publishedSource(recordingId, camera.sourceId)).toThrowError(
+    expect.objectContaining({ code: "NOT_READY" }),
+  );
+  expect(() =>
+    reopened.ingestLifecycle(recordingId, {
+      sourceId,
+      sequence: 4,
+      state: "finalizing",
+      publication: {
+        ...retrying,
+        camera: { state: "published", source: { ...receipt, originHostUs: 201 } },
+      },
+    }),
+  ).toThrowError(expect.objectContaining({ code: "INVALID_STATE" }));
+  expect(reopened.get(recordingId).publication).toEqual(retrying);
+  reopened.ingestLifecycle(recordingId, {
+    sourceId,
+    sequence: 4,
+    state: "finalizing",
+    publication: { ...retrying, camera: closed.camera },
+  });
+  expect(reopened.publishedSource(recordingId, camera.sourceId)).toEqual(receipt);
+  const changed = {
+    ...retrying,
+    camera: {
+      state: "unavailable",
+      error: {
+        code: "INVALID_JOURNAL_PREFIX",
+        message: "Camera authority changed",
+      },
+    },
+  };
+  reopened.ingestLifecycle(recordingId, {
+    sourceId,
+    sequence: 5,
+    state: "finalizing",
+    publication: changed,
+  });
+  expect(reopened.get(recordingId).publication).toEqual(changed);
+  expect(() => reopened.publishedSource(recordingId, camera.sourceId)).toThrowError(
+    expect.objectContaining({ code: "UNAVAILABLE" }),
+  );
+});
+
 test("fresh capture settles and reopens without creating a revision or project", () => {
   const { store, path, providers } = fixture();
   const request = { requestId: "capture-one", arguments: "selected-screen-and-audio" };

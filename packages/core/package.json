@@ -299,6 +299,10 @@
     "./capture-store": {
       "types": "./dist/capture-store.d.ts",
       "default": "./dist/capture-store.js"
+    },
+    "./capture-publication": {
+      "types": "./dist/capture-publication.d.ts",
+      "default": "./dist/capture-publication.js"
     }
   },
   "scripts": {

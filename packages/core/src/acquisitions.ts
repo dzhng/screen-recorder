@@ -36,6 +36,7 @@ import {
   type AssetProbe,
 } from "./assets.js";
 import type { CaptureStore } from "./capture-store.js";
+import type { CapturePublishedSource } from "./capture-publication.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import {
   copyImportedFile,
@@ -63,6 +64,10 @@ const members = [
 export type AcquisitionMember = "journal" | "normalized" | (typeof publicationMembers)[number];
 type Member = (typeof members)[number];
 type SourceFiles = Record<Member, IdentifiedFile | null>;
+const sourceAuthorityFile = "source.publication.json";
+const captureMembers = [...members, sourceAuthorityFile] as const;
+type CaptureMember = (typeof captureMembers)[number];
+type CaptureFiles = Partial<Record<CaptureMember, (IdentifiedFile & { sha256?: string }) | null>>;
 export type PreparedAcquisition = { requestId: string; path: string; files: SourceFiles };
 const captureRequestPrefix = "capture:";
 export type AcquisitionImportIntent = PreparedAcquisition & {
@@ -75,8 +80,9 @@ export type CaptureAcquisitionIntent = {
   requestId: string;
   recordingId: string;
   sourceId: string;
+  source: CapturePublishedSource;
   path: string;
-  files: Partial<SourceFiles>;
+  files: CaptureFiles;
 };
 export type AcquisitionIntent =
   | CaptureAcquisitionIntent
@@ -189,13 +195,24 @@ async function sourceRoot(path: string): Promise<string> {
     throw new CatalogError("INVALID_PATH", "Capture source must be a directory");
   return root;
 }
-async function observeMember(root: string, member: Member): Promise<IdentifiedFile | null> {
-  const path = join(root, member);
+async function observeMember(
+  root: string,
+  member: CaptureMember,
+  journal = "capture.journal.jsonl",
+  signal?: AbortSignal,
+): Promise<(IdentifiedFile & { sha256?: string }) | null> {
+  const path = join(root, member === "capture.journal.jsonl" ? journal : member);
   const file = await open(
     path,
     constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW,
   ).catch((error) => {
-    if (missing(error) && member !== "video.mov" && member !== "capture.journal.jsonl") return null;
+    if (
+      missing(error) &&
+      member !== "video.mov" &&
+      member !== "capture.journal.jsonl" &&
+      member !== sourceAuthorityFile
+    )
+      return null;
     throw new CatalogError(
       missing(error) ? "NOT_FOUND" : "INVALID_PATH",
       `Cannot admit capture member: ${member}`,
@@ -211,7 +228,19 @@ async function observeMember(root: string, member: Member): Promise<IdentifiedFi
     });
     if (!stat.isFile() || stat.size > BigInt(Number.MAX_SAFE_INTEGER))
       throw new CatalogError("INVALID_PATH", `Capture member must be a regular file: ${member}`);
-    return { path, bytes: Number(stat.size), identity: fileIdentity(stat) };
+    if (member === sourceAuthorityFile && (stat.size === 0n || stat.size > 65_536n))
+      throw new CatalogError(
+        "INVALID_EVIDENCE",
+        "Source authority exceeds its bounded receipt size",
+      );
+    return {
+      path,
+      bytes: Number(stat.size),
+      identity: fileIdentity(stat),
+      ...(member === sourceAuthorityFile
+        ? { sha256: (await hashFile(file, Number(stat.size), signal!)).sha256 }
+        : {}),
+    };
   } finally {
     await file.close();
   }
@@ -288,6 +317,7 @@ export class AcquisitionStore {
     captures: CaptureStore,
     recordingId: string,
     path: string,
+    sourceId = captures.get(recordingId).sourceId,
   ): CaptureAcquisitionIntent {
     if (captures.catalog !== this.catalog.catalog)
       throw new CatalogError(
@@ -296,8 +326,8 @@ export class AcquisitionStore {
       );
     if (!isAbsolute(path))
       throw new CatalogError("INVALID_PARAMS", "Capture source requires an absolute directory");
-    const recording = captures.settledSource(recordingId);
-    const requestId = `${captureRequestPrefix}${recording.sourceId}`;
+    const source = captures.publishedSource(recordingId, sourceId);
+    const requestId = `${captureRequestPrefix}${sourceId}`;
     const row = this.catalog.catalog
       .prepare("SELECT id FROM acquisitions WHERE requestId=?")
       .get(requestId);
@@ -306,7 +336,8 @@ export class AcquisitionStore {
       if (
         intent.kind !== "capture" ||
         intent.recordingId !== recordingId ||
-        intent.sourceId !== recording.sourceId ||
+        intent.sourceId !== sourceId ||
+        !isDeepStrictEqual(intent.source, source) ||
         intent.path !== path
       )
         throw new CatalogError("REQUEST_CONFLICT", "Capture source already names another input");
@@ -316,7 +347,8 @@ export class AcquisitionStore {
     const admission: AcquisitionAdmission = {
       kind: "capture",
       recordingId,
-      sourceId: recording.sourceId,
+      sourceId,
+      source,
       path,
       files: {},
     };
@@ -336,23 +368,35 @@ export class AcquisitionStore {
       throw new CatalogError("REQUEST_CONFLICT", "Capture source request names another input");
     return intent;
   }
-  /** A missed notification leaves its eligible primary source in this durable backlog. */
-  pendingPrimaryCaptures(captures: CaptureStore): string[] {
+  /** A missed notification leaves each independently published source in this durable backlog. */
+  pendingCaptureSources(
+    captures: CaptureStore,
+  ): { recordingId: string; sourceId: string; kind: "primary" | "camera" }[] {
     if (captures.catalog !== this.catalog.catalog)
       throw new CatalogError(
         "INVALID_STATE",
         "Capture admission requires the shared catalog connection",
       );
-    // This bounded selection only finds candidates. Admission asks CaptureStore.settledSource
+    // This bounded selection only finds candidates. Admission asks CaptureStore.publishedSource
     // inside its transaction, including the deletion fence, before reserving an acquisition.
     return this.catalog.catalog
-      .prepare(`SELECT r.recordingId FROM recordings r
+      .prepare(`WITH sources AS (
+        SELECT recordingId,creationSequence,sourceId,'primary' kind FROM recordings
+        WHERE state!='canceled' AND json_extract(publication,'$.observation.inputsClosed')=1
+          AND json_extract(publication,'$.observation.primary.state')='published'
+        UNION ALL
+        SELECT recordingId,creationSequence,cameraSourceId sourceId,'camera' kind FROM recordings
+        WHERE state!='canceled' AND json_extract(publication,'$.observation.inputsClosed')=1
+          AND json_extract(publication,'$.observation.camera.state')='published'
+      ) SELECT r.recordingId,r.sourceId,r.kind FROM sources r
       LEFT JOIN acquisitions a ON a.requestId=? || r.sourceId
-      WHERE r.state IN ('complete','interrupted') AND r.sourceDurationUs IS NOT NULL AND a.id IS NULL
-      AND r.recordingId NOT IN (SELECT recordingId FROM recording_deletions)
-      ORDER BY r.creationSequence LIMIT 100`)
-      .all(captureRequestPrefix)
-      .map((row) => row.recordingId as string);
+      WHERE a.id IS NULL AND r.recordingId NOT IN (SELECT recordingId FROM recording_deletions)
+      ORDER BY r.creationSequence,r.kind LIMIT 100`)
+      .all(captureRequestPrefix) as {
+      recordingId: string;
+      sourceId: string;
+      kind: "primary" | "camera";
+    }[];
   }
   /** Ready originals no longer borrow donor trees; imported aliases resolve through frozen members. */
   recordingDonors(acquisitionId: string, recordings: string): string[] {
@@ -391,7 +435,11 @@ export class AcquisitionStore {
       }));
   }
 
-  freezeCaptureMember(acquisitionId: string, member: Member, file: IdentifiedFile | null): void {
+  freezeCaptureMember(
+    acquisitionId: string,
+    member: CaptureMember,
+    file: (IdentifiedFile & { sha256?: string }) | null,
+  ): void {
     this.catalog.transaction(() => {
       const intent = this.intent(acquisitionId);
       if (intent.kind !== "capture")
@@ -402,6 +450,7 @@ export class AcquisitionStore {
         kind: intent.kind,
         recordingId: intent.recordingId,
         sourceId: intent.sourceId,
+        source: intent.source,
         path: intent.path,
         files: intent.files,
       };
@@ -553,23 +602,37 @@ export class AcquisitionImporter {
       deferredReadFailure(error, Object.keys(intent.files).length > 0),
     );
     // Validate the whole durable prefix before allowing any new observation.
-    for (const member of members) {
+    for (const member of captureMembers) {
       signal.throwIfAborted();
       if (!Object.hasOwn(intent.files, member)) continue;
       const frozen = intent.files[member];
-      const current = await observeMember(root, member).catch((error) =>
-        deferredReadFailure(error, true),
+      const current = await observeMember(root, member, intent.source.journal.file, signal).catch(
+        (error) => deferredReadFailure(error, true),
       );
       if (!isDeepStrictEqual(frozen, current))
         throw new CatalogError("SOURCE_CHANGED", `Frozen capture member changed: ${member}`);
     }
-    for (const member of members) {
+    for (const member of captureMembers) {
       signal.throwIfAborted();
       if (Object.hasOwn(intent.files, member)) continue;
-      const file = await observeMember(root, member).catch((error) =>
-        deferredReadFailure(error, false),
+      const file = await observeMember(root, member, intent.source.journal.file, signal).catch(
+        (error) => deferredReadFailure(error, false),
       );
       signal.throwIfAborted();
+      if (member !== sourceAuthorityFile) {
+        const expected =
+          member === "capture.journal.jsonl"
+            ? intent.source.journal
+            : intent.source.members[member];
+        if (
+          (file === null) !== (expected === undefined) ||
+          (file && file.bytes !== Number(expected?.bytes))
+        )
+          throw new CatalogError(
+            "SOURCE_CHANGED",
+            `Capture member differs from publication authority: ${member}`,
+          );
+      }
       this.store.freezeCaptureMember(intent.acquisitionId, member, file);
       intent.files[member] = file;
     }
@@ -944,7 +1007,9 @@ export class AcquisitionImporter {
           journal.path,
           join(sourceDirectory, "capture.journal.jsonl"),
           signal,
-          journal,
+          intent.kind === "capture"
+            ? { ...journal, sha256: intent.source.journal.sha256 }
+            : journal,
           268_435_456,
         );
         for (const name of publicationMembers) {
@@ -954,7 +1019,9 @@ export class AcquisitionImporter {
               proof.path,
               join(sourceDirectory, name),
               signal,
-              proof,
+              intent.kind === "capture"
+                ? { ...proof, sha256: intent.source.members[name]!.sha256 }
+                : proof,
               name === "camera.mapping.jsonl" ? 268_435_456 : 65_536,
             );
         }
@@ -965,10 +1032,29 @@ export class AcquisitionImporter {
           }),
         );
         const output = join(directory, "source.jsonl");
-        const receipt = await native.exportSource(sourceDirectory, output, signal, canonical, [
-          lifetime.fd,
-          ...donors.map((donor) => donor.fd),
-        ]);
+        const authority =
+          intent.kind === "capture" ? intent.files[sourceAuthorityFile]! : undefined;
+        if (authority)
+          await copyImportedFile(
+            authority.path,
+            join(sourceDirectory, sourceAuthorityFile),
+            signal,
+            authority,
+            65_536,
+          );
+        const { verifiedSourceAuthority, ...receipt } = await native.exportSource(
+          sourceDirectory,
+          output,
+          signal,
+          canonical,
+          [lifetime.fd, ...donors.map((donor) => donor.fd)],
+          intent.kind === "capture"
+            ? {
+                source: intent.source,
+                receipt: { bytes: String(authority!.bytes), sha256: authority!.sha256! },
+              }
+            : undefined,
+        );
         const sourceId = receipt.header?.sessionID;
         if (typeof sourceId !== "string" || !sourceId)
           throw new CatalogError("INVALID_EVIDENCE", "Capture journal has no session identity");
@@ -977,6 +1063,18 @@ export class AcquisitionImporter {
             "SOURCE_CHANGED",
             "Capture journal does not name the allocated source",
           );
+        if (
+          intent.kind === "capture" &&
+          (!isDeepStrictEqual(verifiedSourceAuthority, intent.source) ||
+            !isDeepStrictEqual(receipt.header?.cameraBinding, intent.source.binding) ||
+            receipt.originHostUs !== intent.source.originHostUs)
+        )
+          throw new CatalogError(
+            "SOURCE_CHANGED",
+            "Normalized source differs from allocated publication authority",
+          );
+        // Native verifies ordinary completion or the private recovered-support basis. The
+        // normalized journal keeps its original disposition, including any untrusted completion.
         indexed = await this.evidence.ingest({
           owner: { kind: "acquisition", acquisitionId },
           sourceId,
@@ -1006,9 +1104,11 @@ export class AcquisitionImporter {
             (value) => this.assets.retain(owner, [value.id]),
             {
               ...source,
-              ...(receipt.publications?.[sourceRole]
-                ? { sha256: receipt.publications[sourceRole]!.canonical.sha256 }
-                : {}),
+              ...(intent.kind === "capture"
+                ? { sha256: intent.source.members[`${sourceRole}.mov`]!.sha256 }
+                : receipt.publications?.[sourceRole]
+                  ? { sha256: receipt.publications[sourceRole]!.canonical.sha256 }
+                  : {}),
             },
           );
           const binding = this.binding(
@@ -1037,6 +1137,7 @@ export class AcquisitionImporter {
           journal: { fileName: `${attemptId}/source/capture.journal.jsonl`, ...copied },
           bindings,
         };
+        if (intent.kind === "capture") await rm(join(sourceDirectory, sourceAuthorityFile));
         await chmod(output, 0o400);
         for (const retained of [
           output,

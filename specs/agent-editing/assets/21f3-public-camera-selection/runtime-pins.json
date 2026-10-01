@@ -1,0 +1,86 @@
+{
+  "final/controller/controller-journey": {
+    "bytes": 885312,
+    "sha256": "00935cf5a5f892780281832e440767c7554c49792771382af982248ef81b5f30"
+  },
+  "final/controller/libScreenRecorderCapture.dylib": {
+    "bytes": 3413952,
+    "sha256": "32c7d2733349af055c889eeec8a984dea28485c534639eb7ba86b097282dbed3"
+  },
+  "final/controller/libScreenRecorderMedia.dylib": {
+    "bytes": 898416,
+    "sha256": "04907091bf752c3446bc9f49892703dbaee38d453bad45158325da2fd6e85552"
+  },
+  "final/controller/identities.json": {
+    "bytes": 19642,
+    "sha256": "9cd8496bb90676a7ff5c99162a84c8d26628b41f1bf5b3ae51227f1a4c7a4b04"
+  },
+  "ordinary/controller/controller-journey": {
+    "bytes": 839248,
+    "sha256": "e46cc6c045031b4c337ea2ad578936bf1bcd575e6e237e670f61e51de666db66"
+  },
+  "ordinary/controller/libScreenRecorderCapture.dylib": {
+    "bytes": 3185904,
+    "sha256": "53966f6f4e4a7739d517ff493a6b591bf072bdd393cb3e6362c2ef8ec3ea14c3"
+  },
+  "ordinary/controller/libScreenRecorderMedia.dylib": {
+    "bytes": 898416,
+    "sha256": "fd16174b51638f23e3a733660cd4465246d3e04d3af0e118b9d6abcbf3cb8f1e"
+  },
+  "ordinary/controller/identities.json": {
+    "bytes": 18934,
+    "sha256": "81c03c0678068dc3c13720e92fda580107da2decb4ca6e445182efbb9d77f07e"
+  },
+  "falsified-empty-guard/controller/controller-journey": {
+    "bytes": 885312,
+    "sha256": "d7ad337fa79a3dfabda189ff346720eb5ee8ca1322a279abb12d09ce0ac614bb"
+  },
+  "falsified-empty-guard/controller/libScreenRecorderCapture.dylib": {
+    "bytes": 3413888,
+    "sha256": "6177201a037f3a60712bdaa4dd26eec316d2afdd65c7878d2714ffedfe199b35"
+  },
+  "falsified-empty-guard/controller/libScreenRecorderMedia.dylib": {
+    "bytes": 898416,
+    "sha256": "ab1027ea332edd7368797286a1de96a9c32263195a6a7ab14e25aca92a9fa643"
+  },
+  "falsified-empty-guard/controller/identities.json": {
+    "bytes": 19714,
+    "sha256": "a53d4a5cba1624d9a5460259ff34d007f96a3f35e0579a47ef2a876d1e4822fd"
+  },
+  "final/native/screenrec-native": {
+    "bytes": 29977520,
+    "sha256": "6cde9f45e920c86ee60b9b269a850d4ef6187ecbfab400eb6772820b294e28ab"
+  },
+  "final/native/identities.json": {
+    "bytes": 42436,
+    "sha256": "815c4aa79cdebe2865a072bea43b83c8fd8b79feaa2be339b1605773899c93de"
+  },
+  "ordinary/native/screenrec-native": {
+    "bytes": 29610656,
+    "sha256": "f1f6855bee8be66ed57d1b1c12696a1ca3e04896a62916a760a1dbd024a90d0b"
+  },
+  "ordinary/native/identities.json": {
+    "bytes": 42023,
+    "sha256": "d34ff18e67028a1b80206f9be0065717ce8b5850e3ee474574015f0dd2bb3d16"
+  },
+  "recovery-before-empty/native/screenrec-native": {
+    "bytes": 29973104,
+    "sha256": "aea8ecb99cc9ad09258b349ec1f5ef1f368daf08025654e694573161115c53db"
+  },
+  "recovery-before-empty/native/identities.json": {
+    "bytes": 30000,
+    "sha256": "2ce4f966a710e14177b22e5736230d8bd88cb2a8d4e6ddf0d57af4dd7533722f"
+  },
+  "empty-correction/native/screenrec-native": {
+    "bytes": 29942496,
+    "sha256": "0089c958928ada9759273d1c8f15e9e9b69cc240ec7dee905e6ae900c72e3c05"
+  },
+  "final/native/ScreenRecorderCaptureTests": {
+    "bytes": 35677712,
+    "sha256": "c7f2101e0f57be90954d532a4746753d6d492e251030e6e2fa17d956b75db9a9"
+  },
+  "falsified-empty-guard/source/CameraWriter.swift": {
+    "bytes": 9288,
+    "sha256": "cd47ee36d1f2de0d8175abfb4d7457c196a7906f54e7b5167010d1a22ee1a88e"
+  }
+}

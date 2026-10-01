@@ -1,92 +1,60 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { copyFileSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
-const helper = join(root, "helpers/mac");
-const scratch = process.env.SCREENREC_CAPTURE_CONTROLLER_BUILD;
-const buildOptions = scratch
-  ? ["--scratch-path", scratch, "--skip-update", "--disable-automatic-resolution", "--jobs", "2"]
-  : [];
 const fixtures = fileURLToPath(new URL("./fixtures/capture-controller/", import.meta.url));
 
 test(
-  "controller preserves pending-start interruptions and finalization races",
+  "actual controller preserves pending-start interruptions and finalization races",
   { timeout: 150_000 },
   () => {
     const temporary = mkdtempSync(join(tmpdir(), "screenrec-controller-start-"));
     try {
+      const build = join(temporary, "build");
       execFileSync(
-        "swift",
-        ["build", "--package-path", helper, ...buildOptions, "--target", "ScreenRecorderCapture"],
-        { stdio: "pipe", timeout: 60_000 },
-      );
-      const bin = execFileSync(
-        "swift",
-        ["build", "--package-path", helper, ...buildOptions, "--show-bin-path"],
-        {
-          encoding: "utf8",
-          timeout: 10_000,
-        },
-      ).trim();
-      const source = readFileSync(
-        join(root, "apps/macos/Sources/ScreenRecorder/CaptureController.swift"),
-        "utf8",
-      );
-      const binding = "private let capture = NativeCapture()";
-      assert.equal(
-        source.split(binding).length,
-        2,
-        "Update the fixture's native boundary binding when its declaration changes",
-      );
-      // Compile the actual controller body; only its external native device is scripted. The
-      // product needs no debug operation, conditional branch or broader capture protocol for this test.
-      writeFileSync(
-        join(temporary, "CaptureController.swift"),
-        source
-          .replace(binding, "private let capture = ScriptedCapture()")
-          .replaceAll("NativeCapture.", "ScriptedCapture.")
-          .replaceAll("SCShareableContent.", "ScriptedShareableContent."),
-      );
-      for (const name of ["ScriptedCapture.swift", "main.swift"])
-        copyFileSync(join(fixtures, name), join(temporary, name));
-      const objects = ["ScreenRecorderCapture", "ScreenRecorderMedia"].flatMap((target) => {
-        const directory = join(bin, `${target}.build`);
-        // SwiftPM can retain obsolete objects after a source is removed. Link only this build's map.
-        const outputs = JSON.parse(readFileSync(join(directory, "output-file-map.json"), "utf8"));
-        return Object.values(outputs).flatMap(({ object }) => (object ? [object] : []));
-      });
-      const executable = join(temporary, "controller-probe");
-      execFileSync(
-        "swiftc",
+        process.execPath,
         [
-          "-swift-version",
-          "6",
-          "-I",
-          join(bin, "Modules"),
-          join(temporary, "ScriptedCapture.swift"),
-          join(temporary, "CaptureController.swift"),
-          join(temporary, "main.swift"),
-          ...objects,
-          "-o",
-          executable,
+          join(root, "apps/macos/tests/build-controller-journey.mjs"),
+          build,
+          join(fixtures, "Lifecycle.swift"),
         ],
-        { stdio: "pipe", timeout: 60_000 },
+        { stdio: "pipe", timeout: 90_000 },
       );
-      for (const args of [
-        [],
-        ["failed-start"],
-        ["stop-ack"],
-        ["cancel-publication"],
-        ["cancel-before-stop"],
-        ["camera-discovery"],
+      for (const mode of [
+        "pending-start",
+        "failed-start",
+        "stop-ack",
+        "cleanup-pending",
+        "cancel-publication",
+        "cancel-before-stop",
       ]) {
-        const result = spawnSync(executable, args, { encoding: "utf8", timeout: 5_000 });
-        assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}\n${result.error ?? ""}`);
+        const evidence = join(temporary, mode);
+        mkdirSync(evidence);
+        const result = spawnSync(join(build, "controller-journey"), [], {
+          encoding: "utf8",
+          timeout: 12_000,
+          env: {
+            ...process.env,
+            SCREENREC_CONTROLLER_MODE: mode,
+            SCREENREC_CONTROLLER_REPORT_ROOT: evidence,
+            SCREENREC_CONTROLLER_NODE: process.execPath,
+            SCREENREC_CONTROLLER_AUDIO: join(
+              root,
+              "specs/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov",
+            ),
+            SCREENREC_CONTROLLER_PEER: join(fixtures, "control-peer.mjs"),
+          },
+        });
+        assert.equal(
+          result.status,
+          0,
+          `${mode}: ${result.stdout}\n${result.stderr}\n${result.error ?? ""}`,
+        );
         assert.match(result.stdout, /PASS/);
         process.stdout.write(result.stdout);
       }

@@ -16,7 +16,7 @@ final class CaptureController {
         let selection: [String: Any]
     }
 
-    private let capture = NativeCapture()
+    private let capture: NativeCapture
     private let termination = CaptureTermination<Data>()
     /// The exact authored acknowledgment remains valid while a later terminal report is in flight.
     private var finalizingReceipt: Data?
@@ -34,7 +34,8 @@ final class CaptureController {
     private let startHold: FixtureStartHold?
     private weak var host: ServiceHost?
 
-    init(fixtureWindow: NSWindow?) {
+    init(fixtureWindow: NSWindow?, capture: NativeCapture = NativeCapture()) {
+        self.capture = capture
         self.fixtureWindow = fixtureWindow
         self.startHold = FixtureStartHold.inFixture(fixtureWindow)
         capture.onInterruption = { [weak self] reason in
@@ -44,6 +45,19 @@ final class CaptureController {
             Task { @MainActor [weak self] in
                 await self?.interrupted(reason, recordingId: recordingId, sourceId: sourceId)
             }
+        }
+        capture.onPublication = { [weak self] observation in
+            guard let self, let active = self.take,
+                observation.sourceId == active.sourceId,
+                self.capture.publication?.generation == observation.generation else { return }
+            do {
+                // The journal assigns authority before suspension; later reports carry this full snapshot.
+                let report = try self.transition("finalizing")
+                Task { @MainActor [weak self] in
+                    guard let self, !self.serviceGone else { return }
+                    await self.send(report: report)
+                }
+            } catch { diagnostic("capture publication report failed: \(error.localizedDescription)") }
         }
     }
 
@@ -228,15 +242,32 @@ final class CaptureController {
                 "INVALID_REQUEST",
                 "This app is running its capture fixture and records no audio device.")
         }
+        let camera: CaptureCameraRequest?
+        if let deviceId = params["cameraDeviceId"] as? String {
+            guard !deviceId.isEmpty, deviceId.utf16.count <= 256,
+                let cameraSourceId = params["cameraSourceId"] as? String,
+                !cameraSourceId.isEmpty, cameraSourceId.utf16.count <= 256,
+                let cameraDirectory = params["cameraDirectory"] as? String, cameraDirectory.hasPrefix("/") else {
+                throw CaptureFailure("INVALID_REQUEST", "Camera selection requires allocated source and directory authority.")
+            }
+            camera = CaptureCameraRequest(binding: CameraCaptureBinding(recordingId: recordingId,
+                sourceId: cameraSourceId, deviceId: deviceId), outputDirectory: cameraDirectory)
+        } else {
+            guard params["cameraSourceId"] == nil, params["cameraDirectory"] == nil else {
+                throw CaptureFailure("INVALID_REQUEST", "Camera authority requires an explicit selected device.")
+            }
+            camera = nil
+        }
         let request = CaptureRequest(
             source: try source(from: selected), outputDirectory: directory, sourceId: sourceId,
             microphone: microphone,
             microphoneDeviceID: params["microphoneDeviceId"] as? String,
-            systemAudio: systemAudio)
+            systemAudio: systemAudio, camera: camera)
         var selection: [String: Any] = [
             "source": selected, "microphone": microphone, "systemAudio": systemAudio,
         ]
         if let device = request.microphoneDeviceID { selection["microphoneDeviceId"] = device }
+        if let camera { selection["cameraDeviceId"] = camera.binding.deviceId }
         let starting = Take(recordingId: recordingId, sourceId: sourceId, selection: selection)
         pendingStart = starting
         defer { releaseStart() }
@@ -376,6 +407,9 @@ final class CaptureController {
             "recordingId": take.recordingId, "sourceId": take.sourceId, "sequence": sequence,
             "state": state,
         ]
+        if let publication = capture.publication, publication.sourceId == take.sourceId {
+            report["publication"] = try publication.wireValue()
+        }
         if let reason { report["reason"] = reason }
         if let message { report["message"] = String(decoding: message.utf16.prefix(4096), as: UTF16.self) }
         if state == "finalizing" {

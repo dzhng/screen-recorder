@@ -1,4 +1,10 @@
 import type { CaptureSources } from "./capture-sources.js";
+import { randomUUID } from "node:crypto";
+import {
+  readCaptureSourceOutcome,
+  type CapturePublication,
+  type CaptureSourceOutcome,
+} from "@screenrec/core/capture-publication";
 import { lstat, mkdir, readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
@@ -27,7 +33,7 @@ import { publicationDeadlineMs } from "./publication.js";
  * The only outcomes this service states on its own behalf: a take it discarded, and a take whose
  * capture it proved ended. Every other transition arrives from the native session that made it.
  */
-type AuthoredOutcome =
+type AuthoredOutcome = (
   | { state: "canceled" }
   | { state: "finalizing"; finalizationError: FinalizationError | null }
   | {
@@ -35,13 +41,18 @@ type AuthoredOutcome =
       reason: string;
       message?: string | null;
       sourceDurationUs: number | null;
-    };
+    }
+) & { publication?: CapturePublication };
 
 export function recordingDirectory(home: string, recordingId: string): string {
   return join(home, "recordings", recordingId);
 }
-export function sourceDirectory(home: string, recordingId: string): string {
-  return join(recordingDirectory(home, recordingId), "source");
+export function sourceDirectory(
+  home: string,
+  recordingId: string,
+  kind: "primary" | "camera" = "primary",
+): string {
+  return join(recordingDirectory(home, recordingId), kind === "primary" ? "source" : "camera");
 }
 
 /**
@@ -124,6 +135,9 @@ export class CaptureService {
       const { recording, replay } = this.store.allocate({
         requestId: selection.requestId,
         arguments: allocationArguments("capture.start", selection),
+        ...(selection.cameraDeviceId === undefined
+          ? {}
+          : { cameraDeviceId: selection.cameraDeviceId }),
       });
       if (replay) return this.resolve(recording);
       try {
@@ -144,6 +158,9 @@ export class CaptureService {
       const { recording, replay } = this.store.allocate({
         requestId: selection.requestId,
         arguments: allocationArguments("capture.restart", selection),
+        ...(selection.cameraDeviceId === undefined
+          ? {}
+          : { cameraDeviceId: selection.cameraDeviceId }),
       });
       if (replay) return this.resolve(recording);
       try {
@@ -268,10 +285,14 @@ export class CaptureService {
 
   private async begin(recording: Recording, selection: CaptureSelection): Promise<Recording> {
     try {
-      await mkdir(sourceDirectory(this.home, recording.recordingId), {
-        recursive: true,
-        mode: 0o700,
-      });
+      const kinds =
+        recording.camera === null ? (["primary"] as const) : (["primary", "camera"] as const);
+      for (const kind of kinds) {
+        await mkdir(sourceDirectory(this.home, recording.recordingId, kind), {
+          recursive: true,
+          mode: 0o700,
+        });
+      }
     } catch (error) {
       throw this.refused(recording, error);
     }
@@ -282,6 +303,13 @@ export class CaptureService {
         ...selection,
         recordingId: recording.recordingId,
         sourceId: recording.sourceId,
+        ...(recording.camera === null
+          ? {}
+          : {
+              cameraSourceId: recording.camera.sourceId,
+              cameraDeviceId: recording.camera.deviceId,
+              cameraDirectory: sourceDirectory(this.home, recording.recordingId, "camera"),
+            }),
         outputDirectory: sourceDirectory(this.home, recording.recordingId),
       }),
     );
@@ -448,20 +476,35 @@ export class CaptureService {
       );
     const current = this.store.get(recording.recordingId);
     if (isSettled(current.state)) return current;
-    const finalizing = this.author(current, { state: "finalizing", finalizationError: null });
+    const finalizing = this.author(current, {
+      state: "finalizing",
+      finalizationError: null,
+      publication: current.publication ?? {
+        generation: `recovery:${randomUUID()}`,
+        sourceId: current.sourceId,
+        inputsClosed: false,
+        primary: null,
+        camera: null,
+      },
+    });
     const controller = new AbortController();
     const attempt = { recordingId: current.recordingId, controller, work: Promise.resolve() };
     this.recovery = attempt;
     attempt.work = Promise.resolve()
       .then(async () => {
-        const recovered = await this.readRecoveredSource(
+        const recovered = await this.readRecoveredSources(
           current,
           AbortSignal.any([controller.signal, this.lifetime.signal]),
         );
         if (this.store.isDeleting(current.recordingId)) return;
         const selected = this.store.get(current.recordingId);
         if (isSettled(selected.state)) return;
-        if (discardIfEmpty && !recovered.captured && recovered.durationUs === 0) {
+        if (
+          discardIfEmpty &&
+          !recovered.captured &&
+          recovered.durationUs === 0 &&
+          selected.publication?.camera?.state !== "published"
+        ) {
           const entries = await readdir(sourceDirectory(this.home, current.recordingId)).catch(
             (error: NodeJS.ErrnoException) => {
               if (error.code === "ENOENT") return [];
@@ -521,32 +564,127 @@ export class CaptureService {
     return finalizing;
   }
 
-  private async readRecoveredSource(
+  private async readRecoveredSources(
     recording: Recording,
     signal: AbortSignal = this.lifetime.signal,
   ): Promise<ReturnType<typeof readRecovery>> {
-    const timeoutMs = await this.recoveryDeadline(recording);
-    const recovered = await this.worker(
-      "media.recover",
-      {
-        directory: sourceDirectory(this.home, recording.recordingId),
-      },
-      { signal, timeoutMs },
+    const outcomes = new Map<
+      "primary" | "camera",
+      { inputsClosed: boolean; outcome: CaptureSourceOutcome | null }
+    >();
+    const publish = () => {
+      if (this.store.isDeleting(recording.recordingId)) return;
+      const current = this.store.get(recording.recordingId);
+      if (isSettled(current.state)) return;
+      const previous = current.publication!;
+      const inputsClosed =
+        previous.inputsClosed || [...outcomes.values()].some((value) => value.inputsClosed);
+      if (!inputsClosed) return;
+      this.author(current, {
+        state: "finalizing",
+        finalizationError: null,
+        publication: {
+          ...previous,
+          inputsClosed,
+          primary: outcomes.has("primary") ? outcomes.get("primary")!.outcome : previous.primary,
+          camera: outcomes.has("camera") ? outcomes.get("camera")!.outcome : previous.camera,
+        },
+      });
+    };
+    const kinds =
+      recording.camera === null ? (["primary"] as const) : (["primary", "camera"] as const);
+    const results = await Promise.allSettled(
+      kinds.map(async (kind) => {
+        try {
+          const timeoutMs = await this.recoveryDeadline(recording, kind);
+          const sourceAuthority =
+            kind === "primary"
+              ? { kind, sourceId: recording.sourceId }
+              : {
+                  kind,
+                  sourceId: recording.camera!.sourceId,
+                  binding: { recordingId: recording.recordingId, ...recording.camera! },
+                };
+          const recovered = await this.worker(
+            "media.recover",
+            {
+              directory: sourceDirectory(this.home, recording.recordingId, kind),
+              sourceAuthority,
+            },
+            { signal, timeoutMs },
+          );
+          if (!recovered.ok) throw fromNative(recovered);
+          const fields = recovered.data as { inputsClosed?: unknown; sourcePublication?: unknown };
+          if (typeof fields.inputsClosed !== "boolean")
+            throw new CatalogError(
+              "MEDIA_WORKER_FAILED",
+              "Source recovery omitted closure authority",
+            );
+          const outcome = readCaptureSourceOutcome(fields.sourcePublication);
+          const result = readRecovery(recovered.data);
+          outcomes.set(kind, { inputsClosed: fields.inputsClosed, outcome });
+          publish();
+          if (result.cleanupFailure)
+            this.log(
+              `cleanup pending for ${recording.recordingId}/${kind}: ${result.cleanupFailure.code}: ${result.cleanupFailure.message}`,
+            );
+          return result;
+        } catch (error) {
+          // An outer media refusal does not establish invalid provenance. Keep it retry-visible;
+          // a sibling's exclusive closure proof can still admit that independently verified source.
+          const code =
+            error instanceof CatalogError && error.code.length <= 128
+              ? error.code
+              : "RECOVERY_FAILED";
+          outcomes.set(kind, {
+            inputsClosed: false,
+            outcome: {
+              state: "pending",
+              error: {
+                code,
+                message: (error instanceof Error ? error.message : String(error)).slice(0, 4096),
+                retryable: !(error instanceof CatalogError) || error.retryable,
+              },
+            },
+          });
+          publish();
+          throw error;
+        }
+      }),
     );
-    if (!recovered.ok) throw fromNative(recovered);
-    const result = readRecovery(recovered.data);
-    if (result.cleanupFailure)
-      this.log(
-        `cleanup pending for ${recording.recordingId}: ${result.cleanupFailure.code}: ${result.cleanupFailure.message}`,
-      );
-    return result;
+    const refused = results.find((value) => value.status === "rejected");
+    if (refused?.status === "rejected") throw refused.reason;
+    for (const [kind, value] of outcomes) {
+      if (!value.inputsClosed || value.outcome === null)
+        throw new CatalogError(
+          "MEDIA_WORKER_FAILED",
+          `Recovery did not establish ${kind} source authority`,
+        );
+      if (value.outcome.state === "pending")
+        throw new CatalogError(
+          value.outcome.error.code,
+          value.outcome.error.message,
+          { kind },
+          value.outcome.error.retryable,
+        );
+    }
+    return (results[0] as PromiseFulfilledResult<ReturnType<typeof readRecovery>>).value;
   }
 
-  private async recoveryDeadline(recording: Recording): Promise<number> {
-    const directory = sourceDirectory(this.home, recording.recordingId);
+  private async recoveryDeadline(
+    recording: Recording,
+    kind: "primary" | "camera",
+  ): Promise<number> {
+    const directory = sourceDirectory(this.home, recording.recordingId, kind);
     const names = [
       "capture.journal.jsonl",
       "video.mov",
+      "source.publication.json",
+      "source.journal.jsonl",
+      "camera.publication.json",
+      "camera.mapping.jsonl",
+      "camera.raw.mov",
+      "camera.closed.json",
       ...["narration", "system"].flatMap((role) => [
         `${role}.packed.mov`,
         `${role}.mov`,
@@ -568,7 +706,9 @@ export class CaptureService {
     const canonicalWork = members.some(
       (member) =>
         member.exists &&
-        (member.name.includes(".packed.") ||
+        (member.name === "camera.raw.mov" ||
+          member.name === "camera.closed.json" ||
+          member.name.includes(".packed.") ||
           member.name.includes(".publication.") ||
           member.name.startsWith(".capture-publication-")),
     );
@@ -674,6 +814,7 @@ function allocationArguments(
     selection.microphone,
     selection.systemAudio,
     selection.microphoneDeviceId ?? null,
+    selection.cameraDeviceId ?? null,
   ]);
 }
 
@@ -695,7 +836,11 @@ function fromNative(result: OperationResult & { ok: false }): CatalogError {
 }
 
 function lifecycleEvent(report: CaptureReport): LifecycleEvent {
-  const identity = { sourceId: report.sourceId, sequence: report.sequence };
+  const identity = {
+    sourceId: report.sourceId,
+    sequence: report.sequence,
+    ...(report.publication === undefined ? {} : { publication: report.publication }),
+  };
   if (report.state === "complete") {
     if (typeof report.sourceDurationUs !== "number")
       throw new CatalogError("INVALID_STATE", "A finalized take must report its source duration");

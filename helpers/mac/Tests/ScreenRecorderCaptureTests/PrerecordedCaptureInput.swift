@@ -31,6 +31,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var cameraFramesEnabled = true
     var primaryFramesEnabled = true
     var cameraBeforePrimary = true
+    var cameraPrologueEnabled = true
     var beforeCameraClose: (() throws -> Void)?
     var afterCameraClose: (() throws -> Void)?
     var finalCameraSample: CMSampleBuffer?
@@ -119,14 +120,14 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             writer.queue.sync {
                 if let probe {
                     let prologue = writer.ingressState.clock.originUs == nil
-                    if cameraFramesEnabled && prologue && cameraBeforePrimary {
+                    if cameraFramesEnabled && prologue && cameraPrologueEnabled && cameraBeforePrimary {
                         probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
                     }
                     if primaryFramesEnabled { probe.accept(try! rawProbeSample(timed), role: .screen, from: sourceClock) }
                     let delayed = try! captureFixtureRetimed(timed, at: CMTimeAdd(timed.presentationTimeStamp, time(microseconds: 200000)))
                     if cameraFramesEnabled { probe.accept(try! rawProbeSample(delayed), role: .camera, from: sourceClock) }
                     // Retain the prologue callback in the primary-first control, delivered out of order.
-                    if cameraFramesEnabled && prologue && !cameraBeforePrimary {
+                    if cameraFramesEnabled && prologue && cameraPrologueEnabled && !cameraBeforePrimary {
                         probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
                     }
                 } else if primaryFramesEnabled {

@@ -1,0 +1,21 @@
+{
+  "archives": {
+    "source-runtime.tar.gz": {
+      "members": 1307,
+      "matchesPins": true
+    },
+    "ordinary-source-runtime.tar.gz": {
+      "members": 932,
+      "matchesPins": true
+    },
+    "runtime.tar.gz": {
+      "members": 21,
+      "matchesPins": true
+    },
+    "evidence.tar.gz": {
+      "members": 953,
+      "matchesPins": true
+    }
+  },
+  "currentSourceMatches": true
+}

@@ -1014,7 +1014,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("capture.sources"), params: z.object({}).strict() })
     .strict()
     .describe(
-      "List screen sources, microphones and camera discovery identities without activating devices. Camera discovery does not enable camera selection in capture.start.",
+      "List screen sources, microphones and camera discovery identities without activating devices. Camera selection is explicit and never requests permission automatically.",
     ),
   z
     .object({

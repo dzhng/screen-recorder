@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
-import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
+import { mkdtemp, mkdir, rm, writeFile, readFile } from "node:fs/promises";
 import { writeSync, fstatSync } from "node:fs";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
@@ -25,11 +25,84 @@ export async function captureFixture(
   const frames = new JsonLineStream(CONTROL_FRAME_BYTES);
   const reports = new Map<string, (result: OperationResult) => void>();
   const nativeCalls: string[] = [];
+  const nativeRequests: { operation: string; params: Record<string, unknown> }[] = [];
   const unanswered = new Map<string, string>();
   let take: { recordingId: string; sourceId: string } | undefined;
   let selection: Record<string, unknown> | null = null;
   let deviceState = "idle";
   let sequence = 0;
+  const publications = new Map<string, unknown>();
+  const publicationReport = async (value: unknown) => {
+    const report = value as Record<string, unknown>;
+    const sourceId = String(report.sourceId);
+    if (report.publication != null) {
+      publications.set(sourceId, report.publication);
+      const publication = report.publication as Record<
+        string,
+        { state?: string; source?: unknown } | null
+      >;
+      for (const kind of ["primary", "camera"]) {
+        const outcome = publication[kind];
+        if (outcome?.state !== "published") continue;
+        const directory = join(
+          home,
+          "library/recordings",
+          String(report.recordingId),
+          kind === "primary" ? "source" : "camera",
+        );
+        await mkdir(directory, { recursive: true });
+        await writeFile(join(directory, "source.publication.json"), JSON.stringify(outcome.source));
+      }
+    }
+    if (
+      report.publication !== undefined ||
+      !["complete", "interrupted"].includes(String(report.state)) ||
+      typeof report.sourceDurationUs !== "number" ||
+      report.sourceDurationUs <= 0
+    )
+      return value;
+    if (!publications.has(sourceId)) {
+      const directory = join(home, "library/recordings", String(report.recordingId), "source");
+      const journal = await readFile(join(directory, "capture.journal.jsonl")).catch(() =>
+        Buffer.from(JSON.stringify({ sessionID: sourceId })),
+      );
+      const video = await readFile(join(directory, "video.mov")).catch(() =>
+        Buffer.from("scripted source bytes"),
+      );
+      await writeFile(join(directory, "source.journal.jsonl"), journal);
+      const sha256 = (bytes: Buffer) => createHash("sha256").update(bytes).digest("hex");
+      publications.set(sourceId, {
+        generation: `fixture-${sourceId}`,
+        sourceId,
+        inputsClosed: true,
+        primary: {
+          state: "published",
+          source: {
+            kind: "primary",
+            sourceId,
+            sourceDurationUs: report.sourceDurationUs,
+            originHostUs: 0,
+            journal: {
+              file: "source.journal.jsonl",
+              bytes: journal.length,
+              sha256: sha256(journal),
+              lastSequence: 2,
+              layout: 2,
+            },
+            members: { "video.mov": { bytes: String(video.length), sha256: sha256(video) } },
+          },
+        },
+        camera: null,
+      });
+      await writeFile(
+        join(directory, "source.publication.json"),
+        JSON.stringify(
+          (publications.get(sourceId) as { primary: { source: unknown } }).primary.source,
+        ),
+      );
+    }
+    return { ...report, publication: publications.get(sourceId) };
+  };
   output.on("data", (chunk: Buffer) => {
     for (const frame of frames.push(chunk)) {
       if (!frame.ok) throw frame.error;
@@ -38,12 +111,14 @@ export async function captureFixture(
       if (message.event !== "call") continue;
       const { operation, params } = message.request;
       nativeCalls.push(operation);
+      nativeRequests.push({ operation, params });
       if (operation === "capture.start") {
         take = { recordingId: String(params.recordingId), sourceId: String(params.sourceId) };
         selection = {
           source: params.source,
           microphone: params.microphone,
           systemAudio: params.systemAudio,
+          ...(params.cameraDeviceId === undefined ? {} : { cameraDeviceId: params.cameraDeviceId }),
         };
         sequence = 0;
       }
@@ -102,16 +177,23 @@ export async function captureFixture(
     service,
     input,
     nativeCalls,
-    reply(operation: string, data: unknown) {
+    nativeRequests,
+    async reply(operation: string, data: unknown) {
       const id = unanswered.get(operation);
       if (!id) throw new Error(`No unanswered controller request: ${operation}`);
       unanswered.delete(operation);
-      input.write(JSON.stringify({ event: "result", response: { id, ok: true, data } }) + "\n");
+      input.write(
+        JSON.stringify({
+          event: "result",
+          response: { id, ok: true, data: await publicationReport(data) },
+        }) + "\n",
+      );
     },
     call: (operation: string, params: Record<string, unknown> = {}) =>
       callLocal(service.socketPath, { id: randomUUID(), operation, params }),
-    report: (params: Record<string, unknown>) =>
-      new Promise<OperationResult>((resolve) => {
+    report: async (params: Record<string, unknown>) => {
+      params = (await publicationReport(params)) as Record<string, unknown>;
+      return new Promise<OperationResult>((resolve) => {
         if (
           ["complete", "interrupted"].includes(String(params.state)) &&
           params.recordingId === take?.recordingId
@@ -128,7 +210,8 @@ export async function captureFixture(
             request: { id, operation: "capture.report", params },
           }) + "\n",
         );
-      }),
+      });
+    },
   };
 }
 
@@ -142,15 +225,20 @@ export const sourceWorker: MediaWorker = async (operation, params, options) => {
     return {
       ok: true,
       data: {
+        ...(params.sourceAuthority
+          ? { verifiedSourceAuthority: (params.sourceAuthority as { source: unknown }).source }
+          : {}),
         file: params.output,
         journal: "capture.journal.jsonl",
         header,
+        originHostUs: 0,
+        completion: { sequence: 2, state: "complete", durationUs: 100 },
         cursorSamples: 0,
         geometryRecords: 0,
         displaySpaces: 0,
         pauseEvents: 0,
         audioIntervals: 0,
-        lastSequence: 0,
+        lastSequence: 2,
         incompleteTail: false,
         finished: true,
         bytes: 0,

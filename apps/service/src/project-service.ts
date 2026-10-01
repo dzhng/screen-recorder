@@ -219,7 +219,7 @@ export async function startProjectService(options: {
         owner.kind === "recording"
           ? captures.isDeleting(owner.recordingId)
           : owner.kind === "project" && projects.isDeleting(owner.projectId),
-      isCapturing: () => captures.unsettled().length > 0,
+      isCapturing: () => captures.isCapturing(),
     };
     await acquisitionImports.recover(new AbortController().signal);
     await sceneRecords.recoverPending("asset", new AbortController().signal);
@@ -1355,6 +1355,7 @@ export async function startProjectService(options: {
       ? Promise.resolve()
       : (async () => {
           await recordingDeletion!.resume((error) => console.error(error));
+          queue.start();
           await captureCoordinator.reconcileStranded();
         })();
     const listener = await listenerStarting;
@@ -1372,7 +1373,6 @@ export async function startProjectService(options: {
       .then(() => {
         if (closing) return;
         resumeCaptureSources();
-        queue.start();
         for (const error of mediaExports.resumeRecovery()) console.error(error);
       })
       .catch(console.error);

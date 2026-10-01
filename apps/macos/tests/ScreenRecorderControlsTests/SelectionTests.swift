@@ -90,10 +90,17 @@ func runSelectionTests() {
         state.selection.start()?.source == .region(displayId: 3, x: 40, y: 120, width: 800, height: 600),
         "A region start carries the display-local rectangle it was selected as")
     let active = try! JSONDecoder().decode(ControlsState.CaptureSelection.Start.self, from: Data(
-        #"{"source":{"kind":"window","windowId":88},"microphone":false,"systemAudio":true}"#.utf8))
+        #"{"source":{"kind":"window","windowId":88},"microphone":false,"systemAudio":true,"cameraDeviceId":"selected-camera"}"#.utf8))
     state.selection.apply(active, catalog: state.sources)
     precondition(state.selection.start() == active,
                  "An external take replaces the menu's source and both audio choices for restart")
+    let restart = try! JSONSerialization.jsonObject(with: JSONEncoder().encode(state.selection.start()!)) as! [String: Any]
+    precondition(restart["cameraDeviceId"] as? String == "selected-camera",
+                 "Reconstructed requests retain the external caller's camera, without choosing a fallback")
+    let unavailable = try! JSONDecoder().decode(LibraryState.SourceAdmission.self, from: Data(
+        #"{"kind":"camera","sourceId":"camera-source","acquisitionId":null,"job":null,"admissionError":null,"publication":{"state":"unavailable","error":{"code":"NO_CAMERA","message":"No usable camera pictures"}}}"#.utf8))
+    precondition(unavailable.title == "camera publication unavailable — NO_CAMERA: No usable camera pictures",
+                 "A terminal camera failure cannot be presented as waiting for admission")
     precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Pricing",
                  "An external window resolves its catalog label")
     let checkout = ControlsState.Window(id: 88, title: "Checkout", application: "Safari")

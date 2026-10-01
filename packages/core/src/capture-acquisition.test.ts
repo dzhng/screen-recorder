@@ -3,7 +3,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, mkdir, readFile, rm, writeFile, chmod } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { CaptureStore } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";
@@ -17,6 +17,33 @@ afterEach(async () => {
   for (const dispose of cleanup.splice(0).reverse()) await dispose();
 });
 const signal = () => new AbortController().signal;
+function publication(sourceId: string) {
+  const journal = JSON.stringify({ sessionID: sourceId });
+  const hash = (value: string) => createHash("sha256").update(value).digest("hex");
+  return {
+    generation: `fixture-${sourceId}`,
+    sourceId,
+    inputsClosed: true,
+    primary: {
+      state: "published",
+      source: {
+        kind: "primary",
+        sourceId,
+        sourceDurationUs: 100,
+        originHostUs: 0,
+        journal: {
+          file: "source.journal.jsonl",
+          bytes: Buffer.byteLength(journal),
+          sha256: hash(journal),
+          lastSequence: 2,
+          layout: 2,
+        },
+        members: { "video.mov": { bytes: "5", sha256: hash("video") } },
+      },
+    },
+    camera: null,
+  } as const;
+}
 async function fixture() {
   const root = await mkdtemp(join(tmpdir(), "capture-acquisition-"));
   cleanup.push(() => rm(root, { recursive: true, force: true }));
@@ -36,22 +63,32 @@ async function fixture() {
     });
     const importer = new AcquisitionImporter(captures, acquisitions, assets, evidence, root);
     await importer.recover(signal());
-    const exportSource: SourceExporter = async (directory, output) => {
+    const exportSource: SourceExporter = async (
+      directory,
+      output,
+      _signal,
+      _canonical,
+      _lifetimes,
+      authority,
+    ) => {
       const header = JSON.parse(await readFile(join(directory, "capture.journal.jsonl"), "utf8"));
       await writeFile(output, "");
       return {
         file: output,
         journal: "capture.journal.jsonl",
         header,
+        originHostUs: 0,
+        completion: { sequence: 2, state: "complete" as const, durationUs: 100 },
         cursorSamples: 0,
         geometryRecords: 0,
         displaySpaces: 0,
         pauseEvents: 0,
         audioIntervals: 0,
-        lastSequence: 0,
+        lastSequence: 2,
         incompleteTail: false,
         finished: true,
         bytes: 0,
+        ...(authority ? { verifiedSourceAuthority: authority.source } : {}),
       };
     };
     const native = {
@@ -88,7 +125,7 @@ async function fixture() {
         isAvailable: (target) =>
           target.kind === "acquisition" && !!acquisitions.intent(target.acquisitionId),
         isDeleting: () => false,
-        isCapturing: () => captures.unsettled().length > 0,
+        isCapturing: () => captures.isCapturing(),
       },
       execute: async ({ job, signal }) => {
         if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
@@ -128,6 +165,10 @@ async function fixture() {
   const recording = state.captures.allocate().recording;
   donor = join(root, "recordings", recording.recordingId, "source");
   await mkdir(donor, { recursive: true, mode: 0o700 });
+  await writeFile(
+    join(donor, "source.publication.json"),
+    JSON.stringify(publication(recording.sourceId).primary.source),
+  );
   state.captures.ingestLifecycle(recording.recordingId, {
     sourceId: recording.sourceId,
     sequence: 1,
@@ -138,11 +179,12 @@ async function fixture() {
     sequence: 2,
     state: "complete",
     sourceDurationUs: 100,
+    publication: publication(recording.sourceId),
   });
   return { root, donor, recording, reopen, ...state };
 }
 
-test("settled capture reserves one acquisition and job atomically before files exist", async () => {
+test("settled capture reserves one acquisition and job atomically before source files are opened", async () => {
   const f = await fixture();
   expect(() =>
     f.admit(f.recording.recordingId, () => {
@@ -169,10 +211,86 @@ test("settled capture reserves one acquisition and job atomically before files e
   ).toEqual([]);
 });
 
+test("capture admission stages its complete private authority and strips it before READY", async () => {
+  const f = await fixture();
+  const source = publication(f.recording.sourceId).primary.source;
+  const bytes = JSON.stringify({
+    ...source,
+    recovery: { fixturePrivateBasis: "must reach native intact" },
+  });
+  await writeFile(
+    join(f.donor, "source.journal.jsonl"),
+    JSON.stringify({ sessionID: f.recording.sourceId }),
+  );
+  await writeFile(join(f.donor, "video.mov"), "video");
+  await writeFile(join(f.donor, "source.publication.json"), bytes);
+  const ordinary = f.native.exportSource;
+  let stage: string | undefined;
+  f.native.exportSource = async (...args) => {
+    stage = args[0];
+    expect(await readFile(join(stage, "source.publication.json"), "utf8")).toBe(bytes);
+    const authority = args[5];
+    expect(authority).toEqual({
+      source,
+      receipt: {
+        bytes: String(Buffer.byteLength(bytes)),
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      },
+    });
+    return { ...(await ordinary(...args)), verifiedSourceAuthority: source };
+  };
+  const job = f.admit(f.recording.recordingId);
+  f.queue.start();
+  await f.queue.idle();
+  expect(f.queue.inspect(job.jobId)).toMatchObject({ state: "ready" });
+  if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
+  expect(f.acquisitions.get(job.target.acquisitionId).evidence.receipt).not.toHaveProperty(
+    "verifiedSourceAuthority",
+  );
+  await expect(readFile(join(stage!, "source.publication.json"))).rejects.toMatchObject({
+    code: "ENOENT",
+  });
+});
+
+test.each(["missing", "different"])(
+  "capture authority verification %s refuses before READY",
+  async (mode) => {
+    const f = await fixture();
+    await writeFile(
+      join(f.donor, "source.journal.jsonl"),
+      JSON.stringify({ sessionID: f.recording.sourceId }),
+    );
+    await writeFile(join(f.donor, "video.mov"), "video");
+    const ordinary = f.native.exportSource;
+    f.native.exportSource = async (...args) => {
+      const { verifiedSourceAuthority, ...receipt } = await ordinary(...args);
+      return mode === "missing"
+        ? receipt
+        : {
+            ...receipt,
+            verifiedSourceAuthority: {
+              ...verifiedSourceAuthority!,
+              sourceId: "another-source",
+            },
+          };
+    };
+    const job = f.admit(f.recording.recordingId);
+    f.queue.start();
+    await f.queue.idle();
+    expect(f.queue.inspect(job.jobId)).toMatchObject({
+      state: "failed",
+      errorCode: "SOURCE_CHANGED",
+    });
+    if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
+    const acquisitionId = job.target.acquisitionId;
+    expect(() => f.acquisitions.get(acquisitionId)).toThrow();
+  },
+);
+
 test("partial freeze survives relaunch; replay keeps failure and explicit retry publishes the same acquisition", async () => {
   const f = await fixture();
   await writeFile(
-    join(f.donor, "capture.journal.jsonl"),
+    join(f.donor, "source.journal.jsonl"),
     JSON.stringify({ sessionID: f.recording.sourceId }),
   );
   const job = f.admit(f.recording.recordingId);
@@ -221,7 +339,7 @@ test("partial freeze survives relaunch; replay keeps failure and explicit retry 
 
 test("a changed frozen journal refuses before observing newly available video", async () => {
   const f = await fixture();
-  const journal = join(f.donor, "capture.journal.jsonl");
+  const journal = join(f.donor, "source.journal.jsonl");
   await writeFile(journal, JSON.stringify({ sessionID: f.recording.sourceId }));
   const job = f.admit(f.recording.recordingId);
   f.queue.start();
@@ -245,7 +363,7 @@ test("a changed frozen journal refuses before observing newly available video", 
 test("observed optional absence cannot be replaced after a failed native attempt", async () => {
   const f = await fixture();
   await writeFile(
-    join(f.donor, "capture.journal.jsonl"),
+    join(f.donor, "source.journal.jsonl"),
     JSON.stringify({ sessionID: f.recording.sourceId }),
   );
   await writeFile(join(f.donor, "video.mov"), "video");
@@ -275,7 +393,7 @@ test("observed optional absence cannot be replaced after a failed native attempt
 test("a foreign source journal fails before publishing evidence or assets", async () => {
   const f = await fixture();
   await writeFile(
-    join(f.donor, "capture.journal.jsonl"),
+    join(f.donor, "source.journal.jsonl"),
     JSON.stringify({ sessionID: "foreign-source" }),
   );
   await writeFile(join(f.donor, "video.mov"), "video");
@@ -313,7 +431,9 @@ test("capture authority refuses live, canceled, no-video and foreign-connection 
         sourceDurationUs: null,
       });
     expect(() => f.admit(recording.recordingId)).toThrow(
-      state === "preparing" ? "Capture has not settled" : "Capture has no usable video source",
+      expect.objectContaining({
+        code: state === "preparing" ? "NOT_READY" : "UNAVAILABLE",
+      }),
     );
   }
   const other = await fixture();
@@ -335,6 +455,7 @@ test("an interrupted take with video retains canceled work and refuses a changed
     state: "interrupted",
     reason: "device-disconnected",
     sourceDurationUs: 100,
+    publication: publication(recording.sourceId),
   });
   const job = f.admit(recording.recordingId);
   f.queue.cancel(job.jobId);
@@ -360,7 +481,7 @@ test.each(["source", "parent"])(
   async (directory) => {
     const f = await fixture();
     await writeFile(
-      join(f.donor, "capture.journal.jsonl"),
+      join(f.donor, "source.journal.jsonl"),
       JSON.stringify({ sessionID: f.recording.sourceId }),
     );
     const job = f.admit(f.recording.recordingId);
@@ -398,7 +519,7 @@ test.each(["source", "parent"])(
 test("post-freeze donor copy access failure preserves the acquisition for explicit retry", async () => {
   const f = await fixture();
   await writeFile(
-    join(f.donor, "capture.journal.jsonl"),
+    join(f.donor, "source.journal.jsonl"),
     JSON.stringify({ sessionID: f.recording.sourceId }),
   );
   await writeFile(join(f.donor, "video.mov"), "video");
@@ -469,7 +590,7 @@ test("explicit imports keep their existing post-freeze donor access disposition"
 test("a busy donor lease preserves frozen capture identity for explicit retry", async () => {
   const f = await fixture();
   await writeFile(
-    join(f.donor, "capture.journal.jsonl"),
+    join(f.donor, "source.journal.jsonl"),
     JSON.stringify({ sessionID: f.recording.sourceId }),
   );
   const job = f.admit(f.recording.recordingId);

@@ -88,7 +88,10 @@ export class JourneyService {
       }),
     ]);
     assert.equal(ready.error, undefined, JSON.stringify(ready));
-    this.socketPath = ready.socketPath;
+    await this.connect(ready.socketPath);
+  }
+  async connect(socketPath) {
+    this.socketPath = socketPath;
     this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
     await this.mcp.connect(
       new StdioClientTransport({

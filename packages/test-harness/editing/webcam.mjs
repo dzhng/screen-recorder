@@ -7,6 +7,7 @@ import { parseArgs } from "node:util";
 import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 import { waveHeader } from "./audio-project-fixture.mjs";
+import { ControllerJourneyService } from "./controller-journey-service.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -15,21 +16,30 @@ const { values } = parseArgs({
     camera: { type: "string" },
     pixels: { type: "string" },
     out: { type: "string" },
+    controller: { type: "string" },
   },
 });
 assert.equal(values.case, "capture-to-project");
 assert.equal(process.env.SCREENREC_TEST_PROBE_OVERRIDES, undefined);
 assert.equal(process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS, undefined);
 assert.ok(
-  values.primary && values.camera && values.pixels && values.out && process.env.SCREENREC_NATIVE,
+  (values.primary || values.controller) &&
+    values.camera &&
+    values.pixels &&
+    values.out &&
+    process.env.SCREENREC_NATIVE,
 );
+const controllerFixture = values.controller
+  ? JSON.parse(await readFile(resolve(values.controller), "utf8"))
+  : null;
 await mkdir(resolve(values.out));
 const out = await realpath(resolve(values.out));
 const home = await mkdtemp("/tmp/screenrec-webcam-project-");
 const receiver = await mkdtemp("/tmp/screenrec-webcam-receiver-");
 const report = {
-  scope:
-    "Caller-authored project from supplied prerecorded captured sources; real admission, edits, delivery and relocation, no physical capture or allocation claim",
+  scope: controllerFixture
+    ? "Public camera selection through actual controller/native prerecorded input and allocated source admission, explicit caller project, edits, delivery and relocation; no physical capture claim"
+    : "Caller-authored project from supplied prerecorded captured sources; real admission, edits, delivery and relocation, no physical capture or allocation claim",
   passed: false,
   trace: [],
   exchanges: [],
@@ -40,7 +50,9 @@ const report = {
 };
 let serviceOrdinal = 0;
 const startAt = (directory) =>
-  new JourneyService(directory, report, join(out, `native-${serviceOrdinal++}`));
+  controllerFixture && directory === home
+    ? new ControllerJourneyService(directory, report, controllerFixture)
+    : new JourneyService(directory, report, join(out, `native-${serviceOrdinal++}`));
 let service = startAt(home);
 const logs = [];
 const call = (operation, params, options = {}) =>
@@ -180,11 +192,53 @@ async function audioOutput(projectId, revisionId, name) {
 }
 
 try {
-  const donor = join(home, "donor");
-  await cp(resolve(values.primary), donor, { recursive: true });
+  let donor = join(home, "donor");
+  let cameraDirectory;
+  let allocated;
+  let startRequest;
+  if (controllerFixture) {
+    await service.start();
+    await service.fixtureCall("configure", { pending: "primary", cameraPrologue: false });
+    startRequest = {
+      requestId: "public-selected-camera",
+      source: { kind: "display", displayId: 1 },
+      cameraDeviceId: "fixture-camera",
+      microphone: true,
+    };
+    allocated = await call("capture.start", startRequest);
+    assert.equal(allocated.currentRevisionId, null);
+    donor = join(home, "library/recordings", allocated.recordingId, "source");
+    cameraDirectory = join(home, "library/recordings", allocated.recordingId, "camera");
+    await call("capture.pause", { recordingId: allocated.recordingId });
+    await call("capture.stop", { recordingId: allocated.recordingId });
+    const independent = await poll(
+      () => call("recording.get", { recordingId: allocated.recordingId }),
+      (value) =>
+        value.publication.primary?.state === "pending" &&
+        value.sourceAdmissions.find((source) => source.kind === "camera")?.job?.state === "ready",
+      "camera ready before primary publication",
+    );
+    await service.fixtureCall("release");
+    await call("capture.stop", { recordingId: allocated.recordingId });
+    allocated = await poll(
+      () => call("recording.get", { recordingId: allocated.recordingId }),
+      (value) =>
+        value.sourceAdmissions.length === 2 &&
+        value.sourceAdmissions.every((source) => source.job?.state === "ready"),
+      "allocated sources ready",
+    );
+    report.checks.publicSelection = {
+      startRequest,
+      independent,
+      allocated,
+      inspection: await service.fixtureCall("inspect"),
+    };
+  } else {
+    await cp(resolve(values.primary), donor, { recursive: true });
+    cameraDirectory = join(donor, "camera");
+  }
   const replacement = join(home, "replacement-camera");
   await cp(resolve(values.camera), replacement, { recursive: true });
-  const cameraDirectory = join(donor, "camera");
   const cameraMembers = [
     "video.mov",
     "capture.journal.jsonl",
@@ -202,7 +256,18 @@ try {
     camera: await hashes(cameraDirectory, cameraMembers),
     replacement: await hashes(replacement, cameraMembers),
   };
-  const capture = JSON.parse(await readFile(join(donor, "native-result.json"), "utf8"));
+  const finished = async (directory, leaf) =>
+    (await readFile(join(directory, leaf), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line))
+      .find((event) => event.event === "finished").data;
+  const capture = controllerFixture
+    ? {
+        ...(await finished(donor, "source.journal.jsonl")),
+        camera: await finished(cameraDirectory, "capture.journal.jsonl"),
+      }
+    : JSON.parse(await readFile(join(donor, "native-result.json"), "utf8"));
   const cameraProof = JSON.parse(
     await readFile(join(cameraDirectory, "camera.publication.json"), "utf8"),
   );
@@ -226,31 +291,66 @@ try {
     [100001, 2100001, 48000, 1],
   );
   report.inputs = { originalHashes, capture, cameraProof };
+  if (controllerFixture) {
+    await cp(donor, join(out, "native-capture/primary"), { recursive: true });
+    await cp(cameraDirectory, join(out, "native-capture/camera"), { recursive: true });
+    report.inputs.specimen = {
+      cameraPrologueEnabled: false,
+      videoDeliveryIntervalMs: 10,
+      source: controllerFixture.video,
+      narration: controllerFixture.audio,
+    };
+  }
 
-  await service.start();
+  if (!controllerFixture) await service.start();
+  const admitted = async (kind, directory, requestId) => {
+    if (!allocated) return admit(directory, requestId);
+    const source = allocated.sourceAdmissions.find((value) => value.kind === kind);
+    return {
+      pending: { jobId: source.job.jobId },
+      acquisition: await call("acquisition.get", { acquisitionId: source.acquisitionId }),
+    };
+  };
   const sources = {
-    primary: await admit(donor, "primary-source"),
-    camera: await admit(cameraDirectory, "camera-source"),
+    primary: await admitted("primary", donor, "primary-source"),
+    camera: await admitted("camera", cameraDirectory, "camera-source"),
     replacement: await admit(replacement, "replacement-source"),
   };
   assert.deepEqual((await call("project.list", {})).projects, []);
   // Acquisition settlement is durable before any caller-owned project transaction begins.
   await restart();
   for (const source of Object.values(sources)) {
-    const replay = await call("acquisition.import", source.params, { transport: "cli" });
-    assert.equal(replay.jobId, source.pending.jobId);
+    if (source.params) {
+      const replay = await call("acquisition.import", source.params, { transport: "cli" });
+      assert.equal(replay.jobId, source.pending.jobId);
+    }
     assert.deepEqual(
       await call("acquisition.get", { acquisitionId: source.acquisition.id }),
       source.acquisition,
     );
   }
   assert.deepEqual((await call("project.list", {})).projects, []);
-  const sourceConflict = await call(
-    "acquisition.import",
-    { ...sources.primary.params, path: replacement },
-    { error: true },
-  );
+  const sourceConflict = controllerFixture
+    ? await call(
+        "capture.start",
+        { ...startRequest, cameraDeviceId: "another-camera" },
+        { error: true },
+      )
+    : await call(
+        "acquisition.import",
+        { ...sources.primary.params, path: replacement },
+        { error: true },
+      );
   assert.equal(sourceConflict.code, "REQUEST_CONFLICT");
+  if (controllerFixture) {
+    const replay = await call("capture.start", startRequest);
+    assert.equal(replay.recordingId, allocated.recordingId);
+    assert.deepEqual(replay.camera, allocated.camera);
+    assert.deepEqual(
+      replay.sourceAdmissions.map((source) => source.acquisitionId),
+      allocated.sourceAdmissions.map((source) => source.acquisitionId),
+    );
+  }
   report.checks.admissionBeforeProject = sources;
 
   const binding = (name, role) => {

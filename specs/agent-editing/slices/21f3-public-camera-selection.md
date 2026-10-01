@@ -38,6 +38,15 @@ catalogs rather than adding migrations, ALTER statements or schema modes. Older
 catalogs are refused unchanged. The installed executable and library stay untouched;
 verify its surviving transaction behavior with the current code on fresh catalogs.
 
+The recording's publication JSON retains the last accepted immutable receipt for
+each source beside its current native observation. This is receipt identity
+history, not another transition engine. A later verification refusal may change
+published to pending or unavailable while its sibling advances. Eligibility and
+bounded public discovery use only the current outcome and physical closure;
+retained receipt identity never implies current source availability.
+The isolated implementation and verification are retained in the
+[atomic selection packet](../assets/21f3-public-camera-selection/README.md).
+
 NativeCapture, the shared input/clock and sole termination owner remain the
 surviving mechanism. The app controller must retain the independent camera result
 when reporting settlement. Publication callbacks snapshot the complete bounded

@@ -36,7 +36,8 @@ public struct CaptureSource: Codable, Sendable {
 public struct CaptureRequest: Codable, Sendable {
     public init(
         source: CaptureSource, outputDirectory: String, sourceId: String? = nil,
-        microphone: Bool = false, microphoneDeviceID: String? = nil, systemAudio: Bool = false
+        microphone: Bool = false, microphoneDeviceID: String? = nil, systemAudio: Bool = false,
+        camera: CaptureCameraRequest? = nil
     ) {
         self.source = source
         self.outputDirectory = outputDirectory
@@ -44,6 +45,7 @@ public struct CaptureRequest: Codable, Sendable {
         self.microphone = microphone
         self.microphoneDeviceID = microphoneDeviceID
         self.systemAudio = systemAudio
+        self.camera = camera
     }
 
     public var source: CaptureSource
@@ -54,6 +56,17 @@ public struct CaptureRequest: Codable, Sendable {
     public let microphone: Bool
     public let microphoneDeviceID: String?
     public let systemAudio: Bool
+    public let camera: CaptureCameraRequest?
+}
+
+/// The allocating owner supplies both device identity and the managed source destination.
+public struct CaptureCameraRequest: Codable, Sendable {
+    public let binding: CameraCaptureBinding
+    public let outputDirectory: String
+    public init(binding: CameraCaptureBinding, outputDirectory: String) {
+        self.binding = binding
+        self.outputDirectory = outputDirectory
+    }
 }
 
 /// One microphone a take can narrate through, as the device layer sees it.

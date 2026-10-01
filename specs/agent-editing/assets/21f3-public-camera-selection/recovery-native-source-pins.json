@@ -1,0 +1,97 @@
+{
+  "helpers/mac/Sources/CLibArchive/README.md": {
+    "origin": "unchanged current file",
+    "bytes": 523,
+    "sha256": "7cc118973bab3f13ccab918e86816a87396503c4175baad1c4cad870bc9e33cc"
+  },
+  "helpers/mac/Sources/CLibArchive/module.modulemap": {
+    "origin": "unchanged current file",
+    "bytes": 107,
+    "sha256": "52093488afba055d657fa5eb5feda04dd4d2a14b4b5facc8d0305558766437bf"
+  },
+  "helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift": {
+    "origin": "72e2070e4ba95285a5d465f27eb7726e39c21dd2",
+    "bytes": 8849,
+    "sha256": "8df9ae397fda7a3347535e836b405e35a96549897ccf281f0e53c835e7655321"
+  },
+  "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift": {
+    "origin": "71202e0a929074416d750dbc4220a08b045dad51",
+    "bytes": 7501,
+    "sha256": "c2c5e632aca47c7e3ee6cca4d4abdf4b44edf35b3b1f82b5007425a12297fa90"
+  },
+  "helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift": {
+    "origin": "03afe223a80835ca50ca3ef95036a54b735be7cd",
+    "bytes": 29678,
+    "sha256": "630c73a5d2e15791f264b0877fde266b57c4e81f9e3ae85bf3f1fd317af86530"
+  },
+  "helpers/mac/Sources/ScreenRecorderWire/MediaRecovery.swift": {
+    "origin": "03afe223a80835ca50ca3ef95036a54b735be7cd",
+    "bytes": 12781,
+    "sha256": "1b3024584e00446658dd7de6627937b323e64465564fcec15b45ecb21b7be3e1"
+  },
+  "helpers/stretch/Sources/ScreenRecorderStretch/SignalsmithProcessor.swift": {
+    "origin": "unchanged current file",
+    "bytes": 3883,
+    "sha256": "2b7046811a16f66ebfe7e6b82b9aea99c4ba025b5060efac174eb4f354bf9e13"
+  },
+  "helpers/stretch/Sources/CSignalsmith/Paged.cpp": {
+    "origin": "unchanged current file",
+    "bytes": 4800,
+    "sha256": "6b8ddbbddde4ffc07b6032fa9da108ee919efd3d9887356235575eaf41701c99"
+  },
+  "helpers/stretch/Sources/CSignalsmith/Exact.h": {
+    "origin": "unchanged current file",
+    "bytes": 1348,
+    "sha256": "4473a533c357299d02133cdb20a7c049929a212446a781f5d28f0a88936df8f7"
+  },
+  "helpers/stretch/Sources/CSignalsmith/Signalsmith.cpp": {
+    "origin": "unchanged current file",
+    "bytes": 1582,
+    "sha256": "37a6e79a905bb4be070d4f0cea80e621f283e1b26d8235d5d4305180400b6658"
+  },
+  "helpers/stretch/Sources/CSignalsmith/include/Signalsmith.h": {
+    "origin": "unchanged current file",
+    "bytes": 1412,
+    "sha256": "383a81f0fc696f5d0182eb7db2f9ec1f0c0494fbd2a9b4fe223422ea1682a5bd"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/sources.json": {
+    "origin": "unchanged current file",
+    "bytes": 1530,
+    "sha256": "140416d37d3b3abaa9d8aa4071a2ff6b0d44152bdc28b427477f19a5cc180b3a"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/LICENSE-stretch.txt": {
+    "origin": "unchanged current file",
+    "bytes": 1093,
+    "sha256": "ee2ef82481ffb445ecdd4b3a4c1f82c0cddb2da8fe39d8e8dc384fffb3e7f06f"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/LICENSE-linear.txt": {
+    "origin": "unchanged current file",
+    "bytes": 1074,
+    "sha256": "072b5e9eb5b22880bdf6256324654cf3ce53dba828edb911921121e1be09d9c3"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-stretch.h": {
+    "origin": "unchanged current file",
+    "bytes": 35446,
+    "sha256": "1188667959ac19dd40c0a6abbce694e44705615ec4f0e8db8af0f1cfb4c5dea7"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/fft.h": {
+    "origin": "unchanged current file",
+    "bytes": 45242,
+    "sha256": "fb55f69ac14cdbac66b9c76053069ff63bc36d18af20d8c028b9acc0aad6516a"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/linear.h": {
+    "origin": "unchanged current file",
+    "bytes": 36585,
+    "sha256": "9e777fe14653d496f5e0678fe4b9d8b01a0909bb2130bf4757a21ccad7292a02"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/stft.h": {
+    "origin": "unchanged current file",
+    "bytes": 24313,
+    "sha256": "7422ff5ddc2a017dc0587dcce99ce5ba30a2414bc2996081f6b00d56905d9b8c"
+  },
+  "helpers/stretch/Sources/CSignalsmith/vendor/signalsmith-linear/platform/fft-linear.h": {
+    "origin": "unchanged current file",
+    "bytes": 7270,
+    "sha256": "7c2ed61df7895af7b1a37f1073f833abdc971953277ece58128c9c7b4ca6cef2"
+  }
+}

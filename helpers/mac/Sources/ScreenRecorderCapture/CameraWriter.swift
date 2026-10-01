@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import Darwin
 
 /// Video-only companion to CaptureWriter; never writes or publishes audio.
 package final class CameraWriter {
@@ -25,7 +26,16 @@ package final class CameraWriter {
     package init(directory: URL, framesPerSecond: Int, binding: CameraCaptureBinding? = nil) throws {
         try binding?.validate()
         self.directory = directory; self.framesPerSecond = framesPerSecond; self.binding = binding
-        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
+        var allocated = stat()
+        if binding != nil, lstat(directory.path, &allocated) == 0 {
+            guard allocated.st_mode & S_IFMT == S_IFDIR, allocated.st_uid == getuid(),
+                allocated.st_mode & 0o077 == 0,
+                try FileManager.default.contentsOfDirectory(atPath: directory.path).isEmpty else {
+                throw CaptureFailure("OUTPUT_EXISTS", "Camera destination must be an empty owned private directory.")
+            }
+        } else {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
+        }
     }
     package func append(_ sample: CMSampleBuffer, state: CaptureWriter.IngressState) throws -> (receipt: CaptureWriter.IngressReceipt, frame: CameraFrameMapping?) {
         guard state.accepting else { return (.init(disposition: "sealed-or-failed", sourceUs: nil), nil) }

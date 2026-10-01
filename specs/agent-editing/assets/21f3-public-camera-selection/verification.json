@@ -1,0 +1,266 @@
+{
+  "status": "isolated verified; root integration pending",
+  "baseCommit": "bc8d58ba",
+  "nativeCorrectionOriginalCommit": "fb8d7800afd30529f3913d97c7bfb73a9169680d",
+  "finalWorker": {
+    "bytes": 29977520,
+    "sha256": "6cde9f45e920c86ee60b9b269a850d4ef6187ecbfab400eb6772820b294e28ab"
+  },
+  "finalNativeDefaultRunner": {
+    "bytes": 35677712,
+    "sha256": "c7f2101e0f57be90954d532a4746753d6d492e251030e6e2fa17d956b75db9a9"
+  },
+  "finalController": {
+    "bytes": 885312,
+    "sha256": "00935cf5a5f892780281832e440767c7554c49792771382af982248ef81b5f30"
+  },
+  "sourceArchive": "source-runtime.tar.gz",
+  "sourcePins": "source-runtime-pins.json",
+  "runtimeArchive": "runtime.tar.gz",
+  "runtimePins": "runtime-pins.json",
+  "reports": {
+    "numeric": {
+      "passed": true,
+      "exchanges": 167,
+      "path": "final/numeric/report.json"
+    },
+    "crash": {
+      "passed": true,
+      "exchanges": 54,
+      "path": "final/crash/report.json"
+    },
+    "empty": {
+      "passed": true,
+      "exchanges": 6,
+      "path": "final/empty/report.json"
+    },
+    "completion": {
+      "passed": true,
+      "exchanges": 5,
+      "path": "final/completion/report.json"
+    },
+    "import-controls": {
+      "passed": true,
+      "exchanges": 24,
+      "path": "final/import-controls/report.json"
+    },
+    "selection": {
+      "passed": true,
+      "exchanges": 29,
+      "path": "final/selection/report.json"
+    },
+    "destinations": {
+      "passed": true,
+      "exchanges": 6,
+      "path": "final/destinations/report.json"
+    }
+  },
+  "commands": [
+    {
+      "name": "crash",
+      "command": [
+        "node",
+        "packages/test-harness/editing/public-camera-recovery.mjs",
+        "--out",
+        "/tmp/screenrec-21f3-frozen-crash",
+        "--executable",
+        "/tmp/screenrec-21f3-allocated-controller-build/controller-journey",
+        "--native",
+        "/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+        "--video",
+        "/tmp/screenrec-21f3-inputs/crash-input.mov"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "empty",
+      "command": [
+        "node",
+        "packages/test-harness/editing/public-camera-empty-recovery.mjs",
+        "--out",
+        "/tmp/screenrec-21f3-frozen-empty",
+        "--executable",
+        "/tmp/screenrec-21f3-allocated-controller-build/controller-journey",
+        "--native",
+        "/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+        "--video",
+        "/tmp/screenrec-21f3-inputs/crash-input.mov"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "completion",
+      "command": [
+        "node",
+        "packages/test-harness/editing/public-recovery-retained-completion.mjs",
+        "--out",
+        "/tmp/screenrec-21f3-frozen-completion",
+        "--executable",
+        "/tmp/screenrec-21f3-allocated-controller-build/controller-journey",
+        "--native",
+        "/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+        "--video",
+        "/tmp/screenrec-21f3-inputs/crash-input.mov",
+        "--source-home",
+        "/tmp/screenrec-21f3-frozen-crash/primary/before-recovery"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "import-controls",
+      "command": [
+        "node",
+        "packages/test-harness/editing/public-camera-recovery-controls.mjs",
+        "--out",
+        "/tmp/screenrec-21f3-frozen-import-controls",
+        "--executable",
+        "/tmp/screenrec-21f3-allocated-controller-build/controller-journey",
+        "--native",
+        "/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+        "--video",
+        "/tmp/screenrec-21f3-inputs/crash-input.mov",
+        "--source-home",
+        "/tmp/screenrec-21f3-frozen-crash/primary/before-recovery"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "selection",
+      "command": [
+        "node",
+        "packages/test-harness/editing/public-camera-selection.mjs",
+        "--out",
+        "/tmp/screenrec-21f3-frozen-selection",
+        "--executable",
+        "/tmp/screenrec-21f3-allocated-controller-build/controller-journey",
+        "--native",
+        "/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+        "--video",
+        "/tmp/screenrec-21f3-inputs/input.mov",
+        "--audio",
+        "/tmp/screenrec-21f3-inputs/narration.packed.mov"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "destinations",
+      "command": [
+        "node",
+        "packages/test-harness/editing/public-camera-destination-controls.mjs",
+        "--out",
+        "/tmp/screenrec-21f3-frozen-destinations",
+        "--executable",
+        "/tmp/screenrec-21f3-allocated-controller-build/controller-journey",
+        "--native",
+        "/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+        "--video",
+        "/tmp/screenrec-21f3-inputs/crash-input.mov"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "numericCommand": [
+    "SCREENREC_NATIVE=/tmp/screenrec-21f3-final-native-build/debug/screenrec-native",
+    "node",
+    "packages/test-harness/editing/webcam.mjs",
+    "--case",
+    "capture-to-project",
+    "--controller",
+    "/tmp/screenrec-21f3-final-numeric-config.json",
+    "--camera",
+    "/tmp/screenrec-21d-admission-clipped/normal/camera",
+    "--pixels",
+    "/tmp/screenrec-21e-image-pixels",
+    "--out",
+    "/tmp/screenrec-21f3-frozen-numeric"
+  ],
+  "gates": [
+    {
+      "name": "native worker build",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-native-build.log"
+    },
+    {
+      "name": "native default runner build",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-native-tests-build.log"
+    },
+    {
+      "name": "native default suite",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-native-default.log"
+    },
+    {
+      "name": "actual controller lifecycle races",
+      "exitCode": 0,
+      "modes": 6,
+      "log": "logs/screenrec-21f3-controller-races-final.log",
+      "scope": "Prior matching controller lifecycle sources; CameraWriter allocation change separately covered by final native default and actual public journeys."
+    },
+    {
+      "name": "capture/admission/catalog/donor/source-export preservation",
+      "exitCode": 0,
+      "tests": 74,
+      "files": 6,
+      "log": "logs/screenrec-21f3-frozen-preservation.log"
+    },
+    {
+      "name": "service typecheck",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-types-service2.log"
+    },
+    {
+      "name": "core typecheck",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-types-core.log"
+    },
+    {
+      "name": "focused format",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-format.log"
+    },
+    {
+      "name": "focused lint",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-lint.log"
+    },
+    {
+      "name": "independent deadline controls red then green",
+      "redExitCode": 1,
+      "exitCode": 0,
+      "logs": [
+        "logs/screenrec-21f3-independent-budget-red.log",
+        "logs/screenrec-21f3-independent-budget-green.log"
+      ],
+      "scope": "Simulated work and byte scaling, not elapsed performance."
+    }
+  ],
+  "mediaEquality": {
+    "png": 28,
+    "wav": 12,
+    "allBytesEqual": true,
+    "comparison": "final/numeric/reviewed-media-comparison.json",
+    "visualVerdict": "visual-review/verdict.json"
+  },
+  "scope": {
+    "physicalInput": "prerecorded at existing boundary; positive crash uses real CameraCaptureInput with fixture camera session",
+    "discovery": "scripted native-response boundary only",
+    "project": "explicit caller-authored canvas/tracks/placement; no capture-authored project",
+    "privateAuthority": "verified then removed before READY; no portable-member widening",
+    "emptyRecovery": "existing empty owned private directories only; missing paths refuse",
+    "modelsHardwarePlaybackInstall": "none"
+  },
+  "intermediateRuntimeLimitations": "Intermediate TypeScript process outputs are diagnostic records where no separate compiled-source snapshot exists. Final gates ran after the emitted runtime freeze. Ordinary source/runtime checkpoint remains separately preserved.",
+  "review": {
+    "shape": "Existing capture facts, publication, termination, importer and queue owners retained. No parallel lifecycle or worker budget policy.",
+    "code": "Parent independent settled review clean after completion, deadline, allocation and directory-preservation corrections. Orphan source-rewriter removed.",
+    "docs": "Packet and owned invariant/choices updated; root owns shared merged status.",
+    "configuredCliReview": "Known unavailable; not retried."
+  },
+  "terminalHandles": {
+    "nativeBuildAndDefault": "terminal 0",
+    "functionalPublicGates": "terminal 0; owned controller/service/CLI/MCP children awaited closed",
+    "preservation": "terminal 0",
+    "remaining": "none"
+  }
+}

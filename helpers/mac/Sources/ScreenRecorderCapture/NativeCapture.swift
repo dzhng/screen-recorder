@@ -77,7 +77,16 @@ public final class NativeCapture {
         }
     }
 
-    public init() { prepareInput = { request, check in try await CaptureInputPreparation().prepare(request, checkInterruption: check) } }
+    public init() {
+        prepareInput = { request, check in
+            let camera = request.camera.map { selected in
+                let directory = URL(fileURLWithPath: selected.outputDirectory)
+                return CaptureCameraSelection(id: selected.binding.deviceId, directory: directory,
+                    observations: directory.appendingPathComponent(CameraMedia.mappingFile), binding: selected.binding)
+            }
+            return try await CaptureInputPreparation().prepare(request, camera: camera, checkInterruption: check)
+        }
+    }
 
     package init(prepareInput: @escaping @MainActor (CaptureRequest, @MainActor () throws -> Void) async throws -> any CaptureInputSession) {
         self.prepareInput = prepareInput

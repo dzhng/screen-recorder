@@ -36,6 +36,7 @@ export const captureSelectionSchema = z.object({
   microphone: z.boolean().default(true),
   systemAudio: z.boolean().default(false),
   microphoneDeviceId: id.optional(),
+  cameraDeviceId: id.max(256).optional(),
 });
 export type CaptureSelection = z.output<typeof captureSelectionSchema>;
 
@@ -43,6 +44,8 @@ export type CaptureSelection = z.output<typeof captureSelectionSchema>;
 export const nativeStartSchema = captureSelectionSchema.extend({
   recordingId: id,
   sourceId: id,
+  cameraSourceId: id.max(256).optional(),
+  cameraDirectory: absolutePath.optional(),
   outputDirectory: absolutePath,
 });
 
@@ -74,6 +77,8 @@ export const captureReportSchema = z
       .nullable()
       .optional(),
     sourceDurationUs: z.int().nonnegative().nullish(),
+    // The capture-facts owner validates the complete bounded authority before its lifecycle write.
+    publication: z.unknown().optional(),
   })
   .strict();
 export type CaptureReport = z.infer<typeof captureReportSchema>;
@@ -108,8 +113,8 @@ export const captureDeviceSchema = z
 
 /**
  * Source and device discovery facts. Listing activates no input and requests no permission;
- * `microphones` names what a narrated take could use. Camera descriptors are discovery
- * facts, not a claim that capture.start supports camera selection. An empty list is honest.
+ * `microphones` names what a narrated take could use. A caller explicitly selects a camera
+ * by its stable device ID; discovery itself neither chooses nor activates it. An empty list is honest.
  */
 export const captureSourcesSchema = z
   .object({

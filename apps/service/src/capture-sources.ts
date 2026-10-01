@@ -10,8 +10,9 @@ import { operationFailure } from "./operations.js";
 import type { OperationFailure } from "@screenrec/protocol";
 
 export type CaptureSourceAdmission = {
-  kind: "primary";
+  kind: "primary" | "camera";
   sourceId: string;
+  publication: NonNullable<Recording["publication"]>["primary"];
   acquisitionId: string | null;
   job: ReturnType<JobQueue["inspect"]> | null;
   admissionError: OperationFailure["error"] | null;
@@ -32,31 +33,59 @@ export class CaptureSources {
   }
 
   resume(): void {
-    for (const recordingId of this.acquisitions.pendingPrimaryCaptures(this.captures)) {
+    let failed = false;
+    let failure: unknown;
+    for (const { recordingId, sourceId, kind } of this.acquisitions.pendingCaptureSources(
+      this.captures,
+    )) {
       if (this.retiring.has(recordingId)) continue;
-      this.jobs.submit(() => {
-        const intent = this.acquisitions.admitCapture(
-          this.captures,
-          recordingId,
-          sourceDirectory(this.home, recordingId),
-        );
-        return {
-          target: { kind: "acquisition", acquisitionId: intent.acquisitionId },
-          artifact: "acquisition.import",
-          lane: "heavy",
-          input: "capture",
-        };
-      });
+      try {
+        this.jobs.submit(() => {
+          const intent = this.acquisitions.admitCapture(
+            this.captures,
+            recordingId,
+            sourceDirectory(this.home, recordingId, kind),
+            sourceId,
+          );
+          return {
+            target: { kind: "acquisition", acquisitionId: intent.acquisitionId },
+            artifact: "acquisition.import",
+            lane: "heavy",
+            input: "capture",
+          };
+        });
+      } catch (error) {
+        if (!failed) failure = error;
+        failed = true;
+      }
     }
+    if (failed) throw failure;
   }
 
   /** Ready acquisitions own their originals; every unfinished managed donor must remain available. */
   available(acquisitionId: string): boolean {
-    return this.acquisitions
-      .recordingDonors(acquisitionId, this.recordings)
-      .every(
+    const donors = this.acquisitions.recordingDonors(acquisitionId, this.recordings);
+    if (!donors.length) return true;
+    if (
+      !donors.every(
         (recordingId) => !this.retiring.has(recordingId) && this.captures.isAvailable(recordingId),
-      );
+      )
+    )
+      return false;
+    const intent = this.acquisitions.intent(acquisitionId);
+    if (intent.kind === "capture") {
+      try {
+        this.captures.publishedSource(intent.recordingId, intent.sourceId);
+      } catch (error) {
+        if (
+          error instanceof CatalogError &&
+          ["NOT_READY", "UNAVAILABLE", "NOT_FOUND"].includes(error.code)
+        )
+          return false;
+        throw error;
+      }
+    }
+    return true;
   }
 
   private *unfinishedJobs(recordingId: string): Generator<string[]> {
@@ -143,17 +172,24 @@ export class CaptureSources {
     snapshot: Pick<Recording, "recordingId">,
   ): Recording & { sourceAdmissions: CaptureSourceAdmission[] } {
     const recording = this.captures.get(snapshot.recordingId);
-    try {
-      this.captures.settledSource(recording.recordingId);
-    } catch (error) {
-      if (error instanceof CatalogError && ["NOT_READY", "UNAVAILABLE"].includes(error.code))
-        return { ...recording, sourceAdmissions: [] };
-      throw error;
-    }
+    if (!recording.publication?.inputsClosed || recording.state === "canceled")
+      return { ...recording, sourceAdmissions: [] };
+    return {
+      ...recording,
+      sourceAdmissions: [
+        this.describeSource(recording, "primary"),
+        ...(recording.camera === null ? [] : [this.describeSource(recording, "camera")]),
+      ],
+    };
+  }
+
+  private describeSource(recording: Recording, kind: "primary" | "camera"): CaptureSourceAdmission {
+    const sourceId = kind === "primary" ? recording.sourceId : recording.camera!.sourceId;
+    const publication = recording.publication![kind];
     let intent: ReturnType<AcquisitionStore["captureIntent"]> = null;
     let admissionError: OperationFailure["error"] | null = null;
     try {
-      intent = this.acquisitions.captureIntent(recording.sourceId);
+      intent = this.acquisitions.captureIntent(sourceId);
     } catch (error) {
       if (!(error instanceof CatalogError) || error.code !== "REQUEST_CONFLICT") throw error;
       // The conflicting row is durable refusal evidence, never this source's acquisition/job.
@@ -166,15 +202,13 @@ export class CaptureSources {
           input: "capture",
         })
       : null;
-    const sourceAdmissions: CaptureSourceAdmission[] = [
-      {
-        kind: "primary",
-        sourceId: recording.sourceId,
-        acquisitionId: intent?.acquisitionId ?? null,
-        job: status?.jobId ? this.jobs.inspect(status.jobId) : null,
-        admissionError,
-      },
-    ];
-    return { ...recording, sourceAdmissions };
+    return {
+      kind,
+      sourceId,
+      publication,
+      acquisitionId: intent?.acquisitionId ?? null,
+      job: status?.jobId ? this.jobs.inspect(status.jobId) : null,
+      admissionError,
+    };
   }
 }

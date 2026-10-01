@@ -185,6 +185,7 @@ public struct ControlsState: Equatable, Sendable {
         public var source: SelectedSource?
         public var microphone: MicrophoneChoice = .systemDefault
         public var systemAudio = false
+        public var cameraDeviceId: String?
         /// The microphone this person chose, while it is unplugged. Takes use the system default
         /// meanwhile, but the choice is theirs and is not thrown away — nor written over their
         /// saved preference — by the machine they happen to be recording on today.
@@ -305,17 +306,19 @@ extension ControlsState.CaptureSelection {
     /// selection. The protocol owns both audio defaults, so this always states both explicitly, and
     /// the microphone is on unless a person turned it off.
     public struct Start: Equatable, Sendable, Codable {
-        public init(source: Source, microphone: Bool, microphoneDeviceId: String?, systemAudio: Bool) {
+        public init(source: Source, microphone: Bool, microphoneDeviceId: String?, systemAudio: Bool, cameraDeviceId: String? = nil) {
             self.source = source
             self.microphone = microphone
             self.microphoneDeviceId = microphoneDeviceId
             self.systemAudio = systemAudio
+            self.cameraDeviceId = cameraDeviceId
         }
 
         public let source: Source
         public let microphone: Bool
         public let microphoneDeviceId: String?
         public let systemAudio: Bool
+        public let cameraDeviceId: String?
 
         public enum Source: Equatable, Sendable, Codable {
             case display(id: Int)
@@ -380,13 +383,13 @@ extension ControlsState.CaptureSelection {
         switch microphone {
         case .off:
             return Start(
-                source: chosen, microphone: false, microphoneDeviceId: nil, systemAudio: systemAudio)
+                source: chosen, microphone: false, microphoneDeviceId: nil, systemAudio: systemAudio, cameraDeviceId: cameraDeviceId)
         case .systemDefault:
             return Start(
-                source: chosen, microphone: true, microphoneDeviceId: nil, systemAudio: systemAudio)
+                source: chosen, microphone: true, microphoneDeviceId: nil, systemAudio: systemAudio, cameraDeviceId: cameraDeviceId)
         case .device(let id, _):
             return Start(
-                source: chosen, microphone: true, microphoneDeviceId: id, systemAudio: systemAudio)
+                source: chosen, microphone: true, microphoneDeviceId: id, systemAudio: systemAudio, cameraDeviceId: cameraDeviceId)
         }
     }
 }
@@ -412,6 +415,7 @@ extension ControlsState.CaptureSelection {
             microphone = .device(id: id, name: catalog.microphones.first { $0.id == id }?.name ?? id)
         } else { microphone = .systemDefault }
         systemAudio = active.systemAudio
+        cameraDeviceId = active.cameraDeviceId
     }
 }
 

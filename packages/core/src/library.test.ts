@@ -669,7 +669,7 @@ test("a catalog in another format, or unstamped with tables, is refused without 
   expect(reopened.get(recording.recordingId).sourceDurationUs).toBe(20);
   reopened.close();
   for (const format of [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2147483647,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 2147483647,
   ]) {
     const other = new DatabaseSync(path);
     other.exec(`PRAGMA user_version=${format}`);

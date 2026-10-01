@@ -14,7 +14,11 @@ import { MAX_MEDIA_TIMEOUT_MS, nativeResult, type MediaWorker } from "./worker.j
 
 /** Canonical verification budgets source work separately from file size: sparse media can
  * be tiny but expensive. The bounded allowance does not establish a capture-stop guarantee. */
-async function verificationDeadline(directory: string, canonicalBytes: number | undefined) {
+async function verificationDeadline(
+  directory: string,
+  canonicalBytes: number | undefined,
+  captureAuthority: boolean,
+) {
   const published = await Promise.all(
     sourcePublicationMembers.map(async (name) => ({
       name,
@@ -27,7 +31,7 @@ async function verificationDeadline(directory: string, canonicalBytes: number | 
       ),
     })),
   );
-  if (!published.some((member) => member.exists)) return undefined; // Preserve the legacy worker budget.
+  if (!captureAuthority && !published.some((member) => member.exists)) return undefined; // Preserve the legacy worker budget.
   const size = async (name: string) => {
     const file = await open(
       join(directory, name),
@@ -50,7 +54,8 @@ async function verificationDeadline(directory: string, canonicalBytes: number | 
     (canonicalBytes ??
       (await size("narration.mov")) +
         (await size("system.mov")) +
-        (published.some((member) => member.name === "camera.publication.json" && member.exists)
+        (captureAuthority ||
+        published.some((member) => member.name === "camera.publication.json" && member.exists)
           ? await size("video.mov")
           : 0));
   return Math.min(MAX_MEDIA_TIMEOUT_MS, 600_000 + publicationDeadlineMs(bytes));
@@ -61,7 +66,7 @@ export function sourceExporter(
   worker: MediaWorker,
   lifetime?: { readonly fd: number },
 ): SourceExporter {
-  return async (directory, output, signal, canonical, workLifetimes = []) => {
+  return async (directory, output, signal, canonical, workLifetimes = [], sourceAuthority) => {
     const lifetimes = [...(lifetime ? [lifetime.fd] : []), ...workLifetimes];
     const handles: FileHandle[] = [];
     const inputs: Record<string, string> = {};
@@ -99,6 +104,7 @@ export function sourceExporter(
       const timeoutMs = await verificationDeadline(
         directory,
         canonical === undefined ? undefined : canonicalBytes,
+        sourceAuthority !== undefined,
       );
       return nativeResult(
         await worker(
@@ -107,6 +113,7 @@ export function sourceExporter(
             directory,
             output,
             ...(canonical === undefined ? {} : { canonical: inputs }),
+            ...(sourceAuthority === undefined ? {} : { sourceAuthority }),
           },
           {
             signal,

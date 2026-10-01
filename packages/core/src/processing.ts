@@ -1,4 +1,5 @@
 import type { MediaProbe } from "./assets.js";
+import type { CapturePublishedSource, CaptureSourceAuthority } from "./capture-publication.js";
 import { openDirectoryLease, type IdentifiedFile } from "./files.js";
 import { readRawCursor, type RawCursorOptions } from "./raw-cursor.js";
 import { lstat, mkdir, opendir, rm } from "node:fs/promises";
@@ -24,7 +25,8 @@ export type SourceExporter = (
     Record<"video" | "narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>
   >,
   lifetimes?: readonly number[],
-) => Promise<SourceEvidenceReceipt>;
+  sourceAuthority?: CaptureSourceAuthority,
+) => Promise<SourceEvidenceReceipt & { verifiedSourceAuthority?: CapturePublishedSource }>;
 
 /** Source processing pins r0; edits only change how later readers project this evidence. */
 export class SourceProcessing {

@@ -1,6 +1,6 @@
 import { captureFixture, sourceWorker } from "./project-capture.fixture.js";
-import { randomUUID } from "node:crypto";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { createHash, randomUUID } from "node:crypto";
+import { mkdtemp, mkdir, open, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
 import { DatabaseSync } from "node:sqlite";
@@ -17,6 +17,158 @@ afterEach(async () => {
 });
 
 const fixture = captureFixture.bind(undefined, cleanup);
+
+test("public discovery preserves native camera order and empty results without selecting an input", async () => {
+  const f = await fixture(undefined, undefined, "capture.sources");
+  for (const cameras of [
+    [
+      { id: "camera-b", name: "External camera" },
+      { id: "camera-a", name: "Built-in camera" },
+    ],
+    [],
+  ]) {
+    const pending = f.call("capture.sources");
+    const count = f.nativeCalls.length;
+    await expect.poll(() => f.nativeCalls.length).toBeGreaterThan(count);
+    const sources = { displays: [], windows: [], microphones: [], cameras };
+    await f.reply("capture.sources", sources);
+    expect(await pending).toMatchObject({ ok: true, data: sources });
+  }
+  expect(f.nativeCalls).toEqual(["capture.sources", "capture.sources"]);
+});
+
+test("public status preserves every native camera authorization state without capture", async () => {
+  const f = await fixture(undefined, undefined, "capture.status");
+  for (const camera of ["denied", "authorized", "restricted", "not_determined", "unknown"]) {
+    const count = f.nativeCalls.length;
+    const pending = f.call("capture.status");
+    await expect.poll(() => f.nativeCalls.length).toBeGreaterThan(count);
+    const device = {
+      state: "idle",
+      recordingId: null,
+      sourceId: null,
+      elapsedUs: null,
+      selection: null,
+      permissions: { screen: true, microphone: "authorized", camera },
+    };
+    await f.reply("capture.status", device);
+    expect(await pending).toMatchObject({ ok: true, data: { device, recording: null } });
+  }
+  expect(f.nativeCalls.every((operation) => operation === "capture.status")).toBe(true);
+});
+
+test("public camera selection preserves its allocated binding across native forwarding and replay", async () => {
+  const f = await fixture();
+  const params = {
+    requestId: "camera-selection",
+    source: { kind: "display", displayId: 1 },
+    cameraDeviceId: "camera-a",
+  };
+  const started = await f.call("capture.start", params);
+  expect(started).toMatchObject({ ok: true, data: { camera: { deviceId: "camera-a" } } });
+  if (!started.ok) throw new Error(JSON.stringify(started));
+  const recording = started.data as {
+    recordingId: string;
+    sourceId: string;
+    camera: { sourceId: string; deviceId: string };
+  };
+  expect(
+    f.nativeRequests.find((request) => request.operation === "capture.start")?.params,
+  ).toMatchObject({
+    recordingId: recording.recordingId,
+    sourceId: recording.sourceId,
+    cameraDeviceId: "camera-a",
+    cameraSourceId: recording.camera.sourceId,
+    microphone: true,
+    systemAudio: false,
+  });
+  expect(await f.call("capture.status")).toMatchObject({
+    ok: true,
+    data: { device: { selection: { cameraDeviceId: "camera-a" } } },
+  });
+  expect(await f.call("capture.start", params)).toMatchObject({ ok: true, data: started.data });
+  expect(await f.call("capture.start", { ...params, cameraDeviceId: "camera-b" })).toMatchObject({
+    ok: false,
+    error: { code: "REQUEST_CONFLICT" },
+  });
+  expect(f.nativeCalls.filter((operation) => operation === "capture.start")).toHaveLength(1);
+});
+
+test("a published primary reaches ready while its selected camera publication remains pending", async () => {
+  const f = await fixture(undefined, sourceWorker);
+  const started = await f.call("capture.start", {
+    requestId: "independent-publication",
+    source: { kind: "display", displayId: 1 },
+    cameraDeviceId: "camera-a",
+  });
+  if (!started.ok) throw new Error(JSON.stringify(started));
+  const { recordingId, sourceId, camera } = started.data as {
+    recordingId: string;
+    sourceId: string;
+    camera: { sourceId: string };
+  };
+  const root = join(f.home, "library/recordings", recordingId, "source");
+  const journal = JSON.stringify({ sessionID: sourceId });
+  await writeFile(join(root, "source.journal.jsonl"), journal);
+  await writeFile(join(root, "capture.journal.jsonl"), journal + "\nLATER_LIFECYCLE");
+  await writeFile(join(root, "video.mov"), "video");
+  const hash = (value: string) => createHash("sha256").update(value).digest("hex");
+  const publication = {
+    generation: "fixture-generation",
+    sourceId,
+    inputsClosed: true,
+    primary: {
+      state: "published",
+      source: {
+        kind: "primary",
+        sourceId,
+        sourceDurationUs: 100,
+        originHostUs: 0,
+        journal: {
+          file: "source.journal.jsonl",
+          bytes: Buffer.byteLength(journal),
+          sha256: hash(journal),
+          lastSequence: 2,
+          layout: 2,
+        },
+        members: { "video.mov": { bytes: "5", sha256: hash("video") } },
+      },
+    },
+    camera: {
+      state: "pending",
+      error: { code: "IO_ERROR", message: "Camera output held", retryable: true },
+    },
+  };
+  expect(
+    await f.report({ recordingId, sourceId, sequence: 3, state: "finalizing", publication }),
+  ).toMatchObject({ ok: true });
+  await expect
+    .poll(() => f.call("recording.get", { recordingId }))
+    .toMatchObject({
+      ok: true,
+      data: {
+        state: "finalizing",
+        sourceAdmissions: [
+          { kind: "primary", sourceId, acquisitionId: expect.any(String), job: { state: "ready" } },
+          {
+            kind: "camera",
+            sourceId: camera.sourceId,
+            acquisitionId: null,
+            job: null,
+            publication: publication.camera,
+          },
+        ],
+      },
+    });
+  const current = await f.call("recording.get", { recordingId });
+  if (!current.ok) throw new Error(JSON.stringify(current));
+  const acquisitionId = (current.data as { sourceAdmissions: { acquisitionId: string }[] })
+    .sourceAdmissions[0]!.acquisitionId;
+  expect(await f.call("acquisition.get", { acquisitionId })).toMatchObject({
+    ok: true,
+    data: { id: acquisitionId, sourceId },
+  });
+});
 
 test("source admission failure remains discoverable through stop replay and service reopen", async () => {
   const f = await fixture();
@@ -393,14 +545,42 @@ test("lost public start reply reopens the same take and reconciles before publis
   const hold = new Promise<void>((resolve) => {
     release = resolve;
   });
-  const reopened = await fixture(f.home, async (operation) => {
+  const reopened = await fixture(f.home, async (operation, request) => {
     if (operation !== "media.recover")
       throw new Error(`Unexpected recovery operation: ${operation}`);
+    expect(request.sourceAuthority).toEqual({ kind: "primary", sourceId: take.sourceId });
     entered();
     await hold;
+    const journal = JSON.stringify({ sessionID: take.sourceId });
     return {
       ok: true,
-      data: { durationUs: 100, journal: { header: { sessionID: take.sourceId } } },
+      data: {
+        durationUs: 100,
+        journal: { header: { sessionID: take.sourceId } },
+        inputsClosed: true,
+        sourcePublication: {
+          state: "published",
+          source: {
+            kind: "primary",
+            sourceId: take.sourceId,
+            sourceDurationUs: 100,
+            originHostUs: 0,
+            journal: {
+              file: "source.journal.jsonl",
+              bytes: Buffer.byteLength(journal),
+              sha256: createHash("sha256").update(journal).digest("hex"),
+              lastSequence: 2,
+              layout: 2,
+            },
+            members: {
+              "video.mov": {
+                bytes: "5",
+                sha256: createHash("sha256").update("video").digest("hex"),
+              },
+            },
+          },
+        },
+      },
     };
   });
   cleanup.push(async () => release());
@@ -450,6 +630,106 @@ test("lost public start reply reopens the same take and reconciles before publis
   });
 });
 
+test("reopened recovery admits a verified primary while allocated camera recovery is held", async () => {
+  const f = await fixture();
+  const started = await f.call("capture.start", {
+    requestId: "independent-recovery",
+    source: { kind: "display", displayId: 1 },
+    cameraDeviceId: "camera-a",
+  });
+  if (!started.ok) throw new Error(JSON.stringify(started));
+  const take = started.data as {
+    recordingId: string;
+    sourceId: string;
+    camera: { sourceId: string; deviceId: string };
+  };
+  await f.service.close();
+  const directory = join(f.home, "library/recordings", take.recordingId, "source");
+  const journal = JSON.stringify({ sessionID: take.sourceId });
+  const hash = (value: string) => createHash("sha256").update(value).digest("hex");
+  const source = {
+    kind: "primary",
+    sourceId: take.sourceId,
+    sourceDurationUs: 100,
+    originHostUs: 0,
+    journal: {
+      file: "source.journal.jsonl",
+      bytes: Buffer.byteLength(journal),
+      sha256: hash(journal),
+      lastSequence: 2,
+      layout: 2,
+    },
+    members: { "video.mov": { bytes: "5", sha256: hash("video") } },
+  };
+  await writeFile(join(directory, "source.journal.jsonl"), journal);
+  await writeFile(join(directory, "video.mov"), "video");
+  await writeFile(join(directory, "source.publication.json"), JSON.stringify(source));
+  let release!: () => void;
+  const hold = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const requests: Record<string, unknown>[] = [];
+  const reopened = await fixture(f.home, async (operation, params, options) => {
+    if (operation !== "media.recover") return sourceWorker(operation, params, options);
+    requests.push(params);
+    const authority = params.sourceAuthority as { kind: string };
+    if (authority?.kind === "camera") {
+      await hold;
+      return {
+        ok: true,
+        data: {
+          durationUs: 0,
+          journal: null,
+          inputsClosed: true,
+          sourcePublication: {
+            state: "unavailable",
+            error: { code: "NO_CAMERA", message: "No recoverable camera" },
+          },
+        },
+      };
+    }
+    return {
+      ok: true,
+      data: {
+        durationUs: 100,
+        journal: { header: { sessionID: take.sourceId } },
+        inputsClosed: true,
+        sourcePublication: { state: "published", source },
+      },
+    };
+  });
+  cleanup.push(async () => release());
+  await expect.poll(() => requests).toHaveLength(2);
+  expect(requests.map((value) => value.sourceAuthority)).toEqual([
+    { kind: "primary", sourceId: take.sourceId },
+    {
+      kind: "camera",
+      sourceId: take.camera.sourceId,
+      binding: { recordingId: take.recordingId, ...take.camera },
+    },
+  ]);
+  await expect
+    .poll(() => reopened.call("recording.get", { recordingId: take.recordingId }))
+    .toMatchObject({
+      ok: true,
+      data: {
+        state: "finalizing",
+        publication: { inputsClosed: true, primary: { state: "published" } },
+        sourceAdmissions: [
+          { kind: "primary", job: { state: "ready" } },
+          { kind: "camera", acquisitionId: null },
+        ],
+      },
+    });
+  release();
+  await expect
+    .poll(() => reopened.call("recording.get", { recordingId: take.recordingId }))
+    .toMatchObject({
+      ok: true,
+      data: { state: "interrupted", publication: { camera: { state: "unavailable" } } },
+    });
+});
+
 test("controller loss drains an unanswered native start before releasing the capture catalog", async () => {
   const f = await fixture(undefined, undefined, "capture.start");
   const start = f
@@ -462,13 +742,38 @@ test("controller loss drains an unanswered native start before releasing the cap
   expect("disconnected" in answer || !answer.ok).toBe(true);
   const reopened = await fixture(f.home, async (operation) => {
     expect(operation).toBe("media.recover");
-    return { ok: true, data: { durationUs: 0, journal: null } };
+    return {
+      ok: true,
+      data: {
+        durationUs: 0,
+        journal: null,
+        inputsClosed: true,
+        sourcePublication: {
+          state: "unavailable",
+          error: {
+            code: "NO_SOURCE_MEDIA",
+            message: "Allocated source directory contains no retained members.",
+          },
+        },
+      },
+    };
   });
   await expect
     .poll(() => reopened.call("recording.latest"))
     .toMatchObject({
       ok: true,
-      data: { state: "interrupted", sourceDurationUs: null, sourceAdmissions: [] },
+      data: {
+        state: "interrupted",
+        sourceDurationUs: null,
+        sourceAdmissions: [
+          {
+            kind: "primary",
+            acquisitionId: null,
+            job: null,
+            publication: { state: "unavailable", error: { code: "NO_SOURCE_MEDIA" } },
+          },
+        ],
+      },
     });
 });
 
@@ -605,9 +910,11 @@ test("fresh capture allocates and replays through its private controller without
     data: started.ok ? started.data : null,
   });
   expect(starts).toBe(1);
-  expect(await call("capture.start", { ...params, cameraDeviceId: "not-exposed" })).toMatchObject({
+  expect(
+    await call("capture.start", { ...params, cameraDeviceId: "changed-camera" }),
+  ).toMatchObject({
     ok: false,
-    error: { code: "INVALID_PARAMS" },
+    error: { code: "REQUEST_CONFLICT" },
   });
   const before = await call("storage.usage", {});
   if (!before.ok) throw new Error(JSON.stringify(before));
@@ -636,4 +943,68 @@ test("fresh capture allocates and replays through its private controller without
   } finally {
     database.close();
   }
+});
+
+test("unpublished raw camera recovery receives its byte-scaled materialization budget", async () => {
+  const budgets: number[] = [];
+  for (const bytes of [4096, 2 ** 30]) {
+    const f = await fixture();
+    const started = await f.call("capture.start", {
+      requestId: "raw-camera-budget",
+      source: { kind: "display", displayId: 1 },
+      cameraDeviceId: "camera-a",
+    });
+    if (!started.ok) throw new Error(JSON.stringify(started));
+    const take = started.data as { recordingId: string };
+    await f.service.close();
+    const directory = join(f.home, "library/recordings", take.recordingId, "camera");
+    await mkdir(directory, { recursive: true });
+    const raw = await open(join(directory, "camera.raw.mov"), "w+");
+    await raw.truncate(bytes);
+    await raw.close();
+    await writeFile(join(directory, "camera.closed.json"), "{}");
+    const reopened = await fixture(f.home, async (operation, params, options) => {
+      if (operation !== "media.recover") return sourceWorker(operation, params, options);
+      const camera = (params.sourceAuthority as { kind: string }).kind === "camera";
+      const budget = options?.timeoutMs ?? 30000;
+      if (camera) budgets.push(budget);
+      // Simulated materialization needs one minute; the test never waits that long.
+      if (camera && budget < 60000)
+        return {
+          ok: false,
+          error: {
+            code: "TIMEOUT",
+            message: "Raw materialization exhausted budget",
+            details: {},
+            retryable: true,
+          },
+        };
+      return {
+        ok: true,
+        data: {
+          durationUs: 0,
+          journal: null,
+          inputsClosed: true,
+          sourcePublication: {
+            state: "unavailable",
+            error: { code: "NO_SOURCE", message: "No recoverable support" },
+          },
+        },
+      };
+    });
+    await expect
+      .poll(() => reopened.call("recording.get", { recordingId: take.recordingId }))
+      .toMatchObject({
+        ok: true,
+        data: {
+          state: "interrupted",
+          publication: {
+            inputsClosed: true,
+            camera: { state: "unavailable", error: { code: "NO_SOURCE" } },
+          },
+        },
+      });
+    await reopened.service.close();
+  }
+  expect(budgets[1]).toBeGreaterThan(budgets[0]!);
 });
