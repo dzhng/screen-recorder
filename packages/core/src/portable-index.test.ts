@@ -230,8 +230,8 @@ describe("portable relocation", () => {
         equality: sequence % 2 ? "unproven" : "sampled",
       })),
     );
-    for (let ordinal = 0; ordinal < 260; ordinal++)
-      expect(readFileSync(join(f.root, "moved-index", "images", `${ordinal}.png`))).toEqual(png);
+    for (const { frame } of [...movedFirst.entries, ...movedNext.entries])
+      expect(readFileSync(frame.file)).toEqual(png);
     expect(index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 })).toEqual(
       coverage,
     );

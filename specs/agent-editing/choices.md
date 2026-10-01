@@ -6282,3 +6282,11 @@ and uses its complete source support, including when timestamp zero is in a gap.
 The diagnostic uses the executor's existing cancellation boundary to isolate
 synchronous read work, then verifies ordinary generation and PNG delivery
 separately. Neither choice adds a public contract, cache or alternate source owner.
+## Portable relocation verification
+
+The [24z10 ledger](assets/24z10-portable-index-relocation/choices.md) owns the
+rejected transaction override and its corrected decision: preserve every ordinary
+write and use the runner's setup lifecycle. Its sound choices separate authored
+setup from relocation, retain complete value proofs and avoid an unjustified
+production optimization. Confidence is high. The passing relocated-data gate
+does not turn the original whole-setup timeout into a product latency pass.

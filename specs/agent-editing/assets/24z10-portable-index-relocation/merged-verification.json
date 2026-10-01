@@ -1,0 +1,43 @@
+{
+  "producerCommit": "d96585107a6e3eb35467dba1764e45a1c3f8059d",
+  "childCommit": "43620949745f3478ceffefd6fc6a9055f2602f3a",
+  "childArchiveVerified": {
+    "sha256": "a0eddc7e653ca95767242fe36f15c34e84f88c70177d9668b9baa336eab323cc",
+    "members": 301,
+    "committedBaseAndChildSourcePins": 19,
+    "unchangedRootOwners": 18
+  },
+  "rootDifference": "Complete image byte oracle reads public frame.file locators rather than hardcoded internal image filenames; unchanged fixture body and complete data.",
+  "checks": {
+    "mergedTests": {
+      "exitCode": 0,
+      "files": 6,
+      "passed": 53,
+      "log": "checks/merged-tests.txt",
+      "command": "node node_modules/vitest/vitest.mjs run packages/core/src/portable-index.test.ts packages/core/src/screenshot-index.test.ts packages/core/src/files.test.ts packages/core/src/scene-evidence.test.ts packages/core/src/index-processing.test.ts packages/core/src/source-index-processing.test.ts"
+    },
+    "types": 0,
+    "format": 0,
+    "lint": 0
+  },
+  "review": {
+    "shape": "Unchanged authored fixture and all ordinary writes; scoped setup hook preserves default5000ms test/10000ms hook. No production mechanism. Root deleted hardcoded image storage paths from the new complete-byte oracle in favor of public frame.file values from both complete entry pages.",
+    "diff": "Parent cleanup retained even on failed setup; complete260images/520coverage/scene/metadata/pages/lease/refusal proof retained. Rejected transaction interpreter absent.",
+    "docs": "Original whole-setup timeout remains failed evidence; no product speedup or whole-setup budget claim. Child producer remains separately pinned.",
+    "choices": "Child corrected-unsound and three sound decisions linked canonically; root public file locator edit adds no production contract."
+  },
+  "limits": {
+    "productionChanges": false,
+    "deadlineLimitChanges": false,
+    "originalWholeSetupGatePassed": false,
+    "productLatencyImprovement": false,
+    "sourceCardinalityAndFinalScale": "open",
+    "nativeServiceModelCapturePlaybackInstalled": "no work performed"
+  },
+  "archive": {
+    "file": "merged-evidence.tar.gz",
+    "members": 6,
+    "bytes": 6045,
+    "sha256": "7d187354ef8217b8dcff5cd79cdab91eda2fe6f3c21080000e7e81e766956a23"
+  }
+}

@@ -1,6 +1,6 @@
 # 24z10 — Relocation proof owns its test boundary
 
-Status: isolated test lifecycle correction verified. [The packet](../assets/24z10-portable-index-relocation/README.md) retains the original failures, worker profile, actual setup work, complete values and checks. Root owns shared pickup and integration.
+Status: test lifecycle correction integrated; [merged consumer checks](../assets/24z10-portable-index-relocation/merged-verification.json) pass. [The packet](../assets/24z10-portable-index-relocation/README.md) retains the original failures, worker profile, actual setup work, complete values and checks. No production speedup or original whole-setup deadline pass is claimed.
 
 ## Contract and ownership
 
