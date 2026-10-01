@@ -1,0 +1,309 @@
+{
+  "scope": "Paired public edit-state preservation only; no production implementation change",
+  "passed": true,
+  "producerGitBase": "b8eb90dd",
+  "report": {
+    "bytes": 31032,
+    "sha256": "2b8b9e78dd6d5c59f7b0ad53612893b2e4047262d2ac6073616d038596bced5e"
+  },
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 7224371,
+    "sha256": "acc7c386199417ff95bb3b9a6cf7dd015004a09c43b60c0a78b9c957a38aaa2b",
+    "members": 627,
+    "allPayloadMembersRehashed": 626
+  },
+  "producer": {
+    "service": {
+      "bytes": 4260758,
+      "sha256": "a333fbdf7f6123fe5976eccc288de5e1d9e8af51eac5494bd8f50974327c79dd"
+    },
+    "cli": {
+      "bytes": 1150392,
+      "sha256": "00a644a01c7bbe590b5d8aa86844489633e2de7efe918ea4b2cfe6ca9f6cadb6"
+    },
+    "compiledModuleInputs": 386,
+    "sourceInputs": 170,
+    "configInputs": 22,
+    "harness": {
+      "bytes": 25351,
+      "sha256": "75ccf8b16b89bdf1a5ee37534a30b03e59cc7ac90f8d330823562473e1476d4b"
+    },
+    "externalNode": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "version": "v24.14.0",
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    },
+    "externalFrozenWorker": {
+      "path": "/private/tmp/screenrec-09c-native-presented-worker",
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "externalAuthority": "09c native FILE/runtime packet and23a/25b retained runtime/source authorities; no new native build"
+  },
+  "inputs": {
+    "oldCatalog": {
+      "path": "/private/tmp/screenrec-23a-inspect3/old/library.sqlite",
+      "sha256": "7f882c348f248e79ad4efaa609f3e36092a037876ef566ac7b36927dd18715eb"
+    },
+    "projectCatalog": {
+      "path": "/private/tmp/screenrec-25-relocation-recipient/library/catalog.sqlite",
+      "sha256": "ba8be18f32048ab4ed94917a1df719716f51547d17c4d133e4e9fd7df16f9a9f"
+    },
+    "worker": {
+      "path": "/private/tmp/screenrec-09c-native-presented-worker",
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "node": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "version": "v24.14.0",
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    },
+    "assetFiles": [
+      {
+        "name": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c.mov",
+        "bytes": 113175651,
+        "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+      },
+      {
+        "name": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c.mov",
+        "bytes": 25730774,
+        "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+      },
+      {
+        "name": "3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437.wav",
+        "bytes": 1152044,
+        "sha256": "3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437"
+      },
+      {
+        "name": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70.mov",
+        "bytes": 48799617,
+        "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+      },
+      {
+        "name": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "bytes": 773236,
+        "sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      {
+        "name": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78.png",
+        "bytes": 174,
+        "sha256": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78"
+      },
+      {
+        "name": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45.wav",
+        "bytes": 480092,
+        "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+      },
+      {
+        "name": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55.wav",
+        "bytes": 2308096,
+        "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55"
+      },
+      {
+        "name": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d.wav",
+        "bytes": 86458,
+        "sha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d"
+      },
+      {
+        "name": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+        "bytes": 29414120,
+        "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+      },
+      {
+        "name": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c.wav",
+        "bytes": 925484,
+        "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+      },
+      {
+        "name": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15.wav",
+        "bytes": 480092,
+        "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+      },
+      {
+        "name": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805.mov",
+        "bytes": 424848170,
+        "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+      },
+      {
+        "name": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca.wav",
+        "bytes": 84538,
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+      },
+      {
+        "name": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774.mp4",
+        "bytes": 2526511,
+        "sha256": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774"
+      }
+    ],
+    "recordingFormat": 1,
+    "projectFormat": 22
+  },
+  "sourceAfterChecks": {
+    "/Users/david/.codex/worktrees/cutover-state-preservation/screen-recorder/fixtures/narrated-workbench/video.mov": {
+      "bytes": 29414120,
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+    },
+    "/tmp/screenrec-23j-reviewed-final/recording-home/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/video.mov": {
+      "bytes": 29414120,
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+    },
+    "/Users/david/.codex/worktrees/cutover-state-preservation/screen-recorder/fixtures/narrated-workbench/narration.mov": {
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    },
+    "/tmp/screenrec-23j-reviewed-final/recording-home/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/narration.mov": {
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    },
+    "/Users/david/.codex/worktrees/cutover-state-preservation/screen-recorder/fixtures/narrated-workbench/capture.journal.jsonl": {
+      "bytes": 2574002,
+      "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+    },
+    "/tmp/screenrec-23j-reviewed-final/recording-home/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/capture.journal.jsonl": {
+      "bytes": 2574002,
+      "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+    },
+    "/tmp/screenrec-23j-reviewed-final/project-home/library/assets/ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov": {
+      "bytes": 29414120,
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+    },
+    "/tmp/screenrec-25-relocation-recipient/library/assets/ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov": {
+      "bytes": 29414120,
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+    },
+    "/tmp/screenrec-23j-reviewed-final/project-home/library/assets/2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c.mov": {
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    },
+    "/tmp/screenrec-25-relocation-recipient/library/assets/2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c.mov": {
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    }
+  },
+  "publicExchanges": 71,
+  "exactMappingCheckpoints": 8,
+  "processes": [
+    {
+      "side": "recording",
+      "pid": 45407,
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "side": "project",
+      "pid": 45429,
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "side": "recording",
+      "pid": 45529,
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "side": "project",
+      "pid": 45555,
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    }
+  ],
+  "nativeOperations": [
+    "packageWorkspace.recover",
+    "media.audioCapabilities",
+    "packageWorkspace.recover",
+    "media.audioCapabilities"
+  ],
+  "negativeControl": {
+    "expected": "STALE_REVISION on restarted project replay when the saved-request replay branch is skipped",
+    "observed": true,
+    "producer": {
+      "bytes": 4260767,
+      "sha256": "38d591244e5f08ca441edb2853184a2189a444d5fe4c327fc758b52ce75d25d0"
+    },
+    "repositoryProductionSourceChanged": false,
+    "recipe": "producer/mutant/mutation.json"
+  },
+  "commands": [
+    {
+      "command": "bun install --offline --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "command": "bunx turbo build --filter=@screenrec/service --filter=@screenrec/cli",
+      "exitCode": 0,
+      "successfulTasks": 6
+    },
+    {
+      "command": "bun build apps/service/dist/project-main.js --target=node --outfile=/tmp/screenrec-23j-runtime/service.mjs --metafile=/tmp/screenrec-23j-runtime/service.meta.json",
+      "exitCode": 0
+    },
+    {
+      "command": "bun build apps/cli/dist/main.js --target=node --outfile=/tmp/screenrec-23j-runtime/cli.mjs --metafile=/tmp/screenrec-23j-runtime/cli.meta.json",
+      "exitCode": 0
+    },
+    {
+      "command": "SCREENREC_NATIVE=/tmp/screenrec-09c-native-presented-worker /Users/david/.nvm/versions/node/v24.14.0/bin/node packages/test-harness/editing/cutover-state.mjs --out /tmp/screenrec-23j-reviewed-final --old-catalog /tmp/screenrec-23a-inspect3/old/library.sqlite --project-home /tmp/screenrec-25-relocation-recipient --legacy-app '/Users/david/Applications/Screen Recorder.app' --source-bundle /tmp/screenrec-23j-runtime",
+      "exitCode": 0
+    },
+    {
+      "command": "bunx turbo check-types --filter=@screenrec/service --filter=@screenrec/cli",
+      "exitCode": 0,
+      "successfulTasks": 7
+    },
+    {
+      "command": "node --check packages/test-harness/editing/cutover-state.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "bunx oxlint packages/test-harness/editing/cutover-state.mjs",
+      "exitCode": 0,
+      "warnings": 0
+    },
+    {
+      "command": "bunx oxfmt --check packages/test-harness/editing/cutover-state.mjs",
+      "exitCode": 0
+    }
+  ],
+  "preservedInputs": {
+    "oldCatalog": "7f882c348f248e79ad4efaa609f3e36092a037876ef566ac7b36927dd18715eb",
+    "projectCatalog": "ba8be18f32048ab4ed94917a1df719716f51547d17c4d133e4e9fd7df16f9a9f",
+    "worker": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "limitations": [
+    "Authored interval/state equivalence; not acquired-gap, PCM, rendering, physical, listening, scale or concrete UI acceptance",
+    "Format19 catalog remains refused; no migration or fabricated capture metadata",
+    "Intermediate private harness revisions were not frozen; complete raw failures retained without independent producer claims",
+    "Current recipient canonical assets are reused;14 from25bpackage andeabe99f9 movie from25bmediaarchive",
+    "Root owns shared hub/matrix/choices integration"
+  ],
+  "review": "Shape/diff/docs/choices reviewed; no CLI/Claude review per explicit delegated scope",
+  "cleanup": {
+    "afterArchiveAndAllPayloadRehash": true,
+    "removedOwnedScratchHomes": [
+      "/tmp/screenrec-23j-tracer/recording-home",
+      "/tmp/screenrec-23j-tracer/project-home",
+      "/tmp/screenrec-23j-tracer-corrected/recording-home",
+      "/tmp/screenrec-23j-tracer-corrected/project-home",
+      "/tmp/screenrec-23j-full-first/recording-home",
+      "/tmp/screenrec-23j-full-first/project-home",
+      "/tmp/screenrec-23j-full-corrected/recording-home",
+      "/tmp/screenrec-23j-full-corrected/project-home",
+      "/tmp/screenrec-23j-replay-mutant/recording-home",
+      "/tmp/screenrec-23j-replay-mutant/project-home",
+      "/tmp/screenrec-23j-final/recording-home",
+      "/tmp/screenrec-23j-final/project-home",
+      "/tmp/screenrec-23j-reviewed-final/recording-home",
+      "/tmp/screenrec-23j-reviewed-final/project-home"
+    ],
+    "retained": "Original23a/25b donor homes, source fixtures, installed app, model storage and frozenworker remain untouched; frozen23jbundles/packet and complete metadata captures retained"
+  }
+}

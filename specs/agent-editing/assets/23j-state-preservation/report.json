@@ -1,0 +1,1300 @@
+{
+  "scope": "Matched public edit state only; no media/capture/inference/presentation",
+  "passed": true,
+  "inputs": {
+    "oldCatalog": {
+      "path": "/private/tmp/screenrec-23a-inspect3/old/library.sqlite",
+      "sha256": "7f882c348f248e79ad4efaa609f3e36092a037876ef566ac7b36927dd18715eb"
+    },
+    "projectCatalog": {
+      "path": "/private/tmp/screenrec-25-relocation-recipient/library/catalog.sqlite",
+      "sha256": "ba8be18f32048ab4ed94917a1df719716f51547d17c4d133e4e9fd7df16f9a9f"
+    },
+    "worker": {
+      "path": "/private/tmp/screenrec-09c-native-presented-worker",
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "node": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "version": "v24.14.0",
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    },
+    "assetFiles": [
+      {
+        "name": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c.mov",
+        "bytes": 113175651,
+        "sha256": "165476046dbff9475a4d8617fa89c7243a559ffd977467547b6b74fab37ffd2c"
+      },
+      {
+        "name": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c.mov",
+        "bytes": 25730774,
+        "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+      },
+      {
+        "name": "3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437.wav",
+        "bytes": 1152044,
+        "sha256": "3fd40ac635a721a874ee5a9e516a48695df0acce8a787df3eb56a2b583151437"
+      },
+      {
+        "name": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70.mov",
+        "bytes": 48799617,
+        "sha256": "50c4dfc6cd29012723d57d9618c91899fdf0fb56b7f6c17d655df74aae24cd70"
+      },
+      {
+        "name": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "bytes": 773236,
+        "sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      {
+        "name": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78.png",
+        "bytes": 174,
+        "sha256": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78"
+      },
+      {
+        "name": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45.wav",
+        "bytes": 480092,
+        "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+      },
+      {
+        "name": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55.wav",
+        "bytes": 2308096,
+        "sha256": "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55"
+      },
+      {
+        "name": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d.wav",
+        "bytes": 86458,
+        "sha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d"
+      },
+      {
+        "name": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+        "bytes": 29414120,
+        "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+      },
+      {
+        "name": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c.wav",
+        "bytes": 925484,
+        "sha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c"
+      },
+      {
+        "name": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15.wav",
+        "bytes": 480092,
+        "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+      },
+      {
+        "name": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805.mov",
+        "bytes": 424848170,
+        "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+      },
+      {
+        "name": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca.wav",
+        "bytes": 84538,
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+      },
+      {
+        "name": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774.mp4",
+        "bytes": 2526511,
+        "sha256": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774"
+      }
+    ],
+    "recordingFormat": 1,
+    "projectFormat": 22
+  },
+  "checks": [
+    "Actual swallowed acknowledgement, restart and full cross-transport receipt replay",
+    "Changed-argument conflict, stale refusal and complete late-invalid rollback",
+    "recording competing real CLI writers commit one complete mutation",
+    "project competing real CLI writers commit one complete mutation",
+    "History continuation pins all complete pre-race revisions and excludes new commits",
+    "Exact undo/restore documents, new revision identities and replay-safe no-op without history"
+  ],
+  "mappings": [
+    {
+      "label": "identity",
+      "expected": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            133973334
+          ],
+          "project": [
+            48675,
+            134022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            133973334
+          ],
+          "project": [
+            48675,
+            134022009
+          ]
+        }
+      ],
+      "oldRevision": "567c37b2-1af7-4340-99c1-101adb9e29f3",
+      "newRevision": "f92d9c34-4791-4440-a695-ed6d28a236ea"
+    },
+    {
+      "label": "explicit two-range cut/restart",
+      "expected": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "oldRevision": "29c0a575-c7bd-4aac-a34e-b9f3019acdfe",
+      "newRevision": "f58cb387-9f37-4c0e-ab5b-cf15e80d570b"
+    },
+    {
+      "label": "conflict/stale leave state unchanged",
+      "expected": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "oldRevision": "29c0a575-c7bd-4aac-a34e-b9f3019acdfe",
+      "newRevision": "f58cb387-9f37-4c0e-ab5b-cf15e80d570b"
+    },
+    {
+      "label": "late-invalid mutation rollback",
+      "expected": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "oldRevision": "29c0a575-c7bd-4aac-a34e-b9f3019acdfe",
+      "newRevision": "f58cb387-9f37-4c0e-ab5b-cf15e80d570b"
+    },
+    {
+      "label": "concurrent winner",
+      "expected": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          12000000
+        ],
+        [
+          13000000,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          12000000
+        ],
+        [
+          13000000,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          12000000
+        ],
+        [
+          13000000,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            11951325
+          ],
+          "project": [
+            3000000,
+            10000000
+          ]
+        },
+        {
+          "source": [
+            12951325,
+            133973334
+          ],
+          "project": [
+            10000000,
+            131022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            11951325
+          ],
+          "project": [
+            3000000,
+            10000000
+          ]
+        },
+        {
+          "source": [
+            12951325,
+            133973334
+          ],
+          "project": [
+            10000000,
+            131022009
+          ]
+        }
+      ],
+      "oldRevision": "b3395afe-4ade-4218-8917-9daedea0dda2",
+      "newRevision": "9c7e1048-5fd2-4306-8df1-848d359ce286"
+    },
+    {
+      "label": "undo concurrent edit",
+      "expected": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          1000000
+        ],
+        [
+          2000000,
+          4000000
+        ],
+        [
+          5000000,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            951325
+          ],
+          "project": [
+            48675,
+            1000000
+          ]
+        },
+        {
+          "source": [
+            1951325,
+            3951325
+          ],
+          "project": [
+            1000000,
+            3000000
+          ]
+        },
+        {
+          "source": [
+            4951325,
+            133973334
+          ],
+          "project": [
+            3000000,
+            132022009
+          ]
+        }
+      ],
+      "oldRevision": "33382a33-bc88-4512-be25-404000094a96",
+      "newRevision": "6b3cc976-3f32-438a-816f-2fb4f5f55082"
+    },
+    {
+      "label": "restore identity into fresh revision",
+      "expected": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            133973334
+          ],
+          "project": [
+            48675,
+            134022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            133973334
+          ],
+          "project": [
+            48675,
+            134022009
+          ]
+        }
+      ],
+      "oldRevision": "fb49bbe6-ca59-460e-ab83-d9aec33af783",
+      "newRevision": "f2ab2b5f-9c38-4f82-9dcb-6f8c6af762c3"
+    },
+    {
+      "label": "historical replay does not move current head",
+      "expected": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "oldMap": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "newMap": [
+        [
+          0,
+          134025574
+        ]
+      ],
+      "expectedAudio": [
+        {
+          "source": [
+            0,
+            133973334
+          ],
+          "project": [
+            48675,
+            134022009
+          ]
+        }
+      ],
+      "actualAudio": [
+        {
+          "source": [
+            0,
+            133973334
+          ],
+          "project": [
+            48675,
+            134022009
+          ]
+        }
+      ],
+      "oldRevision": "fb49bbe6-ca59-460e-ab83-d9aec33af783",
+      "newRevision": "f2ab2b5f-9c38-4f82-9dcb-6f8c6af762c3"
+    }
+  ],
+  "preservedInputs": {
+    "oldCatalog": "7f882c348f248e79ad4efaa609f3e36092a037876ef566ac7b36927dd18715eb",
+    "projectCatalog": "ba8be18f32048ab4ed94917a1df719716f51547d17c4d133e4e9fd7df16f9a9f",
+    "worker": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "nativeAllowed": [
+    "storage.clearRenderWorkspace",
+    "packageWorkspace.recover",
+    "media.audioCapabilities"
+  ],
+  "fullCapture": {
+    "archive": "evidence.tar.gz",
+    "member": "runs/reviewed-final/report.json",
+    "bytes": 372618,
+    "sha256": "f19d95a17c544a3794003cfdffea5a5c6025a205f5994a5b399103e58f8d5270"
+  },
+  "publicExchanges": 71,
+  "processes": [
+    {
+      "side": "recording",
+      "pid": 45407,
+      "entrySha256": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387",
+      "cliSha256": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "side": "project",
+      "pid": 45429,
+      "entrySha256": "a333fbdf7f6123fe5976eccc288de5e1d9e8af51eac5494bd8f50974327c79dd",
+      "cliSha256": "00a644a01c7bbe590b5d8aa86844489633e2de7efe918ea4b2cfe6ca9f6cadb6",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "side": "recording",
+      "pid": 45529,
+      "entrySha256": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387",
+      "cliSha256": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "side": "project",
+      "pid": 45555,
+      "entrySha256": "a333fbdf7f6123fe5976eccc288de5e1d9e8af51eac5494bd8f50974327c79dd",
+      "cliSha256": "00a644a01c7bbe590b5d8aa86844489633e2de7efe918ea4b2cfe6ca9f6cadb6",
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    }
+  ],
+  "native": [
+    {
+      "id": "worker-packageWorkspace.recover",
+      "operation": "packageWorkspace.recover",
+      "params": {
+        "parent": {
+          "dev": "16777230",
+          "ino": "338821437"
+        }
+      }
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    },
+    {
+      "id": "worker-packageWorkspace.recover",
+      "operation": "packageWorkspace.recover",
+      "params": {
+        "parent": {
+          "dev": "16777230",
+          "ino": "338821437"
+        }
+      }
+    },
+    {
+      "id": "worker-media.audioCapabilities",
+      "operation": "media.audioCapabilities",
+      "params": {}
+    }
+  ],
+  "refusals": [
+    {
+      "side": "recording",
+      "operation": "edit.cut",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "requestId": "23j-cut",
+        "expectedRevisionId": "567c37b2-1af7-4340-99c1-101adb9e29f3",
+        "ranges": [
+          {
+            "startUs": 6000000,
+            "endUs": 7000000
+          }
+        ]
+      },
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Request ID was already used with different arguments",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "side": "project",
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c876ca4f-e68e-4488-a4de-493bfaf842ea",
+        "expectedRevisionId": "f92d9c34-4791-4440-a695-ed6d28a236ea",
+        "requestId": "23j-cut",
+        "operations": [
+          {
+            "operation": "remove",
+            "clipIds": [
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:1",
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:3"
+            ],
+            "ranges": [
+              {
+                "startUs": 6000000,
+                "endUs": 7000000
+              }
+            ],
+            "scope": "selected",
+            "ripple": {
+              "trackIds": [
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:0",
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+              ]
+            }
+          }
+        ]
+      },
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Request ID was already used with different arguments",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "edit.cut",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "requestId": "23j-stale",
+        "expectedRevisionId": "567c37b2-1af7-4340-99c1-101adb9e29f3",
+        "ranges": [
+          {
+            "startUs": 1000000,
+            "endUs": 2000000
+          },
+          {
+            "startUs": 4000000,
+            "endUs": 5000000
+          }
+        ]
+      },
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "29c0a575-c7bd-4aac-a34e-b9f3019acdfe"
+        }
+      }
+    },
+    {
+      "side": "project",
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c876ca4f-e68e-4488-a4de-493bfaf842ea",
+        "expectedRevisionId": "f92d9c34-4791-4440-a695-ed6d28a236ea",
+        "requestId": "23j-stale",
+        "operations": [
+          {
+            "operation": "remove",
+            "clipIds": [
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:1",
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:3"
+            ],
+            "ranges": [
+              {
+                "startUs": 1000000,
+                "endUs": 2000000
+              },
+              {
+                "startUs": 4000000,
+                "endUs": 5000000
+              }
+            ],
+            "scope": "selected",
+            "ripple": {
+              "trackIds": [
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:0",
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+              ]
+            }
+          }
+        ]
+      },
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "f58cb387-9f37-4c0e-ab5b-cf15e80d570b"
+        }
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "edit.cut",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "expectedRevisionId": "29c0a575-c7bd-4aac-a34e-b9f3019acdfe",
+        "requestId": "23j-atomic",
+        "ranges": [
+          {
+            "startUs": 6000000,
+            "endUs": 7000000
+          },
+          {
+            "startUs": 0,
+            "endUs": 134025575
+          }
+        ]
+      },
+      "error": {
+        "code": "INVALID_RANGE",
+        "message": "Expected a positive half-open range within the timeline",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "side": "project",
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c876ca4f-e68e-4488-a4de-493bfaf842ea",
+        "expectedRevisionId": "f58cb387-9f37-4c0e-ab5b-cf15e80d570b",
+        "requestId": "23j-atomic",
+        "operations": [
+          {
+            "operation": "remove",
+            "clipIds": [
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:1",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:0",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:1",
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:3",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:2",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:3"
+            ],
+            "ranges": [
+              {
+                "startUs": 6000000,
+                "endUs": 7000000
+              }
+            ],
+            "scope": "selected",
+            "ripple": {
+              "trackIds": [
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:0",
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+              ]
+            }
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+            },
+            "steps": [
+              {
+                "id": "foreign-step",
+                "enabled": true,
+                "processor": {
+                  "type": "gain",
+                  "gain": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Processing step does not belong to this target",
+        "retryable": false,
+        "details": {
+          "target": {
+            "kind": "track",
+            "id": "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+          },
+          "stepId": "foreign-step",
+          "operationIndex": 1,
+          "cause": "INVALID_EDIT"
+        }
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "edit.cut",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "expectedRevisionId": "29c0a575-c7bd-4aac-a34e-b9f3019acdfe",
+        "ranges": [
+          {
+            "startUs": 10000000,
+            "endUs": 11000000
+          }
+        ],
+        "requestId": "23j-race-b"
+      },
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "b3395afe-4ade-4218-8917-9daedea0dda2"
+        }
+      }
+    },
+    {
+      "side": "project",
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c876ca4f-e68e-4488-a4de-493bfaf842ea",
+        "expectedRevisionId": "f58cb387-9f37-4c0e-ab5b-cf15e80d570b",
+        "requestId": "23j-race-a",
+        "operations": [
+          {
+            "operation": "remove",
+            "clipIds": [
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:1",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:0",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:1",
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:3",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:2",
+              "clip:432f114f2c99bd226553518f5326eb892b1ae7b631d99a6ebe8afa51904a8ef1:3"
+            ],
+            "ranges": [
+              {
+                "startUs": 10000000,
+                "endUs": 11000000
+              }
+            ],
+            "scope": "selected",
+            "ripple": {
+              "trackIds": [
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:0",
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+              ]
+            }
+          }
+        ]
+      },
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "9c7e1048-5fd2-4306-8df1-848d359ce286"
+        }
+      }
+    }
+  ],
+  "lostAcknowledgements": [
+    {
+      "side": "recording",
+      "operation": "edit.cut",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "requestId": "23j-cut",
+        "expectedRevisionId": "567c37b2-1af7-4340-99c1-101adb9e29f3",
+        "ranges": [
+          {
+            "startUs": 1000000,
+            "endUs": 2000000
+          },
+          {
+            "startUs": 4000000,
+            "endUs": 5000000
+          }
+        ]
+      },
+      "clientResponse": {
+        "id": "b7de17a6-93e7-4a4d-8d72-3008cdafb833",
+        "ok": false,
+        "error": {
+          "code": "INVALID_RESPONSE",
+          "message": "Connection ended before the JSON line terminator",
+          "retryable": false,
+          "details": {}
+        }
+      },
+      "responseForwarded": false
+    },
+    {
+      "side": "project",
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c876ca4f-e68e-4488-a4de-493bfaf842ea",
+        "expectedRevisionId": "f92d9c34-4791-4440-a695-ed6d28a236ea",
+        "requestId": "23j-cut",
+        "operations": [
+          {
+            "operation": "remove",
+            "clipIds": [
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:1",
+              "clip:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:3"
+            ],
+            "ranges": [
+              {
+                "startUs": 1000000,
+                "endUs": 2000000
+              },
+              {
+                "startUs": 4000000,
+                "endUs": 5000000
+              }
+            ],
+            "scope": "selected",
+            "ripple": {
+              "trackIds": [
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:0",
+                "track:c7251def3a78daaea800b8b4fba159ad2170c8302523f974f35bb5486f4858d8:2"
+              ]
+            }
+          }
+        ]
+      },
+      "clientResponse": {
+        "id": "37462cbc-cca5-4185-8673-f4aba80f4944",
+        "ok": false,
+        "error": {
+          "code": "INVALID_RESPONSE",
+          "message": "Connection ended before the JSON line terminator",
+          "retryable": false,
+          "details": {}
+        }
+      },
+      "responseForwarded": false
+    }
+  ],
+  "outputCatalogs": {
+    "recording": "outputs/old.sqlite",
+    "project": "outputs/current.sqlite"
+  }
+}
