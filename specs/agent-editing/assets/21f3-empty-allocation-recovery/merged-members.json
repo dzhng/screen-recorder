@@ -1,0 +1,146 @@
+{
+  "absent-directory-request.json": {
+    "bytes": 197,
+    "sha256": "1daf3dd38a0049fc06fa63fd5e49450bb7f39d93e90d1cdb48146b89cce417e0"
+  },
+  "absent-directory-response.json": {
+    "bytes": 177,
+    "sha256": "9369f91e68fc9767eeaed4ccea50359cc42aa24979ed93a34a96d07bb5107916"
+  },
+  "canceled-empty-request.json": {
+    "bytes": 196,
+    "sha256": "d037382e919af4f0d659435bb06263f197d65981075f209bda65f3d47ec49942"
+  },
+  "canceled-empty-response.json": {
+    "bytes": 190,
+    "sha256": "bbebd8e9760c9f5fccc4e89a807d68805bc465091939cef109417f4161c993e7"
+  },
+  "directory-only-empty-request.json": {
+    "bytes": 139,
+    "sha256": "ac6e6d51523cd426d6b9b94e210f95e36c0d3d55fbef88f41f25816301f6e4b3"
+  },
+  "directory-only-empty-response.json": {
+    "bytes": 795,
+    "sha256": "e79fded3221ac8e67a2c51cf11394805d43206f89b58774d2ec907a515e98cc5"
+  },
+  "empty-camera-request.json": {
+    "bytes": 285,
+    "sha256": "29322a872b7d5eeb608372fa0ff2e5b172beb679f47d57209a1df9cbdc7ba2b8"
+  },
+  "empty-camera-response.json": {
+    "bytes": 332,
+    "sha256": "bc621ab87e6cc8be551ddaebc0230b1d747269179142d15db3d80da3b9bf8b20"
+  },
+  "empty-primary-reopened-request.json": {
+    "bytes": 204,
+    "sha256": "b6ec71217073397e78db327be05911d0efe476a9f182032d0590c31d3c2bc1bb"
+  },
+  "empty-primary-reopened-response.json": {
+    "bytes": 342,
+    "sha256": "03cd149972fc9111cde9968512e0de8b6e257ddaed683adfa2e137b106a3945f"
+  },
+  "empty-primary-request.json": {
+    "bytes": 195,
+    "sha256": "c05f80fb9871eb93eebc0e17d78dd531994f82fba0a78893458c97434a6d7d5f"
+  },
+  "empty-primary-response.json": {
+    "bytes": 333,
+    "sha256": "6e418a9a6c6f649ab4a9ee303ff075db93696d1bda3bd1906850acfb56603add"
+  },
+  "empty-primary-retry-request.json": {
+    "bytes": 201,
+    "sha256": "21a6ad5ae4c9e715e628eef71d77a99219cc967b5f329c4a35de3dddfe3eff24"
+  },
+  "empty-primary-retry-response.json": {
+    "bytes": 339,
+    "sha256": "858860f7c19f383b6bfa62a801263a523fc9caa626aec6be3a8800f856cca380"
+  },
+  "held-directory-request.json": {
+    "bytes": 196,
+    "sha256": "c53bd466a295732fb65bef2eb0b0466d9b86e31bd0d25e75035e07c8e4a88131"
+  },
+  "held-directory-response.json": {
+    "bytes": 149,
+    "sha256": "b4c9856745673f77a645850f1b6b898e0b35a32eb2eb220a610b70aeaf68e758"
+  },
+  "invalid-authority-0-request.json": {
+    "bytes": 189,
+    "sha256": "6b0b68c182d177ff74f9bd9d268060a497db265cec0f321f618ac773889824d7"
+  },
+  "invalid-authority-0-response.json": {
+    "bytes": 186,
+    "sha256": "e7c37fb22146317e0f64ee0caed445ceb969430f9afbc96763f597459679898f"
+  },
+  "invalid-authority-1-request.json": {
+    "bytes": 446,
+    "sha256": "f947cfa5647dc70b4f585fbfcbbf40340e9fc34c8524e4ad213032502714b02f"
+  },
+  "invalid-authority-1-response.json": {
+    "bytes": 186,
+    "sha256": "080a789122ad83bee09e5b12c6f43431198dda77753c892d9b1225cecf324ddc"
+  },
+  "invalid-authority-2-request.json": {
+    "bytes": 200,
+    "sha256": "8b9e911c64dc7ecece4f4474e6927cc7f47d9897f65f46c0a8128430244a541b"
+  },
+  "invalid-authority-2-response.json": {
+    "bytes": 186,
+    "sha256": "fffbf6ca4e026bab3b5a2f786cea97a71fbe3d159b7bc16e1f0031da1c14665e"
+  },
+  "invalid-authority-3-request.json": {
+    "bytes": 293,
+    "sha256": "a64ca3ad81c8f23b067ebd85053acfa4db43f6699740b6265371ba2b26af7742"
+  },
+  "invalid-authority-3-response.json": {
+    "bytes": 186,
+    "sha256": "3306416d1d7f3cb8036804ba1eb02ad066a8469fc70f176256c3c59d1d9d08b6"
+  },
+  "nonprivate-directory-request.json": {
+    "bytes": 202,
+    "sha256": "2dce2644d8dfd47a57e6d226bb2569ae673a5c17bd25ef083b3fedc74f513d87"
+  },
+  "nonprivate-directory-response.json": {
+    "bytes": 175,
+    "sha256": "146ec6d67d096032cd17e79b487d6436f9f24cd96c8c133bd9c4501830a6eafc"
+  },
+  "retained-camera.mapping.jsonl-request.json": {
+    "bytes": 211,
+    "sha256": "97487e9004f86fef335a33b533552c1c86fb14b1feef319b6be8a908d49620aa"
+  },
+  "retained-camera.mapping.jsonl-response.json": {
+    "bytes": 179,
+    "sha256": "d9d19a8e58c53fe9c90440b7fa8ab77823314da259eff3d7e5fa3050d08c5ba1"
+  },
+  "retained-camera.raw.mov-request.json": {
+    "bytes": 205,
+    "sha256": "bd97004c0785c34ec95d2887c4a00818db58b20ed28d7f8b4d9d062edb336ee9"
+  },
+  "retained-camera.raw.mov-response.json": {
+    "bytes": 173,
+    "sha256": "b18b0a863f4fc13031260f26d581ca62dc361a73fedf0afbac4cba47ba8e7699"
+  },
+  "retained-unknown.bin-request.json": {
+    "bytes": 202,
+    "sha256": "14df84ce030794a0c08af9a825913a5f984ceec9f5689089c53efc1abfa39c87"
+  },
+  "retained-unknown.bin-response.json": {
+    "bytes": 170,
+    "sha256": "2345b3c58f5f4fb6744f8ba53ca7f9722e8ed1eb70a0234d71714bb46e8ab469"
+  },
+  "symlink-directory-request.json": {
+    "bytes": 203,
+    "sha256": "fb0e09afbc43edb34a492b2404e985d99a71f7ecf73d2c515e5bb4dcab3c6e1c"
+  },
+  "symlink-directory-response.json": {
+    "bytes": 160,
+    "sha256": "484091a25ef2be5d797374ace906f5e71d8e602f3f4b4e99b238005c154e702f"
+  },
+  "unreadable-directory-request.json": {
+    "bytes": 202,
+    "sha256": "4e1dea94f1b63947cc5292453cec2db4a1634dca75f82cdf71dd08df51ebabb4"
+  },
+  "unreadable-directory-response.json": {
+    "bytes": 170,
+    "sha256": "d93d918514053ef2e37fe2ce39cd57fa7fab36676dc701ae56c0e82c8f361ffe"
+  }
+}

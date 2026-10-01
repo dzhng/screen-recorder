@@ -1,0 +1,38 @@
+{
+  "scope": "Merged root native empty-correction source/runtime/packet identity check",
+  "checkpoint": "adad2b60",
+  "sourceFiles": 235,
+  "packetMembers": 27,
+  "archives": {
+    "cohort.tar.gz": 53,
+    "external-code.tar.gz": 286,
+    "source.tar.gz": 235
+  },
+  "externalSources": 283,
+  "linkedObjects": 454,
+  "runtimes": 3,
+  "errors": [],
+  "focusedExecution": {
+    "command": "SCREENREC_EMPTY_CAPTURE_RECOVERY_OUTPUT=/tmp/screenrec-empty-recovery-merged-evidence /tmp/screenrec-empty-recovery-final-runner",
+    "exitCode": 0,
+    "scope": "Native Wire empty-source and refusal controls on source-identical merged inputs; no service, devices, models or playback"
+  },
+  "defaultSuite": "Child terminal0 transferred with exact merged source/runtime identity; not repeated by root",
+  "remaining": "Atomic controller/allocation/admission gates belong to 21f3; physical and installed claims unchanged",
+  "originalPacket": "All 27 original pinned members unchanged; merged files are a separate receipt",
+  "mergedFiles": {
+    "merged-evidence.tar.gz": {
+      "bytes": 2582,
+      "sha256": "d92ee81371abf7b5528505f0cb04ef7c49318e182ab8f5ff9e6f1226b814f995"
+    },
+    "merged-members.json": {
+      "bytes": 5191,
+      "sha256": "10d834f285c13a92e84388eb111875f9f59234ff8b494cc8122e375fda8209b6"
+    },
+    "merged-focused.log": {
+      "bytes": 86,
+      "sha256": "9cb990cce5e44aecc542cc8dfa9fd8701dd4a90a186eb4842e5c1ffcc667fd3c"
+    }
+  },
+  "mergedEvidenceMembers": 36
+}

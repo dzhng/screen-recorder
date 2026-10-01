@@ -113,6 +113,13 @@ unchanged. Verify the original never-started-take preservation control through
 the actual service and native worker, including retry/reopen and unchanged empty
 directory bytes, before closing this atomic checkpoint.
 
+The [native correction](../assets/21f3-empty-allocation-recovery/README.md) and
+[merged focused proof](../assets/21f3-empty-allocation-recovery/merged-verification.json)
+verify this narrow fallback and its retained-member/ownership/cancellation
+refusals. Native default controls remain green. Actual managed allocation and
+service retry/reopen stay part of this atomic checkpoint; no physical or installed
+claim follows from the native result.
+
 ## Bounded verification
 
 Drive actual CLI/MCP through the fresh service/private control and compiled actual
