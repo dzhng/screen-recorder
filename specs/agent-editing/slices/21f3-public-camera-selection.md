@@ -1,15 +1,15 @@
 # 21f3 — Atomic public camera selection and bound source outcomes
 
-Status: selector-free21f2 is merged-verified. Implement the native
-[independent-publication prerequisite](21f3a-independent-publication.md) before
-the [camera-origin prerequisite](21f3b-independent-camera-clock.md) and this
-complete atomic selector checkpoint. This is the third checkpoint
+Status: selector-free 21f2 and native
+[independent publication](21f3a-independent-publication.md) are merged-verified.
+Finish the [camera-origin prerequisite](21f3b-independent-camera-clock.md) before
+this complete atomic selector checkpoint. This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 
 ## Contract
 
-An optional public camera device identity reaches the actual native input and
+An optional bounded public `cameraDeviceId` reaches the actual native input and
 returns independently addressable source outcomes. Omission opens no camera;
 explicit denied or unavailable selection refuses without fallback or permission
 prompt. Replay retains the exact allocated binding; changed selection conflicts.
@@ -19,25 +19,36 @@ Capture publishes sources and admission facts, never a project or composition.
 
 Protocol selection/native-start/report shapes, CaptureStore allocation and replay,
 CaptureService control/recovery, the app controller and existing native input must
-change together. Persist the camera source/device binding under the same take and
-catalog transaction. Include selection in its existing replay fingerprint; native
+change together. Extend the existing recordings row with camera allocation and
+bounded publication facts in the same catalog transaction; no auxiliary source
+lifecycle table. Include selection in its existing replay fingerprint; native
 receives the stored recording/source/device authority rather than inventing it.
+Keep immutable allocation/replay arguments separate from evolving publication
+facts. The shared catalog format fence covers both CaptureStore and its installed
+RevisionStore specialization: advance that one format and create fresh scratch
+catalogs rather than adding migrations, ALTER statements or schema modes. Older
+catalogs are refused unchanged. The installed executable and library stay untouched;
+verify its surviving transaction behavior with the current code on fresh catalogs.
 
 NativeCapture, the shared input/clock and sole termination owner remain the
 surviving mechanism. The app controller must retain the independent camera result
-when reporting settlement. Recovery and deletion derive both source directories
+when reporting settlement. Publication callbacks snapshot the complete bounded
+observation with take/source/generation authority before asynchronous sending,
+using the existing journal-numbered lifecycle sequence. Later terminal reports
+carry the same source facts so out-of-order delivery cannot lose a newer outcome;
+the original finalizing acknowledgment remains immutable. Recovery and deletion derive both source directories
 from durable ownership, never a path supplied by an untrusted report. Preserve
 ordinary cadence, pause mapping and primary microphone/system/cursor behavior.
 
 Admit sources separately through existing acquisition/import/jobs. Camera remains
 ordinary video in its own acquisition. Its eligibility and expected binding come
 from stored capture facts, and the complete normalized recording/source/device
-binding must match before publication. A usable camera is not suppressed merely
+binding must match before acquisition publication. A usable camera is not suppressed merely
 because primary sourceDuration is null. Publication/admission failure and retry
 remain independent per source; retry cannot drain or close the inputs again.
 
 Extend 21f2's bounded sourceAdmissions discovery with the actual camera authority.
-For an eligible settled source awaiting queue admission, acquisition/job identity
+For an eligible published source awaiting queue admission, acquisition/job identity
 is null and admissionError is null; this is pending admission, not success. A
 durable request conflict remains explicit refusal. Preserve independent terminal
 source unavailability and publication/admission failures explicitly. Nullable IDs
@@ -58,10 +69,14 @@ priority from actual physical closure: preparing/recording/paused and draining
 inputs retain priority; already closed inputs awaiting publication do not hold
 source admission indefinitely. Persist source outcomes through the existing
 lifecycle transaction and native sequence; no second source transition engine.
-Immutable source-journal authority comes from21f3a. Cancellation must fence and
-join unfinished donor borrowers through23f before discarding bytes. Fresh deletion
-and cleanup remain unsupported until their23f port; path derivation alone does
-not implement those operations.
+Immutable source-journal authority comes from 21f3a. Resolve the logical journal
+member from its published receipt, freeze the entire immutable file, and stage it
+under the importer's existing journal name. Do not freeze the growing live journal
+or relax whole-file identity. Existing recovery verifies each source's publication
+authority independently through allocated paths; a pending primary cannot hide a
+verified camera. Cancellation fences and joins unfinished donor borrowers through
+merged-verified 23f before discarding bytes. Ready acquisition originals retain
+their independent ownership.
 
 ## Bounded verification
 
@@ -73,8 +88,10 @@ fixtures cannot be relabeled as freshly allocated evidence.
 
 The existing NativeCapture input boundary can supply prerecorded sessions in its
 package test target. Keep a real production dependency boundary at the app
-controller if necessary to exercise it; do not add a test-only playback/capture
-mode or a parallel controller. Compile source-identical app logic and pin all
+controller if necessary to exercise it: inject the concrete NativeCapture with its
+ordinary default unchanged. Compile the actual controller and ServiceHost with
+the package input boundary; source rewriting and substitute controllers cannot
+prove this gate. Do not add a test-only playback/capture mode. Compile source-identical app logic and pin all
 participating source/runtime identities. Do not activate devices or create app
 windows during these checks.
 
@@ -82,6 +99,9 @@ Verify omitted/selected/denied/absent inputs, exact identity forwarding,
 changed-selection replay, independent source eligibility, pause/cancel/service
 loss, repeated stop, publication/admission retry and reopen. Drop the selector or
 camera result, change binding/offset, or duplicate admission as negative controls.
+Prove the published acquisition reaches ready while its sibling is still pending,
+and hold physical drain separately to prove admission cannot run early. Include
+3b's absent-primary case and byte-identical refusal of prior-format catalogs.
 Then exercise existing explicit project/edit operations against 21e's numeric
 picture/PCM/offset oracle, including independent replacement and undo. The caller
 supplies canvas, tracks and placement; no capture-finalization layout is chosen.
