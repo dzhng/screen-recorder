@@ -1,12 +1,11 @@
 # 21f3 — Atomic public camera selection and bound source outcomes
 
-Status: selector-free 21f2, native
-[independent publication](21f3a-independent-publication.md) and the
-[camera-origin prerequisite](21f3b-independent-camera-clock.md) are merged-verified.
-The [native crash-source prerequisite](21f3c-source-publication-recovery.md) is
-merged-verified. The complete atomic selector checkpoint is in isolated integration;
-its actual recovery/admission and complete consumer gates must pass before enabling
-selection. This is the third checkpoint
+Status: **merged-verified in controlled scope**. The complete atomic selector,
+recovery/admission and explicit consumer checkpoint passes through the actual
+controller, native worker and CLI/MCP. The [merged record](../assets/21f3-public-camera-selection/merged-verification.json)
+pins the final source/runtime, retained complete gates and affected root checks.
+Physical synchronization, live lifecycle and installed acceptance remain separate.
+This is the third checkpoint
 of [21f](21f-public-camera-selection.md), reusing completed input, publication,
 admission and caller-authored project mechanisms from 21a–21e.
 
@@ -38,12 +37,6 @@ catalogs rather than adding migrations, ALTER statements or schema modes. Older
 catalogs are refused unchanged. The installed executable and library stay untouched;
 verify its surviving transaction behavior with the current code on fresh catalogs.
 
-The recording's publication JSON retains the last accepted immutable receipt for
-each source beside its current native observation. This is receipt identity
-history, not another transition engine. A later verification refusal may change
-published to pending or unavailable while its sibling advances. Eligibility and
-bounded public discovery use only the current outcome and physical closure;
-retained receipt identity never implies current source availability.
 The isolated implementation and verification are retained in the
 [atomic selection packet](../assets/21f3-public-camera-selection/README.md).
 

@@ -1,0 +1,82 @@
+{
+  "checks/controller-identities.json": {
+    "bytes": 19642,
+    "sha256": "9cd8496bb90676a7ff5c99162a84c8d26628b41f1bf5b3ae51227f1a4c7a4b04"
+  },
+  "checks/evidence-hardlinks.json": {
+    "bytes": 4656,
+    "sha256": "c64a1d37b22aa139c9b071a8ce959fcfcbe2aa35a5607e0bd331ba97d936a754"
+  },
+  "checks/native-identities.json": {
+    "bytes": 42436,
+    "sha256": "815c4aa79cdebe2865a072bea43b83c8fd8b79feaa2be339b1605773899c93de"
+  },
+  "checks/source-precheck.json": {
+    "bytes": 386,
+    "sha256": "91f0b714b711b4dab11035237d7073d6cddef745cda634726839be2d1f6b46b1"
+  },
+  "destinations/camera.mapping.jsonl/controller.json": {
+    "bytes": 433,
+    "sha256": "2801ac5430768dff1482619b7c98e33ba657d6796ed1813bf413aefcf1ab5d50"
+  },
+  "destinations/report.json": {
+    "bytes": 14178,
+    "sha256": "89551ef0c1f1837f5b06575d7a30894edcd98bed4a8a1c0dad2628ad0c9c89ff"
+  },
+  "destinations/retained-unknown.bin/controller.json": {
+    "bytes": 433,
+    "sha256": "2801ac5430768dff1482619b7c98e33ba657d6796ed1813bf413aefcf1ab5d50"
+  },
+  "empty/before-recovery/controller.json": {
+    "bytes": 491,
+    "sha256": "5de732313f9bc8949f203cd681e11d07f7cd0e094672ac8ca59712648ddbdff5"
+  },
+  "empty/home/controller.json": {
+    "bytes": 495,
+    "sha256": "0aa3650a79fa19ca596257c72273238d07bf38d11fb6a86cffe4d75e618c6487"
+  },
+  "empty/live-native/0-media.audioCapabilities-request.json": {
+    "bytes": 60,
+    "sha256": "6e06fc8e053ca572b44830ce83e429808a26de28df8322774ed3800df849c86f"
+  },
+  "empty/live-native/0-media.audioCapabilities-response.json": {
+    "bytes": 311,
+    "sha256": "f179491946e89918f5eeb000162ce26cf9b50ce082adad4b2229df3355ed63f9"
+  },
+  "empty/recovery-native/0-media.audioCapabilities-request.json": {
+    "bytes": 60,
+    "sha256": "6e06fc8e053ca572b44830ce83e429808a26de28df8322774ed3800df849c86f"
+  },
+  "empty/recovery-native/0-media.audioCapabilities-response.json": {
+    "bytes": 311,
+    "sha256": "f179491946e89918f5eeb000162ce26cf9b50ce082adad4b2229df3355ed63f9"
+  },
+  "empty/recovery-native/1-media.recover-request.json": {
+    "bytes": 287,
+    "sha256": "e9e037a62f48e4a2b09396cde306573a3e26b7ebac3045f3c4a581cd855d1776"
+  },
+  "empty/recovery-native/1-media.recover-response.json": {
+    "bytes": 423,
+    "sha256": "01b204ac8630fdd5318d375671d48ee57a7eae7d57aaf6f60a5e9e5b8c8661dd"
+  },
+  "empty/recovery-native/2-media.recover-request.json": {
+    "bytes": 474,
+    "sha256": "7bb9bf4fc1eae934a5007205cb147a22b1c9e34506af1dbfe2651667ddc41b3d"
+  },
+  "empty/recovery-native/2-media.recover-response.json": {
+    "bytes": 423,
+    "sha256": "01b204ac8630fdd5318d375671d48ee57a7eae7d57aaf6f60a5e9e5b8c8661dd"
+  },
+  "empty/report.json": {
+    "bytes": 14995,
+    "sha256": "5e6b46fbe972d009aaf1b83a6760c9d1f8c14396275fa23d77e99acdd5994bc5"
+  },
+  "logs/destinations.log": {
+    "bytes": 64,
+    "sha256": "b1f65bd85746b55a6bb1c3c727cbdc0e76c08c43513148f5a0d2ab444fdb2178"
+  },
+  "logs/empty.log": {
+    "bytes": 57,
+    "sha256": "33501c3264d677e015c1c894a667c80ada914ab128f947bbde98055f0dd6a581"
+  }
+}

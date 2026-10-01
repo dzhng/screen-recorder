@@ -42,12 +42,10 @@ Do not invent capture-start authoring settings or another authoring surface.
 and [21c selected input](21c-selected-camera-input.md) are complete in controlled
 scope. [21d durable source adoption](21d-captured-source-adoption.md) is verified.
 [21e caller-authored project integration](21e-capture-project-adoption.md) is
-verified. Next is [21f](21f-public-camera-selection.md#implementation-checkpoints):
-capture facts, durable admission and fresh coordination are merged-verified.
-Independent publication and camera clock/support are merged-verified; atomic public
-selection consumes merged-verified [native crash-source recovery](21f3c-source-publication-recovery.md)
-through its complete recovery/admission gate. The verified21c/21e prerequisites do not
-permit a selector that cannot reach that complete path.
+verified. [21f](21f-public-camera-selection.md#implementation-checkpoints) completes
+atomic public selection through merged-verified allocation, controller input,
+independent recovery/admission and explicit project use. Its controlled fixture
+proof does not establish physical synchronization or installed behavior.
 Each child has one owning seam and a separate verification packet. Parent21
 stays open until its implementation children and actual physical/lifecycle
 acceptance pass.

@@ -154,10 +154,15 @@ module pins and compares logical catalog rows with the pinned seed. Current sour
 has advanced; do not refresh that runtime or open its catalog through later
 capture startup. Its catalog predates the capture-table contract. Already READY imports require
 no unfinished-donor recovery. No database-byte history, current-production SLA,
-profile or timing pass follows from this read-only check. Wait for active capture
-checks to finish before coordinating the separate bounded profile window.
+profile or timing pass follows from this read-only check. Coordinate a separate
+bounded profile window after owned capture checks finish.
 
 The later [coordinated window](../assets/24z-owner-profile-preparation/coordinated-window-preflight.json)
 confirmed those owned checks were terminal but found unrelated whole-host CPU
 contention. Dispatch was deferred before runtime re-verification or service start;
 actual profile/read attempts remain zero. Own-lane quiescence is insufficient.
+
+The [post-atomic window](../assets/24z-owner-profile-preparation/post-atomic-window-preflight.json)
+again found unrelated compiler/simulation contention after owned checks ended.
+Its full raw inventory is hashed outside the repository. Dispatch and runtime
+reverification were deferred; no service, read, profile, timer or polling began.

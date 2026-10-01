@@ -22,12 +22,14 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
 developers read or edit it from that caller's perspective.
 
-**Next pickup: [21f3 atomic public camera selection](slices/21f3-public-camera-selection.md).**
-Independent publication, camera clock/support, native crash-source authority and
-fresh capture coordination are merged-verified.
-Keep public camera selection rejected until allocation, the actual native
-controller, crash-source recovery, independent source admission and explicit project use pass
-together, including [empty allocated-source recovery](slices/21f3-public-camera-selection.md#empty-allocated-sources).
+**Next pickup: [24z bounded source-cardinality attribution](slices/24z-source-cardinality.md).**
+Atomic public camera selection is [merged-verified](assets/21f3-public-camera-selection/merged-verification.json)
+through allocation, the actual native controller, crash recovery, independent
+admission and explicit project use, including empty allocated sources. Preserve
+that controlled checkpoint without inferring physical or installed acceptance.
+The separately prepared historical profile needs a future quiet host window and
+reverified runtime authority; the latest preflight deferred dispatch. Do not poll,
+repeat the timing cohort or choose an optimization without owner attribution.
 Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
 Preserve installed span transactions until the explicit cutover in 23.
@@ -38,7 +40,7 @@ prerequisites do not prohibit isolated implementation preparation.
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
 | [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and current generic preparation readiness |
-| [20 / 21](slices/21-webcam.md#implementation-graph) | Complete atomic allocation, recovery and source admission through explicit project use | Physical synchronization, live lifecycle and completed-stop deadline |
+| [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
 | [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md) and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
 
@@ -237,11 +239,11 @@ implementation readiness from acceptance prerequisites.
 - [x] [21c — Selected camera input through the shared lifecycle](slices/21c-selected-camera-input.md)
 - [x] [21d — Durable adoption of independent captured sources](slices/21d-captured-source-adoption.md)
 - [x] [21e — Caller-authored projects from captured sources](slices/21e-capture-project-adoption.md)
-- [ ] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
+- [x] [21f — Complete public selected-camera integration](slices/21f-public-camera-selection.md)
   - [x] [21f1 — Durable capture facts independent of editing](slices/21f1-capture-facts.md)
   - [x] [21f2 — Fresh-service capture coordination](slices/21f2-capture-coordination.md)
     - [x] [21f2a — Durable deferred capture admission](slices/21f2a-capture-admission.md)
-  - [ ] [21f3 — Atomic public camera selection](slices/21f3-public-camera-selection.md)
+  - [x] [21f3 — Atomic public camera selection](slices/21f3-public-camera-selection.md)
     - [x] [21f3a — Independent closed-source publication](slices/21f3a-independent-publication.md)
     - [x] [21f3b — Camera support without primary pictures](slices/21f3b-independent-camera-clock.md)
     - [x] [21f3c — Native crash-source publication recovery](slices/21f3c-source-publication-recovery.md)

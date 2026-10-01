@@ -1,0 +1,164 @@
+{
+  "status": "Merged verified in controlled scope",
+  "checkpoint": "60204dd1",
+  "originalPinnedMembers": 19,
+  "matchingSourceAndEmittedRuntimeFiles": 1307,
+  "archives": {
+    "source-runtime.tar.gz": {
+      "members": 1307,
+      "hardLinks": 0
+    },
+    "ordinary-source-runtime.tar.gz": {
+      "members": 932,
+      "hardLinks": 0
+    },
+    "runtime.tar.gz": {
+      "members": 21,
+      "hardLinks": 0
+    },
+    "evidence.tar.gz": {
+      "members": 953,
+      "hardLinks": 14
+    }
+  },
+  "actualRuntimes": {
+    "finalWorker": {
+      "bytes": 29977520,
+      "sha256": "6cde9f45e920c86ee60b9b269a850d4ef6187ecbfab400eb6772820b294e28ab"
+    },
+    "finalController": {
+      "bytes": 885312,
+      "sha256": "00935cf5a5f892780281832e440767c7554c49792771382af982248ef81b5f30"
+    }
+  },
+  "actualMergedGates": {
+    "empty": {
+      "exitCode": 0,
+      "report": "empty/report.json"
+    },
+    "destinations": {
+      "exitCode": 0,
+      "report": "destinations/report.json"
+    }
+  },
+  "preservedGates": {
+    "numeric": {
+      "passed": true,
+      "exchanges": 167,
+      "path": "final/numeric/report.json"
+    },
+    "crash": {
+      "passed": true,
+      "exchanges": 54,
+      "path": "final/crash/report.json"
+    },
+    "empty": {
+      "passed": true,
+      "exchanges": 6,
+      "path": "final/empty/report.json"
+    },
+    "completion": {
+      "passed": true,
+      "exchanges": 5,
+      "path": "final/completion/report.json"
+    },
+    "import-controls": {
+      "passed": true,
+      "exchanges": 24,
+      "path": "final/import-controls/report.json"
+    },
+    "selection": {
+      "passed": true,
+      "exchanges": 29,
+      "path": "final/selection/report.json"
+    },
+    "destinations": {
+      "passed": true,
+      "exchanges": 6,
+      "path": "final/destinations/report.json"
+    }
+  },
+  "preservedChecks": [
+    {
+      "name": "native worker build",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-native-build.log"
+    },
+    {
+      "name": "native default runner build",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-native-tests-build.log"
+    },
+    {
+      "name": "native default suite",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-native-default.log"
+    },
+    {
+      "name": "actual controller lifecycle races",
+      "exitCode": 0,
+      "modes": 6,
+      "log": "logs/screenrec-21f3-controller-races-final.log",
+      "scope": "Prior matching controller lifecycle sources; CameraWriter allocation change separately covered by final native default and actual public journeys."
+    },
+    {
+      "name": "capture/admission/catalog/donor/source-export preservation",
+      "exitCode": 0,
+      "tests": 74,
+      "files": 6,
+      "log": "logs/screenrec-21f3-frozen-preservation.log"
+    },
+    {
+      "name": "service typecheck",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-types-service2.log"
+    },
+    {
+      "name": "core typecheck",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-types-core.log"
+    },
+    {
+      "name": "focused format",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-format.log"
+    },
+    {
+      "name": "focused lint",
+      "exitCode": 0,
+      "log": "logs/screenrec-21f3-final-lint.log"
+    },
+    {
+      "name": "independent deadline controls red then green",
+      "redExitCode": 1,
+      "exitCode": 0,
+      "logs": [
+        "logs/screenrec-21f3-independent-budget-red.log",
+        "logs/screenrec-21f3-independent-budget-green.log"
+      ],
+      "scope": "Simulated work and byte scaling, not elapsed performance."
+    }
+  ],
+  "transferBasis": "Exact final source and emitted runtime identities, native/controller identities, retained complete exchanges and byte-identical reviewed PNG/WAV outputs; other final gates were not rerun.",
+  "mergedArchive": {
+    "bytes": 21344,
+    "sha256": "e34712d7513f711a41be78146a9c424cae6990ade8e89d8688d58985bd4c2972"
+  },
+  "oracleCorrection": "Initial archive checker counted regular files only and reported 939 versus 953. All 14 archive-contained hardlinks were then verified by target bytes. The initial record remains preserved.",
+  "buildInvocationLimit": "Protocol, core, service and CLI builds succeeded and all 358 emitted files match. The aggregate shell command then failed on nonexistent apps/mcp; MCP is the existing CLI adapter, not a separate package. No overall-command success is claimed.",
+  "scope": {
+    "physicalInput": "prerecorded at existing boundary; positive crash uses real CameraCaptureInput with fixture camera session",
+    "discovery": "scripted native-response boundary only",
+    "project": "explicit caller-authored canvas/tracks/placement; no capture-authored project",
+    "privateAuthority": "verified then removed before READY; no portable-member widening",
+    "emptyRecovery": "existing empty owned private directories only; missing paths refuse",
+    "modelsHardwarePlaybackInstall": "none"
+  },
+  "openClaims": [
+    "Physical synchronization",
+    "Live hardware lifecycle",
+    "Ten-second completed stop",
+    "Installed switch"
+  ],
+  "terminalHandles": "Both merged gate sessions terminal 0; harness awaits owned children; no remaining owned sessions."
+}

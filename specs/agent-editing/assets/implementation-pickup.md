@@ -15,10 +15,13 @@ workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Complete [21f atomic public selection](../slices/21f3-public-camera-selection.md),
-including native crash-source authority through actual independent admission.
+Preserve [21f atomic public selection](../slices/21f3-public-camera-selection.md),
+now [merged-verified](21f3-public-camera-selection/merged-verification.json)
+through actual independent recovery/admission and explicit portable project use.
+Remaining bounded owner attribution follows 24z's separate runtime and host-window
+contract; no repeated cohort or physical acceptance follows from that preparation.
 The [native recovery prerequisite](21f3c-source-publication-recovery/merged-verification.json)
-is merged-verified; complete controller/core/service and READY portable gates remain.
+is merged-verified and included in the completed controlled selector gate.
 [Camera support without primary pictures](../slices/21f3b-independent-camera-clock.md)
 and its shared-interruption correction are
 [merged-verified](21f3b-shared-interruption/merged-verification.json).
@@ -38,7 +41,7 @@ historical proof scope and must not be repeated. [21c selected input](21c-select
 and [21b closed camera sources](21b-camera-source-publication/README.md) remain verified.
 [Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
 public/native gates; input/result/source adoption and the caller-authored project
-journey must precede any new accepted camera-start selector. Capture returns exact
+journey now pass together in 21f3. Capture returns exact
 source facts; existing project/edit operations execute the caller’s explicit
 composition. No capture-finalization layout or automatic project is authorized. Preserve [12b](../slices/12b-speech-processing.md)
 parity for the already selected baseline, including raw evidence, provenance, generations and
@@ -72,7 +75,7 @@ or advertise camera selection.
 focused tests and exact source/compiled/packet identities. Admission freezes
 immutable observations inside the acquisition and preserves explicit retry; it
 creates no project. Actual coordinator/control wiring is now merged-verified
-under 21f2; remaining public camera work follows 21f3.
+under 21f2 and preserved in the completed 21f3 selector checkpoint.
 [23d native export consumption](23d-export-consumer-parity/README.md) is integrated;
 [merged verification](23d-export-consumer-parity/merged-verification.json) preserves
 recording/project receipt ownership and status recovery through the actual consumer.
@@ -92,6 +95,8 @@ stay rejected. Reuse saved marks/auditions and the
 [scoped frozen comparison](12-human-frozen-comparison/README.md).
 The personal repetition-intent solicitation is retired. The product makes zero
 editorial decisions; developers verify primitives and external callers choose edits.
+The [consumer-skill review](acceptance-maintenance/consumer-skill-review.json)
+checks that external-caller role without invoking screenrec as a development workflow.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;

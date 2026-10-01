@@ -1,5 +1,11 @@
 # Integrated evidence index
 
+- [Atomic selected-camera integration](21f3-public-camera-selection/merged-verification.json)
+  verifies allocation, actual controller/native input, independent recovery and
+  READY admission, explicit project edits and portable adoption. Final identities
+  and affected root checks pass. Capture creates no project; physical timing,
+  live lifecycle, completed-stop and installed acceptance stay separate.
+
 - [Local generation and ambience](19-acceptance/README.md) close the finite capability
   matrix. The user selects the speech-free200ms loop and tolerates its small
   residual seam; stronger overlap is rejected for whirling.

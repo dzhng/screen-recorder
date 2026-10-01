@@ -1,9 +1,9 @@
 # 21f — Complete public selected-camera integration
 
-Status: selector-free capture facts and durable admission integrated and merged-verified;
-fresh-service coordination, independent publication, camera clock/support
-and native crash-source recovery authority are merged-verified. Complete atomic
-public selection remains open.
+Status: **complete in controlled scope**. Atomic public selection, independent
+recovery/admission and explicit project use are
+[merged-verified](../assets/21f3-public-camera-selection/merged-verification.json).
+Physical synchronization, live lifecycle and installed acceptance remain open.
 Dependencies: [21a](21a-camera-discovery.md), [21c](21c-selected-camera-input.md) and [21e](21e-capture-project-adoption.md).
 Physical acceptance remains under [20](20-camera-reproduction.md) and parent [21](21-webcam.md).
 
@@ -35,7 +35,7 @@ compatibility layer or migration is part of this checkpoint.
 
 ## Implementation checkpoints
 
-Keep the selector rejected while settling these owners in order:
+The completed selector checkpoint joins these owners:
 
 1. [Extract durable capture facts](21f1-capture-facts.md): the existing catalog-backed allocation, lifecycle sequencing,
    discovery and deletion fences from the mixed revision store. CaptureService

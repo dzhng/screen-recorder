@@ -1,0 +1,26 @@
+{
+  "scope": "Read-only whole-host preflight after all owned atomic checks completed",
+  "observedAtUTC": "2026-10-01T15:16:22.367929+00:00",
+  "rawInventory": {
+    "path": "/tmp/screenrec-24z-post-atomic-host-preflight.txt",
+    "sha256": "59e5901504a3407e03e418c7b69aacdfc5a20b7ee434713b69e436f9c95b9fb9",
+    "retainedOutsideRepository": true
+  },
+  "wholeHost": "BUSY",
+  "observations": [
+    {
+      "process": "Unrelated compiler",
+      "cpuPercent": 133.3
+    },
+    {
+      "process": "Unrelated simulation workload",
+      "cpuPercent": 100.0
+    }
+  ],
+  "decision": "Defer dispatch before runtime reverification or service start",
+  "actualProfileAttempts": 0,
+  "actualPublicProjectReadAttempts": 0,
+  "actualServiceStarts": 0,
+  "runtimePinsReverifiedThisWindow": false,
+  "preservation": "No runtime, catalog, timing cohort, budget, process or worker changed; no timer or polling created"
+}
