@@ -25,6 +25,9 @@ Using real media as a test fixture does not make editing that recording a produc
 deliverable or require its owner to supply personal keep/remove judgments.
 The [editorial-control contract](specs/agent-editing/architecture.md#editorial-control)
 defines this boundary for implementation and verification.
+The [bounded implementation trace](specs/agent-editing/assets/acceptance-maintenance/editorial-boundary-audit.md)
+records the managed speech-to-edit ownership and the separate retained recording
+policy; source inspection supplies no speech-quality or runtime verdict.
 
 ## Components
 
