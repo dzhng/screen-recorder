@@ -1,0 +1,404 @@
+{
+  "base": "7a489800",
+  "planCherryPick": "1fa35615",
+  "source": {
+    "apps/cli/README.md": {
+      "bytes": 4674,
+      "sha256": "fb01d6a82743ea89de6dd66166b0d237569b79ae5c223da6e89fb1b050c0dc1d"
+    },
+    "apps/cli/src/main.test.ts": {
+      "bytes": 35166,
+      "sha256": "8d80d51abd66eb649223616cad1663ba72b3111ba317f3867d8f6b91f97e080e"
+    },
+    "apps/cli/src/main.ts": {
+      "bytes": 12754,
+      "sha256": "d013abf43f58672a3b16267bf504365d3b04743950a6ae16b944295ff89c384c"
+    },
+    "apps/cli/src/result-delivery.test.ts": {
+      "bytes": 13091,
+      "sha256": "116b722484817d7c9abd854dbe5e56258b8d07247f77da4bc6431fa91a99e50a"
+    },
+    "apps/service/src/delivery.ts": {
+      "bytes": 4907,
+      "sha256": "b67ff2eacc2454c7c6c72b90f6e458a0daf7015d264780ba79dff42c22cdb12e"
+    },
+    "apps/service/src/index.ts": {
+      "bytes": 7136,
+      "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+    },
+    "apps/service/src/main.ts": {
+      "bytes": 19541,
+      "sha256": "fea98214bffafe5ad042194984410d2de2ab064be4dab0a8caf43857ccd19d68"
+    },
+    "apps/service/src/project-service.test.ts": {
+      "bytes": 46698,
+      "sha256": "efb8111eb1464f5cf9f017e96d283046e88c9510cd7d1f99ffbd4084e03c3f1b"
+    },
+    "apps/service/src/project-service.ts": {
+      "bytes": 54468,
+      "sha256": "cc2c89b7fd2780279369382ebe975207f2d625a9599bfbfa4fbdb07bb8fb12a3"
+    },
+    "apps/service/src/result-delivery.test.ts": {
+      "bytes": 10059,
+      "sha256": "bb419956921b248507acda5ca98d3ad3eaa0f8b9558c0a51321f9f15a813058c"
+    },
+    "packages/client/src/transport.ts": {
+      "bytes": 3484,
+      "sha256": "c69d32ec2ac61f87705601b0679702ba2fe4ae7af90c726428138e33d0d9af7e"
+    },
+    "packages/protocol/src/framing.ts": {
+      "bytes": 5338,
+      "sha256": "477d4324b8b2269c0d75be7c240b817d72f8a9ccd32cdff6183c64ecdda5efa2"
+    },
+    "packages/protocol/src/index.ts": {
+      "bytes": 3832,
+      "sha256": "b5ec83ab37693413fa00f05458fde88a5084f998ef37bb3d6c8c1be74b429d57"
+    },
+    "packages/protocol/src/operations.ts": {
+      "bytes": 54756,
+      "sha256": "a25a6fbdefd5cb981fca10bb0f95251ca7b7e41ac621d731ebe362586b695b7d"
+    },
+    "skills/screenrec/SKILL.md": {
+      "bytes": 32686,
+      "sha256": "3e9434c7359f885f32b941e41bc030d2483cc5e96fff580690dacfe84ee13f04"
+    },
+    "specs/agent-editing/slices/24z11-operation-result-delivery.md": {
+      "bytes": 4829,
+      "sha256": "388e9f08749e3749c2ed0f1546de3daa39402de2de74010d4afe26ce022bc69b"
+    }
+  },
+  "emitted": {
+    "apps/cli/dist/main.js": {
+      "bytes": 12403,
+      "sha256": "b94d75799aafb7ed9515930f1d2223754e9c6f0c76cbdb92678dc45715862fe8"
+    },
+    "apps/cli/dist/main.d.ts": {
+      "bytes": 31,
+      "sha256": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
+    },
+    "apps/service/dist/delivery.js": {
+      "bytes": 4362,
+      "sha256": "41094f9842bedccaf0f77286c376100867ec809b517535917feb8dd69ab81b44"
+    },
+    "apps/service/dist/delivery.d.ts": {
+      "bytes": 1499,
+      "sha256": "375c3b370df18024ea0f9c45a1a676780ff979a8b9a083094a42249fa0f6c71c"
+    },
+    "apps/service/dist/index.js": {
+      "bytes": 7213,
+      "sha256": "83a70aa0f30001e731ffc9e361234f308bc6a32c77dc92c07bf35d542070632f"
+    },
+    "apps/service/dist/index.d.ts": {
+      "bytes": 993,
+      "sha256": "a335b3c911209d0f66aa22118c15b5e297d1df3365de9ae8ccfb2d6ae79dbecf"
+    },
+    "apps/service/dist/main.js": {
+      "bytes": 19883,
+      "sha256": "20703fa6218b6d2f253b316f9353b2e147a6ff3d0f6486fe8c81e208fabcdcfd"
+    },
+    "apps/service/dist/main.d.ts": {
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    "apps/service/dist/project-service.js": {
+      "bytes": 61216,
+      "sha256": "e1cf03644ed87cbf4dad045920e11dbfe709dade2aea40c85490327b00d5f552"
+    },
+    "apps/service/dist/project-service.d.ts": {
+      "bytes": 518,
+      "sha256": "0ff82e0d00863e52f11f2f0e54f8cc642c9206975297cc7a91395e4e855a26c9"
+    },
+    "packages/client/dist/transport.js": {
+      "bytes": 3087,
+      "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+    },
+    "packages/client/dist/transport.d.ts": {
+      "bytes": 667,
+      "sha256": "17a5cc6a25f8f1551555d8bf6a6dee3903889681f35b34785f093bce6d5cd5d4"
+    },
+    "packages/protocol/dist/framing.js": {
+      "bytes": 5431,
+      "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+    },
+    "packages/protocol/dist/framing.d.ts": {
+      "bytes": 1406,
+      "sha256": "930f899cb7ee0aace5e7f3711ebe3bad7d466d8a50f891efd0c978771bc61979"
+    },
+    "packages/protocol/dist/index.js": {
+      "bytes": 3294,
+      "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+    },
+    "packages/protocol/dist/index.d.ts": {
+      "bytes": 6217,
+      "sha256": "07c476d26a30bb197084d598bcf10d0a88cf04b98406e011c5142aed0883b44f"
+    },
+    "packages/protocol/dist/operations.js": {
+      "bytes": 55563,
+      "sha256": "bce1bd6a0439b3f1d73860f4dff1a86d15427a7196c668346803c3057df71086"
+    },
+    "packages/protocol/dist/operations.d.ts": {
+      "bytes": 171994,
+      "sha256": "eace888f04179403e72fecb5e8b1c1afa6c565a0e793c6b83cfbf6bc33409da6"
+    }
+  },
+  "unchangedLocalRuntimeTrees": {
+    "packages/protocol/dist": {
+      "path": "/Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/protocol/dist",
+      "files": 10,
+      "bytes": 257395,
+      "sha256": "286a41864d962e00ab32f5d29a6413a911a1137db57d5b467c6e099eae1ee8da"
+    },
+    "packages/client/dist": {
+      "path": "/Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/client/dist",
+      "files": 6,
+      "bytes": 9634,
+      "sha256": "de8e028a37969d1b0912715a103ca62d3c4bfca4f8b210fd077bc0ace4d7e753"
+    },
+    "apps/service/dist": {
+      "path": "/Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/apps/service/dist",
+      "files": 86,
+      "bytes": 572456,
+      "sha256": "f65f7a82704f40051d6665ab149d8135f704aef93fc067ee8a8209397bda3903"
+    },
+    "apps/cli/dist": {
+      "path": "/Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/apps/cli/dist",
+      "files": 4,
+      "bytes": 31224,
+      "sha256": "8840174fae542c4b1619de5bdfacc04a653851114015990b13f6514566019449"
+    },
+    "packages/core/dist": {
+      "path": "/Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/core/dist",
+      "files": 190,
+      "bytes": 5322294,
+      "sha256": "214793ac40e6051569f88186aa195d9cb3b5a86d17f9db1880c4e2289e7eeb24"
+    },
+    "packages/composition/dist": {
+      "path": "/Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/composition/dist",
+      "files": 66,
+      "bytes": 1419223,
+      "sha256": "8ec9eb8b72bc87c6d58d5b155df2c9423b9efb0a339f9f0184ed3540f6d981de"
+    }
+  },
+  "actualEsmResolution": [
+    {
+      "owner": "apps/cli/src/result-delivery.test.ts",
+      "name": "@screenrec/protocol",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/protocol/dist/index.js",
+      "bytes": 3294,
+      "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+    },
+    {
+      "owner": "apps/cli/src/result-delivery.test.ts",
+      "name": "@screenrec/client",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/client/dist/index.js",
+      "bytes": 64,
+      "sha256": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+    },
+    {
+      "owner": "apps/cli/src/result-delivery.test.ts",
+      "name": "@screenrec/service",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/apps/service/dist/index.js",
+      "bytes": 7213,
+      "sha256": "83a70aa0f30001e731ffc9e361234f308bc6a32c77dc92c07bf35d542070632f"
+    },
+    {
+      "owner": "apps/cli/src/result-delivery.test.ts",
+      "name": "@screenrec/core/projects",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/core/dist/projects.js",
+      "bytes": 28086,
+      "sha256": "d24b0f24373f95d66f8bf320415ddf84fd82d093902938675b5e7d94e76cd1b2"
+    },
+    {
+      "owner": "apps/cli/src/result-delivery.test.ts",
+      "name": "@modelcontextprotocol/sdk/client/index.js",
+      "resolved": "file:///Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js",
+      "bytes": 29275,
+      "sha256": "db6cc643f5cc095b2fd0b70bf691d1775f07a317e97555e3928559e815f5e32a"
+    },
+    {
+      "owner": "apps/cli/src/result-delivery.test.ts",
+      "name": "@modelcontextprotocol/sdk/client/stdio.js",
+      "resolved": "file:///Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js",
+      "bytes": 6569,
+      "sha256": "298514feae7875117a119a2598b40f2346ef07c30152fa7ad2ffb6cfb51782bc"
+    },
+    {
+      "owner": "apps/cli/dist/main.js",
+      "name": "@screenrec/protocol",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/protocol/dist/index.js",
+      "bytes": 3294,
+      "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+    },
+    {
+      "owner": "apps/cli/dist/main.js",
+      "name": "@screenrec/client",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/client/dist/index.js",
+      "bytes": 64,
+      "sha256": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+    },
+    {
+      "owner": "apps/cli/dist/main.js",
+      "name": "@modelcontextprotocol/sdk/server/index.js",
+      "resolved": "file:///Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js",
+      "bytes": 20763,
+      "sha256": "8b4fbdc0d0bbdc9ad74f385c41c0152d85445187f47cfc3941ff0d2a14a2696e"
+    },
+    {
+      "owner": "apps/cli/dist/main.js",
+      "name": "@modelcontextprotocol/sdk/server/stdio.js",
+      "resolved": "file:///Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js",
+      "bytes": 2825,
+      "sha256": "91ccf96ee65c36dba922bba429f127865a8e4ad03d252126aca2e03c526c005a"
+    },
+    {
+      "owner": "apps/service/dist/project-service.js",
+      "name": "@screenrec/protocol",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/protocol/dist/index.js",
+      "bytes": 3294,
+      "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+    },
+    {
+      "owner": "apps/service/dist/project-service.js",
+      "name": "@screenrec/core/projects",
+      "resolved": "file:///Users/david/.codex/worktrees/mcp-result-delivery/screen-recorder/packages/core/dist/projects.js",
+      "bytes": 28086,
+      "sha256": "d24b0f24373f95d66f8bf320415ddf84fd82d093902938675b5e7d94e76cd1b2"
+    }
+  ],
+  "external": {
+    "@modelcontextprotocol/sdk": {
+      "version": "1.30.0",
+      "packagePath": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk",
+      "metadata": {
+        "bytes": 6511,
+        "sha256": "0690cbe02511a95d1ff199acf20b5a12ac4dfde1bbe30c82a0de73afa92dffc9"
+      },
+      "esmClosure": {
+        "path": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm",
+        "files": 345,
+        "bytes": 2127922,
+        "sha256": "548e3f3c9c0e4b2654557524ead5191dc6c130d73f2c058104e142197a92354a"
+      }
+    },
+    "zod": {
+      "version": "4.6.5",
+      "packagePath": "/Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod",
+      "metadata": {
+        "bytes": 4142,
+        "sha256": "a046ed85fa09571dba539fee9ef236152d12dabd1f229b014ec3bd2ebaad9000"
+      }
+    },
+    "typescript": {
+      "version": "7.0.2",
+      "packagePath": "/Users/david/dev/screen-recorder/node_modules/.bun/typescript@7.0.2/node_modules/typescript",
+      "metadata": {
+        "bytes": 3087,
+        "sha256": "3722b30210616a13a3213ded11575ba6b2dbab10c32a5ef67afca8513e27017e"
+      }
+    },
+    "vitest": {
+      "version": "5.0.0",
+      "packagePath": "/Users/david/dev/screen-recorder/node_modules/.bun/vitest@5.0.0+d445b2a0928ffb0d/node_modules/vitest",
+      "metadata": {
+        "bytes": 5445,
+        "sha256": "a4f269c689b346c33446feaa8adea6bc1c1bd35a21e12c9ffac74198687b0fbc"
+      }
+    },
+    "oxlint": {
+      "version": "1.83.0",
+      "packagePath": "/Users/david/dev/screen-recorder/node_modules/.bun/oxlint@1.83.0/node_modules/oxlint",
+      "metadata": {
+        "bytes": 3096,
+        "sha256": "d0314b9693c3c1262cdd691bcea365ae66adbb030db5e87e2fc5e42fd44e3bc2"
+      }
+    },
+    "oxfmt": {
+      "version": "0.68.0",
+      "packagePath": "/Users/david/dev/screen-recorder/node_modules/.bun/oxfmt@0.68.0/node_modules/oxfmt",
+      "metadata": {
+        "bytes": 2994,
+        "sha256": "d7cd3dfc9bff20fd06442db9f6070379a3708e5c77b3827bc326af282aec0e53"
+      }
+    }
+  },
+  "node": {
+    "version": "v24.14.0",
+    "executable": "/Users/david/.nvm/versions/node/v24.14.0/bin/node"
+  },
+  "lock": {
+    "bytes": 56033,
+    "sha256": "37fad99511fdd8d593b5e05817f4c72bb07635510baf63abd35254099ea47a3e"
+  },
+  "retainedAuthority": {
+    "path": "specs/agent-editing/assets/24y-source-event-duration/sdk-capacity-evidence.tar.gz",
+    "bytes": 334490,
+    "sha256": "ff45fe1d4f120d4f01b2a09d546ed8cd06a59aada15f9f22af2eb22561bb0ebd",
+    "member": "place-9500.json",
+    "memberBytes": 5092292,
+    "memberSha256": "b1a24d32230175990fd97e4e3c939cf002949951b204be73a582184c21bdcdc5"
+  },
+  "changedClosureArchive": {
+    "path": "changed-closure.tar.gz",
+    "bytes": 123324,
+    "sha256": "d53841e4e199db4ecd267486f2ba1039320bfc961cc401cbb4995b6034fc8cb2"
+  },
+  "logs": {
+    "affected.log": {
+      "bytes": 5114,
+      "sha256": "6f26d7631f84fc54c7b31a7d551ba9f3b4ba6b4a7d41250adc2d7fe3b218453b"
+    },
+    "serial-affected.log": {
+      "bytes": 2065,
+      "sha256": "2c4636e36ad3153036227cbc1589aa29a1839f7a7d2ff52a871e25c48c306fb9"
+    },
+    "cli-final.log": {
+      "bytes": 1557,
+      "sha256": "06c43a21a2884ccc6c465d3edb4225090feafbad5c3c68493463b317316ab687"
+    },
+    "capacity-falsification.log": {
+      "bytes": 1202,
+      "sha256": "75fbfcf2b80ab55639eecc066d310a10bba49fe348889c4b5882847a3fd25635"
+    },
+    "capacity-restored.log": {
+      "bytes": 384,
+      "sha256": "d8568441e1beb7139330d1f224effced0ae05daafa7cd4a475e6f867dfd40606"
+    },
+    "final-current.log": {
+      "bytes": 1403,
+      "sha256": "1324118cecb13c242130b6e78f53cfae3640a65763a87db41b071dafccba7ac7"
+    },
+    "receipt-current.log": {
+      "bytes": 1463,
+      "sha256": "faf404778b94106aaf213e749f21242b477ad79da529726cb7ff86a99023c8ac"
+    },
+    "typecheck-current.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "check-types-final.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "oxlint-final.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "oxfmt-final.log": {
+      "bytes": 204,
+      "sha256": "c439c4de549c0c62fd94e3bf0c70619a7bfbbfd786e01b7fd1bc25ece9200556"
+    },
+    "module-resolution.jsonl": {
+      "bytes": 2574,
+      "sha256": "8e27aef1ac6e1ba900135e2291d05b80c9a8fbdc5cedd7b76ce0a1c2a82e3911"
+    },
+    "lint-current.log": {
+      "bytes": 732,
+      "sha256": "469a967a4d542a8a9bc94bab52f9fd9aeac5b904b526c719165c8c3ac2dde8f4"
+    },
+    "format-current.log": {
+      "bytes": 730,
+      "sha256": "24b45f2907bea08da3dbda42ddb6c89dab8fe8c5a6523e5e19eb2cd888a1f9d2"
+    }
+  },
+  "runtimeNote": "All workspace package links resolve to local emitted worktree code. External dependency code is intentionally reused without an install. Local core/composition runtime is built from the stated base; directory hashes pin unchanged runtime without copying it into this changed-only archive."
+}

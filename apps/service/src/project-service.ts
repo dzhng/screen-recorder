@@ -1356,7 +1356,7 @@ export async function startProjectService(options: {
       files,
       sources: captureSources,
     });
-    listenerStarting = listenLocal({ runtimeDirectory: runtime, handler: serve });
+    listenerStarting = listenLocal({ runtimeDirectory: runtime, handler: serve, delivery });
     if (options.control)
       controller = openControl({
         ...options.control,

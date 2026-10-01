@@ -29,6 +29,13 @@ every edit. When the user requests alternatives, keep those alternatives open.
    redirect stdout to save JSON metadata.
 
 2. Resolve the intended recording/project with discovery and inspect its state.
+   If MCP returns `resultDelivery`, read its token through `artifact.read` at
+   successive offsets, renew before expiry when needed, verify the complete byte
+   count and SHA-256, decode the UTF-8 JSON response, and close the token. Interpret
+   that response's `ok`/error and data before continuing. Do not resend a write
+   merely to obtain inline JSON. The result lease does not renew nested media
+   tokens. After expiry or restart, use only the operation's advertised recovery
+   or exact-request replay contract; an unavailable token does not imply rollback.
    Pin source identities and the actual editable revision. A source-only take
    supplies media facts; create a project explicitly when the task needs one.
    A stop can acknowledge `finalizing`; that is not media readiness. Follow

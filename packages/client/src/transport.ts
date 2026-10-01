@@ -5,10 +5,13 @@ import {
   JsonLineReader,
   encodeJsonLine,
   operationDeadlineMs,
-  parseRequest,
+  wireRequestSchema,
   responseSchema,
+  wireResponseSchema,
   type OperationRequest,
   type OperationResponse,
+  type OperationWireRequest,
+  type OperationWireResponse,
 } from "@screenrec/protocol";
 
 export class LocalTransportError extends Error {
@@ -20,12 +23,23 @@ export class LocalTransportError extends Error {
   }
 }
 
+type CallOptions = { timeoutMs?: number; signal?: AbortSignal };
+export function callLocal(
+  socketPath: string,
+  request: OperationRequest & { resultDelivery?: never },
+  options?: CallOptions,
+): Promise<OperationResponse>;
+export function callLocal(
+  socketPath: string,
+  request: OperationWireRequest,
+  options?: CallOptions,
+): Promise<OperationWireResponse>;
 export async function callLocal(
   socketPath: string,
-  request: OperationRequest,
-  options: { timeoutMs?: number; signal?: AbortSignal } = {},
-): Promise<OperationResponse> {
-  const sent = parseRequest(request);
+  request: OperationWireRequest,
+  options: CallOptions = {},
+): Promise<OperationWireResponse> {
+  const sent = wireRequestSchema.parse(request);
   const frame = encodeJsonLine(sent, REQUEST_FRAME_BYTES);
   const signal = options.signal;
   const timeoutMs = options.timeoutMs ?? operationDeadlineMs(sent.operation);
@@ -62,7 +76,7 @@ export async function callLocal(
       try {
         const value = reader.push(chunk);
         if (value === undefined) return;
-        const parsed = responseSchema.safeParse(value);
+        const parsed = (sent.resultDelivery ? wireResponseSchema : responseSchema).safeParse(value);
         if (!parsed.success)
           throw new LocalTransportError(
             "INVALID_RESPONSE",

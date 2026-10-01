@@ -33,6 +33,16 @@ stdout — so a caller parses one stream whatever went wrong. MCP is the excepti
 for protocol messages, writes anything else to stderr, and marks operation failures with
 `isError`.
 
+Small MCP results retain complete JSON text and structured responses. Large results
+return `resultDelivery`, a service-owned lease for the complete UTF-8 operation
+response. Read its bounded chunks with `artifact.read`, verify the byte count and
+SHA-256, decode the response, and close the lease. Renewal extends the snapshot's
+expiry; nested media deliveries keep their own lifetimes. The adapter sends the
+operation once and never replays a mutation to recover a large response. Expiry or
+service restart invalidates the token without undoing committed work. Recover an
+uncertain mutation only through its advertised exact-request replay contract.
+Inline media attachment capacity remains a separate transport concern.
+
 Without `--socket`, the [client](../../packages/client/src/discovery.ts) finds the
 service under `SCREENREC_HOME` (default `~/.screen-recorder`) and, when needed,
 asks macOS to launch `~/Applications/Screen Recorder.app`. Set `SCREENREC_APP` to an

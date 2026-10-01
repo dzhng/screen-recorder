@@ -110,6 +110,39 @@ async function setup(worker: MediaWorker) {
   }
   return { home, path, service, call, job };
 }
+test("project service delivers complete operation results through its shared artifact owner", async () => {
+  const f = await setup(async (operation) => {
+    expect(operation).toBe("storage.clearRenderWorkspace");
+    return { ok: true, data: { removed: true } };
+  });
+  const params = {
+    requestId: "delivered-project",
+    canvas: {
+      width: 16,
+      height: 16,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  };
+  const answer = await callLocal(f.service.socketPath, {
+    id: "delivered",
+    operation: "project.create",
+    params,
+    resultDelivery: { inlineBytes: 100 },
+  });
+  if (!("resultDelivery" in answer)) throw Error("Missing project result delivery");
+  const read = await f.call("artifact.read", { token: answer.resultDelivery.token, offset: 0 });
+  if (!read.ok) throw Error(read.error.message);
+  const chunk = read.data as { data: string };
+  const bytes = Buffer.from(chunk.data, "base64");
+  expect(createHash("sha256").update(bytes).digest("hex")).toBe(answer.resultDelivery.sha256);
+  const ordinary = await f.call("project.create", params);
+  expect(JSON.parse(bytes.toString())).toEqual({ ...ordinary, id: "delivered" });
+  expect(await f.call("artifact.close", { token: answer.resultDelivery.token })).toMatchObject({
+    ok: true,
+    data: { closed: true },
+  });
+});
 test("fresh service owns capture facts without enabling capture or creating span editing state", async () => {
   const f = await setup(async (operation) => {
     expect(operation).toBe("storage.clearRenderWorkspace");

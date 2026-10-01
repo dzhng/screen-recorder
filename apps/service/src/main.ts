@@ -304,6 +304,7 @@ async function main(): Promise<void> {
       });
     });
     listener = await listenLocal({
+      delivery,
       runtimeDirectory,
       handler: (request, signal) => serve(request, signal),
     });

@@ -1,5 +1,5 @@
 import { promisify } from "node:util";
-import { listenLocal } from "@screenrec/service";
+import { listenLocal, DerivativeDelivery } from "@screenrec/service";
 import { afterEach, expect, it } from "vitest";
 import { execFile, spawn, spawnSync } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -13,9 +13,12 @@ import {
   CONTROL_FRAME_BYTES,
   controlMessageSchema,
   type OperationResult,
+  deliveredResponseSchema,
+  responseSchema,
 } from "@screenrec/protocol";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { callLocal } from "@screenrec/client";
 
 const entry = new URL("../dist/main.js", import.meta.url).pathname;
 const cleanup: (() => Promise<void>)[] = [];
@@ -291,6 +294,48 @@ it("CLI and MCP return the same recording list", async () => {
   const mcpList = await client.callTool({ name: "recording.list", arguments: { limit: 1 } });
   expect(mcpList.isError).toBe(false);
   expect(mcpList.structuredContent).toMatchObject({ ok: true, data: listed.result.data });
+});
+
+it("the recording service exposes its complete result through the same MCP artifact operations", async () => {
+  const { socket } = await serviceFixture();
+  const request = {
+    id: "retained-recording-list",
+    operation: "recording.list",
+    params: { limit: 1 },
+  };
+  const delivered = deliveredResponseSchema.parse(
+    await callLocal(socket, { ...request, resultDelivery: { inlineBytes: 100 } }),
+  );
+  const client = new Client({ name: "recording-result", version: "1" });
+  cleanup.push(() => client.close());
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [entry, "mcp", "--socket", socket],
+      stderr: "pipe",
+    }),
+  );
+  const read = responseSchema.parse(
+    (
+      await client.callTool({
+        name: "artifact.read",
+        arguments: { token: delivered.resultDelivery.token, offset: 0 },
+      })
+    ).structuredContent,
+  );
+  if (!read.ok) throw Error(read.error.message);
+  const data = read.data as { data: string };
+  expect(JSON.parse(Buffer.from(data.data, "base64").toString())).toEqual(
+    await callLocal(socket, request),
+  );
+  expect(
+    (
+      await client.callTool({
+        name: "artifact.close",
+        arguments: { token: delivered.resultDelivery.token },
+      })
+    ).isError,
+  ).toBe(false);
 });
 
 it("oversized CLI requests preserve their ID and fail before service discovery", () => {
@@ -576,7 +621,10 @@ it.each([
     const bytes = Buffer.from("image fixture bytes");
     let collideFile = false;
     const collisionOutput = join(home, "file-collision");
+    const delivery = new DerivativeDelivery();
+    cleanup.push(async () => delivery.dispose());
     const listener = await listenLocal({
+      delivery,
       runtimeDirectory: home,
       handler: async (request) => {
         const params = request.params as { token: string };
@@ -736,7 +784,10 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
             expiresAt: Date.now() + 30000,
           },
         };
+  const delivery = new DerivativeDelivery();
+  cleanup.push(async () => delivery.dispose());
   const listener = await listenLocal({
+    delivery,
     runtimeDirectory: home,
     handler: async (request) => {
       if (request.operation === "artifact.close") {
@@ -891,17 +942,17 @@ it(
     expect(
       (await client.callTool({ name: "capture.sources", arguments: {} })).structuredContent,
     ).toMatchObject({ ok: true, data: { cameras: [] } });
-    const unsupported = {
-      requestId: "unsupported-camera",
-      source: { kind: "window", windowId: 1 },
+    const malformed = {
+      requestId: "malformed-camera",
+      source: { kind: "window", windowId: 1, displayId: 1 },
       cameraDeviceId: "camera-2",
     };
-    expect(cli(f.socket, "capture.start", unsupported).result).toMatchObject({
+    expect(cli(f.socket, "capture.start", malformed).result).toMatchObject({
       ok: false,
       error: { code: "INVALID_PARAMS" },
     });
     expect(
-      (await client.callTool({ name: "capture.start", arguments: unsupported })).structuredContent,
+      (await client.callTool({ name: "capture.start", arguments: malformed })).structuredContent,
     ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
     expect(
       f.asked.every(

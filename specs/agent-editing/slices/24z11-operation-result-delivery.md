@@ -1,6 +1,6 @@
 # 24z11 — Complete large operation results over MCP
 
-Status: implementation next. The retained [24y default-client failure](24y-source-event-duration.md#validation-client-capacity) is the reproduction authority; its configured-client proof remains historical evidence, not a production fix.
+Status: implemented and verified in the isolated worktree; root integration remains separate. The [changed-closure packet](../assets/24z11-operation-result-delivery/README.md) retains the complete saved receipt through default MCP and ordinary CLI, both service compositions, lifetime/capacity/error controls, and original failures. The retained [24y default-client failure](24y-source-event-duration.md#validation-client-capacity) remains historical authority; its configured-client proof is not relabeled as this production correction. General inline media capacity and final scale/installed acceptance remain open.
 
 ## Contract and ownership
 

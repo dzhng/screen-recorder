@@ -1,0 +1,43 @@
+{
+  "verdict": "clean in focused scope",
+  "sequence": [
+    "refactor-clean",
+    "code-review",
+    "write-docs",
+    "audit-choices"
+  ],
+  "shape": {
+    "result": "resolved",
+    "findings": [
+      "Centralized exact maintenance exemption in protocol; adapter and socket share it. Removed redundant client overload. All retained bytes/reservations/timers belong to existing DerivativeDelivery."
+    ],
+    "surfaces": [
+      "Optional strict wire request resultDelivery.inlineBytes; tolerant explicit wire response descriptor token/bytes/expiresAt/sha256/mediaType, id/ok.",
+      "One result owner domain and reservation method; no second capacity owner, endpoint, persisted cache/table, dependency, alternate service or automatic uncertain-write retry."
+    ],
+    "boundedness": "Existing 32 slots, 30s timers, 8MiB complete response and 512KiB chunks unchanged; result Buffer view shares the immutable encoded frame. Conservative inline budget 2774357 derives from existing bounds."
+  },
+  "code": {
+    "result": "clean",
+    "inspection": "Typed operation/wire distinction, ID/outcome/errors, full original encoding before retention, reservation-before-handler, synchronous release/open, cancellation/finally/dispose, both composition ownership, ordinary path and nested-media early return inspected. No casts to any, type ignores or compatibility facades added.",
+    "verification": "126 affected tests plus pinned production/test typechecks, changed-file lint/format/diff check; reservation falsification fails."
+  },
+  "docs": {
+    "result": "clean",
+    "paths": [
+      "apps/cli/README.md",
+      "skills/screenrec/SKILL.md",
+      "specs/agent-editing/slices/24z11-operation-result-delivery.md"
+    ],
+    "linkChain": "Root README \u2192 active agent-editing hub \u2192 approved 24z11 leaf \u2192 this packet; local referenced artifacts resolve. Consumer skill read/edited from external caller perspective, never invoked."
+  },
+  "choices": {
+    "result": "four sound choices, medium-confidence budget/storage fixture disclosed before high-confidence wire/explicit-owner decisions",
+    "authority": "choices.md",
+    "sharedLedger": "Parent owns integration into global choices ledger."
+  },
+  "independentReview": "Root reviewer separately inspects settled source diff and packet at integration; this record is implementer review, not independent proof.",
+  "limits": [
+    "Isolated focused change only. General media-envelope budgeting, whole spec scale and physical/listening/installed acceptance remain separate."
+  ]
+}

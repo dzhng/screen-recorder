@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { RESPONSE_FRAME_BYTES } from "./framing.js";
 
 export const requestSchema = z
   .object({
@@ -13,6 +14,13 @@ export type OperationRequest = z.infer<typeof requestSchema>;
 export function parseRequest(value: unknown): OperationRequest {
   return requestSchema.parse(value);
 }
+
+export const wireRequestSchema = requestSchema.extend({
+  resultDelivery: z
+    .strictObject({ inlineBytes: z.int().min(1).max(RESPONSE_FRAME_BYTES) })
+    .optional(),
+});
+export type OperationWireRequest = z.infer<typeof wireRequestSchema>;
 
 export const operationErrorSchema = z.object({
   code: z.string().min(1),
@@ -29,6 +37,22 @@ export const responseSchema = z.discriminatedUnion("ok", [
 ]);
 export type OperationResult = z.infer<typeof resultSchema>;
 export type OperationResponse = z.infer<typeof responseSchema>;
+export const deliveredResponseSchema = z.object({
+  id: requestSchema.shape.id,
+  ok: z.boolean(),
+  resultDelivery: z.object({
+    token: z.string().min(1),
+    bytes: z
+      .int()
+      .positive()
+      .max(RESPONSE_FRAME_BYTES - 1),
+    expiresAt: z.int(),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    mediaType: z.literal("application/json"),
+  }),
+});
+export const wireResponseSchema = z.union([responseSchema, deliveredResponseSchema]);
+export type OperationWireResponse = z.infer<typeof wireResponseSchema>;
 export type OperationFailure = Extract<OperationResult, { ok: false }>;
 
 /** The one shape every peer refuses an operation with. */

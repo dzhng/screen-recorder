@@ -1,0 +1,113 @@
+{
+  "status": "isolated implementation verified; root integration separate",
+  "receipt": {
+    "authority": "24y/place-9500.json",
+    "storageEdge": "unchanged saved receipt in a synthetic replay row; no new clip edits or historical catalog reuse",
+    "receiptBytes": 5092292,
+    "receiptSha256": "b1a24d32230175990fd97e4e3c939cf002949951b204be73a582184c21bdcdc5",
+    "defaultSdk": true,
+    "mcpResultBytes": 640,
+    "descriptor": {
+      "id": "5f1f91fb-d072-4a40-b10f-b77124372f83",
+      "ok": true,
+      "resultDelivery": {
+        "token": "4e8f0200-ee66-4bf1-bc34-c8e607a8cfe1",
+        "bytes": 5092355,
+        "expiresAt": 1790887102153,
+        "sha256": "f66711aff64136c7c13ef50973c3c0005a6f3470f9c72b84042c426b2ab996aa",
+        "mediaType": "application/json"
+      }
+    },
+    "reconstructedBytes": 5092355,
+    "exactReceiptBytes": true,
+    "replayRows": 1,
+    "authoredRevisions": 0
+  },
+  "historicalCapacity": {
+    "receiptBytes": 5092292,
+    "serviceLineBytes": 5092356,
+    "mcpResultBytes": 10659872,
+    "mcpLineBytes": 10659908,
+    "defaultSdkLineBytes": 10485760,
+    "overflowBytes": 174148,
+    "authority": "../24y-source-event-duration/sdk-capacity-evidence.tar.gz",
+    "note": "Historical original default-SDK failure; no adjusted-client receipt reclassified as current production proof."
+  },
+  "currentGate": {
+    "command": "node node_modules/vitest/vitest.mjs run packages/protocol/src packages/client/src apps/service/src/index.test.ts apps/service/src/delivery.test.ts apps/service/src/result-delivery.test.ts apps/service/src/project-service.test.ts apps/cli/src --maxWorkers=1 --silent=false",
+    "files": 11,
+    "tests": 126,
+    "passed": 126,
+    "raw": "changed-closure.tar.gz:checks/final-current.log",
+    "deadlines": "unchanged",
+    "observation": "No timing causality, speedup, whole-spec or installed acceptance claimed."
+  },
+  "typedBuild": {
+    "commands": [
+      "node node_modules/typescript/bin/tsc -p <package>/tsconfig.json",
+      "node node_modules/typescript/bin/tsc -p <package>/tsconfig.check.json"
+    ],
+    "packages": [
+      "packages/protocol",
+      "packages/client",
+      "apps/service",
+      "apps/cli"
+    ],
+    "checks": "changed-closure.tar.gz:checks/check-types-final.log",
+    "result": "pass"
+  },
+  "quality": {
+    "oxlint": "pass; 13 changed TypeScript files",
+    "oxfmt": "pass; 13 changed TypeScript files",
+    "gitDiffCheck": "pass"
+  },
+  "capacityFalsification": {
+    "change": "Temporary reserve() call replaced by no-op release callback in socket owner; restored byte-for-byte before final extraction/build/gate.",
+    "result": "red: dispatch committed mutation 33; expected 32",
+    "raw": "changed-closure.tar.gz:checks/capacity-falsification.log",
+    "restoredGate": "6/6 result lifetime/capacity tests passed; final affected 126/126 includes them."
+  },
+  "originalFailures": [
+    {
+      "gate": "affected.log",
+      "tests": 107,
+      "passed": 105,
+      "failed": 2,
+      "unhandled": 1,
+      "facts": "Strict no-device fixture incorrectly treated current-valid window+camera as unsupported; scripted peer threw Unexpected device action: capture.start and spawnSync hit existing deadline. New receipt gate separately exceeded unchanged 5s test deadline."
+    },
+    {
+      "gate": "serial-affected.log",
+      "tests": 86,
+      "passed": 85,
+      "failed": 1,
+      "facts": "New receipt gate retained timeout under serial scheduling."
+    },
+    {
+      "gate": "cli-final.log",
+      "tests": 25,
+      "passed": 24,
+      "failed": 1,
+      "facts": "Camera fixture repaired; new receipt gate retained timeout before byte-oracle correction."
+    }
+  ],
+  "corrections": [
+    "Parent-authorized malformed strict window source includes disallowed displayId, preserving INVALID_PARAMS/no-device-dispatch oracle. No production capture/schema changed.",
+    "Native Buffer.equals checks every canonical receipt byte instead of redundant deep traversal; SHA compares every complete response byte. Actual ordinary CLI subprocess also checks every receipt byte. No limits/deadlines changed."
+  ],
+  "controls": {
+    "bothCompositions": [
+      "Emitted production startProjectService \u2192 exact archived receipt replay \u2192 socket \u2192 actual adapter \u2192 default SDK \u2192 artifact.read/close, plus shared owner create/replay test.",
+      "Emitted recording-service main \u2192 opted real recording.list result \u2192 actual MCP artifact.read/close. This composition does not support archived project edits."
+    ],
+    "smallAndOrdinary": "Existing CLI/MCP small forms, all media and public camera fixtures pass; actual ordinary CLI archived receipt remains full.",
+    "lostReply": "Real ProjectStore track.add commits before client cancellation; exact request replay has ordinal 1, one track and history [0,1]; no extra revision; all reservation capacity reusable after close.",
+    "lifetime": "Expiry releases capacity; disposed owner/new owner refuses stale tokens; large error retains outcome/details/ID; >8MiB complete response refuses; all32 live leases block opted mutation before dispatch while read/renew/close drain them.",
+    "nestedMedia": "Large metadata descriptor bypasses adapter media reads/closes; original nested lease remains independently readable."
+  },
+  "scope": [
+    "The retained receipt storage fixture seeds unchanged result bytes and synthetic replay arguments; no historical catalog/history/admissions/original arguments claim.",
+    "No new large edit batch, native/service installation, worker build, device capture, inference, playback, physical/listening/installed acceptance.",
+    "General inline media image/audio/batch message capacity is explicitly a following pass."
+  ]
+}

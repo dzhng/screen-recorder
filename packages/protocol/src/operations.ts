@@ -16,6 +16,14 @@ import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 const id = z.string().min(1);
 /** The most bytes one artifact.read returns. */
 export const ARTIFACT_CHUNK_BYTES = 512 * 1024;
+/** Bounded maintenance must not borrow capacity from the deliveries it drains. */
+export function isArtifactMaintenance(operation: string): boolean {
+  return (
+    operation === "artifact.read" ||
+    operation === "artifact.renew" ||
+    operation === "artifact.close"
+  );
+}
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const range = z.object({ startUs: time, endUs: time }).strict();
 const cursorRange = range.refine(
@@ -952,7 +960,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Read a bounded base64 chunk from a ready media delivery; retrying an offset returns the same bytes.",
+      "Read a bounded base64 chunk from a media or complete JSON operation-result delivery; retrying an offset returns the same bytes.",
     ),
   z
     .object({ operation: z.literal("artifact.renew"), params: z.object({ token: id }).strict() })
@@ -963,7 +971,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("artifact.close"), params: z.object({ token: id }).strict() })
     .strict()
-    .describe("Release a media delivery; closing it again succeeds."),
+    .describe("Release a media or operation-result delivery; closing it again succeeds."),
   z
     .object({
       operation: z.literal("timeline.events"),

@@ -1,6 +1,10 @@
 import { createServer, type Socket } from "node:net";
 import { chmod, lstat, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import { createHash } from "node:crypto";
+import type { DerivativeDelivery } from "./delivery.js";
+import { operationFailure } from "./operation-errors.js";
+export { DerivativeDelivery } from "./delivery.js";
 import {
   DEFAULT_CALL_TIMEOUT_MS,
   REQUEST_FRAME_BYTES,
@@ -9,10 +13,12 @@ import {
   JsonLineReader,
   encodeJsonLine,
   operationError,
-  parseRequest,
+  isArtifactMaintenance,
+  wireRequestSchema,
   resultSchema,
   serviceSocketPath,
   type OperationRequest,
+  type OperationWireRequest,
   type OperationResult,
 } from "@screenrec/protocol";
 
@@ -43,6 +49,7 @@ export async function prepareRuntimeDirectory(runtimeDirectory: string): Promise
 export async function listenLocal(options: {
   runtimeDirectory: string;
   handler: LocalHandler;
+  delivery?: DerivativeDelivery;
   readTimeoutMs?: number;
   maxConnections?: number;
   maxInFlight?: number;
@@ -63,25 +70,30 @@ export async function listenLocal(options: {
     sockets.add(socket);
     const reader = new JsonLineReader(REQUEST_FRAME_BYTES);
     const controller = new AbortController();
+    let releaseResult: (() => void) | undefined;
     const deadline = setTimeout(() => socket.destroy(), readTimeoutMs);
     socket.on("close", () => {
       clearTimeout(deadline);
       controller.abort();
+      releaseResult?.();
       sockets.delete(socket);
     });
     socket.on("error", () => socket.destroy());
     socket.on("end", () => socket.destroy());
     socket.on("data", (chunk) => {
-      let request: OperationRequest;
+      let request: OperationWireRequest;
       try {
         const value = reader.push(chunk);
         if (value === undefined) return;
-        request = parseRequest(value);
+        request = wireRequestSchema.parse(value);
       } catch {
         socket.destroy();
         return;
       }
       clearTimeout(deadline);
+      const { resultDelivery, ...operation } = request;
+      // Maintenance must remain usable when every delivery slot is occupied.
+      const deferred = !isArtifactMaintenance(operation.operation) ? resultDelivery : undefined;
       const reply = (result: OperationResult) => {
         if (socket.destroyed || controller.signal.aborted) return;
         let frame: Buffer;
@@ -90,6 +102,32 @@ export async function listenLocal(options: {
             { id: request.id, ...resultSchema.parse(result) },
             RESPONSE_FRAME_BYTES,
           );
+          if (
+            deferred &&
+            releaseResult &&
+            frame.length - 1 > deferred.inlineBytes &&
+            options.delivery
+          ) {
+            const bytes = frame.subarray(0, frame.length - 1);
+            releaseResult();
+            const receipt = options.delivery.open({ kind: "result", id: request.id }, () => ({
+              bytes: bytes.length,
+              read: (buffer, position) => bytes.copy(buffer, 0, position, position + buffer.length),
+              release() {},
+            }));
+            frame = encodeJsonLine(
+              {
+                id: request.id,
+                ok: result.ok,
+                resultDelivery: {
+                  ...receipt,
+                  sha256: createHash("sha256").update(bytes).digest("hex"),
+                  mediaType: "application/json",
+                },
+              },
+              RESPONSE_FRAME_BYTES,
+            );
+          }
         } catch (error) {
           const oversized = error instanceof FrameError && error.code === "FRAME_TOO_LARGE";
           frame = encodeJsonLine(
@@ -115,15 +153,28 @@ export async function listenLocal(options: {
         );
         return;
       }
+      try {
+        if (deferred) {
+          if (!options.delivery) {
+            reply(operationError("NOT_READY", "Operation result delivery is unavailable"));
+            return;
+          }
+          releaseResult = options.delivery.reserve();
+        }
+      } catch (error) {
+        reply(operationFailure(error));
+        return;
+      }
       inFlight += 1;
       void Promise.resolve()
-        .then(() => options.handler(request, controller.signal))
+        .then(() => options.handler(operation, controller.signal))
         .finally(() => {
           // Disconnecting cancels interest, but a non-cooperative handler still owns work.
           // Keep its slot until it settles so reconnects cannot bypass the admission bound.
           inFlight -= 1;
         })
-        .then(reply, () => reply(operationError("INTERNAL_ERROR", "Service handler failed")));
+        .then(reply, () => reply(operationError("INTERNAL_ERROR", "Service handler failed")))
+        .finally(() => releaseResult?.());
     });
   });
   let closePromise: Promise<void> | undefined;

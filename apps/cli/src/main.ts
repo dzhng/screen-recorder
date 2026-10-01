@@ -22,11 +22,14 @@ import {
   operationSchema,
   FrameError,
   REQUEST_FRAME_BYTES,
+  MCP_RESULT_INLINE_BYTES,
   parseRequest,
   encodeJsonLine,
   operationError,
+  isArtifactMaintenance,
   type OperationRequest,
   type OperationResponse,
+  type OperationWireResponse,
 } from "@screenrec/protocol";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -123,12 +126,28 @@ function request(id: string, operation: string, params: unknown): OperationReque
 }
 
 // Keep readiness probes separate from the caller's one operation: never replay uncertain writes.
+function invoke(
+  selection: ServiceSelection,
+  sending: OperationRequest,
+  deliverResult: true,
+): Promise<OperationWireResponse>;
+function invoke(selection: ServiceSelection, sending: OperationRequest): Promise<OperationResponse>;
 async function invoke(
   selection: ServiceSelection,
   sending: OperationRequest,
-): Promise<OperationResponse> {
+  deliverResult?: true,
+): Promise<OperationWireResponse> {
   try {
     const socketPath = await resolveServiceSocket(selection);
+    if (deliverResult && !isArtifactMaintenance(sending.operation))
+      return await callLocal(
+        socketPath,
+        {
+          ...sending,
+          resultDelivery: { inlineBytes: MCP_RESULT_INLINE_BYTES },
+        },
+        selection.signal ? { signal: selection.signal } : {},
+      );
     return await callLocal(
       socketPath,
       sending,
@@ -166,15 +185,23 @@ async function mcp(selection: ServiceSelection) {
   }));
   server.setRequestHandler(CallToolRequestSchema, async (call, extra) => {
     const id = randomUUID();
-    let result: OperationResponse;
+    let answer: OperationWireResponse;
     try {
-      result = await invoke(
+      answer = await invoke(
         { ...selection, signal: extra.signal },
         request(id, call.params.name, call.params.arguments ?? {}),
+        true,
       );
     } catch (error) {
-      result = errorResult(id, error);
+      answer = errorResult(id, error);
     }
+    if ("resultDelivery" in answer)
+      return {
+        content: [{ type: "text" as const, text: JSON.stringify(answer) }],
+        structuredContent: answer,
+        isError: !answer.ok,
+      };
+    let result = answer;
     const images: { type: "image"; data: string; mimeType: string }[] = [];
     const batchReference = batchReferences.get(call.params.name);
     if (batchReference) {
