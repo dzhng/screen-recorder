@@ -108,3 +108,7 @@ now preserves absolute human mark times when compatible candidate timestamps mov
 and refuses incompatible reuse before overwriting evidence. This corrects a tool
 integrity hazard; the later independent human range supplies the word reference.
 Neither change improves the recorded historical speech timing scores.
+
+[Bounded external lexical-reference qualification](../assets/12-lexical-reference-qualification/README.md)
+retains one independently verified human text source whose missing interval
+authority prevents an executable small fixture. It adds no quality pass.

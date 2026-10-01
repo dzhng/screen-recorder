@@ -1,0 +1,66 @@
+{
+  "README.md": {
+    "bytes": 2121,
+    "sha256": "c983db2e88228c9040a5c56dd7e540e2e2dbc712180dfa6b0778940757bc477c"
+  },
+  "audio-head.json": {
+    "bytes": 1288,
+    "sha256": "73500d2a0cd25b04289da5ae2a613df42e4eaa150dca26b3880820337f42821e"
+  },
+  "authority-research.md": {
+    "bytes": 6226,
+    "sha256": "15b3082011233cb41734cf80eac83ab9564de6ef42bb6f22237018c3a6233315"
+  },
+  "contents.json": {
+    "bytes": 10057,
+    "sha256": "f0efc6a2232cd6491fdc53af854f7f3018cb5e69751a7b30e63c30d819d83103"
+  },
+  "file-metadata-object.json": {
+    "bytes": 5202,
+    "sha256": "1ab74af5e56fbc3b00c7e3b1697c2715f79a0c8ddccdc8a988506cc1b247d185"
+  },
+  "file-metadata.txt": {
+    "bytes": 2906,
+    "sha256": "248efde3dbfb0ed7d69ff1ccbd820f4368d099be845d6436eb5caa75e4c443ba"
+  },
+  "head.json": {
+    "bytes": 17584,
+    "sha256": "3862ac982a715800299344f3f6b88ef391d89acae462d3942d9a20e4553f2185"
+  },
+  "license-object.json": {
+    "bytes": 1413,
+    "sha256": "8f99fb7360e5ed37e70788bc7e009dee1838054f74daf1a5535d69ec325b74d0"
+  },
+  "license.txt": {
+    "bytes": 249,
+    "sha256": "f68574aae5b4abc00aedc10c6843142b0d7162c74bd13c24752a7f16a44a09b7"
+  },
+  "media.json": {
+    "bytes": 47726,
+    "sha256": "84d04d56aa16fd8aaff37fac070ccd46ef8faffb732437c1a037f846b894b3ff"
+  },
+  "qualification.json": {
+    "bytes": 4078,
+    "sha256": "388b09bb216256bbe6d96cc78f275da58d7b28dcec651f536794efe40a882b01"
+  },
+  "reference-object.json": {
+    "bytes": 322435,
+    "sha256": "fb80726c728fa4ddf220ad63a0708ee32ce2236fb44be5748953e5b4417daaea"
+  },
+  "reference.txt": {
+    "bytes": 233124,
+    "sha256": "7288fe3173997eb0e0ed85ffe5065e2555ac1a27748c63b6419beb944947b085"
+  },
+  "transcript-readme-object.json": {
+    "bytes": 5427,
+    "sha256": "30141d26bc5545812a3c88a32db41251ffb6be44fb9883f1c682ea10e0a29df7"
+  },
+  "transcript-readme.txt": {
+    "bytes": 3112,
+    "sha256": "04533d146cc8e32715f59db2d38b44ae944b896b09a9aacd86a18be75a1cb903"
+  },
+  "transcripts.json": {
+    "bytes": 4062,
+    "sha256": "0285aa380fcfee1d824d59a950a76dab8bb068a3787428dce10383463d2aab43"
+  }
+}

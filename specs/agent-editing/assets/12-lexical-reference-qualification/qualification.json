@@ -1,0 +1,105 @@
+{
+  "candidateReady": false,
+  "repositoryRevision": "c05ab6fd8b4b627d123c922a22a39e993dd37635",
+  "sourceId": "Earnings21/4346923",
+  "audio": {
+    "path": "earnings21/media/4346923.mp3",
+    "immutableUrl": "https://raw.githubusercontent.com/revdotcom/speech-datasets/c05ab6fd8b4b627d123c922a22a39e993dd37635/earnings21/media/4346923.mp3",
+    "gitBlobSha1": "98f3684538616139146c6622e0ba694ffb4deb45",
+    "bytes": 14129410,
+    "headStatus": 200,
+    "bytesDownloaded": false,
+    "sha256": null
+  },
+  "reference": {
+    "path": "earnings21/transcripts/nlp_references/4346923.nlp",
+    "immutableUrl": "https://raw.githubusercontent.com/revdotcom/speech-datasets/c05ab6fd8b4b627d123c922a22a39e993dd37635/earnings21/transcripts/nlp_references/4346923.nlp",
+    "gitBlobSha1": "b194200a21b68de7c99054e810788a59e02738ed",
+    "bytes": 233124,
+    "sha256": "7288fe3173997eb0e0ed85ffe5065e2555ac1a27748c63b6419beb944947b085",
+    "gitBlobVerified": true,
+    "authority": "Rev publisher nlp_references, independent human verbatim text according to the authors paper"
+  },
+  "sourceMetadata": {
+    "file_id": "4346923",
+    "audio_length": "4709.418",
+    "sample_rate": "16000",
+    "company_name": "Cementos Argos",
+    "financial_quarter": "1",
+    "sector": "Industrial Goods",
+    "speaker_switches": "120",
+    "unique_speakers": "20",
+    "curator_id": "1"
+  },
+  "referenceInspection": {
+    "tokenRows": 10436,
+    "literalUh": 270,
+    "literalUm": 95,
+    "numericWordStarts": 0,
+    "numericWordEnds": 0,
+    "malformedEndTs": {
+      "rowZeroBased": 1574,
+      "value": "."
+    },
+    "prospectiveFirstFillerUtterance": {
+      "referenceRowStartZeroBased": 252,
+      "referenceRowEndExclusive": 260,
+      "speaker": "2",
+      "referenceTokens": [
+        "Uh",
+        "thank",
+        "you",
+        "Indira",
+        "and",
+        "good",
+        "morning",
+        "everyone"
+      ],
+      "normalizedTokens": [
+        "uh",
+        "thank",
+        "you",
+        "indira",
+        "and",
+        "good",
+        "morning",
+        "everyone"
+      ],
+      "contextAvailableInReference": true,
+      "sourceRangeUs": null,
+      "durationAtMost60sVerified": false
+    }
+  },
+  "prospectiveNormalization": {
+    "purpose": "Lexical diagnostic only; must be fixed before reading a model hypothesis",
+    "rules": [
+      "Use token column, not named-entity normalization/equivalence sidecars",
+      "Unicode casefold",
+      "Ignore separate punctuation/case metadata columns",
+      "Keep fillers, repeated tokens, numbers, interior apostrophes and false-start hyphens; no synonym or number equivalence",
+      "Do not collapse uh and um or delete either token",
+      "Both reference and hypothesis must use the same frozen tokenizer; unavailable/ambiguous tokens remain explicitly reported"
+    ],
+    "currentModelChange": false
+  },
+  "rights": {
+    "transcriptLicense": "CC BY-SA 4.0",
+    "transcriptLicenseSource": "https://raw.githubusercontent.com/revdotcom/speech-datasets/c05ab6fd8b4b627d123c922a22a39e993dd37635/earnings21/LICENSE.md",
+    "licenseFile": {
+      "bytes": 249,
+      "sha256": "f68574aae5b4abc00aedc10c6843142b0d7162c74bd13c24752a7f16a44a09b7"
+    },
+    "audioLicense": "No matching blanket audio CC grant in the inspected license; authors paper cites fair-use rationale",
+    "additionalUsageAuthorityEstablished": false
+  },
+  "pretraining": {
+    "localHeldOut": "Not used in this project\u2019s accepted personal-source experiments",
+    "independenceFromParakeetPretrainingEstablished": false
+  },
+  "unsupportedPrerequisites": [
+    "Exact text-complete <=60s source interval for the named eight-token utterance and surrounding context",
+    "Applicable audio use/redistribution authority beyond the publisher rationale",
+    "Evidence excluding this source from selected Parakeet pretraining, if that stronger held-out claim is required"
+  ],
+  "scope": "No audio download, inference, new model, capture, playback, human annotation task, or repository edits; independently manual word-edge gold remains absent"
+}

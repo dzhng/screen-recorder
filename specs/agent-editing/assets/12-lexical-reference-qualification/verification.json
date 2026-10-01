@@ -1,0 +1,23 @@
+{
+  "qualified": false,
+  "referenceGitBlobAndSHA256Verified": true,
+  "referenceRows": 10436,
+  "fillerCounts": {
+    "uh": 270,
+    "um": 95
+  },
+  "usableTimestamps": 0,
+  "proposedTokenRows": [
+    252,
+    260
+  ],
+  "archiveMembers": 16,
+  "archiveSHA256": "66911074d76823e0c6136fadb1b47aa5e3a2645b410e0065079256f4875c3781",
+  "exclusions": [
+    "No audio download/inference",
+    "No independent word-edge or lexical score",
+    "No complete <=60s audio interval",
+    "No pretrained-model hold-out assertion"
+  ],
+  "review": "One immutable official pair; retain precise limits and stop candidate qualification. No production/editorial/model changes."
+}
