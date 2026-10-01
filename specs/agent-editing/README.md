@@ -25,10 +25,10 @@ actual labels before12b adoption. The [local generation/ambience matrix](assets/
 is accepted, including the chosen200ms loop with a slight residual seam tolerated.
 Preserve that exact choice and the rejected alternatives; no further loop trial
 is requested.
-The requested [sentence marking page](assets/12d-sentence-marking/README.md) is
-prepared with blank sentence/neighbor/filler edges and a separate save directory.
-Its [audio loading repair](assets/12d-marking-recovery/README.md) restores the
-stopped local server and keeps the loaded original available while marking.
+The requested [sentence marking page](assets/12d-sentence-marking/README.md) now
+uses [waveform clicks and Next](assets/12d-waveform-guidance/README.md), starting
+with the user's reported opening “um”. The original stays loaded in the browser;
+no boundaries are prefilled and saves remain separate from frozen evidence.
 Next pickup is the user's actual saved marks; drafts and synthetic verification
 positions do not count as independent evidence.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and

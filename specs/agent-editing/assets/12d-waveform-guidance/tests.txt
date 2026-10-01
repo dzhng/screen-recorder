@@ -1,0 +1,41 @@
+$ node dist/bootstrap.js && node --test speech/evaluate.test.mjs editing/speech/annotation-time.test.mjs editing/speech-labeling.test.mjs
+{
+  "ok": true,
+  "nativeBinary": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+  "cases": [
+    "ping",
+    "unknown operation",
+    "invalid params",
+    "unknown envelope field",
+    "malformed JSON",
+    "empty operation",
+    "speech unknown field",
+    "speech relative model directory",
+    "speech unsafe model file path",
+    "speech missing models",
+    "movie bound outside the image limit",
+    "ping after invalid lines"
+  ]
+}
+✔ original audio supports exact byte ranges for paused word-edge seeking (966.414334ms)
+✔ clip positions retain the acquired source clock without adding its origin twice (4.759708ms)
+✔ confirmed filler marks remain local to the clip and reject a changed source (1.3535ms)
+✔ unconfirmed and partial marks never become independent labels (0.268709ms)
+✔ unknown export fields cannot silently change what a listener submits (8.1305ms)
+✔ a newly heard opening filler is retained alongside the existing filler, without inventing incomplete edges (0.427ms)
+✔ omitted filler and invented filler both reduce held-out fidelity (8.571167ms)
+✔ results from different model configurations cannot produce one passing score (2.024791ms)
+✔ a transcript of different audio is rejected before scoring its words (3.056583ms)
+✔ the CLI reports empty evidence as pending with a non-success exit code (676.298ms)
+✔ perfect synthetic words cannot increase human fidelity denominators (8.945834ms)
+✔ complete evidence passes, but a 300 ms boundary shift fails the timing gate (12.216708ms)
+✔ median boundary error averages the middle pair for an even sample count (26.989625ms)
+✔ repeated words match the observed occurrence when edit costs tie (11.301666ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1168.2985

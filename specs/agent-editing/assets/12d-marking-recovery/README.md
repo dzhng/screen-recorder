@@ -1,5 +1,8 @@
 # Loaded audio stays available for marking
 
+Historical repair packet. The current [guided waveform workflow](../12d-waveform-guidance/README.md)
+preserves complete audio loading and replaces the long marking form.
+
 The listener reported a zero-duration player and unclear instructions. The
 prepared local server had stopped. The restored server runs independently of
 its launching command session. The browser fetches the complete unchanged

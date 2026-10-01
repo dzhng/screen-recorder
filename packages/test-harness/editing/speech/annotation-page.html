@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mark the sentence by listening</title>
+    <title>Mark the recording</title>
     <style>
       :root {
         color-scheme: light;
@@ -18,305 +18,204 @@
       }
       body {
         margin: 0;
-        padding: 32px 20px;
+        padding: 24px 20px;
       }
       main {
         max-width: 960px;
         margin: auto;
       }
       h1 {
-        font-size: clamp(1.7rem, 4vw, 2.4rem);
+        font-size: clamp(1.6rem, 4vw, 2rem);
         line-height: 1.2;
-        margin: 0 0 12px;
+        margin: 0 0 8px;
       }
       h2 {
-        font-size: 1.2rem;
-        margin: 0 0 12px;
-      }
-      fieldset {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        min-width: 0;
+        font-size: 1.4rem;
+        margin: 6px 0;
       }
       p {
-        margin: 8px 0;
-      }
-      section {
-        background: white;
-        border: 1px solid #dce2ea;
-        border-radius: 12px;
-        padding: 22px;
-        margin-top: 20px;
+        margin: 6px 0;
       }
       .muted {
         color: #526175;
       }
-      .proposal {
-        font-size: 1.1rem;
-        padding: 12px 16px;
-        background: #f4f7fb;
-        border-left: 3px solid #647b9c;
+      section {
+        background: #fff;
+        border: 1px solid #dce2ea;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 16px;
+      }
+      #progress {
+        font-size: 0.9rem;
+        color: #526175;
+      }
+      #instruction {
+        margin-bottom: 14px;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 220px;
+        background: #f8fafc;
+        cursor: crosshair;
+        border: 1px solid #dce2ea;
+        border-radius: 8px;
+      }
+      canvas[aria-disabled="true"] {
+        cursor: default;
       }
       audio {
         display: block;
         width: 100%;
-        margin: 16px 0;
-      }
-      .playback {
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        background: #fff;
-        border: 1px solid #d2dbe7;
-        border-radius: 8px;
-        padding: 6px 12px;
-        margin-top: 16px;
-      }
-      .playback audio {
-        margin: 4px 0;
-      }
-      .playback p {
-        margin: 4px 0;
-        font-size: 0.9rem;
-      }
-      button,
-      input,
-      textarea {
-        font: inherit;
+        height: 44px;
+        margin-top: 12px;
       }
       button {
+        font: inherit;
         border: 1px solid #a8b5c6;
-        border-radius: 6px;
+        border-radius: 7px;
         background: #fff;
         color: #243144;
-        padding: 7px 10px;
+        padding: 9px 16px;
         cursor: pointer;
       }
       button:hover:enabled {
         background: #edf3fb;
       }
       button:disabled {
-        opacity: 0.55;
+        opacity: 0.5;
         cursor: default;
       }
       :focus-visible {
         outline: 3px solid #2463ba;
         outline-offset: 3px;
       }
-      input[type="number"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #a8b5c6;
-        border-radius: 5px;
-      }
-      canvas {
-        display: block;
-        width: 100%;
-        height: 170px;
-        background: #f8fafc;
-        cursor: crosshair;
-      }
-      .wave-tools {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px 24px;
-        align-items: center;
-        margin-top: 12px;
-      }
-      .wave-tools label {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      output {
-        font-variant-numeric: tabular-nums;
-      }
-      .mark-row {
-        display: grid;
-        grid-template-columns: 145px 1fr 1fr auto;
-        gap: 16px;
-        align-items: start;
-        padding: 18px 0;
-        border-top: 1px solid #e4e8ee;
-      }
-      .mark-row:first-child {
-        border-top: 0;
-      }
-      .target-name {
-        font-weight: 650;
-        padding-top: 22px;
-      }
-      .edge label {
-        display: block;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-      }
-      .edge button {
-        width: 100%;
-        margin-top: 7px;
-        font-size: 0.88rem;
-      }
-      .edge output {
-        display: block;
-        font-size: 0.8rem;
-        color: #526175;
-        margin-top: 5px;
-        min-height: 1.2em;
-      }
-      .clear {
-        margin-top: 26px;
-      }
-      .row-error {
-        grid-column: 1 / -1;
-        color: #9c2635;
-        margin: 0;
-      }
-      input[aria-invalid="true"] {
-        border-color: #9c2635;
-      }
-      .confirmation {
-        display: flex;
-        align-items: start;
-        gap: 10px;
-        margin: 18px 0;
-      }
-      .confirmation input {
-        margin-top: 6px;
-      }
-      textarea {
-        display: block;
-        width: 100%;
-        min-height: 90px;
-        margin-top: 6px;
-        padding: 10px;
-        border: 1px solid #a8b5c6;
-        border-radius: 6px;
-        resize: vertical;
-      }
-      #save {
+      #next {
         color: #fff;
         background: #245da5;
         border-color: #245da5;
-        padding: 10px 18px;
+        min-width: 130px;
       }
-      #save:hover:enabled {
+      #next:hover:enabled {
         background: #194c8e;
+      }
+      .navigation {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      #skip {
+        margin-left: auto;
+      }
+      #selection {
+        min-height: 1.5em;
+        margin-top: 10px;
       }
       #status {
         white-space: pre-wrap;
         overflow-wrap: anywhere;
-        margin-top: 14px;
       }
       #status[data-error="true"] {
         color: #9c2635;
       }
+      details {
+        margin-top: 14px;
+        font-size: 0.9rem;
+      }
+      .zoom {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .zoom button {
+        padding: 5px 12px;
+      }
+      output {
+        font-variant-numeric: tabular-nums;
+      }
+      #summary {
+        padding-left: 24px;
+      }
+      [hidden] {
+        display: none !important;
+      }
       @media (max-width: 650px) {
         body {
-          padding: 22px 12px;
+          padding: 16px 12px;
         }
         section {
-          padding: 18px;
+          padding: 14px;
         }
-        .mark-row {
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
+        h2 {
+          font-size: 1.2rem;
         }
-        .target-name {
-          grid-column: 1 / -1;
-          padding: 0;
-        }
-        .clear {
-          grid-column: 1 / -1;
-          margin: 0;
-          justify-self: start;
+        #skip {
+          margin-left: 0;
         }
       }
     </style>
   </head>
   <body>
     <main>
-      <h1>Mark the sentence by listening</h1>
-      <p class="muted">
-        Help check that removing “uh” does not cut into your other words. You only need to mark when
-        a sound starts and finishes. Leave anything unclear blank.
-      </p>
-      <div class="playback">
-        <audio id="audio" controls preload="auto" aria-label="Original complete sentence"></audio>
-        <p id="audio-status" role="status">Loading the complete recording…</p>
-        <button id="reload-audio" type="button" hidden>Try loading the audio again</button>
-        <p>Playhead: <output id="clip-clock" aria-live="off">0.000 s in this clip</output></p>
-      </div>
-      <section aria-labelledby="listen-heading">
-        <h2 id="listen-heading">1. Listen once, then find “uh”</h2>
-        <p id="sentence-text" class="proposal">Loading the original sentence…</p>
-        <p class="muted">
-          Press ▶ to listen once. Click the waveform to go back and listen again. Pause where “uh”
-          begins and use “Start at playhead” below; then pause where it finishes and use “End at
-          playhead”. The player stays visible while you scroll.
+      <h1>Click the waveform, then Next</h1>
+      <p class="muted">Mark the sounds you hear, one boundary at a time. No timestamps to type.</p>
+      <section aria-labelledby="step-title">
+        <p id="progress">Loading the recording…</p>
+        <h2 id="step-title">Start with the opening “um”</h2>
+        <p id="instruction">
+          Click where it begins. You’ll hear a short preview around your click.
         </p>
         <canvas
           id="waveform"
-          aria-label="Waveform in clip seconds. Click to seek; use the audio controls for keyboard seeking."
+          tabindex="0"
+          role="button"
+          aria-label="Choose a boundary on the waveform. Click to select and hear a preview. Arrow keys adjust the selection; Enter previews it."
         ></canvas>
-        <div class="wave-tools">
-          <label for="zoom"
-            >Waveform zoom <input id="zoom" type="range" min="1" max="16" value="1" step="1" />
-            <output id="zoom-value">1×</output></label
-          >
-          <output id="hover-time" aria-live="off"
-            >Move over the waveform for a precise time; click to seek.</output
-          >
+        <p id="selection" role="status">Loading the complete recording…</p>
+        <audio
+          id="audio"
+          controls
+          preload="auto"
+          aria-label="Original recording and click preview"
+        ></audio>
+        <p id="audio-status" class="muted" role="status">Audio does not start until you click.</p>
+        <button id="reload-audio" type="button" hidden>Try loading the audio again</button>
+        <div class="navigation">
+          <button id="back" type="button" disabled>Back</button>
+          <button id="next" type="button" disabled>Next →</button>
+          <button id="skip" type="button" disabled>Not sure — skip</button>
+        </div>
+        <p id="status" role="status" aria-live="polite">
+          Listen to the preview, then Next confirms your selected point. The last Next saves your
+          marks.
+        </p>
+        <div id="complete" hidden>
+          <p>Your recording is unchanged. Any skipped boundaries remain unknown.</p>
+          <ul id="summary"></ul>
         </div>
         <details>
-          <summary>Recording details</summary>
+          <summary>Zoom and recording details</summary>
+          <div class="zoom">
+            <button id="zoom-in" type="button">Zoom in</button>
+            <button id="zoom-out" type="button">Zoom out</button>
+            <output id="zoom-value">1×</output>
+          </div>
           <p>
-            Original recording time: <output id="source-clock" aria-live="off">Loading…</output>
+            Click again to move your selection. Scroll back to the full waveform if needed. Use Back
+            to change an earlier mark.
           </p>
-          <p id="provenance" class="muted"></p>
-          <p class="muted">
-            The suggested sentence text comes from automatic transcription. If it differs from what
-            you hear, say so in the notes.
+          <p id="sentence-text"></p>
+          <p id="provenance"></p>
+          <p>
+            Word names help you find the sounds; they do not supply boundary times. This short clip
+            does not establish a complete filler inventory or removal intent.
           </p>
         </details>
       </section>
-      <form id="marks-form" autocomplete="off">
-        <fieldset id="mark-fields" disabled>
-          <section aria-labelledby="marks-heading">
-            <h2 id="marks-heading">2. Mark four items</h2>
-            <p class="muted">
-              Use “Start at playhead” when the sound begins and “End at playhead” when it finishes.
-              Do this for “uh”, “paragraph”, “this” and the whole sentence. You can click the
-              waveform to jump back and listen again. No need to type times; leave unclear edges
-              blank.
-            </p>
-            <div id="mark-rows"></div>
-          </section>
-          <section aria-labelledby="save-heading">
-            <h2 id="save-heading">3. Save your marks</h2>
-            <label for="notes">Notes or uncertainty</label>
-            <textarea
-              id="notes"
-              maxlength="4096"
-              placeholder="For example: I can hear the word, but its ending blends into the next word."
-            ></textarea>
-            <label class="confirmation"
-              ><input id="confirmed" type="checkbox" />
-              <span>I placed these marks by listening</span></label
-            >
-            <p id="save-kind" class="muted">
-              Without confirmation, this saves a draft. Blank edges remain unknown in either case.
-            </p>
-            <button id="save" type="submit" disabled>Save draft</button>
-            <p id="status" role="status" aria-live="polite">Loading…</p>
-            <p class="muted">
-              This page covers one short sentence. It does not complete the full filler/repetition
-              inventory or approve automatic cleanup. Saving creates a separate annotation record;
-              it does not change the original audio.
-            </p>
-          </section>
-        </fieldset>
-      </form>
     </main>
     <script type="module" src="/annotation-page.mjs"></script>
   </body>

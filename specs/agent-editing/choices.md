@@ -4770,17 +4770,20 @@ still cannot form a full range, and any confirmed filler inventory explicitly
 remains incomplete for the corpus. Sound because a saved mark retains both its
 source identity and the limits of what the listener actually supplied.
 
-### Confirmation follows the submitted marks — sound, high confidence
+### Next confirms the selected boundary — sound, high confidence
 
-When: 12d marking page, 2026-09-30. Moving or clearing an edge unchecks “I placed
-these marks by listening”; the listener confirms revised marks deliberately.
-During Save, the browser disables mark editing until success or failure, keeping
-the submitted and visible values aligned. A failed save retains inputs. The
-request left these form transitions unspecified. This affects only the finite
-annotation tool, not editorial approval or product APIs. Sound because a prior
-confirmation cannot silently cover newly changed marks and a save error does
-not discard listening work. The delegated [UI audit](assets/12d-marking-page-ui/choices.md)
-retains the full rationale.
+When: initial marking page and the user's interactive-flow correction, 2026-09-30.
+The listener clicks a point and hears a preview. Next confirms that selected
+point, even though the playback cursor has moved. Each confirmed point stays in
+memory as the page advances; Back can revise it and Skip leaves an edge unknown.
+The user explicitly requested Next as the confirmation action, replacing the
+checkbox. The request did not choose when to write the accumulated record.
+The last Next saves one separate snapshot, so intermediate corrections do not
+create many competing records. During saving, editing is disabled; a failure
+keeps every selection and Next retries, including when the last edge was skipped.
+Closing or reloading before completion still loses the in-memory work, as in the
+original page; no autosave or persistence owner was introduced. Sound because
+confirmation applies to the selected point and missing edges stay unknown.
 
 ### Diagnostic movie evidence retains exact date patches — sound, high confidence
 
@@ -4810,17 +4813,30 @@ about 1.4 MB in browser memory and adds no new dependency or media transform.
 Sound because it repairs the actual failure with platform process separation and
 complete local media, without promising permanent hosting or changing evidence.
 
-### Keep playback visible and begin with the filler — sound, high confidence
+### Keep waveform selection and confirmation together — sound, high confidence
 
-When: marking-page repair, 2026-09-30. A listener hears the sentence once, goes
-back to the audible “uh”, pauses at an edge and presses its marking button.
-Playback controls and the precise clip time remain visible while scrolling;
-“uh” comes first in the server's existing target list. The request left the
-instruction sequence and placement unspecified. Leaving playback above a long
-form forces repeated scrolling between listening and marking. The pinned player
-can obscure the upper waveform while scrolled; the listener scrolls back for a
-full waveform. Provenance is collapsed so the task uses one visible clip clock;
-exports retain the existing original clock. This changes only the temporary
-evaluation page, and supplies no suggested boundary times. Sound because it
-makes the human's requested task concrete without substituting automation for
-independent listening.
+When: marking repair and the user's interactive-flow correction, 2026-09-30.
+The listener sees one prompt, its waveform, the selected blue line and Next in
+one compact panel. A click chooses the boundary; Next confirms it without
+scrolling to a separate input row. The opening “um” comes first because the user
+reported it. The server's target list owns that order and identifies filler
+ranges for export, while original recording details remain collapsed. This
+supersedes the earlier sticky player above a long form, which still forced the
+user to move between separate controls. The request chose the two-action flow
+but left exact layout unspecified. This affects the bounded evaluation page
+only and supplies no suggested boundary times. Sound because the listening task
+now follows the user's requested actions and preserves human boundary authority.
+
+### Preview around the clicked point without moving the selection — sound, medium confidence
+
+When: guided waveform page, 2026-09-30. Clicking selects a blue boundary line and
+plays a short excerpt beginning just before it and ending shortly after it.
+The orange playback cursor moves while the selected point remains fixed. A
+second click cancels the earlier preview; an old cancelled playback request
+cannot clear the new preview's stop point. The user requested waveform clicks
+and Next, but did not specify audition behavior. Starting a preview on the
+click lets the user hear context without an additional Play action. Loading and
+Next start no sound; tests mute previews in a separate tab. The current short
+window is a reversible listening aid, not a proposed boundary or acceptance
+threshold. Sound because audio context helps the listener confirm the point,
+with medium confidence in the chosen preview window until user feedback.

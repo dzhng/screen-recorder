@@ -1,0 +1,60 @@
+{
+  "kind": "guided-waveform-marking",
+  "date": "2026-09-30",
+  "previousRepairCommit": "8c4b323b",
+  "humanGroundTruth": "pending; archive positions are synthetic",
+  "sourceOwners": [
+    {
+      "path": "packages/test-harness/editing/speech-labeling.mjs",
+      "bytes": 6902,
+      "sha256": "39ed82b31a8d46269e4f9c960bc1a0fbe22732ef82b7481ec96a6f68c7eee8a5"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-page.html",
+      "bytes": 5925,
+      "sha256": "891dbe0fb8579005a57a30f145b194beabf24574c34d9a9bc5a5609593c67917"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-page.mjs",
+      "bytes": 12988,
+      "sha256": "fc19a4e0a2b29267aa04f492be0b3f4e9a7ac9a79a7229a348be795a360468f8"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-time.mjs",
+      "bytes": 3524,
+      "sha256": "d532ac8fc0d48bb79800eb93cb138e704518dae420f0e9a593181d569b06e639"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-time.test.mjs",
+      "bytes": 4491,
+      "sha256": "9cb7477103d3a00d20171bb46455dc41f9b7e55cb54ad97dae33f3c126f23aac"
+    }
+  ],
+  "files": [
+    {
+      "path": "specs/agent-editing/assets/12d-waveform-guidance/README.md",
+      "bytes": 3033,
+      "sha256": "0863b71e8fb3f0b7e047a9178e1bc6acd1afc5f7326091004dbd96b7c98ea2ae"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-waveform-guidance/page-preview.jpg",
+      "bytes": 54711,
+      "sha256": "f03c207c71ca821217cdbe10d0d1d5dcdfb313d94c7c5abad142d16cc07de501"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-waveform-guidance/root-verification.json",
+      "bytes": 3536,
+      "sha256": "22cdb0d970975ba6dbefb8a02bae66fd091d3675818029b14944d871fe757ef9"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-waveform-guidance/tests.txt",
+      "bytes": 2003,
+      "sha256": "5bdd034a5a13bd382d760b4f663185ef08b217fe9526c4d775347948773fd3a2"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-waveform-guidance/verification.tar.xz",
+      "bytes": 9620272,
+      "sha256": "2f004e9e4cbb2be0417e6f1fad5ab298d3f9654128fb2f3540cf5c5ce50696a0"
+    }
+  ]
+}

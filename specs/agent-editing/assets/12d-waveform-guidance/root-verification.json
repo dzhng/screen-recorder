@@ -1,0 +1,109 @@
+{
+  "date": "2026-09-30",
+  "userReport": {
+    "text": "there is also an \"um\" at the beginning of the recording",
+    "authority": "user-reported word presence; no independently timed range"
+  },
+  "server": {
+    "pid": 96033,
+    "detached": true,
+    "port": 58829,
+    "out": "/tmp/screenrec-sentence-marking-20260930"
+  },
+  "original": {
+    "status": 200,
+    "bytes": 1374976,
+    "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+    "binding": {
+      "clipSha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+      "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "sourceOriginUs": 48675,
+      "sourceRange": {
+        "startUs": 50518675,
+        "endUs": 57658675
+      },
+      "sampleRate": 48000,
+      "frames": 342720,
+      "packetSha256": "f3dafe81dab4c645126244ce7262a99bfcac3dd0221feb2cfd82a57760951307"
+    }
+  },
+  "interaction": {
+    "steps": 10,
+    "targets": [
+      {
+        "id": "opening-um",
+        "text": "um",
+        "kind": "filler",
+        "inventoryId": "filler-um-clip-start",
+        "hint": "at the beginning"
+      },
+      {
+        "id": "w117",
+        "text": "uh",
+        "kind": "filler",
+        "inventoryId": "filler-uh-54s",
+        "hint": "after paragraph"
+      },
+      {
+        "id": "w116",
+        "text": "paragraph"
+      },
+      {
+        "id": "w118",
+        "text": "this"
+      },
+      {
+        "id": "sentence",
+        "text": "Whole sentence",
+        "hint": "So … recording fixture; leave out the opening um"
+      }
+    ],
+    "inputFields": 0,
+    "initiallyPaused": true,
+    "duration": 7.14,
+    "buffered": [
+      [
+        0,
+        7.14
+      ]
+    ],
+    "selection": "Stable blue point, separate from moving playback cursor; Next saves selected point.",
+    "syntheticFlow": {
+      "firstStart": 0.104,
+      "firstEnd": 0.399,
+      "finalEnd": 6.996,
+      "saves": 4,
+      "failedSaveRetainedAllMarks": true,
+      "failedSaveWithUnknownLastEdgeRetried": true,
+      "backRestoredPoint": true,
+      "invalidEndBlocked": true,
+      "skipPreservedNull": true,
+      "rapidPreview": {
+        "muted": true,
+        "selectedSeconds": 3.602,
+        "stoppedSeconds": 4.589837,
+        "paused": true,
+        "stopPolicy": "short context preview stopped by native timeupdate; event cadence permits small overshoot"
+      }
+    },
+    "audibleAcceptance": false
+  },
+  "verification": {
+    "defaultHarness": "bootstrap plus fourteen tests pass",
+    "newExportRegression": "observed red for missing opening filler before fix, then green; exact ranges and null partial filler asserted",
+    "focusedFormatLintSyntax": "pass",
+    "directoryWideFormatProbe": "two unchanged score-candidate files reported preexisting formatting issues; affected files pass",
+    "visual": {
+      "changedPixelsFromPriorForm": 565567,
+      "currentUserWidth": 648,
+      "attemptedViewportOverride": "643px override did not change hidden tab capture width; no responsive claim from that attempt",
+      "critic": "Final pass: no clipping or overlap; completion heading, selection labels and gray confirmed-boundary legend resolved.",
+      "root": "Matches fresh critique."
+    },
+    "codexCliReview": "Unavailable: configured model previously rejected; no model replacement or successful review claimed"
+  },
+  "humanMarks": {
+    "files": [],
+    "status": "Actual saved user boundaries still require review. No synthetic records were saved here."
+  }
+}

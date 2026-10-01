@@ -17,8 +17,8 @@ The [populated source-event duration check](../agent-editing/slices/24y-source-e
 also passes its isolated query gates. The new editor’s current pickup is the
 independent speech-label evidence before physical capture
 acceptance and cutover. The requested [sentence marking page](../agent-editing/assets/12d-sentence-marking/README.md)
-is prepared, with [audio loading and clearer marking controls](../agent-editing/assets/12d-marking-recovery/README.md)
-repaired; actual saved listening marks remain pending.
+uses [waveform clicks and Next](../agent-editing/assets/12d-waveform-guidance/README.md),
+including the reported opening “um”; actual saved listening marks remain pending.
 The isolated [camera digest cost audit](../agent-editing/assets/20e-camera-digest-components/README.md)
 selects no additional production change; physical and live-stop gates remain open.
 Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.

@@ -4,12 +4,13 @@ Status: the requested local marking page is prepared and its clock, export,
 seek and layout checks pass. Actual independent listening marks remain pending;
 12d and the parent speech gates stay open.
 
-The page plays the frozen original sentence only when the listener presses Play.
-All edges begin blank. Mark the sentence start/end, `paragraph`, `uh` and `this`
-by listening. Click the waveform to seek, zoom around the playhead, then use an
-edge's playhead button or type clip seconds. Leave connected or uncertain edges
-blank and describe uncertainty in the notes. Check “I placed these marks by
-listening” before saving evidence; otherwise save a draft.
+The current [guided waveform page](../12d-waveform-guidance/README.md) asks for
+one boundary at a time, starting with the opening “um” reported by the listener.
+Click the waveform to select and hear a short preview, then press Next to confirm.
+The final confirmation saves the selections. There are no timestamp inputs or
+separate confirmation form. Optional Back revisits a boundary; Skip keeps an
+unclear edge unknown. No boundaries are prefilled and opening “um” has no
+independent range until the listener actually marks it.
 
 The source selection is the [frozen original packet](../12d-complete-sentence/manifest.json).
 Its ASR text helps identify words, but no proposed ASR times are prefilled. One
@@ -35,7 +36,7 @@ Use the local URL printed by that command. In this prepared session it is
 This session address is temporary; restart the command if it stops.
 The [audio loading repair](../12d-marking-recovery/README.md) holds the complete
 original clip in the browser after loading, shows a retry message on failure,
-and keeps playback controls visible while marking. The prepared server runs
+and keeps the original available during marking. The prepared server runs
 detached from the command session; saving still requires that server to be alive.
 The requested user page intentionally remains running. Its disposable test server,
 tab and synthetic saved files were closed/removed.
@@ -47,12 +48,11 @@ pin the checks and retained bytes. The
 HTTP checks, synthetic export probes, clock/range mutation failures and restored
 passes, raw visual metrics and the root/independent review report. **All test
 positions in that archive are synthetic and excluded from human ground truth.**
-The default harness command passes its original bootstrap/speech checks plus
-five new clock/export/range tests. Browser seeking and saving were checked
-without audio playback. The final critic found no clipping/overlap; compact
-phone-scale tick spacing remained a minor layout limitation in that initial pass;
-current playback and marking layout evidence lives in the repair packet. The Codex CLI second review remains unavailable after its configured
-model rejection; no passing CLI review is claimed.
+Those initial checks exercised the historical form without audio playback.
+Current interaction, source-clock/export and visual evidence lives in the guided
+page packet; earlier manifests retain their original source hashes. The Codex
+CLI second review remains unavailable after its configured model rejection;
+no passing CLI review is claimed.
 
 The [choices ledger](../../choices.md) owns implementation decisions. After the
 listener saves, inspect the matching immutable binding and confirmation before

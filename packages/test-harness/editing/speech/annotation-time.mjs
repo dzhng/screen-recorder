@@ -59,7 +59,14 @@ export function buildAnnotationRecord(context, submitted) {
     };
   });
   const range = (id) => marks.find((mark) => mark.id === id)?.sourceRange ?? null;
-  const filler = range("w117");
+  const fillers = context.targets
+    .filter((target) => target.kind === "filler" && range(target.id))
+    .map((target) => ({
+      id: target.inventoryId,
+      kind: "filler",
+      text: target.text,
+      sourceRange: range(target.id),
+    }));
   return {
     binding: structuredClone(expected),
     review: {
@@ -74,11 +81,11 @@ export function buildAnnotationRecord(context, submitted) {
             { wordId: "w116", text: "paragraph", independentRange: range("w116") },
             { wordId: "w118", text: "this", independentRange: range("w118") },
           ],
-          independentFillerInventory: filler
+          independentFillerInventory: fillers.length
             ? {
                 scope: structuredClone(expected.sourceRange),
                 complete: false,
-                targets: [{ id: "filler-uh-54s", kind: "filler", text: "uh", sourceRange: filler }],
+                targets: fillers,
               }
             : null,
           independentRepetitionIntent: null,

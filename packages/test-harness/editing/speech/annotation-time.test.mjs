@@ -21,7 +21,10 @@ test("clip positions retain the acquired source clock without adding its origin 
 });
 
 test("confirmed filler marks remain local to the clip and reject a changed source", () => {
-  const context = { binding, targets: [{ id: "w117", text: "uh" }] };
+  const context = {
+    binding,
+    targets: [{ id: "w117", text: "uh", kind: "filler", inventoryId: "filler-uh-54s" }],
+  };
   const submitted = {
     binding,
     confirmed: true,
@@ -83,4 +86,48 @@ test("unknown export fields cannot silently change what a listener submits", () 
       }),
     /Unknown field/,
   );
+});
+
+test("a newly heard opening filler is retained alongside the existing filler, without inventing incomplete edges", () => {
+  const context = {
+    binding,
+    targets: [
+      { id: "opening-um", text: "um", kind: "filler", inventoryId: "filler-um-clip-start" },
+      { id: "w117", text: "uh", kind: "filler", inventoryId: "filler-uh-54s" },
+    ],
+  };
+  const submitted = {
+    binding,
+    confirmed: true,
+    notes: "synthetic positions only",
+    marks: [
+      { id: "opening-um", startSeconds: 0.1, endSeconds: 0.4 },
+      { id: "w117", startSeconds: 3.61, endSeconds: 4.03 },
+    ],
+  };
+  const inventory = buildAnnotationRecord(context, submitted).independentAnnotations
+    .independentFillerInventory;
+  assert.deepEqual(inventory, {
+    scope: binding.sourceRange,
+    complete: false,
+    targets: [
+      {
+        id: "filler-um-clip-start",
+        kind: "filler",
+        text: "um",
+        sourceRange: { startUs: 50618675, endUs: 50918675 },
+      },
+      {
+        id: "filler-uh-54s",
+        kind: "filler",
+        text: "uh",
+        sourceRange: { startUs: 54128675, endUs: 54548675 },
+      },
+    ],
+  });
+  const partial = buildAnnotationRecord(context, {
+    ...submitted,
+    marks: [{ id: "opening-um", startSeconds: 0.1, endSeconds: null }],
+  });
+  assert.equal(partial.independentAnnotations.independentFillerInventory, null);
 });

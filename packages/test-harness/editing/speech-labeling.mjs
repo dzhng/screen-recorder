@@ -62,11 +62,29 @@ const context = {
   text: annotations.originalText,
   durationSeconds: info.frames / info.sampleRate,
   targets: [
-    ...["w117", "w116", "w118"].map((id) => ({
+    {
+      id: "opening-um",
+      text: "um",
+      kind: "filler",
+      inventoryId: "filler-um-clip-start",
+      hint: "at the beginning",
+    },
+    {
+      id: "w117",
+      text: "uh",
+      kind: "filler",
+      inventoryId: "filler-uh-54s",
+      hint: "after paragraph",
+    },
+    ...["w116", "w118"].map((id) => ({
       id,
       text: annotations.words.find((word) => word.id === id).text.replace(/[,.]$/u, ""),
     })),
-    { id: "sentence", text: "Whole sentence" },
+    {
+      id: "sentence",
+      text: "Whole sentence",
+      hint: "So … recording fixture; leave out the opening um",
+    },
   ],
   waveform: { peak, bins },
 };
