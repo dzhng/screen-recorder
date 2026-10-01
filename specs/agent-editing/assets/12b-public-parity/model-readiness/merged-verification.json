@@ -1,0 +1,25 @@
+{
+  "checkpoint": "fd5de758",
+  "packetMembers": 40,
+  "sourceRuntimeMembers": 539,
+  "matched": 539,
+  "mismatches": [],
+  "actualReportedPublicExchanges": 12,
+  "preparationTotals": {
+    "completed": 3,
+    "files": 66,
+    "bytes": 1393244736
+  },
+  "status": "Merged verified for actual generic owner and public ready-state scope",
+  "transferBasis": "All 539 executed source/runtime and external CODE file identities match current root; 40 evidence members and complete source archive verified. No additional preparation or inference repeated for integration.",
+  "currentOriginalModels": "All 22 files and preparation receipt reverified by bytes/hash/inode/device/modified/changed metadata; unchanged from child snapshot",
+  "preservedActualInferenceAttempts": 2,
+  "newInferenceAttempts": 0,
+  "publicTransport": "12 complete CLI/MCP status/ready-idempotence/reopen exchanges; native startup capability responses controlled; fetch edge denies network",
+  "openScope": [
+    "Full absent-to-ready public download transport",
+    "Live Hub availability",
+    "Broader speech quality and physical/release acceptance"
+  ],
+  "originalPacket": "Unchanged; merged record is separate"
+}

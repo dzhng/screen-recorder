@@ -53,7 +53,7 @@ prerequisites do not prohibit isolated implementation preparation.
 | Remaining owner | Permitted next work | Separate open claim |
 | --- | --- | --- |
 | [09c](slices/09c-audio-only-export.md) | First-class audio export through existing output settings, audio execution and export publication | WAV public lifecycle and additional standalone formats are planned, not verified |
-| [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity; investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and current generic preparation readiness |
+| [12 / 12b](slices/12-speech-evidence.md) | Preserve selected-baseline parity and merged actual model-owner/public readiness; investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
 | [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md) and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
@@ -68,6 +68,9 @@ Reuse the [banked evidence](assets/integrated-evidence.md) and
   preserves raw evidence, generations and explicit fixture edits. Keep Parakeet's
   selected best-effort limits; no replacement winner or personal keep/remove
   answer is required to preserve this baseline.
+  [Generic model readiness](assets/12b-public-parity/model-readiness/merged-verification.json)
+  now verifies actual preparation, receipt creation and public ready-state
+  discovery/reopen against the current owner, with original model files unchanged.
 - [23](slices/23-cutover.md) owns the scoped consumer checkpoints and their limits.
   Compiling a presenter does not verify its presentation or installed behavior.
 

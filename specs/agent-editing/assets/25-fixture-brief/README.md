@@ -60,8 +60,11 @@ The recovered voice runtime/model source and durable verification home are prese
 but preparation does not establish current registered readiness. Resolve existing
 transcript generations with matching canonical source receipts; missing metadata
 is an explicit gap, not permission to fabricate words or repeat the accepted 12b
-inference cohort. No new model preparation, installation, download or copy into
-a model owner is authorized in this session.
+inference cohort. The user has now explicitly authorized model work. Resolve
+registered readiness through the actual preparation owner in isolated storage,
+preserving existing personal model files, accepted recipes and prior evidence.
+Prepare only what this brief needs; do not change the selected engine or repeat
+accepted quality cohorts merely to exercise that permission.
 
 The historical `45cbe7…` worker is unavailable. Permitted new execution needs its
 own compatible source/runtime pins. `acceptance.mjs` remains unimplemented;

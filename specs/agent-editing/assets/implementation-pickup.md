@@ -56,8 +56,10 @@ exercise unchanged primitives.
 [actual selected-source inference parity](12b-public-parity/actual-inference/README.md)
 pass public ingestion, queries, explicit fixture cuts/protected PCM/undo, restart
 and generation refusal. Existing registered model files and preparation receipt
-remain unchanged. Scratch readiness is declared; current generic preparation-owner
-readiness remains unverified. Reuse the accepted bounded parity packet rather than
+remain unchanged. The inference fixture's scratch readiness was declared; a separate
+[merged generic-owner checkpoint](12b-public-parity/model-readiness/merged-verification.json)
+now verifies actual preparation/receipt/readiness and public ready-state reopen.
+Reuse the accepted bounded parity packet rather than
 rerunning inference or its controlled preparation-state matrix. Broader12 quality
 and installed acceptance remain separate.
 
