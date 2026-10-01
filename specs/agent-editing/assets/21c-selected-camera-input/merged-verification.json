@@ -1,0 +1,30 @@
+{
+  "scope": "Root merged-source/evidence review and one selected-input functional packet",
+  "commit": "18940e0e",
+  "sourceFilesByteIdentical": 173,
+  "packageFilesByteIdentical": 2,
+  "archiveMembersVerified": 412,
+  "logHashesVerified": 21,
+  "runtime": {
+    "product": "ScreenRecorderCaptureTests",
+    "sha256": "30465fe2b01e56cb49feff3bfd89272614c044efb4e9e0f436fcb55d553a44c8",
+    "nativeWorkerBuilt": false
+  },
+  "rootFunctionalRun": {
+    "output": "/tmp/screenrec-21c-root-merged-input-20261001",
+    "exit": 0,
+    "selectedNativeCases": 23,
+    "sdkResourceCases": 6,
+    "totalPassed": 29,
+    "logBytes": 3030,
+    "logSha256": "e2a61836aa9797be22f27cd6bb30f348c70ff4563bdabfbabd191fea8326a60a",
+    "logMatchesRetainedSettledRun": true
+  },
+  "review": "Corrected source shape clean; generation-owned size/state cleanup, pending SDK ownership and caller cancellation findings resolved; both ledgers retained",
+  "limits": [
+    "Functional conformance under disclosed host contention; no timing verdict",
+    "No hardware, live capture, models, inference, audible playback or installed switch",
+    "No repeat of broader settled suites",
+    "Source binding/admission, public selector and physical acceptance remain separate"
+  ]
+}

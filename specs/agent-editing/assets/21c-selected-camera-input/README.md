@@ -19,6 +19,11 @@ accepted conversion/retiming and camera append/publication bodies against the ba
 serialized media facts retain their existing meaning. [Source identities](source-manifest.json)
 bind the runtime review to the complete native source/test tree.
 
+[Root merged verification](merged-verification.json) rechecks all declared source,
+archive and log identities and repeats the 29-case selected-input/resource packet.
+The merged source matches the tested capture product; no broader native-worker or
+timing claim follows.
+
 The archive and [member manifest](manifest.json) retain the bounded fixture media,
 raw observations, journals, results and closure counts for the selected-input and
 existing camera-publication packets. Logs belong in `logs/`. Absolute scratch paths

@@ -15,10 +15,11 @@ workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-Continue [21c](../slices/21c-selected-camera-input.md) selected input through the
-shared lifecycle; [21d](../slices/21d-captured-source-adoption.md) source adoption
-can proceed independently. [21b closed camera sources](21b-camera-source-publication/README.md)
-passes actual controlled native closure/publication and preservation gates.
+Continue [21d](../slices/21d-captured-source-adoption.md) proof-bearing source
+adoption. [21c selected input](21c-selected-camera-input/README.md) is integrated;
+root rechecks its 173 source identities and 412 archived members and passes its
+29-case native/resource packet. [21b closed camera sources](21b-camera-source-publication/README.md)
+passes actual controlled closure/publication and preservation gates.
 [Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
 public/native gates; input/result/source adoption and the caller-authored project
 journey must precede any new accepted camera-start selector. Capture returns exact
