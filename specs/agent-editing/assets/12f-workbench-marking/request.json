@@ -1,0 +1,26 @@
+{
+  "id": "workbench-original",
+  "operation": "media.audio",
+  "params": {
+    "tracks": [
+      {
+        "role": "narration",
+        "source": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+        "sourceOffsetUs": 0,
+        "available": [
+          {
+            "startUs": 48675,
+            "endUs": 134022008
+          }
+        ]
+      }
+    ],
+    "spans": [
+      {
+        "startUs": 48675,
+        "endUs": 14548675
+      }
+    ],
+    "output": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12f-workbench-marking/original.wav"
+  }
+}

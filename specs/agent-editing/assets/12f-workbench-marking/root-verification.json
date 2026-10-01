@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "scope": "Complete original PCM and exact-clock packet binding only; no independent marks or audible boundary claim",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "originalSha256": "6aa448b23c244c8c081c9b5210a3927dd4d5283da195743a5261c82437e36cc8",
+  "frames": 696000,
+  "originalPcmSha256": "2aaa1c8aa46119792fc7ed5d165905f94b5203b053bdce099fbd27751260521b",
+  "allOriginalPcmMatchesActualSourcePackets": true,
+  "allOriginalPcmMatchesIndependentFfmpegDecode": true,
+  "sourcePacketCount": 687,
+  "sourceRange": {
+    "startUs": 48675,
+    "endUs": 14548675
+  },
+  "sourceOriginUsAlreadyIncluded": 48675,
+  "annotationPacketSha256": "716756b508dae38c91758cb4dd5ed4834e4c10c8a687ea9dd4b2bf20e5d7084c",
+  "independentLabels": "pending",
+  "inspectionCorrections": "Raw mdat includes bytes outside declared sample packets. Initial bounded ffmpeg packet-count request stopped4160 frames early; every overlapping sample matched. Complete-duration decode and sample-table-selected source bytes both match every delivered frame.",
+  "preparedUserPage": {
+    "url": "http://127.0.0.1:65242/",
+    "outputDirectory": "/tmp/screenrec-workbench-marking-20260930",
+    "serverPidAtPreparation": 84883,
+    "initialState": "14.5 seconds loaded; unmarked, paused at zero; no automatic sound",
+    "authority": "Actual exports require binding checks; all archived verification marks are synthetic"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "data": {
+    "bytes": 2788096,
+    "channels": 1,
+    "durationUs": 14500000,
+    "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12f-workbench-marking/original.wav",
+    "frames": 696000,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 14548675,
+        "startUs": 48675
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": []
+      }
+    ]
+  },
+  "id": "workbench-original",
+  "ok": true
+}

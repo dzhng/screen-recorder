@@ -1,0 +1,26 @@
+{
+  "scope": "Original complete opening context for independent workbench word start/end marking; no proposed boundary times displayed",
+  "source": {
+    "path": "fixtures/narrated-workbench/narration.mov",
+    "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "trackOriginUsFromInheritedLabels": 48675
+  },
+  "native": {
+    "path": "/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    "sha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "context": {
+    "startUs": 48675,
+    "endUs": 14548675
+  },
+  "sampleRate": 48000,
+  "artifacts": [
+    {
+      "file": "original.wav",
+      "sha256": "6aa448b23c244c8c081c9b5210a3927dd4d5283da195743a5261c82437e36cc8",
+      "frames": 696000,
+      "channels": 1
+    }
+  ],
+  "authority": "No independent word marks until user confirms and saves; preserve all historical labels."
+}

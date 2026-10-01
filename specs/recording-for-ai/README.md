@@ -21,7 +21,8 @@ uses [waveform clicks and Next](../agent-editing/assets/12d-waveform-guidance/RE
 including the opening “um”. Its [actual human boundaries](../agent-editing/assets/12d-human-marks/README.md)
 are now reconciled. The [exact two-filler candidate](../agent-editing/assets/12e-labeled-cleanup/README.md)
 passes native/public technical checks and its own user audition; broader corpus
-labels and intent remain open.
+labels and intent remain open. The next prepared context is
+[workbench-boundary marking](../agent-editing/assets/12f-workbench-marking/README.md).
 The isolated [camera digest cost audit](../agent-editing/assets/20e-camera-digest-components/README.md)
 selects no additional production change; physical and live-stop gates remain open.
 Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.

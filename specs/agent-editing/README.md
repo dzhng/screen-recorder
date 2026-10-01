@@ -24,7 +24,8 @@ native exclusion, protected-word preservation, public edit/delivery/export/undo
 and the user's independent complete-sentence audition pass. The
 [saved human marks](assets/12d-human-marks/README.md) establish the sentence and
 neighbor boundaries. They also expose 15 ms of middle filler retained by the
-older accepted cut, whose bytes and verdict stay frozen. Current pickup is the
+older accepted cut, whose bytes and verdict stay frozen. Current pickup is
+[12f workbench-boundary marking](slices/12f-workbench-boundary.md), followed by the
 broader corpus word boundaries, filler/repetition inventory and removal intent required
 by [12](slices/12-speech-evidence.md) before12b adoption.
 
@@ -178,6 +179,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
 - [x] [12e — Remove the independently marked fillers](slices/12e-human-labeled-cleanup.md)
+- [ ] [12f — Independently identify the workbench boundary](slices/12f-workbench-boundary.md)
 - [x] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [x] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)

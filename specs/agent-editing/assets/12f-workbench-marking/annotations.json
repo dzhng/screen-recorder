@@ -1,0 +1,284 @@
+{
+  "textAuthority": "Frozen ASR proposal; verify words by listening. No independent labels or new transcription.",
+  "originalText": "Okay, so this is the recorder workbench. First I'm going to draw a circle around C3 and I'm going to draw a wave between D9 and E2.",
+  "words": [
+    {
+      "id": "w0",
+      "type": "word",
+      "text": "Okay,",
+      "sourceRange": {
+        "endUs": 1488675,
+        "startUs": 1168675
+      },
+      "partial": false
+    },
+    {
+      "id": "w1",
+      "type": "word",
+      "text": "so",
+      "sourceRange": {
+        "endUs": 1968675,
+        "startUs": 1648675
+      },
+      "partial": false
+    },
+    {
+      "id": "w2",
+      "type": "word",
+      "text": "this",
+      "sourceRange": {
+        "endUs": 2208675,
+        "startUs": 1968675
+      },
+      "partial": false
+    },
+    {
+      "id": "w3",
+      "type": "word",
+      "text": "is",
+      "sourceRange": {
+        "endUs": 2528675,
+        "startUs": 2208675
+      },
+      "partial": false
+    },
+    {
+      "id": "w4",
+      "type": "word",
+      "text": "the",
+      "sourceRange": {
+        "endUs": 2848675,
+        "startUs": 2528675
+      },
+      "partial": false
+    },
+    {
+      "id": "w5",
+      "type": "word",
+      "text": "recorder",
+      "sourceRange": {
+        "endUs": 4368675,
+        "startUs": 3168675
+      },
+      "partial": false
+    },
+    {
+      "id": "w6",
+      "type": "word",
+      "text": "workbench.",
+      "sourceRange": {
+        "endUs": 5648675,
+        "startUs": 4368675
+      },
+      "partial": false
+    },
+    {
+      "id": "w7",
+      "type": "word",
+      "text": "First",
+      "sourceRange": {
+        "endUs": 6928675,
+        "startUs": 6608675
+      },
+      "partial": false
+    },
+    {
+      "id": "w8",
+      "type": "word",
+      "text": "I'm",
+      "sourceRange": {
+        "endUs": 7248675,
+        "startUs": 7008675
+      },
+      "partial": false
+    },
+    {
+      "id": "w9",
+      "type": "word",
+      "text": "going",
+      "sourceRange": {
+        "endUs": 7328675,
+        "startUs": 7248675
+      },
+      "partial": false
+    },
+    {
+      "id": "w10",
+      "type": "word",
+      "text": "to",
+      "sourceRange": {
+        "endUs": 7408675,
+        "startUs": 7328675
+      },
+      "partial": false
+    },
+    {
+      "id": "w11",
+      "type": "word",
+      "text": "draw",
+      "sourceRange": {
+        "endUs": 7648675,
+        "startUs": 7408675
+      },
+      "partial": false
+    },
+    {
+      "id": "w12",
+      "type": "word",
+      "text": "a",
+      "sourceRange": {
+        "endUs": 7808675,
+        "startUs": 7648675
+      },
+      "partial": false
+    },
+    {
+      "id": "w13",
+      "type": "word",
+      "text": "circle",
+      "sourceRange": {
+        "endUs": 8448675,
+        "startUs": 7808675
+      },
+      "partial": false
+    },
+    {
+      "id": "w14",
+      "type": "word",
+      "text": "around",
+      "sourceRange": {
+        "endUs": 8768675,
+        "startUs": 8448675
+      },
+      "partial": false
+    },
+    {
+      "id": "w15",
+      "type": "word",
+      "text": "C3",
+      "sourceRange": {
+        "endUs": 9408675,
+        "startUs": 8768675
+      },
+      "partial": false
+    },
+    {
+      "id": "w16",
+      "type": "word",
+      "text": "and",
+      "sourceRange": {
+        "endUs": 10528675,
+        "startUs": 10368675
+      },
+      "partial": false
+    },
+    {
+      "id": "w17",
+      "type": "word",
+      "text": "I'm",
+      "sourceRange": {
+        "endUs": 10688675,
+        "startUs": 10528675
+      },
+      "partial": false
+    },
+    {
+      "id": "w18",
+      "type": "word",
+      "text": "going",
+      "sourceRange": {
+        "endUs": 10848675,
+        "startUs": 10688675
+      },
+      "partial": false
+    },
+    {
+      "id": "w19",
+      "type": "word",
+      "text": "to",
+      "sourceRange": {
+        "endUs": 10928675,
+        "startUs": 10848675
+      },
+      "partial": false
+    },
+    {
+      "id": "w20",
+      "type": "word",
+      "text": "draw",
+      "sourceRange": {
+        "endUs": 11168675,
+        "startUs": 10928675
+      },
+      "partial": false
+    },
+    {
+      "id": "w21",
+      "type": "word",
+      "text": "a",
+      "sourceRange": {
+        "endUs": 11328675,
+        "startUs": 11168675
+      },
+      "partial": false
+    },
+    {
+      "id": "w22",
+      "type": "word",
+      "text": "wave",
+      "sourceRange": {
+        "endUs": 11808675,
+        "startUs": 11328675
+      },
+      "partial": false
+    },
+    {
+      "id": "w23",
+      "type": "word",
+      "text": "between",
+      "sourceRange": {
+        "endUs": 12128675,
+        "startUs": 11808675
+      },
+      "partial": false
+    },
+    {
+      "id": "w24",
+      "type": "word",
+      "text": "D9",
+      "sourceRange": {
+        "endUs": 12608675,
+        "startUs": 12128675
+      },
+      "partial": false
+    },
+    {
+      "id": "w25",
+      "type": "word",
+      "text": "and",
+      "sourceRange": {
+        "endUs": 13568675,
+        "startUs": 13248675
+      },
+      "partial": false
+    },
+    {
+      "id": "w26",
+      "type": "word",
+      "text": "E2.",
+      "sourceRange": {
+        "endUs": 13968675,
+        "startUs": 13568675
+      },
+      "partial": false
+    }
+  ],
+  "targets": [
+    {
+      "id": "w6",
+      "text": "workbench",
+      "hint": "in the opening sentence"
+    }
+  ],
+  "independentBoundary": null
+}

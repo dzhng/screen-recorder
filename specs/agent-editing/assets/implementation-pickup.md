@@ -17,6 +17,7 @@ whirling cases remain rejected. The [finite denoise matrix](denoise-acceptance/R
 is accepted. The [exact two-filler candidate](12e-labeled-cleanup/README.md) now
 passes native/public technical contracts and its own user audition. The
 [saved sentence marks](12d-human-marks/README.md) are reconciled. Current pickup is
+[independent workbench marking](12f-workbench-marking/README.md), followed by
 broader corpus boundaries and filler/repetition intent for12/12d, then12b adoption
 and physical20/21. Do not repeat accepted auditions.
 

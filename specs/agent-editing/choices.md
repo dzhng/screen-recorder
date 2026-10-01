@@ -4897,3 +4897,34 @@ mutation therefore reports one changed sample and still fails. The plan left
 diagnostic counting unspecified; numerical counting alone concealed the cause
 of an honest failure. This affects harness reports only and changes no equality
 gate. Sound because diagnostics now describe the same exact contract they judge.
+
+### Reuse the marking page for one disputed word in original context — sound, medium confidence
+
+When: workbench-boundary preparation, 2026-09-30. The speech engines disagree
+about the last sound in “workbench”, and the older visual mark cannot resolve
+which sound belongs to that word. The same waveform page now accepts an explicit
+packet whose sole target is that word. The original opening context includes
+the proposed first two sentences; two clicks confirmed with Next can mark the
+word without typing times. No estimated edge is prefilled. The plan required an
+independent endpoint diagnosis but left the presentation unspecified. A word
+fragment would remove the context the user previously needed, while another
+annotation UI would duplicate the already requested workflow. This adds one
+evaluation-harness packet selector and preserves its default sentence packet.
+It does not select a speech engine or imply broader inventory completeness.
+Sound because it prepares the actual missing listening evidence without changing
+the recording; confidence is medium because the context length is a reversible
+presentation choice and the proposed transcript still needs listening verification.
+
+### Export the word targets the listener actually marked — sound, high confidence
+
+When: workbench-boundary preparation, 2026-09-30. A workbench-only page must not
+export empty entries for “paragraph” and “this” from the previous sentence. The
+existing annotation owner now derives its protected-word entries from the page's
+non-filler word targets; sentence and filler targets retain their separate roles.
+For the original page this produces the same two entries, and for the new page
+it produces only “workbench”. Skipped edges remain unknown. The plan left the
+second packet's export unspecified. Hardcoding the earlier words would make the
+saved evidence misdescribe the task, while a second export owner would drift.
+Future packets must explicitly name the words they ask the listener to mark;
+this does not infer removal intent or discover missing words. Sound because
+the target list already owns identity and the export now follows that owner.
