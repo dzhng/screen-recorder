@@ -1,0 +1,37 @@
+{
+  "checkpoint": "9a57e3d1",
+  "status": "PASS bounded historical CPU-owner attribution, not latency acceptance",
+  "dispatchAttempts": 2,
+  "failedDispatches": 1,
+  "completedServiceStarts": 1,
+  "actualProfileArms": 2,
+  "actualProjectCollections": 2,
+  "pageRowsPerArm": [
+    0,
+    43,
+    43,
+    43,
+    43,
+    43,
+    35
+  ],
+  "originalWarmTimingCohortsRepeated": 0,
+  "firstFailure": "Missing two emitted JSON resources in runtime copy; module linking refused before owner construction, zero query/native/model execution",
+  "correction": "Exact original emitted bytes copied after source-byte equality to historical git and parsed-data equality; all existing350source/emitted pins unchanged; full service graph links",
+  "modelWork": "Ordinary scratch model-owner directory initialization authorized; no model file preparation or inference during this profile",
+  "nativeCalls": "One workspace-clear startup only; before/after logs identical within both reads",
+  "historicalWorker": "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba",
+  "historicalQueryCheckpoint": "a6ae92504925abad126155cb1945420d13404d44",
+  "catalog": "Retained20format/import-only catalog; current CaptureStore never opened it",
+  "host": "Owned media/build lanes terminal; previously heavy compiler/simulation loads absent, ordinary foreground/background apps active; full outside-repo inventories pinned, not proof of isolation",
+  "limits": "Original arm60s/overall180s/RSS1GiB/control5s/shutdown15s unchanged; both completed; successful shutdown",
+  "attribution": "Nearest-script-frame attribution to acquisition+asset/header reads accounts for about49% and56% of sampled time; repeated dependency validation is a concrete existing-owner target. Idle/GC/control costs separate; nested inclusive counts must not be added. Does not explain original red or establish cardinality causality.",
+  "next": "Review redundant source metadata resolution at existing CaptureSourceRead/selection/asset/acquisition owners; preserve full dependency checks before and after await, exact coverage/results, changed dependency refusal and original budgets. No optimization yet implemented.",
+  "scopeLimits": [
+    "No current-production latency SLA",
+    "No preserved20collection p95 acceptance",
+    "DefaultSDK large edit receipt failure remains open",
+    "No installed/physical/listening acceptance"
+  ],
+  "rawHostInventoryExcluded": true
+}

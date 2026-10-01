@@ -36,13 +36,15 @@ Atomic public camera selection is [merged-verified](assets/21f3-public-camera-se
 through allocation, the actual native controller, crash recovery, independent
 admission and explicit project use, including empty allocated sources. Preserve
 that controlled checkpoint without inferring physical or installed acceptance.
-The separately prepared historical profile remains undispatched. The user has
+The historical [owner profile](assets/24z-owner-profile/README.md) now completes
+its bounded reads and identifies repeated asset/acquisition metadata resolution
+for investigation. It adds no latency pass. The user has
 explicitly authorized model work, removing the authorization objection recorded
 in its [startup audit](assets/24z-owner-profile-preparation/dispatch-readiness.json).
-Use the pinned service and its ordinary model-storage initialization in the
-isolated library. Dispatch still needs a quiet host window and reverified runtime
-authority. Host contention defers this measurement without blocking other work. Do not poll,
-repeat the timing cohort or choose an optimization without owner attribution.
+Preserve its pinned service, restored historical static resources and ordinary
+model-storage initialization in the isolated library. Review the existing metadata
+owners and prove a concrete change before new measurements. Do not poll or repeat
+the original timing cohort; host contention never blocks independent work.
 Capture publishes source facts. The caller authors projects, canvas,
 tracks, placement and links through existing operations. Capture creates no project.
 Preserve installed span transactions until the explicit cutover in 23.
@@ -56,7 +58,7 @@ prerequisites do not prohibit isolated implementation preparation.
 | [12](slices/12-speech-evidence.md) | Preserve completed [12b baseline adoption](slices/12b-speech-processing.md); investigate only a named evidence-quality gap | Broader lexical/acoustic coverage, held-out timing and live download availability |
 | [20 / 21](slices/21-webcam.md#implementation-graph) | Preserve merged controlled allocation-to-project behavior and analyze only named retained-data gaps | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23](slices/23-cutover.md) | Matched consumer preservation and remaining ports | Presentation, installed switching and obsolete-owner removal after prerequisites |
-| [24 / 25](slices/24-scale.md) | Bounded [source-cardinality attribution](slices/24z-source-cardinality.md) and [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
+| [24 / 25](slices/24-scale.md) | Investigate metadata resolution identified by [source-cardinality attribution](slices/24z-source-cardinality.md), and advance [fixture preparation](assets/25-fixture-brief/README.md) | Isolated timing, final budgets and installed external-caller acceptance |
 
 Reuse the [banked evidence](assets/integrated-evidence.md) and
 [source/runtime identities](assets/implementation-pickup.md):

@@ -19,7 +19,10 @@ Preserve [21f atomic public selection](../slices/21f3-public-camera-selection.md
 now [merged-verified](21f3-public-camera-selection/merged-verification.json)
 through actual independent recovery/admission and explicit portable project use.
 Remaining bounded owner attribution follows 24z's separate runtime and host-window
-contract. Its [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
+contract. [Actual owner attribution](24z-owner-profile/README.md) now completes
+both bounded collections after restoring omitted historical static resources;
+asset/acquisition metadata resolution is the next investigation target. No latency
+pass or query optimization is claimed. Its historical [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
 identifies model-owner staging mutation before any query; the user's subsequent
 model-work authorization permits that ordinary isolated startup. No repeated cohort
 or physical acceptance follows from preparation.

@@ -1,10 +1,11 @@
 # 24z — Source-selection cardinality in bounded cursor reads
 
 Status: **open**. Correctness diagnostic completed; the single timed cohort is red
-on a contended machine; separate owner-profile preparation is complete, with actual
-profiling still undispatched. Model work is now explicitly authorized; the prior
-startup objection no longer prevents this isolated profile. No production defect
-or fix is selected. Dependencies:
+on a contended machine. [Historical owner attribution](../assets/24z-owner-profile/README.md)
+now completes two bounded reads and identifies repeated asset/acquisition metadata
+resolution as the next owner to investigate. The first dispatch's missing static
+resources were corrected with exact historical bytes; its failure is retained.
+Model initialization is authorized. No query fix or latency pass is claimed. Dependencies:
 [24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
 Final production acceptance still follows [23](23-cutover.md).
 
@@ -141,7 +142,7 @@ inside a profiled read is refused. Synthetic lifecycle checks cover delivery,
 interruption and operator limits, but do not establish actual service integration.
 
 Preparation recorded **zero actual profile attempts, project read attempts or
-service starts**. The whole-host preflight showed substantial unrelated compiler
+service starts** at that checkpoint. The whole-host preflight showed substantial unrelated compiler
 and renderer activity, so dispatch was deferred without polling or retry. Raw
 process inventories remain outside the repository; their hashes are retained.
 A future attempt requires a separately coordinated window, fresh whole-host
@@ -178,3 +179,21 @@ authorized model work, so ordinary model-storage initialization is permitted in
 the isolated library. Preserve the historical runtime; dispatch remains subject
 to a fresh whole-host preflight and identity verification. Do not substitute a
 different service or transfer this profile to current-production acceptance.
+
+## Completed owner attribution
+
+The [profile checkpoint](../assets/24z-owner-profile/README.md) retains one failed
+module-link dispatch and one corrected service run with two bounded collections.
+The runtime's omitted JSON resources are restored from its original emitted
+files, with exact historical source identity and parsed-data equality. Query code,
+worker authority and limits are unchanged. Every collection returns the complete
+expected rows through advancing checkpoints without native work inside the read.
+
+The raw samples identify acquisition reads and asset header/segment reads as a
+material share of work. Investigate repeated metadata resolution at those owners;
+preserve complete dependency validation before and after checkpoint publication,
+generation/refusal semantics, coverage and exact public output. Review a concrete
+owner change and prove its affected contracts before new measurements. Background
+apps remained active; this is attribution, not isolated timing or an explanation
+of the original red cohort. The unchanged p95 budget and final-production gate
+remain open.

@@ -1,0 +1,554 @@
+[
+  {
+    "arm": 512,
+    "sampleCount": 776,
+    "sampledUs": 955125,
+    "nearestScriptOwner": [
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/acquisitions.js",
+        "function": "get",
+        "line": 160,
+        "sampleUs": 222586,
+        "fractionOfSampledTime": 0.23304384242900145
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "get",
+        "line": 241,
+        "sampleUs": 164913,
+        "fractionOfSampledTime": 0.1726611700039262
+      },
+      {
+        "url": "runtime",
+        "function": "idle/native/GC/inspector",
+        "line": 0,
+        "sampleUs": 160583,
+        "fractionOfSampledTime": 0.16812773197225495
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "header",
+        "line": 234,
+        "sampleUs": 82376,
+        "fractionOfSampledTime": 0.08624630283994242
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "digest",
+        "line": 31,
+        "sampleUs": 36336,
+        "fractionOfSampledTime": 0.03804318806438948
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-selection.js",
+        "function": "selectSourceMetadata",
+        "line": 18,
+        "sampleUs": 33585,
+        "fractionOfSampledTime": 0.035162936788378486
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/test-harness/editing/service-cpu-profile.mjs",
+        "function": "start",
+        "line": 74,
+        "sampleUs": 32042,
+        "fractionOfSampledTime": 0.03354744143436723
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/evidence.js",
+        "function": "records",
+        "line": 355,
+        "sampleUs": 24336,
+        "fractionOfSampledTime": 0.025479387514723204
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/protocol/dist/framing.js",
+        "function": "encodeJsonLine",
+        "line": 15,
+        "sampleUs": 21458,
+        "fractionOfSampledTime": 0.022466169349561575
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "acquire",
+        "line": 267,
+        "sampleUs": 17415,
+        "fractionOfSampledTime": 0.01823321554770318
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/cache.js",
+        "function": "open",
+        "line": 180,
+        "sampleUs": 11415,
+        "fractionOfSampledTime": 0.011951315272870043
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/evidence.js",
+        "function": "requireComplete",
+        "line": 348,
+        "sampleUs": 11208,
+        "fractionOfSampledTime": 0.0117345897133883
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/capture-source-read.js",
+        "function": "boundSourceEvidenceResponse",
+        "line": 7,
+        "sampleUs": 9957,
+        "fractionOfSampledTime": 0.010424813506085592
+      },
+      {
+        "url": "file:///Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod/v4/core/schemas.js",
+        "function": "runChecks",
+        "line": 34,
+        "sampleUs": 8502,
+        "fractionOfSampledTime": 0.008901452689438556
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/composition/dist/rational.js",
+        "function": "rational",
+        "line": 2,
+        "sampleUs": 6749,
+        "fractionOfSampledTime": 0.00706609082580814
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/projects.js",
+        "function": "revision",
+        "line": 255,
+        "sampleUs": 6250,
+        "fractionOfSampledTime": 0.006543646119617851
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "",
+        "line": 246,
+        "sampleUs": 6250,
+        "fractionOfSampledTime": 0.006543646119617851
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "",
+        "line": 576,
+        "sampleUs": 6250,
+        "fractionOfSampledTime": 0.006543646119617851
+      }
+    ],
+    "inclusiveFunction": [
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "read",
+        "line": 338,
+        "sampleUs": 726793,
+        "fractionOfSampledTime": 0.7609401910744666
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-events.js",
+        "function": "resolve",
+        "line": 19,
+        "sampleUs": 544084,
+        "fractionOfSampledTime": 0.5696469048553854
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "",
+        "line": 138,
+        "sampleUs": 544084,
+        "fractionOfSampledTime": 0.5696469048553854
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "dependencies",
+        "line": 137,
+        "sampleUs": 544084,
+        "fractionOfSampledTime": 0.5696469048553854
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/capture-source-read.js",
+        "function": "resolve",
+        "line": 39,
+        "sampleUs": 542834,
+        "fractionOfSampledTime": 0.5683381756314618
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "validate",
+        "line": 380,
+        "sampleUs": 535627,
+        "fractionOfSampledTime": 0.5607925664180081
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/apps/service/dist/project-service.js",
+        "function": "handle",
+        "line": 448,
+        "sampleUs": 453917,
+        "fractionOfSampledTime": 0.4752435545085722
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/apps/service/dist/project-service.js",
+        "function": "handler",
+        "line": 943,
+        "sampleUs": 453917,
+        "fractionOfSampledTime": 0.4752435545085722
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/apps/service/dist/index.js",
+        "function": "",
+        "line": 83,
+        "sampleUs": 453917,
+        "fractionOfSampledTime": 0.4752435545085722
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "cursor",
+        "line": 330,
+        "sampleUs": 451042,
+        "fractionOfSampledTime": 0.472233477293548
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/acquisitions.js",
+        "function": "get",
+        "line": 160,
+        "sampleUs": 222586,
+        "fractionOfSampledTime": 0.23304384242900145
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "get",
+        "line": 241,
+        "sampleUs": 173705,
+        "fractionOfSampledTime": 0.181866247873315
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "request",
+        "line": 183,
+        "sampleUs": 87459,
+        "fractionOfSampledTime": 0.09156811935610522
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "header",
+        "line": 234,
+        "sampleUs": 82376,
+        "fractionOfSampledTime": 0.08624630283994242
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-selection.js",
+        "function": "selectSourceMetadata",
+        "line": 18,
+        "sampleUs": 60250,
+        "fractionOfSampledTime": 0.06308074859311609
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "plan",
+        "line": 92,
+        "sampleUs": 47500,
+        "fractionOfSampledTime": 0.04973171050909567
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "query",
+        "line": 40,
+        "sampleUs": 45542,
+        "fractionOfSampledTime": 0.04768171705274179
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-events.js",
+        "function": "mergeEvents",
+        "line": 12,
+        "sampleUs": 45003,
+        "fractionOfSampledTime": 0.04711739301138594
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/evidence-merge.js",
+        "function": "mergeHeads",
+        "line": 11,
+        "sampleUs": 41211,
+        "fractionOfSampledTime": 0.0431472320376914
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-events.js",
+        "function": "next",
+        "line": 15,
+        "sampleUs": 39961,
+        "fractionOfSampledTime": 0.04183850281376783
+      }
+    ],
+    "method": "Each raw sample delta is charged once to its nearest script frame; builtin/native leaves inherit script caller. Inclusive totals charge ancestors once per sample and must not be summed across nested functions. Idle/GC/control overhead retained separately; sampling is not CPU-time accuracy or original-red causality."
+  },
+  {
+    "arm": 1024,
+    "sampleCount": 1277,
+    "sampledUs": 1625709,
+    "nearestScriptOwner": [
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/acquisitions.js",
+        "function": "get",
+        "line": 160,
+        "sampleUs": 429713,
+        "fractionOfSampledTime": 0.2643234428793837
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "header",
+        "line": 234,
+        "sampleUs": 314164,
+        "fractionOfSampledTime": 0.19324737699059302
+      },
+      {
+        "url": "runtime",
+        "function": "idle/native/GC/inspector",
+        "line": 0,
+        "sampleUs": 276830,
+        "fractionOfSampledTime": 0.17028262745669737
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "get",
+        "line": 241,
+        "sampleUs": 170041,
+        "fractionOfSampledTime": 0.10459497979035609
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "digest",
+        "line": 31,
+        "sampleUs": 70415,
+        "fractionOfSampledTime": 0.04331340971846745
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/test-harness/editing/service-cpu-profile.mjs",
+        "function": "start",
+        "line": 74,
+        "sampleUs": 38542,
+        "fractionOfSampledTime": 0.023707809946306505
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/protocol/dist/framing.js",
+        "function": "encodeJsonLine",
+        "line": 15,
+        "sampleUs": 36044,
+        "fractionOfSampledTime": 0.02217124959017881
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-selection.js",
+        "function": "selectSourceMetadata",
+        "line": 18,
+        "sampleUs": 28958,
+        "fractionOfSampledTime": 0.01781253594585501
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "acquire",
+        "line": 267,
+        "sampleUs": 28751,
+        "fractionOfSampledTime": 0.017685206885119046
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/composition/dist/rational.js",
+        "function": "rational",
+        "line": 2,
+        "sampleUs": 20208,
+        "fractionOfSampledTime": 0.012430268885759998
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/capture-source-read.js",
+        "function": "boundSourceEvidenceResponse",
+        "line": 7,
+        "sampleUs": 17752,
+        "fractionOfSampledTime": 0.010919543411520759
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "",
+        "line": 576,
+        "sampleUs": 15876,
+        "fractionOfSampledTime": 0.009765585353836388
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/capture-source-read.js",
+        "function": "resolve",
+        "line": 39,
+        "sampleUs": 12543,
+        "fractionOfSampledTime": 0.007715402941116768
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "",
+        "line": 246,
+        "sampleUs": 12542,
+        "fractionOfSampledTime": 0.007714787824881329
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/evidence.js",
+        "function": "records",
+        "line": 355,
+        "sampleUs": 12376,
+        "fractionOfSampledTime": 0.0076126785297983834
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/evidence.js",
+        "function": "requireComplete",
+        "line": 348,
+        "sampleUs": 10832,
+        "fractionOfSampledTime": 0.006662939062279904
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/cache.js",
+        "function": "open",
+        "line": 180,
+        "sampleUs": 9960,
+        "fractionOfSampledTime": 0.006126557704976721
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/composition/dist/rational.js",
+        "function": "fromTime",
+        "line": 37,
+        "sampleUs": 8834,
+        "fractionOfSampledTime": 0.005433936823871923
+      }
+    ],
+    "inclusiveFunction": [
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "read",
+        "line": 338,
+        "sampleUs": 1265334,
+        "fractionOfSampledTime": 0.7783274866535155
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "dependencies",
+        "line": 137,
+        "sampleUs": 1037751,
+        "fractionOfSampledTime": 0.6383374884435037
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-events.js",
+        "function": "resolve",
+        "line": 19,
+        "sampleUs": 1035251,
+        "fractionOfSampledTime": 0.6367996978549052
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/capture-source-read.js",
+        "function": "resolve",
+        "line": 39,
+        "sampleUs": 1034085,
+        "fractionOfSampledTime": 0.6360824723243828
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "validate",
+        "line": 380,
+        "sampleUs": 1016667,
+        "fractionOfSampledTime": 0.6253683777354988
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/apps/service/dist/project-service.js",
+        "function": "handle",
+        "line": 448,
+        "sampleUs": 754126,
+        "fractionOfSampledTime": 0.46387514616699543
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/apps/service/dist/project-service.js",
+        "function": "handler",
+        "line": 943,
+        "sampleUs": 754126,
+        "fractionOfSampledTime": 0.46387514616699543
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/apps/service/dist/index.js",
+        "function": "",
+        "line": 83,
+        "sampleUs": 754126,
+        "fractionOfSampledTime": 0.46387514616699543
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "cursor",
+        "line": 330,
+        "sampleUs": 753751,
+        "fractionOfSampledTime": 0.46364447757870564
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-selection.js",
+        "function": "selectSource",
+        "line": 11,
+        "sampleUs": 545750,
+        "fractionOfSampledTime": 0.3356996854910688
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/acquisitions.js",
+        "function": "get",
+        "line": 160,
+        "sampleUs": 429713,
+        "fractionOfSampledTime": 0.2643234428793837
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "",
+        "line": 138,
+        "sampleUs": 400709,
+        "fractionOfSampledTime": 0.24648261158669849
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "get",
+        "line": 241,
+        "sampleUs": 337083,
+        "fractionOfSampledTime": 0.20734522599062932
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "header",
+        "line": 234,
+        "sampleUs": 314164,
+        "fractionOfSampledTime": 0.19324737699059302
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "request",
+        "line": 183,
+        "sampleUs": 122250,
+        "fractionOfSampledTime": 0.07519795978247029
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/assets.js",
+        "function": "path",
+        "line": 311,
+        "sampleUs": 112708,
+        "fractionOfSampledTime": 0.06932852066390725
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/source-selection.js",
+        "function": "selectSourceMetadata",
+        "line": 18,
+        "sampleUs": 92374,
+        "fractionOfSampledTime": 0.05682074713248189
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "digest",
+        "line": 31,
+        "sampleUs": 70415,
+        "fractionOfSampledTime": 0.04331340971846745
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "plan",
+        "line": 92,
+        "sampleUs": 44500,
+        "fractionOfSampledTime": 0.027372672477054626
+      },
+      {
+        "url": "file:///private/tmp/screenrec-source-owner-profile/packages/core/dist/project-evidence.js",
+        "function": "acquire",
+        "line": 267,
+        "sampleUs": 43793,
+        "fractionOfSampledTime": 0.02693778529859895
+      }
+    ],
+    "method": "Each raw sample delta is charged once to its nearest script frame; builtin/native leaves inherit script caller. Inclusive totals charge ancestors once per sample and must not be summed across nested functions. Idle/GC/control overhead retained separately; sampling is not CPU-time accuracy or original-red causality."
+  }
+]

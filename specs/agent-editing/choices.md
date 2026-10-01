@@ -6085,3 +6085,26 @@ When: generic model readiness and public preparation checkpoints.
   Existing actual inference supplies the separate execution proof.
 - **Confidence:** Medium. This is sufficient for selected-baseline adoption, but
   deployment environments can still require a separate live-download check.
+
+## 24z — Historical query owner attribution
+
+### Keep CPU diagnosis separate from latency acceptance — sound, medium confidence
+
+When: bounded owner-profile dispatch.
+
+- **Choice:** After heavy build and media work ends, sample the retained query once
+  per fixture arm even though ordinary foreground and background apps remain
+  active. Use the samples to identify which existing script owners perform work;
+  retain the host context and treat elapsed time as diagnostic only. A latency
+  acceptance run still needs its own appropriate conditions and unchanged budget.
+- **Gap:** The earlier measurement was contended, and waiting for a completely
+  inactive personal computer would delay useful owner diagnosis. The plan needed
+  a distinction between locating work and establishing its latency guarantee.
+- **Reach:** The profile can justify investigating redundant metadata reads. It
+  cannot explain the original slow cohort, prove source-cardinality causality or
+  substitute for a warm p95 measurement after an actual owner change.
+- **Verdict:** Sound. Exact results, bounds and native-call exclusions remain
+  checked; foreground activity limits the interpretation instead of disappearing
+  from the report or weakening the performance requirement.
+- **Confidence:** Medium. Sampling and host activity affect precision; source
+  inspection and contract tests must support any optimization selected from it.

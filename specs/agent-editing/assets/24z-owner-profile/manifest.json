@@ -1,0 +1,2003 @@
+{
+  "archive": {
+    "bytes": 3136515,
+    "sha256": "ef15b53718f354ce52f57fe9f91d1484fa210b449a5b864f69ad1a1f1691d407"
+  },
+  "members": [
+    {
+      "member": "failed-dispatch/profile-attempt.json",
+      "bytes": 69767,
+      "sha256": "42f699d56fffbcb735e2bbfb1287d4f64c3e365ff1a0ea7317def16af2bf06fa"
+    },
+    {
+      "member": "failed-dispatch/profile-native.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "failed-dispatch/profile-report.json",
+      "bytes": 81678,
+      "sha256": "4814ea29a8f0c336cd28f4a19d3bdf5085c366341c82eded5231b7e69ba44154"
+    },
+    {
+      "member": "failed-dispatch/profile-service.json",
+      "bytes": 216,
+      "sha256": "20e4ca1c5aec4fb7269f7d29dcddfba9a4736405689ddc1e4647914554515ae6"
+    },
+    {
+      "member": "failed-dispatch/profile-service.log",
+      "bytes": 1366,
+      "sha256": "e7e5dce82f9561cb351e50cc4fd550da29df200a6e2bd26aaf5e6fb5fa7f02e7"
+    },
+    {
+      "member": "corrected-profile/0f06ebf5-7140-4cba-ac2e-ab8876c59fba.cache.json",
+      "bytes": 684,
+      "sha256": "e864fbccc64cbd360d15bc4e1bbc36a5f6d9684037bceadfab3a1c3835db74a9"
+    },
+    {
+      "member": "corrected-profile/1d197009-482a-4ebd-959c-b2f2b52cb998.cache.json",
+      "bytes": 684,
+      "sha256": "be7f9e19191cbebce1289e07bbfd3331ca93f378aae8f133f91227d0550f87e1"
+    },
+    {
+      "member": "corrected-profile/3a57d6be-9edf-45ac-914f-a21d53c17c42.cache.json",
+      "bytes": 525,
+      "sha256": "346378ff8828e770e5aa15c334de8f356d6c31916790646a4929b6537947032b"
+    },
+    {
+      "member": "corrected-profile/44d1938c-986e-48cf-bde5-20af23a35f26.cache.json",
+      "bytes": 689,
+      "sha256": "42843f524f3871d02c34ae0f18e0da73df992536d0affab65c4af41ef42ed4bf"
+    },
+    {
+      "member": "corrected-profile/4dc9b40e-ceca-4bee-879d-beab5fceb68b.cache.json",
+      "bytes": 684,
+      "sha256": "c08fcbda70e7e37d99c0f937c712a667445015e7d778252e2bca5704b6569d1e"
+    },
+    {
+      "member": "corrected-profile/5894d514-77ee-4972-97f9-b622f80f5a58.cache.json",
+      "bytes": 684,
+      "sha256": "2f43141cd9398b5319746922249c288fe80761a284392218feb9d2a3b94fc42c"
+    },
+    {
+      "member": "corrected-profile/5dc48081-7f3c-481f-ad16-ccfd70335986.cache.json",
+      "bytes": 683,
+      "sha256": "ee1f8d1c3b3710b917eaf27165ebb1f263a7ec59e2e92a8e3a57889aeb49d602"
+    },
+    {
+      "member": "corrected-profile/758b95ca-0cdb-45d2-bb43-8ad325c6729a.cache.json",
+      "bytes": 1190802,
+      "sha256": "c04696553be525e167325291ddd7e11219898666d31515859be5a2e49142d042"
+    },
+    {
+      "member": "corrected-profile/81dfeb4e-0284-491a-8b52-394fc06be1be.cache.json",
+      "bytes": 684,
+      "sha256": "5b629b6d51c79296dd12f23421f9a7266cfa9f6c422b05981803e96079ac1132"
+    },
+    {
+      "member": "corrected-profile/8795c7da-f52b-4450-9ef5-f6f74d447703.cache.json",
+      "bytes": 2001298,
+      "sha256": "45d87642e827a264d7312b9a8a186cc342ffc1308d377076d7b469a2174dac8b"
+    },
+    {
+      "member": "corrected-profile/91a547dc-b371-4b4b-b8b7-f81c2896eaec.cache.json",
+      "bytes": 684,
+      "sha256": "ee5f21ea99eca77d613741ea84dfdd0df0f29cc65212d7b40d87b1b0b7ed2331"
+    },
+    {
+      "member": "corrected-profile/aa23e2e0-c504-4f1a-8bc5-d9f2d824a3aa.cache.json",
+      "bytes": 525,
+      "sha256": "99196164bad491a971c7325268db17015e5f1edc06e95c10003f2ed7687b9b57"
+    },
+    {
+      "member": "corrected-profile/c85b1984-2948-4cb6-8aa3-e937b3fcc3e0.cache.json",
+      "bytes": 683,
+      "sha256": "75d60c22b2f5274989e2e7a71707511c257b4703772834ab2f56db489b460d47"
+    },
+    {
+      "member": "corrected-profile/d5b25f7b-2aff-4d4a-b970-2ffc6a9f9154.cache.json",
+      "bytes": 684,
+      "sha256": "25811e7e108d175f0f319367e2855570ef5b21734ff47604c43fa04c734f8ecf"
+    },
+    {
+      "member": "corrected-profile/eee05667-226d-414f-9386-d324e80d03be.cache.json",
+      "bytes": 684,
+      "sha256": "10853f22d9dc2a0f8122de593878f16fc68fffdb1aaf9a677da67e408696e498"
+    },
+    {
+      "member": "corrected-profile/f380bb77-698e-44e5-8412-010098666a4d.cache.json",
+      "bytes": 689,
+      "sha256": "5c2a021c4807be37876c5ca8d408fdf39571dccbf8d5b72b935559d4dc9b2ab6"
+    },
+    {
+      "member": "corrected-profile/profile-1024-profile-mcp-pages.json",
+      "bytes": 11811440,
+      "sha256": "bc4518f13e3456d70ed669fbbb77ec7f978cf6afafb868d1ab7a05f85f243212"
+    },
+    {
+      "member": "corrected-profile/profile-512-profile-mcp-pages.json",
+      "bytes": 6137973,
+      "sha256": "1fcdd68fd4e869298cc1c1bf4ff0338e7ffa3002659fe6a6d93e982e6f92b79c"
+    },
+    {
+      "member": "corrected-profile/profile-attempt.json",
+      "bytes": 69767,
+      "sha256": "42f699d56fffbcb735e2bbfb1287d4f64c3e365ff1a0ea7317def16af2bf06fa"
+    },
+    {
+      "member": "corrected-profile/profile-native.jsonl",
+      "bytes": 45,
+      "sha256": "21e82190dd8c8358c2a9784a8e4ffa440dee2fa0c35e4b67f6347920bfe2bd02"
+    },
+    {
+      "member": "corrected-profile/profile-report.json",
+      "bytes": 104262,
+      "sha256": "1d38590ea31db595b96bb48dd48c1d2c754a952bc8f22284f02c0b68881529bf"
+    },
+    {
+      "member": "corrected-profile/profile-service.json",
+      "bytes": 222,
+      "sha256": "c7d2f744dadec0fa66222918d4afcf83ac0e8cd3d5245cd455ab48d930166b7a"
+    },
+    {
+      "member": "corrected-profile/profile-service.log",
+      "bytes": 169,
+      "sha256": "5a5fbbe7a8e021526ae72d5c1026b7f7af5456acbd5976ae6f6501f4731211a7"
+    },
+    {
+      "member": "corrected-profile/service-1024-profile.json",
+      "bytes": 1223,
+      "sha256": "5d93f55e5cc55350ab31acb9df0d6ca9dc367b62bb1d4f3536fb632cfb5801a1"
+    },
+    {
+      "member": "corrected-profile/service-1024.cpuprofile",
+      "bytes": 107586,
+      "sha256": "ecb7e7d0dacebb2c05e9259bbfd6496aba03cb09ffc186d33c8f3182e7f6ead0"
+    },
+    {
+      "member": "corrected-profile/service-512-profile.json",
+      "bytes": 1003,
+      "sha256": "368cafb808a2922d91ac226452951fe53ca5378cc02b306f3ab31fb48f4910d2"
+    },
+    {
+      "member": "corrected-profile/service-512.cpuprofile",
+      "bytes": 97037,
+      "sha256": "6f06df833dcb7267ea1f696ced0784c3422b3f4bc8156192e028d9012b5454e3"
+    },
+    {
+      "member": "failed-run.log",
+      "bytes": 2130,
+      "sha256": "5fe188511a3ca2c4c7cc9f039fc17a06f3fc90dbf9aeb4a48cf5be0700c52d4d"
+    },
+    {
+      "member": "corrected-run.log",
+      "bytes": 212,
+      "sha256": "51ac0815cde70489cedbdd4a269489b9acf6454c373833a1220ef063736c12e0"
+    },
+    {
+      "member": "runtime-preflight.json",
+      "bytes": 839,
+      "sha256": "16f10be30e4cb2d11265bc70bcfa9ccfdd49853c54570043109827104057d19c"
+    },
+    {
+      "member": "module-resolution.json",
+      "bytes": 1360,
+      "sha256": "51d1081b3cec22831fb1a67d990a01434dcce903b6b9918ab7848bdf95549686"
+    },
+    {
+      "member": "static-resource-correction.json",
+      "bytes": 2047,
+      "sha256": "78b19fe945e0dfa78c2705d650d97fb3c96897bc3992e88ba1c3bad7485aa5e1"
+    },
+    {
+      "member": "attribution.json",
+      "bytes": 20164,
+      "sha256": "9774b8634cbd23974a166b83e526916973a99cedf8f7f84bc91a67c0294da83a"
+    },
+    {
+      "member": "runtime/apps/cli/src/main.ts",
+      "bytes": 11865,
+      "sha256": "abe77bfd6b2fdff6ff4b69797635eb0d2848fea4de7d52809676964ec889ff6c"
+    },
+    {
+      "member": "runtime/apps/cli/src/artifact-delivery.ts",
+      "bytes": 11246,
+      "sha256": "1d5cf7502dcc7ca64d084ad39e18c1640b171f3cd877dc6f55e2166b86e976e5"
+    },
+    {
+      "member": "runtime/apps/service/src/capture-cleanup.ts",
+      "bytes": 4427,
+      "sha256": "1803fc6846450a36d6c7e8878c67d4323d031c122594ba4fdcb2e60cfd370ef7"
+    },
+    {
+      "member": "runtime/apps/service/src/package-registry.ts",
+      "bytes": 14564,
+      "sha256": "166a94f4c84385e72cbdb6352d1341e8aa98559623082e5406dd59c087914fdb"
+    },
+    {
+      "member": "runtime/apps/service/src/media-probe.ts",
+      "bytes": 2898,
+      "sha256": "2a2cdc6f4f452aa1c0ff62af4b31acadee5877e4c4c243c6455ff548e1bbae3b"
+    },
+    {
+      "member": "runtime/apps/service/src/project-package-metadata.ts",
+      "bytes": 2136,
+      "sha256": "2787f1b326a32cdfe5f30a02f3da723bf2172cdd3b99810dc92d53a3cf828b75"
+    },
+    {
+      "member": "runtime/apps/service/src/main.ts",
+      "bytes": 19311,
+      "sha256": "9ec3a08d186ae05ee36908d25f6adc88fb6b837665e7bcdc76bd5ddced427082"
+    },
+    {
+      "member": "runtime/apps/service/src/package-preview.ts",
+      "bytes": 4646,
+      "sha256": "aa28c540759caf3495cf499e5315b388290ce11a9a2cfd9c37af83889e2ba618"
+    },
+    {
+      "member": "runtime/apps/service/src/deletion.ts",
+      "bytes": 5232,
+      "sha256": "5aec559045e3f1999b05fc25dd73cc969066713db09f6cd8614bdaeba81975af"
+    },
+    {
+      "member": "runtime/apps/service/src/native-processing.ts",
+      "bytes": 547,
+      "sha256": "eb0d169ca289b7d23d1608984f0a26ece9c3c041bb2ec2428729ea6f05891b76"
+    },
+    {
+      "member": "runtime/apps/service/src/archive-input.ts",
+      "bytes": 1639,
+      "sha256": "2aa4fe377cd1f8d9fa66541597614febcd61ddb778ef62c63a2e85542f3182cc"
+    },
+    {
+      "member": "runtime/apps/service/src/package-guide.ts",
+      "bytes": 5312,
+      "sha256": "1d4fe0dd2fc124078704e2f009e8fd94833c7e56204e8b2d2e75e54bc6b4756e"
+    },
+    {
+      "member": "runtime/apps/service/src/source-export.ts",
+      "bytes": 4898,
+      "sha256": "b2503d506d478966c823a8f58fd70793add15e43bf690cef4bc0eae27cc3d110"
+    },
+    {
+      "member": "runtime/apps/service/src/publication.ts",
+      "bytes": 12960,
+      "sha256": "1d063bf7d7de60b313a93ec114f03a526a360473554919e9c48efd716a44fae2"
+    },
+    {
+      "member": "runtime/apps/service/src/package-media.ts",
+      "bytes": 10421,
+      "sha256": "8e5a17da83912a11c9b81b3cf1cbc975353c67d2ccdd8d028c636030f1988981"
+    },
+    {
+      "member": "runtime/apps/service/src/package-workspace.ts",
+      "bytes": 7731,
+      "sha256": "99af93c163a306b08483f9b0e2f4e5d351fa8bd2cdd846a94925a6d79c2e9067"
+    },
+    {
+      "member": "runtime/apps/service/src/project-packages.ts",
+      "bytes": 46289,
+      "sha256": "e225505692ebbc23e5378e82789592bbf53f0c58ab7add61ac5dfd5ff9d33875"
+    },
+    {
+      "member": "runtime/apps/service/src/capture.ts",
+      "bytes": 29690,
+      "sha256": "7b116dc14d51113ddd62d16ce195526bac50667e6d80186d25e00539fff054d1"
+    },
+    {
+      "member": "runtime/apps/service/src/operations.ts",
+      "bytes": 22711,
+      "sha256": "bdfcf70af7f8c2416f0d5ad6e7d89f61c0d4ea5f92757085c251ce57c8b982b2"
+    },
+    {
+      "member": "runtime/apps/service/src/voice.ts",
+      "bytes": 6719,
+      "sha256": "263027487d915cee9efe36e4c95b2aa90d54f752e5881d6935e19384e7283e38"
+    },
+    {
+      "member": "runtime/apps/service/src/package-transcript.ts",
+      "bytes": 4880,
+      "sha256": "9dd7ab11af4c1402730c1d42e0949760053589c12e1c3beb86fce141b2231555"
+    },
+    {
+      "member": "runtime/apps/service/src/package-audio.ts",
+      "bytes": 1624,
+      "sha256": "7512ce09b9547e12d15eeed63206586dad2f816ed498ade0fc2b2cf1df1ade24"
+    },
+    {
+      "member": "runtime/apps/service/src/package-archive.ts",
+      "bytes": 19203,
+      "sha256": "01da082efecc20aef41c537bb238c89dcb745639d10324b7d0adc268699bd3dd"
+    },
+    {
+      "member": "runtime/apps/service/src/packages.ts",
+      "bytes": 11753,
+      "sha256": "3f40ae634a664e17e6188f9e5aa829c438c67de33fd1ef5eeed567b6a58d450d"
+    },
+    {
+      "member": "runtime/apps/service/src/portable-index.ts",
+      "bytes": 1912,
+      "sha256": "b695d14eea8037220edbae43391fc58f1eeeb25c1d86f9edab6a5e4453a563e6"
+    },
+    {
+      "member": "runtime/apps/service/src/project-render.ts",
+      "bytes": 16666,
+      "sha256": "7a28a88774a1dec451aa03feea3fa8008a6b78d1decaab00f7a0414cac0d2152"
+    },
+    {
+      "member": "runtime/apps/service/src/package-source.ts",
+      "bytes": 4838,
+      "sha256": "21a7e586d49722036e47844c8aca4f13fd4fa51aacda13d949001d41cc997063"
+    },
+    {
+      "member": "runtime/apps/service/src/control.ts",
+      "bytes": 6900,
+      "sha256": "89bd94c98dc56c1849f4e93ee54fc2253c6a9f698da7782a1a9751e6932718d8"
+    },
+    {
+      "member": "runtime/apps/service/src/project-deletion.ts",
+      "bytes": 3636,
+      "sha256": "4830e4623dc3fe2c100b57a3566b516077adf66795b9cdfce655d229240bbb0e"
+    },
+    {
+      "member": "runtime/apps/service/src/timeline-inspection.ts",
+      "bytes": 3612,
+      "sha256": "20412e8a2e4ab57d9f487ca0117de3b819d6ca6bc46693e69fd4846295a40d76"
+    },
+    {
+      "member": "runtime/apps/service/src/render.ts",
+      "bytes": 12567,
+      "sha256": "29e9275fd91304e09660d56e56209ead6ee4bbdca2c0529f18783a42bdf1c401"
+    },
+    {
+      "member": "runtime/apps/service/src/index.ts",
+      "bytes": 5187,
+      "sha256": "dafb81131c7509362a00146baac355a742704e6f302a23bc8c8a2d8508f23010"
+    },
+    {
+      "member": "runtime/apps/service/src/managed-files.ts",
+      "bytes": 4426,
+      "sha256": "1eb766fa3110fe706ca2a28d5b5d07210ce463bbe7194eb014fa68857e67d29e"
+    },
+    {
+      "member": "runtime/apps/service/src/package-frames.ts",
+      "bytes": 1872,
+      "sha256": "dc37e764e1ea3cb4ec19dacc31e9b0b9772a285307f24ba635ecea19179de744"
+    },
+    {
+      "member": "runtime/apps/service/src/archive-write.ts",
+      "bytes": 3507,
+      "sha256": "c1669b8c2c487c67ad7e1376e94409496e5323579445030520c31b9258256a63"
+    },
+    {
+      "member": "runtime/apps/service/src/package-assembly.ts",
+      "bytes": 21333,
+      "sha256": "85f9fe874c58647f1f5ac69973320dd0950c0e22b86c6a1e2a52849ed31416b7"
+    },
+    {
+      "member": "runtime/apps/service/src/project-service.ts",
+      "bytes": 46226,
+      "sha256": "1d2c50c00325deca7a2b8d13478844283b6e62f112148a054410b438bb92a594"
+    },
+    {
+      "member": "runtime/apps/service/src/startup.ts",
+      "bytes": 5253,
+      "sha256": "b990c70cccf671b2b32d02f97d6710e17f3d3c64114625a3b666f156f0e4853c"
+    },
+    {
+      "member": "runtime/apps/service/src/delivery.ts",
+      "bytes": 4422,
+      "sha256": "426bc11af03185bcca8edb695e07bfb42e59981663e60a851a7d2f58752947d5"
+    },
+    {
+      "member": "runtime/apps/service/src/worker.ts",
+      "bytes": 7899,
+      "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+    },
+    {
+      "member": "runtime/apps/service/src/exports.ts",
+      "bytes": 54765,
+      "sha256": "e353f90eac1170a2b25f1d3db2d06f41d5d5d47b0a41c8ab748e86b7e09ab0ce"
+    },
+    {
+      "member": "runtime/packages/core/src/index-frame.ts",
+      "bytes": 1554,
+      "sha256": "59e43badca54c180d4192dc0b28ac12a11c15e8e7a262486ff40a0f292926943"
+    },
+    {
+      "member": "runtime/packages/core/src/voice-generation.ts",
+      "bytes": 12705,
+      "sha256": "ccc4e9c42d1e72c7258b370a5d79786e6478d48cca33d31bb3569565832d5a51"
+    },
+    {
+      "member": "runtime/packages/core/src/acoustic-inspection.ts",
+      "bytes": 18912,
+      "sha256": "bc5525fc3eddebb48e38ac8b06a5541c8e461eb15aee14e4aa71da99b7cdbe0d"
+    },
+    {
+      "member": "runtime/packages/core/src/source-selection.ts",
+      "bytes": 2792,
+      "sha256": "20e5d4b6dfb870ca1e535afcb03e222c4ceefb73fe5679c03d581be955807e06"
+    },
+    {
+      "member": "runtime/packages/core/src/source-admission.ts",
+      "bytes": 3999,
+      "sha256": "a5b918411c4a64810eba6fdbeba07d0911ed65f68be83cf6eaf4a04734ae9a39"
+    },
+    {
+      "member": "runtime/packages/core/src/index-read.ts",
+      "bytes": 4531,
+      "sha256": "2bfef9cfb6eb88b90a2f10713351f1e41a4286da16ab42d325006e21261a6cbc"
+    },
+    {
+      "member": "runtime/packages/core/src/capture-source-read.ts",
+      "bytes": 13607,
+      "sha256": "847ec8c1c69c4fa0d33e31ed6dc8f43c69dea87dfceb3a8da979b686a0d49686"
+    },
+    {
+      "member": "runtime/packages/core/src/presentation-pointer.ts",
+      "bytes": 4414,
+      "sha256": "0a09e45156418bf459759db395850e611b79308e2301799b8c69b8ae9e21c0a8"
+    },
+    {
+      "member": "runtime/packages/core/src/project-store.fixture.ts",
+      "bytes": 695,
+      "sha256": "e93e6d960e673de53cc8061db4a7e5c149e65b7d22a458611cb0be85aff418e8"
+    },
+    {
+      "member": "runtime/packages/core/src/asset-origins.ts",
+      "bytes": 2406,
+      "sha256": "3a77651bcbe91902eb9fb1b99457bf9a09fa928ad48bb713bbb4f2aed6c51833"
+    },
+    {
+      "member": "runtime/packages/core/src/evidence.ts",
+      "bytes": 21498,
+      "sha256": "68c1a07b104c1eb2da72419637191577be329aa6f21b463a9f6fd95f2882d622"
+    },
+    {
+      "member": "runtime/packages/core/src/text-seeds.ts",
+      "bytes": 6300,
+      "sha256": "7f9827d2eec4915ef8fb5817301a3e22d065de443204c48fd7b009a1bfd2b9be"
+    },
+    {
+      "member": "runtime/packages/core/src/acoustic-image.ts",
+      "bytes": 4979,
+      "sha256": "940bd81211662feac0d48a87f630293d3bf0a89f319c9ff498bc3c92fac530cc"
+    },
+    {
+      "member": "runtime/packages/core/src/screenshot-index-read.ts",
+      "bytes": 3529,
+      "sha256": "e4a3303fc32db6ef78578354c84d3aa8a30ce5a449f5ac1be683e42e3c39f3af"
+    },
+    {
+      "member": "runtime/packages/core/src/scene-evidence.ts",
+      "bytes": 30351,
+      "sha256": "683517b6d47f4a14c614448a205515fd57ac5aea5d765fc69981db2a66ba7717"
+    },
+    {
+      "member": "runtime/packages/core/src/projects.ts",
+      "bytes": 29738,
+      "sha256": "3756a56e033564a4f7bc1c88324e5da519c0325bc93311be3abe13dea39474b3"
+    },
+    {
+      "member": "runtime/packages/core/src/processing.ts",
+      "bytes": 11270,
+      "sha256": "b6493ef1cccab401b354051ba38f553c5a857c780256451cf977a2956b3809d2"
+    },
+    {
+      "member": "runtime/packages/core/src/pointer-schedule.ts",
+      "bytes": 4543,
+      "sha256": "fb9cad789dfe8c956d3f3a0a57ce45888c7860af4184de2b74952fe1adecc4e2"
+    },
+    {
+      "member": "runtime/packages/core/src/audio.ts",
+      "bytes": 13396,
+      "sha256": "fab68fd557b32a3bb8234bb71a8f1d80d3602ce61bf4f05f48a88425d7ba6088"
+    },
+    {
+      "member": "runtime/packages/core/src/index-pages.ts",
+      "bytes": 12667,
+      "sha256": "c64a83b71854c5438f296a55d18db55770a65ee62d7a53d162b53e214738c477"
+    },
+    {
+      "member": "runtime/packages/core/src/selection.ts",
+      "bytes": 14177,
+      "sha256": "190eef40e5c2412c2db91e95ab2a79c851f55ac481213db673a85bc8cea861cf"
+    },
+    {
+      "member": "runtime/packages/core/src/presentation-time.ts",
+      "bytes": 1433,
+      "sha256": "3a95fd148a5acf05cf3af51d1d3958864eefd50ec04e492b15ba996a62a128e5"
+    },
+    {
+      "member": "runtime/packages/core/src/scene-pages.ts",
+      "bytes": 6128,
+      "sha256": "56056e9e74ed6b270706c550c3d346c6ab9c1a03763f16a866b4e0b44445e6c9"
+    },
+    {
+      "member": "runtime/packages/core/src/frame-materialization.ts",
+      "bytes": 8069,
+      "sha256": "d302bcdce1927e3bd31d65177ba2b0694d1e01e41ee74d3867518dfe19b449d1"
+    },
+    {
+      "member": "runtime/packages/core/src/scenes.ts",
+      "bytes": 15570,
+      "sha256": "df4c2d1c910c6d147be195b2f3af01e82bb54a574ef3278785099598ea8de22c"
+    },
+    {
+      "member": "runtime/packages/core/src/source-index-selection.ts",
+      "bytes": 6258,
+      "sha256": "f9e7667bd52d8215160a92fa549f6b7a7376cbd16d1e546d6fada4d295d482e1"
+    },
+    {
+      "member": "runtime/packages/core/src/storage.ts",
+      "bytes": 10740,
+      "sha256": "d4c06228301934eabc719629d21ef4d396b0326523dbf204043e4e90d3a00c88"
+    },
+    {
+      "member": "runtime/packages/core/src/audio-wave.ts",
+      "bytes": 7675,
+      "sha256": "265f4e2e853772274d8fdd9c76c382703c4fd761c6bf845ebe90285e7a62fa69"
+    },
+    {
+      "member": "runtime/packages/core/src/assets.ts",
+      "bytes": 30268,
+      "sha256": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c"
+    },
+    {
+      "member": "runtime/packages/core/src/transcript-read.ts",
+      "bytes": 19665,
+      "sha256": "1c282fa9d76d900ce9864699c20d8a36b89ef06becd186e35ffb3103a9fdb149"
+    },
+    {
+      "member": "runtime/packages/core/src/evidence-merge.ts",
+      "bytes": 3043,
+      "sha256": "692117c3cb5df2b8deba806bcf7b9810b5a860e45f6ee3f4be358a253f738969"
+    },
+    {
+      "member": "runtime/packages/core/src/frames.ts",
+      "bytes": 9393,
+      "sha256": "8d08c77e78228a3630a95c384a26b10b0ef04015be5076e8975bfea0a55d65b2"
+    },
+    {
+      "member": "runtime/packages/core/src/voice-profile.ts",
+      "bytes": 3690,
+      "sha256": "487fb6cd8d91d7d572dab1850ed755c920de86175c953eab99a4d23fc747f04f"
+    },
+    {
+      "member": "runtime/packages/core/src/transcript-processing.ts",
+      "bytes": 23205,
+      "sha256": "0d1448de6117ba8295aa3f6373d03dbef0adc93292dad6fa9b2d26358cac2bf3"
+    },
+    {
+      "member": "runtime/packages/core/src/audio-spectrum.ts",
+      "bytes": 6627,
+      "sha256": "b3febf264c0a793fef73e71d55f04a199caae6867d2cf89f7d3a0ab862109649"
+    },
+    {
+      "member": "runtime/packages/core/src/source-index-materialization.ts",
+      "bytes": 5672,
+      "sha256": "d2791043a93be798ff57b2ddbabc84e6567482aba2f41364555845ab8908422b"
+    },
+    {
+      "member": "runtime/packages/core/src/source-events.ts",
+      "bytes": 7214,
+      "sha256": "4665c046b2ecfb628103b51e6ebf95575c5c0d43397d08e6b59472ac43a86d4b"
+    },
+    {
+      "member": "runtime/packages/core/src/jobs.ts",
+      "bytes": 58405,
+      "sha256": "91746b7a876316d33e99f55dbb8fb6d49a11f9e284a9708327705afcf6ee9b03"
+    },
+    {
+      "member": "runtime/packages/core/src/transcript-pages.ts",
+      "bytes": 14766,
+      "sha256": "5a0e0d8fd1ce70e608348295c0b912b2112d87d724eec5cb761dcc9025b016b5"
+    },
+    {
+      "member": "runtime/packages/core/src/visual-cache.ts",
+      "bytes": 6542,
+      "sha256": "3536e0d44ef73ff8353620143d99a5f7babf8cb77a3936d70d3f654654e0e86f"
+    },
+    {
+      "member": "runtime/packages/core/src/event-pages.ts",
+      "bytes": 14777,
+      "sha256": "f7c7452d9ccb08c2ea1b8718d9a128fe2398ade38cf6197700011659f1684376"
+    },
+    {
+      "member": "runtime/packages/core/src/package-manifest.ts",
+      "bytes": 16029,
+      "sha256": "c8449bfb3565152ae1f45ccfa737a87da97d237d700007d8dcb9c7add6aaa80c"
+    },
+    {
+      "member": "runtime/packages/core/src/source-index-equality.ts",
+      "bytes": 2487,
+      "sha256": "9409cec883e5f26b8b288bfda6392c748c6577ceea46eaca0076c401add8f080"
+    },
+    {
+      "member": "runtime/packages/core/src/evidence-read.ts",
+      "bytes": 10116,
+      "sha256": "3e1637d0f1ddae0c323e983b1e107b752bfd23a8cb1d513b32af2a97957a6f06"
+    },
+    {
+      "member": "runtime/packages/core/src/index-processing.fixture.ts",
+      "bytes": 12887,
+      "sha256": "ef15afb7449c84097c8944cd797dfcd38a19e0abdda4d63a944337867d5adefe"
+    },
+    {
+      "member": "runtime/packages/core/src/model-types.ts",
+      "bytes": 2079,
+      "sha256": "ae52c30d6390e0fa21b246ae44424dddec881af30c294dbbc66dc940626860f4"
+    },
+    {
+      "member": "runtime/packages/core/src/package-archive.ts",
+      "bytes": 7666,
+      "sha256": "0e3a5c9b0e611ea6db2e0d0899d7ce08f42e87e741072cb9f56ae787ffd9cff8"
+    },
+    {
+      "member": "runtime/packages/core/src/frame-inspection.ts",
+      "bytes": 33314,
+      "sha256": "66ff42095a165d05908dfaef433f2e956f7edcb0a84a5845801317b0c53a4953"
+    },
+    {
+      "member": "runtime/packages/core/src/source-scenes.ts",
+      "bytes": 11516,
+      "sha256": "61211dbd840b7f98552123497e3a55ab5094046bdbc846852490fc34f8f47f59"
+    },
+    {
+      "member": "runtime/packages/core/src/project-index.ts",
+      "bytes": 12726,
+      "sha256": "a1ff684dc95a26c950d3dbab73d05d6d91c8c62c03ab59abadd7942598c2f0f2"
+    },
+    {
+      "member": "runtime/packages/core/src/cache.ts",
+      "bytes": 14522,
+      "sha256": "92c2f4f2667b7ba34f71198514a4070ef17e42041bc53fafcbe856c90a236b38"
+    },
+    {
+      "member": "runtime/packages/core/src/project-transcript.ts",
+      "bytes": 8795,
+      "sha256": "b96ef9e33589c1542c5b5b3e4feffd598c0a80ae2abed891393c4d6b390a5924"
+    },
+    {
+      "member": "runtime/packages/core/src/trails.ts",
+      "bytes": 11978,
+      "sha256": "d24f737c585cffb909ef0c7e59eefda19bba93d9aac05370b53ba85a49310810"
+    },
+    {
+      "member": "runtime/packages/core/src/selection-evidence.ts",
+      "bytes": 6042,
+      "sha256": "47977cd6e6b414d23db633c860f26f65e4a91b1bf8384d04902edb1ee63e0e5f"
+    },
+    {
+      "member": "runtime/packages/core/src/project-window.ts",
+      "bytes": 8391,
+      "sha256": "bf8b0c5eb2293ac7165ec995bd4c9278a066f87d62a3e5ce86e5d7c57879a214"
+    },
+    {
+      "member": "runtime/packages/core/src/source-scene-chunks.ts",
+      "bytes": 6693,
+      "sha256": "34ef7080f4b16caa934891d8c45fcd39e3472e9da4fae32ee11bed651fa0c974"
+    },
+    {
+      "member": "runtime/packages/core/src/pointer-preparation.ts",
+      "bytes": 10547,
+      "sha256": "7452e8c257903e37a570953c70e54bd3ead48bc0a8bce3fb4b48b32ca060b2b9"
+    },
+    {
+      "member": "runtime/packages/core/src/project-index-materialization.ts",
+      "bytes": 5226,
+      "sha256": "e5eadb2faf627a1d9474031bd074e1061990b6109af2903b260c1e1d95414991"
+    },
+    {
+      "member": "runtime/packages/core/src/timeline-inspection.ts",
+      "bytes": 4061,
+      "sha256": "a0b620a575f2ce6cbbad60b8a160fb6fa3b43e0beb51cd8bd9d0f34f3894e2ba"
+    },
+    {
+      "member": "runtime/packages/core/src/project-preview.ts",
+      "bytes": 11788,
+      "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9"
+    },
+    {
+      "member": "runtime/packages/core/src/voice-types.ts",
+      "bytes": 2744,
+      "sha256": "b43a38bc6a48adb74ee0285300bd29ed28bf0c397fe8bc6ce0fc4523c63d5190"
+    },
+    {
+      "member": "runtime/packages/core/src/index-processing.ts",
+      "bytes": 36093,
+      "sha256": "5a569fa8f8ab5622e353264363e0aae0a2a103b537b680a4f02355c1dd30ce03"
+    },
+    {
+      "member": "runtime/packages/core/src/references.ts",
+      "bytes": 3017,
+      "sha256": "f91af872820c19912a5b758681e4d1c1571bb2c76575b227a97ca100f20587d0"
+    },
+    {
+      "member": "runtime/packages/core/src/transcript.ts",
+      "bytes": 41205,
+      "sha256": "4f06c3f7ca94bf5a8556e36f9ed823f8ba3f47483f6f726445aee5d3a1ee6d3a"
+    },
+    {
+      "member": "runtime/packages/core/src/scene-source-read.ts",
+      "bytes": 3878,
+      "sha256": "f09c1a9fe6b359341a35d6232d1cf392982891e8c20a67dfae875bce0ced1b53"
+    },
+    {
+      "member": "runtime/packages/core/src/models.ts",
+      "bytes": 19682,
+      "sha256": "5b0879eeb65b23775305d38ccd579f364b4841e1721870a3c6ff8a5178ca7ef3"
+    },
+    {
+      "member": "runtime/packages/core/src/project-package.ts",
+      "bytes": 20676,
+      "sha256": "0225bdfe74fa7ed0a165243f58adcd79d3e5473cc2f5b52a093c5ec5ecaf3144"
+    },
+    {
+      "member": "runtime/packages/core/src/library.ts",
+      "bytes": 26693,
+      "sha256": "56f13fad657f0887b7bdf9188fc032fdc7c7821868640052cf4c42e6ef358502"
+    },
+    {
+      "member": "runtime/packages/core/src/scene-processing.ts",
+      "bytes": 14697,
+      "sha256": "39bd1f8ba0969469aa501bcc2a3e10ba3424ecf74f5c655598423f25f4892292"
+    },
+    {
+      "member": "runtime/packages/core/src/screenshot-index.ts",
+      "bytes": 42486,
+      "sha256": "5faf5d60c7a5f92c195f2dca5b28e2d0ae95fc6e233ef345323d5393ac8bb70a"
+    },
+    {
+      "member": "runtime/packages/core/src/word-kind.ts",
+      "bytes": 762,
+      "sha256": "02d61654027a0910fef4b919ca10ed1ad3fbc6662fa40b0670db1dc4ee731bd8"
+    },
+    {
+      "member": "runtime/packages/core/src/project-events.ts",
+      "bytes": 5900,
+      "sha256": "a7c4d550633bd8f7a3bee2bff3a1cb2da7378e0993e9d10f4d5165cf8f4b8b9e"
+    },
+    {
+      "member": "runtime/packages/core/src/evidence-pages.ts",
+      "bytes": 4862,
+      "sha256": "a6fb19279f7ea339931ecd8bf115a65e9507c30d21a85f214c43030834015d62"
+    },
+    {
+      "member": "runtime/packages/core/src/prepared-audio.ts",
+      "bytes": 19405,
+      "sha256": "397882189e7623c6e09a078bf33811376b42e2df685ef044706e961aebf99d65"
+    },
+    {
+      "member": "runtime/packages/core/src/retained-image.ts",
+      "bytes": 1739,
+      "sha256": "06cc9488dab506f0596f52b16b23288769cc7a2de064b6c935ca7f01a91a1383"
+    },
+    {
+      "member": "runtime/packages/core/src/timeline.ts",
+      "bytes": 10076,
+      "sha256": "e516cf93d7d8b3644dd0a0bb4b9b1101c0ea3c62da1cee68b43a3cd7f8a694de"
+    },
+    {
+      "member": "runtime/packages/core/src/ordered-pages.ts",
+      "bytes": 10331,
+      "sha256": "649dc5e9d38130d3f90c8da22876dfbd5e65dce109d8c9bd143ff5280042a8fe"
+    },
+    {
+      "member": "runtime/packages/core/src/composition-pointer.ts",
+      "bytes": 13286,
+      "sha256": "0ae857e306997c1e208e7a8b7e8cab7b48ac1eb251e014abb4382acf29e4488d"
+    },
+    {
+      "member": "runtime/packages/core/src/presentation-evidence.ts",
+      "bytes": 13005,
+      "sha256": "09836f1909476e5dc10c093913bbc199a3bed807ffde4ec1ccce982f33dc9bb4"
+    },
+    {
+      "member": "runtime/packages/core/src/audio-inspection.ts",
+      "bytes": 23361,
+      "sha256": "21cc05fae987c5d01465cd777ec19543eadeb0979b38902008c7f09e3e2a1614"
+    },
+    {
+      "member": "runtime/packages/core/src/model-files.ts",
+      "bytes": 6139,
+      "sha256": "6e9d2c2f545ec231c1a6cfa6f03be392e724043c8205fd2c701c419a1c676f08"
+    },
+    {
+      "member": "runtime/packages/core/src/files.ts",
+      "bytes": 13225,
+      "sha256": "ed7622ee4e52de42e91c9b445dc81fa9a774e57922e2d21927aa045112425049"
+    },
+    {
+      "member": "runtime/packages/core/src/raw-cursor.ts",
+      "bytes": 2881,
+      "sha256": "4833672dc66c761f48d8e7ce14d93e62d7407bb201469e08b2c557cbb272849d"
+    },
+    {
+      "member": "runtime/packages/core/src/derivative-inspection.ts",
+      "bytes": 5192,
+      "sha256": "0f07e316823e673b43caab71a31329012d895f6787a41a2610b1218c316c18b0"
+    },
+    {
+      "member": "runtime/packages/core/src/project-evidence.ts",
+      "bytes": 22896,
+      "sha256": "9701f74db45e8bb90205e96c0b00a6000ccd2f777734454f39fd641dd7656d98"
+    },
+    {
+      "member": "runtime/packages/core/src/model-registry.ts",
+      "bytes": 7539,
+      "sha256": "eb15f1891136f278c4c934e278b5b10d95a81063d5ea1b5dadec59acfa372003"
+    },
+    {
+      "member": "runtime/packages/core/src/project-index-selection.ts",
+      "bytes": 8188,
+      "sha256": "3426c92fb42e24a43f8d003095538bdd0cf35d5d7d5a62d569ebb15650584962"
+    },
+    {
+      "member": "runtime/packages/core/src/preview.ts",
+      "bytes": 9859,
+      "sha256": "795d6b1b797a6aa5bec281d28e86cc65be69bfa92671642f156623fd9671f4cd"
+    },
+    {
+      "member": "runtime/packages/core/src/presentation-pointer-history.ts",
+      "bytes": 10018,
+      "sha256": "ce07d27d5e3729af526eff9e9b6cb6b7c30cce6949aa694e3d505bcfffeaf24f"
+    },
+    {
+      "member": "runtime/packages/core/src/catalog.ts",
+      "bytes": 2260,
+      "sha256": "786d0d86d281320b2273c516a7fe43f62e6b3374190ca26eb6e1b57a6838ca13"
+    },
+    {
+      "member": "runtime/packages/core/src/acquisitions.ts",
+      "bytes": 34207,
+      "sha256": "6c019c732d83e3f113ab248cc649afae8363d5dab654f44caad791a7de6abf4c"
+    },
+    {
+      "member": "runtime/packages/core/src/source-index.ts",
+      "bytes": 12427,
+      "sha256": "b7f689f74b9840cef384997f0692ea24903e51d14e161638f7a53dd11ab771b1"
+    },
+    {
+      "member": "runtime/packages/core/src/audio-extraction.ts",
+      "bytes": 13550,
+      "sha256": "8225feed2fb1da0cede2f4f6d4bb0c6042e160d7b468b2a8a4edd0544504b911"
+    },
+    {
+      "member": "runtime/packages/core/src/cached-derivative.ts",
+      "bytes": 1326,
+      "sha256": "02d68b831c2fb933ac08ef3b5c04694b45503e3f131c5d3e88b059e9c3c432c4"
+    },
+    {
+      "member": "runtime/packages/protocol/src/framing.ts",
+      "bytes": 5155,
+      "sha256": "85adf90a8f1f8042be017976d2a32994e2f6d9efe78ccc2071fbaf307a367267"
+    },
+    {
+      "member": "runtime/packages/protocol/src/capture.ts",
+      "bytes": 4713,
+      "sha256": "54961ab4dd4c1f7662e8547bb3c9a46683cca0a6a78c68cd3508552093937a9a"
+    },
+    {
+      "member": "runtime/packages/protocol/src/operations.ts",
+      "bytes": 53717,
+      "sha256": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94"
+    },
+    {
+      "member": "runtime/packages/protocol/src/layout.ts",
+      "bytes": 726,
+      "sha256": "fc08acc155d6f471aba23efa70698520a994190c4c9d5a73a6260a2599bb4e49"
+    },
+    {
+      "member": "runtime/packages/protocol/src/index.ts",
+      "bytes": 3008,
+      "sha256": "a3d191780cfdc6564ee95f19c136dbc965eab1dc0fa2ed836d2db37b6e7885f8"
+    },
+    {
+      "member": "runtime/packages/composition/src/schema.ts",
+      "bytes": 14304,
+      "sha256": "4239c969c9048669e87baef0a2944d3bd77f3b53b526d2a7ea24916bd9d20a20"
+    },
+    {
+      "member": "runtime/packages/composition/src/sample-clock.ts",
+      "bytes": 517,
+      "sha256": "bed959eceb0dda2ba9aa96203bbdc150ef486708203b1c256192352f42454525"
+    },
+    {
+      "member": "runtime/packages/composition/src/replace.ts",
+      "bytes": 6722,
+      "sha256": "b2972e3617afbdd77b1ec50656d25b7b104808bacb94d329af9a1b20d89f9997"
+    },
+    {
+      "member": "runtime/packages/composition/src/retime.ts",
+      "bytes": 1420,
+      "sha256": "cd6c212baa90cce66ca6f1b63b146fa711dc9c476b2717dfc77f45655161f046"
+    },
+    {
+      "member": "runtime/packages/composition/src/visual-plan.ts",
+      "bytes": 3344,
+      "sha256": "b207446857a34dc393e0fa2eb2cae3dbe6751af56b4c31ea43806396128940bd"
+    },
+    {
+      "member": "runtime/packages/composition/src/processing-plan.ts",
+      "bytes": 5465,
+      "sha256": "d46c52ce2e581cc582f456ffd59bf35e76f8227ae5b1594d363cf51ba2dc9ad7"
+    },
+    {
+      "member": "runtime/packages/composition/src/ripple.ts",
+      "bytes": 8592,
+      "sha256": "2dbaef851c434a28755a43dad58a5a4542f233bbfcae0de2857002fa08003f38"
+    },
+    {
+      "member": "runtime/packages/composition/src/processing.ts",
+      "bytes": 11584,
+      "sha256": "00029cd31aac0494b49e495efe444e2ea904158169f2f317e30a2ad0ba4bc32a"
+    },
+    {
+      "member": "runtime/packages/composition/src/pointer.ts",
+      "bytes": 1417,
+      "sha256": "ec4d5fcee90aa5ac2c0cb84dab59a26d92a1328def220197a521f9989e3a96a2"
+    },
+    {
+      "member": "runtime/packages/composition/src/errors.ts",
+      "bytes": 366,
+      "sha256": "181221a2cfdf46cf5c211db2319671aecc66ed0d86f4f2e72f198bd929a53743"
+    },
+    {
+      "member": "runtime/packages/composition/src/execution-window.ts",
+      "bytes": 8804,
+      "sha256": "21ad2cda505ff871206659cb12d01201e1a6a3b0b10963bdd93ce5c3623320dd"
+    },
+    {
+      "member": "runtime/packages/composition/src/compiled-records.ts",
+      "bytes": 2877,
+      "sha256": "b242733172f4a7e349ba9ab232d0182ab13a018b8e485fe64cfcdf0b50eeb537"
+    },
+    {
+      "member": "runtime/packages/composition/src/move.ts",
+      "bytes": 3553,
+      "sha256": "c76f31fc6e13f33cff6403b214e20335c04041607f4dd350290da4712a7975f7"
+    },
+    {
+      "member": "runtime/packages/composition/src/geometry.ts",
+      "bytes": 7009,
+      "sha256": "607ab93111bc2884bb2d7c009eda912a0bc37d0032fa7d12bcad0787a2b8c737"
+    },
+    {
+      "member": "runtime/packages/composition/src/transform.ts",
+      "bytes": 4643,
+      "sha256": "583f7a97d19f7bdd464e62ebff61a95b924253da99ee57815dd5ec68f42bcd73"
+    },
+    {
+      "member": "runtime/packages/composition/src/routing.ts",
+      "bytes": 2718,
+      "sha256": "c27fd352cb3a2baad3d80f209b43f07ba1d5c74b5af322fd12710c1dccb64ea8"
+    },
+    {
+      "member": "runtime/packages/composition/src/processing-state.ts",
+      "bytes": 17323,
+      "sha256": "3b689096aa53ecf283ee361537c3d97eae836503ecd19930df01ba4bfc6d83eb"
+    },
+    {
+      "member": "runtime/packages/composition/src/duplicate.ts",
+      "bytes": 1786,
+      "sha256": "7130bb60b18965209490a469498a11047e275598fddac47f80273bf8a0c3f87a"
+    },
+    {
+      "member": "runtime/packages/composition/src/edits.ts",
+      "bytes": 46957,
+      "sha256": "b43c9a98b79b8d9387515f0e1264249852e8386a3133f4b16c4566ac4ac01cae"
+    },
+    {
+      "member": "runtime/packages/composition/src/output-settings.ts",
+      "bytes": 13999,
+      "sha256": "dc8a8cc71123ad40e8f3a95e9501b32763d0a3b83bb93b4ada71c4863209508c"
+    },
+    {
+      "member": "runtime/packages/composition/src/model.ts",
+      "bytes": 20273,
+      "sha256": "0673e508f0af1373b9a8e4902e313f60eaeffa02391d2e96da87992fe0aea0ac"
+    },
+    {
+      "member": "runtime/packages/composition/src/curve.ts",
+      "bytes": 6449,
+      "sha256": "7d43ae4760086ccc441adb856686a669a0a20fc1868db8827c03083dde5afd0b"
+    },
+    {
+      "member": "runtime/packages/composition/src/source-projection.ts",
+      "bytes": 9191,
+      "sha256": "3b70f8184a2721c9a29ae54f389b19b0755587c79c87bf6612c3980d954d313d"
+    },
+    {
+      "member": "runtime/packages/composition/src/interval-index.ts",
+      "bytes": 1983,
+      "sha256": "1ad62a5a5d39119d52a313bce953a619ceb31a5392bab48342c38e6c2e9ae7ac"
+    },
+    {
+      "member": "runtime/packages/composition/src/scalar-program.ts",
+      "bytes": 9930,
+      "sha256": "540a9acf4a9090b80d96c272afe5cfbe17b16fd7be2e9e1f3baeebd36827089d"
+    },
+    {
+      "member": "runtime/packages/composition/src/index.ts",
+      "bytes": 3329,
+      "sha256": "76be4c63d17357491b436a705e6325c364fbec4240861725e17099722a4ec765"
+    },
+    {
+      "member": "runtime/packages/composition/src/temporal-processing.ts",
+      "bytes": 9549,
+      "sha256": "31772b137543032504315597fea0e8cb444a82c984c367cf2ffb3f4e1c1d1bfe"
+    },
+    {
+      "member": "runtime/packages/composition/src/project-cuts.ts",
+      "bytes": 4752,
+      "sha256": "719a3a0b49111859cf221ce2c0fe4f340133817d09f96e6e7074d3c329231b11"
+    },
+    {
+      "member": "runtime/packages/composition/src/compiler.ts",
+      "bytes": 17927,
+      "sha256": "b5973e0bb32433c881a38a1103c603173fc228613b2cb62f653df37701042e44"
+    },
+    {
+      "member": "runtime/packages/composition/src/clip-graph.ts",
+      "bytes": 1413,
+      "sha256": "4b788ea9b4b9baba8e4dc518b9250bcf9c5f5f4bc7a759d4a612ade74efbea7b"
+    },
+    {
+      "member": "runtime/packages/composition/src/rational.ts",
+      "bytes": 3501,
+      "sha256": "28d2a22394d562bd9199a339f9cb8930532589930ef2bd9b02a594e3d25fde29"
+    },
+    {
+      "member": "runtime/packages/composition/src/partition.ts",
+      "bytes": 7724,
+      "sha256": "2241250f258940a4cf6c133e7a7703406b0398648ecefea0c1d9e674c0248c1b"
+    },
+    {
+      "member": "runtime/packages/composition/src/audio-context.ts",
+      "bytes": 3451,
+      "sha256": "5d24f6d79c5780bb3fa95c1561779b41daa7554c81068ebae0061391f74a56b2"
+    },
+    {
+      "member": "runtime/packages/client/src/transport.ts",
+      "bytes": 2997,
+      "sha256": "aea6fc930869d9617cd217f45eb6121bbddccbabfdb92cc234e0f70ff1dd1ec1"
+    },
+    {
+      "member": "runtime/packages/client/src/discovery.ts",
+      "bytes": 5636,
+      "sha256": "59fb0959ede21ad7be1f286647af9cc007b9ac12b66156a3e7b2bcbd3abe1128"
+    },
+    {
+      "member": "runtime/packages/client/src/index.ts",
+      "bytes": 64,
+      "sha256": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+    },
+    {
+      "member": "runtime/apps/cli/dist/artifact-delivery.js",
+      "bytes": 10780,
+      "sha256": "a0775f7056624ab7f506852ace5bd37b93a0a2d49ac3118f4148ce309e0c7dae"
+    },
+    {
+      "member": "runtime/apps/cli/dist/main.js",
+      "bytes": 11879,
+      "sha256": "c59e8a3929f7ade8492db7dc1cd701e819773a979c2d368767e24dac99c3f7ee"
+    },
+    {
+      "member": "runtime/apps/service/dist/portable-index.js",
+      "bytes": 1531,
+      "sha256": "81e04b392de078b62e7234ee9d62eff1bebbd31a4899ecaf5878931e1b4457fb"
+    },
+    {
+      "member": "runtime/apps/service/dist/project-render.js",
+      "bytes": 14760,
+      "sha256": "cdb77a220359685a69a5d7152d659906981e7429baeab412ed562e20c122130e"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-source.js",
+      "bytes": 4498,
+      "sha256": "9e8370a17e2137ac3b46822b80bd61c47e47b5724386dbc51d99cce48351d339"
+    },
+    {
+      "member": "runtime/apps/service/dist/control.js",
+      "bytes": 6243,
+      "sha256": "bf3d29282df0085e58121a26214bccef78558848e4ea611107de39cd539c6968"
+    },
+    {
+      "member": "runtime/apps/service/dist/project-deletion.js",
+      "bytes": 3173,
+      "sha256": "92ff892c452f5bfdf11f5beb36e1aa8349a449baeaad17bb8324835ec96cc4a7"
+    },
+    {
+      "member": "runtime/apps/service/dist/timeline-inspection.js",
+      "bytes": 3267,
+      "sha256": "feb77a4023fa829fb46a1972099d8e8e0a43fddc82af486d667e0711446f1c43"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-audio.js",
+      "bytes": 1085,
+      "sha256": "743b1d1e5a757949b7b85e349d4c1522b6e875be409a288e82239e16cb115c26"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-archive.js",
+      "bytes": 16709,
+      "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+    },
+    {
+      "member": "runtime/apps/service/dist/packages.js",
+      "bytes": 10427,
+      "sha256": "a8032879815f5ba61cb4642ae29e7fdfc05fc82d541cb2e33fd5dcaad60053e6"
+    },
+    {
+      "member": "runtime/apps/service/dist/startup.js",
+      "bytes": 4998,
+      "sha256": "63a219dcb08361d5af781eef3f8b461b4869c94f1d3bb626c355fc4d59b37041"
+    },
+    {
+      "member": "runtime/apps/service/dist/delivery.js",
+      "bytes": 3905,
+      "sha256": "e5a3ad9983ce21f3b60443d385baf3a7986cf49441cc1cdf12e03558feeb3446"
+    },
+    {
+      "member": "runtime/apps/service/dist/worker.js",
+      "bytes": 6940,
+      "sha256": "e740005682937b36cb9376dd1e16c12a74dceb7eb243ead5d0f30fbef9707fdf"
+    },
+    {
+      "member": "runtime/apps/service/dist/exports.js",
+      "bytes": 51688,
+      "sha256": "3eb504b725e1d7a4843f9e5d14594f5386d805f99e6d036ea762d0ce7922ad65"
+    },
+    {
+      "member": "runtime/apps/service/dist/render.js",
+      "bytes": 10021,
+      "sha256": "530166e71a442ca10eda69fa24a42f76f2597a3e4609a9ad1c457b5f79abebc2"
+    },
+    {
+      "member": "runtime/apps/service/dist/index.js",
+      "bytes": 5071,
+      "sha256": "4f6a7c812d3eb26b4b0f9424b210223874f483d8c9d09d38d17d2a75c0f57fa4"
+    },
+    {
+      "member": "runtime/apps/service/dist/managed-files.js",
+      "bytes": 3610,
+      "sha256": "71a1636494ca58b39b0c32c45bae4ef9614a826a804cc42da01ef1b5fb584616"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-frames.js",
+      "bytes": 1199,
+      "sha256": "c8405b9ef9d0363cde16e3fbb7f681b70b40e0e48b161aeb76dd0ac7590273f2"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-assembly.js",
+      "bytes": 20186,
+      "sha256": "fdc32df8bd0a8d9bffca1c45cd492b0fc792e25a3edf194cf99968f9bec1d2b8"
+    },
+    {
+      "member": "runtime/apps/service/dist/archive-write.js",
+      "bytes": 3091,
+      "sha256": "dff039ff508a59e537b51ebe05f4b74a526f52b9c2adc5a8b167396ae4592a22"
+    },
+    {
+      "member": "runtime/apps/service/dist/project-service.js",
+      "bytes": 51862,
+      "sha256": "4b0499862bbb686955d404c51c763830e19915230d9670e4b2ee551a74135a6e"
+    },
+    {
+      "member": "runtime/apps/service/dist/main.js",
+      "bytes": 19607,
+      "sha256": "298995498f68ea25e83a35af73b6880a5a942cc0b9b4d55b161d17c601a0a22f"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-preview.js",
+      "bytes": 3365,
+      "sha256": "af114c005a993c3643840ae56ba2ce0ccd3413761cb07f318c31f5d1e70ae253"
+    },
+    {
+      "member": "runtime/apps/service/dist/capture-cleanup.js",
+      "bytes": 4246,
+      "sha256": "f144743490e5128cd208dec179d048604239a666d1d7c0dd2b3f727a2cea5397"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-registry.js",
+      "bytes": 12682,
+      "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+    },
+    {
+      "member": "runtime/apps/service/dist/media-probe.js",
+      "bytes": 2704,
+      "sha256": "4bf8c346b6dc414cc2aaa6cf969d700495b9f2da80727db3e0f07cd5eb6b76da"
+    },
+    {
+      "member": "runtime/apps/service/dist/project-package-metadata.js",
+      "bytes": 2094,
+      "sha256": "e1514951c53d1ddb8b347d96d1b9d26eac90b3ee41524ce761e4c4873ad1375b"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-workspace.js",
+      "bytes": 7265,
+      "sha256": "5c04a773bfb9251c0f0ddbce04e53c9f7c426d885973746427f09f10c29f7eec"
+    },
+    {
+      "member": "runtime/apps/service/dist/project-packages.js",
+      "bytes": 44426,
+      "sha256": "4f8c86bbb4d0f49217345067abd380303642ee4d5bb49dd27a7859e4182cd960"
+    },
+    {
+      "member": "runtime/apps/service/dist/capture.js",
+      "bytes": 28660,
+      "sha256": "476e7914f16fdfc98d5e938dc35a274f7b883114f62344eee69fe11a217ba903"
+    },
+    {
+      "member": "runtime/apps/service/dist/operations.js",
+      "bytes": 22382,
+      "sha256": "3fba7abc496d299ce3a2624f838a308e6063e0ff24fba388fd8e7a6d68e17bd3"
+    },
+    {
+      "member": "runtime/apps/service/dist/voice.js",
+      "bytes": 6466,
+      "sha256": "6aafdf3a2310a1fb48296a3ab8633f370f2947ae27ff96b7c55bf189af19fa36"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-transcript.js",
+      "bytes": 4394,
+      "sha256": "2d5b55735ef6256a165b31ef789b8fece84c9cb6d7f8a25f98db3601c9237231"
+    },
+    {
+      "member": "runtime/apps/service/dist/deletion.js",
+      "bytes": 4333,
+      "sha256": "baecf1c374ff82dcfb1c101ed2e827d3894274c9653b9c30bdf7c0a09fa06f73"
+    },
+    {
+      "member": "runtime/apps/service/dist/native-processing.js",
+      "bytes": 477,
+      "sha256": "1c805b3e00e5d54da3dfaf58f011be8688643f4d95cd7014e958ae061a127d23"
+    },
+    {
+      "member": "runtime/apps/service/dist/archive-input.js",
+      "bytes": 1535,
+      "sha256": "109e70c82a0b33b702edf2544d9b5135ddefb8f9253456b2f5c24318f6831ff4"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-guide.js",
+      "bytes": 5063,
+      "sha256": "abd802ddb213cb70ea80a626d68e144d30cea1377a6e8c09683aa26463ff4a89"
+    },
+    {
+      "member": "runtime/apps/service/dist/source-export.js",
+      "bytes": 4665,
+      "sha256": "439f35dd1e4d813d6e2a29a738735b5aac2459d3889413387b69fc08afc02027"
+    },
+    {
+      "member": "runtime/apps/service/dist/publication.js",
+      "bytes": 11552,
+      "sha256": "d36fbc79291d708a81a9cd52897229591ed5716cea8fb3b3a00ca53e6de3ecef"
+    },
+    {
+      "member": "runtime/apps/service/dist/package-media.js",
+      "bytes": 9653,
+      "sha256": "39243f4e9d3783ac9cbf4d7d9fe19dbb3e22f4812718db0f3de710c6a31c4163"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-transcript.js",
+      "bytes": 7852,
+      "sha256": "68f0e829f0cefb6f2c9b6892494e11896b905c5029db56a5c0b3e15be88a2266"
+    },
+    {
+      "member": "runtime/packages/core/dist/selection-evidence.js",
+      "bytes": 6281,
+      "sha256": "55605feb6013d8eb7b2e5b0cad2607b0958905f4db1d3e3e1cf9e3aa5f8508e8"
+    },
+    {
+      "member": "runtime/packages/core/dist/trails.js",
+      "bytes": 11044,
+      "sha256": "5bac45cbb1194660581ebb846d823e446b22a7dfb4ec270d570838f10545beaf"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-window.js",
+      "bytes": 7219,
+      "sha256": "bed4e96dbd357a680a327cf55c92dd9341c2eb98dbbb92ceff3581e030e498f9"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-scene-chunks.js",
+      "bytes": 6350,
+      "sha256": "fcc76ec5044d588b15f9ca30f511a93593ef8d166b939fcfae613404ca27e2f9"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-index-materialization.js",
+      "bytes": 4830,
+      "sha256": "1826c1f9b88791fe984dca0a97042f7cb813ae9910791ee24dff5bf544781872"
+    },
+    {
+      "member": "runtime/packages/core/dist/pointer-preparation.js",
+      "bytes": 9592,
+      "sha256": "fb635f1338dc1d88b9b413a32eb53d660f709d241d37405f38064587355b2a0d"
+    },
+    {
+      "member": "runtime/packages/core/dist/timeline-inspection.js",
+      "bytes": 3650,
+      "sha256": "cf88e85713d22a6b946c3ebc567da8bd651039612d9ce54617147f099cca42f8"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-index-equality.js",
+      "bytes": 2108,
+      "sha256": "6e68568c08ebe25c35a668ced948a49cbc9d3751367befd666440e89e991d3f2"
+    },
+    {
+      "member": "runtime/packages/core/dist/model-types.js",
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "member": "runtime/packages/core/dist/evidence-read.js",
+      "bytes": 8868,
+      "sha256": "7aa5c92ac85cb320f3dda896c0dd9a1c0b4ffb2fc6fed9cf22db1ea07874acb6"
+    },
+    {
+      "member": "runtime/packages/core/dist/package-archive.js",
+      "bytes": 7491,
+      "sha256": "f13c9201c743ef4d65b5c707daa520ec08c7fc4400239e530f5fc81567b385ac"
+    },
+    {
+      "member": "runtime/packages/core/dist/frame-inspection.js",
+      "bytes": 29705,
+      "sha256": "db0e816cc2f61ef41c87be0939682a3defd0b0cda5240157c763a06f58e84d86"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-scenes.js",
+      "bytes": 10198,
+      "sha256": "92e0d628896896cbbc799ba56b68be19d3db95fdb90e5ab0575ae2157c823876"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-index.js",
+      "bytes": 12064,
+      "sha256": "ca8a21273ff10b709caf61ea14d4bc59cb55aeb806e568726ccf17d6483d1686"
+    },
+    {
+      "member": "runtime/packages/core/dist/cache.js",
+      "bytes": 14621,
+      "sha256": "9dd96ce1912238ba5b2f295d7ae51cd591fd729548894fb1a10c83a7bd30516d"
+    },
+    {
+      "member": "runtime/packages/core/dist/model-files.js",
+      "bytes": 6153,
+      "sha256": "1242f8d498c47d228b7f08ac41ad39788117d6b4c5f305d063012dab6d0a55f7"
+    },
+    {
+      "member": "runtime/packages/core/dist/audio-inspection.js",
+      "bytes": 20804,
+      "sha256": "1db95b1d283111782384c41cdee529be761f6471f949dcd4daa6ec9fcc15f7fe"
+    },
+    {
+      "member": "runtime/packages/core/dist/derivative-inspection.js",
+      "bytes": 3090,
+      "sha256": "29a0824761a8205b73182758ebfdbc24b76adc38c3e266c3c27f205c17b83a60"
+    },
+    {
+      "member": "runtime/packages/core/dist/raw-cursor.js",
+      "bytes": 2218,
+      "sha256": "e4e35dbb3d3113458beeeefc3e334c7b5bf6c49138bb2b1df6cb9fec45fedc30"
+    },
+    {
+      "member": "runtime/packages/core/dist/files.js",
+      "bytes": 12851,
+      "sha256": "321f03307ba1234dad61ab24822c00fcaabf305ea251b2bdaf532c79274527f1"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-evidence.js",
+      "bytes": 21554,
+      "sha256": "946fdaa5ec7c34ea1647784818a8b56b8034a5b21082307b79f9f22673ca001d"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-index-selection.js",
+      "bytes": 7085,
+      "sha256": "42e348c838f2f9b2e40ac1465167409d3504d841179d336b055fd2b3b82b4a81"
+    },
+    {
+      "member": "runtime/packages/core/dist/model-registry.js",
+      "bytes": 8452,
+      "sha256": "0f68be8b050c761b5cecb0b9f5d9c4f2701d5fc7c9e658bf572bf71e8e2534ee"
+    },
+    {
+      "member": "runtime/packages/core/dist/preview.js",
+      "bytes": 7575,
+      "sha256": "6019e53d5ef0fbce9b81cbd72bfdcc915708b74c045be2e5e4f1d70211911087"
+    },
+    {
+      "member": "runtime/packages/core/dist/presentation-pointer-history.js",
+      "bytes": 9721,
+      "sha256": "aec3dd7a0011965cdc63f24c6cceb1a623f9edec8a34d5ffa6404018d5def543"
+    },
+    {
+      "member": "runtime/packages/core/dist/acquisitions.js",
+      "bytes": 32895,
+      "sha256": "3634f3d147d50ec2eef02750b5e9769f3e4a5e2983768d4a41b8fd303b40d22e"
+    },
+    {
+      "member": "runtime/packages/core/dist/catalog.js",
+      "bytes": 2362,
+      "sha256": "5884c735f8862247281bb2bdee3a0b8b75d13fdaf45108783a96fe891e90ade2"
+    },
+    {
+      "member": "runtime/packages/core/dist/cached-derivative.js",
+      "bytes": 1137,
+      "sha256": "34639578f4f2acabd0ab9382f0a1767b6feda25c89e23e01b54b78805b56b6cb"
+    },
+    {
+      "member": "runtime/packages/core/dist/audio-extraction.js",
+      "bytes": 13385,
+      "sha256": "487f12900be2ea2fbaafd2fb297b9269c2aff4bfa57f6c2f88054d2be857dfdd"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-index.js",
+      "bytes": 12053,
+      "sha256": "eaf6fe5cac21bc50f967019e8951a45c886ac5762d9254c0d648acc43b69a089"
+    },
+    {
+      "member": "runtime/packages/core/dist/voice-types.js",
+      "bytes": 2608,
+      "sha256": "519b3d71a4aa9cf16665133aa7eedf5a08995a0f65b85139bb20b3aa4be99f8e"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-preview.js",
+      "bytes": 9887,
+      "sha256": "8bc27cd5269eafd61adf0afce7911814e3224c104948a873ce1c72a89e3712ee"
+    },
+    {
+      "member": "runtime/packages/core/dist/index-processing.js",
+      "bytes": 32146,
+      "sha256": "91c8af8342def562db4c1046fc7a5bb8cf5740367fcb50aa4858207ca956291e"
+    },
+    {
+      "member": "runtime/packages/core/dist/references.js",
+      "bytes": 2490,
+      "sha256": "1ca9a514c70af828422fccbb3cfc0e4d8d1efb0ee9f11309a635e5ff1980754b"
+    },
+    {
+      "member": "runtime/packages/core/dist/transcript.js",
+      "bytes": 36146,
+      "sha256": "428f91350ae18d8edc32417e57a2fd7cfeebc1988cd256c9339ffc8d4a96869a"
+    },
+    {
+      "member": "runtime/packages/core/dist/models.js",
+      "bytes": 19867,
+      "sha256": "90c6a772c5668be508caaf62331d94954b804747d21bd51f6ad52460ee304399"
+    },
+    {
+      "member": "runtime/packages/core/dist/scene-source-read.js",
+      "bytes": 3132,
+      "sha256": "690161b71ee1e289d5e3eb6a8991dc2f1ef55b610dad39bdfddd7cde8ae86c0e"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-package.js",
+      "bytes": 19693,
+      "sha256": "d4ac392592c27ddf38f5f2ae98d7d24f342a74b840aebc62dca8c9daecbec666"
+    },
+    {
+      "member": "runtime/packages/core/dist/screenshot-index.js",
+      "bytes": 39463,
+      "sha256": "aeffb6d6f2f51459f6f81f1b45206a515cc00626c6a8040e124e4b63f9633555"
+    },
+    {
+      "member": "runtime/packages/core/dist/scene-processing.js",
+      "bytes": 13958,
+      "sha256": "2bdbb3eddc08a1947162289b31e56db2d0040365dec221d66bed8830b8497bf5"
+    },
+    {
+      "member": "runtime/packages/core/dist/library.js",
+      "bytes": 24641,
+      "sha256": "e2081d9162aacda12c389bf6cd12b8c8bf5426db58155958c593f6c2cdd8b373"
+    },
+    {
+      "member": "runtime/packages/core/dist/word-kind.js",
+      "bytes": 670,
+      "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+    },
+    {
+      "member": "runtime/packages/core/dist/project-events.js",
+      "bytes": 5703,
+      "sha256": "91e8e922675d9d6381a1153f0a864ed1fc0f80caf8d978c0cb62c34763b56086"
+    },
+    {
+      "member": "runtime/packages/core/dist/evidence-pages.js",
+      "bytes": 4251,
+      "sha256": "54fd718f27dbbc3aef473bcec6270979a46b3676d928cefe63d191f5e52b781e"
+    },
+    {
+      "member": "runtime/packages/core/dist/timeline.js",
+      "bytes": 8956,
+      "sha256": "707c377f03ff76877efd879e3b85c76e92b91ffa3e3bec3662afe9ceb80afb94"
+    },
+    {
+      "member": "runtime/packages/core/dist/retained-image.js",
+      "bytes": 1568,
+      "sha256": "caeb9e3d7693982ba033a95b80d87e2e99bf3aa237455904457ac91cecbf08ed"
+    },
+    {
+      "member": "runtime/packages/core/dist/prepared-audio.js",
+      "bytes": 18829,
+      "sha256": "3e22c1090f97b7263768056e1e7933de262d5bcc0531a70672532763ff917219"
+    },
+    {
+      "member": "runtime/packages/core/dist/presentation-evidence.js",
+      "bytes": 12740,
+      "sha256": "8fe260b5871980a808bda0f0eb43ecf1c2a3a3510e8d54921104095329a18c1a"
+    },
+    {
+      "member": "runtime/packages/core/dist/composition-pointer.js",
+      "bytes": 13921,
+      "sha256": "e106be631c2d50d1ad9f19d60ac2613480d2989dccace8487bffa4df11ed4de8"
+    },
+    {
+      "member": "runtime/packages/core/dist/ordered-pages.js",
+      "bytes": 10019,
+      "sha256": "b5960afb488e32a4e56a0fb41bed8dfd20ba09bd30f984e7248bb9c723fdcecd"
+    },
+    {
+      "member": "runtime/packages/core/dist/screenshot-index-read.js",
+      "bytes": 2664,
+      "sha256": "f18a38233fa289dc926d479df78a0a0b7a4224578dbd5d141b5c86650b7815d4"
+    },
+    {
+      "member": "runtime/packages/core/dist/scene-evidence.js",
+      "bytes": 26885,
+      "sha256": "93bbe487360c665ddf0415f68d5003e54fe409b1908199ffa12881c5fbc91191"
+    },
+    {
+      "member": "runtime/packages/core/dist/projects.js",
+      "bytes": 28086,
+      "sha256": "d24b0f24373f95d66f8bf320415ddf84fd82d093902938675b5e7d94e76cd1b2"
+    },
+    {
+      "member": "runtime/packages/core/dist/pointer-schedule.js",
+      "bytes": 4147,
+      "sha256": "35782545ea3c39d808a3f2e470c89ce12291e0690a4e15b6b926ac6088cc9966"
+    },
+    {
+      "member": "runtime/packages/core/dist/processing.js",
+      "bytes": 11395,
+      "sha256": "d12ac07d7c2c2ab89c93cbca9c097eaf33ad206e68960bd9fe8f7f19b92aa745"
+    },
+    {
+      "member": "runtime/packages/core/dist/audio.js",
+      "bytes": 10374,
+      "sha256": "4e0530e0bf93ea77b2658ee1804559d93c2afc25c009c6e3ff82ab8f7cf2a61e"
+    },
+    {
+      "member": "runtime/packages/core/dist/selection.js",
+      "bytes": 12834,
+      "sha256": "d57e565d1b3592d0cd67e617f2580bcd8e55ffa667602e23043a79b197eb8477"
+    },
+    {
+      "member": "runtime/packages/core/dist/index-pages.js",
+      "bytes": 12287,
+      "sha256": "c6a0b97dd216bf73f34ad04cbb1159da98f461e9104fae994d5d4b1d7f88d881"
+    },
+    {
+      "member": "runtime/packages/core/dist/index-frame.js",
+      "bytes": 1305,
+      "sha256": "2ae64daa52e90667db22f96487957bed070b0e0f1790919495e4c0c456d6fc7c"
+    },
+    {
+      "member": "runtime/packages/core/dist/voice-generation.js",
+      "bytes": 11808,
+      "sha256": "3daf7660335d984b0354dbd5f66ae13c0d5f70a1075f20110f0170d8f2030d50"
+    },
+    {
+      "member": "runtime/packages/core/dist/acoustic-inspection.js",
+      "bytes": 18930,
+      "sha256": "2e147ebb5d29cb4d1ca0d94dc1fb45faea4b21122e3c531464e8f9900f1f7b02"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-admission.js",
+      "bytes": 3457,
+      "sha256": "04ced5dc7445fcc7f6acbcbbdf617d4c72a00be16ccc3ce2779ef8e1d72ef9c7"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-selection.js",
+      "bytes": 2407,
+      "sha256": "5a4014d962b99a1196a3bec54026b3fd35b1126fd0220f5ab58335ea597d427b"
+    },
+    {
+      "member": "runtime/packages/core/dist/presentation-pointer.js",
+      "bytes": 4069,
+      "sha256": "fcb220debbbe6bb8522c24a8b64c4030a9546702cf4a2b7f7bbac576fef4e497"
+    },
+    {
+      "member": "runtime/packages/core/dist/capture-source-read.js",
+      "bytes": 13110,
+      "sha256": "f7dc5a63f3f0ea3686b4a31b12ddb9209b54f7f817eaaf54625eb0cf71f49f53"
+    },
+    {
+      "member": "runtime/packages/core/dist/index-read.js",
+      "bytes": 3557,
+      "sha256": "7a0d938c011a2fa6624ee2cab6c4ac632ead6d01c21c655902bffaa1c38c345b"
+    },
+    {
+      "member": "runtime/packages/core/dist/asset-origins.js",
+      "bytes": 2471,
+      "sha256": "087b795c8b436abb83c17bf1ca53473b1f0a7edcd3dc398658065bce99deade0"
+    },
+    {
+      "member": "runtime/packages/core/dist/evidence.js",
+      "bytes": 19335,
+      "sha256": "334d47512fee6c870c47ed26c128c36562a88fe8e9f172c4e08c7036055ed965"
+    },
+    {
+      "member": "runtime/packages/core/dist/text-seeds.js",
+      "bytes": 5808,
+      "sha256": "6493c4ff1b0fa14a13f7804b7f83e4f64ba06530f87d8327f7ef95d6a3ee1c4e"
+    },
+    {
+      "member": "runtime/packages/core/dist/acoustic-image.js",
+      "bytes": 4229,
+      "sha256": "b71288387d623d0a58f79277d94343562a59a4a6c35b3091d7612ad27296bb26"
+    },
+    {
+      "member": "runtime/packages/core/dist/frames.js",
+      "bytes": 7551,
+      "sha256": "d282cdfef95054e1da0ec51ce26034b1330cadfe928d263fa50f4a28451230db"
+    },
+    {
+      "member": "runtime/packages/core/dist/transcript-processing.js",
+      "bytes": 21469,
+      "sha256": "766ee0ec7c653a45dbcd3757b849faccb1d7523ee39207f489d758c32002271a"
+    },
+    {
+      "member": "runtime/packages/core/dist/voice-profile.js",
+      "bytes": 3572,
+      "sha256": "9f88d5439c3cba463bf48bcbf767777eb1b3462565557eedf88b5f2ac43857f4"
+    },
+    {
+      "member": "runtime/packages/core/dist/audio-spectrum.js",
+      "bytes": 6259,
+      "sha256": "d5b703b096a1f60c94e50071a13b8007eaceb66af055eeaaed757f3bce08de91"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-index-materialization.js",
+      "bytes": 4838,
+      "sha256": "9d7352977e7841af72a4a7ce735d746e85d187e0078445ef6b7b410fc4df28a4"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-events.js",
+      "bytes": 6898,
+      "sha256": "bc2e3b35e28b82e829c6e5090a4f69a1c63aad7e436575bf8211bca6d17f9bd2"
+    },
+    {
+      "member": "runtime/packages/core/dist/jobs.js",
+      "bytes": 52729,
+      "sha256": "107657f8045779e442f0951196eb972e5493f517276610b6954155cf6cffc034"
+    },
+    {
+      "member": "runtime/packages/core/dist/transcript-pages.js",
+      "bytes": 12897,
+      "sha256": "9bf65111e3a00c633e7acd44d36af686e07bf7799ca437dee305447c8399a1a3"
+    },
+    {
+      "member": "runtime/packages/core/dist/package-manifest.js",
+      "bytes": 15232,
+      "sha256": "cbe1858914858fe377e9626be44542c1db3a1f1c9d6dfce580fc3de7e19c38e9"
+    },
+    {
+      "member": "runtime/packages/core/dist/event-pages.js",
+      "bytes": 14452,
+      "sha256": "84bbe7763ef48814f431590384f3ad746b3fb2c9402c2edbbfb50b09fea33a73"
+    },
+    {
+      "member": "runtime/packages/core/dist/visual-cache.js",
+      "bytes": 6487,
+      "sha256": "d70e0be0945447fd2e3d3343a99a1cd4ea0c800760adde830a93877a5dc3e975"
+    },
+    {
+      "member": "runtime/packages/core/dist/presentation-time.js",
+      "bytes": 1027,
+      "sha256": "3f530e5b9100e2ab3e4f77212cde27da9364c3eafa3b163da648d2c49c67be06"
+    },
+    {
+      "member": "runtime/packages/core/dist/scene-pages.js",
+      "bytes": 5764,
+      "sha256": "60f6d748d56419ffebac584f60b2ca2f35261c7937116a444165ac640ea1ed21"
+    },
+    {
+      "member": "runtime/packages/core/dist/frame-materialization.js",
+      "bytes": 6289,
+      "sha256": "71bbfff9b91bf36702a199df826ba834869c45fda4773e1b53a2c82d42adc044"
+    },
+    {
+      "member": "runtime/packages/core/dist/scenes.js",
+      "bytes": 14847,
+      "sha256": "ae013b96b97ca750dd2415ef7159b1a3c0f9e09505a6060d1c7d367547e0c802"
+    },
+    {
+      "member": "runtime/packages/core/dist/audio-wave.js",
+      "bytes": 7455,
+      "sha256": "12452c5685bd4982069ca36dd3740de90379ebe3d9aeda33ba0b154a5605f7c6"
+    },
+    {
+      "member": "runtime/packages/core/dist/storage.js",
+      "bytes": 11053,
+      "sha256": "cfd67cdb4c1dcdfb3faa8985151b060d515bf0b0b0c4b034cfc1646ca6660689"
+    },
+    {
+      "member": "runtime/packages/core/dist/source-index-selection.js",
+      "bytes": 5702,
+      "sha256": "6da780d53a70e3fc3ec7388f35aa98b74995cb6d6afb4689b8b3861bf8aa4d1d"
+    },
+    {
+      "member": "runtime/packages/core/dist/transcript-read.js",
+      "bytes": 18227,
+      "sha256": "0c0438a12d33ed3377d94479e0ba01c3a506a768c07e4789d702a3b30bdb9710"
+    },
+    {
+      "member": "runtime/packages/core/dist/assets.js",
+      "bytes": 29023,
+      "sha256": "c8e2af0cc4f1bd341e8146f69a7d26f06a25e6bc29cdb2b48518f0f076b53f4d"
+    },
+    {
+      "member": "runtime/packages/core/dist/evidence-merge.js",
+      "bytes": 2842,
+      "sha256": "f0840bcbda5eb1aeb5f29135d5a315ef4ac92ea70defe55b67974dceb34e61d6"
+    },
+    {
+      "member": "runtime/packages/protocol/dist/layout.js",
+      "bytes": 672,
+      "sha256": "80e2008dff20c769ec8ab3709fe8c9e28bee25c6d0c07ac383feb08335719ced"
+    },
+    {
+      "member": "runtime/packages/protocol/dist/index.js",
+      "bytes": 2557,
+      "sha256": "7095f4ad3db3661f36ff21e49d7ecd6c905760c23c9533f552b20fe3d184c0c8"
+    },
+    {
+      "member": "runtime/packages/protocol/dist/capture.js",
+      "bytes": 4534,
+      "sha256": "c67a50a9135f1fcc4aa91e958efcfc3227bdab9ab31ca9e3ab36c357756b17ae"
+    },
+    {
+      "member": "runtime/packages/protocol/dist/operations.js",
+      "bytes": 54503,
+      "sha256": "d13099f489fc8f3882bfff3ece5c9f8daaf90caefdcd311b2d3a8797268b142d"
+    },
+    {
+      "member": "runtime/packages/protocol/dist/framing.js",
+      "bytes": 5248,
+      "sha256": "aeb79aba228caa8c71283c311b9cdd1a4dfc3ac8b1d392a5547279d5d9c9849b"
+    },
+    {
+      "member": "runtime/packages/composition/dist/scalar-program.js",
+      "bytes": 9136,
+      "sha256": "a81b8e65106c9efb26bd49758d93e6bb4056acfce90168cea7db38af791831b6"
+    },
+    {
+      "member": "runtime/packages/composition/dist/interval-index.js",
+      "bytes": 1950,
+      "sha256": "0a23529c92fa49c390bbb24aaeb7392f69b9952a5b43ec66a049a9af6e79cdab"
+    },
+    {
+      "member": "runtime/packages/composition/dist/source-projection.js",
+      "bytes": 7984,
+      "sha256": "c03360230f85b4119ec0d17212c69bb249b0fcce11922dfea31b4a30f6cc43e3"
+    },
+    {
+      "member": "runtime/packages/composition/dist/audio-context.js",
+      "bytes": 3509,
+      "sha256": "7881bc4dd061f64216b72e4510f9a6fe6d694167c896997bb71e6abcfa31205e"
+    },
+    {
+      "member": "runtime/packages/composition/dist/temporal-processing.js",
+      "bytes": 9058,
+      "sha256": "252ab884b367cf20c4795709c70fc4147ff848da6e3534a125bfb306d47f6355"
+    },
+    {
+      "member": "runtime/packages/composition/dist/index.js",
+      "bytes": 1809,
+      "sha256": "545277dbba07d6714dbfbe7023fafbf1e55afd32b52c9b446425e7e0b94a2f08"
+    },
+    {
+      "member": "runtime/packages/composition/dist/project-cuts.js",
+      "bytes": 4264,
+      "sha256": "0587df96a9f2b1c913af44a719590316981b3dd380416e603ed2de6cd370134b"
+    },
+    {
+      "member": "runtime/packages/composition/dist/clip-graph.js",
+      "bytes": 1436,
+      "sha256": "a1c767799e637c804e63455934acd56fb55f25957cc92e9cfc36dbade71804b6"
+    },
+    {
+      "member": "runtime/packages/composition/dist/compiler.js",
+      "bytes": 17520,
+      "sha256": "245e8e37702a7a3d78deb21d28186d4ea779da0b51859b6ff10b98d05218d3e0"
+    },
+    {
+      "member": "runtime/packages/composition/dist/partition.js",
+      "bytes": 7610,
+      "sha256": "10763b66fb1bd84865e3e6138313e30ed5987d7dedf3ab3bbe4a97cbf9ff78dc"
+    },
+    {
+      "member": "runtime/packages/composition/dist/rational.js",
+      "bytes": 3054,
+      "sha256": "38eab828f518dfd61b19289f3e6925cea4b027b3a1eff82c1c420877e45b25f5"
+    },
+    {
+      "member": "runtime/packages/composition/dist/visual-plan.js",
+      "bytes": 3002,
+      "sha256": "cfea28ca6891d4ecdff8606bdead3051c60a8c25fddbedfd68385771b6537b36"
+    },
+    {
+      "member": "runtime/packages/composition/dist/processing-plan.js",
+      "bytes": 5245,
+      "sha256": "d28930655f371aa4f266687cc85bf0fdab8961a20b30c00b73339cb69163444f"
+    },
+    {
+      "member": "runtime/packages/composition/dist/ripple.js",
+      "bytes": 8213,
+      "sha256": "a53f870b3335fb45227a635cd66117b65d0d22ccfe405a4e489739396db7fb15"
+    },
+    {
+      "member": "runtime/packages/composition/dist/processing.js",
+      "bytes": 11832,
+      "sha256": "a6221ab6723484d7498bb4510a0eadd82748a5d4078db7efab3fdf8201803daa"
+    },
+    {
+      "member": "runtime/packages/composition/dist/pointer.js",
+      "bytes": 1382,
+      "sha256": "d106048d7d6972db32a9b48bdb7d4479806f48546d51d55a37f9342f9e27a4a2"
+    },
+    {
+      "member": "runtime/packages/composition/dist/errors.js",
+      "bytes": 246,
+      "sha256": "384df846c9687259df2a8d9b8cb74477c71dce6f2add0e3b618731ae98b8ae5e"
+    },
+    {
+      "member": "runtime/packages/composition/dist/schema.js",
+      "bytes": 13372,
+      "sha256": "9b53874fd5df6239f7ef49449ac0bb8d6c72a0343d759ce344e077055918ebe9"
+    },
+    {
+      "member": "runtime/packages/composition/dist/replace.js",
+      "bytes": 6668,
+      "sha256": "9791dbde9666e0473e7f511d0b1d5df9a9815c8233e77471c67eff865b080380"
+    },
+    {
+      "member": "runtime/packages/composition/dist/sample-clock.js",
+      "bytes": 453,
+      "sha256": "23f19cd02e04579eeb3dd247b1a2925a22df2cf3c5934b13ab7871c0f0e00104"
+    },
+    {
+      "member": "runtime/packages/composition/dist/retime.js",
+      "bytes": 1156,
+      "sha256": "52598c217a273fe932631a19ff2e0947b17bfe7a1a51af83f8b3a1650c6b2cd3"
+    },
+    {
+      "member": "runtime/packages/composition/dist/duplicate.js",
+      "bytes": 1592,
+      "sha256": "13a4d30d95e1f54c79c37854ca2047cbe72185013e85743fccc1aefc6ea8d4e7"
+    },
+    {
+      "member": "runtime/packages/composition/dist/edits.js",
+      "bytes": 50109,
+      "sha256": "35f814bb694e845ab55621d407fb6bbcb4c7bac97456d3fee8a8673e45c29467"
+    },
+    {
+      "member": "runtime/packages/composition/dist/output-settings.js",
+      "bytes": 13939,
+      "sha256": "9e7d36d39903ad1716be7654818dea9fa6a33c163d784bd8003dc7e76fde2615"
+    },
+    {
+      "member": "runtime/packages/composition/dist/model.js",
+      "bytes": 18842,
+      "sha256": "f4eb8c16480b2130684fbb071747a7969abf6a01f9eb6d7ef1f3187abfb16d41"
+    },
+    {
+      "member": "runtime/packages/composition/dist/curve.js",
+      "bytes": 5866,
+      "sha256": "b8536696f877afbfa466a5cea47e51b6e0051149bc547042a4c12c6a694bd983"
+    },
+    {
+      "member": "runtime/packages/composition/dist/execution-window.js",
+      "bytes": 7461,
+      "sha256": "8406e860e31474863980aa64336568ceedc34f8f3dabd9144f7824b4771b0c6d"
+    },
+    {
+      "member": "runtime/packages/composition/dist/move.js",
+      "bytes": 3356,
+      "sha256": "ce9f3f05ac35a442433cb1f333082b5e67c910c1d21c7d99cd3d39125b04de79"
+    },
+    {
+      "member": "runtime/packages/composition/dist/compiled-records.js",
+      "bytes": 2617,
+      "sha256": "b2733835ea3feef33a2a4763804298aff9485b497627ba1336ecd2747f4e8d4e"
+    },
+    {
+      "member": "runtime/packages/composition/dist/transform.js",
+      "bytes": 4209,
+      "sha256": "5a570ec8fb561d6cae589fabeb2f652b1c93fe00452744d2012c30b42f644705"
+    },
+    {
+      "member": "runtime/packages/composition/dist/geometry.js",
+      "bytes": 6586,
+      "sha256": "1ab362b6e14a46fbad58af637d46aa7a07fe332390681bebfc9a43b5e376bba8"
+    },
+    {
+      "member": "runtime/packages/composition/dist/routing.js",
+      "bytes": 2465,
+      "sha256": "565472aad6c5b0000b4151b1d90f51903f91a19db285ae3e8588fd8671c15f93"
+    },
+    {
+      "member": "runtime/packages/composition/dist/processing-state.js",
+      "bytes": 17691,
+      "sha256": "97f4673ceb29098c8ec62cd1a5bd9f70cb7ebf1ba3394820c09eb7631df4f9a6"
+    },
+    {
+      "member": "runtime/packages/client/dist/transport.js",
+      "bytes": 3006,
+      "sha256": "7458ee30dc4a9ca9b3391436b10fcff535ef58b6642218d2e98e4788bb7cfc76"
+    },
+    {
+      "member": "runtime/packages/client/dist/discovery.js",
+      "bytes": 5254,
+      "sha256": "879ae1eb10dbca58dc3b16a281026ea8c49d005f2dcef40c068e4c283d7b6713"
+    },
+    {
+      "member": "runtime/packages/client/dist/index.js",
+      "bytes": 64,
+      "sha256": "3e0e1f4efe7860d13bce0081d64dcb420b1733ffacf0616004d4aab767a12992"
+    },
+    {
+      "member": "runtime/packages/test-harness/editing/evidence-service.mjs",
+      "bytes": 7395,
+      "sha256": "f5993b70c7d1c6b69f3d53287f58a6766d93a649a784e147ae91f45250211ecc"
+    },
+    {
+      "member": "runtime/packages/test-harness/editing/source-cardinality.mjs",
+      "bytes": 27791,
+      "sha256": "7251c1db9fad5bd48f595e7f9a722343b2d5bdf973dd7074c18fbcaa8dc7ac98"
+    },
+    {
+      "member": "runtime/packages/test-harness/editing/service-cpu-profile.mjs",
+      "bytes": 4503,
+      "sha256": "5230d3b117939871144da1b0d6378a96cdd249cd68461c4789e937a332b89673"
+    },
+    {
+      "member": "runtime/packages/test-harness/editing/service-cpu-profile.test.mjs",
+      "bytes": 4790,
+      "sha256": "144481bc72f10312e356beb1d6dc10fe68db215fc6897f0bdb1f7934d9f7c583"
+    },
+    {
+      "member": "runtime/packages/core/src/model-data/voice-runtime.json",
+      "bytes": 2157706,
+      "sha256": "a34bd7a23bd125c5e291942ef67a070189844e17a727d40a408bd4446f97db28"
+    },
+    {
+      "member": "runtime/packages/core/dist/model-data/voice-runtime.json",
+      "bytes": 2289279,
+      "sha256": "3dbefda6a1253d7cdaf2de8d561f8a3b1decc22e85a6ac8ddd25784e302dbb49"
+    },
+    {
+      "member": "runtime/packages/core/src/model-data/voice-profile-v1.json",
+      "bytes": 1947,
+      "sha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3"
+    },
+    {
+      "member": "runtime/packages/core/dist/model-data/voice-profile-v1.json",
+      "bytes": 2151,
+      "sha256": "4538c25673338f783e13577cd837c6557548d00ac547973ccaf7d61dc10f824e"
+    },
+    {
+      "member": "seed/fixture.json",
+      "bytes": 4268827,
+      "sha256": "acd6ceb289bc1f60f94b99c3d7f98c5722c9f23eacedb8a6eae51e221423a382"
+    },
+    {
+      "member": "seed/build-identity.json",
+      "bytes": 39589,
+      "sha256": "22d4084d79d861a70f3ee8b567ff531f39ddbc77e3b46c08b8aa8d14ed2adb6a"
+    },
+    {
+      "member": "seed/measure-report.json",
+      "bytes": 411396,
+      "sha256": "897e2d156dd7e443c29ff323ae7583ae8767336df1109ff9f5540bf181e87dd9"
+    }
+  ]
+}
