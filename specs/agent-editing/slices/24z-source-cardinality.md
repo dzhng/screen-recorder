@@ -1,15 +1,13 @@
 # 24z — Source-selection cardinality in bounded cursor reads
 
-Status: **open**. Correctness diagnostic completed; the single timed cohort is red
-on a contended machine. [Historical owner attribution](../assets/24z-owner-profile/README.md)
-now completes two bounded reads and identifies repeated asset/acquisition metadata
-resolution as the next owner to investigate. The first dispatch's missing static
-resources were corrected with exact historical bytes; its failure is retained.
-Model initialization is authorized. The [24z1 source metadata pass](24z1-source-metadata-resolution.md)
-implements a scoped owner fix with functional/work-accounting proof; no latency
-pass is claimed. Dependencies:
-[24x](24x-evidence-continuations.md) and [24y](24y-source-event-duration.md).
-Final production acceptance still follows [23](23-cutover.md).
+Status: **open**. Historical correctness and owner attribution are retained;
+the original timed cohort is red under recorded contention. Material24z1–12 owner
+and delivery corrections are integrated. [Current preparation](../assets/24z-current-preparation/README.md)
+uses a fresh format22 public fixture and passes untimed current-production
+correctness. The next action is one root-coordinated measurement after all lanes
+are terminal and one fresh whole-host preflight. No latency pass is claimed.
+Dependencies: [24x](24x-evidence-continuations.md), [24y](24y-source-event-duration.md).
+Final production acceptance remains with [23](23-cutover.md).
 
 ## Contract and missing proof
 
@@ -52,9 +50,12 @@ and coverage. Verify checkpoint progress and pinned-query refusal.
 
 Use an unconfigured SDK client for this compact fixture’s MCP reply and compare
 both text/structured bodies with CLI. Report actual bytes and capacities. This
-can establish only this fixture’s default-client delivery; 24y's preserved default
-10 MiB failure for a large edit receipt remains open. Do not expand a client
-limit or compact production receipts to hide a failure.
+establishes only this compact fixture's default-client delivery. The preserved
+24y large-edit failure has separate scoped complete-result proof in
+[24z11](24z11-operation-result-delivery.md), and pre-consumption media envelope
+admission is covered by [24z12](24z12-mcp-media-admission.md). Those proofs do not
+establish cached cardinality latency or general scale. Do not expand a client
+limit or truncate operation data to hide a failure.
 
 The [diagnostic harness](../../../packages/test-harness/editing/source-cardinality.mjs)
 separates public preparation, correctness verification and timed collection. Its
@@ -122,10 +123,11 @@ profile. The prepared catalog remains retained for a separately scoped native-fr
 query profile with its own verified runtime and explicit provenance; no substitute
 run was performed.
 
-Keep this child open. Further work needs reviewed runtime authority and owner
-attribution before selecting an optimization. This pass does not authorize another
-cohort, relax the budget, close the preserved default-SDK large-edit-receipt
-failure, or claim full slice-24 acceptance.
+Keep this child open. The retained diagnostic itself grants no new cohort or
+budget change. Its original default-SDK failure remains immutable;24z11/12 own
+the later scoped delivery corrections. The currently authorized measurement uses
+new current-production authority and root coordination, not the historical timing
+runtime. Full slice24 acceptance remains open.
 
 ## Separate owner-profile preparation
 
@@ -208,3 +210,21 @@ on both sides of checkpoint publication. Its public proof uses a new isolated
 catalog, four admissions and the retained authored input; no historical runtime,
 original warm cohort or budget changes. Keep this parent open for coordinated
 latency and final-production acceptance.
+
+## Current production pickup
+
+The [current preparation packet](../assets/24z-current-preparation/README.md) banks
+one actual public preparation and untimed correctness from current owners. The
+original format20 catalog is never opened through current startup. Fresh admissions
+preserve the same authored input and independent512/1024 comparison; no private
+rows, migration or model preparation is used. Current worker0a and emitted/SDK
+closure are pinned separately from historical workers and runtime.
+
+Accepted preparation/correctness and later measurement observation have separate
+executed source identities. Every query-native boundary is checked; correctness
+contains no latency samples. Before measuring, require completed storage/source
+closure, all root lanes terminal, one fresh whole-host CPU check and explicit root
+coordination. Run the existing measure phase once with unchanged250ms p95 and twenty
+alternating warm collections per arm, without coverage/profiling instrumentation.
+A non-ready reply fails immediately. Preserve a red result rather than retrying,
+polling host contention, changing a limit or inventing another required slice.

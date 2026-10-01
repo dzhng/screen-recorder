@@ -31,6 +31,8 @@ assert(values.out, "Use one retained output directory for prepare, verify and me
 assert(["prepare", "verify", "measure", "profile"].includes(values.phase));
 assert(!values["wrong-clock"] || values.phase === "verify");
 const profiling = values.phase === "profile";
+const measuring = values.phase === "measure";
+const timed = profiling || measuring;
 assert(
   profiling === Boolean(values.prepared),
   "Only profile uses an existing --prepared evidence directory",
@@ -41,8 +43,9 @@ const report = {
   passed: false,
   phase: values.phase,
   wrongClock: values["wrong-clock"],
-  scope:
-    "Diagnostic source-cardinality dimension only; default-client large edit receipts and final production acceptance remain open",
+  scope: measuring
+    ? "Current-production cached source-cardinality measurement; general scale and final release acceptance remain separate"
+    : "Current-production source-cardinality preparation/correctness; cached p95 and final production acceptance remain open",
   controls: {
     occurrences,
     leadingEmpty,
@@ -87,12 +90,41 @@ await writeFile(
     sources: [],
     allowedOperations:
       values.phase === "prepare"
-        ? ["media.probe", "media.sourceEvidence", "storage.clearRenderWorkspace"]
-        : ["storage.clearRenderWorkspace"],
+        ? [
+            "media.probe",
+            "media.sourceEvidence",
+            "storage.clearRenderWorkspace",
+            "media.audioCapabilities",
+          ]
+        : profiling
+          ? ["storage.clearRenderWorkspace"]
+          : ["storage.clearRenderWorkspace", "media.audioCapabilities"],
     operationsFile,
     ...(profiling ? { cpuProfile: { directory: out } } : {}),
   }),
 );
+let processObserver;
+const processLog = join(out, "measure-processes.jsonl");
+if (measuring) {
+  const observer = join(out, "measure-process-observer.mjs");
+  await writeFile(processLog, "");
+  await writeFile(
+    observer,
+    `import childProcess from 'node:child_process';
+import {syncBuiltinESMExports} from 'node:module';import {appendFileSync} from 'node:fs';
+const file=process.env.SCREENREC_CARDINALITY_PROCESS_LOG;const log=value=>appendFileSync(file,JSON.stringify(value)+'\\n');
+const observer=${JSON.stringify(observer)};const closed=[];
+const options=value=>({...value,env:{...(value.env??process.env),SCREENREC_CARDINALITY_PROCESS_LOG:file,NODE_OPTIONS:[value.env?.NODE_OPTIONS??process.env.NODE_OPTIONS??'', '--import='+observer].filter(Boolean).join(' ')}});
+const observe=(child,kind)=>{log({event:'spawn',kind,parentPid:process.pid,pid:child.pid});closed.push(new Promise(done=>child.once('close',(code,signal)=>{log({event:'close',kind,parentPid:process.pid,pid:child.pid,code,signal});done();})));return child;};
+const spawn=childProcess.spawn;childProcess.spawn=function(command,args,value={}){const mcp=command===process.execPath&&args?.includes('mcp');const child=spawn.call(this,command,args,mcp?options(value):value);return mcp?observe(child,'mcp'):child;};
+const fork=childProcess.fork;childProcess.fork=function(entry,args,value={}){return observe(fork.call(this,entry,args,options(value)),'source');};syncBuiltinESMExports();
+process.on('exit',code=>log({event:'node-exit',pid:process.pid,code}));
+export const settled=()=>Promise.all(closed);
+`,
+  );
+  process.env.SCREENREC_CARDINALITY_PROCESS_LOG = processLog;
+  processObserver = await import(observer);
+}
 const service = new JourneyService(
   home,
   report,
@@ -169,7 +201,7 @@ try {
     hash(await readFile(process.env.SCREENREC_NATIVE)),
     profiling
       ? "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba"
-      : "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+      : "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
   );
   report.runtime = {
     node: process.version,
@@ -382,9 +414,9 @@ try {
         rows = [],
         pages = [],
         seen = new Set();
-      let cursor, nativeBefore, nativeCallBoundary;
+      let cursor;
+      const nativeBefore = await readFile(operationsFile, "utf8");
       if (profiling) {
-        nativeBefore = await readFile(operationsFile, "utf8");
         armDeadline = setTimeout(
           () => abortProfile(new Error("Arm profile deadline: reserved flush interval")),
           profileLimits.armMs - profileLimits.controlMs,
@@ -398,7 +430,7 @@ try {
         const started = await cpuRequest("start", arm.cardinality);
         assert.equal(started.pid, service.child.pid);
       }
-      const started = performance.now();
+      const started = timed ? performance.now() : undefined;
       do {
         const params = {
           projectId: arm.projectId,
@@ -428,8 +460,8 @@ try {
           requests++;
           if (response.state === "ready") break;
           assert(
-            !profiling,
-            "Profile requires existing ready evidence; no preparation polling is permitted",
+            !profiling && !measuring,
+            "Cached collection requires ready evidence; no query-time preparation polling is permitted",
           );
           assert(
             ["queued", "processing"].includes(response.state),
@@ -453,7 +485,7 @@ try {
           params,
           response,
           requests,
-          latencyMs: performance.now() - pageAt,
+          ...(timed ? { latencyMs: performance.now() - pageAt } : {}),
           delivered,
         });
         cursor = next;
@@ -464,33 +496,33 @@ try {
         if (profiling && rows.length < rowLimit)
           assert(pages.length < 7, "Profile would require an eighth page");
       } while (rows.length < rowLimit);
-      const totalMs = performance.now() - started;
+      const totalMs = timed ? performance.now() - started : undefined;
       if (profiling) {
         profileStopAttempted = true;
         recordProfile(await cpuRequest("stop", arm.cardinality, "complete"));
         clearTimeout(armDeadline);
         clearTimeout(armHardDeadline);
-        const nativeAfter = await readFile(operationsFile, "utf8");
-        assert.equal(nativeAfter, nativeBefore, "A profiled read invoked native work");
-        nativeCallBoundary = {
-          before: {
-            bytes: Buffer.byteLength(nativeBefore),
-            sha256: hash(nativeBefore),
-            count: nativeBefore.trim().split("\n").filter(Boolean).length,
-          },
-          after: {
-            bytes: Buffer.byteLength(nativeAfter),
-            sha256: hash(nativeAfter),
-            count: nativeAfter.trim().split("\n").filter(Boolean).length,
-          },
-          invocationsDuringRead: 0,
-        };
         abort.signal.throwIfAborted();
         assert.deepEqual(
           pages.map(({ response }) => response.page.rows.length),
           report.controls.expectedPageRows,
         );
       }
+      const nativeAfter = await readFile(operationsFile, "utf8");
+      assert.equal(nativeAfter, nativeBefore, "A collection invoked native work");
+      const nativeCallBoundary = {
+        before: {
+          bytes: Buffer.byteLength(nativeBefore),
+          sha256: hash(nativeBefore),
+          count: nativeBefore.trim().split("\n").filter(Boolean).length,
+        },
+        after: {
+          bytes: Buffer.byteLength(nativeAfter),
+          sha256: hash(nativeAfter),
+          count: nativeAfter.trim().split("\n").filter(Boolean).length,
+        },
+        invocationsDuringRead: 0,
+      };
       // Time delivery of the whole prefix; oracle comparisons, serialization telemetry and file IO are outside it.
       for (const page of pages) {
         const { response, delivered, params } = page;
@@ -534,10 +566,10 @@ try {
       );
       const result = {
         cardinality: arm.cardinality,
-        ...(nativeCallBoundary ? { nativeCallBoundary } : {}),
+        nativeCallBoundary,
         label,
         transport,
-        totalMs,
+        ...(timed ? { totalMs } : {}),
         pageCount: pages.length,
         rowsSha256: hash(JSON.stringify(rows)),
         nextCursor: cursor,
@@ -548,16 +580,17 @@ try {
         })),
         rssBytes: await rss(),
       };
-      // Count only dependency validation on warm ready reads, not cold revision/catalog loading.
+      // One phase-local selection reader shares asset metadata while resolving every acquisition.
       if (pages.every((page) => page.requests === 1)) {
-        const resolves = arm.cardinality * (1 + 2 * pages.length);
+        const phases = 1 + 2 * pages.length;
         result.staticDependencyWork = {
           basis:
-            "ProjectEvidenceInspection.request resolves N; read validates N twice per nonterminal page. CaptureSourceRead.resolve performs two acquisition.get, one asset.get and one asset.path per resolve. Other catalog work excluded.",
-          sourceResolutions: resolves,
-          acquisitionMetadataGets: 2 * resolves,
-          assetMetadataGets: resolves,
-          assetPathHeaderReads: resolves,
+            "Ready request plus both sides of each nonterminal checkpoint publication resolve all N selections. SourceSelectionRead shares one asset and each distinct acquisition within each synchronous phase; no state survives an await. Other catalog work excluded; this is code-derived work, not observed SQL or timing attribution.",
+          phases,
+          sourceResolutions: arm.cardinality * phases,
+          acquisitionMetadataGets: arm.cardinality * phases,
+          assetMetadataGets: phases,
+          assetPathHeaderReads: 0,
         };
       }
       report.collections.push(result);
@@ -599,7 +632,7 @@ try {
     const cold = new Map();
     for (const arm of prepared.arms)
       cold.set(arm.cardinality, await collect(arm, profiling ? "profile" : "cold"));
-    if (values.phase === "measure") {
+    if (measuring) {
       for (let repeat = 0; repeat < report.controls.warmCollectionsPerArm; repeat++) {
         const order = repeat % 2 ? [...prepared.arms].reverse() : prepared.arms;
         for (const arm of order) {
@@ -672,6 +705,7 @@ try {
   report.error = { message: error.message, stack: error.stack };
   throw error;
 } finally {
+  await save();
   clearTimeout(armDeadline);
   clearTimeout(softDeadline);
   if (
@@ -699,8 +733,48 @@ try {
       process.exitCode = 1;
     }
   } else {
-    await client?.close();
-    await service.stop();
+    const closed = await Promise.allSettled([client?.close(), service.stop()]);
+    report.shutdownErrors = closed
+      .filter((result) => result.status === "rejected")
+      .map((result) => result.reason.message);
+    if (report.shutdownErrors.length) {
+      report.passed = false;
+      process.exitCode = 1;
+    }
+  }
+  if (processObserver) {
+    await processObserver.settled();
+    report.processEvents = (await readFile(processLog, "utf8"))
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map(JSON.parse);
+    try {
+      const children = report.processEvents.filter((event) => event.event === "spawn");
+      assert.deepEqual(children.map((event) => event.kind).sort(), ["mcp", "mcp", "source"]);
+      for (const child of children) {
+        assert(
+          report.processEvents.some(
+            (event) => event.event === "node-exit" && event.pid === child.pid && event.code === 0,
+          ),
+          `Missing actual Node exit ${child.pid}`,
+        );
+        assert(
+          report.processEvents.some(
+            (event) =>
+              event.event === "close" &&
+              event.pid === child.pid &&
+              event.code === 0 &&
+              event.signal === null,
+          ),
+          `Missing actual OS close ${child.pid}`,
+        );
+      }
+    } catch (error) {
+      report.passed = false;
+      report.processObservationError = error.message;
+      process.exitCode = 1;
+    }
   }
   clearTimeout(watchdog);
   clearTimeout(armHardDeadline);
@@ -721,7 +795,11 @@ try {
   if (values.phase !== "prepare")
     assert.deepEqual(
       report.nativeOperations.filter(
-        ({ operation }) => operation !== "storage.clearRenderWorkspace",
+        ({ operation }) =>
+          ![
+            "storage.clearRenderWorkspace",
+            ...(profiling ? [] : ["media.audioCapabilities"]),
+          ].includes(operation),
       ),
       [],
       "No query-time native work",
