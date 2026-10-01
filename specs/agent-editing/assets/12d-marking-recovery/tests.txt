@@ -1,0 +1,13 @@
+✔ original audio supports exact byte ranges for paused word-edge seeking (181.43425ms)
+✔ clip positions retain the acquired source clock without adding its origin twice (0.85475ms)
+✔ confirmed filler marks remain local to the clip and reject a changed source (1.019166ms)
+✔ unconfirmed and partial marks never become independent labels (0.165333ms)
+✔ unknown export fields cannot silently change what a listener submits (0.118958ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 268.29025

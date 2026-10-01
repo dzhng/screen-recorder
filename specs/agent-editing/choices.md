@@ -4794,3 +4794,33 @@ the actual observed files without keeping duplicate large movies on the nearly
 full disk. Future verification must use the pinned base and recorded patches;
 no image, time, codec or production publication policy is changed. Sound because
 full equality and reconstruction were proven before cleanup.
+
+### Keep the complete clip in the browser while marking — sound, high confidence
+
+When: marking-page repair, 2026-09-30. The listener opened a page whose server
+had stopped and saw a player with zero seconds. The restored server runs outside
+the launching command session. Once the page loads, it holds the entire small
+original recording in browser memory before enabling marks. If the server then
+stops, replay and seeking still use those same original bytes; saving reports a
+failure and keeps the inputs. Reloading still requires the server. The request
+left server lifetime and media loading unspecified. Streaming alone would keep
+later seeks dependent on that process, while installing a permanent service
+would add unnecessary product machinery. This bounded evaluation clip costs
+about 1.4 MB in browser memory and adds no new dependency or media transform.
+Sound because it repairs the actual failure with platform process separation and
+complete local media, without promising permanent hosting or changing evidence.
+
+### Keep playback visible and begin with the filler — sound, high confidence
+
+When: marking-page repair, 2026-09-30. A listener hears the sentence once, goes
+back to the audible “uh”, pauses at an edge and presses its marking button.
+Playback controls and the precise clip time remain visible while scrolling;
+“uh” comes first in the server's existing target list. The request left the
+instruction sequence and placement unspecified. Leaving playback above a long
+form forces repeated scrolling between listening and marking. The pinned player
+can obscure the upper waveform while scrolled; the listener scrolls back for a
+full waveform. Provenance is collapsed so the task uses one visible clip clock;
+exports retain the existing original clock. This changes only the temporary
+evaluation page, and supplies no suggested boundary times. Sound because it
+makes the human's requested task concrete without substituting automation for
+independent listening.

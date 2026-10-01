@@ -63,6 +63,23 @@
         width: 100%;
         margin: 16px 0;
       }
+      .playback {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #fff;
+        border: 1px solid #d2dbe7;
+        border-radius: 8px;
+        padding: 6px 12px;
+        margin-top: 16px;
+      }
+      .playback audio {
+        margin: 4px 0;
+      }
+      .playback p {
+        margin: 4px 0;
+        font-size: 0.9rem;
+      }
       button,
       input,
       textarea {
@@ -100,8 +117,7 @@
         background: #f8fafc;
         cursor: crosshair;
       }
-      .wave-tools,
-      .clock {
+      .wave-tools {
         display: flex;
         flex-wrap: wrap;
         gap: 12px 24px;
@@ -222,23 +238,23 @@
     <main>
       <h1>Mark the sentence by listening</h1>
       <p class="muted">
-        Listen to the original, find each audible edge, then save your marks. Leave anything
-        uncertain blank.
+        Help check that removing “uh” does not cut into your other words. You only need to mark when
+        a sound starts and finishes. Leave anything unclear blank.
       </p>
+      <div class="playback">
+        <audio id="audio" controls preload="auto" aria-label="Original complete sentence"></audio>
+        <p id="audio-status" role="status">Loading the complete recording…</p>
+        <button id="reload-audio" type="button" hidden>Try loading the audio again</button>
+        <p>Playhead: <output id="clip-clock" aria-live="off">0.000 s in this clip</output></p>
+      </div>
       <section aria-labelledby="listen-heading">
-        <h2 id="listen-heading">1. Listen and find an edge</h2>
+        <h2 id="listen-heading">1. Listen once, then find “uh”</h2>
         <p id="sentence-text" class="proposal">Loading the original sentence…</p>
         <p class="muted">
-          The proposed word text comes from ASR. Verify it by listening; it is not independent
-          ground truth.
+          Press ▶ to listen once. Click the waveform to go back and listen again. Pause where “uh”
+          begins and use “Start at playhead” below; then pause where it finishes and use “End at
+          playhead”. The player stays visible while you scroll.
         </p>
-        <audio
-          id="audio"
-          controls
-          preload="metadata"
-          src="/original.wav"
-          aria-label="Original complete sentence"
-        ></audio>
         <canvas
           id="waveform"
           aria-label="Waveform in clip seconds. Click to seek; use the audio controls for keyboard seeking."
@@ -252,21 +268,27 @@
             >Move over the waveform for a precise time; click to seek.</output
           >
         </div>
-        <div class="clock">
-          <span
-            >Playhead: <output id="clip-clock" aria-live="off">0.000 s in this clip</output></span
-          >
-          <span>Source: <output id="source-clock" aria-live="off">Loading…</output></span>
-        </div>
-        <p id="provenance" class="muted"></p>
+        <details>
+          <summary>Recording details</summary>
+          <p>
+            Original recording time: <output id="source-clock" aria-live="off">Loading…</output>
+          </p>
+          <p id="provenance" class="muted"></p>
+          <p class="muted">
+            The suggested sentence text comes from automatic transcription. If it differs from what
+            you hear, say so in the notes.
+          </p>
+        </details>
       </section>
       <form id="marks-form" autocomplete="off">
-        <fieldset id="mark-fields">
+        <fieldset id="mark-fields" disabled>
           <section aria-labelledby="marks-heading">
-            <h2 id="marks-heading">2. Mark what you can hear</h2>
+            <h2 id="marks-heading">2. Mark four items</h2>
             <p class="muted">
-              All inputs use seconds in this clip. Pause at an edge and use its playhead button, or
-              type a time. Connected words may have no clear boundary; leave those edges unknown.
+              Use “Start at playhead” when the sound begins and “End at playhead” when it finishes.
+              Do this for “uh”, “paragraph”, “this” and the whole sentence. You can click the
+              waveform to jump back and listen again. No need to type times; leave unclear edges
+              blank.
             </p>
             <div id="mark-rows"></div>
           </section>

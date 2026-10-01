@@ -1,0 +1,72 @@
+{
+  "date": "2026-09-30",
+  "rootCause": "Prepared server PID 54032 absent; no listener on port 58829. Exact reason for termination not established.",
+  "server": {
+    "pid": 89520,
+    "parentPid": 1,
+    "port": 58829,
+    "out": "/tmp/screenrec-sentence-marking-20260930"
+  },
+  "http": {
+    "status": 200,
+    "bytes": 1374976,
+    "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+    "contextDurationSeconds": 7.14,
+    "targets": [
+      {
+        "id": "w117",
+        "text": "uh"
+      },
+      {
+        "id": "w116",
+        "text": "paragraph"
+      },
+      {
+        "id": "w118",
+        "text": "this"
+      },
+      {
+        "id": "sentence",
+        "text": "Whole sentence"
+      }
+    ]
+  },
+  "browser": {
+    "duration": 7.14,
+    "paused": true,
+    "error": null,
+    "buffered": [
+      [
+        0,
+        7.14
+      ]
+    ],
+    "automaticPlayback": false,
+    "offlineProbe": {
+      "disposablePort": 60451,
+      "serverStopped": true,
+      "seekSeconds": 7.07582,
+      "duration": 7.14,
+      "error": null,
+      "paused": true
+    }
+  },
+  "visual": {
+    "priorPreviewSize": [
+      1280,
+      720
+    ],
+    "currentTopSize": [
+      1280,
+      720
+    ],
+    "changedPixels": 387750,
+    "review": "No blocking defect; pinned player covers upper waveform after scrolling. Scroll back to use full waveform.",
+    "humanAudibleAcceptance": false
+  },
+  "humanLabels": {
+    "savedFiles": [],
+    "status": "pending; no marks synthesized"
+  },
+  "tests": "Five existing source-clock/export/range tests pass; full existing harness (bootstrap plus thirteen tests) passed earlier in this repair."
+}

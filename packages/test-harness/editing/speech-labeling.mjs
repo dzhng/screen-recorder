@@ -62,11 +62,11 @@ const context = {
   text: annotations.originalText,
   durationSeconds: info.frames / info.sampleRate,
   targets: [
-    { id: "sentence", text: "Sentence edges" },
-    ...["w116", "w117", "w118"].map((id) => ({
+    ...["w117", "w116", "w118"].map((id) => ({
       id,
       text: annotations.words.find((word) => word.id === id).text.replace(/[,.]$/u, ""),
     })),
+    { id: "sentence", text: "Whole sentence" },
   ],
   waveform: { peak, bins },
 };

@@ -27,6 +27,8 @@ Preserve that exact choice and the rejected alternatives; no further loop trial
 is requested.
 The requested [sentence marking page](assets/12d-sentence-marking/README.md) is
 prepared with blank sentence/neighbor/filler edges and a separate save directory.
+Its [audio loading repair](assets/12d-marking-recovery/README.md) restores the
+stopped local server and keeps the loaded original available while marking.
 Next pickup is the user's actual saved marks; drafts and synthetic verification
 positions do not count as independent evidence.
 [24x bounded evidence continuations](slices/24x-evidence-continuations.md) and

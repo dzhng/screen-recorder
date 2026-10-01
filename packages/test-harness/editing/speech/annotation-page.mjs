@@ -11,7 +11,51 @@ const rows = [];
 let context;
 let viewStart = 0;
 let saving = false;
+let audioReady = false;
+let audioUrl;
 confirmed.checked = false;
+
+function audioUnavailable() {
+  audioReady = false;
+  fields.disabled = true;
+  document.querySelector("#audio-status").textContent =
+    "The audio could not be loaded. Your marks are still here. Try loading it again.";
+  document.querySelector("#reload-audio").hidden = false;
+}
+async function loadAudio() {
+  document.querySelector("#reload-audio").hidden = true;
+  document.querySelector("#audio-status").textContent = "Loading the complete recording…";
+  try {
+    const response = await fetch("/original.wav");
+    if (!response.ok) throw new Error("Audio request failed");
+    const blob = await response.blob();
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    audioUrl = URL.createObjectURL(blob);
+    audio.src = audioUrl;
+    audio.load();
+  } catch {
+    audioUnavailable();
+  }
+}
+audio.addEventListener("error", audioUnavailable);
+audio.addEventListener("loadedmetadata", () => {
+  if (
+    !context ||
+    !Number.isFinite(audio.duration) ||
+    Math.abs(audio.duration - context.durationSeconds) > 0.001
+  ) {
+    audioUnavailable();
+    return;
+  }
+  audioReady = true;
+  fields.disabled = saving;
+  document.querySelector("#audio-status").textContent =
+    `${audio.duration.toFixed(2)} seconds loaded. Press ▶ to listen; audio does not start automatically.`;
+});
+document.querySelector("#reload-audio").addEventListener("click", () => {
+  if (context) loadAudio();
+  else window.location.reload();
+});
 
 const sourceTime = (seconds) =>
   `${(secondsToSourceUs(seconds, context.binding) / 1000000).toFixed(6)} s`;
@@ -35,7 +79,7 @@ function edgeReadout(input, output) {
   output.textContent =
     input.value === "" || !input.validity.valid
       ? "Unknown edge"
-      : `Source ${sourceTime(Number(input.value))}`;
+      : `Marked ${clipTime(Number(input.value))} in this clip`;
 }
 function buildRows() {
   for (const target of context.targets) {
@@ -193,7 +237,7 @@ canvas.addEventListener("pointermove", (event) => {
     `${clipTime(seconds)} in clip · source ${sourceTime(seconds)}`;
 });
 canvas.addEventListener("click", (event) => {
-  if (!context) return;
+  if (!context || !audioReady) return;
   audio.currentTime = pointerTime(event);
   followPlayhead();
 });
@@ -202,7 +246,7 @@ confirmed.addEventListener("change", saveMode);
 document.querySelector("#notes").addEventListener("input", () => message("Unsaved notes."));
 document.querySelector("#marks-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  if (!context || saving) return;
+  if (!context || !audioReady || saving) return;
   const marks = rows.map((row) => ({
     id: row.id,
     startSeconds: row.start.input.value === "" ? null : Number(row.start.input.value),
@@ -251,7 +295,7 @@ document.querySelector("#marks-form").addEventListener("submit", async (event) =
     message(`Save failed. Your inputs are still here. ${error.message}`, true);
   } finally {
     saving = false;
-    fields.disabled = false;
+    fields.disabled = !audioReady;
   }
 });
 try {
@@ -265,6 +309,8 @@ try {
   followPlayhead();
   save.disabled = false;
   message("No marks yet. Listen first; save uncertain work as a draft.");
+  await loadAudio();
 } catch (error) {
+  audioUnavailable();
   message(error.message, true);
 }

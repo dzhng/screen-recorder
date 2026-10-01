@@ -33,10 +33,14 @@ node packages/test-harness/editing/speech-labeling.mjs --out /absolute/separate/
 Use the local URL printed by that command. In this prepared session it is
 `http://127.0.0.1:58829`; saves go to `/tmp/screenrec-sentence-marking-20260930`.
 This session address is temporary; restart the command if it stops.
+The [audio loading repair](../12d-marking-recovery/README.md) holds the complete
+original clip in the browser after loading, shows a retry message on failure,
+and keeps playback controls visible while marking. The prepared server runs
+detached from the command session; saving still requires that server to be alive.
 The requested user page intentionally remains running. Its disposable test server,
 tab and synthetic saved files were closed/removed.
 
-[Blank page](blank-page.jpg) shows the requested initial state. The
+[Blank page](blank-page.jpg) shows the historical initial state. The
 [root verification](root-verification.json) and [artifact inventory](manifest.json)
 pin the checks and retained bytes. The
 [verification archive](verification.tar.xz) retains every full capture and crop,
@@ -46,8 +50,8 @@ positions in that archive are synthetic and excluded from human ground truth.**
 The default harness command passes its original bootstrap/speech checks plus
 five new clock/export/range tests. Browser seeking and saving were checked
 without audio playback. The final critic found no clipping/overlap; compact
-phone-scale tick spacing and vertical distance to later rows remain minor layout
-limitations. The Codex CLI second review remains unavailable after its configured
+phone-scale tick spacing remained a minor layout limitation in that initial pass;
+current playback and marking layout evidence lives in the repair packet. The Codex CLI second review remains unavailable after its configured
 model rejection; no passing CLI review is claimed.
 
 The [choices ledger](../../choices.md) owns implementation decisions. After the

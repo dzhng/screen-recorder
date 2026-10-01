@@ -1,0 +1,64 @@
+{
+  "kind": "marking-page-recovery",
+  "date": "2026-09-30",
+  "historicalPacketUnchanged": "../12d-sentence-marking/manifest.json",
+  "sourceOwners": [
+    {
+      "path": "packages/test-harness/editing/speech-labeling.mjs",
+      "bytes": 6537,
+      "sha256": "b2394dffa00a2506fd5da2fe1db862664ae89491f665df38e191e76f919c0d49"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-page.html",
+      "bytes": 9201,
+      "sha256": "61af629778171bda8ecb72cfcc4be0e730a636d0a92be9eb8d78a63470f23d99"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-page.mjs",
+      "bytes": 12055,
+      "sha256": "f6fcea7d6ccd660d23ee0836ec0e34f0480b34c6b13b24312f55336bfb02266e"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-time.mjs",
+      "bytes": 3364,
+      "sha256": "3d1887d407a312414a0bb3efdb60346fff35492514bcb57c9321a18993bfce41"
+    }
+  ],
+  "files": [
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/README.md",
+      "bytes": 2650,
+      "sha256": "e146197dca719bdd8b6fdb1c794f05bd15467261a1814c5023445ec33c96f3c5"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/captures.tar.xz",
+      "bytes": 6484884,
+      "sha256": "01a207556c6755e6e74200383e679c037dcf3b69170523e14ff500642b98d9f7"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/marking-preview.jpg",
+      "bytes": 68538,
+      "sha256": "834df3e32eedf3149eb1b617e5c446353e341271d2ca96cfd14fc6e44bbfdf4a"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/player-preview.jpg",
+      "bytes": 75977,
+      "sha256": "00f6ed041231f33db9f19dab35838e848a7c1e2d0882c51b1f2eaa85805874d2"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/reported-player.png",
+      "bytes": 76336,
+      "sha256": "6bfc1767c7f97fa76d8c5e6f51babf9776f5d94e569ab42c637422f2740ea791"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/root-verification.json",
+      "bytes": 1666,
+      "sha256": "71a5dd0db4f5203398bc7bc29ae26a58bfbfbfa07a5af2392aa2d0f9a3bc5430"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-marking-recovery/tests.txt",
+      "bytes": 557,
+      "sha256": "3c1f8d5087e63e76a385cf677e7616ecad6b8bfca256585db425a06103d04abc"
+    }
+  ]
+}
