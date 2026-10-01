@@ -1,6 +1,6 @@
 # 23f — Captured-source deletion and verified working-file cleanup
 
-Status: verified fresh service and native file-lifetime checkpoint on the integrated
+Status: merged-verified fresh service and native file-lifetime checkpoint on the integrated
 [21f2 capture coordinator](21f2-capture-coordination.md).
 [Evidence and retained failed controls](../assets/23f-capture-source-lifetime/README.md)
 cover public deletion/cleanup, donor borrowing, ready-source preservation and the

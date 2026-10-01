@@ -1,0 +1,12 @@
+(node:2980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ verified cleanup preserves originals, reports partial operational failure, and retries after reopen (386.343125ms)
+✔ missing publication proof retains unverified audio and camera working files (90.495ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 769.582167

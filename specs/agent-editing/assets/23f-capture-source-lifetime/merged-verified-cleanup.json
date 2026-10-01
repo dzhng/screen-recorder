@@ -1,0 +1,976 @@
+{
+  "name": "verified-cleanup",
+  "native": {
+    "binary": "/tmp/screenrec-23f-files-build/arm64-apple-macosx/debug/screenrec-native",
+    "sha256": "bb8980df1913dc25bb3fefb4938445c140a614c24a51c0041f84c5fdf1bab92c"
+  },
+  "calls": [
+    {
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+          "sourceId": "source-offline",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T00:00:00.000Z",
+          "state": "interrupted",
+          "lifecycleSequence": 1,
+          "interruptionReason": "NO_VIDEO",
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "264d333e-18a4-4684-9cc1-90dd39cedaa4"
+      }
+    },
+    {
+      "operation": "recording.cleanup",
+      "params": {
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "c8a7dc7e-a802-4625-8b7e-b07e24080626"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "93f9be75-b1a8-4964-aa67-84d4d25b297c"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "a1ed83fb-0950-4361-8e7f-d485cd2061c8"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "7fadbf23-9d2f-4e49-987c-8d9bc4cbca09"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "e041f326-d39a-4b97-a976-b15e83ba836e"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "61ce60fd-4260-47ed-9a87-dd82c756b1c0"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "b09c09ca-66ce-4ab5-a59c-0375e74b848d"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "cf45f43b-af72-4fc8-adfe-261788dd8246"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "dc030055-f127-44e6-8a1c-b803dbb7bdff"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "e7ea141e-0b64-4c4b-82bd-fdb3d0e76bde"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "ba71c938-c55f-4235-b01f-ddbb50b670bc"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "failed",
+          "reason": "The operation couldn’t be completed. Permission denied",
+          "generation": 1,
+          "errorCode": "CLEANUP_UNAVAILABLE",
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": true,
+          "errorDetails": {},
+          "result": null
+        },
+        "id": "ba4978d3-1bed-4fcb-b0d8-ac1b31cf89e3"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "3a5f6453-8cbd-4f01-a6d4-6c46591c1e4f",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "failed",
+          "reason": "The operation couldn’t be completed. Permission denied",
+          "generation": 1,
+          "errorCode": "CLEANUP_UNAVAILABLE",
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": true,
+          "errorDetails": {},
+          "result": null
+        },
+        "id": "a9b25f88-98ea-4c24-a670-fdff85008db8"
+      }
+    },
+    {
+      "operation": "job.retry",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "b375955b-b219-41a0-b354-3b1c3be1d7e2"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "8723d387-cc8f-4a06-a8e7-22892c417b84"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "73ec996f-18eb-465e-8559-6e02bf37d1ff"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "04d11a05-8c5f-46f4-a985-d1f0bcf8c6eb"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "0c768259-2820-4fa8-bf5a-9f1c4f5e0a79"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "6a01a10d-3f69-4500-bf90-e92e453ca956"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "a35c903d-36df-4e6b-b115-f58ef64963b6"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "f6088566-7e3d-4f83-b3c7-3fee4693acb9"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "bcf0b922-c266-4974-aa95-bed59443b0f9"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "7a438958-7e48-4e1d-9e59-004b8ba11e92"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "cdac3772-3682-4f3c-af2b-c359f03ffc24"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "sourceId": "source-offline",
+            "roles": [
+              {
+                "role": "narration",
+                "outcome": "removed",
+                "reason": null
+              },
+              {
+                "role": "system",
+                "outcome": "alreadyClear",
+                "reason": null
+              }
+            ]
+          }
+        },
+        "id": "40c4be6f-5b84-4736-8a62-93b1e5e3eb76"
+      }
+    },
+    {
+      "operation": "recording.get",
+      "params": {
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+          "sourceId": "source-offline",
+          "creationSequence": 1,
+          "createdAt": "2026-10-01T00:00:00.000Z",
+          "state": "interrupted",
+          "lifecycleSequence": 1,
+          "interruptionReason": "NO_VIDEO",
+          "interruptionMessage": null,
+          "finalizationError": null,
+          "sourceDurationUs": null,
+          "currentRevisionId": null,
+          "sourceAdmissions": []
+        },
+        "id": "7f396de3-cdf5-4e57-a8cd-fc468869f8db"
+      }
+    },
+    {
+      "operation": "project.list",
+      "params": {},
+      "result": {
+        "ok": true,
+        "data": {
+          "projects": [],
+          "nextCursor": null
+        },
+        "id": "a38e11c9-bb7f-4297-a609-18825afcf970"
+      }
+    },
+    {
+      "operation": "recording.cleanup",
+      "params": {
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "7b47513d-b5ec-4333-8a74-4b4c3d75d0da",
+          "attemptId": "e1eccc99-14b0-4089-a948-3dfd2729ddce",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 2,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+            "sourceId": "source-offline",
+            "roles": [
+              {
+                "role": "narration",
+                "outcome": "removed",
+                "reason": null
+              },
+              {
+                "role": "system",
+                "outcome": "alreadyClear",
+                "reason": null
+              }
+            ]
+          }
+        },
+        "id": "a6e52c92-e90e-420e-ac1f-4332dc8a4cd4"
+      }
+    },
+    {
+      "operation": "recording.delete",
+      "params": {
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+          "deleted": true
+        },
+        "id": "f0c5dfb2-5c93-4e6d-88ef-d2db7a0b51ae"
+      }
+    },
+    {
+      "operation": "recording.delete",
+      "params": {
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef",
+          "deleted": true
+        },
+        "id": "445726c9-a593-44ed-8edd-509347686513"
+      }
+    }
+  ],
+  "nativeOperations": [
+    {
+      "operation": "media.cleanupCapture",
+      "params": {
+        "directory": "/tmp/capture-source-lifetime-wLz02V/home/library/recordings/d1a063ec-6c82-4531-b753-17594d9b3bef/source",
+        "sourceId": "source-offline"
+      },
+      "descriptors": 1,
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "CLEANUP_UNAVAILABLE",
+          "message": "The operation couldn’t be completed. Permission denied",
+          "retryable": true,
+          "details": {}
+        }
+      }
+    },
+    {
+      "operation": "media.cleanupCapture",
+      "params": {
+        "directory": "/tmp/capture-source-lifetime-wLz02V/home/library/recordings/d1a063ec-6c82-4531-b753-17594d9b3bef/source",
+        "sourceId": "source-offline"
+      },
+      "descriptors": 1,
+      "result": {
+        "ok": true,
+        "data": [
+          {
+            "outcome": "removed",
+            "role": "narration"
+          },
+          {
+            "outcome": "alreadyClear",
+            "role": "system"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "storage.recordingDirectory",
+      "params": {
+        "home": "/private/tmp/capture-source-lifetime-wLz02V/home/library",
+        "expectedHome": {
+          "dev": "16777230",
+          "ino": "336513510"
+        },
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "descriptors": 1,
+      "result": {
+        "ok": true,
+        "data": {
+          "dev": "16777230",
+          "ino": "336513526"
+        }
+      }
+    },
+    {
+      "operation": "storage.removeRecordingDirectory",
+      "params": {
+        "home": "/private/tmp/capture-source-lifetime-wLz02V/home/library",
+        "expectedHome": {
+          "dev": "16777230",
+          "ino": "336513510"
+        },
+        "recordingId": "d1a063ec-6c82-4531-b753-17594d9b3bef"
+      },
+      "descriptors": 1,
+      "result": {
+        "ok": true,
+        "data": {
+          "removed": true
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "before": {
+    "capture.journal.jsonl": "6dd563be98583784a77e30d5269cebfea720256f99e1515cad7713b0a6d33615",
+    "video.mov": "15b7b0365fa0683138b8c4a685eb606b42d4e4edf94f7749be681d91d715852e",
+    "narration.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "system.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "narration.publication.json": "44a09af4a46a698785cb0714c8e7d1496af2c5994ca321e41786f31d297a8e99",
+    "system.publication.json": "beff1476583b29c4cf3e1f57f846749c29eb880baf2a297eacf0c49c0a58abde"
+  },
+  "after": {
+    "capture.journal.jsonl": "6dd563be98583784a77e30d5269cebfea720256f99e1515cad7713b0a6d33615",
+    "video.mov": "15b7b0365fa0683138b8c4a685eb606b42d4e4edf94f7749be681d91d715852e",
+    "narration.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "system.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "narration.publication.json": "44a09af4a46a698785cb0714c8e7d1496af2c5994ca321e41786f31d297a8e99",
+    "system.publication.json": "beff1476583b29c4cf3e1f57f846749c29eb880baf2a297eacf0c49c0a58abde"
+  },
+  "closed": true
+}

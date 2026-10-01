@@ -33,3 +33,12 @@ startup audio-capability metadata was scripted. The new worker was built offline
 existing code dependencies in `/tmp/screenrec-23f-files-build`, without replacing a
 historical runtime. No hardware capture, playback, model preparation/inference,
 installed switching, old-library mutation, asset GC or performance claim is included.
+
+[Merged verification](merged-verification.json) independently repeats the focused,
+installed capture, native file and public cleanup gates on the integrated tree.
+Every original source/compiled/reference pin and archive member matched; native
+source identity was verified before the later publication pass. The service build
+now excludes test fixtures, and unused generated fixture/admission modules were
+removed. Production outputs remain identical, test typechecking still includes
+fixtures, and the final compiled queued-cleanup control passes. All owned checks
+exited.

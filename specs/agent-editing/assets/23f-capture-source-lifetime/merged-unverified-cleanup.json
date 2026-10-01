@@ -1,0 +1,185 @@
+{
+  "name": "unverified-cleanup",
+  "native": {
+    "binary": "/tmp/screenrec-23f-files-build/arm64-apple-macosx/debug/screenrec-native",
+    "sha256": "bb8980df1913dc25bb3fefb4938445c140a614c24a51c0041f84c5fdf1bab92c"
+  },
+  "calls": [
+    {
+      "operation": "recording.cleanup",
+      "params": {
+        "recordingId": "f2c17ed2-a924-4d39-a97c-776fef4d23e1"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "1a49c910-28a1-48e9-81fc-740794610762",
+          "attemptId": "f53db563-767e-4abb-a7db-dee2bc26d22e",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "f2c17ed2-a924-4d39-a97c-776fef4d23e1",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "1fb79361-ea1e-4785-8482-8021ea1862c5"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "1a49c910-28a1-48e9-81fc-740794610762"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "1a49c910-28a1-48e9-81fc-740794610762",
+          "attemptId": "f53db563-767e-4abb-a7db-dee2bc26d22e",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "f2c17ed2-a924-4d39-a97c-776fef4d23e1",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "ff349fab-31bb-4ef4-b9f6-a50d185e42b1"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "1a49c910-28a1-48e9-81fc-740794610762"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "1a49c910-28a1-48e9-81fc-740794610762",
+          "attemptId": "f53db563-767e-4abb-a7db-dee2bc26d22e",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "f2c17ed2-a924-4d39-a97c-776fef4d23e1",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "e44b9d19-64bf-41ba-9260-d212898d1f48"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "1a49c910-28a1-48e9-81fc-740794610762"
+      },
+      "result": {
+        "ok": true,
+        "data": {
+          "jobId": "1a49c910-28a1-48e9-81fc-740794610762",
+          "attemptId": "f53db563-767e-4abb-a7db-dee2bc26d22e",
+          "artifact": "capture-cleanup",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c3ca04e565940dc27199806cfc9641ba5161b7db72dd9526c32a1fa3ae152579",
+          "target": {
+            "kind": "recording",
+            "recordingId": "f2c17ed2-a924-4d39-a97c-776fef4d23e1",
+            "revisionId": null
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "recordingId": "f2c17ed2-a924-4d39-a97c-776fef4d23e1",
+            "sourceId": "source-offline",
+            "roles": [
+              {
+                "role": "narration",
+                "outcome": "retained",
+                "reason": "missing-publication"
+              },
+              {
+                "role": "system",
+                "outcome": "retained",
+                "reason": "missing-publication"
+              }
+            ]
+          }
+        },
+        "id": "51c0024e-f71a-44f8-8990-6f770e68dc0a"
+      }
+    }
+  ],
+  "nativeOperations": [
+    {
+      "operation": "media.cleanupCapture",
+      "params": {
+        "directory": "/tmp/capture-source-lifetime-0jfMnk/home/library/recordings/f2c17ed2-a924-4d39-a97c-776fef4d23e1/source",
+        "sourceId": "source-offline"
+      },
+      "descriptors": 1,
+      "result": {
+        "ok": true,
+        "data": [
+          {
+            "outcome": "retained",
+            "reason": "missing-publication",
+            "role": "narration"
+          },
+          {
+            "outcome": "retained",
+            "reason": "missing-publication",
+            "role": "system"
+          }
+        ]
+      }
+    }
+  ],
+  "passed": true,
+  "before": {
+    "capture.journal.jsonl": "6dd563be98583784a77e30d5269cebfea720256f99e1515cad7713b0a6d33615",
+    "video.mov": "15b7b0365fa0683138b8c4a685eb606b42d4e4edf94f7749be681d91d715852e",
+    "narration.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "system.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "narration.packed.mov": "a719cfcb91bbb672bf9e136092e2b2cb6ce13a6af26ba53578f242ab97ed162e",
+    "system.packed.mov": "9d9f27d90b581c5c5661fa158fe75863556a4a0c856f0f01a3483ef1892c7763",
+    "camera/raw.mov": "3dd1a85d5d430c5ae3446f80dfe1d6ccd717e5b71c376f3dfe2deeb8a5dc4110"
+  },
+  "after": {
+    "capture.journal.jsonl": "6dd563be98583784a77e30d5269cebfea720256f99e1515cad7713b0a6d33615",
+    "video.mov": "15b7b0365fa0683138b8c4a685eb606b42d4e4edf94f7749be681d91d715852e",
+    "narration.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "system.mov": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e",
+    "narration.packed.mov": "a719cfcb91bbb672bf9e136092e2b2cb6ce13a6af26ba53578f242ab97ed162e",
+    "system.packed.mov": "9d9f27d90b581c5c5661fa158fe75863556a4a0c856f0f01a3483ef1892c7763",
+    "camera/raw.mov": "3dd1a85d5d430c5ae3446f80dfe1d6ccd717e5b71c376f3dfe2deeb8a5dc4110"
+  },
+  "closed": true
+}

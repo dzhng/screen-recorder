@@ -1,0 +1,127 @@
+{
+  "status": "merged verified scoped source-lifetime checkpoint",
+  "codeCommit": "5e462bf0",
+  "observedAtUTC": "2026-10-01T12:18:13.657273+00:00",
+  "gates": {
+    "focused": {
+      "files": 8,
+      "passed": 85,
+      "failed": 0
+    },
+    "installedCapture": {
+      "passed": 24,
+      "failed": 0
+    },
+    "nativeFiles": {
+      "passed": 9,
+      "failed": 0
+    },
+    "freshPublicNativeCleanup": {
+      "passed": 2,
+      "failed": 0
+    },
+    "coreServiceBuildsTypes": "all exited0",
+    "finalServiceBuildTypes": "exited0 after excluding test fixtures",
+    "finalInstalledQueuedCleanup": {
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "verifiedPins": {
+    "sources": 28,
+    "compiled": 20,
+    "references": 2,
+    "archiveMembers": 97,
+    "nativeProductionSources": 120,
+    "newNativeWorkerSHA256": "bb8980df1913dc25bb3fefb4938445c140a614c24a51c0041f84c5fdf1bab92c",
+    "nativeSourcePhase": "Verified against merged root before 21f3a integration; current-source claim is for this checkpoint only."
+  },
+  "finalBuildConfig": {
+    "path": "apps/service/tsconfig.json",
+    "bytes": 203,
+    "sha256": "153a25ef17dea1f228210ba079801cdd13d774930081060064ecf7696d6e8b98"
+  },
+  "generatedOutputCleanup": "Excluded *.fixture.ts from production service build; removed unreferenced generated project-capture.fixture, project-store.fixture and deleted capture-admission module outputs. All20 pinned production outputs remained byte-identical. Test typecheck still includes fixtures.",
+  "publicCleanupReports": {
+    "verified-cleanup": {
+      "publicExchanges": 31,
+      "nativeOperations": 4,
+      "nativeOperationKinds": [
+        "media.cleanupCapture",
+        "storage.recordingDirectory",
+        "storage.removeRecordingDirectory"
+      ],
+      "passed": true,
+      "closed": true
+    },
+    "unverified-cleanup": {
+      "publicExchanges": 4,
+      "nativeOperations": 1,
+      "nativeOperationKinds": [
+        "media.cleanupCapture"
+      ],
+      "passed": true,
+      "closed": true
+    }
+  },
+  "evidenceFiles": {
+    "merged-core-build.log": {
+      "bytes": 42,
+      "sha256": "022e1b455ef7fd01b7691418b474cee7369cadb6e1be89711cac6e6ec4ca1932"
+    },
+    "merged-service-build.log": {
+      "bytes": 45,
+      "sha256": "061c03c7377b7031a83186f43ba91c1468e5fc0023941fabb353a3c975a0ec40"
+    },
+    "merged-core-types.log": {
+      "bytes": 48,
+      "sha256": "76e7254abb6a27543f3dffb3657cf22cdba386a8e534a888e7575eb8bccff340"
+    },
+    "merged-service-types.log": {
+      "bytes": 51,
+      "sha256": "63416f96d281139bc9c21b44b272532da6953c77aa17fc9253005e14889d9d62"
+    },
+    "merged-focused.log": {
+      "bytes": 1726,
+      "sha256": "6b0fa108b8ac389efe05d113662bb1570235251481ef0970849f3d21c99dd177"
+    },
+    "merged-installed-capture.log": {
+      "bytes": 328,
+      "sha256": "3f94cc7b96423ca26602db4bf95dea83c40b9e1b9a9af44d64d1e9c5614e2189"
+    },
+    "merged-native-files.log": {
+      "bytes": 1062,
+      "sha256": "9e701b1d73f5d3159b14262279f33945a4687392e7801842b0b475397f67c245"
+    },
+    "merged-native-cleanup.log": {
+      "bytes": 493,
+      "sha256": "a91ddcae63f1281d3b185d5af76b9e8746797a9a150b55b5ba9c77905980944f"
+    },
+    "merged-service-build-final.log": {
+      "bytes": 45,
+      "sha256": "061c03c7377b7031a83186f43ba91c1468e5fc0023941fabb353a3c975a0ec40"
+    },
+    "merged-service-types-final.log": {
+      "bytes": 51,
+      "sha256": "63416f96d281139bc9c21b44b272532da6953c77aa17fc9253005e14889d9d62"
+    },
+    "merged-installed-cleanup-final.log": {
+      "bytes": 363,
+      "sha256": "bf32420beb05fbb2c1a4e57e08d51f7e2b01cf1740bffd4f8b0ba5f6ae5a0b25"
+    },
+    "merged-verified-cleanup.json": {
+      "bytes": 30389,
+      "sha256": "77089e989ffdcfa220dc632deab9a5622e5cab5dad06e7bf236af1f062e5f6e2"
+    },
+    "merged-unverified-cleanup.json": {
+      "bytes": 6315,
+      "sha256": "19aa58975701a0ea1c9b9fd2695f05ff002090d232244dc480c00df4756cd3a4"
+    }
+  },
+  "independentReview": "Root and independent collaboration source/shape review clean; configured unavailable CLI review not retried for23f.",
+  "limits": [
+    "Scripted acquisition controls prove coordination and owned copied bytes, not native media admission.",
+    "Actual native calls are scratch FILE/CLEANUP only; no playback/capture/models/installed switch/old-library mutation/performance acceptance.",
+    "All root-owned checks exited."
+  ]
+}

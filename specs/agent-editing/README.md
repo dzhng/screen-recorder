@@ -57,7 +57,10 @@ Reuse the completed evidence rather than repeating it:
   for receipt ownership, truthful failure recovery and preview leases. The preview
   presenter was compiled, not run. [23g explicit export requests](slices/23g-project-export-requests.md)
   also passes typed target/snapshot/destination and late-reply controller gates.
-  Library menus, source lifetime and installed acceptance remain under23.
+  [23f source lifetime](slices/23f-capture-source-lifetime.md) is merged-verified
+  for explicit deletion/discard, ready-source preservation and verified cleanup.
+  [Native library consumption](slices/23h-native-library-consumption.md) and
+  installed acceptance remain under 23.
 
 The retained camera is 246 seconds and screen about 251 seconds: take duration is
 sufficient. Use originals, journals, recovered media and telemetry for the named
@@ -263,7 +266,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23c — Isolated project-library storage preservation](slices/23c-project-storage.md)
 - [x] [23d — Native export status and discovery parity](slices/23d-export-consumer-parity.md)
 - [x] [23e — Native preview receipt and lease parity](slices/23e-preview-consumer-parity.md)
-- [ ] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
+- [x] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
 - [x] [23g — Explicit native project export requests](slices/23g-project-export-requests.md)
 - [ ] [23h — Native library consumption](slices/23h-native-library-consumption.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)

@@ -1,0 +1,17 @@
+✔ recording deletion preserves sibling and model data and retries missing targets (39.808292ms)
+✔ cache batches remove only owned leaves, unlink leaf symlinks, and reject root replacement (50.724291ms)
+✔ recording roots and ancestors cannot be symlinks; descendant links are unlinked without traversal (56.0325ms)
+✔ requests reject invalid identifiers, identities, and unbounded cache batches before removal (132.236208ms)
+✔ pinned recording directory survives an actual ancestor swap during removal (385.550917ms)
+✔ pinned cache directory survives an actual ancestor swap during removal (386.28275ms)
+✔ large inventories are streamed and excessive nesting fails without leaking directory descriptors (671.040666ms)
+✔ native directory identity comparisons preserve inode bits above JavaScript integer precision (425.880875ms)
+✔ a replaced named recording refuses the stale descriptor and preserves both directories (76.274958ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2274.05325
