@@ -1,0 +1,9 @@
+{
+  "status": "pending",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "originalSha256": "793c19a82126d80063ec928e222389152d9a5b1830b8a1fee6bb7f88ea12eba2",
+  "targetId": "repetition-candidate-second-return",
+  "question": "In the original audio above, should the later “Return to it” be kept as an intentional instruction, or removed as an accidental repeat?",
+  "answer": null,
+  "authority": null
+}

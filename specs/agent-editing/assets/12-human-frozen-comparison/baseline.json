@@ -1,0 +1,92 @@
+{
+  "marked": 8,
+  "matched": 8,
+  "unmarked": 0,
+  "medianErrorMs": 100,
+  "p95ErrorMs": 371.5,
+  "worstErrorMs": 480,
+  "meetsTiming": false,
+  "interpretation": "Same eight actual human word edges on four named words from one original source; scoped diagnostic only",
+  "boundaries": [
+    {
+      "id": "w6-start",
+      "wordId": "w6",
+      "side": "start",
+      "referenceUs": 4411675,
+      "candidateUs": 4368675,
+      "state": "matched",
+      "errorMs": -43,
+      "insideSpeech": false
+    },
+    {
+      "id": "w6-end",
+      "wordId": "w6",
+      "side": "end",
+      "referenceUs": 5168675,
+      "candidateUs": 5648675,
+      "state": "matched",
+      "errorMs": 480,
+      "insideSpeech": false
+    },
+    {
+      "id": "w117-start",
+      "wordId": "w117",
+      "side": "start",
+      "referenceUs": 54113675,
+      "candidateUs": 54128675,
+      "state": "matched",
+      "errorMs": 15,
+      "insideSpeech": true
+    },
+    {
+      "id": "w117-end",
+      "wordId": "w117",
+      "side": "end",
+      "referenceUs": 54508675,
+      "candidateUs": 54448675,
+      "state": "matched",
+      "errorMs": -60,
+      "insideSpeech": true
+    },
+    {
+      "id": "w116-start",
+      "wordId": "w116",
+      "side": "start",
+      "referenceUs": 52428675,
+      "candidateUs": 52288675,
+      "state": "matched",
+      "errorMs": -140,
+      "insideSpeech": false
+    },
+    {
+      "id": "w116-end",
+      "wordId": "w116",
+      "side": "end",
+      "referenceUs": 52929675,
+      "candidateUs": 53088675,
+      "state": "matched",
+      "errorMs": 159,
+      "insideSpeech": false
+    },
+    {
+      "id": "w118-start",
+      "wordId": "w118",
+      "side": "start",
+      "referenceUs": 55258675,
+      "candidateUs": 55088675,
+      "state": "matched",
+      "errorMs": -170,
+      "insideSpeech": false
+    },
+    {
+      "id": "w118-end",
+      "wordId": "w118",
+      "side": "end",
+      "referenceUs": 55367675,
+      "candidateUs": 55408675,
+      "state": "matched",
+      "errorMs": 41,
+      "insideSpeech": false
+    }
+  ]
+}

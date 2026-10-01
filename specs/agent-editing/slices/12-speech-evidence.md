@@ -1,6 +1,14 @@
 # 12 — Validate speech cleanup evidence
 
-Status: current local baseline reproduced with frozen partial labels; timing still fails at 135 ms median / 578.1 ms p95. The [matched verbatim alternative](../assets/12-verbatim/README.md) also fails (13/15 matched, subset median 20 ms / p95 352 ms); no engine selected. The [frozen-text alignment trial](../assets/12-alignment/README.md) also fails p95 (15/15 matched, median 35 ms / p95 556.5 ms). The [text-coverage diagnostic](../assets/12-alignment-text-coverage/README.md) fixes the disputed Return onset but still fails p95 (303 ms) and memory; two other unmarked onsets move. Full labels and independent joins remain open. The actual human workbench range is now reconciled separately; no frozen score changed. [Evidence](../assets/12-speech/README.md). Dependencies: [00](./00-corpus.md).
+Status: incomplete; no engine or recipe selected. Historical
+[baseline](../assets/12-speech/README.md), [verbatim](../assets/12-verbatim/README.md)
+and alignment trials below retain their failed quality gates and frozen scores.
+Actual sentence/workbench marks now support a separate
+[eight-edge comparison](../assets/12-human-frozen-comparison/README.md) that passes
+scoped alignment timing. Full inventory, omitted text, other protected words,
+independent joins and held-out quality remain open. The
+[original repetition-intent question](../assets/12-repetition-intent/README.md)
+is pending. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -45,7 +53,12 @@ User feedback changing the named contract or judged variable requires updating t
 alternative endpoints and the unchanged mark. Its metadata-dependent time readout
 remains historical evidence. The [actual human workbench range](../assets/12f-human-marks/README.md)
 now resolves that disputed reference separately; no historical label, score or
-threshold changed. The scoped human-edge diagnostic still fails baseline timing.
+threshold changed. The [comparison on eight actual human edges](../assets/12-human-frozen-comparison/README.md)
+still fails baseline timing and passes timing for all three frozen alignment
+conditions on that cohort only. The omitted opening “um”, incomplete inventory,
+other protected words/joins and held-out quality remain unverified. No recipe
+is selected. The [original repetition context](../assets/12-repetition-intent/README.md)
+is preserved for the pending editorial-intent question before any new cut.
 
 [The precision diagnostic](../assets/12-alignment-precision/README.md) reduces peak
 resident memory to 3,574,104,064 bytes using float16 with the original frozen text.

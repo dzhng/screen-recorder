@@ -104,8 +104,10 @@
   This named-target acceptance does not select an automatic speech recipe.
 - The [actual workbench marks](12f-human-marks/README.md) resolve its disputed
   audible edges against original/source/packet identity. Historical marks and
-  scores remain frozen; the unchanged baseline still fails the scoped human-edge
-  diagnostic. Broader corpus labels and recipe acceptance remain open.
+  scores remain frozen. The [comparison on actual human edges](12-human-frozen-comparison/README.md)
+  passes timing for the frozen alignment outputs on that small cohort; broader
+  corpus labels and recipe acceptance remain open. The
+  [original repetition-intent question](12-repetition-intent/README.md) is pending.
 - [Verbatim speech](12-verbatim/README.md) and
   [forced alignment](12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](12-alignment-text-coverage/README.md) fixes one

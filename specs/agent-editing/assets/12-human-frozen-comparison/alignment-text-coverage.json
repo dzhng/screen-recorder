@@ -1,0 +1,126 @@
+{
+  "candidate": "alignment-text-coverage",
+  "marked": 8,
+  "matched": 8,
+  "unmarked": 0,
+  "medianErrorMs": 30.5,
+  "p95ErrorMs": 104,
+  "worstErrorMs": 117,
+  "meetsTiming": true,
+  "interpretation": "Same eight actual human word edges on four named words from one original source; scoped diagnostic only",
+  "boundaries": [
+    {
+      "id": "w6-start",
+      "wordId": "w6",
+      "side": "start",
+      "referenceUs": 4411675,
+      "candidateUs": 4528675,
+      "state": "matched",
+      "errorMs": 117,
+      "insideSpeech": true
+    },
+    {
+      "id": "w6-end",
+      "wordId": "w6",
+      "side": "end",
+      "referenceUs": 5168675,
+      "candidateUs": 5088675,
+      "state": "matched",
+      "errorMs": -80,
+      "insideSpeech": true
+    },
+    {
+      "id": "w117-start",
+      "wordId": "w117",
+      "side": "start",
+      "referenceUs": 54113675,
+      "candidateUs": 54128675,
+      "state": "matched",
+      "errorMs": 15,
+      "insideSpeech": true
+    },
+    {
+      "id": "w117-end",
+      "wordId": "w117",
+      "side": "end",
+      "referenceUs": 54508675,
+      "candidateUs": 54528675,
+      "state": "matched",
+      "errorMs": 20,
+      "insideSpeech": false
+    },
+    {
+      "id": "w116-start",
+      "wordId": "w116",
+      "side": "start",
+      "referenceUs": 52428675,
+      "candidateUs": 52368675,
+      "state": "matched",
+      "errorMs": -60,
+      "insideSpeech": false
+    },
+    {
+      "id": "w116-end",
+      "wordId": "w116",
+      "side": "end",
+      "referenceUs": 52929675,
+      "candidateUs": 52928675,
+      "state": "matched",
+      "errorMs": -1,
+      "insideSpeech": true
+    },
+    {
+      "id": "w118-start",
+      "wordId": "w118",
+      "side": "start",
+      "referenceUs": 55258675,
+      "candidateUs": 55248675,
+      "state": "matched",
+      "errorMs": -10,
+      "insideSpeech": false
+    },
+    {
+      "id": "w118-end",
+      "wordId": "w118",
+      "side": "end",
+      "referenceUs": 55367675,
+      "candidateUs": 55408675,
+      "state": "matched",
+      "errorMs": 41,
+      "insideSpeech": false
+    }
+  ],
+  "wordCount": 307,
+  "identity": {
+    "resultPath": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment-text-coverage/result.json",
+    "resultSha256": "7714e0d9f51e1a44c5d2e4141838e76f203efd530672e8edfd8070f579fd47c2",
+    "runtimeRecordPath": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-alignment-text-coverage/runtime.json",
+    "runtimeRecordSha256": "4586af3fb9ce0baa04de2ce4c2eaf27d87ceae5655babb5b3fc07550f0a16058",
+    "recordedModelRevision": "c07281df297b9905d24a508279258cccf987a064",
+    "runnerSha256": "ad50ae030bf6296901f60f6c2b666faba07f8bf6c2c76cd486f75b6363fd866d",
+    "settings": {
+      "device": "mps",
+      "dtype": "float32",
+      "language": "English"
+    },
+    "suppliedTranscriptSha256": "031715f66987102e328286a1218c0e0e2b4eae5667336d942ebe5c456ec9b5c2",
+    "retainedResultSourceAndConfigurationIdentityVerified": true,
+    "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "originUs": 48675,
+    "preparedAudioSha256Recorded": "f73deb0d323d65d937953973bbe75523b3fe7642035ec68bf10be77321ace853",
+    "preparedAudioAvailable": false,
+    "limitations": [
+      "Prepared mono16k WAV scratch file is absent; its recorded hash agrees across frozen records but cannot be freshly rehashed. Model/runtime identities are recorded historical fingerprints, not a rerun or current-environment certification."
+    ]
+  },
+  "separateOpeningUmEnd": {
+    "state": "missing",
+    "errorMs": null
+  },
+  "fullFillerPrecision": null,
+  "fullFillerRecall": null,
+  "editorialRepetitionIntent": "unverified",
+  "parent12Accepted": false,
+  "recipeSelected": false,
+  "oldScoresChanged": false
+}

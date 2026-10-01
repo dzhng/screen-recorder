@@ -1,0 +1,13 @@
+{
+  "candidate": "verbatim-crisperwhisper",
+  "state": "unavailable",
+  "sameEightEdgeScore": null,
+  "reason": "Restricted raw generated result scratch path is absent. Retained old score covers only historical marked edges and cannot recover all eight current word edges. No arbitrary inference or transcript reconstruction performed.",
+  "recordedRawResultPath": "/tmp/screenrec-speech-verbatim-run/result.json",
+  "recordedRawResultSha256": "a44c428b52ce1eee4d161cc09250f6dbf8bd673e8522b00dee345fa0568b387f",
+  "rawResultAvailable": false,
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "runnerHashVerified": true,
+  "preparedAudioSha256Recorded": "f73deb0d323d65d937953973bbe75523b3fe7642035ec68bf10be77321ace853",
+  "preparedAudioAvailable": false
+}

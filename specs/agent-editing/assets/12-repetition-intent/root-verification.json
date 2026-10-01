@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "scope": "Original-context source packet/frame equality only; editorial intent and phrase boundaries unverified",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "originalSha256": "793c19a82126d80063ec928e222389152d9a5b1830b8a1fee6bb7f88ea12eba2",
+  "packedSourceFrames": [
+    4677120,
+    5126400
+  ],
+  "packetPtsFrameOrigin": 2336,
+  "absolutePacketPtsFrames": [
+    4679456,
+    5128736
+  ],
+  "deliveredFrames": 449280,
+  "completePcmEquality": true,
+  "pcmSha256": "9add34c1a87d75ba0127961572c131b9e310d95a279a1999c4ce35b507b377c2",
+  "inheritedSourceOriginUsAlreadyIncluded": 48675,
+  "nativeSha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773",
+  "modelsRun": false,
+  "capturePerformed": false,
+  "speakerPlaybackPerformed": false,
+  "intent": "pending",
+  "inspectionCorrection": "Packet PTS includes its first2336-frame origin; packed PCM indices exclude it. Their apparent2336-frame mismatch named identical source bytes in different coordinates, not a native timing defect.",
+  "independentReview": {
+    "passed": true,
+    "method": "Direct MOV stsz/stsc/stco/stts audio sample tables; independently confirms unique packed sample range and complete WAV payload",
+    "packedSourceFrames": [
+      4677120,
+      5126400
+    ],
+    "sampleRate": 48000,
+    "bytesPerSample": 4,
+    "sourceAudioSamples": 6430720,
+    "chunkCount": 155,
+    "emptyLeadingEditUs": 48675,
+    "completePcmEquality": true
+  }
+}

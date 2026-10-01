@@ -27,10 +27,13 @@ neighbor boundaries. They also expose 15 ms of middle filler retained by the
 older accepted cut, whose bytes and verdict stay frozen.
 [12f workbench-boundary marking](slices/12f-workbench-boundary.md) now has a
 [verified actual human range](assets/12f-human-marks/README.md), resolving that
-word's disputed endpoint. The unchanged baseline still fails the scoped human-edge
-timing diagnostic. Current pickup is broader corpus word boundaries,
-filler/repetition inventory and removal intent required
-by [12](slices/12-speech-evidence.md) before12b adoption.
+word's disputed endpoint. The [comparison on actual human edges](assets/12-human-frozen-comparison/README.md)
+passes timing for the frozen alignment outputs on that small cohort; broader
+cleanup quality and recipe selection remain open. Current pickup is the
+[original repetition-intent question](assets/12-repetition-intent/README.md),
+then corpus word boundaries and filler inventory required by
+[12](slices/12-speech-evidence.md) before12b adoption. Do not infer editorial
+intent from repeated transcript text or unanswered questions.
 
 The [generation/ambience matrix](assets/19-acceptance/README.md) is accepted,
 including the chosen200ms loop with a slight residual seam tolerated. Preserve

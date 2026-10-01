@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "Same eight actual human edges only; no production recipe selected",
+  "date": "2026-09-30",
+  "checks": [
+    "Existing scoreBoundaries independently reproduced every signed error and statistic for baseline and three retained alignment conditions",
+    "Both actual human label files freshly rehashed",
+    "Retained result/runtime file hashes freshly rechecked where identified in each score record"
+  ],
+  "modelsRun": false,
+  "nativeWorkerRun": false,
+  "capturePerformed": false,
+  "speakerPlaybackPerformed": false,
+  "limits": [
+    "Prepared 16 kHz audio is absent; recorded model/runtime identity is historical",
+    "Opening um end missing in supplied-text alignment; onset censored",
+    "No complete inventory, editorial repetition intent, held-out quality or parent12 acceptance"
+  ]
+}

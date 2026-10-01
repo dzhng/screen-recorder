@@ -1,0 +1,28 @@
+{
+  "data": {
+    "bytes": 1801216,
+    "channels": 1,
+    "durationUs": 9360000,
+    "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/12-repetition-intent/original.wav",
+    "frames": 449280,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 106848675,
+        "startUs": 97488675
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": []
+      }
+    ]
+  },
+  "id": "repetition-context-original",
+  "ok": true
+}

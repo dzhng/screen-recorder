@@ -23,7 +23,9 @@ are now reconciled. The [exact two-filler candidate](../agent-editing/assets/12e
 passes native/public technical checks and its own user audition; broader corpus
 labels and intent remain open.
 [The actual workbench marks](../agent-editing/assets/12f-human-marks/README.md) now
-resolve that disputed endpoint; broader timing/recipe acceptance remains open.
+resolve that disputed endpoint. The [scoped frozen-output comparison](../agent-editing/assets/12-human-frozen-comparison/README.md)
+and pending [repetition-intent question](../agent-editing/assets/12-repetition-intent/README.md)
+own the next speech evidence; broader timing/recipe acceptance remains open.
 The isolated [camera digest cost audit](../agent-editing/assets/20e-camera-digest-components/README.md)
 selects no additional production change; physical and live-stop gates remain open.
 Its [frozen local denoise matrix](../agent-editing/assets/denoise-acceptance/README.md) is accepted, including the [exact protected-sentence, authored-stereo and known-noise verdicts](../agent-editing/assets/listening-review-2026-09-30.md). The original pause remains rejected as speech-free.

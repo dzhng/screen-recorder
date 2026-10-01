@@ -18,9 +18,13 @@ is accepted. The [exact two-filler candidate](12e-labeled-cleanup/README.md) now
 passes native/public technical contracts and its own user audition. The
 [saved sentence marks](12d-human-marks/README.md) and
 [actual workbench edges](12f-human-marks/README.md) are reconciled. The unchanged
-baseline still fails the scoped human-edge diagnostic. Current pickup is broader
-corpus boundaries and filler/repetition intent for12/12d, then12b adoption
-and physical20/21. Do not repeat accepted auditions.
+baseline still fails the scoped human-edge diagnostic; the
+[frozen alignment comparison](12-human-frozen-comparison/README.md) passes that
+small cohort without selecting a recipe. Current pickup is the pending
+[original repetition-intent question](12-repetition-intent/README.md), followed
+by broader corpus boundaries and filler inventory for12/12d, then12b adoption
+and physical20/21. Do not repeat accepted auditions or treat an unanswered intent
+question as approval to remove speech.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;

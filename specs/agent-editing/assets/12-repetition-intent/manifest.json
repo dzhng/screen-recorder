@@ -1,0 +1,74 @@
+{
+  "kind": "Original-context editorial-intent question; no candidate cut or inferred label",
+  "date": "2026-09-30",
+  "source": {
+    "path": "fixtures/narrated-workbench/narration.mov",
+    "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "trackOriginUsFromInheritedLabels": 48675
+  },
+  "native": {
+    "path": "/tmp/screenrec-03d-native-build/debug/screenrec-native",
+    "sha256": "45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773"
+  },
+  "context": {
+    "startUs": 97488675,
+    "endUs": 106848675
+  },
+  "sampleRate": 48000,
+  "artifact": {
+    "file": "original.wav",
+    "sha256": "793c19a82126d80063ec928e222389152d9a5b1830b8a1fee6bb7f88ea12eba2",
+    "frames": 449280,
+    "channels": 1
+  },
+  "target": {
+    "id": "repetition-candidate-second-return",
+    "text": "Later Return to it",
+    "textAuthority": "Frozen ASR proposal; verify by listening",
+    "proposalWordIds": [
+      "w237",
+      "w238",
+      "w239"
+    ],
+    "sourceRangeAuthority": "Unverified inherited outer cut; no new boundaries supplied"
+  },
+  "proposedContextText": "Okay, so let's move away, return to it. Because I'm just doing my pointer, moving away. Return to it. End the route.",
+  "intentStatus": "pending",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1908,
+      "sha256": "bcc4b6c9baf9a3bd8149d16768fc02a5144e162acdb6077e494420a1baf4e82d"
+    },
+    {
+      "path": "intent.json",
+      "bytes": 448,
+      "sha256": "72f57a98ffe409ba6a1e7bd0d25445163aeeb3a758561df82e6243a9b53bc06b"
+    },
+    {
+      "path": "original.wav",
+      "bytes": 1801216,
+      "sha256": "793c19a82126d80063ec928e222389152d9a5b1830b8a1fee6bb7f88ea12eba2"
+    },
+    {
+      "path": "request.json",
+      "bytes": 606,
+      "sha256": "9f971adb4cdfa65a337ac58fd434e1fd494e9abfd8d3d360506a43d5364eb6f5"
+    },
+    {
+      "path": "response.json",
+      "bytes": 585,
+      "sha256": "6c5ae042738bac63ea74a9db324d5b412c81380f13154fadb12ec0aead97ebe9"
+    },
+    {
+      "path": "root-verification.json",
+      "bytes": 1507,
+      "sha256": "a348da468b749294f9f303a4a7582aebb4b2ceccf1c31c57b12bd41833243429"
+    },
+    {
+      "path": "source-packets.json",
+      "bytes": 29710,
+      "sha256": "fdfab637a750fd602f09f4025a7b095ea175cac2184b6bfba371e896183c65de"
+    }
+  ]
+}

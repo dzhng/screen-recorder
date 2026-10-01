@@ -1,0 +1,74 @@
+{
+  "kind": "Frozen-output scoped rescore against actual human labels",
+  "date": "2026-09-30",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3657,
+      "sha256": "7fed9ba754142d9ac1e6e22185fef980a260c12063cb4017d614b027ce5dffa9"
+    },
+    {
+      "path": "alignment-float16.json",
+      "bytes": 3767,
+      "sha256": "6f5beff4dd7ab769639b4fe3b56e72f24349f479805f5c3011a96322eb3f9721"
+    },
+    {
+      "path": "alignment-float32.json",
+      "bytes": 3646,
+      "sha256": "961a5f5865613107f7ae6e7311845064a9355e9d9ad81f2252dd5c3056efaa9d"
+    },
+    {
+      "path": "alignment-text-coverage.json",
+      "bytes": 3780,
+      "sha256": "27329ffdcf78f425d90dd6eb0a9bb9465d4bceb80c527c9a353aadaeba34bf13"
+    },
+    {
+      "path": "baseline.json",
+      "bytes": 2056,
+      "sha256": "241db935835ac1bbd3464105ed15b040857c5bb4e3b1bb252739b07f84fdce08"
+    },
+    {
+      "path": "human-edges.json",
+      "bytes": 2252,
+      "sha256": "73de39709f7100116ff326e32948cfd45b959d85ce48c344385ee9e37db07029"
+    },
+    {
+      "path": "root-verification.json",
+      "bytes": 831,
+      "sha256": "e1d103b323b3b2a64c4ae9a2d36616b6f90145b7fecb19f8a526c16e2ea8869c"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 3285,
+      "sha256": "c504bdd0995fce9893dd83eb73c975aab3516603642dc201f6c2e0ecead7100b"
+    },
+    {
+      "path": "verbatim-unavailable.json",
+      "bytes": 796,
+      "sha256": "f4a5564a781134c40819f96b74e336a90450f7fc9076fab7338ee52b9ed78046"
+    }
+  ],
+  "limitations": [
+    "Prepared16kHzPCM is absent; recorded identity cannot be freshly rehashed.",
+    "Verbatim full output is absent; no reconstructed comparable score.",
+    "No full-corpus quality or recipe selection."
+  ],
+  "sourceOwners": [
+    {
+      "path": "packages/test-harness/editing/speech/boundaries.mjs",
+      "sha256": "a1e757060d0cdd8764de4b650c7b619116343a00f19a48a7cd9a3a3b72e190e0"
+    },
+    {
+      "path": "packages/test-harness/editing/speech/annotation-time.mjs",
+      "sha256": "e54d7bfb3012188c381ed5d46df64af33c6315633a0d242edc2173e71cf73f19"
+    },
+    {
+      "path": "specs/agent-editing/assets/12f-human-marks/human-marks.json",
+      "sha256": "4132df7f56f2df538000e6739742c314160c66822f3e3960b5cb3e92a50fb6d6"
+    },
+    {
+      "path": "specs/agent-editing/assets/12d-human-marks/human-marks.json",
+      "sha256": "b6e75891b17fed800a6af1a822d0f871429832980182ba2dc5f8f3b11ed174e9"
+    }
+  ]
+}

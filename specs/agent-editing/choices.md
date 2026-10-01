@@ -4928,3 +4928,32 @@ saved evidence misdescribe the task, while a second export owner would drift.
 Future packets must explicitly name the words they ask the listener to mark;
 this does not infer removal intent or discover missing words. Sound because
 the target list already owns identity and the export now follows that owner.
+
+### Ask repetition intent using the surrounding original — sound, medium confidence
+
+When: repetition-intent preparation, 2026-09-30. The proposed transcript says
+“Return to it” twice during pointer movements. The listener now gets 9.36 seconds
+of unchanged original narration covering both occurrences and can say whether
+the later one was deliberate. The plan required editorial intent before removal
+but left this listening context unspecified. A cropped later phrase would hide
+the earlier instruction that makes the choice meaningful. The context length
+is a reversible presentation choice; it supplies neither phrase boundaries nor
+approval to cut. Sound because original context supports the missing judgment
+without turning repeated text into an automatic removal rule. Confidence is
+medium because the ASR wording remains an unverified proposal.
+
+### Rescore retained outputs while disclosing missing preparation — sound, medium confidence
+
+When: actual-human-edge comparison, 2026-09-30. The listener has marked words,
+and the saved alignment results still exist, but their prepared 16 kHz audio
+file has disappeared from scratch. The comparison checks the retained results
+and recorded identities, then scores the same eight marked edges for every
+condition through the existing evaluator. The missing opening filler is
+reported separately and cannot earn a complete-cleanup pass. The plan did not
+specify whether absent preparation prevents this limited inspection. Refusing
+all comparison would discard usable saved predictions; certifying a fresh run
+would claim evidence that no longer exists. The result therefore describes only
+the retained predictions on this small cohort, with no current runtime proof or
+recipe selection. Sound because its claim stays within the evidence that can be
+checked. Confidence is medium because broader acceptance still needs complete
+labels and its own preserved execution evidence.
