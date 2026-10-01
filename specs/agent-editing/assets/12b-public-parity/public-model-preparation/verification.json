@@ -1,0 +1,25 @@
+{
+  "checkpoint": "6ca85a8b",
+  "status": "PASS actual public absent/preparing/failed/retry/ready/idempotence/reopen",
+  "publicExchanges": 21,
+  "serviceStarts": 2,
+  "completedPreparationsThisPass": 1,
+  "totalHistoricalCompletedPreparations": 4,
+  "failedDownloadsThisPass": 1,
+  "registeredFiles": 22,
+  "preparedBytes": 464414912,
+  "fetchRequests": 23,
+  "networkBoundary": "Production fetch edge serves original verified registered bytes; intentional first HTTP503 and bounded fetch barrier; no live network transfer",
+  "controlledNativeBoundary": "Startup audioCapabilities/clearRenderWorkspace only; no native inference/media/device/capture requests",
+  "personalModelPreservation": "All bytes/hashes/inodes/device/mtime/ctime/modes and receipt unchanged before/after",
+  "currentInheritedSourceRuntimePins": 539,
+  "sourceRuntimeMatches": 539,
+  "priorRuntimeAuthority": "../model-readiness/manifest.json + its archived source-runtime-pins.json",
+  "newInferenceAttempts": 0,
+  "scopeLimits": [
+    "Live Hub availability",
+    "Broader lexical/acoustic coverage and held-out timing",
+    "Physical/live capture/performance/installed release"
+  ],
+  "review": "Existing single Models/service/CLI/MCP owners; no production code, model recipe, settings, dependency or schema changed; fetch edge fixture controls declared separately from public behavior"
+}

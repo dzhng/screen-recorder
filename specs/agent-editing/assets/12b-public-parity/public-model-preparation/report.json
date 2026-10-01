@@ -1,0 +1,602 @@
+{
+  "passed": true,
+  "scope": "Actual CLI/MCP absent-to-ready preparation through production Models owner with file-backed fetch edge, controlled native startup, zero network and inference",
+  "home": "/private/tmp/screenrec-public-model-home-ZU2Imj",
+  "trace": [
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "preparing"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.prepare",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "absent"
+        },
+        "id": "f4ea0e35-94ad-483b-a3a5-3dc7d645c0ce"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"absent\"},\"id\":\"c88bcf1b-dae3-4619-99ad-db4d145cae65\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "absent"
+          },
+          "id": "c88bcf1b-dae3-4619-99ad-db4d145cae65"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 464414912
+        },
+        "id": "f9d7fdc1-c275-4d96-8692-0c8725327cd9"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 464414912
+        },
+        "id": "16b43181-a28b-422e-a4c7-350bd89229bd"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":464414912},\"id\":\"b2241fc7-0cba-49ae-a0ad-5e185dc4bc9c\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 464414912
+          },
+          "id": "b2241fc7-0cba-49ae-a0ad-5e185dc4bc9c"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":464414912},\"id\":\"ededae78-cfbc-499a-8e35-85f62d65a7e0\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 464414912
+          },
+          "id": "ededae78-cfbc-499a-8e35-85f62d65a7e0"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "failed",
+          "code": "MODEL_DOWNLOAD_FAILED",
+          "message": "Model download failed: HTTP 503",
+          "retryable": true
+        },
+        "id": "3fac9412-e21a-45e9-b980-470506273bec"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"failed\",\"code\":\"MODEL_DOWNLOAD_FAILED\",\"message\":\"Model download failed: HTTP 503\",\"retryable\":true},\"id\":\"65dd85cb-38f2-47f6-a906-990ce8477767\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "failed",
+            "code": "MODEL_DOWNLOAD_FAILED",
+            "message": "Model download failed: HTTP 503",
+            "retryable": true
+          },
+          "id": "65dd85cb-38f2-47f6-a906-990ce8477767"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"preparing\",\"receivedBytes\":0,\"totalBytes\":464414912},\"id\":\"69bebddc-5925-4c68-9687-6e8b37236b3f\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "preparing",
+            "receivedBytes": 0,
+            "totalBytes": 464414912
+          },
+          "id": "69bebddc-5925-4c68-9687-6e8b37236b3f"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 0,
+          "totalBytes": 464414912
+        },
+        "id": "a6f86b1d-8d9b-41f6-9b1e-0862ad9ff16c"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 60433937,
+          "totalBytes": 464414912
+        },
+        "id": "8067b320-7679-4bb2-82d4-0aaf45eb2f5d"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 191637009,
+          "totalBytes": 464414912
+        },
+        "id": "474beaff-9f4d-4f34-87c7-cc5f86feea94"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 308553233,
+          "totalBytes": 464414912
+        },
+        "id": "cf874b6f-61e4-46d7-8085-2307af05f43e"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "preparing",
+          "receivedBytes": 429991441,
+          "totalBytes": 464414912
+        },
+        "id": "e849c7e9-847c-46ae-b009-8bfd6624fc5e"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "d98a310f-c4c1-44f4-ab86-1c62aab5a66e"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "2f70191e-7c3a-4a5a-96c1-1b3d0dfd29ef"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"0328c62d-9f1f-44fb-b542-4ba19d6ad34a\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "0328c62d-9f1f-44fb-b542-4ba19d6ad34a"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "1a36a230-db3c-49cd-8b2c-eb7c64e4194c"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "1598a110-fee9-4031-87ea-0001167b7cec"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"e291abfd-bae9-47e7-a83b-7e334b9595ec\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "e291abfd-bae9-47e7-a83b-7e334b9595ec"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\"},\"id\":\"5a359671-58cc-4de7-bc05-4a93690399c7\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready"
+          },
+          "id": "5a359671-58cc-4de7-bc05-4a93690399c7"
+        },
+        "isError": false
+      }
+    }
+  ],
+  "fetches": 23,
+  "completedPreparations": 1,
+  "failedDownloads": 1,
+  "bytesPrepared": 464414912,
+  "publicExchanges": 21,
+  "serviceStarts": 2,
+  "inferenceAttempts": 0,
+  "liveNetworkRequests": 0,
+  "personalModelsUnchanged": true,
+  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+  "priorCompletedPreparations": 3,
+  "totalCompletedPreparations": 4
+}

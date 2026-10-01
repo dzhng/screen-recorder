@@ -59,6 +59,10 @@ and generation refusal. Existing registered model files and preparation receipt
 remain unchanged. The inference fixture's scratch readiness was declared; a separate
 [merged generic-owner checkpoint](12b-public-parity/model-readiness/merged-verification.json)
 now verifies actual preparation/receipt/readiness and public ready-state reopen.
+[Actual public preparation](12b-public-parity/public-model-preparation/README.md)
+also passes absent/preparing/failed/retry/ready and idempotence/reopen through the
+production owner with a verified file-backed fetch edge. Selected-baseline 12b
+adoption is complete, while live Hub availability remains unverified.
 Reuse the accepted bounded parity packet rather than
 rerunning inference or its controlled preparation-state matrix. Broader12 quality
 and installed acceptance remain separate.
