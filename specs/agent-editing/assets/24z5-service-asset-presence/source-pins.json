@@ -1,0 +1,139 @@
+{
+  "baselineCommit": "b4365967a084733e0243b4be59b3be91558f8517",
+  "sources": [
+    {
+      "path": "baseline/apps/service/src/project-service.test.ts",
+      "bytes": 38726,
+      "sha256": "f4b3a4458ad06e0047d0e66988c2481eac8c346662aa4deb6145e3bdc24b4dce"
+    },
+    {
+      "path": "baseline/apps/service/src/project-service.ts",
+      "bytes": 54194,
+      "sha256": "1a2e43fb3c3110064bf9d9e5d2add99c7238810f2765272b68d1cc6e68a474b4"
+    },
+    {
+      "path": "candidate/apps/service/package.json",
+      "bytes": 507,
+      "sha256": "d3f917a10eb0cbecd6f0d67848c13a346ce6e2e8bee7e50ae944a58405e8eed2"
+    },
+    {
+      "path": "candidate/apps/service/src/operation-errors.ts",
+      "bytes": 828,
+      "sha256": "e03968903cf0fc50cc2169939e293dec6e79118e8ccbcd57068810406f66f38f"
+    },
+    {
+      "path": "candidate/apps/service/src/project-service.test.ts",
+      "bytes": 45226,
+      "sha256": "b63986dfe9d4a4dd494dbba28ef2f247908fc46ad26b8f12a35f1a9f44dcdf60"
+    },
+    {
+      "path": "candidate/apps/service/src/project-service.ts",
+      "bytes": 54458,
+      "sha256": "0dd081b562127acf2ff1cbd7e65300606a834ca61be99081e8733f432087335d"
+    },
+    {
+      "path": "candidate/apps/service/src/render.ts",
+      "bytes": 12596,
+      "sha256": "86ead9968f14c6ebf1c5cfb84aeb452dc2f8b31f4d1bd6c066a998755d0c3aee"
+    },
+    {
+      "path": "candidate/apps/service/src/worker.ts",
+      "bytes": 7899,
+      "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+    },
+    {
+      "path": "candidate/package.json",
+      "bytes": 2061,
+      "sha256": "3786a657c586fd4169be6157ff53a0d1fb92d4e3f7d43ec2fc7e0dc0bae7e541"
+    },
+    {
+      "path": "candidate/packages/client/package.json",
+      "bytes": 356,
+      "sha256": "b8433415ec8d36c2c29b6eaadb7c5b37c43ee1e292901432d7a005d0303118e9"
+    },
+    {
+      "path": "candidate/packages/core/dist/assets.js",
+      "bytes": 29023,
+      "sha256": "c8e2af0cc4f1bd341e8146f69a7d26f06a25e6bc29cdb2b48518f0f076b53f4d"
+    },
+    {
+      "path": "candidate/packages/core/dist/cache.js",
+      "bytes": 14621,
+      "sha256": "9dd96ce1912238ba5b2f295d7ae51cd591fd729548894fb1a10c83a7bd30516d"
+    },
+    {
+      "path": "candidate/packages/core/dist/cached-derivative.js",
+      "bytes": 1137,
+      "sha256": "34639578f4f2acabd0ab9382f0a1767b6feda25c89e23e01b54b78805b56b6cb"
+    },
+    {
+      "path": "candidate/packages/core/dist/frame-inspection.js",
+      "bytes": 29705,
+      "sha256": "db0e816cc2f61ef41c87be0939682a3defd0b0cda5240157c763a06f58e84d86"
+    },
+    {
+      "path": "candidate/packages/core/dist/jobs.js",
+      "bytes": 52766,
+      "sha256": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292"
+    },
+    {
+      "path": "candidate/packages/core/dist/source-selection.js",
+      "bytes": 2407,
+      "sha256": "5a4014d962b99a1196a3bec54026b3fd35b1126fd0220f5ab58335ea597d427b"
+    },
+    {
+      "path": "candidate/packages/core/package.json",
+      "bytes": 9263,
+      "sha256": "03f9b5c1f82d8c97d2a31925c48a5a01a2045fc73a2b76002193d5ed7fc19862"
+    },
+    {
+      "path": "candidate/packages/core/src/assets.ts",
+      "bytes": 30268,
+      "sha256": "9a86527ec13869e95fe08bf2c819f3e02932fb177126e40b0b5db485b400160c"
+    },
+    {
+      "path": "candidate/packages/core/src/cache.ts",
+      "bytes": 14522,
+      "sha256": "92c2f4f2667b7ba34f71198514a4070ef17e42041bc53fafcbe856c90a236b38"
+    },
+    {
+      "path": "candidate/packages/core/src/cached-derivative.ts",
+      "bytes": 1326,
+      "sha256": "02d68b831c2fb933ac08ef3b5c04694b45503e3f131c5d3e88b059e9c3c432c4"
+    },
+    {
+      "path": "candidate/packages/core/src/frame-inspection.ts",
+      "bytes": 33314,
+      "sha256": "66ff42095a165d05908dfaef433f2e956f7edcb0a84a5845801317b0c53a4953"
+    },
+    {
+      "path": "candidate/packages/core/src/jobs.ts",
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+    },
+    {
+      "path": "candidate/packages/core/src/source-selection.ts",
+      "bytes": 2792,
+      "sha256": "20e5d4b6dfb870ca1e535afcb03e222c4ceefb73fe5679c03d581be955807e06"
+    },
+    {
+      "path": "candidate/packages/protocol/package.json",
+      "bytes": 381,
+      "sha256": "1daab209c11da299d0af31730f3319d7ffac53637e5618748905f38da238ea0a"
+    }
+  ],
+  "unchangedCompositionRuntimeClosure": {
+    "path": "../24z2-prepared-admission/source-pins.json",
+    "bytes": 20938,
+    "sha256": "df1b5737e6146f4d01ed201e76e55ae475465129fc3c9cc66e287fbf9e3925f4"
+  },
+  "unchangedCompositionEntriesVerified": 33,
+  "runtime": {
+    "node": "v24.14.0",
+    "bun": "1.3.14",
+    "vitest": "5.0.0",
+    "typescript": "7.0.2"
+  },
+  "compiledCoreOwners": "built from unchanged baseline core source; build-core.log retained",
+  "workspaceSetup": "filtered frozen install restores existing service/client links; no dependency or lock changes"
+}

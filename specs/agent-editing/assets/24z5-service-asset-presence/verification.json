@@ -1,0 +1,203 @@
+{
+  "baselineCommit": "b4365967a084733e0243b4be59b3be91558f8517",
+  "scope": "Service job/cache asset presence branches use existing boolean catalog owner",
+  "status": "tiny public consumer expected red/green; focused gates and sole original diagnostics run pass",
+  "presenceContract": {
+    "booleanOwner": "AssetStore.has SELECT 1 FROM assets WHERE id=?",
+    "serviceConsumers": [
+      "JobTargets.pin asset branch",
+      "DerivedCache assertAvailable asset branch"
+    ],
+    "missingRowError": {
+      "code": "NOT_FOUND",
+      "message": "Asset does not exist",
+      "details": "{ assetId }",
+      "retryable": false
+    },
+    "physicalFileExistenceClaim": false,
+    "newAPIHelperProvider": false,
+    "segmentMetadataNotParsed": true,
+    "intentionalCorruptionScope": "Present asset rows with damaged segment/header detail no longer trigger incidental SyntaxError/TypeError at these presence checks. Source selection and receipt validation continue detailed reads. A ready job replay remains readable; fresh source inspection refuses damaged JSON. Missing/deleted asset row still refuses before job/attempt/cache admission. get previously did not validate missing segment-row completeness."
+  },
+  "boundedWork": {
+    "tinyFixture": {
+      "segmentRows": 3,
+      "sourceExtentUs": 30,
+      "occupied": [
+        [
+          0,
+          10
+        ],
+        [
+          20,
+          30
+        ]
+      ],
+      "gap": [
+        [
+          10,
+          20
+        ]
+      ]
+    },
+    "initialFailedFrame": {
+      "originalDetailedReads": 4,
+      "correctedCeiling": 2,
+      "retainedOwners": "sourcePlan/selectSource at admission and execution"
+    },
+    "successfulRetryPublication": {
+      "originalDetailedReads": 6,
+      "correctedCeiling": 2,
+      "retainedOwners": "execution sourcePlan and receipt geometry",
+      "removedOwners": "job pin, cache reserve and two cache publish checks"
+    },
+    "observation": "Real DatabaseSync.prepare forwards actual SQL while public socket operations and real service owners run",
+    "sourceTraceOriginalDiagnostics": {
+      "segmentRows": 200001,
+      "framePhaseOriginalHydratedRows": 800004,
+      "framePhaseCorrectedHydratedRows": 400002,
+      "importPublicationHydratedRowsUnchanged": 200001,
+      "claim": "source-based work counts, not measured timing or timeout cause"
+    }
+  },
+  "consumerValues": {
+    "worker": "complete media.sourceFrame asset/path/origin/stream, two available intervals, atUs and maxLongEdge; only fresh output path is dynamic",
+    "persistedRecipe": "complete selection/time/rendition/support digest/implementation options",
+    "initialFailure": "exact MEDIA_WORKER_UNAVAILABLE/offline/retryable=true/details={} recorded against expected asset target",
+    "retry": "explicit job retry produces validated receipt and publishes cache bytes",
+    "delivery": "public artifact.read returns exact authored fixture payload then lease closes",
+    "corruption": "ready job retry remains ready; fresh frame.get rejects source parse damage; complete job inventory unchanged",
+    "deletedTarget": "exact original NOT_FOUND code/message/details/retryable=false; complete job inventory unchanged",
+    "fixtureBytes": "13 synthetic picture bytes; no native decode claim"
+  },
+  "originalDiagnostics": {
+    "namedTest": "asset job diagnostics do not hydrate physical segment metadata",
+    "testBodyUnchanged": true,
+    "testBodySha256": "c196ceccdc33c27198ab542552ea758aeaebf1c8895465c1319f3893a52c521d",
+    "segmentRows": 200001,
+    "deadlineMs": 5000,
+    "deadlineChanged": false,
+    "fixtureOrDefaultCoverageChanged": false,
+    "runCount": 1,
+    "result": "pass",
+    "processDurationMs": 2130,
+    "timeoutCauseEstablished": false
+  },
+  "checks": [
+    {
+      "name": "initial workspace setup failure",
+      "log": "red.log",
+      "exitCode": 1,
+      "verdict": "0 tests collected: missing existing service workspace link for @screenrec/core/jobs; retained, then frozen workspace setup restored"
+    },
+    {
+      "name": "consumer red",
+      "log": "red-consumer.log",
+      "exitCode": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 16,
+      "verdict": "expected red: 4 > 2 failed-path reads, 6 > 2 retry/publication reads, and ready replay refused damaged detail"
+    },
+    {
+      "name": "consumer green",
+      "log": "green.log",
+      "exitCode": 0,
+      "passed": 1,
+      "skipped": 16,
+      "verdict": "pass"
+    },
+    {
+      "name": "affected service/cache/job neighbors",
+      "log": "focused.log",
+      "exitCode": 0,
+      "passed": 13,
+      "skipped": 94,
+      "verdict": "pass"
+    },
+    {
+      "name": "original diagnostics sole permitted rerun",
+      "log": "diagnostics-once.log",
+      "exitCode": 0,
+      "passed": 1,
+      "skipped": 16,
+      "verdict": "pass at original 5000ms deadline",
+      "runCount": 1
+    },
+    {
+      "name": "service types",
+      "log": "types.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused lint",
+      "log": "lint.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "focused format",
+      "log": "format.log",
+      "exitCode": 0,
+      "verdict": "pass"
+    },
+    {
+      "name": "existing core/protocol/client/service builds",
+      "logs": [
+        "build-core.log",
+        "build-protocol.log",
+        "build-client.log",
+        "build-service.log"
+      ],
+      "exitCodes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "verdict": "pass"
+    }
+  ],
+  "commands": {
+    "consumer": "node node_modules/vitest/vitest.mjs run apps/service/src/project-service.test.ts -t 'asset job and cache presence checks preserve source validation without hydrating detail' --maxWorkers=1",
+    "focused": "node node_modules/vitest/vitest.mjs run apps/service/src/project-service.test.ts packages/core/src/cache.test.ts packages/core/src/jobs.test.ts -t 'asset job and cache presence|failed probe retries|cancel drains probing|queue capacity refusal|selected-source audio publishes|reservations reject missing owners|held reads survive pressure|concurrent publications share|oversized output and aliased|unchanged failed request needs explicit retry|validated absence is not retryable|work that outlives a discarded take|regenerating an evicted artifact preserves' --maxWorkers=1",
+    "diagnosticsOnce": "node node_modules/vitest/vitest.mjs run apps/service/src/project-service.test.ts -t 'asset job diagnostics do not hydrate physical segment metadata' --maxWorkers=1",
+    "types": "bun run check-types (apps/service)",
+    "setup": "bun install --filter @screenrec/service --filter @screenrec/client --frozen-lockfile",
+    "builds": "bun run build (packages/core, packages/protocol, packages/client, apps/service)",
+    "lint": "node node_modules/oxlint/bin/oxlint apps/service/src/project-service.ts apps/service/src/project-service.test.ts",
+    "format": "node node_modules/oxfmt/bin/oxfmt --check apps/service/src/project-service.ts apps/service/src/project-service.test.ts"
+  },
+  "review": {
+    "shape": "two existing service branches compose existing assets.has; no AssetStore.require/helper/new API/cache",
+    "diff": "exact missing-row error arguments retained; presence deliberately independent of detail parsers; source support/geometry paths unchanged",
+    "tests": "actual service socket + worker filesystem boundary, real forwarded SQL, full source options/request and exact bytes, failure/retry/corruption/deletion controls; no production hook",
+    "docs": "own principle leaf and retained packet; root owns shared hub/choices/integration",
+    "choices": "two sound/high-confidence fixture sequencing choices in choices.md"
+  },
+  "limits": [
+    "No general latency or timeout-cause claim",
+    "No source support validation removed or asset metadata repaired",
+    "No physical source file existence assertion at presence checks",
+    "No original fixture/deadline/bounds/default/CPU configuration change",
+    "No additional large case or diagnostics retry",
+    "No AssetStore API/cache/native worker/build/model/capture/playback/UI/CLI review changes",
+    "No root checkout, original media or external caller home/process change"
+  ],
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 112950,
+    "sha256": "2a05c2df3e6a384f9271b0f84ef244d3800c3314cab8b9d564e47edcb2d9d84b"
+  },
+  "members": {
+    "path": "archive-members.json",
+    "bytes": 7141,
+    "sha256": "db41453a1372dc3cf82560f0060528dd066b0795d701db2e101f38661bbaeceb"
+  },
+  "sourcePins": {
+    "path": "source-pins.json",
+    "bytes": 4895,
+    "sha256": "7f1abd60e0285d14c4bd291bf49ce616989589efba00fec0d95b434498c0d47e"
+  }
+}

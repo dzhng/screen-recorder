@@ -857,6 +857,204 @@ function projectStoreFixture(catalog: Catalog, assets: AssetStore, home: string)
   );
 }
 
+test("asset job and cache presence checks preserve source validation without hydrating detail", async () => {
+  const available = [
+    { startUs: 0, endUs: 10 },
+    { startUs: 20, endUs: 30 },
+  ];
+  const sourceRequests: Record<string, unknown>[] = [];
+  const payload = Buffer.from("fixture frame");
+  const f = await setup(async (operation, params) => {
+    if (operation === "media.probe")
+      return {
+        ok: true,
+        data: {
+          originUs: 0,
+          streams: [
+            {
+              ...metadata.streams[0],
+              id: "video:0",
+              kind: "video",
+              codec: "h264",
+              startUs: 0,
+              endUs: 30,
+              segments: [
+                { startUs: 0, endUs: 10, empty: false, mediaStartUs: 0, mediaDurationUs: 10 },
+                { startUs: 10, endUs: 20, empty: true },
+                { startUs: 20, endUs: 30, empty: false, mediaStartUs: 10, mediaDurationUs: 10 },
+              ],
+            },
+          ],
+        },
+      };
+    if (operation !== "media.sourceFrame") throw new Error(`Unexpected ${operation}`);
+    sourceRequests.push(params);
+    if (sourceRequests.length === 1)
+      return {
+        ok: false,
+        error: {
+          code: "MEDIA_WORKER_UNAVAILABLE",
+          message: "offline",
+          retryable: true,
+          details: {},
+        },
+      };
+    await writeFile(params.output as string, payload);
+    const asset = params.asset as { assetId: string; streamId: string };
+    return {
+      ok: true,
+      data: {
+        file: params.output,
+        mediaType: "image/png",
+        width: 2,
+        height: 1,
+        sourceWidth: 2,
+        sourceHeight: 1,
+        bytes: payload.length,
+        decodedSamples: 1,
+        readerOpens: 1,
+        ...asset,
+        requestedSourceUs: 0,
+        actualSourceUs: 0,
+        sample: {
+          value: "0",
+          timescale: 1000000,
+          endValue: "10",
+          endTimescale: 1000000,
+          originUs: 0,
+        },
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "tiny-segmented", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).result!
+    .assetId;
+  const selection = { assetId, streamId: "video:0", atUs: 0, maxLongEdge: 2 };
+  let reads = vi.spyOn(DatabaseSync.prototype, "prepare");
+  let jobId: string;
+  try {
+    const frame = await f.call("frame.get", selection);
+    if (!frame.ok) throw new Error(JSON.stringify(frame));
+    jobId = (frame.data as { jobId: string }).jobId;
+    expect(await f.job(jobId, "failed")).toMatchObject({
+      jobId,
+      target: { kind: "asset", assetId },
+      reason: "offline",
+      retryable: true,
+      errorCode: "MEDIA_WORKER_UNAVAILABLE",
+      errorDetails: {},
+      result: null,
+    });
+    // Only admission and execution need the source's complete physical support.
+    expect
+      .soft(
+        reads.mock.calls.filter(([sql]) => sql.startsWith("SELECT value FROM asset_segments"))
+          .length,
+      )
+      .toBeLessThanOrEqual(2);
+  } finally {
+    reads.mockRestore();
+  }
+  expect(sourceRequests).toEqual([
+    {
+      asset: { assetId, streamId: "video:0", path: f.service.assets.path(assetId), originUs: 0 },
+      available,
+      atUs: 0,
+      maxLongEdge: 2,
+      output: expect.any(String),
+    },
+  ]);
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  try {
+    expect(
+      JSON.parse(
+        catalog.catalog.prepare("SELECT input FROM jobs WHERE jobId=?").get(jobId!)!
+          .input as string,
+      ),
+    ).toEqual({
+      selection: { assetId, streamId: "video:0" },
+      atUs: 0,
+      maxLongEdge: 2,
+      supportDigest: createHash("sha256").update(JSON.stringify(available)).digest("hex"),
+      implementationId: "native-source-picture-v5",
+    });
+    reads = vi.spyOn(DatabaseSync.prototype, "prepare");
+    try {
+      expect(await f.call("job.retry", { jobId: jobId! })).toMatchObject({
+        ok: true,
+        data: { jobId: jobId! },
+      });
+      expect(await f.job(jobId!, "ready")).toMatchObject({
+        jobId: jobId!,
+        target: { kind: "asset", assetId },
+        result: {
+          assetId,
+          streamId: "video:0",
+          atUs: 0,
+          requestedSourceUs: 0,
+          actualSourceUs: 0,
+          width: 2,
+          height: 1,
+          bytes: payload.length,
+        },
+      });
+      // Execution support and receipt geometry remain detailed reads; cache publication is presence-only.
+      expect
+        .soft(
+          reads.mock.calls.filter(([sql]) => sql.startsWith("SELECT value FROM asset_segments"))
+            .length,
+        )
+        .toBeLessThanOrEqual(2);
+    } finally {
+      reads.mockRestore();
+    }
+    expect(sourceRequests[1]).toEqual({ ...sourceRequests[0], output: expect.any(String) });
+    const ready = await f.call("frame.get", selection);
+    if (!ready.ok) throw new Error(JSON.stringify(ready));
+    const token = (ready.data as { delivery: { token: string } }).delivery.token;
+    expect(await f.call("artifact.read", { token, offset: 0, maxBytes: payload.length })).toEqual({
+      id: "test",
+      ok: true,
+      data: {
+        data: payload.toString("base64"),
+        offset: 0,
+        nextOffset: payload.length,
+        eof: true,
+      },
+    });
+    expect(await f.call("artifact.close", { token })).toMatchObject({ ok: true });
+    const inventory = () =>
+      catalog.catalog.prepare("SELECT * FROM jobs ORDER BY queuedSequence").all();
+    const prior = inventory();
+    catalog.catalog
+      .prepare("UPDATE asset_segments SET value=? WHERE assetId=? AND ordinal=0")
+      .run("not parsed", assetId);
+    expect
+      .soft(await f.call("job.retry", { jobId: jobId! }))
+      .toMatchObject({ ok: true, data: { jobId: jobId!, state: "ready" } });
+    expect(await f.call("frame.get", selection)).toMatchObject({
+      ok: false,
+      error: { code: "INTERNAL_ERROR" },
+    });
+    expect(inventory()).toEqual(prior);
+    catalog.catalog.prepare("DELETE FROM assets WHERE id=?").run(assetId);
+    expect(await f.call("job.retry", { jobId: jobId! })).toEqual({
+      id: "test",
+      ok: false,
+      error: {
+        code: "NOT_FOUND",
+        message: "Asset does not exist",
+        retryable: false,
+        details: { assetId },
+      },
+    });
+    expect(inventory()).toEqual(prior);
+  } finally {
+    catalog.close();
+  }
+});
+
 test("asset job diagnostics do not hydrate physical segment metadata", async () => {
   const f = await setup(async (operation) =>
     operation === "media.probe"

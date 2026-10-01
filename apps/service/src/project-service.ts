@@ -176,8 +176,10 @@ export async function startProjectService(options: {
     const files = new ManagedFiles(library, worker);
     const cache = new DerivedCache(catalog, library, (owner) => {
       if (owner.kind === "project") projects.get(owner.projectId);
-      else if (owner.kind === "asset") assets.get(owner.assetId);
-      else if (owner.kind === "acquisition") acquisitions.get(owner.acquisitionId);
+      else if (owner.kind === "asset") {
+        if (!assets.has(owner.assetId))
+          throw new CatalogError("NOT_FOUND", "Asset does not exist", { assetId: owner.assetId });
+      } else if (owner.kind === "acquisition") acquisitions.get(owner.acquisitionId);
       else throw new CatalogError("NOT_FOUND", "Unsupported derived-file owner");
     });
     await cache.reconcile();
@@ -190,8 +192,12 @@ export async function startProjectService(options: {
         else if (target.kind === "acquisition") {
           if (!captureSources.available(target.acquisitionId))
             throw new CatalogError("NOT_FOUND", "Capture source donor is unavailable");
-        } else if (target.kind === "asset") assets.get(target.assetId);
-        else if (target.kind === "project")
+        } else if (target.kind === "asset") {
+          if (!assets.has(target.assetId))
+            throw new CatalogError("NOT_FOUND", "Asset does not exist", {
+              assetId: target.assetId,
+            });
+        } else if (target.kind === "project")
           projects.requireRevision(target.projectId, target.revisionId);
         else if (target.kind === "recording" && target.revisionId === null) {
           const recording = captures.get(target.recordingId);
