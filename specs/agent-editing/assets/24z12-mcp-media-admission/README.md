@@ -1,5 +1,13 @@
 # MCP media admission evidence
 
+[Merged verification](merged.json) and [complete check/runtime packet](merged.tar.gz)
+retain the root's 140-test gate, including unchanged discovery coverage. Root
+independently rehashed the child packet and source/runtime pins; every shared
+emitted file matches. Additional prior root runtime files remain inventoried and
+preserved outside the managed checkout. Build, CLI types, lint and changed-file
+formatting pass. The broad format check fails on 34 byte-identical baseline files;
+its complete log and correspondence remain retained, with no unrelated formatting.
+
 [Verification and complete member manifest](verification.json) identifies the
 [compact packet](evidence.tar.gz), exact command scope and all source/emitted/runtime
 pins. [Choices](choices.md) records the bounded cost assumptions. The packet keeps

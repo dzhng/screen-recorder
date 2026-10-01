@@ -1,7 +1,9 @@
 # 24z12 — Admit complete MCP media messages before consumption
 
-Status: implemented in the scoped [evidence packet](../assets/24z12-mcp-media-admission/README.md);
-integration pending. Verification uses owned socket responses and the default SDK.
+Status: integrated; the [merged evidence](../assets/24z12-mcp-media-admission/merged.json)
+passes all 140 affected consumer checks, including prior discovery coverage.
+The scoped [producer packet](../assets/24z12-mcp-media-admission/README.md) remains unchanged.
+Verification uses owned socket responses and the default SDK.
 Final scale and full release acceptance remain open.
 
 ## Contract

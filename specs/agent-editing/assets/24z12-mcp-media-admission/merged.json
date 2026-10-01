@@ -1,0 +1,99 @@
+{
+  "status": "merged affected gate passed",
+  "implementation": "1c6ab683455de9974a1983ffcc3e3cd9b4260186",
+  "child": "4a5424836b1935007c3211e5fec8821f5e754a19",
+  "mergedSourceBase": "63bdf90e",
+  "packet": {
+    "path": "merged.tar.gz",
+    "bytes": 42981,
+    "sha256": "55a1a17f8dd6c1d45d0e7a0a5d7a660579580e972b7a9dd6038bc2096a24ae25",
+    "members": 11
+  },
+  "members": {
+    "build.txt": {
+      "bytes": 48,
+      "sha256": "a8ceec05c719c5fcf68b15e843137799dddb6c2fa86d717e894c81837be2ef04"
+    },
+    "types.txt": {
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    "lint.txt": {
+      "bytes": 4654,
+      "sha256": "cb936ff3b0fd4bfb9955b106753877373f93fb7452e2e0d2657d2144c5930c2f"
+    },
+    "format.txt": {
+      "bytes": 2256,
+      "sha256": "c39b49ceb7c64474db10d6f50e1befe1ec02370d3f26d0d4bf047161057b9bf2"
+    },
+    "scoped-format.txt": {
+      "bytes": 203,
+      "sha256": "ab4b418260aea543df4c0c647777ae204581771db1fbd56225ce5e801f5d90b0"
+    },
+    "format-baseline.json": {
+      "bytes": 2031,
+      "sha256": "aee6536a96265daeaf262310362736edd1a6115d24379fc5ca5465f1acccad5e"
+    },
+    "gate-original.txt": {
+      "bytes": 1540,
+      "sha256": "196a14b69d5071f461e68f13d5614e08c869ee3d9f0602ec743293a7768b753b"
+    },
+    "runtime-authority.json": {
+      "bytes": 174327,
+      "sha256": "b9187ebcab57f5b64d47c18c47f402db8c3ea403dde0e9beaec4cf3364f5e4bc"
+    },
+    "media-evidence.ndjson": {
+      "bytes": 1759,
+      "sha256": "9276980cbb8c0ce4a4a723eeea6153bd4e8f6206a5657567601fa743fda43b6f"
+    },
+    "review.md": {
+      "bytes": 1786,
+      "sha256": "576568e86d949d29a64ebca7aca6c8bc777d5abe61fd0e0ee0ac48714f2809d2"
+    },
+    "diff-check.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "gate": {
+    "command": "node node_modules/vitest/vitest.mjs run packages/protocol/src packages/client/src apps/service/src/index.test.ts apps/service/src/delivery.test.ts apps/service/src/result-delivery.test.ts apps/service/src/project-service.test.ts apps/cli/src --maxWorkers=1 --silent=false",
+    "exitCode": 0,
+    "files": 12,
+    "passed": 140,
+    "failed": 0,
+    "durationSeconds": 57.79,
+    "testTimeoutMs": 5000,
+    "hookTimeoutMs": 10000,
+    "coverage": "prior126 plus14 media, including unchanged14 discovery"
+  },
+  "checks": {
+    "build": 0,
+    "cliTypes": 0,
+    "lint": 0,
+    "scopedFormat": 0,
+    "diffCheck": 0,
+    "broadFormat": 1,
+    "broadFormatScope": "34 exact unchanged baseline files; all paths/byte correspondence retained"
+  },
+  "verification": {
+    "childMembers": 53,
+    "changedClosure": 7,
+    "compiledSourcePins": 181,
+    "sharedExactEmitted": 362,
+    "externalPins": 12,
+    "unchangedOwnerReferences": 10,
+    "actualEsmLocalEntries": 5,
+    "nodeExecutableAndBuiltinSources": true,
+    "rootAdditionalPriorRuntimeFiles": 16,
+    "rootAdditionalScope": "14 prior JS/declaration files plus2 prior model-description JSON files; no model weights"
+  },
+  "preservedIgnoredRuntime": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/24z12-media-runtime/1c6ab683/runtime.tar.gz",
+    "bytes": 1171827,
+    "sha256": "6f9fc48ce9ffbbc4e05ce5db560ab6a19748c6dbb6f9f2fbe29d0ade348c18a4",
+    "members": 379,
+    "purpose": "Exact root runtime including all child emitted files, saved outside managed worktree before archive; filesystem inventory, not module execution trace"
+  },
+  "review": "Root shape/diff/docs and independent source_event_integration_review clean; late-error bound is pinned owned closure, no universal foreign-error claim",
+  "scope": "No deadline/cap/SDK buffer change; no native build/media/model/inference/capture/playback/UI/installed or accepted cohort. Full scale/release and independent adapter-process finality remain open. Original child archive/failure scope unchanged."
+}

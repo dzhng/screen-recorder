@@ -6355,3 +6355,13 @@ without changing deadlines or product behavior.
   verify the distinct caller boundary while avoiding a redundant full media run.
 - **Confidence:** Medium; exact checkpoint inputs inherit the frozen brief and
   pinned candidate, and broader coverage remains possible if a named gap emerges.
+
+## MCP media admission and composed consumer proof
+
+The [24z12 choices](assets/24z12-mcp-media-admission/choices.md) own conservative
+JSON quoting, retained socket selection and current owned failure costs. Root
+review found these sound within the approved producer/default-client scope; the
+shared handoff retains their bounds. The [23k planning choices](assets/23k-source-consumer-bridge/choices.md)
+own the separate actual-page and historical-ready fixtures, including public empty
+projects when no suitable paging input exists. Neither choice establishes live
+default-preview readiness, presentation or release acceptance.
