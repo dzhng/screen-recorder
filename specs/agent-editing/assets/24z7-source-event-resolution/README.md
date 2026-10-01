@@ -15,3 +15,10 @@ including hardlinks, and records the separate merged producer. Full event/scene
 and source-frame/index/service consumers pass together; the child producer remains
 unchanged. [Merged members](merged-members.json) bind its source/runtime and logs
 to the [merged packet](merged-evidence.tar.gz).
+
+[Public integration](public-verification.json) adds current CLI/default-MCP
+scene-enabled event delivery, actual frozen-worker admission/scene preparation
+and a collection with no native work. [Public member digests](public-members.json)
+bind its complete terminal catalogs, delivered rows and checkpoint bytes to the
+[public packet](public-evidence.tar.gz). Initial harness setup failures are retained;
+correcting them required no product change.

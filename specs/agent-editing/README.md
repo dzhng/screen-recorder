@@ -52,6 +52,9 @@ full/narrow requests preserve receipts and PNG bytes.
 is merged: complete consumer oracles, fresh-generation refusal and preparation/error
 order pass while sharing source metadata within each synchronous phase. Its merged
 146-test consumer gate includes source-frame/index/public-service integration.
+The later [public scene-event check](assets/24z7-source-event-resolution/public-verification.json)
+adds current CLI/default-MCP delivery and exact source/project clock checks, with
+no native work during collection; latency remains unmeasured.
 
 [09c audio export](slices/09c-audio-only-export.md) and
 [23i source service process](slices/23i-service-process-parity.md) retain their

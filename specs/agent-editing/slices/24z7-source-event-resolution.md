@@ -14,6 +14,9 @@ Read-only scene resolution needs origin, support and generation facts, not a ren
 
 The packet retains an actual project-evidence continuation against an isolated SQLite catalog, a complete authored pause/cut oracle, unchanged dependency/coverage replies and red/green metadata-read counts. Fresh-after-publication refusal, first-error precedence and preparation order each have a deliberate failing control followed by restoration. The full unchanged project-evidence suite and focused capture/scene consumers pass. Build and type checks use the existing offline toolchain.
 
-This establishes the bounded owner correction, not public transport delivery or a latency pass. No original timing cohort, service, real capture, media worker, model preparation/inference, listening check, installed switch, frozen runtime or budget change is part of this proof. Root owns the shared pickup and integration record.
+The later [public integration](../assets/24z7-source-event-resolution/public-verification.json)
+verifies current CLI/default-MCP scene-event delivery with actual frozen-native
+preparation and no native work during the collected reads. It does not establish
+a latency pass or independent scene-classification truth. No original timing cohort, service, real capture, media worker, model preparation/inference, listening check, installed switch, frozen runtime or budget change is part of this proof. Root owns the shared pickup and integration record.
 
 Internal lookup/helper names and bounded observer organization were implementation discretion. The packet's [choices](../assets/24z7-source-event-resolution/choices.md) disclose the load-bearing decisions.

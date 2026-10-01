@@ -1,0 +1,25 @@
+{
+  "producerCommit": "a787335a",
+  "status": "Current public scene-enabled event collection and default-client delivery pass",
+  "exchangesSaved": 43,
+  "rows": 12,
+  "pages": 13,
+  "nativeCallsDuringCollection": 0,
+  "oracle": "Authored captured geometry maps250000\u2192asset0\u2192project0/3000000; every scene physical source time projects exactly into its explicit clip. Complete collected rows, dependencies and coverage match CLI/MCP. MCP text/structured bodies match with default buffer.",
+  "nativePreparation": "Actual source admission/normalization and two scene-sample operations through frozen0a9 worker, on retained tiny authored input; no capture/model/audio work. Ready admissions/project are replayed after correcting operation-name harness error, not recreated.",
+  "harnessFailures": [
+    "Initial import used nonexistent root SDK path; corrected via existing harness package resolution before any service start.",
+    "Missing report.trace stopped first acquisition acknowledgement handling; complete terminal scratch home banked.",
+    "evidence.get was an incorrect harness operation name; current public registry names timeline.events. Existing admitted sources and project were reused after correcting the harness. No product code correction."
+  ],
+  "terminalCatalogIntegrity": "ok",
+  "archive": {
+    "file": "public-evidence.tar.gz",
+    "members": 38,
+    "bytes": 58900,
+    "sha256": "a3e6a64a1594caa8e79b1032427a8e19582c8d49adf85d6249dc6ac4508e6f27",
+    "allMembersVerified": true
+  },
+  "limits": "Functional public delivery/work proof; not a timed cohort, source-cardinality p95, complete independent scene-classification truth, physical synchronization, listening, visual-style or installed acceptance. Original isolated/merged source packets unchanged.",
+  "cleanup": "Service/MCP children terminal before banking; complete catalogs and files archived/rehashed, then exactly two owned homes removed. Original authored source, journal authority, frozen worker and model/personal fixture homes untouched."
+}
