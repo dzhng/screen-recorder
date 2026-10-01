@@ -1,0 +1,183 @@
+{
+  "scope": "Merged native receipt/lease/controller checks; concrete presenter compiled, never run. No player, window, service, media, model, hardware or installed acceptance claimed.",
+  "mergedCommit": "7ade9944",
+  "sourcePinsChecked": {
+    "apps/macos/Sources/ScreenRecorder/ExportController.swift": {
+      "bytes": 13368,
+      "sha256": "7ef50021e8e9caf83d40192760978539712c3f270e5dbe5ccc3c88e26bf36ea5"
+    },
+    "apps/macos/Sources/ScreenRecorder/NodeRuntime.swift": {
+      "bytes": 6375,
+      "sha256": "b8cbf7c51415f7d5c4395fb2e6c4a7deb4ca108f3588ed78a021857ffd40879a"
+    },
+    "apps/macos/Sources/ScreenRecorder/PreviewController.swift": {
+      "bytes": 10566,
+      "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9"
+    },
+    "apps/macos/Sources/ScreenRecorder/PreviewWindow.swift": {
+      "bytes": 4387,
+      "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9"
+    },
+    "apps/macos/Sources/ScreenRecorder/RecordingControls.swift": {
+      "bytes": 28701,
+      "sha256": "a7b153a12826fcbd6fe890fffe2d596c6c6ffdbc471d067bc9c5e7929374ed54"
+    },
+    "apps/macos/Sources/ScreenRecorder/ServiceBundle.swift": {
+      "bytes": 3612,
+      "sha256": "f0d65d5b23e49a3f8cb9a7b870812252d7adebd9da45b0f2afd918a700be903c"
+    },
+    "apps/macos/Sources/ScreenRecorder/ServiceHost.swift": {
+      "bytes": 19008,
+      "sha256": "f93ee5829aee33840596bfc3570b2693f122dbdde5642480f818e698d6eafe05"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ControlsMenu.swift": {
+      "bytes": 19949,
+      "sha256": "2adffe4cb1c1bc5be266cbce3ebca839249b2fa39119c2d218fc37b186f607f2"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ControlsState.swift": {
+      "bytes": 23302,
+      "sha256": "05bc424384e2c18baa23c4d9e642c5050fab83a9c2516b1f7daa4947e008c4a9"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/Countdown.swift": {
+      "bytes": 1169,
+      "sha256": "5c412cdef19e3a897ab2f213df42246993ff9baec59b1516d0aae119444eb5f8"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ElapsedTime.swift": {
+      "bytes": 1369,
+      "sha256": "d7cf2ba13af85ca10d8fc8d545004253eccbc700d6caa32de5c625458e43a242"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift": {
+      "bytes": 6419,
+      "sha256": "4148464bbbf310f5cbaa2ec0da1ce8d68cbe73adafb58d8b66f3a6d4cb313647"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ExportsState.swift": {
+      "bytes": 9887,
+      "sha256": "e615907c96914ba26456707ce916dab8039cb073ef1e3b0d745ad81288ba09f5"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/MediaTarget.swift": {
+      "bytes": 1206,
+      "sha256": "376723d2d88918002a855a46ad47014edeab07728a9969e07b1aca7db2029eaf"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/Permissions.swift": {
+      "bytes": 3958,
+      "sha256": "5709217d4c622adcf3fd2bf7e94e517fede03ae5903e20f0f3f5bdc41141cade"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/Preferences.swift": {
+      "bytes": 4759,
+      "sha256": "d5a3b2a67a22e7dc010493d5a720fc1f5e5598228f5fd12d29d86ce52029440b"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/RecordingOverlay.swift": {
+      "bytes": 1537,
+      "sha256": "be400989c5413c4b477152907b92ee27ddaf6dfb283269d7e6df72317e9506ff"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/RegionGeometry.swift": {
+      "bytes": 2006,
+      "sha256": "3f7f4f8094788821040f5c6b404b0491f344e15af1ed37eae7ad9f4ec11024cc"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ShortcutDefaults.swift": {
+      "bytes": 4052,
+      "sha256": "4f8184e11b8ce3531a75fd28ef1b3dcbf4bfc06d9be6f19d773622bb11bd64d2"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/StatusItemAppearance.swift": {
+      "bytes": 1161,
+      "sha256": "f41416008d78c39b4cc753918f8b491eace4267d3c55815263a9e00f633acca8"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/SystemShortcuts.swift": {
+      "bytes": 3433,
+      "sha256": "028c9ed8986bccf215d0a67cd1a7d7f0e1985b5c2ee8e1c126b9ae0424283411"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/ExportTests.swift": {
+      "bytes": 8408,
+      "sha256": "85c12159276ad1a38055f8c3d6e70b51e8dc825d98c19e0901a31ec20d8d3151"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/MenuStateTests.swift": {
+      "bytes": 14708,
+      "sha256": "add2ce565d9f90cc598746d970785aced42257d3c9188350a4cb2892bb97d9f9"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/OverlayTests.swift": {
+      "bytes": 2718,
+      "sha256": "3288ce8339a2b69e56ce7ea5101ae8d782097020367dea8486afe135bda8a45f"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/RegionSelectionTests.swift": {
+      "bytes": 1583,
+      "sha256": "d758edb3cf2ac40ffb964472d5b089c93ea8ec20fa9de32de1a03ded95470b0d"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/SelectionTests.swift": {
+      "bytes": 9962,
+      "sha256": "a6784563fc7e354538532c52a9533e71903025ce5f45f66a964cac1c7fffe5ae"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/SettingsTests.swift": {
+      "bytes": 8189,
+      "sha256": "e3e73c12b2d80b89f89ee3fc09b1230937cee84fc6f15eac1aef4897a904d986"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/ShortcutTests.swift": {
+      "bytes": 5016,
+      "sha256": "f713e45ef82ff76df3cd84ec843d794b8803a4a3956a66274f9b0b72f937f3b2"
+    },
+    "apps/macos/tests/ScreenRecorderControlsTests/main.swift": {
+      "bytes": 402,
+      "sha256": "ec6f26f6f91c5c009321db68f325ca51936ebf91afeb3ec50eeeba2d0cf804b5"
+    },
+    "apps/macos/tests/export-controls.test.mjs": {
+      "bytes": 35060,
+      "sha256": "719f6b5e3bb09ce7ba096e077b7fe0ba3c5855c1bdcf71168a928359274a9c8c"
+    },
+    "apps/macos/tests/fixtures/swift-controls.mjs": {
+      "bytes": 1524,
+      "sha256": "8508cb89f6113aeca57eb6ccf9673bea6caaa68130a8ce50596ba7b834ae1b9c"
+    },
+    "apps/macos/tests/preview-controls.test.mjs": {
+      "bytes": 17640,
+      "sha256": "2c14304f21e168723ff79de72316971fe4a5a3a3c0c015b5f276a40a344eda99"
+    },
+    "apps/macos/tests/preview-player.test.mjs": {
+      "bytes": 8626,
+      "sha256": "a2601ff467a852690fa99d55eb75c4467c991ffec1288722fb894f773d9b3320"
+    },
+    "apps/macos/tests/preview-service.test.mjs": {
+      "bytes": 9649,
+      "sha256": "cd95dc1c9d749e58eedc7dd6e79f1af665d2c528cc984c0e3eeed04775beb322"
+    },
+    "apps/service/src/delivery.ts": {
+      "bytes": 4422,
+      "sha256": "426bc11af03185bcca8edb695e07bfb42e59981663e60a851a7d2f58752947d5"
+    },
+    "apps/service/src/project-service.ts": {
+      "bytes": 46366,
+      "sha256": "4a76b906b1ff993b670a750b90b545d6e0eb1a9baf1b76bd3d87eb3aebc3d5da"
+    },
+    "packages/core/src/project-preview.ts": {
+      "bytes": 11788,
+      "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9"
+    },
+    "packages/protocol/src/operations.ts": {
+      "bytes": 53717,
+      "sha256": "91d71ed72cec46a470d69f8ebac21428ead10755ecaacc7fa9ff739fccf3fa94"
+    }
+  },
+  "retainedReferencesChecked": {
+    "specs/agent-editing/assets/10b-acquisition-skill/fresh/preview-get.json": {
+      "bytes": 339,
+      "sha256": "94a966a0ed8000078dc07640ea9a4e7f6dc5e167c2c6cbdce055501d6e63229f"
+    },
+    "specs/agent-editing/assets/10b-acquisition-skill/fresh/preview-get-2.json": {
+      "bytes": 1389,
+      "sha256": "9886247b00aca5f7652a4f3e1a86a4863c17b7de89668ea93651dbf10ad275c5"
+    }
+  },
+  "packet": {
+    "bytes": 106398,
+    "sha256": "bded9a6b61bccded40bbe28e3325b3231cfd147a8b62e5d8f6f7318e052bbeee"
+  },
+  "packetMembersChecked": 56,
+  "command": "node --test --test-name-pattern='native preview consumes|native exports pin|native exports consume' apps/macos/tests/preview-controls.test.mjs apps/macos/tests/export-controls.test.mjs",
+  "tests": {
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0
+  },
+  "log": {
+    "bytes": 578,
+    "sha256": "b1234ef8e38aa9904abe03a064d6388af764c80ae1c744fb91d98ef5e254ca07"
+  }
+}

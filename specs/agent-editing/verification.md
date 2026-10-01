@@ -53,6 +53,14 @@ explain what changed and why retained evidence cannot answer it. Do not repeat a
 accepted comparison, request personal editing choices or prescribe another whole
 recording as routine verification. Missing perception is reported unverified.
 
+Treat the user's reports as scoped evidence. Preserve accepted results and the
+identity of the result judged; preserve failed or partial results too. The mostly
+inaudible pause containing a voice blip failed its speech-free ambience check;
+duration, job status or a later accepted loop cannot retroactively pass that
+source region. The retained
+[listening dispositions](assets/listening-review-2026-09-30.md) and
+[banked evidence](assets/integrated-evidence.md) own the exact accepted artifacts.
+
 Before a new experiment, name the unresolved technical claim, its owning slice,
 the retained evidence already considered, and the bounded result that would change
 the next implementation decision. Stop when those inputs cannot resolve the claim;

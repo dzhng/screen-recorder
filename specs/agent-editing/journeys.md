@@ -14,9 +14,11 @@ paths, decode it and check the intended result. Do not mock the operation, mixer
 renderer or generation stage being accepted. No editing UI is required.
 
 Add each journey to its owning runnable harness when its public execution path
-lands; do not defer all integration until slice 25. Slice 25 reruns and combines
-them through a fresh external agent using only the product skill and advertised
-schemas. Unavailable paths are reported pending, never skipped into a green suite.
+lands; do not defer all integration until slice 25. Slice 25 combines the relevant
+operations through a fresh external agent using only the product skill and
+advertised schemas. Reuse unchanged per-feature evidence; run new checks only for
+changed inputs, outputs or integration behavior. Unavailable paths are reported
+pending, never skipped into a green suite.
 
 ## Scenario inventory
 

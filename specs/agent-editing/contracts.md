@@ -1,7 +1,8 @@
 # Composition and command contracts
 
-These are planned contracts, not currently available commands. The implementing
-slices materialize them in the shared protocol. [README](README.md) owns status.
+These contracts define the toolkit; they are not a command-availability catalog.
+The shared protocol owns advertised operations, and the [README](README.md) and
+owning slices distinguish implemented contracts from remaining acceptance.
 
 The product makes zero editorial decisions. Evidence reads and edit commands are
 primitives for an external agent; recognition/classification never authorizes a

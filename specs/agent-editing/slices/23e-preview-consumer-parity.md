@@ -1,6 +1,6 @@
 # 23e — Native preview receipt and lease parity
 
-Status: isolated receipt/lease/controller parity verified. [Evidence](../assets/23e-preview-consumer-parity/README.md). Depends on existing public project
+Status: integrated; merged receipt/lease/controller parity verified. [Evidence](../assets/23e-preview-consumer-parity/README.md). Depends on existing public project
 preview receipts and the preservation contract in [23](23-cutover.md).
 
 ## Contract and ownership

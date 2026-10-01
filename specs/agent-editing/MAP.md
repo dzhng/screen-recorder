@@ -10,7 +10,9 @@ task list or a claim of shipped capabilities.
 Read the [spec handoff](README.md#next-agent-prompt) for the current pickup. Keep this
 map as user-decision rationale; operational status and research ownership live in
 the spec. Do not infer unlimited feature parity from the ambition to replace other
-editors. The root-level CLI skill remains the only implemented discovery deliverable.
+editors. Code/runtime observations below describe the discovery date, not current
+implementation. The consumer skill is for the external caller; it is not a
+repository development workflow.
 
 ## Known knowns
 
@@ -201,8 +203,9 @@ linked above was read; no new capture, model training or media benchmarks ran.
 ## Copyable next prompt
 
 The discovery kickoff has been fulfilled by [README.md](README.md). To build:
-implement that spec starting at slice 00, preserve the decisions here, and update
-its handoff and evidence after each pass. Do not present proposed APIs or model
+follow its current Next Agent Prompt, preserve the decisions here, and update
+its handoff and evidence after each pass. Do not restart completed slices from
+this historical map. Do not present proposed APIs or model
 capabilities as shipped.
 
 ## Processing scope amendment

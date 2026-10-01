@@ -33,6 +33,14 @@ Conveniences produce inspectable ordinary edits, and presets supply overridable
 starting settings. An operation must not silently add a treatment because the
 engine judges it more natural or polished.
 
+Mechanical defaults may fill parameters inside an explicitly requested operation;
+they must be discoverable and overridable where the contract allows. They must
+not select another operation. For example, requesting a cut does not also request
+a fade, denoise, room-tone insertion or replacement speech. Evidence reads,
+including filler labels and repetition search, never mutate a project. Preparation
+and source admission may create artifacts under their documented lifecycle;
+that does not authorize authored changes or an automatic capture-to-project edit.
+
 The agent skill owns practical editing judgment: recognize likely side effects,
 choose treatments from user intent, and verify the delivered result in context.
 Distill reusable audition feedback into its editorial checklist; keep preferences
@@ -62,7 +70,7 @@ and report unsupported behavior; do not invent a fallback that changes the edit.
 
 | Concept | Owner | Consumers and boundary |
 | --- | --- | --- |
-| Composition, processing registry/tree, time maps, anchors, edit algebra, curve compilation | New `packages/composition` (`@screenrec/composition`) | Pure TypeScript; no filesystem, database or native calls. Protocol imports its serializable schemas. Service calls the reducer/compiler. |
+| Composition, processing registry/tree, time maps, anchors, edit algebra, curve compilation | `packages/composition` (`@screenrec/composition`) | Pure TypeScript; no filesystem, database or native calls. Protocol imports its serializable schemas. Service calls the reducer/compiler. |
 | Asset admission, immutable identity, dependencies and leases | Focused asset modules in `packages/core` | Service handles local paths and worker probing. Composition sees metadata/IDs only. Capture and generation publish through the same asset boundary. |
 | Project revisions, transaction/replay/undo | Focused project store modules in `packages/core` | Reuse the proven transaction pattern from `library.ts`; one catalog/connection owner, not one DB per subsystem. Store calls the pure reducer. |
 | Source evidence generations | Existing processing/evidence owners refactored to asset/stream identities | Preserve acquired data, timing and provenance. Project projections are separate reads through the composition mapping, never rewritten source evidence. |
@@ -96,7 +104,9 @@ The user chose no history migration. The new library uses
 `SCREENREC_HOME/library/catalog.sqlite` and managed media under
 `SCREENREC_HOME/library/`. This is one fresh writable catalog for the new app;
 the prior catalog and media are left intact, never upgraded/deleted implicitly.
-This path choice is a planning decision, not existing behavior.
+The isolated project service uses this layout. The installed app remains a
+separate artifact until the explicit cutover; an isolated check does not establish
+installed adoption.
 
 Old source files can be explicitly imported as assets. Source capture journals
 may be adopted by a bounded source-evidence importer when their identities and

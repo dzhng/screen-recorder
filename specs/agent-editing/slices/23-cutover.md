@@ -1,6 +1,6 @@
 # 23 — Cut over all consumers and remove old owners
 
-Status: scoped preparatory preservation and native export receipt parity verified in [23a](23a-recording-project-preservation.md) and [23d](23d-export-consumer-parity.md); installed switching and owner deletion have not started. Dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
+Status: scoped preparatory preservation, native export receipts and preview lease control verified in [23a](23a-recording-project-preservation.md), [23d](23d-export-consumer-parity.md) and [23e](23e-preview-consumer-parity.md); installed switching and owner deletion have not started. Dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract
 

@@ -1,0 +1,13 @@
+(node:48095) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native exports pin the revision, keep one identity through lost replies and rediscover pages (4246.899208ms)
+✔ native exports consume retained recording and project statuses (6325.836375ms)
+✔ native preview consumes retained project receipts without a window or player (4977.94625ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10628.994333

@@ -52,9 +52,11 @@ Reuse the completed evidence rather than repeating it:
   Parakeet retains its selected best-effort filler/timing limits. Personal model
   files remain unchanged; scratch readiness is declared. Do not repeat the parity
   cohort or require another ASR winner or personal keep/remove answer.
-- [23d export consumption](slices/23d-export-consumer-parity.md) is merged-verified
-  for recording/project ownership and truthful failure recovery. Remaining ports
-  and installed acceptance remain under 23.
+- [23d export consumption](slices/23d-export-consumer-parity.md) and
+  [23e preview consumption](slices/23e-preview-consumer-parity.md) are merged-verified
+  for receipt ownership, truthful failure recovery and preview leases. The preview
+  presenter was compiled, not run. Remaining ports and installed acceptance stay
+  under 23.
 
 The retained camera is 246 seconds and screen about 251 seconds: take duration is
 sufficient. Use originals, journals, recovered media and telemetry for the named
@@ -105,6 +107,24 @@ old-history migration, or mandatory draft approval is in this release. Existing
 menu-bar capture controls remain. A verification workbench/probe is not a product
 editing UI. Broad professional-editor parity beyond this named workflow is not
 implied; capabilities stay extensible through the one typed composition model.
+
+## What counts as success
+
+The toolkit is successful when an external caller can discover evidence, express
+an explicit operation, inspect its result and undo or export it reliably. It is
+not graded on independently deciding how a recording should be edited.
+
+| Responsibility | Owner | What verification establishes |
+| --- | --- | --- |
+| Recognized words, timing estimates, repeated occurrences and surrounding media | Toolkit evidence primitives | Accurate provenance, inspectable omissions and measured uncertainty; a label is not a removal instruction. |
+| Which occurrence to keep/remove, desired pacing, replacement wording and treatments | External caller acting on the user's request | The caller's brief supplies intent; repository tests supply explicit fixture targets. |
+| Cuts, processing, composition, preview/export and history | Toolkit execution primitives | Only the requested operation occurs, protected content and originals survive, and failures/replay/undo remain truthful. |
+
+Keep broad composition capabilities in scope: zero editorial decisions does not
+restrict this to filler removal. Conversely, an ambitious caller workflow does
+not authorize an embedded editor, an automatic cleanup pipeline or a development
+assignment to polish the user's recording. Accepted audition preferences describe
+their exact fixtures, not global engine defaults.
 
 ## Roadmap to review
 
@@ -239,6 +259,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23b — Matched export recovery preservation](slices/23b-export-recovery-preservation.md)
 - [x] [23c — Isolated project-library storage preservation](slices/23c-project-storage.md)
 - [x] [23d — Native export status and discovery parity](slices/23d-export-consumer-parity.md)
+- [x] [23e — Native preview receipt and lease parity](slices/23e-preview-consumer-parity.md)
 - [ ] [23f — Captured-source lifetime and cleanup](slices/23f-capture-source-lifetime.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
@@ -288,8 +309,9 @@ implementation readiness from acceptance prerequisites.
   then unprimed screenshot-critique as the last visual check. Non-blocking review
   uses preview-shots; silence cannot satisfy missing physical/listening evidence.
 - [Research](research.md) records primary sources and freezes accepted experiments
-  before their adoption. Research failure leaves the feature incomplete and
-  triggers its named alternative/reslice, not a passing mock.
+  before their adoption. A failed gate stays open. Further research requires the
+  bounded justification in verification; it does not automatically trigger another model,
+  tuning trial or human task.
 - [Implementation choices](choices.md) records decisions made in implementation
   where the plan was silent.
 - [Planning decisions](decisions.md) records independent-draft synthesis,

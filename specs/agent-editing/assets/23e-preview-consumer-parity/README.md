@@ -41,3 +41,8 @@ unavailable CLI reviewer was not retried. All owned checks exited and their scra
 build directories were removed. No media render, service run, device/capture work,
 model work, audible output, application launch or installed switch ran. Remaining
 project-selection and final installed acceptance belong to parent 23.
+
+[Merged verification](merged-verification.json) checks all source/reference pins
+and regular packet members against the integrated source, and retains
+[three passing controller checks](merged-controller-tests.log). This does not
+extend the child evidence to player execution or installed acceptance.

@@ -147,7 +147,11 @@ the transcript reports a filler only when the engine emitted one. The app contai
 recognition but no assistant, semantic editing model, rewriting or summarization.
 The original recording and non-destructive history remain intact.
 
-## Settled scope
+## Original settled scope
+
+This is the original recording release contract. Its deferred capabilities do
+not override the later [toolkit scope](../agent-editing/README.md#outcome-and-boundaries),
+which now owns composition, webcam and other explicitly planned primitives.
 
 - macOS menu-bar app; display/window/region capture, microphone narration and optional
   separately captured system/browser audio. All system audio is the initial filter;
@@ -187,7 +191,6 @@ flowchart LR
   Core -->|resolved media plans| Workers[Bounded Swift media / speech workers]
   Workers --> DB
   Core --> Package[Portable package reader and writer]
-  Future[Future editing UI] -. CLI JSON .-> CLI
 ```
 
 [Architecture](architecture.md) names every owner, process lifetime and package.

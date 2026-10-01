@@ -4,7 +4,9 @@ Completed 2026-09-27. The [implementation contract](processing.md) now resolves
 this map’s technical design queue into owning slices; use the [handoff](README.md)
 for implementation order. This extends [the original discovery](MAP.md). Decisions
 below describe requested behavior, not shipped capabilities. The user chose
-simplicity over shared-setting inheritance and per-member overrides.
+simplicity over shared-setting inheritance and per-member overrides. Code and
+quality observations below describe discovery-time findings, not current status;
+the owning slices retain implementation and acceptance evidence.
 
 ## Known knowns
 
@@ -69,13 +71,8 @@ questions or permission to weaken accepted behavior.
 
 ## Copyable next prompt
 
-Continue the reconciled [spec](README.md) through its verification gates. Use one get/set stack API per clip, track, nested group or
-output; process combined results at parent scopes. Preserve originals, revisions,
-compatible settings on replacement and sound/look across pure splits. Support
-bypass, time windows and supported automation. Do not add inherited member settings,
-per-member parent overrides or arbitrary routing. Resolve the open technical gates
-explicitly and report noise-reduction quality honestly.
-
-The design questions about ownership, fixed retime order, coordinates and rejection
-of incompatible replacement are resolved in processing.md. Backend quality,
-stateful boundaries, native parity and resource limits remain gated research.
+Follow the current [Next Agent Prompt](README.md#next-agent-prompt). Preserve this
+map's settled one-stack/combined-result decisions; use [processing](processing.md)
+for the contract and owning slices for present evidence. The OPEN entries above
+are historical findings, not instructions to repeat completed implementation,
+backend selection, parity checks or accepted auditions.

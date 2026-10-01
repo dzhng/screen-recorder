@@ -27,7 +27,10 @@ The [prepared fixture brief](../assets/25-fixture-brief/README.md) binds existin
 media authorities and technical targets. It is not execution or acceptance;
 resolve its source/transcript/runtime gaps before the installed journey.
 
-Freeze a fixture brief identifying source media, requested target ranges/text,
+Use the prepared brief as the bounded technical request; refine it only to resolve
+a named capability or source-identity gap. Do not expand it into a polished personal
+tutorial, new capture session or repeated listening campaign. Freeze the execution
+brief identifying source media, requested target ranges/text,
 protected content, output settings, references and permitted treatments. Cover
 multiple sources, explicit speech cuts, local retiming, insert/overlap, independent
 audio/video replacement, music/gain automation, captions/zoom, the verified local
