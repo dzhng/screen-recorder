@@ -20,7 +20,7 @@ acceptance and cutover. The requested [sentence marking page](../agent-editing/a
 uses [waveform clicks and Next](../agent-editing/assets/12d-waveform-guidance/README.md),
 including the opening “um”. Its [actual human boundaries](../agent-editing/assets/12d-human-marks/README.md)
 are now reconciled. The [exact two-filler candidate](../agent-editing/assets/12e-labeled-cleanup/README.md)
-passes native/public technical checks and awaits its own audition; broader corpus
+passes native/public technical checks and its own user audition; broader corpus
 labels and intent remain open.
 The isolated [camera digest cost audit](../agent-editing/assets/20e-camera-digest-components/README.md)
 selects no additional production change; physical and live-stop gates remain open.

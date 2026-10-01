@@ -18,14 +18,14 @@ requirement below remains in scope. Read [contracts](contracts.md),
 verified public operations; the installed app has not switched engines.
 
 [03d exact admission](slices/03d-exact-media-admission.md) is verified, including
-fresh-format portable delivery and unchanged accepted outputs. The current pass
-is [12e exact marked-filler removal](slices/12e-human-labeled-cleanup.md): native
-exclusion, protected-word preservation and public edit/delivery/export/undo pass;
-this changed candidate's independent audition remains pending. The
+fresh-format portable delivery and unchanged accepted outputs.
+[12e exact marked-filler removal](slices/12e-human-labeled-cleanup.md) is accepted:
+native exclusion, protected-word preservation, public edit/delivery/export/undo
+and the user's independent complete-sentence audition pass. The
 [saved human marks](assets/12d-human-marks/README.md) establish the sentence and
 neighbor boundaries. They also expose 15 ms of middle filler retained by the
-older accepted cut, whose bytes and verdict stay frozen. After12e, broader corpus
-word boundaries, filler/repetition inventory and removal intent remain required
+older accepted cut, whose bytes and verdict stay frozen. Current pickup is the
+broader corpus word boundaries, filler/repetition inventory and removal intent required
 by [12](slices/12-speech-evidence.md) before12b adoption.
 
 The [generation/ambience matrix](assets/19-acceptance/README.md) is accepted,
@@ -52,7 +52,7 @@ prepared runtimes and frozen worker identities. Do not replace the installed app
 or frozen workers. Build native changes only in isolated scratch paths. No new
 capture is authorized; originals remain in the [camera fixtures](../../fixtures/screen-camera-timing/README.md).
 
-Finish12e's own audition, then remaining12/12d labels toward12b; preserve accepted denoise and18
+Resolve remaining12/12d labels toward12b; preserve accepted denoise and18
 contextual/ambience outputs. Then physical20→21,
 final23 cutover, post-cutover24 scale and25 autonomous workflow. The checklist is authoritative; the overview diagram is not
 a scheduling graph. Further12b/23 consumer acceptance retains its missing quality or physical
@@ -177,7 +177,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
-- [ ] [12e — Remove the independently marked fillers](slices/12e-human-labeled-cleanup.md)
+- [x] [12e — Remove the independently marked fillers](slices/12e-human-labeled-cleanup.md)
 - [x] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [x] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)

@@ -1,7 +1,7 @@
 # 12e — Remove the independently marked fillers
 
-Status: native exact-range removal, exclusion controls and public delivery pass.
-A separate audition of this candidate remains pending. Dependencies are
+Status: accepted. Native exact-range removal, exclusion controls, public delivery
+and the user's independent complete-sentence audition pass. Dependencies are
 the [saved human labels](../assets/12d-human-marks/README.md) and verified public
 composition/editing owners, not a passing automatic speech recipe.
 
@@ -24,7 +24,7 @@ inventory, repetition/removal intent, model selection or aggregate quality pass.
   original extraction, and prove the complete candidate remains unchanged.
 - [x] Public edit, CLI/MCP WAV, preview/export and undo agree with the native
   candidate and existing codec/clock policies.
-- [ ] Independent complete-sentence audition accepts beginning, neighboring
+- [x] Independent complete-sentence audition accepts beginning, neighboring
   words, ending and join for this exact new candidate.
 
 The [candidate packet](../assets/12e-labeled-cleanup/README.md) owns measurements,

@@ -14,11 +14,11 @@ The [generation/ambience matrix](19-acceptance/README.md) is accepted. The user
 chooses the200ms loop, whose source sounds speech-free, tolerating a slight
 residual seam. Preserve its exact media and recipe; the50ms seam and250ms
 whirling cases remain rejected. The [finite denoise matrix](denoise-acceptance/README.md)
-is accepted. Current pickup is the separate audition of the
-[exact two-filler candidate](12e-labeled-cleanup/README.md), whose native and public
-technical contracts pass. The [saved sentence marks](12d-human-marks/README.md)
-are reconciled. Broader corpus boundaries and filler/repetition intent remain
-required for12/12d, then12b adoption and physical20/21. Do not repeat accepted auditions.
+is accepted. The [exact two-filler candidate](12e-labeled-cleanup/README.md) now
+passes native/public technical contracts and its own user audition. The
+[saved sentence marks](12d-human-marks/README.md) are reconciled. Current pickup is
+broader corpus boundaries and filler/repetition intent for12/12d, then12b adoption
+and physical20/21. Do not repeat accepted auditions.
 
 [20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
 Acquired timestamps now determine admission independently of nominal duration;
@@ -328,4 +328,4 @@ accepted mono duplicated to stereo. The640×404 sampled visual proof has explici
 small-text limits. The saved human sentence labels are now reconciled; other corpus labels,
 repetition intent and parent12 timing/cleanup acceptance remain open.
 [12e](12e-labeled-cleanup/README.md) owns the changed two-filler candidate and its
-separate pending audition.
+separate accepted audition.

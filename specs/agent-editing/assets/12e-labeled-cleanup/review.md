@@ -27,8 +27,11 @@ listening disposition. Root handoffs now distinguish saved sentence labels from
 missing broader corpus inventory and editorial intent. No old candidate or
 verdict changed. No actionable shape/diff/docs findings remain in this pass.
 
-Limits: human-boundary accuracy was not re-established by a fresh audition;
-naturalness remains pending for these changed bytes. No full-corpus quality,
+The user subsequently gave an explicit [listening pass](listening.json) for the
+changed candidate. The technical review remains separate from that verdict.
+
+Limits: the technical review did not independently re-establish boundary accuracy
+by listening. No full-corpus quality,
 automatic recipe selection, physical capture, new visual judgment or installed
 cutover pass follows. The configured Codex CLI model is unsupported, so its
 independent review remains unavailable; no retry or model/config change occurred.

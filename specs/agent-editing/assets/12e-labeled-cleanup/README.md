@@ -1,7 +1,7 @@
 # Exact removal of the two marked fillers
 
-Status: native exclusion and public edit/delivery/export/undo pass;
-this candidate's own listening judgment remains pending. The older
+Status: accepted. Native exclusion, public edit/delivery/export/undo and the
+user's own complete-sentence listening judgment pass. The older
 accepted candidate is unchanged and retains its original verdict.
 
 The [human ranges](../12d-human-marks/human-marks.json) identify the opening and
@@ -23,9 +23,9 @@ constant poison and source reconstruction.
 
 [Original](../12d-complete-sentence/original.wav) and
 [candidate](candidate-remove-marked-fillers.wav) are complete sentences for the
-new audition. [Listening disposition](listening.json) stays pending until actual
-feedback on these exact files. The earlier approval cannot transfer to changed
-bytes. The clip-edge opening label does not establish preceding extent outside
+audition. [Listening disposition](listening.json) records the user's explicit
+“pass” for these exact files. This acceptance is independent of the earlier cut
+and its separate approval. The clip-edge opening label does not establish preceding extent outside
 the clip, and the inventory and repetition intent remain incomplete.
 
 The public check reuses the [filler journey](../../../../packages/test-harness/editing/filler-removal.mjs)

@@ -108,6 +108,7 @@
   "shutdown": "fulfilled",
   "archiveRehashPassed": true,
   "archivedMembers": 53,
-  "listening": "pending; no inherited verdict",
-  "independentCodexReview": "unavailable: configured model unsupported; not retried"
+  "listening": "pass; separate explicit user verdict in listening.json",
+  "independentCodexReview": "unavailable: configured model unsupported; not retried",
+  "listeningRecord": "listening.json"
 }
