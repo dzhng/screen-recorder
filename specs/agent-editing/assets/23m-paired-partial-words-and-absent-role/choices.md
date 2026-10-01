@@ -77,3 +77,22 @@ kept one scenario/transport owner, removed unused native permissions/destructuri
 and retained every complete value oracle. The name sweep corrected prospective
 status while preserving the original planning history. No product API, cache,
 parallel projection, model recipe or editorial policy was added.
+
+## Independent lifecycle review correction
+
+- **Exercise the real startup observation owner — sound after correction, high confidence.**
+  The first three tiny controls called the close-race helper directly. They did not
+  expose the outer start path's file awaits before observation, or its parsing of
+  unfinished stdout. That narrow coverage choice was unsound: a helper passing
+  cannot establish the caller's startup lifecycle. The corrected decision is to
+  observe children synchronously, do file pinning before spawning, and have the
+  controls share the same observation and complete-frame readiness owner. Five
+  actual Node controls now check early/previously observed close, handshake close,
+  normal owned close and an observed split frame. The accepted successful runtime
+  remains valid, and its packet is not rewritten to pretend these controls ran
+  earlier. This constrains future lifecycle claims to the owner actually exercised;
+  it adds no product hook or alternate service implementation.
+
+Review correction is scoped to the maintained harness. No service/model/media
+cohort was repeated. Later cleanup-error persistence retains its reviewed-only
+qualification; universal filesystem failure recovery is not claimed.

@@ -225,3 +225,9 @@ Unix-socket setup failure and missing-worker setup failure remain archived.
 This closes the scoped projection/not_requested gate only: positive system/hole
 and excerpt media correspondence, speech quality and phoneme preservation remain
 unverified by this packet.
+
+Independent review corrected the maintained startup observation race and partial
+stdout-frame parsing. The [lifecycle supplement](../assets/23m-paired-partial-words-and-absent-role/lifecycle-review.json)
+retains five bounded Node controls through the actual observation/readiness owner
+and the corrected source pin. Original public/runtime evidence is unchanged;
+these controls execute no source service, preparation, native or media work.

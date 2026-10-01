@@ -47,13 +47,25 @@ checked again after the run.
 
 The archived observed producer has SHA-256
 `32aa50b567249ec434229b073f1912ade7415474e90aee9d7d4dc5085f490f1c`.
-The final maintained [harness](../../../../packages/test-harness/editing/cutover-words.mjs)
+The first maintained snapshot of the [harness](../../../../packages/test-harness/editing/cutover-words.mjs)
 adds stronger saved metadata/cursor/lifetime checks and startup close handling.
 Only that saved verifier and tiny Node controls ran after the successful cohort;
 they did not repeat service/model/media work. Three actual startup controls pass,
 and three corrupted saved proofs (generation, query pin and missing MCP Node exit)
 each fail. Later failure-report/cleanup handling was reviewed; no new full service
 failure cohort or universal filesystem-failure recovery is claimed.
+
+Independent review then found two maintained startup gaps: asynchronous file pins
+ran after spawning but before installing child observation, and readiness parsed
+an unfinished stdout tail. The correction pins files before spawn, observes
+close/error synchronously, and parses only complete newline frames. Five bounded
+Node controls now share that actual observation/readiness owner, including an
+already observed close, close after readiness during handshake, and an explicitly
+observed split frame. All five pass; the saved complete report still verifies.
+[lifecycle-review.json](lifecycle-review.json) and its
+[supplement](lifecycle-review.tar.gz) own the exact corrected source, commands,
+outputs and limits. The original evidence.tar.gz and successful runtime producer
+remain byte-for-byte unchanged. No service/model/media cohort was repeated.
 
 Syntax, scoped lint/format and six scoped TypeScript emits passed. Every
 `@screenrec` bundle input resolves to this worktree's own emitted code. Existing

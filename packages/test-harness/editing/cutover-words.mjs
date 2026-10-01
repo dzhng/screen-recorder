@@ -352,6 +352,8 @@ async function start(side, entryOverride) {
   const cli = old
     ? join(legacyApp, "Contents/Resources/cli/main.mjs")
     : join(sourceBundle, "cli.mjs");
+  const entryPin = await pin(entry),
+    cliPin = await pin(cli);
   const env = {
     ...process.env,
     SCREENREC_HOME: old ? oldHome : newHome,
@@ -367,42 +369,20 @@ async function start(side, entryOverride) {
     cwd: "/",
     stdio: ["pipe", "pipe", "pipe"],
   });
-  const record = {
-    side,
-    pid: child.pid,
-    entry: await pin(entry),
-    cli: await pin(cli),
-    stdout: "",
-    stderr: "",
-    exit: null,
-  };
+  const { record, close: closed } = observeChild(child);
+  Object.assign(record, { side, entry: entryPin, cli: cliPin });
   report.processes.push(record);
   live.add(child);
-  child.stdout.on("data", (bytes) => {
-    record.stdout += bytes;
-  });
-  child.stderr.on("data", (bytes) => {
-    record.stderr += bytes;
-  });
-  const close = once(child, "close").then(([code, signal]) => {
-    record.exit = { code, signal };
+  const close = closed.then((exit) => {
     live.delete(child);
-    return record.exit;
+    return exit;
   });
   exited.set(child, close);
   const mcp = new Client({ name: "paired-partial-words", version: "1" });
   let socket;
   try {
     await duringStartup(child, async () => {
-      for (let i = 0; i < 150; i++) {
-        assert.equal(record.exit, null, "Source service closed before readiness");
-        const lines = record.stdout.split("\n").filter(Boolean).map(JSON.parse);
-        assert(!lines.some((line) => line.event === "failed"), record.stdout);
-        socket = lines.find((line) => line.event === "started")?.socketPath;
-        if (socket) break;
-        await new Promise((done) => setTimeout(done, 100));
-      }
-      assert(socket, record.stdout + record.stderr);
+      socket = await serviceSocket(record);
       await mcp.connect(
         new StdioClientTransport({
           command: process.execPath,
@@ -1189,20 +1169,56 @@ function verifyPublicFields(packet, original) {
   }
 }
 
+function observeChild(child) {
+  const record = { pid: child.pid, stdout: "", stderr: "", exit: null };
+  child.stdout.on("data", (bytes) => {
+    record.stdout += bytes;
+  });
+  child.stderr.on("data", (bytes) => {
+    record.stderr += bytes;
+  });
+  child.on("error", (error) => {
+    record.spawnError = String(error);
+  });
+  const close = new Promise((done) => {
+    child.once("close", (code, signal) => {
+      record.exit = { code, signal };
+      done(record.exit);
+    });
+  });
+  return { record, close };
+}
+
+async function serviceSocket(record) {
+  for (let i = 0; i < 150; i++) {
+    assert.equal(record.exit, null, "Source service closed before readiness");
+    assert(!record.spawnError, record.spawnError);
+    const lines = record.stdout.split("\n").slice(0, -1).filter(Boolean).map(JSON.parse);
+    assert(!lines.some((line) => line.event === "failed"), record.stdout);
+    const socket = lines.find((line) => line.event === "started")?.socketPath;
+    if (socket) return socket;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  assert.fail(record.stdout + record.stderr);
+}
+
 async function duringStartup(child, work) {
   const early = (code, signal) =>
     new Error(`Child ${child.pid} closed during startup: ${code}/${signal}`);
   if (child.exitCode !== null || child.signalCode !== null)
     throw early(child.exitCode, child.signalCode);
-  let onClose;
+  let onClose, onError;
   const closed = new Promise((_, reject) => {
     onClose = (code, signal) => reject(early(code, signal));
+    onError = reject;
   });
   child.once("close", onClose);
+  child.once("error", onError);
   try {
     return await Promise.race([work(), closed]);
   } finally {
     child.off("close", onClose);
+    child.off("error", onError);
   }
 }
 
@@ -1211,36 +1227,58 @@ async function lifecycleControls(directory) {
   const controls = [];
   for (const [name, code, outcome] of [
     ["close-before-readiness", "process.exit(0)", "reject"],
-    ["close-during-handshake", "process.stdout.write('started\\n');process.exit(0)", "reject"],
+    ["close-before-later-await", "process.exit(0)", "reject"],
+    [
+      "close-during-handshake",
+      'process.stdout.write(\'{"event":"started","socketPath":"fixture"}\\n\');setTimeout(()=>process.exit(0),300)',
+      "reject",
+    ],
     [
       "ready-then-owned-close",
-      "process.stdin.resume();process.stdin.on('end',()=>process.exit(0))",
+      'process.stdout.write(\'{"event":"started","socketPath":"fixture"}\\n\');process.stdin.resume();process.stdin.on(\'end\',()=>process.exit(0))',
+      "ready",
+    ],
+    [
+      "split-started-frame",
+      'process.stdout.write(\'{"event":"started",\');setTimeout(()=>process.stdout.write(\'"socketPath":"fixture"}\\n\'),150);process.stdin.resume();process.stdin.on(\'end\',()=>process.exit(0))',
       "ready",
     ],
   ]) {
     const child = spawn(process.execPath, ["-e", code], { stdio: ["pipe", "pipe", "pipe"] });
-    const exit = once(child, "close");
-    let stdout = "";
-    child.stdout.on("data", (bytes) => {
-      stdout += bytes;
-    });
+    const { record, close: exit } = observeChild(child);
     const control = { name, pid: child.pid, code, stdout: null, exit: null };
     controls.push(control);
     const timer = setTimeout(() => child.kill("SIGKILL"), 2000);
     try {
+      if (name === "close-before-later-await") {
+        await exit;
+        assert.deepEqual(record.exit, { code: 0, signal: null });
+      }
+      if (name === "split-started-frame") {
+        await once(child.stdout, "data");
+        assert.equal(record.stdout, '{"event":"started",');
+        control.incompleteFrameObserved = true;
+      }
       const ready = duringStartup(child, async () => {
+        const socket = await serviceSocket(record);
+        assert.equal(socket, "fixture");
+        control.socketObserved = true;
         if (outcome === "ready") return "ready";
-        if (name === "close-during-handshake") await once(child.stdout, "data");
         return new Promise(() => {});
       });
-      if (outcome === "reject") await assert.rejects(ready, /closed during startup/);
+      if (outcome === "reject")
+        await assert.rejects(ready, (error) => {
+          control.refusal = { name: error.name, message: error.message };
+          return /closed during startup/.test(error.message);
+        });
       else assert.equal(await ready, "ready");
       child.stdin.end();
-      const [exitCode, signal] = await exit;
-      control.exit = { code: exitCode, signal };
+      control.exit = await exit;
       assert.deepEqual(control.exit, { code: 0, signal: null });
-      control.stdout = stdout;
-      if (name === "close-during-handshake") assert.equal(stdout, "started\n");
+      control.stdout = record.stdout;
+      if (name === "close-during-handshake") assert.equal(control.socketObserved, true);
+      if (outcome === "ready" || name === "close-during-handshake")
+        assert.equal(record.stdout, '{"event":"started","socketPath":"fixture"}\n');
       control.passed = true;
     } finally {
       clearTimeout(timer);

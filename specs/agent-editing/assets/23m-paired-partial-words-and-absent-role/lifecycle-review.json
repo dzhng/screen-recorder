@@ -1,0 +1,179 @@
+{
+  "scope": "Maintained startup correction only; Node children and saved JSON verification, no service/model/native/media rerun",
+  "previousCommit": "5636724758739f1c295bf56ecc97dc01add56591",
+  "source": {
+    "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/packages/test-harness/editing/cutover-words.mjs",
+    "bytes": 45526,
+    "sha256": "3defe8cce30a4df8a4b8a160474c58cb011312fe8156bf0eb43a6bce20f7878a"
+  },
+  "priorHarness": {
+    "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/.build/23m/lifecycle-packet/maintained/prior-harness.mjs",
+    "bytes": 43921,
+    "sha256": "ef8689af41a284e54bd2faa7c53958c2f073050de5c29d723de6730d1e094e09"
+  },
+  "originalArchive": {
+    "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/23m-paired-partial-words-and-absent-role/evidence.tar.gz",
+    "bytes": 2655570,
+    "sha256": "9b6bc0daa66caf3527ff73fe7de928438768d1a316a2d584fc5b432d45f1cfeb"
+  },
+  "actualObservedReport": {
+    "path": "/tmp/sr23m-partial-proof/report.json",
+    "bytes": 7301247,
+    "sha256": "236b8418ab15065fcffe915529e2887094c8ad3ae156786741bad1f5dd14949a"
+  },
+  "correctedControls": {
+    "scope": "Node child lifetime controls only; no source service/model/native",
+    "controls": [
+      {
+        "name": "close-before-readiness",
+        "pid": 1323,
+        "code": "process.exit(0)",
+        "stdout": "",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "refusal": {
+          "name": "Error",
+          "message": "Child 1323 closed during startup: 0/null"
+        },
+        "passed": true
+      },
+      {
+        "name": "close-before-later-await",
+        "pid": 1324,
+        "code": "process.exit(0)",
+        "stdout": "",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "refusal": {
+          "name": "Error",
+          "message": "Child 1324 closed during startup: 0/null"
+        },
+        "passed": true
+      },
+      {
+        "name": "close-during-handshake",
+        "pid": 1325,
+        "code": "process.stdout.write('{\"event\":\"started\",\"socketPath\":\"fixture\"}\\n');setTimeout(()=>process.exit(0),300)",
+        "stdout": "{\"event\":\"started\",\"socketPath\":\"fixture\"}\n",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "socketObserved": true,
+        "refusal": {
+          "name": "Error",
+          "message": "Child 1325 closed during startup: 0/null"
+        },
+        "passed": true
+      },
+      {
+        "name": "ready-then-owned-close",
+        "pid": 1326,
+        "code": "process.stdout.write('{\"event\":\"started\",\"socketPath\":\"fixture\"}\\n');process.stdin.resume();process.stdin.on('end',()=>process.exit(0))",
+        "stdout": "{\"event\":\"started\",\"socketPath\":\"fixture\"}\n",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "socketObserved": true,
+        "passed": true
+      },
+      {
+        "name": "split-started-frame",
+        "pid": 1327,
+        "code": "process.stdout.write('{\"event\":\"started\",');setTimeout(()=>process.stdout.write('\"socketPath\":\"fixture\"}\\n'),150);process.stdin.resume();process.stdin.on('end',()=>process.exit(0))",
+        "stdout": "{\"event\":\"started\",\"socketPath\":\"fixture\"}\n",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "incompleteFrameObserved": true,
+        "socketObserved": true,
+        "passed": true
+      }
+    ]
+  },
+  "commands": [
+    "node --check packages/test-harness/editing/cutover-words.mjs",
+    "node node_modules/oxlint/bin/oxlint packages/test-harness/editing/cutover-words.mjs",
+    "node node_modules/oxfmt/bin/oxfmt --check packages/test-harness/editing/cutover-words.mjs",
+    "node packages/test-harness/editing/cutover-words.mjs --lifecycle-controls .build/23m/lifecycle-corrected-closure",
+    "node packages/test-harness/editing/cutover-words.mjs --verify-report /tmp/sr23m-partial-proof/report.json --saved-report /tmp/screenrec-23a-clock-final/report.json"
+  ],
+  "allExitCodes": 0,
+  "findings": [
+    "File pin awaits after spawn could lose close before observation; pins now complete before spawn and close/error observed synchronously",
+    "Unfinished stdout tail parsed as JSON; readiness now parses complete newline frames only"
+  ],
+  "review": "Actual observation and readiness owner now shared by controls and start; first three helper-only controls were insufficient. No parallel lifecycle framework, callback/store or production API introduced.",
+  "limits": [
+    "Frozen successful runtime producer/report/original archive unchanged",
+    "Five Node controls are not a repeated service/model/media cohort",
+    "Later cleanup error persistence reviewed; no universal filesystem recovery claim"
+  ],
+  "archive": {
+    "bytes": 27960,
+    "sha256": "aa9e9e54ac6f8bfe2013778354141e67092d76ad283e409d68e178c60e4e84de"
+  },
+  "members": [
+    {
+      "path": "authority.json",
+      "bytes": 4895,
+      "sha256": "a4e59278d34e09998ecc0efb564389e648d089d87e75a4972012c65251a03d4e"
+    },
+    {
+      "path": "checks/format-check.txt",
+      "bytes": 202,
+      "sha256": "461830bd11a7dfbc5be572c6d6480bab392452b2334a33879e8e48518abafd0d"
+    },
+    {
+      "path": "checks/format.txt",
+      "bytes": 136,
+      "sha256": "52e731e31c703a60051039e3b4548327e72410b4c18ca7c864f3f84f34e89e45"
+    },
+    {
+      "path": "checks/lifecycle-controls.json",
+      "bytes": 2198,
+      "sha256": "033643834c04de6060a63e25a8db283d30c6c416c34921798b03b2c695fa567f"
+    },
+    {
+      "path": "checks/lifecycle-corrected-closure.txt",
+      "bytes": 222,
+      "sha256": "ecebf5e9e62a262338667b57666564bf61358adf7c1e819eddb593427470b166"
+    },
+    {
+      "path": "checks/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "checks/metadata-verify-corrected.txt",
+      "bytes": 278,
+      "sha256": "9ac616eca865d42d8174373bc04c376cf54ba1056a7208f58451c8c30842594c"
+    },
+    {
+      "path": "checks/syntax.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "maintained/correction.diff",
+      "bytes": 7512,
+      "sha256": "7054f6a337b3a77e3bc16c3b5f4bec5e255a76edc79d15e85bb79aebb611981f"
+    },
+    {
+      "path": "maintained/cutover-words.mjs",
+      "bytes": 45526,
+      "sha256": "3defe8cce30a4df8a4b8a160474c58cb011312fe8156bf0eb43a6bce20f7878a"
+    },
+    {
+      "path": "maintained/prior-harness.mjs",
+      "bytes": 43921,
+      "sha256": "ef8689af41a284e54bd2faa7c53958c2f073050de5c29d723de6730d1e094e09"
+    }
+  ]
+}
