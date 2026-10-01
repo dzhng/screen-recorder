@@ -52,9 +52,10 @@ Keep the selector rejected while settling these owners in order:
    through existing acquisition jobs and replay identities; expose pending,
    failed and ready facts honestly. A notification callback is not proof that
    admission completed. Verify selector-free allocation/stop/replay/reopen first.
-3. After [21e](21e-capture-project-adoption.md) is verified, expose selection across
-   schema, allocation fingerprint, controller and native input together. Exercise
-   the full public selected-source and caller-authored project path.
+3. [Atomic public camera selection](21f3-public-camera-selection.md) follows the
+   selector-free coordinator gate and verified [21e](21e-capture-project-adoption.md).
+   Expose schema, allocation fingerprint/binding, controller input and independent
+   outcomes together; exercise the complete caller-authored project path.
 
 These are internal implementation checkpoints, not parallel capture owners or
 new authoring operations. Preserve the installed path until 23; physical and
