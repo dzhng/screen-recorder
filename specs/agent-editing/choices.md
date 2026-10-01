@@ -6423,3 +6423,8 @@ The [color-path audit ledger](assets/23l-color-path-audit/choices.md) limits att
 to retained encoded samples and rejects an oracle-only explanation. Root verified
 its exact archive/source/reference pins; missing intermediate buffers still prevent
 a production correction or numerical acceptance policy.
+
+The [current cardinality ledger](assets/24z-current-preparation/choices.md) retains
+fresh public admission instead of migrating the frozen seed, untimed correctness
+and distinct prospective process observation. Root verified actual retained modules
+and unchanged sources; preparation inherits no historical p95 verdict.

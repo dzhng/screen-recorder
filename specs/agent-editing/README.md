@@ -23,18 +23,18 @@ The external caller makes every editorial decision. The consumer
 developers read or edit it from that caller's perspective.
 
 **Next pickup: [24z current source-cardinality verification](slices/24z-source-cardinality.md).**
-Integrate the prepared current-production fixture and correctness proof, then run
-the unchanged timed cohort only after coordinated quiescence and a fresh whole-host
-check. [23l paired frames](assets/23l-paired-edited-frames/README.md) verifies public
+The [current fixture and untimed correctness proof](assets/24z-current-preparation/README.md)
+are integrated. Run the unchanged timed cohort only after coordinated quiescence
+and a fresh whole-host check. [23l paired frames](assets/23l-paired-edited-frames/README.md) verifies public
 join membership, final sample support and default cached delivery; composition
 pixel correspondence remains open. Preserve its completed media cohort.
 [23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
 passes its merged complete saved-proof verifier and startup controls after
 [23n genuine model preparation](slices/23n-parakeet-model-readiness.md). Broader
 speech quality and positive system acquisition remain separate.
-Current [24z source-cardinality preparation](slices/24z-source-cardinality.md)
-is proceeding in parallel; no timing cohort launches before correctness and a
-coordinated fresh host check.
+Current [24z preparation](assets/24z-current-preparation/README.md) and merged
+correctness authority pass; no timing cohort launches before a coordinated fresh
+host check.
 The completed readiness packet is preserved; its [checker lifecycle controls](assets/23n-parakeet-readiness-lifecycle/README.md)
 pass on the merged tree without repeating preparation or inference. Keep same-request frame
 selection distinct from matched-source picture comparisons. Authored freeze,

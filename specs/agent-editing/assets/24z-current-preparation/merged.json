@@ -1,0 +1,40 @@
+{
+  "status": "Merged current fixture and untimed correctness authority verified; p95 remains open",
+  "child": "b83b31d1f7e0f742f9c0b4872204356dc737a331",
+  "root": "b9f0a907",
+  "checks": {
+    "retainedMembers": 597,
+    "historicalAuthorities": 5,
+    "actualRuntimePins": 675,
+    "currentSourceCounterparts": 311,
+    "emittedPins": 364,
+    "JSONResourcesParsedEqual": 2,
+    "phaseSpecificExecutedModules": 1269,
+    "externalObserverSyntheticControl": true,
+    "syntaxExit": 0,
+    "lintExit": 0,
+    "formatExit": 0,
+    "timingCollections": 0,
+    "scope": "Read-only merged preparation/authority checks; no public/native/model/correctness rerun"
+  },
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 696,
+    "sha256": "1bac6568ab7d5119f8441bee276a301a4c1d7b6599e701aef0dc169a93be573e",
+    "members": 3
+  },
+  "members": {
+    "merged-checks.json": {
+      "bytes": 445,
+      "sha256": "48a3cffe62eda9f57c3b178b0609116af506c299ce09b6846a72ec4750c14e97"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "format.log": {
+      "bytes": 202,
+      "sha256": "461830bd11a7dfbc5be572c6d6480bab392452b2334a33879e8e48518abafd0d"
+    }
+  }
+}

@@ -47,3 +47,8 @@ collections per arm remain open. Compact cursor readiness is distinct from the
 scoped large-result and media delivery proofs in24z11/12; none closes general scale
 or release acceptance. [Choices](choices.md) and [review](review.md) state the
 maintained ownership and limits.
+
+The [merged check](merged.json) verifies every packet member, actual retained runtime
+inputs and phase-specific executed modules, current source counterparts and the
+prospective observer control. Its [check packet](merged.tar.gz) carries root quality
+checks. It repeats no preparation/query cohort and supplies no p95 verdict.
