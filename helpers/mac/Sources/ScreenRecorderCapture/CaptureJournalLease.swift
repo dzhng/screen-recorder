@@ -94,6 +94,56 @@ package final class CaptureJournalLease: Sendable {
         try check()
     }
 
+    package func hasMember(_ name: String) throws -> Bool {
+        try check()
+        return try handles.withLock { state in
+            var info = stat()
+            if fstatat(state.directory, name, &info, AT_SYMLINK_NOFOLLOW) == 0 { return true }
+            if errno == ENOENT { return false }
+            throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+        }
+    }
+
+    /// Source evidence is opened relative to the same retained directory as the journal.
+    package func openMember(_ name: String) throws -> Int32 {
+        try check()
+        return try handles.withLock { state in
+            let descriptor = openat(state.directory, name, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
+            guard descriptor >= 0 else {
+                if [ENOENT, ENOTDIR, ELOOP].contains(errno) {
+                    throw CaptureFailure("INVALID_MEDIA", "Source authority member is missing or replaced.")
+                }
+                throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+            }
+            var info = stat()
+            guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
+                info.st_uid == getuid() else {
+                close(descriptor)
+                throw CaptureFailure("INVALID_MEDIA", "Source authority requires an owned regular file.")
+            }
+            return descriptor
+        }
+    }
+
+    /// No replacement is allowed. The caller can verify a completed member after an interrupted receipt.
+    package func publishMember(_ name: String, write: (Int32) throws -> Void) throws {
+        try check()
+        try handles.withLock { state in
+            let temporary = ".source-publication-\(UUID().uuidString)"
+            let descriptor = openat(state.directory, temporary, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+            guard descriptor >= 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
+            defer { close(descriptor); unlinkat(state.directory, temporary, 0) }
+            try write(descriptor)
+            guard fsync(descriptor) == 0, linkat(state.directory, temporary, state.directory, name, 0) == 0 else {
+                throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+            }
+            guard unlinkat(state.directory, temporary, 0) == 0, fsync(state.directory) == 0 else {
+                throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+            }
+        }
+        try check()
+    }
+
     private static func failure(_ message: String) -> CaptureFailure {
         CaptureFailure("JOURNAL_UNAVAILABLE", "\(message) \(String(cString: strerror(errno)))")
     }

@@ -1,0 +1,239 @@
+import Foundation
+import ScreenRecorderCapture
+
+@MainActor
+func runIndependentPublicationTests(output: String? = nil) async throws {
+    let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("independent-publication")
+    if output != nil { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false) }
+    defer { if output == nil { try? FileManager.default.removeItem(at: root) } }
+    let source = root.appendingPathComponent("input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: [0, 100000, 200000, 500000, 700000], endUs: 800000)
+    let folder = root.appendingPathComponent("camera-pending")
+    let cameraDirectory = folder.appendingPathComponent("camera")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.videoDeliveryInterval = .milliseconds(10)
+    input.afterCameraClose = {
+        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: cameraDirectory.path)
+    }
+    defer { try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: cameraDirectory.path) }
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "primary-independent", microphone: false)
+    try await capture.start(request)
+    try JSONEncoder().encode(request).write(to: folder.appendingPathComponent("request.json"))
+    try capture.pause()
+    do { _ = try await capture.stop(); preconditionFailure("Camera publication must remain pending") }
+    catch { precondition(CaptureFinalizationError(error).retryable) }
+    precondition(FileManager.default.fileExists(atPath: folder.appendingPathComponent("source.journal.jsonl").path),
+        "A published primary source needs immutable journal authority while camera remains pending")
+    guard let observation = capture.publication, observation.inputsClosed,
+        case .published(let primary) = observation.primary,
+        case .pending(let cameraFailure) = observation.camera else {
+        preconditionFailure("Closed inputs must expose independent published and pending source outcomes")
+    }
+    precondition(cameraFailure.retryable && primary.sourceId == "primary-independent"
+        && primary.sourceDurationUs > 0 && primary.originHostUs == input.fixtureOrigin)
+    let frozenURL = folder.appendingPathComponent(primary.journal.file)
+    let frozen = try Data(contentsOf: frozenURL)
+    let liveURL = folder.appendingPathComponent("capture.journal.jsonl")
+    let liveBefore = try Data(contentsOf: liveURL)
+    let laterSequence = capture.note("finalizing", reason: "CAMERA_PUBLICATION_PENDING")!
+    let liveAfter = try Data(contentsOf: liveURL)
+    precondition(laterSequence > primary.journal.lastSequence && liveAfter.count > liveBefore.count)
+    let afterNote = try Data(contentsOf: frozenURL)
+    precondition(afterNote == frozen, "Take lifecycle suffixes cannot mutate source evidence")
+    capture.cancelPublication()
+    do { _ = try await capture.stop(); preconditionFailure("Explicit cancellation must end the pending retry") }
+    catch is CancellationError {}
+    guard case .published(let afterCancellation) = capture.publication?.primary else {
+        preconditionFailure("Canceling sibling publication cannot erase the already-published primary outcome")
+    }
+    precondition(afterCancellation.journal == primary.journal)
+    try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: cameraDirectory.path)
+    let result = try await capture.stop()
+    precondition(result.failure == nil && result.camera?.failure == nil)
+    precondition(input.stops == 1 && input.finalizations == 1 && input.discards == 0)
+    precondition(result.durationUs == primary.sourceDurationUs && result.hostOriginUs == primary.originHostUs)
+    let recovered = try await CapturePublishedSource.recover(directory: folder.path)
+    precondition(recovered.journal == primary.journal && recovered.sourceId == primary.sourceId)
+    // Substituting the live whole journal is the precise authority error this snapshot prevents.
+    try Data(contentsOf: liveURL).write(to: frozenURL, options: .atomic)
+    do { _ = try await CapturePublishedSource.recover(directory: folder.path); preconditionFailure("Live whole journal must not pass as frozen authority") }
+    catch { precondition(CaptureFinalizationError(error).code == "INVALID_JOURNAL_PREFIX") }
+    try frozen.write(to: frozenURL, options: .atomic)
+    _ = try await CapturePublishedSource.recover(directory: folder.path)
+    try JSONEncoder().encode(result).write(to: folder.appendingPathComponent("native-result.json"))
+    try JSONEncoder().encode(observation).write(to: folder.appendingPathComponent("pending-observation.json"))
+    try retainClosureFacts(input, in: folder)
+    print("PASS primary publication survives camera refusal, lifecycle growth, retry and recovery; live journal substitution refused")
+    try await independentCameraRecovery(root: root, source: source)
+    try await changedPrimaryAuthority(root: root, source: source)
+    try await absentCameraPublication(root: root, source: source)
+}
+
+@MainActor
+private func independentCameraRecovery(root: URL, source: URL) async throws {
+    let audio = try captureMaterializerFixture(in: root, name: "audio-input", accepted: 96000)
+    let folder = root.appendingPathComponent("primary-pending")
+    let packed = folder.appendingPathComponent("narration.packed.mov")
+    let binding = CameraCaptureBinding(recordingId: "independent-take", sourceId: "independent-camera", deviceId: "prerecorded-camera")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.cameraBinding = binding
+    input.audio = audio.appendingPathComponent("narration.packed.mov")
+    input.videoDeliveryInterval = .milliseconds(10)
+    input.holdStop = true
+    input.afterCameraClose = {
+        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: packed.path)
+    }
+    defer { try? FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: packed.path) }
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    var reports: [CapturePublicationObservation] = []
+    capture.onPublication = { [weak capture] report in
+        reports.append(report)
+        capture?.note("finalizing", reason: "SOURCE_PUBLICATION_OBSERVED")
+    }
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "independent-primary", microphone: true)
+    try await capture.start(request)
+    let stopping = Task { try await capture.stop() }
+    await input.stopEntered.wait()
+    precondition(capture.publication?.inputsClosed == false && reports.isEmpty,
+        "A draining input cannot release capture priority")
+    input.releaseStop.release()
+    do { _ = try await stopping.value; preconditionFailure("Primary audio refusal must remain pending") }
+    catch { precondition(CaptureFinalizationError(error).retryable) }
+    guard let report = reports.last, report.inputsClosed,
+        case .published(let camera) = report.camera,
+        case .pending(let primaryFailure) = report.primary else {
+        preconditionFailure("Published camera must remain independently usable while primary audio is pending")
+    }
+    precondition(primaryFailure.retryable && camera.binding == binding && camera.sourceId == binding.sourceId
+        && camera.sourceDurationUs > 0 && camera.originHostUs == input.fixtureOrigin)
+    capture.cancelPublication()
+    await capture.discard()
+    precondition(input.stops == 1 && input.finalizations == 1 && input.discards == 0 && capture.publication == nil)
+    let recovered = try await CapturePublishedSource.recover(directory: folder.appendingPathComponent("camera").path)
+    precondition(recovered.binding == binding && recovered.journal == camera.journal
+        && recovered.sourceDurationUs == camera.sourceDurationUs && recovered.originHostUs == camera.originHostUs)
+    precondition(!FileManager.default.fileExists(atPath: folder.appendingPathComponent("source.publication.json").path),
+        "Recovery cannot invent authority for the still-pending source")
+    try JSONEncoder().encode(request).write(to: folder.appendingPathComponent("request.json"))
+    try JSONEncoder().encode(report).write(to: folder.appendingPathComponent("pending-observation.json"))
+    try retainClosureFacts(input, in: folder)
+    print("PASS bound camera survives primary refusal and cancellation; physical closure and restart recovery stay independent")
+}
+
+@MainActor
+private func changedPrimaryAuthority(root: URL, source: URL) async throws {
+    let folder = root.appendingPathComponent("changed-primary")
+    let cameraDirectory = folder.appendingPathComponent("camera")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.videoDeliveryInterval = .milliseconds(10)
+    input.afterCameraClose = {
+        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: cameraDirectory.path)
+    }
+    defer { try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: cameraDirectory.path) }
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "changed-primary", microphone: false)
+    try await capture.start(request)
+    try JSONEncoder().encode(request).write(to: folder.appendingPathComponent("request.json"))
+    do { _ = try await capture.stop(); preconditionFailure("Camera refusal must remain pending") }
+    catch { precondition(CaptureFinalizationError(error).retryable) }
+    guard case .published = capture.publication?.primary else { preconditionFailure("Primary must initially publish") }
+    let frozen = folder.appendingPathComponent("source.journal.jsonl")
+    let handle = try FileHandle(forWritingTo: frozen)
+    try handle.seekToEnd(); try handle.write(contentsOf: Data([10])); try handle.close()
+    try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: cameraDirectory.path)
+    let result: CaptureResult
+    do { result = try await capture.stop() }
+    catch { preconditionFailure("Terminal source proof refusal must settle instead of leaving endless publication retries: \(error)") }
+    guard case .unavailable(let reason) = capture.publication?.primary,
+        case .published(let camera) = capture.publication?.camera else {
+        preconditionFailure("Changed source authority cannot reuse cached published success or starve its sibling")
+    }
+    precondition(reason.code == "INVALID_JOURNAL_PREFIX"
+        && result.failure?.code == reason.code && result.camera?.failure == nil && camera.sourceDurationUs > 0)
+    precondition(capture.deviceState == "idle" && input.stops == 1 && input.finalizations == 1)
+    _ = try await CapturePublishedSource.recover(directory: cameraDirectory.path)
+    do { _ = try await CapturePublishedSource.recover(directory: folder.path); preconditionFailure("Changed primary cannot recover") }
+    catch { precondition(CaptureFinalizationError(error).code == reason.code) }
+    try JSONEncoder().encode(result).write(to: folder.appendingPathComponent("native-result.json"))
+    try retainClosureFacts(input, in: folder)
+    print("PASS retry rechecks immutable source proof and settles terminal unavailability without blocking the sibling")
+}
+
+/// The camera clock prerequisite has its own opt-in gate; publication cannot invent its missing origin.
+@MainActor
+func runCameraWithoutPrimaryProbe(output: String) async throws {
+    let root = URL(fileURLWithPath: output)
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+    let source = root.appendingPathComponent("input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: [0, 100000, 200000, 500000, 700000], endUs: 800000)
+    let folder = root.appendingPathComponent("capture")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.cameraBinding = CameraCaptureBinding(recordingId: "camera-only-take",
+        sourceId: "camera-only-source", deviceId: "prerecorded-camera")
+    input.primaryFramesEnabled = false
+    input.videoDeliveryInterval = .milliseconds(10)
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "missing-primary", microphone: false)
+    try await capture.start(request)
+    let result = try await capture.stop()
+    try JSONEncoder().encode(request).write(to: folder.appendingPathComponent("request.json"))
+    try JSONEncoder().encode(result).write(to: folder.appendingPathComponent("native-result.json"))
+    try JSONEncoder().encode(capture.publication).write(to: folder.appendingPathComponent("publication-observation.json"))
+    precondition(result.durationUs == 0 && result.tracks.allSatisfy { $0.samples == 0 })
+    precondition(input.stops == 1 && input.finalizations == 1 && capture.deviceState == "idle")
+    try retainClosureFacts(input, in: folder)
+    guard case .published(let camera) = capture.publication?.camera, camera.sourceDurationUs > 0 else {
+        throw CaptureFailure("CAMERA_ORIGIN_REQUIRED", "Camera-only ingress must retain usable support when primary video never arrives.")
+    }
+    precondition(camera.binding == input.cameraBinding)
+    _ = try await CapturePublishedSource.recover(directory: folder.appendingPathComponent("camera").path)
+    print("PASS usable bound camera publishes independently when primary video never arrives")
+}
+
+@MainActor
+private func absentCameraPublication(root: URL, source: URL) async throws {
+    let folder = root.appendingPathComponent("camera-unavailable")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.cameraFramesEnabled = false
+    input.videoDeliveryInterval = .milliseconds(10)
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "available-primary", microphone: false)
+    try await capture.start(request)
+    try JSONEncoder().encode(request).write(to: folder.appendingPathComponent("request.json"))
+    let result = try await capture.stop()
+    guard case .published(let primary) = capture.publication?.primary,
+        case .unavailable(let cameraFailure) = capture.publication?.camera else {
+        preconditionFailure("Missing camera frames cannot suppress usable primary authority")
+    }
+    precondition(cameraFailure.code == "NO_CAMERA" && result.failure?.code == "NO_CAMERA"
+        && primary.diagnostic == nil && primary.sourceDurationUs == result.durationUs)
+    let recovered = try await CapturePublishedSource.recover(directory: folder.path)
+    precondition(recovered.diagnostic == nil && recovered.journal == primary.journal)
+    precondition(input.stops == 1 && input.finalizations == 1 && capture.deviceState == "idle")
+    try JSONEncoder().encode(result).write(to: folder.appendingPathComponent("native-result.json"))
+    try retainClosureFacts(input, in: folder)
+    print("PASS terminal camera absence preserves primary support and its own completion diagnostic")
+}
+
+@MainActor
+private func retainClosureFacts(_ input: PrerecordedCaptureInput, in folder: URL) throws {
+    if let binding = input.cameraBinding {
+        try JSONEncoder().encode(binding).write(to: folder.appendingPathComponent("fixture-camera-binding.json"))
+    }
+    try JSONSerialization.data(withJSONObject: ["physicalInputStops": input.stops,
+        "companionClosureCalls": input.finalizations, "inputDiscards": input.discards], options: [.sortedKeys])
+        .write(to: folder.appendingPathComponent("closure-counts.json"))
+}

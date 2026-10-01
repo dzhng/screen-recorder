@@ -1,6 +1,11 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PROJECT_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_WITHOUT_PRIMARY_OUTPUT"] {
+    try await runCameraWithoutPrimaryProbe(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_INDEPENDENT_PUBLICATION_OUTPUT"] {
+    try await runIndependentPublicationTests(output: output)
+    try await runNativeCaptureInputTests()
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PROJECT_OUTPUT"] {
     try await runCameraProjectFixture(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_ADMISSION_OUTPUT"] {
   try await runCameraSourceAdmissionTests(output: output)
@@ -63,6 +68,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PROJECT_OU
   try await runNativeCaptureInputTests()
   try await runSelectedCameraInputTests()
   try await runCameraSourcePublicationTests()
+  try await runIndependentPublicationTests()
   try await runCanonicalRecoveryTests()
   try await runCaptureTerminationTests()
   try await runCaptureWriterTests()

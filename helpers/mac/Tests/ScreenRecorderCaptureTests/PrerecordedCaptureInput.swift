@@ -21,6 +21,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var finalClock: CaptureClock?
     var companionFailure: CaptureFailure?
     var probeDirectory: URL?
+    var cameraBinding: CameraCaptureBinding?
     var probeMaximumRows = 5_000_000
     var probe: CaptureClockIngress?
     var sharedIngress: CaptureClockIngress?
@@ -28,6 +29,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var cursorSamplingStarts = 0
     var cursorFixture = false
     var cameraFramesEnabled = true
+    var primaryFramesEnabled = true
     var beforeCameraClose: (() throws -> Void)?
     var afterCameraClose: (() throws -> Void)?
     var finalCameraSample: CMSampleBuffer?
@@ -59,7 +61,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         self.onFailure = onFailure
         sharedIngress = captureOutput as? CaptureClockIngress
         if let probeDirectory {
-            let camera = try CameraWriter(directory: probeDirectory.appendingPathComponent("camera"), framesPerSecond: 30)
+            let camera = try CameraWriter(directory: probeDirectory.appendingPathComponent("camera"), framesPerSecond: 30, binding: cameraBinding)
             probe = try CaptureClockIngress(writer: writer, camera: camera,
                 observations: probeDirectory.appendingPathComponent("timestamps.jsonl"), failure: onFailure, maximumRows: probeMaximumRows)
         }
@@ -118,12 +120,13 @@ final class PrerecordedCaptureInput: CaptureInputSession {
                     if cameraFramesEnabled && writer.ingressState.clock.originUs == nil {
                         probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
                     }
-                    probe.accept(try! rawProbeSample(timed), role: .screen, from: sourceClock)
+                    if primaryFramesEnabled { probe.accept(try! rawProbeSample(timed), role: .screen, from: sourceClock) }
                     let delayed = try! captureFixtureRetimed(timed, at: CMTimeAdd(timed.presentationTimeStamp, time(microseconds: 200000)))
                     if cameraFramesEnabled { probe.accept(try! rawProbeSample(delayed), role: .camera, from: sourceClock) }
-                } else if let sharedIngress {
-                    sharedIngress.acceptStream(try! rawProbeSample(timed), of: .screen, from: sourceClock)
-                } else { captureOutput.stream!(stream, didOutputSampleBuffer: timed, of: .screen) }
+                } else if primaryFramesEnabled {
+                    if let sharedIngress { sharedIngress.acceptStream(try! rawProbeSample(timed), of: .screen, from: sourceClock) }
+                    else { captureOutput.stream!(stream, didOutputSampleBuffer: timed, of: .screen) }
+                }
             }
             try checkInterruption()
             if refusesAfterDelivery { throw CaptureFailure("INPUT_START_FAILED", "Prerecorded partial start") }

@@ -5802,3 +5802,48 @@ When: 23f native descriptor correction.
 Internal owner decomposition, fixture extraction and bounded catalog paging used
 explicitly delegated implementation discretion. No new persisted field, queue,
 periodic cleanup policy, project creation or asset garbage collection was added.
+
+## 21f3a — Independent native publication authority
+
+### Pin source authority in one durable receipt — sound, medium confidence
+
+When: 21f3a native prerequisite.
+
+- **Choice:** A camera directory can refuse publication after the primary source
+  has finished. The primary now has a durable receipt that ties its source
+  identity and timing to a frozen journal copy and the hashes of its canonical
+  media and publication proofs. Recovery reads that same receipt. It does not
+  assemble a fresh claim from whichever filenames happen to remain. Camera keeps
+  its already-stable journal and receives the same receipt representation.
+- **Gap:** The plan required one immutable source-evidence representation but
+  left its storage shape and relationship to existing media proofs unspecified.
+- **Reach:** Later controller reporting and source adoption can use the same
+  bounded authority. This adds source evidence files and linear file hashing;
+  it adds no queue, media role, model dependency, or stop-time guarantee. Existing
+  media publishers still verify the actual audio and camera proofs, and the
+  original journal retains later lifecycle records.
+- **Verdict:** Sound. The receipt gives every reader the same publication claim
+  while preserving the existing media owners and whole-file identity checks.
+- **Confidence:** Medium. This deliberately spends file-reading work to retain a
+  directly verifiable publication boundary; large-take stop performance is not
+  established by the tiny prerecorded gate.
+
+### Preserve settled observations when a retry is canceled — sound, high confidence
+
+When: 21f3a cancellation regression.
+
+- **Choice:** Suppose the primary has published while the camera is still
+  pending. Canceling a subsequent attempt leaves the primary's published
+  observation intact instead of replacing it with a pending cancellation error.
+  That observation records what was verified earlier. It does not grant access
+  to a canceled or deleted recording, and it is not a ready acquisition asset.
+  An ordinary retry still verifies the source's current media and proof bytes.
+- **Gap:** The bounded observation contract did not specify how cancellation of
+  another publication attempt should affect facts already reported as settled.
+- **Reach:** The controller can preserve truthful source progress without
+  inventing another cancellation owner. Source lifetime checks in 23f govern
+  donor availability; independently owned ready acquisitions retain their own
+  lifetime. Retained-file native recovery proves only what its bytes authorize.
+- **Verdict:** Sound. Canceling an attempt cannot erase completed publication,
+  while historical publication cannot bypass current ownership and admission.
+- **Confidence:** High.

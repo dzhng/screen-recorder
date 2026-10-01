@@ -102,6 +102,10 @@ public struct CaptureFailure: Error, LocalizedError, Codable, Sendable {
         self.code = code
         self.message = message
     }
+    package init(bounded error: any Error) {
+        let diagnostic = CaptureFinalizationError(error)
+        self.init(diagnostic.code, diagnostic.message)
+    }
 }
 
 /// The bounded diagnostic for an unfinished publication attempt, shared by control and recovery.

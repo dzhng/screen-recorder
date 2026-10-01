@@ -32,6 +32,16 @@ package final class ClosedCameraSource {
     }
     package func releaseJournal() { journal?.lease.release() }
 
+    func result(receipt: CameraMedia.Receipt?, reason: CaptureFailure?) -> CaptureResult {
+        CaptureResult(state: reason == nil ? "complete" : "interrupted",
+            source: CaptureSource(kind: binding == nil ? "probe-camera" : "camera"), width: width, height: height,
+            durationUs: receipt?.endUs ?? 0, hostOriginUs: clock.originUs, pauses: clock.pauses,
+            tracks: receipt.map { [CapturedTrack(role: "video", file: "video.mov", firstSampleUs: $0.firstUs,
+                lastSampleEndUs: $0.endUs, samples: $0.representedFrames, droppedSamples: dropped,
+                omittedSamples: omitted, heldTailUs: 0, sampleRate: nil, channelCount: nil)] } ?? [],
+            failure: reason, systemAudioScope: "disabled", cameraBinding: binding)
+    }
+
     func pinIdentities() throws {
         let raw = try CaptureMediaIdentity.read(directory.appendingPathComponent("camera.raw.mov"))
         guard rawIdentity.map({ $0 == raw }) ?? true else { throw CameraMedia.invalid("Closed camera payload changed.") }
@@ -76,13 +86,7 @@ extension CameraMedia {
                 reason = reason ?? terminal
             }
         }
-        var result = CaptureResult(state: reason == nil ? "complete" : "interrupted",
-            source: CaptureSource(kind: closed.binding == nil ? "probe-camera" : "camera"), width: closed.width, height: closed.height,
-            durationUs: receipt?.endUs ?? 0, hostOriginUs: closed.clock.originUs, pauses: closed.clock.pauses,
-            tracks: receipt.map { [CapturedTrack(role: "video", file: "video.mov", firstSampleUs: $0.firstUs,
-                lastSampleEndUs: $0.endUs, samples: $0.representedFrames, droppedSamples: closed.dropped,
-                omittedSamples: closed.omitted, heldTailUs: 0, sampleRate: nil, channelCount: nil)] } ?? [],
-            failure: reason, systemAudioScope: "disabled", cameraBinding: closed.binding)
+        var result = closed.result(receipt: receipt, reason: reason)
         // Persist the result file before the one terminal append. An operational write failure
         // can retry without claiming journal completion or repeating physical closure.
         let resultURL = closed.directory.appendingPathComponent("capture-result.json")

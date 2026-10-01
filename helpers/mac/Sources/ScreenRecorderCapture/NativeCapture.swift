@@ -11,6 +11,10 @@ public final class NativeCapture {
     private var sink: CaptureWriter?
     private var closedResult: CaptureResult?
     private var closedCamera: ClosedCameraSource?
+    private var companionFailure: CaptureFailure?
+    private var primaryCompletionRecorded = false
+    public private(set) var publication: CapturePublicationObservation?
+    public var onPublication: ((CapturePublicationObservation) -> Void)?
     private var publicationCancellationRequested = false
     private let termination = CaptureTermination<CaptureResult?>()
     public var onInterruption: ((CaptureFailure) -> Void)?
@@ -83,9 +87,17 @@ public final class NativeCapture {
         guard state == .idle, !termination.isRunning else {
             throw CaptureFailure("INVALID_STATE", "Capture is already active.")
         }
+        if let sourceId = request.sourceId, sourceId.isEmpty || sourceId.utf16.count > 256 {
+            throw CaptureFailure("INVALID_REQUEST", "Source identity must be bounded and nonempty.")
+        }
         closedResult = nil
+        primaryCompletionRecorded = false
+        companionFailure = nil
+        publication = nil
         publicationCancellationRequested = false
         let generation = generations.begin()
+        publication = CapturePublicationObservation(generation: generation,
+            sourceId: request.sourceId ?? generation.uuidString, inputsClosed: false)
         state = .selecting
         failure = nil
         func checkStartup() throws {
@@ -96,6 +108,7 @@ public final class NativeCapture {
         defer {
             if state == .selecting, generations.accepts(generation) {
                 state = .idle
+                publication = nil
                 generations.end(generation)
             }
         }
@@ -147,6 +160,7 @@ public final class NativeCapture {
                     input = nil
                     sink = nil
                     outputSize = nil
+                    publication = nil
                     generations.end(generation)
                     state = .idle
                     return nil
@@ -217,27 +231,79 @@ public final class NativeCapture {
                     await closingInput?.closeMedia(clock: finalClock, failure: finished.failure)
                 }.value
                 closedCamera = companion?.camera
-                closedResult = finished.withFailure(companion?.failure)
+                closedResult = finished
+                companionFailure = companion?.failure
                 input = nil
+                publication?.inputsClosed = true
+                reportPublication(generation)
             }
             guard let closedResult else { throw CaptureFailure("INVALID_STATE", "Writer did not close.") }
             var camera: CapturedCameraSource?
             var publicationError: (any Error)?
             if let closedCamera {
-                do { camera = try await CameraMedia.publish(closedCamera) }
-                catch { publicationError = error }
+                do {
+                    let value = try await CameraMedia.publish(closedCamera)
+                    camera = value
+                    if value.durationUs > 0, let journal = closedCamera.journal {
+                        let evidence = try CaptureSourcePublication.publish(kind: .camera,
+                            durationUs: value.durationUs, originHostUs: value.hostOriginUs,
+                            tracks: value.tracks, diagnostic: value.failure, lease: journal.lease, layout: 1)
+                        publication?.camera = .published(evidence)
+                    } else {
+                        publication?.camera = .unavailable(CaptureFailure(bounded: value.failure
+                            ?? CaptureFailure("NO_CAMERA", "Camera has no published source support.")))
+                    }
+                } catch {
+                    let outcome = publicationOutcome(error, previous: publication?.camera)
+                    publication?.camera = outcome
+                    let reason = CaptureFinalizationError(error)
+                    if reason.retryable { publicationError = error }
+                    else {
+                        let failure = CaptureFailure(reason.code, reason.message)
+                        closedCamera.terminalFailure = failure
+                        camera = CapturedCameraSource(directory: closedCamera.directory.path,
+                            result: closedCamera.result(receipt: nil, reason: failure))
+                    }
+                }
+                reportPublication(generation)
             }
             var result = closedResult
-            do { result = try await publish(closedResult, from: sink) }
-            catch { publicationError = publicationError ?? error }
+            do {
+                if case .unavailable(let reason) = publication?.primary {
+                    result = closedResult.withFailure(CaptureFailure(reason.code, reason.message))
+                } else {
+                    result = try await publish(closedResult, from: sink)
+                    if !primaryCompletionRecorded {
+                        primaryCompletionRecorded = true
+                        result = sink.recordPublishedResult(result)
+                    }
+                    if result.durationUs > 0, let lease = sink.packedJournalLease {
+                        let evidence = try CaptureSourcePublication.publish(kind: .primary,
+                            durationUs: result.durationUs, originHostUs: result.hostOriginUs,
+                            tracks: result.tracks, diagnostic: result.failure, lease: lease, layout: 2)
+                        publication?.primary = .published(evidence)
+                    } else {
+                        publication?.primary = .unavailable(CaptureFailure(bounded: result.failure
+                            ?? CaptureFailure("INVALID_MEDIA", "Primary has no published source support.")))
+                    }
+                }
+            } catch {
+                let outcome = publicationOutcome(error, previous: publication?.primary)
+                publication?.primary = outcome
+                let reason = CaptureFinalizationError(error)
+                if reason.retryable { publicationError = publicationError ?? error }
+                else { result = result.withFailure(CaptureFailure(reason.code, reason.message)) }
+            }
+            reportPublication(generation)
             if let publicationError { throw publicationError }
-            result = result.withCamera(camera)
-            if sink.packedJournalLease != nil { result = sink.recordPublishedResult(result) }
+            result = result.withFailure(companionFailure).withCamera(camera)
             lifecycleSequence = sink.note(result.state,
                 reason: result.failure?.code ?? (result.cleanupFailure == nil ? nil : "CLEANUP_PENDING"))
             outputSize = nil
             self.sink = nil
             self.closedResult = nil
+            primaryCompletionRecorded = false
+            companionFailure = nil
             closedCamera?.releaseJournal()
             closedCamera = nil
             generations.end(generation)
@@ -252,6 +318,22 @@ public final class NativeCapture {
         let result = try await task.value
         guard let result else { throw CaptureFailure("INVALID_STATE", "The take was discarded.") }
         return result
+    }
+
+    private func reportPublication(_ generation: UUID) {
+        guard generations.accepts(generation), let publication, publication.generation == generation else { return }
+        onPublication?(publication)
+    }
+
+    private func publicationOutcome(_ error: any Error, previous: CaptureSourcePublicationOutcome?) -> CaptureSourcePublicationOutcome {
+        if error is CancellationError, let previous {
+            switch previous {
+            case .published, .unavailable: return previous
+            case .pending: break
+            }
+        }
+        let failure = CaptureFinalizationError(error)
+        return failure.retryable ? .pending(failure) : .unavailable(CaptureFailure(failure.code, failure.message))
     }
 
     private func publish(_ closed: CaptureResult, from sink: CaptureWriter) async throws -> CaptureResult {
@@ -321,6 +403,7 @@ public final class NativeCapture {
                 generations.end(generation)
                 outputSize = nil
                 failure = nil
+                publication = nil
                 state = .idle
                 return nil
             }
@@ -333,6 +416,9 @@ public final class NativeCapture {
             outputSize = nil
             self.sink = nil
             closedResult = nil
+            primaryCompletionRecorded = false
+            companionFailure = nil
+            publication = nil
             closedCamera?.releaseJournal()
             closedCamera = nil
             generations.end(generation)

@@ -1,6 +1,6 @@
 # 21f3a — Independent closed-source publication authority
 
-Status: contract reconciled with the existing publishers; implementation next.
+Status: native implementation and focused gates passed; root production review found no defect. Integration verification remains with the parent pass.
 Native prerequisite of [21f3](21f3-public-camera-selection.md). Public camera
 selection remains rejected until the complete allocation-to-project gate passes.
 
@@ -58,3 +58,67 @@ No new hardware capture, model work, audible output, application window, install
 switch or frozen-worker replacement. This establishes controlled publisher facts,
 not physical synchronization, representative camera quality or stop deadlines.
 Review shape, code, docs and choices; record the exact focused gate before commit.
+
+
+## Implemented authority and handoff
+
+[NativeCapture](../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift)
+retains a bounded observation for its own generation. Physical closure is reported
+only after both input drain and encoder closure. Each source then reports its own
+publication result; a camera failure does not become the primary source's
+completion diagnostic. The ordinary stop result still waits for both publishers.
+A canceled retry retains an already-settled observation as a historical fact, not
+as a promise that a donor survives discard or deletion.
+
+[Source publication](../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift)
+owns one durable receipt per source. It pins source identity, support, binding,
+diagnostic, the immutable journal descriptor, and canonical/proof member hashes.
+The primary's own completion is recorded once before its validated prefix is
+copied. Camera uses its existing stable journal. File operations stay under the
+existing journal and directory lease; receipts cannot replace occupied names.
+Retry rechecks each existing media publisher and source receipt. Independent
+recovery checks the same receipt and the existing media proofs, without creating
+new publication metadata or guessing from directory contents.
+
+The [focused prerecorded gate](../../../helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentPublicationTests.swift)
+uses actual filesystem refusals and altered authority bytes. Its retained-file
+recovery deliberately releases native ownership while fixture files remain;
+it does not establish catalog eligibility after cancel or delete. That remains
+owned by the source lifetime fence in 23f. The existing input-generation and camera
+publication gates remain required. No public selector, controller report, core
+eligibility, or acquisition schema lands in this prerequisite.
+
+## Remaining camera-origin prerequisite
+
+The opt-in `SCREENREC_CAMERA_WITHOUT_PRIMARY_OUTPUT` probe is **red**. Suppressing
+primary video callback delivery leaves the primary clock without an origin.
+[Camera ingress](../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift)
+passes that clock to the camera writer, so offered camera frames are rejected as
+outside support before publication can retain any camera media. The probe writes
+its request, binding, result, observation, closure facts, and raw ingress evidence
+before requiring a usable camera outcome. It must turn green through the separate
+[camera clock/support prerequisite](21f3b-independent-camera-clock.md); publication must not invent an origin, align
+sources to wall time, or weaken this requirement. The passing primary-audio
+refusal case does not cover primary-video absence.
+
+
+## Verification receipt
+
+The offline `ScreenRecorderCaptureTests` build and focused independent-publication,
+camera-publication, and selected-camera-input gates passed. The independent gate
+also runs the existing prerecorded startup, stale-generation, and discard checks.
+The separately retained camera-without-primary probe exits 133 with
+`CAMERA_ORIGIN_REQUIRED`; it is not a passing 3a claim or a hardware result.
+
+[The retained evidence manifest](/tmp/screenrec-21f3a-evidence.json) pins the native
+source freeze, compiled runner, requests, numeric inputs, journals, receipts,
+closure facts, and each gate's output and exit disposition. Its SHA-256 is
+`9c654c9090eaefba771981962d9640fbdc7d8513d0b487f972e86a637985adf5`.
+
+The configured CLI review was attempted despite its prior known HTTP 400
+availability failure. It again exited 1 before reviewing any code; there is no CLI
+review verdict. No further retry or configuration change was made. Root's
+production review inspected the implementation without a finding; merged native
+verification remains the parent's responsibility. All local native runners and
+the failed reviewer have exited. No hardware capture, audible playback, model
+work, application window, installed switch, or frozen-worker replacement ran.

@@ -24,6 +24,7 @@ func runNativeCaptureInputTests() async throws {
     }
     do { try await capture.start(request("failed")); preconditionFailure("Partial input must refuse") }
     catch let error as CaptureFailure { precondition(error.code == "INPUT_START_FAILED") }
+    precondition(capture.publication == nil, "Failed startup cannot leave a live-input publication observation")
     precondition(failed.stops == 1 && failed.discards == 1 && failed.finalizations == 0 && capture.deviceState == "idle")
     try await capture.start(request("healthy"))
     failed.onFailure?(CaptureFailure("STALE_DEVICE_LOSS", "Old input callback"))
