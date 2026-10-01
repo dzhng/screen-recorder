@@ -48,3 +48,11 @@ the actual source service/CLI bundles and an unconfigured SDK client. Its comple
 gate records absent → preparing → ready, concurrent CLI/MCP preparation, ready
 reuse, reopen and the actual Models native request. Both source services, SDK
 adapters and startup children have observed terminal events. No inference followed.
+
+## Checker failure settlement
+
+The [supplemental correction packet](../assets/23n-parakeet-readiness-lifecycle/README.md)
+verifies terminal completion and saved failure reports for startup/SDK failures,
+including cleanup rejection. It retains successful zero-exit assertions. Synthetic
+startup controls exercise the same checker lifecycle without repeating model
+readiness. The original accepted preparation archive remains immutable.

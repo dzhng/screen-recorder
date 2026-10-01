@@ -1,0 +1,475 @@
+{
+  "scope": "Synthetic actual-child readiness checker lifecycle controls only; no preparation/native/inference/readiness cohort",
+  "sourceBase": "2f0690dc8959c02b1950c0bc7e4945d201bf8398",
+  "originalAcceptedPacket": {
+    "path": "../23n-parakeet-model-readiness/evidence.tar.gz",
+    "bytes": 991011,
+    "sha256": "0e3acab53e7eecbe2116b3102d4204f47ea51386a8291e0ec438ed26c71b4a4e",
+    "unchanged": true
+  },
+  "sourceClosure": [
+    {
+      "path": "packages/test-harness/editing/parakeet-readiness.mjs",
+      "bytes": 13953,
+      "sha256": "dfad0acbf43b7dc505e9d78f25a533a11e3788a4e6a008205d785ba6ce7e7e4e"
+    },
+    {
+      "path": "packages/test-harness/editing/parakeet-readiness-processes.mjs",
+      "bytes": 5112,
+      "sha256": "968d4ee605da51adc98c7fb6ba634bf70f9a4986982421db741f4e3f47385512"
+    },
+    {
+      "path": "packages/test-harness/editing/parakeet-readiness-processes.test.mjs",
+      "bytes": 7377,
+      "sha256": "3fc833f9968c6acf29d2453a626719092c1c12f46b5db78c9bae34019c36163d"
+    }
+  ],
+  "directSDKProtocolAndToolAuthority": [
+    {
+      "requested": "packages/test-harness/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js",
+      "realpath": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js",
+      "bytes": 6569,
+      "sha256": "298514feae7875117a119a2598b40f2346ef07c30152fa7ad2ffb6cfb51782bc"
+    },
+    {
+      "requested": "packages/test-harness/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js",
+      "realpath": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js",
+      "bytes": 29275,
+      "sha256": "db6cc643f5cc095b2fd0b70bf691d1775f07a317e97555e3928559e815f5e32a"
+    },
+    {
+      "requested": "packages/test-harness/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js",
+      "realpath": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js",
+      "bytes": 51762,
+      "sha256": "8de524602541771e084f7185e7d0fc418b8142a9cae1bd80a3ee7c70e9a9e132"
+    },
+    {
+      "requested": "packages/test-harness/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js",
+      "realpath": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js",
+      "bytes": 20763,
+      "sha256": "8b4fbdc0d0bbdc9ad74f385c41c0152d85445187f47cfc3941ff0d2a14a2696e"
+    },
+    {
+      "requested": "packages/test-harness/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js",
+      "realpath": "/Users/david/dev/screen-recorder/node_modules/.bun/@modelcontextprotocol+sdk@1.30.0/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js",
+      "bytes": 2825,
+      "sha256": "91ccf96ee65c36dba922bba429f127865a8e4ad03d252126aca2e03c526c005a"
+    },
+    {
+      "requested": "packages/protocol/dist/index.js",
+      "realpath": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/protocol/dist/index.js",
+      "bytes": 3294,
+      "sha256": "a951ac564627c06618eed0d6f0f3c74fe34afa57109f5657bc7d3d3d6c26c5d2"
+    },
+    {
+      "requested": "packages/protocol/dist/framing.js",
+      "realpath": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/protocol/dist/framing.js",
+      "bytes": 5431,
+      "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+    },
+    {
+      "requested": "actual Node executable",
+      "realpath": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "bytes": 119133456,
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    }
+  ],
+  "authorityLimit": "Controls import the existing compiled protocol and installed SDK directly. Frozen production service/CLI/model runtime bundles are not executed by synthetic fixtures; their readiness authority remains in original accepted packet.",
+  "baseline": {
+    "producer": "bank-controls.py",
+    "source": "red/owner.mjs",
+    "label": "Extracted original checker lifecycle; no model preflight",
+    "command": "baseline-red.json",
+    "missingReports": [
+      "baseline-red/exit-before-ready/report.json",
+      "baseline-red/failed-control/report.json"
+    ]
+  },
+  "corrected": {
+    "command": "final-green.json",
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "driverBoundMs": 5000,
+    "defaultSDKDeadlinesUnchanged": true,
+    "sourceModule": "final-owner.mjs"
+  },
+  "staticChecks": "final-static-checks.json",
+  "operationOraclePreservation": "operation-oracle-preservation.json",
+  "archive": {
+    "bytes": 19239,
+    "sha256": "ccd4c0805edc8979b35c719782b2ec27c8ee722f3a24ffd310fde7e6752351af"
+  },
+  "members": [
+    [
+      "bank-controls.py",
+      2719,
+      "eca64fccaf18370389d1749ed5615997282459e6c92a036c451ade9e8818f87f"
+    ],
+    [
+      "bank-packet.py",
+      4206,
+      "d45eeb6c39de8b3af560ddb1b16ebd72d30fe1d09d83cba503ea00a9182c6132"
+    ],
+    [
+      "commands.json",
+      10837,
+      "7e36db61d832d8922c675e543b36b464ed93ea8812fe335402bd309b7700a669"
+    ],
+    [
+      "baseline-red.json",
+      4655,
+      "e78a8277fc1edc6409dbbd3756fefc2ddc215dde0a59a265a65573a618f55d8f"
+    ],
+    [
+      "final-green.json",
+      1624,
+      "12dd15b5a3cbf2580627afb005a23cf888a1653e1ac704dfbbea2a40efa5787d"
+    ],
+    [
+      "final-static-checks.json",
+      2994,
+      "48467309c92aa62721fc8692aa3e6c4937dda3faa6739bea7695c016edf02fa7"
+    ],
+    [
+      "operation-oracle-preservation.json",
+      392,
+      "fd3df76613da9cf4087bbe1dbb8ccda7292ce0894e3826ef60d5ac8eba306e3b"
+    ],
+    [
+      "original-checker.mjs",
+      16077,
+      "1178e06d422d27f4c2ea66d9af9086b96c868153e78fefbce1434e506b72294a"
+    ],
+    [
+      "final-owner.mjs",
+      5112,
+      "968d4ee605da51adc98c7fb6ba634bf70f9a4986982421db741f4e3f47385512"
+    ],
+    [
+      "final-checker.mjs",
+      13953,
+      "dfad0acbf43b7dc505e9d78f25a533a11e3788a4e6a008205d785ba6ce7e7e4e"
+    ],
+    [
+      "final-tests.mjs",
+      7377,
+      "3fc833f9968c6acf29d2453a626719092c1c12f46b5db78c9bae34019c36163d"
+    ],
+    [
+      "red/owner.mjs",
+      3114,
+      "445633d482910193aaf1d2966c6121969f9ab8305300971c460efa83cdd79614"
+    ],
+    [
+      "baseline-red/exit-before-ready/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "baseline-red/exit-before-ready/driver.mjs",
+      1435,
+      "fddc6351faf3a1d0d1222ece4ce0fd1ee1e9e16c7bab53cc544121080b5f5e7e"
+    ],
+    [
+      "baseline-red/exit-before-ready/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "baseline-red/exit-before-ready/service.mjs",
+      16,
+      "17323d72475e41c4f9343f336328489038724e5bfc1c7e80326a67bf26977956"
+    ],
+    [
+      "baseline-red/exit-before-ready/terminal.json",
+      1350,
+      "269d2dde8844457d21e8f8d16d18b4cf3a0df67df5fa2e7052276472b61d9013"
+    ],
+    [
+      "baseline-red/failed-control/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "baseline-red/failed-control/driver.mjs",
+      1417,
+      "0aaab121f6be5ae94c845f92b2426d3a303837669e835805e4ec16a856874dc1"
+    ],
+    [
+      "baseline-red/failed-control/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "baseline-red/failed-control/service.mjs",
+      97,
+      "8eebebed5358d00c87335325eaadabfdf21f294de5eeabc621acb934b6f177c9"
+    ],
+    [
+      "baseline-red/failed-control/terminal.json",
+      753,
+      "1f7b3551acdb954239c81b74a07e96e80d3724fcbc1fbd45038a10f224a59946"
+    ],
+    [
+      "final-green/adapter-exit/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "final-green/adapter-exit/driver.mjs",
+      1399,
+      "283219e2001e5362f6f70e500dfb99a0ec58ed7e2693d0fe76440d9bfc3304ac"
+    ],
+    [
+      "final-green/adapter-exit/mcp-terminal.jsonl",
+      23,
+      "9eb7343fb63b7bf70d8bba67424f689b6575ea74909d401de5c063b0ae020528"
+    ],
+    [
+      "final-green/adapter-exit/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/adapter-exit/report.json",
+      1764,
+      "17536a31df34cc9aa4105edc60c02513f6a5b206e9a24ce197558c61fce613f5"
+    ],
+    [
+      "final-green/adapter-exit/service.mjs",
+      124,
+      "b296302eb649626ffff23ed80f02009b2e0a728bbbef718f7a3093c99ed24bb3"
+    ],
+    [
+      "final-green/adapter-exit/terminal.json",
+      1167,
+      "bafa3139e59b415bacc7c3fdff4021a4cce4dee9c7e6540d624c2f19a2e93c38"
+    ],
+    [
+      "final-green/adapter-malformed/cli.mjs",
+      64,
+      "87ebbd67d6689a48de78ad4d80dd956201ab27cfa18b3ba7eeb56bb6d55d960c"
+    ],
+    [
+      "final-green/adapter-malformed/driver.mjs",
+      1429,
+      "8b66c901d646b4b8fc4d8c9fc62d691e2c68e4802a7cd24c909dd9e06ec02958"
+    ],
+    [
+      "final-green/adapter-malformed/mcp-terminal.jsonl",
+      23,
+      "4d3eeaf84535341fa644997b2eb3aa7d44cd067dbca1edecb3e3d99cc1ef5c45"
+    ],
+    [
+      "final-green/adapter-malformed/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/adapter-malformed/report.json",
+      6791,
+      "e4e7aca7859d50acb77599eca29cec23311f26c2284745a7f66fff17805b0c77"
+    ],
+    [
+      "final-green/adapter-malformed/service.mjs",
+      124,
+      "b296302eb649626ffff23ed80f02009b2e0a728bbbef718f7a3093c99ed24bb3"
+    ],
+    [
+      "final-green/adapter-malformed/terminal.json",
+      1291,
+      "024dfe67ca12e3efd3104e8fc5dfd8a88402a7515a9b0e8bd4803ab7924c29ed"
+    ],
+    [
+      "final-green/exit-before-ready/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "final-green/exit-before-ready/driver.mjs",
+      1429,
+      "3156a1a1ef6e34d38a49278e84d1c10765c3be41a081e0f1b01c39f824f0c6fa"
+    ],
+    [
+      "final-green/exit-before-ready/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/exit-before-ready/report.json",
+      989,
+      "bc9e07472b1caa5f4e08eb43f8997e229be1dbc2f1aab56dce22f9def49dfea0"
+    ],
+    [
+      "final-green/exit-before-ready/service.mjs",
+      16,
+      "17323d72475e41c4f9343f336328489038724e5bfc1c7e80326a67bf26977956"
+    ],
+    [
+      "final-green/exit-before-ready/terminal.json",
+      659,
+      "dc7f64b1d4720609b07d300d539a42767a3d9cbb5ce5e0aa3cac72cae9e58c09"
+    ],
+    [
+      "final-green/failed-control/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "final-green/failed-control/driver.mjs",
+      1411,
+      "a299d734843128277ef08955adff5383eef2687c41001153a6345f8739272a21"
+    ],
+    [
+      "final-green/failed-control/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/failed-control/report.json",
+      2631,
+      "637cdfb5dea31f79cb0def735e6a71fe0676b345d68dff9505844ab03a0d57c6"
+    ],
+    [
+      "final-green/failed-control/service.mjs",
+      97,
+      "8eebebed5358d00c87335325eaadabfdf21f294de5eeabc621acb934b6f177c9"
+    ],
+    [
+      "final-green/failed-control/terminal.json",
+      651,
+      "f6626cd8515a8d77cfe036d5054a37efbdf5aecb77cf5cc925b3a0363201db5c"
+    ],
+    [
+      "final-green/malformed-control/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "final-green/malformed-control/driver.mjs",
+      1429,
+      "4add1e281139f5072e58a0adec080bb5ac64d2aaa4e77668f98af735e0ab319e"
+    ],
+    [
+      "final-green/malformed-control/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/malformed-control/report.json",
+      4721,
+      "e2af62d0f1d42e1dda096be68cd9732ef4c1eedea8cb0a875675f7b9360ff385"
+    ],
+    [
+      "final-green/malformed-control/service.mjs",
+      64,
+      "87ebbd67d6689a48de78ad4d80dd956201ab27cfa18b3ba7eeb56bb6d55d960c"
+    ],
+    [
+      "final-green/malformed-control/terminal.json",
+      905,
+      "07ac82a5dd5d30820fc4d9a9a25b822c4d2580c1a6cd7e1db09fc53dbab9d275"
+    ],
+    [
+      "final-green/nonzero-close/cli.mjs",
+      489,
+      "9357dc3055b8bd455cd4ee953ff8de3ce91ef69759e5d48198e8fcd446f4b07e"
+    ],
+    [
+      "final-green/nonzero-close/driver.mjs",
+      1405,
+      "56fed71487a34a7351f23fac8c9c8abfe26cf74d9927b2c6764dc3b8cd77aa8e"
+    ],
+    [
+      "final-green/nonzero-close/mcp-terminal.jsonl",
+      23,
+      "ecbccf6464ec89abb91d075c28c89d413ee040500c8b5ef55b7606131647be0a"
+    ],
+    [
+      "final-green/nonzero-close/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/nonzero-close/report.json",
+      1660,
+      "7f35ecac483f8a533cc3e41b3063a7e484e841eb3d4317e3297a79ca9644cc9d"
+    ],
+    [
+      "final-green/nonzero-close/service.mjs",
+      143,
+      "7f86bbb120bbbd68f0c1950f804b3cd351f65dc6adf33f2e452185392565fbf0"
+    ],
+    [
+      "final-green/nonzero-close/terminal.json",
+      975,
+      "598c19c039f93af8f776684e2867d02c11ed2ba5cb4f7a2c107806fe540141e4"
+    ],
+    [
+      "final-green/successful-startup/cli.mjs",
+      489,
+      "9357dc3055b8bd455cd4ee953ff8de3ce91ef69759e5d48198e8fcd446f4b07e"
+    ],
+    [
+      "final-green/successful-startup/driver.mjs",
+      1435,
+      "f9c98fe80985971f89604ae87ff59ed623a6d67231311895b0ed2bc78eef0603"
+    ],
+    [
+      "final-green/successful-startup/mcp-terminal.jsonl",
+      23,
+      "b6ae73e18b168f16a90d76cbe78bba502953402fef8755794718804b7858c862"
+    ],
+    [
+      "final-green/successful-startup/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/successful-startup/report.json",
+      612,
+      "0b51020c26e71040500b9cbe72225f215c107538f2548557e1391435bb50e3c6"
+    ],
+    [
+      "final-green/successful-startup/service.mjs",
+      124,
+      "b296302eb649626ffff23ed80f02009b2e0a728bbbef718f7a3093c99ed24bb3"
+    ],
+    [
+      "final-green/successful-startup/terminal.json",
+      102,
+      "d8eb88843efdfcb3f627282b484ea2ce7f3cf51cbacbc62412955972ac272753"
+    ],
+    [
+      "final-green/truncated-control/cli.mjs",
+      16,
+      "e7b5f4732a0a8b0a4d810eb2d8fc81b48ea3cab3d98898f2a83d2423b4166e32"
+    ],
+    [
+      "final-green/truncated-control/driver.mjs",
+      1429,
+      "cc6518f21ddd46ee6c56bdfaee044fac4685748bea52636aa9ab3fb3d2613e03"
+    ],
+    [
+      "final-green/truncated-control/observer.mjs",
+      275,
+      "9c609d2216f907fd41925590dd8b3922fce4c3cedc4a9681b621c2a40099f690"
+    ],
+    [
+      "final-green/truncated-control/report.json",
+      3916,
+      "3d56362c8765054ad8695bfcd6c1938175d212e8617926b6c13d7318a228426f"
+    ],
+    [
+      "final-green/truncated-control/service.mjs",
+      26,
+      "4c1fca1b953fbaa47bc8b16b26c396eb622f1932fe4ea79d4f2c02e91ab3554c"
+    ],
+    [
+      "final-green/truncated-control/terminal.json",
+      670,
+      "1218b0541d8b6b2ff4e0dffb0ef977e436bfb4ecbfb8a69ebea01e3b740bcb0e"
+    ]
+  ]
+}
