@@ -26,8 +26,12 @@ developers read or edit it from that caller's perspective.
 Execute the saved cuts through both public consumers, independently qualify sample
 timing, and validate every selected picture against its matched raw reference.
 [23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
-is running in parallel after [23n genuine isolated Parakeet preparation](slices/23n-parakeet-model-readiness.md)
-through the ordinary model owner; frozen ASR output alone cannot establish readiness.
+passes its merged complete saved-proof verifier and startup controls after
+[23n genuine model preparation](slices/23n-parakeet-model-readiness.md). Broader
+speech quality and positive system acquisition remain separate.
+Current [24z source-cardinality preparation](slices/24z-source-cardinality.md)
+is proceeding in parallel; no timing cohort launches before correctness and a
+coordinated fresh host check.
 The completed readiness packet is preserved; its [checker lifecycle controls](assets/23n-parakeet-readiness-lifecycle/README.md)
 pass on the merged tree without repeating preparation or inference. Keep same-request frame
 selection distinct from matched-source picture comparisons. Authored freeze,
@@ -278,7 +282,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
 - [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — actual joins and independently qualified final support
-- [ ] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — genuine model readiness precedes frozen ingestion
+- [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality and positive system remain open
 - [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)

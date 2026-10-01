@@ -6408,3 +6408,8 @@ The [23n lifecycle ledger](assets/23n-parakeet-readiness-lifecycle/choices.md) o
 one scenario process owner and separate startup/cleanup failure evidence. The
 original successful producer remains immutable; current controls validate the
 repair without model preparation or a product transport change.
+
+The implemented [23m ledger](assets/23m-paired-partial-words-and-absent-role/choices.md)
+retains reconstruction provenance and distinct runtime/verifier identities. Root
+and independent review accept those boundaries; neither reconstructed RPC bytes
+nor saved-verifier success implies a new inference or speech-quality verdict.

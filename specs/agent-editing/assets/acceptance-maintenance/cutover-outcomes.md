@@ -65,9 +65,9 @@ preservation; they are not a complete matched public two-role project comparison
 The 21f3 camera-selection archive's `final/numeric/report.json` preserves 100800
 frames through requested visual changes, undo and relocation, SHA
 `d5fbdc8b04e302fa23e2e515218ab7a650f994dd13486c8a05283fa151aea665`.
-Both that case and 23a disable system audio. Complete matched public system-only
-and absent-role correspondence remain missing. The [23m plan](../../slices/23m-paired-partial-words-and-absent-role.md)
-scopes the latter using truthful not_requested metadata. A later two-track fixture must
+Both that case and 23a disable system audio. The [23m public proof](../23m-paired-partial-words-and-absent-role/README.md)
+verifies the absent role using truthful not_requested metadata. Complete matched
+public system-only correspondence remains open. A later two-track fixture must
 explicitly author legacy-equivalent gains/ramps; the new toolkit cannot infer those
 treatments from the old engine's automatic policy.
 
@@ -85,10 +85,11 @@ not invented outside authored clips.
 The [10c phrase project](../10c-public-phrases/project.json) retains the partial
 “Okay,” source word [1120000,1440000), fragment [1120000,1300000), project fragment
 [6000000,6180000), with `partial:true`. Its negative control shows the false match
-when the partial-word barrier is removed. This is new-public proof; a matched
-legacy/project edited partial-word comparison remains prospective under
-[23m](../../slices/23m-paired-partial-words-and-absent-role.md), which preserves both
-public row shapes and compares their retained interval meaning in the harness.
+when the partial-word barrier is removed. The [23m paired proof](../23m-paired-partial-words-and-absent-role/README.md)
+now verifies complete edited partial-word correspondence through both public
+consumers. It preserves both row shapes and compares retained interval meaning
+in the harness; partial-phrase search intentionally differs while the whole-phrase
+control agrees. Frozen ingestion establishes projection, not new speech quality.
 
 The linked original transcript generation report retains eight complete
 `ARTIFACT_CHANGED` errors, all 14 fresh rows and two phrase matches. The audit

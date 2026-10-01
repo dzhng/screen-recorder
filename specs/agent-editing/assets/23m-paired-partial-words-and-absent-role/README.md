@@ -88,3 +88,8 @@ Positive system acquisition, requested-but-not-acquired evidence, acquisition-ho
 and excerpt media correspondence remain separate technical prerequisites. The
 23a boundary differences and 12d human marks retain their original scope. This
 packet does not reopen accepted inference/auditions or complete full12 quality.
+
+The [merged verification](merged.json) and [root packet](merged.tar.gz) retain
+current saved-proof/startup checks and independently verified archive/source/runtime
+identities. The successful public producer and reconstructed RPC provenance remain
+separate from the later maintained verifier. No inference or media cohort repeats.

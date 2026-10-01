@@ -1,0 +1,71 @@
+{
+  "status": "Merged saved proof verifier and5actualNode startup controls pass",
+  "implementation": "edc309d2",
+  "root": "edc309d257ef223b738dfbe119fbd085c35af9cf",
+  "independent": {
+    "scope": "Read-only payload/runtime/source integrity plus merged saved verifier and5Node controls; no public/model/media rerun",
+    "implementation": "edc309d2",
+    "childCommits": [
+      "5636724758739f1c295bf56ecc97dc01add56591",
+      "c09e6a5dd221699ba29d0200e80903405ccb3327"
+    ],
+    "checks": {
+      "originalPayloads": 52,
+      "lifecyclePayloads": 11,
+      "rootConsumerSourcePins": 175,
+      "runtimeInputs": 387,
+      "rootEmittedCounterparts": 170,
+      "correctedCurrentHarnessExact": true,
+      "mergedSavedVerifier": true,
+      "mergedNodeStartupControls": 5,
+      "scopedLint": 0,
+      "scopedFormat": 0
+    },
+    "scopeLimits": [
+      "Frozen RPC envelope reconstructed; immutable raw/model request binding preserved.",
+      "Public observed producer differs from later maintained verifier; both exactpins preserved.",
+      "No speechquality/positive-system/excerpt/physical/presentation/installed/fullrelease claim."
+    ]
+  },
+  "observedScope": {
+    "publicExchanges": 114,
+    "completeDatasets": 22,
+    "rawOrdinals": 306,
+    "legacyWords": 306,
+    "projectOccurrences": 307,
+    "frozenSpeechReplies": 1
+  },
+  "limits": "Source/native/public cohort remains frozen and is not rerun. Partial-word/not_requested proof only; positive system audio, excerpts, quality and full release remain open.",
+  "archive": {
+    "path": "merged.tar.gz",
+    "bytes": 1704,
+    "sha256": "c27711b89b2f89477e9ab68cd01f44d56c15c6d9082e93fa01ce30f864655d26",
+    "members": 6
+  },
+  "members": {
+    "controls/report.json": {
+      "bytes": 2198,
+      "sha256": "6e4a9a8a19f9afe14a6b9bfe6c859bdc5566b79c1cb666423205a1bb77b0cda1"
+    },
+    "controls.log": {
+      "bytes": 222,
+      "sha256": "d8faa9edc56cfbb70c3eb14a975893386c497fa8eb7f4327eb37b9ef1cad32c4"
+    },
+    "format.log": {
+      "bytes": 202,
+      "sha256": "aaf44b97224ddcb271bf1f79bc2275b85425c3c19d5610879fc0aa45d0d6671f"
+    },
+    "independent.json": {
+      "bytes": 922,
+      "sha256": "70d4cff61432b7c4d442a89bfc97ab7f23ac0a1c697a25d2c4cd20871744c242"
+    },
+    "lint.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verification.log": {
+      "bytes": 278,
+      "sha256": "7b5a7a21d1020df6918dc70ff557706555388993a9bf196b853300d9a442ed05"
+    }
+  }
+}

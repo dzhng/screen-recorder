@@ -1,7 +1,9 @@
 # 23m — Paired partial words and absent acquisition role
 
 Status: scoped public projection proof passed from `d6c84191`; no production
-policy changes. The [owned packet](../assets/23m-paired-partial-words-and-absent-role/README.md)
+policy changes. The [merged verification](../assets/23m-paired-partial-words-and-absent-role/merged.json)
+confirms saved-proof/startup controls and source/runtime identities on the root tree
+without repeating inference or media. The [owned packet](../assets/23m-paired-partial-words-and-absent-role/README.md)
 retains 114 complete exchanges, 22 page traversals and the original negative
 producer failure. This advances the [transcript/acquisition correspondence](../assets/acceptance-maintenance/cutover-outcomes.md)
 through actual installed recording and current source project public consumers.
