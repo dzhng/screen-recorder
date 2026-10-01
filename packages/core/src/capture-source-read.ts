@@ -13,17 +13,12 @@ import {
   type TimeValue,
   type SignedTimeValue,
 } from "@screenrec/composition";
-import { compositionAsset, type AssetStore } from "./assets.js";
+import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
 import type { SourceEvidenceMetadata } from "./evidence.js";
 import { CatalogError } from "./catalog.js";
-import {
-  selectSource,
-  selectSourceSupport,
-  sourceSelectionSchema,
-  type SourceSelection,
-} from "./source-selection.js";
+import { selectSource, SourceSelectionRead, type SourceSelection } from "./source-selection.js";
 
 // Leave headroom for transport envelopes beneath the public eight-MiB frame bound.
 export function boundSourceEvidenceResponse(value: unknown): void {
@@ -89,36 +84,22 @@ export class CaptureSourceRead {
     private readonly acquisitions: AcquisitionStore,
     private readonly records: SourceEvidenceReader,
   ) {}
-  resolve(selection: SourceSelection, domain: CaptureDomain): CaptureContext {
-    return this.resolveMany([selection], domain)[0]!;
+  resolve(
+    selection: SourceSelection,
+    domain: CaptureDomain,
+    sources = new SourceSelectionRead(this.assets, this.acquisitions),
+  ): CaptureContext {
+    return this.context(sources.get(selection), domain);
   }
-  /** A synchronous validation phase shares immutable rows; the next phase starts fresh. */
   resolveMany(selections: readonly SourceSelection[], domain: CaptureDomain): CaptureContext[] {
-    const assets = new Map<string, ReturnType<typeof compositionAsset>>();
-    const acquisitions = new Map<string, ReturnType<AcquisitionStore["get"]>>();
-    return selections.map((input) => {
-      const selection = sourceSelectionSchema.parse(input);
-      let asset = assets.get(selection.assetId);
-      if (!asset) {
-        asset = compositionAsset(this.assets.get(selection.assetId));
-        assets.set(selection.assetId, asset);
-      }
-      let acquisition =
-        selection.acquisitionId === undefined
-          ? undefined
-          : acquisitions.get(selection.acquisitionId);
-      if (!acquisition && selection.acquisitionId !== undefined) {
-        acquisition = this.acquisitions.get(selection.acquisitionId);
-        acquisitions.set(selection.acquisitionId, acquisition);
-      }
-      return this.context(selectSourceSupport(asset, acquisition, selection), acquisition, domain);
-    });
+    const sources = new SourceSelectionRead(this.assets, this.acquisitions);
+    return selections.map((selection) => this.resolve(selection, domain, sources));
   }
   private context(
-    selected: ReturnType<typeof selectSourceSupport>,
-    acquisition: ReturnType<AcquisitionStore["get"]> | undefined,
+    selected: ReturnType<SourceSelectionRead["get"]>,
     domain: CaptureDomain,
   ): CaptureContext {
+    const acquisition = selected.acquisition;
     const binding = selected.binding;
     const visual = selected.stream.kind === "video" && binding?.sourceRoles.includes("video");
     const capability = (kind: string, applicable = true): CaptureCoverage => ({

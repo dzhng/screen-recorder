@@ -20,7 +20,12 @@ import {
 
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
-import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
+import {
+  selectSource,
+  sourceSelectionSchema,
+  type SourceSelectionRead,
+  type SourceSelection,
+} from "./source-selection.js";
 import {
   SelectedSourceSceneAnalysis,
   sourceScenePolicy,
@@ -70,8 +75,15 @@ export class SceneProcessing {
       throw new CatalogError("UNSUPPORTED_JOB", "Asset scene analysis is unavailable");
     return this.options.asset;
   }
-  private selected(selection: SourceSelection) {
-    const selected = selectSource(this.asset.assets, this.asset.acquisitions, selection);
+  private selected(selection: SourceSelection): ReturnType<typeof selectSource>;
+  private selected(
+    selection: SourceSelection,
+    sources: SourceSelectionRead | undefined,
+  ): ReturnType<typeof selectSource> | ReturnType<SourceSelectionRead["get"]>;
+  private selected(selection: SourceSelection, sources?: SourceSelectionRead) {
+    const selected =
+      sources?.get(selection) ??
+      selectSource(this.asset.assets, this.asset.acquisitions, selection);
     if (selected.stream.kind !== "video")
       throw new CatalogError("UNSUPPORTED_MEDIA", "Scene analysis requires a video stream");
     return selected;
@@ -139,7 +151,10 @@ export class SceneProcessing {
     this.jobs.retry(status.jobId);
     return this.status(recordingId);
   }
-  private sourceIdentity(selected: ReturnType<typeof selectSource>, implementationId: string) {
+  private sourceIdentity(
+    selected: Parameters<typeof sourceSceneDescriptor>[0],
+    implementationId: string,
+  ) {
     return {
       target: { kind: "asset" as const, assetId: selected.selection.assetId },
       artifact,
@@ -194,8 +209,8 @@ export class SceneProcessing {
       );
     this.jobs.adoptArtifact({ ...identity, ...publication });
   }
-  sourceStatus(selection: SourceSelection) {
-    const selected = this.selected(selection);
+  sourceStatus(selection: SourceSelection, sources?: SourceSelectionRead) {
+    const selected = this.selected(selection, sources);
     const status = this.jobs.status(this.sourceIdentity(selected, this.asset.implementationId));
     const unavailable = !selected.track.available.length;
     return {

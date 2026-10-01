@@ -1,0 +1,32 @@
+{
+  "verdict": "clean for isolated owner correction; root integration remains pending",
+  "shape": {
+    "skill": ".agents/skills/refactor-clean/SKILL.md",
+    "resolution": "Moved the existing capture phase maps into the source-selection owner; one clock-support helper serves read-only and file-addressed forms. No selected-result cache, facts bypass, persistent cache, endpoint, schema, flag or dependency added."
+  },
+  "diff": {
+    "skill": ".agents/skills/code-review/SKILL.md",
+    "resolution": "Verified source-order resolution, serial preparation, per-phase lookup lifetime, descriptor fields and file-addressed execution typing. All mutation controls restore source bytes before final checks; no production ProjectEvidenceInspection validation changed."
+  },
+  "docs": {
+    "skill": ".agents/skills/write-docs/SKILL.md",
+    "resolution": "Leaf slice/evidence describe invariants and limits and link their authorities. Root owns shared README/global choices and root-to-leaf wiring after integration."
+  },
+  "tests": {
+    "skill": ".agents/skills/write-tests/SKILL.md",
+    "resolution": "Actual consumer and SQLite reads; independent authored pause/cut values; full returned dependencies/coverage retained. Freshness, error precedence and admission order each have expected red controls and restored green checks."
+  },
+  "choices": {
+    "skill": ".agents/skills/audit-choices/SKILL.md",
+    "ledger": "choices.md",
+    "verdicts": {
+      "sound": 3,
+      "unsound": 0,
+      "needsUser": 0
+    }
+  },
+  "limitations": [
+    "No independent CLI/Claude review was run; root supplies integration review.",
+    "Work accounting is not p95 or source-cardinality causality."
+  ]
+}

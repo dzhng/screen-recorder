@@ -1,0 +1,96 @@
+{
+  "slice": "24z7",
+  "scope": "isolated read-only scene-enabled source-event dependency metadata resolution",
+  "baseCommit": "8ef6f691c4c9422c5ce4b35f32c5383894a9a250",
+  "red": {
+    "exitCode": 1,
+    "work": {
+      "headers": 20,
+      "segments": 60,
+      "acquisitions": 12
+    },
+    "consumerOracle": "passed before the work assertion",
+    "producer": "evidence/red/source-pins.json"
+  },
+  "green": {
+    "exitCode": 0,
+    "work": {
+      "headers": 2,
+      "segments": 10,
+      "acquisitions": 4
+    },
+    "producer": "evidence/green/source-pins.json"
+  },
+  "controls": {
+    "freshValidation": {
+      "redExitCode": 1,
+      "restoredExitCode": 0,
+      "reason": "Removing post-publication validation accepts a changed acquisition generation"
+    },
+    "errorPrecedence": {
+      "redExitCode": 1,
+      "restoredExitCode": 0,
+      "reason": "An eager capture prepass raises the later missing-asset error before the first scene decode failure"
+    },
+    "preparationOrder": {
+      "redExitCode": 1,
+      "restoredExitCode": 0,
+      "reason": "A whole-batch preflight leaves the earlier source unrequested when a later source fails"
+    }
+  },
+  "finalChecks": {
+    "tests": {
+      "exitCode": 0,
+      "files": 6,
+      "passed": 69,
+      "projectEvidence": 38,
+      "captureInterruption": 8,
+      "sceneConsumers": 23,
+      "log": "evidence/checks/24z7-final-suite.txt"
+    },
+    "build": {
+      "exitCode": 0,
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+      "log": "evidence/checks/24z7-final-build.txt"
+    },
+    "types": {
+      "exitCode": 0,
+      "command": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json",
+      "log": "evidence/checks/24z7-final-types.txt"
+    },
+    "format": {
+      "exitCode": 0,
+      "log": "evidence/checks/24z7-format.txt"
+    },
+    "lint": {
+      "exitCode": 0,
+      "log": "evidence/checks/24z7-lint.txt"
+    }
+  },
+  "retained": {
+    "archiveSha256": "9d576dd9916bca081362ac2ac812855ec55ffb77932f9e515c72a449f556cc1b",
+    "members": 1852,
+    "finalSourcePins": "evidence/final-source/source-pins.json",
+    "dependencyResolution": "evidence/dependencies.json",
+    "rawCatalogs": [
+      "evidence/red/catalog",
+      "evidence/green/catalog"
+    ],
+    "retentionInstrumentation": "Test-only file copying after the bounded consumer read; instrumented test sources are separately pinned, final shipped tests contain no retention hook"
+  },
+  "boundaries": {
+    "serviceStarts": 0,
+    "nativeWorkerCalls": 0,
+    "realCapture": 0,
+    "modelWork": 0,
+    "mediaInference": 0,
+    "audiblePlayback": 0,
+    "originalTimingCohorts": 0,
+    "installedSwitches": 0,
+    "limitsOrDeadlinesChanged": false,
+    "sourceCardinalityP95": "open",
+    "generalScaleBudgets": "open",
+    "rootIntegration": "pending",
+    "publicCLIMCPDelivery": "not established by this isolated packet"
+  }
+}

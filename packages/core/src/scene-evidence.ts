@@ -134,7 +134,9 @@ export function recordingSceneOwner(store: RevisionStore) {
   };
 }
 export function sourceSceneDescriptor(
-  selected: ReturnType<typeof selectSource>,
+  selected: Pick<ReturnType<typeof selectSource>, "selection" | "supportDigest" | "durationUs"> & {
+    track: Pick<ReturnType<typeof selectSource>["track"], "sourceOffsetUs">;
+  },
 ): Extract<SceneSource, { kind: "asset" }> {
   return {
     kind: "asset",

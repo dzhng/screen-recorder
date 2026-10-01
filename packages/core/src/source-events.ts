@@ -5,7 +5,7 @@ import { compare, fromTime, intervalIndex } from "@screenrec/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
-import { selectSource, type SourceSelection } from "./source-selection.js";
+import { selectSource, SourceSelectionRead, type SourceSelection } from "./source-selection.js";
 import {
   CaptureSourceRead,
   initialCapture,
@@ -43,10 +43,15 @@ export class SourceEvents {
       scenes?: SourceSceneRead;
     },
   ) {}
-  resolve(selection: SourceSelection, domain: CaptureDomain, prepare = false): SourceEventContext {
-    const capture = this.options.capture.resolve(selection, domain);
+  resolve(
+    selection: SourceSelection,
+    domain: CaptureDomain,
+    prepare = false,
+    sources?: SourceSelectionRead,
+  ): SourceEventContext {
+    const capture = this.options.capture.resolve(selection, domain, sources);
     if (domain === "cursor" || !this.options.scenes) return capture;
-    const scene = this.options.scenes.resolve(selection, prepare);
+    const scene = this.options.scenes.resolve(selection, prepare, sources);
     return {
       ...capture,
       scene,
@@ -67,8 +72,12 @@ export class SourceEvents {
     prepare = false,
   ): SourceEventContext[] {
     // Scene preparation can submit work; preserve its per-source validation/admission order.
-    if (domain === "events" && this.options.scenes)
-      return selections.map((selection) => this.resolve(selection, domain, prepare));
+    if (domain === "events" && this.options.scenes) {
+      const sources = prepare
+        ? undefined
+        : new SourceSelectionRead(this.options.assets, this.options.acquisitions);
+      return selections.map((selection) => this.resolve(selection, domain, prepare, sources));
+    }
     return this.options.capture.resolveMany(selections, domain);
   }
   next(

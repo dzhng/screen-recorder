@@ -3,7 +3,11 @@ import { toTime, type TimeValue } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
-import { selectSource, type SourceSelection } from "./source-selection.js";
+import {
+  selectSource,
+  type SourceSelectionRead,
+  type SourceSelection,
+} from "./source-selection.js";
 import type { SceneProcessing } from "./scene-processing.js";
 import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
 import { sceneSampleSourceTime } from "./source-scenes.js";
@@ -45,8 +49,14 @@ export class SourceSceneRead {
       records: SceneEvidenceStore;
     },
   ) {}
-  resolve(selection: SourceSelection, prepare = false): SceneContext {
-    const selected = selectSource(this.options.assets, this.options.acquisitions, selection);
+  resolve(
+    selection: SourceSelection,
+    prepare = false,
+    sources?: SourceSelectionRead,
+  ): SceneContext {
+    const selected =
+      sources?.get(selection) ??
+      selectSource(this.options.assets, this.options.acquisitions, selection);
     if (selected.stream.kind !== "video")
       return {
         state: "unavailable",
@@ -57,7 +67,7 @@ export class SourceSceneRead {
       };
     const status = prepare
       ? this.options.processing.publishedSource(selection)
-      : this.options.processing.sourceStatus(selection);
+      : this.options.processing.sourceStatus(selection, sources);
     return {
       state: status.state,
       reason: status.reason,

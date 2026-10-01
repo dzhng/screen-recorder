@@ -1073,21 +1073,7 @@ function capturedClip(
   if (operation.operation !== "place") throw new Error("Expected placement");
   return { ...operation, clip: { ...operation.clip, acquisitionId } };
 }
-test("cursor dependency validation shares metadata within each fresh phase", async () => {
-  const f = await fixture();
-  const captures = await Promise.all([
-    f.capture([cursorSample(600)]),
-    f.capture([cursorSample(600)]),
-  ]);
-  const input = f.create([
-    { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
-    ...Array.from({ length: 8 }, (_, n) =>
-      capturedClip(f.asset.id, captures[n % 2]!.id, `clip-${n}`, "video", n * 1000, (n + 1) * 1000),
-    ),
-  ]);
-  const query = { ...input, domain: "cursor" as const, limit: 1 };
-  await f.ready(query);
-  const first = await f.evidence.cursor(query);
+function observeSourceMetadata(f: Awaited<ReturnType<typeof fixture>>) {
   const work = { headers: 0, segments: 0, acquisitions: 0 };
   const prepare = f.catalog.catalog.prepare.bind(f.catalog.catalog);
   f.catalog.catalog.prepare = (sql, ...options) => {
@@ -1114,6 +1100,30 @@ test("cursor dependency validation shares metadata within each fresh phase", asy
     }
     return statement;
   };
+  return {
+    work,
+    restore: () => {
+      f.catalog.catalog.prepare = prepare;
+      vi.restoreAllMocks();
+    },
+  };
+}
+test("cursor dependency validation shares metadata within each fresh phase", async () => {
+  const f = await fixture();
+  const captures = await Promise.all([
+    f.capture([cursorSample(600)]),
+    f.capture([cursorSample(600)]),
+  ]);
+  const input = f.create([
+    { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+    ...Array.from({ length: 8 }, (_, n) =>
+      capturedClip(f.asset.id, captures[n % 2]!.id, `clip-${n}`, "video", n * 1000, (n + 1) * 1000),
+    ),
+  ]);
+  const query = { ...input, domain: "cursor" as const, limit: 1 };
+  await f.ready(query);
+  const first = await f.evidence.cursor(query);
+  const { work, restore } = observeSourceMetadata(f);
   try {
     const next = await f.evidence.cursor({ ...query, cursor: first.page!.nextCursor });
     expect(next.page!.rows).toMatchObject([
@@ -1128,45 +1138,164 @@ test("cursor dependency validation shares metadata within each fresh phase", asy
     expect(next.page!.nextCursor).not.toBeNull();
     expect(work).toEqual({ headers: 2, segments: 10, acquisitions: 4 });
   } finally {
-    f.catalog.catalog.prepare = prepare;
-    vi.restoreAllMocks();
+    restore();
   }
 });
-test("cursor metadata is resolved again after checkpoint publication and on the next request", async () => {
-  const f = await fixture();
-  const captured = await f.capture([cursorSample(600)]);
+test("scene-enabled continuation validation shares source metadata within each fresh phase", async () => {
+  const f = await fixture({ scenes: true });
+  const captures = await Promise.all([
+    f.capture([{ event: "pause", data: { atSourceUs: 600, elapsedPauseUs: 17 } }]),
+    f.capture([{ event: "pause", data: { atSourceUs: 700, elapsedPauseUs: 23 } }]),
+  ]);
   const input = f.create([
     { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
-    capturedClip(f.asset.id, captured.id, "first", "video", 0, 1000),
-    capturedClip(f.asset.id, captured.id, "next", "video", 1000, 2000),
+    ...captures.map((capture, n) =>
+      capturedClip(f.asset.id, capture.id, `clip-${n}`, "video", n * 1000, (n + 1) * 1000),
+    ),
   ]);
-  const query = { ...input, domain: "cursor" as const, limit: 1 };
+  const query = { ...input, domain: "events" as const, limit: 1 };
   await f.ready(query);
-  const first = await f.evidence.cursor(query);
-  const original = await readFile(f.assets.path(f.asset.id));
-  const publish = f.cache.publish.bind(f.cache);
-  let checkpoint: string | undefined;
-  f.cache.publish = async (id) => {
-    const published = await publish(id);
-    checkpoint = id;
-    f.catalog.catalog
-      .prepare("UPDATE acquisitions SET metadata=? WHERE id=?")
-      .run(
-        JSON.stringify({ ...captured, evidence: { ...captured.evidence, generation: "replaced" } }),
+  const first = await f.evidence.events(query);
+  const firstSource = first.page!.rows[0]!;
+  if (firstSource.kind === "cut") throw Error("Expected the authored pause before the cut");
+  expect(firstSource).toEqual({
+    kind: "pause",
+    sourceAtUs: 100,
+    captureAtUs: 600,
+    sourceSequence: 1,
+    observation: { atSourceUs: 600, elapsedPauseUs: 17 },
+    clipId: first.coverage!.occurrences![0]!.clipId,
+    assetId: f.asset.id,
+    streamId: "video",
+    acquisitionId: captures[0]!.id,
+    trackId: firstSource.trackId,
+    trackRank: 0,
+    generation: "first",
+    projectAtUs: 100,
+  });
+  const { work, restore } = observeSourceMetadata(f);
+  try {
+    const next = await f.evidence.events({ ...query, cursor: first.page!.nextCursor });
+    expect(next.page!.rows).toEqual([
+      {
+        kind: "cut",
+        mediaKind: "video",
+        projectAtUs: 1000,
+        trackId: firstSource.trackId,
+        trackRank: 0,
+        before: {
+          kind: "range",
+          clipId: firstSource.clipId,
+          assetId: f.asset.id,
+          streamId: "video",
+          acquisitionId: captures[0]!.id,
+          sourceAtUs: 1000,
+          rate: 1,
+        },
+        after: {
+          kind: "range",
+          clipId: first.coverage!.occurrences![1]!.clipId,
+          assetId: f.asset.id,
+          streamId: "video",
+          acquisitionId: captures[1]!.id,
+          sourceAtUs: 0,
+          rate: 1,
+        },
+      },
+    ]);
+    expect(next.dependencies).toEqual(first.dependencies);
+    expect(next.coverage).toEqual({ manifestId: first.coverage!.manifestId });
+    expect(next.page!.nextCursor).not.toBeNull();
+    expect(work).toEqual({ headers: 2, segments: 10, acquisitions: 4 });
+  } finally {
+    restore();
+  }
+});
+test("read-only source-event batches keep the first source failure ahead of later metadata failures", async () => {
+  const f = await fixture({ scenes: true });
+  const capture = await f.capture([]);
+  const selected = { assetId: f.asset.id, streamId: "video", acquisitionId: capture.id };
+  f.sourceEvents.resolveMany([selected], "events", true);
+  await f.jobs.idle();
+  f.catalog.catalog
+    .prepare("UPDATE artifacts SET result=? WHERE artifact='source-scenes' AND targetId=?")
+    .run("invalid scene publication JSON", f.asset.id);
+  expect(() =>
+    f.sourceEvents.resolveMany(
+      [selected, { assetId: "missing", streamId: "video" }],
+      "events",
+      false,
+    ),
+  ).toThrow(SyntaxError);
+});
+test("scene preparation admits the earlier source before a later selection fails", async () => {
+  const f = await fixture({ scenes: true });
+  const capture = await f.capture([]);
+  const selected = { assetId: f.asset.id, streamId: "video", acquisitionId: capture.id };
+  expect(f.sceneProcessing.sourceStatus(selected).state).toBe("not_requested");
+  expect(() =>
+    f.sourceEvents.resolveMany(
+      [selected, { assetId: "missing", streamId: "video" }],
+      "events",
+      true,
+    ),
+  ).toThrow("Asset does not exist");
+  await f.jobs.idle();
+  const status = f.sceneProcessing.sourceStatus(selected);
+  expect(status.state).toBe("ready");
+  expect(status.published!.evidence.source).toEqual({
+    kind: "asset",
+    streamId: "video",
+    acquisitionId: capture.id,
+    originUs: 500,
+    durationUs: 1000,
+    supportDigest: createHash("sha256")
+      .update(JSON.stringify([{ startUs: 0, endUs: 1000 }]))
+      .digest("hex"),
+  });
+});
+test.each(["cursor", "events"] as const)(
+  "%s metadata is resolved again after checkpoint publication and on the next request",
+  async (domain) => {
+    const f = await fixture({ scenes: true });
+    const captured = await f.capture([
+      cursorSample(600),
+      { event: "pause", data: { atSourceUs: 600, elapsedPauseUs: 17 } },
+    ]);
+    const input = f.create([
+      { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+      capturedClip(f.asset.id, captured.id, "first", "video", 0, 1000),
+      capturedClip(f.asset.id, captured.id, "next", "video", 1000, 2000),
+    ]);
+    const query = { ...input, domain, limit: 1 };
+    await f.ready(query);
+    const first = await f.evidence[domain](query);
+    const original = await readFile(f.assets.path(f.asset.id));
+    const publish = f.cache.publish.bind(f.cache);
+    let checkpoint: string | undefined;
+    f.cache.publish = async (id) => {
+      const published = await publish(id);
+      checkpoint = id;
+      f.catalog.catalog.prepare("UPDATE acquisitions SET metadata=? WHERE id=?").run(
+        JSON.stringify({
+          ...captured,
+          evidence: { ...captured.evidence, generation: "replaced" },
+        }),
         captured.id,
       );
-    return published;
-  };
-  await expect(
-    f.evidence.cursor({ ...query, cursor: first.page!.nextCursor }),
-  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
-  expect(checkpoint).toBeDefined();
-  expect(f.cache.acquire(checkpoint!)).toBeNull();
-  await expect(
-    f.evidence.cursor({ ...query, cursor: first.page!.nextCursor }),
-  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
-  expect(await readFile(f.assets.path(f.asset.id))).toEqual(original);
-});
+      return published;
+    };
+    await expect(
+      f.evidence[domain]({ ...query, cursor: first.page!.nextCursor }),
+    ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+    expect(checkpoint).toBeDefined();
+    expect(f.cache.acquire(checkpoint!)).toBeNull();
+    await expect(
+      f.evidence[domain]({ ...query, cursor: first.page!.nextCursor }),
+    ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+    expect(await readFile(f.assets.path(f.asset.id))).toEqual(original);
+  },
+);
 test("capture source and project reads preserve raw clocks, exact retimes and missing context coverage", async () => {
   const f = await fixture();
   const capture = await f.capture([
