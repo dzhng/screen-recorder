@@ -36,3 +36,8 @@ ran. Menu-model checks establish labels and action semantics; no screenshot,
 physical, listening or final installed acceptance is claimed.
 
 Remaining consumer ports and eventual installed switching stay with parent 23.
+
+[The merged verification](merged-verification.json) independently checks the packet,
+reviewed source and unchanged public reference, then passes both focused controller
+tests on the integrated code. Remaining consumer ports and installed acceptance
+retain their own gates.

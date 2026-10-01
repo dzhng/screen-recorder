@@ -1,6 +1,6 @@
 # 23d — Native export status and discovery parity
 
-Status: isolated receipt/controller parity verified. [Evidence](../assets/23d-export-consumer-parity/README.md). Depends on the retained
+Status: integrated receipt/controller parity merged-verified. [Evidence](../assets/23d-export-consumer-parity/README.md). Depends on the retained
 [23b export receipts](23b-export-recovery-preservation.md); final installed
 switching remains owned by [23](23-cutover.md).
 

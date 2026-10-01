@@ -1,6 +1,6 @@
 # Implementation pickup
 
-The full editor remains incomplete; the installed app has not switched engines.
+The full toolkit remains incomplete; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
 catalog/package formats are fenced by their existing owners; [03d](../slices/03d-exact-media-admission.md)
 preserves exact physical media facts. The frozen isolated worker used by retained
@@ -55,6 +55,10 @@ its [merged verification](21f1-capture-facts/merged-verification.json) checks so
 compiled runtime and archived evidence identities and the focused transaction,
 lifecycle, deletion and fresh-store gates. It does not wire fresh capture routes
 or advertise camera selection.
+[23d native export consumption](23d-export-consumer-parity/README.md) is integrated;
+[merged verification](23d-export-consumer-parity/merged-verification.json) preserves
+recording/project receipt ownership and status recovery through the actual consumer.
+It adds no project authoring interface or installed cutover.
 [20](../slices/20-camera-reproduction.md) retains the unresolved physical question
 and its retained-data stopping condition. None of these preparation passes
 approves synchronized physical capture, live shutdown or installed cutover.
@@ -179,14 +183,15 @@ its remaining quality, retiming or physical prerequisites.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
   [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
   saved replay, stable explicit origins, queued restart and model-free transfer of
-  generated/reference audio. Prepared-package-transfer has completed preparatory23a/23b;
-  capture-pause-recovery owns the offline20e probe.
+  generated/reference audio. Preparatory23a/23b and offline20e evidence are
+  retained in their owning packets; current work follows the pickup above.
   Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
   `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
-  the root binary remains frozen8a until coordinated integration. Root reproduced
-  a complete converted WAV through the candidate wire entry exactly.
+  that historical check kept its root binary frozen8a. Root reproduced a complete
+  converted WAV through the candidate wire entry exactly. Use the current pickup
+  for new runtime selection; this historical identity is not a standing build instruction.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
@@ -242,9 +247,8 @@ its remaining quality, retiming or physical prerequisites.
   source reads. The original SMPTE-C refusal remains retained. The
   [physical follow-up](20e-selected-device-probe/follow-up.md) records subsequent
   signing and authorized discovery/capture separately from that offline archive.
-  Recording has stopped; the signed probe stays frozen. Capture-pause-recovery is
-  actively repairing canonical publication against the saved fixture, as described
-  in the current pickup above. Parent20/21 stays open.
+  Recording has stopped; the signed probe stays frozen. Current capture work
+  follows the pickup above. Parent20/21 stays open.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.

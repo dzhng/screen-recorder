@@ -43,6 +43,9 @@ chosen composition.
 merged-verified. Next in that branch is selector-free fresh-service coordinator
 wiring and durable source-admission facts; camera selection remains rejected.
 Installed span transactions remain intact until the explicit cutover in 23.
+[23d native export consumption](slices/23d-export-consumer-parity.md) is integrated
+and merged-verified for recording/project receipts and truthful failure recovery.
+Remaining consumer ports and installed switching remain under 23.
 
 For [12b](slices/12b-speech-processing.md), preserve the selected Parakeet baseline
 and its disclosed best-effort fillers/timing limits. [Controlled public integration](assets/12b-public-parity/README.md)
@@ -250,6 +253,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23a — Retained recording to identity-project preservation](slices/23a-recording-project-preservation.md)
 - [x] [23b — Matched export recovery preservation](slices/23b-export-recovery-preservation.md)
 - [x] [23c — Isolated project-library storage preservation](slices/23c-project-storage.md)
+- [x] [23d — Native export status and discovery parity](slices/23d-export-consumer-parity.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

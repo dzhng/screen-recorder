@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-01T10:30:17.147307+00:00",
+  "integratedCommit": "8f394a0c",
+  "verdict": "Merged native export receipt/controller parity verified; parent23 and installed cutover remain open",
+  "archive": {
+    "identity": {
+      "bytes": 63722,
+      "sha256": "41e0115f37755762d6bc2127efddf71933f873242d6bac00c004a0e86a26f6d9"
+    },
+    "root": "screenrec-23d-evidence/",
+    "regularMembersVerified": 41,
+    "exactManifestMembershipBelowRoot": true
+  },
+  "mergedSourceIdentitiesMatched": 25,
+  "retainedPublicReference": {
+    "path": "specs/agent-editing/assets/23b-export-recovery-preservation/report.json",
+    "bytes": 99082,
+    "sha256": "cd8f161ffb35b7cab3b11040387e3410018b820dd86b3f814f1acac0e74bac0d"
+  },
+  "rootChecks": {
+    "command": "node --test --test-name-pattern 'native exports pin|native exports consume' apps/macos/tests/export-controls.test.mjs",
+    "passed": 2,
+    "failed": 0,
+    "exitCode": 0,
+    "log": {
+      "path": "/tmp/screenrec-23d-root-controller-tests.log",
+      "bytes": 481,
+      "sha256": "9515d87251e0fe20938580d07064912a15d38bda73ffda79279e88eaafbea53f"
+    }
+  },
+  "reusedChildEvidence": {
+    "pureControlsGroups": 16,
+    "reason": "Their exact compiled source inputs match; root reran both actual focused controller compilations on merged code."
+  },
+  "review": "Root source inspection and independent review clean after shared unanswered-reply classification; three documented choices retained.",
+  "notExecuted": [
+    "bundled-service media test",
+    "native media worker",
+    "capture",
+    "model preparation or inference",
+    "audible playback",
+    "application launch",
+    "installed switch",
+    "screenshot aesthetic acceptance"
+  ],
+  "next": "Continue remaining matched consumer ports under23 without installing or creating an implicit capture project."
+}
