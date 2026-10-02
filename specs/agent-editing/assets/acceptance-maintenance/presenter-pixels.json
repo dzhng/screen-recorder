@@ -1,0 +1,127 @@
+{
+  "passed": true,
+  "scope": "Representative unchanged production native presenter pixels and aspect-fit geometry only; actual staged menu/window/readiness already separately proven. Ordinary protected-app direct screenshots, controls interaction/listening, continuous pointer/A-V and installed/full release remain separate.",
+  "namedObservationDifference": "Standalone test compiles exact PreviewWindow source and generates its current presenting protocol verbatim. After actual Apple player readiness/advance, pause for static observation and set only this test window sharingType.readOnly. Product sharingType.none, source files, media and service are unchanged. No production test hook/module/endpoint/config or second protocol owner.",
+  "compiler": {
+    "argv": [
+      "swiftc",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewWindow.swift",
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presenter-pixels/Presenting.swift",
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presenter-pixels/Probe.swift",
+      "-o",
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presenter-pixels/PresenterPixels.app/Contents/MacOS/PresenterPixels"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "",
+    "protocolOwner": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewController.swift",
+    "protocolOwnerSha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9",
+    "protocolBlockSha256": "820a60ce99b7b57c19c2200c4c63b5e8065f69792f526251d4c06f6d1eb03f59",
+    "windowSourceSha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9",
+    "scope": "Exact production presenter; only current protocol declaration generated verbatim. Controller execution is separately established in staged app. No product source changed."
+  },
+  "runtime": {
+    "contentHeight": 500,
+    "contentWidth": 800,
+    "itemStatus": 1,
+    "observedSharing": 1,
+    "originalSharing": 0,
+    "pausedAtSeconds": 0.564122542,
+    "scope": "Production PreviewWindow compiled unchanged; presenting protocol extracted verbatim from current controller source; standalone presenter proof with capture-only sharing override, not installed app pixels",
+    "windowTitle": "Native presenter verification"
+  },
+  "process": {
+    "toolSessionId": 81768,
+    "exitCode": 0,
+    "stdout": "readyForScreenshot",
+    "terminal": true,
+    "independentPidRecord": false,
+    "closure": "Fixture90-second deadline terminated app; later CUA close attempt found inactive binding, no relaunch."
+  },
+  "images": {
+    "presenter": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presenter-pixels/presenter.png",
+      "bytes": 209152,
+      "sha256": "ac40132260abcd9d562fa2d60e0e0321d4771eaa45a18f512e4667345aeac32a"
+    },
+    "reference": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presenter-pixels/reference.png",
+      "bytes": 974071,
+      "sha256": "23301b5cbf57ce7a4555eaf8940a8a23031173d31d4410a537c28bceabfe1271"
+    },
+    "retention": "Original image bytes remain private because source includes unrelated desktop content; CUA capture is JPEG despite original .png filename. No image reencoding or published media change."
+  },
+  "comparison": {
+    "sourceDimensions": [
+      3024,
+      1964
+    ],
+    "candidateDimensions": [
+      1600,
+      1064
+    ],
+    "captureEncoding": "JPEG returned by CUA; original bytes retained under original .png path, not reencoded",
+    "nativeContentPoints": [
+      800,
+      500
+    ],
+    "dpr": 2.0,
+    "titleBarPixels": 64,
+    "expectedFittedVideoWidthPixels": 1539.714867617108,
+    "expectedSideMarginPixels": 30.142566191446008,
+    "sideMarginBlackSamples": {
+      "left10": 1.0,
+      "left25": 1.0,
+      "right10": 1.0,
+      "right25": 1.0
+    },
+    "clockMeaning": "Reference decoded at recorded paused player time; decoder/renderer frame instants and color paths can differ. No byte-parity claim.",
+    "landmarks": [
+      {
+        "feature": "top desktop menu and browser chrome",
+        "reference": "entire top edge visible",
+        "candidate": "visible below native title bar, no source edge cropped",
+        "verdict": "pass"
+      },
+      {
+        "feature": "left sidebar and desktop edge",
+        "reference": "visible entire height",
+        "candidate": "visible with narrow black side margin",
+        "verdict": "pass"
+      },
+      {
+        "feature": "right browser controls and desktop edge",
+        "reference": "visible through right screen boundary",
+        "candidate": "visible with balanced side margin",
+        "verdict": "pass"
+      },
+      {
+        "feature": "bottom dock and desktop boundary",
+        "reference": "complete bottom edge",
+        "candidate": "complete dock and bottom boundary visible",
+        "verdict": "pass"
+      },
+      {
+        "feature": "aspect ratio",
+        "reference": 1.539714867617108,
+        "candidate": "image fills native content height with side margins matching aspect-fit geometry",
+        "verdict": "pass"
+      },
+      {
+        "feature": "labels/icons",
+        "reference": "recognizable desktop/browser controls",
+        "candidate": "main labels and icons readable at native window size; fine detail reduced by aspect-fit scale",
+        "verdict": "pass"
+      }
+    ]
+  },
+  "independentReview": "# Presenter pixels visual critique\n\nInspected only `presenter.png` and `reference.png` from the supplied capture set.\n\n**Verdict: no concrete presentation defect visible. High confidence for framing and aspect ratio; medium confidence for the smallest text.**\n\n- All four desktop boundaries are present: top menu bar, left desktop/sidebar edge, right browser edge and controls, and bottom dock/background edge. No visibly cropped screen edge.\n- The desktop keeps the reference's proportions. Dock icons, window controls, and circular icons show no apparent stretch. Narrow, balanced side margins are appropriate for the player window; its header sits above the desktop.\n- Main labels, browser/sidebar landmarks, dock icons, page count, and right-side actions remain readable or recognizable at the supplied player size. Footer/legal text is small but not conspicuously damaged relative to the reduced frame size.\n- The large white document panes are also present in the reference. They do not visibly replace missing desktop content. Their heights/scroll position differ between the captures, and the candidate contains a cursor highlight; these differences do not establish a presentation failure from these stills.\n\nNo fixes recommended from this capture set. This assessment concerns visible geometry and content only, not decode timing or exact pixel parity.\n",
+  "setupFailures": "Initial compile used default language mode instead of Swift6; later links attempted a partial optimized controls-object set. All failed before product launch. Qualified compile extracts only unchanged required protocol, targets macOS26 and emits no warnings. An early launch before compiler completion returned127, before any process/UI; final launch followed successful compile. First image metrics parser assumed PNG for a CUA JPEG; corrected metadata read, not a product change.",
+  "productChanges": 0,
+  "next": "Reuse source/menu/movie/presenter proofs. Continue remaining speech/physical preservation and installed acceptance without another presenter rendering cohort."
+}

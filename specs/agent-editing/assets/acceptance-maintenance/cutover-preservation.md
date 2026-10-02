@@ -47,6 +47,15 @@ captures. The [generated-window control](window-capture-control.json) reproduces
 that capture behavior while holding foreground state fixed. This is a capture-tool
 limitation, not evidence that actual playback is blank or a reason to remove
 production capture exclusion. Private desktop images stay outside Git.
+The [standalone presenter proof](presenter-pixels.json) now compiles the unchanged
+production presenter, pauses the same ready movie for observation and permits
+capture of that test window only. Complete source boundaries, balanced aspect-fit
+margins and readable main landmarks pass comparison and unprimed review. The
+actual product retains capture exclusion. This qualifies representative presenter
+pixels alongside the actual staged-app menu/readiness proof; it does not turn the
+protected app screenshot into direct pixel proof or close installed/continuous
+playback acceptance.
+
 
 
 The paired edit/history case is banked in [23j](../../slices/23j-state-preservation.md),

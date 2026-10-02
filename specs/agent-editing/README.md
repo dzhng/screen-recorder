@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify native presenter pixels while preserving capture exclusion.**
+**Next pickup: materialize the bounded licensed lexical reference set.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
 media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
@@ -73,6 +73,14 @@ visible player pixels: a [controlled window](assets/acceptance-maintenance/windo
 reproduces the blank capture under the same sharing mode. Preserve that limitation,
 not a false player-defect claim. The [signed successor](assets/acceptance-maintenance/candidate-successor.json)
 is prepared without replacing the original staged or installed app.
+[Unchanged presenter pixels](assets/acceptance-maintenance/presenter-pixels.json)
+now pass with a documented capture-only override in a standalone test; complete
+source boundaries and aspect fit pass unprimed review. The ordinary product keeps
+capture exclusion. Reuse the scoped query, candidate, capture and presenter proofs.
+The next speech pass uses publisher human-checked transcript annotations to
+qualify lexical categories before any audio download/inference; automatic word
+times and unknown training overlap do not establish independent acoustic truth.
+
 
 
 | Owner | Current evidence | Remaining contract |

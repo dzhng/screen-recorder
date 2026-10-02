@@ -6871,3 +6871,21 @@ the array-or-reference type, and tests narrow that type before reading source
 fields. The plan left the implementation seam unspecified; no second schema or
 helper owns the format. This constrains future page consumers to preserve the
 same reference identity and first-page source facts.
+
+
+## Native presenter observation
+
+**Sound, medium confidence — separate native dispatch from capture-enabled presenter pixels.**
+The staged app opens the selected revision's movie, but its window excludes
+external capture. A generated control window turns blank in this capture tool
+under that same sharing mode and becomes readable when capture is allowed. The
+pixel check therefore compiles the exact production presenter in a standalone
+fixture, uses the actual ready movie and permits capture of only that test window.
+The presenting protocol is generated verbatim from its existing owner, rather
+than maintained as a second schema. The product and source media are unchanged.
+The plan required concrete presentation without choosing an observation method.
+This combines real staged-app dispatch/readiness with representative presenter
+pixels; it does not claim direct protected-app screenshots, installed acceptance,
+continuous playback or listening. Future review must preserve that named difference
+and those limits rather than disable capture exclusion in the product. Banked in
+the presenter-pixels acceptance packet.

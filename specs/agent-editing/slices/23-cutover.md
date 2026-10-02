@@ -7,7 +7,10 @@ The [23i app-owned process candidate](23i-service-process-parity.md) is source-v
 exact authored source intervals. [23k](23k-source-consumer-bridge.md) verifies
 actual metadata paging/dispatch and separate historical readiness consumption
 through composed native controllers; remaining preservation rows stay separate.
-Concrete presentation and installed release acceptance remain open.
+[Actual native menu/window and movie readiness](../assets/acceptance-maintenance/native-presentation.json)
+are now exercised in a signed isolated candidate; [representative presenter pixels](../assets/acceptance-maintenance/presenter-pixels.json)
+pass with a standalone capture-only override. Ordinary protected-app screenshots,
+continuous A/V/pointer preservation and installed release acceptance remain separate.
 Installed switching and obsolete-owner deletion have not started.
 The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md) identifies the remaining saved-outcome mappings and actual service/native-consumer cases without adding another UI or repeating accepted media cohorts.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
