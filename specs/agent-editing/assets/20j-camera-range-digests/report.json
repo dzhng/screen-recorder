@@ -1,0 +1,72 @@
+{
+  "status": "pass",
+  "scope": "Fixed retained-file ranged continuation and exact existing digest representation only",
+  "attempts": {
+    "compile": 1,
+    "native": 1,
+    "nativeFullBaselineReplay": 0
+  },
+  "processes": [
+    {
+      "label": "compile",
+      "pid": 5182,
+      "exitCode": 0,
+      "elapsedSeconds": 2.932958833000157,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "ranges",
+      "pid": 5281,
+      "exitCode": 0,
+      "elapsedSeconds": 1.0966090000001714,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    }
+  ],
+  "observed": {
+    "windowsPerSeries": [
+      29,
+      116,
+      52
+    ],
+    "checkpointCounts": [
+      29,
+      145,
+      197
+    ],
+    "decodedOutputsTotal": 394,
+    "concatenatedPicturesEachSeries": 197,
+    "completedReaderTerminals": 12,
+    "compressedBuffersPerSeries": [
+      33,
+      120,
+      56
+    ],
+    "compressedMediaPerSeries": [
+      29,
+      116,
+      52
+    ],
+    "bothFinalDigest": "c9a2da890da3c20eec1541c9be2a2804e62c804a2f87f198c0a057d7c7844700",
+    "exactTuplesEndpointsSupportEqual": true
+  },
+  "savedChecksArchiveMember": "saved-checks.json",
+  "protectedBindingsUnchanged": 371,
+  "unchangedCacheFiles": 307,
+  "limits": [
+    "Immutable range case only: no growing-asset refresh or internal decoder-preroll/work bound",
+    "No compressed forwarding/filtering/transfer policy selected",
+    "No live owner/backlog/recovery/throughput/stop-performance or production adoption",
+    "Endpoints retain SampleTiming.assetEnd decode-duration/mapping-clipping meaning; never ranged buffer duration or an independent SDK display guarantee"
+  ],
+  "review": {
+    "shape": "Existing native BGRA/nil-settings readers, qualified buffer observer and exact digest projection; no new maintained harness or production owner",
+    "diff": "Absolute timestamps, whole returned facts/EOF before gates, separate continuing states and saved-only golden bytes",
+    "docs": "Fixed range/state result separated from live/transfer/performance prerequisites"
+  }
+}
