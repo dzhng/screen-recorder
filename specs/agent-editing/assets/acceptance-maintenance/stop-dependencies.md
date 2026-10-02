@@ -75,3 +75,24 @@ Both scans still process approximately 73.455 GB of visible pixels on the retain
 take. The saved roughly 10.8-second digest time per stream means ideal overlap
 alone does not establish the ten-second stop target. Additional work remains even
 if scheduling parity is proved. No production strategy is selected by this audit.
+
+## Critical-path follow-up
+
+A fresh read-only trace after metadata eligibility found no duplicated full
+verification in ordinary finalization: native stop publishes camera media, then
+source publication wraps journal/member identities. Physical re-verification in
+reuse and recovery has a different purpose and must remain. The existing
+[component measurements](../20e-camera-digest-components/README.md) still rule out
+copy/lock coalescing, equivalent hash providers and build mode as supported fixes.
+
+Comparing two complete decoded streams while hashing only one would change the
+required verification traversal and still retains the saved single-hash cost
+above ten seconds. It is not selected. Moving verification into capture would
+require a new growing-file/timing/backlog/recovery contract; fragmented output
+alone does not prove that contract, and pre-encoding pixels cannot substitute for
+lossy decoded pixels. No such architecture is selected by the scheduling pass.
+
+Another implementation needs a concrete way to remove or move critical-path work
+while preserving both ordered digests. Its first proof belongs on the tiny existing
+fixtures, including interruption/cancellation/recovery, before a full retained-take
+run. No new benchmark or relaxed deadline follows from this audit.

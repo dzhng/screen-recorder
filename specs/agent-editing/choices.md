@@ -6524,3 +6524,16 @@ only. Actual publication must still prove both decoded streams, reader cleanup
 and resources before it can establish full-take adoption or performance. The
 technical gap did not require another accepted decode cohort, and this choice
 changes no product or digest contract.
+
+## Camera critical-path audit
+
+**Sound, high confidence — leave unsupported stop strategies unselected.**
+Overlapping the complete streams cannot by itself establish ten-second stop when
+one stream's saved digest already takes longer. The source trace finds no redundant
+fresh decode to delete; re-verification protects separate recovery paths. A paired
+byte comparison changes the mandated two-digest traversal, and incremental capture
+verification needs new timing, backlog and recovery guarantees. Neither is adopted
+from speculation. This keeps the stop requirement and full picture checks intact,
+without spending another full-take run on an unchanged or unsupported mechanism.
+The scheduling implementation remains usable within its proved scope; release
+performance still needs a supported mechanism and its own evidence.
