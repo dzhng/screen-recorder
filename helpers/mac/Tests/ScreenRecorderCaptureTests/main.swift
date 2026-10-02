@@ -1,6 +1,13 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_EMPTY_CAPTURE_RECOVERY_OUTPUT"] {
+if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PUBLICATION_OVERLAP"] != nil {
+    try await runProbeCameraPixelPublicationTests(widths: [32])
+    try await runCameraPublicationClippedSupportTest()
+    try await runCameraPublicationPrefixTests()
+    try await runCameraPublicationErrorOrderTest()
+    try runCameraPublicationDecisionTests()
+    try await runCameraPublicationReplayTests()
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_EMPTY_CAPTURE_RECOVERY_OUTPUT"] {
     try await runEmptyCaptureRecoveryTests(output: output)
 } else if ProcessInfo.processInfo.environment["SCREENREC_SOURCE_RECOVERY_CHILD"] != nil {
     try await runSourcePublicationCrashChild()

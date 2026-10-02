@@ -113,18 +113,15 @@ package enum CameraMedia {
             }
         }
     }
-    private final class Pictures {
+    private struct Source: Sendable {
         let input: MediaInput
-        let asset: AVURLAsset
         let track: AVAssetTrack
         let segments: [SourceSegment]
-        let reader: AVAssetReader
-        let output: AVAssetReaderTrackOutput
         let scale: Int32
-        private(set) var lastEnd = CMTime.invalid
+        var asset: AVURLAsset { input.asset }
         init(url: URL) async throws {
             input = try MediaInput(url: url, purpose: .streaming)
-            asset = input.asset
+            let asset = input.asset
             let videos = try await asset.loadTracks(withMediaType: .video)
             guard videos.count == 1, try await asset.loadTracks(withMediaType: .audio).isEmpty,
                 let track = videos.first else { throw invalid("Camera requires one video track and no audio.") }
@@ -132,8 +129,21 @@ package enum CameraMedia {
             scale = try await track.load(.naturalTimeScale)
             guard scale > 0 else { throw invalid("Camera has no positive native timescale.") }
             segments = SourceSegment.occupied(of: try await track.load(.segments))
-            reader = try AVAssetReader(asset: asset)
-            output = AVAssetReaderTrackOutput(track: track,
+        }
+    }
+    private final class Pictures {
+        let source: Source
+        var track: AVAssetTrack { source.track }
+        var segments: [SourceSegment] { source.segments }
+        var scale: Int32 { source.scale }
+        let reader: AVAssetReader
+        let output: AVAssetReaderTrackOutput
+        private(set) var lastEnd = CMTime.invalid
+        convenience init(url: URL) async throws { try self.init(source: await Source(url: url)) }
+        init(source: Source) throws {
+            self.source = source
+            reader = try AVAssetReader(asset: source.asset)
+            output = AVAssetReaderTrackOutput(track: source.track,
                 outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
             reader.add(output)
             guard reader.startReading() else { throw reader.error ?? invalid("Cannot decode camera payload.") }
@@ -239,9 +249,25 @@ package enum CameraMedia {
         try lease.check()
     }
 
+    private struct CanonicalScan: Sendable {
+        let support: ExactRange
+        let pictureHash: String
+        let remainingMapping: Result<Void, any Error>
+        func verified(against expectedHash: String) throws -> ExactRange {
+            guard pictureHash == expectedHash else { throw invalid("Canonical camera pixels or terminal support changed.") }
+            try remainingMapping.get()
+            return support
+        }
+    }
     /// One ordered-picture, exact-PTS, native-support and visible-BGRA verifier for publication/admission.
     private static func verifyCanonical(_ url: URL, mappingURL: URL, represented: Int, scale: Int32,
         pictureHash: String, expected: ExactRange?) async throws -> ExactRange {
+        let scanned = try await scanCanonical(url, mappingURL: mappingURL, represented: represented,
+            scale: scale, expected: expected)
+        return try scanned.verified(against: pictureHash)
+    }
+    private static func scanCanonical(_ url: URL, mappingURL: URL, represented: Int, scale: Int32,
+        expected: ExactRange?) async throws -> CanonicalScan {
         guard represented > 0, represented <= 5_000_000, scale > 0 else { throw invalid("Invalid represented camera picture count or timescale.") }
         let candidate = try await Pictures(url: url)
         let ranges = merged(candidate.segments.map(\.asset))
@@ -262,14 +288,19 @@ package enum CameraMedia {
             try digest(sample, into: &hash, scale: scale)
         }
         guard let last, support.end > last.start, support.end <= last.end,
-            try candidate.next() == nil, hex(hash.finalize()) == pictureHash else { throw invalid("Canonical camera pixels or terminal support changed.") }
-        // The receipt may represent only the physically decoded prefix; all retained rows still validate.
-        while let frame = try mapping.next() {
-            _ = try frame.acquisitionRange(scale: scale)
-            guard previous.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
-            previous = frame.start.time
-        }
-        return exact
+            try candidate.next() == nil else { throw invalid("Canonical camera pixels or terminal support changed.") }
+        let pictureHash = hex(hash.finalize())
+        // Hash disagreement precedes malformed trailing mapping rows, as in sequential verification.
+        let remaining: Result<Void, any Error>
+        do {
+            while let frame = try mapping.next() {
+                _ = try frame.acquisitionRange(scale: scale)
+                guard previous.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
+                previous = frame.start.time
+            }
+            remaining = .success(())
+        } catch { remaining = .failure(error) }
+        return CanonicalScan(support: exact, pictureHash: pictureHash, remainingMapping: remaining)
     }
 
     private static func readReceipt(_ url: URL) throws -> (Receipt, CaptureMediaIdentity) {
@@ -327,6 +358,126 @@ package enum CameraMedia {
             support: support, representedFrames: receipt.representedFrames), receipt.diagnostics)
     }
 
+    private struct IntendedSupport: Sendable {
+        let source: Source
+        let support: CMTimeRange
+        let represented: Int
+    }
+    /// Metadata qualifies scheduling only; both complete pixel scans still own acceptance.
+    private static func intendedSupport(rawURL: URL, mappingURL: URL) async throws -> IntendedSupport? {
+        do {
+            let source = try await Source(url: rawURL)
+            guard source.segments.count == 1 else { return nil }
+            let mapping = try Mapping(mappingURL)
+            var first: CMTime?
+            var previous: CMTime?
+            var support: CMTimeRange?
+            try visitPresentedSamples(track: source.track, segments: source.segments) { native in
+                guard let frame = try mapping.next() else { throw invalid("Native inventory exceeds mapping.") }
+                let range = try frame.acquisitionRange(scale: source.scale)
+                guard previous.map({ $0 < frame.start.time }) ?? true,
+                    range.start == native.start else { throw invalid("Mapping differs from native inventory.") }
+                previous = frame.start.time
+                first = first ?? range.start
+                support = CMTimeRange(start: first!, end: CMTimeMinimum(range.end, native.end))
+            }
+            guard let support, support.end > support.start, try mapping.next() == nil, !mapping.torn,
+                source.segments[0].asset.start <= support.start,
+                source.segments[0].asset.end >= support.end else { return nil }
+            return IntendedSupport(source: source, support: support, represented: mapping.frames)
+        } catch is CancellationError { throw CancellationError() }
+        catch { return nil }
+    }
+    /// Selects acceptance only after both actual scan results settle; failed speculation cannot defeat a raw prefix.
+    package static func acceptScans<Raw: Sendable, Canonical: Sendable>(
+        raw: Result<Raw, any Error>, canonical: Result<Canonical, any Error>,
+        complete: (Raw) -> Bool, verify: (Raw, Canonical) throws -> ExactRange
+    ) throws -> (raw: Raw, support: ExactRange?) {
+        let scanned = try raw.get()
+        guard complete(scanned) else { return (scanned, nil) }
+        return (scanned, try verify(scanned, canonical.get()))
+    }
+    private static func outcome<T: Sendable>(_ work: @Sendable () async throws -> T) async -> Result<T, any Error> {
+        do { return .success(try await work()) }
+        catch { return .failure(error) }
+    }
+    private struct RawScan: Sendable {
+        let source: Source
+        let support: CMTimeRange
+        let represented: Int
+        let pictureHash: String
+        let diagnostics: [String]
+    }
+    private static func scanRaw(_ rawURL: URL, mappingURL: URL, sealed: Bool) async throws -> RawScan {
+        let mapping = try Mapping(mappingURL)
+        let raw = try await Pictures(url: rawURL)
+        var support: CMTimeRange?; var rawHash = SHA256(); var diagnostics: [String] = []
+        var represented = 0
+        var previousMappedStart: CMTime?
+        if !sealed { diagnostics.append("unsealedRaw") }
+        while let frame = try mapping.next() {
+            let range = try frame.acquisitionRange(scale: raw.scale)
+            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
+            previousMappedStart = frame.start.time
+            let sample: CMSampleBuffer?
+            do { sample = try raw.next() }
+            catch is CancellationError { throw CancellationError() }
+            catch { diagnostics.append("rawDecodeInterrupted"); break }
+            guard let sample else { diagnostics.append("acceptedBeyondPhysicalEOF"); break }
+            guard sample.presentationTimeStamp == range.start else { throw invalid("Raw picture does not match its exact mapped ordinal.") }
+            try digest(sample, into: &rawHash, scale: raw.scale)
+            represented += 1
+            // Native video holds each acquired picture until the next. Only the final
+            // physically decoded frame supplies the conservative terminal endpoint.
+            support = CMTimeRange(start: support?.start ?? range.start, end: CMTimeMinimum(range.end, raw.lastEnd))
+        }
+        guard let support else { throw invalid("No physically verified camera prefix.") }
+        if represented == mapping.frames {
+            do { if try raw.next() != nil { diagnostics.append("unmappedRawTail") } }
+            catch is CancellationError { throw CancellationError() }
+            catch { diagnostics.append("rawDecodeInterrupted") }
+        }
+        // Validate the remaining journal even when the physical payload ended early.
+        while let frame = try mapping.next() {
+            _ = try frame.acquisitionRange(scale: raw.scale)
+            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
+            previousMappedStart = frame.start.time
+        }
+        if mapping.torn { diagnostics.append("tornMappingTail") }
+        guard merged(raw.segments.map(\.asset)).contains(where: { $0.start <= support.start && $0.end >= support.end }) else {
+            throw invalid("Raw camera presentation does not cover its bounded acquired prefix.")
+        }
+        let pictureHash = hex(rawHash.finalize())
+        return RawScan(source: raw.source, support: support, represented: represented,
+            pictureHash: pictureHash, diagnostics: diagnostics)
+    }
+    private static func exportCandidate(rawURL: URL, canonicalURL: URL,
+        source: Source, support: CMTimeRange) async throws -> NewFile {
+        let file: NewFile
+        do { file = try NewFile(at: canonicalURL.path, assembledAs: "camera.mov") }
+        catch {
+            if FileManager.default.fileExists(atPath: canonicalURL.path) {
+                throw CaptureFailure("PUBLICATION_CONFLICT", "Camera output already exists without a matching receipt; no replacement performed.")
+            }
+            throw error
+        }
+        // Keep failed candidates for diagnosis/recovery; raw media and mapping are never removed.
+        let composition = AVMutableComposition()
+        guard let track = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else { throw invalid("Cannot construct canonical camera track.") }
+        track.naturalTimeScale = source.scale
+        track.preferredTransform = try await source.track.load(.preferredTransform)
+        var pieces: [AVCompositionTrackSegment] = []
+        if support.start > .zero {
+            pieces.append(AVCompositionTrackSegment(timeRange: CMTimeRange(start: .zero, end: support.start)))
+        }
+        pieces.append(AVCompositionTrackSegment(url: rawURL, trackID: source.track.trackID,
+            sourceTimeRange: support, targetTimeRange: support))
+        try track.validateSegments(pieces); track.segments = pieces
+        guard let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough) else { throw invalid("Cannot export camera edit list.") }
+        try await export.export(to: file.url, as: .mov)
+        try Task.checkCancellation()
+        return file
+    }
     package static func publish(lease: CaptureJournalLease, observationURL: URL) async throws -> Receipt {
         try Task.checkCancellation(); try lease.check()
         let root = URL(fileURLWithPath: lease.directory)
@@ -384,78 +535,59 @@ package enum CameraMedia {
             try unchanged()
             return receipt
         }
-        let mapping = try Mapping(mappingURL)
-        let raw = try await Pictures(url: rawURL)
-        var support: CMTimeRange?; var rawHash = SHA256(); var diagnostics: [String] = []
-        var represented = 0
-        var previousMappedStart: CMTime?
-        if closed == nil { diagnostics.append("unsealedRaw") }
-        while let frame = try mapping.next() {
-            let range = try frame.acquisitionRange(scale: raw.scale)
-            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
-            previousMappedStart = frame.start.time
-            let sample: CMSampleBuffer?
-            do { sample = try raw.next() }
-            catch is CancellationError { throw CancellationError() }
-            catch { diagnostics.append("rawDecodeInterrupted"); break }
-            guard let sample else { diagnostics.append("acceptedBeyondPhysicalEOF"); break }
-            guard sample.presentationTimeStamp == range.start else { throw invalid("Raw picture does not match its exact mapped ordinal.") }
-            try digest(sample, into: &rawHash, scale: raw.scale)
-            represented += 1
-            // Native video holds each acquired picture until the next. Only the final
-            // physically decoded frame supplies the conservative terminal endpoint.
-            support = CMTimeRange(start: support?.start ?? range.start, end: CMTimeMinimum(range.end, raw.lastEnd))
-        }
-        guard let support else { throw invalid("No physically verified camera prefix.") }
-        if represented == mapping.frames {
-            do { if try raw.next() != nil { diagnostics.append("unmappedRawTail") } }
-            catch is CancellationError { throw CancellationError() }
-            catch { diagnostics.append("rawDecodeInterrupted") }
-        }
-        // Validate the remaining journal even when the physical payload ended early.
-        while let frame = try mapping.next() {
-            _ = try frame.acquisitionRange(scale: raw.scale)
-            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
-            previousMappedStart = frame.start.time
-        }
-        if mapping.torn { diagnostics.append("tornMappingTail") }
-        guard merged(raw.segments.map(\.asset)).contains(where: { $0.start <= support.start && $0.end >= support.end }) else {
-            throw invalid("Raw camera presentation does not cover its bounded acquired prefix.")
-        }
-        let pictureHash = hex(rawHash.finalize())
-        let file: NewFile
-        do { file = try NewFile(at: canonicalURL.path, assembledAs: "camera.mov") }
-        catch {
-            if FileManager.default.fileExists(atPath: canonicalURL.path) {
-                throw CaptureFailure("PUBLICATION_CONFLICT", "Camera output already exists without a matching receipt; no replacement performed.")
+        let intended = closed == nil ? nil : try await intendedSupport(rawURL: rawURL, mappingURL: mappingURL)
+        let raw: RawScan
+        var verifiedCandidate: (file: NewFile, support: ExactRange)?
+        if let intended {
+            let exported = await outcome {
+                try await exportCandidate(rawURL: rawURL, canonicalURL: canonicalURL,
+                    source: intended.source, support: intended.support)
             }
-            throw error
+            async let rawResult = outcome { try await scanRaw(rawURL, mappingURL: mappingURL, sealed: true) }
+            async let canonicalResult = outcome { () async throws -> CanonicalScan in
+                let candidate = try exported.get()
+                return try await scanCanonical(candidate.url, mappingURL: mappingURL,
+                    represented: intended.represented, scale: intended.source.scale,
+                    expected: ExactRange(startUs: try ExactTime(intended.support.start), endUs: try ExactTime(intended.support.end)))
+            }
+            // Join both readers even on cancellation/failure; raw validation selects the public error first.
+            let rawOutcome = await rawResult
+            let canonicalOutcome = await canonicalResult
+            let accepted = try acceptScans(raw: rawOutcome, canonical: canonicalOutcome,
+                complete: { $0.represented == intended.represented && $0.support == intended.support
+                    && $0.source.scale == intended.source.scale && $0.diagnostics.isEmpty },
+                verify: { try $1.verified(against: $0.pictureHash) })
+            raw = accepted.raw
+            try Task.checkCancellation()
+            if let support = accepted.support {
+                verifiedCandidate = (try exported.get(), support)
+            } else if case .success(let candidate) = exported {
+                candidate.discard()
+            }
+        } else {
+            raw = try await scanRaw(rawURL, mappingURL: mappingURL, sealed: closed != nil)
         }
-        // Keep failed candidates for diagnosis/recovery; raw media and mapping are never removed.
-        let composition = AVMutableComposition()
-        guard let track = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else { throw invalid("Cannot construct canonical camera track.") }
-        track.naturalTimeScale = raw.scale
-        track.preferredTransform = try await raw.track.load(.preferredTransform)
-        var pieces: [AVCompositionTrackSegment] = []
-        if support.start > .zero {
-            pieces.append(AVCompositionTrackSegment(timeRange: CMTimeRange(start: .zero, end: support.start)))
+        let file: NewFile
+        let exactSupport: ExactRange
+        if let verifiedCandidate {
+            file = verifiedCandidate.file
+            exactSupport = verifiedCandidate.support
+        } else {
+            file = try await exportCandidate(rawURL: rawURL, canonicalURL: canonicalURL,
+                source: raw.source, support: raw.support)
+            exactSupport = try await verifyCanonical(file.url, mappingURL: mappingURL,
+                represented: raw.represented, scale: raw.source.scale, pictureHash: raw.pictureHash,
+                expected: ExactRange(startUs: try ExactTime(raw.support.start), endUs: try ExactTime(raw.support.end)))
         }
-        pieces.append(AVCompositionTrackSegment(url: rawURL, trackID: raw.track.trackID,
-            sourceTimeRange: support, targetTimeRange: support))
-        try track.validateSegments(pieces); track.segments = pieces
-        guard let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough) else { throw invalid("Cannot export camera edit list.") }
-        try await export.export(to: file.url, as: .mov)
-        try Task.checkCancellation()
-        let exactSupport = try await verifyCanonical(file.url, mappingURL: mappingURL, represented: represented,
-            scale: raw.scale, pictureHash: pictureHash,
-            expected: ExactRange(startUs: try ExactTime(support.start), endUs: try ExactTime(support.end)))
+        let support = raw.support, represented = raw.represented, pictureHash = raw.pictureHash
+        let diagnostics = raw.diagnostics
         try unchanged()
         let receipt = Receipt(presentation: .nativeBounded, raw: rawIdentity, observations: observationIdentity, closed: closed,
             canonical: try CaptureMediaIdentity.read(file.url),
             candidate: file.url.deletingLastPathComponent().lastPathComponent + "/" + file.url.lastPathComponent,
             representedFrames: represented, firstUs: CMTimeConvertScale(support.start, timescale: 1000000, method: .roundHalfAwayFromZero).value,
             endUs: CMTimeConvertScale(support.end, timescale: 1000000, method: .roundHalfAwayFromZero).value,
-            pictureSHA256: pictureHash, diagnostics: diagnostics, support: exactSupport, pictureTimeScale: raw.scale,
+            pictureSHA256: pictureHash, diagnostics: diagnostics, support: exactSupport, pictureTimeScale: raw.source.scale,
             binding: header.cameraBinding, originHostUs: provenance.originHostUs, journal: prefix)
         try validateJournal(receipt, lease: lease)
         try lease.synchronize()

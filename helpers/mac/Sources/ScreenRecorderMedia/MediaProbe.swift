@@ -159,37 +159,14 @@ public enum MediaProbe {
         var last = Int64.min
         var minimum = Int64.max
         var maximum: Int64 = 0
-        for segment in segments {
-            guard let cursor = track.makeSampleCursor(presentationTimeStamp: segment.media.start)
-            else {
-                throw NativeFailure("UNSUPPORTED_MEDIA", "Video timing requires sample cursors.")
-            }
-            let segmentEnd = CMTimeRangeGetEnd(segment.media)
-            while cursor.presentationTimeStamp < segmentEnd {
-                try Task.checkCancellation()
-                let at = cursor.presentationTimeStamp
-                let duration = cursor.currentSampleDuration
-                guard at.isNumeric, duration.isNumeric, duration > .zero else {
-                    throw NativeFailure("UNSUPPORTED_MEDIA", "Video sample lacks finite timing.")
-                }
-                let end = CMTimeMinimum(CMTimeAdd(at, duration), segmentEnd)
-                if end > segment.media.start {
-                    let presented = segment.assetTime(
-                        ofMedia: CMTimeMaximum(at, segment.media.start))
-                    let presentedEnd = segment.assetTime(ofMedia: end)
-                    let label = try ExactTime(presented).subtract(originUs).sample(1_000_000, nearest: true)
-                    first = min(first, label)
-                    last = max(last, label)
-                    let length = microseconds(CMTimeSubtract(presentedEnd, presented))
-                    minimum = min(minimum, length)
-                    maximum = max(maximum, length)
-                    count += 1
-                }
-                if cursor.stepInPresentationOrder(byCount: 1) != 1 { break }
-                guard cursor.presentationTimeStamp > at else {
-                    throw NativeFailure("UNSUPPORTED_MEDIA", "Video timing made no progress.")
-                }
-            }
+        try visitPresentedSamples(track: track, segments: segments) { range in
+            let label = try ExactTime(range.start).subtract(originUs).sample(1_000_000, nearest: true)
+            first = min(first, label)
+            last = max(last, label)
+            let length = microseconds(CMTimeSubtract(range.end, range.start))
+            minimum = min(minimum, length)
+            maximum = max(maximum, length)
+            count += 1
         }
         guard count > 0 else { throw NativeFailure.decodeFailed("No presented video samples.") }
         return ProbedSamples(

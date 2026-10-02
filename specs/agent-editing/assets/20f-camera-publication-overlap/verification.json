@@ -1,0 +1,369 @@
+{
+  "status": "scoped scheduling implementation and focused preservation checks complete; adoption and retained-take performance withheld",
+  "sourceBase": "e4a7fd523f0f861c6730a877fa5899327ed85815",
+  "sourceClosure": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift",
+      "bytes": 37718,
+      "sha256": "1ab513f3cce09c14c49de9f3d07cec8b19c81774b83d96ca6160ce828d0d67ba"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift",
+      "bytes": 8240,
+      "sha256": "d7c5c0b04895c540b56a7d415ed6825ea88cf2de73c3a028902d4f4a197d1b64"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift",
+      "bytes": 5027,
+      "sha256": "4c061ec1e71cfa3c71365b1d0f7c0fc62afab5be58513309dda344f834cd0f5e"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/CameraPublicationOverlapTests.swift",
+      "bytes": 9741,
+      "sha256": "d6d28817b384b09903ffac241dfbd62c4d85413ea9e085a8f5181a3e6a135806"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/ProbeCameraPixelPublicationTests.swift",
+      "bytes": 3515,
+      "sha256": "f6c8d561ce83cb01bd2ff5c61bf409cb4cc7ed67e275d5ac7b298d174df35081"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift",
+      "bytes": 6924,
+      "sha256": "45094155d330fe205593fab83fe4ae2e8724939ca5155ceb19e1f29a7f77acb3"
+    }
+  ],
+  "executedRuntime": [
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/Modules/ScreenRecorderMedia.swiftmodule",
+      "bytes": 238304,
+      "sha256": "171f94fad6a31c2eb6732f0615287959b1e8f13c2a70758acd89f8614a44215f"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/Modules/ScreenRecorderCapture.swiftmodule",
+      "bytes": 700352,
+      "sha256": "26ba35684a5515a3d49362be9210c3380ea27259c29136704bddb69118d7cc74"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/probe",
+      "bytes": 4358248,
+      "sha256": "4da6fe9b51070339b36d2d93e149b8c31adfbe09f03040c944e46bef61d783b6"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/cancellation-probe",
+      "bytes": 4326624,
+      "sha256": "8c0b47bcbf875527f93cc77b0cb844cf41734b3e1d263fa50d681d7956f47b06"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/reader-observation.o",
+      "bytes": 14584,
+      "sha256": "f506f1e8a63063ead56766194c3941c860ccbb072ee57fdedfbb87a27979df04"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/baseline/Modules/ScreenRecorderMedia.swiftmodule",
+      "bytes": 237912,
+      "sha256": "147657ea28deeca3c40e1b67ad2a933657634e774b84f330f7eabecbb5884c73"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/baseline/Modules/ScreenRecorderCapture.swiftmodule",
+      "bytes": 692304,
+      "sha256": "62a9217571af0ec2fe8218c5f9c1140febd8fb20e9ab14b7fee862586775a550"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/baseline/damage-probe",
+      "bytes": 4248800,
+      "sha256": "bb0b0fdd98ca11d3b2caf76631f594f9750e8ca86b2e0db53a282132047ca2eb"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/candidate/damage-probe",
+      "bytes": 4321520,
+      "sha256": "045c3fd94d80e484f7066ae892f5f7dc8b6366c3179e591a73f1853583f1d2b6"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/baseline-CameraMedia.swift",
+      "bytes": 30524,
+      "sha256": "dcd4c4e3e45a8e363cb4f7bf15c1b96fae46f44f5e4ee8501502c00bb4f97947"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/baseline-MediaProbe.swift",
+      "bytes": 9566,
+      "sha256": "068bf915122503383ef8f5a0ea466f6513c1806fef2f7f3d80d826d981dd9d6c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/baseline-SampleTiming.swift",
+      "bytes": 3364,
+      "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+    }
+  ],
+  "fixture": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/fixtures/camera-visible32.mov",
+    "bytes": 6870,
+    "sha256": "7b0dae287bce1ce09e68d2bacc76155dae06607c9d2149ef702ffc0a45c80645"
+  },
+  "finalSession": 62619,
+  "finalProcesses": [
+    {
+      "label": "media",
+      "pid": 99942,
+      "startedAt": "2026-10-02T02:51:50.764338+00:00",
+      "boundSeconds": null,
+      "exitCode": 0,
+      "elapsedSeconds": 12.891477500001201
+    },
+    {
+      "label": "capture",
+      "pid": 237,
+      "startedAt": "2026-10-02T02:52:03.654526+00:00",
+      "boundSeconds": null,
+      "exitCode": 0,
+      "elapsedSeconds": 11.478267666010652
+    },
+    {
+      "label": "probe-compile",
+      "pid": 551,
+      "startedAt": "2026-10-02T02:52:15.135576+00:00",
+      "boundSeconds": null,
+      "exitCode": 0,
+      "elapsedSeconds": 2.730804040998919
+    },
+    {
+      "label": "known-picture",
+      "pid": 654,
+      "startedAt": "2026-10-02T02:52:17.866788+00:00",
+      "boundSeconds": 30,
+      "exitCode": 0,
+      "elapsedSeconds": 3.4187261250044685
+    }
+  ],
+  "cancellationSession": 16148,
+  "cancellationProcesses": [
+    {
+      "label": "cancellation-compile",
+      "pid": 3840,
+      "startedAt": "2026-10-02T02:54:03.751687+00:00",
+      "boundSeconds": null,
+      "exitCode": 0,
+      "elapsedSeconds": 3.4961392920231447
+    },
+    {
+      "label": "cancellation",
+      "pid": 3855,
+      "startedAt": "2026-10-02T02:54:07.253287+00:00",
+      "boundSeconds": 30,
+      "exitCode": 0,
+      "elapsedSeconds": 0.9982589590072166
+    }
+  ],
+  "cancellation": {
+    "active": 0,
+    "bothReadingObserved": true,
+    "calls": 2,
+    "cancelDelivered": true,
+    "encoding": "B16@0:8",
+    "error": "CancellationError()",
+    "originalDispatchDelegated": 2,
+    "publicFile": false,
+    "readingAfterJoin": 0,
+    "receipt": false,
+    "remainingObjects": [],
+    "restored": true,
+    "taskOutcome": "cancelled"
+  },
+  "damageSession": 29374,
+  "damage": {
+    "completeNativeTimingBeforeAfterEqual": true,
+    "oldCurrentRawBytesEqual": true,
+    "oldCurrentTimingBytesEqual": true,
+    "equalReceiptFields": [
+      "presentation",
+      "raw",
+      "representedFrames",
+      "firstUs",
+      "endUs",
+      "pictureSHA256",
+      "diagnostics",
+      "support",
+      "pictureTimeScale",
+      "binding",
+      "originHostUs"
+    ],
+    "differentReceiptFields": ["candidate", "canonical", "closed", "observations"],
+    "representedFrames": 3,
+    "pictureSHA256": "e785cf317e0e3d3d5228864402573cc1e400f37cb8577ee8aa4f272f4ebb489f",
+    "diagnostics": [],
+    "limit": "Actual damaged payload remained fully decodable. Mapping/closed JSON identities and exported movie bytes differ between separately authored cases; no full receipt/file-byte equality claimed."
+  },
+  "scopeLimits": [
+    "Prefix fixtures do not pass metadata qualification: they cover generic raw-first publication only.",
+    "Synthetic Result controls cover the actual arbitration policy, not physical decoder outcomes.",
+    "No observed qualified complete inventory followed by shorter decoded prefix/rawDecodeInterrupted or premature decoder EOF and fallback publication.",
+    "Actual cancellation was delivered after both real URL readers were reading; both joined with zero remaining readers and no public file/receipt. No other cancellation phase claim.",
+    "No retained-take latency, peak memory, capture/audio/model/UI/installed/full-worker build or frozen replacement. Ten-second completed-stop target remains unpassed."
+  ],
+  "setupFailures": "Outside-repo source/error/process records remain under /tmp/screenrec-20f-camera-overlap: cancel-setup (extraneous policy control against older module), cancel-lease-setup (non-Sendable journal capture), cancel-address-setup (wrong scratch #filePath, before observer installation). No concealed successful data claim.",
+  "payloads": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/ReaderObservation.h",
+      "bytes": 141,
+      "sha256": "1da73b4b68ab0a585a99b46f8ff90d306920e3f9643222cc6ceaf564166cffa4"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/ReaderObservation.m",
+      "bytes": 3547,
+      "sha256": "af388e6aa5fec430b60e04f79f99fa63676d1b65f74e5f5bfb93e1d32ab0f6cd"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/baseline-processes.raw",
+      "bytes": 14596,
+      "sha256": "3d3e24b6a6b9e8e59888a0a1494d688697b80df61492eb2168f3f41c53174c73"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/baseline.stdout",
+      "bytes": 84,
+      "sha256": "e23511b07df8c168c808c660b0ee2bf4b72e37776a5b14002809af4aca8bc55d"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/cancellation-entry.swift",
+      "bytes": 186,
+      "sha256": "0e7d18d549637720dd255ab71d157960c1ab77028309bdb5fe1fa28627cb3e74"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/cancellation-processes.raw",
+      "bytes": 5980,
+      "sha256": "042b51266bf91a980f22e18dc9cc0e8a686d4cdd72ece4466815cdfafd4f1704"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/cancellation-producer.py",
+      "bytes": 1226,
+      "sha256": "4d6c7109378dae397cd239b244c5d039f0dd8e0b2b912002569de709cb5a71dd"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/cancellation-producer.swift",
+      "bytes": 4241,
+      "sha256": "0c259128f756d4c5c947489d13ceb6d81d3eba2f1d8a5df2b6b9998af6ec90fa"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/cancellation.raw",
+      "bytes": 343,
+      "sha256": "2ca77b3cfc5535d86c201fe2b03fd383c1a4dbc0d0f0b39f0010b95e10353eb7"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/checks.stdout",
+      "bytes": 777,
+      "sha256": "082d8d1c50acb3f159144bcd60c5182e21bea0826e3a6d3c589f44967d4b3754"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/damage-processes.raw",
+      "bytes": 12102,
+      "sha256": "1a34579eed07c179a974210de1d7ce4fb0e97d8a52dfa847b868635926bac222"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/damage-producer.py",
+      "bytes": 1339,
+      "sha256": "63dbdd33a6b20d3d5a96c5c979cda26897d68e8632d5164a1a6ee89ddad51056"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/damage.raw",
+      "bytes": 40,
+      "sha256": "219b98481b36f3266209910bc89446220aec238cfea7b31da4bba811fb78c46b"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/damaged-fixture.mov",
+      "bytes": 6870,
+      "sha256": "0d1871904b4aa93ad5906c320ad6ed21cf2516d650717170fc0835aac8a5f07b"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/damaged-producer.swift",
+      "bytes": 6269,
+      "sha256": "d2a04c1a95dc878380995ea8087b6c210448397c01c65441b7d0d32876da67f0"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-cancel-cancellation-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-cancel-cancellation.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-capture.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-entry.swift",
+      "bytes": 380,
+      "sha256": "d0c82f920e39a988dc44b5982115087bc6e65c38b9f9b59100d5fd82fdb722df"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-known-picture.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-media.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-probe-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/final-producer.py",
+      "bytes": 1176,
+      "sha256": "edac2611c1f9b290c8f3a88df8d88f8ce56e4bffe0e35372f5e65bc1c9e5e2e8"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/new-damage.stdout",
+      "bytes": 120,
+      "sha256": "8c31ce5e3592a36a232cc9253617225159c56705f2423704bfc836c843182e1a"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/new-receipt.raw",
+      "bytes": 960,
+      "sha256": "6628b5abd450a84d44eb494213f7318547d0ef09c14b2d252a6b629ed6903c48"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/old-damage.stdout",
+      "bytes": 120,
+      "sha256": "8c31ce5e3592a36a232cc9253617225159c56705f2423704bfc836c843182e1a"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/old-receipt.raw",
+      "bytes": 960,
+      "sha256": "92c87b9703abd99d4347f51d814eca6a158af73e7e711f091a09ae30c74941f9"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/processes.raw",
+      "bytes": 14593,
+      "sha256": "dc6caf0208c1289760b2b4c04ed570b7a5eac870c07cc7e5020a6bae02a2c159"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/timing.raw",
+      "bytes": 461,
+      "sha256": "f21438ce23be720e5982ce15f3402a28550c219e9feefa4114b37368a1594903"
+    }
+  ],
+  "commandAuthority": "Exact executed argv and actual terminal timestamps are in processes.raw, cancellation-processes.raw, damage-processes.raw and baseline-processes.raw; build plans remain outside Git.",
+  "outsideBuildPlans": [
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final-plan.json",
+      "bytes": 13448,
+      "sha256": "d6548fb7b85b0f0297080edc41d24ddc155b82a9c53baf153bb80daa2bc192ef"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final-cancellation-plan.json",
+      "bytes": 5733,
+      "sha256": "3af6bf5f8034a9b4e1759e991e7a721f0651a49b36aa8552713580a41c14b07a"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/damage-plan.json",
+      "bytes": 10789,
+      "sha256": "485d0f204b5e0263b04873ba8f77ced0e9be1940d19fd01ec2abb6ba332c4924"
+    }
+  ]
+}

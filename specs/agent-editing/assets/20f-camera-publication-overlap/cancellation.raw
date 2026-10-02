@@ -1,0 +1,17 @@
+{
+  "active" : 0,
+  "bothReadingObserved" : true,
+  "calls" : 2,
+  "cancelDelivered" : true,
+  "encoding" : "B16@0:8",
+  "error" : "CancellationError()",
+  "originalDispatchDelegated" : 2,
+  "publicFile" : false,
+  "readingAfterJoin" : 0,
+  "receipt" : false,
+  "remainingObjects" : [
+
+  ],
+  "restored" : true,
+  "taskOutcome" : "cancelled"
+}

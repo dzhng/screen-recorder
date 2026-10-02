@@ -3,9 +3,9 @@ import Foundation
 import ScreenRecorderCapture
 
 /// Authored raw/H264 fixtures exercise visible decoded bytes without a physical input boundary.
-func runProbeCameraPixelPublicationTests() async throws {
+func runProbeCameraPixelPublicationTests(widths: [Int] = [32, 34]) async throws {
     for (width, expectedHash) in [(32, "a25957a308051415c014091d3859d675729f6d437d1a5982b07bc76007868094"),
-        (34, "38d8e98cc586ee348e6644bdfb08a0a20954903b015ed2802d2cd528ac248b1b")] {
+        (34, "38d8e98cc586ee348e6644bdfb08a0a20954903b015ed2802d2cd528ac248b1b")] where widths.contains(width) {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("screenrec-camera-pixels-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: root) }
         let directory = root.appendingPathComponent("camera")

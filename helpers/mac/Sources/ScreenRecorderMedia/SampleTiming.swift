@@ -68,3 +68,36 @@ public func assetEnd(ofSamplePresentedAt assetTime: CMTime, in segments: [Source
     return CMTimeMinimum(
         CMTimeAdd(assetTime, segment.assetDuration(ofMedia: duration)), CMTimeRangeGetEnd(segment.asset))
 }
+
+/// Streams the complete occupied native sample inventory without retaining timing rows.
+/// Asset edit clipping and cursor progress have one owner for probing and scheduling qualification.
+package func visitPresentedSamples(track: AVAssetTrack, segments: [SourceSegment],
+    visit: (CMTimeRange) throws -> Void
+) throws {
+    for segment in segments {
+        guard let cursor = track.makeSampleCursor(presentationTimeStamp: segment.media.start)
+        else {
+            throw NativeFailure("UNSUPPORTED_MEDIA", "Video timing requires sample cursors.")
+        }
+        let segmentEnd = CMTimeRangeGetEnd(segment.media)
+        while cursor.presentationTimeStamp < segmentEnd {
+            try Task.checkCancellation()
+            let at = cursor.presentationTimeStamp
+            let duration = cursor.currentSampleDuration
+            guard at.isNumeric, duration.isNumeric, duration > .zero else {
+                throw NativeFailure("UNSUPPORTED_MEDIA", "Video sample lacks finite timing.")
+            }
+            let end = CMTimeMinimum(CMTimeAdd(at, duration), segmentEnd)
+            if end > segment.media.start {
+                let presented = segment.assetTime(
+                    ofMedia: CMTimeMaximum(at, segment.media.start))
+                let presentedEnd = segment.assetTime(ofMedia: end)
+                try visit(CMTimeRange(start: presented, end: presentedEnd))
+            }
+            if cursor.stepInPresentationOrder(byCount: 1) != 1 { break }
+            guard cursor.presentationTimeStamp > at else {
+                throw NativeFailure("UNSUPPORTED_MEDIA", "Video timing made no progress.")
+            }
+        }
+    }
+}

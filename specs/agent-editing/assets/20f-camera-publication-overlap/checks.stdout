@@ -1,0 +1,9 @@
+PASS camera publication exact 32×16 visible BGRA pixels, stride128, and timestamps
+PASS exact fractional terminal clipping preserves all three picture digests and bound camera proof
+PASS camera torn retains physical prefix/support and exact diagnostics
+PASS camera unmapped retains physical prefix/support and exact diagnostics
+PASS camera missing-physical retains physical prefix/support and exact diagnostics
+PASS camera unsealed retains physical prefix/support and exact diagnostics
+PASS earlier raw timestamp refusal precedes later malformed qualification row; no publication
+PASS synthetic scan-result raw-first refusal, prefix deferral, complete acceptance and cancellation policy
+PASS retained receipt/link continuation and conflicting-byte refusal without replacement
