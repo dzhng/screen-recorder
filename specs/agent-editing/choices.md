@@ -6433,3 +6433,21 @@ The [12h case ledger](assets/12h-retained-sentence-recognition/choices.md) retai
 reuse of the genuine emitted Models owner and compact evidence storage. Root
 verified their actual bindings. Clock mapping, one-attempt stopping and retention
 of failed timing follow the explicit plan; they add no editorial or adoption rule.
+
+The [CLI selection ledger](assets/24z13-cli-delivery-selection/choices.md) records
+fixture sharing and reuse of unchanged runtime authority. Root and independent
+review confirm one caller-owned selection with preserved batch behavior; this adds
+no service-instance identity, retry policy or delivery owner.
+
+The [12i preparation ledger](assets/12i-sentence-alignment-preparation/choices.md)
+records isolated reconstruction from exact model bytes and package versions.
+Root verified the new complete inventory while keeping historical binary identity
+unavailable. Preparation supplies no alignment or adoption verdict.
+
+The [12i result ledger](assets/12i-retained-sentence-alignment/choices.md) owns
+synchronous process observation and read-only saved verification. Root accepts
+those mechanisms while preserving the original inventory failure and keeping
+numerical qualification separate from adoption. The
+[inventory support ledger](assets/12i-model-inventory-support/choices.md) owns one
+root-relative inventory computation and its pinned direct-script dependency.
+Current consumers preserve that layout; frozen runners remain unchanged.

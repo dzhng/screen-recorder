@@ -41,3 +41,5 @@ Run the focused standard-library gate from the repository root:
 ```sh
 python3 -I -B -S -m unittest discover -s packages/test-harness/editing -p test_model_inventory.py -v
 ```
+
+Root [merged verification](merged.json) checks the exact packet/current sources and repeats only the standard-library filesystem/import gate.

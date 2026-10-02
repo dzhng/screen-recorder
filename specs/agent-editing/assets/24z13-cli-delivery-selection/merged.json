@@ -1,0 +1,88 @@
+{
+  "rootCommit": "f5caaf8dddebe95d6bc81aec41e2e863f5c6e6ac",
+  "childCommit": "79cd11e0f654eec52067ff0e5c17a0ada802e6a3",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 86165,
+    "sha256": "df4d1a76372cb4504d869b65c5142ac2e735ffa456e5bacad2b79b08235129ca",
+    "members": 60
+  },
+  "packetPayloadsRehashed": 60,
+  "phaseSnapshotsVerified": 48,
+  "sourceAndEmittedBindingsVerified": 675,
+  "sdkEsmFilesVerified": 86,
+  "priorRuntimeArchiveVerified": true,
+  "declaredRuntimeChanges": [
+    {
+      "path": "apps/cli/src/main.test.ts",
+      "current": {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/apps/cli/src/main.test.ts",
+        "bytes": 41709,
+        "sha256": "0dfaba2c1ddf5a7aed5e492c020e6b14326df172f5e6b581fc84e6060ec5eacd"
+      },
+      "previous": {
+        "path": "apps/cli/src/main.test.ts",
+        "bytes": 35166,
+        "sha256": "8d80d51abd66eb649223616cad1663ba72b3111ba317f3867d8f6b91f97e080e",
+        "equalsSourceBase": true
+      }
+    },
+    {
+      "path": "apps/cli/src/main.ts",
+      "current": {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/apps/cli/src/main.ts",
+        "bytes": 10879,
+        "sha256": "2d457d37303b5d46f3a393391c02ba8b57e0a9fc1687bb3df995a102a0301aca"
+      },
+      "previous": {
+        "path": "apps/cli/src/main.ts",
+        "bytes": 10764,
+        "sha256": "4a448456221f6a409cf4bda53467f40a7744645be70e9bff5cf71f242c1b36da",
+        "equalsSourceBase": true
+      }
+    },
+    {
+      "path": "apps/cli/dist/main.js",
+      "current": {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/apps/cli/dist/main.js",
+        "bytes": 10274,
+        "sha256": "58220bd20b5a86e705589b968692d1b5a88bcc30f6216e595878f1cf4ed0c995"
+      },
+      "previous": {
+        "path": "apps/cli/dist/main.js",
+        "bytes": 10233,
+        "sha256": "fcc9b816e92424a8cf4d1237dd529bf1ac5fd22efd011f18c6e2d29e8714be9e"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "command": "turbo run build --filter=@screenrec/cli --output-logs=errors-only",
+      "exitCode": 0,
+      "successfulScopes": 6,
+      "cachedScopes": 1,
+      "durationSeconds": 2.044
+    },
+    {
+      "command": "vitest run: seven affected CLI/MCP/client/service files",
+      "exitCode": 0,
+      "filesPassed": 7,
+      "testsPassed": 84,
+      "durationSeconds": 14.2
+    },
+    {
+      "command": "tsc -p apps/cli/tsconfig.check.json",
+      "exitCode": 0
+    },
+    {
+      "command": "project lint and format of main.ts/main.test.ts",
+      "exitCode": 0
+    }
+  ],
+  "initialInspectionFailure": "Initial packet reader assumed a dictionary; actual member manifest is a list. Corrected reader rehashed all60payloads without changing evidence.",
+  "independentReview": "Read-only peer and root source review clean",
+  "serviceInstancePinned": false,
+  "noNewDeadlineOrReceiveCap": true,
+  "noNativeMediaModelOrInstalledCohort": true,
+  "childLifetimeClaim": "Root suite terminal exit0; no per-child PID inventory inferred."
+}

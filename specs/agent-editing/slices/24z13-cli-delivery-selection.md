@@ -1,8 +1,9 @@
 # 24z13 — CLI delivery keeps its selected service
 
-Status: implemented in the isolated source worktree. Three actual CLI/socket
-regressions and the affected seven-file consumer suite pass; root integration
-remains separate. [Evidence](../assets/24z13-cli-delivery-selection/README.md)
+Status: integrated; three actual CLI/socket regressions and the affected
+seven-file consumer suite pass on the merged root (84 checks), with types and
+project lint/format. [Root verification](../assets/24z13-cli-delivery-selection/merged.json)
+rehashes source/emitted bindings and the retained packet. [Evidence](../assets/24z13-cli-delivery-selection/README.md)
 retains baseline failures, source/runtime bindings and closeout checks.
 
 ## Contract and ownership

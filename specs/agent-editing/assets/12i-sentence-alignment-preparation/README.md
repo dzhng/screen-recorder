@@ -41,3 +41,9 @@ The fixed next diagnostic is specified in
 [12i](../../slices/12i-retained-sentence-alignment.md). Preparation does not authorize
 its execution. Preserve the namespace, original evidence and accepted stores;
 there is no queued load, conversion, inference, audition or retry.
+
+The [merged root preparation verification](merged.json) independently checks
+complete runtime files and symlink targets, the copied interpreter, selected prior
+authorities, all dependency versions and text-only input. It reviews the fixed
+plan while preserving both missing historical byte identities. This record still
+contains no conversion or alignment output; execution has separate provenance.

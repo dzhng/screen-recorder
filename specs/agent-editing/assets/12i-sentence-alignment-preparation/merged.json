@@ -1,0 +1,19 @@
+{
+  "rootCommit": "fba91e05",
+  "childCommit": "4b71747b8e4c1a660081279ddeb9724f1e4b2793",
+  "packetPayloadsVerified": 25,
+  "completeRuntimeMembersVerified": 26794,
+  "completeRuntimeRegularFilesRehashed": 26782,
+  "completeRuntimeSymlinkTargetsVerified": 12,
+  "pythonCopyMembersVerified": 2264,
+  "retainedAuthorityFilesRehashed": 49,
+  "all56VersionsMatchHistorical": true,
+  "all8ModelFilesMatchHistorical": true,
+  "textOnlyRowsMatchActual14RawWords": true,
+  "namespaceSymlinksResolveWithinOwnedNamespace": true,
+  "noModelLoadOrConversionOrInference": true,
+  "initialInspectionFailure": "Initial reader assumed every runtime member was a regular file; actual inventory also pins symlink targets. Corrected inspection preserves and verifies both kinds.",
+  "historicalRuntimeBinaryIdentity": "Unavailable; current versions/bytes do not prove historical binary equivalence",
+  "asrInternalPCMIdentity": "Unavailable",
+  "fixedPlanReviewed": true
+}

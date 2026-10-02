@@ -22,29 +22,34 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: CLI delivery service selection.** Correct the
-[CLI caller](../../apps/cli/src/main.ts) so one validated invocation retains its
-resolved socket through dispatch and automatic single/batch delivery. Verify
-actual default discovery, complete delivered files and disappearance without
-bootstrap or operation replay. This pins a socket path, not a service instance.
+**Next pickup: [23l composition pixel correspondence](slices/23l-paired-edited-frames.md).**
+The fixed-image stage probe stopped before rendering on a pinned-SDK API spelling
+error. A successor changes only that spelling; review its source/pins before one
+compile and one bounded diagnostic using the retained objects. Preserve the
+failed attempt and frozen worker. Finish the user's obsolete-worktree/tmp/Docker
+cleanup first, protecting required evidence and active paths.
 
-The [12h sentence case](slices/12h-retained-sentence-recognition.md) is banked:
-opening `um` is represented, but timing fails. Its
-[root verification and owner audit](assets/12h-retained-sentence-recognition/merged.json)
-find no supported coordinate correction. Preserve the selected baseline. Separate
-preparation of the pinned supplied-text aligner is in progress; qualify exact
-model/dependency/input authority before any fixed alignment experiment. Presence
-alone cannot establish accurate word edges or broader quality.
+[12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
+all words correspond and the existing marked timing limits pass. Its original
+producer failed the runner's inventory assertion; independent saved-data
+qualification remains separate. The
+[current inventory correction](assets/12i-model-inventory-support/README.md)
+passes merged filesystem/import controls without another model run. Recognition,
+broader speech quality and adoption remain open. The
+[CLI selection correction](slices/24z13-cli-delivery-selection.md) passes the
+merged consumer gate and retains one selected socket through dispatch/delivery.
 
 Then revisit [24z timing](assets/24z-current-preparation/README.md) only after a
-changed coordinated host window and fresh preflight. The actual
+changed coordinated host window and fresh preflight. Its actual
 [busy-host deferral](assets/24z-current-preparation/coordinated-preflight.json)
-started no timing; do not poll the host. Preserve the completed
-[23l frame cohort](assets/23l-paired-edited-frames/README.md): join membership,
-final support and default cached delivery pass, but composition pixel
-correspondence remains open. The remaining
-[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-owns physical/lifecycle, presentation and installed prerequisites.
+started no timing; do not poll the host. Remaining physical/lifecycle,
+presentation and installed prerequisites belong to
+[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md).
+
+Keep the iteration loop bounded: run the smallest affected contract gate, reuse
+retained evidence, and expand checks only for changed shared behavior or a named
+unresolved risk. Bank required authority once; avoid duplicate packaging and
+status narration. Independent implementation can proceed in parallel.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -178,6 +183,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
 - [x] [12h — Unchanged retained-sentence recognition](slices/12h-retained-sentence-recognition.md) — one case banked; timing fails and parent 12 remains open
+- [x] [12i — Retained-sentence supplied-text alignment](slices/12i-retained-sentence-alignment.md) — numerical case qualified separately from original producer inventory failure; parent 12 remains open
 - [x] [12g — Evaluator best-effort filler policy](slices/12g-evaluator-policy.md) — scorer contract only; parent speech quality remains open
 - [x] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
@@ -315,6 +321,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z10 — Portable relocation test boundary](slices/24z10-portable-index-relocation.md) — unchanged fixture/durability, complete values and merged checks; no product/whole-setup speedup
 - [x] [24z11 — Complete operation-result MCP delivery](slices/24z11-operation-result-delivery.md) — full default-client reconstruction and merged 126/126; original deadline failures retained
 - [x] [24z12 — Complete MCP media-envelope admission](slices/24z12-mcp-media-admission.md) — merged140 consumer gate; whole-batch deferral before consumption, with complete metadata/live tokens
+- [x] [24z13 — CLI delivery retains service selection](slices/24z13-cli-delivery-selection.md) — merged84 consumer checks; no rediscovery or operation replay during delivery
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 

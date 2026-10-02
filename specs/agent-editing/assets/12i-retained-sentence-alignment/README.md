@@ -49,3 +49,5 @@ fails; those controls are not human/model quality evidence.
 Preserve the full prepared namespace, converted WAV, candidate, original
 preparation packet and external byte inventories. Future inventory tooling work
 is separate and cannot rewrite this frozen runner or case.
+
+Root [merged verification](merged.json) checks the compact packet, preserved inputs and saved numerical result without another model execution.

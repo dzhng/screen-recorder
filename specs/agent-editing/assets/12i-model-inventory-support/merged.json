@@ -1,0 +1,15 @@
+{
+  "scope": "Merged filesystem/import metadata checks, no ML execution",
+  "integrationCommit": "c0735ee5",
+  "archivePayloads": 15,
+  "allPayloadsExact": true,
+  "fiveCurrentSourcesExact": true,
+  "tests": {
+    "standardLibraryTests": 3,
+    "passed": true,
+    "actualDirectEntryImportFences": 3,
+    "modelLibrariesLoaded": 0
+  },
+  "historicalEvidenceUnchanged": true,
+  "newQualityOrAdoptionClaim": false
+}

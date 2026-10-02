@@ -23,3 +23,8 @@ The affected consumer suite passes without changing bounds. These are synthetic
 socket/byte fixtures with real CLI children, not new native/media or performance
 cohorts. Existing preparation/model/runtime homes and historical archives remain
 untouched. [Choices](choices.md) and [review](review.md) disclose the narrow pass.
+
+[Root verification](merged.json) rehashes every packet member, all current source
+and emitted bindings, SDK modules and phase snapshots. The merged build, affected
+consumer suite, CLI types and project lint/format pass. No performance or
+installed acceptance follows from these correctness checks.

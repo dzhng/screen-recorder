@@ -1,0 +1,46 @@
+{
+  "scope": "Merged saved-data and numerical checks only; no model/media/conversion repeat",
+  "integrationCommit": "ad040013",
+  "packet": {
+    "payloads": 31,
+    "allExact": true,
+    "bytes": 33242,
+    "sha256": "8f3254020652b2d08552dbce66eb0356073eb807f033f9337e046a608157cad9"
+  },
+  "externalInputs": {
+    "count": 5,
+    "allExact": true
+  },
+  "maintainedSourcesExact": true,
+  "checks": {
+    "syntheticEvaluatorTests": 2,
+    "evaluatorTestsPassed": true,
+    "savedVerifierExit": 0,
+    "initialInvocationError": "Root omitted required namespace argument; verifier exited 1 before reading data; corrected invocation used retained namespace without changing verifier or artifacts"
+  },
+  "qualification": {
+    "path": "/tmp/screenrec-12i-root-preparation/root-merged-qualification.json",
+    "bytes": 14106,
+    "sha256": "91cd61fe1fe94a56da5f102fdc407742f8914e62203892e563060d1ae1eee3e1"
+  },
+  "numerical": {
+    "completeCorrespondence": true,
+    "medianErrorMs": 15.5,
+    "p95ErrorMs": 64.8,
+    "worstErrorMs": 70,
+    "individualRegressions": [],
+    "openingUmEndSignedErrorMs": 7,
+    "openingUmOnsetScored": false,
+    "resources": {
+      "kernelPeakResidentBytes": 4275994624,
+      "runnerPeakResidentBytes": 4275994624,
+      "ceilingBytes": 4294967296,
+      "meets": true
+    },
+    "savedNumericalCaseMeetsCriteria": true,
+    "originalProducerPassed": false,
+    "parentQualityClosed": false,
+    "adoption": false
+  },
+  "preservationAuthority": "Original full pre/pre-load/post-load model/runtime and 107 original input pins remain in immutable report; this integration changes no such inputs"
+}
