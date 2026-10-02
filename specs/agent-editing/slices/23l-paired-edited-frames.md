@@ -221,3 +221,11 @@ originals, frozen workers, models and installed library unchanged. Root owns
 shared hub integration and any subsequent runtime pickup. Review the
 [owned choices](../assets/23l-paired-edited-frames/choices.md). Parent release and
 presentation gates remain open.
+
+The [PNG successor first case](../assets/23l-paired-edited-frames/png-successor-first-case.json)
+uses the corrected current static public renderer with the saved video request.
+Its selected sample is unchanged and its PNG equals the original composition
+output exactly; matched-source pixels still differ. Execution stopped after that
+case. The fixed-PNG correction is therefore scoped evidence, not full video-path
+acceptance. Next observe the same held physical buffer through direct and actual
+graph publication before changing production or rendering the remaining requests.

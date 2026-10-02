@@ -22,16 +22,16 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: remaining paired project PNG correspondence.**
-The [project PNG correction](slices/23l2-project-png-publication.md) is integrated:
-its retained fixed image preserves every RGBA sample through the shared graph.
-Focused geometry and movie buffer/attachment controls pass. Reuse the original
-[23l](slices/23l-paired-edited-frames.md) requests and matched source pictures to
-check the changed PNG path; do not replay accepted setup, sampling or full delivery
-cohorts. Prepare the smallest isolated candidate transport from retained objects;
-keep frozen workers/builds, source clocks and the original failures unchanged.
-Full movie pixel parity, historical decoder cause and release acceptance stay
-separate from this remaining PNG contract.
+**Next pickup: same-buffer video-source graph diagnostic.**
+The [project PNG correction](slices/23l2-project-png-publication.md) preserves its
+fixed-image input. The [first saved video request](assets/23l-paired-edited-frames/png-successor-first-case.json)
+still produces exactly the old composition PNG, differing from its matched source
+picture. Physical sample identity passes. Stop the remaining requests and observe
+that same decoded buffer through direct and actual graph publication to locate
+the remaining video-path difference. Reuse compiled objects and the unchanged
+pixel oracle; no accepted setup, sampler, service or delivery replay is needed.
+Keep frozen workers, source clocks and original failures unchanged. Full movie
+pixel parity, historical decoder cause and release acceptance remain separate.
 
 [12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
 all words correspond and the existing marked timing limits pass. Its original
