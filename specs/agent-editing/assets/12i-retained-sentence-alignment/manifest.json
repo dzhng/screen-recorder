@@ -1,0 +1,369 @@
+{
+  "scope": "Exactly one fixed whole-file conversion and one supplied-text alignment; numerical qualification separate from original producer inventory failure",
+  "authorSourceBase": "4b71747b8e4c1a660081279ddeb9724f1e4b2793",
+  "namespace": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927",
+  "archive": {
+    "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/12i-retained-sentence-alignment/result.tar.gz",
+    "bytes": 33242,
+    "sha256": "8f3254020652b2d08552dbce66eb0356073eb807f033f9337e046a608157cad9"
+  },
+  "members": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/alignment.stderr",
+      "bytes": 147,
+      "sha256": "ad55ca89939a3fca637110fadeb2bb9db422675d929be60f3c8556800c2e7499",
+      "member": "case/alignment.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/alignment.stdout",
+      "bytes": 106,
+      "sha256": "f9e3daa6a37c71681e495f4c8778688938647f19bdcb5f4fb1a9d23ef8218ca4",
+      "member": "case/alignment.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/conversion-qualification.json",
+      "bytes": 548,
+      "sha256": "b291cbfb001f2a3fa20aa4d3966ee7a798679f652de905d30e2d6bff5f196ad3",
+      "member": "case/conversion-qualification.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/conversion-request.json",
+      "bytes": 405,
+      "sha256": "33f8fe5494790b011afb8a6dddb6ca44b542dc14b4446c8576e133d6a76b0e09",
+      "member": "case/conversion-request.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/conversion-response.json",
+      "bytes": 554,
+      "sha256": "659da25fe9b2b31620875883dbfd1a1e69e6ac2a11f976c5147b200bddf7234a",
+      "member": "case/conversion-response.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/conversion.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "case/conversion.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/conversion.stdin",
+      "bytes": 377,
+      "sha256": "7e3846f89d55d6df7795dee5515dd2ec529ef6bf4d13fd5f8a98c780942fe9b4",
+      "member": "case/conversion.stdin"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/conversion.stdout",
+      "bytes": 441,
+      "sha256": "0c8dc2700922f39f8902d1346bcb458120a0f6bb0ad369fdafd6d0299fecc5f5",
+      "member": "case/conversion.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/post-run-verification.json",
+      "bytes": 14143,
+      "sha256": "98763b09b0ab1ca66de34d2d94813cd702713ad428f74fb32c394e526e27e3a5",
+      "member": "case/post-run-verification.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/report.json",
+      "bytes": 82775,
+      "sha256": "416c2407cad76be967d74f865323a2795db143f096638620def54b97ec6f7192",
+      "member": "case/report.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate/manifest.json",
+      "bytes": 2121,
+      "sha256": "fa6921cf2141b8155a34f1c64fa40b7aa6d3749e4333d73edd6653926438b367",
+      "member": "candidate/manifest.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate/result.json",
+      "bytes": 1068,
+      "sha256": "bd5cae520de2dd08fdd6943de8269fb032ad0629311643e478b04aba945d1d06",
+      "member": "candidate/result.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/approved-plan.md",
+      "bytes": 4283,
+      "sha256": "c78119a43af6acf98d12ed726579dc338355ff669cfd0a7fc2bc2623fa8d34ed",
+      "member": "executed/approved-plan.md"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/evaluate.mjs",
+      "bytes": 3510,
+      "sha256": "5cbecb78494437ec7add791cebe4a1cdd95544e35b3b31cbd7145c1b63f18e9b",
+      "member": "executed/evaluate.mjs"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/evaluate.test.mjs",
+      "bytes": 2667,
+      "sha256": "2787faf9f1c8de391958e717cab47ba0c3e49f0d5c4520558ff5921bdd1205ef",
+      "member": "executed/evaluate.test.mjs"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/launch.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "executed/launch.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/launch.stdout",
+      "bytes": 3151,
+      "sha256": "8fdc98d2ccacaa710a96c6151271230f10f03f2af607086d21f3ef4aa76c9db6",
+      "member": "executed/launch.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/producer.py",
+      "bytes": 12106,
+      "sha256": "414dc94f5a743409e14c2355c4930e892f4b07cd52f7e256cce2046d9070805b",
+      "member": "executed/producer.py"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/verify-post-run.mjs",
+      "bytes": 4397,
+      "sha256": "596d3fc99f3d6cd9bc50572bdf1b6692ba1855ca6dd238449e11f43be0c4fb01",
+      "member": "executed/verify-post-run.mjs"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/correspondence-bypass-red.txt",
+      "bytes": 1365,
+      "sha256": "cc4dd5b91178700a5c6e96da39281358757f990713fd5c4e3b20deb0a2f90975",
+      "member": "checks/correspondence-bypass-red.txt"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/evaluate-tests.txt",
+      "bytes": 304,
+      "sha256": "90441b141ed21aa5821d577b225cb8a61718936deed03ec51601c429a5871b9d",
+      "member": "checks/evaluate-tests.txt"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/maintained-verifier.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "checks/maintained-verifier.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/maintained-verifier.stdout",
+      "bytes": 14143,
+      "sha256": "8e3482f38b88c13757b2d583321d59d9c073f8b9d5c511bad52e51d9b15e84f7",
+      "member": "checks/maintained-verifier.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/mutation-evaluate.mjs",
+      "bytes": 3484,
+      "sha256": "aeeb0791ac686321ab8decd08a318bb7d1c07250377feafe3da3106692a1efb9",
+      "member": "checks/mutation-evaluate.mjs"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/mutation-evaluate.test.mjs",
+      "bytes": 2677,
+      "sha256": "dbd62f6527966c1bb26b56564085c1e5ca87470f9367702c452eaa23066cf98f",
+      "member": "checks/mutation-evaluate.test.mjs"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/post-run-verification.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "checks/post-run-verification.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/post-run-verification.stdout",
+      "bytes": 3106,
+      "sha256": "1ea0f7dce44ce8bd77ddf936aa3ef2c8c4a4bf1ae7b791c6ea3797fc7b918fc4",
+      "member": "checks/post-run-verification.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/producer-terminal.json",
+      "bytes": 287,
+      "sha256": "7741ff6091c7d85878c7f3fd55bcf90c0006753d970067c92b982d9920a6bd74",
+      "member": "checks/producer-terminal.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/static-checks.json",
+      "bytes": 2507,
+      "sha256": "8f734150d11fbb7b19c3876bd6e847f9669948f5bf33fee3c543e81ff5c066b9",
+      "member": "checks/static-checks.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/static-tools-initial.txt",
+      "bytes": 300,
+      "sha256": "5f19ab6b3e668257287bf39fb56ca634963b212b6cbb9e35759edfeaf5e2a845",
+      "member": "checks/static-tools-initial.txt"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/checks/test-outcomes.json",
+      "bytes": 137,
+      "sha256": "217aa666cbd67016710fdc2237ab77ad9dde3e4a554cd993d495fe5dd8b6ca4e",
+      "member": "checks/test-outcomes.json"
+    }
+  ],
+  "execution": {
+    "conversionAttempts": 1,
+    "alignmentAttempts": 1,
+    "producerPid": 62908,
+    "producerExecSession": 61962,
+    "producerExitCode": 1,
+    "children": [
+      {
+        "name": "conversion",
+        "pid": 63173,
+        "command": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/private/tmp/screenrec-09c-native-presented-worker"
+        ],
+        "ceilingSeconds": 180,
+        "startedAt": 1790900934.531979,
+        "exitCode": 0,
+        "signal": null,
+        "closedAt": 1790900934.864078,
+        "wallSeconds": 0.33135849999962375,
+        "deadlineExceeded": false,
+        "peakResidentBytes": 31555584,
+        "peakResidentUnit": "macOS wait4 bytes"
+      },
+      {
+        "name": "alignment",
+        "pid": 63324,
+        "command": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/venv/bin/python",
+          "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/alignment-float16.py",
+          "--model",
+          "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model",
+          "--audio",
+          "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/input/sentence16k.wav",
+          "--transcript",
+          "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/input/supplied-text.json",
+          "--out",
+          "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate"
+        ],
+        "ceilingSeconds": 900,
+        "startedAt": 1790900939.689146,
+        "exitCode": 0,
+        "signal": null,
+        "closedAt": 1790900974.57409,
+        "wallSeconds": 34.88369870898896,
+        "deadlineExceeded": false,
+        "peakResidentBytes": 4275994624,
+        "peakResidentUnit": "macOS wait4 bytes"
+      }
+    ],
+    "originalProducerState": "fixed case failed; no retry/repair/adoption",
+    "originalProducerError": {
+      "type": "AssertionError",
+      "message": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/producer.py\", line 189, in <module>\n    assert candidate_manifest['modelFiles'] == prep['model']['files']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    "receivedRunnerModelInventory": [],
+    "noRetryOrAdoption": true
+  },
+  "identities": {
+    "executedProducer": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/producer.py",
+      "bytes": 12106,
+      "sha256": "414dc94f5a743409e14c2355c4930e892f4b07cd52f7e256cce2046d9070805b"
+    },
+    "executedPostRunVerifierSnapshot": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/verify-post-run.mjs",
+      "bytes": 4397,
+      "sha256": "596d3fc99f3d6cd9bc50572bdf1b6692ba1855ca6dd238449e11f43be0c4fb01"
+    },
+    "postRunVerifierObservedIdentity": {
+      "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/12i-retained-sentence-alignment/verify.mjs",
+      "bytes": 4397,
+      "sha256": "596d3fc99f3d6cd9bc50572bdf1b6692ba1855ca6dd238449e11f43be0c4fb01"
+    },
+    "maintainedVerifier": {
+      "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/12i-retained-sentence-alignment/verify.mjs",
+      "bytes": 4007,
+      "sha256": "5a4a2e044eab3f5b2b8b4a38dc09f8b8ffc1721e90aef6b4d09e4ea9c3d956ae"
+    },
+    "executedEvaluatorSnapshot": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/evaluate.mjs",
+      "bytes": 3510,
+      "sha256": "5cbecb78494437ec7add791cebe4a1cdd95544e35b3b31cbd7145c1b63f18e9b"
+    },
+    "currentEvaluator": {
+      "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/12i-retained-sentence-alignment/evaluate.mjs",
+      "bytes": 3510,
+      "sha256": "5cbecb78494437ec7add791cebe4a1cdd95544e35b3b31cbd7145c1b63f18e9b"
+    },
+    "sharedBoundaryScorer": {
+      "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/packages/test-harness/editing/speech/boundaries.mjs",
+      "bytes": 2120,
+      "sha256": "a1e757060d0cdd8764de4b650c7b619116343a00f19a48a7cd9a3a3b72e190e0"
+    },
+    "unchangedHistoricalRunner": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/alignment-float16.py",
+      "bytes": 3425,
+      "sha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3"
+    },
+    "approvedPlan": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/executed/approved-plan.md",
+      "bytes": 4283,
+      "sha256": "c78119a43af6acf98d12ed726579dc338355ff669cfd0a7fc2bc2623fa8d34ed"
+    }
+  },
+  "externalPreservedInputs": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/input/sentence16k.wav",
+      "bytes": 461056,
+      "sha256": "d684ee8f703d8f898a936541950596359cace156a61a8475597a53d9517e4a34"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/input/supplied-text.json",
+      "bytes": 678,
+      "sha256": "372f365ea5ec73dd5e3d509a6d3092c141de05b12b37504d10ad35b5e238c789"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+      "bytes": 1330251,
+      "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/python-copy-verification.json.gz",
+      "bytes": 113005,
+      "sha256": "8d49360b53d00d1f0b6afaf451ceee7fc980889186b0be7d036d357794727d14"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/report.json",
+      "bytes": 22833,
+      "sha256": "7a2951f334c33e86ae359764d6740b9ae4f38e378d6e5ee2b883bcdf889acfab"
+    }
+  ],
+  "preservation": {
+    "selectedOriginalAuthorityPins": 107,
+    "allSelectedOriginalPinsUnchanged": true,
+    "completeModelFiles": 8,
+    "completeRuntimeMembers": 26794,
+    "allModelRuntimePinsUnchanged": true,
+    "preserveFullNamespace": true,
+    "packetContainsNoModelRuntimeOrRawAudioBackup": true
+  },
+  "numerical": {
+    "completeCorrespondence": true,
+    "medianErrorMs": 15.5,
+    "p95ErrorMs": 64.8,
+    "worstErrorMs": 70,
+    "individualRegressions": [],
+    "openingUmEndSignedErrorMs": 7,
+    "openingUmOnsetScored": false,
+    "resources": {
+      "kernelPeakResidentBytes": 4275994624,
+      "runnerPeakResidentBytes": 4275994624,
+      "ceilingBytes": 4294967296,
+      "meets": true
+    },
+    "savedNumericalCaseMeetsCriteria": true,
+    "originalProducerPassed": false,
+    "parentQualityClosed": false,
+    "adoption": false
+  },
+  "limits": [
+    "historical Python/wheel binary identity unavailable",
+    "recognizer-internal PCM hash unavailable; new declared conversion not proven byte-equivalent",
+    "one supplied-text sentence, not recognition/filler/held-out quality or general resource capacity"
+  ]
+}
