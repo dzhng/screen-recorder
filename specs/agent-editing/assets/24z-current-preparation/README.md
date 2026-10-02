@@ -58,3 +58,8 @@ reverification or service startup because unrelated rendering/simulation violate
 its recorded criteria. Root checked the raw inventory and criteria hashes and the
 reported process CPU values. The prepared fixture remains available; no p95 sample
 or polling followed this deferral.
+
+A [later coordinated window](next-window-preflight.json) after the PNG correction
+also deferred before service startup on unrelated compilation/analysis. The
+prepared fixture and current emitted runtime remain ready; no build, preparation
+replay or timing occurred. This is a distinct window, not polling the earlier one.

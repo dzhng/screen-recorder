@@ -1,0 +1,37 @@
+{
+  "startedAt": "2026-10-02T01:35:59.983563+00:00",
+  "endedAt": "2026-10-02T01:36:00.046484+00:00",
+  "rawSHA256": "7ea71c4f6acee2c14185360f3525a97e05b4fcd1d06ea3192c148c8b72f81d54",
+  "rawBytes": 238382,
+  "criteria": "Same prior rejection criteria: active compile/build/simulation/benchmark/inference/media-render/archive or unrelated process >=100% CPU; one snapshot, no polling",
+  "ownedLanes": "PNG compile/test and root integration terminal; read-only readiness/visual agents completed",
+  "qualified": false,
+  "failures": [
+    {
+      "pid": 45454,
+      "cpuPercent": 155.3,
+      "workload": "unrelated Node repository analysis"
+    },
+    {
+      "pid": 46479,
+      "cpuPercent": 192.2,
+      "workload": "unrelated Battlegame compilation"
+    }
+  ],
+  "actualTimingDispatches": 0,
+  "additionalActiveCompilerObservations": [
+    {
+      "pid": 46479,
+      "cpuPercent": 192.2,
+      "workload": "unrelated Battlegame compilation"
+    },
+    {
+      "pid": 46620,
+      "cpuPercent": 74.3,
+      "workload": "unrelated Battlegame compilation"
+    }
+  ],
+  "decision": "DEFER before service startup or any timing; do not poll or retry this window",
+  "rawPath": "/tmp/screenrec-24z-next-window/whole-host-preflight.txt",
+  "currentRuntimeReadiness": "Existing emitted runtime matches current relevant production sources:672 unchanged preparation bindings and3 CLI bindings matching integrated24z13. Six scenario consumers and86SDK files match. No build/preparation needed."
+}
