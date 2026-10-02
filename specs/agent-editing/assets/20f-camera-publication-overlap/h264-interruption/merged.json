@@ -1,0 +1,123 @@
+{
+  "scope": "Read-only merged supplementary evidence qualification; no native replay/build/measurement",
+  "checked": {
+    "rawAuthorities": 4,
+    "executedInputsAndBinaries": 29,
+    "retainedLogs": 20,
+    "payloads": 18
+  },
+  "productionUnchanged": true,
+  "exactChangedBytes": [
+    872,
+    873,
+    874,
+    875
+  ],
+  "completePhysicalPrefixEquality": {
+    "representedFrames": 1,
+    "firstUs": 0,
+    "endUs": 33333,
+    "pictureSHA256": "8826dbd6804cc12a003bf1a0de8a3906d45916353519938e280654ab4580c74d",
+    "diagnostics": [
+      "rawDecodeInterrupted"
+    ],
+    "support": {
+      "endUs": {
+        "denominator": 3,
+        "numerator": 100000
+      },
+      "startUs": 0
+    },
+    "pictureTimeScale": 15360
+  },
+  "equalReceiptFields": [
+    "presentation",
+    "raw",
+    "observations",
+    "representedFrames",
+    "firstUs",
+    "endUs",
+    "pictureSHA256",
+    "diagnostics",
+    "support",
+    "pictureTimeScale",
+    "binding",
+    "originHostUs",
+    "journal"
+  ],
+  "differentReceiptFields": [
+    "candidate",
+    "canonical",
+    "closed"
+  ],
+  "actualQualifiedSchedulingAndDrain": {
+    "active": 0,
+    "bothReadingObserved": true,
+    "calls": 3,
+    "encoding": "B16@0:8",
+    "events": [
+      {
+        "privateCandidatePresent": false,
+        "source": "/private/tmp/screenrec-20f-h264-interruption/corrected-current-case/.screenrec-output-60FAE876-7231-424B-9481-A73A5A68EFF4/camera.mov",
+        "started": true,
+        "statusAfterOriginalStart": 1
+      },
+      {
+        "privateCandidatePresent": true,
+        "source": "/private/tmp/screenrec-20f-h264-interruption/corrected-current-case/camera.raw.mov",
+        "started": true,
+        "statusAfterOriginalStart": 1
+      },
+      {
+        "privateCandidatePresent": false,
+        "source": "/private/tmp/screenrec-20f-h264-interruption/corrected-current-case/.screenrec-output-B038859E-0491-4820-9B82-900FAB2468F5/camera.mov",
+        "started": true,
+        "statusAfterOriginalStart": 1
+      }
+    ],
+    "originalDispatchDelegated": 3,
+    "readingAfterJoin": 0,
+    "remainingObjects": [],
+    "restored": true
+  },
+  "actualCorrectedTerminals": [
+    {
+      "label": "corrected-current-compile",
+      "pid": 58292,
+      "startedAt": "2026-10-02T03:26:41.120775+00:00",
+      "boundSeconds": null,
+      "exitCode": 0,
+      "elapsedSeconds": 5.101050915982341
+    },
+    {
+      "label": "corrected-current-publication",
+      "pid": 58416,
+      "startedAt": "2026-10-02T03:26:46.218197+00:00",
+      "boundSeconds": 30,
+      "exitCode": 0,
+      "elapsedSeconds": 1.0957762920006644
+    }
+  ],
+  "originalInstrumentationCrash": {
+    "pid": 54261,
+    "exitCode": -5,
+    "cause": "actor-isolated Swift empty callback invoked by forwarding observation on scan task; exact crashstack in current-crash.ips; not zero-dispatch",
+    "crash": {
+      "path": "/tmp/screenrec-20f-h264-interruption/current-crash.ips",
+      "bytes": 42063,
+      "sha256": "efffc78fad8c12d289903cbaaf3f2d401562a2a9dee1057020b51d192c40d02c"
+    }
+  },
+  "crashStackConfirmsObserverActorAssertion": true,
+  "verification": {
+    "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/verification.json",
+    "bytes": 19815,
+    "sha256": "241168e248399bf84bd41650af3ee7ccc0f4dd8c47883be3b47631b350ae2cdb"
+  },
+  "limits": [
+    "One fixed final-presented H264 NAL length only; reordered dependency can deplete earlier presentation frames.",
+    "Same physical prefix/digest/support/diagnostics and binding; no canonical container-byte or closed-marker JSON-byte parity claimed.",
+    "No new production change, module/worker rebuild, changed SDK samples, pattern search, capture/playback/UI/model or retained-take measurement.",
+    "Peak-memory/resource scale, all native failure modes and ten-second completed-stop gate remain unverified."
+  ]
+}

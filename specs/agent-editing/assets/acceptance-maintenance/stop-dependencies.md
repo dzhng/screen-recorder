@@ -2,9 +2,9 @@
 
 Read-only source audit at its original baseline after MCP media integration.
 The later [20f implementation](../../slices/20f-camera-publication-overlap.md)
-adds scoped scheduling preservation; its qualified decoder-interruption gap and
-performance adoption remain open. This audit itself performed no build or runtime
-measurement. The ten-second completed-stop requirement remains
+adds scoped scheduling preservation and a genuine qualified interrupted-prefix
+case. Retained-take eligibility, resources and performance adoption remain open.
+This audit itself performed no build or runtime measurement. The ten-second completed-stop requirement remains
 failed; this is a prospective scheduling seam, not an accepted optimization.
 
 The [publication owner](../../../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift)

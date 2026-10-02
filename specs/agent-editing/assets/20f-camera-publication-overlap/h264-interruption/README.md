@@ -32,3 +32,8 @@ This establishes one qualified late-decode interruption and fallback preservatio
 case. It does not establish every native failure mode, peak memory, retained-take
 latency or the ten-second stop gate. No production/module/worker change, additional
 pattern, capture/playback/UI/model activity or timing measurement was performed.
+
+[Root qualification](merged.json) independently checks every retained authority,
+executed artifact and payload hash, exact four-byte mutation, full physical/binding
+receipt fields, observed scheduling/drain, removed speculative candidate and the
+original crash stack. It repeats no native execution.

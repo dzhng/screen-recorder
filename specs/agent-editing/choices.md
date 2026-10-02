@@ -6503,3 +6503,10 @@ speech or replaying the complete thirteen-effect journey. It constrains only thi
 verification fixture; no product default, editorial rule, installed discovery or
 new integrated-output quality is inferred. The later installed gate keeps its
 original coverage.
+
+## Qualified compressed-camera interruption
+
+The [supplemental decisions](assets/20f-camera-publication-overlap/h264-interruption/review.md)
+record the single structurally invalid final-presented H264 packet, the probe-only
+actor callback correction and the separation of physical and container identity.
+The original valid-BGRA corruption was not repurposed as interruption proof.

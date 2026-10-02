@@ -22,12 +22,14 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify retained positive system-acquisition correspondence.**
-Reconcile existing20d native/public both-role authorities with the old/new public
-inspection owners before selecting one compact case. No microphone relabeling,
-private row seeding, new capture or playback may manufacture positive system
-proof. If no admissible legacy/public authority exists, retain that exact gap and
-continue other authorized parent work.
+**Next pickup: public positive-system package/project correspondence.**
+Use the retained genuine system source with failed narration to construct an
+explicitly authored legacy inspection fixture through its page/manifest/archive
+owners. This is not automatic recording export. Compare old public package
+inspection with current public acquisition/project output across the recorded
+hole, then verify the caller-requested split preserves samples. Use the
+independent offered-PCM oracle and existing flat-identity serialization contract;
+no microphone relabeling, private rows, new importer, capture or playback.
 
 [25c independent source MCP](slices/25c-source-mcp-caller.md) now passes:
 a fresh caller discovers public schemas, commits only the requested split,
@@ -38,12 +40,12 @@ installed/default discovery was repeated; producer-history limits remain visible
 
 [20f camera scheduling](slices/20f-camera-publication-overlap.md) is integrated:
 compact digest/support, generic prefix, failure order, recovery and actual
-concurrent-reader cancellation pass. The [merged record](assets/20f-camera-publication-overlap/merged.json)
-checks source/runtime bindings and saved results without a replay. Qualified
-metadata followed by a physically shorter decode and successful prefix fallback
-remains unobserved; retained-take adoption/measurement is withheld. The saved
-digest cost exceeds ten seconds per stream, so overlap does not establish the
-completed-stop target. Physical/live acceptance remains open.
+concurrent-reader cancellation pass. Its [qualified H264 interruption supplement](assets/20f-camera-publication-overlap/h264-interruption/README.md)
+now observes a real shorter decode: speculative candidate removal, exact old/new
+physical prefix and joined reader cleanup all pass. Original observer crash and
+corrected execution remain separate. Root checks the [supplement](assets/20f-camera-publication-overlap/h264-interruption/merged.json)
+without a replay. Retained-take eligibility/performance and decoder-pool memory
+still need their own bounded evidence; overlap does not establish ten-second stop.
 
 The [PNG correction](slices/23l2-project-png-publication.md) now passes all fourteen
 saved composition requests through an isolated native worker: complete reference

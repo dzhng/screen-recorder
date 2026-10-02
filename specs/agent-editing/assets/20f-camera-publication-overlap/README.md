@@ -22,8 +22,9 @@ for that fully decodable case; it did not produce the required shorter physical
 prefix after successful qualification. Separate authoring changes mapping/closed
 JSON identities and exported movie bytes, so full receipt equality is not claimed.
 
-Scheduling implementation is verified within those bounds. Qualified decoder
-interruption/premature EOF followed by fallback publication remains unobserved;
+Scheduling implementation is verified within those bounds. At this initial
+checkpoint, qualified decoder interruption/premature EOF followed by fallback
+publication remained unobserved;
 retained-take adoption, working-memory cost and completed-stop latency remain
 unverified. Original evidence and frozen workers are unchanged. Routine setup
 failures and compiled scratch artifacts remain at the recorded outside-repo paths.
@@ -31,3 +32,8 @@ failures and compiled scratch artifacts remain at the recorded outside-repo path
 [Root integration](merged.json) independently checks all changed source bindings,
 executed artifacts, packet payloads, terminal processes and complete physical
 receipt fields. It repeats no native control or performance cohort.
+
+The later [H264 supplement](h264-interruption/README.md) closes one real qualified
+interruption/fallback case while retaining the original fully decodable damage
+experiment and its limitations. Retained-take eligibility/resources/performance
+remain separate from that scoped proof.
