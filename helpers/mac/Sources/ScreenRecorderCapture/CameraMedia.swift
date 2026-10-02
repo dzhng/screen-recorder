@@ -259,6 +259,37 @@ package enum CameraMedia {
             return support
         }
     }
+    private struct CanonicalScanState {
+        private var hash = SHA256()
+        private var previous: CMTime?
+        private var last: CMTimeRange?
+        private(set) var represented = 0
+
+        mutating func append(_ frame: CameraFrameMapping, scale: Int32, support: CMTimeRange,
+            nextPicture: () throws -> CMSampleBuffer?) throws {
+            let range = try frame.acquisitionRange(scale: scale)
+            guard previous.map({ $0 < frame.start.time }) ?? true,
+                represented != 0 || support.start == range.start,
+                let sample = try nextPicture(), sample.presentationTimeStamp == range.start else {
+                throw invalid("Canonical camera picture order or exact timestamp changed.")
+            }
+            previous = frame.start.time; last = range
+            try digest(sample, into: &hash, scale: scale)
+            represented += 1
+        }
+        func finish(support: CMTimeRange, nextPicture: () throws -> CMSampleBuffer?) throws -> String {
+            guard let last, support.end > last.start, support.end <= last.end,
+                try nextPicture() == nil else { throw invalid("Canonical camera pixels or terminal support changed.") }
+            return hex(hash.finalize())
+        }
+        mutating func validateRemaining(_ frame: CameraFrameMapping, scale: Int32) throws {
+            _ = try frame.acquisitionRange(scale: scale)
+            guard previous.map({ $0 < frame.start.time }) ?? true else {
+                throw invalid("Camera acquisition timestamps are not strictly increasing.")
+            }
+            previous = frame.start.time
+        }
+    }
     /// One ordered-picture, exact-PTS, native-support and visible-BGRA verifier for publication/admission.
     private static func verifyCanonical(_ url: URL, mappingURL: URL, represented: Int, scale: Int32,
         pictureHash: String, expected: ExactRange?) async throws -> ExactRange {
@@ -275,28 +306,17 @@ package enum CameraMedia {
         let exact = try ExactRange(startUs: ExactTime(support.start), endUs: ExactTime(support.end))
         guard expected.map({ $0 == exact }) ?? true else { throw invalid("Canonical camera support differs from publication.") }
         let mapping = try Mapping(mappingURL)
-        var hash = SHA256()
-        var previous: CMTime?
-        var last: CMTimeRange?
-        for ordinal in 0..<represented {
+        var state = CanonicalScanState()
+        for _ in 0..<represented {
             guard let frame = try mapping.next() else { throw invalid("Camera mapping ended before represented pictures.") }
-            let range = try frame.acquisitionRange(scale: scale)
-            guard previous.map({ $0 < frame.start.time }) ?? true,
-                ordinal != 0 || support.start == range.start,
-                let sample = try candidate.next(), sample.presentationTimeStamp == range.start else { throw invalid("Canonical camera picture order or exact timestamp changed.") }
-            previous = frame.start.time; last = range
-            try digest(sample, into: &hash, scale: scale)
+            try state.append(frame, scale: scale, support: support, nextPicture: candidate.next)
         }
-        guard let last, support.end > last.start, support.end <= last.end,
-            try candidate.next() == nil else { throw invalid("Canonical camera pixels or terminal support changed.") }
-        let pictureHash = hex(hash.finalize())
+        let pictureHash = try state.finish(support: support, nextPicture: candidate.next)
         // Hash disagreement precedes malformed trailing mapping rows, as in sequential verification.
         let remaining: Result<Void, any Error>
         do {
             while let frame = try mapping.next() {
-                _ = try frame.acquisitionRange(scale: scale)
-                guard previous.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
-                previous = frame.start.time
+                try state.validateRemaining(frame, scale: scale)
             }
             remaining = .success(())
         } catch { remaining = .failure(error) }
@@ -408,48 +428,63 @@ package enum CameraMedia {
         let pictureHash: String
         let diagnostics: [String]
     }
+    private struct RawScanState {
+        private var hash = SHA256()
+        private var previousMappedStart: CMTime?
+        private(set) var support: CMTimeRange?
+        private(set) var represented = 0
+        var diagnostics: [String]
+        var pictureHash: String { hex(hash.finalize()) }
+
+        init(sealed: Bool) { diagnostics = sealed ? [] : ["unsealedRaw"] }
+        mutating func mapping(_ frame: CameraFrameMapping, scale: Int32) throws -> CMTimeRange {
+            let range = try frame.acquisitionRange(scale: scale)
+            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else {
+                throw invalid("Camera acquisition timestamps are not strictly increasing.")
+            }
+            previousMappedStart = frame.start.time
+            return range
+        }
+        mutating func append(_ sample: CMSampleBuffer, range: CMTimeRange, nativeEnd: CMTime,
+            scale: Int32) throws {
+            guard sample.presentationTimeStamp == range.start else {
+                throw invalid("Raw picture does not match its exact mapped ordinal.")
+            }
+            try digest(sample, into: &hash, scale: scale)
+            represented += 1
+            // Native holds each picture until the next; only the physical tail bounds the endpoint.
+            support = CMTimeRange(start: support?.start ?? range.start, end: CMTimeMinimum(range.end, nativeEnd))
+        }
+    }
     private static func scanRaw(_ rawURL: URL, mappingURL: URL, sealed: Bool) async throws -> RawScan {
         let mapping = try Mapping(mappingURL)
         let raw = try await Pictures(url: rawURL)
-        var support: CMTimeRange?; var rawHash = SHA256(); var diagnostics: [String] = []
-        var represented = 0
-        var previousMappedStart: CMTime?
-        if !sealed { diagnostics.append("unsealedRaw") }
+        var state = RawScanState(sealed: sealed)
         while let frame = try mapping.next() {
-            let range = try frame.acquisitionRange(scale: raw.scale)
-            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
-            previousMappedStart = frame.start.time
+            let range = try state.mapping(frame, scale: raw.scale)
             let sample: CMSampleBuffer?
             do { sample = try raw.next() }
             catch is CancellationError { throw CancellationError() }
-            catch { diagnostics.append("rawDecodeInterrupted"); break }
-            guard let sample else { diagnostics.append("acceptedBeyondPhysicalEOF"); break }
-            guard sample.presentationTimeStamp == range.start else { throw invalid("Raw picture does not match its exact mapped ordinal.") }
-            try digest(sample, into: &rawHash, scale: raw.scale)
-            represented += 1
-            // Native video holds each acquired picture until the next. Only the final
-            // physically decoded frame supplies the conservative terminal endpoint.
-            support = CMTimeRange(start: support?.start ?? range.start, end: CMTimeMinimum(range.end, raw.lastEnd))
+            catch { state.diagnostics.append("rawDecodeInterrupted"); break }
+            guard let sample else { state.diagnostics.append("acceptedBeyondPhysicalEOF"); break }
+            try state.append(sample, range: range, nativeEnd: raw.lastEnd, scale: raw.scale)
         }
-        guard let support else { throw invalid("No physically verified camera prefix.") }
-        if represented == mapping.frames {
-            do { if try raw.next() != nil { diagnostics.append("unmappedRawTail") } }
+        guard let support = state.support else { throw invalid("No physically verified camera prefix.") }
+        if state.represented == mapping.frames {
+            do { if try raw.next() != nil { state.diagnostics.append("unmappedRawTail") } }
             catch is CancellationError { throw CancellationError() }
-            catch { diagnostics.append("rawDecodeInterrupted") }
+            catch { state.diagnostics.append("rawDecodeInterrupted") }
         }
         // Validate the remaining journal even when the physical payload ended early.
         while let frame = try mapping.next() {
-            _ = try frame.acquisitionRange(scale: raw.scale)
-            guard previousMappedStart.map({ $0 < frame.start.time }) ?? true else { throw invalid("Camera acquisition timestamps are not strictly increasing.") }
-            previousMappedStart = frame.start.time
+            _ = try state.mapping(frame, scale: raw.scale)
         }
-        if mapping.torn { diagnostics.append("tornMappingTail") }
+        if mapping.torn { state.diagnostics.append("tornMappingTail") }
         guard merged(raw.segments.map(\.asset)).contains(where: { $0.start <= support.start && $0.end >= support.end }) else {
             throw invalid("Raw camera presentation does not cover its bounded acquired prefix.")
         }
-        let pictureHash = hex(rawHash.finalize())
-        return RawScan(source: raw.source, support: support, represented: represented,
-            pictureHash: pictureHash, diagnostics: diagnostics)
+        return RawScan(source: raw.source, support: support, represented: state.represented,
+            pictureHash: state.pictureHash, diagnostics: state.diagnostics)
     }
     private static func exportCandidate(rawURL: URL, canonicalURL: URL,
         source: Source, support: CMTimeRange) async throws -> NewFile {
