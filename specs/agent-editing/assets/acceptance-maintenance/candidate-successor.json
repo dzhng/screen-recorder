@@ -1,0 +1,152 @@
+{
+  "scope": "Separate signed staged project-service successor health/list/quit; original staged and installed app remain unchanged; no physical/listening/visual or installed acceptance",
+  "sourceCommit": "0d413958",
+  "assembly": {
+    "sourceCommit": "0d413958",
+    "scope": "Separate staged project-service successor; original staged app and installed app unchanged",
+    "steps": [
+      {
+        "argv": [
+          "/bin/cp",
+          "-cR",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "bun",
+          "build",
+          "apps/service/dist/project-main.js",
+          "--target=node",
+          "--outfile",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/service/main.mjs"
+        ],
+        "exitCode": 0,
+        "stdout": "Bundled 259 modules in 27ms\n\n  main.mjs  4.26 MB  (entry point)\n\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "codesign",
+          "--force",
+          "--sign",
+          "Screen Recorder Local",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app: replacing existing signature\n"
+      },
+      {
+        "argv": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "originalCandidateUnchanged": [
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+        "bytes": 6378736,
+        "sha256": "76f223ae65d9aa14eccde075839bacb9b79f7d1ede573f3daf6b01dc3d8159f2"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "bytes": 20440544,
+        "sha256": "a4070e67788c38ffd4d966d7fa010a9ed80dbe1e870278af1e14ca46031e7c99"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+        "bytes": 4264451,
+        "sha256": "2be44be20570314f3ef620165ac42e657b697ac09051137045b92f779405d383"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+        "bytes": 1157361,
+        "sha256": "1db05a47b04b89e72529433ea97d56570d8ace18366252590be7d1262a8880e3"
+      }
+    ],
+    "candidatePins": [
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+        "bytes": 6378736,
+        "sha256": "8065f68306348e301714311077049f04f3ea56caf764a2bdea1831528beb6328"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "bytes": 20440544,
+        "sha256": "a4070e67788c38ffd4d966d7fa010a9ed80dbe1e870278af1e14ca46031e7c99"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+        "bytes": 4264481,
+        "sha256": "55dd55ffcb45b0f0eda71d7c4ce4acc74d714c8171fc1364b8f2dfa814965fd6"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+        "bytes": 1157361,
+        "sha256": "1db05a47b04b89e72529433ea97d56570d8ace18366252590be7d1262a8880e3"
+      }
+    ],
+    "sourceInputs": [
+      {
+        "path": "/Users/david/dev/screen-recorder/apps/service/dist/project-main.js",
+        "bytes": 1115,
+        "sha256": "69df222d8c20472e2aacc696b5a376712ab8dfd54eb4795ec0ffd3df88e22e5d"
+      },
+      {
+        "path": "/Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+        "bytes": 21720,
+        "sha256": "d2a7aeb62c97895e5496d0248ae55c51e6d9438f361f97e4fbf6eb04dfceb514"
+      }
+    ]
+  },
+  "smoke": {
+    "pid": 47999,
+    "home": "/private/tmp/sr-candidate-vbfqp7li",
+    "socket": "/private/tmp/sr-candidate-vbfqp7li/run/service.sock",
+    "startedAt": "2026-10-02T20:25:57.839724+00:00",
+    "scope": "Isolated staged bundled project service, app-owned startup and graceful exit; not installed acceptance",
+    "service.health": {
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"status\":\"ready\",\"pid\":48002,\"socketPath\":\"/private/tmp/sr-candidate-vbfqp7li/run/service.sock\",\"home\":\"/private/tmp/sr-candidate-vbfqp7li\",\"node\":\"24.14.0\",\"uptimeMs\":130},\"id\":\"ae360d1a-c54e-4004-89c7-20dc1516bb8e\"}\n",
+      "stderr": ""
+    },
+    "servicePid": 48002,
+    "project.list": {
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"projects\":[],\"nextCursor\":null},\"id\":\"34481215-62ce-4d4a-9392-90e75db3dffc\"}\n",
+      "stderr": ""
+    },
+    "passed": true,
+    "exitCode": 0,
+    "terminal": true,
+    "waited": true,
+    "servicePidAbsent": true,
+    "socketAbsent": true,
+    "elapsedSeconds": 0.9353800000099
+  },
+  "archive": {
+    "file": "candidate-successor.tar.gz",
+    "sha256": "5964ec18d06ac8eb1cc4df24c0209805c62e4fa46d575ae2e54188d624883fd2"
+  }
+}

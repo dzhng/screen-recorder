@@ -22,8 +22,32 @@ health and the complete empty project list outside the checkout; graceful app
 shutdown removes its socket and service child. The [build correction](candidate-build.json)
 selects shipped Swift products instead of compiling test executables in release
 mode. No installed switch, user-library migration, player presentation or full
-preservation acceptance follows from this startup proof. Use this candidate for
-the remaining scoped checks before requesting replacement of the installed app.
+preservation acceptance follows from this startup proof. The [separate successor](candidate-successor.json) incorporates the manifest
+reference contract, remains signed and passes the same startup/quit check. Use its
+pinned bundle for remaining checks before requesting installed replacement.
+The [public capture and recovery](public-capture-recovery.json) now exercises
+explicit built-in camera selection, pause/resume and complete publication in
+0.929 seconds after Stop. Reopening the same isolated library resumes one queued
+admission and explicitly retries the interrupted companion; both acquisitions
+become ready with unchanged media. No project or revision is generated. This is
+one physical lifecycle case, not synchronization or sustained-stop acceptance.
+The [saved support reconciliation](physical-support.json) independently checks
+source/asset offsets, endpoint clipping and the microphone gap around the shared
+pause splice. It performs no new capture or decoding and supplies no perceptual
+synchronization verdict.
+
+[Native presentation](native-presentation.json) now exercises the actual selected
+project menu and revision-labelled window in a clone of that saved library. The
+explicit development project places the complete primary video; no cut or automatic
+recording/project association is introduced. The movie contains visible source
+content, and Apple's player advances with the exact cache path and MIME override.
+The app closes cleanly and leaves original media/catalog bytes unchanged.
+Visible player acceptance remains open: its protected window produces blank external
+captures. The [generated-window control](window-capture-control.json) reproduces
+that capture behavior while holding foreground state fixed. This is a capture-tool
+limitation, not evidence that actual playback is blank or a reason to remove
+production capture exclusion. Private desktop images stay outside Git.
+
 
 The paired edit/history case is banked in [23j](../../slices/23j-state-preservation.md),
 and [23k](../../slices/23k-source-consumer-bridge.md) closes its scoped composed

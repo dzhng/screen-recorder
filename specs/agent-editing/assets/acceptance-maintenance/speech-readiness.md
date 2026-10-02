@@ -42,6 +42,14 @@ contexts. None was downloaded or run. Qualification must establish applicable
 use, complete independently reviewed intervals and required category counts
 before inference; a corpus name alone supplies none of those proofs.
 
+[AMI](https://groups.inf.ed.ac.uk/ami/download/) permits development/evaluation
+under CC BY 4.0 and supplies human-checked transcripts with disfluencies. Its
+[transcription procedure](https://groups.inf.ed.ac.uk/ami/corpus/transcription.shtml)
+states that word and phoneme times come from automatic forced alignment; human
+review covered transcript completeness and speech-segment boundaries. It is
+license-qualified lexical material, not independently reviewed word-edge truth.
+No audio or annotation download, inference or broader corpus search followed.
+
 The [accepted explicit cut](../12e-labeled-cleanup/README.md) already preserves its
 marked protected words, original PCM and undo; its listening verdict applies to
 that candidate. Broader protected ranges and new joins need independent references

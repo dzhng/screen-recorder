@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: validate concrete native presentation in the staged release candidate.**
+**Next pickup: qualify native presenter pixels while preserving capture exclusion.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
 media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
@@ -67,6 +67,13 @@ keep builds and timing-sensitive checks from competing for the machine.
 The private project-service candidate builds, signs and passes isolated bundled
 health, empty project-list and graceful-shutdown checks. Installed adoption and
 presentation/preservation acceptance remain separate.
+[Actual native menu/window and movie readiness](assets/acceptance-maintenance/native-presentation.json)
+now pass in an isolated clone of saved media. External screenshots cannot establish
+visible player pixels: a [controlled window](assets/acceptance-maintenance/window-capture-control.json)
+reproduces the blank capture under the same sharing mode. Preserve that limitation,
+not a false player-defect claim. The [signed successor](assets/acceptance-maintenance/candidate-successor.json)
+is prepared without replacing the original staged or installed app.
+
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |

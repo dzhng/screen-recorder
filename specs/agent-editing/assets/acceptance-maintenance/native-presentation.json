@@ -1,0 +1,179 @@
+{
+  "scope": "Concrete native menu/window dispatch and exact published movie readiness; visible player pixels/playback remains unverified. No installed switch or automatic project creation.",
+  "candidate": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app",
+  "sourceCommit": "0d413958",
+  "selectedProject": {
+    "projectId": "c146be22-35e3-4604-a1c5-8b7328161d06",
+    "revisionId": "d9bc5ec8-394a-4874-a48e-18435e114cb8"
+  },
+  "explicitFixture": "Full8.214015-second primary video, one video track, no cuts, no source modification, no audio/processing request; public project.create/edit.apply in an isolated cloned library.",
+  "originalCaptureLibraryUnchanged": true,
+  "initialHarnessFailure": {
+    "reason": "Expected human project title in window; actual owner names project ID and revision. Product window already opened.",
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/report.json",
+      "bytes": 158951,
+      "sha256": "f538747315ba47ed2e4799c1cb706e4348213833c8bf1bf4cf5ec96f0b1656ed"
+    },
+    "source": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/run.py",
+      "bytes": 6021,
+      "sha256": "2ad139e00d9e18d9131842b02905566313b6c3297fe69d148adecb7232668ea9"
+    },
+    "appExitCode": 0
+  },
+  "successor": {
+    "projectAndRevisionWindow": {
+      "width": 800,
+      "title": "Preview \u2014 c146be22-35e3-4604-a1c5-8b7328161d06 \u2014 d9bc5ec8-394a-4874-a48e-18435e114cb8",
+      "key": false,
+      "number": 44187,
+      "height": 532,
+      "visible": true
+    },
+    "actualMenuAction": "project.preview.c146be22-35e3-4604-a1c5-8b7328161d06",
+    "windowCloseObserved": false,
+    "appExitCode": 0,
+    "appReaped": true,
+    "servicePidAbsent": true,
+    "socketAbsent": true,
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/report.json",
+      "bytes": 70421,
+      "sha256": "6989994d7a4807538097d8d03ab683e1883dba1142764ae3eab69f4eff5c991d"
+    },
+    "source": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/run.py",
+      "bytes": 5062,
+      "sha256": "fa3dfd505dcad83fd77d71ad655040e30add315adf934e60c329697236a74946"
+    }
+  },
+  "media": {
+    "publicReadyResponse": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/preview-cli.json",
+      "bytes": 3999,
+      "sha256": "7a9eb046b3d5236217aa785f88e07e16148faf56b7a666bde42f9523be3dfc4b"
+    },
+    "headlessApplePlayback": {
+      "durationSeconds": 8.214015,
+      "error": null,
+      "observations": [
+        {
+          "rate": 1,
+          "seconds": 0,
+          "status": 1,
+          "timeControlStatus": 2
+        },
+        {
+          "rate": 1,
+          "seconds": 0.03603125,
+          "status": 1,
+          "timeControlStatus": 2
+        },
+        {
+          "rate": 1,
+          "seconds": 0.138911625,
+          "status": 1,
+          "timeControlStatus": 2
+        },
+        {
+          "rate": 1,
+          "seconds": 0.241439291,
+          "status": 1,
+          "timeControlStatus": 2
+        },
+        {
+          "rate": 1,
+          "seconds": 0.34357975,
+          "status": 1,
+          "timeControlStatus": 2
+        },
+        {
+          "rate": 1,
+          "seconds": 0.449313791,
+          "status": 1,
+          "timeControlStatus": 2
+        },
+        {
+          "rate": 1,
+          "seconds": 0.5549865,
+          "status": 1,
+          "timeControlStatus": 2
+        }
+      ],
+      "passed": true,
+      "playable": true,
+      "scope": "Headless AVFoundation item/playback readiness using the actual preview cache path and identical MIME override; no AVPlayerView/window/pixels proof"
+    },
+    "processes": {
+      "steps": [
+        {
+          "argv": [
+            "swiftc",
+            "-parse-as-library",
+            "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/asset-playback.swift",
+            "-o",
+            "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/asset-playback"
+          ],
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedSeconds": 0.9806158750143368
+        },
+        {
+          "argv": [
+            "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/asset-playback",
+            "/private/tmp/sr-present-8gk3u8mu/home/library/cache/derived/0773a6ee-8887-42ac-b5f2-2edaa46d5068.cache"
+          ],
+          "exitCode": 0,
+          "stdout": "{\n  \"durationSeconds\" : 8.2140149999999998,\n  \"error\" : null,\n  \"observations\" : [\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    },\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0.036031250000000001,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    },\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0.13891162500000001,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    },\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0.241439291,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    },\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0.34357975000000002,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    },\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0.44931379100000002,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    },\n    {\n      \"rate\" : 1,\n      \"seconds\" : 0.55498650000000005,\n      \"status\" : 1,\n      \"timeControlStatus\" : 2\n    }\n  ],\n  \"passed\" : true,\n  \"playable\" : true,\n  \"scope\" : \"Headless AVFoundation item\\/playback readiness using the actual preview cache path and identical MIME override; no AVPlayerView\\/window\\/pixels proof\"\n}\n",
+          "stderr": "",
+          "elapsedSeconds": 0.9377073329815175
+        }
+      ],
+      "movieSha256": "41a0414f2ac1689a99f74cfeb57e9ee2b3407da4fc61679448f95300662baaff",
+      "movieUnchanged": true
+    },
+    "savedMovieFrame": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/preview-at-1s.png",
+      "bytes": 965062,
+      "sha256": "74189678910c84a5138e337e4dba44ca0219c9d15eb6f1e35573116cdede4ac5"
+    },
+    "meaning": "Complete recorded desktop content exists in decoded movie; Apple item is readyToPlay, rate1 and advances beyond0.5s. Separate headless player is not the native window."
+  },
+  "visual": {
+    "passed": false,
+    "actualWindowScreenshot": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/player-window.png",
+      "bytes": 33153,
+      "sha256": "548d711da452fcb8ec26e8dd2f891240bc0390fbf3537e444a7c5b10cd72e752"
+    },
+    "contentMetrics": {
+      "scope": "Content diagnostics only. Window capture and saved movie differ in dimensions/time; no playback or runtime-causality proof.",
+      "images": [
+        {
+          "file": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/player-window.png",
+          "sha256": "548d711da452fcb8ec26e8dd2f891240bc0390fbf3537e444a7c5b10cd72e752",
+          "analysis": "64x64 grayscale content grid, no pair alignment or pixel-preservation claim",
+          "meanLuminance": 254.84375,
+          "over245Share": 0.9951171875,
+          "dominantValueShare": 0.990966796875,
+          "grayEntropyBits": 0.1088810138899738
+        },
+        {
+          "file": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/presentation/observed/preview-at-1s.png",
+          "sha256": "74189678910c84a5138e337e4dba44ca0219c9d15eb6f1e35573116cdede4ac5",
+          "analysis": "64x64 grayscale content grid, no pair alignment or pixel-preservation claim",
+          "meanLuminance": 220.87353515625,
+          "over245Share": 0.373779296875,
+          "dominantValueShare": 0.271728515625,
+          "grayEntropyBits": 4.9446554536807685
+        }
+      ]
+    },
+    "independentCritique": "# Native preview visual observations\n\nInspected only the supplied full-size `player-window.png` and `preview-at-1s.png`. No project history, code, or runtime investigation.\n\n- **High confidence, full images:** `player-window.png` is almost entirely white, with only a small outlined cursor and diffuse halo near the upper-left quarter. It does not visibly present readable video content.\n- **High confidence, full images:** `preview-at-1s.png` contains a detailed desktop/browser frame with clearly readable navigation, controls, text, and recognizable icons. None of these landmarks appears in `player-window.png`; the difference is wholesale absence of visible scene content, rather than a small readability or scaling defect.\n- **Not assessable:** The player image has no visible video rectangle or source landmarks, so it cannot establish preserved aspect ratio, cropping, or appropriate margins. The white expanse cannot reliably be identified as intentional margins.\n\nThe supplied player capture does not visually satisfy the requirement to present readable video. These stills establish appearance only; they do not establish playback, capture timing, frame equivalence, or the runtime cause of the missing content.\n",
+    "reason": "Window capture is blank; source movie content is visible. Do not infer the movie is blank or claim visible playback passed. Production window sets sharingType.none; platform capture control is separate evidence, not a fix."
+  },
+  "privateRetention": "Complete raw menus, original media, decoded source image and original first/successor reports remain at pinned private paths; they include unrelated desktop content and are not copied into Git.",
+  "next": "Qualify a way to observe native presenter pixels without changing product capture exclusion; keep final presentation acceptance open."
+}

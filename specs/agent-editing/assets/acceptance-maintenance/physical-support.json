@@ -1,0 +1,136 @@
+{
+  "passed": true,
+  "scope": "Saved JSON reconciliation of one actual built-in public capture and its recovered source admission; no media decoding, model, capture or product process executed.",
+  "inputs": {
+    "capture": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/public-capture/report.json",
+      "bytes": 43022,
+      "sha256": "6baea74d55d755ac937f6c8cd2d3accfc1170b2b9d5a0c0bb701d8b66ea1b0ff"
+    },
+    "facts": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/public-capture/publication-facts.json",
+      "bytes": 5507,
+      "sha256": "e95b51f62069fe31c61b65d116e5a08fb1d98e845dc87ee9fdd892c39116310b"
+    },
+    "recovery": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/public-capture-recovery/report.json",
+      "bytes": 51773,
+      "sha256": "538e579f4b86e45cdba7c657a3b0b56f365c5975b3903b52c6249258f4756161"
+    }
+  },
+  "recordingId": "99068de9-8cf9-43bb-aa2e-eb165c9b4de2",
+  "publicationUnchangedAcrossRecovery": true,
+  "sharedOriginHostUs": 253974715659,
+  "sourceSupport": [
+    {
+      "sourceKind": "primary",
+      "sourceId": "7b9493a9-2ebc-4a1c-9be2-530abf8f7723",
+      "role": "video",
+      "assetId": "d17790d9a495ff05476f6460d59e94e1e3ba06438b727db4e66a4d98394e572f",
+      "streamId": "track:1",
+      "formula": "sourceUs = assetUs - sourceToAssetOffsetUs",
+      "sourceToAssetOffsetUs": 0,
+      "assetAvailable": [
+        {
+          "startUs": 0,
+          "endUs": 8214015
+        }
+      ],
+      "mappedSourceAvailable": [
+        {
+          "startUs": 0,
+          "endUs": 8214015
+        }
+      ],
+      "journalFirstSampleUs": 0,
+      "journalLastSampleEndUs": 8227677,
+      "journalDurationUs": 8214015,
+      "expectedEndFormula": "min(journalLastSampleEndUs, journalDurationUs)",
+      "expectedEndUs": 8214015,
+      "matches": true
+    },
+    {
+      "sourceKind": "primary",
+      "sourceId": "7b9493a9-2ebc-4a1c-9be2-530abf8f7723",
+      "role": "narration",
+      "assetId": "9d36ffd5366acc9ca61f636a1c396cfd9c8798239f4a83a94677188e41b7638c",
+      "streamId": "track:1",
+      "formula": "sourceUs = assetUs - sourceToAssetOffsetUs",
+      "sourceToAssetOffsetUs": -40487,
+      "assetAvailable": [
+        {
+          "startUs": 0,
+          "endUs": 4096000
+        },
+        {
+          "startUs": 4107896,
+          "endUs": 8171896
+        }
+      ],
+      "mappedSourceAvailable": [
+        {
+          "startUs": 40487,
+          "endUs": 4136487
+        },
+        {
+          "startUs": 4148383,
+          "endUs": 8212383
+        }
+      ],
+      "journalFirstSampleUs": 40487,
+      "journalLastSampleEndUs": 8212383,
+      "journalDurationUs": 8214015,
+      "expectedEndFormula": "min(journalLastSampleEndUs, journalDurationUs)",
+      "expectedEndUs": 8212383,
+      "matches": true
+    },
+    {
+      "sourceKind": "camera",
+      "sourceId": "d6794f4a-8641-4d7c-91e2-55890da55ccc",
+      "role": "video",
+      "assetId": "037fc7a43c306b4ca83aa41951b6dd98cb3af7d59304d7bc989d153033d7c756",
+      "streamId": "track:1",
+      "formula": "sourceUs = assetUs - sourceToAssetOffsetUs",
+      "sourceToAssetOffsetUs": -608501,
+      "assetAvailable": [
+        {
+          "startUs": 0,
+          "endUs": 7566273
+        }
+      ],
+      "mappedSourceAvailable": [
+        {
+          "startUs": 608501,
+          "endUs": 8174774
+        }
+      ],
+      "journalFirstSampleUs": 608501,
+      "journalLastSampleEndUs": 8174774,
+      "journalDurationUs": 8174774,
+      "expectedEndFormula": "min(journalLastSampleEndUs, journalDurationUs)",
+      "expectedEndUs": 8174774,
+      "matches": true
+    }
+  ],
+  "pause": {
+    "screenAndCameraJournalEqual": true,
+    "atSourceUs": 4145698,
+    "elapsedPauseUs": 2068097,
+    "microphoneGap": {
+      "startUs": 4136487,
+      "endUs": 4148383
+    },
+    "gapDurationUs": 11896,
+    "boundaryInsideGap": true,
+    "boundaryPredicate": "gap.startUs <= atSourceUs < gap.endUs",
+    "gapStartRelativeToPauseUs": -9211,
+    "gapEndRelativeToPauseUs": 2685,
+    "interpretation": "Omitted microphone buffer support brackets the shared pause splice; this is not a measurement of audible splice quality."
+  },
+  "limitations": [
+    "Checks saved authoritative JSON and prior hashed publication facts; does not independently decode or rehash media.",
+    "Clock/support consistency does not establish physical audiovisual synchronization or a33ms drift bound.",
+    "Does not establish sustained physical stop performance, missing/disconnected-device behavior, installed or full-release acceptance.",
+    "The journals describe capture-authoritative facts, not an independent physical event oracle."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "archive": {
+    "bytes": 5605,
+    "sha256": "c20950154afd1393d538f89d3f9a1a7e4c0e77519a86867774709efe4cda3188",
+    "retainedOriginal": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/public-capture-curated/capture-recovery.tar.gz",
+    "file": "public-capture-recovery.tar.gz"
+  },
+  "members": [
+    {
+      "path": "capture-recovery.json",
+      "bytes": 28106,
+      "sha256": "62a01daf8c61bf487740e6611d36a89716c18570fa176365e201919998bdcf84"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 283,
+      "sha256": "5d7f24a201695b7c15862b1e90dc9c11ff93b5d75e27bd08b17538299b283b22"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "scope": "Local CUA window-capture behavior with a generated non-sensitive AppKit control; not product player pixels or a product fix.",
+  "osVersion": "26.6.2",
+  "sequence": [
+    "foreground sharingType.none",
+    "foreground sharingType.readOnly",
+    "foreground sharingType.none"
+  ],
+  "observation": "The same drawn blue test window produces blank white CUA captures under none, readable blue content under readOnly, and blank white again under none. Foreground state remains fixed; only the test window sharing mode and button caption change.",
+  "shots": [
+    {
+      "file": "none-first.png",
+      "bytes": 18012,
+      "sha256": "44d57eb875801e582a3caf5b0bd60c106b38559dfeac0d5ee990ccbaf1f1411c",
+      "meanLuminance": 254.662109375,
+      "over245Share": 0.98974609375
+    },
+    {
+      "file": "allowed.png",
+      "bytes": 51808,
+      "sha256": "26902430c1610df84258621b312e9d9e13251ae3c88b69495127737e2de346bc",
+      "meanLuminance": 136.017333984375,
+      "over245Share": 0.073486328125
+    },
+    {
+      "file": "none-last.png",
+      "bytes": 18039,
+      "sha256": "7ddf9480f57ea75fd3f1ff9dec7fe6b9e95b0fae23e9fee8290829da7de90cea",
+      "meanLuminance": 254.663818359375,
+      "over245Share": 0.99072265625
+    }
+  ],
+  "initialControlLimit": "Initial none/readOnly captures differed in focus/DPR. Successor adds raised same-window none/readOnly/none control; original sources/shots retained outsideGit.",
+  "curationCorrection": "Initial scratch bank incorrectly required over99percent-white despite capture-tool cursor halos. The diagnostic metrics are descriptive, not a product acceptance threshold; report actual values and observed content instead. No product rerun or requirement changed.",
+  "compile": {
+    "argv": [
+      "swiftc",
+      "-parse-as-library",
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/window-capture-control/foreground-control/Control.swift",
+      "-o",
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/window-capture-control/foreground-control/WindowCaptureControl.app/Contents/MacOS/WindowCaptureControl"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "exitCode": 0,
+  "windowClosedThroughCua": true,
+  "meaning": "Blank protected-window captures cannot establish blank real pixels. Production PreviewWindow uses sharingType.none, so current external screenshots cannot settle visible player acceptance. Saved movie/Apple playback readiness are separately proven.",
+  "productChanges": 0,
+  "permissionChanges": 0,
+  "userDataDisplayedInControl": false
+}
