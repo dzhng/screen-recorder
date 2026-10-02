@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: For external agents carrying out a user's recording or editing request through the screenrec CLI. Record, inspect, edit, preview and export local recordings or managed media projects; locate speech, inspect transcripts/audio/waveforms/spectrograms/frames, submit cuts, compose layers, configure processing, retime media, author captions/keyframes, retain excerpts, generate replacement speech and deliver media/packages.
+description: For external agents carrying out a user's recording or editing request through the screenrec CLI. Record and inspect local recordings and source media; edit, preview and export managed projects; locate speech, inspect transcripts/audio/waveforms/spectrograms/frames, submit cuts, compose layers, configure processing, retime media, author captions/keyframes, retain excerpts, generate replacement speech and deliver media/packages.
 ---
 
 # Screenrec
@@ -102,13 +102,12 @@ outcomes; choose project layout and placement through explicit editing operation
 
 ## Managed projects and processing
 
-When the connected service supports managed projects, discover the project and pin
-its revision before editing. During the development cutover these operations need
-an explicitly supplied isolated-service `--socket`; the installed recording service
-can return `NOT_READY` even when checkout help lists their schemas. Do not reinterpret
-a project request as a recording edit or claim an unavailable operation succeeded.
-For a service built from a checkout, use that checkout's CLI and help; an installed
-launcher can expose older operation names or parameter schemas.
+Discover the connected service's managed-project operations and pin the selected
+project revision before editing. A recording supplies source facts; it does not
+supply a composition revision. An unavailable operation is not permission to
+reinterpret a project request as a recording edit. Use the connected service's
+matching CLI and help: an installed launcher may expose older operation names or
+parameter schemas than a development checkout.
 
 Prepare imported media through the advertised asset/job operations before the edit
 batch. For an existing captured-source directory, use the advertised acquisition
@@ -445,7 +444,7 @@ as complete.
 ## Invocation and identity
 
 - Pass structured parameters through stdin to avoid shell quoting problems:
-  `screenrec edit.cut --params - < cut.json`. Build that file from the discovered
+  `screenrec edit.apply --params - < edit.json`. Build that file from the discovered
   schema and inspected identifiers, not guessed IDs.
 - Save each attempt's request and raw JSON receipt together, including rejected
   attempts; do not overwrite them with a corrected request. Programmatically reuse

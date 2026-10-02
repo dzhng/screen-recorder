@@ -121,7 +121,7 @@ let otherFolder = CommandLine.arguments[3]
         let script = Script(), chooser = Chooser(), failures = Failures()
         let exports = controller(script, chooser, failures)
         script.lostCreate = true
-        exports.export(.project("same"), kind: .package)
+        exports.export("same", kind: .package)
         await until { exports.state.requests.first?.unconfirmed != nil }
         let request = script.calls.last { $0.0 == "export.create" }!.1
         precondition(request["projectId"] as? String == "same" && request["recordingId"] == nil, "Project selector must reach export.create")
@@ -137,31 +137,33 @@ let otherFolder = CommandLine.arguments[3]
         let resent = script.calls.last { $0.0 == "export.create" }!.1
         precondition(NSDictionary(dictionary: request).isEqual(to: resent), "Explicit resend preserves every request field")
         precondition(exports.state.records.first?.target == .project("same"))
-        exports.export(.recording("same"), kind: .video)
+        exports.forget(target: .recording("same"))
+        precondition(exports.state.records.first?.target == .project("same"), "Recording deletion cannot forget same-ID project exports")
+        exports.export("second", kind: .video)
         await until { exports.state.records.count == 2 }
-        let recording = exports.state.records.first!
+        let second = exports.state.records.first!
         exports.forget(target: .project("same"))
-        precondition(exports.state.records == [recording] && recording.target == .recording("same"), "Namespaces remain independent")
+        precondition(exports.state.records == [second] && second.target == .project("second"))
         chooser.cancel = true
-        exports.export(.project("cancel"), kind: .video)
+        exports.export("cancel", kind: .video)
         await until { exports.state.choosing == nil }
         precondition(script.count("export.create") == 3, "Canceled chooser creates no export")
 
         chooser.cancel = false; chooser.missing = true
-        exports.export(.project("missing-folder"), kind: .video)
+        exports.export("missing-folder", kind: .video)
         await until { !failures.values.isEmpty && exports.state.choosing == nil }
         precondition(failures.values.last?.contains("folder could not be resolved") == true && script.count("export.create") == 3, "An unavailable chosen folder is a visible refusal before export admission")
 
         let bad = Script(), badChooser = Chooser(), badFailures = Failures()
         let rejected = controller(bad, badChooser, badFailures)
         bad.wrongOwner = true
-        rejected.export(.project("same"), kind: .video)
+        rejected.export("same", kind: .video)
         await until { !badFailures.values.isEmpty }
         precondition(badChooser.names.isEmpty && bad.count("export.create") == 0, "Wrong owner cannot open a chooser")
         bad.wrongOwner = false
         for mismatch in ["owner", "revision", "kind", "directory", "leaf"] {
             bad.wrongReceipt = mismatch
-            rejected.export(.project("same"), kind: .video)
+            rejected.export("same", kind: .video)
             await until { rejected.state.requests.first?.unconfirmed != nil || !rejected.state.records.isEmpty }
             precondition(rejected.state.requests.first?.unconfirmed != nil && rejected.state.records.isEmpty, "Mismatched \(mismatch) receipt must remain unconfirmed")
             bad.wrongReceipt = nil
@@ -176,31 +178,31 @@ let otherFolder = CommandLine.arguments[3]
             let consumer = controller(late, picker, errors)
             if heldOperation == "export.status" { late.lostCreate = true }
             else { late.hold = heldOperation }
-            consumer.export(.project("old"), kind: .video)
+            consumer.export("old", kind: .video)
             if heldOperation == "export.status" {
                 await until { consumer.state.requests.first?.unconfirmed != nil }
                 late.hold = "export.status"; consumer.tick()
             }
             await until { late.held != nil }
             consumer.forget(target: .project("old"))
-            consumer.export(.recording("new"), kind: .video)
-            await until { consumer.state.records.first?.target == .recording("new") }
+            consumer.export("new", kind: .video)
+            await until { consumer.state.records.first?.target == .project("new") }
             late.release(); await settle()
-            precondition(consumer.state.requests.isEmpty && consumer.state.records.map(\.target) == [.recording("new")], "Late \(heldOperation) cannot resurrect its forgotten owner")
+            precondition(consumer.state.requests.isEmpty && consumer.state.records.map(\.target) == [.project("new")], "Late \(heldOperation) cannot resurrect its forgotten owner")
             precondition(errors.values.isEmpty)
         }
         let held = Script(), picker = Chooser(), errors = Failures()
         picker.holding = true
         let consumer = controller(held, picker, errors)
-        consumer.export(.project("old"), kind: .video)
+        consumer.export("old", kind: .video)
         await until { picker.held[1] != nil }
         consumer.forget(target: .project("old"))
-        consumer.export(.recording("new"), kind: .video)
+        consumer.export("new", kind: .video)
         await until { picker.held[2] != nil }
         picker.release(1); await settle()
-        precondition(consumer.state.choosing?.target == .recording("new") && held.count("export.create") == 0, "Old chooser must not clear or replace a newer choice")
+        precondition(consumer.state.choosing?.target == .project("new") && held.count("export.create") == 0, "Old chooser must not clear or replace a newer choice")
         picker.release(2)
-        await until { consumer.state.records.first?.target == .recording("new") }
+        await until { consumer.state.records.first?.target == .project("new") }
         precondition(held.count("export.create") == 1)
 
         let discovered = Script(), discoveryChooser = Chooser(), discoveryErrors = Failures()

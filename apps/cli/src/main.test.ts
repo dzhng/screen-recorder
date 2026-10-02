@@ -6,7 +6,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createServer } from "node:net";
 import { randomUUID } from "node:crypto";
-import { RevisionStore } from "@screenrec/core/library";
+import { CaptureStore } from "@screenrec/core/capture-store";
 import {
   operationNames,
   operationSchema,
@@ -30,7 +30,8 @@ afterEach(async () => {
 async function serviceFixture(peer?: (operation: string) => OperationResult) {
   const home = await mkdtemp("/tmp/scr-cli-");
   cleanup.push(() => rm(home, { recursive: true, force: true }));
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  await mkdir(join(home, "library"), { mode: 0o700 });
+  const store = new CaptureStore(join(home, "library/catalog.sqlite"), {
     now: () => "fixture",
     newId: randomUUID,
   });
@@ -153,61 +154,30 @@ function expectCallableContract(tools: AdvertisedTool[]) {
   };
   expect(required("capture.start")).toEqual(["source", "requestId"]);
   expect(required("artifact.read")).toEqual(["token", "offset"]);
-  expect(required("processing.status")).toEqual(["recordingId"]);
-  expect(required("index.get")).toEqual([
-    ["projectId"],
-    ["recordingId"],
-    ["packageHandle"],
-    ["assetId", "streamId"],
-  ]);
-  expect(required("transcript.get")).toEqual([
-    ["projectId"],
-    ["recordingId"],
-    ["packageHandle"],
-    ["assetId", "streamId"],
-  ]);
+  expect(required("processing.get")).toEqual(["projectId", "revisionId", "target"]);
+  expect(required("index.get")).toEqual([["projectId"], ["assetId", "streamId"]]);
+  expect(required("transcript.get")).toEqual([["projectId"], ["assetId", "streamId"]]);
   expect(required("transcript.search")).toEqual([
     ["projectId", "text"],
-    ["recordingId", "text"],
-    ["packageHandle", "text"],
     ["assetId", "streamId", "text"],
   ]);
   expect(required("transcript.retry")).toEqual([["assetId", "streamId"], ["projectId"]]);
-  expect(required("audio.get")).toEqual([
-    ["projectId"],
-    ["recordingId", "range"],
-    ["packageHandle", "range"],
-    ["assetId", "streamId"],
-  ]);
+  expect(required("audio.get")).toEqual([["projectId"], ["assetId", "streamId"]]);
   expect(required("audio.retry")).toEqual(required("audio.get"));
   expect(required("waveform.get")).toEqual([["projectId"], ["assetId", "streamId"]]);
   expect(required("waveform.retry")).toEqual(required("waveform.get"));
   expect(required("frame.get")).toEqual([
     ["projectId", "atUs"],
-    ["recordingId", "atUs"],
-    ["packageHandle", "atUs"],
     ["assetId", "streamId", "atUs"],
     ["assetId", "streamId"],
   ]);
   expect(required("frame.retry")).toEqual(required("frame.get"));
   expect(required("frame.batch")).toEqual([
     ["projectId", "atUs"],
-    ["recordingId", "atUs"],
-    ["packageHandle", "atUs"],
     ["assetId", "streamId", "atUs"],
   ]);
-  expect(required("timeline.events")).toEqual([
-    ["projectId"],
-    ["recordingId"],
-    ["packageHandle"],
-    ["assetId", "streamId"],
-  ]);
-  expect(required("cursor.raw")).toEqual([
-    ["projectId"],
-    ["recordingId", "sourceRange"],
-    ["packageHandle", "sourceRange"],
-    ["assetId", "streamId"],
-  ]);
+  expect(required("timeline.events")).toEqual([["projectId"], ["assetId", "streamId"]]);
+  expect(required("cursor.raw")).toEqual([["projectId"], ["assetId", "streamId"]]);
   expect(required("model.prepare")).toEqual(["modelId"]);
   expect(tools.filter((tool) => !tool.description).map((tool) => tool.name)).toEqual([]);
 }
@@ -348,8 +318,22 @@ it("oversized CLI requests preserve their ID and fail before service discovery",
   expect(oversizedCli.result.id).toBe("cli-test");
 });
 
-it("CLI and real MCP transport share edits, replay, history and structured failures", async () => {
-  const { socket, recordingId } = await serviceFixture();
+it("CLI and real MCP transport share project edits, replay, history and structured failures", async () => {
+  const { socket } = await serviceFixture();
+  const call = (operation: string, params: Record<string, unknown>) =>
+    callLocal(socket, { id: operation, operation, params });
+  const created = await call("project.create", {
+    requestId: "project",
+    canvas: {
+      width: 64,
+      height: 32,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const projectId = (created.data as { project: { projectId: string } }).project.projectId;
+  const initial = (created.data as { revision: { id: string } }).revision.id;
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [entry, "mcp", "--socket", socket],
@@ -358,24 +342,60 @@ it("CLI and real MCP transport share edits, replay, history and structured failu
   const client = new Client({ name: "screenrec-adapter-test", version: "1" });
   cleanup.push(() => client.close());
   await client.connect(transport);
-  const params = {
-    recordingId,
-    requestId: "cut-one",
-    expectedRevisionId: "r0",
-    ranges: [{ startUs: 2_000_000, endUs: 4_000_000 }],
+  const seedParams = {
+    projectId,
+    requestId: "explicit-fixture",
+    expectedRevisionId: initial,
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "voice" },
+      {
+        operation: "place",
+        label: "silence",
+        clip: {
+          trackId: { label: "voice" },
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 10000000 } },
+        },
+      },
+    ],
   };
-  const first = cli(socket, "edit.cut", params);
+  const seeded = await call("edit.apply", seedParams);
+  if (!seeded.ok) throw new Error(JSON.stringify(seeded));
+  const source = seeded.data as {
+    revision: { id: string; document: unknown };
+    edit: { labels: { silence: string; voice: string } };
+  };
+  const params = {
+    projectId,
+    requestId: "cut-one",
+    expectedRevisionId: source.revision.id,
+    operations: [
+      {
+        operation: "remove",
+        clipIds: [source.edit.labels.silence],
+        ranges: [{ startUs: 2000000, endUs: 4000000 }],
+        ripple: { trackIds: [source.edit.labels.voice] },
+      },
+    ],
+  };
+  const first = cli(socket, "edit.apply", params);
   expect(first.exitCode).toBe(0);
-  expect(first.result.data.revision.spans).toEqual([
-    { startUs: 0, endUs: 2_000_000 },
-    { startUs: 4_000_000, endUs: 10_000_000 },
+  expect(first.result.data.revision.document.clips).toMatchObject([
+    {
+      source: { kind: "silence" },
+      placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+    },
+    {
+      source: { kind: "silence" },
+      placement: { kind: "project", range: { startUs: 2000000, endUs: 8000000 } },
+    },
   ]);
-  const replay = await client.callTool({ name: "edit.cut", arguments: params });
+  const replay = await client.callTool({ name: "edit.apply", arguments: params });
   expect(replay.isError).toBe(false);
   expect(replay.structuredContent).toMatchObject({ ok: true, data: first.result.data });
   const staleArgs = { ...params, requestId: "stale" };
-  const staleCli = cli(socket, "edit.cut", staleArgs);
-  const staleMcp = await client.callTool({ name: "edit.cut", arguments: staleArgs });
+  const staleCli = cli(socket, "edit.apply", staleArgs);
+  const staleMcp = await client.callTool({ name: "edit.apply", arguments: staleArgs });
   expect(staleCli.exitCode).toBe(1);
   expect(staleMcp.isError).toBe(true);
   expect(staleMcp.structuredContent).toMatchObject({ ok: false, error: staleCli.result.error });
@@ -383,19 +403,19 @@ it("CLI and real MCP transport share edits, replay, history and structured failu
   const undo = await client.callTool({
     name: "edit.undo",
     arguments: {
-      recordingId,
+      projectId,
       requestId: "undo-one",
       expectedRevisionId: first.result.data.revision.id,
     },
   });
   expect(undo.structuredContent).toMatchObject({
     ok: true,
-    data: { revision: { durationUs: 10_000_000, spans: [{ startUs: 0, endUs: 10_000_000 }] } },
+    data: { document: source.revision.document },
   });
-  const history = cli(socket, "revision.history", { recordingId });
+  const history = cli(socket, "revision.history", { projectId });
   expect(
     history.result.data.revisions.map((revision: { operation: string }) => revision.operation),
-  ).toEqual(["original", "cut", "undo"]);
+  ).toEqual(["create", "apply", "apply", "undo"]);
 });
 
 it("preserves the parsed request ID on local JSON validation failure", () => {
@@ -440,7 +460,7 @@ it("preserves the parsed request ID on local JSON validation failure", () => {
 });
 
 it("rejects malformed operation parameters before discovering or launching an app", () => {
-  const result = spawnSync(process.execPath, [entry, "edit.trim", "--params", "{}"], {
+  const result = spawnSync(process.execPath, [entry, "edit.apply", "--params", "{}"], {
     encoding: "utf8",
     timeout: 3_000,
     env: {
@@ -745,7 +765,7 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
     });
   for (const [name, code] of [
     ["not.an.operation", "UNKNOWN_OPERATION"],
-    ["edit.cut", "INVALID_PARAMS"],
+    ["edit.apply", "INVALID_PARAMS"],
   ] as const) {
     const result = await client.callTool({ name, arguments: {} });
     expect(result.structuredContent).toMatchObject({ ok: false, error: { code } });
@@ -759,7 +779,7 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
     error: { code: "LIMIT_EXCEEDED" },
   });
   const invalid = await client.callTool({
-    name: "edit.trim",
+    name: "edit.apply",
     arguments: { recordingId: "take", typo: true },
   });
   expect(invalid.isError).toBe(true);
@@ -785,13 +805,13 @@ it("does not replay a mutation when the discovered service loses its response", 
   cleanup.push(() => new Promise<void>((resolve) => server.close(() => resolve())));
   const result = await runCli(
     [
-      "edit.cut",
+      "edit.apply",
       "--params",
       JSON.stringify({
-        recordingId: "r",
+        projectId: "r",
         requestId: "once",
         expectedRevisionId: "r0",
-        ranges: [{ startUs: 0, endUs: 1 }],
+        operations: [{ operation: "track.add", track: { kind: "audio", order: 0 } }],
       }),
     ],
     { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" },
@@ -801,32 +821,23 @@ it("does not replay a mutation when the discovered service loses its response", 
     ok: false,
     error: { code: "INVALID_RESPONSE" },
   });
-  expect(operations).toEqual(["service.health", "edit.cut"]);
+  expect(operations).toEqual(["service.health", "edit.apply"]);
 });
 
 it.each([
-  { operation: "frame.batch", reference: "atUs", scope: "recording" },
   { operation: "frame.batch", reference: "atUs", scope: "project" },
   { operation: "frame.batch", reference: "atUs", scope: "source" },
-  { operation: "index.frames", reference: "ordinal", scope: "recording" },
   { operation: "index.frames", reference: "ordinal", scope: "source" },
 ] as const)(
   "$operation $scope adapters retain partial failures, drain leases and never overwrite outputs",
   async ({ operation, reference, scope }) => {
     const target =
-      scope === "project"
-        ? { projectId: "project" }
-        : scope === "source"
-          ? { assetId: "asset", streamId: "video" }
-          : { recordingId: "take" };
+      scope === "project" ? { projectId: "project" } : { assetId: "asset", streamId: "video" };
     const home = await mkdtemp("/tmp/scr-batch-client-");
     cleanup.push(() => rm(home, { recursive: true, force: true }));
     const closed: string[] = [];
     const requested = reference === "ordinal" ? [7, 2, 7] : [0, 1, 2];
-    const selectedIdentity =
-      reference === "ordinal"
-        ? { ...(scope === "source" ? {} : { revisionId: "r0" }), generation: "retained-1" }
-        : {};
+    const selectedIdentity = reference === "ordinal" ? { generation: "retained-1" } : {};
     const bytes = Buffer.from("image fixture bytes");
     let collideFile = false;
     const collisionOutput = join(home, "file-collision");
@@ -886,7 +897,6 @@ it.each([
         ? { ...target, ...selectedIdentity, ordinals: requested.slice(0, 2) }
         : {
             ...target,
-            ...(scope === "recording" ? { clean: true } : {}),
             atUs: requested.slice(0, 2),
           };
     const output = join(home, "frames");
@@ -961,10 +971,10 @@ it.each([
 );
 
 it.each([
-  { recordingId: "take", clean: true, atUs: [] },
-  { recordingId: "take", clean: true, atUs: Array(9).fill(0) },
-  { recordingId: "take", clean: "yes", atUs: [0] },
-  { recordingId: "take", trailUs: 10_000_001, atUs: [0] },
+  { projectId: "project", atUs: [] },
+  { projectId: "project", atUs: Array(9).fill(0) },
+  { projectId: "project", clean: "yes", atUs: [0] },
+  { projectId: "project", trailUs: 10_000_001, atUs: [0] },
 ])("invalid batch parameters %# are rejected before service discovery", (params) => {
   expect(cli("/tmp/nonexistent-screenrec-batch.sock", "frame.batch", params)).toMatchObject({
     exitCode: 1,
@@ -979,7 +989,13 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7l8AAAAASUVORK5CYII=",
     "base64",
   );
-  const identity = { recordingId: "take", revisionId: "r3", generation: "retained-generation" };
+  const identity = {
+    projectId: "project",
+    revisionId: "r3",
+    generation: "retained-generation",
+    maxLongEdge: 640,
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
   let closes = 0;
   const envelope = (ordinal: number) =>
     ordinal === 9

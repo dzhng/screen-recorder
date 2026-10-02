@@ -113,6 +113,60 @@ function results(messages: ControlMessage[]) {
   return messages.flatMap((message) => (message.event === "result" ? [message.response] : []));
 }
 
+it("validates project composition requests at the canonical wire boundary", async () => {
+  const service = await startService(await temporaryHome());
+  expect((await service.awaiting(1))[0]).toMatchObject({ event: "started" });
+  const call = (operation: string, params: Record<string, unknown>) =>
+    callLocal(service.socketPath, { id: operation, operation, params });
+  const created = await call("project.create", {
+    requestId: "caller",
+    canvas: {
+      width: 64,
+      height: 32,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const project = (created.data as { project: { projectId: string; currentRevisionId: string } })
+    .project;
+  const responses = {
+    project: await call("revision.get", { projectId: project.projectId }),
+    recording: await call("revision.get", { recordingId: "same-id" }),
+    package: await call("preview.get", { packageHandle: "open" }),
+    removed: await call("edit.cut", {
+      recordingId: "same-id",
+      requestId: "cut",
+      expectedRevisionId: "r0",
+      ranges: [{ startUs: 0, endUs: 1 }],
+    }),
+    deletion: await call("recording.delete", { recordingId: "same-id" }),
+  };
+  const output = process.env.SCREENREC_CONTRACT_OUTPUT;
+  if (output)
+    await writeFile(output, JSON.stringify({ pid: service.pid, project, responses }, null, 2));
+  expect(responses.project).toMatchObject({
+    ok: true,
+    data: { projectId: project.projectId, revision: { id: project.currentRevisionId } },
+  });
+  expect(responses.recording).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+  expect(responses.package).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+  expect(responses.removed).toMatchObject({ ok: false, error: { code: "UNKNOWN_OPERATION" } });
+  expect(responses.deletion).toMatchObject({
+    ok: true,
+    data: { recordingId: "same-id", deleted: true },
+  });
+  service.closeInput();
+  const exit = await service.exit;
+  expect(exit).toEqual({ code: 0, signal: null });
+  await expect(lstat(service.socketPath)).rejects.toMatchObject({ code: "ENOENT" });
+  if (output)
+    await writeFile(
+      output + ".terminal.json",
+      JSON.stringify({ pid: service.pid, exit, socket: "ENOENT" }, null, 2),
+    );
+});
+
 it("starts the canonical fresh composition without interpreting retained recording history", async () => {
   const home = await temporaryHome();
   const legacyCatalog = join(home, "library.sqlite");

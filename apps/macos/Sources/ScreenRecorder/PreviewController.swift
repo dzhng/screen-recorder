@@ -36,7 +36,8 @@ final class PreviewController {
         self.failure = failure
     }
 
-    func open(_ target: MediaTarget, revisionId: String? = nil) {
+    func open(_ projectId: String, revisionId: String? = nil) {
+        let target = MediaTarget.project(projectId)
         close()
         self.target = target
         self.revisionId = revisionId
@@ -81,12 +82,7 @@ final class PreviewController {
         Task { @MainActor in
             do {
                 if !polling || currentLease != nil {
-                    let operation: String
-                    switch target {
-                    case .recording: operation = "recording.get"
-                    case .project: operation = "project.get"
-                    }
-                    _ = try await call(operation, target.parameters)
+                    _ = try await call("project.get", target.parameters)
                     guard generation == current else { return }
                     guard let currentLease, now() >= renewAt else { reading = false; return }
                     let data = try await call("artifact.renew", ["token": currentLease.token])

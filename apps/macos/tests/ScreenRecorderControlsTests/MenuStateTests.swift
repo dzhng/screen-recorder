@@ -57,39 +57,6 @@ func runMenuStateTests() {
     let live = RecordingMenu.entries(for: recording(elapsedUs: 12_000_000))
     precondition(statusLines(live).first == "Recording — 0:12", "A running take shows its own clock")
 
-    // A take whose evidence is still being prepared says so, in both places a person looks.
-    var preparing = ready()
-    let take = ControlsState.RecentTake(
-        recordingId: "rec-5", createdAt: "2026-09-18T01:02:03Z", state: "complete",
-        sourceDurationUs: 9_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
-    preparing.library.recent = [take]
-    preparing.library.processing = .init(
-        recordingId: "rec-5",
-        artifacts: [
-            .init(artifact: "source", state: "ready", reason: nil),
-            .init(artifact: "transcript", state: "processing", reason: nil),
-            .init(artifact: "index", state: "queued", reason: nil),
-        ])
-    let working = RecordingMenu.entries(for: preparing)
-    precondition(
-        statusLines(working).first == "Preparing the last take — transcribing, choosing screenshots",
-        "Processing is named for a person: \(statusLines(working))")
-    guard let preparedRow = working.first(where: { $0.title == "Recent Recordings" })?.submenu.first
-    else { preconditionFailure("The prepared take is listed") }
-    precondition(
-        preparedRow.title.hasSuffix("— transcribing, choosing screenshots"),
-        "The take itself says what is still being prepared: \(preparedRow.title)")
-    preparing.library.processing = .init(
-        recordingId: "rec-5",
-        artifacts: [.init(artifact: "transcript", state: "failed", reason: "model missing")])
-    precondition(
-        statusLines(RecordingMenu.entries(for: preparing)).first
-            == "Preparing the last take — transcript failed",
-        "A failed artifact stays visible")
-    preparing.take = .init(recordingId: "new-take", state: "complete", interruptionReason: nil, sourceDurationUs: 1)
-    let staleProcessing = RecordingMenu.entries(for: preparing)
-    precondition(!statusLines(staleProcessing).contains { $0.contains("Preparing the last take") },
-        "A last-good library row cannot label its older processing as the current take")
     precondition(
         row(live, "capture.startOrStop").title == "Finish Recording",
         "One control starts and finishes a take")
@@ -175,7 +142,7 @@ func runMenuStateTests() {
     stored.library.recent = [
         ControlsState.RecentTake(
             recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z", state: "complete",
-            sourceDurationUs: 65_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
+            sourceDurationUs: 65_000_000, interruptionReason: nil)
     ]
     let recent = RecordingMenu.entries(for: stored)
     guard let takes = recent.first(where: { $0.title == "Recent Recordings" })?.submenu.first
@@ -184,15 +151,13 @@ func runMenuStateTests() {
     let offered = takes.submenu.filter(\.enabled).compactMap(\.action)
     precondition(
         offered == [
-            .previewRecording("rec-9"), .exportRecording("rec-9", .video),
-            .exportRecording("rec-9", .package), .deleteRecording("rec-9"),
-        ], "Preview, both export choices and deletion name the stored take")
-    for (status, duration, available) in [("complete", Int64(1), true), ("interrupted", 1, true),
-        ("interrupted", 0, false), ("recording", 1, false), ("canceled", 1, false)] {
-        stored.library.recent = [.init(recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z",
-            state: status, sourceDurationUs: duration, interruptionReason: nil, currentRevisionId: "r-existing")]
-        precondition(row(RecordingMenu.entries(for: stored), "recording.preview.rec-9").enabled == available,
-            "Only usable finalized media exposes Preview")
+            .deleteRecording("rec-9"),
+        ], "Source recordings offer deletion by their stored identity")
+    for (status, duration) in [("complete", Int64(1)), ("interrupted", 1), ("interrupted", 0), ("recording", 1), ("canceled", 1)] {
+        stored.library.recent = [.init(recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z", state: status, sourceDurationUs: duration, interruptionReason: nil)]
+        let menu = RecordingMenu.entries(for: stored)
+        precondition(find(menu, "recording.preview.rec-9") == nil && find(menu, "recording.export.video.rec-9") == nil, "Capture state or duration never authorizes a composition action")
+        precondition(find(menu, "recording.delete.rec-9") != nil)
     }
     print("PASS the menu states what is recording, what was chosen and what cannot be done yet")
 }
@@ -201,9 +166,9 @@ func runMenuStateTests() {
 func runRecentStorageTests() {
     var state = ready()
     let first = ControlsState.RecentTake(recordingId: "first", createdAt: "2026-09-15T18:04:05Z",
-        state: "complete", sourceDurationUs: 1_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
+        state: "complete", sourceDurationUs: 1_000_000, interruptionReason: nil)
     let sibling = ControlsState.RecentTake(recordingId: "sibling", createdAt: first.createdAt,
-        state: "complete", sourceDurationUs: 2_000_000, interruptionReason: nil, currentRevisionId: "r-existing")
+        state: "complete", sourceDurationUs: 2_000_000, interruptionReason: nil)
     state.library.recent = [first, sibling]
     precondition(!state.library.beginDelete(.recording("unknown")), "The menu cannot invent a delete target")
     precondition(state.library.beginDelete(.recording("first")), "The chosen explicit ID begins deletion")

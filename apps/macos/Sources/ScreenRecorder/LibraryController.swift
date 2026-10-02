@@ -10,8 +10,8 @@ final class LibraryController {
     private let closePreview: (MediaTarget) -> Void
     private let forgetExports: (MediaTarget) -> Void
     private let deleted: () -> Void
-    private let preview: (MediaTarget) -> Void
-    private let export: (MediaTarget, ExportsState.Kind) -> Void
+    private let preview: (String) -> Void
+    private let export: (String, ExportsState.Kind) -> Void
     private(set) var state = LibraryState() { didSet { changed() } }
     private var ready = false
     private var serviceGeneration = UUID()
@@ -27,7 +27,7 @@ final class LibraryController {
     init(call: @escaping Call, changed: @escaping () -> Void,
         closePreview: @escaping (MediaTarget) -> Void, forgetExports: @escaping (MediaTarget) -> Void,
         deleted: @escaping () -> Void,
-        preview: @escaping (MediaTarget) -> Void, export: @escaping (MediaTarget, ExportsState.Kind) -> Void)
+        preview: @escaping (String) -> Void, export: @escaping (String, ExportsState.Kind) -> Void)
     {
         self.call = call; self.changed = changed; self.closePreview = closePreview
         self.forgetExports = forgetExports; self.deleted = deleted
@@ -39,7 +39,6 @@ final class LibraryController {
         serviceGeneration = UUID(); recordingGeneration = UUID(); projectGeneration = UUID()
         recordingsReading = false; jobsReading = false; pendingRecordings = false; pendingProjects = false
         state.projectsRefreshing = false
-        state.processing = nil
         state.progressFailure = nil
         // An unanswered deletion keeps its identity but must be explicitly retried on the new service.
         for target in state.deletions.keys where state.deletions[target]?.isPending == true {
@@ -54,10 +53,8 @@ final class LibraryController {
     /// Delivery remains owned by the existing controllers; this boundary resolves library identity.
     func perform(_ action: ControlsAction) -> Bool {
         switch action {
-        case .previewRecording(let id): if usable(.recording(id)) { preview(.recording(id)) }
-        case .previewProject(let id): if usable(.project(id)) { preview(.project(id)) }
-        case .exportRecording(let id, let kind): if usable(.recording(id)) { export(.recording(id), kind) }
-        case .exportProject(let id, let kind): if usable(.project(id)) { export(.project(id), kind) }
+        case .previewProject(let id): if usable(id) { preview(id) }
+        case .exportProject(let id, let kind): if usable(id) { export(id, kind) }
         case .deleteRecording(let id): delete(.recording(id))
         case .deleteProject(let id): delete(.project(id))
         case .nextProjects: nextProjects()
@@ -67,14 +64,8 @@ final class LibraryController {
         }
         return true
     }
-    private func usable(_ target: MediaTarget) -> Bool {
-        guard ready, state.deletions[target] == nil else { return false }
-        switch target {
-        case .recording(let id):
-            return state.recent.contains { $0.recordingId == id && $0.currentRevisionId != nil
-                && ["complete", "interrupted"].contains($0.state) && ($0.sourceDurationUs ?? 0) > 0 }
-        case .project(let id): return state.projects.contains { $0.projectId == id }
-        }
+    private func usable(_ projectId: String) -> Bool {
+        ready && state.deletions[.project(projectId)] == nil && state.projects.contains { $0.projectId == projectId }
     }
 
     func refreshRecordings() {
@@ -101,7 +92,6 @@ final class LibraryController {
                 state.recent = page.recordings.filter { state.deletions[.recording($0.recordingId)] == nil }
                 state.recordingFailure = nil
                 state.progressFailure = nil
-                await readProcessing(service: service, generation: generation)
             } catch {
                 guard service == serviceGeneration && generation == recordingGeneration else { return }
                 state.recordingFailure = error.localizedDescription
@@ -222,7 +212,7 @@ final class LibraryController {
     }
 
     private static func pendingAdmission(_ take: ControlsState.RecentTake) -> Bool {
-        guard take.currentRevisionId == nil, take.sourceAdmissions != nil else { return false }
+        guard take.sourceAdmissions != nil else { return false }
         return take.state == "finalizing" || take.sourceAdmissions!.contains {
             $0.admissionError == nil && ($0.acquisitionId == nil || $0.job == nil)
         }
@@ -254,29 +244,7 @@ final class LibraryController {
         admissions[source].job = job
         state.recent[index] = .init(recordingId: take.recordingId, createdAt: take.createdAt,
             state: take.state, sourceDurationUs: take.sourceDurationUs, interruptionReason: take.interruptionReason,
-            finalizationError: take.finalizationError, currentRevisionId: take.currentRevisionId, sourceId: take.sourceId, sourceAdmissions: admissions)
-    }
-
-    private func readProcessing(service: UUID, generation: UUID) async {
-        guard let take = state.recent.first, take.currentRevisionId != nil, take.state != "recording" else {
-            state.processing = nil; return
-        }
-        if state.processing?.recordingId != take.recordingId { state.processing = nil }
-        var artifacts: [ControlsState.ArtifactProgress] = []
-        var failure: String?
-        for artifact in ["source", "scenes", "transcript", "index"] {
-            do throws(ServiceFailure) {
-                let answer: Processing = try await read(artifact == "index" ? "index.get" : "processing.status",
-                    artifact == "index" ? ["recordingId": take.recordingId, "limit": 1] : ["recordingId": take.recordingId, "artifact": artifact])
-                guard service == serviceGeneration && generation == recordingGeneration else { return }
-                artifacts.append(.init(artifact: artifact, state: answer.page == nil ? answer.state : "ready", reason: answer.reason))
-            } catch {
-                guard service == serviceGeneration && generation == recordingGeneration else { return }
-                failure = failure ?? error.localizedDescription
-            }
-        }
-        if let failure { state.progressFailure = failure }
-        else { state.progressFailure = nil; state.processing = .init(recordingId: take.recordingId, artifacts: artifacts) }
+            finalizationError: take.finalizationError, sourceId: take.sourceId, sourceAdmissions: admissions)
     }
 
     private func read<T: Decodable>(_ operation: String, _ params: [String: Any]) async throws(ServiceFailure) -> T {
@@ -305,9 +273,5 @@ final class LibraryController {
             target = try MediaTarget(from: decoder)
             deleted = try decoder.container(keyedBy: Keys.self).decode(Bool.self, forKey: .deleted)
         }
-    }
-    private struct Processing: Decodable {
-        let state: String; let reason: String?; let page: EmptyPage?
-        struct EmptyPage: Decodable {}
     }
 }

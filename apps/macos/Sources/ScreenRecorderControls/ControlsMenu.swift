@@ -21,10 +21,7 @@ public enum ControlsAction: Hashable, Sendable {
     case nextProjects
     case previousProjects
     case refreshLibrary
-    case previewRecording(String)
     case deleteRecording(String)
-    /// Choose a destination and export the take's current revision.
-    case exportRecording(String, ExportsState.Kind)
     /// Send an unconfirmed export request again under its original export ID.
     case resendExport(String)
     case retryExport(String)
@@ -57,9 +54,7 @@ public enum ControlsAction: Hashable, Sendable {
         case .nextProjects: "library.projects.next"
         case .previousProjects: "library.projects.previous"
         case .refreshLibrary: "library.refresh"
-        case .previewRecording(let id): "recording.preview.\(id)"
         case .deleteRecording(let id): "recording.delete.\(id)"
-        case .exportRecording(let id, let kind): "recording.export.\(kind.rawValue).\(id)"
         case .resendExport(let id): "export.resend.\(id)"
         case .retryExport(let id): "export.retry.\(id)"
         case .abandonExport(let id): "export.abandon.\(id)"
@@ -144,7 +139,7 @@ public enum RecordingMenu {
         rows.append(contentsOf: transportEntries(for: state, shortcuts: shortcuts))
         rows.append(.separator())
         rows.append(
-            MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state, exports: exports)))
+            MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state)))
         rows.append(MenuEntry(.status, "Projects", submenu: projectEntries(for: state, exports: exports)))
         rows.append(MenuEntry(.command(.refreshLibrary), "Refresh Library", enabled: state.service == .ready))
         rows.append(contentsOf: ExportMenu.entries(for: state, exports: exports))
@@ -161,9 +156,7 @@ public enum RecordingMenu {
         if state.service == .starting { return statusTitle(for: state) }
         if state.take?.state == "finalizing" { return statusTitle(for: state) }
         if let device = state.device, device.state != .idle { return statusTitle(for: state) }
-        if let take = state.take, let processing = state.library.processing,
-            take.recordingId != processing.recordingId { return nil }
-        return state.library.processing?.summary.map { "Preparing the last take — \($0)" }
+        return nil
     }
 
     /// The one line that says what this app is doing right now. A running take's time comes from
@@ -352,8 +345,8 @@ public enum RecordingMenu {
         return rows
     }
 
-    /// Recent library takes expose the shared preview operation and the two export choices.
-    private static func recentEntries(for state: ControlsState, exports: ExportsState) -> [MenuEntry] {
+    /// Recent recordings expose capture facts and explicit source deletion.
+    private static func recentEntries(for state: ControlsState) -> [MenuEntry] {
         let takes = state.library.recent + state.library.deletions.values
             .compactMap(\.take)
             .filter { pending in !state.library.recent.contains { $0.recordingId == pending.recordingId } }
@@ -368,42 +361,22 @@ public enum RecordingMenu {
             if let failure = take.finalizationError {
                 details.append(MenuEntry(.status, "Finalization failed — \(failure.code): \(failure.message)", enabled: false))
             }
-            if take.currentRevisionId == nil {
-                details.append(MenuEntry(.status, "No recording composition", enabled: false))
-                if let sourceId = take.sourceId { details.append(MenuEntry(.status, "Source: \(sourceId)", enabled: false)) }
-                for admission in take.sourceAdmissions ?? [] {
-                    details.append(MenuEntry(.status, admission.sourceId + " — " + admission.title, enabled: false))
-                }
-                if take.sourceAdmissions?.isEmpty == true { details.append(MenuEntry(.status, "No admitted sources reported", enabled: false)) }
+            if let sourceId = take.sourceId { details.append(MenuEntry(.status, "Source: \(sourceId)", enabled: false)) }
+            for admission in take.sourceAdmissions ?? [] {
+                details.append(MenuEntry(.status, admission.sourceId + " — " + admission.title, enabled: false))
             }
+            if take.sourceAdmissions?.isEmpty == true { details.append(MenuEntry(.status, "No admitted sources reported", enabled: false)) }
             if let failure = request?.failure {
                 details.append(MenuEntry(.status, "Delete not confirmed — \(failure)", enabled: false))
             }
-            let playable = state.service == .ready && request == nil
-                && (take.state == "complete" || take.state == "interrupted")
-                && (take.sourceDurationUs ?? 0) > 0 && take.currentRevisionId != nil
-            // One save panel at a time; a take can still be exported again once a choice is made.
-            let exportable = playable && exports.choosing == nil
             details.append(contentsOf: [
-                .separator(),
-                MenuEntry(.command(.previewRecording(take.recordingId)), "Preview", enabled: playable),
-                MenuEntry(
-                    .command(.exportRecording(take.recordingId, .video)), "Export Video…",
-                    enabled: exportable),
-                MenuEntry(
-                    .command(.exportRecording(take.recordingId, .package)), "Export AI Package…",
-                    enabled: exportable),
                 .separator(),
                 MenuEntry(
                     .command(.deleteRecording(take.recordingId)),
                     pending ? "Deleting…" : request == nil ? "Delete Recording" : "Retry Delete",
                     enabled: state.service == .ready && !pending),
             ])
-            var suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
-            if suffix.isEmpty, state.library.processing?.recordingId == take.recordingId,
-                let working = state.library.processing?.summary {
-                suffix = " — \(working)"
-            }
+            let suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
             return MenuEntry(.status, recentTitle(of: take) + suffix, submenu: details)
         }
     }

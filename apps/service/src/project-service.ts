@@ -764,40 +764,20 @@ export async function startProjectService(options: {
           case "index.get": {
             const params = operation.params;
             if ("projectId" in params) return { ok: true, data: indexes.getProject(params) };
-            if (!("assetId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service reads project and selected asset indexes",
-              );
             return { ok: true, data: indexes.getSource(params) };
           }
           case "index.retry": {
             const params = operation.params;
             if ("projectId" in params) return { ok: true, data: indexes.retryProject(params) };
-            if (!("assetId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service reads project and selected asset indexes",
-              );
             return { ok: true, data: indexes.retrySource(params) };
           }
           case "index.coverage": {
             const params = operation.params;
             if ("projectId" in params) return { ok: true, data: indexes.coverageProject(params) };
-            if (!("assetId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service reads project and selected asset indexes",
-              );
             return { ok: true, data: indexes.coverageSource(params) };
           }
           case "index.frame": {
             const params = operation.params;
-            if (!("assetId" in params) && !("projectId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service reads project and selected asset indexes",
-              );
             return {
               ok: true,
               data: indexFrame(params),
@@ -805,11 +785,6 @@ export async function startProjectService(options: {
           }
           case "index.frames": {
             const params = operation.params;
-            if (!("assetId" in params) && !("projectId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service reads project and selected asset indexes",
-              );
             const { ordinals, ...reference } = params;
             return {
               ok: true,
@@ -870,8 +845,6 @@ export async function startProjectService(options: {
                     ? await projectEvidence.search(params)
                     : await projectEvidence.get(params),
               };
-            if (!("assetId" in params))
-              return operationError("NOT_READY", "This service reads selected asset transcripts");
             const selection = {
               assetId: params.assetId,
               streamId: params.streamId,
@@ -920,11 +893,6 @@ export async function startProjectService(options: {
           case "frame.get":
           case "frame.retry": {
             const params = operation.params;
-            if (!("projectId" in params) && !("assetId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service renders source and project pictures",
-              );
             return {
               ok: true,
               data: frameDelivery(
@@ -934,11 +902,6 @@ export async function startProjectService(options: {
           }
           case "frame.batch": {
             const params = operation.params;
-            if (!("projectId" in params) && !("assetId" in params))
-              return operationError(
-                "NOT_READY",
-                "This service renders source and project pictures",
-              );
             const identity =
               "projectId" in params
                 ? {
@@ -1060,8 +1023,6 @@ export async function startProjectService(options: {
           case "audio.get":
           case "audio.retry": {
             const params = operation.params;
-            if (!("assetId" in params) && !("projectId" in params))
-              return operationError("NOT_READY", "This service extracts asset and project audio");
             const status =
               await mediaAudio[operation.operation === "audio.get" ? "request" : "retry"](params);
             return {
@@ -1080,11 +1041,6 @@ export async function startProjectService(options: {
             };
           }
           case "storage.usage":
-            if (operation.params.recordingId !== undefined)
-              return operationError(
-                "NOT_READY",
-                "This service measures aggregate project-library storage",
-              );
             return { ok: true, data: await managedStorage.usage() };
           case "project.create":
             return {
@@ -1138,8 +1094,6 @@ export async function startProjectService(options: {
           case "processing.capabilities":
             return { ok: true, data: preview.capabilities() };
           case "revision.get":
-            if (!("projectId" in operation.params))
-              return operationError("NOT_READY", "This service reads managed project revisions");
             return {
               ok: true,
               data: {
@@ -1151,8 +1105,6 @@ export async function startProjectService(options: {
               },
             };
           case "revision.history":
-            if (!("projectId" in operation.params))
-              return operationError("NOT_READY", "This service reads managed project history");
             return {
               ok: true,
               data: projects.history(
@@ -1162,12 +1114,8 @@ export async function startProjectService(options: {
               ),
             };
           case "edit.undo":
-            if (!("projectId" in operation.params))
-              return operationError("NOT_READY", "This service edits managed projects");
             return { ok: true, data: projects.undo(operation.params.projectId, operation.params) };
           case "edit.restore":
-            if (!("projectId" in operation.params))
-              return operationError("NOT_READY", "This service edits managed projects");
             return {
               ok: true,
               data: projects.restore(operation.params.projectId, operation.params),
@@ -1237,8 +1185,6 @@ export async function startProjectService(options: {
           case "preview.get":
           case "preview.retry": {
             const params = operation.params;
-            if (!("projectId" in params))
-              return operationError("NOT_READY", "This service previews managed projects");
             const status =
               await preview[operation.operation === "preview.get" ? "request" : "retry"](params);
             return {

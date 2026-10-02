@@ -80,19 +80,18 @@ import ScreenRecorderControls
         let script = Script()
         var closed: [MediaTarget] = [], forgotten: [MediaTarget] = [], previews: [MediaTarget] = []
         var exports: [(MediaTarget, ExportsState.Kind)] = []
-        let library = LibraryController(call: { operation, params throws(ServiceFailure) in try await script.call(operation, params) }, changed: {}, closePreview: { closed.append($0) }, forgetExports: { forgotten.append($0) }, deleted: {}, preview: { previews.append($0) }, export: { exports.append(($0, $1)) })
+        let library = LibraryController(call: { operation, params throws(ServiceFailure) in try await script.call(operation, params) }, changed: {}, closePreview: { closed.append($0) }, forgetExports: { forgotten.append($0) }, deleted: {}, preview: { previews.append(.project($0)) }, export: { exports.append((.project($0), $1)) })
         library.serviceChanged(ready: true)
         await until { !library.state.projectsRefreshing && library.state.recent.count == 1 }
         precondition(library.state.projects.map(\.projectId) == ["same"])
         var state = ControlsState(); state.service = .ready; state.library = library.state
         func actions(_ rows: [MenuEntry]) -> [MenuEntry] { rows.flatMap { [$0] + actions($0.submenu) } }
         let menu = actions(RecordingMenu.entries(for: state))
-        precondition(menu.first { $0.action == .previewRecording("same") }?.enabled == false, "Duration does not invent a recording composition")
+        precondition(!menu.contains { ($0.action?.id.hasPrefix("recording.preview.") ?? false) || ($0.action?.id.hasPrefix("recording.export.") ?? false) }, "Source recordings never advertise composition actions")
         precondition(menu.first { $0.action == .previewProject("same") }?.enabled == true)
         precondition(!script.calls.contains { ["processing.status", "index.get"].contains($0.0) })
         precondition(library.perform(.previewProject("same")))
         precondition(library.perform(.exportProject("same", .package)))
-        precondition(library.perform(.previewRecording("same")))
         precondition(previews == [.project("same")] && exports.count == 1 && exports[0].0 == .project("same") && exports[0].1 == .package, "Explicit actions preserve namespace and refuse a fresh recording composition")
         precondition(!library.perform(.pauseOrResume), "Capture transport remains with its existing owner")
         script.projects = [["projectId": "later", "title": "Later caller project", "createdAt": "2026-10-01T02:00:00Z", "currentRevisionId": "r-later"]]; script.next = NSNull()
@@ -121,31 +120,19 @@ import ScreenRecorderControls
         await until { forgotten == [.recording("same"), .project("later")] }
         precondition(closed == forgotten)
 
-        // Installed recording revisions preserve ordinary artifact reads and delivery dispatch.
-        let installed = Script()
-        installed.recording["currentRevisionId"] = "r-recording"
-        installed.recording.removeValue(forKey: "sourceAdmissions")
-        var installedPreview: [MediaTarget] = []
-        let old = LibraryController(call: { op, params throws(ServiceFailure) in try await installed.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { installedPreview.append($0) }, export: { _, _ in })
-        old.serviceChanged(ready: true)
-        await until { old.state.processing?.artifacts.count == 4 }
-        precondition(installed.count("processing.status") == 3 && installed.count("index.get") == 1)
-        precondition(old.state.processing?.summary == "transcribing")
-        old.perform(.previewRecording("same")); precondition(installedPreview == [.recording("same")])
-        installed.recording["recordingId"] = "new-installed-take"
-        installed.failure = ("processing.status", "NOT_READY")
-        old.refreshRecordings()
-        await until { old.state.progressFailure?.contains("NOT_READY") == true }
-        precondition(old.state.recent.first?.recordingId == "new-installed-take" && old.state.processing == nil, "Failed reads for a new take must not label the previous owner's processing as the last take")
-        old.refreshRecordings()
-        await until { old.state.processing?.recordingId == "new-installed-take" && old.state.progressFailure == nil }
-        let lastProgress = old.state.processing
-        installed.failure = ("processing.status", "NOT_READY")
-        old.refreshRecordings()
-        await until { old.state.progressFailure?.contains("NOT_READY") == true }
-        precondition(old.state.processing == lastProgress, "Same-owner processing failure retains its last good observation")
-        old.serviceChanged(ready: false)
-        precondition(old.state.processing == nil, "Service replacement clears obsolete processing context")
+        // Recording facts remain readable without any composition or artifact polling.
+        script.deletedTargets.remove(.recording("same"))
+        script.recording.removeValue(forKey: "currentRevisionId")
+        library.refreshRecordings()
+        await until { library.state.recent.count == 1 }
+        let lastTake = library.state.recent
+        script.failure = ("recording.list", "SERVICE_UNAVAILABLE")
+        library.refreshRecordings()
+        await until { library.state.recordingFailure?.contains("SERVICE_UNAVAILABLE") == true }
+        precondition(library.state.recent == lastTake, "Failed source reads retain the last good facts")
+        library.refreshRecordings()
+        await until { library.state.recordingFailure == nil }
+        precondition(!script.calls.contains { ["processing.status", "index.get"].contains($0.0) })
 
         // Pending source admission is discovered without restarting work; terminal jobs stop reads.
         let source = Script()
@@ -163,7 +150,7 @@ import ScreenRecorderControls
         for _ in 0..<10 { progress.tick(); await Task.yield() }
         precondition(source.count("job.get") == 1 && !source.calls.contains { ["job.retry", "acquisition.import", "processing.status", "index.get"].contains($0.0) })
 
-        // A delayed job answer for the old row cannot clear the next row's failed processing read.
+        // A delayed job answer for the old row cannot clear the next row's source job failure.
         let overlapping = Script()
         overlapping.recording["sourceAdmissions"] = [["kind": "primary", "sourceId": "source-one", "acquisitionId": "acq-one", "job": overlapping.job, "admissionError": NSNull()]]
         let progressOwner = LibraryController(call: { op, params throws(ServiceFailure) in try await overlapping.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { _ in }, export: { _, _ in })
@@ -172,14 +159,13 @@ import ScreenRecorderControls
         overlapping.hold = "job.get"; progressOwner.tick()
         await until { overlapping.held != nil }
         overlapping.recording["recordingId"] = "new-progress-owner"
-        overlapping.recording["currentRevisionId"] = "r-new"
-        overlapping.recording.removeValue(forKey: "sourceAdmissions")
-        overlapping.failure = ("processing.status", "NOT_READY")
         progressOwner.refreshRecordings()
-        await until { progressOwner.state.progressFailure?.contains("NOT_READY") == true }
+        await until { progressOwner.state.recent.first?.recordingId == "new-progress-owner" }
+        overlapping.failure = ("recording.list", "NOT_READY"); progressOwner.refreshRecordings()
+        await until { progressOwner.state.recordingFailure?.contains("NOT_READY") == true }
         overlapping.release()
         for _ in 0..<20 { await Task.yield() }
-        precondition(progressOwner.state.recent.first?.recordingId == "new-progress-owner" && progressOwner.state.progressFailure?.contains("NOT_READY") == true, "An obsolete job reply must not clear another owner's read failure")
+        precondition(progressOwner.state.recent.first?.recordingId == "new-progress-owner" && progressOwner.state.recordingFailure?.contains("NOT_READY") == true, "An obsolete job reply must not clear another owner's read failure")
         progressOwner.serviceChanged(ready: false)
 
         // Lost/malformed deletion keeps the typed identity even after discovery hides its owner.
@@ -269,7 +255,7 @@ import ScreenRecorderControls
             precondition(ambiguous.count("project.delete") == 2)
             recovery.serviceChanged(ready: false)
         }
-        for consumer in [library, old, progress, deletion, fenced, generation] { consumer.serviceChanged(ready: false) }
+        for consumer in [library, progress, deletion, fenced, generation] { consumer.serviceChanged(ready: false) }
         print("PASS native library pages, typed deletion and source-only recording facts")
         print(String(data: try! JSONSerialization.data(withJSONObject: Script.exchanges), encoding: .utf8)!)
     }

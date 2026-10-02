@@ -15,6 +15,24 @@ describe("native operation envelope", () => {
   });
 });
 
+it("reads authored project revisions while recording identities retain only source lifetime", () => {
+  const request = (operation: string, params: Record<string, unknown>) => {
+    const wire = parseRequest({ id: "caller", operation, params });
+    return operationSchema.safeParse({ operation: wire.operation, params: wire.params });
+  };
+  expect(request("revision.get", { recordingId: "take", revisionId: "revision" }).success).toBe(
+    false,
+  );
+  expect(request("revision.get", { projectId: "project", revisionId: "revision" })).toMatchObject({
+    success: true,
+    data: { operation: "revision.get", params: { projectId: "project", revisionId: "revision" } },
+  });
+  expect(request("recording.delete", { recordingId: "take" })).toMatchObject({
+    success: true,
+    data: { operation: "recording.delete", params: { recordingId: "take" } },
+  });
+});
+
 describe("capture selection", () => {
   const source = { kind: "window", windowId: 7 } as const;
   it("records the narrator by default and the machine's own audio only when asked", () => {
@@ -89,14 +107,13 @@ it("project indexes use picture taps and retained references across paging and d
 });
 
 it("retained index requests bound paging, references and media batches", () => {
-  const reference = { recordingId: "take", revisionId: "r0", generation: "attempt" };
-  expect(
-    operationSchema.safeParse({ operation: "index.get", params: { recordingId: "take" } }).success,
-  ).toBe(true);
+  const source = { assetId: "asset", streamId: "video" };
+  const reference = { ...source, generation: "attempt" };
+  expect(operationSchema.safeParse({ operation: "index.get", params: source }).success).toBe(true);
   expect(
     operationSchema.safeParse({
       operation: "index.get",
-      params: { recordingId: "take", limit: 201 },
+      params: { ...source, limit: 201 },
     }).success,
   ).toBe(false);
   expect(
@@ -106,7 +123,7 @@ it("retained index requests bound paging, references and media batches", () => {
   expect(
     operationSchema.safeParse({
       operation: "index.frame",
-      params: { recordingId: "take", ordinal: 0 },
+      params: { ...source, ordinal: 0 },
     }).success,
   ).toBe(false);
   expect(
@@ -129,11 +146,14 @@ it("retained index requests bound paging, references and media batches", () => {
   ).toBe(true);
 });
 
-it("package inspection requires one explicit target without silently accepting latest or mixed selectors", () => {
+it("package handles do not authorize managed media inspection", () => {
   for (const operation of ["revision.get", "revision.history", "index.get"]) {
     expect(
       operationSchema.safeParse({ operation, params: { packageHandle: "open-1" } }).success,
-    ).toBe(true);
+    ).toBe(false);
+    expect(operationSchema.safeParse({ operation, params: { projectId: "project" } }).success).toBe(
+      true,
+    );
     for (const params of [
       {},
       { packageHandle: "open-1", recordingId: "take" },
@@ -148,11 +168,14 @@ it("package inspection requires one explicit target without silently accepting l
     ).toBe(false);
 });
 
-it("arbitrary frame operations select either a package or a library recording", () => {
+it("arbitrary frame operations require a project or selected asset", () => {
   for (const operation of ["frame.get", "frame.retry", "frame.batch"]) {
     const atUs = operation === "frame.batch" ? [0, 1] : 0;
     expect(
-      operationSchema.safeParse({ operation, params: { packageHandle: "p", atUs } }).success,
+      operationSchema.safeParse({
+        operation,
+        params: { assetId: "asset", streamId: "video", atUs },
+      }).success,
     ).toBe(true);
     expect(
       operationSchema.safeParse({
@@ -164,9 +187,9 @@ it("arbitrary frame operations select either a package or a library recording", 
   }
 });
 
-it("audio inspection selects exactly one library or package target", () => {
+it("audio inspection selects exactly one project or asset stream", () => {
   for (const operation of ["audio.get", "audio.retry"]) {
-    const params = { packageHandle: "handle", range: { startUs: 0, endUs: 1000 }, track: "system" };
+    const params = { assetId: "asset", streamId: "audio", range: { startUs: 0, endUs: 1000 } };
     expect(operationSchema.parse({ operation, params })).toBeTruthy();
     expect(() =>
       operationSchema.parse({ operation, params: { ...params, recordingId: "library" } }),
@@ -177,19 +200,18 @@ it("audio inspection selects exactly one library or package target", () => {
 it("raw cursor target and continuation namespaces are exclusive", () => {
   const fields = { sourceRange: { startUs: 0, endUs: 1000 }, limit: 1 };
   const position = {
-    sourceId: "source",
-    generation: "generation",
-    sourceRange: fields.sourceRange,
-    afterSequence: 1,
+    cursor: { after: null, done: false },
+    pause: { after: null, done: false },
+    geometry: { after: null, done: false },
+    interruption: { after: null, done: false },
   };
-  for (const target of [{ recordingId: "library" }, { packageHandle: "package" }]) {
-    expect(
-      operationSchema.safeParse({
-        operation: "cursor.raw",
-        params: { ...target, ...fields, cursor: { ...target, ...position } },
-      }).success,
-    ).toBe(true);
-  }
+  const source = { assetId: "asset", streamId: "video", acquisitionId: "capture" };
+  expect(
+    operationSchema.safeParse({
+      operation: "cursor.raw",
+      params: { ...source, ...fields, cursor: { reference: "pinned", position } },
+    }).success,
+  ).toBe(true);
   for (const params of [
     fields,
     { ...fields, recordingId: "library", packageHandle: "package" },
@@ -203,12 +225,21 @@ it("raw cursor target and continuation namespaces are exclusive", () => {
 
 it("transcript pages and searches are bounded and their cursors name the pinned generation", () => {
   const parse = (operation: string, params: Record<string, unknown>) =>
-    operationSchema.safeParse({ operation, params: { recordingId: "take", ...params } });
+    operationSchema.safeParse({
+      operation,
+      params: { assetId: "asset", streamId: "audio", ...params },
+    });
   expect(parse("transcript.get", {})).toMatchObject({ data: { params: { limit: 250 } } });
   expect(parse("transcript.search", { text: "hello" })).toMatchObject({
     data: { params: { limit: 100 } },
   });
-  const position = { recordingId: "take", revisionId: "r0", generation: "attempt" };
+  const position = {
+    assetId: "asset",
+    streamId: "audio",
+    acquisitionId: null,
+    generation: "attempt",
+    supportDigest: "digest",
+  };
   const accepted: [string, Record<string, unknown>][] = [
     ["transcript.get", { limit: 1000 }],
     [

@@ -40,7 +40,8 @@ final class ExportController {
 
     // MARK: acting
 
-    func export(_ target: MediaTarget, kind: ExportsState.Kind) {
+    func export(_ projectId: String, kind: ExportsState.Kind) {
+        let target = MediaTarget.project(projectId)
         guard let choice = state.beginChoice(target: target, kind: kind) else { return }
         changed()
         Task { @MainActor in
@@ -52,12 +53,7 @@ final class ExportController {
             // a folder does not change what they asked to export.
             let answer: Data
             do throws(ServiceFailure) {
-                let operation: String
-                switch target {
-                case .recording: operation = "recording.get"
-                case .project: operation = "project.get"
-                }
-                answer = try await call(operation, target.parameters)
+                answer = try await call("project.get", target.parameters)
             } catch {
                 guard state.choosing == choice else { return }
                 return failure(error.localizedDescription)
@@ -66,9 +62,7 @@ final class ExportController {
             guard let owner = try? JSONDecoder().decode(Owner.self, from: answer), owner.target == target else {
                 return failure("The service returned an unreadable or different export owner.")
             }
-            guard let revisionId = owner.currentRevisionId else {
-                return failure("This item has no revision to export yet.")
-            }
+            let revisionId = owner.currentRevisionId
             let destination = await choose(kind, Self.suggestedName(owner, revisionId, kind))
             guard state.choosing == choice, let destination else { return }
             // Foundation prettifies /private aliases; the broker's directory identity uses
@@ -353,14 +347,14 @@ final class ExportController {
         let target: MediaTarget
         let createdAt: String
         let title: String?
-        let currentRevisionId: String?
+        let currentRevisionId: String
         private enum Keys: String, CodingKey { case createdAt, title, currentRevisionId }
         init(from decoder: Decoder) throws {
             target = try MediaTarget(from: decoder)
             let fields = try decoder.container(keyedBy: Keys.self)
             createdAt = try fields.decode(String.self, forKey: .createdAt)
             title = try fields.decodeIfPresent(String.self, forKey: .title)
-            currentRevisionId = try fields.decodeIfPresent(String.self, forKey: .currentRevisionId)
+            currentRevisionId = try fields.decode(String.self, forKey: .currentRevisionId)
         }
     }
 }

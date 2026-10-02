@@ -49,7 +49,7 @@ let menu = NSMenu()
 var state = ControlsState()
 state.service = .ready
 state.library.recent = [.init(recordingId: "first", createdAt: "2026-09-16T09:00:00Z",
-    state: "complete", sourceDurationUs: 1, interruptionReason: nil, currentRevisionId: "r-existing")]
+    state: "complete", sourceDurationUs: 1, interruptionReason: nil)]
 state.storageRefreshing = true
 var entries = RecordingMenu.entries(for: state)
 StatusMenu.apply(entries, to: menu, target: target, action: #selector(Target.choose(_:)))
@@ -67,7 +67,7 @@ precondition(recent.items[0].submenu === first && first.items.contains { $0 === 
 precondition(StatusMenu.action(of: action) == .deleteRecording("first"))
 entries = observed
 state.library.recent = [.init(recordingId: "replacement", createdAt: "2026-09-16T09:02:00Z",
-    state: "complete", sourceDurationUs: 1, interruptionReason: nil, currentRevisionId: "r-existing")]
+    state: "complete", sourceDurationUs: 1, interruptionReason: nil)]
 StatusMenu.apply(RecordingMenu.entries(for: state), to: menu, target: target,
     action: #selector(Target.choose(_:)), previous: entries)
 let replacement = menu.items.first { $0.title == "Recent Recordings" }!.submenu!.items[0].submenu!

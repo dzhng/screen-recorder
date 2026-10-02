@@ -6,8 +6,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
-import { RevisionStore } from "@screenrec/core/library";
-import { page, journalRows } from "./fixtures/generated-capture.mjs";
+import { generatedVideoProject } from "./fixtures/generated-project.mjs";
+import { page } from "./fixtures/generated-capture.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 test(
@@ -17,21 +17,8 @@ test(
     const home = await mkdtemp("/tmp/screenrec-player-service-");
     let safeToRemove = true;
     try {
-      const store = new RevisionStore(join(home, "library.sqlite"), {
-        now: () => new Date().toISOString(),
-        newId: randomUUID,
-      });
-      const take = store.allocate().recording;
-      store.ingestLifecycle(take.recordingId, {
-        sourceId: take.sourceId,
-        sequence: 1,
-        state: "interrupted",
-        reason: "Generated silent playback fixture",
-        sourceDurationUs: 8000000,
-      });
-      store.close();
-      const source = join(home, "recordings", take.recordingId, "source");
-      await mkdir(source, { recursive: true });
+      const source = join(home, "fixture");
+      await mkdir(source);
       const movie = join(source, "video.mov");
       execFileSync(
         "ffmpeg",
@@ -60,25 +47,11 @@ test(
         ],
         { input: page(false), timeout: 20000 },
       );
-      const samples = [
-        [500000, 800, 470],
-        [1500000, 950, 460],
-        [3100000, 360, 320],
-      ].map(([sourceUs, x, y]) => ({
-        sourceUs,
-        x,
-        y,
-        globalX: x,
-        globalY: y,
-        buttons: 0,
-        eligibility: "inside",
-        geometryEpoch: 1,
-      }));
-      const rows = journalRows({ sourceId: take.sourceId, width: 1280, height: 800, samples });
-      await writeFile(
-        join(source, "capture.journal.jsonl"),
-        rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
-      );
+      const project = await generatedVideoProject(home, movie, {
+        width: 1280,
+        height: 800,
+        durationUs: 8000000,
+      });
       const original = createHash("sha256")
         .update(await readFile(movie))
         .digest("hex");
@@ -138,7 +111,7 @@ import CryptoKit
         let owner = PreviewController(call: { try await host.call($0, $1) }, failure: { failures.append($0) })
         defer { owner.close() }
         let id = CommandLine.arguments[2]
-        owner.open(.recording(id))
+        owner.open(id)
         var item: AVPlayerItem?
         for _ in 0..<150 {
             owner.tick(); await pause()
@@ -149,12 +122,11 @@ import CryptoKit
         guard let item, let window = visible(), let view = window.contentView as? AVPlayerView else {
             fatalError("Actual service preview never became playable")
         }
-        precondition(window.title.hasSuffix("r0"))
+        precondition(window.title.hasSuffix(CommandLine.arguments[5]))
         precondition(abs(CMTimeGetSeconds(item.duration)-8) < 0.001)
         precondition(!view.allowsVideoFrameAnalysis)
         view.player!.pause()
-        _ = try await host.call("edit.cut", ["recordingId":id,"requestId":UUID().uuidString,
-            "expectedRevisionId":"r0","ranges":[["startUs":2000000,"endUs":4000000]]])
+        _ = try await host.call("edit.apply", ["projectId": id, "requestId": UUID().uuidString, "expectedRevisionId": CommandLine.arguments[5], "operations": [["operation": "remove", "clipIds": [CommandLine.arguments[6]], "ranges": [["startUs": 2000000, "endUs": 4000000]], "ripple": ["trackIds": [CommandLine.arguments[7]]]]]])
         // The real service lease initially lasts 30s. Paused playback must retain its
         // original item past that deadline while the current library edit advances.
         let until = Date().addingTimeInterval(31)
@@ -163,16 +135,19 @@ import CryptoKit
             precondition(failures.isEmpty && visible() === window && view.player?.currentItem === item,
                 "Pinned player changed or lost its renewed lease")
         }
-        precondition(window.title.hasSuffix("r0") && abs(CMTimeGetSeconds(item.duration)-8) < 0.001)
-        let current = try JSONSerialization.jsonObject(with: await host.call("revision.get", ["recordingId":id])) as! [String:Any]
-        precondition((current["revision"] as! [String:Any])["durationUs"] as! Int == 6000000)
+        precondition(window.title.hasSuffix(CommandLine.arguments[5]) && abs(CMTimeGetSeconds(item.duration)-8) < 0.001)
+        let current = try JSONSerialization.jsonObject(with: await host.call("revision.get", ["projectId":id])) as! [String:Any]
+        let document = (current["revision"] as! [String: Any])["document"] as! [String: Any]
+        let clips = document["clips"] as! [[String: Any]]
+        let duration = clips.reduce(0) { total, clip in let placement = clip["placement"] as! [String: Any]; let range = placement["range"] as! [String: Int]; return total + range["endUs"]! - range["startUs"]! }
+        precondition(duration == 6000000)
         let asset = item.asset as! AVURLAsset
         precondition(FileManager.default.fileExists(atPath: asset.url.path))
         let hash = SHA256.hash(data: try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[3])))
             .map { String(format: "%02x", $0) }.joined()
         precondition(hash == CommandLine.arguments[4], "Source changed during native playback")
         print("PASS pinned native player past original lease deadline; current edit is 6s")
-        _ = try await host.call("recording.delete", ["recordingId":id])
+        _ = try await host.call("project.delete", ["projectId":id])
         for _ in 0..<30 { owner.tick(); await pause(); if visible() == nil { break } }
         precondition(visible() == nil && view.player == nil)
         precondition(!FileManager.default.fileExists(atPath: asset.url.path))
@@ -191,7 +166,15 @@ import CryptoKit
       const result = await new Promise((resolve, reject) => {
         const child = spawn(
           binary,
-          [join(root, "dist/ScreenRecorder.app"), take.recordingId, movie, original],
+          [
+            join(root, "dist/ScreenRecorder.app"),
+            project.projectId,
+            movie,
+            original,
+            project.revisionId,
+            project.clipId,
+            project.trackId,
+          ],
           { env: { ...process.env, SCREENREC_HOME: home }, stdio: ["ignore", "pipe", "pipe"] },
         );
         let stdout = "",

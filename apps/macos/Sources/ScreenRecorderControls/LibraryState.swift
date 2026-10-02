@@ -11,7 +11,6 @@ public struct LibraryState: Equatable, Sendable {
     public var recordingFailure: String?
     public var progressFailure: String?
     public var projectFailure: String?
-    public var processing: ControlsState.TakeProcessing?
     public var deletions: [MediaTarget: DeleteRequest] = [:]
 
     public struct Cursor: Codable, Equatable, Sendable {
@@ -103,7 +102,6 @@ public struct LibraryState: Equatable, Sendable {
         switch target {
         case .recording(let id):
             recent.removeAll { $0.recordingId == id }
-            if processing?.recordingId != recent.first?.recordingId { processing = nil }
         case .project(let id): projects.removeAll { $0.projectId == id }
         }
     }

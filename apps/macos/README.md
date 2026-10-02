@@ -34,7 +34,7 @@ platform boundary keeps protocol checks from requiring a window or player, witho
 changing ordinary user-requested playback.
 
 Native export choices, unanswered requests and received receipts share the same
-recording/project target identity. The existing controller pins the selected
+project target identity. The existing controller pins the selected
 revision before choosing a destination, resolves the chosen directory once to
 match the broker's physical path, and keeps that exact request after a lost reply.
 Forgetting an owner fences delayed reads, chooser results and export replies;
@@ -48,8 +48,8 @@ owner deletion. It feeds the controls' shared view value; capture status and
 aggregate storage keep their independent read owners. Caller-created projects
 are listed in the service's creation order, without generating an editing document
 for a recording. A fresh recording's source facts and acquisition jobs do not make
-it a composition: delivery requires the actual recording revision, or an explicitly
-selected project. Last-good observations survive read errors, and delayed answers
+it a composition: preview and export require an explicitly selected project.
+Recordings expose their source admissions, preparation jobs and deletion separately. Last-good observations survive read errors, and delayed answers
 cannot restore a deleted owner or overwrite a changed page/service generation.
 
 Node 24 is a personal-host prerequisite, not a bundled runtime. A Finder launch

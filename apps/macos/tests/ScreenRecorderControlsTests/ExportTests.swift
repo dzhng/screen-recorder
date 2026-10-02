@@ -14,34 +14,33 @@ private func entry(_ entries: [MenuEntry], _ id: String) -> MenuEntry? {
 }
 
 private func record(
-    _ exportId: String, state: String, recordingId: String = "rec-1", output: String? = nil,
+    _ exportId: String, state: String, projectId: String = "rec-1", output: String? = nil,
     retryable: Bool = false, abandoning: Bool = false, cleanupPending: Bool = false
 ) -> ExportsState.Record {
     .init(
-        exportId: exportId, target: .recording(recordingId), kind: .video, revisionId: "r2", state: state,
+        exportId: exportId, target: .project(projectId), kind: .video, revisionId: "r2", state: state,
         directory: "/Users/me/Exports", leaf: "demo.mp4", output: output, reason: nil,
         retryable: retryable, abandoning: abandoning, cleanupPending: cleanupPending)
 }
 
 func runExportTests() {
     var state = ready()
-    state.library.recent = [.init(recordingId: "rec-1", createdAt: "2026-09-15T18:04:05Z", state: "complete",
-        sourceDurationUs: 4_000_000, interruptionReason: nil, currentRevisionId: "r-existing")]
+    state.library.projects = [try! JSONDecoder().decode(LibraryState.Project.self, from: Data(#"{"projectId":"rec-1","title":"Caller project","createdAt":"2026-09-15T18:04:05Z","currentRevisionId":"r-existing"}"#.utf8))]
     var exports = ExportsState()
     precondition(exportsMenu(state, exports) == nil, "No exports section until there is an export to show")
 
-    // One save panel at a time; the take is exportable again once the destination is chosen.
-    precondition(exports.beginChoice(target: .recording("rec-1"), kind: .video) != nil, "A take can start an export")
-    precondition(exports.beginChoice(target: .recording("rec-1"), kind: .package) == nil, "A second panel is not opened")
+    // One save panel at a time; the project is exportable again once the destination is chosen.
+    precondition(exports.beginChoice(target: .project("rec-1"), kind: .video) != nil, "A project can start an export")
+    precondition(exports.beginChoice(target: .project("rec-1"), kind: .package) == nil, "A second panel is not opened")
     let menu = RecordingMenu.entries(for: state, exports: exports)
-    precondition(entry(menu, "recording.export.video.rec-1")?.enabled == false
-        && entry(menu, "recording.export.processed-package.rec-1")?.enabled == false,
+    precondition(entry(menu, "project.export.video.rec-1")?.enabled == false
+        && entry(menu, "project.export.processed-package.rec-1")?.enabled == false,
         "Export choices wait while a destination is being chosen")
     let request = ExportsState.Request(
-        exportId: "e1", target: .recording("rec-1"), kind: .video, revisionId: "r2",
+        exportId: "e1", target: .project("rec-1"), kind: .video, revisionId: "r2",
         directory: "/Users/me/Exports", leaf: "demo.mp4")
     exports.send(request)
-    precondition(entry(RecordingMenu.entries(for: state, exports: exports), "recording.export.video.rec-1")?.enabled == true,
+    precondition(entry(RecordingMenu.entries(for: state, exports: exports), "project.export.video.rec-1")?.enabled == true,
         "A sent request does not block exporting again")
     precondition(exports.resend("e1") == nil, "An outstanding send is not sent twice")
 
@@ -74,7 +73,7 @@ func runExportTests() {
         "Work still running offers no retry")
 
     // Rediscovered exports keep their order behind this session's own.
-    exports.update(record("e0", state: "failed", recordingId: "rec-0"))
+    exports.update(record("e0", state: "failed", projectId: "rec-0"))
     exports.admit(record("e2", state: "running"))
     precondition(exports.records.map(\.exportId) == ["e2", "e1", "e0"], "Newest requests first, discovered after")
 
@@ -89,7 +88,7 @@ func runExportTests() {
     precondition(exportsMenu(state, exports)!.submenu.last!.submenu.contains {
         $0.title == "EXPORT_CLEANUP_FAILED: staging changed"
     }, "A refused abandonment stays visible with its reason")
-    exports.update(record("e0", state: "failed", recordingId: "rec-0", abandoning: true))
+    exports.update(record("e0", state: "failed", projectId: "rec-0", abandoning: true))
     precondition(entry(exportsMenu(state, exports)!.submenu, "export.abandon.e0")?.title == "Retry Abandon",
         "Unfinished abandonment is retried under the same export")
     exports.forget("e0")
@@ -112,12 +111,12 @@ func runExportTests() {
     exports.dismiss("e2")
     precondition(exports.records.map(\.exportId) == ["e2"], "Only settled commits are dismissed")
 
-    exports.forget(target: .recording("rec-1"))
+    exports.forget(target: .project("rec-1"))
     precondition(exports.records.isEmpty && exportsMenu(state, exports) == nil,
-        "A deleted recording's exports leave the menu")
+        "A deleted project's exports leave the menu")
 
     let status = Data(#"""
-        {"exportId":"e9","kind":"processed-package","abandoning":false,"recovery":null,"recordingId":"rec-9",
+        {"exportId":"e9","kind":"processed-package","abandoning":false,"recovery":null,"projectId":"rec-9",
          "snapshot":{"revisionId":"r4","historyOrdinal":3},"state":"failed",
          "destination":{"directory":"/Volumes/Work","leaf":"take.zip"},"cleanupPending":true,
          "receipt":null,"output":null,"jobId":"j","reason":"Required evidence is unavailable","retryable":true}

@@ -7,9 +7,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
-import { RevisionStore } from "@screenrec/core/library";
+import { generatedVideoProject } from "./fixtures/generated-project.mjs";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
-import { journalRows } from "./fixtures/generated-capture.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -39,7 +38,7 @@ import ScreenRecorderControls
 
     func json(_ value: Any) -> Data { try! JSONSerialization.data(withJSONObject: value) }
     func status(_ params: [String: Any]) -> [String: Any] {
-        ["exportId": params["exportId"]!, "recordingId": params["recordingId"]!, "kind": params["kind"]!,
+        ["exportId": params["exportId"]!, "projectId": params["projectId"]!, "kind": params["kind"]!,
          "snapshot": ["revisionId": params["revisionId"]!], "state": "queued", "abandoning": false,
          "destination": ["directory": params["directory"]!, "leaf": params["leaf"]!],
          "cleanupPending": false, "output": NSNull(), "reason": NSNull(), "retryable": false]
@@ -48,8 +47,8 @@ import ScreenRecorderControls
         calls.append((operation, params))
         let id = params["exportId"] as? String ?? ""
         switch operation {
-        case "recording.get":
-            return json(["recordingId": "take", "createdAt": "2026-09-17T10:11:12.345Z", "currentRevisionId": revision])
+        case "project.get":
+            return json(["projectId": "take", "createdAt": "2026-09-17T10:11:12.345Z", "currentRevisionId": revision])
         case "export.create":
             if !createFailures.isEmpty {
                 let (failure, admit) = createFailures.removeFirst()
@@ -94,7 +93,7 @@ import ScreenRecorderControls
             },
             reveal: { _ in }, changed: {}, failure: { failures.append($0) })
 
-        exports.export(.recording("take"), kind: .video)
+        exports.export("take", kind: .video)
         await until { exports.state.choosing == nil && chosen.count == 1 }
         precondition(script.count("export.create") == 0 && exports.state.requests.isEmpty,
             "Choosing no destination exports nothing")
@@ -104,7 +103,7 @@ import ScreenRecorderControls
         script.revision = "r3"
         destination = URL(fileURLWithPath: CommandLine.arguments[1]).appendingPathComponent("demo.mp4")
         script.createFailures = [(ServiceFailure(code: "TIMEOUT", message: "export.create did not answer in time"), true)]
-        exports.export(.recording("take"), kind: .video)
+        exports.export("take", kind: .video)
         await until { exports.state.requests.first?.unconfirmed != nil }
         let sent = script.calls.last { $0.0 == "export.create" }!.1
         let first = sent["exportId"] as! String
@@ -120,7 +119,7 @@ import ScreenRecorderControls
         // A reply lost before admission: sending again reuses the identity and destination.
         destination = URL(fileURLWithPath: CommandLine.arguments[2]).appendingPathComponent("take.zip")
         script.createFailures = [(ServiceFailure(code: "SERVICE_STOPPED", message: "Service is shutting down"), false)]
-        exports.export(.recording("take"), kind: .package)
+        exports.export("take", kind: .package)
         await until { exports.state.requests.first?.unconfirmed != nil }
         let second = exports.state.requests[0].exportId
         exports.tick()
@@ -136,7 +135,7 @@ import ScreenRecorderControls
 
         // A definite refusal ends the request and says why.
         script.createFailures = [(ServiceFailure(code: "INVALID_PARAMS", message: "Parameters do not match"), false)]
-        exports.export(.recording("take"), kind: .video)
+        exports.export("take", kind: .video)
         await until { !failures.isEmpty }
         precondition(exports.state.requests.isEmpty && failures == ["INVALID_PARAMS: Parameters do not match"])
 
@@ -144,7 +143,7 @@ import ScreenRecorderControls
         let restarted = ExportController(
             call: { operation, params throws(ServiceFailure) in try await script.call(operation, params) },
             choose: { _, _ in nil }, reveal: { _ in }, changed: {}, failure: { failures.append($0) })
-        let cursor: [String: Any] = ["recordingId": NSNull(), "unfinishedOnly": true, "afterExportId": first]
+        let cursor: [String: Any] = ["recordingId": NSNull(), "projectId": NSNull(), "unfinishedOnly": true, "afterExportId": first]
         script.pages = [
             ["exports": [["exportId": first]], "nextCursor": cursor],
             ["exports": [["exportId": second]], "nextCursor": NSNull()],
@@ -167,7 +166,10 @@ import ScreenRecorderControls
 `,
       );
       assert.match(
-        execFileSync(executable, [realpathSync(firstDirectory), realpathSync(secondDirectory)], { encoding: "utf8", timeout: 30_000 }),
+        execFileSync(executable, [realpathSync(firstDirectory), realpathSync(secondDirectory)], {
+          encoding: "utf8",
+          timeout: 30_000,
+        }),
         /PASS native exports pin revisions/,
       );
     } finally {
@@ -449,21 +451,8 @@ test(
     const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-controls-build-"));
     let safeToRemove = true;
     try {
-      const store = new RevisionStore(join(home, "library.sqlite"), {
-        now: () => new Date().toISOString(),
-        newId: randomUUID,
-      });
-      const take = store.allocate().recording;
-      store.ingestLifecycle(take.recordingId, {
-        sourceId: take.sourceId,
-        sequence: 1,
-        state: "interrupted",
-        reason: "generated native export fixture",
-        sourceDurationUs: 2_000_000,
-      });
-      store.close();
-      const source = join(home, "recordings", take.recordingId, "source");
-      await mkdir(source, { recursive: true });
+      const source = join(home, "fixture");
+      await mkdir(source);
       execFileSync(
         "ffmpeg",
         [
@@ -483,17 +472,15 @@ test(
         ],
         { timeout: 20_000 },
       );
-      const rows = journalRows({
-        sourceId: take.sourceId,
+      const {
+        projectId,
+        revisionId: pinnedRevision,
+        clipId,
+      } = await generatedVideoProject(home, join(source, "video.mov"), {
         width: 160,
         height: 90,
-        samples: [],
-        pauses: [],
+        durationUs: 2000000,
       });
-      await writeFile(
-        join(source, "capture.journal.jsonl"),
-        rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
-      );
       const executable = compileControlsCheck(
         scratch,
         ["ExportController", "ServiceHost", "ServiceBundle", "NodeRuntime"],
@@ -541,7 +528,7 @@ import ScreenRecorderControls
     @MainActor static func run() async {
         NSApp.setActivationPolicy(.accessory)
         let arguments = CommandLine.arguments
-        let (bundlePath, recordingId, directory) = (arguments[1], arguments[2], arguments[3])
+        let (bundlePath, projectId, directory, pinnedRevision, clipId) = (arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
         let resolved: ServiceBundle = try! await withCheckedThrowingContinuation { continuation in
             ServiceBundle.resolve(in: Bundle(path: bundlePath)!) { continuation.resume(with: $0) }
         }
@@ -553,29 +540,29 @@ import ScreenRecorderControls
             choose: { kind, _ in
                 precondition(kind == .video)
                 // An edit made while the panel is open does not change the pinned export.
-                _ = try? await service.call("edit.cut", ["recordingId": recordingId, "requestId": UUID().uuidString,
-                    "expectedRevisionId": "r0", "ranges": [["startUs": 500_000, "endUs": 1_000_000]]])
+                _ = try? await service.call("edit.apply", ["projectId": projectId, "requestId": UUID().uuidString,
+                    "expectedRevisionId": pinnedRevision, "operations": [["operation": "trim", "clipId": clipId, "range": ["startUs": 0, "endUs": 1_000_000], "ripple": "none"]]])
                 return URL(fileURLWithPath: directory).appendingPathComponent("demo.mp4")
             },
             reveal: { revealed.append($0) }, changed: {}, failure: { failures.append($0) })
 
-        first.export(.recording(recordingId), kind: .video)
+        first.export(projectId, kind: .video)
         await until(60, first.tick) { first.state.records.first?.committed == true || !failures.isEmpty }
         precondition(failures.isEmpty, "Export failed: \(failures)")
         let committed = first.state.records[0]
-        precondition(committed.revisionId == "r0" && committed.leaf == "demo.mp4" && committed.directory == directory,
+        precondition(committed.revisionId == pinnedRevision && committed.leaf == "demo.mp4" && committed.directory == directory,
             "The committed export is the revision pinned before the edit: \(committed)")
         first.reveal(committed.exportId)
         precondition(revealed == [URL(fileURLWithPath: directory).appendingPathComponent("demo.mp4")])
-        let current = try! JSONSerialization.jsonObject(with: await service.call("recording.get", ["recordingId": recordingId])) as! [String: Any]
-        precondition(current["currentRevisionId"] as? String != "r0", "The library edit did advance")
+        let current = try! JSONSerialization.jsonObject(with: await service.call("project.get", ["projectId": projectId])) as! [String: Any]
+        precondition(current["currentRevisionId"] as? String != pinnedRevision, "The library edit did advance")
 
         // The same destination is occupied now, so the service refuses to replace it.
         let occupied = ExportController(
             call: { operation, params throws(ServiceFailure) in try await service.call(operation, params) },
             choose: { _, _ in URL(fileURLWithPath: directory).appendingPathComponent("demo.mp4") },
             reveal: { _ in }, changed: {}, failure: { failures.append($0) })
-        occupied.export(.recording(recordingId), kind: .video)
+        occupied.export(projectId, kind: .video)
         await until(60, occupied.tick) { occupied.state.records.first?.state == "failed" || !failures.isEmpty }
         precondition(failures.isEmpty, "Occupied export was refused before admission: \(failures)")
         let failed = occupied.state.records[0].exportId
@@ -613,7 +600,7 @@ import ScreenRecorderControls
       const result = await new Promise((resolve, reject) => {
         const child = spawn(
           executable,
-          [join(root, "dist/ScreenRecorder.app"), take.recordingId, output],
+          [join(root, "dist/ScreenRecorder.app"), projectId, output, pinnedRevision, clipId],
           { env: { ...process.env, SCREENREC_HOME: home }, stdio: ["ignore", "pipe", "pipe"] },
         );
         let stdout = "",

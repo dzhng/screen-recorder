@@ -74,7 +74,7 @@ struct Refused: LocalizedError { let message: String; var errorDescription: Stri
             let answer = pending.removeFirst(); replies[operation] = pending
             return try answer.get()
         }
-        if operation == "recording.get" || operation == "project.get" { return json([:]) }
+        if operation == "another.get" || operation == "project.get" { return json([:]) }
         preconditionFailure("Unexpected service call: \(operation) \(params)")
     }
     func resume(_ value: Any) { let continuation = held!; held = nil; continuation.resume(returning: json(value)) }
@@ -96,7 +96,7 @@ struct Refused: LocalizedError { let message: String; var errorDescription: Stri
     }
     func ready(_ target: MediaTarget, _ receipt: [String: Any]) async {
         service.answer("preview.get", receipt)
-        owner.open(target)
+        owner.open(target.id)
         await until { !view.movies.isEmpty || !failures.values.isEmpty }
         precondition(failures.values.isEmpty)
     }
@@ -132,7 +132,7 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
 
         let pinned = Rig(start)
         pinned.service.answer("preview.get", waiting)
-        pinned.owner.open(target)
+        pinned.owner.open(target.id)
         await until { !pinned.view.messages.isEmpty }
         pinned.service.answer("preview.get", ready)
         pinned.owner.tick()
@@ -145,7 +145,7 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
         pinned.service.answer("project.get", ["projectId": id, "currentRevisionId": "newer-current-revision"])
         pinned.owner.tick()
         await until { pinned.service.count("project.get") == 1 }
-        precondition(pinned.view.movies.count == 1 && pinned.service.count("recording.get") == 0)
+        precondition(pinned.view.movies.count == 1 && pinned.service.count("another.get") == 0)
         pinned.owner.close(target: .recording(id))
         precondition(pinned.view.active && pinned.service.closed.isEmpty, "Same-ID recording deletion must not close a project")
         pinned.clock.date = start.addingTimeInterval(11)
@@ -162,13 +162,13 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
         pinned.owner.close(target: target)
         await until { pinned.service.closed == [token] }
 
-        let recording = Rig(start)
-        await recording.ready(.recording("take"), selecting(.recording("take"), ready, token: "recording-token"))
-        recording.owner.tick()
-        await until { recording.service.count("recording.get") == 1 }
-        precondition(NSDictionary(dictionary: recording.service.calls[0].1).isEqual(to: ["recordingId": "take"]) && recording.service.count("project.get") == 0)
-        recording.view.closed?()
-        await until { recording.service.closed == ["recording-token"] }
+        let another = Rig(start)
+        await another.ready(.project("another"), selecting(.project("another"), ready, token: "project-token"))
+        another.owner.tick()
+        await until { another.service.count("project.get") == 1 }
+        precondition(NSDictionary(dictionary: another.service.calls[0].1).isEqual(to: ["projectId": "another"]) && another.service.count("another.get") == 0)
+        another.view.closed?()
+        await until { another.service.closed == ["project-token"] }
 
         // Retry is the same presenter gesture and remains bound to the first returned revision.
         for dependency in [true, false] {
@@ -177,7 +177,7 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
             failed["reason"] = "Preparation failed"
             if dependency { failed["dependency"] = ["artifact": "source"] }
             retry.service.answer("preview.get", failed)
-            retry.owner.open(target)
+            retry.owner.open(target.id)
             await until { !retry.view.messages.isEmpty }
             precondition(retry.view.messages.last!.1 == !dependency)
             if !dependency {
@@ -226,7 +226,7 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
             default: changed["state"] = "processing"
             }
             rig.service.answer("preview.get", changed)
-            rig.owner.open(target, revisionId: revision)
+            rig.owner.open(target.id, revisionId: revision)
             await until { !rig.failures.values.isEmpty && rig.service.closed == [token] }
             precondition(!rig.view.active && rig.view.movies.isEmpty, "Invalid \(invalid) must never reach presentation")
             precondition(rig.service.calls[0].1["revisionId"] as? String == revision)
@@ -244,7 +244,7 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
         }
 
         // Controlled continuations exercise races without any wall-clock lease wait.
-        let late = Rig(start); late.service.hold = "preview.get"; late.owner.open(target)
+        let late = Rig(start); late.service.hold = "preview.get"; late.owner.open(target.id)
         await until { late.service.held != nil }
         late.owner.close(); late.service.resume(ready)
         await until { late.service.closed == [token] }
@@ -252,8 +252,8 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
 
         let replacement = Rig(start); await replacement.ready(target, ready)
         let oldClose = replacement.view.closed!, oldRetry = replacement.view.retry!, oldFailure = replacement.view.failed!
-        replacement.service.answer("preview.get", selecting(.recording(id), ready, token: "replacement-token"))
-        replacement.owner.open(.recording(id))
+        replacement.service.answer("preview.get", selecting(.project("replacement"), ready, token: "replacement-token"))
+        replacement.owner.open("replacement")
         await until { replacement.view.movies.count == 2 && replacement.service.closed == [token] }
         oldClose(); oldRetry(); oldFailure("late decoder failure")
         precondition(replacement.view.active && replacement.failures.values.isEmpty && replacement.service.count("preview.retry") == 0)
@@ -263,12 +263,12 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
         replacedRenewal.clock.date = start.addingTimeInterval(11)
         replacedRenewal.service.hold = "artifact.renew"; replacedRenewal.owner.tick()
         await until { replacedRenewal.service.held != nil }
-        replacedRenewal.service.answer("preview.get", selecting(.recording(id), ready, token: "renewal-replacement"))
-        replacedRenewal.owner.open(.recording(id))
+        replacedRenewal.service.answer("preview.get", selecting(.project("replacement"), ready, token: "renewal-replacement"))
+        replacedRenewal.owner.open("replacement")
         await until { replacedRenewal.view.movies.count == 2 && replacedRenewal.service.closed == [token] }
         replacedRenewal.service.resume(["token": token, "bytes": bytes, "expiresAt": expiry + 30_000])
         await Task.yield()
-        await until { replacedRenewal.owner.tick(); return replacedRenewal.service.count("recording.get") > 0 }
+        await until { replacedRenewal.owner.tick(); return replacedRenewal.service.count("project.get") > 0 }
         replacedRenewal.owner.close()
         await until { replacedRenewal.service.closed.count == 2 }
         precondition(replacedRenewal.service.closed == [token, "renewal-replacement"],

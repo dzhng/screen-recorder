@@ -26,15 +26,7 @@ export function isArtifactMaintenance(operation: string): boolean {
 }
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const range = z.object({ startUs: time, endUs: time }).strict();
-const cursorRange = range.refine(
-  ({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 60_000_000,
-  { message: "Cursor range must be nonempty and no longer than 60 seconds" },
-);
 const recording = z.object({ recordingId: id }).strict();
-const packageTarget = z.object({ packageHandle: id }).strict();
-const inspection = <T extends z.ZodRawShape>(shape: T) =>
-  z.union([recording.extend(shape).strict(), packageTarget.extend(shape).strict()]);
-const edit = recording.extend({ requestId: id, expectedRevisionId: id });
 const sourceSelection = mediaClipSchema.pick({
   assetId: true,
   streamId: true,
@@ -112,20 +104,17 @@ const exportDestination = {
   directory: z.string().min(1),
   leaf: z.string().min(1),
 };
-const previewParams = z.union([
-  inspection({ revisionId: id.optional() }),
-  project
-    .extend({
-      revisionId: id.optional(),
-      settings: outputSettingsSchema.optional(),
-      range: range
-        .refine(({ startUs, endUs }) => endUs > startUs, {
-          message: "Preview range must be positive",
-        })
-        .optional(),
-    })
-    .strict(),
-]);
+const previewParams = project
+  .extend({
+    revisionId: id.optional(),
+    settings: outputSettingsSchema.optional(),
+    range: range
+      .refine(({ startUs, endUs }) => endUs > startUs, {
+        message: "Preview range must be positive",
+      })
+      .optional(),
+  })
+  .strict();
 const historyPosition = {
   afterOrdinal: z.int().min(-1),
   throughOrdinal: z.int().min(-1),
@@ -138,44 +127,25 @@ const historyParams = <T extends z.ZodRawShape>(target: z.ZodObject<T>) =>
     })
     .strict();
 
-const frameFields = {
-  revisionId: id.optional(),
-  atUs: time,
-  clean: z.boolean().optional(),
-  trailUs: time.max(10_000_000).optional(),
-  maxLongEdge: z.int().min(1).max(8192).optional(),
-  crop: z
-    .object({
-      x: z.int().nonnegative(),
-      y: z.int().nonnegative(),
-      width: z.int().positive(),
-      height: z.int().positive(),
-    })
-    .strict()
-    .optional(),
-};
+const maxLongEdge = z.int().min(1).max(8192).optional();
 const projectFrameParams = project
   .extend({
     revisionId: id.optional(),
     atUs: time,
-    maxLongEdge: frameFields.maxLongEdge,
+    maxLongEdge: maxLongEdge,
     tap: processingTapSchema.optional(),
   })
   .strict();
 const sourceFrameParams = sourceSelection
   .extend({
     atUs: time,
-    maxLongEdge: frameFields.maxLongEdge,
+    maxLongEdge: maxLongEdge,
   })
   .strict();
 const frameParams = z.union([
   projectFrameParams,
-  ...inspection(frameFields).options,
   sourceFrameParams,
-  sourceSelection
-    .omit({ acquisitionId: true })
-    .extend({ maxLongEdge: frameFields.maxLongEdge })
-    .strict(),
+  sourceSelection.omit({ acquisitionId: true }).extend({ maxLongEdge: maxLongEdge }).strict(),
 ]);
 
 const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
@@ -195,17 +165,7 @@ const extractedAudioRendition = z.strictObject({
   sampleRate: z.int().min(1).max(192000),
   channels: z.union([z.literal(1), z.literal(2)]),
 });
-const audioParams = z.union([
-  projectAudioParams,
-  ...inspection({
-    revisionId: id.optional(),
-    range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
-      message: "Audio range must be positive and no longer than 30 seconds",
-    }),
-    track: z.enum(["narration", "system", "mix"]).default("mix"),
-  }).options,
-  sourceAudioParams,
-]);
+const audioParams = z.union([projectAudioParams, sourceAudioParams]);
 const waveformFields = {
   bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
   format: z.enum(["json", "image"]).optional(),
@@ -224,33 +184,13 @@ const spectrogramParams = z.union([
   sourceAudioParams.extend(spectrumFields),
 ]);
 
-const indexFields = { revisionId: id, generation: id };
 const projectIndexParams = projectFrameParams.omit({ atUs: true });
 const projectIndexReference = projectIndexParams.required().extend({ generation: id });
-const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
-const coveragePosition = {
-  ...indexFields,
-  afterSequence: z.int().nonnegative(),
-  candidateOrdinal: z.int().nonnegative().nullable(),
-};
 const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.ZodRawShape>(
   target: z.ZodObject<T>,
   fields: S,
   position: C,
 ) => target.extend({ ...fields, cursor: target.extend(position).strict().optional() }).strict();
-const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
-  z.union([paged(recording, fields, position), paged(packageTarget, fields, position)]);
-const processingArtifact = z.enum(["source", "scenes", "transcript"]);
-const transcriptPosition = { revisionId: id, generation: id, afterSourceUs: time };
-/** A package's transcript cursor still names the embedded recording its generation belongs to. */
-const transcriptPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
-  z.union([
-    paged(recording, fields, position),
-    packageTarget
-      .extend({ ...fields, cursor: recording.extend(position).strict().optional() })
-      .strict(),
-  ]);
-
 // Adapters derive their advertised tools from the same schemas the service validates.
 export const operationSchema = z.discriminatedUnion("operation", [
   z
@@ -438,9 +378,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("export.create"),
       params: z.union([
-        recording
-          .extend({ ...exportDestination, kind: z.enum(["video", "processed-package"]) })
-          .strict(),
         project
           .extend({
             ...exportDestination,
@@ -460,14 +397,13 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), or an editable processed-package ZIP; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Recordings export video or their processed-package ZIP. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), or an editable processed-package ZIP; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until an explicit source job retry succeeds.",
     ),
   z
     .object({
       operation: z.literal("export.list"),
       params: z
         .object({
-          recordingId: id.optional(),
           projectId: id.optional(),
           unfinishedOnly: z.boolean().optional(),
           limit: z.int().min(1).max(500).optional(),
@@ -485,7 +421,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Discover persisted export summaries after restart without starting work. Defaults to 100, maximum 500. unfinishedOnly includes uncommitted exports, abandonment and private cleanup. Filter by recordingId or projectId. Cursor binds both owner filters and unfinishedOnly. Pages follow live lexical export IDs; start a fresh traversal for new arrivals before your cursor. Use export.status for details.",
+      "Discover persisted export summaries after restart without starting work. Defaults to 100, maximum 500. unfinishedOnly includes uncommitted exports, abandonment and private cleanup. Filter by projectId. Cursor binds the project filter and unfinishedOnly. Pages follow live lexical export IDs; start a fresh traversal for new arrivals before your cursor. Use export.status for details.",
     ),
   z
     .object({
@@ -577,11 +513,11 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("storage.usage"),
-      params: z.object({ recordingId: id.optional() }).strict(),
+      params: z.object({}).strict(),
     })
     .strict()
     .describe(
-      "Read live logical regular-file byte usage, including unfinished work and pending deletions. Omit recordingId for all managed storage plus shared database/unattributed bytes. Models and external exports are excluded; files may change while scanned.",
+      "Read live logical regular-file byte usage, including unfinished work and pending deletions. Includes all managed storage plus shared database/unattributed bytes. Models and external exports are excluded; files may change while scanned.",
     ),
   z
     .object({
@@ -591,10 +527,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
           limit: z.int().min(1).max(200).default(50),
           cursor: projectIndexReference.extend({ afterOrdinal: z.int().nonnegative() }).optional(),
         }),
-        ...inspectionPage(
-          { revisionId: id.optional(), limit: z.int().min(1).max(200).default(50) },
-          indexPosition,
-        ).options,
         paged(
           sourceSelection,
           { limit: z.int().min(1).max(200).default(50) },
@@ -607,20 +539,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a retained screenshot index for a project, recording, package or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes.",
+      "Request a retained screenshot index for a project or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes.",
     ),
   z
     .object({
       operation: z.literal("index.retry"),
-      params: z.union([
-        projectIndexParams,
-        recording.extend({ revisionId: id.optional() }).strict(),
-        sourceSelection,
-      ]),
+      params: z.union([projectIndexParams, sourceSelection]),
     })
     .strict()
     .describe(
-      "Explicitly retry failed or canceled screenshot index processing. Project and source selectors also retry their retryable terminal scene or frame prerequisites; ordinary reads do not restart terminal work. Recording source/scene dependencies require their own processing.retry.",
+      "Explicitly retry failed or canceled screenshot index processing. Project and source selectors also retry their retryable terminal scene or frame prerequisites; ordinary reads do not restart terminal work.",
     ),
   z
     .object({
@@ -637,14 +565,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
             candidateOrdinal: z.int().nonnegative().nullable(),
           },
         ),
-        ...inspectionPage(
-          {
-            ...indexFields,
-            candidateOrdinal: z.int().nonnegative().optional(),
-            limit: z.int().min(1).max(200).default(50),
-          },
-          coveragePosition,
-        ).options,
         paged(
           sourceSelection,
           {
@@ -669,7 +589,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("index.frame"),
       params: z.union([
         projectIndexReference.extend({ ordinal: z.int().nonnegative() }),
-        ...inspection({ ...indexFields, ordinal: z.int().nonnegative() }).options,
         sourceSelection.extend({ generation: id, ordinal: z.int().nonnegative() }).strict(),
       ]),
     })
@@ -682,10 +601,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("index.frames"),
       params: z.union([
         projectIndexReference.extend({ ordinals: z.array(z.int().nonnegative()).min(1).max(8) }),
-        ...inspection({
-          ...indexFields,
-          ordinals: z.array(z.int().nonnegative()).min(1).max(8),
-        }).options,
         sourceSelection
           .extend({
             generation: id,
@@ -704,14 +619,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("transcript.get"),
       params: z.union([
         projectEvidenceParams,
-        ...transcriptPage(
-          {
-            revisionId: id.optional(),
-            range: range.optional(),
-            limit: z.int().min(1).max(1000).default(250),
-          },
-          { ...transcriptPosition, afterOrdinal: time.nullable(), range: range.nullable() },
-        ).options,
         sourceSelection
           .extend({
             range: range.optional(),
@@ -730,7 +637,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript, or the narration transcript of a recording/open package projected through a revision. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Recording/package ranges select playback windows and include retained fragments. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range, plus revision for recording/package reads.",
+      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
     ),
   z
     .object({
@@ -739,14 +646,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
         projectEvidenceParams
           .extend({ text: z.string().min(1).max(200), limit: z.int().min(1).max(500).optional() })
           .strict(),
-        ...transcriptPage(
-          {
-            revisionId: id.optional(),
-            text: z.string().min(1).max(200),
-            limit: z.int().min(1).max(500).default(100),
-          },
-          { ...transcriptPosition, afterOrdinal: time, text: z.string() },
-        ).options,
         sourceSelection
           .extend({
             text: z.string().min(1).max(200),
@@ -761,7 +660,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and exact projectRange; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Recording/package entries also carry retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and exact projectRange; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
     ),
   z
     .object({
@@ -813,7 +712,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("frame.batch"),
       params: z.union([
         projectFrameParams.extend({ atUs: z.array(time).min(1).max(8) }),
-        ...inspection({ ...frameFields, atUs: z.array(time).min(1).max(8) }).options,
         sourceFrameParams.extend({ atUs: z.array(time).min(1).max(8) }),
       ]),
     })
@@ -828,7 +726,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a playable MP4 of a pinned project, recording or relocated package. Projects accept an optional range in project microseconds; omitted range renders the whole project. Recording/package previews retain their current pointer and acquired audio. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
+      "Request a playable MP4 of a pinned project. Projects accept an optional range in project microseconds; omitted range renders the whole project. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
     ),
   z
     .object({
@@ -837,7 +735,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Explicitly retry failed preview rendering for the same pinned revision. Failed source dependencies require processing.retry.",
+      "Explicitly retry failed preview rendering for the same pinned revision. Failed source dependencies require explicit job.retry.",
     ),
   z
     .object({
@@ -902,7 +800,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("audio.get"), params: audioParams })
     .strict()
     .describe(
-      "Request project WAV audio with projectId, optional revisionId/range and processing tap (defaults to processed output). Clip/track/group taps exclude later parent stages; dry skips the selected target stack while retaining child processing, and after-step includes the named step. Omitted project range uses the full pinned project; project output is 48kHz stereo and ranges retain the absolute sample clock. Or request a WAV from an explicitly selected assetId/streamId with optional acquisitionId and source-time range. Omitted source range extracts the full selected stream at its native supported rate/layout; unavailable support is explicit. Recording/package selectors use their bounded playback excerpts and track selection. CLI streams to a file; MCP embeds small audio and leaves large audio as a renewable artifact.read/close delivery. Pin selection, range and any returned revision while polling.",
+      "Request project WAV audio with projectId, optional revisionId/range and processing tap (defaults to processed output). Clip/track/group taps exclude later parent stages; dry skips the selected target stack while retaining child processing, and after-step includes the named step. Omitted project range uses the full pinned project; project output is 48kHz stereo and ranges retain the absolute sample clock. Or request a WAV from an explicitly selected assetId/streamId with optional acquisitionId and source-time range. Omitted source range extracts the full selected stream at its native supported rate/layout; unavailable support is explicit. CLI streams to a file; MCP embeds small audio and leaves large audio as a renewable artifact.read/close delivery. Pin selection, range and any returned revision while polling.",
     ),
   z
     .object({ operation: z.literal("audio.retry"), params: audioParams })
@@ -915,14 +813,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Recording/package selectors request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
+      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Pin the returned revision when polling.",
     ),
   z
     .object({ operation: z.literal("frame.retry"), params: frameParams })
     .strict()
-    .describe(
-      "Explicitly retry failed frame processing using the same pinned request. Recording/package source dependencies require their own processing.retry.",
-    ),
+    .describe("Explicitly retry failed frame processing using the same pinned request."),
   z
     .object({ operation: z.literal("waveform.get"), params: waveformParams })
     .strict()
@@ -977,54 +873,24 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("timeline.events"),
       params: z.union([
         projectEvidenceParams.extend({ limit: z.int().min(1).max(500).optional() }),
-        ...inspection({
-          revisionId: id.optional(),
-          cursor: z.string().min(1).max(4096).optional(),
-          limit: z.int().min(1).max(500).default(100),
-        }).options,
         sourceCaptureParams(500, true),
       ]),
     })
     .strict()
     .describe(
-      "Read measured source scene changes, captured pause/geometry and explicit capture-end interruption markers for a selected asset stream or project. Source selectors use sourceRange; project selectors use range/revisionId/trackIds. Capture identity requires explicit acquisitionId; missing metadata is unavailable, not an empty success. Timed geometry belongs to captured video; pauses follow each bound timed occurrence. Normal completion contributes no interruption marker. Capture-end markers require trustworthy timed completion; missing, damaged or conflicting termination is explicitly unavailable. These closing boundaries use left support and (start,end] query ownership; ordinary observations stay [start,end). A shorter selected audio stream never relocates the capture endpoint. Video scenes use retained physical picture clocks without requiring capture metadata. Initial reads may be not_ready during scene preparation; inspect returned dependency/job state and use job.retry for explicit recovery. Project cut rows describe track-local editorial mapping transitions with exact projectAtUs, audio/video mediaKind and nullable before/after sides; they are not measured scene changes or proof of a visible composite change. Continuous pure splits do not create cuts; internal entrances/exits and rate changes do. Cut queries use [start,end), while physical support gaps remain availability evidence. Cut coverage is supplied by the pinned project revision, independently of source cut availability. Preserve first-page coverage and exact projectAtUs values across continuations. Recording/package selectors retain pause, cut, geometry, scene and interruption markers in pinned playback time. Continue while nextCursor exists, even if rows is empty. Adjacent rows with equal atUs form one logical group and may span pages. A cursor pins its target, revision and source/scene generations; included package history can be inspected explicitly.",
+      "Read measured source scene changes, captured pause/geometry and explicit capture-end interruption markers for a selected asset stream or project. Source selectors use sourceRange; project selectors use range/revisionId/trackIds. Capture identity requires explicit acquisitionId; missing metadata is unavailable, not an empty success. Timed geometry belongs to captured video; pauses follow each bound timed occurrence. Normal completion contributes no interruption marker. Capture-end markers require trustworthy timed completion; missing, damaged or conflicting termination is explicitly unavailable. These closing boundaries use left support and (start,end] query ownership; ordinary observations stay [start,end). A shorter selected audio stream never relocates the capture endpoint. Video scenes use retained physical picture clocks without requiring capture metadata. Initial reads may be not_ready during scene preparation; inspect returned dependency/job state and use job.retry for explicit recovery. Project cut rows describe track-local editorial mapping transitions with exact projectAtUs, audio/video mediaKind and nullable before/after sides; they are not measured scene changes or proof of a visible composite change. Continuous pure splits do not create cuts; internal entrances/exits and rate changes do. Cut queries use [start,end), while physical support gaps remain availability evidence. Cut coverage is supplied by the pinned project revision, independently of source cut availability. Preserve first-page coverage and exact projectAtUs values across continuations. Continue while nextCursor exists, even if rows is empty. Adjacent rows with equal atUs form one logical group and may span pages. A cursor pins its target, revision and source/scene generations.",
     ),
   z
     .object({
       operation: z.literal("cursor.raw"),
       params: z.union([
         projectEvidenceParams.extend({ limit: z.int().min(1).max(5000).optional() }),
-        ...inspectionPage(
-          { sourceRange: cursorRange, limit: z.int().min(1).max(5000).default(1000) },
-          {
-            sourceId: id,
-            generation: id,
-            sourceRange: cursorRange,
-            afterSequence: z.int().positive(),
-          },
-        ).options,
         sourceCaptureParams(5000),
       ]),
     })
     .strict()
     .describe(
-      "Page raw cursor observations with explicit capture authority. Selected assets use sourceRange and require acquisitionId for captured video; project selectors use range/revisionId/trackIds and return each retained occurrence with exact projectAtUs. Raw coordinates, captureAtUs and integrity receipt remain unchanged; this does not simulate crop/zoom. Missing capture metadata reports unavailable coverage. Keep first-page coverage and continue while nextCursor exists, even on empty pages. Recording/package selectors retain their bounded source-time reads.",
-    ),
-  z
-    .object({
-      operation: z.literal("processing.status"),
-      params: recording.extend({ artifact: processingArtifact.default("source") }).strict(),
-    })
-    .strict()
-    .describe("Read source, scene or transcript processing state and its published generation."),
-  z
-    .object({
-      operation: z.literal("processing.retry"),
-      params: recording.extend({ artifact: processingArtifact }).strict(),
-    })
-    .strict()
-    .describe(
-      "Explicitly start or retry source, scene or transcript processing; returns the running job instead of duplicating it. A transcript needs a prepared model.",
+      "Page raw cursor observations with explicit capture authority. Selected assets use sourceRange and require acquisitionId for captured video; project selectors use range/revisionId/trackIds and return each retained occurrence with exact projectAtUs. Raw coordinates, captureAtUs and integrity receipt remain unchanged; this does not simulate crop/zoom. Missing capture metadata reports unavailable coverage. Keep first-page coverage and continue while nextCursor exists, even on empty pages.",
     ),
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
@@ -1111,48 +977,25 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("revision.get"),
-      params: z.union([
-        inspection({ revisionId: id.optional() }),
-        project.extend({ revisionId: id.optional() }).strict(),
-      ]),
+      params: project.extend({ revisionId: id.optional() }).strict(),
     })
     .strict()
-    .describe(
-      "Read a specified revision, or resolve the current recording/project revision or package exported revision once. Package history may contain newer entries than its exported revision.",
-    ),
+    .describe("Read a specified revision, or resolve the current authored project revision once."),
   z
     .object({
       operation: z.literal("revision.history"),
-      params: z.union([
-        historyParams(recording),
-        historyParams(packageTarget),
-        historyParams(project).extend({ limit: z.int().min(1).max(1000).optional() }),
-      ]),
+      params: historyParams(project).extend({ limit: z.int().min(1).max(1000).optional() }),
     })
     .strict()
     .describe("Read a bounded page of history pinned to its initial revision ordinal."),
   z
-    .object({ operation: z.literal("edit.trim"), params: edit.extend({ range }) })
-    .strict()
-    .describe("Keep a range in the expected revision's playback coordinates."),
-  z
-    .object({
-      operation: z.literal("edit.cut"),
-      params: edit.extend({ ranges: z.array(range).min(1).max(1000) }),
-    })
-    .strict()
-    .describe("Remove ranges in the expected revision's playback coordinates."),
-  z
-    .object({ operation: z.literal("edit.undo"), params: z.union([edit, projectEdit]) })
+    .object({ operation: z.literal("edit.undo"), params: projectEdit })
     .strict()
     .describe("Undo the active edit by creating a new revision identity."),
   z
     .object({
       operation: z.literal("edit.restore"),
-      params: z.union([
-        edit.extend({ targetRevisionId: id }),
-        projectEdit.extend({ targetRevisionId: id }),
-      ]),
+      params: projectEdit.extend({ targetRevisionId: id }),
     })
     .strict()
     .describe("Restore a historical edit into a new revision identity."),

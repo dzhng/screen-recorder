@@ -190,7 +190,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             capture("capture.cancel", live())
         case .restart:
             restart()
-        case .previewRecording, .deleteRecording, .exportRecording,
+        case .deleteRecording,
             .previewProject, .exportProject, .deleteProject, .nextProjects, .previousProjects, .refreshLibrary:
             break // LibraryController handles these before capture selections.
         case .resendExport(let exportId):

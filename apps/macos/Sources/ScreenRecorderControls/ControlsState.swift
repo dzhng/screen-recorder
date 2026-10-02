@@ -196,9 +196,8 @@ public struct ControlsState: Equatable, Sendable {
         public init(
             recordingId: String, createdAt: String, state: String, sourceDurationUs: Int64?,
             interruptionReason: String?, finalizationError: FinalizationError? = nil,
-            currentRevisionId: String? = nil, sourceId: String? = nil, sourceAdmissions: [LibraryState.SourceAdmission]? = nil
+            sourceId: String? = nil, sourceAdmissions: [LibraryState.SourceAdmission]? = nil
         ) {
-            self.currentRevisionId = currentRevisionId
             self.sourceAdmissions = sourceAdmissions
             self.sourceId = sourceId
             self.recordingId = recordingId
@@ -210,7 +209,6 @@ public struct ControlsState: Equatable, Sendable {
         }
         public let recordingId: String
         public let createdAt: String
-        public let currentRevisionId: String?
         public let sourceId: String?
         public let sourceAdmissions: [LibraryState.SourceAdmission]?
         public let state: String
@@ -218,7 +216,7 @@ public struct ControlsState: Equatable, Sendable {
         public let interruptionReason: String?
         public let finalizationError: FinalizationError?
         private enum Keys: String, CodingKey {
-            case createdAt, currentRevisionId, sourceId, sourceAdmissions, state, sourceDurationUs,
+            case createdAt, sourceId, sourceAdmissions, state, sourceDurationUs,
                 interruptionReason, finalizationError
         }
         public init(from decoder: Decoder) throws {
@@ -226,61 +224,12 @@ public struct ControlsState: Equatable, Sendable {
                 throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Expected a recording owner"))
             }
             let fields = try decoder.container(keyedBy: Keys.self)
-            guard fields.contains(.currentRevisionId) else {
-                throw DecodingError.keyNotFound(Keys.currentRevisionId, .init(codingPath: decoder.codingPath, debugDescription: "Missing recording revision observation"))
-            }
             self.init(recordingId: id, createdAt: try fields.decode(String.self, forKey: .createdAt),
                 state: try fields.decode(String.self, forKey: .state), sourceDurationUs: try fields.decodeIfPresent(Int64.self, forKey: .sourceDurationUs),
                 interruptionReason: try fields.decodeIfPresent(String.self, forKey: .interruptionReason),
                 finalizationError: try fields.decodeIfPresent(FinalizationError.self, forKey: .finalizationError),
-                currentRevisionId: try fields.decodeIfPresent(String.self, forKey: .currentRevisionId),
                 sourceId: try fields.decodeIfPresent(String.self, forKey: .sourceId),
                 sourceAdmissions: try fields.decodeIfPresent([LibraryState.SourceAdmission].self, forKey: .sourceAdmissions))
-        }
-    }
-
-    /// One artifact's readiness for one take, as the service reports it.
-    public struct ArtifactProgress: Equatable, Sendable {
-        public init(artifact: String, state: String, reason: String?) {
-            self.artifact = artifact
-            self.state = state
-            self.reason = reason
-        }
-        public let artifact: String
-        public let state: String
-        public let reason: String?
-
-        /// How a person reads this artifact being worked on, or nil once nothing is pending.
-        public var activeTitle: String? {
-            guard ["queued", "processing"].contains(state) else { return nil }
-            return switch artifact {
-            case "transcript": "transcribing"
-            case "index": "choosing screenshots"
-            case "scenes": "reading the picture"
-            case "source": "reading the recording"
-            default: artifact
-            }
-        }
-    }
-
-    /// The newest take's artifacts, so the menu can say a recording is not finished being prepared.
-    public struct TakeProcessing: Equatable, Sendable {
-        public init(recordingId: String, artifacts: [ArtifactProgress]) {
-            self.recordingId = recordingId
-            self.artifacts = artifacts
-        }
-        public let recordingId: String
-        public let artifacts: [ArtifactProgress]
-
-        /// The work in progress, named for a person, or nil when everything is ready.
-        public var summary: String? {
-            let active = artifacts.compactMap(\.activeTitle)
-            if !active.isEmpty { return active.joined(separator: ", ") }
-            let failed = artifacts.filter { ["failed", "unavailable"].contains($0.state) }
-            guard let first = failed.first else { return nil }
-            return failed.count == 1
-                ? "\(first.artifact) \(first.state)"
-                : "\(failed.count) artifacts unavailable"
         }
     }
 

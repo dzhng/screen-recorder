@@ -39,7 +39,7 @@ test(
 import AppKit
 import AVKit
 
-struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: recording deleted" } }
+struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: project deleted" } }
 @MainActor final class Service {
     var delayed = false
     var queued = true
@@ -58,7 +58,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
             closed.append(params["token"] as! String)
             return Data("{}".utf8)
         }
-        if operation == "recording.get" {
+        if operation == "project.get" {
             if deleted { throw Refused() }
             return Data("{}".utf8)
         }
@@ -72,16 +72,16 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         precondition(operation == "preview.get")
         if queued {
             queued = false
-            return Data(#"{"recordingId":"take","revisionId":"r7","state":"processing"}"#.utf8)
+            return Data(#"{"projectId":"take","revisionId":"r7","state":"processing"}"#.utf8)
         }
         precondition(params["revisionId"] as? String == "r7", "Follow-up must stay on pinned revision")
         serial += 1
         let token = "token-\\(serial)"
         lastToken = token
         if delayed { try await Task.sleep(for: .milliseconds(100)) }
-        return try JSONSerialization.data(withJSONObject: ["recordingId": "take", "revisionId": "r7", "state": "ready",
+        return try JSONSerialization.data(withJSONObject: ["projectId": "take", "revisionId": "r7", "state": "ready",
             "delivery": ["token": token, "bytes": bytes, "expiresAt": (Date().timeIntervalSince1970 + expiresIn) * 1000],
-            "published": ["preview": ["recordingId": "take", "revisionId": "r7", "mediaType": "video/mp4", "file": brokenFile ? file + "-missing" : file, "bytes": bytes]]])
+            "published": ["preview": ["projectId": "take", "revisionId": "r7", "mediaType": "video/mp4", "file": brokenFile ? file + "-missing" : file, "bytes": bytes]]])
     }
 }
 @main struct Probe {
@@ -93,7 +93,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         let service = Service(CommandLine.arguments[1])
         var failures: [String] = []
         let owner = PreviewController(call: service.call, failure: { failures.append($0) })
-        owner.open(.recording("take"))
+        owner.open("take")
         await settle()
         owner.tick()
         await settle()
@@ -123,24 +123,24 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         service.deleted = false
         service.queued = true
         service.expiresIn = 0.05
-        owner.open(.recording("take")); await settle(); owner.tick(); await settle(); owner.tick(); await settle()
+        owner.open("take"); await settle(); owner.tick(); await settle(); owner.tick(); await settle()
         precondition(visible() == nil && failures.last!.contains("expired"))
         service.expiresIn = 30
         service.queued = true
         service.delayed = true
-        owner.open(.recording("take")); await settle(); owner.tick()
+        owner.open("take"); await settle(); owner.tick()
         try await Task.sleep(for: .milliseconds(20))
         owner.close()
         await settle()
         precondition(visible() == nil && service.closed.contains(service.lastToken), "Late delivery must be released without reopening")
         service.delayed = false
         service.queued = true
-        owner.open(.recording("take")); await settle(); owner.tick(); await settle()
+        owner.open("take"); await settle(); owner.tick(); await settle()
         let replaced = visible()!
         let replacedView = replaced.contentView as! AVPlayerView
         let token = service.lastToken
         service.queued = true
-        owner.open(.recording("take")); await settle()
+        owner.open("take"); await settle()
         precondition(!replaced.isVisible && replacedView.player == nil && service.closed.contains(token))
         owner.tick(); await settle()
         let closing = visible()!
@@ -151,7 +151,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         service.queued = true
         service.brokenFile = true
         let beforeFailure = failures.count
-        owner.open(.recording("take")); await settle(); owner.tick()
+        owner.open("take"); await settle(); owner.tick()
         for _ in 0..<30 {
             if failures.count > beforeFailure { break }
             await settle()
@@ -161,7 +161,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         service.queued = true
         service.brokenFile = false
         service.refuseRenewal = true
-        owner.open(.recording("take")); await settle(); owner.tick(); await settle()
+        owner.open("take"); await settle(); owner.tick(); await settle()
         precondition(visible() != nil)
         try await Task.sleep(for: .seconds(10))
         owner.tick(); await settle()
