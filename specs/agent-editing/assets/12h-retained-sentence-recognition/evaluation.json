@@ -1,0 +1,275 @@
+{
+  "words": [
+    {
+      "text": "Um",
+      "sourceRange": {
+        "startUs": 50518675,
+        "endUs": 50678675
+      }
+    },
+    {
+      "text": "so",
+      "sourceRange": {
+        "startUs": 50758675,
+        "endUs": 50918675
+      }
+    },
+    {
+      "text": "let's",
+      "sourceRange": {
+        "startUs": 50918675,
+        "endUs": 51238675
+      }
+    },
+    {
+      "text": "do",
+      "sourceRange": {
+        "startUs": 51238675,
+        "endUs": 51398675
+      }
+    },
+    {
+      "text": "the",
+      "sourceRange": {
+        "startUs": 51398675,
+        "endUs": 51718675
+      }
+    },
+    {
+      "text": "first",
+      "sourceRange": {
+        "startUs": 51958675,
+        "endUs": 52278675
+      }
+    },
+    {
+      "text": "paragraph.",
+      "sourceRange": {
+        "startUs": 52278675,
+        "endUs": 53478675
+      }
+    },
+    {
+      "text": "Uh",
+      "sourceRange": {
+        "startUs": 54038675,
+        "endUs": 54518675
+      }
+    },
+    {
+      "text": "this",
+      "sourceRange": {
+        "startUs": 55078675,
+        "endUs": 55318675
+      }
+    },
+    {
+      "text": "page",
+      "sourceRange": {
+        "startUs": 55318675,
+        "endUs": 55638675
+      }
+    },
+    {
+      "text": "is",
+      "sourceRange": {
+        "startUs": 55638675,
+        "endUs": 55798675
+      }
+    },
+    {
+      "text": "a",
+      "sourceRange": {
+        "startUs": 55798675,
+        "endUs": 55958675
+      }
+    },
+    {
+      "text": "recording",
+      "sourceRange": {
+        "startUs": 55958675,
+        "endUs": 56358675
+      }
+    },
+    {
+      "text": "fixture.",
+      "sourceRange": {
+        "startUs": 56438675,
+        "endUs": 57078675
+      }
+    }
+  ],
+  "openingUm": {
+    "recognized": true,
+    "rawHasUm": true,
+    "targetUms": [
+      {
+        "text": "Um",
+        "sourceRange": {
+          "startUs": 50518675,
+          "endUs": 50678675
+        }
+      }
+    ],
+    "end": {
+      "id": "opening-um-end",
+      "text": "um",
+      "side": "end",
+      "reportedUs": 50831675,
+      "markedOffsetMs": 0,
+      "referenceUs": 50831675,
+      "candidateUs": 50678675,
+      "state": "matched",
+      "errorMs": -153,
+      "insideSpeech": true
+    },
+    "onsetScored": false
+  },
+  "protectedAndMiddlePresence": {
+    "paragraph": true,
+    "this": true,
+    "uh": true
+  },
+  "controls": {
+    "marked": 6,
+    "matched": 6,
+    "unmarked": 0,
+    "medianErrorMs": 112.5,
+    "p95ErrorMs": 456.8,
+    "worstErrorMs": 549,
+    "meetsTiming": false,
+    "interpretation": "Six existing independent sentence edges; workbench is outside this case.",
+    "boundaries": [
+      {
+        "id": "w117-start",
+        "wordId": "w117",
+        "text": "uh",
+        "side": "start",
+        "reportedUs": 54113675,
+        "markedOffsetMs": 0,
+        "referenceUs": 54113675,
+        "candidateUs": 54038675,
+        "state": "matched",
+        "errorMs": -75,
+        "insideSpeech": false
+      },
+      {
+        "id": "w117-end",
+        "wordId": "w117",
+        "text": "uh",
+        "side": "end",
+        "reportedUs": 54508675,
+        "markedOffsetMs": 0,
+        "referenceUs": 54508675,
+        "candidateUs": 54518675,
+        "state": "matched",
+        "errorMs": 10,
+        "insideSpeech": false
+      },
+      {
+        "id": "w116-start",
+        "wordId": "w116",
+        "text": "paragraph",
+        "side": "start",
+        "reportedUs": 52428675,
+        "markedOffsetMs": 0,
+        "referenceUs": 52428675,
+        "candidateUs": 52278675,
+        "state": "matched",
+        "errorMs": -150,
+        "insideSpeech": false
+      },
+      {
+        "id": "w116-end",
+        "wordId": "w116",
+        "text": "paragraph",
+        "side": "end",
+        "reportedUs": 52929675,
+        "markedOffsetMs": 0,
+        "referenceUs": 52929675,
+        "candidateUs": 53478675,
+        "state": "matched",
+        "errorMs": 549,
+        "insideSpeech": false
+      },
+      {
+        "id": "w118-start",
+        "wordId": "w118",
+        "text": "this",
+        "side": "start",
+        "reportedUs": 55258675,
+        "markedOffsetMs": 0,
+        "referenceUs": 55258675,
+        "candidateUs": 55078675,
+        "state": "matched",
+        "errorMs": -180,
+        "insideSpeech": false
+      },
+      {
+        "id": "w118-end",
+        "wordId": "w118",
+        "text": "this",
+        "side": "end",
+        "reportedUs": 55367675,
+        "markedOffsetMs": 0,
+        "referenceUs": 55367675,
+        "candidateUs": 55318675,
+        "state": "matched",
+        "errorMs": -49,
+        "insideSpeech": true
+      }
+    ]
+  },
+  "inheritedSequence": {
+    "expected": [
+      "so",
+      "let's",
+      "do",
+      "the",
+      "first",
+      "paragraph",
+      "uh",
+      "this",
+      "page",
+      "is",
+      "a",
+      "recording",
+      "fixture"
+    ],
+    "observed": [
+      "um",
+      "so",
+      "let's",
+      "do",
+      "the",
+      "first",
+      "paragraph",
+      "uh",
+      "this",
+      "page",
+      "is",
+      "a",
+      "recording",
+      "fixture"
+    ],
+    "withoutOpeningUm": [
+      "so",
+      "let's",
+      "do",
+      "the",
+      "first",
+      "paragraph",
+      "uh",
+      "this",
+      "page",
+      "is",
+      "a",
+      "recording",
+      "fixture"
+    ],
+    "preserved": true,
+    "authority": "Baseline output regression diagnostic; not independent spelling truth"
+  },
+  "meetsScopedCase": false,
+  "adoption": false
+}

@@ -1,0 +1,567 @@
+{
+  "status": "One fixed case complete: lexical um represented; six-edge timing FAILED; no adoption",
+  "base": "2591aa28c99c2cea064e0d312742020343f63169",
+  "planCommit": "d599d974",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 774668,
+    "sha256": "5a4177d51d3eb7f742fd9b5e3f036a527a42957e84cce7f68ff90471d0632f74"
+  },
+  "membersManifest": {
+    "path": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/packet/members.json",
+    "bytes": 5610,
+    "sha256": "c57be44f7a86d75798e26b1b7b05a83794263561600757d4c5fc23636971f5bd"
+  },
+  "members": {
+    "README.md": {
+      "bytes": 2465,
+      "sha256": "00c4934f80b2b57b78a167063781e6dfd02acb5aa0a2d7754a2d9a0f916e9298"
+    },
+    "checks.json": {
+      "bytes": 2714,
+      "sha256": "83811d91663cedcaf6ffb6708b69d00d9839c3596e43e6487f4b1953355ae3f2"
+    },
+    "choices.md": {
+      "bytes": 967,
+      "sha256": "733e1a22386897c7065754d90fb3297aded3247c5b59222840b969751346a478"
+    },
+    "dependency-supplement.json": {
+      "bytes": 6386,
+      "sha256": "76a6541e3ed2539a7b7341854a26c178eaa5859937567672e25592855f298ece"
+    },
+    "evaluate.mjs": {
+      "bytes": 2680,
+      "sha256": "af74c9d192c3bf0b5c5770b5db55cf1a6a5bd5742baa9cba474104c49c082f27"
+    },
+    "evaluate.test.mjs": {
+      "bytes": 2881,
+      "sha256": "648aba3eb5bac4c4385dd32357dabfb55ed5cef0f457cb196a2c307808aba6c8"
+    },
+    "evaluation.json": {
+      "bytes": 5457,
+      "sha256": "876add40134bb551f8f52ddeb917cfbd22a6ca71bb2e193835eb5afa8e7dcf38"
+    },
+    "inference-started.json": {
+      "bytes": 294,
+      "sha256": "d1d70e8c2dadcf4f97b04d7ef8e9a70ef6e91efa74e72720e365dd750bb5c713"
+    },
+    "investigation.json": {
+      "bytes": 37747,
+      "sha256": "0040e8d0335310d7e1afdbc9c7cf02850ab92101bd29f9f448cee93787d8b174"
+    },
+    "managed-preservation-supplement.json": {
+      "bytes": 14933,
+      "sha256": "8d3086f5fa90a3f7c61ffd55e68cb251d3814558b4dfd79ef341bc43509d1a68"
+    },
+    "media.probe-request.json": {
+      "bytes": 225,
+      "sha256": "693d5efa7b71fda42a71221e2781ef48364674c75c0aba6b53ed100ce21734dd"
+    },
+    "media.probe-response.json": {
+      "bytes": 527,
+      "sha256": "78c5173efb6520d9a3f05c3a7ca817a1ca95b715177cc28db040efe263a8b244"
+    },
+    "media.probe.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "media.probe.stdout": {
+      "bytes": 289,
+      "sha256": "aa1faffcb87b518b9ee8b2823110ca123531e0023752f7f23b48109cddfbe563"
+    },
+    "models-runtime-authority.json": {
+      "bytes": 168583,
+      "sha256": "086e19d34b97a665feb36a3b0ae9b55ac807ff9fa7e088a4465faa4f6267f45c"
+    },
+    "models-runtime.meta.json": {
+      "bytes": 72140,
+      "sha256": "4d3bfbec4968b6c32322c0cfc7d5fef81351cb10b536a344df5da843c6d83fe6"
+    },
+    "models-runtime.mjs": {
+      "bytes": 2904586,
+      "sha256": "78b46942c08a66f77e3db886281a00c636e2e7248e7fcee1ce64974ff9a79354"
+    },
+    "native-source.json": {
+      "bytes": 13191,
+      "sha256": "6a2f4b1bd9d87d50075a280d92807aecb14b19341d75ee82d128067157738ceb"
+    },
+    "packaging-failure.json": {
+      "bytes": 1176,
+      "sha256": "f29c192b788f0800b9ba69513c0621276e50c3445fe55d20c12161403b9a429b"
+    },
+    "plan.md": {
+      "bytes": 4974,
+      "sha256": "034da4a9d727837dcd9a6500c6c80224d982ec4684a305091f289d4db361415c"
+    },
+    "prepared-receipt.json": {
+      "bytes": 2147,
+      "sha256": "196c0ace7673d9a9d0e18ae017aebc8ca86482dbf864924c9a490c8d6a53597a"
+    },
+    "producer-terminal-observation.json": {
+      "bytes": 450,
+      "sha256": "1db83a6950e0b45331a6cb6fa7117544c4476ecd07341a3bb39b28ad47c2687a"
+    },
+    "producer.mjs": {
+      "bytes": 13100,
+      "sha256": "7e93c45754380e41c23b3870f2bddcce123e52b96e8d97c01552762ff81ed31d"
+    },
+    "qualification.json": {
+      "bytes": 54706,
+      "sha256": "beda9b9dcc30d4692b4f4cf641aa9558f6b5fe41df4cbbc7bcb5d4e5143e593f"
+    },
+    "raw.jsonl": {
+      "bytes": 5397,
+      "sha256": "37a595ed45fa8c7004b9a06fb58b3ee426818f4b2396a28c1fe567ad74402689"
+    },
+    "report.json": {
+      "bytes": 87677,
+      "sha256": "58a98839d2d45835ce77ecd70f0425c26cfab65cb65d28d0da83205859956b92"
+    },
+    "review.md": {
+      "bytes": 1810,
+      "sha256": "10dbdda1e6dfbb28d067bc34f7f594aa1756179bb485b3ef9b395b4daa19bc87"
+    },
+    "sdk-source/ASR__Parakeet__AsrTypes.swift": {
+      "bytes": 9837,
+      "sha256": "5ad1bea12ce12875b23ee842e4c38c24d222b34bd5c1836d97f8df60f4c6d84c"
+    },
+    "sdk-source/ASR__Parakeet__SlidingWindow__TDT__AsrManager+Transcription.swift": {
+      "bytes": 18770,
+      "sha256": "8c595860efbc009546f5e0c6a6289135ee88cb9596d9674a82f26f14f30df4c7"
+    },
+    "sdk-source/ASR__Parakeet__SlidingWindow__TDT__ChunkProcessor.swift": {
+      "bytes": 66052,
+      "sha256": "3ca6c33b9244018387ad3345cd9af118e49b6a5cefb42a23c587ea7d14dee3d0"
+    },
+    "sdk-source/Shared__ASRConstants.swift": {
+      "bytes": 3853,
+      "sha256": "2ceb61acf79d3760d8ab4ac3c2f1c86378bc1065c85086de6e06e86603460dbb"
+    },
+    "shared-boundaries.mjs": {
+      "bytes": 2120,
+      "sha256": "a1e757060d0cdd8764de4b650c7b619116343a00f19a48a7cd9a3a3b72e190e0"
+    },
+    "shared-scorer-pin.json": {
+      "bytes": 490,
+      "sha256": "1d146076a51f29773eead844cd4c5ecfd83ab10c38370dbb21deb1bcbdb9e505"
+    },
+    "speech.transcribe-request.json": {
+      "bytes": 4905,
+      "sha256": "8bba1cda1f2ebc182066cdb1d2c898e924e7865f0bd4fd55ad8dbfddee2c551e"
+    },
+    "speech.transcribe-response.json": {
+      "bytes": 783,
+      "sha256": "53c8f877398e32b941fc4ffa383b39b5dd40f7fa313e47e6bf65193d9128c0d1"
+    },
+    "speech.transcribe.stderr": {
+      "bytes": 2617,
+      "sha256": "9838353af6ab48f8d3bbf5a62557a35e9272f58bed6787b568c96c9fd210f184"
+    },
+    "speech.transcribe.stdout": {
+      "bytes": 566,
+      "sha256": "684368e5454d783eb080bc75cf580f72df801723f3be91692732abef548cb191"
+    },
+    "verification-controls-observation.json": {
+      "bytes": 358,
+      "sha256": "2be3a2949ad678c03322714d00590559d93a006974f7b93638f38560a06f336a"
+    },
+    "verification-controls-outcomes.json": {
+      "bytes": 14494,
+      "sha256": "7d76bee14a9a2e0908a29bd79dacd726bbff665dd223f49a94ff00f83a4cab81"
+    },
+    "verification-controls.mjs": {
+      "bytes": 3001,
+      "sha256": "8ce9b9aa39880dc6919dedcff1b1ebdabf08212708efd8bcc5fedbd4eb8eada9"
+    },
+    "verify.mjs": {
+      "bytes": 3024,
+      "sha256": "c478c475c4a9999fbb49dc25e36e8b037f4e2615100c734497248081f2c123ef"
+    }
+  },
+  "executedProducer": {
+    "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/specs/agent-editing/assets/12h-retained-sentence-recognition/producer.mjs",
+    "bytes": 13100,
+    "sha256": "7e93c45754380e41c23b3870f2bddcce123e52b96e8d97c01552762ff81ed31d"
+  },
+  "executedEvaluator": {
+    "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.mjs",
+    "bytes": 2680,
+    "sha256": "af74c9d192c3bf0b5c5770b5db55cf1a6a5bd5742baa9cba474104c49c082f27"
+  },
+  "laterVerifier": {
+    "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/specs/agent-editing/assets/12h-retained-sentence-recognition/verify.mjs",
+    "bytes": 3024,
+    "sha256": "c478c475c4a9999fbb49dc25e36e8b037f4e2615100c734497248081f2c123ef"
+  },
+  "verifier": {
+    "command": [
+      "node",
+      "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/specs/agent-editing/assets/12h-retained-sentence-recognition/verify.mjs",
+      "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/extracted-reviewed"
+    ],
+    "exitCode": 0,
+    "membersVerified": 41,
+    "observation": {
+      "chunk_id": "e19a72",
+      "wall_time_seconds": 0.00000975,
+      "exit_code": 0,
+      "original_token_count": 182,
+      "output": "{\"membersVerified\":41,\"inferenceAttempts\":1,\"nativeChildrenClosed\":[{\"operation\":\"media.probe\",\"pid\":44788,\"executable\":\"/usr/bin/sandbox-exec\",\"args\":[\"-p\",\"(version 1)(allow default)(deny network*)\",\"/private/tmp/screenrec-09c-native-presented-worker\"],\"startedAt\":\"2026-10-02T00:00:15.650Z\",\"code\":0,\"signal\":null,\"closedAt\":\"2026-10-02T00:00:15.763Z\"},{\"operation\":\"speech.transcribe\",\"pid\":44793,\"executable\":\"/usr/bin/sandbox-exec\",\"args\":[\"-p\",\"(version 1)(allow default)(deny network*)\",\"/private/tmp/screenrec-09c-native-presented-worker\"],\"startedAt\":\"2026-10-02T00:00:15.767Z\",\"code\":0,\"signal\":null,\"closedAt\":\"2026-10-02T00:00:37.999Z\"}],\"lexicalRepresentation\":true,\"timingAcceptance\":false,\"noNewInference\":true}\n"
+    },
+    "scope": "Independently extracted saved-file replay only; no inference or service"
+  },
+  "actualTerminal": {
+    "producerSessionId": 62073,
+    "producerExitCode": 0,
+    "native": [
+      {
+        "operation": "media.probe",
+        "pid": 44788,
+        "executable": "/usr/bin/sandbox-exec",
+        "args": [
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/private/tmp/screenrec-09c-native-presented-worker"
+        ],
+        "startedAt": "2026-10-02T00:00:15.650Z",
+        "code": 0,
+        "signal": null,
+        "closedAt": "2026-10-02T00:00:15.763Z"
+      },
+      {
+        "operation": "speech.transcribe",
+        "pid": 44793,
+        "executable": "/usr/bin/sandbox-exec",
+        "args": [
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/private/tmp/screenrec-09c-native-presented-worker"
+        ],
+        "startedAt": "2026-10-02T00:00:15.767Z",
+        "code": 0,
+        "signal": null,
+        "closedAt": "2026-10-02T00:00:37.999Z"
+      }
+    ]
+  },
+  "case": {
+    "input": {
+      "file": {
+        "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/specs/agent-editing/assets/12d-complete-sentence/original.wav",
+        "bytes": 1374976,
+        "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb"
+      },
+      "format": {
+        "code": 3,
+        "channels": 1,
+        "rate": 48000,
+        "align": 4,
+        "bits": 32
+      },
+      "payload": {
+        "offset": 4096,
+        "bytes": 1370880,
+        "sha256": "36f7d1cc88ae5366012566699f2093c679e8715bc5f0f1b3a5bf8922b1bf266a"
+      },
+      "frames": 342720,
+      "localSupport": {
+        "startUs": 0,
+        "endUs": 7140000
+      },
+      "originalSourceOffsetUs": 50518675
+    },
+    "model": {
+      "pins": {
+        "runtime": "FluidAudio",
+        "runtimeVersion": "0.15.7",
+        "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+        "decoder": "parakeet-tdt-batch",
+        "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+        "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+      },
+      "digest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "recipe": {
+        "computeUnits": "cpuAndNeuralEngine",
+        "decoder": "parakeet-tdt-batch",
+        "encoderPrecision": "int8",
+        "runtime": "FluidAudio",
+        "runtimeVersion": "0.15.7"
+      },
+      "ownerEmissionSha256": "78b46942c08a66f77e3db886281a00c636e2e7248e7fcee1ce64974ff9a79354",
+      "sourceParity": "models-runtime-authority.json and dependency-supplement.json in packet"
+    },
+    "raw": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence/raw.jsonl",
+      "bytes": 5397,
+      "sha256": "37a595ed45fa8c7004b9a06fb58b3ee426818f4b2396a28c1fe567ad74402689"
+    },
+    "actualAdmission": {
+      "source": {
+        "endUs": 7140000,
+        "startUs": 0
+      },
+      "sampleRate": 16000,
+      "samples": 114240,
+      "preparedPCMHash": null,
+      "inputBytesPinned": true
+    },
+    "openingUm": {
+      "recognized": true,
+      "rawHasUm": true,
+      "targetUms": [
+        {
+          "text": "Um",
+          "sourceRange": {
+            "startUs": 50518675,
+            "endUs": 50678675
+          }
+        }
+      ],
+      "end": {
+        "id": "opening-um-end",
+        "text": "um",
+        "side": "end",
+        "reportedUs": 50831675,
+        "markedOffsetMs": 0,
+        "referenceUs": 50831675,
+        "candidateUs": 50678675,
+        "state": "matched",
+        "errorMs": -153,
+        "insideSpeech": true
+      },
+      "onsetScored": false
+    },
+    "protectedAndMiddlePresence": {
+      "paragraph": true,
+      "this": true,
+      "uh": true
+    },
+    "inheritedSequence": {
+      "expected": [
+        "so",
+        "let's",
+        "do",
+        "the",
+        "first",
+        "paragraph",
+        "uh",
+        "this",
+        "page",
+        "is",
+        "a",
+        "recording",
+        "fixture"
+      ],
+      "observed": [
+        "um",
+        "so",
+        "let's",
+        "do",
+        "the",
+        "first",
+        "paragraph",
+        "uh",
+        "this",
+        "page",
+        "is",
+        "a",
+        "recording",
+        "fixture"
+      ],
+      "withoutOpeningUm": [
+        "so",
+        "let's",
+        "do",
+        "the",
+        "first",
+        "paragraph",
+        "uh",
+        "this",
+        "page",
+        "is",
+        "a",
+        "recording",
+        "fixture"
+      ],
+      "preserved": true,
+      "authority": "Baseline output regression diagnostic; not independent spelling truth"
+    },
+    "controls": {
+      "marked": 6,
+      "matched": 6,
+      "unmarked": 0,
+      "medianErrorMs": 112.5,
+      "p95ErrorMs": 456.8,
+      "worstErrorMs": 549,
+      "meetsTiming": false,
+      "interpretation": "Six existing independent sentence edges; workbench is outside this case.",
+      "boundaries": [
+        {
+          "id": "w117-start",
+          "wordId": "w117",
+          "text": "uh",
+          "side": "start",
+          "reportedUs": 54113675,
+          "markedOffsetMs": 0,
+          "referenceUs": 54113675,
+          "candidateUs": 54038675,
+          "state": "matched",
+          "errorMs": -75,
+          "insideSpeech": false
+        },
+        {
+          "id": "w117-end",
+          "wordId": "w117",
+          "text": "uh",
+          "side": "end",
+          "reportedUs": 54508675,
+          "markedOffsetMs": 0,
+          "referenceUs": 54508675,
+          "candidateUs": 54518675,
+          "state": "matched",
+          "errorMs": 10,
+          "insideSpeech": false
+        },
+        {
+          "id": "w116-start",
+          "wordId": "w116",
+          "text": "paragraph",
+          "side": "start",
+          "reportedUs": 52428675,
+          "markedOffsetMs": 0,
+          "referenceUs": 52428675,
+          "candidateUs": 52278675,
+          "state": "matched",
+          "errorMs": -150,
+          "insideSpeech": false
+        },
+        {
+          "id": "w116-end",
+          "wordId": "w116",
+          "text": "paragraph",
+          "side": "end",
+          "reportedUs": 52929675,
+          "markedOffsetMs": 0,
+          "referenceUs": 52929675,
+          "candidateUs": 53478675,
+          "state": "matched",
+          "errorMs": 549,
+          "insideSpeech": false
+        },
+        {
+          "id": "w118-start",
+          "wordId": "w118",
+          "text": "this",
+          "side": "start",
+          "reportedUs": 55258675,
+          "markedOffsetMs": 0,
+          "referenceUs": 55258675,
+          "candidateUs": 55078675,
+          "state": "matched",
+          "errorMs": -180,
+          "insideSpeech": false
+        },
+        {
+          "id": "w118-end",
+          "wordId": "w118",
+          "text": "this",
+          "side": "end",
+          "reportedUs": 55367675,
+          "markedOffsetMs": 0,
+          "referenceUs": 55367675,
+          "candidateUs": 55318675,
+          "state": "matched",
+          "errorMs": -49,
+          "insideSpeech": true
+        }
+      ]
+    },
+    "meetsScopedCase": false
+  },
+  "preservation": {
+    "beforeEqualsAfter": true,
+    "networkRequests": 0,
+    "inferenceAttempts": 1,
+    "noWorkerBuild": true,
+    "noRecipeChange": true,
+    "managedAfter": "managed-preservation-supplement.json in archive: all22managed files and genuine receipt unchanged"
+  },
+  "retained": {
+    "home": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/home",
+    "evidence": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence",
+    "packet": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/packet",
+    "archive": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence-reviewed.tar.gz",
+    "source": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/source/parakeet-tdt-0.6b-v2",
+    "acceptedHome": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home",
+    "modelRuntime": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/runtime/models.mjs",
+    "worker": "/private/tmp/screenrec-09c-native-presented-worker",
+    "extracted": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/extracted-reviewed"
+  },
+  "checks": [
+    {
+      "key": "syntax",
+      "cmd": "node --check specs/agent-editing/assets/12h-retained-sentence-recognition/producer.mjs",
+      "exitCode": 0
+    },
+    {
+      "key": "syntax-verifier",
+      "cmd": "node --check specs/agent-editing/assets/12h-retained-sentence-recognition/verify.mjs",
+      "exitCode": 0
+    },
+    {
+      "key": "tests",
+      "cmd": "node --test specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.test.mjs",
+      "exitCode": 0
+    },
+    {
+      "key": "lint",
+      "cmd": "node /Users/david/dev/screen-recorder/node_modules/oxlint/bin/oxlint specs/agent-editing/assets/12h-retained-sentence-recognition/producer.mjs specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.mjs specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.test.mjs specs/agent-editing/assets/12h-retained-sentence-recognition/verify.mjs",
+      "exitCode": 0
+    },
+    {
+      "key": "format",
+      "cmd": "node /Users/david/dev/screen-recorder/node_modules/oxfmt/bin/oxfmt --check specs/agent-editing/assets/12h-retained-sentence-recognition/producer.mjs specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.mjs specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.test.mjs specs/agent-editing/assets/12h-retained-sentence-recognition/verify.mjs",
+      "exitCode": 0
+    }
+  ],
+  "review": "review.md",
+  "choices": "choices.md",
+  "limits": [
+    "Censored um onset unscored.",
+    "Internal16k PCM bytes are not exposed or hashed; no causal input-byte equivalence claim.",
+    "Input container/context/conversion/chunk regime differ from historical full ASR.",
+    "Six-edge quality failed; no retry or further inference queued.",
+    "No baseline replacement, general recall, editorial operation or parent12/full-release closure."
+  ],
+  "corruptionControls": {
+    "command": [
+      "node",
+      "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/specs/agent-editing/assets/12h-retained-sentence-recognition/verification-controls.mjs",
+      "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/extracted-verified",
+      "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/verification-controls"
+    ],
+    "exitCode": 0,
+    "outcomes": "verification-controls-outcomes.json in archive",
+    "scope": "Saved-file missing/altered raw controls and scorer word-order/double-origin controls; two actual expected exit-one verifier children, no native calls"
+  },
+  "packagingCandidates": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence.tar.gz",
+      "bytes": 767419,
+      "sha256": "a582280439efc57e417d2de59286648c8c14dd8e9a27d177bcd7da324adaa5d2",
+      "scope": "Initial complete candidate preserved"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence-final.tar.gz",
+      "bytes": 768970,
+      "sha256": "41e26c36c9db69a1e24d712906d2e4b1ce3512828a38e8acfbfc13242f7bccfe",
+      "scope": "Rejected empty member map; failure retained in final archive; no inference repeated"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence-verified.tar.gz",
+      "bytes": 771629,
+      "sha256": "969b46607613db94aeae546e742c7903f999e2b8ef0ed148c575ccb4469157b5",
+      "scope": "Verified pre-review candidate preserved; root-readable stable path"
+    }
+  ]
+}

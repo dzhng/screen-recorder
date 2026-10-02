@@ -1,0 +1,287 @@
+{
+  "authority": {
+    "scope": "Relevant native source modules byte-pinned by earlier frozen0a source closure; executing worker independently rehashed before/after; matching current files are read authority, not a rebuild.",
+    "originalPins": "/tmp/screenrec-23l-packet/producer/native-frame-authority/complete-frozen-source-pins.json",
+    "originalPinsSha256": "743cfa48553638ba6732e94a2739c4dd938f85b4275cb336f4998dc2e0319581",
+    "existingCompactReference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23l-paired-edited-frames/README.md",
+    "workerSha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "files": {
+    "helpers/mac/Package.resolved": {
+      "bytes": 397,
+      "sha256": "c56a6e0b25958389401872266213b75dfa631eb0080556cd08ea6ea1c10a490b"
+    },
+    "helpers/mac/Package.swift": {
+      "bytes": 3856,
+      "sha256": "dd496b0d94d3c87cb30aba0ab43055b172986f31a7c0127219711554cb5451f9"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift": {
+      "bytes": 4354,
+      "sha256": "1bbab776e5f6617fb20fc6da5388ee3c9f53e71b1bbfdecb71599994e7528048"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift": {
+      "bytes": 12749,
+      "sha256": "f4fe7ee2878aa0b675fa222b712aadb949010c8f89e5c12b0dffcb77ba266a6e"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift": {
+      "bytes": 18128,
+      "sha256": "427b476280522066fb607863a998d4fcf54589263bfee56a883279d7d02ea7f7"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift": {
+      "bytes": 5063,
+      "sha256": "6f49e4b9f66fdd37562d7c9bf550842f25e1b6645f8c103f5b5e5e2e72503f73"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift": {
+      "bytes": 41710,
+      "sha256": "39bf626ce1f820d896cac9114b47e7360c55878cb37602cbfa462dd8a452bd64"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift": {
+      "bytes": 2575,
+      "sha256": "3162a40dc79836362ba1f167240752a3555a9fb38a1990da804ac37bfd3ba149"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/CompositionGain.swift": {
+      "bytes": 1831,
+      "sha256": "9e0207e7ffbb9edb547c18d89b83bf96f533d6ca4297ab0926291d439a9ecd0e"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift": {
+      "bytes": 10396,
+      "sha256": "cc6758594eb2a41531e5750f465464897bc8bf8ac38560f41a2bb01213dcd393"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift": {
+      "bytes": 15472,
+      "sha256": "997605adcad747754fa9cb30c29a553fedd468b60c4f4486253aa4dd8d6df11d"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift": {
+      "bytes": 8316,
+      "sha256": "9df63b461461e153bba9885bf9d53c7dccfe6dcf5e2a26193a34ff781d358805"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/RetainedPCMSource.swift": {
+      "bytes": 5004,
+      "sha256": "1f8bef9f58c481ff1b82a161ae4d63b97663837cd8cc41c614e46e5c5d199d3f"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/SelectedAudioConversion.swift": {
+      "bytes": 7003,
+      "sha256": "24e235f49903aac445fd1989549147a502aa4971186f1b0784b504e07fd7c88a"
+    },
+    "helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift": {
+      "bytes": 1489,
+      "sha256": "d61693aac87b62a80904eeec41a92bbd294fc683e9d96897813d517ff731b61b"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/AudioSourceReader.swift": {
+      "bytes": 9246,
+      "sha256": "b5e3597563f242616d40f3d1acb083761189d0a2ebc5859ab55d4f7ce53efe9e"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/CompositionAsset.swift": {
+      "bytes": 356,
+      "sha256": "476ac84ce713677f7f6f224c9f927e029e2db52a611dc8bcb01d267f972ab65b"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/CompositionProcessing.swift": {
+      "bytes": 1594,
+      "sha256": "379184261dfd28dd3e43dc6fa09a617757b2cf032f23dfc6aa4847d69951643c"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/DescriptorAudioType.swift": {
+      "bytes": 4572,
+      "sha256": "c5afe4755917274add5bbbe67464cf7b5866618aa6ab7a268217599747df2f77"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/ExactRange.swift": {
+      "bytes": 3093,
+      "sha256": "03a66858dd978d2c097f57295a355fcbf1b84d206e99fb9a58e5c65b5f116dd0"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/ExactTime.swift": {
+      "bytes": 8410,
+      "sha256": "dab2c730deb23755afa6b48bf6195515f28dd2fa23f3bd0287fd0caf87d83a08"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/FontFile.swift": {
+      "bytes": 1971,
+      "sha256": "66d8ad10b2be5eb2767a3586915e30a51919c2190b582e70c05e94d9c0a343c8"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/FontProbe.swift": {
+      "bytes": 1594,
+      "sha256": "0ec09fce93cb1edad991f2b11e7aae25605ef3f7ed87366ba05f46ecc7f45a17"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/MediaInput.swift": {
+      "bytes": 11346,
+      "sha256": "b749fa4404417abe557a3a93f637f8091489d819dead849b811363331c4f40a1"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift": {
+      "bytes": 9566,
+      "sha256": "068bf915122503383ef8f5a0ea466f6513c1806fef2f7f3d80d826d981dd9d6c"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/NativeFailure.swift": {
+      "bytes": 924,
+      "sha256": "f1bd1d2d2d0054f0332e0beddb3813610caee74fefa15e0d6191d8d88dface24"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/OutputFile.swift": {
+      "bytes": 6879,
+      "sha256": "988395df260ad7e569665d04d211550e18b7f584c46eda062450eb63620e9556"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/ProcessResources.swift": {
+      "bytes": 380,
+      "sha256": "9369096425832a6a433926aad68804116f430e9518c23e5f3a92172be89c6844"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift": {
+      "bytes": 3364,
+      "sha256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/ScalarProgram.swift": {
+      "bytes": 4611,
+      "sha256": "31c3fcb425e50d2db40f67637a13cbf36b23d9781cf7006d8a572c6009078086"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/StillImageSource.swift": {
+      "bytes": 3640,
+      "sha256": "ad1f087ca97cf0bcb56ca9a6047d6e69fc97562bfc6c18a8954827e8caa2f66d"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/TimeSpan.swift": {
+      "bytes": 3250,
+      "sha256": "295003ddcc92365d9b67e3075fc4e4735b989e79054c00f7b1c89c8ea9aaf36d"
+    },
+    "helpers/mac/Sources/ScreenRecorderMedia/VideoDisplay.swift": {
+      "bytes": 2733,
+      "sha256": "8461a048b39772ec6aa5bca1091049a49ec0fae2a1e7709b7aeced253efb3012"
+    },
+    "helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift": {
+      "bytes": 4254,
+      "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+    },
+    "helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift": {
+      "bytes": 8301,
+      "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+    },
+    "helpers/mac/Sources/ScreenRecorderSpeech/SpeechModelFiles.swift": {
+      "bytes": 6628,
+      "sha256": "53937cdb9186aa85b48f4323a769c8cd25f7a7169ae34e7c5ad62d0a3c3d75ec"
+    },
+    "helpers/mac/Sources/ScreenRecorderSpeech/WordTimingMerger.swift": {
+      "bytes": 5467,
+      "sha256": "35521560f6a61537bf8f318817c7703322c53f824bd9ba381ddff5229daf4f7b"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/AcousticImageOperation.swift": {
+      "bytes": 1853,
+      "sha256": "378bbca7e4c3afe1b04ee15e7211d35645eb65cfd9a54ec72bbd8381d46b12ca"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/ArchiveAssembly.swift": {
+      "bytes": 12186,
+      "sha256": "c2157fdb63c010c406612cc8acb265fca07f7aeb0e499ccda98f4b38560b3be6"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/ArchiveExtraction.swift": {
+      "bytes": 12168,
+      "sha256": "944c88f58534d107d22e2d6aaaac79afd80c6af587db1c0a8fdd53ee0f14d650"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/ArchiveOperation.swift": {
+      "bytes": 9330,
+      "sha256": "8ed5b86e79dbb0da7587fb816d366677d0fceab3dd2dc04ad7d672710e5a28c2"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/AudioFileOperation.swift": {
+      "bytes": 7146,
+      "sha256": "bf1d890b3686f7a153aa602fb8c553ed2de27c4b3cffc0e39b1b86f3d58605b9"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/AudioOperation.swift": {
+      "bytes": 1129,
+      "sha256": "ad6b1479164d858525b4f43d3d33d29a0f8fd167fb4a562e7f6ad013d7f15cb4"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/AudioSampleBuffer.swift": {
+      "bytes": 2914,
+      "sha256": "52ca833f039536d9e435ae9fede547923d57286ea95db0976c985cf0b0bec5c3"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/CompositionAudioOperation.swift": {
+      "bytes": 1382,
+      "sha256": "13574bf8f81fe98cd5151ea4155ae1bffecf7c59346473f99478e99badf1ea01"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/CompositionFrameOperation.swift": {
+      "bytes": 559,
+      "sha256": "d4f1d7e52ba6541edc895a1a6df7c71e33f20117353f2de8d00471fddbd83f95"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/CompositionMovieOperation.swift": {
+      "bytes": 5930,
+      "sha256": "48dfc957fab29baf007726cb964d74ea36a4108dadf962692ead8c75e777aacc"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/CompositionVideoOperation.swift": {
+      "bytes": 2874,
+      "sha256": "cc3f93c7fdaae0b0c279ff00a8e4accac5272a3bbc8715a28cb973a7d727d496"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/Descriptors.swift": {
+      "bytes": 4673,
+      "sha256": "27948f5a70f17fcb2cc64025a063291d9918b7db3f37418a2d1b6c14799a8b56"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/FrameOperation.swift": {
+      "bytes": 1895,
+      "sha256": "1432b1ddb90e0ce282e8dc823c059e59a8c375328bd2f58278f34b61b78fedd6"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift": {
+      "bytes": 11233,
+      "sha256": "b5f542cbcc4cb1246a5a932f476e5e8a79691097ddd1240d951e13c23d9e0333"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/MediaRecovery.swift": {
+      "bytes": 15581,
+      "sha256": "3f5fba4cafd09f622874405d1a4b93c61ca72d69e310538981cffbcb14325878"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift": {
+      "bytes": 6638,
+      "sha256": "4e6b357aec05528a053f11356e9ac624d2cda3c284b07ee90d2340b69239495f"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/MovieOperation.swift": {
+      "bytes": 3439,
+      "sha256": "fbe2abcbb2068ad8bdb9734ba5364fddc3ddfb1c08668e82c777ffe74773b79a"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/PackageWorkspace.swift": {
+      "bytes": 6102,
+      "sha256": "31d709081f590e97f37131ad12b3f6140f012a14dd24fa2ec2ba9e3054791713"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/PresentationEvidenceOperation.swift": {
+      "bytes": 1152,
+      "sha256": "04e392c1ae20b653ae21b2b5496cb22f56ac473f1aba77565bca198511ee5211"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/ProbeOperation.swift": {
+      "bytes": 1845,
+      "sha256": "1e5abb53c3dc43a86645ea033b7f0723f80320ad3643d2f7336801e85e649fff"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/PublicationOperation.swift": {
+      "bytes": 16068,
+      "sha256": "e738ff32c0c9f11b1a0797569f05e92647736bb56ecaa5bb71c7ea07b0d217e9"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/RenderWorkspace.swift": {
+      "bytes": 1431,
+      "sha256": "646ef565cff0cf96055e333703c36ed611707ad856666235ca5d6c08576d98bf"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/RetainedAudioInput.swift": {
+      "bytes": 940,
+      "sha256": "37509d943082a414fb9c8c7ddcc4a2b896348b13006ad8e84ac7f8f9c979cde0"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SelectedAudioConversionOperation.swift": {
+      "bytes": 781,
+      "sha256": "6349b1bab55e8184a2886449f0b653c74b0d7e9a80f72803bc410b577f3c0b50"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SourceAudioOperation.swift": {
+      "bytes": 625,
+      "sha256": "658a96876921384b990df752134e197de24f805c9354a44cfa34834f78681ef7"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift": {
+      "bytes": 9899,
+      "sha256": "7c0016d3266134bca7ab79669b23dc7fd430a7c512a3fdb22fa160d36fc22794"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SourceFrameOperation.swift": {
+      "bytes": 428,
+      "sha256": "a5a1d9ce91a6444f1d5c8befe4e71753632b0deaf97fa263a90e946d9f211aae"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SourceImageOperation.swift": {
+      "bytes": 416,
+      "sha256": "f49a3349312220cf8d61afcdadab7acf65fcc5872105a8bfa1aff6f90d10c618"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SourceVisualSamplesOperation.swift": {
+      "bytes": 379,
+      "sha256": "831cccf1e7eb3456d7d86602ed6b62d7ce07dac6d0167651d50ff0c825785066"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/SpeechOperation.swift": {
+      "bytes": 2322,
+      "sha256": "52dbff5325b3e071f777e84ec73afbf7b976c15ac75bad2571fd3a5997d8c0ee"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/Wire.swift": {
+      "bytes": 11519,
+      "sha256": "d9d40b51f13ea5fb02ed7ca430627d0bd75c90eb1007deab2881860937c127c7"
+    },
+    "helpers/mac/Sources/ScreenRecorderWire/WireRequest.swift": {
+      "bytes": 4173,
+      "sha256": "6bc5fa6c138c0065704feba70929b7ad126d0df446603efed3dcd5edcac53b0c"
+    }
+  }
+}

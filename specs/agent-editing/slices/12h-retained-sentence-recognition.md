@@ -1,7 +1,9 @@
 # 12h — Recognize the unchanged retained sentence
 
-Status: bounded additional case planned; no recognition executed yet. Broader
-[12](12-speech-evidence.md) remains open and the selected baseline is unchanged.
+Status: the [one fixed case](../assets/12h-retained-sentence-recognition/README.md)
+is complete: opening `um` is represented, but the six-edge timing gate fails.
+The stopping condition is reached; broader [12](12-speech-evidence.md) remains
+open and the selected baseline is unchanged.
 
 ## Contract
 
