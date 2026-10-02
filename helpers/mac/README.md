@@ -17,7 +17,13 @@ belongs where is:
   operations that exist only in the worker (recovery, evidence export, archives, storage).
 - **ScreenRecorderNative** is the `screenrec-native` executable around that boundary.
 
-## Compiled video
+## Compiled pictures
+
+Still PNGs and movie frames execute one compiled picture graph. The
+[picture executor](Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift)
+prepares source evidence and owns that graph. PNG delivery passes the graph to its
+image encoder; movie delivery uses its tagged video buffer. Keeping those targets
+separate avoids quantizing still pictures through the movie color conversion.
 
 Composition rendering consumes the compiler's frame stream, including the original
 sample time and clipped visible interval. Native code only resolves physical
