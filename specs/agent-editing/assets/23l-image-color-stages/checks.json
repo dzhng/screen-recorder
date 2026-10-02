@@ -1,0 +1,13 @@
+{
+  "successorArchivePayloadsVerified": 58,
+  "failedAttemptPayloadsVerified": 25,
+  "originalFailureArchiveUnchanged": true,
+  "sevenActualChildTerminalsZero": true,
+  "jsonFormatting": "Scoped oxfmt check exit0 after formatting results.json. First check reported only generated results JSON formatting; archived actual comparison bytes are unchanged.",
+  "docLinksResolve": true,
+  "lintScope": "No changed lintable production/JS source. Retained Swift/ObjC compiled successfully; actual Python metadata/byte tools executed successfully.",
+  "productionSourceChanges": 0,
+  "testSourceChanges": 0,
+  "sharedHubEdits": 0,
+  "compactResultsMatchActualComparisonSelections": true
+}

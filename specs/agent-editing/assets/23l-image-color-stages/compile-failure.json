@@ -1,0 +1,265 @@
+{
+  "status": "Stopped on compile error; zero diagnostic/pixel-reader dispatches",
+  "archive": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/23l-image-color-stages/compile-failure.tar.gz",
+    "bytes": 36586,
+    "sha256": "cfec8e99ec05905e5f3cfc19d1d7bb35fbbfdd1c6c518196559a018648d83a5b"
+  },
+  "payloads": {
+    "ColorStages.swift": {
+      "bytes": 9823,
+      "sha256": "c3afcae4237b778e86527d7542307ebe993605036d4f2dba2c9533cd8b212ac1"
+    },
+    "FrameStageObserver.h": {
+      "bytes": 325,
+      "sha256": "9b90a41dbaea28d26cc951c2c71a79804e75a620d9c7ffea032ac9053635a623"
+    },
+    "FrameStageObserver.m": {
+      "bytes": 5175,
+      "sha256": "5d2a37cf71398f736eeb4e56b645c9dd87b21dcecce806180669fe838efe516d"
+    },
+    "authority.json": {
+      "bytes": 25411,
+      "sha256": "1248b6408b802d78f6e3299f8b917e610077785791cd68978bd556ff9177e152"
+    },
+    "build-plan.json": {
+      "bytes": 7956,
+      "sha256": "3214f087a554c1b76f90df526102c9715ab5037adb14be4642f767b60f7020b0"
+    },
+    "input-selection.json": {
+      "bytes": 10496,
+      "sha256": "e46ed8b2fa6ebc2b83e0b15d19748e64160165888cafcc26b9fbf907c1128201"
+    },
+    "observed-prepare.py": {
+      "bytes": 7672,
+      "sha256": "dc3a9d02061f3fcf971b76e87c4cee4801f422118e798db24566749ce1a6707e"
+    },
+    "plan.md": {
+      "bytes": 6157,
+      "sha256": "4a184cd8dda3e1ea610660e39790aeb33ea08403a52db74a09bd7227d27e0947"
+    },
+    "prepare.py": {
+      "bytes": 7999,
+      "sha256": "f5a1cb5718836ae3d4d08d8f29e9c737e5b31850c4bb364c1e2cb0f366ceee5f"
+    },
+    "preparation-pins.json": {
+      "bytes": 1294,
+      "sha256": "98550b7e0eec9fc5298cfbbbee4b9184917bdf9845b82ef77558d51bac523ea7"
+    },
+    "stage-request.json": {
+      "bytes": 3933,
+      "sha256": "91335177ce6499ce2d28fa28170fd876c00069f8cac2427a681bc179e3dc3cf1"
+    },
+    "root-preparation-review.json": {
+      "bytes": 752,
+      "sha256": "f39e269b5c9f95b2f92f3cd0b9f050213d63dc41f9ed0a12ac05adb9cb22d650"
+    },
+    "execute.py": {
+      "bytes": 3369,
+      "sha256": "79882fe6e578054421e62f35de4aabfc52a74b6878f42e1cfed77494bcf33933"
+    },
+    "execute-source-pin.json": {
+      "bytes": 179,
+      "sha256": "76d5fb818679976cff29de108a3512f6bde6655dd2674c5f9329d3ae9d5ecbc6"
+    },
+    "execution-before.json": {
+      "bytes": 27078,
+      "sha256": "107931c234819f4cf6c2787190cb046766cf75d2b7d5d76f5983a353a0b84d60"
+    },
+    "execution-after.json": {
+      "bytes": 27078,
+      "sha256": "d8a34be7d386f05228cc55c2e601b3f3c36de7edc71137d7870cf1225e49b93c"
+    },
+    "execution-processes.json": {
+      "bytes": 7848,
+      "sha256": "36aa942fba820207deebbc5773050b65091b2eece02dd90ef9be4e5eb6e43c29"
+    },
+    "execution-failure.json": {
+      "bytes": 101,
+      "sha256": "6b9501933c180d32a9d322d885714210e558b6883b6c601d11e8517fbd92706d"
+    },
+    "execution-runner.stdout": {
+      "bytes": 6427,
+      "sha256": "2fe8e5b22f89090c40e6f1265fdbe2abd8a67e8d6a3bfa077508004cbc9ae0ea"
+    },
+    "execution-runner.stderr": {
+      "bytes": 40,
+      "sha256": "9711be8c3d6b3cd0f456e1882a2f77cb51cb2bf45e212ccec0a06aa27732900e"
+    },
+    "compile-1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "compile-1.stderr": {
+      "bytes": 1708,
+      "sha256": "296a6ee74946907a447f426ad6e9d0837245949ae9447ff780a699f837de8c00"
+    },
+    "compile-2.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "compile-2.stderr": {
+      "bytes": 1061,
+      "sha256": "0ffa6f0f988fcf5e0a066eaa75747edd46871025a078906f9ca430e95f4535af"
+    },
+    "observer.o": {
+      "bytes": 14344,
+      "sha256": "e97e55da71936eaf7cc0d281cd1f12450039dea50e12decf951c30687b0c755b"
+    }
+  },
+  "processes": [
+    {
+      "label": "compile-1",
+      "args": [
+        "/Library/Developer/CommandLineTools/usr/bin/clang",
+        "-fobjc-arc",
+        "-isysroot",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-mmacosx-version-min=26.0",
+        "-c",
+        "/tmp/screenrec-23l-one-image-stage-preparation/FrameStageObserver.m",
+        "-o",
+        "/tmp/screenrec-23l-one-image-stage-preparation/observer.o"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-preparation",
+      "pid": 71081,
+      "startedAt": "2026-10-02T00:46:17.730411+00:00",
+      "timeoutSeconds": null,
+      "endedAt": "2026-10-02T00:46:18.802711+00:00",
+      "elapsedSeconds": 1.0723440420115367,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-preparation/compile-1.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-preparation/compile-1.stderr",
+        "bytes": 1708,
+        "sha256": "296a6ee74946907a447f426ad6e9d0837245949ae9447ff780a699f837de8c00"
+      }
+    },
+    {
+      "label": "compile-2",
+      "args": [
+        "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-parse-as-library",
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-sdk",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-module-cache-path",
+        "/tmp/screenrec-23l-one-image-stage-preparation/module-cache",
+        "-I",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules",
+        "-import-objc-header",
+        "/tmp/screenrec-23l-one-image-stage-preparation/FrameStageObserver.h",
+        "/tmp/screenrec-23l-one-image-stage-preparation/ColorStages.swift",
+        "/tmp/screenrec-23l-one-image-stage-preparation/observer.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/AcousticImage.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionFrameRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionPictureExecutor.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionVideoRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CursorOverlay.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameImage.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameSource.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameTypes.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/MovieClock.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/OutputSettings.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PointerSchedule.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PreparedPointers.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PresentationEvidence.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PresentationSource.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/RetainedJSONLines.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SampleSelection.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceFrameRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceImageRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceVisualSamples.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/TextRaster.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VideoColorPolicy.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VideoRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VisualSamples.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/AudioSourceReader.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/CompositionAsset.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/CompositionProcessing.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/DescriptorAudioType.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ExactRange.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ExactTime.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/FontFile.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/FontProbe.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/MediaInput.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/MediaProbe.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/NativeFailure.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/OutputFile.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ProcessResources.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/SampleTiming.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ScalarProgram.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/StillImageSource.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/TimeSpan.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/VideoDisplay.swift.o",
+        "-framework",
+        "Foundation",
+        "-framework",
+        "CoreGraphics",
+        "-framework",
+        "CoreImage",
+        "-framework",
+        "CoreVideo",
+        "-framework",
+        "CoreMedia",
+        "-framework",
+        "AVFoundation",
+        "-framework",
+        "AudioToolbox",
+        "-framework",
+        "CoreText",
+        "-framework",
+        "ImageIO",
+        "-framework",
+        "UniformTypeIdentifiers",
+        "-framework",
+        "VideoToolbox",
+        "-framework",
+        "CryptoKit",
+        "-o",
+        "/tmp/screenrec-23l-one-image-stage-preparation/color-stages"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-preparation",
+      "pid": 71083,
+      "startedAt": "2026-10-02T00:46:18.804208+00:00",
+      "timeoutSeconds": null,
+      "endedAt": "2026-10-02T00:47:31.203587+00:00",
+      "elapsedSeconds": 72.39944816599018,
+      "exitCode": 1,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-preparation/compile-2.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-preparation/compile-2.stderr",
+        "bytes": 1061,
+        "sha256": "0ffa6f0f988fcf5e0a066eaa75747edd46871025a078906f9ca430e95f4535af"
+      }
+    }
+  ],
+  "unchangedBeforeAfter": {
+    "pins": 111,
+    "mismatches": 0
+  },
+  "compilerFailure": "CGColorSpaceGetTypeID() has been replaced by property CGColorSpace.typeID",
+  "diagnosticDispatched": false,
+  "pixelReadersDispatched": 0,
+  "successorPlan": {
+    "path": "/tmp/screenrec-23l-one-image-stage-successor/build-plan.json",
+    "bytes": 8295,
+    "sha256": "c7e6fd750fba893c4fd1ce43a05c8f9b4ca77f41f8e0329ad9c502e3ce96ea70"
+  },
+  "successorPins": {
+    "path": "/tmp/screenrec-23l-one-image-stage-successor/successor-pins.json",
+    "bytes": 28781,
+    "sha256": "eb4f717af7eb3ae32c379aeaa0e98832c3595ec40988a2e99c1f4b5bd9bb0517"
+  }
+}

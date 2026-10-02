@@ -1,0 +1,578 @@
+{
+  "base": "fba91e05545243f982af625153a4f6bd9efd8548",
+  "kind": "one-image stage diagnostic; no production change",
+  "status": "completed with exact terminal-route pixel difference; no tolerance/quality release pass",
+  "archive": {
+    "file": "evidence.tar.gz",
+    "bytes": 7406046,
+    "sha256": "90eabd12b2366f869b51dcb843d8138210d37a82fe9d49c130492eac89ebf622"
+  },
+  "payloads": {
+    "producer/ColorStages.swift": {
+      "bytes": 9819,
+      "sha256": "9ee63a04ab6d031cd9fae805fe5ec1464b8bdd5c0611401e887f5d52a2f01199"
+    },
+    "producer/FrameStageObserver.h": {
+      "bytes": 325,
+      "sha256": "9b90a41dbaea28d26cc951c2c71a79804e75a620d9c7ffea032ac9053635a623"
+    },
+    "producer/FrameStageObserver.m": {
+      "bytes": 5175,
+      "sha256": "5d2a37cf71398f736eeb4e56b645c9dd87b21dcecce806180669fe838efe516d"
+    },
+    "producer/bank.py": {
+      "bytes": 4112,
+      "sha256": "9a23fcd85a0b06dbd73c6392b665139f002d2030f2a875c718956a5917dfd061"
+    },
+    "producer/build-plan.json": {
+      "bytes": 8295,
+      "sha256": "c7e6fd750fba893c4fd1ce43a05c8f9b4ca77f41f8e0329ad9c502e3ce96ea70"
+    },
+    "producer/color-stages": {
+      "bytes": 4120384,
+      "sha256": "f73983e899c29869003b10d76b2826b0570fec80451871477b9be8f5c3092019"
+    },
+    "producer/compare-source-pin.json": {
+      "bytes": 177,
+      "sha256": "e9f3e4be77eb9e901252132e5a88195db4c4e5f61a7bbfc50115d4ccb2de917f"
+    },
+    "producer/compare.py": {
+      "bytes": 4152,
+      "sha256": "cabed10b1270f86f08327ff6664ad23240da3300b86c93ba538957bda8c4c62e"
+    },
+    "producer/comparison.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/comparison.stdout": {
+      "bytes": 6132,
+      "sha256": "112e7b273012197b250f13fbd2fea086fc5ce5e05b10bd29a2d2f0c58943d661"
+    },
+    "producer/compile-1.stderr": {
+      "bytes": 1694,
+      "sha256": "c6658689cfc9a9746a88cc54b227cd5fc88af8c3bc96c769c71c0d0579cdf725"
+    },
+    "producer/compile-1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/compile-2.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/compile-2.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/diagnostic.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/diagnostic.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/executable-pin.json": {
+      "bytes": 174,
+      "sha256": "2634756ec0c652d1a388413a5a5a7fc4fc2e79cfa66f117961d1142fa0622553"
+    },
+    "producer/execute-source-pin.json": {
+      "bytes": 177,
+      "sha256": "03ecb2ee35864e15cf61afcc3323ddf85873b052e027a6e6bb10c8974747a370"
+    },
+    "producer/execute.py": {
+      "bytes": 3189,
+      "sha256": "53db11791c7b9e845750fb309c26c3e95c775af47b2e9166dbab6c4c56489e13"
+    },
+    "producer/execution-after.json": {
+      "bytes": 28781,
+      "sha256": "63c46606940bde0dbb28cb348dd95c43f05bb6fd0b9a90f349cd6b90f9076043"
+    },
+    "producer/execution-before.json": {
+      "bytes": 28781,
+      "sha256": "9bad4bdb5c242e97e5c8fdb8b4e382122b0655e73ad8e7ac1243f7445881cdb0"
+    },
+    "producer/execution-processes.json": {
+      "bytes": 12468,
+      "sha256": "5230e5ed1c1ee663cd1457171cc3835d6c836ce87d77c8aa986fde3423344919"
+    },
+    "producer/execution-runner.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/execution-runner.stdout": {
+      "bytes": 8827,
+      "sha256": "f1a7a68c1c677b900ae80725e44f66cf2e0eccfcddca2eafe27b84d87f61562e"
+    },
+    "producer/observer.o": {
+      "bytes": 14344,
+      "sha256": "e97e55da71936eaf7cc0d281cd1f12450039dea50e12decf951c30687b0c755b"
+    },
+    "producer/pixels-1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/pixels-1.stdout": {
+      "bytes": 204,
+      "sha256": "16d6a570f66225634f5a6f26e558359a42830ad340843783b67c61e91ae6ab8e"
+    },
+    "producer/pixels-2.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/pixels-2.stdout": {
+      "bytes": 204,
+      "sha256": "3326a1354dc47d8182aaa8b76ef78b56f78f64d0ea6e18460106aac937b3aae1"
+    },
+    "producer/pixels-3.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/pixels-3.stdout": {
+      "bytes": 204,
+      "sha256": "f7dd72cdb32662c450716cc2214829467589be0fd5ebec3023e629ea5ca4b2dc"
+    },
+    "producer/pixels-4.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer/pixels-4.stdout": {
+      "bytes": 204,
+      "sha256": "bbcace99873209e426b6fe9f7b3c3c014c0832ae03824a61ea991466db94e1c3"
+    },
+    "producer/sdk-spelling.json": {
+      "bytes": 1317,
+      "sha256": "f1099ac834acbb266a8e2f7541e7d34725965911d74648f5cb6e0d448044a758"
+    },
+    "producer/source.diff": {
+      "bytes": 669,
+      "sha256": "f07aa3834ceae80c6124f3a364d08f47f0a21fc9f3028c667f1be6fe121250a5"
+    },
+    "producer/successor-pins.json": {
+      "bytes": 28781,
+      "sha256": "eb4f717af7eb3ae32c379aeaa0e98832c3595ec40988a2e99c1f4b5bd9bb0517"
+    },
+    "run/comparison.json": {
+      "bytes": 24324,
+      "sha256": "527a4556127e0cdde82fbf99a4f2650c8c24a8f10f97bf535c446f711d2c6d84"
+    },
+    "run/direct-context.icc": {
+      "bytes": 572,
+      "sha256": "42d1e258eddfda5492ad878a0077e1365c9662cfe90789c9663333f24bf3c3ff"
+    },
+    "run/direct-preencode.raw": {
+      "bytes": 24592384,
+      "sha256": "c9901bf19779f13db88cfe83b0550433f699946dd25f46a50908a9fb8d26d495"
+    },
+    "run/direct.png": {
+      "bytes": 816930,
+      "sha256": "08c139ef8e76f28c214bd3dbb4f00c06f243afdc95431231480bab0c6119c97f"
+    },
+    "run/direct.rgba": {
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "run/graph-context.icc": {
+      "bytes": 572,
+      "sha256": "42d1e258eddfda5492ad878a0077e1365c9662cfe90789c9663333f24bf3c3ff"
+    },
+    "run/graph-direct-context.icc": {
+      "bytes": 572,
+      "sha256": "42d1e258eddfda5492ad878a0077e1365c9662cfe90789c9663333f24bf3c3ff"
+    },
+    "run/graph-direct-preencode.raw": {
+      "bytes": 24592384,
+      "sha256": "c9901bf19779f13db88cfe83b0550433f699946dd25f46a50908a9fb8d26d495"
+    },
+    "run/graph-direct.png": {
+      "bytes": 933434,
+      "sha256": "b5736bc1e2340bdf6347b54f0301d76654161fddcf5d04778e94354185d339ed"
+    },
+    "run/graph-direct.rgba": {
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "run/graph-terminal-context.icc": {
+      "bytes": 572,
+      "sha256": "42d1e258eddfda5492ad878a0077e1365c9662cfe90789c9663333f24bf3c3ff"
+    },
+    "run/graph-terminal-preencode.raw": {
+      "bytes": 24592384,
+      "sha256": "72fe5248d3abc54b81a9b22b3fe10d2a03974f78f99cd1370e87c1617f205a4c"
+    },
+    "run/graph-terminal.png": {
+      "bytes": 933754,
+      "sha256": "f498683a03b4aa39c199864dff601fbbbd77979c69fd056403d90b88f32d779a"
+    },
+    "run/graph-terminal.rgba": {
+      "bytes": 24585600,
+      "sha256": "903ad64625152e362a8a1deca1a464c03b84648a470a14e8b6e4607610879f2b"
+    },
+    "run/input.icc": {
+      "bytes": 3144,
+      "sha256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    },
+    "run/input.raw": {
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "run/input.rgba": {
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "run/report.json": {
+      "bytes": 9253,
+      "sha256": "bedfa46d4e65014163397a9aa790369fbdd92e56673b875615bd47d65e9ba440"
+    },
+    "run/terminal-bgra.raw": {
+      "bytes": 24585600,
+      "sha256": "53ecf28104b9d90cf82cffa451aed9e1d67eb7ac2bf87800220e5b37f3051aa3"
+    },
+    "run/terminal-propagating-CGColorSpace.icc": {
+      "bytes": 660,
+      "sha256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    "sdk/CGColorSpace.h": {
+      "bytes": 21862,
+      "sha256": "0da9cb75bc3fe3c5477145954c05ccf884d046918e16e7c5f4b619a63d5dde50"
+    },
+    "sdk/CoreGraphics.apinotes": {
+      "bytes": 53963,
+      "sha256": "99aac1a48f028b446ff84fb8a993a4fd370a1a609963c16157291e2968f6d170"
+    }
+  },
+  "storage": "Lossless tar hardlinks share exact duplicate file bytes; each logical payload retains its own length/hash. Frozen objects/modules/worker, fixed input/report and historical packet remain referenced by existing authority, not duplicated.",
+  "originalCompileFailure": {
+    "file": "compile-failure.tar.gz",
+    "bytes": 36586,
+    "sha256": "cfec8e99ec05905e5f3cfc19d1d7bb35fbbfdd1c6c518196559a018648d83a5b"
+  },
+  "processes": [
+    {
+      "label": "compile-1",
+      "args": [
+        "/Library/Developer/CommandLineTools/usr/bin/clang",
+        "-fobjc-arc",
+        "-isysroot",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-mmacosx-version-min=26.0",
+        "-c",
+        "/tmp/screenrec-23l-one-image-stage-successor/FrameStageObserver.m",
+        "-o",
+        "/tmp/screenrec-23l-one-image-stage-successor/observer.o"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 93476,
+      "startedAt": "2026-10-02T01:03:54.490089+00:00",
+      "timeoutSeconds": null,
+      "endedAt": "2026-10-02T01:03:56.450354+00:00",
+      "elapsedSeconds": 1.9603086249844637,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/compile-1.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/compile-1.stderr",
+        "bytes": 1694,
+        "sha256": "c6658689cfc9a9746a88cc54b227cd5fc88af8c3bc96c769c71c0d0579cdf725"
+      }
+    },
+    {
+      "label": "compile-2",
+      "args": [
+        "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-parse-as-library",
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-sdk",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-module-cache-path",
+        "/tmp/screenrec-23l-one-image-stage-successor/module-cache",
+        "-I",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules",
+        "-import-objc-header",
+        "/tmp/screenrec-23l-one-image-stage-successor/FrameStageObserver.h",
+        "/tmp/screenrec-23l-one-image-stage-successor/ColorStages.swift",
+        "/tmp/screenrec-23l-one-image-stage-successor/observer.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/AcousticImage.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionFrameRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionPictureExecutor.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CompositionVideoRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/CursorOverlay.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameImage.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameSource.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/FrameTypes.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/MovieClock.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/OutputSettings.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PointerSchedule.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PreparedPointers.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PresentationEvidence.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/PresentationSource.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/RetainedJSONLines.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SampleSelection.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceFrameRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceImageRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/SourceVisualSamples.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/TextRaster.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VideoColorPolicy.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VideoRenderer.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderFrames.build/VisualSamples.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/AudioSourceReader.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/CompositionAsset.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/CompositionProcessing.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/DescriptorAudioType.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ExactRange.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ExactTime.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/FontFile.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/FontProbe.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/MediaInput.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/MediaProbe.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/NativeFailure.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/OutputFile.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ProcessResources.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/SampleTiming.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/ScalarProgram.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/StillImageSource.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/TimeSpan.swift.o",
+        "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/ScreenRecorderMedia.build/VideoDisplay.swift.o",
+        "-framework",
+        "Foundation",
+        "-framework",
+        "CoreGraphics",
+        "-framework",
+        "CoreImage",
+        "-framework",
+        "CoreVideo",
+        "-framework",
+        "CoreMedia",
+        "-framework",
+        "AVFoundation",
+        "-framework",
+        "AudioToolbox",
+        "-framework",
+        "CoreText",
+        "-framework",
+        "ImageIO",
+        "-framework",
+        "UniformTypeIdentifiers",
+        "-framework",
+        "VideoToolbox",
+        "-framework",
+        "CryptoKit",
+        "-o",
+        "/tmp/screenrec-23l-one-image-stage-successor/color-stages"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 93535,
+      "startedAt": "2026-10-02T01:03:56.453708+00:00",
+      "timeoutSeconds": null,
+      "endedAt": "2026-10-02T01:05:34.363417+00:00",
+      "elapsedSeconds": 97.90906591698877,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/compile-2.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/compile-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "diagnostic",
+      "args": [
+        "/tmp/screenrec-23l-one-image-stage-successor/color-stages",
+        "/tmp/screenrec-23l-packet/runs/third/31-project-raw.png",
+        "/tmp/screenrec-23l-one-image-stage-preparation/stage-request.json",
+        "/tmp/screenrec-23l-one-image-stage-successor/run"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 94646,
+      "startedAt": "2026-10-02T01:05:34.368046+00:00",
+      "timeoutSeconds": 30,
+      "endedAt": "2026-10-02T01:05:35.670486+00:00",
+      "elapsedSeconds": 1.3024442089954391,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/diagnostic.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/diagnostic.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "pixels-1",
+      "args": [
+        "/tmp/screenrec-21e-image-pixels",
+        "/tmp/screenrec-23l-packet/runs/third/31-project-raw.png",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/input.rgba"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 94708,
+      "startedAt": "2026-10-02T01:05:35.672470+00:00",
+      "timeoutSeconds": 30,
+      "endedAt": "2026-10-02T01:05:35.862778+00:00",
+      "elapsedSeconds": 0.1903214170015417,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-1.stdout",
+        "bytes": 204,
+        "sha256": "16d6a570f66225634f5a6f26e558359a42830ad340843783b67c61e91ae6ab8e"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "pixels-2",
+      "args": [
+        "/tmp/screenrec-21e-image-pixels",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/direct.png",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/direct.rgba"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 94709,
+      "startedAt": "2026-10-02T01:05:35.865986+00:00",
+      "timeoutSeconds": 30,
+      "endedAt": "2026-10-02T01:05:36.057173+00:00",
+      "elapsedSeconds": 0.1912004159821663,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-2.stdout",
+        "bytes": 204,
+        "sha256": "3326a1354dc47d8182aaa8b76ef78b56f78f64d0ea6e18460106aac937b3aae1"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "pixels-3",
+      "args": [
+        "/tmp/screenrec-21e-image-pixels",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/graph-direct.png",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/graph-direct.rgba"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 94710,
+      "startedAt": "2026-10-02T01:05:36.058510+00:00",
+      "timeoutSeconds": 30,
+      "endedAt": "2026-10-02T01:05:36.193922+00:00",
+      "elapsedSeconds": 0.13542224999400787,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-3.stdout",
+        "bytes": 204,
+        "sha256": "f7dd72cdb32662c450716cc2214829467589be0fd5ebec3023e629ea5ca4b2dc"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-3.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "pixels-4",
+      "args": [
+        "/tmp/screenrec-21e-image-pixels",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/graph-terminal.png",
+        "/tmp/screenrec-23l-one-image-stage-successor/run/graph-terminal.rgba"
+      ],
+      "cwd": "/tmp/screenrec-23l-one-image-stage-successor",
+      "pid": 94711,
+      "startedAt": "2026-10-02T01:05:36.194847+00:00",
+      "timeoutSeconds": 30,
+      "endedAt": "2026-10-02T01:05:36.329627+00:00",
+      "elapsedSeconds": 0.13480012500076555,
+      "exitCode": 0,
+      "stdout": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-4.stdout",
+        "bytes": 204,
+        "sha256": "bbcace99873209e426b6fe9f7b3c3c014c0832ae03824a61ea991466db94e1c3"
+      },
+      "stderr": {
+        "path": "/tmp/screenrec-23l-one-image-stage-successor/pixels-4.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "toolSessions": {
+    "successorRunner": {
+      "sessionId": 62655,
+      "actualExitCode": 0
+    },
+    "offlineComparison": {
+      "sessionId": 9125,
+      "actualExitCode": 0,
+      "pidRetained": false
+    }
+  },
+  "executedSources": {
+    "ColorStages.swift": {
+      "bytes": 9819,
+      "sha256": "9ee63a04ab6d031cd9fae805fe5ec1464b8bdd5c0611401e887f5d52a2f01199"
+    },
+    "FrameStageObserver.h": {
+      "bytes": 325,
+      "sha256": "9b90a41dbaea28d26cc951c2c71a79804e75a620d9c7ffea032ac9053635a623"
+    },
+    "FrameStageObserver.m": {
+      "bytes": 5175,
+      "sha256": "5d2a37cf71398f736eeb4e56b645c9dd87b21dcecce806180669fe838efe516d"
+    },
+    "execute.py": {
+      "bytes": 3189,
+      "sha256": "53db11791c7b9e845750fb309c26c3e95c775af47b2e9166dbab6c4c56489e13"
+    },
+    "compare.py": {
+      "bytes": 4152,
+      "sha256": "cabed10b1270f86f08327ff6664ad23240da3300b86c93ba538957bda8c4c62e"
+    }
+  },
+  "executedBinary": {
+    "preservedAt": "/tmp/screenrec-23l-one-image-stage-successor/color-stages",
+    "bytes": 4120384,
+    "sha256": "f73983e899c29869003b10d76b2826b0570fec80451871477b9be8f5c3092019"
+  },
+  "immediatePreservation": {
+    "pinsChecked": 119,
+    "before": {
+      "bytes": 28781,
+      "sha256": "9bad4bdb5c242e97e5c8fdb8b4e382122b0655e73ad8e7ac1243f7445881cdb0"
+    },
+    "after": {
+      "bytes": 28781,
+      "sha256": "63c46606940bde0dbb28cb348dd95c43f05bb6fd0b9a90f349cd6b90f9076043"
+    },
+    "allEqual": true
+  },
+  "restrictions": {
+    "imageDiagnosticAttempts": 1,
+    "diagnosticBoundSeconds": 30,
+    "existingPixelReaderCommands": 4,
+    "movieDecoderInvocations": 0,
+    "modelOrServiceOperations": 0,
+    "workerOrModuleRebuilds": 0,
+    "productionEdits": 0,
+    "tolerancePolicy": null,
+    "privateHalfFloatSamplesObserved": false,
+    "historicalDecoderCauseProved": false,
+    "workerBinaryEquivalenceClaimed": false
+  },
+  "meaning": "Input/direct/same compiled graph direct normalized RGBA equal in all bytes. Only the same graph through actual Rec.709 BGRA terminal/publication changes this fixed PNG. Exact route localization is sufficient to investigate shared graph publication; it does not isolate an internal rounding operation or prove historical decoder-buffer equality."
+}

@@ -1,0 +1,114 @@
+{
+  "completeComparisonPayload": "evidence.tar.gz:run/comparison.json",
+  "completeBoundaryReportPayload": "evidence.tar.gz:run/report.json",
+  "dimensions": {
+    "width": 3120,
+    "height": 1970
+  },
+  "normalizedSamples": {
+    "input": {
+      "file": "/tmp/screenrec-23l-one-image-stage-successor/run/input.rgba",
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "direct": {
+      "file": "/tmp/screenrec-23l-one-image-stage-successor/run/direct.rgba",
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "graph-direct": {
+      "file": "/tmp/screenrec-23l-one-image-stage-successor/run/graph-direct.rgba",
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0"
+    },
+    "graph-terminal": {
+      "file": "/tmp/screenrec-23l-one-image-stage-successor/run/graph-terminal.rgba",
+      "bytes": 24585600,
+      "sha256": "903ad64625152e362a8a1deca1a464c03b84648a470a14e8b6e4607610879f2b"
+    }
+  },
+  "comparisons": {
+    "input -> direct": {
+      "equal": true,
+      "bytes": 24585600,
+      "changedPixels": 0,
+      "changedSamples": 0,
+      "channelDeltas": {
+        "R": {},
+        "G": {},
+        "B": {},
+        "A": {}
+      }
+    },
+    "direct -> graph-direct": {
+      "equal": true,
+      "bytes": 24585600,
+      "changedPixels": 0,
+      "changedSamples": 0,
+      "channelDeltas": {
+        "R": {},
+        "G": {},
+        "B": {},
+        "A": {}
+      }
+    },
+    "graph-direct -> graph-terminal": {
+      "equal": false,
+      "bytes": 24585600,
+      "changedPixels": 4907,
+      "changedSamples": 4966,
+      "changedOuterBorderPixels": 0,
+      "channelDeltas": {
+        "R": {
+          "-1": 3276,
+          "1": 626
+        },
+        "G": {
+          "-1": 34,
+          "1": 426
+        },
+        "B": {
+          "-1": 154,
+          "1": 450
+        },
+        "A": {}
+      }
+    }
+  },
+  "providerComparisons": {
+    "input -> direct": {
+      "fullProviderEqual": false,
+      "sameLength": false,
+      "activeRowsEqual": true
+    },
+    "input -> graph-direct": {
+      "fullProviderEqual": false,
+      "sameLength": false,
+      "activeRowsEqual": true
+    },
+    "input -> graph-terminal": {
+      "fullProviderEqual": false,
+      "sameLength": false,
+      "activeRowsEqual": false
+    },
+    "direct -> graph-direct": {
+      "fullProviderEqual": true,
+      "sameLength": true,
+      "activeRowsEqual": true
+    },
+    "direct -> graph-terminal": {
+      "fullProviderEqual": false,
+      "sameLength": true,
+      "activeRowsEqual": false
+    },
+    "graph-direct -> graph-terminal": {
+      "fullProviderEqual": false,
+      "sameLength": true,
+      "activeRowsEqual": false
+    }
+  },
+  "allProviderActiveRowsExactlyEqualMatchingNormalizedRGBA": true,
+  "tolerance": null,
+  "historicalDecoderCauseProved": false,
+  "privateHalfFloatFramebufferObserved": false
+}
