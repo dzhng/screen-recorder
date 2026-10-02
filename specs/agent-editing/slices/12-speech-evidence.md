@@ -127,3 +127,11 @@ explicit filler labels. It retains every recognition miss and eight negative
 utterances. Sampling is enriched, one voice supplies the material, pretraining
 exclusion is unknown and no independent acoustic edges are supplied. This broadens
 lexical characterization without closing held-out timing, listening or adoption.
+
+The [independent manual-word example](12k-independent-word-timing.md) adds ten
+edge observations at six distinct human times. Unchanged Parakeet recognizes all
+five words and meets the existing numerical timing criteria on that case. The
+full shared evaluation remains pending: it supplies no fillers, walkthrough,
+audition or model-training exclusion. Its preparation-only directory timeout and
+restored previously executed directory are separate actual runs, not a causal
+cache or host result. No further recognition is queued for that example.

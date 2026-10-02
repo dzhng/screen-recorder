@@ -1,0 +1,62 @@
+{
+  "scope": "Root saved-data requalification only, no inference/native/conversion/model/scorer rerun",
+  "bindingsChecked": 32,
+  "lexical": {
+    "referenceWords": 5,
+    "predictedWords": 5,
+    "matched": 5,
+    "omissions": 0,
+    "extras": 0
+  },
+  "timing": {
+    "edgeObservations": 10,
+    "distinctTimes": 6,
+    "medianMs": 40,
+    "p95Ms": 160,
+    "maxMs": 160,
+    "sharedEvaluationStatus": "pending",
+    "thresholdsUnchanged": true
+  },
+  "originalFailure": {
+    "session": 51087,
+    "producerExit": 1,
+    "native": {
+      "pid": 34310,
+      "code": null,
+      "signal": "SIGKILL",
+      "closedAt": "2026-10-02T04:05:05.586Z"
+    },
+    "speechReplies": 0
+  },
+  "completedContinuation": {
+    "session": 56068,
+    "producerExit": 0,
+    "native": {
+      "pid": 48506,
+      "code": 0,
+      "signal": null,
+      "closedAt": "2026-10-02T04:13:57.280Z"
+    },
+    "metadataReplay": 0,
+    "speechReplies": 1
+  },
+  "referenceFidelity": "Exact previously executed12j model directory restored;22same files in both directories; each receipt retains its own inode+mtime. No timeout/path/cache/host causality established.",
+  "preservation": "Original and continuation before/after source/model/runtime/report arrays remain equal; exact producer and payload hashes match root copies.",
+  "independentReview": {
+    "findings": [],
+    "checks": "79unique exact pins,44model files/2own receipts, actual12j model request, official manual tier/private reference correspondence, complete normalized production spoken ranges and independent error arithmetic.",
+    "resolved": "Root pickup, parent slice and checklist move past completed recognition; no third recognition is queued."
+  },
+  "limits": [
+    "5words/one accented read utterance/0fillers; six distinct human times are not ten independent acoustic events.",
+    "Full evaluator pending; no broader timing/acoustic/filler/walkthrough/listening/model-unseen/adoption or latency/resource claim.",
+    "Original timeout and E5RT warning remain; no cause inferred.",
+    "Licensed human source/reference/scoring rows remain outsideGit; no corpus redistribution."
+  ],
+  "protectedBeforeAfterArrays": {
+    "original": 34,
+    "continuation": 60,
+    "uniqueCurrentFiles": 61,
+    "allSavedArraysAndCurrentBytesMatch": true
+  }
+}

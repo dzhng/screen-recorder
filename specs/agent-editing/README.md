@@ -22,13 +22,22 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: independent manual-word timing for the unchanged speech baseline.**
-The publicly linked L2-ARCTIC example is qualified and frozen in isolated personal
-research storage. Compare one complete utterance against its human-corrected
-boundaries using the selected Parakeet worker and shared evaluator. No alignment,
-new recipe, crop, parameter search, corpus redistribution or listening is implied.
-This adds accented read-speech timing evidence, not filler coverage or proof of
-exclusion from model training.
+**Next pickup: qualify one independent supplied-text alignment comparison.**
+The preserved [12i Qwen3 float16 recipe](slices/12i-retained-sentence-alignment.md)
+is available; compare its timing on the same fixed manual example using only the
+saved recognized text. The source is Int16, whereas its finite converter requires
+Float32: qualify the existing whole-range source-audio format bridge and exact
+sample/clock correspondence before any alignment. Preserve the numerical recipe,
+original namespaces and corrected inventory owner. No ASR repeat, corpus
+redistribution, crop, gain, padding, parameter search or adoption is implied.
+
+[12k independent manual-word timing](slices/12k-independent-word-timing.md) is
+banked: five words correspond and ten edge observations have 40ms median and
+160ms p95/max error under unchanged thresholds. [Root verification](assets/12k-independent-word-timing/merged.json)
+checks exact private source/label/runtime bindings and saved arithmetic without
+another inference. Original model-load timeout and successful restored-reference
+continuation remain separate; no timeout cause is inferred. Full evaluation
+remains pending, with zero fillers and unknown model-training overlap.
 
 [23o positive system correspondence](slices/23o-system-package-correspondence.md)
 now passes through an authored legacy inspection package and current public
@@ -227,6 +236,7 @@ implementation readiness from acceptance prerequisites.
 - [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
 - [x] [12h — Unchanged retained-sentence recognition](slices/12h-retained-sentence-recognition.md) — one case banked; timing fails and parent 12 remains open
 - [x] [12j — Independent utterance lexical diagnostic](slices/12j-external-lexical-diagnostic.md) — full bounded source/results qualified; broader timing/listening/held-out remain open
+- [x] [12k — Independent manual-word timing](slices/12k-independent-word-timing.md) — one whole manually marked example, numerical thresholds met; full evaluation pending and original timeout separate
 - [x] [12i — Retained-sentence supplied-text alignment](slices/12i-retained-sentence-alignment.md) — numerical case qualified separately from original producer inventory failure; parent 12 remains open
 - [x] [12g — Evaluator best-effort filler policy](slices/12g-evaluator-policy.md) — scorer contract only; parent speech quality remains open
 - [x] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)

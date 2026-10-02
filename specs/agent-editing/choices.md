@@ -6570,3 +6570,17 @@ outputs; no accepted media work is repeated. Original failed exits and the
 restarted recorder's overwritten pre-split native-recipe limitation remain
 visible. Separate observer output locations preserve future resumed producers;
 no missing recipe identity is reconstructed as original evidence.
+
+## Independent manual-word timing reference
+
+The [case decisions](assets/12k-independent-word-timing/choices.md) own fixed
+whole-example selection, spoken timing coordinates and the corrected reference
+restoration. Root's initial choice of a preparation-only model directory was an
+unsound reproduction assumption: matching weights and preparation do not prove
+that operation's previously executed runtime. The correction uses the actual
+successful 12j directory after complete byte/receipt qualification, changes no
+recipe or bound, and performs only the recognition that had not completed.
+Success does not identify what caused the first timeout. Human annotations and
+full scoring stay in private noncommercial research storage; only our outputs,
+aggregate measurements and identity pointers enter the repository. Neither a
+passed numerical example nor that runtime correction selects a new speech recipe.

@@ -28,4 +28,10 @@ Corpus WAV/TextGrid, complete human reference and scoring reports remain in the
 outside-Git research directory named by the evidence, under CC BY-NC4.0 private
 local noncommercial use. Git retains our executed producers, recognition, logs,
 aggregate metrics and provenance pointers. No annotation rows are redistributed,
-and no alignment, model preparation, download, crop or threshold change occurred.
+and no alignment, model preparation, model download, crop or threshold change
+occurred.
+
+[Root verification](merged.json) checks exact bindings, saved before/after arrays
+and independent error arithmetic without rerunning inference or the scorer.
+The shared pickup moves past this completed comparison; it cannot authorize a
+third recognition attempt. Broader parent requirements remain unchanged.
