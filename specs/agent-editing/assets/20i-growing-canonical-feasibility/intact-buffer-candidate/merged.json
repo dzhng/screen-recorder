@@ -1,0 +1,54 @@
+{
+  "status": "saved-evidence-pass",
+  "checkedUTC": "2026-10-02T07:47:33.284026+00:00",
+  "scope": "One distinct immutable-source passthrough candidate; no native replay or production digest/adoption",
+  "protectedPins": 358,
+  "cacheFilesUnchanged": 307,
+  "compilerAndNativeTerminalReapedAbsent": [
+    [
+      74506,
+      0
+    ],
+    [
+      74842,
+      0
+    ]
+  ],
+  "queryChildrenTerminalReapedAbsent": 6,
+  "intactForwardedBuffers": 201,
+  "mediaSamples": 197,
+  "markerOrdinals": [
+    0,
+    198,
+    199,
+    200
+  ],
+  "candidateSelectedPictures": 29,
+  "candidateSelectionMediaAdmissions": 59,
+  "activeLaterMediaAdmissions": 175,
+  "activeCopiesPictures": [
+    38,
+    158
+  ],
+  "all197FrozenPixelClockEndpointTuples": "equal",
+  "all197LogicalEncodedSourceIdentity": "equal",
+  "fullMediaFactsAndPacketReceipts": "equal; only bufferOrdinal excluded from media facts",
+  "allNativeSupportAndScale": "equal",
+  "candidateSeparateInodeAndDifferentContainerBytes": true,
+  "generalPrefixBacklogRecoveryStopPerformance": "unqualified",
+  "wholeArchiveMembersVerified": 478,
+  "byteIdenticalHardlinkMembers": 220,
+  "rootChecks": [
+    {
+      "toolChunk": "b488b2",
+      "exitCode": 0,
+      "scope": "All358 pins/cache307/actual8 terminal processes/complete197 tuples, bytes, support and facts/29 active and closed prefix"
+    },
+    {
+      "toolChunk": "26c96f",
+      "exitCode": 0,
+      "scope": "All478 archive payloads and220 safe byte-identical hardlinks"
+    }
+  ],
+  "endpointQualification": "Exact equality with frozen owner-computed endpoints; does not equate decode duration with generic presentation duration"
+}

@@ -17,3 +17,7 @@ authorities were reused. The original failed prototype remains unchanged.
 This tiny mechanism pass does not execute either production digest or qualify
 interruption, recovery, bounded backlog, sustained capture or the stop boundary.
 No production mechanism is selected by this experiment.
+
+[Root saved-data verification](merged.json) independently checks all archived
+payloads, actual process terminals and the complete pixel, clock, encoded-byte,
+support and buffer-fact comparisons. No native baseline is replayed.

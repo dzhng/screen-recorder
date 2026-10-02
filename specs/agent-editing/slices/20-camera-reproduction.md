@@ -17,8 +17,9 @@ no general prefix rule, recovery mechanism or stop improvement is qualified.
 [20h](20h-camera-idr-fence.md) subsequently qualifies complete-IDR prefixes in two
 fixed tiny raw cases, preserving the original failure separately. Exceptional
 timeout ownership remains unqualified. [20i](20i-growing-canonical-feasibility.md)
-owns the next independent growing-canonical prerequisite; no production strategy,
-physical synchronization or stop improvement follows from the raw-case passes.
+now qualifies one distinct intact-buffer growing MOV case; [20j](20j-camera-range-digests.md)
+owns range and digest-state continuation next. No production strategy,
+physical synchronization or stop improvement follows from these tiny cases.
 
 ## Contract
 

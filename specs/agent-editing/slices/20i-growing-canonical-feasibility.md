@@ -1,12 +1,12 @@
 # Growing canonical movie feasibility
 
-Status: [actual preparation result](../assets/20i-growing-canonical-feasibility/README.md)
-qualifies query-first termination/reaping, but the canonical attempt refused its
-first compressed input before constructing a writer. Its combined guard omitted
-the individual failed fields. The separate complete compressed-reader observation
-passes with markers retained; container feasibility remains unqualified. The
-original executed sources and failure stay frozen. Production adoption remains
-under camera publication.
+Status: the [intact-buffer candidate](../assets/20i-growing-canonical-feasibility/intact-buffer-candidate/README.md)
+passes one distinct growing MOV case, including active prefix preservation and
+complete closed-source correspondence. [Root saved-data review](../assets/20i-growing-canonical-feasibility/intact-buffer-candidate/merged.json)
+checks the complete operands and process outcomes without replay. The original
+failed guard and separate admission observations remain frozen. Neither
+production digest, live ownership, backlog, recovery nor stop performance is
+qualified; [range continuation](20j-camera-range-digests.md) is next.
 
 ## Compressed-reader admission
 
@@ -37,12 +37,11 @@ every media payload with its original native extent and verifies exact indexed
 clocks and size. The leading marker has neither media data nor format; this new
 observation does not recover the historical failed operands.
 
-The next prototype forwards the complete buffer stream without filtering or
+The intact-buffer prototype forwards the complete stream without filtering or
 rebuilding markers. Media membership and batch boundaries use per-sample native
-facts, separately from buffer ordinal. A batch must end at a whole-buffer boundary;
-never split grouped buffers to fit the experiment. Preserve terminal markers
-before closure and compare both attachment modes as well as media facts. Review
-and freeze this corrected prototype separately before one canonical invocation;
+facts, separately from buffer ordinal. Whole-buffer boundaries and terminal
+marker forwarding are retained in its actual append receipts. Both attachment
+modes and complete media facts compare exactly, excluding only buffer ordinal;
 the original failed sources remain unchanged.
 
 ## Contract
