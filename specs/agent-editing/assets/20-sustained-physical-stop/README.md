@@ -1,6 +1,8 @@
 # Sustained physical Stop
 
-Status: failed the unchanged ten-second deadline. One explicit public capture
+Status: the original attempt failed; the
+[joined-verification confirmation](verification-confirmation/README.md) passes
+one unchanged recipe within the ten-second deadline. The original public capture
 used the signed staged candidate, a fresh isolated library, built-in camera,
 built-in microphone and display. More than 200 seconds of active source media
 and one pause/resume distinguish this from the accepted brief capture.
@@ -30,6 +32,12 @@ qualifies primary readiness and cancellation while the camera reader is held.
 [The retained-source measurement](retained-publication-cost/README.md) now proves
 exact pictures and clocks with qualified priming and separately timed final
 publication. Its debug closed-source scope is distinct from live shutdown.
+[The physical confirmation](verification-confirmation/README.md) subsequently
+publishes both sources and exits the app/service in 9.215 seconds. That pass
+does not supply synchronization, acquisition recovery or a causal timing comparison.
+[Saved acquisition recovery](acquisition-recovery/README.md) separately reopens
+that library and retries its interrupted camera import once, reaching ready while
+preserving the primary receipt. This starts no recording and adds no project.
 No unchanged recapture is queued. These checks establish no iPhone
 synchronization, physical event onset, perceptual quality or installed release
 acceptance.

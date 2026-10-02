@@ -10,6 +10,13 @@ pass merged public media, replacement/undo and portable-history verification.
 Selector-free capture integration, independent publication and camera clock/support
 are merged-verified. Atomic public selection is also merged-verified through
 [21f3](21f3-public-camera-selection.md); physical/lifecycle acceptance remains open.
+The [sustained physical confirmation](../assets/20-sustained-physical-stop/verification-confirmation/README.md)
+now passes independent source publication and actual app/service shutdown on one
+explicit built-in-device recipe. Synchronization and remaining interruption/
+acquisition lifecycle acceptance stay open; camera import was interrupted by quit.
+[Saved acquisition recovery](../assets/20-sustained-physical-stop/acquisition-recovery/README.md)
+separately reaches ready after one explicit retry of that interrupted import;
+the primary receipt and original failed attempt remain intact.
 Implementation dependencies: [04](04-projects.md), [09](09-first-preview.md) and
 the verified clock/materialization/publication owners in
 [20a](20a-offline-clock.md), [20d](20d-capture-publication.md) and

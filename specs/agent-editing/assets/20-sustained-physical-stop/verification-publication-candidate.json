@@ -1,5 +1,5 @@
 {
-  "status": "signed staged candidate; physical confirmation pending",
+  "status": "signed staged candidate; declared physical confirmation documented separately",
   "scope": "Camera continuing verification joins in camera publication; no installed replacement/library change or release acceptance",
   "buildReport": {
     "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/build.json",
@@ -202,8 +202,13 @@
   ],
   "actualPhysicalProducer": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/sustained-physical-stop-verification/report.json",
   "limits": [
-    "Preparation and signature only; original ten-second physical deadline remains unproved",
+    "This build report proves preparation and signature only; physical timing is documented separately under physicalConfirmation",
     "Inspect actual producer/process terminal state before restarting; no unchanged retry",
     "Original staged candidates, frozen native worker and installed library stay intact"
-  ]
+  ],
+  "physicalConfirmation": {
+    "status": "passed one unchanged recipe under original ten-second deadline",
+    "verification": "verification-confirmation/verification.json",
+    "scope": "both source publication and app/service quit; no installed/synchronization/general timing verdict"
+  }
 }

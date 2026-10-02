@@ -1,0 +1,148 @@
+{
+  "status": "passed one saved sustained-camera acquisition retry after actual app quit",
+  "scope": "One saved sustained capture source-admission recovery; no capture or publication replay. No sync/installed/general performance verdict.",
+  "wholeSeconds": 34.98405583295971,
+  "wholeLimitSeconds": 90,
+  "explicitRetryCount": 1,
+  "beforeCamera": {
+    "jobId": "1b13ff16-5530-451d-a53a-ab58bfcaef0b",
+    "attemptId": "d26503a2-52a8-4e36-8062-832d1729b9bc",
+    "artifact": "acquisition.import",
+    "lane": "heavy",
+    "state": "failed",
+    "reason": "interrupted",
+    "generation": 1,
+    "errorCode": "JOB_INTERRUPTED",
+    "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+    "target": {
+      "kind": "acquisition",
+      "acquisitionId": "a85a4768-6621-4250-8377-a5f06e4485e6"
+    },
+    "retryable": true,
+    "errorDetails": null,
+    "result": null
+  },
+  "afterCamera": {
+    "jobId": "1b13ff16-5530-451d-a53a-ab58bfcaef0b",
+    "attemptId": "8c63bac2-3b6a-4215-8edd-4db9fa709002",
+    "artifact": "acquisition.import",
+    "lane": "heavy",
+    "state": "ready",
+    "reason": null,
+    "generation": 2,
+    "errorCode": null,
+    "inputSha256": "460ee6aa3a80359181b794cc31a7185addba77626e9f719c10e3c8efb8668a1d",
+    "target": {
+      "kind": "acquisition",
+      "acquisitionId": "a85a4768-6621-4250-8377-a5f06e4485e6"
+    },
+    "retryable": false,
+    "errorDetails": null,
+    "result": {
+      "acquisitionId": "a85a4768-6621-4250-8377-a5f06e4485e6"
+    }
+  },
+  "primaryUnchanged": true,
+  "sourceFactsPolicy": "Original media byte sizes checked; existing captured hashes and publication receipts reused, not independently rehashed.",
+  "originalMediaSizesUnchanged": true,
+  "noAutomaticProjectOrRevision": true,
+  "candidatePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "bytes": 6374352,
+      "sha256": "1eb2c16b6a1ef9ecb8e5f4ccde15a8e1b0705e8fb26d1f090b79ae24049fa2f1"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 20435936,
+      "sha256": "5e38fab26600fae6c4c5e6424ed0b8bde29c24ae575c75d8af53d65cda47cd38"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 4264481,
+      "sha256": "55dd55ffcb45b0f0eda71d7c4ce4acc74d714c8171fc1364b8f2dfa814965fd6"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1157361,
+      "sha256": "1db05a47b04b89e72529433ea97d56570d8ace18366252590be7d1262a8880e3"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    }
+  ],
+  "terminal": {
+    "appPid": 47399,
+    "servicePid": 47401,
+    "appExitCode": 0,
+    "appReaped": true,
+    "servicePidAbsent": true,
+    "socketAbsent": true
+  },
+  "privateReport": {
+    "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/sustained-acquisition-recovery/report.json",
+    "bytes": 183398,
+    "sha256": "6de497cda6ee64c09efa7540a34040adcf3da9793762dd77a3855a5b5ad4d784"
+  },
+  "rootValidation": {
+    "candidateAndPriorSmallPins": true,
+    "allCLIActualExitCodesZero": true,
+    "singleRetry": true,
+    "actualPidsAndSocketAbsent": true,
+    "mediaRehashed": false
+  },
+  "archive": {
+    "bytes": 12492,
+    "sha256": "754818061d2f6b2ffa7787373bf3c476f7922d612eaf35590eb61ed2d754ac3e",
+    "file": "evidence.tar.xz",
+    "members": [
+      {
+        "file": "active.json",
+        "bytes": 84,
+        "sha256": "9c6a3090ce5fd5f5b8b3e3d1d9590882ce9691c79a350435b03c1088a4402f7f"
+      },
+      {
+        "file": "app.stderr",
+        "bytes": 324,
+        "sha256": "2ffa5e0fbccccb40737006ee055ca213029a9fa3661eb79f1558c273813e4b26"
+      },
+      {
+        "file": "app.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "plan.json",
+        "bytes": 2417,
+        "sha256": "43fe0b3906472ea53abf6946e235fafaf783e5ab55c0059aff1963e7b8ba4b5e"
+      },
+      {
+        "file": "report.json",
+        "bytes": 183398,
+        "sha256": "6de497cda6ee64c09efa7540a34040adcf3da9793762dd77a3855a5b5ad4d784"
+      },
+      {
+        "file": "run.py",
+        "bytes": 6840,
+        "sha256": "51d763ddfe80389b4544b43de43f3ff1f951dc41e0fa94d40f69b80d4411eea9"
+      }
+    ]
+  },
+  "limits": [
+    "One declared source-admission recovery case; no installed acceptance, synchronization or general performance claim",
+    "No new capture, publication replay, inference, model preparation or editorial action",
+    "Original media sizes and existing hash receipts checked; root did not rehash media",
+    "Original physical-stop report and failed camera attempt retained; retry supplies a new generation, not a rewrite of that failure"
+  ],
+  "supervisorTerminalAuthority": {
+    "sessionId": 8431,
+    "initialChunkId": "58edc0",
+    "terminalChunkId": "e4a87a",
+    "actualExitCode": 0,
+    "terminalObservationCallSeconds": 1.685644417,
+    "returnedSessionId": false,
+    "meaning": "Final tool observation elapsed is not total producer runtime; whole operation elapsed is retained separately"
+  }
+}

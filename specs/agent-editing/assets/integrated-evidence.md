@@ -1,5 +1,13 @@
 # Integrated evidence index
 
+- [Sustained physical Stop](20-sustained-physical-stop/verification-confirmation/README.md)
+  passes one selected built-in-device recipe: both sources publish at 9.172
+  seconds and actual app/service exit is observed at 9.215 seconds. Earlier
+  physical failures, independent readiness/cancellation proofs and the separately
+  scoped debug retained-source cost result remain pinned. Camera acquisition was
+  interrupted by the requested quit; synchronization and installed acceptance
+  stay open. No cross-case causal speedup is claimed.
+
 - [Atomic selected-camera integration](21f3-public-camera-selection/merged-verification.json)
   verifies allocation, actual controller/native input, independent recovery and
   READY admission, explicit project edits and portable adoption. Final identities
@@ -11,8 +19,9 @@
   residual seam; stronger overlap is rejected for whirling.
 
 - [Camera picture hashing](20e-camera-picture-hashing/README.md) preserves all decoded
-  pictures while reducing offline publication work. The ten-second/live-stop and
-  physical synchronization gates remain open.
+  pictures while reducing offline publication work. That packet does not prove
+  live shutdown; the sustained physical result above owns its later declared
+  scope. Physical synchronization remains open.
 
 - [Populated events/cursor duration](24y-source-event-duration/README.md) passes
   complete clock/payload/provenance and unchanged latency/memory checks. Exact
@@ -157,6 +166,14 @@
   measurement](20e-selected-device-probe/stop-scale/README.md) preserves them but
   exceeds the existing10-second quit fallback; live capture/drain/AppKit acceptance
   and timeout policy are unchanged.
+- [Retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
+  uniquely joins one native sample, current packet and decoded YUV frame. PNG
+  selection and finite-view clock gates failed; no complete RGB correspondence,
+  physical onset or synchronization verdict follows.
+- [Saved sustained-camera acquisition recovery](20-sustained-physical-stop/acquisition-recovery/README.md)
+  retries the interrupted import once after reopening the same private library.
+  Both acquisitions reach ready, the primary receipt stays unchanged and owned
+  processes close. No capture, automatic project or installed verdict follows.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.
@@ -189,8 +206,9 @@
   cancellation. The [H264 interruption case](20f-camera-publication-overlap/h264-interruption/README.md)
   preserves the shorter decoded prefix and speculative-file cleanup; its original
   observer crash is separate. [Retained metadata eligibility](20f-camera-publication-overlap/retained-eligibility/README.md)
-  establishes the predicate without publication. Actual full-take overlap, resource
-  use, physical capture and the completed-stop deadline remain unproved.
+  establishes the predicate without publication. Later continuing verification
+  and sustained physical results own adoption and shutdown; this packet supplies
+  no general resource, synchronization or installed verdict.
 - [Raw-prefix feasibility](../slices/20g-camera-raw-prefix.md) preserves original
   setup failures, separate compile readiness and mixed physical outcomes. Root
   [saved-data checks](20g-camera-raw-prefix/physical-continuation/merged.json) verify

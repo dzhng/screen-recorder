@@ -1,0 +1,481 @@
+{
+  "status": "exact native AU/current packet/actual YUV frame binding qualified at one target; PNG and RGBA correspondence unfinished",
+  "scope": "First saved confirm01 only; original native-versus-reference complete-RGBA red unchanged",
+  "first": {
+    "closure": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-execution/closure.json",
+      "bytes": 13492,
+      "sha256": "27f9229ee4f262e76d4e7124efe7ca274f0b5ef8cb6bffe3bf198cbbbb79faec"
+    },
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-execution/report.json",
+      "bytes": 42354,
+      "sha256": "fcad21616a26d6fa8cd8944147baa247375b158a2c2483631da1f5aee32f7ac3"
+    },
+    "manifest": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-execution/manifest.json",
+      "bytes": 13818,
+      "sha256": "30b3efedbc3b1d7b30cf3448a0ad2ae095bb9cb4a69cc7b137f6b8f03b0ffd89"
+    },
+    "outcome": "native target and preceding packets uniquely joined; following absent from fixed native-clock interval; stopped before decode"
+  },
+  "packetClockSuccessor": {
+    "closure": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-ffclock-successor/closure.json",
+      "bytes": 17094,
+      "sha256": "8d0f4129bbcd5a7bd4a446506d1bc2f6399ab1ab0d03867b2a0670dde91bd007"
+    },
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-ffclock-successor/report.json",
+      "bytes": 72154,
+      "sha256": "013b0f93fd2443e2a57fada9f870b07deed52d4a4790a0a930df5afaf42781e3"
+    },
+    "manifest": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-ffclock-successor/manifest.json",
+      "bytes": 4415,
+      "sha256": "9762757764856ea36f62b07c5fd919028e59fce653b724a81911cc0cdb26bb8c"
+    },
+    "outcome": "all three unique packet byte joins and target raw frame PTS/position/size match; PNG seek/selection failed; FFmpeg killed and supervisor exit1",
+    "packetFrameProof": {
+      "allThreeUniquePacketByteJoins": {
+        "target": {
+          "pts": "83986213",
+          "dts": "83563553",
+          "duration": "33340",
+          "size": "117198",
+          "pos": "138219116",
+          "flags": "___",
+          "data_hash": "SHA256:3ca8314f1858f26f8d8b70ef50c0b81a6bf217021602d112a387ace06c82fc8b"
+        },
+        "preceding": {
+          "pts": "83652853",
+          "dts": "83263533",
+          "duration": "66670",
+          "size": "211401",
+          "pos": "137696601",
+          "flags": "K__",
+          "data_hash": "SHA256:81ffc1c22e109b1cdcc81b416e7ad15866d4019e17305e3c301d4b98e08cb59a"
+        },
+        "following": {
+          "pts": "85286313",
+          "dts": "84896993",
+          "duration": "33340",
+          "size": "216320",
+          "pos": "140553927",
+          "flags": "K__",
+          "data_hash": "SHA256:96e0e9963e5b66d536ae98e5dbc6c887673d7ff8e82cb08e17660d6ce40f0c3a"
+        }
+      },
+      "oneUniqueTargetFrame": {
+        "media_type": "video",
+        "key_frame": "0",
+        "pts": "83986213",
+        "pkt_dts": "83730233",
+        "best_effort_timestamp": "83986213",
+        "pkt_pos": "138219116",
+        "pkt_size": "117198",
+        "width": "1920",
+        "height": "1080",
+        "pix_fmt": "yuv420p"
+      },
+      "frameMetadataOwner": "FFprobe actual rawpts/pkt_pos/pkt_size; best_effort/pkt_dts/ordinal never substituted"
+    }
+  },
+  "archive": {
+    "bytes": 168972,
+    "sha256": "c0e426ca99fd7b9e5945ea4a4ee1fe45fdb42f038875314af1f33e92dafd07e4",
+    "file": "evidence.tar.xz",
+    "members": [
+      {
+        "file": "current-binding-execution/BufferFacts.swift",
+        "bytes": 7563,
+        "sha256": "4da22833993ad1707a2cde2cf57e65a2e7e678bc0560bb01482d8648484f99c6"
+      },
+      {
+        "file": "current-binding-execution/Observation.swift",
+        "bytes": 17323,
+        "sha256": "761b3e872be774d91512c72cca9d12e537d32c67c9bc01f1d6e76b995359b751"
+      },
+      {
+        "file": "current-binding-execution/References.swift",
+        "bytes": 9074,
+        "sha256": "3a17ff11eaec2161d9b56dad2c318caad7b713ada63eee8bda3ccb1228c44d7f"
+      },
+      {
+        "file": "current-binding-execution/Target.swift",
+        "bytes": 6181,
+        "sha256": "5d5f732b3839b11d8bd614aa31474a7bbd8bb1bc95546ee9874d865062191ee0"
+      },
+      {
+        "file": "current-binding-execution/before-pins.json",
+        "bytes": 11162,
+        "sha256": "c14c5a38f79a127859ec2e314791c67ea671a413fea0b64546f9e0b4c48c6bcf"
+      },
+      {
+        "file": "current-binding-execution/closure.json",
+        "bytes": 13492,
+        "sha256": "27f9229ee4f262e76d4e7124efe7ca274f0b5ef8cb6bffe3bf198cbbbb79faec"
+      },
+      {
+        "file": "current-binding-execution/compile-argv.json",
+        "bytes": 5621,
+        "sha256": "6d7b381da57d6f15c179aeae1c25dc077812c76e840e6cc89e19bc9586acbf46"
+      },
+      {
+        "file": "current-binding-execution/compile-inputs.json",
+        "bytes": 11150,
+        "sha256": "5390648cbad4c650e73f8f5239eff05b05053c200f82a4f62d9f0e646c0d3a91"
+      },
+      {
+        "file": "current-binding-execution/compile-process.json",
+        "bytes": 6045,
+        "sha256": "4afd2cf37e39e11e380667f287c2c9c73bf92a6156ded6d1f2223fde6e15da0a"
+      },
+      {
+        "file": "current-binding-execution/compile.py",
+        "bytes": 1338,
+        "sha256": "1979699d40f76b1b3024594d82252e0946eb70f56bc44922fa603a2fa9c36e58"
+      },
+      {
+        "file": "current-binding-execution/compile.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/compile.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/data.py",
+        "bytes": 9952,
+        "sha256": "09186be89179e71cecfc9b3d70b651ac48ad7e8a61d4c19829409777436d1ff2"
+      },
+      {
+        "file": "current-binding-execution/executed-binary.json",
+        "bytes": 269,
+        "sha256": "4fcbcdd694e4a34b43ce438ad9474e3a19921c9c3925481246fc69e6c1e962ce"
+      },
+      {
+        "file": "current-binding-execution/ffmpeg-libraries.txt",
+        "bytes": 3959,
+        "sha256": "f557efb02a971b78e766ab492ed8b01ab87d13c15853d6852e0fc43d35e97fd8"
+      },
+      {
+        "file": "current-binding-execution/ffmpeg-version.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/ffmpeg-version.stdout",
+        "bytes": 826,
+        "sha256": "8830e8e1fff6bf09c9a577b8ad96375df7fdb9e38b188c945f8572147e6a6550"
+      },
+      {
+        "file": "current-binding-execution/ffprobe-libraries.txt",
+        "bytes": 3960,
+        "sha256": "bdfd271a9436ddc698240617e522340b6e9cc38105c14427d7edc7574b1c04da"
+      },
+      {
+        "file": "current-binding-execution/ffprobe-version.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/ffprobe-version.stdout",
+        "bytes": 801,
+        "sha256": "02fc12664a1197a1371c24546b454aa6de28fecd0a7d52308f99184b371a5011"
+      },
+      {
+        "file": "current-binding-execution/manifest.json",
+        "bytes": 13818,
+        "sha256": "30b3efedbc3b1d7b30cf3448a0ad2ae095bb9cb4a69cc7b137f6b8f03b0ffd89"
+      },
+      {
+        "file": "current-binding-execution/native.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/native.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/native/access-units.json",
+        "bytes": 6402,
+        "sha256": "f0584175a44fa33b84eecb98d68ac715b1837ca5a7f6967fe2951ad540adbb4c"
+      },
+      {
+        "file": "current-binding-execution/native/generated-buffer.json",
+        "bytes": 165325,
+        "sha256": "71de3b1aca8ef7b0521fbfbc76c9829cce3cf68d98fde7b7f21046d31fd78203"
+      },
+      {
+        "file": "current-binding-execution/native/segments.json",
+        "bytes": 474,
+        "sha256": "c35e091c9b272365326ac15e5a203be24f55bc3fc0015090b9a1a16cd0160e0a"
+      },
+      {
+        "file": "current-binding-execution/native/target-clock.json",
+        "bytes": 324,
+        "sha256": "97fa38563492358a8d88ec1fcb10c88922ef8efa7a02205494fbb3c61bb6ebb1"
+      },
+      {
+        "file": "current-binding-execution/native/target-cursor.json",
+        "bytes": 1439,
+        "sha256": "c9c303c95b4c68771451401ba0e03b6cfed0dc715804c91d118dfb69da324625"
+      },
+      {
+        "file": "current-binding-execution/native/verdict.json",
+        "bytes": 314,
+        "sha256": "a956ee7e03d014ccc6218e421e6a52a7960080e6609c12604c2d2c52e606afe0"
+      },
+      {
+        "file": "current-binding-execution/native/visited-cursors.json",
+        "bytes": 46862,
+        "sha256": "9310f2c6f314d6ad11031b2dd67eca83ad829458e89014bdc9b35650a19349ac"
+      },
+      {
+        "file": "current-binding-execution/packets.json",
+        "bytes": 14420,
+        "sha256": "61a7972a9a1914ee9b9700b5c9a6cc24a191fe6ffc6190c0c56a08c3c8ea66f5"
+      },
+      {
+        "file": "current-binding-execution/packets.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-execution/packets.stdout",
+        "bytes": 9393,
+        "sha256": "5c13922b613463c958822574c041f24fca1a9aa65a097ad97292bfc44b620eda"
+      },
+      {
+        "file": "current-binding-execution/prepare-current-camera-binding.py",
+        "bytes": 2567,
+        "sha256": "4d4947e1ae4a3453d548d0045535528a5436704c20ff89a3c51e5794dd38f742"
+      },
+      {
+        "file": "current-binding-execution/report.json",
+        "bytes": 42354,
+        "sha256": "fcad21616a26d6fa8cd8944147baa247375b158a2c2483631da1f5aee32f7ac3"
+      },
+      {
+        "file": "current-binding-execution/tool-authority.json",
+        "bytes": 7242,
+        "sha256": "2b78384ed5bd50608c4732f1eccb4d062f3b26eb0180025bafabb22d7aa0cd06"
+      },
+      {
+        "file": "current-binding-ffclock-successor/before-pins.json",
+        "bytes": 14300,
+        "sha256": "3a78ab5d8b3a2195d37bbe4292e9d3ec81e5700ddf4452a4b4f2cfc1b7d1829f"
+      },
+      {
+        "file": "current-binding-ffclock-successor/closure.json",
+        "bytes": 17094,
+        "sha256": "8d0f4129bbcd5a7bd4a446506d1bc2f6399ab1ab0d03867b2a0670dde91bd007"
+      },
+      {
+        "file": "current-binding-ffclock-successor/data.py",
+        "bytes": 10747,
+        "sha256": "d641408616d17dd364a30aefd788ece87d9aa064d8a2d12d0be746a1b8d9cdfc"
+      },
+      {
+        "file": "current-binding-ffclock-successor/decode.stderr",
+        "bytes": 23726,
+        "sha256": "481ad313d4e36414b48cf6467f9f39258656a8ce0685c21de9969bcaca71e75e"
+      },
+      {
+        "file": "current-binding-ffclock-successor/decode.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-ffclock-successor/manifest.json",
+        "bytes": 4415,
+        "sha256": "9762757764856ea36f62b07c5fd919028e59fce653b724a81911cc0cdb26bb8c"
+      },
+      {
+        "file": "current-binding-ffclock-successor/packets.json",
+        "bytes": 36711,
+        "sha256": "a3dbbe9e1138218bc4873a4b04114de70c4f5305a0362e26bd68431b5828fd55"
+      },
+      {
+        "file": "current-binding-ffclock-successor/packets.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "current-binding-ffclock-successor/packets.stdout",
+        "bytes": 22498,
+        "sha256": "e8bd385ff273e044a619b6703c928c6d5fb97cf70072a95fa8bcfc09bb2b82aa"
+      },
+      {
+        "file": "current-binding-ffclock-successor/plan.json",
+        "bytes": 1735,
+        "sha256": "153768a9309aa1dd7ca26871e46eeac1a6a711cf73ed817e0aaa2815b33114a9"
+      },
+      {
+        "file": "current-binding-ffclock-successor/prepare-camera-binding-successor.py",
+        "bytes": 5975,
+        "sha256": "0a4a52275cafde9811c30e637fb6a4507fdf47e14da1033446cde527f8598282"
+      },
+      {
+        "file": "current-binding-ffclock-successor/report.json",
+        "bytes": 72154,
+        "sha256": "013b0f93fd2443e2a57fada9f870b07deed52d4a4790a0a930df5afaf42781e3"
+      },
+      {
+        "file": "current-binding-ffclock-successor/tool-authority.json",
+        "bytes": 7242,
+        "sha256": "2b78384ed5bd50608c4732f1eccb4d062f3b26eb0180025bafabb22d7aa0cd06"
+      },
+      {
+        "file": "frozen-preparation.json",
+        "bytes": 7607,
+        "sha256": "0f080b03978f932cd7975fb6f7166f5768ea5d0d7d088e531ef35ab8b410e5a3"
+      }
+    ]
+  },
+  "limits": [
+    "No PNG or complete-RGBA comparator result earned",
+    "Native asset83.596893s and current packet/raw-frame83.986213s are distinct measured coordinates, not a physical delay or global fitted translation",
+    "Decoded-frame pkt_dts can belong to packet triggering output; raw PTS/pos/size establish actual target attribution",
+    "Successor64 packet/64 YUV frame rows qualified, but whole-source FFmpeg guard only observed filter-visible frames; total decoder work bound was unproved",
+    "Whole-source accurate-seek trim and unobserved decoder preroll remain unqualified; finite view clock gate failed before decode",
+    "No second picture, interval sweep, source mutation, physical onset/drift or synchronization verdict",
+    "Original encoded AU bytes, runtime binary and full operand views remain private under their complete manifest pins",
+    "Finite-view timestamp shift was not normalized or tolerated; no mux-setting sweep or retry occurred"
+  ],
+  "finiteViewSuccessor": {
+    "closure": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-finite-view/closure.json",
+      "bytes": 15868,
+      "sha256": "f35e6e72f58c3943e098b9c806fb0b4917fa736dc6536dfd5ae833f0b58ae69e"
+    },
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-finite-view/report.json",
+      "bytes": 100876,
+      "sha256": "e8165f621ed97dad5e82ac2d60b10072a3c55ce97a972bfc1443372070dbcf48"
+    },
+    "manifest": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence/current-binding-finite-view/manifest.json",
+      "bytes": 4696,
+      "sha256": "18d24d0f8cd682ce2529149f1199c1d439efc0a055dcc551895627e197054157"
+    },
+    "outcome": "all64 ordered packet payloads, sizes, durations and flags match; all64 PTS/DTS shifted -853 microseconds; first clock gate stops before PNG decode",
+    "archive": {
+      "bytes": 24628,
+      "sha256": "994ec8cd718ca508ddb70768c5decf086f963cb6b2c08c35d7aad1d17542e719",
+      "file": "finite-view-evidence.tar.xz",
+      "members": [
+        {
+          "file": "before-pins.json",
+          "bytes": 15995,
+          "sha256": "98fede5957ad9e852240f5a38f69dbf350ac91ad9ccf570283a611014f330551"
+        },
+        {
+          "file": "closure.json",
+          "bytes": 15868,
+          "sha256": "f35e6e72f58c3943e098b9c806fb0b4917fa736dc6536dfd5ae833f0b58ae69e"
+        },
+        {
+          "file": "data.py",
+          "bytes": 10362,
+          "sha256": "20812de55f09aa21f26f54ab0948720b4e6f670ef08cbabe82c647fa7fc30fa3"
+        },
+        {
+          "file": "manifest.json",
+          "bytes": 4696,
+          "sha256": "18d24d0f8cd682ce2529149f1199c1d439efc0a055dcc551895627e197054157"
+        },
+        {
+          "file": "plan.json",
+          "bytes": 3026,
+          "sha256": "38a11597282c2e34c8d0c595389afda6221c292466d569408be0ceeb1af8fdc9"
+        },
+        {
+          "file": "prepare-camera-finite-view.py",
+          "bytes": 3743,
+          "sha256": "4920a9da8da213b09c7e2b228c702f2aac5c9aa5c1c22f788c177bd88223c0b8"
+        },
+        {
+          "file": "report.json",
+          "bytes": 100876,
+          "sha256": "e8165f621ed97dad5e82ac2d60b10072a3c55ce97a972bfc1443372070dbcf48"
+        },
+        {
+          "file": "streamcopy.stderr",
+          "bytes": 1777,
+          "sha256": "d1c532c211dcc2405ffe4684fbd3403c3c0798b94225a9c9de0687591cd0c662"
+        },
+        {
+          "file": "streamcopy.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tool-authority.json",
+          "bytes": 7242,
+          "sha256": "2b78384ed5bd50608c4732f1eccb4d062f3b26eb0180025bafabb22d7aa0cd06"
+        },
+        {
+          "file": "view-metadata.json",
+          "bytes": 27924,
+          "sha256": "03d9afb23f8deb6909811d0428c20dae059a4973c1dffee6ec4ae5e08d2786c3"
+        },
+        {
+          "file": "view-metadata.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "view-metadata.stdout",
+          "bytes": 33563,
+          "sha256": "ed7afecd1542d915ef7e4e0e8505f522e9a2e1a2f7e62549e9a73a68440938aa"
+        }
+      ]
+    },
+    "runtimeFormatGateReached": false,
+    "savedOnlyFormatFacts": {
+      "nativeAVCCBytes": 36,
+      "viewAVCCBytes": 36,
+      "nativeAVCCSHA256": "68b1366c47f22f963f81cf325494ebcd127391eb4dd4a57f11385ae2b80c92b8",
+      "viewAVCCSHA256": "SHA256:68b1366c47f22f963f81cf325494ebcd127391eb4dd4a57f11385ae2b80c92b8",
+      "identityTransformNoDisplayMatrix": true,
+      "colorFields": {
+        "codec_name": "h264",
+        "codec_tag_string": "avc1",
+        "profile": "High",
+        "level": 40,
+        "width": 1920,
+        "height": 1080,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "color_transfer": "bt709",
+        "color_primaries": "bt709",
+        "pix_fmt": "yuv420p",
+        "field_order": "progressive",
+        "time_base": "1/1000000"
+      },
+      "meaning": "Saved-onlypostmortem; actualruntimestoppedatfirstclockgate beforelaterformatgates"
+    }
+  },
+  "readOnlyMechanismReview": {
+    "viewHeader": {
+      "mvhdOffset": 6335792,
+      "movieTimescale": 1000,
+      "elstOffset": 6336008,
+      "emptyEditDuration": 83652,
+      "mediaEditStart": 389320
+    },
+    "firstSourcePTSUs": 83652853,
+    "delayAfterMovieScaleRoundingUs": 83652000,
+    "observedShiftUs": -853,
+    "primarySource": "https://raw.githubusercontent.com/FFmpeg/FFmpeg/n8.1.2/libavformat/movenc.c",
+    "sourceOperation": "mov_write_edts_tag rescales initial DTS+CTS with AV_ROUND_DOWN to movie_timescale",
+    "scope": "Saved view header plus primary-source mechanism review; no remux or decoder rerun and no demonstrated product-clock defect",
+    "releaseDisposition": "Historical PNG equality was a sufficient diagnostic witness, not a necessary release contract; optional exact-pixel comparison stopped. Detector-picture binding and physical uncertainty remain open."
+  }
+}

@@ -6933,8 +6933,8 @@ would merely make the other source wait. The plan left execution ordering open;
 this choice removes that artificial dependency without adding a scheduler or
 changing source contracts. If both fail, the existing camera-first error precedence
 remains stable regardless of completion order. Primary audio roles retain their
-sequential platform budget. This landed in `3d2ed80d`; its physical deadline
-benefit is unproved, and the changed-candidate confirmation remains red.
+sequential platform budget. This does not reduce either source's proof work or
+establish a causal improvement in physical shutdown time.
 
 **Sound, high confidence — freeze source evidence through the queue that appends it.**
 A publication update can append to the live take journal while the primary source
@@ -6981,3 +6981,28 @@ receipt JSON byte equality is outside the claim. The plan required preservation
 without prescribing diagnostic container equality. This is a named scope, not a
 pixel tolerance or permission to skip any source validation. Banked with the
 retained camera publication result.
+
+## Retained camera diagnostic priority
+
+**Unsound, high confidence — requiring exact historical PNG equality before release work.**
+When the first camera image differed from a historical PNG, development treated
+byte-identical RGB output as the next prerequisite. Two decoders can select the
+same encoded picture while their color conversions produce different RGB bytes;
+the historical producer also lacks the identity needed to attribute its output.
+The plan requires picture correspondence and measured physical timing, without
+requiring identical output from unspecified converters. The corrected decision
+is to prove the selected encoded sample through its actual clock and packet
+identity, keep missing historical attribution explicit, and pursue only evidence
+that can resolve the required physical uncertainty. An optional exact-pixel
+diagnostic cannot become a new release requirement or postpone independent
+consumer work. This correction applies to the current correspondence pass; it
+changes no product behavior, pixel tolerance or synchronization requirement.
+
+**Sound, high confidence — stop diagnostic decoding at the first failed prerequisite.**
+A temporary packet view could preserve compressed pictures while moving their
+clocks. Before decoding it, the experiment therefore compares complete ordered
+packet bytes and timing against the original source. A clock mismatch ends that
+attempt instead of compensating for it, trying settings repeatedly or comparing
+the wrong picture. The plan left the bounded diagnostic method unspecified.
+This is an experimental safety boundary, not a second production media owner;
+future product timing continues to use the existing native timing contract.

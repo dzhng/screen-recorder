@@ -18,12 +18,17 @@ not explain the discrepancy. Similar landmarks on direct viewing are observation
 not exact picture identity. Neither same ordinals nor equal native clocks establish
 cross-decoder correspondence.
 
+The [encoded-sample binding](encoded-binding/README.md) now uniquely joins the
+selected native bytes to a current demux packet and decoded YUV frame. Its PNG
+selection and finite-view prerequisites failed separately; neither changes the
+original pixel verdict or resolves physical event uncertainty.
+
 [evidence.tar.xz](evidence.tar.xz) retains fixed requests, replies, producer,
 original failure, complete operand manifest and actual terminal records. Full
 images and RGBA operands remain in the recorded private cache, with hashes;
 private picture content does not enter Git. Original source media and frozen
 worker remain untouched; this case explicitly uses the separately pinned staged
-worker. The next eligible correspondence experiment must establish the selected
-encoded sample's identity and clock before comparing a newly attributed decoded
-picture to the historical image. It cannot silently borrow a seek time from the
-separate gray run or repeat this failed ordinal comparison.
+worker. Any further correspondence experiment must use the established encoded
+identity and resolve its bounded decoder prerequisite before comparing pixels.
+It cannot silently borrow a seek time from the separate gray run or repeat this
+failed ordinal comparison.

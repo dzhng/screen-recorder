@@ -22,36 +22,34 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: finish the changed-candidate sustained physical Stop confirmation.**
-[Independent source publication](assets/20-sustained-physical-stop/scheduling/README.md)
-now qualifies both directions of source readiness, full validation and recovery.
-The [changed signed candidate](assets/20-sustained-physical-stop/independent-confirmation/README.md)
-still fails the unchanged ten-second sustained-stop deadline: every reply through
-9.926739 seconds remains finalizing with `inputsClosed` false and neither source
-published. That observation does not isolate SDK drainage. The
-[verification ownership correction](assets/20-sustained-physical-stop/verification-closure/README.md)
-now proves primary readiness while an actual acquisition camera reader is held,
-and joined reader lifetime even under pre-requested cancellation. Physical
-closure identity pins, final clock and recovery stay intact. The
-[retained-source measurement](assets/20-sustained-physical-stop/retained-publication-cost/README.md)
-now preserves exact pictures/clocks with actual priming and resumed final readers:
-38.552 seconds priming, then 4.052 seconds camera publication. This debug
-closed-source result excludes live input drain, source-receipt publication and
-app/service quit. Do not repeat it or infer release Stop timing from it.
-A [distinct signed candidate](assets/20-sustained-physical-stop/verification-publication-candidate.json)
-containing the ownership fix is now undergoing one
-unchanged-recipe physical confirmation in an isolated library. Inspect its actual
-producer/process state before any restart; preserve the first terminal result and
-the original ten-second deadline. Source admissions and cleanup after failure
-remain separate from completed-stop success. Primary audio roles stay sequential.
-Both earlier physical failures and the separate pre-capture socket-path error
-remain intact; no unchanged recapture or deadline relaxation is queued.
+**Next pickup: complete the remaining consumer preservation correspondence.**
+The [joined-verification physical confirmation](assets/20-sustained-physical-stop/verification-confirmation/README.md)
+now passes the original sustained Stop/quit recipe at 9.215 seconds. Independent
+source publication, joined cancellation and exact retained-source proof remain
+banked under the [sustained-stop owner](assets/20-sustained-physical-stop/README.md).
+This is one declared physical pass, not synchronization or a causal speedup.
+Both earlier failures remain intact; no further Stop recording is queued.
 
 [The first retained-picture comparison](assets/20-camera-picture-correspondence/README.md)
 selected the native sample but failed exact complete-pixel equality. The second
-request was not dispatched. Prepare an encoded-sample identity/clock binding
-before any further bounded decoder comparison; do not infer identity from equal
-ordinals or borrow a timestamp from another producer. The
+request was not dispatched. The [encoded binding](assets/20-camera-picture-correspondence/encoded-binding/README.md)
+now joins exact native bytes to a current packet and actual decoded YUV frame.
+PNG selection missed that frame; the separate finite packet view shifted all
+clocks by 853 microseconds and stopped before decoding. Read-only review identifies
+MOV edit-list rounding in the diagnostic copy, with no demonstrated product clock
+defect. Exact historical PNG equality is a sufficient diagnostic witness, not a
+release prerequisite: stop that optional comparison. Detector-picture binding and
+physical onset uncertainty remain the actual timing gaps. No settings sweep,
+second picture, ordinal/gray-time fallback or tolerance follows from these failures.
+The [saved acquisition recovery](assets/20-sustained-physical-stop/acquisition-recovery/README.md)
+now passes one bounded reopen and explicit interrupted-camera retry. Both imports
+are ready, the primary receipt remains unchanged and all owned processes close;
+no capture or project creation occurred. Preserve the original failed attempt.
+The [retained marker analysis](assets/20-retained-marker-resolution/README.md)
+already reaches its declared stopping condition: clipped identities, partial
+predecessors and exposure/readout uncertainty cannot establish the one-frame
+physical bound. Do not repeat that analysis or claim timing acceptance. Historical
+producer gaps remain gaps. The
 [capture owner](slices/20m-camera-continuing-verification.md) already passes
 continuing verification and retained replay; do not repeat those proofs.
 
@@ -65,7 +63,7 @@ or inference before independent intervals and category coverage are available.
 No alternate speech recipe is selected. This prerequisite does not block the
 independent capture/preservation work above.
 
-Then complete preservation and installed cutover through the
+Complete preservation and installed cutover through the
 [consumer owner](slices/23-cutover.md), followed by final scale and the independent
 installed caller. [Cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
 owns the remaining mappings. Prepare a concrete reviewable candidate before
@@ -75,7 +73,7 @@ No migration or obsolete-owner deletion begins before its prerequisites.
 | Owner | Banked scope | Remaining release contract |
 | --- | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
-| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief physical pause/resume/stop and saved support | Physical event uncertainty/synchronization, failed sustained stop and remaining live lifecycle |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical pause/resume/stop, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
 | [23 cutover](slices/23-cutover.md) | Source/headless ports, paired edits/history, signed isolated candidate, actual menu/readiness and representative presenter pixels | Remaining preservation, continuous playback and installed switching/obsolete-owner removal |
 | [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
 | [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |

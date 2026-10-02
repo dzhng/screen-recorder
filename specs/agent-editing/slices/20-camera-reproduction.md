@@ -29,8 +29,8 @@ replay preserves all 4,428 pictures and completes the durable stop result in
 physical input drain, AppKit shutdown and general performance remain open.
 None of these prerecorded cases establishes physical synchronization.
 
-The [sustained public physical capture](../assets/20-sustained-physical-stop/README.md)
-now reaches more than 200 active seconds with pause/resume and no dropped samples,
+The original [sustained public physical capture](../assets/20-sustained-physical-stop/README.md)
+reaches more than 200 active seconds with pause/resume and no dropped samples,
 but fails the unchanged ten-second completed-stop deadline. Camera publication
 settles while primary publication remains pending; later successful cleanup is
 not a deadline pass. [Independent source publication](../assets/20-sustained-physical-stop/scheduling/README.md)
@@ -44,6 +44,13 @@ closure and final identity pins stay intact. The
 qualifies exact pictures/clocks, priming and resumed final readers, separately
 from the changed-candidate physical confirmation. Public `inputsClosed` alone does not
 identify hardware drainage. No unchanged recapture or budget relaxation is queued.
+The [joined-verification physical confirmation](../assets/20-sustained-physical-stop/verification-confirmation/README.md)
+now passes one unchanged recipe: both sources publish at 9.172 seconds and actual
+app/service exit is observed at 9.215 seconds. Primary acquisition is ready;
+camera acquisition is interrupted by requested quit. Physical synchronization and
+general timing remain separate open contracts. [Saved acquisition recovery](../assets/20-sustained-physical-stop/acquisition-recovery/README.md)
+separately verifies one reopen/retry of this interrupted camera import with the
+primary receipt unchanged; broader lifecycle acceptance is not implied.
 
 ## Contract
 
@@ -95,7 +102,13 @@ Finer samples now support a wider candidate interval, and the journal/native
 comparison shows that camera coordinate translation leaves the measured residuals
 unchanged. Screen cursor metadata now ties native timestamps to acquired callbacks;
 different decoder frame counts leave same-picture correspondence unsupported.
-That link and physical onset uncertainty remain the concrete gaps. Preserve the
+The [encoded binding](../assets/20-camera-picture-correspondence/encoded-binding/README.md)
+now qualifies one native sample/current packet/decoded YUV frame identity, but
+PNG selection and the finite packet view's clock gate failed separately. It does
+not close full RGB correspondence or the physical onset bound.
+Historical detector-picture attribution and physical onset uncertainty remain
+the concrete gaps. Exact historical PNG equality is an optional diagnostic, not
+a release prerequisite. Preserve the
 frozen analysis as baseline,
 declare any changed detector/selection rule, inspect its false positives and
 report supported intervals plus uncertainty. Do not fit away drift, recenter each

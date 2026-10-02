@@ -18,6 +18,13 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
+The [retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
+qualifies one native sample/packet/decoded-frame identity. PNG selection and the
+finite-view clock gate failed separately; original pixel failure and physical
+onset uncertainty remain. MOV edit-list rounding explains the diagnostic copy's
+clock shift; optional historical PNG equality is stopped. Follow the live handoff
+for remaining consumer preservation; [saved import recovery](20-sustained-physical-stop/acquisition-recovery/README.md)
+now passes its separate scope. Required physical timing gaps remain open.
 Preserve [21f atomic public selection](../slices/21f3-public-camera-selection.md),
 now [merged-verified](21f3-public-camera-selection/merged-verification.json)
 through actual independent recovery/admission and explicit portable project use.
@@ -25,8 +32,9 @@ The historical [owner attribution](24z-owner-profile/README.md) completed
 both bounded collections after restoring omitted static resources. Subsequent
 [24z owner corrections](../slices/24z-source-cardinality.md) and the
 [current preparation and correctness proof](24z-current-preparation/README.md)
-supersede that investigation pickup. Timing remains deferred under the separate
-runtime and host-window contract; no latency pass follows. Its historical [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
+supersede that investigation pickup. The current declared query gate is now
+qualified under its own [runtime manifest](24z-current-preparation/manifest-reference.json);
+do not repeat that cohort because the older worker disappeared. Its historical [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
 identifies model-owner staging mutation before any query; the user's subsequent
 model-work authorization permits that ordinary isolated startup. No repeated cohort
 or physical acceptance follows from preparation.
@@ -174,10 +182,13 @@ uncertainty open. The historical
 preserved4428 pictures and took26.915 seconds through actual media closure. The
 [bounded hashing pass](20e-camera-picture-hashing/README.md) removes per-row copies
 while preserving the exact picture digests; fresh offline publication is faster
-but still exceeds ten seconds. Live input drain/AppKit termination remain
-unverified. No new capture is authorized. Original media and historical rejected
-callbacks remain in the Git LFS fixture. Root8a, candidate2c and the installed app
-remain frozen; use isolated builds for future native changes.
+but its scope supplies no live shutdown verdict. The later
+[sustained physical confirmation](20-sustained-physical-stop/verification-confirmation/README.md)
+passes one unchanged recipe through both publication and app/service quit;
+independent readiness/cancellation and debug retained-source cost proofs stay
+separate under that owner. No further Stop capture is queued. Original media and
+historical rejected callbacks remain in the Git LFS fixture. Historical workers
+and the installed app stay intact; isolated signed candidates have their own pins.
 
 The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
 integrated and root-verified. Root source includes the move fix; rebuild JavaScript
