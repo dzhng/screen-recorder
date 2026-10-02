@@ -1,0 +1,47 @@
+{
+  "status": "expected-red",
+  "scope": "Offline NativeCapture actual active-private-camera-work prerequisite only; no SDK reader-work proof yet",
+  "baselineSourceCommit": "837f79df",
+  "sourceFixture": "helpers/mac/Tests/ScreenRecorderCaptureTests/fixtures/camera-visible32.mov",
+  "test": {
+    "bytes": 4184,
+    "sha256": "dd05d67398fa600bb948137721c59ba8fe6bcd2b8ad415e9ac82182049d3314e"
+  },
+  "failure": "LIVE_VERIFICATION_MISSING: Camera has no distinct private canonical work before stop.",
+  "beforeStop": {
+    "deviceState": "recording",
+    "privateCandidates": [],
+    "publicCanonicalExists": false
+  },
+  "processes": [
+    {
+      "phase": "compile",
+      "pid": 11020,
+      "elapsedSeconds": 2.498561124986736,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    },
+    {
+      "phase": "test",
+      "pid": 11083,
+      "elapsedSeconds": 6.7763297079945914,
+      "exitCode": 1,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    }
+  ],
+  "rootReview": {
+    "ownedProcessesAbsent": true,
+    "failureNotTimeout": true,
+    "currentRedOperandsComplete": true
+  },
+  "limits": [
+    "No active SDK reader observation yet",
+    "No source baseline/release acceptance replay",
+    "No new capture/device/UI or installed switch",
+    "Green must establish real raw and canonical work before stop plus complete publication preservation"
+  ]
+}

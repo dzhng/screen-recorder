@@ -33,3 +33,12 @@ leave the actual production consumer and its tests on the same verification owne
 The complete contract also needs sustained advancement, bounded backlog and the
 original completed-stop deadline. State extraction or fixed range equality alone
 does not close these requirements or the capture parent gates.
+
+## Current integration regression
+
+The [actual baseline](../assets/20m-camera-continuing-verification/live-baseline-red.json)
+fails because the real offline NativeCapture path has no private canonical work
+before stop. Its complete before-stop state and terminal failure are retained.
+The implementation must make that path advance both physical verification streams
+while recording and preserve final publication. A private empty file alone is not
+proof that either reader ran or that digest progress was committed.
