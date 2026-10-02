@@ -485,12 +485,12 @@ package enum CameraMedia {
     }
     /// One coalesced worker owns private media and both ordered scans until closure or discard.
     package final class Verification: @unchecked Sendable {
-        private struct Request: Sendable { let observations: URL; let bytes: Int64; let frames: Int }
+        package struct Checkpoint: Sendable { let observations: URL; let bytes: Int64; let frames: Int }
         private struct Control: Sendable {
-            var pending: Request?
+            var pending: Checkpoint?
             var task: Task<Void, Never>?
             var closed = false
-            var lastWritten: Request?
+            var lastWritten: Checkpoint?
         }
         private let control = Mutex(Control())
         private let directory: URL
@@ -512,6 +512,7 @@ package enum CameraMedia {
         private var input: AVAssetWriterInput?
         private var file: NewFile?
         private var failure: (any Error)?
+        private var fallbackReported = false
         private var completed: (RawScan, CanonicalScan, CaptureMediaIdentity)?
         private var previousVersion: (off_t, timespec, Int?)?
         private var rawInode: (dev_t, ino_t)?
@@ -542,16 +543,20 @@ package enum CameraMedia {
                 watchJoin.notify(queue: .global()) { continuation.resume() }
             }
         }
+        package static func newest(_ previous: Checkpoint?, _ offered: Checkpoint) -> Checkpoint {
+            if let previous, previous.bytes >= offered.bytes { return previous }
+            return offered
+        }
         package func request(observations: URL, bytes: Int64, frames: Int) {
             control.withLock { state in
                 guard !state.closed else { return }
-                let request = Request(observations: observations, bytes: bytes, frames: frames)
-                state.lastWritten = request; state.pending = request
+                let request = Checkpoint(observations: observations, bytes: bytes, frames: frames)
+                state.lastWritten = Self.newest(state.lastWritten, request); state.pending = state.lastWritten
                 if state.task == nil { state.task = Task { await self.run() } }
             }
         }
         private func run() async {
-            while let request = control.withLock({ state -> Request? in
+            while let request = control.withLock({ state -> Checkpoint? in
                 let next = state.pending; state.pending = nil
                 if next == nil { state.task = nil }
                 return next
@@ -601,32 +606,25 @@ package enum CameraMedia {
                 throw invalid("Camera filesystem cannot isolate a private media snapshot.")
             }
         }
-        private func copyMapping(_ request: Request, to url: URL) throws {
+        private func copyMapping(_ request: Checkpoint, to url: URL) throws {
             guard let parent = realpath(request.observations.deletingLastPathComponent().path, nil) else {
                 throw invalid("Cannot resolve camera observation directory.")
             }
             let sourceURL = URL(fileURLWithPath: String(cString: parent))
                 .appendingPathComponent(request.observations.lastPathComponent)
             free(parent)
-            let fd = Darwin.open(sourceURL.path, O_RDONLY | O_NOFOLLOW_ANY | O_CLOEXEC | O_NONBLOCK)
-            guard fd >= 0 else { throw invalid("Cannot snapshot camera observations.") }
-            let source = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
-            defer { try? source.close() }
+            try copy(sourceURL, to: url)
+            let fd = Darwin.open(url.path, O_RDWR | O_NOFOLLOW_ANY | O_CLOEXEC | O_NONBLOCK)
+            guard fd >= 0 else { throw invalid("Cannot truncate camera observation snapshot.") }
+            defer { Darwin.close(fd) }
             var info = stat()
-            guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
-                request.bytes > 0, request.bytes <= info.st_size, request.bytes <= 268_435_456 else {
+            guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_uid == getuid(),
+                request.bytes > 0, request.bytes <= info.st_size, request.bytes <= 268_435_456,
+                ftruncate(fd, request.bytes) == 0 else {
                 throw invalid("Camera observation snapshot exceeds its written prefix.")
             }
-            guard FileManager.default.createFile(atPath: url.path, contents: nil) else { throw invalid("Cannot create camera observation snapshot.") }
-            let destination = try FileHandle(forWritingTo: url); defer { try? destination.close() }
-            var remaining = request.bytes
-            while remaining > 0 {
-                try Task.checkCancellation()
-                let data = try source.read(upToCount: Int(min(65536, remaining))) ?? Data()
-                guard !data.isEmpty else { throw invalid("Camera observation snapshot ended early.") }
-                try destination.write(contentsOf: data); remaining -= Int64(data.count)
-            }
         }
+
         private struct Inventory {
             let source: Source
             let count: Int
@@ -751,7 +749,11 @@ package enum CameraMedia {
                     }
                     while !input!.isReadyForMoreMediaData {
                         try Task.checkCancellation()
-                        guard writer!.status == .writing, ContinuousClock.now < deadline else { throw writer!.error ?? invalid("Private camera writer made no progress.") }
+                        guard writer!.status == .writing else { throw writer!.error ?? invalid("Private camera writer stopped accepting media.") }
+                        guard ContinuousClock.now < deadline else {
+                            FileHandle.standardError.write(Data("camera verification: backpressure deadline=30s; outcome=full-scan-fallback\n".utf8))
+                            throw invalid("Private camera writer backpressure deadline expired.")
+                        }
                         try await Task.sleep(for: .milliseconds(1))
                     }
                     guard let segment = source.segments.first(where: { $0.media.containsTime(sample.presentationTimeStamp) }),
@@ -819,35 +821,43 @@ package enum CameraMedia {
             canonicalState = trial; canonicalPosition = position; canonicalFence = end
             canonicalOrigin = (source.segments[0].media.start, source.segments[0].asset.start, inventory.projection)
         }
-        private func advance(_ request: Request) async throws {
+        private func advance(_ request: Checkpoint) async throws {
+            let raw = directory.appendingPathComponent("camera.raw.mov")
+            var version = stat()
+            let rawChanged = lstat(raw.path, &version) == 0 && (previousVersion.map {
+                $0.0 != version.st_size || $0.1.tv_sec != version.st_mtimespec.tv_sec
+                    || $0.1.tv_nsec != version.st_mtimespec.tv_nsec || ($0.2.map { request.frames > $0 } ?? false)
+            } ?? true)
+            var candidateAtEntry = stat()
+            let canonicalChanged: Bool
+            if let file, canonicalState.represented < rawState.represented,
+                lstat(file.url.path, &candidateAtEntry) == 0 {
+                canonicalChanged = canonicalVersion.map {
+                    $0.0 != candidateAtEntry.st_size || $0.1.tv_sec != candidateAtEntry.st_mtimespec.tv_sec
+                        || $0.1.tv_nsec != candidateAtEntry.st_mtimespec.tv_nsec
+                } ?? true
+            } else { canonicalChanged = false }
+            guard rawChanged || canonicalChanged else { return }
             let scratch = directory.appendingPathComponent(".camera-snapshot-\(UUID().uuidString)")
             try FileManager.default.createDirectory(at: scratch, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
             defer { try? FileManager.default.removeItem(at: scratch) }
             let mapping = scratch.appendingPathComponent("mapping.jsonl")
             try copyMapping(request, to: mapping)
-            let raw = directory.appendingPathComponent("camera.raw.mov")
-            var version = stat()
-            if lstat(raw.path, &version) == 0 {
-                let changed = previousVersion.map {
-                    $0.0 != version.st_size || $0.1.tv_sec != version.st_mtimespec.tv_sec
-                        || $0.1.tv_nsec != version.st_mtimespec.tv_nsec || ($0.2.map { request.frames > $0 } ?? false)
-                } ?? true
-                if changed {
-                    let rawCopy = scratch.appendingPathComponent("camera.raw.mov")
-                    try copy(raw, to: rawCopy)
-                    let rawInventory: Inventory?
-                    do { rawInventory = try await inventory(rawCopy, mappingURL: mapping, maximum: request.frames) }
-                    catch is CancellationError { throw CancellationError() }
-                    catch { rawInventory = nil }
-                    if let rawInventory {
-                        previousVersion = (version.st_size, version.st_mtimespec, rawInventory.waitingForMapping ? request.frames : nil)
-                        if rawInventory.fence.map({ $0 > rawState.represented }) ?? false {
-                            try scanRawPrefix(rawInventory, mappingURL: mapping)
-                            format = rawInventory.format; transform = rawInventory.transform; scale = rawInventory.source.scale
-                            let segment = rawInventory.source.segments[0]
-                            origin = (segment.media.start, segment.asset.start, rawInventory.projection)
-                            try await transfer(rawInventory.source, through: rawInventory.fence!)
-                        }
+            if rawChanged {
+                let rawCopy = scratch.appendingPathComponent("camera.raw.mov")
+                try copy(raw, to: rawCopy)
+                let rawInventory: Inventory?
+                do { rawInventory = try await inventory(rawCopy, mappingURL: mapping, maximum: request.frames) }
+                catch is CancellationError { throw CancellationError() }
+                catch { rawInventory = nil }
+                if let rawInventory {
+                    previousVersion = (version.st_size, version.st_mtimespec, rawInventory.waitingForMapping ? request.frames : nil)
+                    if rawInventory.fence.map({ $0 > rawState.represented }) ?? false {
+                        try scanRawPrefix(rawInventory, mappingURL: mapping)
+                        format = rawInventory.format; transform = rawInventory.transform; scale = rawInventory.source.scale
+                        let segment = rawInventory.source.segments[0]
+                        origin = (segment.media.start, segment.asset.start, rawInventory.projection)
+                        try await transfer(rawInventory.source, through: rawInventory.fence!)
                     }
                 }
             }
@@ -904,9 +914,15 @@ package enum CameraMedia {
             } catch { remaining = .failure(error) }
             return CanonicalScan(support: expected, pictureHash: hash, remainingMapping: remaining)
         }
+        fileprivate func reportFallback(_ reason: String) {
+            guard !fallbackReported else { return }
+            fallbackReported = true
+            FileHandle.standardError.write(Data("camera verification: outcome=full-scan-fallback; reason=\(reason)\n".utf8))
+        }
         fileprivate func finish(rawURL: URL, mappingURL: URL, intended: IntendedSupport) async throws -> (RawScan, NewFile, CanonicalScan)? {
             await close()
             guard file != nil, rawState.represented > 0, failure == nil else {
+                reportFallback(failure.map { String(describing: $0) } ?? "no usable active checkpoint")
                 await discard()
                 return nil
             }
@@ -1062,7 +1078,7 @@ package enum CameraMedia {
         if let intended {
             do { continued = try await verification?.finish(rawURL: rawURL, mappingURL: mappingURL, intended: intended) }
             catch is CancellationError { throw CancellationError() }
-            catch { await verification?.discard(); continued = nil }
+            catch { verification?.reportFallback(String(describing: error)); await verification?.discard(); continued = nil }
         } else { await verification?.discard(); continued = nil }
         if let completed = continued {
             raw = completed.0

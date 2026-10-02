@@ -1,61 +1,23 @@
 @preconcurrency import AVFoundation
 import Foundation
 import Darwin
-import ObjectiveC
-import Synchronization
-import ScreenRecorderCapture
+@testable import ScreenRecorderCapture
 import ScreenRecorderMedia
 
-/// Delegates the SDK call unchanged; the retry case faults receipt staging through filesystem permissions.
-private final class CameraReaderStarts: @unchecked Sendable {
-    private struct Counts: Sendable { var raw = 0; var canonical = 0; var active = 0; var blocked = 0 }
-    private final class Counter: Sendable { let values = Mutex(Counts()) }
-    private let counter = Counter()
-    private let method: Method
-    private let original: IMP
-    private let replacement: IMP
-    init(blockPublicationIn directory: URL? = nil) throws {
-        guard let method = class_getInstanceMethod(AVAssetReader.self, #selector(AVAssetReader.startReading)),
-            let encoding = method_getTypeEncoding(method), String(cString: encoding) == "B16@0:8" else {
-            throw CaptureFailure("UNSUPPORTED_OBSERVATION", "Unexpected SDK startReading ABI.")
-        }
-        self.method = method; original = method_getImplementation(method)
-        typealias Start = @convention(c) (AnyObject, Selector) -> Bool
-        let forward = unsafeBitCast(original, to: Start.self)
-        let counter = self.counter
-        let callback: @convention(block) (AVAssetReader) -> Bool = { reader in
-            counter.values.withLock { $0.active += 1 }
-            let started = forward(reader, #selector(AVAssetReader.startReading))
-            if started, let asset = reader.asset as? AVURLAsset {
-                counter.values.withLock { state in
-                    if asset.url.lastPathComponent == "camera.raw.mov" { state.raw += 1 }
-                    if asset.url.lastPathComponent == "camera.mov" {
-                        state.canonical += 1
-                        if let directory, state.blocked == 0,
-                            FileManager.default.fileExists(atPath: directory.appendingPathComponent("camera.closed.json").path),
-                            chmod(directory.path, 0o500) == 0 { state.blocked = 1 }
-                    }
-                }
-            }
-            counter.values.withLock { $0.active -= 1 }
-            return started
-        }
-        replacement = imp_implementationWithBlock(callback)
-        method_setImplementation(method, replacement)
-    }
-    var observed: [String: Int] { counter.values.withLock { ["raw": $0.raw, "canonical": $0.canonical, "active": $0.active, "blocked": $0.blocked] } }
-    func restore() {
-        precondition(counter.values.withLock { $0.active == 0 })
-        precondition(method_getImplementation(method) == replacement)
-        method_setImplementation(method, original)
-        precondition(method_getImplementation(method) == original)
-        imp_removeBlock(replacement)
-    }
+func runCameraCheckpointSchedulingTest() {
+    let url = URL(fileURLWithPath: "/unused-camera-observations")
+    let earlier = CameraMedia.Verification.Checkpoint(observations: url, bytes: 10, frames: 1)
+    let later = CameraMedia.Verification.Checkpoint(observations: url, bytes: 20, frames: 2)
+    let selected = CameraMedia.Verification.newest(later, earlier)
+    precondition(selected.bytes == 20 && selected.frames == 2 && selected.observations == url,
+        "A stale filesystem wakeup cannot replace the newest written checkpoint.")
+    print("PASS latest camera checkpoint survives a stale wakeup")
 }
 
 /// The device boundary is offline; NativeCapture owns real encoding, closure and publication.
 @MainActor
 func runCameraLivePublicationTests(output: String? = nil) async throws {
+    runCameraCheckpointSchedulingTest()
     let root = output.map { URL(fileURLWithPath: $0) } ?? FileManager.default.temporaryDirectory
         .appendingPathComponent("screenrec-camera-live-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
@@ -65,12 +27,18 @@ func runCameraLivePublicationTests(output: String? = nil) async throws {
     try await runCameraLivePublicationTest(output: root.appendingPathComponent("retry").path, changedCandidateRetry: true)
     try await runCameraLivePublicationTest(output: root.appendingPathComponent("discard").path, discardBeforeStop: true)
     try await runCameraLivePublicationTest(output: root.appendingPathComponent("terminal").path, invalidClosedMarker: true)
+    try await runCameraStableMediaTest(output: root.appendingPathComponent("stable").path)
+}
+
+@MainActor
+func runCameraStableMediaTest(output: String) async throws {
+    try await runCameraLivePublicationTest(output: output, stableMediaCallbacks: true)
 }
 
 @MainActor
 private func runCameraLivePublicationTest(output: String, firstCameraAfterPrimary: Bool = false,
     changedCandidateRetry: Bool = false, discardBeforeStop: Bool = false,
-    invalidClosedMarker: Bool = false) async throws {
+    invalidClosedMarker: Bool = false, stableMediaCallbacks: Bool = false) async throws {
     let root = URL(fileURLWithPath: output)
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
     let fixture = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
@@ -80,7 +48,7 @@ private func runCameraLivePublicationTest(output: String, firstCameraAfterPrimar
     input.probeDirectory = root
     let capture = NativeCapture(prepareInput: { _, _ in input })
     let camera = root.appendingPathComponent("camera")
-    let readers = try CameraReaderStarts(blockPublicationIn: changedCandidateRetry ? camera : nil)
+    let readers = try CameraReaderStarts(directory: camera, blockPublication: changedCandidateRetry)
     defer { _ = chmod(camera.path, 0o700); readers.restore() }
     do {
         try await capture.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
@@ -127,6 +95,39 @@ private func runCameraLivePublicationTest(output: String, firstCameraAfterPrimar
             readers.observed["raw", default: 0] > 0, readers.observed["canonical", default: 0] > 0,
             !FileManager.default.fileExists(atPath: camera.appendingPathComponent("video.mov").path) else {
             throw CaptureFailure("LIVE_VERIFICATION_MISSING", "Camera has no distinct private canonical work before stop.")
+        }
+        if stableMediaCallbacks {
+            func version(_ path: String) throws -> [Int64] {
+                var info = stat()
+                guard lstat(path, &info) == 0 else { throw CaptureFailure("MISSING_MEDIA", "Cannot observe camera version.") }
+                return [Int64(info.st_size), Int64(info.st_mtimespec.tv_sec), Int64(info.st_mtimespec.tv_nsec)]
+            }
+            let raw = camera.appendingPathComponent("camera.raw.mov").path
+            let versions = try [version(raw), version(activeCandidates[0])]
+            let observations = root.appendingPathComponent("timestamps.jsonl")
+            let mapping = try CameraMedia.Mapping(observations)
+            while try mapping.next() != nil {}
+            let bytes = Int64(try observations.resourceValues(forKeys: [.fileSizeKey]).fileSize!)
+            func wake() {
+                ingress.writer.queue.sync {
+                    ingress.camera.recorded(observations: observations, bytes: bytes, frames: mapping.frames)
+                }
+            }
+            // Catch up the latest written mapping once; subsequent identical wakeups have no new operands.
+            wake()
+            try await Task.sleep(for: .milliseconds(100))
+            let settled = try [version(raw), version(activeCandidates[0])]
+            let snapshots = readers.observed["snapshots", default: 0]
+            for _ in 0..<3 { wake(); try await Task.sleep(for: .milliseconds(20)) }
+            let after = try [version(raw), version(activeCandidates[0])]
+            let created = readers.observed["snapshots", default: 0] - snapshots
+            try JSONSerialization.data(withJSONObject: ["before": versions, "settled": settled,
+                "after": after, "mappingBytes": bytes, "mappingFrames": mapping.frames,
+                "snapshotCreations": created], options: [.prettyPrinted, .sortedKeys])
+                .write(to: root.appendingPathComponent("stable-media.json"))
+            guard settled == after else { throw CaptureFailure("MEDIA_NOT_STABLE", "No-op window requires unchanged media operands.") }
+            guard created == 0 else { throw CaptureFailure("REPEATED_CAMERA_SNAPSHOT", "Same written checkpoint caused \(created) unnecessary snapshots.") }
+
         }
         if discardBeforeStop {
             await capture.discard()

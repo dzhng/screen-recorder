@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import Darwin
 import ScreenRecorderCapture
 
 /// Opt-in native-rate replay; timing is evidence, never a machine-dependent pass threshold.
@@ -14,6 +15,11 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
     let duration = try await asset.load(.duration)
     precondition(duration.seconds > 0 && duration.seconds < 600, "Replay is bounded to ten minutes")
     let folder = root.appendingPathComponent("take")
+    let cameraDirectory = folder.appendingPathComponent("camera")
+    let diagnosticDirectory = root.appendingPathComponent("unverified-reader-views")
+    let readers = try CameraReaderStarts(directory: cameraDirectory,
+        logURL: root.appendingPathComponent("reader-starts.jsonl"), diagnosticDirectory: diagnosticDirectory)
+    defer { readers.restore() }
     let input = PrerecordedCaptureInput(source: source, size: size)
     input.paceVideo = true
     input.probeDirectory = folder
@@ -34,10 +40,31 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
         precondition(began.duration(to: .now) < .seconds(duration.seconds + 60), "Replay did not finish startup")
         try await Task.sleep(for: .milliseconds(20))
     }
+    let beforeStop = readers.observed
+    let candidates = try FileManager.default.contentsOfDirectory(atPath: cameraDirectory.path)
+        .filter { $0.hasPrefix(".screenrec-output-") }
+        .map { cameraDirectory.appendingPathComponent($0).appendingPathComponent("camera.mov").path }
+        .filter { FileManager.default.fileExists(atPath: $0) }
+    let candidateIdentities = try candidates.map { path -> [String: Any] in
+        var info = stat()
+        guard lstat(path, &info) == 0 else { throw CaptureFailure("OBSERVATION_FAILED", "Cannot observe private camera candidate.") }
+        return ["path": path, "device": Int64(info.st_dev), "inode": UInt64(info.st_ino), "bytes": Int64(info.st_size)]
+    }
+    try JSONSerialization.data(withJSONObject: ["readerStarts": beforeStop,
+        "privateCandidates": candidates, "candidateIdentities": candidateIdentities], options: [.prettyPrinted, .sortedKeys])
+        .write(to: root.appendingPathComponent("before-stop.json"), options: .atomic)
+    let retentionBegan = ContinuousClock.now
+    try readers.retainActive([cameraDirectory.appendingPathComponent("camera.raw.mov")]
+        + candidates.map { URL(fileURLWithPath: $0) }, in: diagnosticDirectory)
+    let retentionElapsed = retentionBegan.duration(to: .now).components
+    let activeRetentionSeconds = Double(retentionElapsed.seconds) + Double(retentionElapsed.attoseconds) / 1e18
+    readers.markStop()
     let stopAt = ContinuousClock.now
     probe.requestStop()
     let result = try await task.value
     let stoppedAt = ContinuousClock.now
+    try readers.checkLog()
+    try JSONEncoder().encode(readers.readings).write(to: root.appendingPathComponent("reader-starts.json"), options: .atomic)
     let persisted = try Data(contentsOf: root.appendingPathComponent("screen-result.json"))
     precondition(persisted == result, "Stop returned before durable screen result")
     let screen = try JSONDecoder().decode(CaptureResult.self, from: result)
@@ -68,6 +95,11 @@ func runSelectedCaptureStopScale(output: String, sourcePath: String) async throw
         "representedPictures": publication.representedFrames,
         "cameraOmittedSamples": camera.tracks[0].omittedSamples,
         "cameraFirstUs": publication.firstUs, "cameraEndUs": publication.endUs,
+        "activeDiagnosticSnapshotSeconds": activeRetentionSeconds,
+        "readerViewRetentionSeconds": readers.readings.reduce(0.0) { $0 + $1.retentionSeconds },
+        "preStopRawReaderStarts": beforeStop["raw", default: 0],
+        "preStopCanonicalReaderStarts": beforeStop["canonical", default: 0],
+        "publishedActiveCandidate": candidates.contains(cameraDirectory.appendingPathComponent(publication.candidate).path),
         "scope": "Native-rate prerecorded screen/camera replay; microphone disabled; no AppKit quit timer or physical devices",
     ]
     try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])

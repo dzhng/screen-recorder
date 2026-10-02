@@ -77,7 +77,8 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         precondition(reader.startReading())
         // An inert SCStream only supplies the existing callback's identity. Never start it.
         let stream = SCStream(filter: SCContentFilter(), configuration: SCStreamConfiguration(), delegate: nil)
-        var origin = CaptureHostTime.nowUs() - (audio == nil ? 400_000 : 3_000_000)
+        // Native-rate replay starts now; backdating it would deliver the initial prefix as a burst.
+        var origin = CaptureHostTime.nowUs() - (audio == nil ? (paceVideo ? 0 : 400_000) : 3_000_000)
         if let pauseJournal {
             writer.pause()
             try await Task.sleep(for: .milliseconds(20))

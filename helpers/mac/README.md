@@ -80,6 +80,15 @@ Closure joins that work, validates the remaining tail and binds the final bytes;
 discard joins it before releasing the journal. This scheduling preserves outputs
 and does not establish a completed-stop latency guarantee.
 
+Written observation progress stays monotonic across delayed file notifications.
+Private mapping snapshots share the media snapshot isolation instead of rewriting
+the growing journal; unchanged operands need no new snapshot. Private encoder
+backpressure reports its full-scan fallback through operational stderr.
+The opt-in [stop-scale consumer](Tests/ScreenRecorderCaptureTests/SelectedCaptureStopScale.swift)
+observes only its newly owned camera readers, records their exact ranges and keeps
+bounded unverified views for failure diagnosis. Prerecorded pacing starts at its
+source origin, so startup does not repay time as a callback burst.
+
 The returned camera outcome describes an independent source directory and its own
 verified video support; it never becomes another screen/audio track. Publication
 pins complete raw/observation bytes and preserves native picture presentation,
