@@ -1,0 +1,89 @@
+{
+  "scope": "Distinct metadata-only prerequisite; frozen source/plan/reference/SDK archive, no maintained observer/harness",
+  "archive": {
+    "file": "reference-sources.tar.gz",
+    "bytes": 82797,
+    "sha256": "98adf12e545dff0ab53ffb74407bb6df15f359d705d703084d14e0467f6855fa",
+    "members": 13
+  },
+  "files": [
+    {
+      "member": "Admission.swift",
+      "source": "/tmp/screenrec-20i-compressed-admission/Admission.swift",
+      "bytes": 14451,
+      "sha256": "f4a5907ab9c871423f5306d2c8f676f3ad7ce6eec912bcbe0f1e6ae0dc872e5c"
+    },
+    {
+      "member": "References.swift",
+      "source": "/tmp/screenrec-20i-compressed-admission/References.swift",
+      "bytes": 9074,
+      "sha256": "3a17ff11eaec2161d9b56dad2c318caad7b713ada63eee8bda3ccb1228c44d7f"
+    },
+    {
+      "member": "authority.json",
+      "source": "/tmp/screenrec-20i-compressed-admission/authority.json",
+      "bytes": 35387,
+      "sha256": "146debdfbe86e6fd2e31e60346ced4e884fe180a02ecc1d6f928783bbe2d61f6"
+    },
+    {
+      "member": "control.py",
+      "source": "/tmp/screenrec-20i-compressed-admission/control.py",
+      "bytes": 7628,
+      "sha256": "256a57074460129fe91ac0631889a68e6a905e94226608234830b7a351adbe13"
+    },
+    {
+      "member": "plan.json",
+      "source": "/tmp/screenrec-20i-compressed-admission/plan.json",
+      "bytes": 8134,
+      "sha256": "357dcf0337ead50f77a8459ddd5da606482cad24c9301359a26d8e70774728d9"
+    },
+    {
+      "member": "references/Observation.swift",
+      "source": "/tmp/screenrec-20h-idr-fence/Observation.swift",
+      "bytes": 17323,
+      "sha256": "761b3e872be774d91512c72cca9d12e537d32c67c9bc01f1d6e76b995359b751"
+    },
+    {
+      "member": "sdk/AVAssetReaderOutput.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVAssetReaderOutput.h",
+      "bytes": 45449,
+      "sha256": "13687b0f88f76c7d49ebf9a1d30e3c8cabd9b1caf8e39d29efbc56bbd9b1db9b"
+    },
+    {
+      "member": "sdk/AVAssetWriterInput.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVAssetWriterInput.h",
+      "bytes": 81975,
+      "sha256": "3c71805c6ffbb15933a836267a73204f0b0d86cb10fe79fb86b444c30b1538bf"
+    },
+    {
+      "member": "sdk/CMAttachment.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreMedia.framework/Headers/CMAttachment.h",
+      "bytes": 7398,
+      "sha256": "6f0f5ae8594e83b651f4c3f8ac5c29ddfdabc3490fe7aa7a1887e7a342f1b459"
+    },
+    {
+      "member": "sdk/CMBlockBuffer.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreMedia.framework/Headers/CMBlockBuffer.h",
+      "bytes": 31688,
+      "sha256": "faed7c1bbebb77e6b0e1a3cb23b4de545b6dba6a9a7f0962c21c064a55f8a6bd"
+    },
+    {
+      "member": "sdk/CMSampleBuffer.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreMedia.framework/Headers/CMSampleBuffer.h",
+      "bytes": 117252,
+      "sha256": "1747ae422f575714ae072b161af3039c3831176933c553da70c4507f7915a6fa"
+    },
+    {
+      "member": "sdk/CoreMedia.apinotes",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreMedia.framework/Headers/CoreMedia.apinotes",
+      "bytes": 65704,
+      "sha256": "3b3ed0ed20599b46824fb5c18087eefc8cce0df1c19c1c883f49b4e9b4ed7f7f"
+    },
+    {
+      "member": "source-checks.json",
+      "source": "/tmp/screenrec-20i-compressed-admission/source-checks.json",
+      "bytes": 501,
+      "sha256": "bf7f39cf289d0133bf85c7732db1a4bcf3b2fe412ca80b9b6d5964a40e4d415a"
+    }
+  ]
+}

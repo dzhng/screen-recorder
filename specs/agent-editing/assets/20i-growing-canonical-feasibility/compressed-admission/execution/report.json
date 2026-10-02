@@ -1,0 +1,60 @@
+{
+  "status": "pass",
+  "scope": "Complete compressed buffer facts and frozen197 media membership only; no canonical writer/adoption",
+  "attempts": {
+    "compile": 1,
+    "nativeMetadata": 1
+  },
+  "processes": [
+    {
+      "label": "compile",
+      "pid": 37733,
+      "exitCode": 0,
+      "elapsedSeconds": 5.843604416993912,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "admission",
+      "pid": 37907,
+      "exitCode": 0,
+      "elapsedSeconds": 2.435965209006099,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    }
+  ],
+  "inventory": {
+    "buffers": "201",
+    "eof": "true",
+    "error": "nil",
+    "mediaSamples": "197",
+    "payloadBytes": "17410",
+    "status": "2"
+  },
+  "allowedClaims": [
+    "This same-source nil-settings reader returned201 intact buffers:197 single-sample media and4 marker-only buffers",
+    "Complete media payloads and native indexed timing/size/decode membership match frozen source authority",
+    "Both attachment propagation modes, sample attachment arrays, raw/output timing and EOF statuses are retained",
+    "Current first buffer is valid/dataReady EditBoundary marker, numSamples0 and no block/image/format"
+  ],
+  "limits": [
+    "The historical failed guard operand is not retroactively recorded",
+    "No grouped media buffers occurred; no general grouping or unknown-type qualification",
+    "No writer/canonical attempt/pixel decode/marker discard/splitting/synthesis",
+    "Cap and timeout refusal paths not exercised; original failed sources/binary/archives preserved"
+  ],
+  "review": {
+    "shape": "Frozen reference-only observer; no maintained product owner, parser or harness",
+    "diff": "Native values precede gates; original sources untouched; source/output clocks and marker absence remain explicit",
+    "docs": "Preparation and actual verdicts distinguished; only compressed input observation qualifies"
+  },
+  "savedChecksArchiveMember": "saved-checks.json",
+  "rootIndependentCheckArchiveMember": "root-saved-check.json",
+  "sourceBindingCount": 147,
+  "unchangedCacheFiles": 307,
+  "historicalGuardOperand": "Unrecorded in historical attempt; new observer facts kept separate"
+}

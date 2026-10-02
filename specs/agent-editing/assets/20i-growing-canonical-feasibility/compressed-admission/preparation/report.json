@@ -1,0 +1,16 @@
+{
+  "status": "source-ready-uncompiled-unexecuted",
+  "checks": [
+    "All147 source/runtime/input/SDK pins match",
+    "Python controller AST parses",
+    "Frozen typed-value/reference owner byte-exact",
+    "Inspected SDK apinotes imported timing/size/index/attachment names"
+  ],
+  "unknown": [
+    "Swift API/type correctness uncompiled",
+    "No native buffer inventory/correspondence executed"
+  ],
+  "nativeCompileStarted": false,
+  "nativeObserverStarted": false,
+  "liveOwnedProcesses": []
+}
