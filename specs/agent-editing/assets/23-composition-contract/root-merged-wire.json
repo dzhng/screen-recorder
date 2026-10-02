@@ -1,0 +1,79 @@
+{
+  "pid": 85058,
+  "project": {
+    "projectId": "f2998d95-2cc2-40f9-8688-6e50817198d3",
+    "title": "Untitled",
+    "createdAt": "2026-10-02T23:26:23.805Z",
+    "currentRevisionId": "6f1fe28d-08cd-48fa-b4c5-5c7f90b0139d"
+  },
+  "responses": {
+    "project": {
+      "ok": true,
+      "data": {
+        "projectId": "f2998d95-2cc2-40f9-8688-6e50817198d3",
+        "revision": {
+          "id": "6f1fe28d-08cd-48fa-b4c5-5c7f90b0139d",
+          "projectId": "f2998d95-2cc2-40f9-8688-6e50817198d3",
+          "ordinal": 0,
+          "createdAt": "2026-10-02T23:26:23.805Z",
+          "operation": "create",
+          "document": {
+            "canvas": {
+              "width": 64,
+              "height": 32,
+              "fps": {
+                "numerator": 30,
+                "denominator": 1
+              },
+              "background": "#000000ff"
+            },
+            "tracks": [],
+            "groups": [],
+            "clips": [],
+            "syncGroups": [],
+            "processing": []
+          }
+        }
+      },
+      "id": "revision.get"
+    },
+    "recording": {
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema",
+        "retryable": false,
+        "details": {}
+      },
+      "id": "revision.get"
+    },
+    "package": {
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema",
+        "retryable": false,
+        "details": {}
+      },
+      "id": "preview.get"
+    },
+    "removed": {
+      "ok": false,
+      "error": {
+        "code": "UNKNOWN_OPERATION",
+        "message": "Unknown service operation",
+        "retryable": false,
+        "details": {}
+      },
+      "id": "edit.cut"
+    },
+    "deletion": {
+      "ok": true,
+      "data": {
+        "recordingId": "same-id",
+        "deleted": true
+      },
+      "id": "recording.delete"
+    }
+  }
+}

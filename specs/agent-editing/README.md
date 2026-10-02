@@ -18,113 +18,82 @@ example to the plan; the user kept segmentation outside this run and requested a
 Implement the remaining primitives through their existing owners. Read
 [contracts](contracts.md), [architecture](architecture.md),
 [verification](verification.md), [journeys](journeys.md) and [processing](processing.md).
-The external caller makes every editorial decision. The consumer
-[screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
-repository developers read or edit it from that perspective.
+The external caller makes every editorial decision. Read or edit the consumer
+[screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: remove obsolete recording-composition selectors and native consumers.**
-The [canonical service pass](assets/23-canonical-service/README.md) now makes the
-default repository build use the qualified project composition and removes the
-separate development entry. Recordings own capture/source lifetime; projects own
-editable composition, revisions, preview and export. Remove obsolete recording
-editing/media selectors and their native readers together through
-[cutover](slices/23-cutover.md), preserving capture, source admission, inspection
-and deletion. Do not retain an unusable advertised selector or restore an old
-engine for a legacy fixture. Preserve valuable fixture guarantees under the
-actual remaining contracts.
+**Next pickup: preserve legacy fixture guarantees, then remove orphan package owners.**
+The [canonical service](assets/23-canonical-service/README.md) and
+[shared-contract/publication passes](assets/23-composition-contract/README.md) are
+merged. Recordings own source lifetime; projects own composition, revisions,
+preview and export. Native actions and shared selectors now follow that boundary.
+The publication owner accepts projects only, and export continuations carry only
+the project filter. Revision pins, explicit replay/recovery, staging and typed
+source/project deletion safeguards survive. The numeric presentation plan also
+has its own existing owner, independent of the obsolete recording interpreter.
 
-That shared-contract pass is underway in the managed `service-composition`
-worktree; inspect its branch and actual test state before overlapping its owner.
-The active pointer bridge's numeric range/plan dependency has been separated from
-the obsolete recording interpreter; [cutover](slices/23-cutover.md) records this
-prerequisite and its focused proof. Preserve that direct presentation owner when
-deleting the old core family.
+The next pass is underway in the managed `service-composition` worktree on
+`codex/package-owner-purge`. Rehome valuable publication, recovery and shared
+package-registry fixtures to actual project/source owners before deleting their
+obsolete recording package/span consumers. Keep generic archive/registry,
+workspace, native publication and source-lifetime contracts. The broader old
+fixtures are pending, not green or permission to restore an old production engine.
 
-Missing broader speech labels and physical synchronization remain release
-acceptance gaps, not prerequisites for isolated cutover implementation. The
-[preservation matrix](verification.md#preservation-matrix) requires preserving
-verified behavior and keeping inherited pending claims pending. Installed
-replacement, migration and unsupported acceptance claims remain separate.
-The [joined-verification physical confirmation](assets/20-sustained-physical-stop/verification-confirmation/README.md)
-now passes the original sustained Stop/quit recipe at 9.215 seconds. Independent
-source publication, joined cancellation and exact retained-source proof remain
-banked under the [sustained-stop owner](assets/20-sustained-physical-stop/README.md).
-This is one declared physical pass, not synchronization or a causal speedup.
-Both earlier failures remain intact; no further Stop recording is queued.
-
-[The first retained-picture comparison](assets/20-camera-picture-correspondence/README.md)
-selected the native sample but failed exact complete-pixel equality. The second
-request was not dispatched. The [encoded binding](assets/20-camera-picture-correspondence/encoded-binding/README.md)
-now joins exact native bytes to a current packet and actual decoded YUV frame.
-PNG selection missed that frame; the separate finite packet view shifted all
-clocks by 853 microseconds and stopped before decoding. Read-only review identifies
-MOV edit-list rounding in the diagnostic copy, with no demonstrated product clock
-defect. Exact historical PNG equality is a sufficient diagnostic witness, not a
-release prerequisite: stop that optional comparison. Detector-picture binding and
-physical onset uncertainty remain the actual timing gaps. No settings sweep,
-second picture, ordinal/gray-time fallback or tolerance follows from these failures.
-The [saved acquisition recovery](assets/20-sustained-physical-stop/acquisition-recovery/README.md)
-now passes one bounded reopen and explicit interrupted-camera retry. Both imports
-are ready, the primary receipt remains unchanged and all owned processes close;
-no capture or project creation occurred. Preserve the original failed attempt.
-The [retained marker analysis](assets/20-retained-marker-resolution/README.md)
-already reaches its declared stopping condition: clipped identities, partial
-predecessors and exposure/readout uncertainty cannot establish the one-frame
-physical bound. Do not repeat that analysis or claim timing acceptance. Historical
-producer gaps remain gaps. The
-[capture owner](slices/20m-camera-continuing-verification.md) already passes
-continuing verification and retained replay; do not repeat those proofs.
-
-The [speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
-and [access qualification](assets/acceptance-maintenance/speech-reference-access.json)
-own the independent acoustic-reference prerequisite. AMI supplies frozen
-human-checked lexical text, but automatic times do not answer it. The promising
-spontaneous reference needs an established publisher access route; no form or
-license was submitted. Do not repeat generic qualification, read-sentence trials
-or inference before independent intervals and category coverage are available.
-No alternate speech recipe is selected. This prerequisite does not block the
-independent capture/preservation work above.
-
-Complete preservation and installed cutover through the
-[consumer owner](slices/23-cutover.md), followed by final scale and the independent
-installed caller. [Cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-owns the remaining mappings. Prepare a concrete reviewable candidate before
-requesting installed replacement; preserve the installed library and span history.
-No migration or obsolete-owner deletion begins before its prerequisites.
+Then remove mixed old core branches and `RevisionStore`, including the actual
+recording revision field in its type, queries and schema. Do not hide it in a
+response adapter. The joint schema purge bumps the fresh catalog format and
+refuses prior formats without migration; preserve refusal and unchanged old
+catalog bytes. [Cutover](slices/23-cutover.md) owns this sequence and its matched
+[preservation matrix](verification.md#preservation-matrix). Missing inherited
+speech or physical acceptance does not block these isolated implementation ports.
 
 | Owner | Banked scope | Remaining release contract |
 | --- | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
-| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical pause/resume/stop, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
-| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired edits/history, mapped recovery, canonical default service, signed isolated candidate, actual menu/readiness and representative presenter pixels | Shared-contract/obsolete-owner removal, continuous playback and installed switching |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical lifecycle, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
+| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired state/recovery, canonical service, shared contracts, native menu cells, project publication and signed isolated candidate | Legacy fixtures/owners/schema purge, continuous playback and installed switching |
 | [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
 | [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |
 
-[The evidence index](assets/integrated-evidence.md) owns results and limits;
-[implementation pickup](assets/implementation-pickup.md) owns source/runtime pins.
-Reuse complete outputs, original failures and actual terminal records. The query
-contract returns full dependencies on the first page and immutable manifest
-references on continuations; every source remains freshly validated. Preserve
-that named response-format difference across callers. The private signed
-[candidate successor](assets/acceptance-maintenance/candidate-successor.json)
-and [presenter proof](assets/acceptance-maintenance/presenter-pixels.json) retain
-their exact scope: capture-enabled test pixels are separate from protected-app
-screenshots and installed/continuous playback.
+Reuse accepted evidence and its limits. [The evidence index](assets/integrated-evidence.md)
+and [implementation pickup](assets/implementation-pickup.md) own source/runtime
+pins; [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
+owns matched guarantees. Prepare a concrete reviewable candidate before requesting
+installed replacement. Preserve the installed library and span history; no migration.
+The final scale and independent installed caller follow cutover.
 
-Apply the [project principles](../../AGENTS.md): narrow checks for everyday work,
-one full run when implementation is finished. Heavy/timing-sensitive checks use
-the offered computer window. Every experiment needs one necessary unresolved
-question, fixed inputs and a stopping condition. Missing acceptance alone does
-not create another implementation owner or model trial.
+The [sustained Stop/quit confirmation](assets/20-sustained-physical-stop/verification-confirmation/README.md)
+passes the original recipe at 9.215 seconds, and
+[saved acquisition recovery](assets/20-sustained-physical-stop/acquisition-recovery/README.md)
+passes one reopen and explicit interrupted-camera retry. Original failures remain;
+no further Stop recording is queued. These are scoped lifecycle proofs, not
+synchronization or causal speedup. The
+[encoded picture binding](assets/20-camera-picture-correspondence/encoded-binding/README.md)
+proves one current packet/decoded-frame identity. Its optional historical PNG
+comparison is stopped; the [retained marker analysis](assets/20-retained-marker-resolution/README.md)
+already reaches its stopping condition. Do not repeat either analysis, sweep
+settings or turn ordinal/gray-time association into physical timing acceptance.
+
+The [speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
+and [reference-access qualification](assets/acceptance-maintenance/speech-reference-access.json)
+own the independent acoustic-reference gap. Human-checked lexical text alone
+supplies no independent onset intervals. Establish the selected publisher access
+route before further qualification/inference; no form or license was submitted.
+Do not repeat generic corpus searches, read-sentence trials or select another
+speech recipe merely because acceptance is missing.
+
+Apply [project principles](../../AGENTS.md): narrow checks for everyday work,
+one full run when implementation is finished. Reuse outputs a change cannot
+invalidate. Every experiment needs a necessary question, fixed inputs and a
+stopping condition. Native-cell screenshots, capture-enabled test pixels and
+source numerical checks remain distinct from installed/continuous acceptance.
 
 Preserve originals, journals, saved marks, accepted retiming/denoise/voice, the
 selected 200 ms ambience and [frozen worker](assets/acceptance-maintenance/native-worker-preservation.json).
-The 250 ms ambience is rejected. Candidate checks use isolated state. Capture
-publishes facts; the caller authors projects and edits. Necessary checks are
-authorized; independent speech reference qualification is the developer's work,
-not another user recording, timestamp-entry or personal keep/remove assignment.
-Keep this pickup, checklist and owning Status lines consistent. All remaining
-release contracts must be resolved before closing the spec.
+The 250 ms ambience is rejected. Checks use isolated state and are authorized;
+reference qualification is developer work, not another user recording, timestamp
+entry or personal keep/remove assignment. Capture publishes facts; the caller
+explicitly authors projects and edits. Keep this pickup and owning Status lines
+consistent; all remaining release contracts must be resolved before closing.
 
 ## Outcome and boundaries
 

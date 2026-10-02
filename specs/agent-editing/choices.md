@@ -7060,3 +7060,31 @@ This placement lets source and project presentation survive that removal without
 depending on recording revision history. The decision belongs to the presentation
 timing prerequisite pass; it adds one package export and no dependency or persisted
 format.
+
+## Publication cleanup checkpoints
+
+**Sound, medium confidence — preserve generic fault fixtures before removing their obsolete setup.**
+An old export test constructs a recording edit but then checks a useful guarantee,
+such as preserving an acknowledged external file after its destination moves.
+Deleting every recording-based test would also delete that guarantee. The
+project-only publication pass therefore rehomes proven generic cases first and
+keeps the broader old fixture suite visibly pending until its remaining guarantees
+use actual project owners. Existing SQL columns are removed with the coordinated
+core/schema purge, rather than changing the format twice during these ports. The
+plan specified the final single-owner architecture without prescribing this
+checkpoint boundary. This is temporary implementation ordering, not compatibility:
+no recording export writer or export selector survives, and old fixtures are not
+claimed green. This choice belongs to `6d93a9c4` and constrains the next deletion
+pass to account for recovery, deletion and workspace obligations before removing
+their only surviving test setup.
+
+**Sound, high confidence — workspace identity belongs to the workspace owner.**
+A project package export must verify that its temporary directory still names the
+same filesystem object before using or retiring it. That check lived inside the
+old recording-package assembler, making an unrelated project exporter depend on
+the obsolete assembler. The exact check and its reservation shape now live with
+the existing package-workspace operations; both callers consume them directly
+until the old assembler is deleted. The plan required one owner without choosing
+this helper's home. The move adds no validation rule, forwarding wrapper or
+publication mechanism. Future package consumers share the same directory identity
+contract through that owner. This choice belongs to `6d93a9c4`.
