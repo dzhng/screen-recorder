@@ -1,79 +1,40 @@
 ---
 name: audit-agents
-description: Audit AGENTS.md for durable principles and fast iteration. Use when writing or revising contributor guidance, removing stale instructions, or investigating guidance that creates unnecessary tests, process overhead or implementation coupling.
+description: Audit or rewrite AGENTS.md so it holds only lasting principles. Use when writing or revising contributor guidance, when it has picked up commands, paths, status or session history, or when its rules slow the feedback loop.
 ---
 
-# Audit Agent Guidance
+# Audit Agents
 
-Judge instructions as principles that could serve a thousand future contributors
-through a hundred years of implementation changes. Audit by default; edit only
-when the user requests corrections. The report is the deliverable.
+AGENTS.md is read by everyone who will ever work on the project. Picture the next thousand contributors over the next hundred years: a line belongs only if it is still true, and still changes what they do, after every file, tool and dependency has been replaced.
 
 ## Workflow
 
-1. Read the requested guidance and any parent guidance that governs it. Read
-   only enough product context to establish its purpose and explicit boundaries.
-   When the user supplies a reference as the starting point, adapt its useful
-   structure and principles; do not substitute an unrelated template or copy
-   its implementation mechanics. Honor requested section order, verbatim
-   passages and deliberate omissions; the criteria do not require a section
-   for every topic. Do not run builds, application tests or broad repository
-   audits to judge a document.
-2. Account for every directive: **keep**, **rephrase**, **move** or **delete**.
-   Keep durable decision rules. Rephrase a useful lesson tied to today's
-   mechanics. Move needed operational information to its current owner. Delete
-   repetition, stale instructions and rules without a concrete consequence.
-   Group repeated findings; do not reproduce the whole file as a line ledger.
-3. Apply the criteria below. Distinguish a lasting principle from a particular
-   tool, owner, bug or technique that happens to implement it. A specific rule
-   can be durable when it expresses the product's fundamental boundary.
-4. Verify findings against the current file, not a previous draft or memory.
-   Cite an exact passage for each finding. Before reporting an omission, quote
-   the closest existing rule and explain what it fails to establish; never
-   request a principle already stated. Report the highest-impact findings first,
-   with their consequences and recommended actions, then a short overall verdict. When a rewrite is requested, write the corrected guidance, then
-   reread it as a newcomer with no session history. Finish with the result and
-   any unresolved choices. Do not manufacture findings to fill a quota.
+1. Read the AGENTS.md and the root readme. This is a document audit: run no builds and no tests.
+2. Give every line one verdict, using the tests below.
+   - **Keep**: a principle that passes every test.
+   - **Rephrase**: a lasting lesson worded in today's mechanics, or too vague to act on.
+   - **Move**: a detail someone needs. Name the owner it belongs to: a readme, a manifest, a skill or a spec.
+   - **Delete**: repetition, history, or a line that changes nothing.
+3. Check the shape against the example below.
+4. Report the findings, highest impact first. Quote each line, give its verdict and the replacement text, and group repeats. Report no finding you can't quote.
+5. Edit only when the user asks for a rewrite. Then start from the example, write the file, and reread it as a newcomer with no history of this session.
 
-## Criteria
+## Tests for a line
 
-- **Iteration speed is the core principle.** Optimize time to trustworthy
-  feedback, not process volume. Start with the narrowest meaningful check of
-  the changed behavior. Expand for changed shared contracts or a named risk;
-  required release checks belong at justified checkpoints, not every iteration.
-  Each expensive run must answer a question cheaper evidence cannot answer.
-  Flag missing iteration-speed and proportionate-testing rules explicitly;
-  generic advice about blockers or reuse does not substitute for them.
-  Reuse valid results; rerun when relevant changes invalidate them. Blanket
-  test-first rules, repeated full suites and unrelated tests for documentation
-  or presentation changes need scrutiny. Do not weaken a real acceptance
-  requirement to make the loop faster.
-- **Ownership stays clear.** Prefer one authoritative owner, simple general
-  rules and demonstrated needs. Flag duplicated policy, speculative machinery
-  and instructions that preserve obsolete paths or demand particular internals.
-- **Intent and evidence survive.** Preserve originals, provenance, accepted
-  behavior and explicit product boundaries. Reused material needs a known origin
-  and permission for its use; references do not grant authority to alter or ship
-  them. Separate evidence or detection from authority to act. Keep conclusions reproducible and changes reversible where
-  practical, without multiplying redundant copies or inventing new permissions.
-- **Work and resource cost stay bounded.** Parallelism must not multiply large
-  data or allow different changes to overwrite shared mutable outputs. Retire
-  obsolete work resources after protecting needed work. Long tasks need progress
-  and a stopping condition; do useful independent work instead of endless waits
-  or retries.
-- **User communication comes first.** Start the guidance with how to talk to
-  the user. Lead with contracts and consequences, introducing technical concepts
-  before using them. Resolve routine questions from evidence, reuse information
-  already supplied, and ask only when human input changes a consequential
-  decision. Do not start with a preamble about how to author AGENTS.md; that
-  instruction belongs in this audit, not the document being audited.
-- **Claims stay honest.** Distinguish verification, assumptions and unfinished
-  work. A narrow pass cannot prove a broader claim. Missing evidence stays
-  unknown; failures cannot become passes through relaxed requirements.
-- **The document outlives the implementation.** Flag commands, flags, paths,
-  dependency choices, file/function rosters, temporary status, active plans,
-  tuned constants and one-bug workarounds. Put their lasting lesson here and
-  their mechanics with the owning code, runbook, skill or plan. Links are not
-  a loophole for turning principles into an implementation index. Preserve an
-  explicit user requirement for principles only. Prefer a short decision rule
-  over generic advice, session history or an ever-growing checklist.
+- **A hundred years.** No commands, flags, paths, file or function names, dependency choices, tuned values, plans, status or bug stories. Keep the lesson and move the mechanics to their owner. The one exception is a pointer to an owner (a readme or a skill), which exists so the detail can live there.
+- **A thousand people.** A newcomer can act on it without knowing this session, this author or this month's work.
+- **Changes what they do.** Delete a line a capable contributor already follows.
+- **Plain and concrete.** A principle is not an abstraction. "Look at the picture" works; "match verification to the claim" doesn't. Prefer a short sentence with its consequence, and one example from the product over a general noun.
+- **Iteration speed.** This is the core principle and must be stated outright: optimize the time to feedback you can trust, run the narrowest check that answers the question, and keep the full gates for milestones the plan names in advance. Flag any rule that adds process to every loop, or puts the full gates before each commit, merge or push. Never trade away a real acceptance requirement for speed.
+
+## Shape
+
+[`assets/example-agents.md`](assets/example-agents.md) is an AGENTS.md any project can adopt, and it owns the section order. Read it before judging the shape or rewriting.
+
+To adopt it, copy it and resolve every `<…>`; none may survive into the project's file.
+
+- `<skill: name>` names a skill from the pack this skill ships in. Replace it with a link to that skill where the project installs it. If the project doesn't have the skill, drop the pointer and keep the principle.
+- `<skill: the project's own …>` stands for a skill only this project has. Link it, or delete the sentence.
+- Every other `<…>` is filled from the project's readme.
+
+Delete a section the project doesn't need; add one only for a principle that fits nowhere else.

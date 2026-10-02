@@ -42,8 +42,9 @@ policy; source inspection supplies no speech-quality or runtime verdict.
 
 Bun installs and orchestrates; Node 24 runs TypeScript and Swift builds the native
 macOS boundary. Run `bun install` before building. The [root manifest](package.json)
-owns executable build and check commands. Use focused package checks during
-iteration; full release verification belongs at closeout.
+owns executable build and check commands. Use focused package checks for
+everyday work, including commits and merges; full release verification belongs
+at the milestones a plan names and when a spec is closed.
 
 The [agent editing spec](specs/agent-editing/README.md) owns the active expansion
 plan and next pickup. The [recording spec](specs/recording-for-ai/README.md) retains
