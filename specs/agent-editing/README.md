@@ -22,16 +22,16 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: diagnose the raw-prefix probe's compilation before media.**
-[20g preparation](slices/20g-camera-raw-prefix.md) timed out in the external
-compiler; no writer or decoder ran. Original interrupted setup and corrected
-deadline remain separate. [Root verification](assets/20g-camera-raw-prefix/merged.json)
-checks the saved records and bindings without a replay. Static comparison found
-SDK cache writes near the deadline and a preserved successful compile/cache
-reference. Neither sole cache causality nor source correctness is established.
-Use one bounded compile-only diagnostic with that working reference and unchanged
-probe/physical settings before any physical-case authorization; preserve all
-original outcomes and source/model/runtime namespaces.
+**Next pickup: prepare camera observations that survive a failed comparison.**
+[20g](slices/20g-camera-raw-prefix.md) compiled with the retained working cache,
+then reused that binary for the separately authorized physical cases. One ordinary
+prefix stayed identical; the separate case failed before intentional interruption.
+Its later comparison operands and failed raw movie were lost during probe cleanup,
+so the changed field remains unknown. [Root saved-data checks](assets/20g-camera-raw-prefix/physical-continuation/merged.json)
+retain this distinction. Preserve originals; do not retry the same tail rule or
+infer a codec cause. Inspect actual decoder dependency and endpoint guarantees,
+and require durable operands and bounded failure output in any successor observer.
+Only a necessary, supported new hypothesis justifies another fixed experiment.
 
 The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
 improves the fixed example's timing without an individual regression; parent 12
@@ -254,7 +254,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
-- [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — compiler preparation timed out; no physical case started
+- [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — ordinary scoped prefix passes; separate candidate fails before interruption, with later operands missing
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)

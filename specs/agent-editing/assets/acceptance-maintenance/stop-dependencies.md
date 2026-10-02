@@ -136,3 +136,25 @@ assumption, fault isolation, container identity and link lifetime before admissi
 No such ownership or identity change is selected. If pursued, describe two decoded
 verifications of one shared representation truthfully; the extra name is not an
 independently fabricated movie. Neither candidate establishes the stop deadline.
+
+## Prefix-boundary qualification
+
+[20g physical evidence](../20g-camera-raw-prefix/physical-continuation/README.md)
+does not support adopting a one-picture uncommitted tail. One ordinary prefix
+survives; the separate candidate reports a mismatch before intentional interruption.
+The failed later operands were not saved, so no changed field or cause is assigned.
+
+A boundary needs complete storage, decoder dependency/reordering closure and
+stable presentation mapping/endpoints independently. The SDK's `AVSampleCursor.h`
+defines `sampleIsFullSync` as an actual decoder refresh sample. A configured maximum
+keyframe interval or a complete fragment is not that observation. Dependency flags
+can be unknown, and zero `samplesRequiredForDecoderRefresh` can mean information
+is absent. Reordering queries require cursors from the same track instance.
+The native `assetEnd` owner also clips to the current segment boundary; a decoded
+pixel boundary alone cannot establish final presentation support.
+
+No current API certifies that all prior decoded tuples survive append and closure.
+Before considering a dependency-based candidate, preserve both complete operands,
+failed media and actual sync/dependency, DTS/PTS, storage and segment facts.
+Preparation of that observer does not authorize replaying the failed tail rule,
+incremental adoption or a new performance measurement.

@@ -9,6 +9,11 @@ actual prefix fallback. [Retained-take metadata eligibility](../assets/20f-camer
 passes; actual full-take overlap/adoption/measurement, peak decoder memory and stop
 latency remain open.
 
+[20g raw-prefix feasibility](20g-camera-raw-prefix.md) has mixed physical evidence:
+one ordinary prefix remains identical, but the separate candidate fails before
+intentional interruption. Missing later operands prevent diagnosing that mismatch;
+no general prefix rule, recovery mechanism or stop improvement is qualified.
+
 ## Contract
 
 Establish a measured shared-clock strategy for synchronized production acceptance

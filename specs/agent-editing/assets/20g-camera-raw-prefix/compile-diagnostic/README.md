@@ -1,8 +1,9 @@
 # Compile-only preparation diagnostic
 
-**The unchanged probe compiles; physical fragment behavior remains unmeasured.**
+**The unchanged probe compiles; this phase measures no physical behavior.**
 The single compile-only diagnostic restored the actual retained working SDK cache
-recipe and completed normally. Its binary is retained and was never invoked.
+recipe and completed normally. Its binary was not invoked during this phase;
+the [separate physical continuation](../physical-continuation/README.md) later reused it.
 All compiler/source/native module/object/input pins and every cache entry remained
 unchanged. The original interrupted setup and timeout packet remain intact.
 
@@ -13,6 +14,8 @@ controller and the retained binary inside the archive. [The saved checker](check
 checks complete archived bytes and exact correspondence to the original frozen
 probe/common flags; its negative control rejects an executable-invocation claim.
 It opens neither media nor the executable.
+The saved `termination.json` is an owned-PID absence check: its `ps` exit of one
+means those processes were absent. Actual compiler and controller exits are zero.
 
 This result qualifies compile readiness only. It is consistent with avoidable
 import/cache preparation cost but does not establish why the earlier compile

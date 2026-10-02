@@ -1,11 +1,12 @@
 # Raw camera prefix feasibility authority
 
-**The physical question remains unmeasured.** The corrected external probe compile
-hit its fixed deadline without producing an executable or a diagnostic. It was
-killed and awaited; no ordinary or interrupted writer, decoder or recovery case
-started. The cause of the slow compilation was not established. An earlier
-compile was interrupted when integration review arrived before media dispatch;
-that setup is preserved separately, without counting it as a physical failure.
+**General physical prefix stability remains unqualified.** The original setup
+archive below retains the interrupted compilation and corrected compile deadline,
+neither of which dispatched media. The separate
+[compile diagnostic](compile-diagnostic/README.md) qualifies the unchanged binary.
+The [physical continuation](physical-continuation/README.md) then preserves one
+ordinary prefix but reports a distinct pre-interruption mismatch. Lost later
+operands and raw output leave the changed field unknown. Recovery never ran.
 
 The [slice](../../slices/20g-camera-raw-prefix.md) owns the fixed question, clocks,
 conservative uncommitted tail and bounds. The [report](report.json) records exact
@@ -19,8 +20,11 @@ records; its negative control rejects an invented physical-success claim. It
 compiles nothing and opens no media. The probe's original full-tuple acceptance
 checker is retained inside the archive and never earned a physical pass.
 
-No retry, settings change, alternate encoding/container, canonical publication,
-production adoption or performance claim follows from this packet. Any future
-setup investigation must distinguish a compiler problem from native fragment
-semantics before authorizing another physical experiment. Scratch remains at
-`/tmp/screenrec-20g-raw-prefix`; compiler caches are excluded from the archive.
+No settings change, alternate encoding/container, canonical publication,
+production adoption or performance claim follows from these packets. The original
+setup records are immutable; later phases have separate commands, identities and
+terminal outcomes. Root [setup](merged.json),
+[compile](compile-diagnostic/merged.json) and
+[physical](physical-continuation/merged.json) checks inspect saved evidence without
+replaying native work. Scratch remains at `/tmp/screenrec-20g-raw-prefix`;
+compiler caches are excluded from the archive.

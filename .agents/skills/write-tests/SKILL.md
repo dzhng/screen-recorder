@@ -91,11 +91,16 @@ below serves that one goal.
   delete them the moment the question is answered, or promote them into a real
   test if the behavior deserves a permanent guard.
 
+- **Preserve failure evidence before gates.** Persist both complete comparison
+  operands to diagnostic files before the first assertion; keeping them only in
+  memory is insufficient. Before cleanup can delete unfinished output, retain a
+  bounded diagnostic copy and label it unverified. A message naming one mismatched
+  row cannot establish which field changed.
+
 - **Cross-language observers obey the real executor.** Even an empty callback
   can retain caller-actor isolation and trap when an SDK invokes it elsewhere.
   Honor the SDK callback's executor contract and forward original data/results
-  unchanged. Persist outcomes and cleanup observations before trap postconditions
-  so instrumentation failure cannot erase the evidence it was meant to collect.
+  unchanged.
 
 - **Process observers preserve the API they observe.** Keep callback and
   promisified return behavior intact. Give each resumed producer a distinct output

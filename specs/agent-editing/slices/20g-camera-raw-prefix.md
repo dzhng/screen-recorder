@@ -1,10 +1,14 @@
 # 20g — unchanged raw camera fragment-prefix feasibility
 
-Status: preparation failed at the fixed external-compile deadline; the physical
-question is unmeasured. No ordinary or interrupted media case started. This is a
-bounded prerequisite experiment, not a production mechanism or stop-performance
-verdict. The original interrupted setup and corrected attempt are retained
-separately in the [evidence packet](../assets/20g-camera-raw-prefix/README.md).
+Status: mixed physical result; general prefix stability remains unqualified.
+The original setup deadline is retained. A separate compile-only diagnostic
+qualified the unchanged executable, then the physical continuation reused it.
+The ordinary case preserves its complete 29-picture prefix through extension and
+closure. The separate candidate reports a mismatch at ordinal 24 before the
+planned interruption; recovery never ran. Lost later operands and failed raw
+output prevent identification of the changed field. This is a bounded prerequisite
+experiment, not a production mechanism or stop-performance verdict.
+[The evidence hub](../assets/20g-camera-raw-prefix/README.md) separates all phases.
 
 ## Question and fixed acceptance
 
@@ -54,3 +58,17 @@ emission deadline is tested within the fixed bounds, not silently assumed.
 
 [Evidence and fixed commands](../assets/20g-camera-raw-prefix/README.md) retain
 source/module/input authority, process records and the outcome.
+
+## Result and next condition
+
+The ordinary final movie contains 197 accepted pictures from 210 offered frames;
+backpressure is retained. All closed ordinals and native PTS match accepted
+mappings. This one case does not establish a universal one-picture tail rule.
+The second case contradicts adopting that rule from the ordinary pass.
+
+A successor must persist complete operands before assertions and retain bounded,
+explicitly unverified failed media before cancellation deletes it. Those corrections
+cannot reconstruct the missing historical operands. A new physical candidate also
+needs a supported stability condition for decoder dependencies and native endpoints;
+changing the discarded tail until the example passes is not such a condition.
+Canonical traversal, recovery, backlog and stop performance remain separate gates.

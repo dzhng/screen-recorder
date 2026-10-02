@@ -6610,3 +6610,31 @@ compile/cache reference for a bounded diagnostic is sound, high confidence; it
 preserves the source, numeric recipe and deadline rather than tuning a failed
 physical case. Cache writes near the deadline do not identify the sole cause.
 No canonical alias, remux or incremental verification architecture is selected.
+
+## Camera physical-prefix continuation
+
+**Unsound, high confidence — assertions ran before durable failure observations.**
+When the second active movie snapshot differed, the probe threw before saving that
+snapshot. Writer cleanup then deleted the unfinished movie. Only the row number
+survived, so a later reviewer cannot identify whether timing, endpoints or pixels
+changed. The plan required exact evidence but did not specify persistence order.
+The corrected decision is to persist both complete operands before asserting and
+retain bounded, explicitly unverified failed output before cancellation. It belongs
+in the observation owner and test skill; it cannot recover historical missing data
+or turn the failed case into a pass.
+
+**Sound, high confidence — separate candidate failure from intentional interruption.**
+The ordinary case preserved every field in its selected early pictures. The next
+case failed before the controller's planned kill, so the recovery reader never
+ran. Root keeps these outcomes separate rather than using the ordinary pass to
+approve the general rule or treating a normally exited process as a crash test.
+This constrains future incremental verification: a candidate must establish its
+dependency and endpoint boundary, not merely discard more trailing pictures until
+one example passes. No writer setting, picture digest or stop deadline changes.
+
+**Sound, high confidence — scope executable invocation to its actual phase.**
+The compile-only diagnostic did not run media. A later, separately authorized
+controller reused its exact qualified binary without recompilation. The evidence
+hub names both phases so the earlier “not invoked” statement cannot obscure actual
+later execution. Both original failures stay intact, and successful warm preparation
+does not establish why the cold compilation timed out.

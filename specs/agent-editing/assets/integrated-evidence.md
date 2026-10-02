@@ -191,6 +191,12 @@
   observer crash is separate. [Retained metadata eligibility](20f-camera-publication-overlap/retained-eligibility/README.md)
   establishes the predicate without publication. Actual full-take overlap, resource
   use, physical capture and the completed-stop deadline remain unproved.
+- [Raw-prefix feasibility](../slices/20g-camera-raw-prefix.md) preserves original
+  setup failures, separate compile readiness and mixed physical outcomes. Root
+  [saved-data checks](20g-camera-raw-prefix/physical-continuation/merged.json) verify
+  the ordinary tuples and distinguish the separate pre-interruption failure.
+  Lost later operands leave its changed field unknown; general stability and
+  recovery remain unqualified.
 - [Composed source consumers](../slices/23k-source-consumer-bridge.md) preserve
   metadata paging/dispatch and distinct historical readiness. [Edited frames](../slices/23l-paired-edited-frames.md)
   retain joins and final support; the [native PNG successor](23l2-native-png-correspondence/README.md)

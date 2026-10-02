@@ -1,0 +1,12 @@
+{
+  "scope": "Root saved-data and current bindings only; no compile, decode, capture, recovery or replay",
+  "archiveMembersChecked": 12,
+  "currentAuthorityPinsChecked": 111,
+  "compilerExitCode": 0,
+  "controllerExitCode": 0,
+  "phaseBinaryInvoked": false,
+  "terminationPsExitCode": 1,
+  "terminationPsMeaning": "Both owned PIDs absent, not compiler failure",
+  "cacheBeforeAfterInventoriesEqual": true,
+  "physicalQuestionAnsweredByThisPhase": false
+}

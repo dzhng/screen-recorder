@@ -1,0 +1,26 @@
+{
+  "scope": "Root saved-data and current bindings only; no compile, decode, capture, recovery or replay",
+  "archiveMembersChecked": 24,
+  "currentAuthorityPinsChecked": 114,
+  "ordinary": {
+    "completePrefixTuplesEqual": 29,
+    "completeClosedPictureMappingTuples": 197,
+    "offered": 210,
+    "accepted": 197,
+    "readerSnapshotCounts": [
+      30,
+      180,
+      197
+    ]
+  },
+  "secondCase": {
+    "actualExit": 1,
+    "reportedMismatchOrdinal": 24,
+    "laterOperandsAndRawMissing": true,
+    "intentionalInterruption": false,
+    "recoveryDispatched": false
+  },
+  "generalStabilityQualified": false,
+  "canonicalQualified": false,
+  "noMismatchCauseAssigned": true
+}

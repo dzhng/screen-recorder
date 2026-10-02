@@ -20,6 +20,8 @@ all saved tuples/media and actual terminal records. [The checker](check.py) veri
 complete ordinary picture bytes and accepted clocks, then the distinct failure
 gate, using the existing archive-byte checker. Its negative control rejects a
 general stability claim. It compiles and decodes nothing.
+[Root verification](merged.json) independently checks the archive, current
+bindings, full prefix tuples and complete accepted picture clocks.
 
 The qualified binary was reused without compilation; settings, pacing, durations,
 tail and bounds stayed fixed. The source and prior setup/compile packets remain
