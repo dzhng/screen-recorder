@@ -6584,3 +6584,15 @@ Success does not identify what caused the first timeout. Human annotations and
 full scoring stay in private noncommercial research storage; only our outputs,
 aggregate measurements and identity pointers enter the repository. Neither a
 passed numerical example nor that runtime correction selects a new speech recipe.
+
+## Independent supplied-text timing
+
+The [case choices](assets/12l-independent-supplied-text-timing/choices.md) own the
+phase-separated processes. Root selected a whole-source format bridge through the
+existing native reader because the preserved aligner's finite converter accepts
+Float32 rather than the corpus's Int16 input. Complete sample equality is required
+before conversion; its declared terminal clock remains distinct from saved ASR.
+Only saved recognized text enters inference, so manual marks cannot tune the
+candidate. Verdict: sound, high confidence. This is an isolated comparison, not a new public conversion owner
+or a speech recipe adoption. The copied numerical runner and inventory helper
+remain frozen evidence; the current generic tooling owns future work.

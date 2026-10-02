@@ -135,3 +135,11 @@ full shared evaluation remains pending: it supplies no fillers, walkthrough,
 audition or model-training exclusion. Its preparation-only directory timeout and
 restored previously executed directory are separate actual runs, not a causal
 cache or host result. No further recognition is queued for that example.
+
+The [independent supplied-text candidate](12l-independent-supplied-text-timing.md)
+improves the same manual example to 30 ms median and 40 ms p95/max without any edge
+regression. Three observations change at only two distinct human times; seven
+stay unchanged. Full sample equality through the existing format bridge, the
+finite converter clock and original model/runtime preservation are qualified.
+The complete shared evaluation remains pending. This is timing characterization,
+not omitted-word discovery, broad speech acceptance or a selected replacement.

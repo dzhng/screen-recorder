@@ -22,28 +22,29 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Current pass: one independent supplied-text timing comparison.**
-Use the preserved [12i Qwen3 float16 recipe](slices/12i-retained-sentence-alignment.md)
-on the fixed [12k manually marked example](slices/12k-independent-word-timing.md),
-with only its saved recognized text. First prove every sample through the existing
-whole-range Int16-to-Float32 source-audio bridge, then the finite converter's exact
-clock. Preserve numerical behavior, original model/runtime namespaces and the
-corrected inventory owner. No ASR repeat, corpus redistribution, crop, gain,
-padding, parameter search or adoption follows from this comparison.
+**Next pickup: qualify a camera-stop mechanism before implementation.**
+The completed [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
+improves the fixed example's timing without an individual regression; parent 12
+remains open and no speech recipe is adopted. Its [root verification](assets/12l-independent-supplied-text-timing/merged.json)
+checks saved sample, clock, text and signed-edge evidence without another run.
 
-**Priority after that pass:** address a concrete remaining implementation contract
-below. Camera stop needs a supported critical-path mechanism before another
-retained-take benchmark; [the dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
-identifies why scheduling alone cannot establish the deadline. [24z timing](assets/24z-current-preparation/README.md)
-requires a changed coordinated window and one fresh preflight: the
-[latest snapshot](assets/24z-current-preparation/post-correspondence-preflight.json)
+Camera stop needs a supported critical-path mechanism before another retained-take
+benchmark. [The dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
+explains why closed-file scheduling alone cannot establish the deadline. Qualify
+whether native committed fragments can support both full ordered decoded-picture
+digests before stop, preserving the existing encoding, clocks, source bytes,
+bounded tail/backlog and truthful recovery. Fragment emission alone proves none
+of these. No source implementation mechanism is selected; no runtime experiment
+starts before its prerequisite is established.
+
+[24z timing](assets/24z-current-preparation/README.md) requires a changed coordinated
+window and one fresh preflight: the [latest snapshot](assets/24z-current-preparation/post-correspondence-preflight.json)
 found unrelated compilation/rendering, so no service or measurement started.
 Do not poll the host or replay preparation. Consumer ports proceed only where
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
 identifies a missing owner; another menu or chooser does not prove presentation
-or authorize installed switching.
-No further source implementation mechanism is currently identified. Do not turn
-pending acceptance or accepted cohorts into another implementation pass.
+or authorize installed switching. Do not turn pending acceptance or accepted
+cohorts into another implementation pass.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -180,6 +181,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [12h — Unchanged retained-sentence recognition](slices/12h-retained-sentence-recognition.md) — one case banked; timing fails and parent 12 remains open
 - [x] [12j — Independent utterance lexical diagnostic](slices/12j-external-lexical-diagnostic.md) — full bounded source/results qualified; broader timing/listening/held-out remain open
 - [x] [12k — Independent manual-word timing](slices/12k-independent-word-timing.md) — one whole manually marked example, numerical thresholds met; full evaluation pending and original timeout separate
+- [x] [12l — Independent supplied-text timing](slices/12l-independent-supplied-text-timing.md) — one whole example improves numerical timing; full evaluation pending, no adoption
 - [x] [12i — Retained-sentence supplied-text alignment](slices/12i-retained-sentence-alignment.md) — numerical case qualified separately from original producer inventory failure; parent 12 remains open
 - [x] [12g — Evaluator best-effort filler policy](slices/12g-evaluator-policy.md) — scorer contract only; parent speech quality remains open
 - [x] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)

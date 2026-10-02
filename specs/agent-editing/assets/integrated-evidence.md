@@ -177,6 +177,13 @@
   marked timing on the user sentence. Independent qualification stays separate
   from its producer's inventory failure. The [inventory correction](12i-model-inventory-support/README.md)
   changes bookkeeping only; broader quality and adoption remain open.
+- [Independent supplied-text timing](../slices/12l-independent-supplied-text-timing.md)
+  improves the fixed manual example without an individual edge regression. Complete
+  format-bridge equality and the finite converter's distinct clock are qualified
+  before alignment. All original identities and actual terminals are retained;
+  [root saved-data checks](12l-independent-supplied-text-timing/merged.json) and
+  independent review establish the narrow result. Full evaluator remains pending;
+  no discovery, broad quality, throughput or adoption follows.
 - [Qualified camera scheduling](../slices/20f-camera-publication-overlap.md)
   preserves complete digest/support, raw-first failure order and actual joined-reader
   cancellation. The [H264 interruption case](20f-camera-publication-overlap/h264-interruption/README.md)
