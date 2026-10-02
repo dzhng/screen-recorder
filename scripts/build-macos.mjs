@@ -31,7 +31,15 @@ for (const [directory, executable] of [
   ["helpers/mac", "screenrec-native"],
   ["apps/macos", "ScreenRecorder"],
 ]) {
-  const args = ["build", "--package-path", join(root, directory), "--configuration", "release"];
+  const args = [
+    "build",
+    "--package-path",
+    join(root, directory),
+    "--configuration",
+    "release",
+    "--product",
+    executable,
+  ];
   execFileSync("swift", args, { stdio: "inherit" });
   const bin = execFileSync("swift", [...args, "--show-bin-path"], { encoding: "utf8" }).trim();
   copyFileSync(join(bin, executable), join(macOS, executable));

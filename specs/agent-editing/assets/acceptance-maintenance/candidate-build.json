@@ -1,0 +1,95 @@
+{
+  "scope": "Production product-build correction; no install, candidate launch or full test run",
+  "red": {
+    "argv": [
+      "bun",
+      "run",
+      "build",
+      "--filter=@screenrec/macos",
+      "--filter=@screenrec/cli"
+    ],
+    "pid": 18134,
+    "startedAt": "2026-10-02T19:37:13.241810+00:00",
+    "boundSeconds": 600,
+    "terminal": true,
+    "timedOut": false,
+    "exitCode": 1,
+    "waited": true,
+    "elapsedSeconds": 18.649649124999996,
+    "endedAt": "2026-10-02T19:37:31.889438+00:00"
+  },
+  "failure": "Release build compiled @testable frame-test executable against a non-testable production module",
+  "green": {
+    "argv": [
+      "bun",
+      "run",
+      "build",
+      "--filter=@screenrec/macos",
+      "--filter=@screenrec/cli"
+    ],
+    "pid": 19466,
+    "startedAt": "2026-10-02T19:38:12.363862+00:00",
+    "boundSeconds": 600,
+    "terminal": true,
+    "timedOut": false,
+    "exitCode": 0,
+    "waited": true,
+    "elapsedSeconds": 46.34758274999331,
+    "endedAt": "2026-10-02T19:38:58.709828+00:00"
+  },
+  "change": "Build each shipped Swift executable with --product; test products remain under their existing test runners",
+  "artifact": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app",
+  "serviceEntry": "Legacy main.js still bundled by ordinary build; separate staged project-main.js assembly remains pending",
+  "frozenWorker": {
+    "path": "/private/tmp/screenrec-09c-native-presented-worker",
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "checks": [
+    "Actual filtered build red before correction / green after correction",
+    "node --check scripts/build-macos.mjs",
+    "Targeted oxfmt and oxlint"
+  ],
+  "archive": {
+    "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/acceptance-maintenance/candidate-build.tar.gz",
+    "bytes": 4890,
+    "sha256": "47d707fbb52d8256127e478e544b891fcc16bb4e11a5cfc317c4b69ffcfa14c2"
+  },
+  "members": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/build.py",
+      "bytes": 1088,
+      "sha256": "b846a9c0f50afb63bcc9216313bdaaabda02127e8cbca411927ef3fbf2af6eda"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/build.log",
+      "bytes": 4981,
+      "sha256": "4fe983c733116de995fae67575c0c69c9fabf9cbf3270d86ed2b0b417de5b435"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/build-process.json",
+      "bytes": 372,
+      "sha256": "9e022f53e7ca4a012a5fcedbcd736d2247403d69ecda60e51c1d11d970b78930"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/product-build/build.py",
+      "bytes": 1088,
+      "sha256": "b846a9c0f50afb63bcc9216313bdaaabda02127e8cbca411927ef3fbf2af6eda"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/product-build/build.log",
+      "bytes": 3315,
+      "sha256": "93a13e09a0610814148e5f8262df34228402f6a25bbddf49a07431e89b47e825"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/product-build/build-process.json",
+      "bytes": 371,
+      "sha256": "ca401d80e9352f8d1ac841664aaafe86909016ae08fb80910ccd828ddc0e7095"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/scripts/build-macos.mjs",
+      "bytes": 4368,
+      "sha256": "8aa6971e888ca13b935853d48595f5aedd6c5734e3e2b8902bec1da94a610c7e"
+    }
+  ]
+}
