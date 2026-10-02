@@ -1,0 +1,475 @@
+{
+  "archive": {
+    "file": "caller-attribution.tar.gz",
+    "bytes": 1328812,
+    "sha256": "9f403af08b0bd6acac56069d0d78993bf57e16e1c5a19d4b26be83f6c664e286"
+  },
+  "report": {
+    "file": "caller-attribution.json",
+    "sha256": "7533492eec331c09335990069f2427e0b6e26f894e604b104dbb4789c4ed7cfb"
+  },
+  "members": [
+    {
+      "name": "initial/cpu-observer.mjs",
+      "bytes": 4612,
+      "sha256": "139f75965b09f0e1a8cd753d67dd2a25dc8b11bc5bb8a5955ff190beeda4af76",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/cpu-observer.mjs"
+    },
+    {
+      "name": "initial/immediate-pins.json",
+      "bytes": 168262,
+      "sha256": "efafd7ad859dcc1a813843a71c509fb521619d4dab83f7502efac3d6a03c9d55",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/immediate-pins.json"
+    },
+    {
+      "name": "initial/preparation.json",
+      "bytes": 1342,
+      "sha256": "d73487f55dfe7253b2c80a3a3c6c61928e519c2c39789f48776c9b509f16bf58",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/preparation.json"
+    },
+    {
+      "name": "initial/prior-producer.mjs",
+      "bytes": 30610,
+      "sha256": "bc06e9f973bbc842cf653b7dc183805732af812c143e55db0a5188d951834ffc",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/prior-producer.mjs"
+    },
+    {
+      "name": "initial/process.json",
+      "bytes": 848,
+      "sha256": "22fc4877860d437bfe791684bfccf839ea66665f951ff89da8b9efb995dc4db7",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/process.json"
+    },
+    {
+      "name": "initial/producer.mjs",
+      "bytes": 32602,
+      "sha256": "c751632de6e4667a2c6c081e85478889098ff8ff5bfe5ea92a3e95ecf2335be1",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/producer.mjs"
+    },
+    {
+      "name": "initial/source.diff",
+      "bytes": 5751,
+      "sha256": "0072d91da3482ff6aa58f08e39399c62d38558556a57d41116e7d0d0d990ebd4",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/source.diff"
+    },
+    {
+      "name": "initial/stderr.log",
+      "bytes": 1095,
+      "sha256": "f7a8ca8a07258ee67df2f3f81e71183f02fde3e5743dc305305f2df86eadf66f",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/stderr.log"
+    },
+    {
+      "name": "initial/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/stdout.log"
+    },
+    {
+      "name": "initial/supervisor.py",
+      "bytes": 2621,
+      "sha256": "54751ceb0e26401ab55376305b836c1200c192a69a7857c87a95f2af57958e2c",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/supervisor.py"
+    },
+    {
+      "name": "initial/case/measure-process-observer.mjs",
+      "bytes": 1460,
+      "sha256": "b3966f531b69904745687be2c9f7783b2d2619133d22a1e58dd6240ba86ac200",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/measure-process-observer.mjs"
+    },
+    {
+      "name": "initial/case/measure-processes.jsonl",
+      "bytes": 382,
+      "sha256": "5b1647f42eb0f461d4825306fcca02b90c5e980690075a11ffd5014081d9996a",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/measure-processes.jsonl"
+    },
+    {
+      "name": "initial/case/profile-after-processes.txt",
+      "bytes": 244638,
+      "sha256": "129eeeb324123fdab87794403b44015afa9a0d36ffe4ecf5805aafb4b6b33fa1",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/profile-after-processes.txt"
+    },
+    {
+      "name": "initial/case/profile-attempt.json",
+      "bytes": 601,
+      "sha256": "677827b97f0da3b2d4bef8e62af7a9e8cb67b479eb18f6a3517da7e4d4dfcef4",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/profile-attempt.json"
+    },
+    {
+      "name": "initial/case/profile-before-processes.txt",
+      "bytes": 244638,
+      "sha256": "d9394db0049432d51e18a56b2895016b1a63c4ed3aa70f0a9950d0421f36c631",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/profile-before-processes.txt"
+    },
+    {
+      "name": "initial/case/profile-native.jsonl",
+      "bytes": 85,
+      "sha256": "6f9c0de792361b9ed7c7d129cd642e038c533917ab59ceebfdfb24d64f329067",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/profile-native.jsonl"
+    },
+    {
+      "name": "initial/case/profile-report.json",
+      "bytes": 7202,
+      "sha256": "fbaa2819ecb78d43c5a5e55551ea6dfbf365765f60e3c50f5943e8315389ae00",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/profile-report.json"
+    },
+    {
+      "name": "initial/case/profile-service.json",
+      "bytes": 248,
+      "sha256": "2ce9166c61679fa69eda7490fea2d33fca850e3dafb2e41241416f2a338784c0",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/case/profile-service.json"
+    },
+    {
+      "name": "qualified/attribution-report.json",
+      "bytes": 10546,
+      "sha256": "56eac7eb33693791297e4e08b8cbd2086c20e014fc6fedfd908f595ca896e850",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/attribution-report.json"
+    },
+    {
+      "name": "qualified/cpu-observer.mjs",
+      "bytes": 4612,
+      "sha256": "139f75965b09f0e1a8cd753d67dd2a25dc8b11bc5bb8a5955ff190beeda4af76",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/cpu-observer.mjs"
+    },
+    {
+      "name": "qualified/immediate-pins.json",
+      "bytes": 168712,
+      "sha256": "2a7136fd10d2706703c6e755df69c90b0c112e5eebf97865fe9de8b2c7816d25",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/immediate-pins.json"
+    },
+    {
+      "name": "qualified/preparation.json",
+      "bytes": 2184,
+      "sha256": "fa05cad4f4754d4d7418a634377330462e061880d950e47e09db16ea92fbd9a3",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/preparation.json"
+    },
+    {
+      "name": "qualified/process.json",
+      "bytes": 867,
+      "sha256": "1c30cdd846835959c09bff4715bc192c3f67cb04e429c277eeaba32189a8ccff",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/process.json"
+    },
+    {
+      "name": "qualified/producer.mjs",
+      "bytes": 32952,
+      "sha256": "4bd96002f2eeeefcfdd563a0262c7b7a100aa2bffa21bccae153b27a54420daf",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/producer.mjs"
+    },
+    {
+      "name": "qualified/request-interval.json",
+      "bytes": 266,
+      "sha256": "a48b98c9c20c5612e63fcc1fb0582ff5f27a16df0203b3d3e335da47dc7a8629",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/request-interval.json"
+    },
+    {
+      "name": "qualified/sample-summary.json",
+      "bytes": 33214,
+      "sha256": "fc07a90997802f6a8f9ab7853fb5832a59936db23a4a5a2677c8fd0019ae2985",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/sample-summary.json"
+    },
+    {
+      "name": "qualified/source.diff",
+      "bytes": 3493,
+      "sha256": "eef160dcd9a05d3f9b3f495771d99648f6bb198dbe9cad9e05ca2fe629c502d2",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/source.diff"
+    },
+    {
+      "name": "qualified/stderr.log",
+      "bytes": 462,
+      "sha256": "ed1e4e21db9e50210041eca7a4ecd3fbe5c58c7f8a52bc25d4279c681dba5d74",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/stderr.log"
+    },
+    {
+      "name": "qualified/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/stdout.log"
+    },
+    {
+      "name": "qualified/supervisor.py",
+      "bytes": 2631,
+      "sha256": "9339fff6c88b58ef4ebef9ee5b2ea0cc631abd12046780b639b6cc4b5b3cfc48",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/supervisor.py"
+    },
+    {
+      "name": "qualified/case/2ae85995-fd1d-4607-8d76-51578206983e.cache.json",
+      "bytes": 683,
+      "sha256": "b2e8b6a0d44bfdab4634705970a28e5d93cfd419cb480733bf2e93cbc5d91997",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/2ae85995-fd1d-4607-8d76-51578206983e.cache.json"
+    },
+    {
+      "name": "qualified/case/2eeedb22-b023-467a-b0a2-a6301c0b8181.cache.json",
+      "bytes": 683,
+      "sha256": "1ddc4b611cfeb88ecba5bd28aab125c62395a81d049cb4f7e212fde18e749c49",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/2eeedb22-b023-467a-b0a2-a6301c0b8181.cache.json"
+    },
+    {
+      "name": "qualified/case/47627ddc-9f94-4877-9ec2-4256b84e7036.cache.json",
+      "bytes": 684,
+      "sha256": "9978a9427f14d42b6c99567e40a321e965fda7d2d4c4ae4a32762f4efa3c3a9b",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/47627ddc-9f94-4877-9ec2-4256b84e7036.cache.json"
+    },
+    {
+      "name": "qualified/case/4b2730c5-c219-4b72-ab30-bce2ffac2465.cache.json",
+      "bytes": 684,
+      "sha256": "5050d53d6c6573ae2bdb80b89840b8f44ae44482cad9ec4726363537872b1c4c",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/4b2730c5-c219-4b72-ab30-bce2ffac2465.cache.json"
+    },
+    {
+      "name": "qualified/case/5f99aab9-bb77-4f79-889c-0ae87540e2c4.cache.json",
+      "bytes": 684,
+      "sha256": "e1c2450d5d2dd5b92b347d4eb9fdb68d6342c55b82387b7fdac00acd9a15feff",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/5f99aab9-bb77-4f79-889c-0ae87540e2c4.cache.json"
+    },
+    {
+      "name": "qualified/case/7974239f-953e-4018-8cb2-b1565f7dd3bf.cache.json",
+      "bytes": 684,
+      "sha256": "e7c8067b1dcc22078c58de6c6e355ed2032faf439d5d2754a4ea1ac4347259b0",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/7974239f-953e-4018-8cb2-b1565f7dd3bf.cache.json"
+    },
+    {
+      "name": "qualified/case/862b85b7-adb1-47b9-8f8c-4f12e7d1a995.cache.json",
+      "bytes": 684,
+      "sha256": "31565b07ee19b32e98730a58e06997fa05b101ba3220ca797364eaed63931a30",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/862b85b7-adb1-47b9-8f8c-4f12e7d1a995.cache.json"
+    },
+    {
+      "name": "qualified/case/903d8d3e-9e28-498a-9df2-f9e9bdb783b9.cache.json",
+      "bytes": 525,
+      "sha256": "82c45b3a21bfd34e2ddb8f2dc3f6c2f6a615b38e18ac82d64d2cd9b4971c41bf",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/903d8d3e-9e28-498a-9df2-f9e9bdb783b9.cache.json"
+    },
+    {
+      "name": "qualified/case/a4d3d5c3-b775-4451-a021-cc8f083973c3.cache.json",
+      "bytes": 684,
+      "sha256": "ba9981e92622165f06dd390356ebd64f3e89046691eb743126cf550ad1b4eb83",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/a4d3d5c3-b775-4451-a021-cc8f083973c3.cache.json"
+    },
+    {
+      "name": "qualified/case/ac4629d8-1269-458f-af43-91337f4b4866.cache.json",
+      "bytes": 684,
+      "sha256": "460562f4acd7431fee9a5c66a985ccd0264ade33b7093e0f1ec1c54edfa8879a",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/ac4629d8-1269-458f-af43-91337f4b4866.cache.json"
+    },
+    {
+      "name": "qualified/case/b13d9daa-63d8-49a3-97fe-2aadfa44e46a.cache.json",
+      "bytes": 689,
+      "sha256": "4c713bc52dc0d3b519bd05e414f428063ed31bf355f48880c6c4afad0778da7a",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/b13d9daa-63d8-49a3-97fe-2aadfa44e46a.cache.json"
+    },
+    {
+      "name": "qualified/case/b2dacc58-2a4c-46f1-8a27-bc5f37dd1219.cache.json",
+      "bytes": 2001298,
+      "sha256": "7edeb4da5094be66760a08d7f865568988125d5247e18401c3a8360885eddcb7",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/b2dacc58-2a4c-46f1-8a27-bc5f37dd1219.cache.json"
+    },
+    {
+      "name": "qualified/case/b46343a3-40b1-4c26-8a27-7999169235c8.cache.json",
+      "bytes": 689,
+      "sha256": "5f9a9322e40127bf5b85681bf4cabc4b4da3db97e812a8002aff1817edc1ac38",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/b46343a3-40b1-4c26-8a27-7999169235c8.cache.json"
+    },
+    {
+      "name": "qualified/case/b6516814-f848-4354-870f-f0dde4ade527.cache.json",
+      "bytes": 684,
+      "sha256": "b1e1bb8a24737f36d0d30c1c70807036380efbdf54b986d0778518cb1bc4ffb6",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/b6516814-f848-4354-870f-f0dde4ade527.cache.json"
+    },
+    {
+      "name": "qualified/case/c1b27b74-9d3d-499f-a26d-10de002e7095.cache.json",
+      "bytes": 525,
+      "sha256": "f56de50635b5cab85a0720dee6be66171a4418a5836afa68ec7c75a74a7a8d8d",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/c1b27b74-9d3d-499f-a26d-10de002e7095.cache.json"
+    },
+    {
+      "name": "qualified/case/caller-1024-profile.json",
+      "bytes": 391,
+      "sha256": "8912802c7f260a95c296c90aa2e381353ce4f42dff1a479ef46cecab8b4761dc",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/caller-1024-profile.json"
+    },
+    {
+      "name": "qualified/case/caller-1024.cpuprofile",
+      "bytes": 9467,
+      "sha256": "38ab0f71f26e75322918b29b333528aee34f235b90467b97ebfd431b8ce9a1bd",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/caller-1024.cpuprofile"
+    },
+    {
+      "name": "qualified/case/caller-512-profile.json",
+      "bytes": 389,
+      "sha256": "571488422176f1c5012a7353c16e12cfe618887e66df5ab2d6edca4ffe4f0f44",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/caller-512-profile.json"
+    },
+    {
+      "name": "qualified/case/caller-512.cpuprofile",
+      "bytes": 9146,
+      "sha256": "996ac74d992db2dec6f675a85f34393b034baa531510894c5a86fedd53524971",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/caller-512.cpuprofile"
+    },
+    {
+      "name": "qualified/case/faab5c44-7432-43db-9728-b0208d9c252c.cache.json",
+      "bytes": 1190802,
+      "sha256": "0c6a222a333c8e9544b06f9e3a741495a855312d5268330d390c4a170abcaf15",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/faab5c44-7432-43db-9728-b0208d9c252c.cache.json"
+    },
+    {
+      "name": "qualified/case/mcp-1024-profile.json",
+      "bytes": 377,
+      "sha256": "f3cf324020905945d20ae035e942f99d8cd83b90fa29d61a5baf7ac388a8687c",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/mcp-1024-profile.json"
+    },
+    {
+      "name": "qualified/case/mcp-1024.cpuprofile",
+      "bytes": 9725,
+      "sha256": "bc2facaceb669173baec3d83b312f095803eb202face8fb7862621e31ea80ff3",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/mcp-1024.cpuprofile"
+    },
+    {
+      "name": "qualified/case/mcp-512-profile.json",
+      "bytes": 375,
+      "sha256": "0868377052990c8c0cc1913cbc0bdf5ffa37ce02e68c0980e5287c2526e71394",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/mcp-512-profile.json"
+    },
+    {
+      "name": "qualified/case/mcp-512.cpuprofile",
+      "bytes": 15533,
+      "sha256": "3d0593e47ecc9c43fbf7940a062edd0cf5a02e5a8ab322e0950430010c323a3f",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/mcp-512.cpuprofile"
+    },
+    {
+      "name": "qualified/case/measure-process-observer.mjs",
+      "bytes": 1676,
+      "sha256": "48290fbee2ee8839e1d73cd1a32f916e1fff8813a8a00ff1c88a37eeaa39e97d",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/measure-process-observer.mjs"
+    },
+    {
+      "name": "qualified/case/measure-processes.jsonl",
+      "bytes": 613,
+      "sha256": "714990f94fc8a3eeff7390ad5844db3b05566883de65652c8337f3612854c2e0",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/measure-processes.jsonl"
+    },
+    {
+      "name": "qualified/case/profile-1024-profile-mcp-pages.json",
+      "bytes": 11811448,
+      "sha256": "a7643438e91c3fe94ca1e0c170dae0c1bdaef07554a85796d9170c1a9c3b540f",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-1024-profile-mcp-pages.json"
+    },
+    {
+      "name": "qualified/case/profile-512-profile-mcp-pages.json",
+      "bytes": 6137970,
+      "sha256": "c815311528633cb4655f8c684d9a8a2ccddc8803eaa4843d0903e9d21f2297e4",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-512-profile-mcp-pages.json"
+    },
+    {
+      "name": "qualified/case/profile-after-processes.txt",
+      "bytes": 243619,
+      "sha256": "5f350970fd8cdc43491b243834dfb7e159de5b370f955a365a0147846b0d5811",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-after-processes.txt"
+    },
+    {
+      "name": "qualified/case/profile-attempt.json",
+      "bytes": 601,
+      "sha256": "677827b97f0da3b2d4bef8e62af7a9e8cb67b479eb18f6a3517da7e4d4dfcef4",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-attempt.json"
+    },
+    {
+      "name": "qualified/case/profile-before-processes.txt",
+      "bytes": 243619,
+      "sha256": "2f054ca626fe3b597d60f3a1f8219f228889c5d796fd3628b3eb291451f6e7fa",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-before-processes.txt"
+    },
+    {
+      "name": "qualified/case/profile-native.jsonl",
+      "bytes": 85,
+      "sha256": "6f9c0de792361b9ed7c7d129cd642e038c533917ab59ceebfdfb24d64f329067",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-native.jsonl"
+    },
+    {
+      "name": "qualified/case/profile-report.json",
+      "bytes": 35843,
+      "sha256": "8d47b3b192b44ceb53134a75bace409344bad49f42bf3afa26031c67c97c8005",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-report.json"
+    },
+    {
+      "name": "qualified/case/profile-service.json",
+      "bytes": 268,
+      "sha256": "185def237ee198544b0eecf390077cbb3bc108578062e1366abde61c37e62d1a",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-service.json"
+    },
+    {
+      "name": "qualified/case/profile-service.log",
+      "bytes": 169,
+      "sha256": "25da2e089742d6f243b9f952c26c881e698ce60c8f927de1b2821abd35c4b6aa",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/profile-service.log"
+    },
+    {
+      "name": "qualified/case/service-1024-profile.json",
+      "bytes": 869,
+      "sha256": "7076413acfe3acc053698f5e216286d8cd889446f9351ea058f2b55863fb850f",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/service-1024-profile.json"
+    },
+    {
+      "name": "qualified/case/service-1024.cpuprofile",
+      "bytes": 61121,
+      "sha256": "21d16176fb847eb6dc56782855271dbcec4af57246c41e576abd89ac8cb77884",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/service-1024.cpuprofile"
+    },
+    {
+      "name": "qualified/case/service-512-profile.json",
+      "bytes": 782,
+      "sha256": "3b8317726e6713e06f5f3fa713d34349daf03f9624d9172154fd5cd6fdbd4598",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/service-512-profile.json"
+    },
+    {
+      "name": "qualified/case/service-512.cpuprofile",
+      "bytes": 71625,
+      "sha256": "90ca9712930cb84a896ca1d88f2e0a36a4ab79e25c25c047599d3a2da289c064",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/service-512.cpuprofile"
+    },
+    {
+      "name": "qualified/case/source-33247.stderr",
+      "bytes": 169,
+      "sha256": "25da2e089742d6f243b9f952c26c881e698ce60c8f927de1b2821abd35c4b6aa",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/successor/case/source-33247.stderr"
+    },
+    {
+      "name": "authority/reference.json",
+      "bytes": 167311,
+      "sha256": "4446d69fe547d3c85e492915db5c0c7d06c2ec0357aa6389efb4bcc0a9ff7bca",
+      "sourcePath": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/reference.json"
+    },
+    {
+      "name": "authority/preceding-measure-report.json",
+      "bytes": 437564,
+      "sha256": "6923ac4b873a73b9d28588aa1035c3f2b2cfbe508ef34261c2506b7f3e8c538b",
+      "sourcePath": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-report.json"
+    },
+    {
+      "name": "executed-helpers/service-cpu-profile.mjs",
+      "bytes": 4503,
+      "sha256": "5230d3b117939871144da1b0d6378a96cdd249cd68461c4789e937a332b89673",
+      "sourcePath": "/Users/david/dev/screen-recorder/packages/test-harness/editing/service-cpu-profile.mjs"
+    },
+    {
+      "name": "executed-helpers/evidence-service.mjs",
+      "bytes": 8399,
+      "sha256": "b051b650abb014ff6a038209b608b5a6637ea268b838972aedda8abd3bbfd5bd",
+      "sourcePath": "/Users/david/dev/screen-recorder/packages/test-harness/editing/evidence-service.mjs"
+    },
+    {
+      "name": "executed-helpers/source-evidence-fixture.mjs",
+      "bytes": 8424,
+      "sha256": "d0396f4bcee302ed2d8a8b41f7f796c0477a5d0a2e74a5158baf01805bc00bed",
+      "sourcePath": "/Users/david/dev/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs"
+    },
+    {
+      "name": "executed-helpers/source-cardinality-fixture.mjs",
+      "bytes": 9777,
+      "sha256": "6870a1faa4bbcb1f57046408518fb72c11971a6c869c474037063f6f8e5c2e64",
+      "sourcePath": "/Users/david/dev/screen-recorder/packages/test-harness/editing/source-cardinality-fixture.mjs"
+    },
+    {
+      "name": "report.json",
+      "bytes": 5502,
+      "sha256": "43d652c6c2eb0ff7aeae40fecf16f376ff587e5ce086674a032dc2e8d259221a",
+      "sourcePath": "/tmp/screenrec-24z-caller-mcp-profile/banked/report.json"
+    }
+  ]
+}

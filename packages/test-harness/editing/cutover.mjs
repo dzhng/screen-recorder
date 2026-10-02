@@ -451,7 +451,7 @@ async function completeTranscript() {
     assert.equal(next.state, "ready");
     assert.deepEqual(
       next.dependencies,
-      pages[0].dependencies,
+      { manifestId: cursor.manifestId },
       "Continuation changed pinned dependencies",
     );
     pages.push(next);

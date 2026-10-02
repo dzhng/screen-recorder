@@ -381,13 +381,17 @@ try {
           );
           assert.equal(page.projectId, projectId);
           assert.equal(page.revisionId, revisionId);
-          assert.equal(page.dependencies.length, 1);
-          if (events) {
-            assert.deepEqual(page.dependencies[0].selection, events.selection);
-            assert.deepEqual(page.dependencies[0].capture, events.record.source.context);
+          if (cursor) {
+            assert.deepEqual(page.dependencies, { manifestId: cursor.manifestId });
           } else {
-            assert.equal(page.dependencies[0].transcript.generation, generation);
-            assert.deepEqual(page.dependencies[0].transcript.engine, transcript.engine);
+            assert.equal(page.dependencies.length, 1);
+            if (events) {
+              assert.deepEqual(page.dependencies[0].selection, events.selection);
+              assert.deepEqual(page.dependencies[0].capture, events.record.source.context);
+            } else {
+              assert.equal(page.dependencies[0].transcript.generation, generation);
+              assert.deepEqual(page.dependencies[0].transcript.engine, transcript.engine);
+            }
           }
           const delivered = search ? page.page.entries : page.page.rows;
           if (!search && !capture)

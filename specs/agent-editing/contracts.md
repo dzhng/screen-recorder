@@ -480,6 +480,19 @@ No new source-separation processor is implied by this room-tone workflow.
 
 ## Inspection, exports and supported media
 
+Ready paginated project transcript/search, event and raw-cursor reads return the
+complete `dependencies` array on the first page. Continuations return
+`dependencies: { manifestId }`, referring to that same immutable query manifest,
+including on the terminal page. Keep the initial metadata with the complete
+cursor; a reference does not describe a new selection or permission to edit.
+All source dependencies are freshly validated before reading and after publishing
+each continuation. Changed or expired evidence still refuses the old query.
+To retrieve full metadata again, repeat the original first-page request with its
+same revision, range, tracks and query; do not use a changed query to repair an
+old continuation. Verify the returned manifest identity before pairing retrieved
+metadata with a saved cursor. Source-only inspection keeps its own existing
+response contract.
+
 `source` and `project` are explicit time domains. Every artifact reports its
 domain, time origin, revision/generation pins, units and returned bounds. Audio
 includes bounded WAV excerpts and complete selected-stream/project-mix WAV export

@@ -1,15 +1,10 @@
 # 24z — Source-selection cardinality in bounded cursor reads
 
-Status: **open**. Historical correctness and owner attribution are retained;
-the original timed cohort is red under recorded contention. Material24z1–12 owner
-and delivery corrections are integrated. [Current preparation](../assets/24z-current-preparation/README.md)
-uses a fresh format22 public fixture and passes untimed current-production
-correctness. The [current measurement](../assets/24z-current-preparation/user-window.json)
-returns complete correct output but exceeds the unchanged p95 budget. The
-[metadata correction and successor measurement](../assets/24z-current-preparation/metadata-batch.json)
-preserve output and pass the 512-source arm; 1,024 sources remain red. The next
-action is diagnosis of remaining current owner/transport work from its profile.
-No latency pass is claimed.
+Status: **complete for the declared source-cardinality query scope**. The
+[manifest-reference proof](../assets/24z-current-preparation/manifest-reference.json)
+passes the unchanged 250 ms p95 target for both arms with complete public output,
+source validation and default-SDK delivery. Historical red measurements remain
+intact. General scale and installed release acceptance remain with parents24/23.
 Dependencies: [24x](24x-evidence-continuations.md), [24y](24y-source-event-duration.md).
 Final production acceptance remains with [23](23-cutover.md).
 
@@ -25,7 +20,11 @@ one; it does not establish this dimension.
 Exercise existing `ProjectEvidenceInspection`, `CaptureSourceRead`, source
 selection/acquisition lookup and continuation owners through public CLI/MCP.
 Validation resolves every dependency even for a bounded page. The 1,024-selection
-cap bounds that work; source growth is an unmeasured risk, not proof of a bug.
+cap bounds that work. The first page delivers complete dependency metadata;
+continuations refer to its immutable manifest under the
+[inspection contract](../contracts.md#inspection-exports-and-supported-media).
+This format correction removes repeated delivery of the same source facts;
+it never narrows the validated source set or changes the deadline/work caps.
 
 Reuse the tiny authored movie in `assets/10d-public-scenes`. Prepare one explicit
 synthetic journal with one in-support cursor observation using existing native
@@ -127,8 +126,7 @@ profile. The prepared catalog remains retained for a separately scoped native-fr
 query profile with its own verified runtime and explicit provenance; no substitute
 run was performed.
 
-Keep this child open. The retained diagnostic itself grants no new cohort or
-budget change. Its original default-SDK failure remains immutable;24z11/12 own
+The historical retained diagnostic itself grants no budget change. Its original default-SDK failure remains immutable;24z11/12 own
 the later scoped delivery corrections. The currently authorized measurement uses
 new current-production authority and root coordination, not the historical timing
 runtime. Full slice24 acceptance remains open.
@@ -248,3 +246,22 @@ whole-host inventory stays outside Git with its complete hash and criteria; no
 measure phase, timing sample, host polling or retry occurred. The prepared namespace
 and immutable preparation/correctness packet remain available for a separately
 coordinated window. This condition supplies no latency verdict or causal claim.
+
+
+## Completed current query proof
+
+The [caller/MCP attribution](../assets/24z-current-preparation/caller-attribution.json)
+identifies repeated dependency serialization and delivery beside service metadata
+work. The named [inspection format](../contracts.md#inspection-exports-and-supported-media)
+sends full metadata once and immutable manifest references on continuations.
+Source validation still occurs on both sides of checkpoint publication; no cache,
+SDK override, wider cap or reduced dependency set was introduced.
+
+The [successor packet](../assets/24z-current-preparation/manifest-reference.json)
+retains49 affected merged tests, untimed complete CLI/MCP comparisons and one
+unchanged alternating cohort:138.237ms p95 at512 and219.540ms at1,024 sources.
+All42 collections return the independent rows, complete initial dependencies,
+correct continuation references, coverage and progressing checkpoints. Actual
+source/MCP Node exits and OS closes are0. All774 runtime/input pins are verified
+afterward. Background load is recorded; no isolated-host or causal speedup claim
+follows. Reuse this result; do not repeat the cohort without an invalidating change.

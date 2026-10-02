@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: correct the measured source-query overhead, then prepare the release candidate.**
+**Next pickup: validate concrete native presentation in the staged release candidate.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
 media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
@@ -52,17 +52,14 @@ separates the selected baseline from missing acceptance references;
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
 separates source ports from presentation and installed switching. Neither pending
 acceptance nor an accepted cohort creates another implementation pass.
-[Scale timing](assets/24z-current-preparation/README.md) now has an actual current
-measurement: correct complete output, but both arms exceed the unchanged 250 ms
-p95 target. The [metadata correction](assets/24z-current-preparation/metadata-batch.json)
-batches reads within each synchronous validation phase and preserves failure
-precedence, exact output and fresh checks after checkpoint publication. All 78
-affected merged tests pass. Its one successor measurement passes the 512-source
-arm at 226.814 ms but leaves 1,024 sources red at 384.128 ms. Inspect remaining
-owner/transport work from the new profile before another correction or measurement.
-Reuse preparation and retain the observed host load with each result.
-The post-20m audit found no missing source port; the new measurement supplies a
-specific performance correction. Speech needs
+[Source-cardinality queries](assets/24z-current-preparation/manifest-reference.json)
+now pass the unchanged speed target with complete output. The first page carries
+full dependencies; continuations reference its immutable manifest, and every
+source remains freshly validated before reading and after checkpoint publication.
+[The inspection contract](contracts.md#inspection-exports-and-supported-media)
+and external caller skill describe that named response-format change. Reuse this
+proof and the original fixture; broader final scale remains open.
+The post-20m audit found no missing source port; the scoped query correction is complete. Speech needs
 independent acoustic references; capture needs physical uncertainty/drain evidence;
 consumer/caller acceptance needs concrete presentation and installed adoption.
 Candidate assembly and independent reference qualification can proceed separately;
@@ -74,7 +71,7 @@ presentation/preservation acceptance remain separate.
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
 | [09c audio export](slices/09c-audio-only-export.md) / [23i process](slices/23i-service-process-parity.md) | [Merged public delivery/lifecycle](assets/09c-23i-merged/README.md); later [24z4](slices/24z4-prepared-bindings.md)/[24z5](slices/24z5-service-asset-presence.md) pass both original audio-preservation deadlines | General performance and installed release acceptance |
-| [24z owner corrections](slices/24z-source-cardinality.md) | [24z1–5 source/prepared owners](assets/implementation-pickup.md), [24z6 append runs](slices/24z6-composition-appends.md), [24z7 event metadata/public clocks](slices/24z7-source-event-resolution.md), [24z8 worker support](slices/24z8-source-frame-support.md), [24z9 index plans](slices/24z9-source-index-plan-resolution.md) preserve scoped output/work contracts; [24z10 relocation](slices/24z10-portable-index-relocation.md) preserves full fixture values; [24z11](slices/24z11-operation-result-delivery.md)/[24z12](slices/24z12-mcp-media-admission.md) preserve default-client result/media delivery | Source-cardinality p95 and general final scale; no original whole-setup timing pass |
+| [24z owner corrections](slices/24z-source-cardinality.md) | [24z1–5 source/prepared owners](assets/implementation-pickup.md), [24z6 append runs](slices/24z6-composition-appends.md), [24z7 event metadata/public clocks](slices/24z7-source-event-resolution.md), [24z8 worker support](slices/24z8-source-frame-support.md), [24z9 index plans](slices/24z9-source-index-plan-resolution.md) preserve scoped output/work contracts; [24z10 relocation](slices/24z10-portable-index-relocation.md) preserves full fixture values; [24z11](slices/24z11-operation-result-delivery.md)/[24z12](slices/24z12-mcp-media-admission.md) preserve default-client result/media delivery | [Current source-cardinality p95 passes](assets/24z-current-preparation/manifest-reference.json); general final scale remains open; no original whole-setup timing pass |
 | [12 speech evidence](slices/12-speech-evidence.md) | Selected baseline, actual model preparation and saved human comparisons remain banked | Broader lexical/acoustic coverage, omitted text, protected words/joins and held-out timing; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | [Controlled allocation-to-project behavior](assets/21f3-public-camera-selection/merged-verification.json), retained originals/journals/recovery | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports, process ownership and paired edit/history preservation verified | Remaining preservation correspondence, concrete presentation, installed switching and obsolete-owner removal after prerequisites |
@@ -349,7 +346,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24w — Bounded waveform queries across duration](slices/24w-waveform-duration-memory.md)
 - [x] [24x — Bounded evidence continuations](slices/24x-evidence-continuations.md)
 - [x] [24y — Populated source-event duration](slices/24y-source-event-duration.md)
-- [ ] [24z — Source-selection cardinality](slices/24z-source-cardinality.md)
+- [x] [24z — Source-selection cardinality](slices/24z-source-cardinality.md)
 - [x] [24z1 — Fresh source metadata batches](slices/24z1-source-metadata-resolution.md) — scoped functional/work proof; latency remains under 24z
 - [x] [24z2 — Unique prepared-input retention and one admission composition](slices/24z2-prepared-admission.md) — bounded work/lifecycle; later 24z4 passes the original deadline
 - [x] [24z3 — Canonical native PCM admission capacity](slices/24z3-prepared-capacity.md) — supported queue/refused next frame; no large output claim

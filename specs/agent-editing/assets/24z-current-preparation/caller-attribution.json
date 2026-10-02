@@ -1,0 +1,130 @@
+{
+  "scope": "Attribution only: one collection per arm; no new warm p95/SLA/load-isolation claim. Production/default SDK/request bodies and limits unchanged.",
+  "question": "Which caller/MCP costs sit outside service CPU profile for same seven cursor.raw requests per arm?",
+  "archive": "caller-attribution.tar.gz",
+  "historicalAuthority": "metadata-batch-55738523 after batching, before continuation format change. Preceding 42-collection SLA red remains red and is included.",
+  "initialAttempt": {
+    "producerPid": 32026,
+    "exitCode": 1,
+    "elapsedSeconds": 2.1409708749852143,
+    "lastStage": "helper MCP preload startup, before query MCP spawn, cursor.raw or Profiler.start",
+    "cause": "SDK defaults restrict inherited env; observer omitted its new output variable and its preload asserted. Cause follows executed source and SDK environment owner. Initial helper stderr was piped but not retained. Original exception/report-save masking is disclosed; exact original process and source evidence retained.",
+    "children": [
+      {
+        "role": "source",
+        "pid": 32061,
+        "observedNodeExit": 0,
+        "observedOSClose": 0
+      },
+      {
+        "role": "helperMCP",
+        "pid": 32064,
+        "observedNodeExit": null,
+        "observedOSClose": 1
+      }
+    ],
+    "continuationReason": "Explicitly authorized environment forwarding, actual stderr capture and final failure-report correction; not an unchanged retry."
+  },
+  "qualifiedAttempt": {
+    "producerPid": 33211,
+    "producerExitCode": 1,
+    "elapsedSeconds": 1.971483665984124,
+    "producerExitMeaning": "Retained original SLA assertion after all completed profile/query/output oracles. Profile mode has no warm collections/p95, so this is not a new p95 failure claim.",
+    "children": [
+      {
+        "role": "source",
+        "pid": 33247,
+        "nodeExit": 0,
+        "OSClose": 0,
+        "signal": null
+      },
+      {
+        "role": "helperMCP",
+        "pid": 33250,
+        "nodeExit": 0,
+        "OSClose": 0,
+        "signal": null
+      },
+      {
+        "role": "queryMCP",
+        "pid": 33251,
+        "nodeExit": 0,
+        "OSClose": 0,
+        "signal": null
+      }
+    ],
+    "requests": 14,
+    "rowsPerPageEachArm": [
+      0,
+      43,
+      43,
+      43,
+      43,
+      43,
+      35
+    ],
+    "completeRowsPerArm": 250,
+    "instrumentedCollectionMs": [
+      263.2596659999999,
+      404.08925
+    ],
+    "allOutputOraclesPassed": true,
+    "rawProfiles": 6,
+    "profileReasons": "complete",
+    "defaultSDK": {
+      "configured": false,
+      "maxBufferBytes": 10485760,
+      "sdkReadBufferSha256": "0e5c9d7062e97b9fe501f45f553ac73b3461e21d861e6548ee0903ce2b08114d"
+    },
+    "runtimeBindingsBeforeAndAfter": 774,
+    "queryNativeInvocations": 0,
+    "shutdownErrors": [],
+    "controlSocketsAfterExit": 0,
+    "limits": {
+      "outerSeconds": 180,
+      "armMs": 60000,
+      "controlMs": 5000,
+      "stdioDefaultBytes": 10485760
+    }
+  },
+  "attribution1024": {
+    "serviceDigestExclusiveSampleMs": 35.124,
+    "serviceAcquisitionDecodeExclusiveSampleMs": 26.334,
+    "callerJSONDeserializeExclusiveSampleMs": 24.959,
+    "callerBufferCopyExclusiveSampleMs": 19.416,
+    "callerNewlineSearchExclusiveSampleMs": 12.209,
+    "mcpSDKSerializeExclusiveSampleMs": 25.044,
+    "mcpTextBodySerializeExclusiveSampleMs": 9.875,
+    "mcpSocketFrameDecodeExclusiveSampleMs": 12.457,
+    "interpretation": "Exclusive V8 sampled attribution, includes sampling/GC and differently bounded start/stop control; samples are not elapsed critical-path sums or warm CPU guarantees."
+  },
+  "finding": "SDK ReadBuffer repeatedly concatenates the entire accumulated message and scans it for newline on each chunk; actual sampled copy and search stacks belong to that owner. Internal socket JsonLineReader already grows geometrically. Product required text+structured result forms remain untouched. This identifies an external buffering optimization seam, not permission to replace unconfigured SDK or a demonstrated 250ms remedy. No straightforward additional SQL fix established.",
+  "proofLimits": [
+    "Exclusive sampled costs, inspector/GC/control overhead and differently bounded profile windows; cannot sum as critical-path wall time.",
+    "Fresh-revision initialization/no warmup; not a warm service/caller cost estimate.",
+    "Standard text/structured forms and all dependency/source validation remain unchanged.",
+    "All 774 authority hashes are frozen historical bindings, not a claim current root files still have those bytes after subsequent format correction.",
+    "No SDK replacement, product correction, altered caps or further run."
+  ],
+  "requestInterval": {
+    "unchanged": true,
+    "bytes": 2688,
+    "sha256": "7df92c9429ae86f436491a404de283cb27f528dc7cae4e621d9ac0fe31a44bb1",
+    "start": "const started = timed ? performance.now() : undefined;",
+    "end": "const totalMs = timed ? performance.now() - started : undefined;"
+  },
+  "retainedRuntimeHelpers": [
+    "packages/test-harness/editing/service-cpu-profile.mjs",
+    "packages/test-harness/editing/evidence-service.mjs",
+    "packages/test-harness/editing/source-evidence-fixture.mjs",
+    "packages/test-harness/editing/source-cardinality-fixture.mjs"
+  ],
+  "retainedAuthorities": [
+    "authority/reference.json",
+    "authority/preceding-measure-report.json",
+    "qualified/immediate-pins.json",
+    "qualified/case/profile-report.json",
+    "qualified/case/measure-processes.jsonl"
+  ],
+  "rootReview": "All77 archive members independently verified; six raw profiles and unchanged default-SDK query evidence retained. Diagnosis only, predating named manifest-reference format change."
+}

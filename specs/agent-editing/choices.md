@@ -6843,3 +6843,31 @@ header order. A bad later stream therefore still cannot precede an earlier error
 Image/font assets without segment declarations perform no segment read. The plan
 left SQL shape unspecified. This replaces repeated queries inside the same owner
 and adds no public operation or stored representation.
+
+
+## Project inspection dependency delivery
+
+**Sound, medium confidence — return full source facts once per pinned query.**
+When a caller inspects a project with many sources, the first page supplies all
+source dependencies: the metadata used to check that evidence is current. Later
+pages return the immutable query manifest's ID instead of repeating that array.
+The caller retains the first array; if it needs another copy, it repeats the
+original first-page request and verifies the same manifest ID before combining
+results. Every source is still checked before reading and after saving a page;
+a changed source refuses the continuation. The plan required complete metadata
+but had repeated it on every page. This named format correction applies to all
+paginated project evidence, including terminal pages, while source-only reads
+remain unchanged. It changes an external response format without adding a cache,
+endpoint or SDK setting. The optional preference was unanswered, so the agent
+proceeded on this reversible documented assumption; silence was not approval.
+Reverting the delivery shape would restore repeated arrays and require fresh
+performance proof. Landed in0d413958; later consumers and docs follow this contract.
+
+**Sound, high confidence — measure the exact response that is returned.**
+A continuation's response-size guard now counts its manifest reference, using the
+same local value that is returned to the caller. It cannot reject a small page
+because of full metadata absent from that page. The existing return owner infers
+the array-or-reference type, and tests narrow that type before reading source
+fields. The plan left the implementation seam unspecified; no second schema or
+helper owns the format. This constrains future page consumers to preserve the
+same reference identity and first-page source facts.

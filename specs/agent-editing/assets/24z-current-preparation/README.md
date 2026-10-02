@@ -1,5 +1,21 @@
 # Current cardinality fixture readiness
 
+The [current query proof](manifest-reference.json) passes the unchanged250ms p95
+budget at both cardinalities, with complete rows, first-page dependency metadata,
+manifest references on continuations and fresh validation of every source. It
+retains one alternating cohort and clean service/MCP termination. This closes
+[24z's declared query scope](../../slices/24z-source-cardinality.md), while general
+scale and installed acceptance remain separate.
+
+[Caller/MCP attribution](caller-attribution.json) explains the repeated metadata
+transport work that motivated the named inspection format correction. Its raw
+profiles and original setup failure are retained in the
+[archive](caller-attribution.tar.gz); these are attribution, not latency samples.
+The response contract, rather than SDK capacity or validation, changed.
+
+The following records preserve earlier failures and preparation; their open
+status statements describe those historical checkpoints.
+
 The [metadata correction](metadata-batch.json) preserves exact output, error order
 and independent freshness phases. Its one successor measurement passes 512 sources
 at 226.814 ms p95, while 1,024 remain red at 384.128 ms. All 78 affected merged

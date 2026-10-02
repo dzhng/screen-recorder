@@ -152,6 +152,12 @@ even when the head changes. If evidence expires or changes, start a fresh query.
 Project retry rebuilds the query manifest only; diagnose and explicitly retry any
 failed source dependency using its returned selection. Use project phrase search
 only when advertised; source search cannot stand in for edited speech order.
+For any paginated project inspection, including raw cursor/event reads, keep the
+first page's full `dependencies` array for that query. Continuations
+return `dependencies: { manifestId }` for that same query, even on the last page.
+If you need the full metadata again, repeat the original first-page request with
+the same pinned query and verify its manifest identity before reusing it with a
+saved cursor. Changed/expired evidence requires a fresh traversal.
 
 Read the target stack, then set its entire ordered list through `edit.apply`.
 Keep existing step IDs when changing order, settings or bypass, or adding neighboring

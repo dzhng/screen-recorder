@@ -523,12 +523,21 @@ try {
         },
         invocationsDuringRead: 0,
       };
+      // Retain complete comparison operands before checking them, outside collection timing.
+      if (label !== "warm")
+        await writeFile(
+          join(out, `${name}-${arm.cardinality}-${label}-${transport}-operands.json`),
+          JSON.stringify({ expected: oracle, actual: pages }),
+        );
       // Time delivery of the whole prefix; oracle comparisons, serialization telemetry and file IO are outside it.
       for (const page of pages) {
         const { response, delivered, params } = page;
         assert.equal(response.projectId, arm.projectId);
         assert.equal(response.revisionId, arm.revisionId);
-        assert.deepEqual(response.dependencies, oracle.dependencies);
+        assert.deepEqual(
+          response.dependencies,
+          params.cursor ? { manifestId: params.cursor.manifestId } : oracle.dependencies,
+        );
         assert.deepEqual(
           response.coverage,
           params.cursor

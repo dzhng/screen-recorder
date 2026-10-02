@@ -211,7 +211,10 @@ try {
         ...(cursor ? { cursor } : {}),
       });
       assert.equal(last.state, "ready");
-      assert.deepEqual(last.dependencies, oracle.dependencies);
+      assert.deepEqual(
+        last.dependencies,
+        cursor ? { manifestId: cursor.manifestId } : oracle.dependencies,
+      );
       if (!cursor) assert.deepEqual(last.coverage.occurrences, oracle.coverage);
       assert(last.page.nextCursor, "The first 250 rows retain continuation");
       pageRows.push(last.page.rows.length);
