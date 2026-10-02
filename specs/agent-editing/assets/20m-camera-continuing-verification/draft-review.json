@@ -1,0 +1,67 @@
+{
+  "scope": "Read-only review of unfinished live integration; no runtime or acceptance claim",
+  "findings": [
+    {
+      "priority": "P1",
+      "owner": "Verification.advance",
+      "trigger": "Canonical fragment appears after the raw transfer returns, while raw version or raw fence stays unchanged.",
+      "amplification": "Early return can leave canonical committed pictures at zero; finish then decodes the complete canonical stream instead of only its tail.",
+      "acceptance": "Actual raw and canonical reader work before stop, with continuing canonical progress despite unchanged raw fence.",
+      "disposition": "Correction in progress; no green proof yet."
+    },
+    {
+      "priority": "P1",
+      "owner": "Verification.finishCanonical",
+      "trigger": "Later append or closure changes an already-scanned canonical prefix.",
+      "impact": "Cached pixel hash could certify changed closed media if only the new tail is decoded.",
+      "acceptance": "Rebind canonical encoded prefix, clocks, mapping and format before reuse; preserve failed operands.",
+      "disposition": "Independent peer finding; shared encoded-prefix reader being implemented."
+    },
+    {
+      "priority": "P1",
+      "owner": "CameraMedia.publish live finish selection",
+      "trigger": "Speculative private writer or candidate verification fails during finish.",
+      "impact": "Draft throwing finish bypasses raw-first validation and the generic publication route.",
+      "acceptance": "Cancellation propagates; other speculative unavailability retains original raw-first publication outcomes.",
+      "disposition": "Implementer reports correction; focused proof pending."
+    },
+    {
+      "priority": "P1",
+      "owner": "Verification.inventory fence eligibility",
+      "trigger": "Conservative SDK self-boundary may-order queries return true.",
+      "impact": "Requiring false rejects every full-sync point in the saved retained fixture, so no capture-era work can start.",
+      "evidence": {
+        "sourceSHA256": "5df7a793422c91f2d8cda88aa875735d28ca80fd2a449c07ccdf0ef0403e7710",
+        "fullSyncOrdinals": [
+          0,
+          29,
+          58,
+          87,
+          116,
+          145,
+          174
+        ],
+        "everySelfQueryTrue": true
+      },
+      "acceptance": "Actual complete DTS/PTS separation and physical closing-IDR/mapping evidence; preserve unknown SDK answers as diagnostics.",
+      "disposition": "Saved-value falsification supplied to implementer; no native replay."
+    }
+  ],
+  "dismissals": [
+    {
+      "candidate": "Unbounded pending worker queue",
+      "bound": "One active task and one replaceable latest request under the existing mutex.",
+      "disposition": "No new queue/actor framework justified by the inspected draft."
+    },
+    {
+      "candidate": "Per-frame observation disk synchronization",
+      "bound": "Ingress writes complete row bytes; the existing close boundary synchronizes once.",
+      "disposition": "Preserve existing policy; no new per-frame synchronization."
+    }
+  ],
+  "remaining": [
+    "Nonidentity media/asset clock preservation",
+    "Cancellation/discard/retry and input-binding consumer checks",
+    "Sustained advancement/backlog/resource and completed-stop measurement"
+  ]
+}
