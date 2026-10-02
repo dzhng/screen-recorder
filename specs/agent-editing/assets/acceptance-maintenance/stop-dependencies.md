@@ -192,10 +192,12 @@ compressed-copy primitive; camera lifetime and publication stay with CameraMedia
 ## Continuing verification implementation review
 
 [20m](../../slices/20m-camera-continuing-verification.md) retains a real missing-live-work
-regression and the first production state extraction. The [draft review](../20m-camera-continuing-verification/draft-review.json)
-records unresolved scheduling and acceptance findings before live adoption. Raw and
+regression and the first production state extraction. The [review](../20m-camera-continuing-verification/draft-review.json)
+records the scheduling and acceptance findings and their resolutions. Raw and
 canonical progress must advance independently; a pending canonical fragment cannot
 be starved by an unchanged raw fence. Each cached pixel hash must remain bound to
 its own later encoded media, and speculative finish errors retain raw-first fallback.
 The saved conservative SDK may-order answers cannot supply negative eligibility.
-None of these source findings or compact passes establishes the completed-stop deadline.
+[Focused production consumers](../20m-camera-continuing-verification/live-integration.json)
+now verify pre-stop work, same-candidate publication and lifecycle/failure preservation.
+These compact passes do not establish sustained backlog or the completed-stop deadline.

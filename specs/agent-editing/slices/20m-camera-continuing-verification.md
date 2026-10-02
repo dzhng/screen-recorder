@@ -1,9 +1,10 @@
 # Continuing camera verification in the publication owner
 
-Status: the [first production state pass](../assets/20m-camera-continuing-verification/README.md)
-is merged and focused publication consumers pass. Both full scanners now consume
-continuing value state through the unchanged digest. Range advancement and capture
-lifetime integration are in progress; publication still scans complete media after closure.
+Status: [focused production consumers](../assets/20m-camera-continuing-verification/live-integration.json)
+verify live range advancement, same-candidate publication, delayed and fractional
+clocks, retry, discard and permanent-failure cleanup. Both full scanners and live
+work consume continuing state through the unchanged digest. Sustained advancement,
+backlog, memory and the original completed-stop deadline remain unverified.
 
 ## Contract
 
@@ -24,11 +25,12 @@ row has been written, with no synchronous decode on the ingress queue. Observati
 synchronization remains with the existing close boundary; speculative eligibility
 does not add a per-frame disk synchronization policy.
 
-The first pass preserves existing full-scan consumers, fractional support, partial
-source diagnostics, failure order and publication replay. Next connect range
-advancement and live ownership through CameraWriter and ClosedCameraSource. Use retained tiny fixtures and saved qualified snapshots; no
-source-baseline replay, new capture or full-suite gate. Each coherent pass must
-leave the actual production consumer and its tests on the same verification owner.
+Existing full-scan consumers, fractional support, partial-source diagnostics,
+failure order and publication replay remain preserved. Range advancement and live
+ownership now run through CameraWriter and ClosedCameraSource. Use retained inputs
+and saved qualified snapshots; no source-baseline replay, new capture or full-suite
+gate. Next establish sustained progress and bounded stop work on the retained take,
+with actual complete digests, resource use and elapsed stop time.
 
 The complete contract also needs sustained advancement, bounded backlog and the
 original completed-stop deadline. State extraction or fixed range equality alone

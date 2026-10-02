@@ -1,0 +1,292 @@
+{
+  "status": "Focused production consumer checks pass; sustained backlog/resource and completed-stop gates remain open",
+  "scope": "Real NativeCapture with prerecorded SDK input, original raw encoder settings and independent ordered raw/canonical picture digests; no device/capture/UI/installed action",
+  "processes": [
+    {
+      "phaseSet": "final",
+      "phase": "module",
+      "pid": 88538,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 11.571335749991704
+    },
+    {
+      "phaseSet": "final",
+      "phase": "CameraMedia",
+      "pid": 88913,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 1.728596250002738
+    },
+    {
+      "phaseSet": "final",
+      "phase": "ClosedCameraSource",
+      "pid": 88995,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 0.29732554202200845
+    },
+    {
+      "phaseSet": "final",
+      "phase": "link",
+      "pid": 88996,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 3.652254082990112
+    },
+    {
+      "phaseSet": "final",
+      "phase": "live",
+      "pid": 89175,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 11.989627208997263
+    },
+    {
+      "phaseSet": "final",
+      "phase": "clock",
+      "pid": 89503,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 1.8466813330014702
+    },
+    {
+      "phaseSet": "final",
+      "phase": "neighbors",
+      "pid": 89510,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 0.3445639999990817
+    },
+    {
+      "phaseSet": "changed-candidate-red",
+      "phase": "link",
+      "pid": 78077,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 2.831233374978183
+    },
+    {
+      "phaseSet": "changed-candidate-red",
+      "phase": "test",
+      "pid": 78141,
+      "exitCode": 1,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 3.8449285000097007
+    }
+  ],
+  "allOwnedPIDsAbsent": true,
+  "verification": [
+    "Real raw and canonical decoder starts before stop; no public output during recording",
+    "Identity and delayed 200000us camera cases publish the same pre-stop candidate inode",
+    "Whole observation bytes retained across the 64KiB read boundary",
+    "Pre-receipt permission failure plus modified staged bytes cannot reuse cached acceptance; explicit retry publishes a fresh verified candidate",
+    "Explicit discard and permanent malformed-marker settlement remove unused stages before lease release",
+    "Fractional and delayed host clocks, pauses, recovery, literal picture/stride/PTS, clipped support, partial diagnostics, raw-first errors and receipt/link/conflict consumers pass"
+  ],
+  "evidence": "live-integration-manifest.json",
+  "limitations": [
+    "Tiny fixture quality/lifetime proof does not establish throughput, peak memory or the original completed-stop deadline",
+    "No full suite run; no physical synchronization or installed switch claim"
+  ],
+  "authorityReport": {
+    "archiveMember": "final/report.json",
+    "sha256": "058fc85e9590192170edab5bc0bec22c14bc89527bda11f3eb08ba7488f96507",
+    "rootRehashedPins": 140,
+    "captureSourceBindings": 27,
+    "testBindings": 7,
+    "unchangedDigestSHA256": "cdb3a20e964e1d9955283d06f6eecd30a234e11dca5072b8e88c7f4b7f1dce9e"
+  },
+  "integratedCommit": "5c1541ae3a184bab336ebab3420c3e9f9ac426b1",
+  "mergedSourceBindings": [
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift",
+      "sha256": "c51f6669b7592798eade9ee720d2ad554830db95d3588d9b4f68a99d10c77fc8",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift",
+      "sha256": "128b3b820e024a700bde321fbfefd985e6c5e2de8280a079354622586659802b",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift",
+      "sha256": "d2d184ecb51ea0858629a17f2f0934975441fc7451d67ac753ce626e63a2341f",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/JournalPCM.swift",
+      "sha256": "3f9bf60d4a7014c749271b8ec563816f5d2a8849fe607fb46f0873288837e804",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureMediaInspection.swift",
+      "sha256": "983e18154befce48416644e88c0ff0b30c05e222769f9d3d571a30402fd864c5",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift",
+      "sha256": "b8026860944f229e11749777893722364a6261ac5fd62498999a9cce82f8d14b",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CameraCaptureInput.swift",
+      "sha256": "56e72f321c977759941a81dd6c1e1e6707729cdf4143bffe51b5f291b3373724",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CursorGeometry.swift",
+      "sha256": "078a6edea8e0ac6bac3be0f50f346ddb0e550066e647b9ca64e49a3aeed3d821",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioPublication.swift",
+      "sha256": "468c81667ef89068dbd2b87a1a2d89f993cf725f9f341e3f95c094f5b2a4f1e3",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureTypes.swift",
+      "sha256": "5cfe90ff96a3142cb0c4e2e94dc0d5b780c616a70660e60295e1de63650eadc3",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift",
+      "sha256": "ca6487158711c4a28e8849531a8e98d8a62522cfb455be211c44cbbeeb28e22e",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CapturePCM.swift",
+      "sha256": "1ccd07f8535e42296bb1978f9d847a115027ea2bcac4360748695aa9b2cb07f0",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift",
+      "sha256": "a5f148a240866e3166b93c31653b44e585e3870b7fc74c5e9b1dbdbcb75d957c",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureClock.swift",
+      "sha256": "710915d86c8681ddf784e81c50f09706bca82849131666d6dd0f4b7b5e01e0cd",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift",
+      "sha256": "7ca5bb63e4ac2bcb2f8a29941f2e77cbbfbd0ebbf1fe10bcaf580900a6768b14",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureExclusion.swift",
+      "sha256": "80774ca7a86a7b82d072d201a2e1891fa642d4296bcba6797f6d84b9432b6a26",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift",
+      "sha256": "93e99f3a3e25534af1da03b92757ef85a0a5cad3299024d00dc846ab14179ddb",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureTermination.swift",
+      "sha256": "c1e4daac4a36b4cf6de60036bda1b870b9c350e9e72ba83910b5b011afb8a0f5",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift",
+      "sha256": "4a51bd10e5ec4204416d4a18d23bced5ae3e9b749287d3be8d92897be3143dcf",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureGeneration.swift",
+      "sha256": "a8bec021dd514fc3d55f693f9f3b02e5952304cd46150eb2259e94db2f98e00d",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift",
+      "sha256": "d0df8c5f67096c8d382db6b9d96322a883890198dee8a7cc79942fd133db1178",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureRequest.swift",
+      "sha256": "13fcaac33f588b4bb944eea8ee733f52fde6dcdc427097765341a20956138d16",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift",
+      "sha256": "4f61de47d5a2d7cdcac7c1345651ed227576ea2ab00e6fb9f39fd106f66443bf",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/HeldTailFrame.swift",
+      "sha256": "ec3a3c953efe6349a5fe31d75007aaf5d8bed0c35652c9a00f3ff82e73468acf",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/PCMContainerTime.swift",
+      "sha256": "da67ba33dc2257bd64f3a5ee88927be90aabe80f2a06d561d59d083f01bf6d6e",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+      "sha256": "d21866e46ca30f162317253e4ec279b55d366b0518f67d10b4a98e5d45bfe9f9",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CaptureStreamInputs.swift",
+      "sha256": "20351f190bc91739b312c181053902a3e57fd5df3ab752043420290c515ef9e6",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentCameraClockTests.swift",
+      "sha256": "6039b4f5eb4d4d7afb762b535b61088a48eaf9163b8a109991d9461fc8da82f1",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraLivePublicationTests.swift",
+      "sha256": "340eebcb6c32e20016482250ca4d200ec5b05ca575860cd6df4eda21d46e7350",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraPublicationOverlapTests.swift",
+      "sha256": "d6d28817b384b09903ffac241dfbd62c4d85413ea9e085a8f5181a3e6a135806",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/RecoveryFixtures.swift",
+      "sha256": "586bebe4b487064b64af49b3fbcb49ab2c47731d464c8adc78dc904267e7bdb7",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/ProbeCameraPixelPublicationTests.swift",
+      "sha256": "f6c8d561ce83cb01bd2ff5c61bf409cb4cc7ed67e275d5ac7b298d174df35081",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/PrerecordedCaptureInput.swift",
+      "sha256": "2e4c2da5093686adb6ec9cc1174b37bbb0b81cf621a25e6e20e12913bb768bf3",
+      "executed": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift",
+      "sha256": "511390eac1009867e023a623db7413d781f53822a929f4225d414f19019ae6df",
+      "executed": false
+    }
+  ],
+  "rootArchiveMembersVerified": 247
+}

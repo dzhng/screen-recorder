@@ -1,5 +1,5 @@
 {
-  "scope": "Read-only review of unfinished live integration; no runtime or acceptance claim",
+  "scope": "Initial draft findings, resolved by inspected final source and focused production consumers; see live-integration.json for actual scope and records",
   "findings": [
     {
       "priority": "P1",
@@ -7,7 +7,7 @@
       "trigger": "Canonical fragment appears after the raw transfer returns, while raw version or raw fence stays unchanged.",
       "amplification": "Early return can leave canonical committed pictures at zero; finish then decodes the complete canonical stream instead of only its tail.",
       "acceptance": "Actual raw and canonical reader work before stop, with continuing canonical progress despite unchanged raw fence.",
-      "disposition": "Correction in progress; no green proof yet."
+      "disposition": "Resolved: canonical file notifications advance independently of raw-fence changes; final live consumers perform both reads before same-candidate publication."
     },
     {
       "priority": "P1",
@@ -15,7 +15,7 @@
       "trigger": "Later append or closure changes an already-scanned canonical prefix.",
       "impact": "Cached pixel hash could certify changed closed media if only the new tail is decoded.",
       "acceptance": "Rebind canonical encoded prefix, clocks, mapping and format before reuse; preserve failed operands.",
-      "disposition": "Independent peer finding; shared encoded-prefix reader being implemented."
+      "disposition": "Resolved: canonical encoded prefix, origin, mapping and format are checked before later and closed reuse."
     },
     {
       "priority": "P1",
@@ -23,7 +23,7 @@
       "trigger": "Speculative private writer or candidate verification fails during finish.",
       "impact": "Draft throwing finish bypasses raw-first validation and the generic publication route.",
       "acceptance": "Cancellation propagates; other speculative unavailability retains original raw-first publication outcomes.",
-      "disposition": "Implementer reports correction; focused proof pending."
+      "disposition": "Resolved: cancellation propagates; other private finish failures discard optional work and enter existing raw-first publication."
     },
     {
       "priority": "P1",
@@ -44,7 +44,7 @@
         "everySelfQueryTrue": true
       },
       "acceptance": "Actual complete DTS/PTS separation and physical closing-IDR/mapping evidence; preserve unknown SDK answers as diagnostics.",
-      "disposition": "Saved-value falsification supplied to implementer; no native replay."
+      "disposition": "Resolved: actual DTS/PTS partition and physical closing-picture proof qualify the prefix without assuming negative SDK may-order answers."
     }
   ],
   "dismissals": [
@@ -60,8 +60,19 @@
     }
   ],
   "remaining": [
-    "Nonidentity media/asset clock preservation",
-    "Cancellation/discard/retry and input-binding consumer checks",
-    "Sustained advancement/backlog/resource and completed-stop measurement"
+    "Sustained advancement/backlog/resource and original completed-stop measurement",
+    "General release/physical acceptance is outside the focused fixture proof"
+  ],
+  "laterReview": [
+    {
+      "priority": "P1",
+      "finding": "Pre-receipt retry reused completed pixel proof without binding private candidate bytes",
+      "disposition": "Resolved: completed state pins candidate identity; actual filesystem receipt fault and mutated-candidate red/green are retained."
+    },
+    {
+      "priority": "P2",
+      "finding": "Unused live private stages survived permanent failure before inner publication",
+      "disposition": "Resolved: terminal settlement discards unfinished verification; complete receipt-bound candidates remain retained. Actual malformed-marker and explicit discard cases pass."
+    }
   ]
 }

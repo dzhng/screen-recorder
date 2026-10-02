@@ -6741,3 +6741,41 @@ facts, pictures and duration. This avoids inventing reset or trim markers from o
 example. The plan left the compressed acquisition API unresolved; production adoption
 still requires general live eligibility, lifetime and backlog proof. The result
 settles this fixed transfer choice, not permission to drop arbitrary reader markers.
+
+## Continuing camera verification
+
+**Sound, medium confidence — use file events to finish background catch-up.**
+During recording, a written observation row requests verification. The movie
+writer can emit its fragment later, after that request has finished. File-write
+notifications request the latest written boundary again; one worker keeps only
+the newest pending request. The plan required background progress but left its
+wakeup mechanism open. This avoids timer polling and an accumulating queue;
+sustained event cadence and backlog still need measurement.
+
+**Sound, medium confidence — qualify private filesystem clones rather than assume an atomic snapshot.**
+Verification must read while the encoder keeps writing. An owned filesystem clone
+isolates later writes, but the clone operation does not promise a single instant
+of writer state. Native storage, clocks, mapping and actual decoded pictures must
+qualify each prefix, and later encoded bytes must still bind the cached picture
+proof. The plan required immutable views without selecting the filesystem
+primitive. Unsupported or incomplete clones retain the original publication path;
+no copy or clone alone certifies pictures.
+
+**Sound, medium confidence — physically qualify refresh boundaries without a fixture-specific bit parser.**
+An unfinished fragment can contain a later picture before intervening pictures
+are available. The implementation uses the SDK's complete decoder-refresh flag,
+actual decode/presentation order and physical output through that refresh picture
+to qualify an earlier complete prefix. The refresh picture itself stays outside
+the committed hash and transfer because its open timing can still change.
+This changes the experimental fixture-specific codec-bit predicate into observed
+physical qualification; it is not a generic codec parser. Future work must retain
+encoded-prefix rebinding and full-scan fallback rather than infer safety from
+fragment boundaries or configured keyframe cadence.
+
+**Sound, medium confidence — bound private writer backpressure without changing the public deadline.**
+If the speculative movie writer stops accepting samples, its worker checks
+cancellation and stops waiting after thirty seconds. The plan required bounded
+work but left this internal refusal bound unspecified. Refusal returns to normal
+publication; it does not establish that stop completes within ten seconds.
+The value remains an internal guard whose drain and backlog cost must be measured,
+not a new caller setting or a relaxed release requirement.

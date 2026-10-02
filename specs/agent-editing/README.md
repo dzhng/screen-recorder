@@ -22,12 +22,13 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: connect camera range verification to the capture lifetime.**
+**Next pickup: prove sustained camera verification and completed-stop performance.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
-media facts. [20m](slices/20m-camera-continuing-verification.md) now owns range advancement and
-capture lifecycle integration. Its first production pass makes both existing full
-scanners consume continuing state; focused output/support/failure/replay checks pass.
+media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
+advancement to the capture lifetime. [Focused production checks](assets/20m-camera-continuing-verification/live-integration.json)
+verify both pre-stop readers, same-candidate publication, delayed/fractional clocks,
+retry, discard and failure cleanup. Both existing full scanners consume the same state.
 Preserve both ordered digests and recovery behavior.
 Reuse all saved source and prefix/range authorities.
 

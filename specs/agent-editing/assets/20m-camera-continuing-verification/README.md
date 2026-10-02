@@ -22,3 +22,16 @@ Rejecting that entire snapshot prevents eligible earlier prefixes from advancing
 Qualification must distinguish a complete prefix from an incomplete tail, while
 keeping closed-source validation strict. This is metadata attribution, not proof
 of live verification or publication.
+
+[Live integration](live-integration.json) records focused production checks: both
+picture readers advance before stop, and normal and delayed-camera publication
+finish the same private candidate. Complete observation bytes, native timing,
+partial-source diagnostics, failure order and recovery consumers remain preserved.
+The actual pre-receipt mutation failure and corrected retry are retained alongside
+discard and terminal-settlement cleanup. [The manifest](live-integration-manifest.json)
+binds complete executed sources, outputs and terminal records in the archive.
+
+A closing refresh picture proves physical decoder progress but remains outside
+the committed hash and transferred prefix: its open-fragment timing can still
+change. Its later qualified version belongs to the next range or final tail.
+These tiny cases do not establish sustained throughput, memory or stop latency.
