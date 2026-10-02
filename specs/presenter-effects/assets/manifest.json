@@ -1,0 +1,28 @@
+{
+  "source": "User-supplied screenshots in side conversation, 2026-10-01",
+  "inspirationUrl": "https://x.com/pie6k/status/2105747150088937965?s=20",
+  "scope": "Unmodified visual references; screenshots are not source media, masks, animation data or implementation evidence.",
+  "files": [
+    {
+      "file": "screen-warp-camera-inset.png",
+      "originalFilename": "Screenshot 2026-10-01 at 5.50.03\u202fPM.png",
+      "bytes": 3626559,
+      "sha256": "3da68073691b976ae59756e426c841804d4e3db2289240b1ca2b1d1ecf6be61c",
+      "referenceRole": "Curved screen surface, colored edge fringing, independent camera inset, enlarged cursor and caption."
+    },
+    {
+      "file": "presenter-cutout.png",
+      "originalFilename": "Screenshot 2026-10-01 at 5.50.14\u202fPM.png",
+      "bytes": 3804756,
+      "sha256": "e89686bb7ffe8d8f160c51d3354a83ba72058ae8ee48fd1dec9ce9b562685120",
+      "referenceRole": "Enlarged presenter silhouette over a framed screen and background, with a caption."
+    },
+    {
+      "file": "screen-detail-camera-inset.png",
+      "originalFilename": "Screenshot 2026-10-01 at 5.50.21\u202fPM.png",
+      "bytes": 1742955,
+      "sha256": "f7cfbac7a81f9748b26c0b681e2c8784b61d9bc02b498c5514bd7aaceb791a9a",
+      "referenceRole": "Screen detail fills most of the composition, with a rounded camera inset, oversized pointer and short caption."
+    }
+  ]
+}
