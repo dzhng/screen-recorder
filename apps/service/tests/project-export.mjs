@@ -1,253 +1,13 @@
 import { operationSchema } from "@screenrec/protocol";
-import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { outputPresets } from "@screenrec/composition";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { mkdtemp, readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
-import { setTimeout as delay } from "node:timers/promises";
+import { readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { test } from "node:test";
-import { Catalog, CatalogError } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { ProjectStore } from "@screenrec/core/projects";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { TranscriptStore } from "@screenrec/core/transcript";
-import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
-import { JobQueue } from "@screenrec/core/jobs";
-import { DerivedCache } from "@screenrec/core/cache";
-import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
-import { MediaExports } from "../dist/exports.js";
-import { ManagedFiles } from "../dist/managed-files.js";
+import { CatalogError } from "@screenrec/core/catalog";
 import { mediaWorker } from "../dist/worker.js";
-const native = mediaWorker({
-  SCREENREC_NATIVE:
-    process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native"),
-});
-const gate = () => {
-  let resolve;
-  const promise = new Promise((r) => (resolve = r));
-  return { promise, resolve };
-};
-async function until(run) {
-  const end = Date.now() + 15000;
-  for (;;) {
-    const value = await run();
-    if (value) return value;
-    assert.ok(Date.now() < end, "Owner did not settle within15s");
-    await delay(10);
-  }
-}
-async function fixture(t, { render, wrap = (value) => value, admission = true, existing } = {}) {
-  const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-project-export-")),
-    output = existing?.output ?? (await mkdtemp("/tmp/screenrec-project-destination-"));
-  const lifetime = existing?.lifetime ?? { closers: [] };
-  if (!existing)
-    t.after(async () => {
-      for (const close of [...lifetime.closers].reverse()) await close();
-      await rm(home, { recursive: true, force: true });
-      await rm(output, { recursive: true, force: true });
-    });
-  const catalog = new Catalog(join(home, "catalog.sqlite")),
-    assets = new AssetStore(catalog, home);
-  await assets.recover();
-  const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(
-      catalog,
-      assets,
-      new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)),
-      acquisitions,
-    ),
-    cache = new DerivedCache(catalog, home, (owner) => {
-      assert.equal(owner.kind, "project");
-      projects.get(owner.projectId);
-    });
-  await cache.reconcile();
-  let preview, exports;
-  const jobs = new JobQueue({
-    store: catalog,
-    providers: { newId: randomUUID },
-    targets: {
-      pin(target) {
-        assert.equal(target.kind, "project");
-        return {
-          ...target,
-          revisionId: projects.revision(target.projectId, target.revisionId).id,
-        };
-      },
-      isAvailable: (target) => target.kind === "project" && !projects.isDeleting(target.projectId),
-      isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
-      isCapturing: () => false,
-    },
-    execute: (execution) =>
-      execution.job.artifact === "preview"
-        ? preview.execute(execution)
-        : exports.execute(execution),
-  });
-  const ordinary = async ({ window, output, settings }, signal) => {
-    signal.throwIfAborted();
-    const frames = [...window.frames()];
-    const data = Buffer.from(JSON.stringify({ manifest: window.manifest, frames }));
-    await writeFile(output, data, { flag: "wx" });
-    return {
-      file: output,
-      settings,
-      encodedVideo: {
-        profile: settings.video.profile,
-        level: settings.video.level === "auto" ? "3.1" : settings.video.level,
-      },
-      mediaType: "video/mp4",
-      codec: "h264",
-      durationUs: window.manifest.range.endUs - window.manifest.range.startUs,
-      width: window.manifest.canvas.width,
-      height: window.manifest.canvas.height,
-      frameCount: frames.length,
-      bytes: data.length,
-    };
-  };
-  const worker = wrap(native),
-    files = new ManagedFiles(home, worker);
-  const binding = {
-    implementationId: "project-owner-fixture-v1",
-    render: render ? (request, signal) => render(request, signal, ordinary) : ordinary,
-  };
-  const prepared = new PreparedAudioStore({
-    catalog,
-    assets,
-    projects,
-    jobs,
-    staging: join(home, "prepared"),
-    renderer: {
-      implementationId: "unused",
-      render: async () => {
-        throw new Error("unused preparation");
-      },
-    },
-    probe: async () => {
-      throw new Error("unused preparation");
-    },
-  });
-  preview = new ProjectPreviewInspection(projects, assets, jobs, cache, binding, prepared);
-  const domain = { store: projects, preview };
-  exports = new MediaExports({
-    catalog,
-    jobs,
-    cache,
-    worker,
-    files,
-    project: domain,
-  });
-  if (admission) jobs.startAdmission((job) => exports.admit(job));
-  let closed = false;
-  const close = async () => {
-    if (closed) return;
-    closed = true;
-    await exports.close();
-    await jobs.close();
-    catalog.close();
-  };
-  lifetime.closers.push(close);
-  let asset, projectId, placed;
-  if (existing) {
-    asset = assets.get(existing.asset.id);
-    projectId = existing.projectId;
-    placed = {
-      revision: projects.revision(projectId, existing.placed.revision.id),
-    };
-  } else {
-    const path = join(home, "input.mov");
-    await writeFile(path, "source identity");
-    asset = await assets.import(path, { kind: "import" }, async () => ({
-      originUs: 0,
-      streams: [
-        {
-          id: "video",
-          kind: "video",
-          codec: "h264",
-          decodable: true,
-          startUs: 0,
-          endUs: 1000000,
-          segments: [{ startUs: 0, endUs: 1000000, empty: false }],
-          width: 160,
-          height: 96,
-          orientedWidth: 160,
-          orientedHeight: 96,
-        },
-      ],
-    }));
-    const initial = projects.create({
-      requestId: "create",
-      canvas: {
-        width: 160,
-        height: 96,
-        fps: { numerator: 20, denominator: 1 },
-        background: "#000000ff",
-      },
-    });
-    projectId = initial.project.projectId;
-    placed = projects.apply(projectId, {
-      requestId: "place",
-      expectedRevisionId: initial.revision.id,
-      operations: [
-        {
-          operation: "track.add",
-          track: { kind: "video", order: 0 },
-          label: "track",
-        },
-        {
-          operation: "place",
-          clip: {
-            trackId: { label: "track" },
-            assetId: asset.id,
-            streamId: "video",
-            source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
-            placement: {
-              kind: "project",
-              range: { startUs: 0, endUs: 1000000 },
-            },
-          },
-        },
-      ],
-    });
-  }
-  return {
-    lifetime,
-    close,
-    home,
-    output,
-    catalog,
-    assets,
-    asset,
-    projects,
-    projectId,
-    placed,
-    jobs,
-    cache,
-    preview,
-    exports,
-    binding,
-    replaceRenderer(implementationId) {
-      preview = new ProjectPreviewInspection(
-        projects,
-        assets,
-        jobs,
-        cache,
-        {
-          ...binding,
-          implementationId,
-        },
-        prepared,
-      );
-      domain.preview = preview;
-    },
-    request: () => ({
-      kind: "video",
-      projectId,
-      exportId: randomUUID(),
-      directory: output,
-      leaf: randomUUID() + ".mp4",
-    }),
-  };
-}
+import { fixture, gate, until, nativeBinary } from "./fixtures/project-export.mjs";
 test("project export pins an omitted revision, replays it after edits and atomically publishes exact cached bytes", async (t) => {
   const started = gate(),
     release = gate();
@@ -898,5 +658,39 @@ test("concurrent request replay shares one intent and conflicting reuse is rejec
     f.exports.status(exportId).state,
     "committed",
     JSON.stringify(f.exports.status(exportId)),
+  );
+});
+
+test("publication uses its known-byte budget instead of the worker's unrelated short default", async (t) => {
+  let delayed;
+  const f = await fixture(t, {
+    wrap:
+      (run) =>
+      (operation, ...args) =>
+        operation === "publication.prepare" ? delayed(operation, ...args) : run(operation, ...args),
+  });
+  const executable = join(f.home, "delayed-publication");
+  const quote = (value) => "'" + value.replaceAll("'", "'\\''") + "'";
+  await writeFile(executable, `#!/bin/sh\nsleep 0.05\nexec ${quote(nativeBinary)}\n`, {
+    mode: 0o700,
+  });
+  delayed = mediaWorker({ SCREENREC_NATIVE: executable }, 1);
+  const exportId = randomUUID();
+  await f.exports.create({
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "budget.mp4",
+  });
+  await f.jobs.idle();
+  assert.equal(
+    f.exports.status(exportId).state,
+    "committed",
+    JSON.stringify(f.exports.status(exportId)),
+  );
+  assert.deepEqual(
+    await readFile(join(f.output, "budget.mp4")),
+    await readFile((await f.preview.request({ projectId: f.projectId })).published.preview.file),
   );
 });
