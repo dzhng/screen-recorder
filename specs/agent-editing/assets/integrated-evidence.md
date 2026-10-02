@@ -164,6 +164,43 @@
   [matched export recovery](../slices/23b-export-recovery-preservation.md) preserve
   their named parity/replay contracts; installed switch and23's full matrix remain.
 
+- [Retained-sentence recognition](../slices/12h-retained-sentence-recognition.md)
+  preserves the opening filler but fails marked timing; the production coordinates
+  already contain those errors. [Independent lexical evidence](../slices/12j-external-lexical-diagnostic.md)
+  retains every miss across the fixed acted-utterance cohort. [Manual-word timing](../slices/12k-independent-word-timing.md)
+  meets the numerical thresholds on one accented read utterance; its full evaluation
+  remains pending, with no filler, listening or model-training exclusion claim.
+  Original model-load timeout and restored-reference continuation stay separate,
+  with no timeout cause inferred. [Root checks](12k-independent-word-timing/merged.json)
+  validate saved bindings and arithmetic without inference replay.
+- [Supplied-text alignment](../slices/12i-retained-sentence-alignment.md) meets
+  marked timing on the user sentence. Independent qualification stays separate
+  from its producer's inventory failure. The [inventory correction](12i-model-inventory-support/README.md)
+  changes bookkeeping only; broader quality and adoption remain open.
+- [Qualified camera scheduling](../slices/20f-camera-publication-overlap.md)
+  preserves complete digest/support, raw-first failure order and actual joined-reader
+  cancellation. The [H264 interruption case](20f-camera-publication-overlap/h264-interruption/README.md)
+  preserves the shorter decoded prefix and speculative-file cleanup; its original
+  observer crash is separate. [Retained metadata eligibility](20f-camera-publication-overlap/retained-eligibility/README.md)
+  establishes the predicate without publication. Actual full-take overlap, resource
+  use, physical capture and the completed-stop deadline remain unproved.
+- [Composed source consumers](../slices/23k-source-consumer-bridge.md) preserve
+  metadata paging/dispatch and distinct historical readiness. [Edited frames](../slices/23l-paired-edited-frames.md)
+  retain joins and final support; the [native PNG successor](23l2-native-png-correspondence/README.md)
+  matches every saved composition request to complete reference RGBA. Frozen and
+  installed workers remain unchanged; movie and installed acceptance remain open.
+- [Partial words and absent roles](../slices/23m-paired-partial-words-and-absent-role.md)
+  preserve their paired public contracts after [genuine model readiness](../slices/23n-parakeet-model-readiness.md).
+  [Positive system correspondence](23o-system-package-correspondence/README.md)
+  verifies an authored legacy inspection package/current project against complete
+  offered PCM, including the genuine hole, unity stereo duplication and explicit
+  split. Automatic recording export, live capture, competing-role discrimination
+  and installed adoption remain separate.
+- [Independent source MCP](25c-source-mcp-caller/README.md) verifies default-SDK
+  schema discovery, requested split/replay/stale refusal and complete cached image
+  bytes, with actual terminal records. It closes a compact source checkpoint only;
+  full editing, listening and installed/default discovery remain open.
+
 Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.
 Never pad missing samples, truncate support or relax thresholds to conceal a

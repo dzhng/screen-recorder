@@ -22,86 +22,28 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify one independent supplied-text alignment comparison.**
-The preserved [12i Qwen3 float16 recipe](slices/12i-retained-sentence-alignment.md)
-is available; compare its timing on the same fixed manual example using only the
-saved recognized text. The source is Int16, whereas its finite converter requires
-Float32: qualify the existing whole-range source-audio format bridge and exact
-sample/clock correspondence before any alignment. Preserve the numerical recipe,
-original namespaces and corrected inventory owner. No ASR repeat, corpus
-redistribution, crop, gain, padding, parameter search or adoption is implied.
+**Current pass: one independent supplied-text timing comparison.**
+Use the preserved [12i Qwen3 float16 recipe](slices/12i-retained-sentence-alignment.md)
+on the fixed [12k manually marked example](slices/12k-independent-word-timing.md),
+with only its saved recognized text. First prove every sample through the existing
+whole-range Int16-to-Float32 source-audio bridge, then the finite converter's exact
+clock. Preserve numerical behavior, original model/runtime namespaces and the
+corrected inventory owner. No ASR repeat, corpus redistribution, crop, gain,
+padding, parameter search or adoption follows from this comparison.
 
-[12k independent manual-word timing](slices/12k-independent-word-timing.md) is
-banked: five words correspond and ten edge observations have 40ms median and
-160ms p95/max error under unchanged thresholds. [Root verification](assets/12k-independent-word-timing/merged.json)
-checks exact private source/label/runtime bindings and saved arithmetic without
-another inference. Original model-load timeout and successful restored-reference
-continuation remain separate; no timeout cause is inferred. Full evaluation
-remains pending, with zero fillers and unknown model-training overlap.
-
-[23o positive system correspondence](slices/23o-system-package-correspondence.md)
-now passes through an authored legacy inspection package and current public
-acquisition/project consumers. Complete offered-sample comparison verifies the
-real hole, unity mono-to-stereo duplication and unchanged PCM/all other document
-fields after the explicit split. [Root integration](assets/23o-system-package-correspondence/merged.json)
-checks the saved evidence without replay. Automatic recording export, live input,
-competing-role discrimination and installed adoption remain separate.
-
-[25c independent source MCP](slices/25c-source-mcp-caller.md) now passes:
-a fresh caller discovers public schemas, commits only the requested split,
-recovers the same mutation, observes truthful stale refusal and receives complete
-cached image bytes through the default SDK. Independent saved-data review checks
-all results and actual terminal events. No generation, full editing journey or
-installed/default discovery was repeated; producer-history limits remain visible.
-
-[20f camera scheduling](slices/20f-camera-publication-overlap.md) is integrated:
-compact digest/support, generic prefix, failure order, recovery and actual
-concurrent-reader cancellation pass. Its [qualified H264 interruption supplement](assets/20f-camera-publication-overlap/h264-interruption/README.md)
-now observes a real shorter decode: speculative candidate removal, exact old/new
-physical prefix and joined reader cleanup all pass. Original observer crash and
-corrected execution remain separate. Root checks the [supplement](assets/20f-camera-publication-overlap/h264-interruption/merged.json)
-without a replay. The [retained-take metadata check](assets/20f-camera-publication-overlap/retained-eligibility/README.md)
-meets the scheduling predicate without decoding or publishing. Actual full-take
-overlap, performance and decoder-pool memory remain unverified; overlap does not
-establish ten-second stop.
-
-The [PNG correction](slices/23l2-project-png-publication.md) now passes all fourteen
-saved composition requests through an isolated native worker: complete reference
-RGBA and source/frame metadata match. The
-[native correspondence record](assets/23l2-native-png-correspondence/README.md)
-keeps the original failures separate from the successor result. Current picture
-cache identity advances with the output change; generic cache controls preserve
-old derivatives while regenerating current demand. Frozen/installed workers remain
-unchanged. No sampler, accepted public-delivery cohort or movie cohort was repeated;
-installed adoption, full movie parity and release acceptance remain separate.
-
-[12j independent utterance evidence](slices/12j-external-lexical-diagnostic.md)
-is now banked: selected Parakeet preserves 37/41 explicit fillers and matches
-487/507 reference words across 24 complete human-checked acted utterances.
-All misses remain visible. This adds lexical authority, not independent timing,
-spontaneous speaker diversity, model-unseen or listening acceptance.
-
-[12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
-all words correspond and the existing marked timing limits pass. Its original
-producer failed the runner's inventory assertion; independent saved-data
-qualification remains separate. The
-[current inventory correction](assets/12i-model-inventory-support/README.md)
-passes merged filesystem/import controls without another model run. Recognition,
-broader speech quality and adoption remain open. The
-[CLI selection correction](slices/24z13-cli-delivery-selection.md) passes the
-merged consumer gate and retains one selected socket through dispatch/delivery.
-
-The [post-correspondence preflight](assets/24z-current-preparation/post-correspondence-preflight.json)
-found active unrelated compilation and rendering after owned heavy work finished.
-No service or timing started. Current runtime/fixture bindings still match; no
-build or preparation replay is needed. Revisit [24z timing](assets/24z-current-preparation/README.md)
-only in a changed coordinated window with one fresh preflight. Do not poll the host.
-Remaining physical/lifecycle, presentation and installed prerequisites belong to
-[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md).
-
-Apply the [project principles](../../AGENTS.md) to iteration speed and verification.
-The active plan supplies specific requirements; it does not authorize repeating
-accepted expensive checks without a changed contract or named unresolved risk.
+**Priority after that pass:** address a concrete remaining implementation contract
+below. Camera stop needs a supported critical-path mechanism before another
+retained-take benchmark; [the dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
+identifies why scheduling alone cannot establish the deadline. [24z timing](assets/24z-current-preparation/README.md)
+requires a changed coordinated window and one fresh preflight: the
+[latest snapshot](assets/24z-current-preparation/post-correspondence-preflight.json)
+found unrelated compilation/rendering, so no service or measurement started.
+Do not poll the host or replay preparation. Consumer ports proceed only where
+[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
+identifies a missing owner; another menu or chooser does not prove presentation
+or authorize installed switching.
+No further source implementation mechanism is currently identified. Do not turn
+pending acceptance or accepted cohorts into another implementation pass.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -112,31 +54,32 @@ accepted expensive checks without a changed contract or named unresolved risk.
 | [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports, process ownership and paired edit/history preservation verified | Remaining preservation correspondence, concrete presentation, installed switching and obsolete-owner removal after prerequisites |
 | [25 external caller](slices/25-agent-acceptance.md) | [Source CLI workflow](slices/25b-fresh-caller.md) and [independent source MCP](slices/25c-source-mcp-caller.md) complete their declared brief, recovery and delivery scopes | Installed/default discovery and full listening/physical/final release gates;25c closes compact source MCP only |
 
-[Banked evidence](assets/integrated-evidence.md) and
-[source/runtime identities](assets/implementation-pickup.md) own retained proof.
-Reuse closed cohorts, original inputs, failed checks and accepted outputs. A new
-experiment needs one named technical gap and a fixed stopping condition; missing
-historical authority does not authorize another accepted run or relaxed gate.
+[The evidence index](assets/integrated-evidence.md) owns the banked results and
+limits; [implementation pickup](assets/implementation-pickup.md) owns source/runtime
+identities. Reuse complete outputs, original failures and actual terminal records.
+A new experiment must answer one necessary unresolved technical question with fixed
+inputs and a stopping condition. A numerical example does not close the parent
+speech gate; a metadata predicate does not close physical capture or stop performance.
 
-Reuse the retained four-minute take, journals and saved marks. Preserve accepted
-retiming/denoise/voice and the selected 200 ms ambience loop, including its tolerated
-slight seam; the 250 ms version is rejected. No personal keep/remove judgment is a
-development prerequisite. A human task must name the missing fact and explain why
-existing evidence cannot establish it.
+Apply the [project principles](../../AGENTS.md) to iteration speed. Reuse the
+retained four-minute take, journals, saved marks and accepted retiming/denoise/voice.
+The selected 200 ms ambience loop retains its tolerated slight seam; 250 ms is
+rejected. No personal keep/remove judgment is a development prerequisite. Any
+necessary human task must name the missing fact and explain why existing evidence
+cannot establish it.
 
-Model work is authorized in isolated storage; preserve original prepared files,
-runtime homes, receipts and accepted recipes. No new capture, audible playback,
-native windows, Claude run, configured CLI-review retry, frozen-worker replacement
-or installed-app switch is authorized. Keep
-[preserved worker bytes](assets/acceptance-maintenance/native-worker-preservation.json)
-and installed span transactions intact until explicit cutover. Capture publishes
-source facts; the caller authors projects, layouts and edits. No migration or
-obsolete-owner deletion begins before its prerequisites.
+Isolated model work is authorized; preserve original prepared files, runtime homes,
+receipts and accepted recipes. No new capture, audible playback, native windows,
+Claude run, configured CLI-review retry, frozen-worker replacement or installed-app
+switch is authorized. Preserve [worker bytes](assets/acceptance-maintenance/native-worker-preservation.json)
+and installed span transactions until explicit cutover. Capture publishes facts;
+the caller authors projects and edits. No migration or obsolete-owner deletion
+begins before its prerequisites.
 
-Keep this pickup, checklist and owning Status lines consistent. Continue
-independent implementation while acceptance remains open. Full release still
-requires speech coverage, physical synchronization/live stop, complete consumer
-cutover, final scale and independent installed MCP caller proof.
+Keep this pickup, checklist and owning Status lines consistent. Continue independent
+implementation while acceptance remains open. Full release requires broader speech
+coverage, physical synchronization/live stop, complete consumer cutover, final scale
+and independent installed MCP caller proof.
 
 ## Outcome and boundaries
 
@@ -302,7 +245,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
-- [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation; qualified interruption/adoption/performance remain open
+- [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
