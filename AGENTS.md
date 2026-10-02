@@ -1,50 +1,36 @@
-# Project instructions
+# Principles
 
-## Product boundary — zero editorial decisions
+- **Optimize for iteration speed.** Minimize the time from a useful question to
+  trustworthy feedback. Prefer small, coherent changes and short feedback loops.
+  Remove work that does not improve the decision or the product.
 
-This project is a local recording, inspection and media-editing toolkit for
-external agents. It makes **zero editorial decisions**. Read the
-[product boundary](README.md#product-boundary) before planning implementation.
+- **Use the cheapest meaningful verification.** Check the behavior affected by
+  a change first. Broaden testing only when a changed shared contract or a
+  concrete unresolved risk requires it. Every expensive check needs a named
+  question it will answer. Reuse valid evidence; repeat a check when relevant
+  changes invalidate it. Test observable behavior, not implementation details.
 
-The product exposes evidence and executes explicitly requested operations.
-The external agent using the project chooses what to keep/remove, whether
-repetition is intentional, wording, pacing, layouts, references and treatments.
-Detection/classification supplies evidence or candidates, never permission to
-edit. Do not add automatic cuts, fades, denoising, room tone, replacement speech
-or other treatments based on an engine's taste or semantic judgment.
+- **Keep editorial judgment with the caller.** The product provides primitives
+  and evidence and executes explicit requests. It makes zero editorial
+  decisions. Detection supplies information, not permission to alter content.
 
-When developing the toolkit, test primitive correctness and evidence quality
-with explicit fixture inputs and expected operations. Do not turn development
-into an editorial project on the user's recording. Do not require the user to
-decide which personal utterances should be removed to unblock implementation.
-Human checks must have a bounded technical purpose; editorial work requires a
-separate user request. Missing technical evidence stays unverified. An unanswered
-editorial question is neither a project prerequisite nor approval to edit.
+- **Prefer simplicity and clear ownership.** Give each concept one authoritative
+  owner. Remove obsolete mechanisms instead of layering alternatives beside
+  them. Add abstractions for demonstrated needs, not imagined possibilities.
 
-Reuse existing recordings, annotations and accepted verification before requesting
-new human tests. An incomplete analysis is not permission to repeat a completed
-review; state the exact missing technical fact and why existing evidence cannot
-establish it before proposing a new human task.
-Distinguish isolated implementation readiness from release acceptance so an open
-quality/physical claim does not stop unrelated primitive work.
+- **Preserve what matters.** Protect original material, user intent and verified
+  behavior. Make changes reversible where practical. Keep enough evidence to
+  reproduce conclusions without accumulating redundant copies.
 
-Treat unfinished implementation and failed checks as work to resolve, not blockers;
-a blocker is a concrete prerequisite that prevents the next useful step.
+- **Keep work bounded.** Resource use and waiting must have clear limits and
+  observable progress. A stalled activity needs a changed approach, not endless
+  retries. Continue useful independent work when another path is unavailable.
 
-The product-use [screenrec skill](skills/screenrec/SKILL.md) is for the external
-agent consuming this toolkit, not the agent implementing this repository. Do not
-invoke it as a development workflow. Read or edit it as a product artifact when
-needed, writing from the external caller's perspective. Keep repository guardrails
-here and in development skills; do not put them in the consumer's editing workflow.
+- **Respect human attention.** Resolve routine technical decisions from evidence.
+  Ask for human input when it changes a consequential decision that cannot be
+  established otherwise. Reuse information already provided.
 
-Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
-review and verification. Read the relevant SKILL.md before applying it. The Claude
-skill links point to those same copies.
-
-The active editing plan and implementation handoff are in
-[specs/agent-editing/README.md](specs/agent-editing/README.md).
-[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md) retains recording
-release evidence and acceptance. Keep both current as implementation progresses.
-If a spec or handoff assigns editorial judgment to the product or makes a
-personal keep/remove choice a development prerequisite, correct that drift
-before proceeding; do not use it as authority to expand the product.
+- **Communicate the current truth.** Distinguish verified results, assumptions
+  and unfinished work. Report failures honestly and never weaken a requirement
+  to manufacture success. Documentation should explain durable purpose and
+  constraints; implementation and temporary status belong with their owners.
