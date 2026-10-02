@@ -1,6 +1,9 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_CANCELED_CAMERA_CONTINUATION_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_RETAINED_CAMERA_PUBLICATION_OUTPUT"] {
+    try await runRetainedCameraPublicationCost(output: output,
+        donorPath: ProcessInfo.processInfo.environment["SCREENREC_RETAINED_CAMERA_PUBLICATION_SOURCE"] ?? "")
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_CANCELED_CAMERA_CONTINUATION_OUTPUT"] {
     try await runCanceledCameraContinuationTest(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_CONTINUATION_CLOSURE_OUTPUT"] {
     try await runCameraContinuationClosureTest(output: output)

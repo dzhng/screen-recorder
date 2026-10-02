@@ -95,7 +95,10 @@ the growing journal; unchanged operands need no new snapshot. Private encoder
 backpressure reports its full-scan fallback through operational stderr.
 The opt-in [stop-scale consumer](Tests/ScreenRecorderCaptureTests/SelectedCaptureStopScale.swift)
 observes only its newly owned camera readers, records their exact ranges and keeps
-bounded unverified views for failure diagnosis. Prerecorded pacing starts at its
+bounded unverified views for failure diagnosis. Its opt-in retained-camera consumer
+isolates final publication on a fresh closed-source clone; that measures the proof
+path and cannot establish live input drain or an app shutdown deadline.
+Prerecorded pacing starts at its
 source origin, so startup does not repay time as a callback burst.
 
 The returned camera outcome describes an independent source directory and its own
