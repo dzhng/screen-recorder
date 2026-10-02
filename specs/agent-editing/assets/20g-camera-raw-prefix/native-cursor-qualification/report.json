@@ -1,0 +1,183 @@
+{
+  "status": "complete-closed-source-native-metadata-qualified",
+  "scope": "One retained closed ordinary raw MOV; no native writer, AVAssetReader, decode, capture, playback, recovery or physical replay; not stable-prefix safety or adoption.",
+  "completeMembership": {
+    "rows": 197,
+    "allOrdinalRationalPictureAndOwnerGridMatches": true,
+    "allExistingOwnerEndpointsMatchSaved": true,
+    "distinctUnmovedCursors": 197,
+    "sameTrackQueries": 589
+  },
+  "rawClockDifferences": {
+    "exactMappingRationalMatches": 66,
+    "exactMappingRationalDifferences": 131,
+    "gridRoundedFlags3NativeFlags1Rows": 131,
+    "meaning": "Existing acquisitionRange(nativeScale) owner preserves native microsecond rounding; original unrounded mapping ticks and every raw time flag remain saved. Rational correspondence is not byte-identical raw-clock representation."
+  },
+  "nativeFacts": {
+    "syncFlagTrueOrdinals": {
+      "sampleIsFullSync": [
+        0,
+        29,
+        58,
+        87,
+        116,
+        145,
+        174
+      ],
+      "sampleIsPartialSync": []
+    },
+    "flagTrueCounts": {
+      "sampleDependsOnOthers": 190,
+      "sampleHasDependentSamples": 0,
+      "sampleHasRedundantCoding": 0,
+      "sampleIndicatesWhetherItDependsOnOthers": 197,
+      "sampleIndicatesWhetherItHasDependentSamples": 95,
+      "sampleIndicatesWhetherItHasRedundantCoding": 0,
+      "sampleIsDroppable": 95,
+      "sampleIsFullSync": 7,
+      "sampleIsPartialSync": 0
+    },
+    "mediaPTSDTSRawDifferentRows": 145,
+    "adjacentPresentationPairDecodeOrderInversions": 95,
+    "decodeDurationTicksAtMicrosecondScale": {
+      "33333": 130,
+      "33334": 66,
+      "466667": 1
+    },
+    "longDecodeDurationOrdinal": 192,
+    "storageFacts": "All sample/chunk ranges have nonnegative offsets and positive lengths within the pinned26557-byte file; actual URL/index/extents remain in every row.",
+    "decoderRefreshZeroRows": 197,
+    "predicateAnswers": "589 actual earlier/later MAY queries and decode-position comparisons retained. MAY true is not proof of an actual dependency; actual DTS and positions separately expose reordering.",
+    "segments": [
+      {
+        "assetDuration": {
+          "epoch": 0,
+          "flags": 1,
+          "scale": 1000000,
+          "value": 7000000
+        },
+        "assetStart": {
+          "epoch": 0,
+          "flags": 1,
+          "scale": 1000000,
+          "value": 0
+        },
+        "mediaDuration": {
+          "epoch": 0,
+          "flags": 1,
+          "scale": 1000000,
+          "value": 7000000
+        },
+        "mediaStart": {
+          "epoch": 0,
+          "flags": 1,
+          "scale": 1000000,
+          "value": 0
+        }
+      }
+    ]
+  },
+  "interpretationLimits": [
+    "Full sync is a native sample fact, not evidence of completed immutable bytes while a writer remains active.",
+    "Whether a sample HAS dependent samples is unknown on102 rows; redundant-coding knowledge is unknown on197 rows. False data under a false known flag stays unknown.",
+    "Zero samplesRequiredForDecoderRefresh can mean none required OR information absent; no boundary guarantee.",
+    "Endpoint is unchanged SampleTiming.assetEnd mapping/clipping of currentSampleDuration, which SDK defines as DECODE duration; not independent display duration.",
+    "Native decode duration at ordinal192 is466667 microseconds and is retained; no speculative timing correction.",
+    "Closed-source availability does not establish active append stability, interruption/recovery, bounded unresolved tail/backlog, canonical correspondence or stop performance."
+  ],
+  "processes": [
+    {
+      "label": "compile",
+      "pid": 13039,
+      "terminal": true,
+      "exitCode": 0,
+      "elapsedSeconds": 2.582872583,
+      "stdioBytes": {
+        "stdout": 0,
+        "stderr": 40805
+      }
+    },
+    {
+      "label": "metadata-only",
+      "pid": 13106,
+      "terminal": true,
+      "exitCode": 0,
+      "elapsedSeconds": 0.4625460829999999,
+      "stdioBytes": {
+        "stdout": 73,
+        "stderr": 0
+      }
+    }
+  ],
+  "controller": {
+    "execSession": 14562,
+    "exitCode": 0,
+    "targetedOwnedPIDsAbsent": true
+  },
+  "bounds": {
+    "compileSeconds": 150,
+    "metadataSeconds": 15,
+    "stdioBytesPerStream": 1048576,
+    "nativeInventoryRows": 240
+  },
+  "protectedPinsUnchanged": 123,
+  "cacheFilesUnchanged": 307,
+  "savedCheck": {
+    "status": "pass",
+    "completeRows": 197,
+    "sameTrackDistinctUnmovedCursors": 197,
+    "orderingQueries": 589,
+    "negativeControlsRejected": [
+      "native-PTS",
+      "cursor-position"
+    ],
+    "protectedPins": 123,
+    "cacheFilesUnchanged": 307,
+    "scope": "Saved evidence values only; no native replay"
+  },
+  "inputReuse": "Original MOV/complete pixel tuples and mappings remain in the separately pinned physical-continuation archive. This packet stores a checked timing-only projection and exact mapping bytes; it does not duplicate/decode pixels.",
+  "review": {
+    "shape": "No production owner/harness/abstraction introduced; frozen external reference entry calls unchanged cursor/timing owners.",
+    "diff": "Fresh unadvanced cursor per ordinal from the same exact AVAssetTrack; raw before/after positions, operands before gates, bounded logs/actual waits retained.",
+    "docs": "Leaf links point to single report/manifest; root owns hub/spec integration."
+  },
+  "choices": [
+    {
+      "choice": "Preserve rational correspondence and every original tick/flag separately.",
+      "verdict": "sound",
+      "confidence": "high",
+      "why": "Makes the existing writer clock normalization visible rather than hiding131 differences."
+    },
+    {
+      "choice": "Use distinct same-track cursors per sample plus before/after position facts.",
+      "verdict": "sound",
+      "confidence": "high",
+      "why": "Actual predicates use fixed distinct sample positions; visitor cursor reuse cannot collapse comparisons."
+    },
+    {
+      "choice": "Keep all sync/dependency/refresh facts descriptive.",
+      "verdict": "sound",
+      "confidence": "high",
+      "why": "Closed metadata cannot authorize a stability criterion or adoption."
+    }
+  ],
+  "bankingCheck": {
+    "archiveAndAll27MembersRehashed": true,
+    "completeSavedCheckerFromExtraction": {
+      "status": "pass",
+      "completeRows": 197,
+      "sameTrackDistinctUnmovedCursors": 197,
+      "orderingQueries": 589,
+      "negativeControlsRejected": [
+        "native-PTS",
+        "cursor-position"
+      ],
+      "protectedPins": 123,
+      "cacheFilesUnchanged": 307,
+      "scope": "Saved evidence values only; no native replay"
+    },
+    "exitCode": 0,
+    "nativeReplay": false
+  }
+}
