@@ -6428,3 +6428,8 @@ The [current cardinality ledger](assets/24z-current-preparation/choices.md) reta
 fresh public admission instead of migrating the frozen seed, untimed correctness
 and distinct prospective process observation. Root verified actual retained modules
 and unchanged sources; preparation inherits no historical p95 verdict.
+
+The [12h case ledger](assets/12h-retained-sentence-recognition/choices.md) retains
+reuse of the genuine emitted Models owner and compact evidence storage. Root
+verified their actual bindings. Clock mapping, one-attempt stopping and retention
+of failed timing follow the explicit plan; they add no editorial or adoption rule.

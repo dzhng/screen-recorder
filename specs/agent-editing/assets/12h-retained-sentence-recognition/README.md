@@ -37,3 +37,9 @@ or parent/full-release completion follows. The failed gate ends the case.
 
 [Choices](choices.md) records the storage and owner decisions. The toolkit makes
 zero editorial decisions; this evidence does not authorize any removal or treatment.
+
+The [merged root verification](merged.json) rehashes the complete final packet,
+actual model/receipt preservation and current native source bindings, then
+replays the saved result through the shared scorer. Its timing-owner audit finds
+that source coordinates are correctly mapped; no fitted shift or threshold change
+is justified. No recognition was repeated during integration.

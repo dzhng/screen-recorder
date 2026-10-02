@@ -19,44 +19,32 @@ Implement the remaining primitives through their existing owners. Read
 [contracts](contracts.md), [architecture](architecture.md),
 [verification](verification.md), [journeys](journeys.md) and [processing](processing.md).
 The external caller makes every editorial decision. The consumer
-[screenrec skill](../../skills/screenrec/SKILL.md) is a product artifact; repository
-developers read or edit it from that caller's perspective.
+[screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
+repository developers read or edit it from that perspective.
 
-**Next pickup: [12 known speech omission](slices/12-speech-evidence.md).**
-Investigate the human-confirmed opening “um” using retained input provenance,
-outputs and marks before proposing one bounded isolated recognition experiment.
-Preserve the selected baseline; a presence check cannot establish word-edge timing
-or broader quality. The [current cardinality fixture](assets/24z-current-preparation/README.md)
-and correctness proof are integrated, but its [coordinated preflight](assets/24z-current-preparation/coordinated-preflight.json)
-found active unrelated rendering/simulation. No timing started. Revisit only after
-a changed coordinated window with a fresh check; do not poll the host. [23l paired frames](assets/23l-paired-edited-frames/README.md) verifies public
-join membership, final sample support and default cached delivery; composition
-pixel correspondence remains open. Preserve its completed media cohort.
-[23m partial words and absent roles](slices/23m-paired-partial-words-and-absent-role.md)
-passes its merged complete saved-proof verifier and startup controls after
-[23n genuine model preparation](slices/23n-parakeet-model-readiness.md). Broader
-speech quality and positive system acquisition remain separate.
-Current [24z preparation](assets/24z-current-preparation/README.md) and merged
-correctness authority pass; no timing cohort launches before a coordinated fresh
-host check.
-The completed readiness packet is preserved; its [checker lifecycle controls](assets/23n-parakeet-readiness-lifecycle/README.md)
-pass on the merged tree without repeating preparation or inference. Keep same-request frame
-selection distinct from matched-source picture comparisons. Authored freeze,
-repeat and empty intervals have no legacy cut/trim counterpart.
+**Next pickup: CLI delivery service selection.** Correct the
+[CLI caller](../../apps/cli/src/main.ts) so one validated invocation retains its
+resolved socket through dispatch and automatic single/batch delivery. Verify
+actual default discovery, complete delivered files and disappearance without
+bootstrap or operation replay. This pins a socket path, not a service instance.
 
-[23k composed native consumers](slices/23k-source-consumer-bridge.md) passes its
-merged check and unchanged default consumer checks. Actual metadata paging and
-selected-owner dispatch remain separate from historical readiness consumed with
-an inert presenter; live rendering and presentation are still unverified.
-[12g evaluator policy](slices/12g-evaluator-policy.md) passes its merged scorer
-checks: filler rates remain informational, explicit required words retain their
-existing enforcement, and broader speech quality remains open.
+The [12h sentence case](slices/12h-retained-sentence-recognition.md) is banked:
+opening `um` is represented, but timing fails. Its
+[root verification and owner audit](assets/12h-retained-sentence-recognition/merged.json)
+find no supported coordinate correction. Preserve the selected baseline. Separate
+preparation of the pinned supplied-text aligner is in progress; qualify exact
+model/dependency/input authority before any fixed alignment experiment. Presence
+alone cannot establish accurate word edges or broader quality.
 
-[24z11 complete results](slices/24z11-operation-result-delivery.md) and
-[24z12 MCP media admission](slices/24z12-mcp-media-admission.md) retain their merged
-consumer proof without changing transport limits or deadlines. The
-[23 preservation correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-owns remaining outcome gaps. Reuse closed cohorts rather than repeat them.
+Then revisit [24z timing](assets/24z-current-preparation/README.md) only after a
+changed coordinated host window and fresh preflight. The actual
+[busy-host deferral](assets/24z-current-preparation/coordinated-preflight.json)
+started no timing; do not poll the host. Preserve the completed
+[23l frame cohort](assets/23l-paired-edited-frames/README.md): join membership,
+final support and default cached delivery pass, but composition pixel
+correspondence remains open. The remaining
+[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
+owns physical/lifecycle, presentation and installed prerequisites.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -68,35 +56,30 @@ owns remaining outcome gaps. Reuse closed cohorts rather than repeat them.
 | [25 external caller](slices/25-agent-acceptance.md) | [Fresh source-caller workflow](slices/25b-fresh-caller.md) completed the supplied brief, delivery, history and empty-recipient recovery | Independent MCP caller coverage, installed/default discovery and full listening/physical/final release gates |
 
 [Banked evidence](assets/integrated-evidence.md) and
-[source/runtime identities](assets/implementation-pickup.md) remain authoritative.
-Keep original failed checks beside later material corrections. Do not infer timeout
-causality, change deadlines or repeat a cohort without a concrete supported change.
-The original source-cardinality timing cohort retains its separate dispatch
-prerequisites; do not poll or repeat it. Host contention and open acceptance claims
-do not stop independent implementation.
+[source/runtime identities](assets/implementation-pickup.md) own retained proof.
+Reuse closed cohorts, original inputs, failed checks and accepted outputs. A new
+experiment needs one named technical gap and a fixed stopping condition; missing
+historical authority does not authorize another accepted run or relaxed gate.
 
-Reuse the retained 246-second camera and roughly 251-second screen, original
-journals, recovered media, saved marks and accepted verification. Preserve accepted
-retiming/denoise/voice and the chosen 200 ms ambience loop, including its tolerated
-slight seam. Do not retune or repeat accepted auditions, transfer their verdicts to
-changed output, or restart the retired repetition-intent solicitation.
+Reuse the retained four-minute take, journals and saved marks. Preserve accepted
+retiming/denoise/voice and the selected 200 ms ambience loop, including its tolerated
+slight seam; the 250 ms version is rejected. No personal keep/remove judgment is a
+development prerequisite. A human task must name the missing fact and explain why
+existing evidence cannot establish it.
 
-Model work within the planned primitives is authorized in isolated storage;
-preserve the selected baseline, original prepared files and accepted recipes.
-A named quality gap must justify a separate replacement experiment.
-No new capture, audible playback, native windows, Claude run, configured CLI-review
-retry, frozen-worker replacement or installed-app switch is authorized. Preserve
-installed span transactions until explicit cutover; capture publishes source facts
-and creates no project. The caller authors canvas, tracks, placements and links.
-[Offline worker preservation](assets/acceptance-maintenance/native-worker-preservation.json)
-retains verified copies outside temporary storage; original workers remain unchanged.
-These copies were not executed and supply no missing historical timing authority.
+Model work is authorized in isolated storage; preserve original prepared files,
+runtime homes, receipts and accepted recipes. No new capture, audible playback,
+native windows, Claude run, configured CLI-review retry, frozen-worker replacement
+or installed-app switch is authorized. Keep
+[preserved worker bytes](assets/acceptance-maintenance/native-worker-preservation.json)
+and installed span transactions intact until explicit cutover. Capture publishes
+source facts; the caller authors projects, layouts and edits. No migration or
+obsolete-owner deletion begins before its prerequisites.
 
-Any proposed human task must name the missing technical fact and explain why
-retained evidence cannot establish it. Missing evidence remains unverified;
-continue independent primitive work. Keep this pickup, checklist and owning Status
-lines consistent. Full release scope remains open; isolated readiness is not
-release acceptance.
+Keep this pickup, checklist and owning Status lines consistent. Continue
+independent implementation while acceptance remains open. Full release still
+requires speech coverage, physical synchronization/live stop, complete consumer
+cutover, final scale and independent installed MCP caller proof.
 
 ## Outcome and boundaries
 
@@ -194,6 +177,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
 - [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
+- [x] [12h — Unchanged retained-sentence recognition](slices/12h-retained-sentence-recognition.md) — one case banked; timing fails and parent 12 remains open
 - [x] [12g — Evaluator best-effort filler policy](slices/12g-evaluator-policy.md) — scorer contract only; parent speech quality remains open
 - [x] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [x] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)

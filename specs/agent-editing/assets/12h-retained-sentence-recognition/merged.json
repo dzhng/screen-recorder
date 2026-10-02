@@ -1,0 +1,121 @@
+{
+  "rootCommit": "826bbf93",
+  "childCommits": [
+    "d599d974",
+    "59638e49483fe7ad4c0a81a0254c8b978db12146"
+  ],
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 774668,
+    "sha256": "5a4177d51d3eb7f742fd9b5e3f036a527a42957e84cce7f68ff90471d0632f74"
+  },
+  "packetPayloadsRehashed": 41,
+  "maintainedBindingsChecked": 9,
+  "preservedAuthoritiesRehashed": 54,
+  "managedFilesRehashed": 22,
+  "currentRootNativeSourcesRehashed": 69,
+  "managedReceiptMatchesActualHome": true,
+  "rootSharedScorer": {
+    "rootSharedScorer": true,
+    "marked": 6,
+    "medianMs": 112.5,
+    "p95Ms": 456.8,
+    "worstMs": 549,
+    "allRawCoordinateMappingsVerified": 14,
+    "timingAcceptance": false,
+    "firstComparisonFailure": "Generic owner interpretation string differs from case-specific human-label scope; all numerical and boundary fields identical",
+    "descriptiveScope": {
+      "ownerInterpretation": "Only inherited visually marked edges; not a complete word/filler evaluation.",
+      "caseInterpretation": "Six existing independent sentence edges; workbench is outside this case."
+    },
+    "newInference": false
+  },
+  "checks": [
+    {
+      "command": "node specs/agent-editing/assets/12h-retained-sentence-recognition/verify.mjs /tmp/screenrec-12h-root-final",
+      "exitCode": 0
+    },
+    {
+      "command": "node --test specs/agent-editing/assets/12h-retained-sentence-recognition/evaluate.test.mjs",
+      "exitCode": 0,
+      "passed": 3
+    },
+    {
+      "command": "project oxlint on five owned .mjs files",
+      "exitCode": 0
+    },
+    {
+      "command": "project oxfmt --check on five owned .mjs files",
+      "exitCode": 0
+    },
+    {
+      "command": "root-to-leaf local Markdown target check",
+      "exitCode": 0,
+      "targetsResolved": 439
+    }
+  ],
+  "timingOwnerAudit": {
+    "sourceBase": "2591aa28c99c2cea064e0d312742020343f63169",
+    "pins": [
+      {
+        "path": "helpers/mac/Sources/ScreenRecorderSpeech/WordTimingMerger.swift",
+        "bytes": 5467,
+        "sha256": "35521560f6a61537bf8f318817c7703322c53f824bd9ba381ddff5229daf4f7b"
+      },
+      {
+        "path": "helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift",
+        "bytes": 8301,
+        "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+      },
+      {
+        "path": "helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift",
+        "bytes": 4254,
+        "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+      },
+      {
+        "path": "helpers/mac/Sources/ScreenRecorderMedia/ExactTime.swift",
+        "bytes": 8410,
+        "sha256": "dab2c730deb23755afa6b48bf6195515f28dd2fa23f3bd0287fd0caf87d83a08"
+      },
+      {
+        "path": "helpers/mac/Sources/ScreenRecorderWire/SpeechOperation.swift",
+        "bytes": 2322,
+        "sha256": "52dbff5325b3e071f777e84ec73afbf7b976c15ac75bad2571fd3a5997d8c0ee"
+      },
+      {
+        "path": "packages/test-harness/editing/speech/alignment-probe.py",
+        "bytes": 3425,
+        "sha256": "ad50ae030bf6296901f60f6c2b666faba07f8bf6c2c76cd486f75b6363fd866d"
+      },
+      {
+        "path": "packages/test-harness/editing/speech/score-candidate.mjs",
+        "bytes": 1595,
+        "sha256": "0fb702e6c657c22de4aa425ddc0553378881be754df7854fed7e195c57a515ac"
+      },
+      {
+        "path": "packages/test-harness/editing/speech/annotation-time.mjs",
+        "bytes": 3613,
+        "sha256": "e54d7bfb3012188c381ed5d46df64af33c6315633a0d242edc2173e71cf73f19"
+      }
+    ],
+    "rawSha256": "37a595ed45fa8c7004b9a06fb58b3ee426818f4b2396a28c1fe567ad74402689",
+    "all14SourceSpansEqualRoundedSpokenSeconds": true,
+    "projectionOriginUs": 50518675,
+    "projectionAppliedOnce": true,
+    "paragraphLocalEngineRangeUs": [
+      1760000,
+      2960000
+    ],
+    "paragraphLocalHumanRangeUs": [
+      1910000,
+      2411000
+    ],
+    "punctuationEndUs": 3520000,
+    "punctuationExcluded": true,
+    "widthErrorUs": 699000,
+    "finding": "No supported production coordinate/unit/boundary correction. Engine estimates already contain the mixed-sign errors; a fitted shift cannot fix word width. Forced alignment remains a supplied-text research candidate, not a production operation."
+  },
+  "noNewInference": true,
+  "noBaselineAdoption": true,
+  "parentSpeechGateOpen": true
+}

@@ -13,6 +13,14 @@ independent joins and held-out quality remain open. The
 [repetition-intent solicitation](../assets/12-repetition-intent/README.md)
 is retired as a development prerequisite. Dependencies: [00](./00-corpus.md).
 
+
+The [retained-sentence recognition case](12h-retained-sentence-recognition.md)
+represents the opening `um` and inherited words, but fails its six independent
+edge timing gate. Its [root owner audit](../assets/12h-retained-sentence-recognition/merged.json)
+finds no supported coordinate correction; raw engine estimates already contain
+the errors. This separate input context does not explain the historical omission
+or select a replacement recipe.
+
 ## Contract
 
 Verify that local transcript, timing and inspection primitives expose useful
