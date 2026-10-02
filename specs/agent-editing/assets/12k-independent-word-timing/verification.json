@@ -1,0 +1,374 @@
+{
+  "status": "bounded actual execution failed; no lexical/timing output",
+  "sourceBase": "cd57ac075ee86efe1f2a86e7c177c08155cfc4ae",
+  "producer": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/producer.mjs",
+    "bytes": 10873,
+    "sha256": "12f873baf0df84c370e7ff151aef3695ae0c4e960f24f5632b7c08f1bcfce71e"
+  },
+  "node": {
+    "version": "v24.14.0",
+    "pin": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "bytes": 119133456,
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    }
+  },
+  "command": {
+    "executable": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+    "argv": [
+      "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/producer.mjs"
+    ],
+    "cwd": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder"
+  },
+  "nativeArgv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))",
+    "/tmp/screenrec-09c-native-presented-worker"
+  ],
+  "nativePID": 34310,
+  "startedAt": "2026-10-02T04:04:05.361Z",
+  "terminal": {
+    "pid": 34310,
+    "code": null,
+    "signal": "SIGKILL",
+    "closedAt": "2026-10-02T04:05:05.586Z"
+  },
+  "producerSession": 51087,
+  "producerExitCode": 1,
+  "bounds": {
+    "requestSeconds": 60,
+    "outerSeconds": 360,
+    "drainSeconds": 15,
+    "stdioBytes": 8388608,
+    "retry": false
+  },
+  "requestCount": 2,
+  "successfulReplyCount": 1,
+  "recognitionAttempts": 1,
+  "recognitionReplies": 0,
+  "error": "AssertionError [ERR_ASSERTION]: Request60s bound speech.transcribe",
+  "failure": "Request60s bound speech.transcribe",
+  "exchanges": [
+    {
+      "request": {
+        "id": "media.probe",
+        "operation": "media.probe",
+        "params": {
+          "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav"
+        }
+      },
+      "reply": {
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "lpcm",
+              "decodable": true,
+              "endUs": {
+                "denominator": 147,
+                "numerator": 238360000
+              },
+              "id": "track:1",
+              "kind": "audio",
+              "sampleRate": 44100,
+              "segments": [
+                {
+                  "empty": false,
+                  "endUs": {
+                    "denominator": 147,
+                    "numerator": 238360000
+                  },
+                  "mediaDurationUs": {
+                    "denominator": 147,
+                    "numerator": 238360000
+                  },
+                  "mediaStartUs": 0,
+                  "startUs": 0
+                }
+              ],
+              "startUs": 0
+            }
+          ]
+        },
+        "id": "media.probe",
+        "ok": true
+      }
+    },
+    {
+      "request": {
+        "id": "speech.transcribe",
+        "operation": "speech.transcribe",
+        "params": {
+          "models": {
+            "directory": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+            "files": [
+              {
+                "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+                "bytes": 243,
+                "sha256": "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05"
+              },
+              {
+                "path": "Decoder.mlmodelc/coremldata.bin",
+                "bytes": 554,
+                "sha256": "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8"
+              },
+              {
+                "path": "Decoder.mlmodelc/metadata.json",
+                "bytes": 3427,
+                "sha256": "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2"
+              },
+              {
+                "path": "Decoder.mlmodelc/model.mil",
+                "bytes": 13106,
+                "sha256": "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579"
+              },
+              {
+                "path": "Decoder.mlmodelc/weights/weight.bin",
+                "bytes": 14429952,
+                "sha256": "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba"
+              },
+              {
+                "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+                "bytes": 243,
+                "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+              },
+              {
+                "path": "Encoder.mlmodelc/coremldata.bin",
+                "bytes": 485,
+                "sha256": "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030"
+              },
+              {
+                "path": "Encoder.mlmodelc/metadata.json",
+                "bytes": 2926,
+                "sha256": "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63"
+              },
+              {
+                "path": "Encoder.mlmodelc/model.mil",
+                "bytes": 959769,
+                "sha256": "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808"
+              },
+              {
+                "path": "Encoder.mlmodelc/weights/weight.bin",
+                "bytes": 445187200,
+                "sha256": "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e"
+              },
+              {
+                "path": "JointDecision.mlmodelc/analytics/coremldata.bin",
+                "bytes": 243,
+                "sha256": "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7"
+              },
+              {
+                "path": "JointDecision.mlmodelc/coremldata.bin",
+                "bytes": 534,
+                "sha256": "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11"
+              },
+              {
+                "path": "JointDecision.mlmodelc/metadata.json",
+                "bytes": 2936,
+                "sha256": "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c"
+              },
+              {
+                "path": "JointDecision.mlmodelc/model.mil",
+                "bytes": 9722,
+                "sha256": "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0"
+              },
+              {
+                "path": "JointDecision.mlmodelc/weights/weight.bin",
+                "bytes": 3453388,
+                "sha256": "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d"
+              },
+              {
+                "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+                "bytes": 243,
+                "sha256": "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8"
+              },
+              {
+                "path": "Preprocessor.mlmodelc/coremldata.bin",
+                "bytes": 494,
+                "sha256": "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6"
+              },
+              {
+                "path": "Preprocessor.mlmodelc/metadata.json",
+                "bytes": 2974,
+                "sha256": "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb"
+              },
+              {
+                "path": "Preprocessor.mlmodelc/model.mil",
+                "bytes": 27166,
+                "sha256": "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e"
+              },
+              {
+                "path": "Preprocessor.mlmodelc/weights/weight.bin",
+                "bytes": 298880,
+                "sha256": "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc"
+              },
+              {
+                "path": "README.md",
+                "bytes": 1665,
+                "sha256": "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02"
+              },
+              {
+                "path": "parakeet_vocab.json",
+                "bytes": 18762,
+                "sha256": "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97"
+              }
+            ]
+          },
+          "track": {
+            "source": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": {
+                  "denominator": 147,
+                  "numerator": 238360000
+                }
+              }
+            ]
+          },
+          "output": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k/recognition.raw.jsonl"
+        }
+      },
+      "reply": null
+    }
+  ],
+  "engineExpected": {
+    "computeUnits": "cpuAndNeuralEngine",
+    "decoder": "parakeet-tdt-batch",
+    "encoderPrecision": "int8",
+    "runtime": "FluidAudio",
+    "runtimeVersion": "0.15.7"
+  },
+  "lexical": null,
+  "timing": null,
+  "rawRecognition": null,
+  "privateAuthority": [
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k/report.json",
+      "bytes": 33790,
+      "sha256": "2ee225355694b3b162d054c340922505e7285f2d0fb0a10265a4f83666e046f1"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k/reference.json",
+      "bytes": 907,
+      "sha256": "142c5aa56b0b589731ed959e512d341377f595d77e6cc85195a15449c0695808"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k/frozen-input.json",
+      "bytes": 11899,
+      "sha256": "7cc81a792159c8da502bd67e488d10c37690170f0a37342a409844f1334b1e56"
+    }
+  ],
+  "sourceAndModelPreservation": {
+    "beforeEqualsAfter": true,
+    "checkedFiles": 34,
+    "modelFiles": 22,
+    "directory": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+    "method": "Complete SHA256/byte identities before dispatch and after actual native close; each model matched original genuine native-request declaration. Exact arrays in private report.json."
+  },
+  "runtimeAndInputPins": [
+    {
+      "path": "/tmp/screenrec-09c-native-presented-worker",
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav",
+      "bytes": 143060,
+      "sha256": "f4eed842118140c5e33eb9b51dfab2f898069df86ae7b0d725a46c7209afe4dc"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.TextGrid",
+      "bytes": 3579,
+      "sha256": "bb2e198e06fb6646f7f60f6548e5ed7d6d558987bad52c4d0e9a278190d88573"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/qualification.json",
+      "bytes": 13255,
+      "sha256": "398ea53d4e1f51aa0e3b0ac6c3abcff37e9f4b3b5fa60643afa8af361d97ff74"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/frozen.json",
+      "bytes": 1073,
+      "sha256": "7bd99ad05d8ac1a166397c0f32d1c667e43b973d620f775f9ffc5d9fa68299df"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/evidence/readiness-final/native-request.json",
+      "bytes": 3916,
+      "sha256": "081be2bda6474a995438c92a13395110a8e1ad8b120ef384898c38bac7acfb8c"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/receipt.json",
+      "bytes": 2147,
+      "sha256": "88f67ea28d36294e847338ad7892655604380511c739b216e2f4ca40f0333f2d"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/speech/evaluate.mjs",
+      "bytes": 10410,
+      "sha256": "a841656161b6adad6bf9f096088585f115ec8746b434b224809e33e88bce1dd7"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/core/src/model-registry.ts",
+      "bytes": 7539,
+      "sha256": "eb15f1891136f278c4c934e278b5b10d95a81063d5ea1b5dadec59acfa372003"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift",
+      "bytes": 8301,
+      "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift",
+      "bytes": 4254,
+      "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/WordTimingMerger.swift",
+      "bytes": 5467,
+      "sha256": "35521560f6a61537bf8f318817c7703322c53f824bd9ba381ddff5229daf4f7b"
+    }
+  ],
+  "selection": {
+    "speaker": "LXC",
+    "utterance": "arctic_a0018",
+    "sourceRoot": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example",
+    "wholeUtterance": true,
+    "manualWords": 5,
+    "edgeObservations": 10,
+    "distinctTimes": 6,
+    "fillers": 0,
+    "frozenBeforeModelWork": true,
+    "kind": "Local independent fixed example, not proven model-training exclusion"
+  },
+  "phaseLimit": "Metadata validates complete source. Last emitted initialization lines report local model found and Preprocessor loaded(cpuOnly), followed by another local-model-found line. No later load/inference result before deadline; no cause or quality failure inferred.",
+  "limits": [
+    "NC corpus audio/TextGrid/reference rows are outsideGit; no source redistribution.",
+    "No raw recognition or timing/lexical score exists; counts/errors must not be fabricated from metadata.",
+    "No force alignment, new model/preparation/download, crop, parameter sweep, repeated inference or deadline relaxation.",
+    "No isolated latency/RSS, full quality, listening, model-unseen or adoption verdict.",
+    "Original prepared directory differs from12j separate12h managed home; same selected files/worker recipe, no cache equivalence or timing causal claim."
+  ],
+  "payloads": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/producer.mjs",
+      "bytes": 10873,
+      "sha256": "12f873baf0df84c370e7ff151aef3695ae0c4e960f24f5632b7c08f1bcfce71e"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/native.stdout",
+      "bytes": 391,
+      "sha256": "a05a465d3e7ddea23318f81d939c49b1f6546927137ac526f0adc797a2b95d26"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/native.stderr",
+      "bytes": 921,
+      "sha256": "4fe092f17639b4a8ec1605d2b2c387aa12fb0616b609dfd19bf4a92ea286cb99"
+    }
+  ]
+}

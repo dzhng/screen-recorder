@@ -1,0 +1,6 @@
+[21:04:06.797] [INFO] [FluidAudio.AsrModels] Loading ASR models from: /Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2
+[21:04:06.807] [INFO] [FluidAudio.DownloadUtils] Host environment: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[21:04:06.808] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[21:04:07.284] [INFO] [FluidAudio.DownloadUtils] Compiled model Preprocessor.mlmodelc in 474.12 ms :: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[21:04:07.284] [INFO] [FluidAudio.AsrModels] Loaded Preprocessor.mlmodelc with compute units: cpuOnly
+[21:04:07.285] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed

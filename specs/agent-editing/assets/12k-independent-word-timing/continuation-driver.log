@@ -1,0 +1,2 @@
+{"event":"native-started","pid":48506}
+{"event":"native-closed","terminal":{"pid":48506,"code":0,"signal":null,"closedAt":"2026-10-02T04:13:57.280Z"},"completed":true,"evaluation":"pending","error":null}

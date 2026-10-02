@@ -1,0 +1,85 @@
+{
+  "status": "read-only phase attribution; no supported cause or retry selected",
+  "lastCompletedStage": "Preprocessor.mlmodelc load returned and AsrModels emitted Loaded Preprocessor... cpuOnly",
+  "pendingStage": "Next sequential model is Encoder.mlmodelc. Last local-found line precedes layout validation and synchronous MLModel(contentsOf:configuration:) initialization; no Compiled/Loaded Encoder completion log. Exact stuck subcall is not observed.",
+  "recognitionBoundary": "SourceTranscript awaits ParakeetEngine.load before engine.transcribe. Encoder load precedes decoder/joint/manager readiness. The observed execution did not reach ASR recognition, so no baseline lexical/timing or inference latency score follows.",
+  "compiledLogMeaning": "ModelHub logs Compiled model only after MLModel(contentsOf:...) returns; this is runtime CoreML loading, not our running model.prepare or compiling/replacing the native worker.",
+  "sameAsSuccessful12j": {
+    "worker": "same0a complete byte identity",
+    "modelFiles": true,
+    "engineDefaults": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "sandboxProfile": "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))",
+    "requestSeconds": 60,
+    "operations": ["media.probe", "speech.transcribe"],
+    "paramsShape": ["models", "track", "output"],
+    "sourceOffsetUs": 0,
+    "fullSingleStreamSupport": true,
+    "hostSummary": "Both saved logs state macOS26.6.2/build25G83, arm64 AppleM5Pro18cores48GB; no current host contention measurement."
+  },
+  "concreteDifferences": {
+    "modelDirectory12j": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/home/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+    "modelDirectory12k": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/home/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+    "audio12j": "complete22050Hz mono acted utterances",
+    "audio12k": "complete44100Hz mono16bit PCM1.6214965986s",
+    "nativeSelection": "same existing audio owner converts readable whole interval to16k mono before model loading",
+    "currentComputeCacheState": "not measured; identical model bytes do not establish equal CoreML cache state"
+  },
+  "shapeDisposition": "No omitted model files, altered names/revision/compute settings or typed unsupported-shape refusal observed. Local-cache presence succeeds for Preprocessor and next model; actual frozen worker began model loading. No new waveform/model shape requirement inferred.",
+  "readiness23nLimit": "Successful23n model.list/status/prepare/nativeRequest and audioCapabilities establish registered-file readiness; they did not execute ASR loading/inference, so cannot contradict this initialization timeout.",
+  "upstreamRevision": "41540ea237350afe5117a082b5c28eda642d0612 (0.15.7), retained checkout clean and matches Package.resolved",
+  "sourcePins": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/SourceTranscript.swift",
+      "bytes": 8301,
+      "sha256": "bf02fe2cbb475857afd9f868d247eeb112a9dfa98d33f833c609521defba9ce5"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderSpeech/ParakeetEngine.swift",
+      "bytes": 4254,
+      "sha256": "07a91e365a1fbaaa641c9da0bd5e4faa6785974cdb9ad0492f9b4c669f16612b"
+    },
+    {
+      "path": "/tmp/screenrec-09c-native-build/checkouts/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/AsrModels.swift",
+      "bytes": 28273,
+      "sha256": "0cb67e52f22044b1fa9cbaeed89af1809138767811804a62a947ab3d16d23346"
+    },
+    {
+      "path": "/tmp/screenrec-09c-native-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/ModelHub.swift",
+      "bytes": 36436,
+      "sha256": "647aa1454145ed86293b021cb09d8551c1f6aa1c2cfa1710527ad614e059b3a9"
+    },
+    {
+      "path": "/tmp/screenrec-09c-native-build/checkouts/FluidAudio/Sources/FluidAudio/Shared/Download/ModelCache.swift",
+      "bytes": 9750,
+      "sha256": "1cef89255655effbede1e8c60ec2012aaddc6695eca63397ba634e75497bd778"
+    }
+  ],
+  "comparisonAuthorities": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12j-external-lexical-diagnostic/report.json",
+      "bytes": 446463,
+      "sha256": "6cb5eb01a757662d4018a937436251e57e74e5b77ea1de6ccfb6c40a13e2f6d4"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12j-external-lexical-diagnostic/native.stderr",
+      "bytes": 58804,
+      "sha256": "449d54391acd004939d8911119ca5fedf2a7f3ffa45c4a20febfd06459f0b973"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12j-external-lexical-diagnostic/producer.mjs",
+      "bytes": 8727,
+      "sha256": "47bca367c31da55e1b3b2cd0bc42e024a7521b0016d57e1074e0e36fb687e273"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/parakeet-23n-db6b985b/evidence/readiness-final/report.json",
+      "bytes": 87684,
+      "sha256": "6e1684fb5d4bb076bbc6d417b28d533d9a91ded7d443c6f3617d3a19b6a4de47"
+    }
+  ]
+}
