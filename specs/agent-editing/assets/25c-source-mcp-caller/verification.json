@@ -1,0 +1,230 @@
+{
+  "scope": "Independent saved-data verification; no service/query/render/inference replay",
+  "passed": true,
+  "replies": [
+    {
+      "path": "after-current.reply.json",
+      "bytes": 3852,
+      "ok": true
+    },
+    {
+      "path": "after-pinned.reply.json",
+      "bytes": 3852,
+      "ok": true
+    },
+    {
+      "path": "after-stale-current.reply.json",
+      "bytes": 3852,
+      "ok": true
+    },
+    {
+      "path": "before-pinned.reply.json",
+      "bytes": 2793,
+      "ok": true
+    },
+    {
+      "path": "image-delivery-close.reply.json",
+      "bytes": 318,
+      "ok": true
+    },
+    {
+      "path": "prior-after.reply.json",
+      "bytes": 2793,
+      "ok": true
+    },
+    {
+      "path": "raw-image.reply.json",
+      "bytes": 3143,
+      "ok": true
+    },
+    {
+      "path": "replay.reply.json",
+      "bytes": 8026,
+      "ok": true
+    },
+    {
+      "path": "source-asset.reply.json",
+      "bytes": 1353,
+      "ok": true
+    },
+    {
+      "path": "split.reply.json",
+      "bytes": 8026,
+      "ok": true
+    },
+    {
+      "path": "stale-different-mutation.reply.json",
+      "bytes": 656,
+      "ok": false
+    }
+  ],
+  "envelopeCount": 39,
+  "pairedRequests": 18,
+  "toolsCount": 83,
+  "revisions": {
+    "before": "65b543fc-0599-45d8-83c2-004c60afac86",
+    "after": "21fb9aa4-80ab-4e25-97dc-5b4d85fafd6d",
+    "ordinals": [
+      0,
+      1,
+      2
+    ],
+    "persistedRequests": 2
+  },
+  "completeProtectedDocument": true,
+  "replaySameData": true,
+  "truthfulStaleNoMutation": true,
+  "image": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/25c-source-mcp-caller/caller/raw-source-0.png",
+    "bytes": 329,
+    "sha256": "0c6b78bd6f1ef24e20f2c1cd4a8854511a7fb0be74d6f1a84c5308e7eb5b6b8d"
+  },
+  "equalPreparedAndAcceptedPNG": true,
+  "cachedImageGeneration": 2,
+  "processEvents": [
+    {
+      "event": "spawn",
+      "kind": "source",
+      "parentPid": 33556,
+      "pid": 33912
+    },
+    {
+      "event": "spawn",
+      "kind": "mcp",
+      "parentPid": 33556,
+      "pid": 34065
+    },
+    {
+      "event": "spawn",
+      "kind": "mcp",
+      "parentPid": 37584,
+      "pid": 37625
+    },
+    {
+      "event": "node-exit",
+      "pid": 37625,
+      "code": 0
+    },
+    {
+      "event": "close",
+      "kind": "mcp",
+      "parentPid": 37584,
+      "pid": 37625,
+      "code": 0,
+      "signal": null
+    },
+    {
+      "event": "node-exit",
+      "pid": 37584,
+      "code": 0
+    },
+    {
+      "event": "spawn",
+      "kind": "mcp",
+      "parentPid": 37924,
+      "pid": 37942
+    },
+    {
+      "event": "node-exit",
+      "pid": 37942,
+      "code": 0
+    },
+    {
+      "event": "close",
+      "kind": "mcp",
+      "parentPid": 37924,
+      "pid": 37942,
+      "code": 0,
+      "signal": null
+    },
+    {
+      "event": "node-exit",
+      "pid": 37924,
+      "code": 0
+    },
+    {
+      "event": "spawn",
+      "kind": "mcp",
+      "parentPid": 39061,
+      "pid": 39112
+    },
+    {
+      "event": "node-exit",
+      "pid": 39112,
+      "code": 0
+    },
+    {
+      "event": "close",
+      "kind": "mcp",
+      "parentPid": 39061,
+      "pid": 39112,
+      "code": 0,
+      "signal": null
+    },
+    {
+      "event": "node-exit",
+      "pid": 39061,
+      "code": 0
+    },
+    {
+      "event": "node-exit",
+      "pid": 34065,
+      "code": 0
+    },
+    {
+      "event": "close",
+      "kind": "mcp",
+      "parentPid": 33556,
+      "pid": 34065,
+      "code": 0,
+      "signal": null
+    },
+    {
+      "event": "node-exit",
+      "pid": 33912,
+      "code": 0
+    },
+    {
+      "event": "close",
+      "kind": "source",
+      "parentPid": 33556,
+      "pid": 33912,
+      "code": 0,
+      "signal": null
+    },
+    {
+      "event": "node-exit",
+      "pid": 33556,
+      "code": 0
+    }
+  ],
+  "prepareProducer": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/25c-source-mcp-caller/prepare.mjs",
+    "bytes": 6343,
+    "sha256": "19127aef8b43920f9fbad19f4391c9574f3e58e6b6280cdfa0f2dd5fe32153ce"
+  },
+  "rootPreparationExec": {
+    "session": 32204,
+    "exit": 0
+  },
+  "callerSessions": [
+    {
+      "session": 57171,
+      "exit": 0
+    },
+    {
+      "session": 4369,
+      "exit": 0
+    },
+    {
+      "session": 58290,
+      "exit": 0
+    }
+  ],
+  "limits": [
+    "Discovery-only consumer source was overwritten; labeled reconstruction is not original execution identity. Complete original envelopes survive.",
+    "Preparation initial native allowlist mistake prevented image dispatch; explicit retry reused the same failed job. Initial process exit1 and source/MCP close0 are retained.",
+    "SDK fixture path corrected without installation or setting change.",
+    "Explicit socket and tiny empty-processing hold fixture; no installed/default discovery, listening/physical/complex-project/full-release claim."
+  ]
+}

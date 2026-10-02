@@ -22,14 +22,19 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: [independent source MCP caller coverage](slices/25c-source-mcp-caller.md).**
-Prepare one tiny isolated fixture and give a fresh external caller the consumer
-skill, public SDK/connection coordinates and an explicit technical brief. Verify
-schema discovery, revision-pinned inspection, replay/stale refusal and complete
-cached image delivery through an unconfigured SDK. Reuse existing preparation,
-service and output owners; repeat no accepted synthesis or thirteen-effect journey.
-This advances source MCP use; installed/default discovery and full release
-acceptance remain separate.
+**Next pickup: qualify retained positive system-acquisition correspondence.**
+Reconcile existing20d native/public both-role authorities with the old/new public
+inspection owners before selecting one compact case. No microphone relabeling,
+private row seeding, new capture or playback may manufacture positive system
+proof. If no admissible legacy/public authority exists, retain that exact gap and
+continue other authorized parent work.
+
+[25c independent source MCP](slices/25c-source-mcp-caller.md) now passes:
+a fresh caller discovers public schemas, commits only the requested split,
+recovers the same mutation, observes truthful stale refusal and receives complete
+cached image bytes through the default SDK. Independent saved-data review checks
+all results and actual terminal events. No generation, full editing journey or
+installed/default discovery was repeated; producer-history limits remain visible.
 
 [20f camera scheduling](slices/20f-camera-publication-overlap.md) is integrated:
 compact digest/support, generic prefix, failure order, recovery and actual
@@ -86,7 +91,7 @@ accepted expensive checks without a changed contract or named unresolved risk.
 | [12 speech evidence](slices/12-speech-evidence.md) | Selected baseline, actual model preparation and saved human comparisons remain banked | Broader lexical/acoustic coverage, omitted text, protected words/joins and held-out timing; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | [Controlled allocation-to-project behavior](assets/21f3-public-camera-selection/merged-verification.json), retained originals/journals/recovery | Physical synchronization, live lifecycle and completed-stop deadline |
 | [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports, process ownership and paired edit/history preservation verified | Remaining preservation correspondence, concrete presentation, installed switching and obsolete-owner removal after prerequisites |
-| [25 external caller](slices/25-agent-acceptance.md) | [Fresh source-caller workflow](slices/25b-fresh-caller.md) completed the supplied brief, delivery, history and empty-recipient recovery | Independent MCP caller coverage, installed/default discovery and full listening/physical/final release gates |
+| [25 external caller](slices/25-agent-acceptance.md) | [Source CLI workflow](slices/25b-fresh-caller.md) and [independent source MCP](slices/25c-source-mcp-caller.md) complete their declared brief, recovery and delivery scopes | Installed/default discovery and full listening/physical/final release gates;25c closes compact source MCP only |
 
 [Banked evidence](assets/integrated-evidence.md) and
 [source/runtime identities](assets/implementation-pickup.md) own retained proof.
@@ -355,7 +360,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z12 — Complete MCP media-envelope admission](slices/24z12-mcp-media-admission.md) — merged140 consumer gate; whole-batch deferral before consumption, with complete metadata/live tokens
 - [x] [24z13 — CLI delivery retains service selection](slices/24z13-cli-delivery-selection.md) — merged84 consumer checks; no rediscovery or operation replay during delivery
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
-- [ ] [25c — Independent source MCP caller](slices/25c-source-mcp-caller.md) — compact source checkpoint; installed/release acceptance separate
+- [x] [25c — Independent source MCP caller](slices/25c-source-mcp-caller.md) — compact source checkpoint; installed/release acceptance separate
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

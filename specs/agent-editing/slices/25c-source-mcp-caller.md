@@ -1,7 +1,10 @@
 # Independent source MCP caller checkpoint
 
-Status: specified; fixture and caller execution not yet started. Parent25 remains
-open for installed/default discovery, full scale, physical and listening acceptance.
+Status: scoped source MCP checkpoint passed and independently reviewed.
+[Evidence](../assets/25c-source-mcp-caller/README.md) retains complete discovery,
+requests/replies, explicit mutation/recovery and exact cached image delivery.
+Parent25 remains open for installed/default discovery, full scale, physical and
+listening acceptance.
 Dependencies: existing public project/edit/frame owners; scoped source execution
 can proceed independently of installed cutover.
 
@@ -57,3 +60,11 @@ Do not expand the request, repeat accepted auditions or silently weaken a gate.
 Delegated: caller's expression of the exact request through public primitives;
 internal scratch report names. No editorial policy or API/schema/dependency is
 introduced. Root owns independent verification, integration and parent handoff.
+
+The actual external caller discovered the schemas, chose its requests and used SDK
+defaults. Exactly one caller revision was committed; replay/stale inspection and
+complete image bytes match the independently supplied fixture. Source/helper/MCP
+children have actual zero exit/close events; outer caller completion has terminal
+tool outcomes. Discovery-only source was overwritten and its reconstruction is
+explicitly limited; complete original envelopes and successful available mutation/
+cleanup sources survive. No missing history is inferred and no parent gate closes.

@@ -1,0 +1,28 @@
+{
+  "scope": "Read-only closed-run binding qualification; available source/emission/SDK closure is not an exhaustive loaded-module claim",
+  "gitHead": "2541e46bea19ddbe841cf0c3673cebb880d7f041",
+  "prestartAvailableAuthority": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/successor-ed94019f/runtime-authority.json",
+    "bytes": 147794,
+    "sha256": "9a3ce48ad034cd531e3f9c55d7d343281a03bc66c79e13cc6ccf36c0c7c8ccc6"
+  },
+  "sourceAndEmissionBindings": 675,
+  "scenarioBindings": 6,
+  "sdkESMBindings": 86,
+  "node": {
+    "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+    "bytes": 119133456,
+    "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+  },
+  "native": {
+    "path": "/private/tmp/screenrec-09c-native-presented-worker",
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "actualProducerImportPaths": "Executed available preparation/caller/cleanup snapshots show their declared import and transport paths. Observer records process identities and exits/closes, not a separate argv inventory.",
+  "limits": [
+    "Frozen native worker retained; source-image contract only, no current camera/composition-native or installed adoption inferred.",
+    "Discovery producer overwritten; labeled reconstruction cannot bind its original source.",
+    "No V8 coverage or claim that every available module was loaded."
+  ]
+}

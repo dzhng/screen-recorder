@@ -1,8 +1,10 @@
 # 25 — External-caller primitive acceptance
 
 Status: the [fresh source-caller workflow](25b-fresh-caller.md) is executed and
-verified in its controlled source CLI scope. Independent MCP caller coverage and
-full installed/release acceptance remain open.
+verified in its controlled source CLI scope. The [25c independent source MCP
+checkpoint](25c-source-mcp-caller.md) now passes its compact schema/revision/replay/
+error/image-delivery scope. Full installed/default discovery and release acceptance
+remain open.
 [Input preparation](../assets/25-input-preparation/README.md) and
 [registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
 [focused CLI discovery](../assets/25-cli-discovery/README.md),
