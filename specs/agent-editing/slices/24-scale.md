@@ -24,9 +24,11 @@ pass. [Transcript duration memory](../assets/24-transcript-duration/README.md) a
 250-word reads also pass. The retained phrase-search diagnostic failed the cached-query target;
 [24x](24x-evidence-continuations.md) now passes unchanged latency/memory budgets
 while preserving exact results and fresh generation checks. Populated event/cursor
-queries pass their [24y matched duration checkpoint](24y-source-event-duration.md),
-with an explicitly configured bounded SDK receiver and preserved default-client
-limitation. [24z](24z-source-cardinality.md) targets the still-unmeasured source-selection
+queries pass their [24y matched duration checkpoint](24y-source-event-duration.md)
+with an explicitly configured bounded SDK receiver. Its default-client limitation
+is historical: [complete-result delivery](24z11-operation-result-delivery.md) and
+[MCP media admission](24z12-mcp-media-admission.md) now pass their scoped default
+consumer checks without increasing transport bounds. [24z](24z-source-cardinality.md) targets the still-unmeasured source-selection
 cardinality dimension through the existing query/admission owners. These isolated fixed-cardinality query-family checks do not establish
 final post-cutover budgets, arbitrary source/routing/history cardinality or all
 external client capacities. The retained300-second audio streaming gate now passes unchanged in

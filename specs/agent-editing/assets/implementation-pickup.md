@@ -8,9 +8,12 @@ checks was `/tmp/screenrec-03d-native-build/debug/screenrec-native`, SHA256
 `45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773`.
 On 2026-10-01 it became unavailable before the 24z profile startup. No identical
 retained copy was found at known recorded runtime paths. Do not replace it or use
-an unverified worker for its cohort. New current-source functional checks need a
-separately pinned scratch build with existing offline dependencies. Historical
-workers and measurements retain their own identities below.
+an unverified worker for its cohort. The separately qualified
+[current 24z fixture](24z-current-preparation/README.md) uses the preserved
+`0a9cd72a` worker with its own exact source/runtime bindings. That qualification
+does not restore the missing historical worker or authorize its cohort. Follow the
+live handoff for runtime selection; a scratch build is not a standing prerequisite.
+Historical workers and measurements retain their own identities below.
 
 ## Current pickup
 
@@ -18,11 +21,12 @@ Follow the [live remaining-work plan](../README.md#next-agent-prompt).
 Preserve [21f atomic public selection](../slices/21f3-public-camera-selection.md),
 now [merged-verified](21f3-public-camera-selection/merged-verification.json)
 through actual independent recovery/admission and explicit portable project use.
-Remaining bounded owner attribution follows 24z's separate runtime and host-window
-contract. [Actual owner attribution](24z-owner-profile/README.md) now completes
-both bounded collections after restoring omitted historical static resources;
-asset/acquisition metadata resolution is the next investigation target. No latency
-pass or query optimization is claimed. Its historical [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
+The historical [owner attribution](24z-owner-profile/README.md) completed
+both bounded collections after restoring omitted static resources. Subsequent
+[24z owner corrections](../slices/24z-source-cardinality.md) and the
+[current preparation and correctness proof](24z-current-preparation/README.md)
+supersede that investigation pickup. Timing remains deferred under the separate
+runtime and host-window contract; no latency pass follows. Its historical [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
 identifies model-owner staging mutation before any query; the user's subsequent
 model-work authorization permits that ordinary isolated startup. No repeated cohort
 or physical acceptance follows from preparation.

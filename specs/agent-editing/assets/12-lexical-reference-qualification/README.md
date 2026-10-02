@@ -11,6 +11,8 @@ pretraining exclusion. The candidate is closed for this bounded pass; do not
 repeat the same metadata search or manufacture a timed crop from token position.
 Continue other primitive work. A later lexical experiment needs a named source
 whose complete context interval and applicable use authority are established.
+The additional [LibriSpeech and TIMIT metadata qualifications](metadata-candidates.md)
+also stop before execution; they do not supply independent held-out word timing.
 
 Retained reference text and alignment metadata originate from
 [Rev's speech-datasets](https://github.com/revdotcom/speech-datasets/tree/c05ab6fd8b4b627d123c922a22a39e993dd37635/earnings21).

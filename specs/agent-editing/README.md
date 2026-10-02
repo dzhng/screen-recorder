@@ -185,7 +185,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [09b — Agent-controlled output settings](slices/09b-output-settings.md)
-- [ ] [09c — Audio-only export](slices/09c-audio-only-export.md) — public implementation and both original deadline checks pass; general performance/installed acceptance remain open
+- [x] [09c — Audio-only export](slices/09c-audio-only-export.md) — scoped public implementation and both original deadline checks pass; general performance and installed acceptance remain required under 24/25
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
