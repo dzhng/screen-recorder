@@ -22,20 +22,26 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify a camera-stop mechanism before implementation.**
-The completed [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
-improves the fixed example's timing without an individual regression; parent 12
-remains open and no speech recipe is adopted. Its [root verification](assets/12l-independent-supplied-text-timing/merged.json)
-checks saved sample, clock, text and signed-edge evidence without another run.
+**Next pickup: diagnose the raw-prefix probe's compilation before media.**
+[20g preparation](slices/20g-camera-raw-prefix.md) timed out in the external
+compiler; no writer or decoder ran. Original interrupted setup and corrected
+deadline remain separate. [Root verification](assets/20g-camera-raw-prefix/merged.json)
+checks the saved records and bindings without a replay. Static comparison found
+SDK cache writes near the deadline and a preserved successful compile/cache
+reference. Neither sole cache causality nor source correctness is established.
+Use one bounded compile-only diagnostic with that working reference and unchanged
+probe/physical settings before any physical-case authorization; preserve all
+original outcomes and source/model/runtime namespaces.
 
-Camera stop needs a supported critical-path mechanism before another retained-take
-benchmark. [The dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
-explains why closed-file scheduling alone cannot establish the deadline. Qualify
-whether native committed fragments can support both full ordered decoded-picture
-digests before stop, preserving the existing encoding, clocks, source bytes,
-bounded tail/backlog and truthful recovery. Fragment emission alone proves none
-of these. No source implementation mechanism is selected; no runtime experiment
-starts before its prerequisite is established.
+The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
+improves the fixed example's timing without an individual regression; parent 12
+remains open and no speech recipe is adopted. [Root saved-data checks](assets/12l-independent-supplied-text-timing/merged.json)
+retain sample, clock, text and signed-edge evidence without another run.
+
+Camera stop still needs a supported critical-path mechanism. [The dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
+separates fragment APIs from physical prefix stability and the independent
+canonical traversal. A raw-prefix pass would establish only its own prerequisite;
+no encoding, digest, source identity, deadline or production strategy changes.
 
 [24z timing](assets/24z-current-preparation/README.md) requires a changed coordinated
 window and one fresh preflight: the [latest snapshot](assets/24z-current-preparation/post-correspondence-preflight.json)
@@ -248,6 +254,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
+- [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — compiler preparation timed out; no physical case started
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)

@@ -1,0 +1,18 @@
+{
+  "scope": "Root saved-data only; no compile/media rerun",
+  "archiveMembersChecked": 23,
+  "currentInputSourceRuntimePayloadPinsChecked": 105,
+  "originalCompile": {
+    "pid": 68587,
+    "exit": -9
+  },
+  "correctedCompile": {
+    "pid": 72011,
+    "exit": -9,
+    "seconds": 150.0189025
+  },
+  "allSetupTerminals": true,
+  "mediaDispatches": 0,
+  "physicalQuestion": "unmeasured",
+  "noCauseAssigned": "Compiler timeout has no diagnostic; cache influence remains inference."
+}

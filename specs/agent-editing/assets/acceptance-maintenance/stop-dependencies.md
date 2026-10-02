@@ -121,3 +121,18 @@ the SDK reader contract declares such mutation undefined. A successful raw-prefi
 test would resolve only the first traversal's feasibility, leaving canonical
 production, complete ordered digests, tail/backlog, recovery and stop performance
 unproved. No encoding, digest or deadline change is selected.
+
+Two further source-only candidates remain unselected. Separately exported prefix
+pieces cannot transfer their decoded acceptance to a new assembled MOV without
+settling dependency closure, presentation/endpoints and format/color semantics;
+encoded payload and PTS equality is insufficient. The current final-candidate
+decoded scan remains binding.
+
+A sealed raw MOV that already meets every canonical physical constraint could
+in principle supply canonical content without export. A growing hardlink would
+still need prefix-to-closed stability and exact support equality, which is stricter
+than the scheduling predicate. It also changes the output owner's no-source-alias
+assumption, fault isolation, container identity and link lifetime before admission.
+No such ownership or identity change is selected. If pursued, describe two decoded
+verifications of one shared representation truthfully; the extra name is not an
+independently fabricated movie. Neither candidate establishes the stop deadline.

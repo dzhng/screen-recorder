@@ -6596,3 +6596,17 @@ Only saved recognized text enters inference, so manual marks cannot tune the
 candidate. Verdict: sound, high confidence. This is an isolated comparison, not a new public conversion owner
 or a speech recipe adoption. The copied numerical runner and inventory helper
 remain frozen evidence; the current generic tooling owns future work.
+
+## Camera prefix setup
+
+[20g case choices](assets/20g-camera-raw-prefix/report.json) disclose the fragment
+observer and conservative tail. Root rejected the provisional MP4 box ordering
+before media; retained MOV and native capability evidence instead qualify the
+observer. A coordination interruption during compilation remains separate from
+the corrected compiler deadline, with neither interpreted as physical instability.
+The empty private SDK cache is a low-confidence preparation choice: it isolates
+compilation but may repeat unchanged platform work. Restoring the actual working
+compile/cache reference for a bounded diagnostic is sound, high confidence; it
+preserves the source, numeric recipe and deadline rather than tuning a failed
+physical case. Cache writes near the deadline do not identify the sole cause.
+No canonical alias, remux or incremental verification architecture is selected.
