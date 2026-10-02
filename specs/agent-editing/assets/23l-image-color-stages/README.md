@@ -58,3 +58,6 @@ correction requires its own implementation and affected-contract verification.
 This diagnostic supplies a concrete reason to investigate it; it does not authorize
 an identity-only bypass, alter movie output, close the original paired-frame
 preservation gate or adopt a tolerance.
+
+Root [merged verification](merged.json) checks both immutable packets and rederives
+the complete saved pixel differences without another diagnostic execution.

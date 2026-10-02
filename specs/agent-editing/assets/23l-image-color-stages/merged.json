@@ -1,0 +1,46 @@
+{
+  "scope": "Merged immutable-stage packet and complete saved pixel checks; no media/model/probe rerun",
+  "integrationCommit": "21ebf2ad",
+  "packets": [
+    {
+      "archive": "evidence.tar.gz",
+      "logicalPayloads": 58,
+      "uniquePayloads": 41,
+      "hardlinks": 17,
+      "allExact": true
+    },
+    {
+      "archive": "compile-failure.tar.gz",
+      "logicalPayloads": 25,
+      "uniquePayloads": 25,
+      "hardlinks": 0,
+      "allExact": true
+    }
+  ],
+  "completeRGBABytesCompared": 24585600,
+  "graphDirectExactWithInput": true,
+  "terminalChanges": {
+    "pixels": 4907,
+    "samples": 4966,
+    "channelDeltas": {
+      "R": {
+        "-1": 3276,
+        "1": 626
+      },
+      "G": {
+        "1": 426,
+        "-1": 34
+      },
+      "B": {
+        "-1": 154,
+        "1": 450
+      },
+      "A": {}
+    },
+    "outerBorderPixels": 0
+  },
+  "actualChildrenAllTerminalZero": 7,
+  "originalCompileFailurePreserved": true,
+  "historicalDecoderCauseProved": false,
+  "productCorrectionOrParentAcceptanceProved": false
+}

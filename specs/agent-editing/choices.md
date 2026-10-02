@@ -6451,3 +6451,9 @@ numerical qualification separate from adoption. The
 [inventory support ledger](assets/12i-model-inventory-support/choices.md) owns one
 root-relative inventory computation and its pinned direct-script dependency.
 Current consumers preserve that layout; frozen runners remain unchanged.
+
+The [image-stage ledger](assets/23l-image-color-stages/choices.md) owns the
+standalone boundary observer and lossless duplicate storage. Root accepts those
+choices for the fixed-image mechanism question. Preserved samples and method
+restoration constrain the observation; they establish no historical decoder cause,
+worker-binary equivalence or new pixel tolerance.
