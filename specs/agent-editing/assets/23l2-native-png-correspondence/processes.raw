@@ -1,0 +1,313 @@
+[
+  {
+    "label": "link",
+    "args": [
+      "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "-lc++",
+      "-L",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug",
+      "-o",
+      "/tmp/screenrec-23l-native-png-correspondence/screenrec-native",
+      "-module-name",
+      "screenrec_native",
+      "-Xlinker",
+      "-no_warn_duplicate_libraries",
+      "-emit-executable",
+      "-Xlinker",
+      "-alias",
+      "-Xlinker",
+      "_ScreenRecorderNative_main",
+      "-Xlinker",
+      "_main",
+      "-Xlinker",
+      "-rpath",
+      "-Xlinker",
+      "@loader_path",
+      "@/tmp/screenrec-23l-native-png-correspondence/Objects.LinkFileList",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-larchive.2",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/FluidAudio.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderAudio.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderCapture.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderDenoise.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-23l-source-color-normalization/candidate-video/Modules/ScreenRecorderFrames.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderMedia.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderNative.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderSpeech.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderStretch.swiftmodule",
+      "-Xlinker",
+      "-add_ast_path",
+      "-Xlinker",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/Modules/ScreenRecorderWire.swiftmodule",
+      "-I",
+      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+      "-L",
+      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+      "-plugin-path",
+      "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "-g"
+    ],
+    "pid": 15575,
+    "startedAt": "2026-10-02T02:11:28.551268+00:00",
+    "boundSeconds": null,
+    "exitCode": 0,
+    "elapsedSeconds": 1.6283550410007592,
+    "endedAt": "2026-10-02T02:11:30.177209+00:00"
+  },
+  {
+    "label": "sign",
+    "args": [
+      "codesign",
+      "--force",
+      "--sign",
+      "-",
+      "--entitlements",
+      "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/screenrec-native-entitlement.plist",
+      "/tmp/screenrec-23l-native-png-correspondence/screenrec-native"
+    ],
+    "pid": 15610,
+    "startedAt": "2026-10-02T02:11:30.182350+00:00",
+    "boundSeconds": null,
+    "exitCode": 0,
+    "elapsedSeconds": 0.05107612500432879,
+    "endedAt": "2026-10-02T02:11:30.228962+00:00"
+  },
+  {
+    "label": "native",
+    "args": [
+      "/tmp/screenrec-23l-native-png-correspondence/screenrec-native"
+    ],
+    "pid": 15611,
+    "startedAt": "2026-10-02T02:11:30.254446+00:00",
+    "boundSeconds": 120,
+    "exitCode": 0,
+    "endedAt": "2026-10-02T02:11:35.871110+00:00",
+    "elapsedSeconds": 5.621615749987541
+  },
+  {
+    "label": "pixels-01",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/01.png",
+      "/tmp/screenrec-23l-native-png-correspondence/01.rgba"
+    ],
+    "pid": 15667,
+    "startedAt": "2026-10-02T02:11:31.175169+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.13257358298869804,
+    "endedAt": "2026-10-02T02:11:31.305880+00:00"
+  },
+  {
+    "label": "pixels-02",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/02.png",
+      "/tmp/screenrec-23l-native-png-correspondence/02.rgba"
+    ],
+    "pid": 15668,
+    "startedAt": "2026-10-02T02:11:31.482701+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.13349466701038182,
+    "endedAt": "2026-10-02T02:11:31.613847+00:00"
+  },
+  {
+    "label": "pixels-03",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/03.png",
+      "/tmp/screenrec-23l-native-png-correspondence/03.rgba"
+    ],
+    "pid": 15669,
+    "startedAt": "2026-10-02T02:11:31.800523+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.1312387909856625,
+    "endedAt": "2026-10-02T02:11:31.929411+00:00"
+  },
+  {
+    "label": "pixels-04",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/04.png",
+      "/tmp/screenrec-23l-native-png-correspondence/04.rgba"
+    ],
+    "pid": 15670,
+    "startedAt": "2026-10-02T02:11:32.104910+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.12752066599205136,
+    "endedAt": "2026-10-02T02:11:32.229964+00:00"
+  },
+  {
+    "label": "pixels-05",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/05.png",
+      "/tmp/screenrec-23l-native-png-correspondence/05.rgba"
+    ],
+    "pid": 15671,
+    "startedAt": "2026-10-02T02:11:32.430662+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.12616433401126415,
+    "endedAt": "2026-10-02T02:11:32.554338+00:00"
+  },
+  {
+    "label": "pixels-06",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/06.png",
+      "/tmp/screenrec-23l-native-png-correspondence/06.rgba"
+    ],
+    "pid": 15673,
+    "startedAt": "2026-10-02T02:11:32.752146+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.1302207919943612,
+    "endedAt": "2026-10-02T02:11:32.880136+00:00"
+  },
+  {
+    "label": "pixels-07",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/07.png",
+      "/tmp/screenrec-23l-native-png-correspondence/07.rgba"
+    ],
+    "pid": 15674,
+    "startedAt": "2026-10-02T02:11:33.100941+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.13373779199901037,
+    "endedAt": "2026-10-02T02:11:33.232149+00:00"
+  },
+  {
+    "label": "pixels-08",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/08.png",
+      "/tmp/screenrec-23l-native-png-correspondence/08.rgba"
+    ],
+    "pid": 15675,
+    "startedAt": "2026-10-02T02:11:33.457541+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.12901845801388845,
+    "endedAt": "2026-10-02T02:11:33.584184+00:00"
+  },
+  {
+    "label": "pixels-09",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/09.png",
+      "/tmp/screenrec-23l-native-png-correspondence/09.rgba"
+    ],
+    "pid": 15676,
+    "startedAt": "2026-10-02T02:11:33.806061+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.1299532909761183,
+    "endedAt": "2026-10-02T02:11:33.933432+00:00"
+  },
+  {
+    "label": "pixels-10",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/10.png",
+      "/tmp/screenrec-23l-native-png-correspondence/10.rgba"
+    ],
+    "pid": 15683,
+    "startedAt": "2026-10-02T02:11:34.165034+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.12931537500116974,
+    "endedAt": "2026-10-02T02:11:34.290814+00:00"
+  },
+  {
+    "label": "pixels-11",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/11.png",
+      "/tmp/screenrec-23l-native-png-correspondence/11.rgba"
+    ],
+    "pid": 15685,
+    "startedAt": "2026-10-02T02:11:34.518523+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.13186091600800864,
+    "endedAt": "2026-10-02T02:11:34.646744+00:00"
+  },
+  {
+    "label": "pixels-12",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/12.png",
+      "/tmp/screenrec-23l-native-png-correspondence/12.rgba"
+    ],
+    "pid": 15688,
+    "startedAt": "2026-10-02T02:11:34.881633+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.12697045798995532,
+    "endedAt": "2026-10-02T02:11:35.005561+00:00"
+  },
+  {
+    "label": "pixels-13",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/13.png",
+      "/tmp/screenrec-23l-native-png-correspondence/13.rgba"
+    ],
+    "pid": 15690,
+    "startedAt": "2026-10-02T02:11:35.260962+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.18839475000277162,
+    "endedAt": "2026-10-02T02:11:35.443693+00:00"
+  },
+  {
+    "label": "pixels-14",
+    "args": [
+      "/tmp/screenrec-21e-image-pixels",
+      "/tmp/screenrec-23l-native-png-correspondence/14.png",
+      "/tmp/screenrec-23l-native-png-correspondence/14.rgba"
+    ],
+    "pid": 15691,
+    "startedAt": "2026-10-02T02:11:35.697287+00:00",
+    "boundSeconds": 30,
+    "exitCode": 0,
+    "elapsedSeconds": 0.12837274998310022,
+    "endedAt": "2026-10-02T02:11:35.823280+00:00"
+  }
+]

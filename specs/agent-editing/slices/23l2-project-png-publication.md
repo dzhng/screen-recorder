@@ -20,4 +20,7 @@ unverified. Root owns integration and shared handoff.
 
 The [source-color correction](../assets/23l2-project-source-colors/README.md) owns
 first-original-video red/green and the distinct small preservation controls.
-It leaves the other composition requests and isolated native transport unverified.
+The [native correspondence record](../assets/23l2-native-png-correspondence/README.md)
+qualifies all fourteen existing composition requests through an isolated linked
+candidate worker, with exact metadata and complete selected-reference pixels.
+Installed-worker and broader release acceptance remain separate.

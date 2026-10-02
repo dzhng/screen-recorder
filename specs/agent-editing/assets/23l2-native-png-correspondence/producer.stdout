@@ -1,0 +1,48 @@
+{"event": "spawn", "label": "link", "pid": 15575}
+{"event": "terminal", "label": "link", "pid": 15575, "exitCode": 0}
+{"event": "spawn", "label": "sign", "pid": 15610}
+{"event": "terminal", "label": "sign", "pid": 15610, "exitCode": 0}
+{"event": "spawn", "label": "native", "pid": 15611}
+{"event": "spawn", "label": "pixels-01", "pid": 15667}
+{"event": "terminal", "label": "pixels-01", "pid": 15667, "exitCode": 0}
+{"event": "case", "ordinal": 1, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-02", "pid": 15668}
+{"event": "terminal", "label": "pixels-02", "pid": 15668, "exitCode": 0}
+{"event": "case", "ordinal": 2, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-03", "pid": 15669}
+{"event": "terminal", "label": "pixels-03", "pid": 15669, "exitCode": 0}
+{"event": "case", "ordinal": 3, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-04", "pid": 15670}
+{"event": "terminal", "label": "pixels-04", "pid": 15670, "exitCode": 0}
+{"event": "case", "ordinal": 4, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-05", "pid": 15671}
+{"event": "terminal", "label": "pixels-05", "pid": 15671, "exitCode": 0}
+{"event": "case", "ordinal": 5, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-06", "pid": 15673}
+{"event": "terminal", "label": "pixels-06", "pid": 15673, "exitCode": 0}
+{"event": "case", "ordinal": 6, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-07", "pid": 15674}
+{"event": "terminal", "label": "pixels-07", "pid": 15674, "exitCode": 0}
+{"event": "case", "ordinal": 7, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-08", "pid": 15675}
+{"event": "terminal", "label": "pixels-08", "pid": 15675, "exitCode": 0}
+{"event": "case", "ordinal": 8, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-09", "pid": 15676}
+{"event": "terminal", "label": "pixels-09", "pid": 15676, "exitCode": 0}
+{"event": "case", "ordinal": 9, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-10", "pid": 15683}
+{"event": "terminal", "label": "pixels-10", "pid": 15683, "exitCode": 0}
+{"event": "case", "ordinal": 10, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-11", "pid": 15685}
+{"event": "terminal", "label": "pixels-11", "pid": 15685, "exitCode": 0}
+{"event": "case", "ordinal": 11, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-12", "pid": 15688}
+{"event": "terminal", "label": "pixels-12", "pid": 15688, "exitCode": 0}
+{"event": "case", "ordinal": 12, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-13", "pid": 15690}
+{"event": "terminal", "label": "pixels-13", "pid": 15690, "exitCode": 0}
+{"event": "case", "ordinal": 13, "metadataEqual": true, "allBytesEqual": true}
+{"event": "spawn", "label": "pixels-14", "pid": 15691}
+{"event": "terminal", "label": "pixels-14", "pid": 15691, "exitCode": 0}
+{"event": "case", "ordinal": 14, "metadataEqual": true, "allBytesEqual": true}
+{"event": "terminal", "label": "native", "pid": 15611, "exitCode": 0, "passed": true}

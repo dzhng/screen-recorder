@@ -1,0 +1,102 @@
+{
+  "rootProductionCommit": "87fa8046",
+  "ownedProductionCommit": "919d7550fb321c9c0c145a251b19cdb76e1d11b2",
+  "rawRun": "/tmp/screenrec-23l-native-png-correspondence",
+  "producerSession": 14733,
+  "producerPID": 15569,
+  "producerExit": 0,
+  "nativePID": 15611,
+  "nativeExit": 0,
+  "candidateWorker": {
+    "bytes": 29553344,
+    "sha256": "ae682ac75ee7f65936ad3db53b05258f4a1f080576f12234111ef01a2f2ea85f"
+  },
+  "link": {
+    "originalRecipe": "/tmp/screenrec-09c-native-build/debug.yaml C.screenrec-native-arm64-apple-macosx-debug.exe",
+    "originalLinkEntries": 418,
+    "substitutedFramesObjects": 23,
+    "method": "Only ScreenRecorderFrames.build entries become candidate-video/objects with same basename; only Frames AST/output/link-list addresses change in original argv. No compilation or frozen writes. Actual link/sign argv and terminals are in processes.raw."
+  },
+  "sourceAuthority": "../23l2-project-source-colors/verification.json records exact changed source, module and static-owner producer; candidate-video outputs are reused here. All other linked objects retain frozen09c original identities; not rehashed or newly inventoried.",
+  "namedPins": {
+    "/tmp/screenrec-09c-native-build/debug.yaml": {
+      "bytes": 1054547,
+      "sha256": "f1b7c3090fd38580519348a9b2dbaf7dbf7f25b76a980ae59856ba774fc59b6f"
+    },
+    "/tmp/screenrec-09c-native-build/arm64-apple-macosx/debug/screenrec-native.product/Objects.LinkFileList": {
+      "bytes": 43076,
+      "sha256": "b9424a7d72702710fb5bafb5cf3d0c6281d31bc388f35e11d7b4c7dae270578b"
+    },
+    "/tmp/screenrec-23l-source-color-normalization/candidate-video/Modules/ScreenRecorderFrames.swiftmodule": {
+      "bytes": 498096,
+      "sha256": "fc3385cf79f8f45d08bc1e8ec1f16b603407c43a283228cd22185c918309dca5"
+    },
+    "/tmp/screenrec-09c-native-presented-worker": {
+      "bytes": 30148624,
+      "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+    },
+    "/tmp/screenrec-21e-image-pixels": {
+      "bytes": 91832,
+      "sha256": "f70abec32be67626724512428addbf0fb248dcdfbb0f4db55056a8b603fabaf4"
+    },
+    "/tmp/screenrec-23l-packet/runs/third/native.jsonl": {
+      "bytes": 121580,
+      "sha256": "c0314cf52061463724c7ed67d0857f6f77f4bf4987946d698a6e141133c36f49"
+    },
+    "/tmp/screenrec-23l-packet/runs/third/report.json": {
+      "bytes": 2902696,
+      "sha256": "d30b2bf479a8782ba42e4b6cb3b3e1360c8eb21609bd86b4cd315e0b54997408"
+    }
+  },
+  "frozenAuthorityUnchanged": true,
+  "bounds": {
+    "outerSeconds": 120,
+    "requestSeconds": 30,
+    "pixelReaderSeconds": 30,
+    "retry": false
+  },
+  "metadataPolicy": "Every old native data field equals new data except file and bytes. File equals the new output; bytes equals actual encoded file size. Requests change output only. Native id/ok are checked. All frame clocks/graphs/source samples/counters remain equal.",
+  "pixelPolicy": "Complete24585600RGBA bytes percase compared directly with already retained original mapped references; no reference rerender or tolerance. New PNGs/RGBA retained outsideGit; existing reference packets preserve complete equal image samples.",
+  "noClaims": [
+    "311-service exchange rerun",
+    "current sampler or delivery/MCP/CLI cohort",
+    "capture/model/inference",
+    "full movie active-pixel parity",
+    "completed-stop performance",
+    "full release acceptance"
+  ],
+  "payloads": {
+    "native-input.jsonl": {
+      "bytes": 33887,
+      "sha256": "68361c4679a1f7f4c0be1723de8548c8ee8671e67fe2855ae17ff859f23f6f9a"
+    },
+    "report.json": {
+      "bytes": 14445,
+      "sha256": "ffe2b79b1ccf5b8e4ce09e5f6b7e2a180fb00b5eda0354cc36d6a4f078c26967"
+    },
+    "processes.raw": {
+      "bytes": 9790,
+      "sha256": "77145c972c6533aebf183fa41463da7ae440eeee557766abe7943e6489375742"
+    },
+    "producer.py": {
+      "bytes": 5470,
+      "sha256": "d74f9f15e57078b09440fcfbdbfd98952998e8d5a62180f9899dd685cdd55ed7"
+    },
+    "producer.stdout": {
+      "bytes": 3263,
+      "sha256": "de755c0a4db36f095d67b4e0ce3ac148b0cf720ca754d86b6c2a5a9553b66555"
+    },
+    "producer.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native-output.jsonl": {
+      "bytes": 27170,
+      "sha256": "273698813f6c924879316f94c3fbc5633a9885de13236941405cf09bc0dbdb17"
+    },
+    "native.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
