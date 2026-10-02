@@ -15,12 +15,12 @@ diagnostics. Startup announces the bound listener or one structured failure, so 
 service that cannot start is reported rather than retried. There is no restart
 loop and no second daemon.
 
-The [project process entry](src/project-main.ts) prepares that same lifetime for
-the fresh-library composition. It shares socket discovery with the existing
-entry while keeping durable storage separate. The default app bundle still uses
-the installed composition until [cutover](../../specs/agent-editing/slices/23-cutover.md);
-the [process checkpoint](../../specs/agent-editing/slices/23i-service-process-parity.md)
-does not imply installed adoption.
+The [canonical entry](src/main.ts) composes the fresh-library project service.
+It keeps the prior catalog and media intact; capture supplies source facts and
+the caller explicitly authors projects. The default build uses this same entry.
+Building a candidate does not replace the installed app or migrate its library;
+[cutover](../../specs/agent-editing/slices/23-cutover.md) owns remaining consumer
+removal and installed release acceptance.
 
 The pipe carries many frames from one trusted peer, unlike the socket's one
 request per connection. An unreadable or oversized control line therefore answers

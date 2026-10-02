@@ -113,6 +113,88 @@ function results(messages: ControlMessage[]) {
   return messages.flatMap((message) => (message.event === "result" ? [message.response] : []));
 }
 
+it("starts the canonical fresh composition without interpreting retained recording history", async () => {
+  const home = await temporaryHome();
+  const legacyCatalog = join(home, "library.sqlite");
+  const legacyMedia = join(home, "recordings", "retained.mov");
+  const catalogBytes = Buffer.from("retained catalog: never open or migrate\n");
+  const mediaBytes = Buffer.from("retained original media\n");
+  await mkdir(join(home, "recordings"));
+  await writeFile(legacyCatalog, catalogBytes);
+  await writeFile(legacyMedia, mediaBytes);
+  const service = await startService(home);
+  const first = (await service.awaiting(1))[0];
+  const output = process.env.SCREENREC_SERVICE_ENTRY_OUTPUT;
+  if (output) await mkdir(output);
+  const record = async (name: string, value: unknown) => {
+    if (output) await writeFile(join(output, name + ".json"), JSON.stringify(value, null, 2));
+  };
+  await record("before", {
+    pid: service.pid,
+    first,
+    diagnostics: service.diagnostics,
+    catalog: (await readFile(legacyCatalog)).toString(),
+    media: (await readFile(legacyMedia)).toString(),
+  });
+  expect(first).toMatchObject({ event: "started" });
+  const call = (operation: string, params: Record<string, unknown> = {}) =>
+    callLocal(service.socketPath, { id: operation, operation, params });
+  expect(await call("project.list")).toMatchObject({
+    ok: true,
+    data: { projects: [], nextCursor: null },
+  });
+  expect(await call("recording.list")).toMatchObject({ ok: true, data: { recordings: [] } });
+  const creation = await call("project.create", {
+    requestId: "explicit-caller-project",
+    title: "Caller fixture",
+    canvas: {
+      width: 64,
+      height: 32,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  expect(creation).toMatchObject({ ok: true, data: { project: { title: "Caller fixture" } } });
+  const pendingStatus = call("capture.status");
+  const nativeCall = (await service.awaiting(2))[1];
+  expect(nativeCall).toMatchObject({ event: "call", request: { operation: "capture.status" } });
+  const device = {
+    state: "idle",
+    recordingId: null,
+    sourceId: null,
+    elapsedUs: null,
+    selection: null,
+    permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
+  };
+  if (nativeCall?.event !== "call") throw new Error("Missing capture status peer request");
+  service.send(
+    JSON.stringify({
+      event: "result",
+      response: { id: nativeCall.request.id, ok: true, data: device },
+    }) + "\n",
+  );
+  const status = await pendingStatus;
+  expect(status).toMatchObject({ ok: true, data: { device, recording: null } });
+  const listed = await call("project.list");
+  expect(listed).toMatchObject({
+    ok: true,
+    data: { projects: [{ title: "Caller fixture" }], nextCursor: null },
+  });
+  await record("after", { creation, status, listed });
+  expect(await readFile(legacyCatalog)).toEqual(catalogBytes);
+  expect(await readFile(legacyMedia)).toEqual(mediaBytes);
+  expect((await stat(join(home, "library/catalog.sqlite"))).isFile()).toBe(true);
+  service.closeInput();
+  const exit = await service.exit;
+  const socket = await stat(service.socketPath).then(
+    () => "present",
+    (error: NodeJS.ErrnoException) => error.code,
+  );
+  await record("terminal", { pid: service.pid, exit, socket });
+  expect(exit).toEqual({ code: 0, signal: null });
+  expect(socket).toBe("ENOENT");
+});
+
 it("announces its listener and answers health over both the pipe and the socket", async () => {
   const home = await temporaryHome();
   const service = await startService(home);
@@ -208,14 +290,14 @@ it("finishes every owner's shutdown when one of them fails to close", async () =
   await service.awaiting(1);
   const socketPath = service.socketPath;
   // Another writer holds the catalog, so the job queue cannot record its interrupted attempts.
-  const writer = new DatabaseSync(join(home, "library.sqlite"));
+  const writer = new DatabaseSync(join(home, "library/catalog.sqlite"));
   cleanup.push(async () => writer.close());
   // Startup announces availability before background recovery finishes its short transactions.
   writer.exec("PRAGMA busy_timeout=1000");
   writer.exec("BEGIN IMMEDIATE");
   service.closeInput();
   expect(await service.exit).toEqual({ code: 0, signal: null });
-  expect(service.diagnostics).toMatch(/shutdown failed: Catalog is locked/);
+  expect(service.diagnostics).toMatch(/Catalog is locked/);
   await expect(stat(socketPath)).rejects.toMatchObject({ code: "ENOENT" });
   writer.exec("ROLLBACK");
 });
@@ -375,7 +457,7 @@ it("closes its listener when control output breaks before the pipe reaches EOF",
 
 it("reports an orphan-held render workspace as retryable before announcing readiness", async () => {
   const home = await temporaryHome();
-  const directory = join(home, "run", "render");
+  const directory = join(home, "library", "render");
   await mkdir(directory, { recursive: true, mode: 0o700 });
   const sentinel = join(directory, "abandoned");
   await writeFile(sentinel, "still owned");

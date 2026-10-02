@@ -83,7 +83,6 @@ import {
 } from "./worker.js";
 import { operationFailure } from "./operation-errors.js";
 
-/** Isolated development entry; production capture switches to these owners at cutover. */
 export async function startProjectService(options: {
   home: string;
   worker?: MediaWorker;

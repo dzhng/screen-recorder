@@ -23,14 +23,10 @@ const report = {
 const children = [];
 const exits = [];
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const priorEntry = await readFile(join(root, "apps/service/src/main.ts"));
-const buildScript = await readFile(join(root, "scripts/build-macos.mjs"));
 const serviceEntry = join(out, "service.mjs");
 const cliEntry = join(out, "cli.mjs");
-const installedEntry = join(out, "installed-entry.mjs");
 for (const [entry, output] of [
-  ["apps/service/dist/project-main.js", serviceEntry],
-  ["apps/service/dist/main.js", installedEntry],
+  ["apps/service/dist/main.js", serviceEntry],
   ["apps/cli/dist/main.js", cliEntry],
 ]) {
   execFileSync(
@@ -178,39 +174,6 @@ function health(reply, service, socketPath, selectedHome = home) {
   assert(Number.isSafeInteger(uptimeMs) && uptimeMs >= 0);
 }
 try {
-  const installedHome = join(out, "installed-home");
-  await mkdir(installedHome, { mode: 0o700 });
-  const installed = start("matched installed source entry", installedHome, installedEntry);
-  const installedReady = await installed.take((message) => message.event === "started");
-  assert.equal(installedReady.socketPath, join(installedHome, "run", "service.sock"));
-  health(
-    await installed.call("service.health"),
-    installed,
-    installedReady.socketPath,
-    installedHome,
-  );
-  assert.equal(
-    (await installed.call("service.health", { extra: true })).error.code,
-    "INVALID_PARAMS",
-  );
-  const compositionConflict = start(
-    "project contender against installed source owner",
-    installedHome,
-  );
-  assert.equal(
-    (await compositionConflict.take((message) => message.event === "failed")).error.code,
-    "SOCKET_IN_USE",
-  );
-  assert.deepEqual(await compositionConflict.exited, { code: 1, signal: null });
-  await absent(join(installedHome, "library", "catalog.sqlite"));
-  health(
-    await installed.call("service.health"),
-    installed,
-    installedReady.socketPath,
-    installedHome,
-  );
-  await stopped(installed);
-  await absent(installedReady.socketPath);
   const first = start("initial");
   const ready = await first.take((message) => message.event === "started");
   const socketPath = join(home, "run", "service.sock");
@@ -308,8 +271,6 @@ try {
   await absent(join(refusedHome, "library", "catalog.sqlite"));
   assert.deepEqual(await readFile(join(home, "library.sqlite")), legacyBytes);
   assert.equal(await readFile(legacyMedia, "utf8"), "original source sentinel\n");
-  assert.deepEqual(await readFile(join(root, "apps/service/src/main.ts")), priorEntry);
-  assert.deepEqual(await readFile(join(root, "scripts/build-macos.mjs")), buildScript);
   const nativeRequests = (await readFile(env.SCREENREC_BOOT_WORKER_LOG, "utf8"))
     .trim()
     .split("\n")
@@ -325,17 +286,15 @@ try {
   );
   report.nativeRequests = nativeRequests;
   report.checks.push(
-    "old bytes and default composition/bundling preserved; only controlled startup native calls",
+    "old catalog/media bytes preserved; canonical composition with controlled startup native calls",
   );
   report.artifacts = [];
-  for (const path of [serviceEntry, installedEntry, cliEntry, worker]) {
+  for (const path of [serviceEntry, cliEntry, worker]) {
     const bytes = await readFile(path);
     report.artifacts.push({ path, bytes: bytes.length, sha256: hash(bytes) });
   }
   report.preserved = {
     oldCatalog: hash(legacyBytes),
-    installedEntry: hash(priorEntry),
-    defaultBuild: hash(buildScript),
   };
   report.result = "pass";
 } catch (error) {
