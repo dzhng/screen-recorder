@@ -1,8 +1,34 @@
 # Growing canonical movie feasibility
 
-Status: fixed question prepared; no prototype or native case has run. This
-prerequisite is independent of raw-writer prefix stability: it uses the existing
-closed tiny movie. Production adoption remains under camera publication.
+Status: [actual preparation result](../assets/20i-growing-canonical-feasibility/README.md)
+qualifies query-first termination/reaping, but the canonical attempt refused its
+first compressed input before constructing a writer. Its combined guard omitted
+the individual failed fields; container feasibility remains unqualified. The
+original executed sources and failure stay frozen. Production adoption remains
+under camera publication.
+
+## Next required fact
+
+Observe the complete compressed-buffer stream from the same immutable input,
+without a writer or pixel decoding. The SDK permits zero-sample markers and
+grouped samples; returned-buffer ordinal need not equal native-sample ordinal.
+Existing MovieMux forwards these buffers as supplied. Neither the failed guard
+nor the SDK contract identifies which field actually failed in the old attempt.
+
+Persist each buffer's validity/readiness, sample count, nullable block/image/
+format presence, full available block bytes and raw aggregate clocks before
+shape gates. Record timing/size arrays and each sample's native timing/size with
+their statuses, both attachment propagation modes, sample attachments without
+creation, available format facts and final reader status/error. Count markers
+separately; compare media-sample membership/order with the saved 197-row inventory
+only after saving the complete stream. Do not discard markers, split groups or
+infer absent data/format. Markers can determine preceding-sample duration.
+
+Freeze this metadata-only observer before one invocation: the existing warm
+compile bound is 150 seconds total, native observation is 15 seconds, at most
+512 returned buffers/400 media samples/2 MiB payload, and 1 MiB per stdio stream.
+Preserve partial facts before any refusal. This qualifies admission observations,
+not a corrected canonical attempt or new production mechanism.
 
 ## Contract
 

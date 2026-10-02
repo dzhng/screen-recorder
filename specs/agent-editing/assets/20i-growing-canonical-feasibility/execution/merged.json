@@ -1,0 +1,44 @@
+{
+  "status": "saved-evidence-verified",
+  "checkedUTC": "2026-10-02T07:28:38.309793+00:00",
+  "scope": "Root whole archive and saved-value review only; no compiler/native/media replay",
+  "archiveMembers": {
+    "preparation": 11,
+    "execution": 26
+  },
+  "protectedBindings": 138,
+  "cacheFilesAndMetadataUnchanged": 307,
+  "actualProcessExits": {
+    "compiler": 0,
+    "ownership": 0,
+    "canonicalAdmission": 1
+  },
+  "ownership": {
+    "queryFirstTermination": true,
+    "actualPPID": 13208,
+    "actualPGID": 13209,
+    "nativeQueryStatus": 9,
+    "parentExit": 0,
+    "queryReaped": true,
+    "parentAndQueryAbsent": true,
+    "scope": "Observed waiting query; not every OS/error/timeout path"
+  },
+  "canonical": {
+    "stage": "First compressed source buffer before writer construction",
+    "failedIndividualOperand": "unknown",
+    "sourceMetadataAnd197SampleByteFacts": "pass",
+    "writerConstructed": false,
+    "appends": 0,
+    "candidateDecode": false,
+    "containerFeasibilityQualified": false,
+    "originalSourceAndFailurePreserved": true
+  },
+  "rootCheck": {
+    "toolChunk": "e16de5",
+    "exitCode": 0,
+    "claim": "All11+26 payloads, actual query-first kill/reap and absence,138directpins/cache307, source-codec197 and refusal before writer with unknown field"
+  },
+  "nextQuestion": "Capture complete compressed-buffer shapes/attachments/timings without writer or pixel decoding; SDK allows markers and grouping",
+  "noNativeReplay": true,
+  "fullReleaseRemainsOpen": true
+}

@@ -6716,3 +6716,16 @@ candidate fragments make two active observations possible within that fixed inpu
 the raw camera writer keeps its existing settings. These are fixed container
 parameters for a new question, not a new encoder recipe or a guarantee of output
 timing. Missing complete fragments fail the case without parameter tuning.
+
+## Compressed source admission
+
+**Unsound, high confidence — equate a returned buffer with one complete media sample.**
+The prototype required each compressed reader buffer to have data, a format and
+exactly one sample, then used buffer position as sample position. The SDK also
+permits zero-sample markers and grouped samples; markers can affect duration.
+The first buffer hit this combined guard without retaining its individual fields,
+so the original failed operand is unknown. The corrected decision is to record
+complete buffer facts first, keep every buffer intact, and separately map actual
+media samples to the saved decode inventory. A metadata-only observation resolves
+the missing prerequisite without changing the failed source or claiming that a
+marker caused it. Candidate container preservation remains unqualified.

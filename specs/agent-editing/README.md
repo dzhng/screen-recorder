@@ -22,11 +22,14 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify the independent growing canonical MOV.**
-[20i](slices/20i-growing-canonical-feasibility.md) uses the retained tiny closed
-input and existing compressed-copy seam. First correct and qualify query deadline
-ownership with its nonmedia fixture; review and freeze the complete prototype
-before the single media case. No raw-writer replay or production adoption follows.
+**Next pickup: qualify compressed-source buffer admission.**
+[20i](slices/20i-growing-canonical-feasibility.md) now passes its actual query-first
+termination/reaping fixture. Its canonical attempt stopped before writer creation
+at a combined source-buffer guard; the failed operand remains unknown.
+[Root checks](assets/20i-growing-canonical-feasibility/execution/merged.json) preserve
+that split verdict. The SDK allows markers/grouping the guard excluded. Review and
+freeze one metadata-only whole-buffer observation before changing copy logic.
+Use the same immutable input; no raw-writer replay or canonical retry is selected.
 
 [20h](slices/20h-camera-idr-fence.md) now qualifies both fixed raw cases: complete
 decoded IDR fences preserve the selected preceding pictures through active
@@ -266,7 +269,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
 - [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — ordinary scoped prefix passes; separate candidate fails before interruption, with later operands missing
 - [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
-- [ ] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed question and nonmedia ownership prerequisite prepared
+- [ ] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — ownership fixture passes; compressed-input guard refuses before writer, with individual operands missing
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
