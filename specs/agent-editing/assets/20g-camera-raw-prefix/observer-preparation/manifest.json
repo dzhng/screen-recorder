@@ -1,0 +1,208 @@
+{
+  "archive": {
+    "bytes": 1523938,
+    "sha256": "3485a50ee8623430f95343479b6d297d860d6661a78054f8599c36ff622dab31"
+  },
+  "members": {
+    "type-import-failure/FoundationChecks.swift": {
+      "bytes": 6523,
+      "sha256": "e908de2005406ec67671bfb3fef40bf4de421587772e5cc84f29b71a72b6a0fd"
+    },
+    "type-import-failure/Observer.swift": {
+      "bytes": 28472,
+      "sha256": "68234385a0dedf2510ff2c0512629457190287d3eefc28d97894ba6308f6fefb"
+    },
+    "type-import-failure/ObserverTypes.swift": {
+      "bytes": 28466,
+      "sha256": "d1562396df9b85272a41cfd935b206e2529d2e89e96b9ea66ed128e0cbd006da"
+    },
+    "type-import-failure/authority.json": {
+      "bytes": 28411,
+      "sha256": "530dae000caa625f6f9feb7e9a80a659c1d158066b2a05d80e6a10c68747106a"
+    },
+    "type-import-failure/cache-after.json": {
+      "bytes": 62836,
+      "sha256": "3fc8ae0894cf9289dcc39806fa0c3065f00c2cb21445a89f94c7c1b71890fb83"
+    },
+    "type-import-failure/cache-before.json": {
+      "bytes": 62836,
+      "sha256": "3fc8ae0894cf9289dcc39806fa0c3065f00c2cb21445a89f94c7c1b71890fb83"
+    },
+    "type-import-failure/compile.stderr": {
+      "bytes": 27100,
+      "sha256": "29690c685d3d45374ab32e4e41129180acaf035b9280479daf368bd021d25bb6"
+    },
+    "type-import-failure/compile.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "type-import-failure/manifest.json": {
+      "bytes": 1808,
+      "sha256": "558de6e89d39d2d15e7eefc249eb27e91e8f253f3e4f374b9652e9c82c72079d"
+    },
+    "type-import-failure/plan.json": {
+      "bytes": 12149,
+      "sha256": "a4e3898d05bc39cda14f683b2462e4c26099ad0b13bd3b123a4cf4f4606c5bad"
+    },
+    "type-import-failure/processes.json": {
+      "bytes": 6038,
+      "sha256": "ac5fd1e88ea25438698656a032b22d2d5bdd7633a0d94f1d106da3f62edde6d4"
+    },
+    "type-import-failure/qualification-verdict.json": {
+      "bytes": 108,
+      "sha256": "afbcc8610619350d1ab6e560c40c67d56d9ca26ad6bbd90aa5507b3e20313cc8"
+    },
+    "type-import-failure/qualify.py": {
+      "bytes": 4134,
+      "sha256": "dfa572f9fd7270128c95cd44c1296a201a2d1e9cf11cfbe3de949700e5b1e39d"
+    },
+    "type-import-failure/termination.json": {
+      "bytes": 204,
+      "sha256": "89f80238f845347ee00c82424d2dfb58fd03cb074bdaa90d7c1c42c8a222b82f"
+    },
+    "type-import-failure/tool-session.json": {
+      "bytes": 281,
+      "sha256": "f2415254372fc6e14bef5ae0dc347658146f9c701a879805a6633dd54e4de65a"
+    },
+    "bool-bridge/FoundationChecks.swift": {
+      "bytes": 6523,
+      "sha256": "e908de2005406ec67671bfb3fef40bf4de421587772e5cc84f29b71a72b6a0fd"
+    },
+    "bool-bridge/Observer.swift": {
+      "bytes": 28562,
+      "sha256": "7b98b47526f928072d05c372c25fc7aa15e32c656f0975ce1d904e00c03584f4"
+    },
+    "bool-bridge/ObserverTypes.swift": {
+      "bytes": 28556,
+      "sha256": "a0bd017bd8d7acd249f710614366d9db180c2ee12c98d23cf768f800b43ab5bf"
+    },
+    "bool-bridge/authority.json": {
+      "bytes": 28460,
+      "sha256": "a8eebafea4c17bf9ea41de6fbd8d8d718a6665a883577c2edc6c758c6665e182"
+    },
+    "bool-bridge/cache-after.json": {
+      "bytes": 62836,
+      "sha256": "3fc8ae0894cf9289dcc39806fa0c3065f00c2cb21445a89f94c7c1b71890fb83"
+    },
+    "bool-bridge/cache-before.json": {
+      "bytes": 62836,
+      "sha256": "3fc8ae0894cf9289dcc39806fa0c3065f00c2cb21445a89f94c7c1b71890fb83"
+    },
+    "bool-bridge/compile.stderr": {
+      "bytes": 30503,
+      "sha256": "b6d396e3211aff04f31437a4abe2128f9c320fd7bce4f2220ecbc6820a7e3d67"
+    },
+    "bool-bridge/compile.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "bool-bridge/executable.json": {
+      "bytes": 197,
+      "sha256": "9154ec908ed983342e30d3a56f808a3afc32f736e2d45ff8eebf64226356b6b2"
+    },
+    "bool-bridge/filesystem-checks": {
+      "bytes": 4745264,
+      "sha256": "7d2bed89c776997697428b48c2a40bbbea7deb705f3718db79924621134215a9"
+    },
+    "bool-bridge/filesystem-only.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "bool-bridge/filesystem-only.stdout": {
+      "bytes": 105,
+      "sha256": "b19c249657b0a051165f4601aaecf18ee82ad03f8cf25f033a49725445430f21"
+    },
+    "bool-bridge/fs-check-run/predecessor/failure.json": {
+      "bytes": 28,
+      "sha256": "efd375bc08375aba99a6344ca3a74f74a268932211728cf7812062c540c5bdd7"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/failure.json": {
+      "bytes": 117,
+      "sha256": "12312125fb5d13a60b57e50afc0d55ba22ba0549379356663122db85caa96d02"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/accepted-mappings.json": {
+      "bytes": 209,
+      "sha256": "80c22a5cfc1b96f6ffb1d821a369cdc570c72b00a01f6bce54bf7ab743e8b32d"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/comparison-AUTHORED-FILESYSTEM-FAULT-2-actual.json": {
+      "bytes": 3471,
+      "sha256": "13a4e2b2d57f7582d9e527be7d7ae7e5bff74748ab2c79cc4abfc1d7de1c730d"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/comparison-AUTHORED-FILESYSTEM-FAULT-2-differences.json": {
+      "bytes": 6476,
+      "sha256": "60721f5552f0f126bc8c2bd5deddbc997465d787adc7aebae003d124cd1b2869"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/comparison-AUTHORED-FILESYSTEM-FAULT-2-expected.json": {
+      "bytes": 3131,
+      "sha256": "e36df162089f11e58dbc4c716cb7011de080fe14d98cf6556a4a901736532cce"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/comparison-SAME-OPERANDS-CONTROL-2-actual.json": {
+      "bytes": 3467,
+      "sha256": "50959bcd1de1bfeb4a30b52dcf7ea60ca169906c087a7448f032aeae75296e05"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/comparison-SAME-OPERANDS-CONTROL-2-differences.json": {
+      "bytes": 4,
+      "sha256": "ace810d7e2cbb4f8c40ce09dc8e191ae466adb4e1a7d49c59f2215b411d38b05"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/comparison-SAME-OPERANDS-CONTROL-2-expected.json": {
+      "bytes": 3131,
+      "sha256": "e36df162089f11e58dbc4c716cb7011de080fe14d98cf6556a4a901736532cce"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/failed-assertion.json": {
+      "bytes": 308,
+      "sha256": "80a8a2a9302a2591c9c24806cdaeb5923022c56856f8c905246409b8d1ce7dcc"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/offered-receipts.json": {
+      "bytes": 365,
+      "sha256": "36695b5c4aaaf28e17a0b517a001086c735731b41d195f7615eeb92e70410705"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/preservation.json": {
+      "bytes": 141,
+      "sha256": "e1e0fab2f5f71d523b33d689d572e2b9bc7894886ffe3fc065d71523dd6b6d0c"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/raw-prefix-label.json": {
+      "bytes": 434,
+      "sha256": "593181df66dd7d8f1a7f052f5a0ef88c9edafbf0a4f04ba192ddf2ed20db883e"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/timestamps.jsonl": {
+      "bytes": 173,
+      "sha256": "9b2e8421960bdcbef4808a531ef7b9f9e9aef6540c4e6f395920481d4a460902"
+    },
+    "bool-bridge/fs-check-run/tuple-fault/observer-evidence/unverified-raw-prefix.bin": {
+      "bytes": 2097152,
+      "sha256": "e609118bb7a5a46616cf9c9e5c32728012b142d413d49bed22363bc4a9dc14dc"
+    },
+    "bool-bridge/plan.json": {
+      "bytes": 12399,
+      "sha256": "0b5d6c9f553dba41a62cd4f589f3754a102e7f9fd7872f8d43750a1ea89c6fa4"
+    },
+    "bool-bridge/processes.json": {
+      "bytes": 6614,
+      "sha256": "5e8d68446f9a7a63338fc5423b01f8a9db0ef25b4d0ed13c8f0ce12d543b3668"
+    },
+    "bool-bridge/qualification-verdict.json": {
+      "bytes": 143,
+      "sha256": "0f0582860e313928e8b616987d4d2fdc1738cc40196ae8b10cc777b961f3b273"
+    },
+    "bool-bridge/qualify.py": {
+      "bytes": 4146,
+      "sha256": "143b213807b7f56cc3048c3acf897ecb86d1855f7284ee002563c284c32224e4"
+    },
+    "bool-bridge/report.json": {
+      "bytes": 4426,
+      "sha256": "f988c211e20875b1d637d9f8d88a3fc30ff2386d64365b9c9d84a41e9f747d45"
+    },
+    "bool-bridge/source-review.json": {
+      "bytes": 1690,
+      "sha256": "b010fd65a5cd9fc18deeda3459ab667f452abe7a20e4c2c0acb0791a51a4dcc9"
+    },
+    "bool-bridge/termination.json": {
+      "bytes": 210,
+      "sha256": "8bbb547962c7d6542021aca763107c79393511b747fa7dcde4f1fa570004f810"
+    },
+    "bool-bridge/tool-session.json": {
+      "bytes": 250,
+      "sha256": "09db6134e348ccd6f20daca4cedc433e27716190c05691120a69ae9a72a8f98c"
+    }
+  }
+}

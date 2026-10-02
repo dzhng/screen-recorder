@@ -1,0 +1,84 @@
+{
+  "status": "observer-filesystem-qualified-no-media",
+  "qualifiedSuccessor": "/tmp/screenrec-20g-raw-prefix/observer-preparation/bool-bridge/Observer.swift",
+  "originalSourceBinaryArchivesUnchanged": true,
+  "protected117PinsUnchangedAfterQualification": true,
+  "failedPhase": {
+    "record": "type-import-failure/processes.json",
+    "error": "Imported SDK BOOL fields are ObjCBool, not Swift Bool; compile1; Foundation entry neverstarted",
+    "sourceFilesFrozenReadOnly": true
+  },
+  "correctedPhase": {
+    "record": "bool-bridge/processes.json",
+    "sourceDifference": "Exactly9 .boolValue getters on imported SDK sync/dependency fields; projection removes only media @main",
+    "processes": [
+      {
+        "label": "compile",
+        "pid": 78970,
+        "terminal": true,
+        "exitCode": 0,
+        "elapsedSeconds": 2.0785099160000002,
+        "stdioBytes": {
+          "stdout": 0,
+          "stderr": 30503
+        }
+      },
+      {
+        "label": "filesystem-only",
+        "pid": 78990,
+        "terminal": true,
+        "exitCode": 0,
+        "elapsedSeconds": 0.28436004199999987,
+        "stdioBytes": {
+          "stdout": 105,
+          "stderr": 0
+        }
+      }
+    ],
+    "cacheBeforeAfterIdentical": true,
+    "cacheFiles": 307,
+    "controllerExitCode": 0
+  },
+  "actualBehaviorQualified": [
+    "Exclusive destination refusal leaves predecessor failure sentinel unchanged and writes no observer directory.",
+    "Exact compare throws the expected changed-end.value/BGRA error; rejects other failures, and same-operands comparison succeeds.",
+    "Full expected and actual picture operands/differences persist before assertion.",
+    "Accepted mapping, full receipt values and observation bytes persist before fake cleanup.",
+    "Complete2MiB byte prefix, cap/source identity/length/SHA and explicit unverified label survive deletion of authored nonmedia source bytes."
+  ],
+  "staticAndTypeOnly": [
+    "Native media main completely typechecked but not an entry point in the qualified executable.",
+    "Writer-scope defer orders preservation before discard; reader and successful pixel-lock cleanup register before subsequent fallible evidence work.",
+    "Cursor sync/dependency/known flags, native media PTS/DTS/decodeDuration, source/asset segment bounds, storage ranges/nullable URL and refresh count compile but their native runtime observations were never exercised."
+  ],
+  "endpointQualification": "Original end tuple is unchanged and remains SampleTiming.assetEnd mapping/clipping of SDK currentSampleDuration. Header defines that property as decode duration; no independent display-duration or append-stability guarantee is inferred.",
+  "unknowns": [
+    "Paired dependency-known false retains unknown dependency meaning.",
+    "Storage offset-1 preserves noncontiguous/unknown contiguous extent; nullableURL remains nil.",
+    "Decoder refresh0 can mean no required samples OR absent information, and is not a stability predicate.",
+    "A persistence I/O failure is recorded as failed/missing when possible, never invented as saved.",
+    "Actual SDK fatal termination/power loss, actor callbacks, writer cancellation and stable-prefix/tail/backlog remain unverified."
+  ],
+  "compilerWarning": "One retained guard trailing-closure ambiguity warning in Foundation test SHA expression; no runtime/semantic error and no cosmetic recompile.",
+  "noProductionMechanismOrMediaCase": true,
+  "choices": [
+    {
+      "verdict": "sound",
+      "confidence": "high",
+      "choice": "Store cursor/dependency facts separately from original picture tuple, preserving missing/unknown meaning and existing owner-computed endpoint.",
+      "why": "Observation cannot silently become a new stability criterion or a speculative timing correction."
+    },
+    {
+      "verdict": "sound",
+      "confidence": "high",
+      "choice": "Use actual observer ownership/comparison/preservation functions in a filesystem-only entry with authored nonmedia bytes.",
+      "why": "Exercises lost-evidence failure without cloning behavior into Python or rerunning physical media."
+    },
+    {
+      "verdict": "sound",
+      "confidence": "high",
+      "choice": "Preserve failed imported-type attempt, then use lossless explicit ObjCBool.boolValue under separate authorization.",
+      "why": "Records actual SDK type behavior and avoids suppressions or relaxing the data schema."
+    }
+  ]
+}
