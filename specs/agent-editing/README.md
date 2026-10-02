@@ -35,6 +35,10 @@ streams before Stop and completes its durable result in 6.683 seconds. This clos
 20m's controlled implementation/measurement scope; physical input drain, device
 synchronization, AppKit shutdown and general performance remain open. Preserve
 both ordered digests and recovery behavior; reuse this result without another run.
+The [brief physical stop](assets/20m-camera-continuing-verification/physical-stop.json)
+adds one built-in-camera pause/resume and graceful AppKit shutdown: complete
+screen/camera results and successful exit within 1.17 seconds of Stop, with zero
+dropped samples. It does not establish sustained physical performance or synchronization.
 
 The [raw IDR proof](slices/20h-camera-idr-fence.md)
 qualifies its fixed cases; the [stop dependency audit](assets/acceptance-maintenance/stop-dependencies.md)

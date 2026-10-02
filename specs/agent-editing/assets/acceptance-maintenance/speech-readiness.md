@@ -26,6 +26,22 @@ Once qualified labels exist, the
 existing predictions. Missing reference data remains a fact, not another model
 trial or an automatic assignment to the user.
 
+Bounded publisher-document qualification found no execution-ready replacement.
+[Buckeye](https://buckeyecorpus.osu.edu/php/corpusTran.php) has trained human
+word/phone corrections and preserves fillers/restarts, but its
+[license](https://buckeyecorpus.osu.edu/License.pdf) limits research/educational use
+and restricts commercial product use. [Switchboard](https://catalog.ldc.upenn.edu/LDC97S62)
+has a [commercial licensing route](https://catalog.ldc.upenn.edu/license/ldc-for-profit-membership.pdf)
+and [corrected alignments](https://isip.piconepress.com/projects/switchboard/),
+but applicable access is unestablished. Its
+[annotation report](https://isip.piconepress.com/projects/switchboard/doc/reports/1998/report_081598_v1.pdf)
+describes correction of gross errors rather than precise adjustment of every
+connected-word edge. [CHP/CCHP](https://filledpause.org/chp/cchp/readme/) has
+noncommercial terms and timing coverage limited to fillers and their immediate
+contexts. None was downloaded or run. Qualification must establish applicable
+use, complete independently reviewed intervals and required category counts
+before inference; a corpus name alone supplies none of those proofs.
+
 The [accepted explicit cut](../12e-labeled-cleanup/README.md) already preserves its
 marked protected words, original PCM and undo; its listening verdict applies to
 that candidate. Broader protected ranges and new joins need independent references

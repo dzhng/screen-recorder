@@ -6813,3 +6813,13 @@ and report remain intact. The plan left this current profile binding unspecified
 This adds no product API or production runner; its executed source is retained
 with the diagnostic so future work can distinguish current attribution from the
 historical experiment.
+
+**Sound, medium confidence — use a separately authored built-in-camera shutdown fixture.**
+The original iPhone selection is unavailable in current discovery. Its planned
+check is not started. The developer instead submits a new explicit request for
+the available built-in camera to exercise pause/resume and graceful app shutdown.
+This does not change the product's refusal to substitute an unavailable selected
+device, nor the user's recording settings. The plan left the development fixture
+device unspecified after the user authorized necessary checks. This supplies a
+local lifecycle result; future iPhone synchronization and sustained physical
+acceptance must still be qualified independently.

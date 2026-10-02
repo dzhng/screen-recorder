@@ -231,6 +231,13 @@ alternating warm collections per arm, without coverage/profiling instrumentation
 A non-ready reply fails immediately. Preserve a red result rather than retrying,
 polling host contention, changing a limit or inventing another required slice.
 
+The [current offered window](../assets/24z-current-preparation/user-window.json)
+now supplies that measurement and complete two-arm CPU profiles. All output and
+freshness checks pass; both p95 values exceed the unchanged target. Its observed
+background load remains part of the record. Correct repeated synchronous metadata
+reads at the existing owner before one successor measurement; never combine
+validation phases across checkpoint publication.
+
 The [single coordinated preflight](../assets/24z-current-preparation/coordinated-preflight.json)
 after preparation integration found unrelated active graphics/simulation work.
 Dispatch was deferred before runtime reverification or service startup. The raw

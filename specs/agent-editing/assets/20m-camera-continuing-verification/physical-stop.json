@@ -1,0 +1,295 @@
+{
+  "scope": "One brief built-in selected-device graceful shutdown, not iPhone synchronization, sustained-stop or general performance",
+  "rootHead": "e96cddac",
+  "process": {
+    "argv": [
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "--probe",
+      "selected-devices",
+      "capture",
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-request.json"
+    ],
+    "pid": 22370,
+    "scope": "One built-in selected-device live shutdown fixture; not retained iPhone or synchronization acceptance",
+    "startedAt": "2026-10-02T19:41:23.937120+00:00",
+    "request": {
+      "cameraID": "6C707041-05AC-0011-0009-000000000001",
+      "framesPerSecond": 30,
+      "source": {
+        "kind": "display",
+        "displayID": 1
+      },
+      "cameraDelaySeconds": 2,
+      "microphone": {
+        "deviceID": "BuiltInMicrophoneDevice",
+        "enabled": true
+      },
+      "outputDirectory": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live",
+      "durationSeconds": 30,
+      "pause": {
+        "atSeconds": 8,
+        "durationSeconds": 2
+      }
+    },
+    "terminal": true,
+    "signalAt": "2026-10-02T19:41:41.990977+00:00",
+    "signalToExitSeconds": 1.1651733749895357,
+    "exitCode": 0,
+    "waited": true,
+    "elapsedSeconds": 19.22062950002146,
+    "endedAt": "2026-10-02T19:41:43.156121+00:00",
+    "durableResultExists": true,
+    "result": {
+      "camera": {
+        "width": 1920,
+        "state": "complete",
+        "height": 1080,
+        "directory": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera",
+        "hostOriginUs": 252932220695,
+        "durationUs": 15651739,
+        "source": {
+          "kind": "probe-camera"
+        },
+        "pauses": [
+          {
+            "elapsedPauseUs": 2036656,
+            "atSourceUs": 8225302
+          }
+        ],
+        "tracks": [
+          {
+            "omittedSamples": 62,
+            "samples": 383,
+            "file": "video.mov",
+            "firstSampleUs": 2753455,
+            "role": "video",
+            "heldTailUs": 0,
+            "droppedSamples": 0,
+            "lastSampleEndUs": 15651739
+          }
+        ]
+      },
+      "width": 3024,
+      "systemAudioScope": "disabled",
+      "tracks": [
+        {
+          "channelCount": 1,
+          "samples": 1454,
+          "file": "narration.mov",
+          "role": "narration",
+          "droppedSamples": 0,
+          "omittedSamples": 192,
+          "heldTailUs": 0,
+          "firstSampleUs": 149034,
+          "lastSampleEndUs": 15669722,
+          "sampleRate": 48000
+        },
+        {
+          "samples": 456,
+          "file": "video.mov",
+          "role": "video",
+          "droppedSamples": 0,
+          "omittedSamples": 60,
+          "heldTailUs": 0,
+          "firstSampleUs": 0,
+          "lastSampleEndUs": 15704928
+        }
+      ],
+      "state": "complete",
+      "height": 1964,
+      "durationUs": 15678364,
+      "cursor": {
+        "sampled": 0,
+        "skippedTicks": 0,
+        "forgottenPlacements": 0,
+        "omittedPaused": 0,
+        "geometryEpochs": 1,
+        "droppedReadings": 0
+      },
+      "hostOriginUs": 252932220695,
+      "source": {
+        "kind": "display",
+        "displayID": 1
+      },
+      "pauses": [
+        {
+          "atSourceUs": 8225302,
+          "elapsedPauseUs": 2036656
+        }
+      ]
+    }
+  },
+  "actualApp": {
+    "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+    "bytes": 6378736,
+    "sha256": "e121f3c052da996fea56358bb0012bc0ef361f22147294ea024a3e27b4ee8a53"
+  },
+  "actualWorker": {
+    "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+    "bytes": 20440544,
+    "sha256": "a4070e67788c38ffd4d966d7fa010a9ed80dbe1e870278af1e14ca46031e7c99"
+  },
+  "inputs": {
+    "exitCode": 0,
+    "terminal": true,
+    "waited": true,
+    "originalSelectionAvailable": {
+      "camera": false,
+      "microphone": true,
+      "display": true
+    }
+  },
+  "originalIphoneAttempt": "Not dispatched: selected original camera absent. Built-in capture is a separately authored fixture, not a fallback or substitution.",
+  "checks": {
+    "signalToDurableResultAndExitUnder10s": true,
+    "screenAndCameraComplete": true,
+    "sharedOriginAndPause": true,
+    "zeroDroppedSamples": true,
+    "cameraDurableFieldsMatchReturnedCamera": true
+  },
+  "media": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/camera.raw.mov",
+      "bytes": 23536688,
+      "sha256": "09dc84cd559b7758551ce39808cae6685cc1f76d00306b36e08ff8956fb38cb1"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/video.mov",
+      "bytes": 23537550,
+      "sha256": "9467e0e619c2119ff3ba9605564ddb16f095f09bc20c9f8c8f4f0ea11eeaf20d"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen/video.mov",
+      "bytes": 65353858,
+      "sha256": "2f34b20192248b793982edf39c56f5c363c24bf76d8432c051c2a90aa19445c5"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen/narration.mov",
+      "bytes": 2978581,
+      "sha256": "c22212876935659f8335269d71d16a0d1ccb5de87904498a9119ca26f9caff64"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/.screenrec-output-475193A1-A9E5-46EE-A0DF-D917DCA2EC26/camera.mov",
+      "bytes": 23537550,
+      "sha256": "9467e0e619c2119ff3ba9605564ddb16f095f09bc20c9f8c8f4f0ea11eeaf20d"
+    }
+  ],
+  "archive": {
+    "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/20m-camera-continuing-verification/physical-stop.tar.gz",
+    "bytes": 174077,
+    "sha256": "5d8da07e0072568c0448ea9cb6e256b940e64ab6f49082d42f9c0b5d4770424e"
+  },
+  "members": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/bank.py",
+      "bytes": 2748,
+      "sha256": "8ca378234cbe01de74a5e8e741c28339dbf0a82f43bdd7fc38b26b7a94e46030"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/capture.py",
+      "bytes": 2191,
+      "sha256": "2d83b427f2f299a007f5f02c6240f3b6b672bf3040b5342031c2b4e675fd6745"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-request.json",
+      "bytes": 411,
+      "sha256": "d38911f1d3e2e48e526c33738261bb79c7acf6ca33f49e9b73c8cf65c90757e8"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/capture-process.json",
+      "bytes": 3151,
+      "sha256": "0cdf563dc3a3f9763e007b8f973218eb17f677ca442c10d413cd904311709e5b"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/capture.stdout",
+      "bytes": 1203,
+      "sha256": "63153a3d20ec9a9481af13d3693562521a52d46bfd729f8f51dcf42697c9df7a"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/capture.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/status-process.json",
+      "bytes": 389,
+      "sha256": "e569f13887c68f618ee03d2d7c929db5dbf09c25ed3e983cc9b2f2b6a81d1691"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/sources-process.json",
+      "bytes": 161,
+      "sha256": "0a6f4e6548a9e0c9df63a4c4abfdb384126e106595c2176d41aa758ebc2588ba"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/request.json",
+      "bytes": 395,
+      "sha256": "659645628b0ae4d56b4f256ff5dd5a64415a6640d5e0ae3579d1fc868cca1e59"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/timestamps.jsonl",
+      "bytes": 1034494,
+      "sha256": "6202265bfe99ce98878253e7dcb17ca8c02d99db8474d3962a7d509e6686ee6d"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen-result.json",
+      "bytes": 1202,
+      "sha256": "46f7b2263b8699a9c3c7475e2733bcd2a75d7a0f695ce326ee96af41ebab7514"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/capture-result.json",
+      "bytes": 506,
+      "sha256": "7daf83a95ff6dc75db4224cc509b8f037260b5c4dc6ac187f42557562c273fc7"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/capture.journal.jsonl",
+      "bytes": 1115,
+      "sha256": "a562c85424cc283af6d3df3116e30a35754c9e9943b4b812525bb4a2d40ec1c8"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/camera.mapping.jsonl",
+      "bytes": 1034494,
+      "sha256": "6202265bfe99ce98878253e7dcb17ca8c02d99db8474d3962a7d509e6686ee6d"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/source.publication.json",
+      "bytes": 641,
+      "sha256": "897f0c4e1e034598c08097b657509d719af4740609fa0a98e8671d0f04570191"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/camera.closed.json",
+      "bytes": 96,
+      "sha256": "75c1aa012552507233703b76422cce94b002a0d7f9323d2fe6c36bf381af8ccc"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/camera/camera.publication.json",
+      "bytes": 900,
+      "sha256": "87daf031abed8b34e4a67a8419e08557fa1be5378b4b39ba62c03a4b07f1b133"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen/narration.publication.json",
+      "bytes": 680,
+      "sha256": "831e0819fdad89c78afaf3fa21b823247025d7a74ca7bea6c2e6d1a5ccecd971"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen/capture.journal.jsonl",
+      "bytes": 352280,
+      "sha256": "967085c10de695ba177f922c87ed1d93e44669277e70e2439aea6ab2ab6a3daf"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen/source.publication.json",
+      "bytes": 642,
+      "sha256": "1f1236bee78ef44bd4d62ab556f0d927b01e3a8aff5e8e40e277e945d54d191e"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/physical/builtin-live/screen/source.journal.jsonl",
+      "bytes": 352214,
+      "sha256": "a30379ca82d670f4ef0f898ecb7a20531fddfe4dcde3f014fdc8cd43efdb55e4"
+    }
+  ],
+  "limits": [
+    "No physical flash/beep uncertainty bound or drift measurement",
+    "No 250-second sustained physical-input stop claim",
+    "No candidate service or installed-app acceptance",
+    "App-owned probe output; source CLI/MCP live capture remains separate"
+  ]
+}
