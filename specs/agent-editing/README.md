@@ -22,16 +22,19 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: prepare camera observations that survive a failed comparison.**
+**Next pickup: qualify native cursor facts on the retained closed camera fixture.**
 [20g](slices/20g-camera-raw-prefix.md) compiled with the retained working cache,
 then reused that binary for the separately authorized physical cases. One ordinary
 prefix stayed identical; the separate case failed before intentional interruption.
 Its later comparison operands and failed raw movie were lost during probe cleanup,
 so the changed field remains unknown. [Root saved-data checks](assets/20g-camera-raw-prefix/physical-continuation/merged.json)
 retain this distinction. Preserve originals; do not retry the same tail rule or
-infer a codec cause. Inspect actual decoder dependency and endpoint guarantees,
-and require durable operands and bounded failure output in any successor observer.
-Only a necessary, supported new hypothesis justifies another fixed experiment.
+infer a codec cause.
+The [observer qualification](assets/20g-camera-raw-prefix/observer-preparation/README.md)
+now proves durable operands and bounded failed bytes through its real filesystem
+entry; native cursor values remain unexercised. Follow the slice's metadata-only
+plan on existing media before proposing an active-prefix boundary. No decode,
+writer, new capture or physical-case replay follows from this preparation.
 
 The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
 improves the fixed example's timing without an individual regression; parent 12

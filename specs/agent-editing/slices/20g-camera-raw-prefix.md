@@ -72,3 +72,33 @@ cannot reconstruct the missing historical operands. A new physical candidate als
 needs a supported stability condition for decoder dependencies and native endpoints;
 changing the discarded tail until the example passes is not such a condition.
 Canonical traversal, recovery, backlog and stop performance remain separate gates.
+
+[Observer preparation](../assets/20g-camera-raw-prefix/observer-preparation/README.md)
+now qualifies actual filesystem failure retention and complete SDK typechecking.
+It preserves the rejected imported-Boolean compile separately from the lossless
+bridge. Native cursor values and live cleanup remain unverified.
+
+## Fixed metadata-only next question
+
+Does the unchanged writer's retained closed ordinary MOV expose actual full-sync,
+dependency/reordering and stored-byte facts that can support a new boundary
+hypothesis? Header contracts and typechecking cannot answer native availability.
+This is a necessary observation prerequisite, not another test of the failed tail.
+
+Use only the saved ordinary raw movie and all 197 closed picture/mapping rows from
+the physical packet, with their exact identities. Reuse the qualified cursor-fact
+owner and existing segment mapping. Enumerate the complete native presentation
+inventory; report count/ordinal/rational asset-PTS correspondence, all raw timing
+flags, actual sync/dependency-known flags, DTS, decode duration and storage extents.
+Record reordering queries only between cursors from that same track instance.
+Unknown data stays unknown; zero refresh count supplies no guarantee. Keep the
+computed endpoint's decode-duration qualification explicit.
+
+One warm external compile is bounded to 150 seconds and the metadata entry to
+15 seconds, with 1 MiB stdout/stderr caps. Freeze source, plan, input and runtime
+bindings before dispatch; preserve failures and actual terminals. No writer,
+AVAssetReader, pixel decoding, new device capture, media modification or recovery
+runs. Check complete saved values afterward without replay. If native facts are
+absent or contradictory, report that limitation and stop; do not tune the tail or
+select a production mechanism. Useful facts may support a separately planned
+candidate, but cannot themselves establish prefix stability or stop performance.

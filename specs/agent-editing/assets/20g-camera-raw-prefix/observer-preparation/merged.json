@@ -1,0 +1,18 @@
+{
+  "scope": "Root saved-data only; no compiler, filesystem producer, native metadata or media replay",
+  "archiveMembersChecked": 50,
+  "currentAuthorityPinsChecked": 117,
+  "exactProjectionAndNineBoolBridges": true,
+  "phaseExitCodes": {
+    "originalCompile": 1,
+    "correctedCompile": 0,
+    "filesystem": 0
+  },
+  "completeOperandsAndFieldDifferencesChecked": true,
+  "completeAdmissionValuesChecked": true,
+  "completeCappedBytesAndLabelChecked": true,
+  "predecessorSentinelUnchanged": true,
+  "sameOperandControlPassed": true,
+  "cacheInventoriesUnchanged": true,
+  "nativeRuntimeOrPrefixStabilityQualified": false
+}

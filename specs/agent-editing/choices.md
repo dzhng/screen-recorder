@@ -6638,3 +6638,21 @@ controller reused its exact qualified binary without recompilation. The evidence
 hub names both phases so the earlier “not invoked” statement cannot obscure actual
 later execution. Both original failures stay intact, and successful warm preparation
 does not establish why the cold compilation timed out.
+
+## Camera observer qualification
+
+**Sound, high confidence — exercise failure retention without running media.**
+When a comparison rejects a picture, its observations must survive cleanup. A
+separate executable calls the successor's exact observation functions on authored
+bytes and picture tuples. The media method is typechecked but has no entry
+decorator and never runs. This avoids testing a Python imitation or repeating a
+writer case merely to test filesystem behavior. Its passed evidence cannot be
+promoted into a live-cancellation or prefix-stability verdict.
+
+**Sound, high confidence — qualify native facts before choosing a boundary.**
+An SDK field can compile yet return unknown information on the real container.
+The next observation reads the already retained closed movie's complete cursor
+inventory without decoding or writing media. It preserves unknown flags and the
+timing owner's decode-duration meaning instead of treating configuration as an
+observed refresh boundary. The result may justify a new candidate; it does not
+approve that candidate or change the required digests and stop deadline.

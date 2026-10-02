@@ -14,6 +14,8 @@ correction, complete sources/projection, commands, cache inventories, compiler
 logs, executable, exact operands and terminal receipts. The media method was
 fully typechecked with only its entry decorator removed; it was never called.
 No maintained harness, product mode or production owner was introduced.
+[Root saved-data verification](merged.json) checks complete artifacts and current
+bindings without replaying the compiler or filesystem entry.
 
 Cursor facts remain separate from tuple equality. Unknown dependency/storage
 information stays unknown; decoder-refresh zero may also mean absent information.
