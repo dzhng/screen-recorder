@@ -60,6 +60,15 @@ the deleted engine. Missing inherited acoustic or physical acceptance does not
 block this port. Obsolete editing-owner deletion still requires matched verified
 preservation guarantees and removal of actual consumer dependencies.
 
+Keep these implementation checkpoints distinct. First remove obsolete shared
+composition selectors and their native actions/readers while preserving the
+existing capture-fact contract. Then remove the old span owner and its unused
+recording revision field from the actual core type, queries and schema. Do not
+hide that field in a new response adapter. The schema owner requires a fresh
+format bump and refuses prior formats without migration; preserve refusal and
+unchanged old-catalog bytes in the surviving boundary tests. Project revisions,
+capture/source lifetime and useful low-level media primitives survive both passes.
+
 The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 
 [23b](23b-export-recovery-preservation.md) adds the bounded matched public acknowledgement-loss/restart checkpoint using the retained cached movies.
