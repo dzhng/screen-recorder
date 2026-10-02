@@ -104,3 +104,20 @@ generations. ASR responses are frozen; queue, ingestion and public consumers run
 The [generation authority audit](generation-authority.json) records the missing
 exact integrated-run generation files. Original raw mechanism proof and later
 integrated summaries remain distinct; no hashes or historical payloads are replaced.
+
+## Pinned preview/export and recovery
+
+[The saved correspondence](preview-export-correspondence.json) maps the verified
+original readiness, failure and recovery guarantees through the existing project
+owners and public/native consumers. Revision pinning, explicit retry, failure
+precedence, cancellation, committed-file preservation and retained-package recovery
+have complementary owner and public proofs. Controlled renderer/network fixtures
+remain distinct from actual decoded-media and paired publication outcomes.
+
+Current source identities and changed-owner limits are explicit. Historical
+reports do not become fresh executions of changed surrounding code. No concrete
+unmapped guarantee or missing port was found; the contract does not require every
+service fault repeated through every native consumer. Installed/default switching,
+continuous A/V/pointer presentation and listening keep their separate acceptance
+scope. The next implementation owner is the canonical service composition and
+shared contract cleanup, rather than another fault cross-product.

@@ -22,7 +22,20 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: complete the remaining consumer preservation correspondence.**
+**Next pickup: make the canonical service entry use the fresh project composition.**
+The default repository build still selects the old recording-editing composition.
+Replace that composition with the already qualified project service, remove its
+separate development entry and verify the default process through an isolated
+home. This implementation pass is underway in the managed `service-composition`
+worktree; inspect its branch and actual test state before overlapping that owner.
+Then remove obsolete editing targets and consumers through
+[cutover](slices/23-cutover.md), preserving capture and source evidence.
+
+Missing broader speech labels and physical synchronization remain release
+acceptance gaps, not prerequisites for isolated cutover implementation. The
+[preservation matrix](verification.md#preservation-matrix) requires preserving
+verified behavior and keeping inherited pending claims pending. Installed
+replacement, migration and unsupported acceptance claims remain separate.
 The [joined-verification physical confirmation](assets/20-sustained-physical-stop/verification-confirmation/README.md)
 now passes the original sustained Stop/quit recipe at 9.215 seconds. Independent
 source publication, joined cancellation and exact retained-source proof remain

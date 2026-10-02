@@ -1,0 +1,728 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-02T22:43:19.170281+00:00",
+  "sourceCommit": "25bab6cb4d21560f451faeaa39cf27e757f934e5",
+  "activity": "Saved-only mapping; no service, test, build, native, media, model, player or capture runtime.",
+  "contract": "Preserve verified original readiness, failure and recovery guarantees at public entry points with new project/dependency identity. Inherited pending claims remain pending.",
+  "wholeRequiredRowComplete": true,
+  "disposition": "Original readiness/failure/recovery guarantees are accounted for by composed owner, service, public and native-consumer proofs. No concrete uncovered guarantee or missing production port was found. Do not add an integration cross-product solely because a consumer test scripts its network boundary.",
+  "claims": [
+    {
+      "id": "immutable-preview-and-export",
+      "required": "The first selected revision, implementation and output stay pinned through later edits, replay and regeneration.",
+      "outcome": "Mapped",
+      "authority": [
+        "specs/agent-editing/assets/09-export-integration/owner-tests.txt",
+        "specs/agent-editing/assets/09-export-owner/review.md",
+        "specs/agent-editing/assets/23b-export-recovery-preservation/report.json"
+      ],
+      "proofKind": "Real core/catalog/jobs/cache/native publication with a controlled JSON renderer; one paired real cached-movie public case.",
+      "limits": "The controlled JSON renderer does not prove composition decoding; the paired case covers one fault boundary."
+    },
+    {
+      "id": "failure-precedence-and-explicit-retry",
+      "required": "Capability restoration does not retry work automatically. Export retry must not repair a newer DECODE_FAILED using stale NOT_READY.",
+      "outcome": "Mapped",
+      "authority": [
+        "specs/agent-editing/assets/09-export-integration/owner-tests.txt",
+        "specs/agent-editing/assets/09-export-owner/project-export-owner.txt"
+      ],
+      "exactSavedTests": [
+        "explicit export retry recovers a queued preview after its pinned renderer returns",
+        "polling and export retry leave unrelated failed preview dependencies alone",
+        "stale export implementation absence does not retry a newer decode failure"
+      ],
+      "proofKind": "Actual MediaExports, queue, cache and publication; the renderer failure is injected at its external boundary.",
+      "currentPolicy": {
+        "baseCommit": "7ade9944",
+        "startMarker": "      const pinned = intent.snapshot as PinnedProjectPreview;",
+        "endExclusiveMarker": "const job = this.owners.jobs.submitDeferred(",
+        "historicalSHA256": "330de79851bea5eb9663dba15393aa8322919cfb5647d313485fefc57efa4c8a",
+        "currentSHA256": "330de79851bea5eb9663dba15393aa8322919cfb5647d313485fefc57efa4c8a",
+        "exactBodyEqual": true,
+        "scope": "Only the inner project-video implementation/failure-repair arbitration. The outer guard now explicitly selects video, with a separate audio branch. Not whole-owner or runtime equivalence."
+      },
+      "limits": "Not an actual native SDK decode fault or a current staged-app failure process."
+    },
+    {
+      "id": "cancel-and-retirement",
+      "required": "Late work cannot publish an obsolete private generation. Acknowledged external commits survive cancel/deletion; input leases drain.",
+      "outcome": "Mapped",
+      "authority": [
+        "specs/agent-editing/assets/09-export-integration/owner-tests.txt",
+        "specs/agent-editing/assets/09-render-lifetime/README.md",
+        "specs/agent-editing/assets/23e-preview-consumer-parity/merged-verification.json"
+      ],
+      "proofKind": "Real publication, queue and cache locks; native-controller Call and clock are scripted.",
+      "limits": "No power-loss or continuous player-output claim."
+    },
+    {
+      "id": "lostcommitack-restart",
+      "required": "Death after an actual commit but before acknowledgement converges on the original receipt, snapshot and inode without republishing.",
+      "outcome": "Mappedpairedpublic",
+      "authority": [
+        "specs/agent-editing/assets/23b-export-recovery-preservation/report.json",
+        "specs/agent-editing/assets/23b-export-recovery-preservation/verification.json"
+      ],
+      "proofKind": "Actual recording/project public services, native commit children and owned process death/restart, using retained cached movies.",
+      "limits": "The observer holds the reply only after the actual native child exits zero. No render, ASR, model or capture; not a fault cross-product."
+    },
+    {
+      "id": "retained-portable-recovery",
+      "required": "Compatible prepared bytes remain usable without their processor. Missing/corrupt bytes or changed recipes cannot become stale ready output; undo restores compatible preparation.",
+      "outcome": "Mappednewformatpublic",
+      "authority": [
+        "specs/agent-editing/assets/22b-retained-consumers/root-public-report.json.gz",
+        "specs/agent-editing/assets/22-acceptance/changed-recipe-report.json.gz"
+      ],
+      "actualChecks": {
+        "exactNativeUnitRateAndGain": true,
+        "publicLearnedPreparationAndRepeat": true,
+        "learnedFullAndLateTransferExact": true,
+        "receiverProcessingUnavailable": true,
+        "unchangedRevisionDocuments": true,
+        "publicRelocationAndReplay": true,
+        "canceledAdoptionInvisibleAndSameRequestRetry": true,
+        "donorAndArchiveRemoved": true,
+        "originalRecipeIdentitiesRetained": true,
+        "adoptedRevisionReferences": true,
+        "speechModelAbsentOnly": true,
+        "learnedTamperedPCMRefused": true,
+        "unavailableExecutorNotInvoked": true,
+        "exactHistoricalAndCurrentPCM": true,
+        "changedRecipeRequiresPreparation": true,
+        "undoRestoresPreparedOutput": true,
+        "boundedLatePCM": true,
+        "publicAssetAudioExact": true,
+        "missingAndCorruptRetainedPCMRefused": true
+      },
+      "proofKind": "Actual public prepared-package journey and native PCM, preview and export; historical catalog18 and frozen prepared output.",
+      "limits": "No old-format migration, listening, model-quality or current-catalog22 runtime claim."
+    },
+    {
+      "id": "native-receipt-and-lease-errors",
+      "required": "Validate owner, revision, path, byte count, MIME and lease. Fail visibly; renewal, revocation, late close and unanswered retry cannot replay mutations.",
+      "outcome": "Mappedcontrollednativeconsumer",
+      "authority": [
+        "specs/agent-editing/assets/23d-export-consumer-parity/verification.json",
+        "specs/agent-editing/assets/23e-preview-consumer-parity/merged-verification.json",
+        "specs/agent-editing/assets/23g-project-export-requests/verification.json"
+      ],
+      "proofKind": "Actual Swift controllers; presenter compiled; Call, Choose and clock scripted. 23g also checks real OS path normalization.",
+      "limits": "The 23e player fixtures were compiled but not launched. No actual service-backed project fault-to-player-close or installed-switch claim."
+    }
+  ],
+  "currentOwnerSources": {
+    "apps/service/src/exports.ts": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/exports.ts",
+      "bytes": 56772,
+      "sha256": "1b48ef50b129de88eb353122696cae8c407de24639b22f639d469cb94f81994b"
+    },
+    "apps/service/src/render.ts": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/render.ts",
+      "bytes": 12596,
+      "sha256": "86ead9968f14c6ebf1c5cfb84aeb452dc2f8b31f4d1bd6c066a998755d0c3aee"
+    },
+    "apps/service/src/delivery.ts": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/delivery.ts",
+      "bytes": 4907,
+      "sha256": "b67ff2eacc2454c7c6c72b90f6e458a0daf7015d264780ba79dff42c22cdb12e"
+    },
+    "apps/service/src/project-render.ts": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/project-render.ts",
+      "bytes": 17653,
+      "sha256": "590b3ddba17fa04095e7ed63d786b277eeba2c4cfb51aac77aebf78feb86c617"
+    },
+    "packages/core/src/project-preview.ts": {
+      "path": "/Users/david/dev/screen-recorder/packages/core/src/project-preview.ts",
+      "bytes": 11788,
+      "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9"
+    },
+    "packages/core/src/cached-derivative.ts": {
+      "path": "/Users/david/dev/screen-recorder/packages/core/src/cached-derivative.ts",
+      "bytes": 1326,
+      "sha256": "02d68b831c2fb933ac08ef3b5c04694b45503e3f131c5d3e88b059e9c3c432c4"
+    },
+    "packages/core/src/prepared-audio.ts": {
+      "path": "/Users/david/dev/screen-recorder/packages/core/src/prepared-audio.ts",
+      "bytes": 19521,
+      "sha256": "cd866e973eecb4fd23854b114565bb406870da1f8c056e27c1350619e57ab35d"
+    },
+    "packages/core/src/jobs.ts": {
+      "path": "/Users/david/dev/screen-recorder/packages/core/src/jobs.ts",
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+    },
+    "packages/core/src/cache.ts": {
+      "path": "/Users/david/dev/screen-recorder/packages/core/src/cache.ts",
+      "bytes": 14522,
+      "sha256": "92c2f4f2667b7ba34f71198514a4070ef17e42041bc53fafcbe856c90a236b38"
+    },
+    "apps/macos/Sources/ScreenRecorder/PreviewController.swift": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewController.swift",
+      "bytes": 10566,
+      "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9"
+    },
+    "apps/macos/Sources/ScreenRecorder/PreviewWindow.swift": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewWindow.swift",
+      "bytes": 4387,
+      "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9"
+    },
+    "apps/macos/Sources/ScreenRecorder/ExportController.swift": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/ExportController.swift",
+      "bytes": 17230,
+      "sha256": "2c184b016a6e67e930416c1e0d25c341b11b1bd55605b0f2f184ebbee5da5f19"
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ExportsState.swift": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ExportsState.swift",
+      "bytes": 10002,
+      "sha256": "ab97bc7b61348a969f2e1d965d8ef0c55e98215908d3cb345a7da0d9745afc6a"
+    },
+    "apps/macos/tests/preview-controls.test.mjs": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/tests/preview-controls.test.mjs",
+      "bytes": 17640,
+      "sha256": "2c14304f21e168723ff79de72316971fe4a5a3a3c0c015b5f276a40a344eda99"
+    },
+    "apps/macos/tests/export-controls.test.mjs": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/tests/export-controls.test.mjs",
+      "bytes": 35653,
+      "sha256": "5a8663b5ce3d2bf5e7b7a1735dd3565f2b3d3ee80ad6f026ea99408771421121"
+    },
+    "apps/macos/tests/preview-player.test.mjs": {
+      "path": "/Users/david/dev/screen-recorder/apps/macos/tests/preview-player.test.mjs",
+      "bytes": 8626,
+      "sha256": "a2601ff467a852690fa99d55eb75c4467c991ffec1288722fb894f773d9b3320"
+    },
+    "apps/service/tests/project-export.mjs": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/tests/project-export.mjs",
+      "bytes": 25728,
+      "sha256": "9eb5c1a0a0dca249e8e2a039e03d842e0e4697f9b7a921bafde744f0d53467d4"
+    },
+    "packages/core/src/project-preview.test.ts": {
+      "path": "/Users/david/dev/screen-recorder/packages/core/src/project-preview.test.ts",
+      "bytes": 21813,
+      "sha256": "34419c18288d72d918b9ac7bcd82ab2117b604c651e0f74d732e39eed7a691f9"
+    },
+    "apps/service/src/main.ts": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/main.ts",
+      "bytes": 19541,
+      "sha256": "fea98214bffafe5ad042194984410d2de2ab064be4dab0a8caf43857ccd19d68"
+    },
+    "apps/service/src/project-main.ts": {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/project-main.ts",
+      "bytes": 1113,
+      "sha256": "298508b264c30496b0d27ecd5c418ad70e26cea9b670a94fee8d74738e4038ea"
+    }
+  },
+  "historicalByteComparisons": {
+    "apps/service/src/delivery.ts": {
+      "historical": {
+        "bytes": 4422,
+        "sha256": "426bc11af03185bcca8edb695e07bfb42e59981663e60a851a7d2f58752947d5"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/service/src/delivery.ts",
+        "bytes": 4907,
+        "sha256": "b67ff2eacc2454c7c6c72b90f6e458a0daf7015d264780ba79dff42c22cdb12e"
+      },
+      "byteIdentical": false
+    },
+    "packages/core/src/project-preview.ts": {
+      "historical": {
+        "bytes": 11788,
+        "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/packages/core/src/project-preview.ts",
+        "bytes": 11788,
+        "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9"
+      },
+      "byteIdentical": true
+    },
+    "apps/macos/Sources/ScreenRecorder/PreviewController.swift": {
+      "historical": {
+        "bytes": 10566,
+        "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewController.swift",
+        "bytes": 10566,
+        "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9"
+      },
+      "byteIdentical": true
+    },
+    "apps/macos/Sources/ScreenRecorder/PreviewWindow.swift": {
+      "historical": {
+        "bytes": 4387,
+        "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewWindow.swift",
+        "bytes": 4387,
+        "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9"
+      },
+      "byteIdentical": true
+    },
+    "apps/macos/Sources/ScreenRecorder/ExportController.swift": {
+      "historical": {
+        "bytes": 13368,
+        "sha256": "7ef50021e8e9caf83d40192760978539712c3f270e5dbe5ccc3c88e26bf36ea5"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/ExportController.swift",
+        "bytes": 17230,
+        "sha256": "2c184b016a6e67e930416c1e0d25c341b11b1bd55605b0f2f184ebbee5da5f19"
+      },
+      "byteIdentical": false
+    },
+    "apps/macos/Sources/ScreenRecorderControls/ExportsState.swift": {
+      "historical": {
+        "bytes": 9887,
+        "sha256": "e615907c96914ba26456707ce916dab8039cb073ef1e3b0d745ad81288ba09f5"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorderControls/ExportsState.swift",
+        "bytes": 10002,
+        "sha256": "ab97bc7b61348a969f2e1d965d8ef0c55e98215908d3cb345a7da0d9745afc6a"
+      },
+      "byteIdentical": false
+    },
+    "apps/macos/tests/preview-controls.test.mjs": {
+      "historical": {
+        "bytes": 17640,
+        "sha256": "2c14304f21e168723ff79de72316971fe4a5a3a3c0c015b5f276a40a344eda99"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/tests/preview-controls.test.mjs",
+        "bytes": 17640,
+        "sha256": "2c14304f21e168723ff79de72316971fe4a5a3a3c0c015b5f276a40a344eda99"
+      },
+      "byteIdentical": true
+    },
+    "apps/macos/tests/export-controls.test.mjs": {
+      "historical": {
+        "bytes": 35060,
+        "sha256": "719f6b5e3bb09ce7ba096e077b7fe0ba3c5855c1bdcf71168a928359274a9c8c"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/tests/export-controls.test.mjs",
+        "bytes": 35653,
+        "sha256": "5a8663b5ce3d2bf5e7b7a1735dd3565f2b3d3ee80ad6f026ea99408771421121"
+      },
+      "byteIdentical": false
+    },
+    "apps/macos/tests/preview-player.test.mjs": {
+      "historical": {
+        "bytes": 8626,
+        "sha256": "a2601ff467a852690fa99d55eb75c4467c991ffec1288722fb894f773d9b3320"
+      },
+      "current": {
+        "path": "/Users/david/dev/screen-recorder/apps/macos/tests/preview-player.test.mjs",
+        "bytes": 8626,
+        "sha256": "a2601ff467a852690fa99d55eb75c4467c991ffec1288722fb894f773d9b3320"
+      },
+      "byteIdentical": true
+    }
+  },
+  "materialChanges": [
+    {
+      "owner": "ExportController",
+      "change": "23g adds explicit project choice, owner/destination/revision fences and realpath; later changes add audio filename support.",
+      "correspondence": "23g supplies separate scripted controller proof. Older 23d/e ExportController bytes are not current; no installed claim."
+    },
+    {
+      "owner": "MediaExports",
+      "change": "Standalone project audio exports add settings, admission and retry. The inner project-video repair body exactly matches 7ade9944.",
+      "correspondence": "Reuse video arbitration only. Old 09 logs do not execute the complete current owner."
+    },
+    {
+      "owner": "PreparedAudioStore",
+      "change": "Admission deduplicates resource dependencies, resolves one composition and uses shared native PCM capacity.",
+      "correspondence": "Historical retained recipe/byte proof remains valid. Old 22 receipts do not execute the new admission/resource bounds."
+    },
+    {
+      "owner": "SharedDerivativeDelivery",
+      "change": "Operation-result JSON reservations and descriptors share leases with existing media.",
+      "correspondence": "24z11/12 own the later contract. Historical 23e controller checks are not a complete updated-service capacity test."
+    },
+    {
+      "owner": "ProjectPreviews/PreviewController/PreviewWindow",
+      "change": "Current files match 23e merged source pins.",
+      "correspondence": "Consumer/source bodies match. Dependencies, native implementation and bundle are separate closures; a file hash does not prove those unchanged."
+    }
+  ],
+  "authorities": {
+    "specs/agent-editing/verification.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/verification.md",
+      "bytes": 15414,
+      "sha256": "42df6b5d04da1e04d64df4214fdb6ddecfcee3d781e4212c92d2e3286134b943"
+    },
+    "specs/agent-editing/slices/23-cutover.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/slices/23-cutover.md",
+      "bytes": 9345,
+      "sha256": "89b37e8d6520bf718c837e462f1946fc314c071bb7ecafc8057fda37e908332d"
+    },
+    "specs/agent-editing/assets/acceptance-maintenance/cutover-preservation.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/acceptance-maintenance/cutover-preservation.md",
+      "bytes": 10887,
+      "sha256": "ff140333f3a64fea0ace0f0508f50e5b2d4d5ba90fae49195ad8a7fd8cd359e6"
+    },
+    "specs/agent-editing/assets/acceptance-maintenance/cutover-outcomes.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/acceptance-maintenance/cutover-outcomes.md",
+      "bytes": 7029,
+      "sha256": "647aae1b26417e19f087bd4864bc6465063db598c933eca95d2563b94e97f87a"
+    },
+    "specs/agent-editing/assets/09-export-owner/review.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-owner/review.md",
+      "bytes": 3889,
+      "sha256": "1842c18b6fea5d2a37c1864ee9d29ce630a823066641f6f9657558d00d07802e"
+    },
+    "specs/agent-editing/assets/09-export-owner/project-export-owner.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-owner/project-export-owner.txt",
+      "bytes": 1302,
+      "sha256": "fd785779598e8a3850183d617416c9a77d7184bf8c2d45ad8df87a3a2be3a6bc"
+    },
+    "specs/agent-editing/assets/09-export-owner/recording-preservation-initial.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-owner/recording-preservation-initial.txt",
+      "bytes": 10540,
+      "sha256": "0712aac6fcd9d01d12c8f6dd3cfd3c47ec4ab4698a39e2aed7bbc199628645a2"
+    },
+    "specs/agent-editing/assets/09-export-owner/recording-preservation-recheck.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-owner/recording-preservation-recheck.txt",
+      "bytes": 507,
+      "sha256": "e16720c089412f66f7fb6a90532495ac68964d487cf242fab05bfeefa936faf4"
+    },
+    "specs/agent-editing/assets/09-export-owner/package-relocation.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-owner/package-relocation.txt",
+      "bytes": 376,
+      "sha256": "c688268d03f15bb8701c3dace67f7fcaab3240b192a088aa0efc25df5d91adf6"
+    },
+    "specs/agent-editing/assets/09-export-integration/owner-tests.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-integration/owner-tests.txt",
+      "bytes": 1297,
+      "sha256": "580e217bfe6e85dde3162892d06f17c0d84c82b867696737ad2883b8a041d13a"
+    },
+    "specs/agent-editing/assets/09-export-integration/service-protocol.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-integration/service-protocol.txt",
+      "bytes": 1055,
+      "sha256": "3b7847bfe9db13edbaeb892fc2775a0d3eccda128db3b89ebc8bc307158b146e"
+    },
+    "specs/agent-editing/assets/09-export-integration/core-tests.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-export-integration/core-tests.txt",
+      "bytes": 690,
+      "sha256": "c7d9c5f0b3528c81b2f37c7d714191845eef7ce528959c54c538533182ddeda7"
+    },
+    "specs/agent-editing/assets/09-public-preview/service-protocol.txt": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/09-public-preview/service-protocol.txt",
+      "bytes": 900,
+      "sha256": "01d3bf7abb617ed3794e7311530e1c63c7063d48075e68268b8a2747113b6c55"
+    },
+    "specs/agent-editing/assets/22-acceptance/README.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/22-acceptance/README.md",
+      "bytes": 2390,
+      "sha256": "f7da17bcd5132e5895d431107de5d6258a6d8dafc6f725758922b237faee3816"
+    },
+    "specs/agent-editing/assets/22-acceptance/changed-recipe-report.json.gz": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/22-acceptance/changed-recipe-report.json.gz",
+      "bytes": 9649,
+      "sha256": "e14033646bb9af72ecebf68ccaa0b5956a61891aa2f2b396c6b024a0851655f9"
+    },
+    "specs/agent-editing/assets/22b-retained-consumers/root-verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/22b-retained-consumers/root-verification.json",
+      "bytes": 1338,
+      "sha256": "0da3845f6e54238c75b5014f61e757d5491a1e0910c5b4b5aede6d46570b4f8a"
+    },
+    "specs/agent-editing/assets/22b-retained-consumers/root-public-report.json.gz": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/22b-retained-consumers/root-public-report.json.gz",
+      "bytes": 12483,
+      "sha256": "590423d57300db987d87a6210baea18a42fba5422f99d5e9544b6efaf05cd36c"
+    },
+    "specs/agent-editing/assets/23b-export-recovery-preservation/report.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23b-export-recovery-preservation/report.json",
+      "bytes": 99082,
+      "sha256": "cd8f161ffb35b7cab3b11040387e3410018b820dd86b3f814f1acac0e74bac0d"
+    },
+    "specs/agent-editing/assets/23b-export-recovery-preservation/verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23b-export-recovery-preservation/verification.json",
+      "bytes": 2430,
+      "sha256": "e06ba4af13d5fcf5c97b3175d3ac39fc1b608d5c051d7a004d7b8b0778a29965"
+    },
+    "specs/agent-editing/assets/23b-export-recovery-preservation/root-verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23b-export-recovery-preservation/root-verification.json",
+      "bytes": 290,
+      "sha256": "5a85c51588fddd09fde616c1954140862f824e78c1deabffdd1a915ef5f05b88"
+    },
+    "specs/agent-editing/assets/23b-export-recovery-preservation/artifact-files.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23b-export-recovery-preservation/artifact-files.json",
+      "bytes": 89739,
+      "sha256": "1efb8ea38c0b8e650003c568087b918ccf56bb27f9d58eb192fafac1ba13fc5f"
+    },
+    "specs/agent-editing/assets/23d-export-consumer-parity/verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23d-export-consumer-parity/verification.json",
+      "bytes": 1884,
+      "sha256": "57e8fe2bb62b34acddb74f6451098c9ad1974c9591de3032f62a5c09cb09e5d5"
+    },
+    "specs/agent-editing/assets/23d-export-consumer-parity/merged-verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23d-export-consumer-parity/merged-verification.json",
+      "bytes": 1843,
+      "sha256": "c35bcda4bff0941c9c3fccfb88790608fca5861fbb482cc5812d335ba28cba6a"
+    },
+    "specs/agent-editing/assets/23e-preview-consumer-parity/verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23e-preview-consumer-parity/verification.json",
+      "bytes": 1877,
+      "sha256": "de24d90c082bb61750b0a2a1b02de2358587734246f068c40eceee607f99d5fa"
+    },
+    "specs/agent-editing/assets/23e-preview-consumer-parity/merged-verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23e-preview-consumer-parity/merged-verification.json",
+      "bytes": 7896,
+      "sha256": "156c801c33680b5e439f1e2ae469e04d128a100e8085daab39558c8deb0372a1"
+    },
+    "specs/agent-editing/assets/23e-preview-consumer-parity/merged-controller-tests.log": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23e-preview-consumer-parity/merged-controller-tests.log",
+      "bytes": 578,
+      "sha256": "b1234ef8e38aa9904abe03a064d6388af764c80ae1c744fb91d98ef5e254ca07"
+    },
+    "specs/agent-editing/assets/23g-project-export-requests/verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23g-project-export-requests/verification.json",
+      "bytes": 1922,
+      "sha256": "93476e707ffd28737d15490e63d6a6862daf35029fdd17ea5290efd6e4d1549e"
+    },
+    "specs/agent-editing/assets/23g-project-export-requests/manifest.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23g-project-export-requests/manifest.json",
+      "bytes": 14935,
+      "sha256": "ea1df9742560c5349afc2f86a24fb6770066dec26f01d672c873af804adc021a"
+    },
+    "specs/agent-editing/assets/23g-project-export-requests/final-controller-tests.log": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23g-project-export-requests/final-controller-tests.log",
+      "bytes": 17637,
+      "sha256": "8c28443d77244444d17a201d2efb51c57ea297503ae4acb946231bcd7674bcf2"
+    },
+    "specs/agent-editing/assets/acceptance-maintenance/native-presentation.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/acceptance-maintenance/native-presentation.json",
+      "bytes": 10398,
+      "sha256": "2670a7443e03966ef7303207cd04843aceae66e7019e59d9ab6da44b85ba0e69"
+    },
+    "specs/agent-editing/assets/acceptance-maintenance/presenter-pixels.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/acceptance-maintenance/presenter-pixels.json",
+      "bytes": 7817,
+      "sha256": "bde3b4347baea74974c85beb03ac88e1b21ae7f0eb8846294392d3525708b520"
+    },
+    "specs/agent-editing/assets/23k-source-consumer-bridge/README.md": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23k-source-consumer-bridge/README.md",
+      "bytes": 4076,
+      "sha256": "39366b92b7337d71a5338d9f1b156de95449e8f348b64d2d9e1790714ae8df8b"
+    },
+    "specs/agent-editing/assets/23k-source-consumer-bridge/verification.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23k-source-consumer-bridge/verification.json",
+      "bytes": 16726,
+      "sha256": "db739a45291ed1f5a9e3376ef26f57ae3ab70f560ddc6ebd3269e809c40085e2"
+    },
+    "specs/agent-editing/assets/23k-source-consumer-bridge/merged.json": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23k-source-consumer-bridge/merged.json",
+      "bytes": 6380,
+      "sha256": "017ae6f16aeb657865b69566f2c7143aa31a466aa30ef372840343fbeadd883c"
+    }
+  },
+  "compressedPayloads": {
+    "specs/agent-editing/assets/22-acceptance/changed-recipe-report.json.gz": {
+      "uncompressedBytes": 89389,
+      "uncompressedSHA256": "05ccf7cf7aadd4d5d84f3c251f0a1221bb647d03a8a5d98b9b4c840e0e97b23b"
+    },
+    "specs/agent-editing/assets/22b-retained-consumers/root-public-report.json.gz": {
+      "uncompressedBytes": 179564,
+      "uncompressedSHA256": "150820a365680d9f1f923102d8aa006c1e3947106f4c726e125bedf27de2d816"
+    }
+  },
+  "archiveMembers": [
+    {
+      "archive": {
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23b-export-recovery-preservation/captures.tar.xz",
+        "bytes": 21584,
+        "sha256": "2a4fbac9886f884bed3e3ceca5b73a4af74ea519b70243510764e1c623c11bba"
+      },
+      "regularMemberCount": 380,
+      "selectedMembers": [
+        {
+          "member": "final/report.json",
+          "bytes": 99082,
+          "sha256": "cd8f161ffb35b7cab3b11040387e3410018b820dd86b3f814f1acac0e74bac0d"
+        }
+      ]
+    },
+    {
+      "archive": {
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23d-export-consumer-parity/evidence.tar.gz",
+        "bytes": 63722,
+        "sha256": "41e0115f37755762d6bc2127efddf71933f873242d6bac00c004a0e86a26f6d9"
+      },
+      "regularMemberCount": 41,
+      "selectedMembers": [
+        {
+          "member": "screenrec-23d-evidence/retained-23b-report.json",
+          "bytes": 99082,
+          "sha256": "cd8f161ffb35b7cab3b11040387e3410018b820dd86b3f814f1acac0e74bac0d"
+        },
+        {
+          "member": "screenrec-23d-evidence/source/apps/macos/Sources/ScreenRecorder/ExportController.swift",
+          "bytes": 13368,
+          "sha256": "7ef50021e8e9caf83d40192760978539712c3f270e5dbe5ccc3c88e26bf36ea5",
+          "currentCounterpart": {
+            "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/ExportController.swift",
+            "bytes": 17230,
+            "sha256": "2c184b016a6e67e930416c1e0d25c341b11b1bd55605b0f2f184ebbee5da5f19"
+          },
+          "byteIdenticalCurrent": false
+        },
+        {
+          "member": "screenrec-23d-evidence/checks/controller-green.log",
+          "bytes": 481,
+          "sha256": "6ac98d826226ce09bf5d30cb4f9d49eef2da213fb365195f47006ae7a4a5c502"
+        }
+      ]
+    },
+    {
+      "archive": {
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23e-preview-consumer-parity/evidence.tar.gz",
+        "bytes": 106398,
+        "sha256": "bded9a6b61bccded40bbe28e3325b3231cfd147a8b62e5d8f6f7318e052bbeee"
+      },
+      "regularMemberCount": 56,
+      "selectedMembers": [
+        {
+          "member": "screenrec-23e-evidence/source/apps/macos/Sources/ScreenRecorder/PreviewWindow.swift",
+          "bytes": 4387,
+          "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9",
+          "currentCounterpart": {
+            "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewWindow.swift",
+            "bytes": 4387,
+            "sha256": "9584c918c9410c898f1124e97c0e30e3e10079073bdab576dddfb2f47f7b95e9"
+          },
+          "byteIdenticalCurrent": true
+        },
+        {
+          "member": "screenrec-23e-evidence/source/apps/macos/Sources/ScreenRecorder/PreviewController.swift",
+          "bytes": 10566,
+          "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9",
+          "currentCounterpart": {
+            "path": "/Users/david/dev/screen-recorder/apps/macos/Sources/ScreenRecorder/PreviewController.swift",
+            "bytes": 10566,
+            "sha256": "298568162438ab13cb332a3f5bf0d83cc8fe591c69662d3811cd53325f96b9e9"
+          },
+          "byteIdenticalCurrent": true
+        },
+        {
+          "member": "screenrec-23e-evidence/source/packages/core/src/project-preview.ts",
+          "bytes": 11788,
+          "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9",
+          "currentCounterpart": {
+            "path": "/Users/david/dev/screen-recorder/packages/core/src/project-preview.ts",
+            "bytes": 11788,
+            "sha256": "fd66fff65fb76c529d5d043c8eaac0ee81e555a8a369d178bca9dff6397412a9"
+          },
+          "byteIdenticalCurrent": true
+        },
+        {
+          "member": "screenrec-23e-evidence/references/preview-get.json",
+          "bytes": 339,
+          "sha256": "94a966a0ed8000078dc07640ea9a4e7f6dc5e167c2c6cbdce055501d6e63229f"
+        },
+        {
+          "member": "screenrec-23e-evidence/references/preview-get-2.json",
+          "bytes": 1389,
+          "sha256": "9886247b00aca5f7652a4f3e1a86a4863c17b7de89668ea93651dbf10ad275c5"
+        }
+      ]
+    },
+    {
+      "archive": {
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23g-project-export-requests/evidence.tar.gz",
+        "bytes": 86128,
+        "sha256": "e92c4bfc0ee67a69cc1f46b6acbd87a46e7ab8ec65e02eb40a5746208a0d86f3"
+      },
+      "regularMemberCount": 46,
+      "selectedMembers": [
+        {
+          "member": "final-controller-tests.log",
+          "bytes": 17637,
+          "sha256": "8c28443d77244444d17a201d2efb51c57ea297503ae4acb946231bcd7674bcf2"
+        },
+        {
+          "member": "source/apps/macos/Sources/ScreenRecorder/ExportController.swift",
+          "bytes": 17120,
+          "sha256": "a96e89e98c0e00048a2f0a4b1916b1d6a1673fb9712f31ae3e3f9bad9f10495e"
+        }
+      ]
+    },
+    {
+      "archive": {
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/23k-source-consumer-bridge/merged.tar.gz",
+        "bytes": 730544,
+        "sha256": "5e8bc3ace067385b2179d900bafb80a735bf48f9be0356a0116bab99e4f7ba42"
+      },
+      "selectedMembers": [
+        {
+          "member": "authority.json",
+          "bytes": 8710,
+          "sha256": "3dc800eeb63dd58d1c85aed0eeda8478e54aeb7c4b2989f55f80e8bb49b627ba"
+        }
+      ],
+      "selectionScope": "Relevant merged authority/result members only; original merged.json owns complete33-member inventory."
+    }
+  ],
+  "remainder": {
+    "readinessFailureRecoveryGuarantee": "No concrete unmapped verified-original guarantee identified after reconciliation.",
+    "existingReleaseRemainder": "Canonical default-entry composition and installed/default discovery/switching, continuous A/V/pointer presentation and listening remain in their existing 23/25 owners. Root is separately implementing default-entry composition.",
+    "optionalCase": "A cached project-deletion/preview-close case may be useful if later code changes invalidate that boundary; it is not required merely to repeat already verified error/lease semantics.",
+    "noNewMandatoryGate": true
+  },
+  "confidence": {
+    "savedOutcomeMapping": "High: exact report/member hashes and actual named outcomes; fixture/media/native/process scopes remain separate.",
+    "currentPolicyCarryForward": "High for byte-identical preview owners and inner video repair policy; moderate for changed surrounding owners. File-hash differences are not themselves a regression or rerun requirement.",
+    "rowCompletion": "High for the scoped preservation mapping; no installed/default/continuous acceptance implication."
+  },
+  "choices": {
+    "primary": "Reuse complementary saved owner/service/public/native-consumer proofs rather than replay a network fault cross-product.",
+    "resolvedDiscretion": "Retract the proposed mandatory live project-revocation gate: no exact spec text requires that combination, and the same guarantees are already covered across their owners.",
+    "leastConfident": "Whole-owner execution freshness after unrelated audio/delivery changes is not established by historical reports. Preserve current pins and scoped carry-forward; root owns final integrated acceptance rather than adding a new gate here."
+  },
+  "review": {
+    "shape": "One authority JSON owns facts and pins; the draft links to it. No production owners, APIs or tests added.",
+    "code": "Read current owners and postbaseline changes; byte-identical bodies and semantic carry-forward distinguished. No production finding or mandatory new fault case.",
+    "docs": "Fixture types, public/media/native/process scopes and remaining claims stay distinct. No historical receipt or repository document changed."
+  },
+  "completionScope": "The pinned preview/export row is mapped for previously verified source/isolated ownership guarantees and permitted differences. This is preservation correspondence, not a new run or complete installed/default composition acceptance.",
+  "installedCutoverComplete": false,
+  "continuousPresentationComplete": false,
+  "requirementInterpretation": {
+    "directRequirements": [
+      {
+        "authority": "specs/agent-editing/verification.md#preservation-matrix",
+        "text": "Pinned preview/export and recovery: same readiness/failure/recovery guarantees, new project/dependency identity."
+      },
+      {
+        "authority": "specs/agent-editing/slices/23-cutover.md#work-and-review-surface",
+        "text": "Before deletion, run the preservation matrix through old and new public entry points with matched inputs."
+      }
+    ],
+    "whyExistingProofCanCompose": [
+      "09 tests execute the actual queue/cache/render/publication owners under external fault controls; this is where failure arbitration belongs.",
+      "23b performs one actual matched old/new public commit acknowledgement-loss and restart case, preserving receipt, snapshot and inode.",
+      "23d/e exercise actual native controllers against unchanged retained service receipts and explicit malformed/late/renewal/refusal controls; no second consumer state machine replaces them.",
+      "23k independently establishes actual selected-owner dispatch through ServiceHost/library/controller and historical readiness through those composed controllers. Its refusal before submission and inert presenter limits remain explicit.",
+      "The separately banked staged menu/readiness and presenter pixels cover the concrete positive presentation boundary; no fault cross-product requirement follows."
+    ],
+    "retractedMandatoryGate": "An additional actual service-backed project-deletion/player-close case is optional coverage, not a missing named preservation contract. Network scripting alone does not invalidate external-boundary consumer proof."
+  },
+  "savedParsedOutcomes": {
+    "specs/agent-editing/assets/22b-retained-consumers/root-public-report.json.gz": {
+      "passed": true,
+      "scope": "Public retained project-consumer boundary; no new preparation/inference",
+      "traceCount": 54
+    },
+    "specs/agent-editing/assets/22-acceptance/changed-recipe-report.json.gz": {
+      "passed": true,
+      "scope": "historical owner-seeded unit-rate/gain plus public learned preparation; exact portable PCM preservation with processing unavailable; no listening or model-absent binary claim",
+      "traceCount": 48
+    }
+  }
+}

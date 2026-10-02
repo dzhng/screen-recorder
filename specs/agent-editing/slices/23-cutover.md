@@ -12,7 +12,11 @@ are now exercised in a signed isolated candidate; [representative presenter pixe
 pass with a standalone capture-only override. Ordinary protected-app screenshots,
 continuous A/V/pointer preservation and installed release acceptance remain separate.
 Installed switching and obsolete-owner deletion have not started.
-The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md) identifies the remaining saved-outcome mappings and actual service/native-consumer cases without adding another UI or repeating accepted media cohorts.
+The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md)
+maps saved outcomes and actual service/native-consumer cases without adding another
+UI or repeating accepted media cohorts. [Pinned preview/export recovery](../assets/acceptance-maintenance/cutover-outcomes.md#pinned-previewexport-and-recovery)
+now accounts for the verified original guarantees; installed/default composition
+and continuous presentation remain separate.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract
@@ -43,6 +47,14 @@ final cutover acceptance, not read-only reconciliation or preparatory work. Keep
 all permitted differences explicit and use the existing one-owner architecture;
 preparation does not authorize installed switching, obsolete-owner deletion or
 migration. Actual unresolved physical/lifecycle claims retain their disposition.
+
+The immediate implementation pass makes the canonical service entry compose the
+already qualified fresh project service and removes its separate development
+entry. Verify that default process in an isolated home while preserving the old
+catalog and media. This changes repository build behavior; it does not replace
+the installed app. Missing inherited acoustic or physical acceptance does not
+block this port. Obsolete editing-owner deletion still requires the matched
+verified preservation guarantees and removal of their actual consumer dependencies.
 
 The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 

@@ -7006,3 +7006,28 @@ attempt instead of compensating for it, trying settings repeatedly or comparing
 the wrong picture. The plan left the bounded diagnostic method unspecified.
 This is an experimental safety boundary, not a second production media owner;
 future product timing continues to use the existing native timing contract.
+
+## Cutover implementation prerequisites
+
+**Unsound, high confidence — waiting for inherited acceptance before isolated cutover work.**
+The old release has incomplete speech and physical timing acceptance. Development
+treated those pending claims as prerequisites for moving the default repository
+service to the already verified project composition. The plan instead requires
+preserving verified behavior while keeping inherited pending claims pending.
+The corrected decision is to complete isolated service, shared-contract and
+consumer ports from their qualified owners, then judge installed and final release
+acceptance separately. This correction belongs to the canonical service pass; it
+does not permit deleting an owner whose actual consumer or preservation contract
+still depends on it, replacing the installed app or claiming physical acceptance.
+
+**Sound, high confidence — compose existing fault proofs instead of adding a cross-product.**
+A native consumer uses a scripted service response to test lease expiry and retry,
+while the real service separately proves pinned output and committed-file recovery.
+Development briefly proposed repeating every service fault through the live player.
+The preservation contract requires those guarantees, without prescribing that
+extra combination. The saved correspondence therefore reuses complementary
+consumer, owner and public proofs with their limits intact. Changed surrounding
+code still needs its affected checks and final integrated acceptance; this choice
+does not make historical tests into fresh executions or turn numerical checks into
+listening evidence. It avoids adding a new release gate where the plan left only
+verification method open.
