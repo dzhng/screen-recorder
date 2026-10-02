@@ -512,16 +512,28 @@ export class AcquisitionStore {
       )
       .run(acquisitionId, requestId);
   }
+  private decode(acquisitionId: string, metadata: string | null | undefined): Acquisition {
+    if (metadata === undefined)
+      throw new CatalogError("NOT_FOUND", "Acquisition does not exist", { acquisitionId });
+    if (metadata === null)
+      throw new CatalogError("NOT_READY", "Acquisition import has not completed", {
+        acquisitionId,
+      });
+    return JSON.parse(metadata);
+  }
   get(acquisitionId: string): Acquisition {
     const row = this.catalog.catalog
       .prepare("SELECT metadata FROM acquisitions WHERE id=?")
       .get(acquisitionId);
-    if (!row) throw new CatalogError("NOT_FOUND", "Acquisition does not exist", { acquisitionId });
-    if (row.metadata === null)
-      throw new CatalogError("NOT_READY", "Acquisition import has not completed", {
-        acquisitionId,
-      });
-    return JSON.parse(row.metadata as string);
+    return this.decode(acquisitionId, row?.metadata as string | null | undefined);
+  }
+  /** One synchronous phase fetches requested rows together, but failures remain ordered by use. */
+  read(ids: readonly string[]): (id: string) => Acquisition {
+    const rows = this.catalog.catalog
+      .prepare("SELECT id,metadata FROM acquisitions WHERE id IN (SELECT value FROM json_each(?))")
+      .all(JSON.stringify([...new Set(ids)]));
+    const metadata = new Map(rows.map((row) => [row.id as string, row.metadata as string | null]));
+    return (id) => this.decode(id, metadata.get(id));
   }
   context(acquisitionId: string): AcquisitionContext {
     return acquisitionContext(this.get(acquisitionId));

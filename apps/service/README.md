@@ -79,7 +79,6 @@ written — closes the listener through the same path EOF uses, so the promised
 cleanup is not lost to a race between the two pipes. `service.health` takes no
 parameters and refuses the ones it is given.
 
-
 ## Editable package ownership
 
 Project export uses the existing durable publication owner. Archive extraction and
@@ -104,7 +103,6 @@ active, unfinished or fenced for deletion. Private export staging is measured by
 the publication owner outside the managed root. Closing the service aborts and drains
 observations before closing the catalog.
 
-
 ## Captured-source lifetime
 
 [Capture sources](src/capture-sources.ts) share admission and donor retirement.
@@ -124,3 +122,12 @@ Output settings own format meaning, defaults and codec validation. Audio readine
 never depends on visual preparation, and exporting never edits the document.
 The [audio export contract](../../specs/agent-editing/slices/09c-audio-only-export.md)
 separates tested standalone formats from future codec support.
+
+## Evidence freshness
+
+[Source selection](../../packages/core/src/source-selection.ts) shares catalog
+metadata only within one synchronous phase. Batched acquisition rows decode on
+use, keeping an earlier source refusal ahead of later malformed metadata.
+Checkpoint publication ends that phase; the reader resolves dependencies again
+before returning a continuation. Scene preparation keeps per-source admission
+order rather than making batch fetching an eager validation step.

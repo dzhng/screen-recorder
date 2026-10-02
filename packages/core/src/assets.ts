@@ -294,12 +294,22 @@ export class AssetStore {
   /** Complete metadata is reconstructed only for callers that need every physical row. */
   get(id: string): Asset {
     const asset = this.header(id);
-    const rows = this.store.catalog.prepare(
-      "SELECT value FROM asset_segments WHERE assetId=? AND streamId=? ORDER BY ordinal",
-    );
+    if (!asset.streams.some((stream) => stream.segments !== undefined)) return asset;
+    const rows = this.store.catalog
+      .prepare(
+        "SELECT streamId,value FROM asset_segments WHERE assetId=? ORDER BY streamId,ordinal",
+      )
+      .all(id);
+    const segments = new Map<string, string[]>();
+    for (const row of rows) {
+      const streamId = row.streamId as string;
+      const values = segments.get(streamId) ?? [];
+      values.push(row.value as string);
+      segments.set(streamId, values);
+    }
     for (const stream of asset.streams)
       if (stream.segments !== undefined)
-        stream.segments = rows.all(id, stream.id).map((row) => JSON.parse(row.value as string));
+        stream.segments = (segments.get(stream.id) ?? []).map((value) => JSON.parse(value));
     return asset;
   }
   /** Called inside the existing import/adoption transaction; rows have one authoritative owner. */

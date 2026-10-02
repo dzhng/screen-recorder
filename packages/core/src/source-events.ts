@@ -75,7 +75,7 @@ export class SourceEvents {
     if (domain === "events" && this.options.scenes) {
       const sources = prepare
         ? undefined
-        : new SourceSelectionRead(this.options.assets, this.options.acquisitions);
+        : new SourceSelectionRead(this.options.assets, this.options.acquisitions, selections);
       return selections.map((selection) => this.resolve(selection, domain, prepare, sources));
     }
     return this.options.capture.resolveMany(selections, domain);

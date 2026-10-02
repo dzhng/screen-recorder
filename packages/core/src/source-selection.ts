@@ -38,10 +38,17 @@ export class SourceSelectionRead {
     { asset: ReturnType<typeof compositionAsset>; originUs: Asset["originUs"] }
   >();
   private readonly acquisitions = new Map<string, ReturnType<AcquisitionStore["get"]>>();
+  private readonly acquisition: (id: string) => ReturnType<AcquisitionStore["get"]>;
   constructor(
     private readonly assetStore: AssetStore,
-    private readonly acquisitionStore: AcquisitionStore,
-  ) {}
+    acquisitionStore: AcquisitionStore,
+    selections?: readonly SourceSelection[],
+  ) {
+    const ids = selections
+      ?.map((value) => value?.acquisitionId)
+      .filter((id) => typeof id === "string");
+    this.acquisition = ids?.length ? acquisitionStore.read(ids) : (id) => acquisitionStore.get(id);
+  }
   get(input: SourceSelection) {
     const selection = sourceSelectionSchema.parse(input);
     let metadata = this.assets.get(selection.assetId);
@@ -55,7 +62,7 @@ export class SourceSelectionRead {
         ? undefined
         : this.acquisitions.get(selection.acquisitionId);
     if (!acquisition && selection.acquisitionId !== undefined) {
-      acquisition = this.acquisitionStore.get(selection.acquisitionId);
+      acquisition = this.acquisition(selection.acquisitionId);
       this.acquisitions.set(selection.acquisitionId, acquisition);
     }
     const selected = selectSourceSupport(metadata.asset, acquisition, selection);

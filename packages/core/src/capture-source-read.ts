@@ -92,7 +92,7 @@ export class CaptureSourceRead {
     return this.context(sources.get(selection), domain);
   }
   resolveMany(selections: readonly SourceSelection[], domain: CaptureDomain): CaptureContext[] {
-    const sources = new SourceSelectionRead(this.assets, this.acquisitions);
+    const sources = new SourceSelectionRead(this.assets, this.acquisitions, selections);
     return selections.map((selection) => this.resolve(selection, domain, sources));
   }
   private context(

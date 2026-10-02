@@ -1078,24 +1078,23 @@ function observeSourceMetadata(f: Awaited<ReturnType<typeof fixture>>) {
   const prepare = f.catalog.catalog.prepare.bind(f.catalog.catalog);
   f.catalog.catalog.prepare = (sql, ...options) => {
     const statement = prepare(sql, ...options);
-    const key = sql.startsWith("SELECT metadata FROM assets")
+    const key = /SELECT (?:id,)?metadata FROM assets/.test(sql)
       ? "headers"
-      : sql.startsWith("SELECT value FROM asset_segments")
+      : sql.includes("FROM asset_segments")
         ? "segments"
-        : sql.startsWith("SELECT metadata FROM acquisitions")
+        : /SELECT (?:id,)?metadata FROM acquisitions/.test(sql)
           ? "acquisitions"
           : null;
-    if (key === "segments") {
-      const read = statement.all.bind(statement);
-      vi.spyOn(statement, "all").mockImplementation((...args) => {
-        work.segments++;
-        return read(...args);
-      });
-    } else if (key) {
-      const read = statement.get.bind(statement);
+    if (key) {
+      const get = statement.get.bind(statement),
+        all = statement.all.bind(statement);
       vi.spyOn(statement, "get").mockImplementation((...args) => {
         work[key]++;
-        return read(...args);
+        return get(...args);
+      });
+      vi.spyOn(statement, "all").mockImplementation((...args) => {
+        work[key]++;
+        return all(...args);
       });
     }
     return statement;
@@ -1136,7 +1135,7 @@ test("cursor dependency validation shares metadata within each fresh phase", asy
       },
     ]);
     expect(next.page!.nextCursor).not.toBeNull();
-    expect(work).toEqual({ headers: 2, segments: 10, acquisitions: 4 });
+    expect(work).toEqual({ headers: 2, segments: 2, acquisitions: 2 });
   } finally {
     restore();
   }
@@ -1206,28 +1205,49 @@ test("scene-enabled continuation validation shares source metadata within each f
     expect(next.dependencies).toEqual(first.dependencies);
     expect(next.coverage).toEqual({ manifestId: first.coverage!.manifestId });
     expect(next.page!.nextCursor).not.toBeNull();
-    expect(work).toEqual({ headers: 2, segments: 10, acquisitions: 4 });
+    expect(work).toEqual({ headers: 2, segments: 2, acquisitions: 2 });
   } finally {
     restore();
   }
 });
-test("read-only source-event batches keep the first source failure ahead of later metadata failures", async () => {
-  const f = await fixture({ scenes: true });
-  const capture = await f.capture([]);
-  const selected = { assetId: f.asset.id, streamId: "video", acquisitionId: capture.id };
-  f.sourceEvents.resolveMany([selected], "events", true);
-  await f.jobs.idle();
-  f.catalog.catalog
-    .prepare("UPDATE artifacts SET result=? WHERE artifact='source-scenes' AND targetId=?")
-    .run("invalid scene publication JSON", f.asset.id);
-  expect(() =>
-    f.sourceEvents.resolveMany(
-      [selected, { assetId: "missing", streamId: "video" }],
-      "events",
-      false,
-    ),
-  ).toThrow(SyntaxError);
-});
+test.each(["asset", "missing", "pending", "malformed"] as const)(
+  "read-only source-event batches keep the first source failure ahead of later %s metadata failures",
+  async (failure) => {
+    const f = await fixture({ scenes: true });
+    const capture = await f.capture([]);
+    const selected = { assetId: f.asset.id, streamId: "video", acquisitionId: capture.id };
+    f.sourceEvents.resolveMany([selected], "events", true);
+    await f.jobs.idle();
+    f.catalog.catalog
+      .prepare("UPDATE artifacts SET result=? WHERE artifact='source-scenes' AND targetId=?")
+      .run("invalid scene publication JSON", f.asset.id);
+    const later = await f.capture([]);
+    if (failure === "missing")
+      f.catalog.catalog.prepare("DELETE FROM acquisitions WHERE id=?").run(later.id);
+    if (failure === "pending" || failure === "malformed")
+      f.catalog.catalog
+        .prepare("UPDATE acquisitions SET metadata=? WHERE id=?")
+        .run(failure === "pending" ? null : "invalid acquisition JSON", later.id);
+    const next =
+      failure === "asset"
+        ? { assetId: "missing", streamId: "video" }
+        : { assetId: f.asset.id, streamId: "video", acquisitionId: later.id };
+    expect(() => f.sourceEvents.resolveMany([selected, next], "events", false)).toThrow(
+      SyntaxError,
+    );
+    // Without the earlier scene failure, the later acquisition still owns its actual refusal.
+    if (failure !== "asset") {
+      if (failure === "malformed")
+        expect(() => f.captureRead.resolveMany([next], "cursor")).toThrow(SyntaxError);
+      else
+        expect(() => f.captureRead.resolveMany([next], "cursor")).toThrow(
+          failure === "pending"
+            ? "Acquisition import has not completed"
+            : "Acquisition does not exist",
+        );
+    }
+  },
+);
 test("scene preparation admits the earlier source before a later selection fails", async () => {
   const f = await fixture({ scenes: true });
   const capture = await f.capture([]);
