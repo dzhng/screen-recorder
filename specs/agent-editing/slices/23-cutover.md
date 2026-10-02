@@ -51,14 +51,16 @@ all permitted differences explicit and use the existing one-owner architecture;
 preparation does not authorize installed switching, obsolete-owner deletion or
 migration. Actual unresolved physical/lifecycle claims retain their disposition.
 
-The canonical entry is now verified in an isolated home while preserving old
-catalog/media sentinels. The next pass removes obsolete recording-composition
-selectors and corresponding native readers together: recordings retain source
-lifetime, while projects own editable composition and media delivery. Legacy
-fixtures must preserve valuable source/project guarantees rather than restore
-the deleted engine. Missing inherited acoustic or physical acceptance does not
-block this port. Obsolete editing-owner deletion still requires matched verified
-preservation guarantees and removal of actual consumer dependencies.
+The canonical entry is verified in an isolated home while preserving old
+catalog/media sentinels. The [shared-contract and publication passes](../assets/23-composition-contract/README.md)
+now remove obsolete recording-composition selectors/native actions and the
+recording export branch. Recordings retain source lifetime; projects own editable
+composition and media delivery. The project cursor producer, strict schema and
+native opaque replay agree. Legacy fixture rehoming and orphan package-owner
+deletion are next, followed by actual core/schema removal. Preserve valuable
+source/project guarantees rather than restore the deleted engine. Missing
+inherited acoustic or physical acceptance does not block these ports; matched
+verified guarantees and actual consumer dependencies still govern deletion.
 
 Keep these implementation checkpoints distinct. First remove obsolete shared
 composition selectors and their native actions/readers while preserving the

@@ -1,0 +1,19 @@
+{
+  "commit": "6d93a9c4b0cbad1af6032ea003c30d716049962c",
+  "retainedPrivateBank": "/Users/david/.cache/screen-recorder/verification/project-export-owner-6d93a9c4",
+  "archive": {
+    "file": "project-publication-evidence.tar.xz",
+    "bytes": 48600,
+    "sha256": "14fa7dea490998144f04daacfedd93371f7abc412960f93156f0038c26df476d",
+    "members": 21
+  },
+  "sourcePinsVerifiedAgainstCommit": 7,
+  "reportSHA256": "50fe4d9ced9ecaab807fcbc85509a5c3e2d433ee42018da649695b1f26a30c9a",
+  "limits": [
+    "No rerun performed for this bank. No independent OS process journal or pre-execution hash capture was available; session IDs are tool session identifiers, not PIDs. Node PIDs appear only where printed by original stdout.",
+    "Committed source snapshots describe final6d93a9c4, not an independently captured pre-run tree. Current build hashes are retrospective observations only.",
+    "No full suite, real media rendering, capture, model acquisition, installation or old broad legacy fixture suite run.",
+    "Legacy video-export/package-registry fixture rehome and orphan package-helper removal remain separate next pass. Catalog DDL legacy fields/branches remain until coordinated core purge.",
+    "Retained native positive recording receipt fixture is historical; typed wrong-owner deletion and malformed receipt guards remain unchanged."
+  ]
+}

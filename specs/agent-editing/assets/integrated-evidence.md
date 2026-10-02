@@ -177,7 +177,13 @@
 - [Canonical service composition](23-canonical-service/README.md) makes the default
   repository entry use the qualified fresh project service. Original red,
   lifecycle/process guards and focused merged-tree proof are retained. Installed
-  state, shared-contract cleanup and final acceptance remain separate.
+  state and final acceptance remain separate.
+- [Project composition contracts and publication](23-composition-contract/README.md)
+  remove obsolete recording selectors/actions and publication branches, preserving
+  source lifetime, project pins, replay/recovery, native leases and typed deletion.
+  The project cursor schema/producer/native replay agree; one merged wire check
+  passes. Original failures, native-cell visual limits and retrospective broker
+  evidence are explicit. Legacy fixture/core/schema purge remains pending.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.

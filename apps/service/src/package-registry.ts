@@ -1,4 +1,3 @@
-import type { validateManifest } from "@screenrec/core/package-manifest";
 import { randomUUID } from "node:crypto";
 import { rm, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
@@ -78,7 +77,7 @@ const describe = (error: unknown) =>
 
 /** One process-local resource owner; execution capacity remains exclusively in JobQueue. */
 export class PackageRegistry<
-  T extends ArchiveManifest = ReturnType<typeof validateManifest>,
+  T extends ArchiveManifest = ArchiveManifest,
   Parsed extends ArchiveManifest = T,
 > {
   private readonly entries = new Map<string, Entry<T>>();

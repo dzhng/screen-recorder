@@ -1,3 +1,4 @@
+import type { validateManifest } from "@screenrec/core/package-manifest";
 import { fstatSync } from "node:fs";
 import { dirname } from "node:path";
 import { isDeepStrictEqual } from "node:util";
@@ -17,7 +18,7 @@ import type { MediaWorker } from "./worker.js";
 
 /** Package audio reads consume these pages, so valid raw evidence alone cannot authorize them. */
 export async function validatePackageSource(
-  context: Pick<RetainedPackage, "manifest" | "files">,
+  context: Pick<RetainedPackage<ReturnType<typeof validateManifest>>, "manifest" | "files">,
   worker: MediaWorker,
   signal: AbortSignal,
   lifetime: { readonly fd: number },

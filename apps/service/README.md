@@ -90,8 +90,9 @@ files remain independent of project deletion.
 ## Editable package ownership
 
 Project export uses the existing durable publication owner. Archive extraction and
-retained handles share the same bounded registry as recording packages; each
-service supplies its own manifest validator and explicit media-member authority.
+retained handles use a domain-independent bounded registry. Callers supply a required
+manifest validator and explicit media-member authority; project metadata resolves
+through the canonical project parser before readiness.
 The project manifest owns dependency meaning, while asset/project stores own
 byte validation and atomic durable adoption. Package inspection alone does not
 create a managed project. Closing a handle drains its unfinished work; adopted
