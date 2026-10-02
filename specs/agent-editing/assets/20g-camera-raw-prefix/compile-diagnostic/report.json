@@ -1,0 +1,84 @@
+{
+  "status": "compile-only-pass",
+  "physicalQuestionAnswered": false,
+  "mediaDispatched": false,
+  "binaryInvoked": false,
+  "originalFrozenProbeAnd111PinsUnchanged": true,
+  "compilerPid": 3152,
+  "compilerExitCode": 0,
+  "compilerElapsedSeconds": 2.108851041,
+  "totalPreflightAndCompileSeconds": 3.157120333,
+  "stdioBytes": {
+    "stdout": 0,
+    "stderr": 10310
+  },
+  "binary": {
+    "path": "/tmp/screenrec-20g-raw-prefix/compile-diagnostic/prefix-probe",
+    "bytes": 4518720,
+    "sha256": "1fad5456ffd509c1aaeca7173bbd0cfbe64ac65bf47e059cf6d66c4d912638a2"
+  },
+  "cache": {
+    "beforeFiles": 307,
+    "afterFiles": 307,
+    "beforeBytes": 317228352,
+    "afterBytes": 317228352,
+    "added": [],
+    "removed": [],
+    "contentChanged": [],
+    "metadataOnlyChanged": []
+  },
+  "timingDiagnostics": {
+    "entries": 95,
+    "slowestEntries": [
+      {
+        "milliseconds": 70.72,
+        "entry": "/tmp/screenrec-20g-raw-prefix/Prefix.swift:93:28\tstatic method main.(file).PrefixProbe.main()@/tmp/screenrec-20g-raw-prefix/Prefix.swift:93:28"
+      },
+      {
+        "milliseconds": 47.23,
+        "entry": "/tmp/screenrec-20g-raw-prefix/Prefix.swift:27:6\tglobal function main.(file).fragments@/tmp/screenrec-20g-raw-prefix/Prefix.swift:27:6"
+      },
+      {
+        "milliseconds": 46.13,
+        "entry": "/tmp/screenrec-20g-raw-prefix/Prefix.swift:45:6\tglobal function main.(file).read(_:phase:fragments:)@/tmp/screenrec-20g-raw-prefix/Prefix.swift:45:6"
+      },
+      {
+        "milliseconds": 8.96,
+        "entry": "/tmp/screenrec-20g-raw-prefix/Prefix.swift:32:10\tlocal function main.(file).fragments(_:).integer@/tmp/screenrec-20g-raw-prefix/Prefix.swift:32:10"
+      },
+      {
+        "milliseconds": 7.84,
+        "entry": "<invalid loc>\tstatic method main.(file).Picture.__derived_struct_equals"
+      },
+      {
+        "milliseconds": 4.8,
+        "entry": "<invalid loc>\tstatic method main.(file).Tick.__derived_struct_equals"
+      },
+      {
+        "milliseconds": 3.15,
+        "entry": "/tmp/screenrec-20g-raw-prefix/Prefix.swift:82:6\tglobal function main.(file).compare@/tmp/screenrec-20g-raw-prefix/Prefix.swift:82:6"
+      },
+      {
+        "milliseconds": 2.89,
+        "entry": "/tmp/screenrec-20g-raw-prefix/Prefix.swift:22:6\tglobal function main.(file).save@/tmp/screenrec-20g-raw-prefix/Prefix.swift:22:6"
+      }
+    ],
+    "driverPhaseFlag": "Requested supported -driver-time-compilation; retained complete output is authoritative, without reconstructing absent phase rows."
+  },
+  "qualification": "The exact frozen probe typechecked and linked with the restored actual retained cache recipe plus timing diagnostics. No source repair, settings change, alternate cache retry or executable invocation.",
+  "historicalCauseLimit": "Prior timeout had no compiler diagnostics. This scoped success is consistent with cache/import setup cost but does not prove its cause or historical whole-SDK byte equivalence. Current resolved SDKSettings/compiler identities are pinned.",
+  "futureBoundary": "Root retains authority for any later separate ordinary/conditional-interrupted physical case. No media run follows automatically.",
+  "review": {
+    "shape": "One compile-only controller; no product owner, API, source, native module, object or runtime changes. Native SDK cache is compilation state; existing media/model namespaces untouched.",
+    "diff": "Exact original common flags/source/objects retained except approved cache/output/timing flags. Compiler and controller completed normally;111 pins remain unchanged.",
+    "docs": "Supplement distinguishes successful compile readiness from original bounded setup failure and unstarted physical cases; prior20g packet untouched."
+  },
+  "choices": [
+    {
+      "verdict": "sound",
+      "confidence": "high",
+      "choice": "Reuse the actual existing shared SDK compilation cache with matching compiler/target/package/SDK spelling, while pinning current resolved identities and every cache file before/after.",
+      "why": "Avoids needless cold imports without sharing source-dependent product output or replacing frozen native runtime. Historical fullSDK equality remains unknown."
+    }
+  ]
+}
