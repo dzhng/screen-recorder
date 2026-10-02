@@ -1,5 +1,3 @@
-import { validatePackageTranscript } from "../dist/package-transcript.js";
-import { validateManifest } from "@screenrec/core/package-manifest";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { randomUUID, createHash } from "node:crypto";
@@ -21,10 +19,20 @@ import {
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setTimeout } from "node:timers/promises";
-import { RevisionStore } from "../../../packages/core/dist/library.js";
-import { JobQueue, recordingJobTargets } from "../../../packages/core/dist/jobs.js";
+import { CaptureStore } from "../../../packages/core/dist/capture-store.js";
+import { AcquisitionStore } from "../../../packages/core/dist/acquisitions.js";
+import { AssetStore } from "../../../packages/core/dist/assets.js";
+import { ProjectStore } from "../../../packages/core/dist/projects.js";
+import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
+import { assetTranscriptOwner } from "../../../packages/core/dist/transcript-processing.js";
+import {
+  parseProjectPackageManifest,
+  projectPackageManifest,
+  resourceMetadataMember,
+} from "../../../packages/core/dist/project-package.js";
+import { resolveProjectPackageMetadata } from "../dist/project-package-metadata.js";
+import { JobQueue } from "../../../packages/core/dist/jobs.js";
 import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
-import { archiveContents } from "../../macos/tests/fixtures/archive-contents.mjs";
 import { PackageRegistry } from "../dist/package-registry.js";
 import { DerivativeDelivery } from "../dist/delivery.js";
 import { mediaWorker } from "../dist/worker.js";
@@ -32,7 +40,7 @@ import { mediaWorker } from "../dist/worker.js";
 const native = process.env.SCREENREC_NATIVE;
 assert.ok(native, "SCREENREC_NATIVE must select the built native executable");
 const worker = mediaWorker({ SCREENREC_NATIVE: native });
-async function fixture(t, options = {}) {
+async function fixture(t, options = {}, content = "generated source") {
   const home = await realpath(await mkdtemp("/tmp/screenrec-registry-"));
   const directory = join(home, "packages");
   await mkdir(directory, { mode: 0o700 });
@@ -40,24 +48,38 @@ async function fixture(t, options = {}) {
     directory,
     constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW,
   );
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "fixture",
     newId: randomUUID,
   });
   const jobs = new JobQueue({
     store,
-    targets: recordingJobTargets(store),
+    targets: {
+      pin(target) {
+        assert.equal(target.kind, "recording");
+        assert.equal(target.revisionId, null);
+        assert.equal(store.isAvailable(target.recordingId), true);
+        return target;
+      },
+      isAvailable: (target) => store.isAvailable(target.recordingId),
+      isDeleting: (owner) =>
+        owner.kind === "recording"
+          ? store.isDeleting(owner.recordingId)
+          : owner.kind === "project" && projects.isDeleting(owner.projectId),
+      isCapturing: () => store.isCapturing(),
+    },
     providers: { newId: randomUUID },
     execute: async () => "library",
   });
   const delivery = new DerivativeDelivery();
   const registry = new PackageRegistry({
-    validate: validateManifest,
-    inspect: validatePackageTranscript,
+    validate: parseProjectPackageManifest,
+    resolve: resolveProjectPackageMetadata,
+    inlineRevisions: false,
     mediaPaths: (manifest) =>
-      manifest.inventory
-        .filter((member) => ["video", "system", "narration"].includes(member.role))
-        .map((member) => member.path),
+      manifest.resources
+        .filter((resource) => resource.kind === "asset")
+        .map((resource) => `assets/${resource.asset.fileName}`),
     parent: { directory, handle },
     jobs,
     delivery,
@@ -65,8 +87,86 @@ async function fixture(t, options = {}) {
     limits: { ...archiveLimits, expandedBytes: 1024 ** 2 },
     ...options,
   });
-  const files = archiveContents(),
-    input = join(home, "input.zip");
+  t.after(async () => {
+    await registry.dispose();
+    await jobs.close();
+    delivery.dispose();
+    store.close();
+    await handle.close();
+    await rm(home, { recursive: true, force: true });
+  });
+  const acquisitions = new AcquisitionStore(store);
+  const assets = new AssetStore(store, home);
+  await assets.recover();
+  const source = join(home, "source.mov");
+  await writeFile(source, content);
+  // Source bytes and probe metadata are controlled; no media decoding is requested.
+  const asset = await assets.import(source, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "video",
+        kind: "video",
+        codec: "fixture",
+        decodable: true,
+        width: 32,
+        height: 16,
+        orientedWidth: 32,
+        orientedHeight: 16,
+        startUs: 0,
+        endUs: 100,
+        segments: [{ startUs: 0, endUs: 100, empty: false }],
+      },
+    ],
+  }));
+  const projects = new ProjectStore(
+    store,
+    assets,
+    new TranscriptStore(store, home, assetTranscriptOwner(assets, acquisitions)),
+    acquisitions,
+  );
+  const created = projects.create({
+    requestId: "create",
+    title: "Portable fixture",
+    canvas: {
+      width: 32,
+      height: 16,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  projects.apply(created.project.projectId, {
+    requestId: "place",
+    expectedRevisionId: created.revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "video" },
+          assetId: asset.id,
+          streamId: "video",
+          source: { kind: "range", range: { startUs: 0, endUs: 100 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 100 } },
+        },
+      },
+    ],
+  });
+  const snapshot = JSON.parse(JSON.stringify(projects.snapshot(created.project.projectId)));
+  const resource = { kind: "asset", ...assets.portable(asset.id) };
+  const metadata = resourceMetadataMember(resource);
+  const mediaPath = `assets/${asset.fileName}`;
+  const files = { [mediaPath]: content, [metadata.reference.metadata.path]: metadata.body };
+  for (const [ordinal, revision] of snapshot.revisions.entries())
+    files[`revisions/${ordinal}.json`] = JSON.stringify(revision);
+  const inventory = Object.entries(files).map(([path, value]) => ({
+    path,
+    bytes: Buffer.byteLength(value),
+    sha256: createHash("sha256").update(value).digest("hex"),
+  }));
+  const manifest = projectPackageManifest(snapshot, [resource], inventory);
+  files["manifest.json"] = JSON.stringify(manifest);
+  const input = join(home, "input.zip");
   async function writeArchive() {
     await writeFile(join(home, "files.json"), JSON.stringify(files));
     execFileSync("/usr/bin/python3", [
@@ -77,15 +177,24 @@ async function fixture(t, options = {}) {
     ]);
   }
   await writeArchive();
-  t.after(async () => {
-    await registry.dispose();
-    await jobs.close();
-    delivery.dispose();
-    store.close();
-    await handle.close();
-    await rm(home, { recursive: true, force: true });
-  });
-  return { home, directory, handle, store, jobs, delivery, registry, input, files, writeArchive };
+  return {
+    home,
+    directory,
+    handle,
+    store,
+    assets,
+    acquisitions,
+    projects,
+    snapshot,
+    asset,
+    mediaPath,
+    jobs,
+    delivery,
+    registry,
+    input,
+    files,
+    writeArchive,
+  };
 }
 async function waitFor(read, predicate) {
   const deadline = Date.now() + 5000;
@@ -106,7 +215,7 @@ const ready = (f, id) =>
     return value.packageHandle;
   });
 
-test("registry reserves before extraction, charges copied bytes, and closes without library rows", async (t) => {
+test("registry reserves before extraction, charges copied bytes, and closes without changing authored library state", async (t) => {
   const f = await fixture(t);
   await assert.rejects(f.registry.open(f.input), { code: "PROCESSING_BUSY" });
   await f.registry.recover();
@@ -121,12 +230,18 @@ test("registry reserves before extraction, charges copied bytes, and closes with
   assert.equal(f.registry.usage().budgetBytes, bytes + expanded + 128 * 1024 ** 2);
   assert.equal(f.registry.usage().confirmedBytes, bytes + expanded);
   assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM recordings").get().n, 0);
+  assert.deepEqual(context.manifest.snapshot, f.snapshot);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(f.projects.snapshot(f.snapshot.project.projectId))),
+    f.snapshot,
+  );
+  assert.deepEqual(f.assets.get(f.asset.id), f.asset);
   await f.registry.close(admission.id);
   assert.equal(f.registry.status(admission.id).state, "closed");
   assert.deepEqual(await readdir(f.directory), []);
   assert.equal(f.registry.usage().budgetBytes, 0);
   assert.throws(() => f.registry.lookup(handle), { code: "CONTEXT_CLOSED" });
-  assert.throws(() => context.files.open("source/video.mov"), { code: "CONTEXT_CLOSED" });
+  assert.throws(() => context.files.open(f.mediaPath), { code: "CONTEXT_CLOSED" });
   await f.registry.close(admission.id);
   await f.registry.dispose();
   await assert.rejects(f.registry.open(f.input), { code: "SERVICE_STOPPED" });
@@ -170,7 +285,7 @@ test("four same-content resource owners stay independent and failed close retain
     assert.equal(f.registry.usage().owners, 4);
     assert.equal(f.registry.usage().budgetBytes, before.budgetBytes);
     await assert.rejects(f.registry.open(f.input), { code: "LIMIT_EXCEEDED" });
-    const sibling = f.registry.lookup(handles[1]).files.open("source/video.mov");
+    const sibling = f.registry.lookup(handles[1]).files.open(f.mediaPath);
     assert.ok(sibling.fd >= 0);
     sibling.close();
   } finally {
@@ -195,7 +310,7 @@ test("one handle makes more than 32 requests and bounded terminal receipts expir
       handle,
       { artifact: "read", lane: "frame", input: JSON.stringify({ i }) },
       async (context) => {
-        const file = context.files.open("source/video.mov");
+        const file = context.files.open(f.mediaPath);
         file.close();
         return String(i);
       },
@@ -270,68 +385,58 @@ test("failed validation cleans up, while an unconfirmed nonempty creation keeps 
   assert.deepEqual(await readdir(g.directory), []);
 });
 
-test("same-provenance library deletion and package close revoke only their own delivery namespaces", async (t) => {
+test("same-provenance project deletion and package close revoke only their own delivery namespaces", async (t) => {
   const [
-    { DerivedCache, recordingCacheOwnerCheck },
-    { SourceEvidenceStore, recordingEvidenceOwner },
-    { SceneEvidenceStore, recordingSceneOwner },
-    { ScreenshotIndexStore, recordingIndexDomain },
-    { TranscriptStore, recordingTranscriptOwner },
-    { CaptureService },
-    { RecordingDeletion },
+    { DerivedCache },
+    { SceneEvidenceStore, assetSceneOwner },
+    { ScreenshotIndexStore },
+    { projectIndexDomain },
+    { projectComposition },
+    { selectSource },
+    { ProjectDeletion },
     { ManagedFiles },
   ] = await Promise.all([
     import("../../../packages/core/dist/cache.js"),
-    import("../../../packages/core/dist/evidence.js"),
     import("../../../packages/core/dist/scene-evidence.js"),
     import("../../../packages/core/dist/screenshot-index.js"),
-    import("../../../packages/core/dist/transcript.js"),
-    import("../dist/capture.js"),
-    import("../dist/deletion.js"),
+    import("../../../packages/core/dist/project-index.js"),
+    import("../../../packages/core/dist/project-window.js"),
+    import("../../../packages/core/dist/source-selection.js"),
+    import("../dist/project-deletion.js"),
     import("../dist/managed-files.js"),
   ]);
   const f = await fixture(t),
-    recording = f.store.allocate().recording;
-  for (const [i, state] of ["recording", "finalizing", "complete"].entries())
-    f.store.ingestLifecycle(recording.recordingId, {
-      sourceId: recording.sourceId,
-      sequence: i + 1,
-      state,
-      sourceDurationUs: 100,
-    });
-  f.files["manifest.json"] = f.files["manifest.json"].replaceAll(
-    '"take"',
-    JSON.stringify(recording.recordingId),
-  );
-  await f.writeArchive();
-  const recordingDirectory = join(f.home, "recordings", recording.recordingId);
-  await mkdir(recordingDirectory, { recursive: true, mode: 0o700 });
-  await writeFile(join(recordingDirectory, "owned"), "library source");
-  const cache = new DerivedCache(f.store, f.home, recordingCacheOwnerCheck(f.store));
-  await cache.reconcile();
-  const capture = new CaptureService(
+    projectId = f.snapshot.project.projectId;
+  const acquisitions = f.acquisitions;
+  const scenes = new SceneEvidenceStore(f.store, assetSceneOwner(f.assets, acquisitions));
+  const index = new ScreenshotIndexStore(
     f.store,
     f.home,
-    async () => {
-      throw new Error("No capture device expected");
-    },
-    async () => {
-      throw new Error("No recovery expected");
-    },
+    projectIndexDomain(
+      {
+        composition: (identity) => projectComposition(f.projects, f.assets, identity),
+        source: (selection) => selectSource(f.assets, acquisitions, selection),
+        scenes,
+        isDeleting: (id) => f.projects.isDeleting(id),
+      },
+      { implementationId: "registry-deletion" },
+    ),
   );
-  const deletion = new RecordingDeletion({
-    store: f.store,
-    jobs: f.jobs,
-    cache,
-    capture,
-    delivery: f.delivery,
-    source: new SourceEvidenceStore(f.store, recordingEvidenceOwner(f.store)),
-    scenes: new SceneEvidenceStore(f.store, recordingSceneOwner(f.store)),
-    index: new ScreenshotIndexStore(f.store, f.home, recordingIndexDomain(f.store)),
-    transcripts: new TranscriptStore(f.store, f.home, recordingTranscriptOwner(f.store)),
-    cleanupReady: () => Promise.resolve(),
-    files: new ManagedFiles(f.home, worker),
+  const cache = new DerivedCache(f.store, f.home, (owner) => {
+    assert.equal(owner.kind, "project");
+    f.projects.get(owner.projectId);
   });
+  await cache.reconcile();
+  // No exports exist; export retirement is the external edge, not a simulated project deletion.
+  const deletion = new ProjectDeletion(
+    f.projects,
+    f.jobs,
+    cache,
+    new ManagedFiles(f.home, worker),
+    f.delivery,
+    { retireOwner: async () => {} },
+    index,
+  );
   try {
     await f.registry.recover();
     const a = await f.registry.open(f.input),
@@ -339,7 +444,7 @@ test("same-provenance library deletion and package close revoke only their own d
     const first = await ready(f, a.id),
       second = await ready(f, b.id);
     const lease = (handle) => {
-      const file = f.registry.lookup(handle).files.open("source/video.mov");
+      const file = f.registry.lookup(handle).files.open(f.mediaPath);
       return {
         bytes: fstatSync(file.fd).size,
         read: (buffer, position) => readSync(file.fd, buffer, 0, buffer.length, position),
@@ -348,12 +453,11 @@ test("same-provenance library deletion and package close revoke only their own d
     };
     const target = f.delivery.open({ kind: "package", id: first }, () => lease(first));
     const sibling = f.delivery.open({ kind: "package", id: second }, () => lease(second));
-    const library = f.delivery.open({ kind: "recording", id: recording.recordingId }, () =>
-      lease(first),
-    );
-    assert.equal(f.registry.lookup(first).manifest.snapshot.recordingId, recording.recordingId);
-    await deletion.delete(recording.recordingId);
-    assert.throws(() => f.store.get(recording.recordingId), { code: "NOT_FOUND" });
+    const library = f.delivery.open({ kind: "project", id: projectId }, () => lease(first));
+    assert.deepEqual(f.registry.lookup(first).manifest.snapshot, f.snapshot);
+    await deletion.delete(projectId);
+    assert.throws(() => f.projects.get(projectId), { code: "NOT_FOUND" });
+    assert.deepEqual(f.assets.get(f.asset.id), f.asset);
     assert.throws(() => f.delivery.read(library.token, 0, 20), { code: "ARTIFACT_EXPIRED" });
     assert.equal(
       Buffer.from(f.delivery.read(target.token, 0, 20).data, "base64").toString(),
@@ -365,9 +469,9 @@ test("same-provenance library deletion and package close revoke only their own d
       Buffer.from(f.delivery.read(sibling.token, 0, 20).data, "base64").toString(),
       "generated source",
     );
+    assert.deepEqual(f.registry.lookup(second).manifest.snapshot, f.snapshot);
   } finally {
     await deletion.close();
-    await capture.close();
   }
 });
 
@@ -375,7 +479,7 @@ test("startup remains blocked by a killed owner's actual native child while libr
   const { withOrphanedPackageWorkspace } =
     await import("./fixtures/orphaned-package-workspace.mjs");
   const f = await fixture(t);
-  await withOrphanedPackageWorkspace(f.directory, native, async ({ name, finishChild }) => {
+  await withOrphanedPackageWorkspace(f.directory, native, async ({ pid, name, finishChild }) => {
     await assert.rejects(f.registry.recover(), { code: "RECOVERY_BUSY", retryable: true });
     assert.equal(f.registry.usage().state, "recovery");
     await assert.rejects(f.registry.open(f.input), { code: "PROCESSING_BUSY" });
@@ -392,7 +496,7 @@ test("startup remains blocked by a killed owner's actual native child while libr
         sourceDurationUs: 100,
       });
     const job = f.jobs.submit({
-      target: { kind: "recording", recordingId: recording.recordingId },
+      target: { kind: "recording", recordingId: recording.recordingId, revisionId: null },
       artifact: "library",
       lane: "heavy",
       input: "{}",
@@ -407,6 +511,9 @@ test("startup remains blocked by a killed owner's actual native child while libr
       "ready",
     );
     await finishChild();
+    t.diagnostic(
+      `Orphaned native child ${pid}: observed stopped, continued, then OS absent before recovery`,
+    );
     await f.registry.recover();
     assert.equal(f.registry.usage().state, "ready");
     assert.deepEqual(await readdir(f.directory), []);
@@ -460,7 +567,7 @@ test("close fences delivery and drains an actual native media worker before remo
   const admission = await f.registry.open(f.input),
     handle = await ready(f, admission.id);
   directory = join(f.directory, admission.id);
-  const file = f.registry.lookup(handle).files.open("source/video.mov");
+  const file = f.registry.lookup(handle).files.open(f.mediaPath);
   const delivery = f.delivery.open({ kind: "package", id: handle }, () => ({
     bytes: fstatSync(file.fd).size,
     read: (buffer, position) => readSync(file.fd, buffer, 0, buffer.length, position),
@@ -474,7 +581,7 @@ test("close fences delivery and drains an actual native media worker before remo
         await context.run(
           "media.frame",
           {
-            source: "source/video.mov",
+            source: f.mediaPath,
             output: "held",
             atSourceUs: 0,
             kept: { startUs: 0, endUs: 100 },
@@ -518,6 +625,9 @@ test("close fences delivery and drains an actual native media worker before remo
     );
     await closing;
     assert.equal(workerClosed, true);
+    t.diagnostic(
+      `Native child ${pid}: stopped before dispatch, awaited worker closure before cleanup`,
+    );
     assert.throws(
       () => process.kill(pid, 0),
       (error) => error.code === "ESRCH",
@@ -530,70 +640,45 @@ test("close fences delivery and drains an actual native media worker before remo
   }
 });
 
-test("correctly hashed malformed payload is admitted structurally and rejected by the shared lazy reader", async (t) => {
-  const [{ FileSourceEvidence }, { evidenceIndexes }, { fileSubdirectory }] = await Promise.all([
-    import("../../../packages/core/dist/evidence-pages.js"),
-    import("../../../packages/core/dist/evidence-read.js"),
-    import("../../../packages/core/dist/files.js"),
-  ]);
-  const f = await fixture(t),
-    identity = {
-      owner: { kind: "recording", recordingId: "take" },
-      sourceId: "source",
-      generation: "source-1",
-    };
-  const hash = (value) => createHash("sha256").update(value).digest("hex");
-  const page = JSON.stringify([
-    {
-      sequence: 1,
-      event: "cursorSample",
-      sourceUs: 1,
-      content: JSON.stringify({ sourceUs: 1, x: "invalid" }),
-    },
-  ]);
-  const indexes = Object.fromEntries(evidenceIndexes.map((name) => [name, []]));
-  indexes.cursor = [
-    {
-      file: "1.json",
-      first: [1, 1],
-      last: [1, 1],
-      rows: 1,
-      bytes: Buffer.byteLength(page),
-      sha256: hash(page),
-    },
-  ];
-  delete f.files["evidence/source.jsonl"];
-  f.files["evidence/source/1.json"] = page;
-  f.files["evidence/source/pages.json"] = JSON.stringify({
-    version: 1,
-    metadata: { kind: "source", identity },
-    indexes,
-  });
-  const manifest = JSON.parse(f.files["manifest.json"]),
-    paths = ["evidence/source/1.json", "evidence/source/pages.json"];
-  manifest.inventory = manifest.inventory.filter((item) => item.role !== "source");
-  manifest.inventory.push(
-    ...paths.map((path) => ({
-      path,
-      role: "source",
-      bytes: Buffer.byteLength(f.files[path]),
-      sha256: hash(f.files[path]),
-    })),
+test("correctly hashed malformed project resource metadata fails before readiness and releases its owner", async (t) => {
+  const f = await fixture(t);
+  const manifest = JSON.parse(f.files["manifest.json"]);
+  const reference = manifest.resources[0].metadata;
+  const resource = JSON.parse(f.files[reference.path]);
+  resource.asset.streams[0].width = "invalid";
+  const body = JSON.stringify(resource);
+  f.files[reference.path] = body;
+  reference.bytes = Buffer.byteLength(body);
+  reference.sha256 = createHash("sha256").update(body).digest("hex");
+  Object.assign(
+    manifest.inventory.find((member) => member.path === reference.path),
+    reference,
   );
-  manifest.evidence.find((item) => item.artifact.reference.kind === "source").files = paths;
   f.files["manifest.json"] = JSON.stringify(manifest);
+  // Structural admission and exact hashes succeed; the canonical typed resource owner refuses.
+  assert.equal(
+    parseProjectPackageManifest(f.files["manifest.json"], new Map(), archiveLimits).format,
+    "screenrec-project",
+  );
   await f.writeArchive();
   await f.registry.recover();
-  const admission = await f.registry.open(f.input),
-    handle = await ready(f, admission.id);
-  const reader = new FileSourceEvidence(
-    fileSubdirectory(f.registry.lookup(handle).files, "evidence/source"),
-    identity,
+  const admission = await f.registry.open(f.input);
+  const result = await waitFor(
+    () => f.registry.status(admission.id),
+    (value) => value.state === "failed",
   );
-  assert.throws(() => reader.page({ ...identity, range: { startUs: 0, endUs: 100 } }), {
-    code: "INVALID_EVIDENCE",
-  });
-  assert.equal(f.registry.status(admission.id).state, "ready");
+  assert.equal(result.packageHandle, null);
+  assert.equal(result.error, "Invalid portable resource metadata identity or schema");
+  await waitFor(
+    () => f.registry.usage(),
+    (value) => value.owners === 0,
+  );
+  assert.equal(f.registry.usage().budgetBytes, 0);
+  assert.deepEqual(await readdir(f.directory), []);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(f.projects.snapshot(f.snapshot.project.projectId))),
+    f.snapshot,
+  );
 });
 
 test("default peak reservations block a fourth pending open but validated steady bytes allow it", async (t) => {
@@ -686,14 +771,11 @@ test("partial copy cancellation drains the actual worker before returning reserv
   const { withArchiveCopyBarrier } =
     await import("../../macos/tests/fixtures/archive-copy-barrier.mjs");
   let selectedWorker = worker;
-  const f = await fixture(t, { worker: (...args) => selectedWorker(...args) });
-  f.files["source/video.mov"] = "generated source".repeat(20_000);
-  const manifest = JSON.parse(f.files["manifest.json"]),
-    video = manifest.inventory.find((item) => item.role === "video");
-  video.bytes = Buffer.byteLength(f.files["source/video.mov"]);
-  video.sha256 = createHash("sha256").update(f.files["source/video.mov"]).digest("hex");
-  f.files["manifest.json"] = JSON.stringify(manifest);
-  await f.writeArchive();
+  const f = await fixture(
+    t,
+    { worker: (...args) => selectedWorker(...args) },
+    "generated source".repeat(20_000),
+  );
   const input = await readFile(f.input);
   await f.registry.recover();
   await withArchiveCopyBarrier(
@@ -754,7 +836,7 @@ for (const cancel of [false, true]) {
     const f = await fixture(t, {
       resolve: async (input, signal) => {
         files = input.files;
-        const file = files.open("source/video.mov");
+        const file = files.open(f.mediaPath);
         file.close();
         enter();
         if (cancel)
@@ -773,7 +855,7 @@ for (const cancel of [false, true]) {
         (value) => value.state === "failed",
       );
     assert.equal(f.registry.status(admission.id).packageHandle, null);
-    assert.throws(() => files.open("source/video.mov"));
+    assert.throws(() => files.open(f.mediaPath));
     assert.equal(f.registry.usage().owners, 0);
     assert.deepEqual(await readdir(f.directory), []);
   });

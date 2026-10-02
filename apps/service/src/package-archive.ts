@@ -20,7 +20,6 @@ import {
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
 import { isPrivateDirectory } from "./managed-files.js";
-import type { validateManifest } from "@screenrec/core/package-manifest";
 
 export const packageOutputBytes = 128 * 1024 ** 2;
 
@@ -221,7 +220,7 @@ type Output = {
 
 /** One validated, extracted package: its members, bounded derivative outputs and the native work
  * that reads them. PackageRegistry owns its scheduling and handle lifetime. */
-export class RetainedPackage<T extends ArchiveManifest = ReturnType<typeof validateManifest>> {
+export class RetainedPackage<T extends ArchiveManifest = ArchiveManifest> {
   readonly manifest: Extraction<T>["verified"]["manifest"];
   readonly archiveUsage: Readonly<Pick<Extraction<T>["verified"], "copiedBytes" | "expandedBytes">>;
   readonly revisionContents: Readonly<Record<string, string>>;

@@ -1,3 +1,4 @@
+import type { validateManifest } from "@screenrec/core/package-manifest";
 import { CatalogError } from "@screenrec/core/catalog";
 import { fileSubdirectory } from "@screenrec/core/files";
 import type { TimeRange } from "@screenrec/core/presentation-time";
@@ -14,7 +15,10 @@ import {
 } from "./package-media.js";
 import type { RetainedPackage } from "./package-archive.js";
 
-type Retained = Pick<RetainedPackage, "manifest" | "revisionContents" | "files">;
+type Retained = Pick<
+  RetainedPackage<ReturnType<typeof validateManifest>>,
+  "manifest" | "revisionContents" | "files"
+>;
 
 /** Admits a narrated package's transcript against its own source evidence before a handle exists. */
 export async function validatePackageTranscript(

@@ -1,3 +1,4 @@
+import type { validateManifest } from "@screenrec/core/package-manifest";
 import { randomUUID } from "node:crypto";
 import { dirname } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
@@ -9,7 +10,7 @@ import type { ContextJob } from "@screenrec/core/jobs";
 import type { PackageRegistry } from "./package-registry.js";
 import type { RetainedPackage } from "./package-archive.js";
 export type PackageTarget = { packageHandle: string };
-type Manifest = RetainedPackage["manifest"];
+type Manifest = ReturnType<typeof validateManifest>;
 
 /** One pinned evidence artifact of a package, located by its single `leaf` member. */
 export function portableEvidence(
@@ -35,7 +36,7 @@ export function portableEvidence(
 
 /** The package's included history, parsed by the timeline owner. */
 export function packageRevisions(
-  context: Pick<RetainedPackage, "manifest" | "revisionContents">,
+  context: Pick<RetainedPackage<Manifest>, "manifest" | "revisionContents">,
 ): readonly TimelineRevision[] {
   return parseRevisionHistory(
     context.manifest.history.map(({ path }) => JSON.parse(context.revisionContents[path]!)),
@@ -78,7 +79,7 @@ export class PackageMediaContext {
     | { metadata: ReturnType<typeof readSourceMetadata>; reader: FileSourceEvidence }
     | undefined;
   constructor(
-    private readonly registry: PackageRegistry,
+    private readonly registry: PackageRegistry<Manifest>,
     private readonly handle: string,
     private readonly revision: (id?: string) => TimelineRevision,
   ) {}
@@ -155,7 +156,7 @@ export class PackageMediaContext {
   submitWork<T>(
     artifact: "preview",
     input: string,
-    work: (retained: RetainedPackage, signal: AbortSignal) => Promise<T>,
+    work: (retained: RetainedPackage<Manifest>, signal: AbortSignal) => Promise<T>,
   ) {
     const { valueBytes } = this.reserveSlot(artifact, input);
     const job = this.registry.submit(
@@ -179,7 +180,7 @@ export class PackageMediaContext {
     input: string,
     render: (
       output: PackageOutput<T>,
-      run: RetainedPackage["run"],
+      run: RetainedPackage<Manifest>["run"],
       signal: AbortSignal,
     ) => Promise<T & { outputId: string }>,
   ) {

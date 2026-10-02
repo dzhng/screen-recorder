@@ -35,7 +35,7 @@ type HistoryCursor = { packageHandle: string; afterOrdinal: number; throughOrdin
 /** Service composition of retained package authority; inspection stays in the shared readers. */
 export class PackageInspection {
   private parent: FileHandle | undefined;
-  private registry: PackageRegistry | undefined;
+  private registry: PackageRegistry<ReturnType<typeof validateManifest>> | undefined;
   private preparing: Promise<void> | undefined;
   private closing: Promise<void> | undefined;
   private stopped = false;
