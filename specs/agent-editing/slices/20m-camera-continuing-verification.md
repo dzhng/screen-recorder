@@ -1,12 +1,14 @@
 # Continuing camera verification in the publication owner
 
-Status: implementation next. Fixed raw IDR, canonical transfer and ranged digest
-proofs are retained; production publication still scans complete media after closure.
+Status: the [first production state pass](../assets/20m-camera-continuing-verification/README.md)
+is merged and focused publication consumers pass. Both full scanners now consume
+continuing value state through the unchanged digest. Range advancement and capture
+lifetime integration are in progress; publication still scans complete media after closure.
 
 ## Contract
 
-Keep camera picture verification with CameraMedia. Extract the current raw and
-canonical consumption rules into continuing state, with independent ordered SHA256
+Keep camera picture verification with CameraMedia. Keep the raw and
+canonical consumption rules in continuing state, with independent ordered SHA256
 states and exact mapping ordinal, timestamp and physical-support progress. The
 existing full scanners must consume those same rules; preserve the digest byte
 representation, raw-first failure selection and every mapping/terminal diagnostic.
@@ -18,11 +20,13 @@ failed tentative work cannot corrupt committed progress. Finalization completes 
 actual tails and checks both complete hashes/support before publishing. Preserve
 input-byte binding, receipt replay, cancellation/join, retry, discard and generic
 recovery fallback. Capture ingress may trigger work only after its accepted mapping
-row is durable, with no synchronous decode on the ingress queue.
+row has been written, with no synchronous decode on the ingress queue. Observation
+synchronization remains with the existing close boundary; speculative eligibility
+does not add a per-frame disk synchronization policy.
 
-Start with the existing full-scan consumers and their focused preservation checks,
-then connect range advancement and live ownership through CameraWriter and
-ClosedCameraSource. Use retained tiny fixtures and saved qualified snapshots; no
+The first pass preserves existing full-scan consumers, fractional support, partial
+source diagnostics, failure order and publication replay. Next connect range
+advancement and live ownership through CameraWriter and ClosedCameraSource. Use retained tiny fixtures and saved qualified snapshots; no
 source-baseline replay, new capture or full-suite gate. Each coherent pass must
 leave the actual production consumer and its tests on the same verification owner.
 

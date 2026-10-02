@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-10-01.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-10-02.
 Product boundary: **zero editorial decisions; only primitives**. The external
 agent using this project makes every editorial decision. Follow the
 [editorial-control contract](architecture.md#editorial-control) when interpreting
@@ -22,12 +22,13 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: move camera verification into continuing state.**
+**Next pickup: connect camera range verification to the capture lifetime.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
-media facts. [20m](slices/20m-camera-continuing-verification.md) now owns production
-scan-state extraction and capture lifecycle integration. Existing full scanners
-must use the same rules; preserve both ordered digests and recovery behavior.
+media facts. [20m](slices/20m-camera-continuing-verification.md) now owns range advancement and
+capture lifecycle integration. Its first production pass makes both existing full
+scanners consume continuing state; focused output/support/failure/replay checks pass.
+Preserve both ordered digests and recovery behavior.
 Reuse all saved source and prefix/range authorities.
 
 Camera publication is the current implementation priority. The [raw IDR proof](slices/20h-camera-idr-fence.md)

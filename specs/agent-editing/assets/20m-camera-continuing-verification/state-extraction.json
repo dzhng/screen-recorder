@@ -1,0 +1,99 @@
+{
+  "status": "pass",
+  "scope": "Behavior-preserving continuing raw/canonical scan-state extraction; existing full publication consumers only",
+  "implementationCommit": "837f79df",
+  "source": {
+    "path": "helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift",
+    "bytes": 38994,
+    "sha256": "c5dd22f176a066898ccdb94324d4c8ce4be2204efcb98e91e9f6bf46bcac1343"
+  },
+  "productionDelta": {
+    "added": 77,
+    "removed": 42,
+    "newPrivateValueTypes": 2,
+    "newPublicAPIs": 0
+  },
+  "digest": {
+    "base": "1b2dbae6",
+    "digestExact": true,
+    "bytes": 1358,
+    "sha256": "cdb3a20e964e1d9955283d06f6eecd30a234e11dca5072b8e88c7f4b7f1dce9e"
+  },
+  "processes": [
+    {
+      "phase": "module",
+      "pid": 86351,
+      "elapsedSeconds": 16.846802042011404,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    },
+    {
+      "phase": "object",
+      "pid": 86588,
+      "elapsedSeconds": 5.332843000011053,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    },
+    {
+      "phase": "link",
+      "pid": 86618,
+      "elapsedSeconds": 4.665202874981333,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    },
+    {
+      "phase": "clipped",
+      "pid": 86749,
+      "elapsedSeconds": 0.7399083329946734,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    },
+    {
+      "phase": "neighbors",
+      "pid": 86782,
+      "elapsedSeconds": 3.9785659160115756,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false
+    }
+  ],
+  "checks": {
+    "clipped": [
+      "PASS exact fractional terminal clipping preserves all three picture digests and bound camera proof"
+    ],
+    "neighbors": [
+      "PASS camera publication exact 32\u00d716 visible BGRA pixels, stride128, and timestamps",
+      "PASS camera torn retains physical prefix/support and exact diagnostics",
+      "PASS camera unmapped retains physical prefix/support and exact diagnostics",
+      "PASS camera missing-physical retains physical prefix/support and exact diagnostics",
+      "PASS camera unsealed retains physical prefix/support and exact diagnostics",
+      "PASS earlier raw timestamp refusal precedes later malformed qualification row; no publication",
+      "PASS synthetic scan-result raw-first refusal, prefix deferral, complete acceptance and cancellation policy",
+      "PASS retained receipt/link continuation and conflicting-byte refusal without replacement"
+    ]
+  },
+  "rootReview": {
+    "mergedSourceEqualsExecutedSource": true,
+    "digestBodyExact": true,
+    "allOwnedProcessesTerminalReapedAbsent": true,
+    "unchangedTestAndOutputIdentitiesExact": true,
+    "shape": "Private continuing values replace loop-local state; full scanners own all consumers.",
+    "diff": "Lazy canonical read and existing mapping/error/diagnostic order preserved.",
+    "docs": "No external contract change; remaining range/lifecycle/stop scope remains open."
+  },
+  "limits": [
+    "No range advancement, snapshot qualification, capture-era sealing, live verification or lifetime integration implemented",
+    "No new capture/device/service/model/UI, full worker build or accepted private cohort rerun",
+    "No performance/stop-deadline adoption claim",
+    "Arbitration Result controls are decision evidence, not physical native decoder failure reproduction"
+  ]
+}
