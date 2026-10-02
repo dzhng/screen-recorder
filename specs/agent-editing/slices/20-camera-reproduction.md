@@ -15,11 +15,14 @@ intentional interruption. Missing later operands prevent diagnosing that mismatc
 no general prefix rule, recovery mechanism or stop improvement is qualified.
 
 [20h](20h-camera-idr-fence.md) subsequently qualifies complete-IDR prefixes in two
-fixed tiny raw cases, preserving the original failure separately. Exceptional
-timeout ownership remains unqualified. [20i](20i-growing-canonical-feasibility.md)
+fixed tiny raw cases, preserving the original failure separately. Its original exceptional
+timeout path remains unqualified; the separately qualified supervisor is retained with
+[20i evidence](20i-growing-canonical-feasibility.md). [20i](20i-growing-canonical-feasibility.md)
 now qualifies one distinct intact-buffer growing MOV case; [20j](20j-camera-range-digests.md)
-qualifies fixed range/digest-state continuation, and [20k](20k-camera-cursor-buffers.md)
-owns compressed sample generation next. No production strategy,
+qualifies fixed range/digest-state continuation. [20k](20k-camera-cursor-buffers.md)
+and [20l](20l-camera-cursor-transfer.md) qualify stored samples and unchanged fixed
+transfer. [20m](20m-camera-continuing-verification.md) owns continuing production
+verification next. No production strategy,
 physical synchronization or stop improvement follows from these tiny cases.
 
 ## Contract

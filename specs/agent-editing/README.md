@@ -22,14 +22,13 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify cursor-bounded compressed samples.**
-[20i](slices/20i-growing-canonical-feasibility.md) and
-[20j](slices/20j-camera-range-digests.md) qualify their fixed container and
-range/digest-state cases. Ranged compressed readers also generate context-specific
-markers. [20k](slices/20k-camera-cursor-buffers.md) owns the next stored-sample API
-qualification before choosing a live transfer rule. Review and freeze that
-prototype; reuse all source and full-traversal authorities. No raw-writer replay
-or production adoption follows from these passes.
+**Next pickup: move camera verification into continuing state.**
+[20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
+transfer, including complete finished pixels, timing/support and original-reader
+media facts. [20m](slices/20m-camera-continuing-verification.md) now owns production
+scan-state extraction and capture lifecycle integration. Existing full scanners
+must use the same rules; preserve both ordered digests and recovery behavior.
+Reuse all saved source and prefix/range authorities.
 
 Camera publication is the current implementation priority. The [raw IDR proof](slices/20h-camera-idr-fence.md)
 qualifies its fixed cases; the [stop dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
@@ -251,7 +250,9 @@ implementation readiness from acceptance prerequisites.
 - [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
 - [x] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed intact-buffer prefix/closure and all197 correspondence pass; live production/backlog/recovery/stop remain open
 - [x] [20j — Resume decoded camera verification](slices/20j-camera-range-digests.md) — fixed ranges and both continuing digest projections pass; live production/transfer/backlog/stop remain open
-- [ ] [20k — Cursor-bounded compressed camera samples](slices/20k-camera-cursor-buffers.md)
+- [x] [20k — Cursor-bounded compressed camera samples](slices/20k-camera-cursor-buffers.md) — stored native bytes/clocks/format pass; full-reader boundary differences retained
+- [x] [20l — Unchanged cursor-sample camera transfer](slices/20l-camera-cursor-transfer.md) — fixed active-prefix/full-output proof; live adoption/backlog/stop remain open
+- [ ] [20m — Continuing camera verification in the publication owner](slices/20m-camera-continuing-verification.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)

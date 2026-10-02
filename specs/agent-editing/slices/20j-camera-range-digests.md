@@ -4,7 +4,9 @@ Status: the [fixed range case](../assets/20j-camera-range-digests/README.md) pas
 both independent continuing digest projections and all delivered tuples/support.
 [Root saved-data review](../assets/20j-camera-range-digests/merged.json) verifies
 the complete values without replay. No production digest has moved out of
-finalization; [compressed transfer](20k-camera-cursor-buffers.md) is next.
+finalization. [Stored samples](20k-camera-cursor-buffers.md) and
+[unchanged transfer](20l-camera-cursor-transfer.md) now qualify their fixed cases;
+[20m](20m-camera-continuing-verification.md) owns production integration.
 
 ## Contract
 

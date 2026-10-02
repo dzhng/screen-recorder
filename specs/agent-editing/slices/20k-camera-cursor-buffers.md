@@ -1,6 +1,9 @@
 # Cursor-bounded compressed camera samples
 
-Status: preparation next. [20j](20j-camera-range-digests.md) verifies decoded
+Status: fixed stored-sample observation passes native-byte/clock/format correspondence;
+full-reader fact parity differs at two boundaries. Actual compiler/native work is terminal.
+The [phase evidence](../assets/20k-camera-cursor-buffers/README.md) retains all operands.
+ [20j](20j-camera-range-digests.md) verifies decoded
 range continuation, but its compressed readers add range-relative reset and
 terminal markers. Concatenation or filtering is not an established transfer rule.
 
@@ -38,3 +41,16 @@ and full-reader fact parity. Differences select the next transfer question;
 they cannot be normalized away to make parity pass. Any later writer still needs
 its own prefix, complete decoded-pixel/support, terminal and lifecycle proof.
 Live ownership, backlog, recovery and completed-stop performance remain open.
+
+## Result and next action
+
+All stored media samples match the saved native inventory. The generated first
+sample lacks the full reader's decoder-reset attachment. Near the end, generation
+also lacks a one-microsecond end trim, so that sample's output duration differs
+while its raw timing and encoded bytes match. These differences remain explicit;
+full-reader fact parity is not claimed.
+
+[20l](20l-camera-cursor-transfer.md) tests actual unchanged generated buffers in
+the existing fixed passthrough writer. Its finished output must recover the original
+full-reader media facts and preserve all decoded pixels, clocks and occupied support.
+The stored-sample result does not authorize live transfer or production adoption.

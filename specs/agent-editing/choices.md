@@ -6729,3 +6729,15 @@ complete buffer facts first, keep every buffer intact, and separately map actual
 media samples to the saved decode inventory. A metadata-only observation resolves
 the missing prerequisite without changing the failed source or claiming that a
 marker caused it. Candidate container preservation remains unqualified.
+
+## Stored-sample camera transfer
+
+**Sound, medium confidence — test unchanged stored samples before inventing marker handling.**
+A partial compressed reader adds metadata about where its read begins and ends.
+A stored-sample generator supplies the encoded samples directly, with two boundary
+metadata differences in the retained fixture. The fixed transfer keeps those actual
+objects unchanged and makes the finished candidate recover the original reader's
+facts, pictures and duration. This avoids inventing reset or trim markers from one
+example. The plan left the compressed acquisition API unresolved; production adoption
+still requires general live eligibility, lifetime and backlog proof. The result
+settles this fixed transfer choice, not permission to drop arbitrary reader markers.
