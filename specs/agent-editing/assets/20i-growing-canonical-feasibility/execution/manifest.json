@@ -1,0 +1,167 @@
+{
+  "scope": "Exact sole executed source/plan/binary/process/log/cache/result namespace, original media referenced not duplicated",
+  "archive": {
+    "file": "actual-phase.tar.gz",
+    "bytes": 1561464,
+    "sha256": "ec6cc4ab2dbaf87529c6a8718b2c6dde8799f2678a97785bd13460878b7be20e",
+    "members": 26
+  },
+  "files": [
+    {
+      "member": "Canonical.swift",
+      "source": "/tmp/screenrec-20i-canonical/Canonical.swift",
+      "bytes": 17294,
+      "sha256": "1cb45ad2c7f68f610739546c55be72ba52a8cbba526821c10095fc95fed66b53"
+    },
+    {
+      "member": "References.swift",
+      "source": "/tmp/screenrec-20i-canonical/References.swift",
+      "bytes": 9074,
+      "sha256": "3a17ff11eaec2161d9b56dad2c318caad7b713ada63eee8bda3ccb1228c44d7f"
+    },
+    {
+      "member": "authority.json",
+      "source": "/tmp/screenrec-20i-canonical/authority.json",
+      "bytes": 33202,
+      "sha256": "e323f16ae8a5715d785f6b297b43c8ac03202951bbef2912a72696573378db51"
+    },
+    {
+      "member": "binary.json",
+      "source": "/tmp/screenrec-20i-canonical/binary.json",
+      "bytes": 161,
+      "sha256": "cbb7801938af5bae879cfef36b7fbc0a40a3e3abd58883d297cd4a44fe65281c"
+    },
+    {
+      "member": "cache-after.json",
+      "source": "/tmp/screenrec-20i-canonical/cache-after.json",
+      "bytes": 62836,
+      "sha256": "3fc8ae0894cf9289dcc39806fa0c3065f00c2cb21445a89f94c7c1b71890fb83"
+    },
+    {
+      "member": "cache-before.json",
+      "source": "/tmp/screenrec-20i-canonical/cache-before.json",
+      "bytes": 62836,
+      "sha256": "3fc8ae0894cf9289dcc39806fa0c3065f00c2cb21445a89f94c7c1b71890fb83"
+    },
+    {
+      "member": "canonical/failure.json",
+      "source": "/tmp/screenrec-20i-canonical/canonical/failure.json",
+      "bytes": 116,
+      "sha256": "a5ca66a694e05724bd5e64d29373afcb1dfdb3e1365c7b20e76a501b10634399"
+    },
+    {
+      "member": "canonical/source-codec.json",
+      "source": "/tmp/screenrec-20i-canonical/canonical/source-codec.json",
+      "bytes": 1076610,
+      "sha256": "fc38b723f673f4fc9888cdb87dee52209127f1c1097454b70c8c1deee5b28a8d"
+    },
+    {
+      "member": "canonical/source-codec.json.process.json",
+      "source": "/tmp/screenrec-20i-canonical/canonical/source-codec.json.process.json",
+      "bytes": 614,
+      "sha256": "32ca098e4618fae72b668b998aa6137bac592e3437452114f385299c029aeec1"
+    },
+    {
+      "member": "canonical/source-formats.json",
+      "source": "/tmp/screenrec-20i-canonical/canonical/source-formats.json",
+      "bytes": 3240,
+      "sha256": "f3dc2f869f2ea47091efc5f44e972b81a2a3542e82a32df1df13ad48e2d89d3d"
+    },
+    {
+      "member": "canonical-probe",
+      "source": "/tmp/screenrec-20i-canonical/canonical-probe",
+      "bytes": 5036432,
+      "sha256": "0a237a103c55b90640848d7b7f1ef16f9055aaf1ef6650fa999bbe8f89d5331e"
+    },
+    {
+      "member": "canonical.stderr",
+      "source": "/tmp/screenrec-20i-canonical/canonical.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "canonical.stdout",
+      "source": "/tmp/screenrec-20i-canonical/canonical.stdout",
+      "bytes": 146,
+      "sha256": "39f67f0534c9cb4cdd9aac693a113c410ea40a63b50a9fa7f54ccf5eb48ad720"
+    },
+    {
+      "member": "compile.stderr",
+      "source": "/tmp/screenrec-20i-canonical/compile.stderr",
+      "bytes": 42361,
+      "sha256": "c44c95aa8ed0b7f440e0a9d1af9e64061ba3e74addfa0084539df155b644485a"
+    },
+    {
+      "member": "compile.stdout",
+      "source": "/tmp/screenrec-20i-canonical/compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "control.py",
+      "source": "/tmp/screenrec-20i-canonical/control.py",
+      "bytes": 8149,
+      "sha256": "cf4360196ffa15614d15533df8d0d91322e9c7c95b3451281452453d5a22bbde"
+    },
+    {
+      "member": "controller-verdict.json",
+      "source": "/tmp/screenrec-20i-canonical/controller-verdict.json",
+      "bytes": 92,
+      "sha256": "4cb5ae059d60ebf889b9571f29502803e67f3af393befa2dc20f1e15c823d573"
+    },
+    {
+      "member": "ownership/evidence/failed-assertion.json",
+      "source": "/tmp/screenrec-20i-canonical/ownership/evidence/failed-assertion.json",
+      "bytes": 199,
+      "sha256": "8825f6d7d77f486435df9d90dccc787a796f74d0c7c2960b5097b420ea6b2d4a"
+    },
+    {
+      "member": "ownership/verdict.json",
+      "source": "/tmp/screenrec-20i-canonical/ownership/verdict.json",
+      "bytes": 130,
+      "sha256": "152836f8e974989200e9b8c0af9c40663c9121239ae7caa7cc02ba0d8816585b"
+    },
+    {
+      "member": "ownership/wait.process.json",
+      "source": "/tmp/screenrec-20i-canonical/ownership/wait.process.json",
+      "bytes": 308,
+      "sha256": "d40f3724e403c219f9c6e00573ae382c85462af198abdb06ef1a1d15e0195d8c"
+    },
+    {
+      "member": "ownership.stderr",
+      "source": "/tmp/screenrec-20i-canonical/ownership.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "ownership.stdout",
+      "source": "/tmp/screenrec-20i-canonical/ownership.stdout",
+      "bytes": 24,
+      "sha256": "fa5c2b46ecb6f24bbb13730a46537774b396aec177f0c8b61fc591a22627992a"
+    },
+    {
+      "member": "plan.json",
+      "source": "/tmp/screenrec-20i-canonical/plan.json",
+      "bytes": 9287,
+      "sha256": "3c58f3e5bd88a3c78169a0f9bbd8a6710d3331364654a1aef30ee5e6dc4c3cae"
+    },
+    {
+      "member": "processes.json",
+      "source": "/tmp/screenrec-20i-canonical/processes.json",
+      "bytes": 10144,
+      "sha256": "101236b20d179f4ec83e34044a7c1931abfca066b68e1a35132fec210fb8c73a"
+    },
+    {
+      "member": "saved-checks.json",
+      "source": "/tmp/screenrec-20i-canonical/saved-checks.json",
+      "bytes": 846,
+      "sha256": "b5cdc156e56add855ac34fecb305d6906636da004467b20cf0047e174a040cdc"
+    },
+    {
+      "member": "wait.py",
+      "source": "/tmp/screenrec-20i-canonical/wait.py",
+      "bytes": 158,
+      "sha256": "6bcb56dac089db59e8a49cda397fdc6e7befef80cc2bbdfb8242377dc2648914"
+    }
+  ]
+}

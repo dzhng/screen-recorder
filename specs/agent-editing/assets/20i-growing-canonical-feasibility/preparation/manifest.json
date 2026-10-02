@@ -1,0 +1,77 @@
+{
+  "scope": "Frozen reference-only preparation; no maintained harness or production owner",
+  "archive": {
+    "file": "reference-sources.tar.gz",
+    "bytes": 40687,
+    "sha256": "bd734bef5f31f77de8274c2681b4eac4c03787600570d726cffca27333d2613a",
+    "members": 11
+  },
+  "files": [
+    {
+      "member": "Canonical.swift",
+      "source": "/tmp/screenrec-20i-canonical/Canonical.swift",
+      "bytes": 17294,
+      "sha256": "1cb45ad2c7f68f610739546c55be72ba52a8cbba526821c10095fc95fed66b53"
+    },
+    {
+      "member": "References.swift",
+      "source": "/tmp/screenrec-20i-canonical/References.swift",
+      "bytes": 9074,
+      "sha256": "3a17ff11eaec2161d9b56dad2c318caad7b713ada63eee8bda3ccb1228c44d7f"
+    },
+    {
+      "member": "control.py",
+      "source": "/tmp/screenrec-20i-canonical/control.py",
+      "bytes": 8149,
+      "sha256": "cf4360196ffa15614d15533df8d0d91322e9c7c95b3451281452453d5a22bbde"
+    },
+    {
+      "member": "wait.py",
+      "source": "/tmp/screenrec-20i-canonical/wait.py",
+      "bytes": 158,
+      "sha256": "6bcb56dac089db59e8a49cda397fdc6e7befef80cc2bbdfb8242377dc2648914"
+    },
+    {
+      "member": "plan.json",
+      "source": "/tmp/screenrec-20i-canonical/plan.json",
+      "bytes": 9287,
+      "sha256": "3c58f3e5bd88a3c78169a0f9bbd8a6710d3331364654a1aef30ee5e6dc4c3cae"
+    },
+    {
+      "member": "authority.json",
+      "source": "/tmp/screenrec-20i-canonical/authority.json",
+      "bytes": 33202,
+      "sha256": "e323f16ae8a5715d785f6b297b43c8ac03202951bbef2912a72696573378db51"
+    },
+    {
+      "member": "references/Observation.swift",
+      "source": "/tmp/screenrec-20h-idr-fence/Observation.swift",
+      "bytes": 17323,
+      "sha256": "761b3e872be774d91512c72cca9d12e537d32c67c9bc01f1d6e76b995359b751"
+    },
+    {
+      "member": "references/codec.py",
+      "source": "/tmp/screenrec-20h-idr-fence/codec.py",
+      "bytes": 10157,
+      "sha256": "46fb7717d66c6c6144ec46d3831afada80f4d7b72b6ed913d241af443db091df"
+    },
+    {
+      "member": "references/MovieMux.swift",
+      "source": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift",
+      "bytes": 6638,
+      "sha256": "4e6b357aec05528a053f11356e9ac624d2cda3c284b07ee90d2340b69239495f"
+    },
+    {
+      "member": "references/proc_info.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/proc_info.h",
+      "bytes": 31262,
+      "sha256": "e427fa96b348537b21552b9de71e01039410bcad2cedee5584c5e5fddafd70fc"
+    },
+    {
+      "member": "references/libproc.h",
+      "source": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libproc.h",
+      "bytes": 7575,
+      "sha256": "246d87709fc6b9157ce5cf3c475656ac48e0e1ae8bbdc46cf45acd34294448cd"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "status": "source-ready-uncompiled-unexecuted",
+  "sourceRootCommit": "2d98c939084d50396c560a547a42e9d1ff0b98df",
+  "runtimeBindings": 138,
+  "planSHA256": "3c58f3e5bd88a3c78169a0f9bbd8a6710d3331364654a1aef30ee5e6dc4c3cae",
+  "checks": {
+    "PythonAST": "pass",
+    "invocationJSONArrays": "pass",
+    "frozenReferenceProjection": "byte-exact pass",
+    "archiveAllMembersReadAndRehashed": "pass"
+  },
+  "nativeCompilerStarted": false,
+  "ownershipCaseStarted": false,
+  "canonicalCaseStarted": false,
+  "liveOwnedProcesses": [],
+  "limits": {
+    "phaseBoundSeconds": 180,
+    "compileAggregateSeconds": 150,
+    "ownershipWorkSeconds": 1,
+    "queryFirstCleanupGraceSeconds": 1,
+    "forcedProcessReapSeconds": 5,
+    "canonicalWorkSeconds": 15,
+    "rawOrCopyBytesCap": 2097152,
+    "decodedPicturesCap": 400,
+    "stdioBytesCapPerStream": 1048576
+  },
+  "uncertainties": [
+    "Swift source/API typing unverified until compile",
+    "Actual child cleanup and native wait/reap unverified until nonmedia prerequisite",
+    "Growing candidate fragments/pictures/logical membership unverified",
+    "OS libproc implementation in shared dyld cache not byte-pinned; exact inspected SDK ABI headers retained"
+  ],
+  "next": "Root source/plan review before any compile or native invocation"
+}

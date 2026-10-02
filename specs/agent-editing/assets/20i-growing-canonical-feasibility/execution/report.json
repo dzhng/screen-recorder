@@ -1,0 +1,105 @@
+{
+  "verdict": "candidate-unqualified-before-writer",
+  "compile": {
+    "pid": 13154,
+    "exitCode": 0,
+    "elapsedSeconds": 3.660562832985306,
+    "terminal": true,
+    "waited": true,
+    "parentAbsent": true,
+    "streamsFullyDrained": true
+  },
+  "nonmediaOwnership": {
+    "status": "pass",
+    "parentPID": 13208,
+    "queryPID": 13209,
+    "actualPPID": 13208,
+    "actualPGID": 13209,
+    "queryTermination": "expected intentional SIGKILL",
+    "queryNativeTerminationStatus": 9,
+    "nativeParentExit": 0,
+    "queryReaped": true,
+    "allPIDsAbsent": true,
+    "elapsedSeconds": 1.0281359579821583
+  },
+  "canonical": {
+    "pid": 13211,
+    "exitCode": 1,
+    "elapsedSeconds": 0.10953850002260879,
+    "stage": "first compressed source packet before candidate writer construction",
+    "error": "Compressed sample lacks one complete block/format",
+    "combinedGuard": [
+      "sample.dataBuffer exists",
+      "sample.formatDescription exists",
+      "sample.numSamples equals 1"
+    ],
+    "failedGuardOperand": "unknown: branch did not persist separate operand values",
+    "sourceMetadataAndCodecQuery": "pass; 197 complete source samples and retained six IDR fences",
+    "sourceByteQueryPID": 13212,
+    "sourceByteQueryExit": 0,
+    "candidateWriterConstructed": false,
+    "appends": 0,
+    "candidatePictureDecodeStarted": false,
+    "candidateMOVExists": false,
+    "physicalMechanismVerdict": "unknown: no candidate bytes or pictures were produced"
+  },
+  "checks": {
+    "status": "pass",
+    "scope": "Saved outputs/terminals/protected bytes only; no native retry",
+    "unchangedPins": 138,
+    "cacheUnchanged": true,
+    "cacheFiles": 307,
+    "actualOwnedPIDAbsence": [
+      {
+        "pid": 13154,
+        "absent": true
+      },
+      {
+        "pid": 13208,
+        "absent": true
+      },
+      {
+        "pid": 13209,
+        "absent": true
+      },
+      {
+        "pid": 13211,
+        "absent": true
+      },
+      {
+        "pid": 13212,
+        "absent": true
+      }
+    ],
+    "compileExit": 0,
+    "ownershipExit": 0,
+    "canonicalExit": 1,
+    "writerNeverConstructed": true,
+    "compressedFailureOperandNotDisambiguated": true,
+    "toolTerminals": {
+      "start": {
+        "session": 1067,
+        "chunk": "ce839f"
+      },
+      "completion": {
+        "session": 1067,
+        "chunk": "eebac5",
+        "exitCode": 1
+      }
+    },
+    "sourcePacketFileAbsent": true
+  },
+  "archiveAllMembersReadAndRehashed": true,
+  "scopeLimits": [
+    "Nonmedia cleanup qualifies this observed owned child only, not every timeout/OS failure path",
+    "Compile pass establishes this exact Swift API/type usage, not canonical mechanism behavior",
+    "No retuning/native retry or production adoption",
+    "Original 20g/20h outcomes and all pinned original source/runtime/input bytes intact"
+  ],
+  "review": {
+    "shape": "Frozen experiment references; no maintained production mechanism/harness/parser",
+    "diff": "Source guard loses which operand failed; disclosed and executed source preserved unchanged",
+    "docs": "Authority scopes distinguish ownership pass from unqualified candidate; root owns shared slice/checklist/choices"
+  },
+  "canonicalAttempts": 1
+}
