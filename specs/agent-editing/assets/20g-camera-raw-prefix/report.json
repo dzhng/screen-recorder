@@ -1,0 +1,63 @@
+{
+  "status": "unmeasured-preparation-deadline",
+  "physicalQuestionAnswered": false,
+  "currentSourceCommit": "2b334419c6bf116a15b36cc917ec65c411be1bc6",
+  "all105AuthorityPinsUnchangedAfterExecution": true,
+  "originalSetup": "Late root pre-dispatch review interrupted first external compile before media. Compiler SIGKILL/wait; controller exit1, retained separately.",
+  "correctedAttempt": {
+    "processRecord": "processes.json",
+    "label": "compile",
+    "pid": 72011,
+    "terminal": true,
+    "exitCode": -9,
+    "boundSeconds": 150,
+    "elapsedSeconds": 150.0189025,
+    "controllerFailure": "process deadline",
+    "stdioBytes": {
+      "stdout": 0,
+      "stderr": 0
+    }
+  },
+  "correctedControllerExitCode": 1,
+  "correctedFailure": {
+    "status": "fail",
+    "error": "process deadline",
+    "interruptedCaseAuthorizedOnlyAfterOrdinaryPass": true
+  },
+  "noExecutableProduced": true,
+  "mediaProcessesStarted": 0,
+  "ordinaryAndInterruptedCases": "not started; ordinary pass prerequisite never reached",
+  "noPhysicalRetryOrSettingsChange": true,
+  "limits": [
+    "No raw extension/closure/physical tuple comparison occurred.",
+    "No interrupted recovery physical comparison occurred.",
+    "The compiler emitted no diagnostic before its150s bound; cause was not established.",
+    "Fresh SDK module cache may add setup cost but this is an inference, not a measured diagnosis.",
+    "Canonical traversal, incremental digest adoption, physical deadlines/backlog and full parent20/21 acceptance remain open."
+  ],
+  "review": {
+    "shape": "One external bounded probe and process controller; native writers, retiming and native timing owners reused without edits. No production mechanism, API, dependency or build-output owner added.",
+    "diff": "Pre-dispatch MOV ordering and post-feed native gates/log caps resolved; full source/module/object/input pins remained unchanged. Failed preparation retained without weakening acceptance.",
+    "docs": "Leaf owns fixed question/boundary/tail; archive retains literal commands and actual terminal failure. Root owns shared pickup/choices."
+  },
+  "choices": [
+    {
+      "verdict": "sound",
+      "confidence": "medium",
+      "choice": "Complete MOV mdat/moov initial and mdat/moof later extents, then native fragment capability checks identify candidate extension snapshots.",
+      "why": "Actual retained interrupted MOV and official Apple container semantics qualify observer ordering; future physical execution still needed."
+    },
+    {
+      "verdict": "sound",
+      "confidence": "medium",
+      "choice": "Exclude first fragment final picture plus all later pictures until after independent extension/closure comparisons.",
+      "why": "Conservative unresolved boundary for the tiny prerequisite only, not universal bounded tail/backlog."
+    },
+    {
+      "verdict": "provisional",
+      "confidence": "low",
+      "choice": "A private empty compiler module cache kept this probe isolated from other compilation caches.",
+      "why": "It may incur avoidable cold SDK setup cost. Timeout cause remains undiagnosed; do not claim private cache caused it or rerun this failed attempt."
+    }
+  ]
+}
