@@ -1,0 +1,36 @@
+{
+  "diagnostics" : [
+    "rawDecodeInterrupted"
+  ],
+  "observation" : {
+    "active" : 0,
+    "bothReadingObserved" : false,
+    "calls" : 2,
+    "encoding" : "B16@0:8",
+    "events" : [
+      {
+        "privateCandidatePresent" : false,
+        "source" : "\/private\/tmp\/screenrec-20f-h264-interruption\/old-case\/camera.raw.mov",
+        "started" : true,
+        "statusAfterOriginalStart" : 1
+      },
+      {
+        "privateCandidatePresent" : false,
+        "source" : "\/private\/tmp\/screenrec-20f-h264-interruption\/old-case\/.screenrec-output-EC3AC3B7-6AF7-440F-BB82-0CD9E3577FE5\/camera.mov",
+        "started" : true,
+        "statusAfterOriginalStart" : 1
+      }
+    ],
+    "originalDispatchDelegated" : 2,
+    "readingAfterJoin" : 0,
+    "remainingObjects" : [
+
+    ],
+    "restored" : true
+  },
+  "pictureSHA256" : "8826dbd6804cc12a003bf1a0de8a3906d45916353519938e280654ab4580c74d",
+  "publicFile" : true,
+  "receipt" : true,
+  "representedFrames" : 1,
+  "status" : "published"
+}

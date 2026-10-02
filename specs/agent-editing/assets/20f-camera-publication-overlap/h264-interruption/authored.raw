@@ -1,0 +1,22 @@
+{
+  "target": "final presented access unit (ordinal2), not final storage/decode packet",
+  "original": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/fixtures/camera-visible34.mov",
+    "bytes": 1791,
+    "sha256": "c7172bee8de1bd0878f3e6ba53d36303dea6219000c826456a7267968cc13cd5"
+  },
+  "damage": {
+    "offset": 872,
+    "before": "00000049",
+    "after": "ffffffff",
+    "NALType": 1,
+    "accessUnitBytes": 77,
+    "remainingNALBytes": 73
+  },
+  "damaged": {
+    "path": "/tmp/screenrec-20f-h264-interruption/damaged/source.mov",
+    "bytes": 1791,
+    "sha256": "a7096a6cc86fb29d101893ab929177cab75fa61fdde39202816a0ce6f6e995e3"
+  },
+  "choice": "one fixed impossible length; no parameter/payload search"
+}

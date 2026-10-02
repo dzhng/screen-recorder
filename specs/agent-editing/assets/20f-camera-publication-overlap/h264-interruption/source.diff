@@ -1,0 +1,27 @@
+--- executed-crashed-Publish.swift
++++ callback-fix/Publish.swift
+@@ -52,7 +52,7 @@
+         try rows.write(to: observations)
+         try CameraMedia.recordClosed(raw: raw, marker: root.appendingPathComponent("camera.closed.json"))
+         var observerError: NSError?
+-        precondition(CameraReadersObserve({}, &observerError), "Unsupported observer ABI: \(String(describing: observerError))")
++        precondition(CameraReadersObserve(nil, &observerError), "Unsupported observer ABI: \(String(describing: observerError))")
+         var outcome: [String: Any] = [:]
+         do {
+             let receipt = try await CameraMedia.publish(lease: journal.lease, observationURL: observations)
+@@ -68,13 +68,13 @@
+             outcome = ["status": "refused", "domain": native.domain, "code": native.code, "message": native.localizedDescription]
+         }
+         let observation = CameraReadersFinish()!
+-        precondition(observation["restored"] as? Bool == true && observation["active"] as? Int == 0
+-            && observation["readingAfterJoin"] as? Int == 0)
+         outcome["observation"] = observation
+         outcome["publicFile"] = FileManager.default.fileExists(atPath: root.appendingPathComponent("video.mov").path)
+         outcome["receipt"] = FileManager.default.fileExists(atPath: root.appendingPathComponent("camera.publication.json").path)
+         try JSONSerialization.data(withJSONObject: outcome, options: [.sortedKeys,.prettyPrinted])
+             .write(to: root.appendingPathComponent("outcome.json"))
++        precondition(observation["restored"] as? Bool == true && observation["active"] as? Int == 0
++            && observation["readingAfterJoin"] as? Int == 0)
+         print("OBSERVED \(String(describing: outcome["status"])); no predetermined decoder outcome")
+     }
+ }

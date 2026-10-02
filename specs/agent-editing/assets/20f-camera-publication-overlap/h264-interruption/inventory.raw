@@ -1,0 +1,60 @@
+{
+  "codec" : "avc1",
+  "headerLength" : 4,
+  "parameterSets" : 2,
+  "samples" : [
+    {
+      "duration" : 512,
+      "durationScale" : 15360,
+      "length" : 836,
+      "offset" : 36,
+      "ordinal" : 0,
+      "pts" : 1024,
+      "scale" : 15360,
+      "units" : [
+        {
+          "length" : 686,
+          "lengthOffset" : 36,
+          "type" : 6
+        },
+        {
+          "length" : 142,
+          "lengthOffset" : 726,
+          "type" : 5
+        }
+      ]
+    },
+    {
+      "duration" : 512,
+      "durationScale" : 15360,
+      "length" : 38,
+      "offset" : 949,
+      "ordinal" : 1,
+      "pts" : 1536,
+      "scale" : 15360,
+      "units" : [
+        {
+          "length" : 34,
+          "lengthOffset" : 949,
+          "type" : 1
+        }
+      ]
+    },
+    {
+      "duration" : 512,
+      "durationScale" : 15360,
+      "length" : 77,
+      "offset" : 872,
+      "ordinal" : 2,
+      "pts" : 2048,
+      "scale" : 15360,
+      "units" : [
+        {
+          "length" : 73,
+          "lengthOffset" : 872,
+          "type" : 1
+        }
+      ]
+    }
+  ]
+}

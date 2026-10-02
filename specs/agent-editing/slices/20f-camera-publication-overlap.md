@@ -35,6 +35,8 @@ Root owns shared integration/handoff and subsequent performance adoption.
 [Focused evidence and reviewed choices](../assets/20f-camera-publication-overlap/README.md)
 retain actual compiled controls and terminal results. Generic prefix fixtures fail
 metadata qualification; synthetic scan results prove only arbitration policy. The
-damaged-payload experiment remained fully decodable. A qualified complete inventory
-followed by a shorter actual decoded prefix and fallback publication remains
-physically unobserved. Preserve this gap before any retained-take adoption.
+original uncompressed damaged-payload experiment remained fully decodable. The
+[H.264 supplement](../assets/20f-camera-publication-overlap/h264-interruption/README.md)
+establishes one qualified complete inventory followed by actual late decode
+interruption and equal shorter-prefix publication. Preserve its narrow codec and
+fixture scope; retained-take adoption and performance measurement remain withheld.

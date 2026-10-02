@@ -1,0 +1,460 @@
+{
+  "status": "scoped qualified late-decode interruption/prefix fallback preservation established",
+  "damagedInput": {
+    "target": "final presented access unit (ordinal2), not final storage/decode packet",
+    "original": {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderCaptureTests/fixtures/camera-visible34.mov",
+      "bytes": 1791,
+      "sha256": "c7172bee8de1bd0878f3e6ba53d36303dea6219000c826456a7267968cc13cd5"
+    },
+    "damage": {
+      "offset": 872,
+      "before": "00000049",
+      "after": "ffffffff",
+      "NALType": 1,
+      "accessUnitBytes": 77,
+      "remainingNALBytes": 73
+    },
+    "damaged": {
+      "path": "/tmp/screenrec-20f-h264-interruption/damaged/source.mov",
+      "bytes": 1791,
+      "sha256": "a7096a6cc86fb29d101893ab929177cab75fa61fdde39202816a0ce6f6e995e3"
+    },
+    "choice": "one fixed impossible length; no parameter/payload search"
+  },
+  "oldCurrentNativeTimingAndStorageInventoryBytesEqual": true,
+  "oldCurrentCompleteMediaProbeBytesEqual": true,
+  "equalReceiptFields": [
+    "presentation",
+    "raw",
+    "observations",
+    "representedFrames",
+    "firstUs",
+    "endUs",
+    "pictureSHA256",
+    "diagnostics",
+    "support",
+    "pictureTimeScale",
+    "binding",
+    "originHostUs",
+    "journal"
+  ],
+  "differentReceiptFields": ["candidate", "canonical", "closed"],
+  "physical": {
+    "representedFrames": 1,
+    "firstUs": 0,
+    "endUs": 33333,
+    "pictureSHA256": "8826dbd6804cc12a003bf1a0de8a3906d45916353519938e280654ab4580c74d",
+    "diagnostics": ["rawDecodeInterrupted"],
+    "support": {
+      "endUs": {
+        "denominator": 3,
+        "numerator": 100000
+      },
+      "startUs": 0
+    },
+    "pictureTimeScale": 15360
+  },
+  "qualifiedSchedulingObservation": "Exact forwarded SDK events/statuses and restoration/drain in current-outcome.raw; private candidate present before raw start, both reading, then a different prefix canonical reader.",
+  "speculativeCandidateRemoved": true,
+  "prefixCandidateRetainedAndPublished": true,
+  "correctedProcesses": [
+    {
+      "label": "corrected-current-compile",
+      "pid": 58292,
+      "startedAt": "2026-10-02T03:26:41.120775+00:00",
+      "boundSeconds": null,
+      "exitCode": 0,
+      "elapsedSeconds": 5.101050915982341
+    },
+    {
+      "label": "corrected-current-publication",
+      "pid": 58416,
+      "startedAt": "2026-10-02T03:26:46.218197+00:00",
+      "boundSeconds": 30,
+      "exitCode": 0,
+      "elapsedSeconds": 1.0957762920006644
+    }
+  ],
+  "actualInstrumentationFailure": {
+    "pid": 54261,
+    "exitCode": -5,
+    "cause": "actor-isolated Swift empty callback invoked by forwarding observation on scan task; exact crashstack in current-crash.ips; not zero-dispatch",
+    "crash": {
+      "path": "/tmp/screenrec-20f-h264-interruption/current-crash.ips",
+      "bytes": 42063,
+      "sha256": "efffc78fad8c12d289903cbaaf3f2d401562a2a9dee1057020b51d192c40d02c"
+    }
+  },
+  "limits": [
+    "One fixed final-presented H264 NAL length only; reordered dependency can deplete earlier presentation frames.",
+    "Same physical prefix/digest/support/diagnostics and binding; no canonical container-byte or closed-marker JSON-byte parity claimed.",
+    "No new production change, module/worker rebuild, changed SDK samples, pattern search, capture/playback/UI/model or retained-take measurement.",
+    "Peak-memory/resource scale, all native failure modes and ten-second completed-stop gate remain unverified."
+  ],
+  "productionCommit": "bc29eb45c9ec8bdef33e87797871e91d77dce45b",
+  "rawAuthorities": [
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect-processes.json",
+      "bytes": 3038,
+      "sha256": "8db452aaff1cac34d1179a2c998d576a01dfe53732f484dc7a3c1a9a6a66888c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/publish-processes.json",
+      "bytes": 6353,
+      "sha256": "4263b14894f8811bd97f5ed54aa15c086a09babcdf109f0f8ffeebb8e4a64cc4"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/processes.json",
+      "bytes": 11943,
+      "sha256": "d536acfe3a4b07d04fc0cb4a6bdb2219206859571aa45c46d9a0247a87e3825c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/processes.json",
+      "bytes": 5956,
+      "sha256": "c467ea07c0a3d3ec415356e05170b334b8e08303d2cb188879d9a26b5b757872"
+    }
+  ],
+  "executedInputsAndBinaries": [
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/setup-Publish.swift",
+      "bytes": 5546,
+      "sha256": "e0fb0383cbae4dab568856574989174aac3451be35d9a1331a3333dec62eca49"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/setup-publish-producer.py",
+      "bytes": 1421,
+      "sha256": "c2be51bcb98487c34188aba1141e9fb82cc4ab57b2626213df6e4581053b3614"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/setup-publish-plan.json",
+      "bytes": 11028,
+      "sha256": "59959f88bf8059937bbc9bfdd2e4c9726988952f4cd62eaca6d6e4b322f751df"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/setup-immediate-pins.json",
+      "bytes": 1728,
+      "sha256": "6579ddac5402c5ef74bc3092ffa7422f6f824d2a03eaa4e126a6f49b82cd90a9"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/Inspect.swift",
+      "bytes": 3194,
+      "sha256": "596a3dff0f764923ca061f0857ad64fd3e795e61a645ef8fa665c63eb4326ab5"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect-producer.py",
+      "bytes": 1210,
+      "sha256": "ef56e1bddd27485951a7333c58c8ab73879f169707dfae13c5e37710f0a4ab69"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect-plan.json",
+      "bytes": 2203,
+      "sha256": "63aa9d58d7f613c6eea77fa02d544b751b960eb1c263dfb4500b0d9101b3cf14"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect",
+      "bytes": 958744,
+      "sha256": "6bfe267fc273bdd7e3d03b832aae7e143bf3b4b08476a6ec49f862e4b3afdb63"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/Publish.swift",
+      "bytes": 5547,
+      "sha256": "1805ab3dd6f8712d0e9d56a2c02e028c300e3412a37f5784cc2df5b7119ae2e1"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/producer.py",
+      "bytes": 1377,
+      "sha256": "4a9287caea78e9990ca6fee70336ee5a38ba3b0168be3dd402346a39e6431077"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/plan.json",
+      "bytes": 11048,
+      "sha256": "9a1b837a82d2c86498da3e8cf4b8881c17f3cd9efc3e399e2e3885f8e42d604c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/immediate-pins.json",
+      "bytes": 1911,
+      "sha256": "06311715268e97aa675d63a3869caa4e824294cbc9c0b7885f9dc43c4ab61c40"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/baseline-probe",
+      "bytes": 4250816,
+      "sha256": "af42045906839b79229a80d9cf8aa928ebfcb3ece6fef550785516ae859857db"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/final-probe",
+      "bytes": 4337864,
+      "sha256": "e5f359080141bf0f6575f1f02235279bbb74ff6d85d9f4dca57e58ddcedea533"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/Publish.swift",
+      "bytes": 5548,
+      "sha256": "ff99582aa8242a34dacd26588731ac35aba88815361a0a91156c653225a1e08d"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/producer.py",
+      "bytes": 1264,
+      "sha256": "8608035ea18461cb78771410d3d1c66e0c8078130ae53272281321ae381c555f"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/plan.json",
+      "bytes": 5099,
+      "sha256": "f109a16d9d8e5f900d538ab4904bf84ca126c919e8c9ddef3b057305e06ae6b1"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/pins.json",
+      "bytes": 1519,
+      "sha256": "56332dbac56f51c7136937f564096b0a0159afd75c0771c6209f3d31188e3e86"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/final-probe",
+      "bytes": 4337688,
+      "sha256": "9ed4f24de810486de72233cc5bd3a6d39a445d9eaa1936cad1a988ec7a3f0711"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/ReaderObservation.h",
+      "bytes": 141,
+      "sha256": "1da73b4b68ab0a585a99b46f8ff90d306920e3f9643222cc6ceaf564166cffa4"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/ReaderObservation.m",
+      "bytes": 4462,
+      "sha256": "69b6b69fb35909f8936ba5b2423bf6d00b0f7cd9cc9d5960c39363967ce9a572"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/reader-observation.o",
+      "bytes": 17928,
+      "sha256": "dcb3891ed692afd07f517cfae4f0a68c7837ad3807b6091877741b3f352e2581"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/damaged/source.mov",
+      "bytes": 1791,
+      "sha256": "a7096a6cc86fb29d101893ab929177cab75fa61fdde39202816a0ce6f6e995e3"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/current-case/inventory.json",
+      "bytes": 304,
+      "sha256": "8ce281887529f9214cf3a2fd59112df2f3b82fc36ad0fe27cb0147bcf8ceac82"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/current-case/timing.json",
+      "bytes": 496,
+      "sha256": "9d4b95c24b3938453f4d24b2fe0b619cbcbf750bfbfb7e70cebc9c38c63a2c1b"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/old-case/inventory.json",
+      "bytes": 304,
+      "sha256": "8ce281887529f9214cf3a2fd59112df2f3b82fc36ad0fe27cb0147bcf8ceac82"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/old-case/timing.json",
+      "bytes": 496,
+      "sha256": "9d4b95c24b3938453f4d24b2fe0b619cbcbf750bfbfb7e70cebc9c38c63a2c1b"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/corrected-current-case/inventory.json",
+      "bytes": 304,
+      "sha256": "8ce281887529f9214cf3a2fd59112df2f3b82fc36ad0fe27cb0147bcf8ceac82"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/corrected-current-case/timing.json",
+      "bytes": 496,
+      "sha256": "9d4b95c24b3938453f4d24b2fe0b619cbcbf750bfbfb7e70cebc9c38c63a2c1b"
+    }
+  ],
+  "retainedLogs": [
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect-compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect.stdout",
+      "bytes": 99,
+      "sha256": "d7b7d2a158c439803b6ef37dbcebdf8c16c05c0a34a699e1e56d7d7e15c8a4b0"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/observer-compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/observer-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/old-compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/old-compile.stderr",
+      "bytes": 2936,
+      "sha256": "f7db08a8e872d80e78bc4ab22eb61a28fe956fc1b9ef976b1b01ce61783af631"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/current-compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/current-publication.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/old-compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/old-publication.stdout",
+      "bytes": 65,
+      "sha256": "0dd235b52533111d1f3d2158ce26006c73ae5ba346f9fe6e743a405e82ac1cce"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/current-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/current-publication.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/old-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/successor/old-publication.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/corrected-current-compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/corrected-current-publication.stdout",
+      "bytes": 65,
+      "sha256": "0dd235b52533111d1f3d2158ce26006c73ae5ba346f9fe6e743a405e82ac1cce"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/corrected-current-compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-h264-interruption/callback-fix/corrected-current-publication.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "payloads": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/ReaderObservation.h",
+      "bytes": 141,
+      "sha256": "1da73b4b68ab0a585a99b46f8ff90d306920e3f9643222cc6ceaf564166cffa4"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/ReaderObservation.m",
+      "bytes": 4462,
+      "sha256": "69b6b69fb35909f8936ba5b2423bf6d00b0f7cd9cc9d5960c39363967ce9a572"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/authored.raw",
+      "bytes": 797,
+      "sha256": "5ebd601c38a8bf4bfb1f3cb0c783063184f9a8e8aedc391b51c6aeba162d1ec4"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/corrected-driver.py",
+      "bytes": 1264,
+      "sha256": "8608035ea18461cb78771410d3d1c66e0c8078130ae53272281321ae381c555f"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/corrected-producer.swift",
+      "bytes": 5548,
+      "sha256": "ff99582aa8242a34dacd26588731ac35aba88815361a0a91156c653225a1e08d"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/current-crash.ips",
+      "bytes": 42063,
+      "sha256": "efffc78fad8c12d289903cbaaf3f2d401562a2a9dee1057020b51d192c40d02c"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/current-outcome.raw",
+      "bytes": 1313,
+      "sha256": "f45a82fca9c2e155f314552012f0e32faf1cab12fbe24d4c93d6762f01b7a338"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/current-receipt.raw",
+      "bytes": 1023,
+      "sha256": "b6f953829dc3b285f93e6a5497b68ab848de95ff3a2f37f06c2d4e1bb7e53f56"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/executed-crashed.swift",
+      "bytes": 5547,
+      "sha256": "1805ab3dd6f8712d0e9d56a2c02e028c300e3412a37f5784cc2df5b7119ae2e1"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/first-driver.py",
+      "bytes": 1377,
+      "sha256": "4a9287caea78e9990ca6fee70336ee5a38ba3b0168be3dd402346a39e6431077"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/inventory-driver.py",
+      "bytes": 1210,
+      "sha256": "ef56e1bddd27485951a7333c58c8ab73879f169707dfae13c5e37710f0a4ab69"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/inventory-producer.swift",
+      "bytes": 3194,
+      "sha256": "596a3dff0f764923ca061f0857ad64fd3e795e61a645ef8fa665c63eb4326ab5"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/inventory.raw",
+      "bytes": 1084,
+      "sha256": "4fa0ed123c9f378a572e93abc75c16c629b785e0cbb285660179d14e9185a1ee"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/old-outcome.raw",
+      "bytes": 1000,
+      "sha256": "a212ec398d80e2533a3846553614f3f92fe30d541b7a953d185c346ab44f838d"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/old-receipt.raw",
+      "bytes": 1023,
+      "sha256": "d666d5319eef44e249362589b1029d1ca8c1727a57c473c35b76e5a33d20a7a7"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/processes.raw",
+      "bytes": 27281,
+      "sha256": "e89add9eb4809f98932198165db39b1aa85d14f03e4004c7ebf208b53809264d"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/source.diff",
+      "bytes": 1810,
+      "sha256": "b54f6059769cab70c0b44370579514d38c1bd2fb0cf2a377f0940a7aaf4b9bfe"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/20f-camera-publication-overlap/h264-interruption/timing.raw",
+      "bytes": 496,
+      "sha256": "9d4b95c24b3938453f4d24b2fe0b619cbcbf750bfbfb7e70cebc9c38c63a2c1b"
+    }
+  ],
+  "observationCorrection": "Original actual decoder dispatch ended in SIGTRAP from main-actor Swift empty callback. Nil notification removed that probe callback; SDK forwarding/input/modules unchanged. Outcome persisted before unchanged postconditions. Only corrected current case continued; completed old prefix was not repeated."
+}

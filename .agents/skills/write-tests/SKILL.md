@@ -14,7 +14,7 @@ below serves that one goal.
 
 1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
    code, make the code earn green, learn, then write the next. Never a batch up
-   front: a batch written against *imagined* behavior pins what you guessed —
+   front: a batch written against _imagined_ behavior pins what you guessed —
    those tests pass when the mechanism breaks and fail when it's fine. Each
    green cycle tells you what the next test should actually assert.
 2. **Iterate on the fastest focused runner** (one file, one test name), and run
@@ -84,12 +84,18 @@ below serves that one goal.
   subject. When a comparison test breaks, first ask whether an unrelated
   mechanism leaked into the experiment before touching the code under test.
 - **Validate, don't assume.** Never reason your way to a conclusion about
-  *cause* — which path fired, where the failures come from — and act on it.
+  _cause_ — which path fired, where the failures come from — and act on it.
   Write a throwaway probe that reads public state and prints; the plausible
   story is wrong often enough to burn a session, and one probe redirects the
   whole effort. Probes are scratch: put them where they cannot be committed,
   delete them the moment the question is answered, or promote them into a real
   test if the behavior deserves a permanent guard.
+
+- **Cross-language observers obey the real executor.** Even an empty callback
+  can retain caller-actor isolation and trap when an SDK invokes it elsewhere.
+  Honor the SDK callback's executor contract and forward original data/results
+  unchanged. Persist outcomes and cleanup observations before trap postconditions
+  so instrumentation failure cannot erase the evidence it was meant to collect.
 
 ## Tests run on someone's live machine
 
@@ -118,8 +124,8 @@ needs, it takes the least intrusive form of it:
 ## Prove the test can fail
 
 A test you never saw fail is decoration. For any regression test — especially
-one written *after* the fix — falsify it once: revert or break the production
-code the way the bug would, confirm red *for the expected reason*, restore,
+one written _after_ the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red _for the expected reason_, restore,
 confirm green. Verify the revert actually took: a stash or checkout with a
 wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
 fixed code. The tell: the "red" numbers equal the green numbers.
