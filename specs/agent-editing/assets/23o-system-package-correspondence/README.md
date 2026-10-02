@@ -48,3 +48,8 @@ from an exhaustive loaded-module claim.
 
 Physical system capture, automatic export, competing-role discrimination,
 broader rounding cases, listening and installed cutover remain outside this proof.
+
+[Root integration](merged.json) independently rehashes the complete archive and
+checks every sample and the entire split document. The maintained saved-data
+checker passes on extracted input; its root extraction setup failure is separate.
+No public producer, native operation or accepted media cohort is repeated.

@@ -22,14 +22,21 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: public positive-system package/project correspondence.**
-Use the retained genuine system source with failed narration to construct an
-explicitly authored legacy inspection fixture through its page/manifest/archive
-owners. This is not automatic recording export. Compare old public package
-inspection with current public acquisition/project output across the recorded
-hole, then verify the caller-requested split preserves samples. Use the
-independent offered-PCM oracle and existing flat-identity serialization contract;
-no microphone relabeling, private rows, new importer, capture or playback.
+**Next pickup: independent manual-word timing for the unchanged speech baseline.**
+The publicly linked L2-ARCTIC example is qualified and frozen in isolated personal
+research storage. Compare one complete utterance against its human-corrected
+boundaries using the selected Parakeet worker and shared evaluator. No alignment,
+new recipe, crop, parameter search, corpus redistribution or listening is implied.
+This adds accented read-speech timing evidence, not filler coverage or proof of
+exclusion from model training.
+
+[23o positive system correspondence](slices/23o-system-package-correspondence.md)
+now passes through an authored legacy inspection package and current public
+acquisition/project consumers. Complete offered-sample comparison verifies the
+real hole, unity mono-to-stereo duplication and unchanged PCM/all other document
+fields after the explicit split. [Root integration](assets/23o-system-package-correspondence/merged.json)
+checks the saved evidence without replay. Automatic recording export, live input,
+competing-role discrimination and installed adoption remain separate.
 
 [25c independent source MCP](slices/25c-source-mcp-caller.md) now passes:
 a fresh caller discovers public schemas, commits only the requested split,
@@ -75,11 +82,10 @@ broader speech quality and adoption remain open. The
 [CLI selection correction](slices/24z13-cli-delivery-selection.md) passes the
 merged consumer gate and retains one selected socket through dispatch/delivery.
 
-The [post-camera preflight](assets/24z-current-preparation/post-camera-preflight.json)
-found unrelated active compilation/rendering. No service or timing started.
-[Successor runtime qualification](assets/24z-current-preparation/successor-readiness.json)
-rechecks the current emitted code, SDK and retained fixture: no build or preparation
-replay is needed. Revisit [24z timing](assets/24z-current-preparation/README.md)
+The [post-correspondence preflight](assets/24z-current-preparation/post-correspondence-preflight.json)
+found active unrelated compilation and rendering after owned heavy work finished.
+No service or timing started. Current runtime/fixture bindings still match; no
+build or preparation replay is needed. Revisit [24z timing](assets/24z-current-preparation/README.md)
 only in a changed coordinated window with one fresh preflight. Do not poll the host.
 Remaining physical/lifecycle, presentation and installed prerequisites belong to
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md).
@@ -320,8 +326,9 @@ implementation readiness from acceptance prerequisites.
 - [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; corrected native composition pixels match all saved references; installed acceptance remains open
 - [x] [23l1 — Fixed-image composition stage boundary](slices/23l1-image-color-stages.md) — diagnostic complete; historical decoder cause remains open
 - [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image and all fourteen saved native video PNGs verified; installed adoption and full movie parity remain open
-- [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality and positive system remain open
+- [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality remains open and positive system has separate 23o proof
 - [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
+- [x] [23o — Positive system package/project correspondence](slices/23o-system-package-correspondence.md) — authored public fixture, complete PCM/hole/split proof; automatic export/live/installed scope stays open
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

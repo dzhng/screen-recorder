@@ -67,8 +67,11 @@ The 21f3 camera-selection archive's `final/numeric/report.json` preserves 100800
 frames through requested visual changes, undo and relocation, SHA
 `d5fbdc8b04e302fa23e2e515218ab7a650f994dd13486c8a05283fa151aea665`.
 Both that case and 23a disable system audio. The [23m public proof](../23m-paired-partial-words-and-absent-role/README.md)
-verifies the absent role using truthful not_requested metadata. Complete matched
-public system-only correspondence remains open. A later two-track fixture must
+verifies the absent role using truthful not_requested metadata.
+[23o](../23o-system-package-correspondence/README.md) now verifies complete
+public system-only PCM/hole/split correspondence using an authored legacy package
+from genuine retained publication with failed narration. That scope excludes
+automatic export, live input and distinct competing-role content. A later two-track fixture must
 explicitly author legacy-equivalent gains/ramps; the new toolkit cannot infer those
 treatments from the old engine's automatic policy.
 

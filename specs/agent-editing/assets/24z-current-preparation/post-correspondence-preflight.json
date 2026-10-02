@@ -1,0 +1,132 @@
+{
+  "argv": [
+    "ps",
+    "-axo",
+    "pid,ppid,etime,pcpu,rss,command"
+  ],
+  "startedAt": "2026-10-02T03:58:56.425473+00:00",
+  "endedAt": "2026-10-02T03:58:56.887443+00:00",
+  "exit": 0,
+  "stderr": "",
+  "raw": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/post-correspondence-cd57ac07/whole-host-preflight.txt",
+    "bytes": 259344,
+    "sha256": "610f84650a210bb30eccff2ce1fe05c57be43bffcb10e9026ce73dd7ca0e43a1"
+  },
+  "scope": "One fresh post-correspondence coordinated window; owned native/services/archives/checks terminal; no service/query/timing dispatch yet",
+  "criteria": {
+    "rejectIf": [
+      "Active compile/build/simulation/benchmark/model-inference/media-render/archive workload",
+      "Unrelated process at or above100percent CPU"
+    ],
+    "method": "One complete inventory, manual whole-host review; no polling or retry"
+  },
+  "qualified": false,
+  "actualMeasureDispatches": 0,
+  "actualTimingCollections": 0,
+  "decision": "DEFER before service/query/timing/profile dispatch",
+  "observations": [
+    {
+      "pid": 21348,
+      "ppid": 18271,
+      "etime": "01:56",
+      "cpuPercent": 48.7,
+      "rssKiB": 352608,
+      "name": "wasm-opt",
+      "reasons": []
+    },
+    {
+      "pid": 21488,
+      "ppid": 21487,
+      "etime": "01:51",
+      "cpuPercent": 0.0,
+      "rssKiB": 22912,
+      "name": "cargo",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    },
+    {
+      "pid": 24107,
+      "ppid": 21488,
+      "etime": "00:58",
+      "cpuPercent": 24.9,
+      "rssKiB": 469616,
+      "name": "rustc",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    },
+    {
+      "pid": 24800,
+      "ppid": 24712,
+      "etime": "00:39",
+      "cpuPercent": 22.6,
+      "rssKiB": 342560,
+      "name": "Blender",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    },
+    {
+      "pid": 25304,
+      "ppid": 17907,
+      "etime": "00:24",
+      "cpuPercent": 65.1,
+      "rssKiB": 164992,
+      "name": "wasm-opt",
+      "reasons": []
+    },
+    {
+      "pid": 25685,
+      "ppid": 25683,
+      "etime": "00:13",
+      "cpuPercent": 0.0,
+      "rssKiB": 29664,
+      "name": "cargo",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    },
+    {
+      "pid": 25694,
+      "ppid": 25685,
+      "etime": "00:13",
+      "cpuPercent": 18.4,
+      "rssKiB": 166272,
+      "name": "rustc",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    },
+    {
+      "pid": 25808,
+      "ppid": 25622,
+      "etime": "00:10",
+      "cpuPercent": 18.1,
+      "rssKiB": 214688,
+      "name": "Blender",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    },
+    {
+      "pid": 25901,
+      "ppid": 25837,
+      "etime": "00:04",
+      "cpuPercent": 18.6,
+      "rssKiB": 21776,
+      "name": "Blender",
+      "reasons": [
+        "compile/render/archive executable"
+      ]
+    }
+  ],
+  "ownedLanes": "Camera native/metadata probes, 23o public services/saved checker/archive and root saved-data/runtime checks all terminal. Corpus qualification is metadata-only and terminal. Independent reviewer reads only; no owned heavy process remains.",
+  "runtimeRecheck": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/post-correspondence-cd57ac07/runtime-recheck.json",
+    "bytes": 167546,
+    "sha256": "68256fc2b12c4611d6fa2d828ff44bf96adead6a29724bf250abd504c4afad4f"
+  },
+  "preservation": "One distinct post-correspondence snapshot, no polling/retry/timer. Prepared original fixture and earlier windows remain intact."
+}

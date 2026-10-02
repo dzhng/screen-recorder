@@ -1,0 +1,55 @@
+{
+  "scope": "Merged saved-data verification only; no public producer, native media, model, build or playback repeated",
+  "rootCommit": "cd57ac07",
+  "savedChecker": {
+    "toolChunk": "77d9f5",
+    "terminalExit": 0,
+    "result": {
+      "passed": true,
+      "scope": "Independent saved-data correspondence; authored legacy inspection fixture, not automatic recording export or installed cutover",
+      "frames": 14400,
+      "matchedAvailableFrames": 6208,
+      "exactUnavailableFrames": 8192,
+      "legacyPCM": "bcd75b078a597ac3990aa62b7cca2f9c691269213d67ffd31323d2b67c40c49a",
+      "projectPCM": "aae63c5bb939b1afdc560b2635abadb91e31ced08a8bdca077293c395f57a0d4",
+      "splitPCM": "aae63c5bb939b1afdc560b2635abadb91e31ced08a8bdca077293c395f57a0d4",
+      "sampleDifference": 0,
+      "recordingRowsAdmitted": 0,
+      "legacyPolicy": "Nearest duration and source origin; mono selected system role",
+      "projectPolicy": "Absolute-floor output clock [33600,48000); stereo unity mono duplication",
+      "policyDifference": "This selected window has the same sample membership; no general rounding equivalence claimed",
+      "mutationControls": [
+        "filled acquisition hole",
+        "one-sample source phase",
+        "incorrect right channel"
+      ],
+      "producerLimit": "Original public producer later failed before split dispatch; its successful cases are verified from saved output. The successful successor performs only the previously unexecuted split."
+    }
+  },
+  "independentReview": {
+    "findings": [],
+    "checked": "All 111 archive members, 24 legacy owner sources, 23 ZIP members, genuine source journal/publication, original/successor public calls, all 78 spawned-child terminal events, and catalog zero recording rows.",
+    "limits": [
+      "Authored legacy inspection package/index, not automatic recording export or live system hardware acquisition.",
+      "One matching nearest/absolute-floor sample window, no general rounding equivalence.",
+      "No competing-role content discrimination; failed narration preserved.",
+      "Original before-split native recipe file overwritten, not recovered or claimed.",
+      "Available source/emission bindings, not exhaustive actual loaded-module history."
+    ]
+  },
+  "rootIndependentPCM": {
+    "frames": 14400,
+    "availableFrames": 6208,
+    "unavailableFrames": 8192,
+    "monoMatchesOffered": true,
+    "stereoUnityDuplication": true,
+    "splitPCMUnchanged": true,
+    "entireDocumentPreservedExceptExplicitSplit": true
+  },
+  "rootSetupFailure": {
+    "toolChunk": "d90471",
+    "terminalExit": 1,
+    "cause": "Root treated dict-shaped manifest as an array, so extraction stopped before saved inputs existed; resulting checker ENOENT; no service/native/media activity.",
+    "correction": "Read actual dictionary-shaped manifest, verify every member before extraction, then execute saved-data checker once with complete inputs."
+  }
+}

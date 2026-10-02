@@ -6537,3 +6537,36 @@ from speculation. This keeps the stop requirement and full picture checks intact
 without spending another full-take run on an unchanged or unsupported mechanism.
 The scheduling implementation remains usable within its proved scope; release
 performance still needs a supported mechanism and its own evidence.
+
+## Authored positive-system public correspondence
+
+**Sound, medium confidence — author a valid old inspection package through its existing format owners.**
+The retained source has genuine system publication and failed narration, but no
+previously admitted old public recording with positive system audio. An explicitly
+authored portable document lets the old public reader inspect those original
+facts without creating recording rows or a new importer. Its source pages,
+manifest, archive and actual clean images use the historical format owners. This
+is inspection-format correspondence, not proof of automatic recording export.
+Creation labels describe the authored fixture. The historical schema cannot carry
+publication receipts, so those originals stay with external capture authority
+rather than being mislabeled as a supported old-format member. The choice fills a
+verification-fixture gap and adds no product editing or serialization surface.
+
+**Sound, high confidence — retain actual capture failure and sample-clock differences.**
+Both roles were requested, but narration actually failed. The fixture exposes
+that failure and selects only successful system acquisition. The project explicitly
+places that stream at its capture offset; legacy mono and current stereo are
+compared after the documented unity duplication. A window crossing the real hole
+has equal sample membership under old nearest and new absolute-floor clocks.
+That one equality cannot establish every rounding boundary or distinguish two
+competing roles whose original offered content was the same.
+
+**Sound, high confidence — resume only the split that never dispatched.**
+The original producer completed package admission, acquisition, placement and both
+initial excerpts, then failed on its own result-field assumption. A successor
+confirms the existing revision and performs only the pending explicit split.
+Complete saved sample and document comparisons qualify the earlier successful
+outputs; no accepted media work is repeated. Original failed exits and the
+restarted recorder's overwritten pre-split native-recipe limitation remain
+visible. Separate observer output locations preserve future resumed producers;
+no missing recipe identity is reconstructed as original evidence.

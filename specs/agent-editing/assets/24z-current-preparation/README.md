@@ -74,3 +74,8 @@ The [post-camera window](post-camera-preflight.json) found unrelated compilation
 and background rendering after owned processes settled. Dispatch was deferred
 before service/query/timing started. No polling, timer or measurement retry followed;
 the unchanged p95 and final scale gate remain open.
+
+The [post-correspondence window](post-correspondence-preflight.json) rechecks the
+current runtime/fixture after the system-audio proof and camera metadata check.
+Its one whole-host inventory still finds unrelated compilation and rendering, so
+service/query/timing/profile dispatch remains zero. No polling or retry follows.
