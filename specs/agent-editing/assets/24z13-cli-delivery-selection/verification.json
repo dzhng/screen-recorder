@@ -1,0 +1,361 @@
+{
+  "scope": "Synthetic owned socket + actual CLI child delivery-selection correction; no media/native/model/timing execution",
+  "base": "2591aa28c99c2cea064e0d312742020343f63169",
+  "affectedSuite": {
+    "phase": "affected-suite",
+    "files": 7,
+    "testsPassed": 84,
+    "exitCode": 0,
+    "durationSeconds": 11.73
+  },
+  "regressions": {
+    "single": "initial health once and exact file/metadata",
+    "batch": "initial health once, duplicate bytes, middle error preserved, later duplicate delivered",
+    "disappearance": "first truncated frame preserved; later selected-socket connection failure; no bootstrap/replay"
+  },
+  "retainedFailures": {
+    "single-red": "extra health probe",
+    "batch-red": "extra health probe per ready item",
+    "disappearance-red": "initial guessed close-event oracle plus later app-discovery failure",
+    "disappearance-green": "fixed arm still failed initial guessed first-error oracle",
+    "disappearance-corrected-red": "only later APP_NOT_FOUND differs from selected connection error",
+    "types-final": "fixture circular inference; corrected with independent producer return type"
+  },
+  "successfulChecks": [
+    "disappearance-corrected-green",
+    "focused-final",
+    "types-corrected",
+    "affected-suite",
+    "lint-closeout",
+    "format-closeout"
+  ],
+  "runtimeAuthority": "authority/runtime-authority.json",
+  "phaseAuthority": "authority/phases.json",
+  "childLifetime": "New tests await actual CLI child close via existing runCli, assert exit0 and empty stderr; no separate same-PID event inventory claim",
+  "scopeLimits": [
+    "Path retention does not pin service instance",
+    "Existing CLI has no new cancellation interface; carried signals and MCP cancellation behavior preserved",
+    "Batch overall success/exit0 with per-item failures preserved",
+    "No installed/default launch proof or performance claim",
+    "No accepted preparation or historical media cohort repeated"
+  ],
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 86165,
+    "sha256": "df4d1a76372cb4504d869b65c5142ac2e735ffa456e5bacad2b79b08235129ca",
+    "members": 60
+  },
+  "members": [
+    {
+      "path": "authority/bank-packet.py",
+      "bytes": 4285,
+      "sha256": "a4291ddd01c68ef165ff4f1b53ab00dae87dd2794f889b25e606da334adbc7c1"
+    },
+    {
+      "path": "authority/build-commands.json",
+      "bytes": 2297,
+      "sha256": "d941a2f6373ca514efd4a2b1d822ff7158e9f6279d071faf126340af1a56a009"
+    },
+    {
+      "path": "authority/diff.patch",
+      "bytes": 10325,
+      "sha256": "828c28d795f10b5de0d7c53db2275bade345cc7ab66dd2ad274e396eb6f20aee"
+    },
+    {
+      "path": "authority/phases.json",
+      "bytes": 6736,
+      "sha256": "94970a47984f43fcccc62f3e5e58f2976e8025a1de16b1fbc002d639c74b2896"
+    },
+    {
+      "path": "authority/pin-runtime-initial.py",
+      "bytes": 2615,
+      "sha256": "1f6b46afc12c4f8a5e1196c03697462105a3abac1e69b6ede5ea95c67292f0ba"
+    },
+    {
+      "path": "authority/pin-runtime.py",
+      "bytes": 2635,
+      "sha256": "9d8e01ac9a9085e03788f5df123b7d97f1ec50aacb9816121457159771d0ec8d"
+    },
+    {
+      "path": "authority/run-check.py",
+      "bytes": 1076,
+      "sha256": "1bdcb5979a748f7ef6fdc7a24eb36a9aa59920112ebc1f0d28f99a2497b607a8"
+    },
+    {
+      "path": "authority/runtime-authority.json",
+      "bytes": 5785,
+      "sha256": "b66abbe5927b3131a722d80f37ebc08b7a58bd914c54e64cec9bd01c05465c2c"
+    },
+    {
+      "path": "build/apps-cli-emit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/apps-service-emit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/packages-client-emit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/packages-composition-emit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/packages-core-emit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/packages-protocol-emit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final/apps/cli/dist/main.js",
+      "bytes": 10274,
+      "sha256": "58220bd20b5a86e705589b968692d1b5a88bcc30f6216e595878f1cf4ed0c995"
+    },
+    {
+      "path": "final/apps/cli/src/main.test.ts",
+      "bytes": 41709,
+      "sha256": "0dfaba2c1ddf5a7aed5e492c020e6b14326df172f5e6b581fc84e6060ec5eacd"
+    },
+    {
+      "path": "final/apps/cli/src/main.ts",
+      "bytes": 10879,
+      "sha256": "2d457d37303b5d46f3a393391c02ba8b57e0a9fc1687bb3df995a102a0301aca"
+    },
+    {
+      "path": "runs/affected-suite/command.json",
+      "bytes": 890,
+      "sha256": "219113ca795372510288c4a5c247e4dbc22f6a135185e44d3038a13f09dd5e87"
+    },
+    {
+      "path": "runs/affected-suite/output.log",
+      "bytes": 1066,
+      "sha256": "d25758c58698dc43ebacaca65200a9296c81e7902a2165c7d5c631b3aeee986b"
+    },
+    {
+      "path": "runs/batch-green/command.json",
+      "bytes": 674,
+      "sha256": "3954c4f45aa5bf206ef9fcae8b2338161d2e3d86daeb7da569fc3f8d787287eb"
+    },
+    {
+      "path": "runs/batch-green/output.log",
+      "bytes": 403,
+      "sha256": "6ff7e2516607767de048f8eda7e597b0c569d1c026a7fce6b881865eba38ba20"
+    },
+    {
+      "path": "runs/batch-red/command.json",
+      "bytes": 674,
+      "sha256": "b178e16483bc7ebb65abfb87872ae5142874e6c06115c63718114df390857714"
+    },
+    {
+      "path": "runs/batch-red/output.log",
+      "bytes": 1525,
+      "sha256": "1af5ae538233bcbb9b58b5c48dc1b8ffa9befdec5a89736b93d2cc5a593c1d9c"
+    },
+    {
+      "path": "runs/disappearance-corrected-green/command.json",
+      "bytes": 675,
+      "sha256": "d29d33662f1f285532f60b49f51fa7900bfc2d2d1173bfb449241cbdb9177f71"
+    },
+    {
+      "path": "runs/disappearance-corrected-green/output.log",
+      "bytes": 414,
+      "sha256": "521c2549697edfbca039a964dfa0921499fbf268ce66cdd5bbb24fbdc8ca01dc"
+    },
+    {
+      "path": "runs/disappearance-corrected-red/command.json",
+      "bytes": 675,
+      "sha256": "f2cc68083098f72e7c54cb58cff611b6d2f3726e7825ee9cc4dd93401c4fc5ae"
+    },
+    {
+      "path": "runs/disappearance-corrected-red/output.log",
+      "bytes": 1907,
+      "sha256": "42827b9c0f052205092fa6132a427ebe987268907f91774c282a742fa995b3c4"
+    },
+    {
+      "path": "runs/disappearance-green/command.json",
+      "bytes": 675,
+      "sha256": "8acc10b4f4bc69500547bb1fcec5662145b5fda6446c60e22e812b3f58627cb3"
+    },
+    {
+      "path": "runs/disappearance-green/output.log",
+      "bytes": 1776,
+      "sha256": "0d5b3fa22b3f7296643eff8a34b547ef82777d3d90fe34cc2b3bf7973c917b87"
+    },
+    {
+      "path": "runs/disappearance-red/command.json",
+      "bytes": 675,
+      "sha256": "78ba7a2d09a43e6a360a62d13553043b427b110daec81a687c86c30f0cbfb1b5"
+    },
+    {
+      "path": "runs/disappearance-red/output.log",
+      "bytes": 2355,
+      "sha256": "36c317fedd30058643d640a7e5eda564d5e3bb8f8ed28a0785634241ef563363"
+    },
+    {
+      "path": "runs/focused-final/command.json",
+      "bytes": 658,
+      "sha256": "60d647eae6d0304b375bdf0adb66c4c3561d62c899895a9fa189662920f662b0"
+    },
+    {
+      "path": "runs/focused-final/output.log",
+      "bytes": 403,
+      "sha256": "8965cad8e37907b52619b17a559abe760f5cf59f2f96e7a2143d8702ea3903d4"
+    },
+    {
+      "path": "runs/format-closeout/command.json",
+      "bytes": 659,
+      "sha256": "58baa0474faf7fd63b9f803c913dde5f9f1885c5c66b9466d244104bb7280805"
+    },
+    {
+      "path": "runs/format-closeout/output.log",
+      "bytes": 202,
+      "sha256": "df01393064f9825d70f078a18fe5aa754623ceeddfd8bf0c8391f30cd6431a61"
+    },
+    {
+      "path": "runs/format-final/command.json",
+      "bytes": 659,
+      "sha256": "7d6224730d12d3ca63a3c2c92af2a35b427a5d2d1af14ef28757422a086c07e0"
+    },
+    {
+      "path": "runs/format-final/output.log",
+      "bytes": 202,
+      "sha256": "9fa3a31972c0faca2e40b1bb1b56ee9a88a0b07586f33c70bf22d12bdf890065"
+    },
+    {
+      "path": "runs/lint-closeout/command.json",
+      "bytes": 646,
+      "sha256": "5650cee72e1fec3a121bffeeeb3c976ab0a66dde3f8c88c9b873ce5c2566b80e"
+    },
+    {
+      "path": "runs/lint-closeout/output.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "runs/lint-final/command.json",
+      "bytes": 646,
+      "sha256": "c6b9889c1fc61ae7443b0e0be1cc0bfebdef5988b512f96b1d9461fa2a256d0d"
+    },
+    {
+      "path": "runs/lint-final/output.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "runs/single-green/command.json",
+      "bytes": 674,
+      "sha256": "afea4fa5169d1fac38828a30e4557f463338b22141376efa70efc2145a96397b"
+    },
+    {
+      "path": "runs/single-green/output.log",
+      "bytes": 403,
+      "sha256": "ba0bd3a27a9b0c6397215c8d4f6736c9afa4404309c4e48b4fc82c931932f231"
+    },
+    {
+      "path": "runs/single-red/command.json",
+      "bytes": 674,
+      "sha256": "89cc96033caa314467a57a52ce0f896de49e32cd593766a3cd95fbc9a9864137"
+    },
+    {
+      "path": "runs/single-red/output.log",
+      "bytes": 1353,
+      "sha256": "54788a80440b0de71b1c0b337c75321ac1c4d77b269909e73fafa0ac952c4996"
+    },
+    {
+      "path": "runs/types-corrected/command.json",
+      "bytes": 632,
+      "sha256": "b57615f43fc9b295bb56093abde381e6df5e58b34dba3ad349601cda7e34df37"
+    },
+    {
+      "path": "runs/types-corrected/output.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "runs/types-final/command.json",
+      "bytes": 632,
+      "sha256": "2b64dceebf769b58f6b9f44ba69c505b21783274b3106790c6fe9e3020954f14"
+    },
+    {
+      "path": "runs/types-final/output.log",
+      "bytes": 336,
+      "sha256": "9630e34a26148c646503c69ddfb8263eec480e265b55277e441b891001d109d2"
+    },
+    {
+      "path": "sources/0dfaba2c1ddf5a7aed5e492c020e6b14326df172f5e6b581fc84e6060ec5eacd.ts",
+      "bytes": 41709,
+      "sha256": "0dfaba2c1ddf5a7aed5e492c020e6b14326df172f5e6b581fc84e6060ec5eacd"
+    },
+    {
+      "path": "sources/2d457d37303b5d46f3a393391c02ba8b57e0a9fc1687bb3df995a102a0301aca.ts",
+      "bytes": 10879,
+      "sha256": "2d457d37303b5d46f3a393391c02ba8b57e0a9fc1687bb3df995a102a0301aca"
+    },
+    {
+      "path": "sources/4562bf32db9b61ad6ce5615ad870f2fcd25e74e30dfaf3c6ae685f46627b8dcd.ts",
+      "bytes": 10889,
+      "sha256": "4562bf32db9b61ad6ce5615ad870f2fcd25e74e30dfaf3c6ae685f46627b8dcd"
+    },
+    {
+      "path": "sources/4a448456221f6a409cf4bda53467f40a7744645be70e9bff5cf71f242c1b36da.ts",
+      "bytes": 10764,
+      "sha256": "4a448456221f6a409cf4bda53467f40a7744645be70e9bff5cf71f242c1b36da"
+    },
+    {
+      "path": "sources/4e84f5961f629577ccdd88693ed5dea0701b597f2e879ef914c144e1906f4ae1.ts",
+      "bytes": 40794,
+      "sha256": "4e84f5961f629577ccdd88693ed5dea0701b597f2e879ef914c144e1906f4ae1"
+    },
+    {
+      "path": "sources/58220bd20b5a86e705589b968692d1b5a88bcc30f6216e595878f1cf4ed0c995.js",
+      "bytes": 10274,
+      "sha256": "58220bd20b5a86e705589b968692d1b5a88bcc30f6216e595878f1cf4ed0c995"
+    },
+    {
+      "path": "sources/5bf00e8cf77eaaf813445736a013765e52d71e93613d5544b1ad839e214c5843.ts",
+      "bytes": 40780,
+      "sha256": "5bf00e8cf77eaaf813445736a013765e52d71e93613d5544b1ad839e214c5843"
+    },
+    {
+      "path": "sources/6b2efc9b0a0e2b3688f785a05f8eaf3e21a0da2e61765a84dc8b16234577ee43.ts",
+      "bytes": 41619,
+      "sha256": "6b2efc9b0a0e2b3688f785a05f8eaf3e21a0da2e61765a84dc8b16234577ee43"
+    },
+    {
+      "path": "sources/80cea7f2065936e5cb1cc3aa076012fbc7e6aec225c8de4d5dc4aeba2891a247.ts",
+      "bytes": 37805,
+      "sha256": "80cea7f2065936e5cb1cc3aa076012fbc7e6aec225c8de4d5dc4aeba2891a247"
+    },
+    {
+      "path": "sources/98348761226609e389718e30d44d36e14f068cd85cfa8ea38ebbbb49bcf080f6.ts",
+      "bytes": 39530,
+      "sha256": "98348761226609e389718e30d44d36e14f068cd85cfa8ea38ebbbb49bcf080f6"
+    },
+    {
+      "path": "sources/fcc9b816e92424a8cf4d1237dd529bf1ac5fd22efd011f18c6e2d29e8714be9e.js",
+      "bytes": 10233,
+      "sha256": "fcc9b816e92424a8cf4d1237dd529bf1ac5fd22efd011f18c6e2d29e8714be9e"
+    }
+  ],
+  "peerReview": {
+    "verdict": "clean",
+    "path": "review.md",
+    "base": "2591aa28c99c2cea064e0d312742020343f63169",
+    "sourcePins": {
+      "apps/cli/src/main.ts": "2d457d37303b5d46f3a393391c02ba8b57e0a9fc1687bb3df995a102a0301aca",
+      "apps/cli/src/main.test.ts": "0dfaba2c1ddf5a7aed5e492c020e6b14326df172f5e6b581fc84e6060ec5eacd",
+      "apps/cli/dist/main.js": "58220bd20b5a86e705589b968692d1b5a88bcc30f6216e595878f1cf4ed0c995"
+    },
+    "scope": "Independent read-only source/test/evidence review; no runtime rerun; renewal traced through unchanged reader, not a new renewed-default-CLI claim"
+  }
+}

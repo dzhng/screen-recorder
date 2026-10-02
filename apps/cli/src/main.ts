@@ -110,23 +110,25 @@ function request(id: string, operation: string, params: unknown): OperationReque
   return sending;
 }
 
-// Keep readiness probes separate from the caller's one operation: never replay uncertain writes.
+// The caller retains this socket for delivery; dispatch must not rediscover or replay.
 function invoke(
-  selection: ServiceSelection,
+  selection: ServiceSelection & { socketPath: string },
   sending: OperationRequest,
   deliverResult: number,
 ): Promise<OperationWireResponse>;
-function invoke(selection: ServiceSelection, sending: OperationRequest): Promise<OperationResponse>;
+function invoke(
+  selection: ServiceSelection & { socketPath: string },
+  sending: OperationRequest,
+): Promise<OperationResponse>;
 async function invoke(
-  selection: ServiceSelection,
+  selection: ServiceSelection & { socketPath: string },
   sending: OperationRequest,
   deliverResult?: number,
 ): Promise<OperationWireResponse> {
   try {
-    const socketPath = await resolveServiceSocket(selection);
     if (deliverResult && !isArtifactMaintenance(sending.operation))
       return await callLocal(
-        socketPath,
+        selection.socketPath,
         {
           ...sending,
           resultDelivery: { inlineBytes: deliverResult },
@@ -134,7 +136,7 @@ async function invoke(
         selection.signal ? { signal: selection.signal } : {},
       );
     return await callLocal(
-      socketPath,
+      selection.socketPath,
       sending,
       selection.signal ? { signal: selection.signal } : {},
     );
@@ -245,13 +247,14 @@ async function main() {
   if (values.output && !artifactOperations.has(operation) && !previewOperations.has(operation))
     throw new Error("--output applies only to artifact inspection operations");
   const sending = request(responseId, operation, await readParams(values.params ?? "{}"));
-  let result = await invoke(selection, sending);
+  const selected = { ...selection, socketPath: await resolveServiceSocket(selection) };
+  let result = await invoke(selected, sending);
   const batchReference = batchReferences.get(operation);
   if (batchReference) {
     let directory: string | undefined;
     let outputError: unknown;
     result = await consumeBatch(
-      selection,
+      selected,
       result,
       batchReference,
       async (media, index) => {
@@ -275,7 +278,7 @@ async function main() {
     );
   } else if (artifactOperations.has(operation) || previewOperations.has(operation)) {
     try {
-      const media = await artifactFile(selection, result, values.output);
+      const media = await artifactFile(selected, result, values.output);
       if (media && result.ok)
         result = {
           ...result,

@@ -9,6 +9,7 @@ import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import {
   operationNames,
+  operationSchema,
   JsonLineStream,
   CONTROL_FRAME_BYTES,
   controlMessageSchema,
@@ -498,6 +499,214 @@ it("default discovery reaches the actual service layout from outside the checkou
       data: { recordingId },
     });
   });
+});
+
+async function defaultDeliveryFixture(disappear = false) {
+  const home = await mkdtemp("/tmp/scr-cli-delivery-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  const bytes = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7l8AAAAASUVORK5CYII=",
+    "base64",
+  );
+  const delivery = new DerivativeDelivery();
+  cleanup.push(async () => delivery.dispose());
+  const operations: string[] = [];
+  const ready = () => ({
+    state: "ready",
+    published: { frame: { mediaType: "image/png" } },
+    delivery: delivery.open({ kind: "asset", id: "fixture" }, () => ({
+      bytes: bytes.length,
+      read: (buffer, position) => bytes.copy(buffer, 0, position, position + buffer.length),
+      release() {},
+    })),
+  });
+  const frames: ReturnType<typeof ready>[] = [];
+  const listener = await listenLocal({
+    runtimeDirectory: join(home, "run"),
+    delivery,
+    handler: (request) => {
+      const operation = operationSchema.parse({
+        operation: request.operation,
+        params: request.params,
+      });
+      operations.push(operation.operation);
+      if (operation.operation === "service.health") return { ok: true, data: {} };
+      if (operation.operation === "frame.get") {
+        const frame = ready();
+        frames.push(frame);
+        return { ok: true, data: frame };
+      }
+      if (operation.operation === "frame.batch") {
+        const first = ready(),
+          last = ready();
+        frames.push(first, last);
+        return {
+          ok: true,
+          data: {
+            assetId: "fixture",
+            streamId: "video",
+            items: [
+              { atUs: 7, ok: true, data: first },
+              {
+                atUs: 2,
+                ok: false,
+                error: {
+                  code: "NOT_READY",
+                  message: "Pending source",
+                  retryable: true,
+                  details: {},
+                },
+              },
+              { atUs: 7, ok: true, data: last },
+            ],
+          },
+        };
+      }
+      if (operation.operation === "artifact.read") {
+        if (disappear) void listener.close();
+        const { token, offset, maxBytes } = operation.params;
+        return { ok: true, data: delivery.read(token, offset, maxBytes) };
+      }
+      if (operation.operation === "artifact.close") {
+        delivery.close(operation.params.token);
+        return { ok: true, data: { closed: true } };
+      }
+      throw new Error(`Unexpected ${request.operation}`);
+    },
+  });
+  cleanup.push(() => listener.close());
+  return {
+    home,
+    bytes,
+    operations,
+    frames,
+    socketPath: listener.socketPath,
+    env: { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: join(home, "absent.app") },
+  };
+}
+
+it("default CLI single delivery discovers once and preserves the complete file", async () => {
+  const fixture = await defaultDeliveryFixture();
+  const output = join(fixture.home, "frame.png");
+  const reply = await runCli(
+    [
+      "frame.get",
+      "--params",
+      JSON.stringify({ assetId: "fixture", streamId: "video", atUs: 7 }),
+      "--output",
+      output,
+    ],
+    fixture.env,
+  );
+  expect(reply.status).toBe(0);
+  expect(reply.stderr).toBe("");
+  expect(JSON.parse(reply.stdout)).toEqual({
+    id: expect.any(String),
+    ok: true,
+    data: { ...fixture.frames[0], output },
+  });
+  expect(await readFile(output)).toEqual(fixture.bytes);
+  expect(fixture.operations).toEqual([
+    "service.health",
+    "frame.get",
+    "artifact.read",
+    "artifact.close",
+  ]);
+});
+
+it("default CLI duplicate batch keeps one selection and isolates a middle item failure", async () => {
+  const fixture = await defaultDeliveryFixture();
+  const output = join(fixture.home, "frames");
+  const reply = await runCli(
+    [
+      "frame.batch",
+      "--params",
+      JSON.stringify({ assetId: "fixture", streamId: "video", atUs: [7, 2, 7] }),
+      "--output",
+      output,
+    ],
+    fixture.env,
+  );
+  expect(reply.status).toBe(0);
+  expect(reply.stderr).toBe("");
+  expect(JSON.parse(reply.stdout)).toEqual({
+    id: expect.any(String),
+    ok: true,
+    data: {
+      assetId: "fixture",
+      streamId: "video",
+      items: [
+        { atUs: 7, ok: true, data: { ...fixture.frames[0], output: join(output, "01.png") } },
+        {
+          atUs: 2,
+          ok: false,
+          error: { code: "NOT_READY", message: "Pending source", retryable: true, details: {} },
+        },
+        { atUs: 7, ok: true, data: { ...fixture.frames[1], output: join(output, "03.png") } },
+      ],
+    },
+  });
+  expect(await readFile(join(output, "01.png"))).toEqual(fixture.bytes);
+  expect(await readFile(join(output, "03.png"))).toEqual(fixture.bytes);
+  await expect(readFile(join(output, "02.png"))).rejects.toMatchObject({ code: "ENOENT" });
+  expect(fixture.operations).toEqual([
+    "service.health",
+    "frame.batch",
+    "artifact.read",
+    "artifact.close",
+    "artifact.read",
+    "artifact.close",
+  ]);
+});
+
+it("default CLI delivery reports a disappeared service without bootstrap or operation replay", async () => {
+  const fixture = await defaultDeliveryFixture(true);
+  const output = join(fixture.home, "missing-frames");
+  const reply = await runCli(
+    [
+      "frame.batch",
+      "--params",
+      JSON.stringify({ assetId: "fixture", streamId: "video", atUs: [7, 2, 7] }),
+      "--output",
+      output,
+    ],
+    fixture.env,
+  );
+  expect(reply.status).toBe(0);
+  expect(reply.stderr).toBe("");
+  expect(JSON.parse(reply.stdout)).toMatchObject({
+    ok: true,
+    data: {
+      items: [
+        {
+          atUs: 7,
+          ok: false,
+          error: {
+            code: "INVALID_RESPONSE",
+            message: "Connection ended before the JSON line terminator",
+            retryable: false,
+          },
+        },
+        {
+          atUs: 2,
+          ok: false,
+          error: { code: "NOT_READY", message: "Pending source", retryable: true, details: {} },
+        },
+        {
+          atUs: 7,
+          ok: false,
+          error: {
+            code: "CONNECTION_ERROR",
+            message: expect.stringContaining(fixture.socketPath),
+            retryable: true,
+          },
+        },
+      ],
+    },
+  });
+  await expect(readFile(join(output, "01.png"))).rejects.toMatchObject({ code: "ENOENT" });
+  await expect(readFile(join(output, "03.png"))).rejects.toMatchObject({ code: "ENOENT" });
+  expect(fixture.operations).toEqual(["service.health", "frame.batch", "artifact.read"]);
 });
 
 it("help, MCP tools/list and invalid tools never contact the default socket", async () => {
