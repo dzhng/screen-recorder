@@ -1,0 +1,70 @@
+{
+  "status": "pass",
+  "scope": "Root complete archive and saved-value review; no native/compiler/media replay",
+  "checkedUTC": "2026-10-02T06:57:28.514099+00:00",
+  "archiveMembersChecked": {
+    "preparation": 16,
+    "execution": 138
+  },
+  "protectedPinsChecked": 129,
+  "cacheFilesAndMetadataUnchanged": 307,
+  "normalByteQueriesTerminalAndWaited": 14,
+  "timeoutCleanupQualified": false,
+  "primarySelectedFence": {
+    "ordinary": 29,
+    "interrupted": 29
+  },
+  "ordinaryClosedAccepted": 384,
+  "interruptedAdmissions": 334,
+  "interruptedCompleteReopenedPictures": 276,
+  "supplementaryLaterFence": {
+    "scope": "Posthoc comparison of already-saved native operands; not a new native selection or general rolling/backlog proof",
+    "fenceOrdinal": 174,
+    "selectedSavedFragment": 2,
+    "comparedSavedActiveFragment": 3,
+    "ordinaryAdmissions": {
+      "atEarlier": 184,
+      "atLater": 331
+    },
+    "interruptedAdmissions": {
+      "atEarlier": 184,
+      "atLater": 280
+    },
+    "completeTupleAndLogicalEquality": true,
+    "ordinaryClosureAndInterruptedReopeningEquality": true
+  },
+  "interiorOwnerEndpointsEqualNextPresentationPTS": {
+    "ordinaryClosed": 383,
+    "interruptedReopened": 275,
+    "generalDecodeDurationClaim": false
+  },
+  "rootChecks": [
+    {
+      "toolChunk": "f02c1d",
+      "exitCode": 0,
+      "claim": "16+138 complete archive payloads, saved checker, all129 direct pins, cache307 and14 normally awaited query receipts"
+    },
+    {
+      "toolChunk": "7d1dfc",
+      "exitCode": 0,
+      "claim": "Complete primary tuple/active-admission equality from direct saved operands"
+    },
+    {
+      "toolChunk": "b8bbd5",
+      "exitCode": 0,
+      "claim": "Supplementary174 complete tuple/logical/active-admission comparisons"
+    },
+    {
+      "toolChunk": "ec3a01",
+      "exitCode": 0,
+      "claim": "Complete interior owner-endpoint/next-PTS comparison"
+    }
+  ],
+  "review": {
+    "shape": "Frozen reference packets only; zero production or maintained harness changes",
+    "diff": "Complete operands/byte facts/native source/runtime bindings match; actual exceptional group-ownership limitation retained",
+    "docs": "Handoff and parent link scopes distinguish raw feasibility, canonical prerequisite and unresolved release acceptance"
+  },
+  "noNewRuntimeDispatch": true,
+  "fullReleaseAcceptanceRemainsOpen": true
+}

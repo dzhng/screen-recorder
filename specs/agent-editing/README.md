@@ -22,23 +22,22 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: investigate a supported codec boundary before another camera case.**
-[20g](slices/20g-camera-raw-prefix.md) compiled with the retained working cache,
-then reused that binary for the separately authorized physical cases. One ordinary
-prefix stayed identical; the separate case failed before intentional interruption.
-Its later comparison operands and failed raw movie were lost during probe cleanup,
-so the changed field remains unknown. [Root saved-data checks](assets/20g-camera-raw-prefix/physical-continuation/merged.json)
-retain this distinction. Preserve originals; do not retry the same tail rule or
-infer a codec cause.
-The [observer qualification](assets/20g-camera-raw-prefix/observer-preparation/README.md)
-now proves durable operands and bounded failed bytes through its real filesystem
-entry. [Native metadata qualification](assets/20g-camera-raw-prefix/native-cursor-qualification/README.md)
-now covers every retained sample, with original clock rounding exposed. Both
-reordering “may” queries remain true even at each observed full-sync sample;
-they do not certify a boundary. Investigate codec-defined dependency/reordering
-limits and complete-byte conditions from retained bytes and primary contracts.
-No tail tuning, settings change or new media case is selected. Canonical production
-and its independent complete traversal remain separate unsolved dependencies.
+**Next pickup: qualify the independent growing canonical MOV.**
+[20i](slices/20i-growing-canonical-feasibility.md) uses the retained tiny closed
+input and existing compressed-copy seam. First correct and qualify query deadline
+ownership with its nonmedia fixture; review and freeze the complete prototype
+before the single media case. No raw-writer replay or production adoption follows.
+
+[20h](slices/20h-camera-idr-fence.md) now qualifies both fixed raw cases: complete
+decoded IDR fences preserve the selected preceding pictures through active
+extension and closure or interruption/reopening. [Root saved-data checks](assets/20h-camera-idr-fence/execution/merged.json)
+also compare a later eligible fence without another native run. Timeout cleanup
+remains unqualified: Foundation assigned query children their own process groups.
+The original [20g failure](slices/20g-camera-raw-prefix.md) and missing operands
+remain unchanged; do not infer its cause or tune the discarded tail. Preserve
+native clock differences, codec conformance limits and unknown cursor flags.
+General raw-prefix stability, canonical production and independent complete
+traversals, backlog and stop performance remain open.
 
 The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
 improves the fixed example's timing without an individual regression; parent 12
@@ -265,6 +264,8 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
 - [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — ordinary scoped prefix passes; separate candidate fails before interruption, with later operands missing
+- [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
+- [ ] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed question and nonmedia ownership prerequisite prepared
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)

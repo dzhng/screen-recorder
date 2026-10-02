@@ -14,6 +14,12 @@ one ordinary prefix remains identical, but the separate candidate fails before
 intentional interruption. Missing later operands prevent diagnosing that mismatch;
 no general prefix rule, recovery mechanism or stop improvement is qualified.
 
+[20h](20h-camera-idr-fence.md) subsequently qualifies complete-IDR prefixes in two
+fixed tiny raw cases, preserving the original failure separately. Exceptional
+timeout ownership remains unqualified. [20i](20i-growing-canonical-feasibility.md)
+owns the next independent growing-canonical prerequisite; no production strategy,
+physical synchronization or stop improvement follows from the raw-case passes.
+
 ## Contract
 
 Establish a measured shared-clock strategy for synchronized production acceptance

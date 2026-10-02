@@ -120,8 +120,7 @@ next presentation PTS, including the long hold. No timing bug is demonstrated by
 this fixture; the general decode-duration interpretation remains unproved.
 The original failed tuple's changed field is still unavailable.
 
-Next investigate whether the retained codec data and primary contracts provide a
-finite dependency/reordering bound with complete-byte and endpoint conditions.
-This source-only question may justify a separately fixed candidate; it is not
-permission to tune the discarded tail, alter writer settings or adopt incremental
-verification. Canonical correspondence, recovery/backlog and stop remain open.
+Retained codec inspection and the separately fixed [20h](20h-camera-idr-fence.md)
+now qualify tiny complete-IDR prefixes. This does not identify the missing failed
+tuple, approve a discarded-tail rule or alter writer settings. Canonical
+correspondence, general incremental adoption, recovery/backlog and stop remain open.

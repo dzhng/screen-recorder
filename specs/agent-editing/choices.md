@@ -6688,3 +6688,31 @@ bytes, colors, timing and support through append and closure. Assembled exports
 or a second raw-file name would not supply that independent physical proof.
 Camera publication remains with its current owner; interruption, backlog and the
 unchanged stop deadline require later evidence.
+
+## IDR fixture qualification
+
+**Sound, medium confidence — use codec closure, not a larger discarded tail.**
+A complete IDR resets earlier picture references. With prior-picture output
+enabled and unchanged parameters, it can drain the preceding coded sequence.
+The fixed raw fixture physically decodes that IDR and compares all earlier
+picture, encoded-payload, clock and support fields through later appends and a
+terminal state. The longer fixed feed makes another active fragment possible;
+it does not change the old case or turn buffer capacity into an elapsed-time bound.
+This qualifies the measured tiny sequences, while a general growing-file and
+backlog contract remains open.
+
+**Unsound, high confidence — assume the query shares its parent's process group.**
+The supervisor used a shared-group assumption to decide which owned query it could
+terminate on a deadline. Actual receipts show Foundation gave each query its own
+group, so that guard would ignore the child. The corrected decision is to observe
+the child's live parent and actual captured group, terminate it, and prove native
+reap in a nonmedia fixture before reusing the controller. Every measured query
+completed normally; preserve those passed picture comparisons and the unqualified
+cleanup path separately. Rewriting the executed source would hide the mistake.
+
+**Sound, medium confidence — shorten only the new canonical candidate's fragment interval.**
+The next passthrough experiment uses a retained seven-second input. Shorter
+candidate fragments make two active observations possible within that fixed input;
+the raw camera writer keeps its existing settings. These are fixed container
+parameters for a new question, not a new encoder recipe or a guarantee of output
+timing. Missing complete fragments fail the case without parameter tuning.
