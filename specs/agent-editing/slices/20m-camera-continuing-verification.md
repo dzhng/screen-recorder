@@ -42,3 +42,9 @@ before stop. Its complete before-stop state and terminal failure are retained.
 The implementation must make that path advance both physical verification streams
 while recording and preserve final publication. A private empty file alone is not
 proof that either reader ran or that digest progress was committed.
+
+The [active-prefix failure](../assets/20m-camera-continuing-verification/active-prefix-red.json)
+shows an unfinished fragment exposing a later presented sample before intervening
+pictures. Qualify an independently complete mapped prefix through its closing IDR;
+an incomplete later tail must not invalidate that prefix. Keep all available native
+rows in the DTS partition check and retain strict complete mapping at closure.

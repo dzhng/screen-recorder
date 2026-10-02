@@ -14,3 +14,11 @@ completed-stop performance remain with the owning slice.
 through the offline NativeCapture input, no private canonical work exists while
 recording. The test drains capture after preserving its observed state. This names
 the missing production behavior; it is not a green integration or reader-work proof.
+
+[The active-prefix failure](active-prefix-red.json) retains the actual unfinished
+raw snapshot, written observations, executed source and terminal diagnostic. Its
+last native presented row skips ahead of the mapped sequence; earlier rows match.
+Rejecting that entire snapshot prevents eligible earlier prefixes from advancing.
+Qualification must distinguish a complete prefix from an incomplete tail, while
+keeping closed-source validation strict. This is metadata attribution, not proof
+of live verification or publication.

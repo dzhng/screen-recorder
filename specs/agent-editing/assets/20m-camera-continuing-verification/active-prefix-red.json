@@ -1,0 +1,141 @@
+{
+  "status": "red; saved operands attribute whole-snapshot rejection to an unfinished presented tail",
+  "claim": "Metadata attribution only; no live pixel progress or final publication acceptance",
+  "observed": {
+    "deviceState": "recording",
+    "privateCandidates": [],
+    "publicCanonicalExists": false,
+    "readerStarts": {
+      "active": 0,
+      "canonical": 0,
+      "raw": 0
+    }
+  },
+  "nativeRows": 176,
+  "firstMismatch": {
+    "ordinal": 175,
+    "mappedAssetPTSUs": 5999943,
+    "nativeAssetPTSUs": 6099942
+  },
+  "nextCorrection": "Qualify the complete mapped prefix through an independently eligible closing IDR. Retain later incomplete native rows for DTS partition checks without treating them as committed mapping; final closed inventory remains strict.",
+  "processes": [
+    {
+      "phase": "link",
+      "pid": 64202,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 0.3788865839887876
+    },
+    {
+      "phase": "test",
+      "pid": 64223,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 0.31724087498150766
+    },
+    {
+      "phase": "CameraMedia",
+      "pid": 62392,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 1.4621602910046931
+    },
+    {
+      "phase": "link",
+      "pid": 62485,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 1.5192785420222208
+    },
+    {
+      "phase": "test",
+      "pid": 62522,
+      "exitCode": 1,
+      "terminal": true,
+      "waited": true,
+      "timeout": false,
+      "elapsedSeconds": 6.813356667000335
+    }
+  ],
+  "allOwnedPIDsAbsent": true,
+  "archive": {
+    "path": "active-prefix-red.tar.gz",
+    "bytes": 35641,
+    "sha256": "223989156c363f8a7ef4fe75a3b16a117819940b718d57f1ce429de63dd6c590",
+    "members": [
+      {
+        "path": "metadata-guard/Metadata.swift",
+        "bytes": 1644,
+        "sha256": "0763644010d59bd2ad688c949790454669294d784c11dd05fd68ebd5555c8fc6"
+      },
+      {
+        "path": "metadata-guard/plan.json",
+        "bytes": 5227,
+        "sha256": "33f3ceac9d5e0b3cb3c54e99ffa3861b5cd62c5fa5ae5081a8eb8ed904ca4a26"
+      },
+      {
+        "path": "metadata-guard/processes.json",
+        "bytes": 5912,
+        "sha256": "7c28e7a70a42d10aef9b3e6bd947927621bbcc2be2d52db9aa62cf5e4de9fbec"
+      },
+      {
+        "path": "metadata-guard/test.stdout",
+        "bytes": 2756,
+        "sha256": "54ad233b9b69fd4793e0260a3c31067d72f711a69eba9db46c72aba16ef371d6"
+      },
+      {
+        "path": "metadata-guard/test.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "qualified-facts/executed-CameraMedia.swift",
+        "bytes": 70878,
+        "sha256": "48eaa43074476532266fe1b37e630500978f0b29102b3710550f801e77f7b6a6"
+      },
+      {
+        "path": "qualified-facts/plan.json",
+        "bytes": 10127,
+        "sha256": "e3e722135248e5d366c96fe32072d10cca4c5a11982b3442f5afb92cf1f508f3"
+      },
+      {
+        "path": "qualified-facts/processes.json",
+        "bytes": 11193,
+        "sha256": "7d8fff671346b50552c628bc13d88233aaa146eea1a1e8b2480b881ad8b15a70"
+      },
+      {
+        "path": "qualified-facts/test.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "qualified-facts/test.stderr",
+        "bytes": 51030,
+        "sha256": "e71fdcf3e87e89cda40576cb05b0c2e8823a2eb844c527402ce00ac6bc7e4ba1"
+      },
+      {
+        "path": "qualified-facts/case/before-stop.json",
+        "bytes": 179,
+        "sha256": "8328433ece58f287db2f3e55a2c68e8ec863267f61371ad8d97d430ebbc92891"
+      },
+      {
+        "path": "qualified-facts/case/before-stop-camera.raw.mov",
+        "bytes": 10981,
+        "sha256": "ab1a9efd0a657279ead76badecbf6af603bf0f8cd719649d9c5478c7e276741e"
+      },
+      {
+        "path": "qualified-facts/case/before-stop-timestamps.jsonl",
+        "bytes": 113555,
+        "sha256": "a378b4f5feb8538f998e5f1a4836cdf9fc5d87959ba3931c31faec154543108f"
+      }
+    ]
+  }
+}
