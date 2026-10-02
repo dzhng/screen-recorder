@@ -55,7 +55,9 @@ Use what the repo already chose before writing your own. Find the existing owner
 
 Every way into the product shares the same contracts: an operation means one thing however it is called.
 
-Prefer one general rule to a special case, and a simple structure to an abstraction nobody needs yet. When something replaces an old mechanism, delete the old one. When a change exposes a duplicate or a stale owner, invoke [`refactor-clean`](.agents/skills/refactor-clean/SKILL.md).
+Prefer one general rule to a special case, and a simple structure to an abstraction nobody needs yet.
+
+Spend margin on simplicity. When something has room to spare against its budget (frame time, startup, memory, bandwidth), use that room to keep the design simple. Don't add machinery to make a thing faster than it needs to be, and take such machinery out when the margin shows it wasn't needed. When something replaces an old mechanism, delete the old one. When a change exposes a duplicate or a stale owner, invoke [`refactor-clean`](.agents/skills/refactor-clean/SKILL.md).
 
 ## Parallel work stays cheap
 
