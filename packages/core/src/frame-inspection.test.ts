@@ -192,6 +192,37 @@ test("demanded still pins global picture timing across head changes and cache re
   expect(() => f.frames.request({ ...request, atUs: 1000000 })).toThrow();
 });
 
+test("a changed picture renderer regenerates demand without replacing the prior cached frame", async () => {
+  const calls: string[] = [];
+  const implementation: ProjectFrameRenderer = {
+    ...renderer,
+    implementationId: "before",
+    async render(request, signal) {
+      calls.push(this.implementationId);
+      return renderer.render(request, signal);
+    },
+  };
+  const f = await fixture(implementation);
+  const request = { projectId: f.projectId, atUs: 75001 };
+  f.frames.request(request);
+  await f.jobs.idle();
+  const before = f.frames.request(request).published!.frame;
+  expect(f.frames.request(request).published!.frame.cacheId).toBe(before.cacheId);
+
+  implementation.implementationId = "after";
+  expect(f.frames.request(request).published).toBeNull();
+  await f.jobs.idle();
+  const after = f.frames.request(request).published!.frame;
+  expect(after.implementationId).toBe("after");
+  expect(after.cacheId).not.toBe(before.cacheId);
+  expect(after.frame).toEqual(before.frame);
+  expect(await readFile(before.file, "utf8")).toBe("test frame payload");
+
+  implementation.implementationId = "before";
+  expect(f.frames.request(request).published!.frame.cacheId).toBe(before.cacheId);
+  expect(calls).toEqual(["before", "after"]);
+});
+
 test("a renderer cannot publish the wrong globally phased picture", async () => {
   const f = await fixture({
     ...renderer,

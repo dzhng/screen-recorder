@@ -24,3 +24,9 @@ The [native correspondence record](../assets/23l2-native-png-correspondence/READ
 qualifies all fourteen existing composition requests through an isolated linked
 candidate worker, with exact metadata and complete selected-reference pixels.
 Installed-worker and broader release acceptance remain separate.
+
+Current demanded pictures use the existing renderer implementation identity to
+separate derivatives produced before this output correction. The cache owner
+keeps historical bytes intact and regenerates current demand; no schema, migration
+or second cache is introduced. Generic frame-inspection controls exercise both
+identities and unchanged frame/sample metadata.

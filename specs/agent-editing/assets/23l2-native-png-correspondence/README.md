@@ -13,6 +13,11 @@ output preserve all request and receipt fields. Every RGBA sample matches, witho
 tolerance; existing reference packets retain those complete equal image bytes.
 New encoded outputs remain in the named scratch authority.
 
+[Root integration](merged.json) independently checks the merged source bindings,
+all saved requests and metadata, every complete current/reference RGBA pair and
+the new PNG hashes. Focused cache controls and the fresh service emission establish
+the changed renderer identity; this does not install the candidate worker.
+
 [Visual review](review.md) separates readability from exact data correspondence.
 No sampler, service/delivery, capture, speech or movie cohort was repeated, and
 this establishes neither installed-worker acceptance nor full release acceptance.

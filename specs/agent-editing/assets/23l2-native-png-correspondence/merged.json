@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "87fa8046",
+  "resultCommit": "1592eb9b",
+  "currentSourceBindings": {
+    "helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift": {
+      "bytes": 35289,
+      "sha256": "643206c414a0e6fbe7caecfcd5ee4b929446774ccbcf38c1cc5c9ed1e603652c"
+    },
+    "helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift": {
+      "bytes": 6541,
+      "sha256": "bbd0a17291386b11030a22adbfd653fbd7df63bbd283044429cb36a69b5b5adb"
+    },
+    "helpers/mac/Tests/ScreenRecorderFrameTests/CompositionPNGTests.swift": {
+      "bytes": 9184,
+      "sha256": "e6a70e30a4b2cda983e65c274b45778961f478829f85ce80da3bc6f593393b9a"
+    },
+    "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift": {
+      "bytes": 48342,
+      "sha256": "81e26422354ec135c5a2533a6722ebf31490ebae9778b607f91263e5b645219b"
+    }
+  },
+  "savedCheck": {
+    "cases": 14,
+    "bankPayloadHashes": 8,
+    "requestsChangeOutputOnly": true,
+    "allReceiptFieldsEqualExceptOutputAndActualEncodedSize": true,
+    "allCompleteRGBAEqual": true,
+    "RGBABytesPerCase": 24585600,
+    "newPNGHashesMatch": true,
+    "noNativeDispatchOrCompilation": true
+  },
+  "cacheControls": {
+    "scope": "existing implementation identity separates requested derivative jobs, preserves previous cache bytes and reuses each identity",
+    "test": "packages/core/src/frame-inspection.test.ts",
+    "testsPassed": 14,
+    "coreTypesExit": 0,
+    "serviceBuildExit": 0,
+    "formatLintExit": 0,
+    "currentEmittedPictureIdentity": "native-composition-picture-v17",
+    "newControlAlreadyPassedBeforeIdentityEdit": "This checks the existing generic cache contract, not a fabricated cache regression red; PNG regressions belong to earlier native records."
+  },
+  "limits": [
+    "No installed/frozen worker switch",
+    "No public delivery or sampler replay",
+    "No full movie parity or complete release verdict"
+  ]
+}

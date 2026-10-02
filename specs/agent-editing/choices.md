@@ -6463,3 +6463,19 @@ transient graph preparation, distinct still/movie targets and reuse of complete
 stage samples. Root accepts these choices: the correction preserves requested
 operations without an identity bypass, extra graph cache or new public operation.
 Focused movie controls retain their stated limits; they imply no full pixel parity.
+
+The [source-color ledger](assets/23l2-project-source-colors/choices.md) owns the
+video-only normalization rule, preserving still-image precision and movie behavior.
+The [native correspondence ledger](assets/23l2-native-png-correspondence/choices.md)
+keeps isolated transport, complete saved references and truthful publication fields
+separate from installed adoption. Root accepts those choices after checking every
+complete RGBA output and the merged source bindings.
+
+- **Sound, high confidence — advance the existing picture cache identity.**
+  When a caller asks for the same frame after the PNG correction, earlier cached
+  pixels must not answer the new renderer. The existing implementation identity
+  already separates those jobs and cache files; advancing it preserves old bytes
+  and causes current demand to regenerate. Reusing the old identity would conceal
+  the corrected behavior. The plan did not name the new identity value. This adds
+  no cache owner, storage format, migration or automatic edit and leaves movie and
+  audio identities unchanged.

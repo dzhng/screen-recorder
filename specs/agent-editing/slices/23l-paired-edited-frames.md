@@ -1,9 +1,11 @@
 # 23l — Paired public edited frames
 
 Status: scoped numeric verification executed. Paired join/tail membership,
-complete legacy/raw pixels and CLI/MCP delivery pass; composition pixel
-correspondence remains unresolved; independent visual critique found no concrete
-visible defects within the static comparison scope.
+complete legacy/raw pixels and CLI/MCP delivery pass. The
+[PNG successor](../assets/23l2-native-png-correspondence/README.md) now matches every
+selected reference RGBA byte across all fourteen saved native requests. Independent
+visual review finds no concrete defect within that static scope. Installed-worker
+adoption and full release acceptance remain unverified.
 [Evidence](../assets/23l-paired-edited-frames/README.md) owns complete outcomes and
 producer identities. This narrows the remaining frame row in the
 [saved correspondence](../assets/acceptance-maintenance/cutover-outcomes.md#frame-membership-and-presentation).
@@ -213,19 +215,10 @@ requests are refused before execution; unavailable cache never authorizes a
 replacement render. The original 64MiB media run and default-reader follow-up
 remain separate authorities.
 
-Diagnose composition differences through the banked frozen source/profile stages
-before any proposed product change or new scoped execution. Preserve the scoped
-independent visual verdict without upgrading it to numerical color equivalence.
-Preserve all owned homes/runtimes until parent integration/preservation, and keep
-originals, frozen workers, models and installed library unchanged. Root owns
-shared hub integration and any subsequent runtime pickup. Review the
-[owned choices](../assets/23l-paired-edited-frames/choices.md). Parent release and
-presentation gates remain open.
-
-The [PNG successor first case](../assets/23l-paired-edited-frames/png-successor-first-case.json)
-uses the corrected current static public renderer with the saved video request.
-Its selected sample is unchanged and its PNG equals the original composition
-output exactly; matched-source pixels still differ. Execution stopped after that
-case. The fixed-PNG correction is therefore scoped evidence, not full video-path
-acceptance. Next observe the same held physical buffer through direct and actual
-graph publication before changing production or rendering the remaining requests.
+The [PNG successor](23l2-project-png-publication.md) closes the saved native pixel
+mismatch. Reuse its complete source/reference correspondence and the unchanged
+public delivery proof. Current picture demand carries a new renderer cache identity,
+so earlier PNG derivatives cannot satisfy the corrected implementation. Installed
+switching and broader acceptance remain with the parent; do not infer adoption
+from an isolated worker. Preserve originals, frozen workers, models and installed
+library. Root owns shared hub integration and the remaining release matrix.

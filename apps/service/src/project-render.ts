@@ -448,7 +448,7 @@ export function projectFrameRenderer(
   pointers?: PointerOwners,
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v16",
+    implementationId: "native-composition-picture-v17",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
       const { window, assets, fonts, output, maxLongEdge } = request;

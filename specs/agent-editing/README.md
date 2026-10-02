@@ -22,16 +22,24 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: same-buffer video-source graph diagnostic.**
-The [project PNG correction](slices/23l2-project-png-publication.md) preserves its
-fixed-image input. The [first saved video request](assets/23l-paired-edited-frames/png-successor-first-case.json)
-still produces exactly the old composition PNG, differing from its matched source
-picture. Physical sample identity passes. Stop the remaining requests and observe
-that same decoded buffer through direct and actual graph publication to locate
-the remaining video-path difference. Reuse compiled objects and the unchanged
-pixel oracle; no accepted setup, sampler, service or delivery replay is needed.
-Keep frozen workers, source clocks and original failures unchanged. Full movie
-pixel parity, historical decoder cause and release acceptance remain separate.
+**Next pickup: qualified camera-publication overlap.**
+Implement the bounded scheduling correction in the existing camera publication
+owner under the [dependency audit](assets/acceptance-maintenance/stop-dependencies.md).
+Prove closed-source qualification, complete digest/support preservation, raw-first
+failure precedence and partial-prefix fallback on compact fixtures before any
+retained-take measurement. Full verification must finish before publication.
+The saved digest cost already exceeds ten seconds per stream; overlap alone
+cannot establish the completed-stop target. Physical/live acceptance remains open.
+
+The [PNG correction](slices/23l2-project-png-publication.md) now passes all fourteen
+saved composition requests through an isolated native worker: complete reference
+RGBA and source/frame metadata match. The
+[native correspondence record](assets/23l2-native-png-correspondence/README.md)
+keeps the original failures separate from the successor result. Current picture
+cache identity advances with the output change; generic cache controls preserve
+old derivatives while regenerating current demand. Frozen/installed workers remain
+unchanged. No sampler, accepted public-delivery cohort or movie cohort was repeated;
+installed adoption, full movie parity and release acceptance remain separate.
 
 [12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
 all words correspond and the existing marked timing limits pass. Its original
@@ -45,8 +53,9 @@ merged consumer gate and retains one selected socket through dispatch/delivery.
 
 The [next coordinated preflight](assets/24z-current-preparation/next-window-preflight.json)
 found unrelated active compilation/analysis after PNG integration. No service or
-timing started. The cardinality fixture and emitted runtime need no rebuild or
-preparation replay; revisit [24z timing](assets/24z-current-preparation/README.md)
+timing started. The cardinality fixture needs no preparation replay. The picture
+cache identity change has a fresh service emission; rebind that changed module
+before timing. Revisit [24z timing](assets/24z-current-preparation/README.md)
 only in a changed coordinated window with one fresh preflight. Do not poll the host.
 Remaining physical/lifecycle, presentation and installed prerequisites belong to
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md).
@@ -282,9 +291,9 @@ implementation readiness from acceptance prerequisites.
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
-- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; composition pixels remain open
+- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; corrected native composition pixels match all saved references; installed acceptance remains open
 - [x] [23l1 — Fixed-image composition stage boundary](slices/23l1-image-color-stages.md) — diagnostic complete; historical decoder cause remains open
-- [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image pixels and focused movie controls verified; full paired-frame acceptance remains open
+- [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image and all fourteen saved native video PNGs verified; installed adoption and full movie parity remain open
 - [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality and positive system remain open
 - [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
