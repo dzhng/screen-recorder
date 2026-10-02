@@ -1,0 +1,259 @@
+{
+  "status": "saved-evidence-pass",
+  "checkedUTC": "2026-10-02T08:12:20.861812+00:00",
+  "scope": "Fixed retained-file range/continuing digest projection, no native replay/adoption",
+  "protectedPins": 371,
+  "unchangedCacheFiles": 307,
+  "terminalReapedAbsentProcesses": [
+    [
+      5182,
+      0
+    ],
+    [
+      5281,
+      0
+    ]
+  ],
+  "decodedOutputs": 394,
+  "seriesPictures": {
+    "raw": 197,
+    "canonical": 197
+  },
+  "windows": [
+    {
+      "label": "raw-0",
+      "decodedPictures": 29,
+      "compressedBuffers": 33,
+      "compressedMedia": 29,
+      "markers": 4,
+      "sha256": "e967a09e53f8b147b8a4546fc95cce1b5e445af766bb590318da9dc990f11a1b",
+      "EOF": "completed"
+    },
+    {
+      "label": "canonical-0",
+      "decodedPictures": 29,
+      "compressedBuffers": 33,
+      "compressedMedia": 29,
+      "markers": 4,
+      "sha256": "e967a09e53f8b147b8a4546fc95cce1b5e445af766bb590318da9dc990f11a1b",
+      "EOF": "completed"
+    },
+    {
+      "label": "raw-1",
+      "decodedPictures": 116,
+      "compressedBuffers": 120,
+      "compressedMedia": 116,
+      "markers": 4,
+      "sha256": "0aeda6f4e8348f0add5fe238ecb95e2c8467bbfd393496db52bac4b132f5ee3d",
+      "EOF": "completed"
+    },
+    {
+      "label": "canonical-1",
+      "decodedPictures": 116,
+      "compressedBuffers": 120,
+      "compressedMedia": 116,
+      "markers": 4,
+      "sha256": "0aeda6f4e8348f0add5fe238ecb95e2c8467bbfd393496db52bac4b132f5ee3d",
+      "EOF": "completed"
+    },
+    {
+      "label": "raw-2",
+      "decodedPictures": 52,
+      "compressedBuffers": 56,
+      "compressedMedia": 52,
+      "markers": 4,
+      "sha256": "c9a2da890da3c20eec1541c9be2a2804e62c804a2f87f198c0a057d7c7844700",
+      "EOF": "completed"
+    },
+    {
+      "label": "canonical-2",
+      "decodedPictures": 52,
+      "compressedBuffers": 56,
+      "compressedMedia": 52,
+      "markers": 4,
+      "sha256": "c9a2da890da3c20eec1541c9be2a2804e62c804a2f87f198c0a057d7c7844700",
+      "EOF": "completed"
+    }
+  ],
+  "exactDigestBodyProjection": true,
+  "rawFinal": "c9a2da890da3c20eec1541c9be2a2804e62c804a2f87f198c0a057d7c7844700",
+  "canonicalFinal": "c9a2da890da3c20eec1541c9be2a2804e62c804a2f87f198c0a057d7c7844700",
+  "allDeliveredPictureClockPixelEndpointTuples": "equal to whole saved traversal",
+  "allSixDecodedAndCompressedReaders": "EOF completed",
+  "compressedRangeDifferences": [
+    {
+      "label": "raw-0",
+      "mediaDifferencesExcludingBufferOrdinal": [],
+      "terminalMarkerPTS": {
+        "epoch": 0,
+        "flags": 1,
+        "scale": 1000000,
+        "value": 966667
+      }
+    },
+    {
+      "label": "canonical-0",
+      "mediaDifferencesExcludingBufferOrdinal": [],
+      "terminalMarkerPTS": {
+        "epoch": 0,
+        "flags": 1,
+        "scale": 1000000,
+        "value": 966667
+      }
+    },
+    {
+      "label": "raw-1",
+      "mediaDifferencesExcludingBufferOrdinal": [
+        {
+          "sourceDecodePosition": 29,
+          "fields": [
+            "bufferShouldPropagate"
+          ],
+          "originalBufferAttachments": {
+            "present": false
+          },
+          "rangeBufferAttachments": {
+            "present": true,
+            "value": {
+              "dictionary": {
+                "_0": {
+                  "ResetDecoderBeforeDecoding": {
+                    "boolean": {
+                      "_0": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "terminalMarkerPTS": {
+        "epoch": 0,
+        "flags": 1,
+        "scale": 1000000,
+        "value": 4833333
+      }
+    },
+    {
+      "label": "canonical-1",
+      "mediaDifferencesExcludingBufferOrdinal": [
+        {
+          "sourceDecodePosition": 29,
+          "fields": [
+            "bufferShouldPropagate"
+          ],
+          "originalBufferAttachments": {
+            "present": false
+          },
+          "rangeBufferAttachments": {
+            "present": true,
+            "value": {
+              "dictionary": {
+                "_0": {
+                  "ResetDecoderBeforeDecoding": {
+                    "boolean": {
+                      "_0": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "terminalMarkerPTS": {
+        "epoch": 0,
+        "flags": 1,
+        "scale": 1000000,
+        "value": 4833333
+      }
+    },
+    {
+      "label": "raw-2",
+      "mediaDifferencesExcludingBufferOrdinal": [
+        {
+          "sourceDecodePosition": 145,
+          "fields": [
+            "bufferShouldPropagate"
+          ],
+          "originalBufferAttachments": {
+            "present": false
+          },
+          "rangeBufferAttachments": {
+            "present": true,
+            "value": {
+              "dictionary": {
+                "_0": {
+                  "ResetDecoderBeforeDecoding": {
+                    "boolean": {
+                      "_0": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "terminalMarkerPTS": {
+        "epoch": 0,
+        "flags": 1,
+        "scale": 1000000,
+        "value": 7000000
+      }
+    },
+    {
+      "label": "canonical-2",
+      "mediaDifferencesExcludingBufferOrdinal": [
+        {
+          "sourceDecodePosition": 145,
+          "fields": [
+            "bufferShouldPropagate"
+          ],
+          "originalBufferAttachments": {
+            "present": false
+          },
+          "rangeBufferAttachments": {
+            "present": true,
+            "value": {
+              "dictionary": {
+                "_0": {
+                  "ResetDecoderBeforeDecoding": {
+                    "boolean": {
+                      "_0": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "terminalMarkerPTS": {
+        "epoch": 0,
+        "flags": 1,
+        "scale": 1000000,
+        "value": 7000000
+      }
+    }
+  ],
+  "limits": [
+    "No growing raw qualification, hidden decoder-preroll bound, transfer policy, live/backlog/recovery/stop performance or production digest execution"
+  ],
+  "priorRootChecker": "c22352 failed because text extraction included following merged helper;5f561d isolated checker boundary, actual source unchanged",
+  "wholeArchiveMembersVerified": 1695,
+  "byteIdenticalSafeHardlinkMembers": 845,
+  "rootChecks": [
+    {
+      "toolChunk": "b92906",
+      "exitCode": 0,
+      "scope": "371pins/cache307,394 tuples/6 hashes/12 reader terminals, exact digest body, range reset/end-marker differences"
+    },
+    {
+      "toolChunk": "e95c90",
+      "exitCode": 0,
+      "scope": "All1695 archive payloads and845 safe byte-identical hardlinks; decompressed once"
+    }
+  ]
+}

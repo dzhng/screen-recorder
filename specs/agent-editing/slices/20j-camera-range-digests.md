@@ -1,8 +1,10 @@
 # Resume decoded camera verification
 
-Status: preparation next. The [distinct container proof](20i-growing-canonical-feasibility.md)
-qualifies fixed prefix preservation, but does not move either production digest
-out of finalization. Resolve native range reading before implementing that move.
+Status: the [fixed range case](../assets/20j-camera-range-digests/README.md) passes
+both independent continuing digest projections and all delivered tuples/support.
+[Root saved-data review](../assets/20j-camera-range-digests/merged.json) verifies
+the complete values without replay. No production digest has moved out of
+finalization; [compressed transfer](20k-camera-cursor-buffers.md) is next.
 
 ## Contract
 
@@ -40,6 +42,11 @@ do not replay a complete native baseline or adopt a second production digest own
 Observe compressed nil-settings buffers in the same ranges without writing them.
 Keep complete marker, raw/output clock, attachment and indexed sample facts;
 range-generated markers must not become an assumed transfer/filtering policy.
+
+The actual ranges add reset information on the first media sample of each resumed
+range and terminal markers at each range's end. Other media facts match the full
+reader in this fixture, excluding buffer ordinal. This observed context difference
+is why compressed transfer has a separate prerequisite.
 
 ## Bounds and decision
 

@@ -22,13 +22,14 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify native range continuation of both digests.**
-[20i](slices/20i-growing-canonical-feasibility.md) now qualifies its fixed
-intact-buffer growing MOV case. [20j](slices/20j-camera-range-digests.md) owns one
-retained-file check: continue separate raw/canonical hash states across exact
-qualified IDR ranges, preserving the existing digest representation and timing.
-Review and freeze that prototype; reuse complete baselines and immutable copies.
-No raw-writer replay or production adoption follows from the container pass.
+**Next pickup: qualify cursor-bounded compressed samples.**
+[20i](slices/20i-growing-canonical-feasibility.md) and
+[20j](slices/20j-camera-range-digests.md) qualify their fixed container and
+range/digest-state cases. Ranged compressed readers also generate context-specific
+markers. [20k](slices/20k-camera-cursor-buffers.md) owns the next stored-sample API
+qualification before choosing a live transfer rule. Review and freeze that
+prototype; reuse all source and full-traversal authorities. No raw-writer replay
+or production adoption follows from these passes.
 
 Camera publication is the current implementation priority. The [raw IDR proof](slices/20h-camera-idr-fence.md)
 qualifies its fixed cases; the [stop dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
@@ -249,7 +250,8 @@ implementation readiness from acceptance prerequisites.
 - [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — ordinary scoped prefix passes; separate candidate fails before interruption, with later operands missing
 - [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
 - [x] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed intact-buffer prefix/closure and all197 correspondence pass; live production/backlog/recovery/stop remain open
-- [ ] [20j — Resume decoded camera verification](slices/20j-camera-range-digests.md)
+- [x] [20j — Resume decoded camera verification](slices/20j-camera-range-digests.md) — fixed ranges and both continuing digest projections pass; live production/transfer/backlog/stop remain open
+- [ ] [20k — Cursor-bounded compressed camera samples](slices/20k-camera-cursor-buffers.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)

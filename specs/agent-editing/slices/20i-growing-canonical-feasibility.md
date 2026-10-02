@@ -6,7 +6,8 @@ complete closed-source correspondence. [Root saved-data review](../assets/20i-gr
 checks the complete operands and process outcomes without replay. The original
 failed guard and separate admission observations remain frozen. Neither
 production digest, live ownership, backlog, recovery nor stop performance is
-qualified; [range continuation](20j-camera-range-digests.md) is next.
+qualified. [Range continuation](20j-camera-range-digests.md) owns its separate
+fixed proof and subsequent transfer prerequisite.
 
 ## Compressed-reader admission
 

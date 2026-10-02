@@ -17,3 +17,7 @@ compressed transfer/filtering policy, growing-asset refresh, internal decoder
 preroll bound, live ownership, recovery or stop-time guarantee. Endpoints retain
 SampleTiming's decode-duration/mapping-clipping meaning rather than ranged
 buffer duration or an independent SDK display-duration guarantee.
+
+[Root saved-data review](merged.json) independently checks the complete archive,
+actual terminal processes, every picture and hash checkpoint, and the observed
+range-specific reset and terminal-marker differences. No native run is repeated.

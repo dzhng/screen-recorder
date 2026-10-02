@@ -18,7 +18,8 @@ no general prefix rule, recovery mechanism or stop improvement is qualified.
 fixed tiny raw cases, preserving the original failure separately. Exceptional
 timeout ownership remains unqualified. [20i](20i-growing-canonical-feasibility.md)
 now qualifies one distinct intact-buffer growing MOV case; [20j](20j-camera-range-digests.md)
-owns range and digest-state continuation next. No production strategy,
+qualifies fixed range/digest-state continuation, and [20k](20k-camera-cursor-buffers.md)
+owns compressed sample generation next. No production strategy,
 physical synchronization or stop improvement follows from these tiny cases.
 
 ## Contract
