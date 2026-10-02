@@ -1,7 +1,7 @@
 # Fixed-image composition stage boundary
 
-Status: diagnostic complete; production correction and full paired-frame acceptance
-remain open.
+Status: diagnostic complete; [PNG publication correction](23l2-project-png-publication.md)
+is implemented. Full paired-frame acceptance remains open.
 
 The [stage record](../assets/23l-image-color-stages/README.md) owns a bounded answer
 to the missing composition-path question: a fixed retained PNG remains byte-exact
@@ -17,8 +17,6 @@ not private half-float framebuffer pixels. The original movie decoder buffers
 remain unavailable, so historical decoder cause and original worker-binary
 execution equivalence are unproved.
 
-The next implementation boundary is shared compiled graph construction with
-separate still PNG publication and movie buffer targets. Preserve the single graph
-owner, explicit caller operations and movie format semantics. Do not bypass the
-graph for identity inputs, substitute a lookup/tolerance or silently close the
-original preservation contract. Product behavior is unchanged by this diagnostic.
+The [PNG publication owner](23l2-project-png-publication.md) now separates shared
+graph construction from still and movie targets. This diagnostic itself changes
+no product behavior and proves no historical decoder cause.

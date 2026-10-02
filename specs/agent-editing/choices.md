@@ -6457,3 +6457,9 @@ standalone boundary observer and lossless duplicate storage. Root accepts those
 choices for the fixed-image mechanism question. Preserved samples and method
 restoration constrain the observation; they establish no historical decoder cause,
 worker-binary equivalence or new pixel tolerance.
+
+The [PNG publication ledger](assets/23l2-project-png-publication/choices.md) owns
+transient graph preparation, distinct still/movie targets and reuse of complete
+stage samples. Root accepts these choices: the correction preserves requested
+operations without an identity bypass, extra graph cache or new public operation.
+Focused movie controls retain their stated limits; they imply no full pixel parity.

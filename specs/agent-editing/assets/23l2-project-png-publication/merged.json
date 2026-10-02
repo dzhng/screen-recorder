@@ -1,0 +1,40 @@
+{
+  "integrationCommit": "be1712a47878b1a7dafb0bc52e5a8042b474d538",
+  "sourceBindings": [
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift",
+      "bytes": 3093,
+      "sha256": "e1b540f714a8d8cb686171b9a8e4d41ad205fa9513a42a0026a80dbf3fb6bcb6"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift",
+      "bytes": 34417,
+      "sha256": "fc2d11d36f2fdf64290b8db94b921f2b29e0320d930e0bc88f6bc1fae3aca509"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/CompositionPNGTests.swift",
+      "bytes": 6715,
+      "sha256": "5b550922837c7e80fb18f52672cd662a78bc6813b81c7461c96d715cdf531c3b"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/FixtureMedia.swift",
+      "bytes": 11390,
+      "sha256": "e6a1710907ff404c8d1408dec65c6d863126f14b653d236eb479b95f0a759255"
+    }
+  ],
+  "savedPixelVerification": {
+    "completeBytes": 24585600,
+    "allRGBAEqualOriginalInput": true,
+    "changedPixels": 4907,
+    "changedRGBSamples": 4966,
+    "alphaChanges": 0
+  },
+  "review": "Single transient preparation/graph owner; movie key check still precedes compose; no new public API/cache. Actual source bindings equal tested candidate without merge conflicts. No native/model/cohort rerun.",
+  "visual": "Root and fresh neutral saved-image critique found no verified defect. Initial missing-content claim retracted as tool presentation discrepancy. Captured viewport and deliberate translation explain boundary clipping.",
+  "limits": [
+    "Candidate worker transport not tested",
+    "Full movie pixel comparison not run",
+    "Historical decoder buffers unavailable",
+    "Parent paired-frame and release acceptance remain open"
+  ]
+}

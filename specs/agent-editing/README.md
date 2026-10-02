@@ -22,14 +22,15 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: project PNG publication correction.**
-The [fixed-image stage diagnostic](slices/23l1-image-color-stages.md) is integrated.
-Direct publication of its compiled graph preserves every normalized pixel;
-the video-buffer/publication route changes RGB values. The current public native
-owner reproduces that failure on the same input. Separate shared graph construction
-from PNG and movie output terminals, preserving movie buffer reuse and all source,
-geometry, pointer, budget and publication contracts. Use the smallest affected
-pixel and buffer controls; retain the frozen worker and original failures.
+**Next pickup: one coordinated current cardinality measurement.**
+The [project PNG correction](slices/23l2-project-png-publication.md) is integrated:
+its retained fixed image preserves every RGBA sample through the shared graph.
+Focused geometry and movie buffer/attachment controls pass; full movie pixel parity,
+worker transport and the original paired-frame acceptance remain separate.
+The retained cardinality fixture and current emitted runtime need no rebuild or
+preparation replay. Once all owned lanes are terminal, take one fresh whole-host
+preflight and run the existing measurement once if it qualifies. Keep the original
+250 ms p95 and alternating cohorts; preserve a red result without retrying.
 
 [12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
 all words correspond and the existing marked timing limits pass. Its original
@@ -41,7 +42,7 @@ broader speech quality and adoption remain open. The
 [CLI selection correction](slices/24z13-cli-delivery-selection.md) passes the
 merged consumer gate and retains one selected socket through dispatch/delivery.
 
-Then revisit [24z timing](assets/24z-current-preparation/README.md) only after a
+Run [24z timing](assets/24z-current-preparation/README.md) only after a
 changed coordinated host window and fresh preflight. Its actual
 [busy-host deferral](assets/24z-current-preparation/coordinated-preflight.json)
 started no timing; do not poll the host. Remaining physical/lifecycle,
@@ -280,7 +281,8 @@ implementation readiness from acceptance prerequisites.
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
 - [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; composition pixels remain open
-- [x] [23l1 — Fixed-image composition stage boundary](slices/23l1-image-color-stages.md) — diagnostic only; production correction and historical decoder cause remain open
+- [x] [23l1 — Fixed-image composition stage boundary](slices/23l1-image-color-stages.md) — diagnostic complete; historical decoder cause remains open
+- [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image pixels and focused movie controls verified; full paired-frame acceptance remains open
 - [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality and positive system remain open
 - [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
