@@ -1,0 +1,232 @@
+{
+  "scope": "Isolated model/runtime preparation and read-only source qualification; no model load, native conversion, inference or production change",
+  "base": "beecd92780d6feca07d3e82c378e850adc9019f9",
+  "namespace": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927",
+  "archive": {
+    "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/12i-sentence-alignment-preparation/preparation.tar.gz",
+    "bytes": 18548,
+    "sha256": "99b13dc8cb99b7b0f22e73b4ad3e75fe8402b415ee9cec082bc1469f8560a631"
+  },
+  "members": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/after.json",
+      "bytes": 17785,
+      "sha256": "e56adf72e8a60ea353e2a353c275f0f946468df197be27c52564dce6f5d824d5",
+      "member": "evidence/after.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/before.json",
+      "bytes": 18466,
+      "sha256": "c061e0066ce6a0e43047173c8da09ea1eb2e5ff59e62688fa1637c4948161e4d",
+      "member": "evidence/before.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/commands.json",
+      "bytes": 3066,
+      "sha256": "344d7b6c09f46e13bd5569b165a75af3fb8194bca9989fdf78b5b03f726c7aac",
+      "member": "evidence/commands.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/dependencies.stderr",
+      "bytes": 1983,
+      "sha256": "8229d68f35a99a68454a3239bcfed47f8c97848853ae5f3113a091bde84b7e48",
+      "member": "evidence/dependencies.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/dependencies.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "evidence/dependencies.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/dependency-check.stderr",
+      "bytes": 107,
+      "sha256": "b6db9f7ce95187e0b1001885a0bde82fdab5455c6bf6007a0473740ba424c62a",
+      "member": "evidence/dependency-check.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/dependency-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "evidence/dependency-check.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/environment.stderr",
+      "bytes": 138,
+      "sha256": "b4d1cd1181d24efd8f32fcdc978c7444c1e8211f85b90d6eefc581f9b4fac31d",
+      "member": "evidence/environment.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/environment.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "evidence/environment.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/historical-manifest.json",
+      "bytes": 3337,
+      "sha256": "ce76cd24daa5e0eeb3005b1522a0dbbeefc05e4d23f4a27e6c8d8c81b91de477",
+      "member": "evidence/historical-manifest.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/model-download-actual.stderr",
+      "bytes": 138,
+      "sha256": "485974aecf06b32cc5c83033a3d92c0efa1442ca7d8fdda4e041620ae362ff44",
+      "member": "evidence/model-download-actual.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/model-download-actual.stdout",
+      "bytes": 92,
+      "sha256": "282c3b2e949b1b0163717c97a426779f57c6e33c8ead107992706e47e1f414fe",
+      "member": "evidence/model-download-actual.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/model-download.stderr",
+      "bytes": 400,
+      "sha256": "53052b7e457a43cfe15f8b0ec08ec7afcde01021b7a7898faec42e5450be4be4",
+      "member": "evidence/model-download.stderr"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/model-download.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "member": "evidence/model-download.stdout"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/model-verification.json",
+      "bytes": 1282,
+      "sha256": "c9ec7dc12b05c1cec19aac84448d6baec90bf86547e88267800efd43d8c19a1b",
+      "member": "evidence/model-verification.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/qualification.json",
+      "bytes": 6523,
+      "sha256": "70576c0eb7274e2ae33ec48279deb8d9d6b0820b6f24e4f0d796353b2a3abd78",
+      "member": "evidence/qualification.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/report.json",
+      "bytes": 22833,
+      "sha256": "7a2951f334c33e86ae359764d6740b9ae4f38e378d6e5ee2b883bcdf889acfab",
+      "member": "evidence/report.json"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/verification-final.txt",
+      "bytes": 155,
+      "sha256": "ff2949f49c42059495b618980e76638416ef336e60eb5dc22f5722163fc8a3a9",
+      "member": "evidence/verification-final.txt"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/verification-initial.txt",
+      "bytes": 626,
+      "sha256": "98ce465994bd947781b793d219e92908c5b3bf29b953544a3297ea767a35a9ee",
+      "member": "evidence/verification-initial.txt"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/prepare.py",
+      "bytes": 2450,
+      "sha256": "1d7f48a83f056ef0f3bfaeafc239c8ffdf31117d6b7b5d00865a4a8a5b7e7f2f",
+      "member": "prepare.py"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/prepare-retrieval.py",
+      "bytes": 2937,
+      "sha256": "2c2cf46f0cb432b882983b8d323d3cd6d639c1611f131c28cd217a220dcd0f75",
+      "member": "prepare-retrieval.py"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/verify-preparation.py",
+      "bytes": 1472,
+      "sha256": "86860dd1264feff19bd459ad22c948a99a70ae111db98fd28c4f792a21019435",
+      "member": "verify-preparation.py"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/requirements.txt",
+      "bytes": 923,
+      "sha256": "ebea1ad2575a907fabff22c120a272370316a2992a2d3218d26beb639ee0d0d8",
+      "member": "requirements.txt"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/alignment-float16.py",
+      "bytes": 3425,
+      "sha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3",
+      "member": "alignment-float16.py"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/input/supplied-text.json",
+      "bytes": 678,
+      "sha256": "372f365ea5ec73dd5e3d509a6d3092c141de05b12b37504d10ad35b5e238c789",
+      "member": "input/supplied-text.json"
+    }
+  ],
+  "externalCompleteInventories": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+      "bytes": 1330251,
+      "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/python-copy-verification.json.gz",
+      "bytes": 113005,
+      "sha256": "8d49360b53d00d1f0b6afaf451ceee7fc980889186b0be7d036d357794727d14"
+    }
+  ],
+  "preservation": "Retain namespace including model/runtime/caches and external complete inventories; archive contains reports/commands/text/runner only, not a runtime/model backup",
+  "authority": {
+    "raw": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-12h-2591aa28/evidence/raw.jsonl",
+      "bytes": 5397,
+      "sha256": "37a595ed45fa8c7004b9a06fb58b3ee426818f4b2396a28c1fe567ad74402689"
+    },
+    "frozenNativeSourceManifest": {
+      "path": "/tmp/screenrec-23l-packet/producer/native-frame-authority/complete-frozen-source-pins.json",
+      "bytes": 30293,
+      "sha256": "743cfa48553638ba6732e94a2739c4dd938f85b4275cb336f4998dc2e0319581"
+    },
+    "historicalPrecisionManifest": {
+      "path": "/Users/david/.codex/worktrees/speech-evaluator-policy/screen-recorder/specs/agent-editing/assets/12-alignment-precision/manifest.json",
+      "bytes": 3337,
+      "sha256": "ce76cd24daa5e0eeb3005b1522a0dbbeefc05e4d23f4a27e6c8d8c81b91de477"
+    }
+  },
+  "unexecuted": [
+    "model load",
+    "native conversion",
+    "alignment inference",
+    "recognition inference",
+    "audition"
+  ],
+  "originalMissing": [
+    "historical Python/wheel binary hashes",
+    "historical prepared PCM",
+    "12h internal ASR PCM bytes/hash"
+  ],
+  "executionOwners": {
+    "initialArgumentFailure": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/prepare.py",
+      "bytes": 2450,
+      "sha256": "1d7f48a83f056ef0f3bfaeafc239c8ffdf31117d6b7b5d00865a4a8a5b7e7f2f"
+    },
+    "actualRetrievalAndInstall": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/prepare-retrieval.py",
+      "bytes": 2937,
+      "sha256": "2c2cf46f0cb432b882983b8d323d3cd6d639c1611f131c28cd217a220dcd0f75"
+    },
+    "ownedReportFinalizationAndChecks": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/verify-preparation.py",
+      "bytes": 1472,
+      "sha256": "86860dd1264feff19bd459ad22c948a99a70ae111db98fd28c4f792a21019435"
+    },
+    "inferenceRunnerUnexecuted": {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/alignment-float16.py",
+      "bytes": 3425,
+      "sha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3"
+    }
+  },
+  "verification": {
+    "initialInlineFileSetCheck": "Failed by excluding absolute .cache ancestry; preserved diagnosis/error, no historical source pin claimed",
+    "correctedFileSetCheck": "PASS: exclusion uses only managed-model relative parts",
+    "recordScope": "The saved finalizer verifies values and finalizes owned reports; it is not a maintained production verifier",
+    "initialCliFailure": "Mutually exclusive destination flags rejected before retrieval; original source/output retained"
+  }
+}
