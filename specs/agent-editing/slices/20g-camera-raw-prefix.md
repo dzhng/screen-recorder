@@ -94,8 +94,11 @@ Record reordering queries only between cursors from that same track instance.
 Unknown data stays unknown; zero refresh count supplies no guarantee. Keep the
 computed endpoint's decode-duration qualification explicit.
 
-One warm external compile is bounded to 150 seconds and the metadata entry to
-15 seconds, with 1 MiB stdout/stderr caps. Freeze source, plan, input and runtime
+Warm compile preparation is bounded to 150 seconds total and the single metadata
+entry to 15 seconds, with 1 MiB stdout/stderr caps. Lossless compiler-only API/type
+corrections may use that same preparation budget; preserve each rejected source,
+command and terminal separately. They cannot change the measurement semantics.
+Freeze source, plan, input and runtime
 bindings before dispatch; preserve failures and actual terminals. No writer,
 AVAssetReader, pixel decoding, new device capture, media modification or recovery
 runs. Check complete saved values afterward without replay. If native facts are
