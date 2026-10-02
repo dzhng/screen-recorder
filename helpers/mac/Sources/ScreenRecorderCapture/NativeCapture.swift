@@ -428,7 +428,7 @@ public final class NativeCapture {
             primaryCompletionRecorded = false
             companionFailure = nil
             publication = nil
-            closedCamera?.releaseJournal()
+            await closedCamera?.discard()
             closedCamera = nil
             generations.end(generation)
             sink.releaseJournal()

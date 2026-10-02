@@ -70,6 +70,16 @@ publication can then fail or be canceled without reopening inputs or closing an
 encoder again. NativeCapture keeps both journal leases until publication settles
 or explicit discard ends that authority.
 
+Camera verification can advance on private, immutable snapshots while acquisition
+continues. An IDR is a checkpoint only after native storage, written mapping and
+actual decoded pictures agree through the closing picture. Both ordered picture
+digests retain their original clocks; neither metadata nor encoded bytes replace
+pixel verification. The closing picture belongs to the next window. Ineligible
+snapshots and interrupted sources keep the complete raw-first publication path.
+Closure joins that work, validates the remaining tail and binds the final bytes;
+discard joins it before releasing the journal. This scheduling preserves outputs
+and does not establish a completed-stop latency guarantee.
+
 The returned camera outcome describes an independent source directory and its own
 verified video support; it never becomes another screen/audio track. Publication
 pins complete raw/observation bytes and preserves native picture presentation,

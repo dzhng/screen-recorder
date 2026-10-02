@@ -28,6 +28,8 @@ if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PUBLICATION_OVERLAP"] !
   try await runCameraSourceAdmissionTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_SELECTED_CAMERA_INPUT_OUTPUT"] {
   try await runSelectedCameraInputTests(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_LIVE_PUBLICATION_OUTPUT"] {
+  try await runCameraLivePublicationTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_CAMERA_SOURCE_PUBLICATION_OUTPUT"] {
   try await runCameraSourcePublicationTests(output: output)
 } else if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PIXELS"] != nil {
@@ -84,6 +86,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PUBLICATION_OVERLAP"] !
   try await runCaptureDurationTests()
   try await runNativeCaptureInputTests()
   try await runSelectedCameraInputTests()
+  try await runCameraLivePublicationTests()
   try await runCameraSourcePublicationTests()
   try await runIndependentPublicationTests()
   try await runSharedInterruptionDuringFinishTests()

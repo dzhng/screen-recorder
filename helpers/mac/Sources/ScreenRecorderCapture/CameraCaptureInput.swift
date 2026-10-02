@@ -142,7 +142,7 @@ package final class CameraCaptureInput: CaptureInputSession {
     }
     package func discardMedia() async {
         guard let ingress else { return }
-        ingress.camera.discard()
+        await ingress.camera.discard()
         try? ingress.close()
     }
 }

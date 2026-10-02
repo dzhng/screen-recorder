@@ -268,7 +268,7 @@ private final class SteppedCameraInput: CaptureInputSession {
         try? ingress.close()
         return CaptureInputClosure(camera: await ingress.camera.close(clock: clock, failure: failure, observations: ingress.observationURL))
     }
-    func discardMedia() async { ingress.camera.discard(); try? ingress.close() }
+    func discardMedia() async { await ingress.camera.discard(); try? ingress.close() }
 }
 
 @MainActor

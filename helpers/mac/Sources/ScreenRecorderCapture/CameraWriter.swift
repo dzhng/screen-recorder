@@ -22,6 +22,7 @@ package final class CameraWriter {
     private var recordedPauseCount = 0
     private var journalOpenPauseHostUs: Int64?
     private var origin: Int64?
+    private var verification: CameraMedia.Verification?
 
     package init(directory: URL, framesPerSecond: Int, binding: CameraCaptureBinding? = nil) throws {
         try binding?.validate()
@@ -81,6 +82,7 @@ package final class CameraWriter {
             writer.add(input)
             guard writer.startWriting() else { throw writer.error ?? CaptureFailure("WRITE_FAILED", "Camera writer failed.") }
             writer.startSession(atSourceTime: .zero)
+            verification = CameraMedia.Verification(directory: URL(fileURLWithPath: journal.lease.directory))
         }
         if origin != nil { try synchronizePauses(clock) }
         guard let input, input.isReadyForMoreMediaData else {
@@ -108,6 +110,9 @@ package final class CameraWriter {
         end = CMTimeConvertScale(frame.nominalEnd.time, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
         frames += 1
         return (.init(disposition: "accepted", sourceUs: source), frame)
+    }
+    package func recorded(observations: URL, bytes: Int64, frames: Int) {
+        verification?.request(observations: observations, bytes: bytes, frames: frames)
     }
     private func synchronizePauses(_ clock: CaptureClock) throws {
         guard let origin else { return }
@@ -144,17 +149,19 @@ package final class CameraWriter {
                 throw CaptureFailure("NO_CAMERA", "Selected camera delivered no accepted frames.")
             }
         } catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("WRITE_FAILED", error.localizedDescription) }
+        await verification?.close()
         let sourceClock = origin.map { clock.projected(originUs: $0) } ?? clock
         let closed = ClosedCameraSource(directory: directory, journal: journal, observations: observations,
             clock: sourceClock, width: width, height: height, frames: frames, dropped: dropped,
-            omitted: omitted, sealed: sealed, failure: reason, binding: binding)
+            omitted: omitted, sealed: sealed, failure: reason, binding: binding, verification: verification)
         if frames > 0 {
             do { try closed.pinIdentities() } catch { closed.identityFailure = error }
         }
         return closed
     }
-    package func discard() {
+    package func discard() async {
         writer?.cancelWriting()
+        await verification?.discard()
         journal?.lease.release()
     }
 }

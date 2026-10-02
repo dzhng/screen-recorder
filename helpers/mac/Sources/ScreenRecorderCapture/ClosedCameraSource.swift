@@ -15,6 +15,7 @@ package final class ClosedCameraSource {
     let sealed: Bool
     let failure: CaptureFailure?
     let binding: CameraCaptureBinding?
+    let verification: CameraMedia.Verification?
     var rawIdentity: CaptureMediaIdentity?
     var observationIdentity: CaptureMediaIdentity?
     var identityFailure: (any Error)?
@@ -24,13 +25,15 @@ package final class ClosedCameraSource {
 
     init(directory: URL, journal: CaptureJournal?, observations: URL, clock: CaptureClock,
         width: Int, height: Int, frames: Int, dropped: Int, omitted: Int, sealed: Bool,
-        failure: CaptureFailure?, binding: CameraCaptureBinding? = nil) {
+        failure: CaptureFailure?, binding: CameraCaptureBinding? = nil, verification: CameraMedia.Verification? = nil) {
         self.directory = directory; self.journal = journal; self.observations = observations
         self.clock = clock; self.width = width; self.height = height; self.frames = frames
         self.dropped = dropped; self.omitted = omitted; self.sealed = sealed; self.failure = failure
         self.binding = binding
+        self.verification = verification
     }
     package func releaseJournal() { journal?.lease.release() }
+    package func discard() async { await verification?.discard(); releaseJournal() }
 
     func result(receipt: CameraMedia.Receipt?, reason: CaptureFailure?) -> CaptureResult {
         CaptureResult(state: reason == nil ? "complete" : "interrupted",
@@ -58,6 +61,7 @@ extension CameraMedia {
     @MainActor
     package static func publish(_ closed: ClosedCameraSource) async throws -> CapturedCameraSource {
         try Task.checkCancellation()
+        if !closed.sealed { await closed.verification?.discard() }
         var reason = closed.failure ?? closed.terminalFailure ?? closed.journalFailure
         var receipt: Receipt?
         if let journal = closed.journal, closed.frames > 0, closed.terminalFailure == nil {
@@ -73,7 +77,8 @@ extension CameraMedia {
                 if closed.sealed && !FileManager.default.fileExists(atPath: marker.path) {
                     try recordClosed(raw: raw, marker: marker)
                 }
-                receipt = try await publish(lease: journal.lease, observationURL: closed.observations)
+                receipt = try await publish(lease: journal.lease, observationURL: closed.observations,
+                    verification: closed.sealed ? closed.verification : nil)
                 if let receipt, !receipt.diagnostics.isEmpty {
                     reason = reason ?? CaptureFailure("PARTIAL_CAMERA", receipt.diagnostics.joined(separator: ", "))
                 }
@@ -105,6 +110,7 @@ extension CameraMedia {
         if closed.journalFailure != nil {
             try JSONEncoder().encode(result).write(to: resultURL, options: .atomic)
         }
+        await closed.verification?.discardUnfinished()
         return CapturedCameraSource(directory: closed.directory.path, result: result)
     }
 }

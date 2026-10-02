@@ -3,6 +3,7 @@ import CryptoKit
 import Darwin
 import Foundation
 import ScreenRecorderMedia
+import Synchronization
 
 package struct CameraFrameMapping: Codable {
     let ordinal: Int
@@ -57,15 +58,23 @@ package enum CameraMedia {
         try save(CaptureMediaIdentity.read(raw), to: marker)
     }
     package final class Mapping {
+        package struct Position: Sendable {
+            let bytes: Int64
+            let lines: Int
+            let frames: Int
+            let sha256: String
+        }
         private let input: FileHandle
         private var pending = Data()
         private var eof = false
         private var lines = 0
         private let openedBytes: Int64
         private var readBytes: Int64 = 0
+        private var consumedBytes: Int64 = 0
+        private var prefixHash = SHA256()
         private(set) var frames = 0
         private(set) var torn = false
-        package init(_ url: URL) throws {
+        package init(_ url: URL, resuming position: Position? = nil) throws {
             let descriptor = Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK)
             guard descriptor >= 0 else {
                 throw CaptureFailure([ENOENT, ENOTDIR, ELOOP].contains(errno) ? "INVALID_CAMERA_MAPPING" : "MEDIA_UNAVAILABLE", "Cannot open camera mapping.")
@@ -78,7 +87,18 @@ package enum CameraMedia {
             }
             input = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
             openedBytes = info.st_size
+            if let position {
+                guard position.bytes <= openedBytes else { throw invalid("Camera mapping prefix disappeared.") }
+                while readBytes < position.bytes {
+                    let data = try input.read(upToCount: Int(min(65536, position.bytes - readBytes))) ?? Data()
+                    guard !data.isEmpty else { throw invalid("Camera mapping prefix ended early.") }
+                    prefixHash.update(data: data); readBytes += Int64(data.count)
+                }
+                guard hex(prefixHash.finalize()) == position.sha256 else { throw invalid("Camera mapping prefix changed.") }
+                consumedBytes = position.bytes; lines = position.lines; frames = position.frames
+            }
         }
+        var position: Position { Position(bytes: consumedBytes, lines: lines, frames: frames, sha256: hex(prefixHash.finalize())) }
         deinit { try? input.close() }
         package func next() throws -> CameraFrameMapping? {
             while true {
@@ -90,6 +110,8 @@ package enum CameraMedia {
                     let row: Row
                     do { row = try JSONDecoder().decode(Row.self, from: data) }
                     catch { throw invalid("Malformed camera observation row.") }
+                    prefixHash.update(data: data); prefixHash.update(data: Data([10]))
+                    consumedBytes += Int64(data.count + 1)
                     if row.role == .camera && row.disposition == "accepted" {
                         guard let frame = row.cameraFrame, frame.ordinal == frames else {
                             throw invalid("Accepted camera mapping is missing or out of ordinal order.")
@@ -113,7 +135,7 @@ package enum CameraMedia {
             }
         }
     }
-    private struct Source: Sendable {
+    fileprivate struct Source: Sendable {
         let input: MediaInput
         let track: AVAssetTrack
         let segments: [SourceSegment]
@@ -140,12 +162,13 @@ package enum CameraMedia {
         let output: AVAssetReaderTrackOutput
         private(set) var lastEnd = CMTime.invalid
         convenience init(url: URL) async throws { try self.init(source: await Source(url: url)) }
-        init(source: Source) throws {
+        init(source: Source, range: CMTimeRange? = nil) throws {
             self.source = source
             reader = try AVAssetReader(asset: source.asset)
             output = AVAssetReaderTrackOutput(track: source.track,
                 outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
             reader.add(output)
+            if let range { reader.timeRange = range }
             guard reader.startReading() else { throw reader.error ?? invalid("Cannot decode camera payload.") }
         }
         func next() throws -> CMSampleBuffer? {
@@ -209,12 +232,16 @@ package enum CameraMedia {
         defer { try? input.close() }
         let file = try NewFile(at: target.path, assembledAs: "mapping.jsonl")
         defer { file.discard() }
+        let staged = Darwin.open(file.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        guard staged >= 0 else { throw CaptureFailure("MEDIA_UNAVAILABLE", "Cannot create retained camera mapping.") }
+        let output = FileHandle(fileDescriptor: staged, closeOnDealloc: true)
+        defer { try? output.close() }
         var bytes: Int64 = 0
         while let data = try input.read(upToCount: 65536), !data.isEmpty {
             try Task.checkCancellation()
             bytes += Int64(data.count)
             guard bytes <= expected.bytes else { throw invalid("Closed camera mapping changed length.") }
-            try file.write(data)
+            try output.write(contentsOf: data)
         }
         guard try CaptureMediaIdentity.read(file.url, maximumBytes: 268_435_456) == expected,
             try CaptureMediaIdentity.read(observations, maximumBytes: 268_435_456) == expected else { throw invalid("Closed camera mapping changed during retention.") }
@@ -249,7 +276,7 @@ package enum CameraMedia {
         try lease.check()
     }
 
-    private struct CanonicalScan: Sendable {
+    fileprivate struct CanonicalScan: Sendable {
         let support: ExactRange
         let pictureHash: String
         let remainingMapping: Result<Void, any Error>
@@ -378,7 +405,7 @@ package enum CameraMedia {
             support: support, representedFrames: receipt.representedFrames), receipt.diagnostics)
     }
 
-    private struct IntendedSupport: Sendable {
+    fileprivate struct IntendedSupport: Sendable {
         let source: Source
         let support: CMTimeRange
         let represented: Int
@@ -421,7 +448,7 @@ package enum CameraMedia {
         do { return .success(try await work()) }
         catch { return .failure(error) }
     }
-    private struct RawScan: Sendable {
+    fileprivate struct RawScan: Sendable {
         let source: Source
         let support: CMTimeRange
         let represented: Int
@@ -454,6 +481,463 @@ package enum CameraMedia {
             represented += 1
             // Native holds each picture until the next; only the physical tail bounds the endpoint.
             support = CMTimeRange(start: support?.start ?? range.start, end: CMTimeMinimum(range.end, nativeEnd))
+        }
+    }
+    /// One coalesced worker owns private media and both ordered scans until closure or discard.
+    package final class Verification: @unchecked Sendable {
+        private struct Request: Sendable { let observations: URL; let bytes: Int64; let frames: Int }
+        private struct Control: Sendable {
+            var pending: Request?
+            var task: Task<Void, Never>?
+            var closed = false
+            var lastWritten: Request?
+        }
+        private let control = Mutex(Control())
+        private let directory: URL
+        private var rawState = RawScanState(sealed: true)
+        private var canonicalState = CanonicalScanState()
+        private var rawPosition: Mapping.Position?
+        private var canonicalPosition: Mapping.Position?
+        private var rawFence: CMTime?
+        private var canonicalFence: CMTime?
+        private var format: CMFormatDescription?
+        private var transform: CGAffineTransform?
+        private var scale: Int32?
+        private var origin: (CMTime, CMTime, CMTime)?
+        private var encodedCount = 0
+        private var encodedHash: String?
+        private var canonicalEncodedHash: String?
+        private var canonicalOrigin: (CMTime, CMTime, CMTime)?
+        private var writer: AVAssetWriter?
+        private var input: AVAssetWriterInput?
+        private var file: NewFile?
+        private var failure: (any Error)?
+        private var completed: (RawScan, CanonicalScan, CaptureMediaIdentity)?
+        private var previousVersion: (off_t, timespec, Int?)?
+        private var rawInode: (dev_t, ino_t)?
+        private var canonicalVersion: (off_t, timespec)?
+        private var watches: [DispatchSourceFileSystemObject] = []
+        private let watchJoin = DispatchGroup()
+
+        package init(directory: URL) {
+            self.directory = directory
+            watch(self.directory.appendingPathComponent("camera.raw.mov"))
+        }
+        private func watch(_ url: URL) {
+            let fd = Darwin.open(url.path, O_EVTONLY | O_NOFOLLOW_ANY | O_CLOEXEC)
+            guard fd >= 0 else { return }
+            let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: fd, eventMask: [.write, .extend], queue: .global(qos: .utility))
+            source.setEventHandler { [self] in
+                guard let request = control.withLock({ $0.lastWritten }) else { return }
+                self.request(observations: request.observations, bytes: request.bytes, frames: request.frames)
+            }
+            watchJoin.enter()
+            source.setCancelHandler { [watchJoin] in Darwin.close(fd); watchJoin.leave() }
+            watches.append(source); source.resume()
+        }
+        private func joinNotifications() async {
+            let owned = watches; watches.removeAll()
+            for source in owned { source.cancel() }
+            await withCheckedContinuation { continuation in
+                watchJoin.notify(queue: .global()) { continuation.resume() }
+            }
+        }
+        package func request(observations: URL, bytes: Int64, frames: Int) {
+            control.withLock { state in
+                guard !state.closed else { return }
+                let request = Request(observations: observations, bytes: bytes, frames: frames)
+                state.lastWritten = request; state.pending = request
+                if state.task == nil { state.task = Task { await self.run() } }
+            }
+        }
+        private func run() async {
+            while let request = control.withLock({ state -> Request? in
+                let next = state.pending; state.pending = nil
+                if next == nil { state.task = nil }
+                return next
+            }) {
+                do { try await advance(request) }
+                catch {
+                    failure = error
+                    control.withLock { state in state.closed = true; state.pending = nil; state.task = nil }
+                    return
+                }
+            }
+        }
+        package func close() async {
+            let task = control.withLock { state in state.closed = true; return state.task }
+            await task?.value
+            await joinNotifications()
+        }
+        package func discard() async {
+            let task = control.withLock { state in
+                state.closed = true; state.pending = nil; state.task?.cancel(); return state.task
+            }
+            await task?.value
+            await joinNotifications()
+            if writer?.status == .writing { writer?.cancelWriting() }
+            file?.discard(); file = nil
+        }
+        package func discardUnfinished() async {
+            await close()
+            if completed == nil { await discard() }
+        }
+        private func copy(_ source: URL, to destination: URL) throws {
+            let fd = Darwin.open(source.path, O_RDONLY | O_NOFOLLOW_ANY | O_CLOEXEC | O_NONBLOCK)
+            guard fd >= 0 else { throw invalid("Cannot snapshot camera media.") }
+            defer { Darwin.close(fd) }
+            var info = stat()
+            guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
+                info.st_uid == getuid() else { throw invalid("Camera snapshot requires an owned regular file.") }
+            if source.lastPathComponent == "camera.raw.mov" {
+                let identity = (info.st_dev, info.st_ino)
+                guard rawInode.map({ $0 == identity }) ?? true else { throw invalid("Active raw camera changed inode.") }
+                rawInode = identity
+            }
+            let parent = Darwin.open(destination.deletingLastPathComponent().path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
+            guard parent >= 0 else { throw invalid("Cannot open camera snapshot directory.") }
+            defer { Darwin.close(parent) }
+            guard fclonefileat(fd, parent, destination.lastPathComponent, 0) == 0 else {
+                throw invalid("Camera filesystem cannot isolate a private media snapshot.")
+            }
+        }
+        private func copyMapping(_ request: Request, to url: URL) throws {
+            guard let parent = realpath(request.observations.deletingLastPathComponent().path, nil) else {
+                throw invalid("Cannot resolve camera observation directory.")
+            }
+            let sourceURL = URL(fileURLWithPath: String(cString: parent))
+                .appendingPathComponent(request.observations.lastPathComponent)
+            free(parent)
+            let fd = Darwin.open(sourceURL.path, O_RDONLY | O_NOFOLLOW_ANY | O_CLOEXEC | O_NONBLOCK)
+            guard fd >= 0 else { throw invalid("Cannot snapshot camera observations.") }
+            let source = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
+            defer { try? source.close() }
+            var info = stat()
+            guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
+                request.bytes > 0, request.bytes <= info.st_size, request.bytes <= 268_435_456 else {
+                throw invalid("Camera observation snapshot exceeds its written prefix.")
+            }
+            guard FileManager.default.createFile(atPath: url.path, contents: nil) else { throw invalid("Cannot create camera observation snapshot.") }
+            let destination = try FileHandle(forWritingTo: url); defer { try? destination.close() }
+            var remaining = request.bytes
+            while remaining > 0 {
+                try Task.checkCancellation()
+                let data = try source.read(upToCount: Int(min(65536, remaining))) ?? Data()
+                guard !data.isEmpty else { throw invalid("Camera observation snapshot ended early.") }
+                try destination.write(contentsOf: data); remaining -= Int64(data.count)
+            }
+        }
+        private struct Inventory {
+            let source: Source
+            let count: Int
+            let fence: Int?
+            let fenceTime: CMTime?
+            let format: CMFormatDescription
+            let transform: CGAffineTransform
+            let projection: CMTime
+            let waitingForMapping: Bool
+        }
+        private func inventory(_ url: URL, mappingURL: URL, maximum: Int, canonical: Bool = false,
+            complete: Bool = false) async throws -> Inventory {
+            var fileInfo = stat()
+            guard lstat(url.path, &fileInfo) == 0, fileInfo.st_mode & S_IFMT == S_IFREG else { throw invalid("Camera snapshot is unavailable.") }
+            let source = try await Source(url: url)
+            guard source.segments.count == 1, let segment = source.segments.first else {
+                throw invalid("Active camera has no single occupied native segment.")
+            }
+            let descriptions = try await source.track.load(.formatDescriptions)
+            let currentTransform = try await source.track.load(.preferredTransform)
+            guard descriptions.count == 1, let description = descriptions.first,
+                format.map({ CMFormatDescriptionEqual($0, otherFormatDescription: description) }) ?? true,
+                transform.map({ $0 == currentTransform }) ?? true,
+                scale.map({ $0 == source.scale }) ?? true else { throw invalid("Active camera format or clock changed.") }
+            let projection = segment.assetDuration(ofMedia: CMTime(value: 1, timescale: source.scale))
+            if let origin = canonical ? canonicalOrigin : origin {
+                guard origin.0 == segment.media.start, origin.1 == segment.asset.start, origin.2 == projection else {
+                    throw invalid("Active camera media mapping changed.")
+                }
+            }
+            let mapping = try Mapping(mappingURL)
+            var count = 0, fence: Int?, fenceTime: CMTime?, previous: CMTime?
+            var largestPriorDTS: CMTime?, fenceDTS: CMTime?
+            var mappedPrefix = true
+            var waitingForMapping = false
+            try visitPresentedSamples(track: source.track, segments: source.segments) { native in
+                guard let cursor = source.track.makeSampleCursor(presentationTimeStamp: segment.mediaTime(ofAsset: native.start)),
+                    cursor.presentationTimeStamp == segment.mediaTime(ofAsset: native.start) else {
+                    throw invalid("Active native camera sample differs from its mapped ordinal.")
+                }
+                let storage = cursor.currentSampleStorageRange
+                if mappedPrefix {
+                    let frame = count < maximum ? try mapping.next() : nil
+                    if let frame {
+                        let range = try frame.acquisitionRange(scale: source.scale)
+                        mappedPrefix = range.start == native.start && (previous.map { $0 < frame.start.time } ?? true)
+                            && storage.offset >= 0 && storage.length > 0 && storage.offset <= fileInfo.st_size - storage.length
+                        previous = frame.start.time
+                    } else { mappedPrefix = false; waitingForMapping = true }
+                }
+                if complete && !mappedPrefix { throw invalid("Closed native camera inventory differs from its complete mapping.") }
+                let dts = cursor.decodeTimeStamp
+                guard dts.isNumeric else { throw invalid("Camera sample has no finite decode clock.") }
+                // Cursor reordering queries may be unknown; actual DTS/PTS partition owns the fence.
+                if let boundary = fenceDTS, dts <= boundary { fence = nil; fenceTime = nil; fenceDTS = nil }
+                if mappedPrefix, count > 0, cursor.currentSampleSyncInfo.sampleIsFullSync.boolValue,
+                    largestPriorDTS.map({ $0 < dts }) ?? true {
+                    fence = count; fenceTime = native.start; fenceDTS = dts
+                }
+                largestPriorDTS = largestPriorDTS.map { CMTimeMaximum($0, dts) } ?? dts
+                count += 1
+            }
+            return Inventory(source: source, count: count, fence: fence, fenceTime: fenceTime, format: description,
+                transform: currentTransform, projection: projection, waitingForMapping: waitingForMapping)
+        }
+        private func compressedPrefix(_ source: Source, through count: Int, verifyCount: Int, expectedHash: String?,
+            appendFrom: Int? = nil) async throws -> String {
+            let generator = AVSampleBufferGenerator(asset: source.asset, timebase: nil)
+            guard let cursor = source.track.makeSampleCursorAtFirstSampleInDecodeOrder() else { throw invalid("Camera has no compressed sample cursor.") }
+            var hash = SHA256(), previousDTS: CMTime?
+            let deadline = ContinuousClock.now.advanced(by: .seconds(30))
+            for ordinal in 0..<count {
+                try Task.checkCancellation()
+                guard previousDTS.map({ $0 < cursor.decodeTimeStamp }) ?? true,
+                    cursor.decodeTimeStamp.isNumeric else { throw invalid("Camera compressed decode order changed.") }
+                previousDTS = cursor.decodeTimeStamp
+                let request = AVSampleBufferRequest(start: cursor); request.direction = .none; request.mode = .immediate
+                let sample = try generator.makeSampleBuffer(for: request)
+                guard sample.isValid, CMSampleBufferDataIsReady(sample), sample.numSamples == 1,
+                    let block = sample.dataBuffer, let description = sample.formatDescription,
+                    CMFormatDescriptionEqual(description, otherFormatDescription: format!),
+                    sample.presentationTimeStamp == cursor.presentationTimeStamp,
+                    sample.decodeTimeStamp == cursor.decodeTimeStamp,
+                    sample.duration == cursor.currentSampleDuration else { throw invalid("Camera compressed sample lost its native identity.") }
+                for time in [sample.presentationTimeStamp, sample.decodeTimeStamp, sample.duration,
+                    CMSampleBufferGetOutputPresentationTimeStamp(sample), CMSampleBufferGetOutputDecodeTimeStamp(sample), CMSampleBufferGetOutputDuration(sample)] {
+                    for number in [time.value, Int64(time.timescale), Int64(time.flags.rawValue), time.epoch] {
+                        var little = number.littleEndian
+                        withUnsafeBytes(of: &little) { hash.update(bufferPointer: $0) }
+                    }
+                }
+                let length = CMBlockBufferGetDataLength(block)
+                var encodedLength = Int64(length).littleEndian
+                withUnsafeBytes(of: &encodedLength) { hash.update(bufferPointer: $0) }
+                var offset = 0
+                while offset < length {
+                    let n = min(65536, length - offset)
+                    var bytes = Data(count: n)
+                    let status = bytes.withUnsafeMutableBytes { CMBlockBufferCopyDataBytes(block, atOffset: offset, dataLength: n, destination: $0.baseAddress!) }
+                    guard status == noErr else { throw invalid("Camera compressed bytes cannot be read.") }
+                    hash.update(data: bytes); offset += n
+                }
+                if ordinal + 1 == verifyCount {
+                    guard hex(hash.finalize()) == expectedHash else {
+                        throw invalid("Committed \(source.input.url.lastPathComponent) compressed prefix of \(verifyCount) pictures changed.")
+                    }
+                }
+                if let appendFrom, ordinal >= appendFrom {
+                    if writer == nil {
+                        let file = try NewFile(at: directory.appendingPathComponent("video.mov").path, assembledAs: "camera.mov")
+                        self.file = file
+                        let writer = try AVAssetWriter(outputURL: file.url, fileType: .mov)
+                        writer.movieTimeScale = source.scale
+                        writer.initialMovieFragmentInterval = CMTime(value: 1, timescale: 4)
+                        writer.movieFragmentInterval = CMTime(value: 1, timescale: 1)
+                        let input = AVAssetWriterInput(mediaType: .video, outputSettings: nil, sourceFormatHint: format)
+                        input.mediaTimeScale = source.scale; input.transform = transform!
+                        guard writer.canAdd(input) else { throw invalid("Cannot admit private canonical camera input.") }
+                        writer.add(input); guard writer.startWriting() else { throw writer.error ?? invalid("Cannot start private canonical camera.") }
+                        writer.startSession(atSourceTime: .zero); self.writer = writer; self.input = input
+                        watch(file.url)
+                    }
+                    while !input!.isReadyForMoreMediaData {
+                        try Task.checkCancellation()
+                        guard writer!.status == .writing, ContinuousClock.now < deadline else { throw writer!.error ?? invalid("Private camera writer made no progress.") }
+                        try await Task.sleep(for: .milliseconds(1))
+                    }
+                    guard let segment = source.segments.first(where: { $0.media.containsTime(sample.presentationTimeStamp) }),
+                        segment.assetDuration(ofMedia: CMTime(value: 1, timescale: source.scale)) == CMTime(value: 1, timescale: source.scale) else {
+                        throw invalid("Camera transfer requires its unscaled media-to-asset mapping.")
+                    }
+                    let assetPTS = segment.assetTime(ofMedia: sample.presentationTimeStamp)
+                    let forwarded = assetPTS == sample.presentationTimeStamp ? sample
+                        : try CaptureClockIngress.retime(sample, to: assetPTS)
+                    guard CMSampleBufferGetOutputPresentationTimeStamp(forwarded) == assetPTS,
+                        CMSampleBufferGetOutputDecodeTimeStamp(forwarded) == segment.assetTime(ofMedia: sample.decodeTimeStamp) else {
+                        throw invalid("Camera transfer cannot preserve its absolute asset clocks.")
+                    }
+                    guard input!.append(forwarded) else { throw writer!.error ?? invalid("Private camera passthrough append failed.") }
+                }
+                if ordinal + 1 < count, cursor.stepInDecodeOrder(byCount: 1) != 1 { throw invalid("Camera compressed inventory ended early.") }
+            }
+            guard count >= verifyCount else { throw invalid("Camera compressed prefix shrank.") }
+            return hex(hash.finalize())
+        }
+        private func transfer(_ source: Source, through count: Int) async throws {
+            encodedHash = try await compressedPrefix(source, through: count, verifyCount: encodedCount,
+                expectedHash: encodedHash, appendFrom: encodedCount)
+            encodedCount = count
+        }
+        private func scanRawPrefix(_ inventory: Inventory, mappingURL: URL) throws {
+            guard let fence = inventory.fence, let end = inventory.fenceTime, fence > rawState.represented else { return }
+            let source = inventory.source
+            let pictures = try Pictures(source: source, range: CMTimeRange(start: rawFence ?? source.segments[0].asset.start,
+                end: source.segments[0].asset.end))
+            let mapping = try Mapping(mappingURL, resuming: rawPosition)
+            var trial = rawState
+            while trial.represented < fence {
+                guard let frame = try mapping.next(), let sample = try pictures.next() else { throw invalid("Active camera physical prefix ended early.") }
+                let range = try trial.mapping(frame, scale: source.scale)
+                guard pictures.lastEnd <= end else { throw invalid("Camera picture crosses the proposed IDR fence.") }
+                try trial.append(sample, range: range, nativeEnd: pictures.lastEnd, scale: source.scale)
+            }
+            let position = mapping.position
+            // Decode the closing IDR itself; range EOF/flush is not evidence of decoder drainage.
+            guard let closing = try pictures.next(), closing.presentationTimeStamp == end else {
+                throw invalid("Camera closing IDR was not physically decoded.")
+            }
+            rawState = trial; rawPosition = position; rawFence = end
+        }
+        private func scanCanonicalPrefix(_ inventory: Inventory, mappingURL: URL) async throws {
+            guard let fence = inventory.fence, let end = inventory.fenceTime, fence > canonicalState.represented else { return }
+            let source = inventory.source
+            let encoded = try await compressedPrefix(source, through: fence,
+                verifyCount: canonicalState.represented, expectedHash: canonicalEncodedHash)
+            let pictures = try Pictures(source: source, range: CMTimeRange(start: canonicalFence ?? source.segments[0].asset.start,
+                end: source.segments[0].asset.end))
+            let mapping = try Mapping(mappingURL, resuming: canonicalPosition)
+            var trial = canonicalState
+            while trial.represented < fence {
+                guard let frame = try mapping.next() else { throw invalid("Active canonical mapping ended early.") }
+                try trial.append(frame, scale: source.scale, support: source.segments[0].asset, nextPicture: pictures.next)
+                guard pictures.lastEnd <= end else { throw invalid("Canonical picture crosses the proposed IDR fence.") }
+            }
+            let position = mapping.position
+            guard let closing = try pictures.next(), closing.presentationTimeStamp == end else {
+                throw invalid("Canonical closing IDR was not physically decoded.")
+            }
+            canonicalEncodedHash = encoded
+            canonicalState = trial; canonicalPosition = position; canonicalFence = end
+            canonicalOrigin = (source.segments[0].media.start, source.segments[0].asset.start, inventory.projection)
+        }
+        private func advance(_ request: Request) async throws {
+            let scratch = directory.appendingPathComponent(".camera-snapshot-\(UUID().uuidString)")
+            try FileManager.default.createDirectory(at: scratch, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+            defer { try? FileManager.default.removeItem(at: scratch) }
+            let mapping = scratch.appendingPathComponent("mapping.jsonl")
+            try copyMapping(request, to: mapping)
+            let raw = directory.appendingPathComponent("camera.raw.mov")
+            var version = stat()
+            if lstat(raw.path, &version) == 0 {
+                let changed = previousVersion.map {
+                    $0.0 != version.st_size || $0.1.tv_sec != version.st_mtimespec.tv_sec
+                        || $0.1.tv_nsec != version.st_mtimespec.tv_nsec || ($0.2.map { request.frames > $0 } ?? false)
+                } ?? true
+                if changed {
+                    let rawCopy = scratch.appendingPathComponent("camera.raw.mov")
+                    try copy(raw, to: rawCopy)
+                    let rawInventory: Inventory?
+                    do { rawInventory = try await inventory(rawCopy, mappingURL: mapping, maximum: request.frames) }
+                    catch is CancellationError { throw CancellationError() }
+                    catch { rawInventory = nil }
+                    if let rawInventory {
+                        previousVersion = (version.st_size, version.st_mtimespec, rawInventory.waitingForMapping ? request.frames : nil)
+                        if rawInventory.fence.map({ $0 > rawState.represented }) ?? false {
+                            try scanRawPrefix(rawInventory, mappingURL: mapping)
+                            format = rawInventory.format; transform = rawInventory.transform; scale = rawInventory.source.scale
+                            let segment = rawInventory.source.segments[0]
+                            origin = (segment.media.start, segment.asset.start, rawInventory.projection)
+                            try await transfer(rawInventory.source, through: rawInventory.fence!)
+                        }
+                    }
+                }
+            }
+            guard let file, canonicalState.represented < rawState.represented else { return }
+            var candidateVersion = stat()
+            guard lstat(file.url.path, &candidateVersion) == 0 else { return }
+            if let canonicalVersion, canonicalVersion.0 == candidateVersion.st_size,
+                canonicalVersion.1.tv_sec == candidateVersion.st_mtimespec.tv_sec,
+                canonicalVersion.1.tv_nsec == candidateVersion.st_mtimespec.tv_nsec { return }
+            let canonicalCopy = scratch.appendingPathComponent("camera.mov")
+            try copy(file.url, to: canonicalCopy)
+            let canonicalInventory: Inventory?
+            do { canonicalInventory = try await inventory(canonicalCopy, mappingURL: mapping, maximum: encodedCount, canonical: true) }
+            catch is CancellationError { throw CancellationError() }
+            catch { canonicalInventory = nil }
+            if let canonicalInventory {
+                canonicalVersion = (candidateVersion.st_size, candidateVersion.st_mtimespec)
+                try await scanCanonicalPrefix(canonicalInventory, mappingURL: mapping)
+            }
+        }
+        private func finishRaw(_ source: Source, mappingURL: URL, represented: Int) throws -> RawScan {
+            let pictures = try Pictures(source: source, range: CMTimeRange(start: rawFence ?? source.segments[0].asset.start, end: source.segments[0].asset.end))
+            let mapping = try Mapping(mappingURL, resuming: rawPosition)
+            var trial = rawState
+            while trial.represented < represented {
+                guard let frame = try mapping.next(), let sample = try pictures.next() else { throw invalid("Closed camera no longer contains its mapped prefix.") }
+                let range = try trial.mapping(frame, scale: source.scale)
+                try trial.append(sample, range: range, nativeEnd: pictures.lastEnd, scale: source.scale)
+            }
+            guard try pictures.next() == nil, let support = trial.support, try mapping.next() == nil, !mapping.torn else {
+                throw invalid("Closed camera differs from its complete mapped inventory.")
+            }
+            return RawScan(source: source, support: support, represented: trial.represented,
+                pictureHash: trial.pictureHash, diagnostics: [])
+        }
+        private func finishCanonical(_ source: Source, mappingURL: URL, represented: Int, expected: ExactRange) throws -> CanonicalScan {
+            let ranges = merged(source.segments.map(\.asset))
+            guard ranges.count == 1, let support = ranges.first,
+                try ExactRange(startUs: ExactTime(support.start), endUs: ExactTime(support.end)) == expected else {
+                throw invalid("Canonical camera support differs from publication.")
+            }
+            let pictures = try Pictures(source: source, range: CMTimeRange(start: canonicalFence ?? support.start, end: support.end))
+            let mapping = try Mapping(mappingURL, resuming: canonicalPosition)
+            var trial = canonicalState
+            while trial.represented < represented {
+                guard let frame = try mapping.next() else { throw invalid("Camera mapping ended before represented pictures.") }
+                try trial.append(frame, scale: source.scale, support: support, nextPicture: pictures.next)
+            }
+            let hash = try trial.finish(support: support, nextPicture: pictures.next)
+            let remaining: Result<Void, any Error>
+            do {
+                while let frame = try mapping.next() { try trial.validateRemaining(frame, scale: source.scale) }
+                remaining = .success(())
+            } catch { remaining = .failure(error) }
+            return CanonicalScan(support: expected, pictureHash: hash, remainingMapping: remaining)
+        }
+        fileprivate func finish(rawURL: URL, mappingURL: URL, intended: IntendedSupport) async throws -> (RawScan, NewFile, CanonicalScan)? {
+            await close()
+            guard file != nil, rawState.represented > 0, failure == nil else {
+                await discard()
+                return nil
+            }
+            if let completed, let file {
+                guard try CaptureMediaIdentity.read(file.url) == completed.2 else {
+                    throw invalid("Completed private canonical camera changed before publication retry.")
+                }
+                return (completed.0, file, completed.1)
+            }
+            let rawInventory = try await inventory(rawURL, mappingURL: mappingURL, maximum: intended.represented, complete: true)
+            guard rawInventory.count == intended.represented else { throw invalid("Closed camera inventory changed count.") }
+            try await transfer(rawInventory.source, through: rawInventory.count)
+            if writer!.status == .writing {
+                writer!.endSession(atSourceTime: intended.support.end); input!.markAsFinished(); await writer!.finishWriting()
+            }
+            guard writer!.status == .completed else { throw writer!.error ?? invalid("Private canonical camera closure failed.") }
+            let candidateInventory = try await inventory(file!.url, mappingURL: mappingURL, maximum: intended.represented, canonical: true, complete: true)
+            let candidate = candidateInventory.source
+            if let canonicalEncodedHash {
+                _ = try await compressedPrefix(candidate, through: canonicalState.represented,
+                    verifyCount: canonicalState.represented, expectedHash: canonicalEncodedHash)
+            }
+            async let raw = outcome { try self.finishRaw(rawInventory.source, mappingURL: mappingURL, represented: intended.represented) }
+            async let canonical = outcome { try self.finishCanonical(candidate, mappingURL: mappingURL, represented: intended.represented,
+                expected: ExactRange(startUs: try ExactTime(intended.support.start), endUs: try ExactTime(intended.support.end))) }
+            let rawResult = await raw, canonicalResult = await canonical
+            let result = try acceptScans(raw: rawResult, canonical: canonicalResult, complete: { _ in true },
+                verify: { try $1.verified(against: $0.pictureHash) })
+            try Task.checkCancellation()
+            completed = (result.raw, try canonicalResult.get(), try CaptureMediaIdentity.read(file!.url))
+            return (result.raw, file!, completed!.1)
         }
     }
     private static func scanRaw(_ rawURL: URL, mappingURL: URL, sealed: Bool) async throws -> RawScan {
@@ -513,7 +997,8 @@ package enum CameraMedia {
         try Task.checkCancellation()
         return file
     }
-    package static func publish(lease: CaptureJournalLease, observationURL: URL) async throws -> Receipt {
+    package static func publish(lease: CaptureJournalLease, observationURL: URL,
+        verification: Verification? = nil) async throws -> Receipt {
         try Task.checkCancellation(); try lease.check()
         let root = URL(fileURLWithPath: lease.directory)
         let rawURL = root.appendingPathComponent("camera.raw.mov")
@@ -573,7 +1058,16 @@ package enum CameraMedia {
         let intended = closed == nil ? nil : try await intendedSupport(rawURL: rawURL, mappingURL: mappingURL)
         let raw: RawScan
         var verifiedCandidate: (file: NewFile, support: ExactRange)?
+        let continued: (RawScan, NewFile, CanonicalScan)?
         if let intended {
+            do { continued = try await verification?.finish(rawURL: rawURL, mappingURL: mappingURL, intended: intended) }
+            catch is CancellationError { throw CancellationError() }
+            catch { await verification?.discard(); continued = nil }
+        } else { await verification?.discard(); continued = nil }
+        if let completed = continued {
+            raw = completed.0
+            verifiedCandidate = (completed.1, try completed.2.verified(against: raw.pictureHash))
+        } else if let intended {
             let exported = await outcome {
                 try await exportCandidate(rawURL: rawURL, canonicalURL: canonicalURL,
                     source: intended.source, support: intended.support)

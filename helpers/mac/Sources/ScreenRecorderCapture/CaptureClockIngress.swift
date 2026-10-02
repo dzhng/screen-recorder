@@ -23,6 +23,7 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
     private var stopped = false
     private let maximumRows: Int
     private var rows = 0
+    private var writtenBytes: Int64 = 0
     private let generation = UUID().uuidString
 
     package init(writer: CaptureWriter, camera: CameraWriter, observations: URL,
@@ -86,6 +87,7 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
             }
             try log(sample, role: role, arrivalHostUs: arrival, converted: host, disposition: receipt.disposition,
                 sourceUs: receipt.sourceUs, clock: clock, cameraFrame: frame)
+            if let frame { camera.recorded(observations: observationURL, bytes: writtenBytes, frames: frame.ordinal + 1) }
             return receipt
         } catch {
             // A failed append can leave a torn tail. Never append another row behind it.
@@ -121,7 +123,8 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
             convertedHostPTS: converted.map(CaptureRationalTime.init), arrivalHostUs: arrivalHostUs,
             duration: CaptureRationalTime(sample.duration), sourceUs: sourceUs, disposition: disposition,
             relativeRate: rate.flatMap { $0.isFinite ? $0 : nil }, cameraFrame: cameraFrame)
-        try observations.write(contentsOf: JSONEncoder().encode(row) + Data([10])); rows += 1
+        let data = try JSONEncoder().encode(row) + Data([10])
+        try observations.write(contentsOf: data); rows += 1; writtenBytes += Int64(data.count)
     }
     package func close() throws {
         stopped = true

@@ -210,7 +210,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     }
     func discardMedia() async {
         discards += 1
-        probe?.camera.discard()
+        await probe?.camera.discard()
         try? probe?.close()
     }
     func startCursorSampling(writer: CaptureWriter) {
