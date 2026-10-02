@@ -5,8 +5,10 @@ the original timed cohort is red under recorded contention. Material24z1–12 ow
 and delivery corrections are integrated. [Current preparation](../assets/24z-current-preparation/README.md)
 uses a fresh format22 public fixture and passes untimed current-production
 correctness. The [current measurement](../assets/24z-current-preparation/user-window.json)
-returns complete correct output but exceeds the unchanged p95 budget. The next
-action is a focused metadata-read correction, then one successor measurement.
+returns complete correct output but exceeds the unchanged p95 budget. The
+[metadata correction and successor measurement](../assets/24z-current-preparation/metadata-batch.json)
+preserve output and pass the 512-source arm; 1,024 sources remain red. The next
+action is diagnosis of remaining current owner/transport work from its profile.
 No latency pass is claimed.
 Dependencies: [24x](24x-evidence-continuations.md), [24y](24y-source-event-duration.md).
 Final production acceptance remains with [23](23-cutover.md).
@@ -232,11 +234,12 @@ A non-ready reply fails immediately. Preserve a red result rather than retrying,
 polling host contention, changing a limit or inventing another required slice.
 
 The [current offered window](../assets/24z-current-preparation/user-window.json)
-now supplies that measurement and complete two-arm CPU profiles. All output and
-freshness checks pass; both p95 values exceed the unchanged target. Its observed
-background load remains part of the record. Correct repeated synchronous metadata
-reads at the existing owner before one successor measurement; never combine
-validation phases across checkpoint publication.
+supplies the first measurement and complete two-arm CPU profiles. The
+[successor](../assets/24z-current-preparation/metadata-batch.json) follows one
+general metadata-read correction: complete output and 78 merged owner tests pass,
+512 sources meet the target and 1,024 do not. Each run retains its observed load.
+Never combine validation phases across checkpoint publication. Further measurement
+requires a concrete correction justified by remaining owner/transport attribution.
 
 The [single coordinated preflight](../assets/24z-current-preparation/coordinated-preflight.json)
 after preparation integration found unrelated active graphics/simulation work.

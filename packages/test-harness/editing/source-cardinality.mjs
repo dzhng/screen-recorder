@@ -585,10 +585,11 @@ try {
         const phases = 1 + 2 * pages.length;
         result.staticDependencyWork = {
           basis:
-            "Ready request plus both sides of each nonterminal checkpoint publication resolve all N selections. SourceSelectionRead shares one asset and each distinct acquisition within each synchronous phase; no state survives an await. Other catalog work excluded; this is code-derived work, not observed SQL or timing attribution.",
+            "Ready request plus both sides of each nonterminal checkpoint publication resolve all N selections. Each synchronous phase fetches acquisition rows together and decodes each distinct acquisition on use, sharing one complete asset read. No state survives an await. Other catalog work excluded; this is code-derived work, not observed SQL or timing attribution.",
           phases,
           sourceResolutions: arm.cardinality * phases,
-          acquisitionMetadataGets: arm.cardinality * phases,
+          acquisitionMetadataRowsDecoded: arm.cardinality * phases,
+          acquisitionMetadataQueries: phases,
           assetMetadataGets: phases,
           assetPathHeaderReads: 0,
         };

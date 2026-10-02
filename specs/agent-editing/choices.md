@@ -6823,3 +6823,23 @@ device, nor the user's recording settings. The plan left the development fixture
 device unspecified after the user authorized necessary checks. This supplies a
 local lifecycle result; future iPhone synchronization and sustained physical
 acceptance must still be qualified independently.
+
+## Synchronous source metadata batching
+
+**Sound, medium confidence — retain requested raw acquisition rows for one validation phase.**
+When a page validates many sources, the existing acquisition store fetches their
+raw metadata strings together. The existing selection reader decodes a row only
+when that source is reached, so a later missing or malformed row cannot hide an
+earlier failure. Raw strings remain beside decoded metadata until that phase
+ends. The plan left the batching mechanism unspecified; SQLite's existing
+JSON-array reader avoids another table or parameter-count rule. This trades
+bounded temporary memory for fewer database calls without a cache across awaits.
+The current measured result still leaves the larger latency gate open.
+
+**Sound, high confidence — reconstruct all asset segments with one ordered read.**
+A video asset may describe several streams. Its existing metadata owner reads
+all segment rows together, groups them by stream, and decodes them in the original
+header order. A bad later stream therefore still cannot precede an earlier error.
+Image/font assets without segment declarations perform no segment read. The plan
+left SQL shape unspecified. This replaces repeated queries inside the same owner
+and adds no public operation or stored representation.

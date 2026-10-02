@@ -54,16 +54,22 @@ separates source ports from presentation and installed switching. Neither pendin
 acceptance nor an accepted cohort creates another implementation pass.
 [Scale timing](assets/24z-current-preparation/README.md) now has an actual current
 measurement: correct complete output, but both arms exceed the unchanged 250 ms
-p95 target. Its two-query CPU profile identifies repeated metadata reads in the
-existing source-selection owner. Batch reads within each synchronous validation
-phase, preserving failure precedence and fresh checks after checkpoint publication;
-prove the affected contracts before one successor measurement. Reuse preparation.
+p95 target. The [metadata correction](assets/24z-current-preparation/metadata-batch.json)
+batches reads within each synchronous validation phase and preserves failure
+precedence, exact output and fresh checks after checkpoint publication. All 78
+affected merged tests pass. Its one successor measurement passes the 512-source
+arm at 226.814 ms but leaves 1,024 sources red at 384.128 ms. Inspect remaining
+owner/transport work from the new profile before another correction or measurement.
+Reuse preparation and retain the observed host load with each result.
 The post-20m audit found no missing source port; the new measurement supplies a
 specific performance correction. Speech needs
 independent acoustic references; capture needs physical uncertainty/drain evidence;
 consumer/caller acceptance needs concrete presentation and installed adoption.
 Candidate assembly and independent reference qualification can proceed separately;
 keep builds and timing-sensitive checks from competing for the machine.
+The private project-service candidate builds, signs and passes isolated bundled
+health, empty project-list and graceful-shutdown checks. Installed adoption and
+presentation/preservation acceptance remain separate.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |

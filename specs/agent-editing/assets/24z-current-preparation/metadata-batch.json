@@ -1,0 +1,966 @@
+{
+  "scope": "Synchronous SQL batching integrated and narrow contracts green; source-cardinality 1024 p95 remains red",
+  "at": "2026-10-02T19:50:42.775401+00:00",
+  "sourceCommit": "55738523",
+  "childCommit": "1540b48efa97b30e5cdb602124bbe9603c1fa96e",
+  "productionSize": {
+    "added": 44,
+    "deleted": 15,
+    "net": 29
+  },
+  "rootReview": "Existing acquisition/asset/selection owners only; complete metadata and first failure unchanged, fresh phases retained, sequential scene preparation unchanged. Root reviewed all source/test/doc changes.",
+  "mergedTests": {
+    "files": 3,
+    "tests": 78,
+    "exitCode": 0,
+    "log": {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/metadata-merged-tests.log",
+      "bytes": 804,
+      "sha256": "2947febb55637918f44930e2da63709039a6b5d3a5acc76a5385916f02326f0d"
+    }
+  },
+  "independentReview": {
+    "pid": 20720,
+    "start": "2026-10-02T19:39:14.093036+00:00",
+    "end": "2026-10-02T19:39:17.930033+00:00",
+    "exitCode": 1,
+    "waited": true,
+    "elapsedSeconds": 3.8369127080077305,
+    "outcome": "terminal",
+    "command": [
+      "/Users/david/.local/bin/codex",
+      "review",
+      "<task>Independent read-only review of the settled working-tree diff in this checkout (base9e1d27fa). Follow code-review and refactor-clean. Risk area: source metadata batching, lazy error precedence, synchronous read lifetime/freshness across checkpoint publication, complete ordered asset segments, scene prepare admission order. Marker source-metadata-review-20261002.</task><action_safety>No edits, tests, builds, benchmarks, native/model/service/media runs, or delegation. Inspect source/diff only.</action_safety><output_contract>Report actionable correctness/shape findings with exact paths/lines, or clean with concrete scope limits. Do not assume batching proves latency.</output_contract>"
+    ]
+  },
+  "independentReviewLimit": "CLI rejected configured model before reviewing; no review verdict, no override or unchanged retry",
+  "runtimeAfter": {
+    "authority": {
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/runtime-authority.json",
+      "bytes": 173524,
+      "sha256": "171b5c0d84d3dde0da67beabde56f099c93954f539ef7e08e58c120b7cf50f1d"
+    },
+    "count": 774,
+    "differences": [],
+    "intendedChanges": 14
+  },
+  "preflight": {
+    "at": "2026-10-02T19:44:48.761279+00:00",
+    "source": {
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/whole-host-preflight.txt",
+      "bytes": 246859,
+      "sha256": "de5af90a878d23641999bfa188353435ec1603c092b74d73aab2ba57d6de3c69"
+    },
+    "observedAboveOneCore": [
+      {
+        "pid": 37155,
+        "cpu": 184.7,
+        "rssKiB": 1355648,
+        "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/154.0.8037.57/Helpers/Codex (Renderer).app/Contents/MacOS/Codex (Renderer) --type=renderer --user-data-dir=/Users/david/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox --fetch-schemes=app,codex-sandbox --cors-schemes=codex-sandbox --streaming-schemes=app,codex-sandbox --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com,chatgpt.site,chatgpt-team.site --owl-scoped-user-agent-prefix=CodexBrowser --start-stack-profiler --enable-blink-features=WebMCP --disable-blink-features=ReplacedNormalFlowStackingInlinePaint --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --launch-time-ticks=205287461395 --shared-files --metrics-shmem-handle=1752395122,r,3047784148250450148,3782196398518280678,1572864 --field-trial-handle=1718379636,r,1329693778806233435,14856327053512123918,262144 --enable-features=DevToolsWebMCPSupport,ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,9081194275887043046,8155270847697528531,4 --trace-process-track-uuid=3190708990997080739 --seatbelt-client=451"
+      }
+    ],
+    "meaning": "User-offered window with some load; no isolation or causal claim. Root-owned build/tests/capture and child review are terminal."
+  },
+  "measure": {
+    "process": {
+      "argv": [
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "packages/test-harness/editing/source-cardinality.mjs",
+        "--out",
+        "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure",
+        "--phase",
+        "measure"
+      ],
+      "pid": 24523,
+      "startedAt": "2026-10-02T19:44:48.786915+00:00",
+      "outerBoundSeconds": 180,
+      "environmentOverrides": {
+        "SCREENREC_NATIVE": "/private/tmp/screenrec-09c-native-presented-worker",
+        "NODE_V8_COVERAGE": null,
+        "NODE_OPTIONS": null
+      },
+      "exitCode": 1,
+      "terminal": true,
+      "waited": true,
+      "timedOut": false,
+      "elapsedSeconds": 15.324640874983743,
+      "endedAt": "2026-10-02T19:45:04.111645+00:00"
+    },
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-report.json",
+      "bytes": 437564,
+      "sha256": "6923ac4b873a73b9d28588aa1035c3f2b2cfbe508ef34261c2506b7f3e8c538b"
+    },
+    "collections": 42,
+    "arms": [
+      {
+        "cardinality": 512,
+        "p95Ms": 226.81370799999968,
+        "minMs": 185.30237500000112,
+        "maxMs": 239.4337910000013,
+        "sampledRssBytes": [
+          288735232,
+          309346304,
+          308658176,
+          304283648,
+          322748416,
+          338214912,
+          330891264,
+          344260608,
+          344293376,
+          360038400,
+          350322688,
+          349487104,
+          349552640,
+          350748672,
+          349667328,
+          360873984,
+          353550336,
+          360087552,
+          365002752,
+          353894400
+        ],
+        "memoryMeaning": "Descriptive post-collection service RSS in one shared process; no duration ratio gate or per-arm attribution"
+      },
+      {
+        "cardinality": 1024,
+        "p95Ms": 384.12754099999984,
+        "minMs": 346.3749169999992,
+        "maxMs": 391.91674999999987,
+        "sampledRssBytes": [
+          303316992,
+          301826048,
+          309002240,
+          309067776,
+          343195648,
+          344719360,
+          331874304,
+          335904768,
+          343556096,
+          345276416,
+          358170624,
+          358187008,
+          355926016,
+          353402880,
+          359055360,
+          370360320,
+          360726528,
+          360742912,
+          361054208,
+          361070592
+        ],
+        "memoryMeaning": "Descriptive post-collection service RSS in one shared process; no duration ratio gate or per-arm attribution"
+      }
+    ],
+    "error": "Complete cached 250-row collection exceeded unchanged 250ms p95 budget; retain and profile existing owner",
+    "completeOutputChecks": true,
+    "queryNativeCalls": 0,
+    "allChildrenNodeExitAndOsClose": true
+  },
+  "profile": {
+    "process": {
+      "argv": [
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/producer.mjs",
+        "--out",
+        "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case",
+        "--phase",
+        "profile",
+        "--prepared",
+        "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure"
+      ],
+      "pid": 25748,
+      "startedAt": "2026-10-02T19:45:58.312927+00:00",
+      "outerBoundSeconds": 180,
+      "environmentOverrides": {
+        "SCREENREC_NATIVE": "/private/tmp/screenrec-09c-native-presented-worker",
+        "NODE_V8_COVERAGE": null,
+        "NODE_OPTIONS": null
+      },
+      "exitCode": 1,
+      "terminal": true,
+      "waited": true,
+      "timedOut": false,
+      "elapsedSeconds": 1.8546699169964995,
+      "endedAt": "2026-10-02T19:46:00.167720+00:00"
+    },
+    "report": {
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-report.json",
+      "bytes": 34363,
+      "sha256": "0aab175b5a0c4c3c44fc14af5b763f694f0baddd4fd58ba5f3ad2e8bf91d8d37"
+    },
+    "profiles": [
+      {
+        "arm": 512,
+        "pid": 25792,
+        "reason": "complete",
+        "file": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/service-512.cpuprofile",
+        "cpu": {
+          "user": 278448,
+          "system": 44563
+        },
+        "elapsedMs": 301.119292,
+        "rssSamples": [
+          {
+            "elapsedMs": 0.14466700000002675,
+            "bytes": 162103296
+          },
+          {
+            "elapsedMs": 200.59191700000008,
+            "bytes": 215810048
+          },
+          {
+            "elapsedMs": 299.13466700000004,
+            "bytes": 232112128
+          }
+        ],
+        "limits": {
+          "armMs": 60000,
+          "overallMs": 180000,
+          "rssBytes": 1073741824,
+          "sampleMs": 200,
+          "controlMs": 5000,
+          "shutdownMs": 15000
+        },
+        "attribution": "Instrumented service CPU delta includes inspector-control and RSS-sampler overhead; raw samples retain idle/GC/native attribution limits"
+      },
+      {
+        "arm": 1024,
+        "pid": 25792,
+        "reason": "complete",
+        "file": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/service-1024.cpuprofile",
+        "cpu": {
+          "user": 306247,
+          "system": 49692
+        },
+        "elapsedMs": 418.75675,
+        "rssSamples": [
+          {
+            "elapsedMs": 0.052583000000026914,
+            "bytes": 232669184
+          },
+          {
+            "elapsedMs": 199.8553750000001,
+            "bytes": 314474496
+          },
+          {
+            "elapsedMs": 399.6952080000001,
+            "bytes": 332840960
+          },
+          {
+            "elapsedMs": 416.775042,
+            "bytes": 332840960
+          }
+        ],
+        "limits": {
+          "armMs": 60000,
+          "overallMs": 180000,
+          "rssBytes": 1073741824,
+          "sampleMs": 200,
+          "controlMs": 5000,
+          "shutdownMs": 15000
+        },
+        "attribution": "Instrumented service CPU delta includes inspector-control and RSS-sampler overhead; raw samples retain idle/GC/native attribution limits"
+      }
+    ],
+    "meaning": "Both profiles complete; original producer applies unchanged latency assertion afterward and remains exit1. Attribution only."
+  },
+  "next": "Inspect remaining current owner/transport work before any further measurement. No unchanged retry or budget relaxation.",
+  "archive": {
+    "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/24z-current-preparation/metadata-batch.tar.gz",
+    "bytes": 2297295,
+    "sha256": "3bf7c2f185205b16428b8ea6ab819217768f78e829b488a6f4a5ac3b6015eeab"
+  },
+  "members": [
+    {
+      "member": "bank.py",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/bank.py",
+      "bytes": 6194,
+      "sha256": "c0125c8bf6684e7f4a4b2e62d431c33968cf9154f194dcb2ee525c1ae7442c41"
+    },
+    {
+      "member": "child/README.md",
+      "path": "/tmp/screenrec-source-metadata-batch/README.md",
+      "bytes": 8256,
+      "sha256": "d5ff5e108d259b95785e01797a52f30ab05bc36d82e901a121af22dd22e9e5e1"
+    },
+    {
+      "member": "child/acquisitions.ts",
+      "path": "/tmp/screenrec-source-metadata-batch/acquisitions.ts",
+      "bytes": 51087,
+      "sha256": "92de9962e854246b269832dced0ed1305a2a45a60cbd98581f8d7113543580a6"
+    },
+    {
+      "member": "child/affected.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/affected.stderr",
+      "bytes": 169,
+      "sha256": "d207af4d19b94e4b765004d28de569dced622a2ad2cc59963ec851541f1df62d"
+    },
+    {
+      "member": "child/affected.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/affected.stdout",
+      "bytes": 236,
+      "sha256": "fc62850f40b3e8dfa02c8141c1b4b9ac7d0fc61d6db1545b55a12bdc1da84eb5"
+    },
+    {
+      "member": "child/assets-final.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/assets-final.stderr",
+      "bytes": 169,
+      "sha256": "f80eccad8509ac790d60945398059b48daca71e71042c5598be3006a7038b1a5"
+    },
+    {
+      "member": "child/assets-final.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/assets-final.stdout",
+      "bytes": 223,
+      "sha256": "48ee28440a4399222f738611e9f4156b3cc2ebf1c39e1e501839a48b2abdb7e4"
+    },
+    {
+      "member": "child/assets.ts",
+      "path": "/tmp/screenrec-source-metadata-batch/assets.ts",
+      "bytes": 30641,
+      "sha256": "58be806e8d5f611ffd91be63672c1816823dbab4316612cdafc5cce82367a731"
+    },
+    {
+      "member": "child/capture-source-read.ts",
+      "path": "/tmp/screenrec-source-metadata-batch/capture-source-read.ts",
+      "bytes": 13912,
+      "sha256": "2c81505a0b108b73ecfadfe6c33f115691f2285778263dcfe0265cd1e5f17fe4"
+    },
+    {
+      "member": "child/choices.md",
+      "path": "/tmp/screenrec-source-metadata-batch/choices.md",
+      "bytes": 2479,
+      "sha256": "5444d9163a089967bc7fcec922bbb655737ef79262ca22d09e750f4fdc857264"
+    },
+    {
+      "member": "child/codex-process.json",
+      "path": "/tmp/screenrec-source-metadata-batch/codex-process.json",
+      "bytes": 986,
+      "sha256": "03a79521a64505db870bd1bc2082b176b7c18a15bc414241bb4aa6189eb36d0e"
+    },
+    {
+      "member": "child/codex.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/codex.stderr",
+      "bytes": 3408,
+      "sha256": "4eacb083b61ef1306228024ea2bbe4af08aa6f080acd0f7970a80deaa6fd1563"
+    },
+    {
+      "member": "child/codex.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/codex.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/format-check.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/format-check.stderr",
+      "bytes": 91,
+      "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+    },
+    {
+      "member": "child/format-check.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/format-check.stdout",
+      "bytes": 112,
+      "sha256": "5615e87ee0d1c6a499a4651cd047da900013bbfcf892dd9d96f82f953997abd3"
+    },
+    {
+      "member": "child/format.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/format.stderr",
+      "bytes": 91,
+      "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+    },
+    {
+      "member": "child/format.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/format.stdout",
+      "bytes": 46,
+      "sha256": "5401d37917d22af2a623a8f014d499d0b345088a228eeca44b119f703cb3a626"
+    },
+    {
+      "member": "child/green.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/green.stderr",
+      "bytes": 169,
+      "sha256": "bf584113cc2dc95ffb013894fd122894b6bf7deeddc95d5671d6d6915f44984f"
+    },
+    {
+      "member": "child/green.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/green.stdout",
+      "bytes": 236,
+      "sha256": "705a52c7544e82d8127156303a29120248bd76d69b83533269f4a4e4feb837b3"
+    },
+    {
+      "member": "child/lazy-errors.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/lazy-errors.stderr",
+      "bytes": 169,
+      "sha256": "f0426b575e6a150f2397d773487bf279eccd89c2898b963992c8d224bd8cb0ee"
+    },
+    {
+      "member": "child/lazy-errors.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/lazy-errors.stdout",
+      "bytes": 236,
+      "sha256": "13483750531e7b1acc9a27b06016e5f2c9458639c5128e5c0c6a916d234680d7"
+    },
+    {
+      "member": "child/lint-final.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/lint-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/lint-final.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/lint-final.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/lint.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/lint.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/lint.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/lint.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/owners.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/owners.stderr",
+      "bytes": 507,
+      "sha256": "da390be530294a3ca3a8170d9f30743f2a637599e0e371f0dc9ef107efe5a293"
+    },
+    {
+      "member": "child/owners.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/owners.stdout",
+      "bytes": 222,
+      "sha256": "f53175a1214bb31d9706146e29129d4061a98a91a72bc29a79d534a6d47a6ebc"
+    },
+    {
+      "member": "child/project-evidence.test.ts",
+      "path": "/tmp/screenrec-source-metadata-batch/project-evidence.test.ts",
+      "bytes": 70375,
+      "sha256": "4ec2692dd83153f312f3ff6035ac1691c705e3d884881c390b0ee80c7f28f61c"
+    },
+    {
+      "member": "child/red-ready.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/red-ready.stderr",
+      "bytes": 977,
+      "sha256": "2b0a9d6cf4b0efb66a6b2d91f67a64a868be342604342ea1fd6821c20a01a113"
+    },
+    {
+      "member": "child/red-ready.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/red-ready.stdout",
+      "bytes": 404,
+      "sha256": "dce16ac0ce0ff0a3b2f367fc37d6308bb6f106651cb70a9cad42af7ec5d8161d"
+    },
+    {
+      "member": "child/red.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/red.stderr",
+      "bytes": 543,
+      "sha256": "756a21cf09b864d369067c066cb6e69c4084145529c21448100e4cf34070ed85"
+    },
+    {
+      "member": "child/red.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/red.stdout",
+      "bytes": 264,
+      "sha256": "ca244e908b795085b04893b5703f70acd28e5b83492c9a29cb1a6ea611454056"
+    },
+    {
+      "member": "child/report.json",
+      "path": "/tmp/screenrec-source-metadata-batch/report.json",
+      "bytes": 5016,
+      "sha256": "b2fbcb1a268a555581abce1d5268029f0990356e7975b774bd3a5a4d1ab35f4c"
+    },
+    {
+      "member": "child/review-prompt.txt",
+      "path": "/tmp/screenrec-source-metadata-batch/review-prompt.txt",
+      "bytes": 698,
+      "sha256": "7e9f1d89673ffb35d4fd432da7bdf9ab6611cab5e91ee49c5883485ac8892b78"
+    },
+    {
+      "member": "child/review.md",
+      "path": "/tmp/screenrec-source-metadata-batch/review.md",
+      "bytes": 1936,
+      "sha256": "6dda03fe733736c450c1f6769f508552075246d92b1c1270d8a3b22574cba2f6"
+    },
+    {
+      "member": "child/source-events.ts",
+      "path": "/tmp/screenrec-source-metadata-batch/source-events.ts",
+      "bytes": 7903,
+      "sha256": "1ea60f61fd7d254da802dd77bb5427e7a489f347ed63d93812e79e79030336dc"
+    },
+    {
+      "member": "child/source-pins.json",
+      "path": "/tmp/screenrec-source-metadata-batch/source-pins.json",
+      "bytes": 2141,
+      "sha256": "8c4bec2426af838b479d5015440edd37b6b569421fa6e1802af0482ff07a73aa"
+    },
+    {
+      "member": "child/source-selection.ts",
+      "path": "/tmp/screenrec-source-metadata-batch/source-selection.ts",
+      "bytes": 5287,
+      "sha256": "2ba53d74dc506a8b0f84d3ce8fc90602838c511da5ee21bc6a37ba87336c43d8"
+    },
+    {
+      "member": "child/types-final.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/types-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/types-final.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/types-final.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/types-settled.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/types-settled.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/types-settled.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/types-settled.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/types.stderr",
+      "path": "/tmp/screenrec-source-metadata-batch/types.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "child/types.stdout",
+      "path": "/tmp/screenrec-source-metadata-batch/types.stdout",
+      "bytes": 1063,
+      "sha256": "f3cebe62aa9f2f1a24a495a2c5573b81e009ad807f442ee26430b6d1bcdf1843"
+    },
+    {
+      "member": "executed/source-cardinality.mjs",
+      "path": "/Users/david/dev/screen-recorder/packages/test-harness/editing/source-cardinality.mjs",
+      "bytes": 31591,
+      "sha256": "b66ddd72bea2aafdeac97561f792537a870392297f16760e4f7fcd310ac34180"
+    },
+    {
+      "member": "measure-process.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure-process.json",
+      "bytes": 729,
+      "sha256": "0c4caaa99c32a9296aa81079be8401795af804f4fdf081b3011791280a9efb97"
+    },
+    {
+      "member": "measure.py",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure.py",
+      "bytes": 1677,
+      "sha256": "bee28f0396b3173c78fe5aa57f9333776429affa665fa2381a1eefa6c05f7a7d"
+    },
+    {
+      "member": "measure.stderr",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure.stderr",
+      "bytes": 479,
+      "sha256": "380666b5d3d153a4ab0355ad512e30f6bcc0306b810b625b33f16deb03121f0c"
+    },
+    {
+      "member": "measure.stdout",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure.stdout",
+      "bytes": 511,
+      "sha256": "4190734b63635103a2eac253f36dff39165bb9eabb414a08781b6e23c5ee85bf"
+    },
+    {
+      "member": "measure/23a54b9e-4032-4fbe-84ea-564022ac3472.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/23a54b9e-4032-4fbe-84ea-564022ac3472.cache.json",
+      "bytes": 684,
+      "sha256": "31565b07ee19b32e98730a58e06997fa05b101ba3220ca797364eaed63931a30"
+    },
+    {
+      "member": "measure/35d1a1e2-34f0-4257-9a80-c7b910e86600.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/35d1a1e2-34f0-4257-9a80-c7b910e86600.cache.json",
+      "bytes": 684,
+      "sha256": "ba9981e92622165f06dd390356ebd64f3e89046691eb743126cf550ad1b4eb83"
+    },
+    {
+      "member": "measure/3f71bf24-b18a-4588-ad17-687163af1240.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/3f71bf24-b18a-4588-ad17-687163af1240.cache.json",
+      "bytes": 684,
+      "sha256": "9978a9427f14d42b6c99567e40a321e965fda7d2d4c4ae4a32762f4efa3c3a9b"
+    },
+    {
+      "member": "measure/6643b852-0bc3-4d51-895d-2788b7aab7c3.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/6643b852-0bc3-4d51-895d-2788b7aab7c3.cache.json",
+      "bytes": 683,
+      "sha256": "1ddc4b611cfeb88ecba5bd28aab125c62395a81d049cb4f7e212fde18e749c49"
+    },
+    {
+      "member": "measure/6e5325e1-da90-49ee-b31f-24eaaa220a48.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/6e5325e1-da90-49ee-b31f-24eaaa220a48.cache.json",
+      "bytes": 684,
+      "sha256": "e7c8067b1dcc22078c58de6c6e355ed2032faf439d5d2754a4ea1ac4347259b0"
+    },
+    {
+      "member": "measure/874c3251-5973-4c37-94e7-9e993e305ce9.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/874c3251-5973-4c37-94e7-9e993e305ce9.cache.json",
+      "bytes": 684,
+      "sha256": "5050d53d6c6573ae2bdb80b89840b8f44ae44482cad9ec4726363537872b1c4c"
+    },
+    {
+      "member": "measure/8d05dd64-e64a-480c-bbb5-460490e59661.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/8d05dd64-e64a-480c-bbb5-460490e59661.cache.json",
+      "bytes": 689,
+      "sha256": "5f9a9322e40127bf5b85681bf4cabc4b4da3db97e812a8002aff1817edc1ac38"
+    },
+    {
+      "member": "measure/93280494-79a3-418d-aad4-a24e447851d9.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/93280494-79a3-418d-aad4-a24e447851d9.cache.json",
+      "bytes": 684,
+      "sha256": "e1c2450d5d2dd5b92b347d4eb9fdb68d6342c55b82387b7fdac00acd9a15feff"
+    },
+    {
+      "member": "measure/a42e505e-21f8-4b35-9184-090bfe4e1ad2.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/a42e505e-21f8-4b35-9184-090bfe4e1ad2.cache.json",
+      "bytes": 684,
+      "sha256": "460562f4acd7431fee9a5c66a985ccd0264ade33b7093e0f1ec1c54edfa8879a"
+    },
+    {
+      "member": "measure/b2dacc58-2a4c-46f1-8a27-bc5f37dd1219.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/b2dacc58-2a4c-46f1-8a27-bc5f37dd1219.cache.json",
+      "bytes": 2001298,
+      "sha256": "7edeb4da5094be66760a08d7f865568988125d5247e18401c3a8360885eddcb7"
+    },
+    {
+      "member": "measure/bfe3f225-95df-4456-bb92-ca690413e212.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/bfe3f225-95df-4456-bb92-ca690413e212.cache.json",
+      "bytes": 683,
+      "sha256": "b2e8b6a0d44bfdab4634705970a28e5d93cfd419cb480733bf2e93cbc5d91997"
+    },
+    {
+      "member": "measure/d3504cab-1fbe-484e-869d-75ee453cff2f.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/d3504cab-1fbe-484e-869d-75ee453cff2f.cache.json",
+      "bytes": 684,
+      "sha256": "b1e1bb8a24737f36d0d30c1c70807036380efbdf54b986d0778518cb1bc4ffb6"
+    },
+    {
+      "member": "measure/e7603276-d016-4dfd-87ee-dd66a752235a.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/e7603276-d016-4dfd-87ee-dd66a752235a.cache.json",
+      "bytes": 525,
+      "sha256": "f56de50635b5cab85a0720dee6be66171a4418a5836afa68ec7c75a74a7a8d8d"
+    },
+    {
+      "member": "measure/f1e98103-5dda-4fc6-a91d-62b7682d1f25.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/f1e98103-5dda-4fc6-a91d-62b7682d1f25.cache.json",
+      "bytes": 689,
+      "sha256": "4c713bc52dc0d3b519bd05e414f428063ed31bf355f48880c6c4afad0778da7a"
+    },
+    {
+      "member": "measure/faab5c44-7432-43db-9728-b0208d9c252c.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/faab5c44-7432-43db-9728-b0208d9c252c.cache.json",
+      "bytes": 1190802,
+      "sha256": "0c6a222a333c8e9544b06f9e3a741495a855312d5268330d390c4a170abcaf15"
+    },
+    {
+      "member": "measure/fed74fb8-e56f-4bfc-bba3-85f0b7b2ee2a.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/fed74fb8-e56f-4bfc-bba3-85f0b7b2ee2a.cache.json",
+      "bytes": 525,
+      "sha256": "82c45b3a21bfd34e2ddb8f2dc3f6c2f6a615b38e18ac82d64d2cd9b4971c41bf"
+    },
+    {
+      "member": "measure/fixture.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/fixture.json",
+      "bytes": 4268875,
+      "sha256": "831158858e2ffdaab77b1bfeec51dbfc3c9314f8f1d6b2b1247d93e10323a259"
+    },
+    {
+      "member": "measure/measure-1024-cold-mcp-pages.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-1024-cold-mcp-pages.json",
+      "bytes": 11811440,
+      "sha256": "39d5c499bd8c5ec13c5d41533faf96ab5e62c90a5de62fdd16e581fef7c80049"
+    },
+    {
+      "member": "measure/measure-512-cold-mcp-pages.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-512-cold-mcp-pages.json",
+      "bytes": 6137971,
+      "sha256": "36cdfa0ec4212bb6ec3cef71d0603692ae18cdbe387a2e009a5c44ccc35d6257"
+    },
+    {
+      "member": "measure/measure-native.jsonl",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-native.jsonl",
+      "bytes": 85,
+      "sha256": "6f9c0de792361b9ed7c7d129cd642e038c533917ab59ceebfdfb24d64f329067"
+    },
+    {
+      "member": "measure/measure-process-observer.mjs",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-process-observer.mjs",
+      "bytes": 1462,
+      "sha256": "ba5d796172c68c6bac9542b70affadbd34c78df69b8f2fd5ebd7726628ddfed3"
+    },
+    {
+      "member": "measure/measure-processes.jsonl",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-processes.jsonl",
+      "bytes": 613,
+      "sha256": "bb1b5e50726c69c9d7de63ba2e17f090e4463426de33ee772574fcda91717992"
+    },
+    {
+      "member": "measure/measure-report.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-report.json",
+      "bytes": 437564,
+      "sha256": "6923ac4b873a73b9d28588aa1035c3f2b2cfbe508ef34261c2506b7f3e8c538b"
+    },
+    {
+      "member": "measure/measure-service.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-service.json",
+      "bytes": 250,
+      "sha256": "b78999b373ca70f7bc370c36d0a76e7a0e526774caae2604b14992d97d5d30ec"
+    },
+    {
+      "member": "measure/measure-service.log",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/measure/measure-service.log",
+      "bytes": 169,
+      "sha256": "2a7dec36dfa6c2ef0f3fed44d8cd72a7425f2ded71d80f6c4cb153b3fd6bb213"
+    },
+    {
+      "member": "merged-tests.log",
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/metadata-merged-tests.log",
+      "bytes": 804,
+      "sha256": "2947febb55637918f44930e2da63709039a6b5d3a5acc76a5385916f02326f0d"
+    },
+    {
+      "member": "preflight.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/preflight.json",
+      "bytes": 2002,
+      "sha256": "d1cbe555ea1d48dc7c1179c0f7a04ea08dbb70c661d70957bda2245279e2668d"
+    },
+    {
+      "member": "profile-producer/changes.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/changes.json",
+      "bytes": 795,
+      "sha256": "3ee71727807c6324b18b4d399d8a57339de5b7cac61e8a709f685a12f0d08c88"
+    },
+    {
+      "member": "profile-producer/maintained-producer.mjs",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/maintained-producer.mjs",
+      "bytes": 31591,
+      "sha256": "b66ddd72bea2aafdeac97561f792537a870392297f16760e4f7fcd310ac34180"
+    },
+    {
+      "member": "profile-producer/prior-profile-producer.mjs",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/prior-profile-producer.mjs",
+      "bytes": 30533,
+      "sha256": "071500c5b00668871cdd6161b33dfd840f7fd4551aa22965312be4ea6badd84f"
+    },
+    {
+      "member": "profile-producer/producer.mjs",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/producer.mjs",
+      "bytes": 30610,
+      "sha256": "bc06e9f973bbc842cf653b7dc183805732af812c143e55db0a5188d951834ffc"
+    },
+    {
+      "member": "profile-producer/profile-process.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/profile-process.json",
+      "bytes": 953,
+      "sha256": "f4ce241e5bb961c5f2e75a4938a5ca64027c494b6a9f6e9fc88b2bd7c743c53d"
+    },
+    {
+      "member": "profile-producer/profile.stderr",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/profile.stderr",
+      "bytes": 523,
+      "sha256": "a1a391494a1ad79696d34256f1c168ec7ddddf0c052789d1fdfa14fc206431de"
+    },
+    {
+      "member": "profile-producer/profile.stdout",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/profile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "profile-producer/reference.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/reference.json",
+      "bytes": 167311,
+      "sha256": "4446d69fe547d3c85e492915db5c0c7d06c2ec0357aa6389efb4bcc0a9ff7bca"
+    },
+    {
+      "member": "profile-producer/run.py",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/run.py",
+      "bytes": 1898,
+      "sha256": "0e1214b80307cdd4fd3d1c401e4a078426a853755de6e1a05a4a1d36e04ea1fb"
+    },
+    {
+      "member": "profile/1b312459-58f0-47e3-9ada-98ae76b3d34e.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/1b312459-58f0-47e3-9ada-98ae76b3d34e.cache.json",
+      "bytes": 684,
+      "sha256": "e1c2450d5d2dd5b92b347d4eb9fdb68d6342c55b82387b7fdac00acd9a15feff"
+    },
+    {
+      "member": "profile/3944cf27-29b7-4c1c-831f-aabaafeb9464.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/3944cf27-29b7-4c1c-831f-aabaafeb9464.cache.json",
+      "bytes": 689,
+      "sha256": "5f9a9322e40127bf5b85681bf4cabc4b4da3db97e812a8002aff1817edc1ac38"
+    },
+    {
+      "member": "profile/3ebc66e6-c09b-4a3d-8661-d758ea895409.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/3ebc66e6-c09b-4a3d-8661-d758ea895409.cache.json",
+      "bytes": 684,
+      "sha256": "b1e1bb8a24737f36d0d30c1c70807036380efbdf54b986d0778518cb1bc4ffb6"
+    },
+    {
+      "member": "profile/401723d5-3602-4c42-a552-6c9a92798fb9.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/401723d5-3602-4c42-a552-6c9a92798fb9.cache.json",
+      "bytes": 683,
+      "sha256": "b2e8b6a0d44bfdab4634705970a28e5d93cfd419cb480733bf2e93cbc5d91997"
+    },
+    {
+      "member": "profile/475633e2-6a44-42ed-8660-028e996f527f.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/475633e2-6a44-42ed-8660-028e996f527f.cache.json",
+      "bytes": 684,
+      "sha256": "31565b07ee19b32e98730a58e06997fa05b101ba3220ca797364eaed63931a30"
+    },
+    {
+      "member": "profile/54a175c2-689a-4239-b506-1e9247fc9068.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/54a175c2-689a-4239-b506-1e9247fc9068.cache.json",
+      "bytes": 525,
+      "sha256": "f56de50635b5cab85a0720dee6be66171a4418a5836afa68ec7c75a74a7a8d8d"
+    },
+    {
+      "member": "profile/6889c244-1fcc-4e19-bc4c-eaf0a73e5eca.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/6889c244-1fcc-4e19-bc4c-eaf0a73e5eca.cache.json",
+      "bytes": 525,
+      "sha256": "82c45b3a21bfd34e2ddb8f2dc3f6c2f6a615b38e18ac82d64d2cd9b4971c41bf"
+    },
+    {
+      "member": "profile/68c9b0df-61e4-4e73-87bb-5a5c0031af61.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/68c9b0df-61e4-4e73-87bb-5a5c0031af61.cache.json",
+      "bytes": 689,
+      "sha256": "4c713bc52dc0d3b519bd05e414f428063ed31bf355f48880c6c4afad0778da7a"
+    },
+    {
+      "member": "profile/80e8127b-a566-43fc-abaa-1d26d7de9daf.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/80e8127b-a566-43fc-abaa-1d26d7de9daf.cache.json",
+      "bytes": 684,
+      "sha256": "9978a9427f14d42b6c99567e40a321e965fda7d2d4c4ae4a32762f4efa3c3a9b"
+    },
+    {
+      "member": "profile/8d2616da-94b0-476c-ad7e-6d9b691a982e.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/8d2616da-94b0-476c-ad7e-6d9b691a982e.cache.json",
+      "bytes": 684,
+      "sha256": "460562f4acd7431fee9a5c66a985ccd0264ade33b7093e0f1ec1c54edfa8879a"
+    },
+    {
+      "member": "profile/a7e5f417-cf4d-46bf-b1d7-71c865d7aa41.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/a7e5f417-cf4d-46bf-b1d7-71c865d7aa41.cache.json",
+      "bytes": 684,
+      "sha256": "5050d53d6c6573ae2bdb80b89840b8f44ae44482cad9ec4726363537872b1c4c"
+    },
+    {
+      "member": "profile/b2dacc58-2a4c-46f1-8a27-bc5f37dd1219.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/b2dacc58-2a4c-46f1-8a27-bc5f37dd1219.cache.json",
+      "bytes": 2001298,
+      "sha256": "7edeb4da5094be66760a08d7f865568988125d5247e18401c3a8360885eddcb7"
+    },
+    {
+      "member": "profile/be615149-023b-4729-b1f6-634f8eace44d.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/be615149-023b-4729-b1f6-634f8eace44d.cache.json",
+      "bytes": 684,
+      "sha256": "e7c8067b1dcc22078c58de6c6e355ed2032faf439d5d2754a4ea1ac4347259b0"
+    },
+    {
+      "member": "profile/c22de7d6-6a0f-4e7e-9a1d-1f53b48b0eea.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/c22de7d6-6a0f-4e7e-9a1d-1f53b48b0eea.cache.json",
+      "bytes": 683,
+      "sha256": "1ddc4b611cfeb88ecba5bd28aab125c62395a81d049cb4f7e212fde18e749c49"
+    },
+    {
+      "member": "profile/cf56ae65-a5ed-4d45-a6c3-19542e3728b0.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/cf56ae65-a5ed-4d45-a6c3-19542e3728b0.cache.json",
+      "bytes": 684,
+      "sha256": "ba9981e92622165f06dd390356ebd64f3e89046691eb743126cf550ad1b4eb83"
+    },
+    {
+      "member": "profile/faab5c44-7432-43db-9728-b0208d9c252c.cache.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/faab5c44-7432-43db-9728-b0208d9c252c.cache.json",
+      "bytes": 1190802,
+      "sha256": "0c6a222a333c8e9544b06f9e3a741495a855312d5268330d390c4a170abcaf15"
+    },
+    {
+      "member": "profile/measure-process-observer.mjs",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/measure-process-observer.mjs",
+      "bytes": 1467,
+      "sha256": "031d04ba923be160225f162d1d1770624c2e822b46a3b1323d5b22941d98ce42"
+    },
+    {
+      "member": "profile/measure-processes.jsonl",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/measure-processes.jsonl",
+      "bytes": 613,
+      "sha256": "d88d99422d4ec9af881da2f7e5db9cd6be9de52444bd8a07ca28b5b83a4438a0"
+    },
+    {
+      "member": "profile/profile-1024-profile-mcp-pages.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-1024-profile-mcp-pages.json",
+      "bytes": 11811445,
+      "sha256": "0a950a8b8ba89533ee09d2beaff5579e2e11cd90a99365bb430c614b8806074a"
+    },
+    {
+      "member": "profile/profile-512-profile-mcp-pages.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-512-profile-mcp-pages.json",
+      "bytes": 6137972,
+      "sha256": "54ef2c651845e2071707715c5fa61aedef541bb90f9673f64664a9f5f4aa6fe9"
+    },
+    {
+      "member": "profile/profile-attempt.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-attempt.json",
+      "bytes": 601,
+      "sha256": "677827b97f0da3b2d4bef8e62af7a9e8cb67b479eb18f6a3517da7e4d4dfcef4"
+    },
+    {
+      "member": "profile/profile-native.jsonl",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-native.jsonl",
+      "bytes": 85,
+      "sha256": "6f9c0de792361b9ed7c7d129cd642e038c533917ab59ceebfdfb24d64f329067"
+    },
+    {
+      "member": "profile/profile-report.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-report.json",
+      "bytes": 34363,
+      "sha256": "0aab175b5a0c4c3c44fc14af5b763f694f0baddd4fd58ba5f3ad2e8bf91d8d37"
+    },
+    {
+      "member": "profile/profile-service.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-service.json",
+      "bytes": 406,
+      "sha256": "cc7ff80b9962cc1b2c312f71474f3350af8c982fa935dafedfc884cc8f0c6dce"
+    },
+    {
+      "member": "profile/profile-service.log",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/profile-service.log",
+      "bytes": 169,
+      "sha256": "e5937ad99ec77b2192dd027cae6409ae4f68a0d2576a11bbe12f642442b8f15d"
+    },
+    {
+      "member": "profile/service-1024-profile.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/service-1024-profile.json",
+      "bytes": 937,
+      "sha256": "baac02331f1ae1c9f6da0a71dbfd57b1d6c47c4aeafcee1d6cec2df73f9025a5"
+    },
+    {
+      "member": "profile/service-1024.cpuprofile",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/service-1024.cpuprofile",
+      "bytes": 68811,
+      "sha256": "591d8969b6607bf613e44c2263616fe8b4b8deaca1bc79174b4618ffa71b8a7b"
+    },
+    {
+      "member": "profile/service-512-profile.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/service-512-profile.json",
+      "bytes": 868,
+      "sha256": "8c89511292f913b52e91828dcb1e972ff76f298ac437930e8fc879265ffe57a7"
+    },
+    {
+      "member": "profile/service-512.cpuprofile",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/profile/case/service-512.cpuprofile",
+      "bytes": 69147,
+      "sha256": "4130ed9ac531a3292f8071f8d0a24346f7209331a972964d13800d2e1a073995"
+    },
+    {
+      "member": "runtime-authority.json",
+      "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/metadata-batch-55738523/runtime-authority.json",
+      "bytes": 173524,
+      "sha256": "171b5c0d84d3dde0da67beabde56f099c93954f539ef7e08e58c120b7cf50f1d"
+    }
+  ]
+}

@@ -16,6 +16,15 @@ This reconciles the [preservation matrix](../../verification.md#preservation-mat
 
 ## Next bounded cases
 
+The [private candidate](candidate-smoke.json) is a signed staged bundle whose
+service entry explicitly selects the project owner. Its bundled CLI answers
+health and the complete empty project list outside the checkout; graceful app
+shutdown removes its socket and service child. The [build correction](candidate-build.json)
+selects shipped Swift products instead of compiling test executables in release
+mode. No installed switch, user-library migration, player presentation or full
+preservation acceptance follows from this startup proof. Use this candidate for
+the remaining scoped checks before requesting replacement of the installed app.
+
 The paired edit/history case is banked in [23j](../../slices/23j-state-preservation.md),
 and [23k](../../slices/23k-source-consumer-bridge.md) closes its scoped composed
 consumer proof. Do not repeat either for an unrecorded historical lifecycle claim.

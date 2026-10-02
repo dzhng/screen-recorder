@@ -1,12 +1,20 @@
 # Current cardinality fixture readiness
 
+The [metadata correction](metadata-batch.json) preserves exact output, error order
+and independent freshness phases. Its one successor measurement passes 512 sources
+at 226.814 ms p95, while 1,024 remain red at 384.128 ms. All 78 affected merged
+tests pass. The [new profile](metadata-batch-profile-summary.json) supplies the
+next owner/transport investigation; no unchanged retry or relaxed budget follows.
+Observed Codex renderer load is retained, so these are not isolated-host claims.
+
 The [current user-window measurement](user-window.json) preserves one actual
 unchanged measurement and subsequent CPU attribution. Both arms return complete
 correct output but fail the 250 ms p95 target: 329.164 ms at 512 sources and
 538.998 ms at 1,024. The user offered a relatively free window with some load;
 the recorded browser renderer means this is not an isolated-host claim. A focused
-metadata-read correction is next, with fresh validation kept on both sides of
-checkpoint publication. Preparation and accepted correctness need no replay.
+metadata-read correction follows in the successor above, with fresh validation
+kept on both sides of checkpoint publication. Preparation and accepted correctness
+need no replay.
 
 Both current CPU profiles completed; their producer remains exit1 because the
 original harness also applies its latency assertion after profiling. The

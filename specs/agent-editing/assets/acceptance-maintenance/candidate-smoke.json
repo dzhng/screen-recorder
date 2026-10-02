@@ -1,0 +1,196 @@
+{
+  "scope": "Private signed source-project candidate health and shutdown only, no installed switch or personal state mutation",
+  "sourceCommit": "55738523",
+  "candidate": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app",
+  "bindings": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "bytes": 6378736,
+      "sha256": "76f223ae65d9aa14eccde075839bacb9b79f7d1ede573f3daf6b01dc3d8159f2"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 20440544,
+      "sha256": "a4070e67788c38ffd4d966d7fa010a9ed80dbe1e870278af1e14ca46031e7c99"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 4264451,
+      "sha256": "2be44be20570314f3ef620165ac42e657b697ac09051137045b92f779405d383"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1157361,
+      "sha256": "1db05a47b04b89e72529433ea97d56570d8ace18366252590be7d1262a8880e3"
+    }
+  ],
+  "assembly": {
+    "sourceCommit": "55738523",
+    "scope": "Private staged artifact explicitly bundles project service; no install or source default switch",
+    "steps": [
+      {
+        "argv": [
+          "bun",
+          "build",
+          "apps/service/dist/project-main.js",
+          "--target=node",
+          "--outfile",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/Resources/service/main.mjs"
+        ],
+        "exitCode": 0,
+        "stdout": "Bundled 259 modules in 28ms\n\n  main.mjs  4.26 MB  (entry point)\n\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+          "scripts/signing-identity.mjs",
+          "--find"
+        ],
+        "exitCode": 0,
+        "stdout": "Screen Recorder Local\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "codesign",
+          "--force",
+          "--sign",
+          "Screen Recorder Local",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app: replacing existing signature\n"
+      },
+      {
+        "argv": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "smoke": {
+    "pid": 26856,
+    "home": "/private/tmp/sr-candidate-xyt_mb9q",
+    "socket": "/private/tmp/sr-candidate-xyt_mb9q/run/service.sock",
+    "startedAt": "2026-10-02T19:48:46.272127+00:00",
+    "scope": "Isolated staged bundled project service, app-owned startup and graceful exit; not installed acceptance",
+    "service.health": {
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"status\":\"ready\",\"pid\":26858,\"socketPath\":\"/private/tmp/sr-candidate-xyt_mb9q/run/service.sock\",\"home\":\"/private/tmp/sr-candidate-xyt_mb9q\",\"node\":\"24.14.0\",\"uptimeMs\":103},\"id\":\"f822dc88-2584-46f0-8db1-d1bdad0bf494\"}\n",
+      "stderr": ""
+    },
+    "servicePid": 26858,
+    "project.list": {
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"projects\":[],\"nextCursor\":null},\"id\":\"dcb7e7e6-0f02-4ebd-8fe0-791c2cce96c2\"}\n",
+      "stderr": ""
+    },
+    "passed": true,
+    "exitCode": 0,
+    "terminal": true,
+    "waited": true,
+    "servicePidAbsent": true,
+    "socketAbsent": true,
+    "elapsedSeconds": 0.38184737498522736
+  },
+  "initialProbeFailure": {
+    "pid": 26704,
+    "home": "/private/tmp/sr-candidate-6_r440n7",
+    "socket": "/private/tmp/sr-candidate-6_r440n7/run/service.sock",
+    "startedAt": "2026-10-02T19:48:09.533900+00:00",
+    "scope": "Isolated staged bundled project service, app-owned startup and graceful exit; not installed acceptance",
+    "service.health": {
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"status\":\"ready\",\"pid\":26707,\"socketPath\":\"/private/tmp/sr-candidate-6_r440n7/run/service.sock\",\"home\":\"/private/tmp/sr-candidate-6_r440n7\",\"node\":\"24.14.0\",\"uptimeMs\":143},\"id\":\"29d9ec5e-86fb-4aa0-a2b7-7e6dfdaadb68\"}\n",
+      "stderr": ""
+    },
+    "servicePid": 26707,
+    "project.list": {
+      "exitCode": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"projects\":[],\"nextCursor\":null},\"id\":\"6a24a5cc-98f4-4544-b792-ec583154aac1\"}\n",
+      "stderr": ""
+    },
+    "passed": false,
+    "error": "KeyError('items')",
+    "exitCode": 0,
+    "terminal": true,
+    "waited": true
+  },
+  "initialProbeMeaning": "Product health/project.list both succeeded. Scratch assertion incorrectly expected items rather than projects; corrected probe uses the declared full empty project response. Original record remains intact.",
+  "frozenWorker": {
+    "path": "/private/tmp/screenrec-09c-native-presented-worker",
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "limits": [
+    "No installed/default-discovery acceptance",
+    "No native presentation or paired output/preservation acceptance",
+    "No full test suite or complete release verdict",
+    "App process exit0 and known service PID absent; no independent Node exit code attached to bundled service"
+  ],
+  "archive": {
+    "path": "specs/agent-editing/assets/acceptance-maintenance/candidate-smoke.tar.gz",
+    "bytes": 2990,
+    "sha256": "b5d35999d37e59102608b6a10fc8e024d9cb876a944e0ade2eb7ecc8588c4f36"
+  },
+  "members": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/assembly.json",
+      "bytes": 1511,
+      "sha256": "4b5025ecd800f968e8ff596c1b62e7145175835c6c53a76e4729af889bffe709"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke.py",
+      "bytes": 2719,
+      "sha256": "9fb8c7e70289cc3d792fb4ba0d3d3dc97fd7437b0112e2d4c098e0cb29fca1ed"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke.json",
+      "bytes": 966,
+      "sha256": "d7027f5ab0cf9f13c6dcc612e8978fc3d015425a8fd39340d6b3582b841616cc"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke-app.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke-app.stderr",
+      "bytes": 326,
+      "sha256": "350d6f962870c37ae6b080162d7d1bc05c9e48292d328bd4266c14b678718134"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke-qualified/smoke.py",
+      "bytes": 2753,
+      "sha256": "0edca2c42f9b9c45306a40b837fc2f8f3fda1bd45c64a486b858cd40cc7bebec"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke-qualified/smoke.json",
+      "bytes": 1026,
+      "sha256": "36cc1321b638143a7ea84f0483c8e673b4f9fa52ed1a7f1e376693fbabcd6227"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke-qualified/smoke-app.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/smoke-qualified/smoke-app.stderr",
+      "bytes": 326,
+      "sha256": "1ed565dc4f65de81ddd57fbb79f624e51246e3c2f9c2f98fd33cfbb06e8698a6"
+    }
+  ]
+}
