@@ -149,7 +149,6 @@ package final class CameraWriter {
                 throw CaptureFailure("NO_CAMERA", "Selected camera delivered no accepted frames.")
             }
         } catch { reason = reason ?? (error as? CaptureFailure) ?? CaptureFailure("WRITE_FAILED", error.localizedDescription) }
-        await verification?.close()
         let sourceClock = origin.map { clock.projected(originUs: $0) } ?? clock
         let closed = ClosedCameraSource(directory: directory, journal: journal, observations: observations,
             clock: sourceClock, width: width, height: height, frames: frames, dropped: dropped,

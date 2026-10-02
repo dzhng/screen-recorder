@@ -82,9 +82,12 @@ actual decoded pictures agree through the closing picture. Both ordered picture
 digests retain their original clocks; neither metadata nor encoded bytes replace
 pixel verification. The closing picture belongs to the next window. Ineligible
 snapshots and interrupted sources keep the complete raw-first publication path.
-Closure joins that work, validates the remaining tail and binds the final bytes;
-discard joins it before releasing the journal. This scheduling preserves outputs
-and does not establish a completed-stop latency guarantee.
+Physical closure pins the final raw and observation bytes without waiting for
+that verification. Camera publication joins it before cancellation can return,
+validates the remaining tail and binds the final bytes; the independently closed
+primary can publish while that join waits. Discard joins it before releasing the
+journal. This scheduling preserves outputs and does not establish a completed-stop
+latency guarantee.
 
 Written observation progress stays monotonic across delayed file notifications.
 Private mapping snapshots share the media snapshot isolation instead of rewriting

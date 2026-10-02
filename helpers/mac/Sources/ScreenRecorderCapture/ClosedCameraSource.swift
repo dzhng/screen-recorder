@@ -60,6 +60,8 @@ extension CameraMedia {
     /// Publication errors retain the snapshot. Terminal missing/conflicting media settles truthfully.
     @MainActor
     package static func publish(_ closed: ClosedCameraSource) async throws -> CapturedCameraSource {
+        // Verification is source publication work; join even when publication was canceled.
+        await closed.verification?.close()
         try Task.checkCancellation()
         if !closed.sealed { await closed.verification?.discard() }
         var reason = closed.failure ?? closed.terminalFailure ?? closed.journalFailure

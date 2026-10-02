@@ -336,6 +336,8 @@ private final class SourcePublicationBarrier: Sendable {
         }
         if held { release.signal() }
     }
+    func releaseHeldReader() { release.signal() }
+    var held: Bool { state.withLock { $0.held } }
     var observation: CapturePublicationObservation? { state.withLock { $0.observed } }
     var released: Bool { state.withLock { $0.released } }
 }
@@ -430,4 +432,131 @@ private func cameraBeforePrimaryPublication(root: URL, source: URL) async throws
     precondition(result.failure == nil && result.camera?.failure == nil && capture.deviceState == "idle"
         && input.stops == 1 && input.finalizations == 1 && input.discards == 0)
     print("PASS durable camera becomes usable before primary audio publication completes; lifecycle suffixes and both source proofs recover")
+}
+
+/// A private acquisition reader must not delay the independently closed primary source.
+@MainActor
+func runCameraContinuationClosureTest(output: String? = nil) async throws {
+    let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("camera-continuation-closure")
+    if output != nil { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false) }
+    defer { if output == nil { try? FileManager.default.removeItem(at: root) } }
+    let source = root.appendingPathComponent("input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: (0..<210).map { Int64($0) * 33333 }, endUs: 7000000)
+    let folder = root.appendingPathComponent("capture")
+    let cameraDirectory = folder.appendingPathComponent("camera")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.cameraBinding = CameraCaptureBinding(recordingId: "continuation-take", sourceId: "continuation-camera", deviceId: "prerecorded-camera")
+    input.videoDeliveryInterval = .milliseconds(10)
+    let barrier = SourcePublicationBarrier()
+    let readers = try CameraReaderStarts(directory: cameraDirectory, beforeReading: { url in
+        if url.deletingLastPathComponent().lastPathComponent.hasPrefix(".camera-snapshot-") {
+            barrier.hold()
+        }
+    })
+    defer { readers.restore() }
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    capture.onPublication = { report in
+        capture.note("finalizing", reason: "SOURCE_PUBLICATION_OBSERVED")
+        barrier.observe(report)
+    }
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "continuation-primary", microphone: false)
+    try await capture.start(request)
+    let acquisitionHeld = barrier.held
+    readers.markStop()
+    let result = try await capture.stop()
+    try JSONEncoder().encode(request).write(to: root.appendingPathComponent("request.json"))
+    try JSONEncoder().encode(result).write(to: root.appendingPathComponent("native-result.json"))
+    try JSONEncoder().encode(capture.publication).write(to: root.appendingPathComponent("final-observation.json"))
+    try JSONEncoder().encode(barrier.observation).write(to: root.appendingPathComponent("primary-before-camera-continuation.json"))
+    try JSONEncoder().encode(readers.readings).write(to: root.appendingPathComponent("camera-readers.json"))
+    try JSONSerialization.data(withJSONObject: ["acquisitionReaderHeldBeforeStop": acquisitionHeld,
+        "releasedByPrimaryPublication": barrier.released, "readers": readers.observed], options: [.sortedKeys])
+        .write(to: root.appendingPathComponent("barrier.json"))
+    try retainClosureFacts(input, in: folder)
+    guard acquisitionHeld else {
+        throw CaptureFailure("CONTINUATION_NOT_EXERCISED", "Fixture must hold a camera snapshot reader before Stop.")
+    }
+    guard barrier.released, let observed = barrier.observation, case .published(let primary) = observed.primary else {
+        throw CaptureFailure("CAMERA_CONTINUATION_SERIALIZED", "Primary must become usable while private camera verification remains held.")
+    }
+    let recovered = try await CapturePublishedSource.recover(directory: folder.path)
+    let recoveredCamera = try await CapturePublishedSource.recover(directory: cameraDirectory.path)
+    precondition(observed.inputsClosed && primary.sourceId == "continuation-primary"
+        && primary.sourceDurationUs > 0 && primary.originHostUs == input.fixtureOrigin
+        && primary.diagnostic == nil && recovered.journal == primary.journal)
+    precondition(recoveredCamera.binding == input.cameraBinding && recoveredCamera.diagnostic == nil
+        && result.failure == nil && result.camera?.failure == nil && capture.deviceState == "idle"
+        && input.stops == 1 && input.finalizations == 1 && input.discards == 0 && readers.observed["active"] == 0)
+    print("PASS closed primary publishes while acquisition camera verification remains held; Stop joins both sources and recovery retains exact authority")
+}
+
+/// Pre-requested publication cancellation still joins an acquisition verification reader.
+@MainActor
+func runCanceledCameraContinuationTest(output: String? = nil) async throws {
+    let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("canceled-camera-continuation")
+    if output != nil { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false) }
+    defer { if output == nil { try? FileManager.default.removeItem(at: root) } }
+    let source = root.appendingPathComponent("input.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(to: source,
+        timesUs: (0..<210).map { Int64($0) * 33333 }, endUs: 7000000)
+    let folder = root.appendingPathComponent("capture")
+    let cameraDirectory = folder.appendingPathComponent("camera")
+    let input = PrerecordedCaptureInput(source: source)
+    input.probeDirectory = folder
+    input.videoDeliveryInterval = .milliseconds(10)
+    let barrier = SourcePublicationBarrier()
+    let readers = try CameraReaderStarts(directory: cameraDirectory, beforeReading: { url in
+        if url.deletingLastPathComponent().lastPathComponent.hasPrefix(".camera-snapshot-") { barrier.hold() }
+    })
+    defer { readers.restore() }
+    let capture = NativeCapture(prepareInput: { _, _ in input })
+    let request = CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+        outputDirectory: folder.path, sourceId: "canceled-continuation-primary", microphone: false)
+    try await capture.start(request)
+    let acquisitionHeld = barrier.held
+    readers.markStop()
+    capture.cancelPublication()
+    let release = Task { @MainActor in
+        let deadline = ContinuousClock.now.advanced(by: .seconds(10))
+        while capture.publication?.inputsClosed != true && ContinuousClock.now < deadline {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        try await Task.sleep(for: .milliseconds(100))
+        barrier.releaseHeldReader()
+    }
+    var canceled = false
+    do { _ = try await capture.stop() }
+    catch is CancellationError { canceled = true }
+    catch { print("Unexpected canceled Stop failure: \(error)") }
+    let readersAtStop = readers.observed
+    let heldReaderJoinedAtStop = barrier.released
+    try JSONEncoder().encode(request).write(to: root.appendingPathComponent("request.json"))
+    try JSONEncoder().encode(capture.publication).write(to: root.appendingPathComponent("canceled-observation.json"))
+    try JSONSerialization.data(withJSONObject: ["acquisitionReaderHeldBeforeStop": acquisitionHeld,
+        "cancellationReturned": canceled, "heldReaderJoinedAtStop": heldReaderJoinedAtStop,
+        "readersAtStop": readersAtStop], options: [.sortedKeys])
+        .write(to: root.appendingPathComponent("cancellation.json"))
+    try await release.value
+    // Keep the unfinished private candidate as explicitly unverified before discard removes it.
+    let diagnostic = root.appendingPathComponent("unverified-candidates")
+    try FileManager.default.createDirectory(at: diagnostic, withIntermediateDirectories: false)
+    for name in try FileManager.default.contentsOfDirectory(atPath: cameraDirectory.path)
+        where name.hasPrefix(".screenrec-output-") {
+        let candidate = cameraDirectory.appendingPathComponent(name).appendingPathComponent("camera.mov")
+        if FileManager.default.fileExists(atPath: candidate.path) {
+            try FileManager.default.linkItem(at: candidate, to: diagnostic.appendingPathComponent(name + ".mov"))
+        }
+    }
+    await capture.discard()
+    try JSONEncoder().encode(readers.readings).write(to: root.appendingPathComponent("camera-readers.json"))
+    try retainClosureFacts(input, in: folder)
+    guard acquisitionHeld && canceled && heldReaderJoinedAtStop && readersAtStop["active"] == 0 else {
+        throw CaptureFailure("CAMERA_VERIFICATION_ESCAPED", "Canceled Stop must join the held acquisition verification reader before returning.")
+    }
+    precondition(input.stops == 1 && input.finalizations == 1 && capture.deviceState == "idle"
+        && readers.observed["active"] == 0 && capture.publication == nil)
+    print("PASS pre-requested cancellation joins held acquisition verification before returning and discard releases closed authority")
 }
