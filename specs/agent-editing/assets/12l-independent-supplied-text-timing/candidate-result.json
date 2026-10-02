@@ -1,0 +1,30 @@
+{
+  "duration": 1.6214375,
+  "words": [
+    {
+      "word": "There",
+      "start": 0.08,
+      "end": 0.24
+    },
+    {
+      "word": "was",
+      "start": 0.24,
+      "end": 0.56
+    },
+    {
+      "word": "a",
+      "start": 0.56,
+      "end": 0.64
+    },
+    {
+      "word": "change",
+      "start": 0.64,
+      "end": 1.04
+    },
+    {
+      "word": "now",
+      "start": 1.04,
+      "end": 1.44
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"id": "12l-conversion", "operation": "media.convertSelectedAudio", "params": {"source": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav", "output": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav", "sampleRate": 16000, "channels": 1}}

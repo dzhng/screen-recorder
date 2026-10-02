@@ -1,0 +1,398 @@
+{
+  "scope": "Fixed independent supplied-text timing case; no ASR discovery/recipe adoption/full parent12 quality or latency verdict",
+  "sourceBase": "bd648bfb93f608ee175ef25d89d7caaf0f9e4746",
+  "producerSession": 69502,
+  "producerExitCode": 0,
+  "nativeRequests": 2,
+  "nativeReplies": 2,
+  "alignmentAttempts": 1,
+  "children": [
+    {
+      "name": "bridge",
+      "pid": 7542,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+        "/tmp/screenrec-09c-native-presented-worker"
+      ],
+      "ceilingSeconds": 180,
+      "startedAt": 1790916260.7811892,
+      "exitCode": 0,
+      "signal": null,
+      "closedAt": 1790916261.5392928,
+      "wallSeconds": 0.7569297919981182,
+      "failure": null,
+      "peakResidentBytes": 25657344,
+      "peakResidentUnit": "macOS wait4 bytes",
+      "stdout": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/bridge.stdout",
+        "bytes": 419,
+        "sha256": "917d9bd82c6d2767e0907cf3207fc598f2133055774d4f7796116f035d6804ae"
+      },
+      "stderr": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/bridge.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "conversion",
+      "pid": 7547,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+        "/tmp/screenrec-09c-native-presented-worker"
+      ],
+      "ceilingSeconds": 180,
+      "startedAt": 1790916261.630477,
+      "exitCode": 0,
+      "signal": null,
+      "closedAt": 1790916262.1658251,
+      "wallSeconds": 0.5237338340084534,
+      "failure": null,
+      "peakResidentBytes": 25837568,
+      "peakResidentUnit": "macOS wait4 bytes",
+      "stdout": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/conversion.stdout",
+        "bytes": 442,
+        "sha256": "23bf66d722bd009fb0629cd10663922b21a60fa74f83d6faa5e92e841504234a"
+      },
+      "stderr": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/conversion.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "alignment",
+      "pid": 7549,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+        "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/venv/bin/python",
+        "-B",
+        "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+        "--model",
+        "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model",
+        "--audio",
+        "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav",
+        "--transcript",
+        "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/supplied-text.json",
+        "--out",
+        "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/candidate"
+      ],
+      "ceilingSeconds": 900,
+      "startedAt": 1790916262.17571,
+      "exitCode": 0,
+      "signal": null,
+      "closedAt": 1790916322.9029891,
+      "wallSeconds": 60.72626249998575,
+      "failure": null,
+      "peakResidentBytes": 3478487040,
+      "peakResidentUnit": "macOS wait4 bytes",
+      "stdout": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/alignment.stdout",
+        "bytes": 105,
+        "sha256": "fd64d726799c5f890b991e190b50f0f2a4f3b1d8868f67cc08f2cef46eb1a0a6"
+      },
+      "stderr": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/alignment.stderr",
+        "bytes": 766,
+        "sha256": "c4362be35ee9ca4e5a1395ea90fcb7685f9b9eb740feac67a58899251da7ff12"
+      }
+    }
+  ],
+  "bounds": {
+    "nativeSeconds": 180,
+    "alignmentSeconds": 900,
+    "stdioBytes": 8388608,
+    "resourceBytes": 4294967296,
+    "retry": false
+  },
+  "completeOrderedText": true,
+  "words": {
+    "supplied": 5,
+    "returned": 5,
+    "matchedToReference": 5,
+    "omitted": [],
+    "extra": [],
+    "fillers": 0
+  },
+  "sourceFormatBridge": {
+    "file": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav",
+      "bytes": 290128,
+      "sha256": "4448ae3f20e658a8d641993fbbc956034ea8920f62d804baa2d6602a81ec22f8"
+    },
+    "format": {
+      "code": 3,
+      "channels": 1,
+      "sampleRate": 44100,
+      "frames": 71508,
+      "bits": 32
+    },
+    "payloadBytes": 286032,
+    "payloadSha256": "40d3d6445409ac5ab0da51031e825d4082a66a0ff8c0a68efd098b8d8d75d7bc",
+    "all71508SamplesExactlyInt16Div32768": true
+  },
+  "clock": {
+    "originalFrames": 71508,
+    "originalRate": 44100,
+    "sourceSupport": {
+      "startUs": 0,
+      "endUs": {
+        "numerator": 238360000,
+        "denominator": 147
+      }
+    },
+    "outputFrames": 25943,
+    "outputRate": 16000,
+    "outputDurationSeconds": 1.6214375,
+    "sourceEndDifferenceSeconds": 5.909863945574578e-5,
+    "savedAsrFrames": 25944,
+    "internalAsrPcmByteEquivalence": false
+  },
+  "resourceObservation": {
+    "kernelPeakResidentBytes": 3478487040,
+    "runnerPeakResidentBytes": 3478487040,
+    "ceilingBytes": 4294967296,
+    "meets": true
+  },
+  "timing": {
+    "samples": 10,
+    "median": 0.030000000000000027,
+    "p95": 0.040000000000000036,
+    "max": 0.040000000000000036,
+    "edgeObservations": 10,
+    "distinctReferenceTimes": 6,
+    "individualRegressions": 0,
+    "improvedObservations": 3,
+    "unchangedObservations": 7,
+    "changedDistinctReferenceTimes": 2,
+    "baseline": {
+      "samples": 10,
+      "median": 0.04000000000000002,
+      "p95": 0.15999999999999992,
+      "max": 0.15999999999999992
+    },
+    "thresholdsUnchanged": {
+      "medianSeconds": 0.1,
+      "p95Seconds": 0.25
+    },
+    "meetsScopedTiming": true
+  },
+  "fullEvaluation": {
+    "status": "pending",
+    "failures": [],
+    "pending": [
+      "Audition pending: lxc-arctic-a0018",
+      "Human coverage pending: repetition",
+      "Human coverage pending: false-start",
+      "Human coverage pending: silence",
+      "Human coverage pending: technical-names",
+      "Real canonical fixture pending",
+      "At least 40 labeled fillers across held-out human clips required",
+      "Five-minute human walkthrough pending"
+    ],
+    "heldOut": {
+      "truePositive": 0,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "precision": null,
+      "recall": null,
+      "precisionWilson95": null,
+      "recallWilson95": null
+    },
+    "boundaries": {
+      "samples": 10,
+      "median": 0.030000000000000027,
+      "p95": 0.040000000000000036
+    },
+    "clips": [
+      {
+        "id": "lxc-arctic-a0018",
+        "origin": "human",
+        "matchedWords": 5,
+        "referenceWords": 5,
+        "missedRequired": [],
+        "missedFillers": [],
+        "boundaryMedian": 0.030000000000000027,
+        "boundaryP95": 0.040000000000000036
+      }
+    ]
+  },
+  "privateSignedRows": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/scoring.json",
+    "bytes": 7994,
+    "sha256": "10d904e71a79966baf68b05476a5d44d91f7ead34fe6dcfee5ccce551ef0441a"
+  },
+  "privateResearchFiles": [
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/report.json",
+      "bytes": 34520,
+      "sha256": "51fab4ef7c21741840c38e062fb02c075905e31d3ef320b5176245ee165c4264"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav",
+      "bytes": 290128,
+      "sha256": "4448ae3f20e658a8d641993fbbc956034ea8920f62d804baa2d6602a81ec22f8"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav",
+      "bytes": 107868,
+      "sha256": "3ce9a46ceceb4e3af1b53198ab1a8d06bfd499f2b0bd94d4010ded0a9cdeed4c"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/supplied-text.json",
+      "bytes": 241,
+      "sha256": "74f13d27ca5434a700c2979f11719bf937fc5291359b00db82e6e9414067ad87"
+    }
+  ],
+  "humanReference": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k-reference-continuation/reference.json",
+    "bytes": 907,
+    "sha256": "142c5aa56b0b589731ed959e512d341377f595d77e6cc85195a15449c0695808"
+  },
+  "priorAsr": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k-reference-continuation/report.json",
+    "bytes": 53416,
+    "sha256": "6e24b90e5b03ef2d19968ce6f1a1783f823710b636230d5a6cedfbefd61b8578"
+  },
+  "recipe": {
+    "unchangedNamespace": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927",
+    "runner": {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+      "bytes": 3366,
+      "sha256": "87eadff331923a71275d348742027dbbbaf6c6c44a8263abc69f2d1646c533c0"
+    },
+    "inventoryOwner": {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/model_inventory.py",
+      "bytes": 639,
+      "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+    },
+    "copyChanges": "Onlytwo precision literals differ from current generic entry; shared inventory source byte-identical. Numerical sequence same as frozen12i float16; frozen runner/receipts unchanged.",
+    "modelRevision": "c07281df297b9905d24a508279258cccf987a064",
+    "actualModelFiles": 8,
+    "runtimeMembers": 26794,
+    "beforeAfterEqual": true,
+    "unknownHistoricalIdentity": "Older historical Python/wheel binary identities unavailable; actual12i interpreter/runtime are preserved, not reconstructed."
+  },
+  "originalExecutedPlan": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/slices/12l-independent-supplied-text-timing.md",
+    "bytes": 3014,
+    "sha256": "55792894f0f29eb56e3f08c3e948a58f94497446b7c171c8645082447a58cfd7"
+  },
+  "retainedPlan": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/fixed-plan.md",
+    "bytes": 3014,
+    "sha256": "55792894f0f29eb56e3f08c3e948a58f94497446b7c171c8645082447a58cfd7"
+  },
+  "payloads": [
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/alignment.stderr",
+      "bytes": 766,
+      "sha256": "c4362be35ee9ca4e5a1395ea90fcb7685f9b9eb740feac67a58899251da7ff12"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/alignment.stdout",
+      "bytes": 105,
+      "sha256": "fd64d726799c5f890b991e190b50f0f2a4f3b1d8868f67cc08f2cef46eb1a0a6"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/bridge.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/bridge.stdin",
+      "bytes": 533,
+      "sha256": "c0ccd0525f30c40762fed5be48e03d2c9df9f86d1a0a9de4ac25f63e0ec5def7"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/bridge.stdout",
+      "bytes": 419,
+      "sha256": "917d9bd82c6d2767e0907cf3207fc598f2133055774d4f7796116f035d6804ae"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/candidate-manifest.json",
+      "bytes": 3432,
+      "sha256": "38229aa31916e8e84f094cd41ac252a244576023b0352631eea42f08d899d77a"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/candidate-result.json",
+      "bytes": 413,
+      "sha256": "38c2e0fbf212c177e3ef998f906ebff46d58c6a591c507467ad12416e0e65b09"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/conversion.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/conversion.stdin",
+      "bytes": 359,
+      "sha256": "e566122bec3d68b6113dae2e3e383d09948562b28cfb72a1adda81722dd6e9fb"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/conversion.stdout",
+      "bytes": 442,
+      "sha256": "23bf66d722bd009fb0629cd10663922b21a60fa74f83d6faa5e92e841504234a"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/driver.log",
+      "bytes": 6123,
+      "sha256": "13b056ec4aa08e16ee949dd474b279162857541e6cac659cac7d1f804a0b2a76"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/model_inventory.py",
+      "bytes": 639,
+      "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+      "bytes": 3366,
+      "sha256": "87eadff331923a71275d348742027dbbbaf6c6c44a8263abc69f2d1646c533c0"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/execution.json",
+      "bytes": 34520,
+      "sha256": "51fab4ef7c21741840c38e062fb02c075905e31d3ef320b5176245ee165c4264"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/fixed-plan.md",
+      "bytes": 3014,
+      "sha256": "55792894f0f29eb56e3f08c3e948a58f94497446b7c171c8645082447a58cfd7"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/producer.py",
+      "bytes": 14511,
+      "sha256": "aff64bf30f619d8589abbcaf9955180b9d45acdf5a86a01ea4d3cbe86caf4cba"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/recipe.diff",
+      "bytes": 1108,
+      "sha256": "18445630021008d04fa2646c9b2a982656d927a6e90d84ad9c61ff24bccf77e8"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/score.mjs",
+      "bytes": 5356,
+      "sha256": "fd4674ee276f52df1363b3cc58a5865ffdf61593b46ae660169614a838f4421e"
+    },
+    {
+      "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/scoring.log",
+      "bytes": 464,
+      "sha256": "45b4d22818b4eb426567fd03a62fc66d83c40c076eb81e2fea412018c3116145"
+    }
+  ],
+  "limits": [
+    "One accented read utterance; ten correlated edges at six times and zero fillers.",
+    "Supplied-text alignment is not discovery or new ASR lexical evidence; no pretraining exclusion proof.",
+    "Finite conversion output25943 differs from savedASR25944; no padding/time adjustment/internalPCM byte-equivalence or engine-only causality claim.",
+    "Full human reference, signed rows and licensed source/derived audio stay outsideGit under CC BY-NC private local noncommercial use.",
+    "Observed inherited4GiB criterion is scoped, no isolated throughput/latency/general memory capacity claim.",
+    "No download/preparation/model/worker/runtime change, crop/gain/tuning/retry/capture/playback/UI or broad suite."
+  ]
+}

@@ -1,0 +1,805 @@
+{
+  "scope": "One fixed independent supplied-text timing characterization; no adoption/full quality/performance verdict",
+  "producer": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/producer.py",
+    "bytes": 14511,
+    "sha256": "aff64bf30f619d8589abbcaf9955180b9d45acdf5a86a01ea4d3cbe86caf4cba"
+  },
+  "hostPython": {
+    "path": "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+    "bytes": 34640,
+    "sha256": "71a669c194d5420a517dd3a047ffa9d6b0914d51fcd51ac9e51117d71e60b3d1"
+  },
+  "command": {
+    "argv": [
+      "specs/agent-editing/assets/12l-independent-supplied-text-timing/producer.py"
+    ],
+    "cwd": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder"
+  },
+  "namespace": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927",
+  "children": [
+    {
+      "name": "bridge",
+      "pid": 7542,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+        "/tmp/screenrec-09c-native-presented-worker"
+      ],
+      "ceilingSeconds": 180,
+      "startedAt": 1790916260.7811892,
+      "exitCode": 0,
+      "signal": null,
+      "closedAt": 1790916261.5392928,
+      "wallSeconds": 0.7569297919981182,
+      "failure": null,
+      "peakResidentBytes": 25657344,
+      "peakResidentUnit": "macOS wait4 bytes",
+      "stdout": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/bridge.stdout",
+        "bytes": 419,
+        "sha256": "917d9bd82c6d2767e0907cf3207fc598f2133055774d4f7796116f035d6804ae"
+      },
+      "stderr": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/bridge.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "conversion",
+      "pid": 7547,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+        "/tmp/screenrec-09c-native-presented-worker"
+      ],
+      "ceilingSeconds": 180,
+      "startedAt": 1790916261.630477,
+      "exitCode": 0,
+      "signal": null,
+      "closedAt": 1790916262.1658251,
+      "wallSeconds": 0.5237338340084534,
+      "failure": null,
+      "peakResidentBytes": 25837568,
+      "peakResidentUnit": "macOS wait4 bytes",
+      "stdout": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/conversion.stdout",
+        "bytes": 442,
+        "sha256": "23bf66d722bd009fb0629cd10663922b21a60fa74f83d6faa5e92e841504234a"
+      },
+      "stderr": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/conversion.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "alignment",
+      "pid": 7549,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+        "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/venv/bin/python",
+        "-B",
+        "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+        "--model",
+        "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model",
+        "--audio",
+        "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav",
+        "--transcript",
+        "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/supplied-text.json",
+        "--out",
+        "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/candidate"
+      ],
+      "ceilingSeconds": 900,
+      "startedAt": 1790916262.17571,
+      "exitCode": 0,
+      "signal": null,
+      "closedAt": 1790916322.9029891,
+      "wallSeconds": 60.72626249998575,
+      "failure": null,
+      "peakResidentBytes": 3478487040,
+      "peakResidentUnit": "macOS wait4 bytes",
+      "stdout": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/alignment.stdout",
+        "bytes": 105,
+        "sha256": "fd64d726799c5f890b991e190b50f0f2a4f3b1d8868f67cc08f2cef46eb1a0a6"
+      },
+      "stderr": {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/alignment.stderr",
+        "bytes": 766,
+        "sha256": "c4362be35ee9ca4e5a1395ea90fcb7685f9b9eb740feac67a58899251da7ff12"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "id": "12l-bridge",
+      "operation": "media.sourceAudio",
+      "params": {
+        "source": {
+          "source": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav",
+          "streamId": "track:1",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": {
+                "numerator": 238360000,
+                "denominator": 147
+              }
+            }
+          ]
+        },
+        "range": {
+          "startUs": 0,
+          "endUs": {
+            "numerator": 238360000,
+            "denominator": 147
+          }
+        },
+        "output": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav"
+      }
+    },
+    {
+      "id": "12l-conversion",
+      "operation": "media.convertSelectedAudio",
+      "params": {
+        "source": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav",
+        "output": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav",
+        "sampleRate": 16000,
+        "channels": 1
+      }
+    }
+  ],
+  "bounds": {
+    "nativeSeconds": 180,
+    "alignmentSeconds": 900,
+    "stdioBytes": 8388608,
+    "resourceBytes": 4294967296,
+    "retry": false
+  },
+  "modelFiles": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/.gitattributes",
+      "bytes": 1570,
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/README.md",
+      "bytes": 9419,
+      "sha256": "30de8315ece609b239c719539336b99188a2a92aef89a1fdcd60b11e40abd063"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/chat_template.jinja",
+      "bytes": 551,
+      "sha256": "59b5ae119bda7c00089bba5f49af775791ea67c7aeb7d2b828cddda9463121bf"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/config.json",
+      "bytes": 248029,
+      "sha256": "82ac390b36a8f80c5a0c4e202367debd149e5d8c30abe4cf5eed439101b1c5ce"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/model.safetensors",
+      "bytes": 1835545960,
+      "sha256": "00568245ceca5af1991d28562a75fe1ddc9bfeb041c27fda66947ea05c47fb86"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/processor_config.json",
+      "bytes": 487,
+      "sha256": "bc0b230081b44e629dd5b9045b78495615c1831b4b9f4cffe97bd37e82a6156a"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/tokenizer.json",
+      "bytes": 11429842,
+      "sha256": "cadfb9cbd9ff8f4e309075ec6a71b063295ff796afb4b5dbc0fd2873fbb301f2"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/tokenizer_config.json",
+      "bytes": 998,
+      "sha256": "945e980986de2ca7768f3326bfdbb4fbea3406f972b8ae0be233089f2b253c11"
+    }
+  ],
+  "runtimeInventory": {
+    "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+    "bytes": 1330251,
+    "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+  },
+  "runner": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+    "bytes": 3366,
+    "sha256": "87eadff331923a71275d348742027dbbbaf6c6c44a8263abc69f2d1646c533c0"
+  },
+  "inventoryOwner": {
+    "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/model_inventory.py",
+    "bytes": 639,
+    "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+  },
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "HF_HOME": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/cache/huggingface",
+    "HF_MODULES_CACHE": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/cache/modules",
+    "TORCH_HOME": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/cache/torch",
+    "NUMBA_CACHE_DIR": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/cache/numba",
+    "XDG_CACHE_HOME": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/cache",
+    "TMPDIR": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/temp"
+  },
+  "sandbox": "(version 1)(allow default)(deny network*)(deny file-write* (subpath \"/Users/david/.cache/screen-recorder/verification\"))(deny file-write* (subpath \"/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example\"))",
+  "before": {
+    "protected": [
+      {
+        "path": "/tmp/screenrec-09c-native-presented-worker",
+        "bytes": 30148624,
+        "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav",
+        "bytes": 143060,
+        "sha256": "f4eed842118140c5e33eb9b51dfab2f898069df86ae7b0d725a46c7209afe4dc"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.TextGrid",
+        "bytes": 3579,
+        "sha256": "bb2e198e06fb6646f7f60f6548e5ed7d6d558987bad52c4d0e9a278190d88573"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/qualification.json",
+        "bytes": 13255,
+        "sha256": "398ea53d4e1f51aa0e3b0ac6c3abcff37e9f4b3b5fa60643afa8af361d97ff74"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/frozen.json",
+        "bytes": 1073,
+        "sha256": "7bd99ad05d8ac1a166397c0f32d1c667e43b973d620f775f9ffc5d9fa68299df"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/continuation-recognition.raw.jsonl",
+        "bytes": 1639,
+        "sha256": "d32f2fb3b47464de8b4c856aafcd72fd2b61bec35ca74525e4a11589cd2112f1"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k/report.json",
+        "bytes": 33790,
+        "sha256": "2ee225355694b3b162d054c340922505e7285f2d0fb0a10265a4f83666e046f1"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/report.json",
+        "bytes": 22833,
+        "sha256": "7a2951f334c33e86ae359764d6740b9ae4f38e378d6e5ee2b883bcdf889acfab"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/report.json",
+        "bytes": 82775,
+        "sha256": "416c2407cad76be967d74f865323a2795db143f096638620def54b97ec6f7192"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate/result.json",
+        "bytes": 1068,
+        "sha256": "bd5cae520de2dd08fdd6943de8269fb032ad0629311643e478b04aba945d1d06"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate/manifest.json",
+        "bytes": 2121,
+        "sha256": "fa6921cf2141b8155a34f1c64fa40b7aa6d3749e4333d73edd6653926438b367"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/alignment-float16.py",
+        "bytes": 3425,
+        "sha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+        "bytes": 1330251,
+        "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/producer.py",
+        "bytes": 14511,
+        "sha256": "aff64bf30f619d8589abbcaf9955180b9d45acdf5a86a01ea4d3cbe86caf4cba"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/score.mjs",
+        "bytes": 5356,
+        "sha256": "fd4674ee276f52df1363b3cc58a5865ffdf61593b46ae660169614a838f4421e"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+        "bytes": 3366,
+        "sha256": "87eadff331923a71275d348742027dbbbaf6c6c44a8263abc69f2d1646c533c0"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/model_inventory.py",
+        "bytes": 639,
+        "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/speech/evaluate.mjs",
+        "bytes": 10410,
+        "sha256": "a841656161b6adad6bf9f096088585f115ec8746b434b224809e33e88bce1dd7"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/editing/model_inventory.py",
+        "bytes": 639,
+        "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/editing/speech/alignment-probe.py",
+        "bytes": 3366,
+        "sha256": "5f83020883786bd1f8bf03fe9883cab1bb4e615ae266243c30098fda783f6d2c"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/slices/12l-independent-supplied-text-timing.md",
+        "bytes": 3014,
+        "sha256": "55792894f0f29eb56e3f08c3e948a58f94497446b7c171c8645082447a58cfd7"
+      }
+    ],
+    "model": [
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/.gitattributes",
+        "bytes": 1570,
+        "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/README.md",
+        "bytes": 9419,
+        "sha256": "30de8315ece609b239c719539336b99188a2a92aef89a1fdcd60b11e40abd063"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/chat_template.jinja",
+        "bytes": 551,
+        "sha256": "59b5ae119bda7c00089bba5f49af775791ea67c7aeb7d2b828cddda9463121bf"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/config.json",
+        "bytes": 248029,
+        "sha256": "82ac390b36a8f80c5a0c4e202367debd149e5d8c30abe4cf5eed439101b1c5ce"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/model.safetensors",
+        "bytes": 1835545960,
+        "sha256": "00568245ceca5af1991d28562a75fe1ddc9bfeb041c27fda66947ea05c47fb86"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/processor_config.json",
+        "bytes": 487,
+        "sha256": "bc0b230081b44e629dd5b9045b78495615c1831b4b9f4cffe97bd37e82a6156a"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/tokenizer.json",
+        "bytes": 11429842,
+        "sha256": "cadfb9cbd9ff8f4e309075ec6a71b063295ff796afb4b5dbc0fd2873fbb301f2"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/tokenizer_config.json",
+        "bytes": 998,
+        "sha256": "945e980986de2ca7768f3326bfdbb4fbea3406f972b8ae0be233089f2b253c11"
+      }
+    ],
+    "runtime": {
+      "members": 26794,
+      "allByteAndSymlinkIdentitiesEqual": true,
+      "inventory": {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+        "bytes": 1330251,
+        "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+      }
+    }
+  },
+  "source": {
+    "file": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav",
+      "bytes": 143060,
+      "sha256": "f4eed842118140c5e33eb9b51dfab2f898069df86ae7b0d725a46c7209afe4dc"
+    },
+    "format": {
+      "code": 1,
+      "channels": 1,
+      "sampleRate": 44100,
+      "frames": 71508,
+      "bits": 16
+    },
+    "payloadBytes": 143016,
+    "payloadSha256": "7ddac6bdeef714de2fbb268ceb5b003fb75cb218a0280b82dc927e6901beb148"
+  },
+  "suppliedText": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/supplied-text.json",
+    "bytes": 241,
+    "sha256": "74f13d27ca5434a700c2979f11719bf937fc5291359b00db82e6e9414067ad87"
+  },
+  "replies": [
+    {
+      "data": {
+        "bytes": 290128,
+        "channels": 1,
+        "decodedFrames": 71508,
+        "file": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav",
+        "frames": 71508,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": {
+            "denominator": 147,
+            "numerator": 238360000
+          },
+          "startUs": 0
+        },
+        "sampleRange": {
+          "end": 71508,
+          "start": 0
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "id": "12l-bridge",
+      "ok": true
+    },
+    {
+      "data": {
+        "bytes": 107868,
+        "channelPolicy": "preserve",
+        "contextPolicy": "complete-selected-pcm-zero-origin",
+        "file": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav",
+        "implementationId": "native-finite-pcm-v1",
+        "input": {
+          "channels": 1,
+          "frames": 71508,
+          "sampleRate": 44100
+        },
+        "mediaType": "audio/wav",
+        "output": {
+          "channels": 1,
+          "frames": 25943,
+          "sampleRate": 16000
+        }
+      },
+      "id": "12l-conversion",
+      "ok": true
+    }
+  ],
+  "bridge": {
+    "file": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source-float32.wav",
+      "bytes": 290128,
+      "sha256": "4448ae3f20e658a8d641993fbbc956034ea8920f62d804baa2d6602a81ec22f8"
+    },
+    "format": {
+      "code": 3,
+      "channels": 1,
+      "sampleRate": 44100,
+      "frames": 71508,
+      "bits": 32
+    },
+    "payloadBytes": 286032,
+    "payloadSha256": "40d3d6445409ac5ab0da51031e825d4082a66a0ff8c0a68efd098b8d8d75d7bc",
+    "all71508SamplesExactlyInt16Div32768": true
+  },
+  "converted": {
+    "file": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/source16k.wav",
+      "bytes": 107868,
+      "sha256": "3ce9a46ceceb4e3af1b53198ab1a8d06bfd499f2b0bd94d4010ded0a9cdeed4c"
+    },
+    "format": {
+      "code": 3,
+      "channels": 1,
+      "sampleRate": 16000,
+      "frames": 25943,
+      "bits": 32
+    },
+    "payloadBytes": 103772,
+    "payloadSha256": "42dd392fcead4b5c640ba975e885420b2112679dfae4a9d8959fdda58b865e89"
+  },
+  "clock": {
+    "originalFrames": 71508,
+    "originalRate": 44100,
+    "sourceSupport": {
+      "startUs": 0,
+      "endUs": {
+        "numerator": 238360000,
+        "denominator": 147
+      }
+    },
+    "outputFrames": 25943,
+    "outputRate": 16000,
+    "outputDurationSeconds": 1.6214375,
+    "sourceEndDifferenceSeconds": 5.909863945574578e-05,
+    "savedAsrFrames": 25944,
+    "internalAsrPcmByteEquivalence": false
+  },
+  "candidateResult": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-alignment-timing-12l/candidate/result.json",
+    "bytes": 413,
+    "sha256": "38c2e0fbf212c177e3ef998f906ebff46d58c6a591c507467ad12416e0e65b09"
+  },
+  "candidateManifest": {
+    "scope": "Supplied-text timing only; no filler discovery, production or listening acceptance",
+    "audioSha256": "3ce9a46ceceb4e3af1b53198ab1a8d06bfd499f2b0bd94d4010ded0a9cdeed4c",
+    "transcriptSha256": "74f13d27ca5434a700c2979f11719bf937fc5291359b00db82e6e9414067ad87",
+    "suppliedTextSha256": "d989935dcb5dc0af8a956066990f7936a854238ba9e62444a5cd166acbd37abd",
+    "runnerSha256": "87eadff331923a71275d348742027dbbbaf6c6c44a8263abc69f2d1646c533c0",
+    "modelInventorySha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb",
+    "modelFiles": [
+      {
+        "path": ".gitattributes",
+        "bytes": 1570,
+        "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+      },
+      {
+        "path": "README.md",
+        "bytes": 9419,
+        "sha256": "30de8315ece609b239c719539336b99188a2a92aef89a1fdcd60b11e40abd063"
+      },
+      {
+        "path": "chat_template.jinja",
+        "bytes": 551,
+        "sha256": "59b5ae119bda7c00089bba5f49af775791ea67c7aeb7d2b828cddda9463121bf"
+      },
+      {
+        "path": "config.json",
+        "bytes": 248029,
+        "sha256": "82ac390b36a8f80c5a0c4e202367debd149e5d8c30abe4cf5eed439101b1c5ce"
+      },
+      {
+        "path": "model.safetensors",
+        "bytes": 1835545960,
+        "sha256": "00568245ceca5af1991d28562a75fe1ddc9bfeb041c27fda66947ea05c47fb86"
+      },
+      {
+        "path": "processor_config.json",
+        "bytes": 487,
+        "sha256": "bc0b230081b44e629dd5b9045b78495615c1831b4b9f4cffe97bd37e82a6156a"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 11429842,
+        "sha256": "cadfb9cbd9ff8f4e309075ec6a71b063295ff796afb4b5dbc0fd2873fbb301f2"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 998,
+        "sha256": "945e980986de2ca7768f3326bfdbb4fbea3406f972b8ae0be233089f2b253c11"
+      }
+    ],
+    "runtime": {
+      "shellingham": "1.5.4",
+      "audioread": "3.1.0",
+      "scikit-learn": "1.9.1",
+      "soundfile": "0.14.0",
+      "cloudpickle": "3.1.2",
+      "click": "8.5.0",
+      "packaging": "26.3",
+      "joblib": "1.6.0",
+      "charset-normalizer": "3.5.1",
+      "Pygments": "2.21.0",
+      "requests": "2.34.2",
+      "hf-xet": "1.6.0",
+      "rich": "15.0.0",
+      "networkx": "3.6.1",
+      "torch": "2.14.0",
+      "numpy": "2.4.6",
+      "tokenizers": "0.23.2",
+      "httpcore": "1.0.9",
+      "librosa": "0.11.0",
+      "sympy": "1.14.0",
+      "transformers": "5.17.0",
+      "safetensors": "0.8.0",
+      "lazy-loader": "0.6",
+      "filelock": "4.0.5",
+      "tqdm": "4.70.1",
+      "setuptools": "84.0.0",
+      "pooch": "1.9.0",
+      "urllib3": "2.8.0",
+      "h11": "0.16.0",
+      "pycparser": "3.0",
+      "llvmlite": "0.49.0",
+      "soxr": "1.1.0",
+      "mdurl": "0.1.2",
+      "mpmath": "1.3.0",
+      "PyYAML": "6.0.3",
+      "numba": "0.67.0",
+      "fsspec": "2026.9.0",
+      "cffi": "2.1.1",
+      "certifi": "2026.7.22",
+      "scipy": "1.17.1",
+      "Jinja2": "3.1.6",
+      "markdown-it-py": "4.2.0",
+      "annotated-doc": "0.0.5",
+      "MarkupSafe": "3.0.3",
+      "threadpoolctl": "3.7.0",
+      "msgpack": "1.2.2",
+      "httpx": "0.28.1",
+      "typing_extensions": "4.16.0",
+      "decorator": "5.3.1",
+      "platformdirs": "4.12.1",
+      "regex": "2026.9.10",
+      "typer": "0.27.2",
+      "anyio": "4.15.1",
+      "huggingface_hub": "1.33.0",
+      "narwhals": "2.26.0",
+      "idna": "3.20"
+    },
+    "settings": {
+      "device": "mps",
+      "dtype": "float16",
+      "language": "English"
+    },
+    "loadSeconds": 10.015502374997595,
+    "alignSeconds": 1.9159820000058971,
+    "peakResidentBytes": 3478487040
+  },
+  "resource": {
+    "kernelPeakResidentBytes": 3478487040,
+    "runnerPeakResidentBytes": 3478487040,
+    "ceilingBytes": 4294967296,
+    "meets": true
+  },
+  "state": "Alignment complete; independent timing scoring pending",
+  "after": {
+    "protected": [
+      {
+        "path": "/tmp/screenrec-09c-native-presented-worker",
+        "bytes": 30148624,
+        "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.wav",
+        "bytes": 143060,
+        "sha256": "f4eed842118140c5e33eb9b51dfab2f898069df86ae7b0d725a46c7209afe4dc"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/lxc_arctic_a0018.TextGrid",
+        "bytes": 3579,
+        "sha256": "bb2e198e06fb6646f7f60f6548e5ed7d6d558987bad52c4d0e9a278190d88573"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/qualification.json",
+        "bytes": 13255,
+        "sha256": "398ea53d4e1f51aa0e3b0ac6c3abcff37e9f4b3b5fa60643afa8af361d97ff74"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-public-example/frozen.json",
+        "bytes": 1073,
+        "sha256": "7bd99ad05d8ac1a166397c0f32d1c667e43b973d620f775f9ffc5d9fa68299df"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12k-independent-word-timing/continuation-recognition.raw.jsonl",
+        "bytes": 1639,
+        "sha256": "d32f2fb3b47464de8b4c856aafcd72fd2b61bec35ca74525e4a11589cd2112f1"
+      },
+      {
+        "path": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/l2-arctic-word-timing-12k/report.json",
+        "bytes": 33790,
+        "sha256": "2ee225355694b3b162d054c340922505e7285f2d0fb0a10265a4f83666e046f1"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/report.json",
+        "bytes": 22833,
+        "sha256": "7a2951f334c33e86ae359764d6740b9ae4f38e378d6e5ee2b883bcdf889acfab"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/case/report.json",
+        "bytes": 82775,
+        "sha256": "416c2407cad76be967d74f865323a2795db143f096638620def54b97ec6f7192"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate/result.json",
+        "bytes": 1068,
+        "sha256": "bd5cae520de2dd08fdd6943de8269fb032ad0629311643e478b04aba945d1d06"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/candidate/manifest.json",
+        "bytes": 2121,
+        "sha256": "fa6921cf2141b8155a34f1c64fa40b7aa6d3749e4333d73edd6653926438b367"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/alignment-float16.py",
+        "bytes": 3425,
+        "sha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+        "bytes": 1330251,
+        "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/producer.py",
+        "bytes": 14511,
+        "sha256": "aff64bf30f619d8589abbcaf9955180b9d45acdf5a86a01ea4d3cbe86caf4cba"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/score.mjs",
+        "bytes": 5356,
+        "sha256": "fd4674ee276f52df1363b3cc58a5865ffdf61593b46ae660169614a838f4421e"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/speech/alignment-float16.py",
+        "bytes": 3366,
+        "sha256": "87eadff331923a71275d348742027dbbbaf6c6c44a8263abc69f2d1646c533c0"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/assets/12l-independent-supplied-text-timing/editing/model_inventory.py",
+        "bytes": 639,
+        "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/speech/evaluate.mjs",
+        "bytes": 10410,
+        "sha256": "a841656161b6adad6bf9f096088585f115ec8746b434b224809e33e88bce1dd7"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/editing/model_inventory.py",
+        "bytes": 639,
+        "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/packages/test-harness/editing/speech/alignment-probe.py",
+        "bytes": 3366,
+        "sha256": "5f83020883786bd1f8bf03fe9883cab1bb4e615ae266243c30098fda783f6d2c"
+      },
+      {
+        "path": "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/specs/agent-editing/slices/12l-independent-supplied-text-timing.md",
+        "bytes": 3014,
+        "sha256": "55792894f0f29eb56e3f08c3e948a58f94497446b7c171c8645082447a58cfd7"
+      }
+    ],
+    "model": [
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/.gitattributes",
+        "bytes": 1570,
+        "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/README.md",
+        "bytes": 9419,
+        "sha256": "30de8315ece609b239c719539336b99188a2a92aef89a1fdcd60b11e40abd063"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/chat_template.jinja",
+        "bytes": 551,
+        "sha256": "59b5ae119bda7c00089bba5f49af775791ea67c7aeb7d2b828cddda9463121bf"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/config.json",
+        "bytes": 248029,
+        "sha256": "82ac390b36a8f80c5a0c4e202367debd149e5d8c30abe4cf5eed439101b1c5ce"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/model.safetensors",
+        "bytes": 1835545960,
+        "sha256": "00568245ceca5af1991d28562a75fe1ddc9bfeb041c27fda66947ea05c47fb86"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/processor_config.json",
+        "bytes": 487,
+        "sha256": "bc0b230081b44e629dd5b9045b78495615c1831b4b9f4cffe97bd37e82a6156a"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/tokenizer.json",
+        "bytes": 11429842,
+        "sha256": "cadfb9cbd9ff8f4e309075ec6a71b063295ff796afb4b5dbc0fd2873fbb301f2"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/model/tokenizer_config.json",
+        "bytes": 998,
+        "sha256": "945e980986de2ca7768f3326bfdbb4fbea3406f972b8ae0be233089f2b253c11"
+      }
+    ],
+    "runtime": {
+      "members": 26794,
+      "allByteAndSymlinkIdentitiesEqual": true,
+      "inventory": {
+        "path": "/Users/david/.cache/screen-recorder/verification/sentence-alignment-12i-beecd927/evidence/runtime-files.json.gz",
+        "bytes": 1330251,
+        "sha256": "0b4af77876774aed0be5eb9b9c4615b380990c904ececb89350db9373022bae0"
+      }
+    }
+  },
+  "preserved": true
+}
