@@ -39,8 +39,10 @@ subsequently passes its controlled readiness/recovery contract, but the
 also fails the original deadline. The
 [verification ownership correction](../assets/20-sustained-physical-stop/verification-closure/README.md)
 now proves independent primary readiness and joined cancellation; physical
-closure and final identity pins stay intact. Measure remaining publication on the
-retained source before another confirmation. Public `inputsClosed` alone does not
+closure and final identity pins stay intact. The
+[retained-source measurement](../assets/20-sustained-physical-stop/retained-publication-cost/README.md)
+qualifies exact pictures/clocks, priming and resumed final readers, separately
+from the changed-candidate physical confirmation. Public `inputsClosed` alone does not
 identify hardware drainage. No unchanged recapture or budget relaxation is queued.
 
 ## Contract

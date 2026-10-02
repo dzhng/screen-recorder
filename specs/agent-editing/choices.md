@@ -6959,3 +6959,25 @@ own idempotent join. The plan required independent usable sources without fixing
 this internal placement. This landed in `e9f0597e` and constrains future
 cancellation and discard to retain the same joined lifetime. It does not reduce
 the camera's own proof work or claim the physical shutdown budget is met.
+
+**Sound, high confidence — isolate remaining proof cost with fresh retained operands.**
+To learn what camera publication costs after a checkpoint, the test clones only
+the saved raw media, mapping, closed marker and journal into a private directory.
+It primes new verification state before timing one publication; existing receipts
+and canonical media are excluded so cached success cannot answer the question.
+Both actual priming readers and resumed final readers are required. The plan
+left the diagnostic method open. This avoids another hardware recording while
+preserving the exact picture digest, timing, source binding and original donor.
+The debug consumer's timing is confined to this operation; it does not predict
+live shutdown or release performance. No production mechanism is added.
+
+**Sound, high confidence — compare pictures and clocks separately from rebuilt containers.**
+The fresh MOV writer can change container metadata while delivering the same
+ordered pictures at exactly the same times. This measurement therefore requires
+the original complete picture hash, support, count, scale and source clock facts,
+and records both container identities without requiring equality. The cloned
+journal also retains a terminal suffix beyond the earlier receipt's prefix, so
+receipt JSON byte equality is outside the claim. The plan required preservation
+without prescribing diagnostic container equality. This is a named scope, not a
+pixel tolerance or permission to skip any source validation. Banked with the
+retained camera publication result.

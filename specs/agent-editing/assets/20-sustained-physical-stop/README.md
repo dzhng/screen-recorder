@@ -27,8 +27,9 @@ also failed the original deadline. Both attempts remain separately pinned;
 neither establishes a causal speedup. The
 [verification ownership correction](verification-closure/README.md) subsequently
 qualifies primary readiness and cancellation while the camera reader is held.
-Remaining camera publication cost needs a bounded retained-source measurement
-before another recording.
+[The retained-source measurement](retained-publication-cost/README.md) now proves
+exact pictures and clocks with qualified priming and separately timed final
+publication. Its debug closed-source scope is distinct from live shutdown.
 No unchanged recapture is queued. These checks establish no iPhone
 synchronization, physical event onset, perceptual quality or installed release
 acceptance.

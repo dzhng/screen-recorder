@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: measure remaining camera publication on the retained physical source.**
+**Next pickup: finish the changed-candidate sustained physical Stop confirmation.**
 [Independent source publication](assets/20-sustained-physical-stop/scheduling/README.md)
 now qualifies both directions of source readiness, full validation and recovery.
 The [changed signed candidate](assets/20-sustained-physical-stop/independent-confirmation/README.md)
@@ -32,15 +32,20 @@ published. That observation does not isolate SDK drainage. The
 [verification ownership correction](assets/20-sustained-physical-stop/verification-closure/README.md)
 now proves primary readiness while an actual acquisition camera reader is held,
 and joined reader lifetime even under pre-requested cancellation. Physical
-closure identity pins, final clock and recovery stay intact. Prime a fresh
-verification checkpoint on a private clone of the saved source, then measure one
-camera publication with exact picture/support preservation and a fixed process
-bound. Require actual priming and resumed final reader ranges; fallback is not
-continuing-finalization evidence. Separate priming from publication cost and use
-the result to choose the next correction or justified physical confirmation.
-Primary audio roles stay sequential. Both physical failures and the separate
-pre-capture socket-path error remain intact; no unchanged recapture or deadline
-relaxation is queued.
+closure identity pins, final clock and recovery stay intact. The
+[retained-source measurement](assets/20-sustained-physical-stop/retained-publication-cost/README.md)
+now preserves exact pictures/clocks with actual priming and resumed final readers:
+38.552 seconds priming, then 4.052 seconds camera publication. This debug
+closed-source result excludes live input drain, source-receipt publication and
+app/service quit. Do not repeat it or infer release Stop timing from it.
+A [distinct signed candidate](assets/20-sustained-physical-stop/verification-publication-candidate.json)
+containing the ownership fix is now undergoing one
+unchanged-recipe physical confirmation in an isolated library. Inspect its actual
+producer/process state before any restart; preserve the first terminal result and
+the original ten-second deadline. Source admissions and cleanup after failure
+remain separate from completed-stop success. Primary audio roles stay sequential.
+Both earlier physical failures and the separate pre-capture socket-path error
+remain intact; no unchanged recapture or deadline relaxation is queued.
 
 [The first retained-picture comparison](assets/20-camera-picture-correspondence/README.md)
 selected the native sample but failed exact complete-pixel equality. The second

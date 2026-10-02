@@ -1,0 +1,209 @@
+{
+  "status": "signed staged candidate; physical confirmation pending",
+  "scope": "Camera continuing verification joins in camera publication; no installed replacement/library change or release acceptance",
+  "buildReport": {
+    "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/build.json",
+    "bytes": 11038,
+    "sha256": "424f9474a3ea9852b6415507eca8c99c15242430f3213ed240a8e707a513db5b"
+  },
+  "buildSourceHead": "100e0430",
+  "productionCorrectionCommit": "e9f0597e",
+  "laterRootConsumerCommit": "4f461f43; only test consumer and docs; capture source inputs unchanged",
+  "candidate": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app",
+  "candidatePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "bytes": 6374352,
+      "sha256": "1eb2c16b6a1ef9ecb8e5f4ccde15a8e1b0705e8fb26d1f090b79ae24049fa2f1"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 20435936,
+      "sha256": "5e38fab26600fae6c4c5e6424ed0b8bde29c24ae575c75d8af53d65cda47cd38"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 4264481,
+      "sha256": "55dd55ffcb45b0f0eda71d7c4ce4acc74d714c8171fc1364b8f2dfa814965fd6"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1157361,
+      "sha256": "1db05a47b04b89e72529433ea97d56570d8ace18366252590be7d1262a8880e3"
+    }
+  ],
+  "captureSourceInputs": [
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift",
+      "bytes": 22748,
+      "sha256": "57caeae3977ea1badebe3d4fdd5561f1abf5fdff8630f8f0227f4ce047a07959"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift",
+      "bytes": 28750,
+      "sha256": "5585e63921af3227e49754941ab0fb62185cc6bbf4619cabd37cc439e28cafff"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift",
+      "bytes": 30597,
+      "sha256": "4e3e24e16937d1eac17f66b74bb9b84e01ede28a02bd368963262320d359d5a9"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift",
+      "bytes": 9765,
+      "sha256": "6a57ecb0bac1bd50714daa5bbefb0d869655ba5f46e5c4e8296970c523473ceb"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift",
+      "bytes": 6405,
+      "sha256": "00c0ce0fba1424c351eb844a14af0999283ec0a3467ec0899fd1e28976031c34"
+    }
+  ],
+  "originalCandidateUnchanged": true,
+  "steps": [
+    {
+      "argv": [
+        "swift",
+        "build",
+        "--package-path",
+        "/Users/david/dev/screen-recorder/helpers/mac",
+        "--configuration",
+        "release",
+        "--product",
+        "screenrec-native",
+        "-j",
+        "4"
+      ],
+      "pid": 25817,
+      "exitCode": 0,
+      "elapsedSeconds": 10.82780850000563,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "swift",
+        "build",
+        "--package-path",
+        "/Users/david/dev/screen-recorder/helpers/mac",
+        "--configuration",
+        "release",
+        "--product",
+        "screenrec-native",
+        "-j",
+        "4",
+        "--show-bin-path"
+      ],
+      "pid": 25853,
+      "exitCode": 0,
+      "elapsedSeconds": 0.23464191699167714,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "swift",
+        "build",
+        "--package-path",
+        "/Users/david/dev/screen-recorder/apps/macos",
+        "--configuration",
+        "release",
+        "--product",
+        "ScreenRecorder",
+        "-j",
+        "4"
+      ],
+      "pid": 25861,
+      "exitCode": 0,
+      "elapsedSeconds": 10.08571658298024,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "swift",
+        "build",
+        "--package-path",
+        "/Users/david/dev/screen-recorder/apps/macos",
+        "--configuration",
+        "release",
+        "--product",
+        "ScreenRecorder",
+        "-j",
+        "4",
+        "--show-bin-path"
+      ],
+      "pid": 26037,
+      "exitCode": 0,
+      "elapsedSeconds": 0.1878266250132583,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "/bin/cp",
+        "-cR",
+        "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app",
+        "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app"
+      ],
+      "pid": 26045,
+      "exitCode": 0,
+      "elapsedSeconds": 0.004876459017395973,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "/bin/cp",
+        "/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/release/screenrec-native",
+        "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/MacOS/screenrec-native"
+      ],
+      "pid": 26046,
+      "exitCode": 0,
+      "elapsedSeconds": 0.009734666993608698,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "/bin/cp",
+        "/Users/david/dev/screen-recorder/apps/macos/.build/arm64-apple-macosx/release/ScreenRecorder",
+        "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app/Contents/MacOS/ScreenRecorder"
+      ],
+      "pid": 26047,
+      "exitCode": 0,
+      "elapsedSeconds": 0.009778625011676922,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "codesign",
+        "--force",
+        "--sign",
+        "Screen Recorder Local",
+        "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app"
+      ],
+      "pid": 26048,
+      "exitCode": 0,
+      "elapsedSeconds": 0.13267195801017806,
+      "reaped": true
+    },
+    {
+      "argv": [
+        "codesign",
+        "--verify",
+        "--strict",
+        "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/ScreenRecorder.app"
+      ],
+      "pid": 26049,
+      "exitCode": 0,
+      "elapsedSeconds": 0.021188375016208738,
+      "reaped": true
+    }
+  ],
+  "actualPhysicalProducer": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/verification-publication/sustained-physical-stop-verification/report.json",
+  "limits": [
+    "Preparation and signature only; original ten-second physical deadline remains unproved",
+    "Inspect actual producer/process terminal state before restarting; no unchanged retry",
+    "Original staged candidates, frozen native worker and installed library stay intact"
+  ]
+}
