@@ -28,13 +28,6 @@ change. Detection supplies information, never permission to edit.
 Development verifies those primitives; it does not turn the user's material into
 an unsolicited editorial project.
 
-## Provenance
-
-Reused material has a known origin and documented permission for its use.
-Protect originals, user intent and accepted behavior. Treat reference material
-as read-only; using it to judge our work does not authorize altering or shipping
-it. Preserve enough evidence to reproduce conclusions without redundant copies.
-
 ## Proving a change
 
 Test observable behavior and meaningful failure modes, not implementation shape.

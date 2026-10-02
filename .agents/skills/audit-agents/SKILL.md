@@ -15,9 +15,10 @@ when the user requests corrections. The report is the deliverable.
    only enough product context to establish its purpose and explicit boundaries.
    When the user supplies a reference as the starting point, adapt its useful
    structure and principles; do not substitute an unrelated template or copy
-   its implementation mechanics. Honor requested section order and verbatim
-   passages. Do not run builds, application tests or broad repository audits
-   to judge a document.
+   its implementation mechanics. Honor requested section order, verbatim
+   passages and deliberate omissions; the criteria do not require a section
+   for every topic. Do not run builds, application tests or broad repository
+   audits to judge a document.
 2. Account for every directive: **keep**, **rephrase**, **move** or **delete**.
    Keep durable decision rules. Rephrase a useful lesson tied to today's
    mechanics. Move needed operational information to its current owner. Delete
