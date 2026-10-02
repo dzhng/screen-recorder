@@ -1,0 +1,201 @@
+{
+  "status": "fixed-raw-complete-IDR-prefix-scoped-pass",
+  "generalAppendSafetyQualified": false,
+  "canonicalQualified": false,
+  "timeoutCleanupQualified": false,
+  "actualProcessGroupLimit": "All14 Foundation byte-query children formed their own PGID=queryPID. All exited0/waited normally. Frozen supervisor timeoutguard assumes nativePGID; it would refuse these actualquerygroups. No timeout occurred; exceptional cleanup/generaldeadline guarantee is NOT qualified. Frozen sources and cases are preserved, not patched/replayed.",
+  "ordinary": {
+    "candidate": {
+      "admittedAtSelection": 37,
+      "fenceOrdinal": 29,
+      "fragment": 1,
+      "offeredAtSelection": 37
+    },
+    "activeInventoryCounts": [
+      30,
+      180,
+      327
+    ],
+    "committedPictures": 29,
+    "closedAccepted": 384,
+    "offered": 390,
+    "firstLaterAdmissions": 184,
+    "secondLaterAdmissions": 331,
+    "allCommittedTuplesAndLogicalSamplesEqual": true,
+    "closedFullOrdinalAndMappingGridCorrespondence": true,
+    "exactSourceRationalStartDifferencesVsNativePTS": 256,
+    "rawClockFlagsAndOriginalTicksRetained": true,
+    "committedPhysicalExtentDifferencesAtClosure": 0,
+    "offsetEqualityWasNotRequired": true
+  },
+  "interrupted": {
+    "candidate": {
+      "admittedAtSelection": 37,
+      "fenceOrdinal": 29,
+      "fragment": 1,
+      "offeredAtSelection": 37
+    },
+    "activeInventoryCounts": [
+      30,
+      180,
+      276
+    ],
+    "offered": 390,
+    "accepted": 334,
+    "firstLaterAdmissions": 184,
+    "secondLaterAdmissions": 280,
+    "readyAfterActualQueriesTerminal": true,
+    "actualSIGKILLExit": -9,
+    "committedPictures": 29,
+    "freshCompleteRawPictures": 276,
+    "allCommittedTuplesAndLogicalSamplesEqual": true,
+    "notAllAdmissionsClaimedRecovered": true,
+    "scope": "Fresh existing physical reader on immutable completed-fragment copy after intentionalSIGKILL; no canonical recovery/publication or unfinishedtailproof."
+  },
+  "formatAndSupport": {
+    "actualClosingIDRDecoded": true,
+    "completePrecedingAndClosingIDRSampleBytes": true,
+    "noOutputPrior": 0,
+    "allApplicableNativeFormatsEqual": true,
+    "parametersAndCompleteExtensionsAndPreferredTransformEqualOnCommittedPrefix": true,
+    "uniqueRawDTSAndDecodePresentationSeparation": true,
+    "allCommittedOwnerEndpointsAtOrBeforeAssetFence": true,
+    "sameMappingOriginsRateAndCommittedSupport": true,
+    "wholeGrowingSegmentDurationNotRequiredEqual": true,
+    "endpointQualification": "Existing SampleTiming.assetEnd maps/clips SDK decode duration; no independent display-duration guarantee."
+  },
+  "processes": [
+    {
+      "label": "compile",
+      "pid": 76858,
+      "terminal": true,
+      "exitCode": 0,
+      "elapsedSeconds": 3.286205541,
+      "stdioBytes": {
+        "stdout": 0,
+        "stderr": 35380
+      },
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "ordinary",
+      "pid": 76879,
+      "terminal": true,
+      "exitCode": 0,
+      "elapsedSeconds": 15.240319957999999,
+      "stdioBytes": {
+        "stdout": 491,
+        "stderr": 0
+      },
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "interrupt",
+      "pid": 77364,
+      "terminal": true,
+      "exitCode": -9,
+      "elapsedSeconds": 13.106204875000003,
+      "stdioBytes": {
+        "stdout": 237,
+        "stderr": 0
+      },
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "fresh-raw-reader",
+      "pid": 77724,
+      "terminal": true,
+      "exitCode": 0,
+      "elapsedSeconds": 0.555348875,
+      "stdioBytes": {
+        "stdout": 105,
+        "stderr": 0
+      },
+      "streamsFullyDrained": true
+    }
+  ],
+  "byteQueries": {
+    "count": 14,
+    "allExit0Waited": true,
+    "ownGroupIdentityObserved": true,
+    "noExceptionalCleanupTest": true
+  },
+  "controller": {
+    "execSession": 1781,
+    "exitCode": 0,
+    "phaseElapsedSeconds": 33.351570125,
+    "allOwnedPIDsAbsent": true
+  },
+  "protected129PinsUnchanged": true,
+  "moduleCache307FilesBytesAndMtimesUnchanged": true,
+  "savedCheck": {
+    "status": "pass",
+    "ordinaryCommitted": 29,
+    "ordinaryClosedAccepted": 384,
+    "interruptCommitted": 29,
+    "interruptAccepted": 334,
+    "reopenedCompletePictures": 276,
+    "decodedClosingIDR": true,
+    "actualLaterAdmissions": true,
+    "completeLogicalAndTupleIdentity": true,
+    "byteQueryReceiptsAllTerminalWaited": 14,
+    "protectedPins": 129,
+    "cacheFilesUnchanged": 307,
+    "timeoutCleanupQualified": false,
+    "scope": "Full saved-case values only; no native replay"
+  },
+  "savedCheckNegativeControl": {
+    "status": "pass",
+    "changedSavedOrdinal24OwnerEndpointRejected": true,
+    "scope": "In-memory saved-data negativecontrol; no artifact/native mutation"
+  },
+  "noRetryOrParameterChange": true,
+  "preparationSourceArchive": "../evidence.tar.gz",
+  "review": {
+    "shape": "Frozenreference only; no maintainedparallel parser/harness/productionowner.",
+    "diff": "All complete orderedtuple/logical operands and actualnative/query receipts retained. Actual distinctqueryPGID contradicts timeoutcleanupassumption and is disclosed as unqualified; no result relabeling.",
+    "docs": "Leaf/result explicitlyscoped, native/recovery/canonical claims separated."
+  },
+  "choices": [
+    {
+      "choice": "Commit29pictures strictlybefore actualdecodedIDR29, leavingfenceIDR andlater sequenceuncommitted.",
+      "verdict": "sound",
+      "confidence": "high",
+      "basis": "Wholeprecedingsequence completebytes/format, lateractualadmission/activeextension, closure and distinctkill/reopening equal."
+    },
+    {
+      "choice": "Requirelogicalpayload/timing/format/mapping equality; preservephysicaloffsets asdiagnostic.",
+      "verdict": "sound",
+      "confidence": "high",
+      "basis": "Actualcommittedoffsets happenedstable; gate doesnot infer requiredplacementidentity."
+    },
+    {
+      "choice": "Frozenchildtimeoutguard assumed group=nativePID.",
+      "verdict": "unsound-for-exceptional-cleanup",
+      "confidence": "high",
+      "basis": "Actualall14PGIDs=childPID. Normalcasespassed; future nonmedia correction/qualification needed before deadline guarantee."
+    }
+  ],
+  "bankingCheck": {
+    "archiveAndAll138MembersRehashed": true,
+    "byteIdenticalHardlinks": 46,
+    "completeExtractedSavedCheck": {
+      "status": "pass",
+      "ordinaryCommitted": 29,
+      "ordinaryClosedAccepted": 384,
+      "interruptCommitted": 29,
+      "interruptAccepted": 334,
+      "reopenedCompletePictures": 276,
+      "decodedClosingIDR": true,
+      "actualLaterAdmissions": true,
+      "completeLogicalAndTupleIdentity": true,
+      "byteQueryReceiptsAllTerminalWaited": 14,
+      "protectedPins": 129,
+      "cacheFilesUnchanged": 307,
+      "timeoutCleanupQualified": false,
+      "scope": "Full saved-case values only; no native replay"
+    },
+    "exitCode": 0,
+    "noNativeReplay": true
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "status": "prepared-byte-audit-passed-no-native-execution-yet",
+  "scope": "Frozen codec audit + newly reviewed20h completeIDRfence preparation, no production mechanism",
+  "standard": {
+    "edition": "ITU-T H264V16(06/2026)",
+    "URL": "https://www.itu.int/rec/T-REC-H.264-202606-I/en",
+    "bytes": 15530891,
+    "sha256": "028cf2cfefd6083ced98d3acb0b586d9328e1631c13d6f21057ad54c569b1b79",
+    "sections": [
+      "3.69",
+      "7.4.3.3",
+      "C.4.4",
+      "E.2.1",
+      "A.3.2/TableA-1"
+    ],
+    "fullPDFNotDuplicated": true
+  },
+  "retainedSource": {
+    "path": "/tmp/screenrec-20g-raw-prefix/physical-continuation/ordinary/camera/camera.raw.mov",
+    "bytes": 26557,
+    "sha256": "f45e6c4ee6916942ddb372359d467a0b70dc544abea4c282589553f42b1f7138"
+  },
+  "actualByteAudit": {
+    "status": "pass",
+    "completeSamples": 197,
+    "completeFences": [
+      29,
+      58,
+      87,
+      116,
+      145,
+      174
+    ],
+    "negativeControls": [
+      {
+        "case": "truncated-NAL",
+        "error": "incomplete NAL"
+      },
+      {
+        "case": "duplicate-DTS",
+        "error": "nonunique raw media DTS"
+      },
+      {
+        "case": "invalid-clock",
+        "error": "nonnumeric/unqualified clock"
+      }
+    ],
+    "changedLogicalPayloadRejectedWithFullOperands": true,
+    "physicalOffsetOnlyControlAccepted": true,
+    "scope": "Original retained bytes + authored saved-data controls only; no native format query/compile/decode/writer or active-prefix stability proof"
+  },
+  "avcC": {
+    "box": {
+      "typeOffset": 2772,
+      "bytes": 39,
+      "payloadHex": "0164000bffe1000c2764000bac5650c3781460a501000428ee3cb0fdf8f800"
+    },
+    "nalLengthMinus1Raw": 255,
+    "nalLengthReservedUpper6Bits": 63,
+    "spsCountRaw": 225,
+    "spsCountReservedUpper3Bits": 7,
+    "parameterSetLengths": [
+      12,
+      4
+    ],
+    "highProfileTailRawHex": "fdf8f800",
+    "conformanceNotIndependentlyValidated": true
+  },
+  "codecMeaning": "Highprofile100/level11/constraints0,coded12x6macroblocks,refs4,noVUI. Conformingstream fallbackDPB/reorder12 is notreferenceage/time/emissionbound. CompleteIDR+noOutputPrior0 andunchangedparameters support precedingsequence drain hypothesis only.",
+  "nativeFormatAuthorityLimit": "Original byteaudit reads retainedavcC; it does not invent a nativeformat query. Upcomingprototype obtains complete CMFormatDescription/cursor equality, raw extension/parameter bytes and preferredTransform.",
+  "newFixedParameters": {
+    "feedSeconds": 13,
+    "offeredFrames": 390,
+    "fps": 30,
+    "writerWorkSeconds": 20,
+    "freshReaderWorkSeconds": 15,
+    "compileSecondsTotal": 150,
+    "phaseSeconds": 210,
+    "cleanupGraceSeconds": 1,
+    "rawCopyBytesCap": 2097152,
+    "stdioBytesCapPerStream": 1048576,
+    "decodedRowsCap": 400
+  },
+  "preparation": {
+    "protected129PinsVerified": true,
+    "pythonASTSyntaxPassed": true,
+    "SwiftNotCompiled": true,
+    "mediaNotDispatched": true,
+    "sourceFiles": {
+      "Observation.swift": {
+        "bytes": 17323,
+        "sha256": "761b3e872be774d91512c72cca9d12e537d32c67c9bc01f1d6e76b995359b751"
+      },
+      "Fence.swift": {
+        "bytes": 21724,
+        "sha256": "fbeb0cda68bb6c36d9dd467c5f2701f483a30d11210023f7c5b35ca577bdc38c"
+      },
+      "codec.py": {
+        "bytes": 10157,
+        "sha256": "46fb7717d66c6c6144ec46d3831afada80f4d7b72b6ed913d241af443db091df"
+      },
+      "control.py": {
+        "bytes": 6275,
+        "sha256": "531c993b7a1f65e3bed328593bb91b91c4c1f57bca0588b3f3af99c4db6855a3"
+      },
+      "plan.json": {
+        "bytes": 9405,
+        "sha256": "1682bd2754208587eae808751226bed0637cd2f38373fefc80fe6ee288850277"
+      },
+      "authority.json": {
+        "bytes": 31322,
+        "sha256": "54fe3d7147047479aa3ff68db327a242a8174f5e83c12fe091a18287acf24c6c"
+      }
+    },
+    "reusedOwnerDifference": "Original qualifiedObserver declaration/read/compare prefix; onlydecodedcap240->400. Originalsource untouched.",
+    "staticReview": "Root confirmed fixedcase sources/plan; checks actualdecodedclosingIDR, uniqueDTS andassetclockend, newadmissionafterselection, complete format/transform, logicaloffset separation, childfirstkill+nativewait cleanup."
+  },
+  "limits": [
+    "No activeprefix stability proof from byteaudit.",
+    "No general tail/backlog/deadline/canonical correspondence/adoption.",
+    "Native API usage is uncompiled until separately recordedfuturecompile."
+  ],
+  "review": {
+    "shape": "Frozenreference prototype only; no maintainedparser/harness/service abstraction.",
+    "diff": "Explicit snapshotcopies retain original offsets; typedfullformat identity andexisting owner endpoints; no request/ack executor seam.",
+    "docs": "Sliceowns exactquestion andclaims; rootowns sharedhandoff/checklist/choices."
+  },
+  "choices": [
+    {
+      "choice": "ActualcompleteIDRfence closing precedingsequence; noDPB-sizeddiscardedtail.",
+      "verdict": "sound",
+      "confidence": "high"
+    },
+    {
+      "choice": "13s/390frame newfixedcase permits furtheractiveextension after secondfragment fence; no7sretry.",
+      "verdict": "sound",
+      "confidence": "high"
+    },
+    {
+      "choice": "Comparelogicalpayload/timing/format/mapping whilekeeping offsetsdiagnostic.",
+      "verdict": "sound",
+      "confidence": "high"
+    },
+    {
+      "choice": "Immutable complete-prefixcopies; noatom/offsetrewriting.",
+      "verdict": "sound",
+      "confidence": "high"
+    },
+    {
+      "choice": "NativeProcessbytequery ownership with supervisorchildfirstkill/nativewaitgrace.",
+      "verdict": "sound",
+      "confidence": "medium",
+      "why": "Exactruntime receipts/cleanup still require execution; noextra protocol."
+    }
+  ]
+}
