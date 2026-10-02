@@ -113,7 +113,7 @@ public final class CompositionPictureExecutor {
     }
     private struct PreparedPicture {
         let key: RasterKey
-        let surfaces: [CompositionProcessing.Target: CIImage]
+        var surfaces: [CompositionProcessing.Target: CIImage]
         let pointerRows: [PreparedPointers.Row]
     }
     private final class Reader {
@@ -190,7 +190,20 @@ public final class CompositionPictureExecutor {
     }
 
     func image(_ frame: Frame) async throws -> CIImage {
-        try compose(await prepare(frame))
+        var prepared = try await prepare(frame)
+        let sourceContext = CIContext(options: [.cacheIntermediates: false])
+        // Materialize decoded CV video in the source-picture colors used by raw PNG publication.
+        // ImageIO/glyph sources and the movie graph retain their existing color preparation.
+        for layer in prepared.key.layers where layer.reader > 0 && layer.available {
+            try Task.checkCancellation()
+            let target = CompositionProcessing.Target(kind: "clip", id: layer.clipId)
+            let source = prepared.surfaces[target]!
+            let edge = Int(max(source.extent.width, source.extent.height).rounded())
+            let rendered = try FrameImage(oriented: source, maxLongEdge: edge)
+                .renderedImage(context: sourceContext)
+            prepared.surfaces[target] = CIImage(cgImage: rendered)
+        }
+        return try compose(prepared)
     }
 
     func render(_ frame: Frame, allocate: (CVPixelBuffer?) async throws -> CVPixelBuffer)

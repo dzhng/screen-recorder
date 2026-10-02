@@ -1,0 +1,84 @@
+{
+  "sourceClosure": {
+    "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift": {
+      "bytes": 35289,
+      "sha256": "643206c414a0e6fbe7caecfcd5ee4b929446774ccbcf38c1cc5c9ed1e603652c"
+    },
+    "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift": {
+      "bytes": 6541,
+      "sha256": "bbd0a17291386b11030a22adbfd653fbd7df63bbd283044429cb36a69b5b5adb"
+    },
+    "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderFrameTests/CompositionPNGTests.swift": {
+      "bytes": 9184,
+      "sha256": "e6a70e30a4b2cda983e65c274b45778961f478829f85ce80da3bc6f593393b9a"
+    },
+    "/Users/david/.codex/worktrees/parakeet-model-readiness/screen-recorder/helpers/mac/Tests/ScreenRecorderFrameTests/main.swift": {
+      "bytes": 48342,
+      "sha256": "81e26422354ec135c5a2533a6722ebf31490ebae9778b607f91263e5b645219b"
+    },
+    "/private/tmp/screenrec-23l-source-color-normalization/FinalProbe.swift": {
+      "bytes": 866,
+      "sha256": "9802bed14e3d3c376c8eefe4bbc0554546c090badee593a3cbbdb5ccb10bc652"
+    },
+    "/private/tmp/screenrec-23l-source-color-normalization/run-final.py": {
+      "bytes": 1685,
+      "sha256": "83fb24a2fc7217aecebe526012c766c049e01766baafc3220427c21e082df992"
+    },
+    "/private/tmp/screenrec-23l-source-color-normalization/final-plan.json": {
+      "bytes": 9894,
+      "sha256": "5b1dc5b0cfb1f0c44a2cb6c13029c507d492dd744a19b768de4c5956b1690544"
+    },
+    "/private/tmp/screenrec-23l-source-color-normalization/candidate-video/Modules/ScreenRecorderFrames.swiftmodule": {
+      "bytes": 498096,
+      "sha256": "fc3385cf79f8f45d08bc1e8ec1f16b603407c43a283228cd22185c918309dca5"
+    },
+    "/private/tmp/screenrec-23l-source-color-normalization/final-probe": {
+      "bytes": 3528264,
+      "sha256": "1545a96201f2e432cfc7ef8ca0f147bf6aa9d8498c0a639e4c629030efcf035f"
+    }
+  },
+  "firstVideo": {
+    "originalRed": "root bffa39be; /tmp/screenrec-23l-png-correspondence/comparison.json",
+    "beforeChangedRGBASamples": 5995,
+    "after": {
+      "bytes": 24585600,
+      "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0",
+      "allBytesEqual": true
+    },
+    "frameMetadataEqual": true,
+    "selectedSample": {
+      "value": "952322",
+      "timescale": 1000000,
+      "originUs": 0
+    },
+    "staticPublicEntry": "CompositionFrameRenderer.write; candidate Frames-only module, retained Media objects; not candidate worker transport"
+  },
+  "smallControls": {
+    "CoreMedia709": "8-bit and16-bit ramps green on old23l2 objects; final8-bit public still preservation neighbor green after fix",
+    "sRGB": "full asymmetric RGBA and translated exposed canvas pass",
+    "movie": "Earlier broad-candidate control1863 established held allocation/buffer identity, Rec709 attachments and shifted exposed sample. Final narrowing changed PNG image() only, so no movie control repeated; no full active-pixel baseline comparison."
+  },
+  "precisionRejection": "/tmp/screenrec-23l-video-stage-successor: C==D, RGBAf alone left5995 changed samples",
+  "originalVideoStages": "A==B==saved source; C==existing red, one same held physical buffer, one decode; original failed compile preserved /tmp/screenrec-23l-video-stage",
+  "rawRun": "/tmp/screenrec-23l-source-color-normalization",
+  "limits": [
+    "No other13 renders",
+    "No native worker transport or link",
+    "No service/capture/model/UI",
+    "No full movie pixel parity or release acceptance",
+    "No frozen worker/module/object changes"
+  ],
+  "finalPids": {
+    "framesCompile": 7411,
+    "probeCompile": 7779,
+    "checks": 7905,
+    "pixels": 8010,
+    "allExit0": true,
+    "driverSession": 48922,
+    "driverExit0": true
+  },
+  "supersededBroadCandidate": {
+    "rawAuthority": "/tmp/screenrec-23l-source-color-normalization/broad-candidate",
+    "reason": "Normalizing already-correct ImageIO inputs adds raster work/early quantization and can render full-size stills unnecessarily. Final rule canonicalizes only available CV-backed video reader sources; duplicate-still map removed."
+  }
+}

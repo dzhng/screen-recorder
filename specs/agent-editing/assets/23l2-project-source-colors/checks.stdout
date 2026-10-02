@@ -1,0 +1,3 @@
+PASS first original-video request through CompositionFrameRenderer.write
+PASS CoreMedia709 source and composition PNG have equal complete RGBA pixels
+PASS compiled identity PNG preserves every asymmetric fixture RGBA sample and source receipt

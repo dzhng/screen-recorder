@@ -1,0 +1,173 @@
+{
+  "output": "/tmp/screenrec-23l-source-color-normalization/final/frame.png",
+  "frame": {
+    "index": 59,
+    "sampleAtUs": 983333,
+    "visibleRange": {
+      "startUs": 999999,
+      "endUs": 1000000
+    },
+    "layers": [
+      {
+        "clipId": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1",
+        "trackId": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0",
+        "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+        "streamId": "track:1",
+        "kind": "video",
+        "sourceUs": {
+          "numerator": 2950000,
+          "denominator": 3
+        },
+        "availability": "available",
+        "width": 3120,
+        "height": 1970
+      }
+    ],
+    "visual": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1"
+        },
+        "inputs": [],
+        "operations": [
+          {
+            "kind": "clamp",
+            "x": 0.5,
+            "y": 0.5,
+            "width": 3119,
+            "height": 1969
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "coverage",
+            "points": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 3120,
+                "y": 0
+              },
+              {
+                "x": 3120,
+                "y": 1970
+              },
+              {
+                "x": 0,
+                "y": 1970
+              }
+            ],
+            "width": 3120,
+            "height": 1970
+          }
+        ]
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0"
+        },
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1"
+          }
+        ],
+        "operations": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0"
+          }
+        ],
+        "operations": []
+      }
+    ]
+  },
+  "canvas": {
+    "width": 3120,
+    "height": 1970,
+    "fps": {
+      "numerator": 60,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "clip:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:1"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "track:cbe5f472b04c520a4100ffaa6f780509c26cbf5147ea06ef1913dff2076e4c3e:0"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "path": "/tmp/screenrec-23l-third/project-home/library/assets/ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+      "originUs": 0
+    }
+  ],
+  "fonts": [],
+  "maxLongEdge": 3120
+}

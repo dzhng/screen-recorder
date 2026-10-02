@@ -106,13 +106,17 @@ struct FrameImage {
     }
 
     func png(context: CIContext) throws -> Data {
+        try encodePNG(renderedImage(context: context))
+    }
+
+    func renderedImage(context: CIContext) throws -> CGImage {
         guard
             let rendered = context.createCGImage(
                 image, from: CGRect(x: 0, y: 0, width: width, height: height))
         else {
             throw NativeFailure.decodeFailed("Cannot render \(width)x\(height) frame.")
         }
-        return try encodePNG(rendered)
+        return rendered
     }
 }
 

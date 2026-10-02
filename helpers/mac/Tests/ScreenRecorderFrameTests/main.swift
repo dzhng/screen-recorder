@@ -17,6 +17,7 @@ let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
 try await verifyCompositionPNG(in: images)
+try await verifyCompositionSourceColors(in: images)
 try await verifyCompositionMovieTerminal(in: images)
 if CommandLine.arguments.contains("--composition-png") { exit(0) }
 

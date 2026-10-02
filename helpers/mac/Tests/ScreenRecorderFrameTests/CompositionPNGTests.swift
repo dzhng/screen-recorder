@@ -62,6 +62,44 @@ func verifyCompositionPNG(in directory: URL) async throws {
     print("PASS compiled identity PNG preserves every asymmetric fixture RGBA sample and source receipt")
 }
 
+/// An ImageIO source carries the same CoreMedia709 profile as an actual decoded video picture.
+/// Encoding the untouched ramp preserves that input profile before either public renderer runs.
+func verifyCompositionSourceColors(in directory: URL) async throws {
+    let color = CVImageBufferCreateColorSpaceFromAttachments([
+        kCVImageBufferColorPrimariesKey as String: kCVImageBufferColorPrimaries_ITU_R_709_2,
+        kCVImageBufferTransferFunctionKey as String: kCVImageBufferTransferFunction_ITU_R_709_2,
+        kCVImageBufferYCbCrMatrixKey as String: kCVImageBufferYCbCrMatrix_ITU_R_709_2,
+    ] as CFDictionary)!.takeRetainedValue()
+    var rgba = Data(capacity: 320 * 240 * 4)
+    for y in 0..<240 {
+        for x in 0..<320 {
+            rgba.append(contentsOf: [UInt8(x % 256), UInt8(y), UInt8((x * 17 + y * 31) % 256), 255])
+        }
+    }
+    let image = CGImage(width: 320, height: 240, bitsPerComponent: 8, bitsPerPixel: 32,
+        bytesPerRow: 320 * 4, space: color, bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+        provider: CGDataProvider(data: rgba as CFData)!, decode: nil, shouldInterpolate: false,
+        intent: .defaultIntent)!
+    let source = directory.appendingPathComponent("composition-coremedia709-source.png")
+    try encodePNG(image).write(to: source)
+    let raw = directory.appendingPathComponent("composition-coremedia709-raw.png")
+    let rawRequest = try JSONDecoder().decode(SourceImageRenderer.Request.self,
+        from: JSONSerialization.data(withJSONObject: [
+            "asset": ["assetId": "a", "streamId": "image:0", "path": source.path],
+            "output": raw.path, "maxLongEdge": 320,
+        ]))
+    _ = try SourceImageRenderer.write(rawRequest)
+    let output = directory.appendingPathComponent("composition-coremedia709.png")
+    let result = try await CompositionFrameRenderer.write(compositionPNGRequest(source: source, output: output))
+    let actual = try FixtureImage(contentsOf: output)
+    let expected = try FixtureImage(contentsOf: raw)
+    precondition(actual.hasSamePixels(as: expected),
+        "Compiled media PNG must preserve every canonical source-picture RGBA sample")
+    precondition(result.pictures[0].kind == "image" && result.pictures[0].status == "available"
+        && result.pictures[0].sample == nil && result.decodedImages == 1 && result.decodedSamples == 0)
+    print("PASS CoreMedia709 source and composition PNG have equal complete RGBA pixels")
+}
+
 func verifyCompositionMovieTerminal(in directory: URL) async throws {
     let source = directory.appendingPathComponent("composition-source.png")
     let request = try compositionPNGRequest(source: source, output: directory.appendingPathComponent("unused.png"))
