@@ -1,0 +1,648 @@
+{
+  "scope": "One metadata-only retained-take qualification predicate check using existing Mapping/acquisitionRange/visitPresentedSamples; production scheduling not dispatched",
+  "toolSession": 84732,
+  "toolSessionTerminalExit": 0,
+  "sourceRootCommit": "68e18821e3614a91d74236be9676ee7524295395",
+  "sourceBindings": [
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/AudioSourceReader.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/AudioSourceReader.swift",
+      "bytes": 9246,
+      "sha256": "b5e3597563f242616d40f3d1acb083761189d0a2ebc5859ab55d4f7ce53efe9e"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/CompositionAsset.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/CompositionAsset.swift",
+      "bytes": 356,
+      "sha256": "476ac84ce713677f7f6f224c9f927e029e2db52a611dc8bcb01d267f972ab65b"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/CompositionProcessing.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/CompositionProcessing.swift",
+      "bytes": 1594,
+      "sha256": "379184261dfd28dd3e43dc6fa09a617757b2cf032f23dfc6aa4847d69951643c"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/DescriptorAudioType.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/DescriptorAudioType.swift",
+      "bytes": 4572,
+      "sha256": "c5afe4755917274add5bbbe67464cf7b5866618aa6ab7a268217599747df2f77"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/ExactRange.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/ExactRange.swift",
+      "bytes": 3093,
+      "sha256": "03a66858dd978d2c097f57295a355fcbf1b84d206e99fb9a58e5c65b5f116dd0"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/ExactTime.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/ExactTime.swift",
+      "bytes": 8410,
+      "sha256": "dab2c730deb23755afa6b48bf6195515f28dd2fa23f3bd0287fd0caf87d83a08"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/FontFile.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/FontFile.swift",
+      "bytes": 1971,
+      "sha256": "66d8ad10b2be5eb2767a3586915e30a51919c2190b582e70c05e94d9c0a343c8"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/FontProbe.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/FontProbe.swift",
+      "bytes": 1594,
+      "sha256": "0ec09fce93cb1edad991f2b11e7aae25605ef3f7ed87366ba05f46ecc7f45a17"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/MediaInput.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/MediaInput.swift",
+      "bytes": 11346,
+      "sha256": "b749fa4404417abe557a3a93f637f8091489d819dead849b811363331c4f40a1"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift",
+      "bytes": 8240,
+      "sha256": "d7c5c0b04895c540b56a7d415ed6825ea88cf2de73c3a028902d4f4a197d1b64"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/NativeFailure.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/NativeFailure.swift",
+      "bytes": 924,
+      "sha256": "f1bd1d2d2d0054f0332e0beddb3813610caee74fefa15e0d6191d8d88dface24"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/OutputFile.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/OutputFile.swift",
+      "bytes": 6879,
+      "sha256": "988395df260ad7e569665d04d211550e18b7f584c46eda062450eb63620e9556"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/ProcessResources.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/ProcessResources.swift",
+      "bytes": 380,
+      "sha256": "9369096425832a6a433926aad68804116f430e9518c23e5f3a92172be89c6844"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift",
+      "bytes": 5027,
+      "sha256": "4c061ec1e71cfa3c71365b1d0f7c0fc62afab5be58513309dda344f834cd0f5e"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/ScalarProgram.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/ScalarProgram.swift",
+      "bytes": 4611,
+      "sha256": "31c3fcb425e50d2db40f67637a13cbf36b23d9781cf7006d8a572c6009078086"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/StillImageSource.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/StillImageSource.swift",
+      "bytes": 3640,
+      "sha256": "ad1f087ca97cf0bcb56ca9a6047d6e69fc97562bfc6c18a8954827e8caa2f66d"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/TimeSpan.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/TimeSpan.swift",
+      "bytes": 3250,
+      "sha256": "295003ddcc92365d9b67e3075fc4e4735b989e79054c00f7b1c89c8ea9aaf36d"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderMedia/VideoDisplay.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderMedia/VideoDisplay.swift",
+      "bytes": 2733,
+      "sha256": "8461a048b39772ec6aa5bca1091049a49ec0fae2a1e7709b7aeced253efb3012"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CameraCaptureInput.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CameraCaptureInput.swift",
+      "bytes": 12487,
+      "sha256": "0ae9742906d5519056cd6e350d292e92d0df691b68040f3e59f044bcd7ff8673"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift",
+      "bytes": 37718,
+      "sha256": "1ab513f3cce09c14c49de9f3d07cec8b19c81774b83d96ca6160ce828d0d67ba"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift",
+      "bytes": 9359,
+      "sha256": "1ae52e5d94c12dc54e4faa4af8a37144b1733e10d84aa0b1a8373d5ca5c88ef4"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift",
+      "bytes": 24051,
+      "sha256": "d2d184ecb51ea0858629a17f2f0934975441fc7451d67ac753ce626e63a2341f"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioPublication.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioPublication.swift",
+      "bytes": 20966,
+      "sha256": "468c81667ef89068dbd2b87a1a2d89f993cf725f9f341e3f95c094f5b2a4f1e3"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureClock.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureClock.swift",
+      "bytes": 8344,
+      "sha256": "710915d86c8681ddf784e81c50f09706bca82849131666d6dd0f4b7b5e01e0cd"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift",
+      "bytes": 9862,
+      "sha256": "02ec37da58f698f826538487d95aae90a644752df88333c737c1326cc2859338"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureExclusion.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureExclusion.swift",
+      "bytes": 1179,
+      "sha256": "80774ca7a86a7b82d072d201a2e1891fa642d4296bcba6797f6d84b9432b6a26"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureGeneration.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureGeneration.swift",
+      "bytes": 464,
+      "sha256": "a8bec021dd514fc3d55f693f9f3b02e5952304cd46150eb2259e94db2f98e00d"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift",
+      "bytes": 12572,
+      "sha256": "93e99f3a3e25534af1da03b92757ef85a0a5cad3299024d00dc846ab14179ddb"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift",
+      "bytes": 33370,
+      "sha256": "128b3b820e024a700bde321fbfefd985e6c5e2de8280a079354622586659802b"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift",
+      "bytes": 8094,
+      "sha256": "a5f148a240866e3166b93c31653b44e585e3870b7fc74c5e9b1dbdbcb75d957c"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureMediaInspection.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureMediaInspection.swift",
+      "bytes": 9510,
+      "sha256": "983e18154befce48416644e88c0ff0b30c05e222769f9d3d571a30402fd864c5"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CapturePCM.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CapturePCM.swift",
+      "bytes": 6629,
+      "sha256": "1ccd07f8535e42296bb1978f9d847a115027ea2bcac4360748695aa9b2cb07f0"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift",
+      "bytes": 30018,
+      "sha256": "d0df8c5f67096c8d382db6b9d96322a883890198dee8a7cc79942fd133db1178"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureStreamInputs.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureStreamInputs.swift",
+      "bytes": 2278,
+      "sha256": "20351f190bc91739b312c181053902a3e57fd5df3ab752043420290c515ef9e6"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureTermination.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureTermination.swift",
+      "bytes": 1162,
+      "sha256": "c1e4daac4a36b4cf6de60036bda1b870b9c350e9e72ba83910b5b011afb8a0f5"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureTypes.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureTypes.swift",
+      "bytes": 9572,
+      "sha256": "5cfe90ff96a3142cb0c4e2e94dc0d5b780c616a70660e60295e1de63650eadc3"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift",
+      "bytes": 28021,
+      "sha256": "b8026860944f229e11749777893722364a6261ac5fd62498999a9cce82f8d14b"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift",
+      "bytes": 5849,
+      "sha256": "36bd24e57936da155a86e46ab221f7dee5c28a54fe3edd5e1014b3c39c46fc14"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/CursorGeometry.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/CursorGeometry.swift",
+      "bytes": 21105,
+      "sha256": "078a6edea8e0ac6bac3be0f50f346ddb0e550066e647b9ca64e49a3aeed3d821"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/HeldTailFrame.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/HeldTailFrame.swift",
+      "bytes": 4567,
+      "sha256": "ec3a3c953efe6349a5fe31d75007aaf5d8bed0c35652c9a00f3ff82e73468acf"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/JournalPCM.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/JournalPCM.swift",
+      "bytes": 4556,
+      "sha256": "3f9bf60d4a7014c749271b8ec563816f5d2a8849fe607fb46f0873288837e804"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift",
+      "bytes": 21873,
+      "sha256": "2e575cd117d739de249ca516217f03bb0cfd2e508870c4022619a080f8169573"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/PCMContainerTime.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/PCMContainerTime.swift",
+      "bytes": 1585,
+      "sha256": "da67ba33dc2257bd64f3a5ee88927be90aabe80f2a06d561d59d083f01bf6d6e"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureProbe.swift",
+      "bytes": 8708,
+      "sha256": "d21866e46ca30f162317253e4ec279b55d366b0518f67d10b4a98e5d45bfe9f9"
+    },
+    {
+      "relative": "helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureRequest.swift",
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/Sources/ScreenRecorderCapture/SelectedCaptureRequest.swift",
+      "bytes": 3932,
+      "sha256": "13fcaac33f588b4bb944eea8ee733f52fde6dcdc427097765341a20956138d16"
+    }
+  ],
+  "executedInputs": [
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/AudioSourceReader.swift.o",
+      "bytes": 78968,
+      "sha256": "ac9eb270db3cdc9bfa9cf8afc6b13177a4ac1426d07e1b8aa5fff15a24c6fa20"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/CompositionAsset.swift.o",
+      "bytes": 37064,
+      "sha256": "5d7f56e18a5b78595a947ffb3dca23cc3f675e50e4bf28b83bab2a9219593ab5"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/CompositionProcessing.swift.o",
+      "bytes": 213808,
+      "sha256": "de5c7433097b2261804d8422163ee7f216c28f8cd3a7da04e13250ad8d44514c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/DescriptorAudioType.swift.o",
+      "bytes": 35408,
+      "sha256": "0ebc283a3ec7588d7069a04d3b9df993f33196f02d3b37720081ba0a75d92675"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ExactRange.swift.o",
+      "bytes": 51512,
+      "sha256": "282a113abce89583895793fc3c46f5e2dafe3e254476b1431980a68beab2968c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ExactTime.swift.o",
+      "bytes": 88568,
+      "sha256": "aac05494df0b4eb711497da9486c102750180f591444617fe9cdc69a28effa39"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/FontFile.swift.o",
+      "bytes": 58152,
+      "sha256": "2d972454ee8aac1fa7c895ef9e1041238f076a3e02fa14c53a6759315ed2cbf9"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/FontProbe.swift.o",
+      "bytes": 46256,
+      "sha256": "48fb22a529b84f281ec3afdc81e62133814b5fb752c56585cf74e8452ee62195"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/MediaInput.swift.o",
+      "bytes": 128864,
+      "sha256": "fe5fd633bfd96d55678cc613032230af974bf2c55ab5fe995e5e4b7a254a3d37"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/MediaProbe.swift.o",
+      "bytes": 221376,
+      "sha256": "ec79b476cdc7edcf2f34b41e6473d514d982fb8dcb18d601b8717844d93dec10"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/NativeFailure.swift.o",
+      "bytes": 18120,
+      "sha256": "b1112f70ca5a4dfa061c8d54f50631e01041e3a876ecf63bcf9463d90b8d144f"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/OutputFile.swift.o",
+      "bytes": 44360,
+      "sha256": "91518c248532c3697ccf255aca14e9c4cc7c970e57c2965170c276f3ebbe290e"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ProcessResources.swift.o",
+      "bytes": 7296,
+      "sha256": "fec6c8974c92c230645ebb728ddc6371ac498f36d475a196d92f1ba178c25ef6"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/SampleTiming.swift.o",
+      "bytes": 34840,
+      "sha256": "7ee09c0787fab9017c9e5ea7e5e05f3760952d2dffc99da426cdd5cb90af4adf"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ScalarProgram.swift.o",
+      "bytes": 120696,
+      "sha256": "0fd3732e65757bf399dd3ac52136cbbd248e3bb8eba86493295aa5eeb99ccb06"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/StillImageSource.swift.o",
+      "bytes": 45128,
+      "sha256": "5039924891531a0983736b9e43a9d396677ca74e4d79e11497c5978dde284988"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/TimeSpan.swift.o",
+      "bytes": 42944,
+      "sha256": "4efd787761849e5e0041387b7211c8926ade4d8957b9ac13c6ad5a62f7915696"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/VideoDisplay.swift.o",
+      "bytes": 41128,
+      "sha256": "21e88cc8213edc04e0c1c27a327e0f26ef0ba3d6772784c0a0cd5501ede98bf2"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraCaptureInput.swift.o",
+      "bytes": 199024,
+      "sha256": "e53b606cc38c7e9664d516f4a1fb1ee3a53a2ac11c3d320f0c90d13a562a6181"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraMedia.swift.o",
+      "bytes": 519800,
+      "sha256": "cb0d0e5109825f45508569eb1b911bc1595e55edfec16edec534806def057b71"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraWriter.swift.o",
+      "bytes": 120920,
+      "sha256": "e9b0f09eee6654711ac5c946908d6d39f827af326310cc693da313f450b8ae2a"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureAudioMaterializer.swift.o",
+      "bytes": 266840,
+      "sha256": "9ed172030467c5e4b7dae6fa11dad29d41482a42e977618fbe3f543fc7a8c845"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureAudioPublication.swift.o",
+      "bytes": 321168,
+      "sha256": "9f5cc4beea69b54e3beb2ac197583772a587ff2281292655ec6abcbeb4070855"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureClock.swift.o",
+      "bytes": 111080,
+      "sha256": "1ec715b4ec69124621764e92863c5d423cb037b101e88d31697f316fbe2a6216"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureClockIngress.swift.o",
+      "bytes": 181680,
+      "sha256": "0cc88ac088389fce719fcdf52a9159782686eddda5347d78df67546cb576e107"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureExclusion.swift.o",
+      "bytes": 9624,
+      "sha256": "f80e3c0443cb01f33f845e0cc5460d17b84ea6287a3c7caa4bb42df22e58432d"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureGeneration.swift.o",
+      "bytes": 19704,
+      "sha256": "833c178573a60a2e652b976c2508a1290abda17e77390bf67d55424bbac8ab10"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureInputSession.swift.o",
+      "bytes": 160376,
+      "sha256": "9b7336cc75755abadfa23c5d118ce5f1b2909b1dbec619ccfafc10b598fa6a3c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureJournal.swift.o",
+      "bytes": 620432,
+      "sha256": "12bb721b0b2f52859c3e0868255003b9667dfbabfc3b5a046f8a2eece4456db0"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureJournalLease.swift.o",
+      "bytes": 60808,
+      "sha256": "7e846b3bb06457c20911997fcf4851a0e31220b8136cf5287acb91dc30bf6143"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureMediaInspection.swift.o",
+      "bytes": 128304,
+      "sha256": "6daed231afc1cfc75dc519d9ee158d2fed91356db566cfe7d9290de46de0cc03"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CapturePCM.swift.o",
+      "bytes": 61176,
+      "sha256": "0bea3d15308490bc1f394a1ae9c48b5d6bd9a71310ff2d21bb65394534dcfe84"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureSourcePublication.swift.o",
+      "bytes": 525416,
+      "sha256": "8bbb0effa441a33bc2e0ff4e23f9eba19133f2d6d53024e3b5c1e3bf75c9baf6"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureStreamInputs.swift.o",
+      "bytes": 57000,
+      "sha256": "fafcfd4ffca13fed2029a09067ebb1d4e68c42b834d53d9d093ff7d59adb2152"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureTermination.swift.o",
+      "bytes": 24696,
+      "sha256": "b192b4dc82f566b32d1cbb3fc3ba98114675048e2fda254bba0287c5e129c29b"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureTypes.swift.o",
+      "bytes": 384696,
+      "sha256": "38984632e96cf3a89da292480d27e90ae358e4c4354e31725dd35a058d97fcc6"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureWriter.swift.o",
+      "bytes": 320064,
+      "sha256": "dfc3ffd52b106ed2559b61de9ab48c9dbd7c14021f68654019e914c33a59fccb"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/ClosedCameraSource.swift.o",
+      "bytes": 82120,
+      "sha256": "48f5102305e48a2df1eab6f542f0cdecba2d609d3e1db722c776ea92a3e4e1d2"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CursorGeometry.swift.o",
+      "bytes": 251840,
+      "sha256": "03ef07b608caac9661d6d2e63a6de12ec343c4ace2ae2c76752df5417799711c"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/HeldTailFrame.swift.o",
+      "bytes": 61832,
+      "sha256": "51e8e85dc989841b7fe3567f9a40991decb474f6cffdcc9fa0ef0751c718a2f8"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/JournalPCM.swift.o",
+      "bytes": 149408,
+      "sha256": "80e36966af2054adfef87d0b4a146de6f72fde78882404e75ed5b37305301842"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/NativeCapture.swift.o",
+      "bytes": 326616,
+      "sha256": "b8a3a55d3f9ea91e8966e609a6fdc428b887d4fa61bf635ae60cc57e9bda32e5"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/PCMContainerTime.swift.o",
+      "bytes": 18016,
+      "sha256": "db86d09134382b0277e90682ba4d48ec27aed05098849b57a72793ac52447fda"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/SelectedCaptureProbe.swift.o",
+      "bytes": 178672,
+      "sha256": "2a33504689057138de19afeeaa295446a5a6b142ed527529d86536e10697bafb"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/SelectedCaptureRequest.swift.o",
+      "bytes": 110008,
+      "sha256": "9b9c7a10c4d69e55faf06caab527d87e6d2b02e86717eac34eee785167c9b692"
+    },
+    {
+      "path": "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "bytes": 357109680,
+      "sha256": "f0bce5c648dcd580f0016ebd49c7a4db1cd501fe2b357b75e60dbe5667851e1e"
+    },
+    {
+      "path": "/tmp/screenrec-20f-retained-eligibility/Eligibility.swift",
+      "bytes": 3942,
+      "sha256": "50afdbaf5ad88d6ab3930629487a035f8f38c2028ef3aed4f74dcf132bc6a61f"
+    },
+    {
+      "path": "/tmp/screenrec-20f-retained-eligibility/compile-plan.json",
+      "bytes": 4933,
+      "sha256": "f39566b500e45c141de93af5f066708d6fb6576cd8698c3cc17c9c4939b325f7"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/Modules/ScreenRecorderCapture.swiftmodule",
+      "bytes": 700352,
+      "sha256": "26ba35684a5515a3d49362be9210c3380ea27259c29136704bddb69118d7cc74"
+    },
+    {
+      "path": "/tmp/screenrec-20f-camera-overlap/final/Modules/ScreenRecorderMedia.swiftmodule",
+      "bytes": 238304,
+      "sha256": "171f94fad6a31c2eb6732f0615287959b1e8f13c2a70758acd89f8614a44215f"
+    }
+  ],
+  "executedBinary": {
+    "path": "/tmp/screenrec-20f-retained-eligibility/eligibility",
+    "bytes": 4326152,
+    "sha256": "c9c31d2c26b1420bc1c7e775ea854b92cd120137cd1cdcd2f9999921777fb7ac"
+  },
+  "report": {
+    "closed": {
+      "bytes": "97",
+      "sha256": "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd"
+    },
+    "mappingTorn": false,
+    "nativeAndMappingCount": 4428,
+    "observations": {
+      "bytes": "4097649",
+      "sha256": "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321"
+    },
+    "occupiedSegments": 1,
+    "raw": {
+      "bytes": "413607110",
+      "sha256": "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0"
+    },
+    "scale": 1000000,
+    "scope": "Retained closed-source metadata/mapping correspondence only; no decoder/export/publication/performance acceptance",
+    "segmentContainsSupport": true,
+    "singleVideoNoAudio": true,
+    "support": {
+      "endUs": 246167243,
+      "startUs": 200000
+    }
+  },
+  "originalFailure": {
+    "scope": "Compile-only access/import and throwing-autoclosure errors; zero media dispatch",
+    "process": {
+      "label": "compile",
+      "pid": 98213,
+      "args": [
+        "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+        "-package-name",
+        "mac",
+        "-swift-version",
+        "6",
+        "-parse-as-library",
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-sdk",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-module-cache-path",
+        "/tmp/screenrec-23l2-png-publication/module-cache",
+        "-I",
+        "/tmp/screenrec-20f-camera-overlap/final/Modules",
+        "/tmp/screenrec-20f-retained-eligibility/Eligibility.swift",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/AudioSourceReader.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/CompositionAsset.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/CompositionProcessing.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/DescriptorAudioType.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ExactRange.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ExactTime.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/FontFile.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/FontProbe.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/MediaInput.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/MediaProbe.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/NativeFailure.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/OutputFile.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ProcessResources.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/SampleTiming.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ScalarProgram.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/StillImageSource.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/TimeSpan.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/VideoDisplay.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraCaptureInput.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraMedia.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraWriter.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureAudioMaterializer.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureAudioPublication.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureClock.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureClockIngress.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureExclusion.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureGeneration.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureInputSession.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureJournal.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureJournalLease.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureMediaInspection.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CapturePCM.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureSourcePublication.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureStreamInputs.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureTermination.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureTypes.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureWriter.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/ClosedCameraSource.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CursorGeometry.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/HeldTailFrame.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/JournalPCM.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/NativeCapture.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/PCMContainerTime.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/SelectedCaptureProbe.swift.o",
+        "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/SelectedCaptureRequest.swift.o",
+        "-o",
+        "/tmp/screenrec-20f-retained-eligibility/eligibility"
+      ],
+      "startedAt": "2026-10-02T03:47:07.863503+00:00",
+      "boundSeconds": 30,
+      "exitCode": 1,
+      "elapsedSeconds": 1.9570280840271153
+    }
+  },
+  "checks": {
+    "compiledMediaCaptureSourcesEqualRoot": true,
+    "sourceCount": 45,
+    "retainedRawClosedAndObservationsBeforeAfterEqual": true,
+    "completeNativeInventoryMatchesMapping": true,
+    "strictOrderingAndUntornEOF": true,
+    "exactSupportMatchesRetainedReceipt": true
+  },
+  "limits": [
+    "No native decoder, export or camera publication invoked. Predicate correspondence is not an observed production overlap path.",
+    "No new capture, playback, model, worker build or installed cutover. Existing current isolated Media/Capture objects were linked only.",
+    "No retained-take performance, peak reader-pool memory or ten-second stop proof."
+  ]
+}

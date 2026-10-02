@@ -1,0 +1,25 @@
+{
+  "closed" : {
+    "bytes" : "97",
+    "sha256" : "02f0d5f8bf290ff1c48aca69935b2f49bbfc83669b12d267d24b9d913c0483bd"
+  },
+  "mappingTorn" : false,
+  "nativeAndMappingCount" : 4428,
+  "observations" : {
+    "bytes" : "4097649",
+    "sha256" : "14648dea73b2b351bbc644078e56b207d3d4d19f876986fe2daa88c1640b9321"
+  },
+  "occupiedSegments" : 1,
+  "raw" : {
+    "bytes" : "413607110",
+    "sha256" : "7371771abf921d6049003302c5a82b008fe7624fa9850503c15578b40c5f5ab0"
+  },
+  "scale" : 1000000,
+  "scope" : "Retained closed-source metadata\/mapping correspondence only; no decoder\/export\/publication\/performance acceptance",
+  "segmentContainsSupport" : true,
+  "singleVideoNoAudio" : true,
+  "support" : {
+    "endUs" : 246167243,
+    "startUs" : 200000
+  }
+}

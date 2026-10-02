@@ -35,5 +35,6 @@ receipt fields. It repeats no native control or performance cohort.
 
 The later [H264 supplement](h264-interruption/README.md) closes one real qualified
 interruption/fallback case while retaining the original fully decodable damage
-experiment and its limitations. Retained-take eligibility/resources/performance
-remain separate from that scoped proof.
+experiment and its limitations. The [retained metadata predicate](retained-eligibility/README.md)
+also passes without decoder/publication dispatch. Actual full-take overlap,
+resources and performance remain separate from these scoped proofs.

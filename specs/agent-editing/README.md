@@ -44,8 +44,10 @@ concurrent-reader cancellation pass. Its [qualified H264 interruption supplement
 now observes a real shorter decode: speculative candidate removal, exact old/new
 physical prefix and joined reader cleanup all pass. Original observer crash and
 corrected execution remain separate. Root checks the [supplement](assets/20f-camera-publication-overlap/h264-interruption/merged.json)
-without a replay. Retained-take eligibility/performance and decoder-pool memory
-still need their own bounded evidence; overlap does not establish ten-second stop.
+without a replay. The [retained-take metadata check](assets/20f-camera-publication-overlap/retained-eligibility/README.md)
+meets the scheduling predicate without decoding or publishing. Actual full-take
+overlap, performance and decoder-pool memory remain unverified; overlap does not
+establish ten-second stop.
 
 The [PNG correction](slices/23l2-project-png-publication.md) now passes all fourteen
 saved composition requests through an isolated native worker: complete reference

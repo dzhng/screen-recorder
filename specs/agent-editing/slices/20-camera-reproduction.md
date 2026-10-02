@@ -5,8 +5,9 @@ Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verif
 The [20f scheduling correction](20f-camera-publication-overlap.md) now overlaps
 the complete raw/canonical scans for qualified closed inputs. Compact preservation
 and actual reader cancellation pass. A [single qualified H264 interruption](../assets/20f-camera-publication-overlap/h264-interruption/README.md) now verifies
-actual prefix fallback. Retained-take eligibility/adoption/measurement, peak decoder
-memory and stop latency remain open.
+actual prefix fallback. [Retained-take metadata eligibility](../assets/20f-camera-publication-overlap/retained-eligibility/README.md)
+passes; actual full-take overlap/adoption/measurement, peak decoder memory and stop
+latency remain open.
 
 ## Contract
 

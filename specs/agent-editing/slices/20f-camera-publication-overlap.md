@@ -39,4 +39,6 @@ original uncompressed damaged-payload experiment remained fully decodable. The
 [H.264 supplement](../assets/20f-camera-publication-overlap/h264-interruption/README.md)
 establishes one qualified complete inventory followed by actual late decode
 interruption and equal shorter-prefix publication. Preserve its narrow codec and
-fixture scope; retained-take adoption and performance measurement remain withheld.
+fixture scope. The [retained-take metadata predicate](../assets/20f-camera-publication-overlap/retained-eligibility/README.md)
+now passes through the same mapping/time/inventory owners, without dispatching
+publication. Actual full-take overlap, memory and performance remain unverified.

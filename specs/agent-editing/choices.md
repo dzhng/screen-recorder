@@ -6510,3 +6510,17 @@ The [supplemental decisions](assets/20f-camera-publication-overlap/h264-interrup
 record the single structurally invalid final-presented H264 packet, the probe-only
 actor callback correction and the separation of physical and container identity.
 The original valid-BGRA corruption was not repurposed as interruption proof.
+
+## Retained camera metadata correspondence
+
+**Sound, high confidence — check the scheduling predicate without repeating physical verification.**
+The retained take might contain multiple occupied segments or mapping/native
+sample disagreement, either of which would keep publication on the sequential
+path. The external metadata probe uses the existing mapping parser, rational
+conversion and native sample inventory to compare every frame and exact support.
+It links already compiled isolated modules, using their enabled testable access;
+no production visibility or scheduling hook is added. This answers eligibility
+only. Actual publication must still prove both decoded streams, reader cleanup
+and resources before it can establish full-take adoption or performance. The
+technical gap did not require another accepted decode cohort, and this choice
+changes no product or digest contract.
