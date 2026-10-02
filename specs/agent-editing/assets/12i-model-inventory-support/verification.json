@@ -1,0 +1,90 @@
+{
+  "scope": "Current reusable model inventory metadata only; historical 12i result remains separately qualified by its owner",
+  "base": "fba91e05545243f982af625153a4f6bd9efd8548",
+  "archive": {
+    "file": "evidence.tar.gz",
+    "bytes": 11100,
+    "sha256": "ed1f1b7e8e9615a1f2230608f2ab031441237676499ecf0010941eb300563d05",
+    "payloads": 15,
+    "manifest": "manifest.json",
+    "validation": {
+      "cmd": "python3 -I -B -S -c 'import hashlib,json,pathlib,tarfile; path=pathlib.Path(\"specs/agent-editing/assets/12i-model-inventory-support/evidence.tar.gz\"); archive=tarfile.open(path,\"r:gz\"); files={m.name.removeprefix(\"./\"):archive.extractfile(m).read() for m in archive.getmembers() if m.isfile()}; manifest=json.loads(files.pop(\"manifest.json\")); assert set(files)==set(manifest[\"files\"]); [None if len(files[name])==pin[\"bytes\"] and hashlib.sha256(files[name]).hexdigest()==pin[\"sha256\"] else (_ for _ in ()).throw(AssertionError(name)) for name,pin in manifest[\"files\"].items()]; print(json.dumps({\"payloads\":len(files),\"bytes\":path.stat().st_size,\"sha256\":hashlib.sha256(path.read_bytes()).hexdigest(),\"result\":\"all archive payloads exactly match manifest\"}))'",
+      "result": {
+        "chunk_id": "85708e",
+        "wall_time_seconds": 0.00001125,
+        "exit_code": 0,
+        "original_token_count": 42,
+        "output": "{\"payloads\": 15, \"bytes\": 11100, \"sha256\": \"ed1f1b7e8e9615a1f2230608f2ab031441237676499ecf0010941eb300563d05\", \"result\": \"all archive payloads exactly match manifest\"}\n"
+      }
+    }
+  },
+  "sources": {
+    "packages/test-harness/editing/model_inventory.py": {
+      "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/packages/test-harness/editing/model_inventory.py",
+      "bytes": 639,
+      "sha256": "551dbd20c0800a37442c09c7be25bfb28bf50b79d8fb259d2d169403126c53bb"
+    },
+    "packages/test-harness/editing/test_model_inventory.py": {
+      "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/packages/test-harness/editing/test_model_inventory.py",
+      "bytes": 4627,
+      "sha256": "225e55c861314c94807c70ca13bacdb2a98c713fd0419e514068e72f8ba6760c"
+    },
+    "packages/test-harness/editing/speech/alignment-probe.py": {
+      "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/packages/test-harness/editing/speech/alignment-probe.py",
+      "bytes": 3366,
+      "sha256": "5f83020883786bd1f8bf03fe9883cab1bb4e615ae266243c30098fda783f6d2c"
+    },
+    "packages/test-harness/editing/speech/verbatim-probe.py": {
+      "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/packages/test-harness/editing/speech/verbatim-probe.py",
+      "bytes": 2571,
+      "sha256": "f4e094ffe8445c3a0bb16429b46634e81290129220b74a3ac4065c8cc3ee4794"
+    },
+    "packages/test-harness/editing/voice/generate.py": {
+      "path": "/Users/david/.codex/worktrees/source-consumer-bridge-plan/screen-recorder/packages/test-harness/editing/voice/generate.py",
+      "bytes": 4203,
+      "sha256": "f94030f8e172659d9648c0c28abc0313eee64d943a9bfd03fb2fefd87403efe2"
+    }
+  },
+  "negativeControl": {
+    "receipt": "final-red-observation.json",
+    "helper": "model_inventory-red.py",
+    "sourceBindings": "source-pins.json",
+    "expected": "Exit 1: ancestor .cache and root named .cache return empty inventory instead of exact three file receipts; other final controls pass",
+    "qualification": "Extraction of original absolute filter, not a historical model rerun. Exact final test/current entry copies are byte-pinned; helper dictionary formatting also differs."
+  },
+  "checks": {
+    "receipts": "final-observations.json",
+    "tests": "Three passed, exit 0",
+    "syntax": "Five Python AST parses passed, exit 0",
+    "whitespace": "git diff --check passed, exit 0",
+    "scope": "Isolated standard-library Python; import fence exits before ML modules load; no model/inference/media/native/build/download",
+    "children": "subprocess.run synchronously awaited all three import-control children; each returncode 0"
+  },
+  "preservation": {
+    "before": [
+      "frozen-before.json",
+      "executed-case-before.json"
+    ],
+    "after": "preservation-after.json",
+    "frozenFiles": 6,
+    "historicalCaseFiles": 5,
+    "qualification": "Before/after this metadata pass only; historical received modelFiles [] and producer exit 1 untouched"
+  },
+  "consumerTrace": "consumer-trace.json",
+  "choices": "choices.md",
+  "review": "review.md",
+  "durableOwnedStorage": "/Users/david/.cache/screen-recorder/verification/model-inventory-fba91e05",
+  "initialPackagingFailure": {
+    "receipt": "archive-validation-initial.json",
+    "preservedCandidate": "/Users/david/.cache/screen-recorder/verification/model-inventory-fba91e05/evidence-appledouble-candidate.tar.gz",
+    "bytes": 11234,
+    "sha256": "c34eb743527a5b648cb9f140a547b13bb1c7fce4138a349fcbafbec6ea8cebd6",
+    "correction": "COPYFILE_DISABLE=1 tar packaging; payloads unchanged, only unwanted AppleDouble archive metadata omitted"
+  },
+  "limits": [
+    "No actual ML runner executed",
+    "No new model-output or quality gate",
+    "No installed library or original prepared home changes",
+    "Parent release acceptance remains separate"
+  ]
+}

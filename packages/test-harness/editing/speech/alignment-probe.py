@@ -7,7 +7,11 @@ import os
 from pathlib import Path
 import resource
 import signal
+import sys
 import time
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from model_inventory import file_sha256, model_files
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--model', type=Path, required=True)
@@ -50,17 +54,13 @@ result = {'duration': len(audio)/rate, 'words': [
     {'word': item['text'], 'start': item['start_time'], 'end': item['end_time']}
     for item in timestamps]}
 (args.out / 'result.json').write_text(json.dumps(result, indent=2)+'\n')
-def digest(path):
-    with path.open('rb') as stream:
-        return hashlib.file_digest(stream, 'sha256').hexdigest()
 manifest = {
     'scope': 'Supplied-text timing only; no filler discovery, production or listening acceptance',
-    'audioSha256': digest(args.audio), 'transcriptSha256': digest(args.transcript),
+    'audioSha256': file_sha256(args.audio), 'transcriptSha256': file_sha256(args.transcript),
     'suppliedTextSha256': hashlib.sha256(text.encode()).hexdigest(),
-    'runnerSha256': digest(Path(__file__)),
-    'modelFiles': [{'path': str(p.relative_to(args.model)), 'bytes': p.stat().st_size,
-                    'sha256': digest(p)} for p in sorted(args.model.rglob('*'))
-                   if p.is_file() and '.cache' not in p.parts],
+    'runnerSha256': file_sha256(Path(__file__)),
+    'modelInventorySha256': file_sha256(Path(__file__).resolve().parent.parent / 'model_inventory.py'),
+    'modelFiles': model_files(args.model),
     'runtime': {p.metadata['Name']: p.version for p in importlib.metadata.distributions()},
     'settings': {'device': 'mps', 'dtype': 'float32', 'language': 'English'},
     'loadSeconds': loaded-started, 'alignSeconds': finished-loaded,

@@ -6,13 +6,16 @@ covers outputs. No production engine selection follows from this diagnostic.
 """
 import argparse
 import dataclasses
-import hashlib
 import importlib.metadata
 import json
 import os
 from pathlib import Path
 import resource
+import sys
 import time
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from model_inventory import file_sha256, model_files
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--model', type=Path, required=True)
@@ -34,15 +37,11 @@ result = model.transcribe(str(args.audio.resolve()), language='en',
                           mode='verbatim', word_timestamps=True)
 finished = time.monotonic()
 (args.out / 'result.json').write_text(json.dumps(dataclasses.asdict(result), indent=2) + '\n')
-def digest(path):
-    with path.open('rb') as stream:
-        return hashlib.file_digest(stream, 'sha256').hexdigest()
 manifest = {
     'scope': 'Research diagnostic, no production adoption or listening acceptance',
-    'audioSha256': digest(args.audio), 'runnerSha256': digest(Path(__file__)),
-    'modelFiles': [{'path': str(p.relative_to(args.model)), 'bytes': p.stat().st_size,
-                    'sha256': digest(p)} for p in sorted(args.model.rglob('*'))
-                   if p.is_file() and '.cache' not in p.parts],
+    'audioSha256': file_sha256(args.audio), 'runnerSha256': file_sha256(Path(__file__)),
+    'modelInventorySha256': file_sha256(Path(__file__).resolve().parent.parent / 'model_inventory.py'),
+    'modelFiles': model_files(args.model),
     'runtime': {p.metadata['Name']: p.version for p in importlib.metadata.distributions()},
     'settings': {'backend': 'transformers', 'device': 'mps', 'compute_type': 'float16',
                  'language': 'en', 'mode': 'verbatim', 'word_timestamps': True},

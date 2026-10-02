@@ -1,5 +1,4 @@
 """Offline bounded reproduction. This is experiment evidence, not a production voice worker."""
-import hashlib
 import importlib.metadata
 import json
 import platform
@@ -7,6 +6,9 @@ import resource
 import sys
 import time
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from model_inventory import file_sha256, model_files
 
 started = time.perf_counter()
 import mlx.core as mx
@@ -18,22 +20,16 @@ config_path, model_path, output_path, root = map(Path, sys.argv[1:])
 config = json.loads(config_path.read_text())
 out = output_path
 
-def sha(path):
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        while block := stream.read(1024 * 1024):
-            digest.update(block)
-    return digest.hexdigest()
-
 manifest = {
     "config": config,
-    "sourceSha256": sha(root / config["source"]),
-    "requestSha256": sha(config_path),
-    "runnerSha256": sha(Path(__file__)),
+    "sourceSha256": file_sha256(root / config["source"]),
+    "requestSha256": file_sha256(config_path),
+    "runnerSha256": file_sha256(Path(__file__)),
+    "modelInventorySha256": file_sha256(Path(__file__).resolve().parent.parent / "model_inventory.py"),
     "platform": platform.platform(), "python": sys.version,
     "device": mx.metal.device_info(),
     "dependencies": {d.metadata["Name"]: d.version for d in importlib.metadata.distributions()},
-    "modelFiles": {str(p.relative_to(model_path)): sha(p) for p in sorted(model_path.rglob("*")) if p.is_file() and ".cache" not in p.parts},
+    "modelFiles": {file["path"]: file["sha256"] for file in model_files(model_path)},
     "network": "OS sandbox deny network plus Hugging Face/Transformers offline flags",
     "originEvidence": "All origins are copies of the same selected actual narration. External-file path is real; past-project asset admission/deletion retention is simulated and NOT verified.",
     "quality": {"requestedWords": "unverified", "identity": "unverified", "delivery": "unverified", "spliceListening": "unverified", "visualReview": "unverified"},
@@ -65,12 +61,12 @@ for origin in config["origins"]:
         splice = out / f"{name}-context.wav"
         wavfile.write(splice, rate, spliced)
         run = {
-            "id": name, "text": replacement["text"], "referenceSha256": sha(out / f"{origin}.wav"),
+            "id": name, "text": replacement["text"], "referenceSha256": file_sha256(out / f"{origin}.wav"),
             "warm": bool(manifest["runs"]), "generationSeconds": elapsed,
             "coldLoadAndGenerationSeconds": None if manifest["runs"] else manifest["modelLoadSeconds"] + elapsed,
             "durationSeconds": len(audio) / rate, "rtf": elapsed / (len(audio) / rate),
             "mlxPeakBytes": mx.get_peak_memory(), "processPeakRssBytes": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
-            "rawSha256": sha(raw), "contextSha256": sha(splice),
+            "rawSha256": file_sha256(raw), "contextSha256": file_sha256(splice),
             "joinsFrames": [start_frame, start_frame + len(audio)],
             "targetDurationSeconds": (end_frame - start_frame) / rate,
             "durationDeltaSeconds": (len(audio) - (end_frame - start_frame)) / rate,
