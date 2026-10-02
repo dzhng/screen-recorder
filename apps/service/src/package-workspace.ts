@@ -1,3 +1,4 @@
+import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { isPrivateDirectory } from "./managed-files.js";
 import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
@@ -221,4 +222,26 @@ export function cleanupFailedPackageWorkspace(
     failure instanceof FailedWorkspaceProvision ? failure.childIdentity : null,
     worker,
   );
+}
+
+export type AssemblyReservation = {
+  parent: DirectoryIdentity;
+  bytes?: number;
+  input: { name: string; identity: DirectoryIdentity | null };
+  zip: { name: string; identity: DirectoryIdentity | null };
+};
+type Workspace = { directory: string; handle: FileHandle; identity: DirectoryIdentity };
+
+export async function checkWorkspace(workspace: Workspace): Promise<void> {
+  const current = await open(
+    workspace.directory,
+    constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY,
+  );
+  try {
+    const stat = await current.stat({ bigint: true });
+    if (String(stat.dev) !== workspace.identity.dev || String(stat.ino) !== workspace.identity.ino)
+      throw new CatalogError("INVALID_STORAGE", "Assembly workspace locator changed");
+  } finally {
+    await current.close();
+  }
 }

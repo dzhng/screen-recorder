@@ -1,3 +1,4 @@
+import { checkWorkspace } from "./package-workspace.js";
 import { validatePackageSource } from "./package-source.js";
 import { createHash } from "node:crypto";
 import { constants } from "node:fs";
@@ -84,12 +85,6 @@ export type PackageEvidence = {
   /** Selected only when the pinned source acquired narration. */
   transcript: RecordingTranscriptMetadata | null;
 };
-export type AssemblyReservation = {
-  parent: DirectoryIdentity;
-  bytes?: number;
-  input: { name: string; identity: DirectoryIdentity | null };
-  zip: { name: string; identity: DirectoryIdentity | null };
-};
 type Workspace = { directory: string; handle: FileHandle; identity: DirectoryIdentity };
 type Member = PackageManifest["inventory"][number];
 function invalid(message: string): never {
@@ -97,19 +92,6 @@ function invalid(message: string): never {
 }
 function same(actual: unknown, expected: unknown) {
   if (!isDeepStrictEqual(actual, expected)) invalid("Portable evidence differs from pinned input");
-}
-export async function checkWorkspace(workspace: Workspace): Promise<void> {
-  const current = await open(
-    workspace.directory,
-    constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY,
-  );
-  try {
-    const stat = await current.stat({ bigint: true });
-    if (String(stat.dev) !== workspace.identity.dev || String(stat.ino) !== workspace.identity.ino)
-      throw new CatalogError("INVALID_STORAGE", "Assembly workspace locator changed");
-  } finally {
-    await current.close();
-  }
 }
 function frames(entries: ScreenshotIndexEntry[]) {
   return entries.map(({ frame, ...entry }) => {

@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
-import { randomUUID } from "node:crypto";
 import { mkdirSync, mkdtempSync, readdirSync, realpathSync, rmSync } from "node:fs";
 import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -143,7 +142,7 @@ import ScreenRecorderControls
         let restarted = ExportController(
             call: { operation, params throws(ServiceFailure) in try await script.call(operation, params) },
             choose: { _, _ in nil }, reveal: { _ in }, changed: {}, failure: { failures.append($0) })
-        let cursor: [String: Any] = ["recordingId": NSNull(), "projectId": NSNull(), "unfinishedOnly": true, "afterExportId": first]
+        let cursor: [String: Any] = ["projectId": NSNull(), "unfinishedOnly": true, "afterExportId": first]
         script.pages = [
             ["exports": [["exportId": first]], "nextCursor": cursor],
             ["exports": [["exportId": second]], "nextCursor": NSNull()],
@@ -153,8 +152,8 @@ import ScreenRecorderControls
         let lists = script.calls.filter { $0.0 == "export.list" }.map { $0.1 }
         precondition(lists.count == 2 && lists.allSatisfy { $0["unfinishedOnly"] as? Bool == true },
             "Discovery asks only for unfinished exports")
-        precondition((lists[1]["cursor"] as? [String: Any])?["afterExportId"] as? String == first,
-            "Discovery follows the service's continuation")
+        precondition(NSDictionary(dictionary: lists[1]["cursor"] as! [String: Any]).isEqual(to: cursor),
+            "Discovery replays the complete project cursor without adding another owner")
         precondition(restarted.state.records.map(\.exportId) == [first, second], "Discovered exports keep page order")
         restarted.abandon(second)
         restarted.abandon(second)
@@ -267,7 +266,7 @@ import ScreenRecorderControls
         let recording = receipts.first { $0["recordingId"] != nil }!
         let project = receipts.first { $0["projectId"] != nil }!
         let recordingId = recording["exportId"] as! String, projectId = project["exportId"] as! String
-        let cursor: [String: Any] = ["recordingId": NSNull(), "projectId": NSNull(),
+        let cursor: [String: Any] = ["projectId": NSNull(),
             "unfinishedOnly": true, "afterExportId": recordingId]
         script.statuses["malformed"] = Data("{}".utf8)
         script.pages = [

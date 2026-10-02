@@ -409,7 +409,6 @@ export const operationSchema = z.discriminatedUnion("operation", [
           limit: z.int().min(1).max(500).optional(),
           cursor: z
             .object({
-              recordingId: id.nullable(),
               projectId: id.nullable(),
               unfinishedOnly: z.boolean(),
               afterExportId: z.uuid(),

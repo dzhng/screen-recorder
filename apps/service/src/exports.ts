@@ -10,7 +10,6 @@ import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.j
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "@screenrec/core/library";
 import { CatalogError, type Catalog } from "@screenrec/core/catalog";
 import type { DerivedCache, DirectoryIdentity } from "@screenrec/core/cache";
 import {
@@ -27,18 +26,13 @@ import type {
   ProjectPreviewInspection,
   PinnedProjectPreview,
 } from "@screenrec/core/project-preview";
-import type { SourceEvidenceMetadata } from "@screenrec/core/evidence";
-import type { SourceProcessing } from "@screenrec/core/processing";
-import type { PreviewInspection, PreviewArtifact } from "@screenrec/core/preview";
 import { Publication, publicationDeadlineMs, type PublicationReceipt } from "./publication.js";
-import { provisionPackageWorkspace, removePackageWorkspace } from "./package-workspace.js";
 import {
-  assemblePackage,
+  provisionPackageWorkspace,
+  removePackageWorkspace,
   checkWorkspace,
-  type PackageOwners,
-  type PackageEvidence,
   type AssemblyReservation,
-} from "./package-assembly.js";
+} from "./package-workspace.js";
 import type { ManagedFiles } from "./managed-files.js";
 import type { MediaWorker } from "./worker.js";
 
@@ -53,57 +47,44 @@ type Request = {
   revisionId?: string | undefined;
   directory: string;
   leaf: string;
-} & (
-  | { kind: "video" | "processed-package"; recordingId: string }
-  | { kind: "video" | "audio" | "processed-package"; projectId: string }
-);
-type ExportOwner = Extract<JobOwner, { kind: "recording" | "project" }>;
+  kind: "video" | "audio" | "processed-package";
+  projectId: string;
+};
+type ExportOwner = Extract<JobOwner, { kind: "project" }>;
 type ExportCursor = {
-  recordingId: string | null;
   projectId: string | null;
   unfinishedOnly: boolean;
   afterExportId: string;
 };
-type Snapshot = ReturnType<RevisionStore["pinPackageSnapshot"]>["snapshot"];
-type ReadyRendition = Pick<PreviewArtifact, "cacheId" | "bytes"> & {
+type ReadyRendition = {
+  cacheId: string;
+  bytes: number;
   generation: number;
 };
 type Intent = {
   kind: Request["kind"];
-  packageEvidence: PackageEvidence | null;
   assembly: AssemblyReservation | null;
   exportId: string;
-  targetKind: "recording" | "project";
+  targetKind: "project";
   targetId: string;
   request: string;
-  snapshot: Snapshot | PinnedProjectPreview | PinnedProjectAudioExport | PinnedProjectPackage;
+  snapshot: PinnedProjectPreview | PinnedProjectAudioExport | PinnedProjectPackage;
   destination: { directory: string; identity: DirectoryIdentity; leaf: string };
   staging: DirectoryIdentity | null;
   stagingCleared: 0 | 1;
   preview: ReadyRendition | null;
-  sourceEvidence: SourceEvidenceMetadata | null;
   receipt: PublicationReceipt | null;
   abandoning: boolean;
 };
 type Row = Omit<
   Intent,
-  | "snapshot"
-  | "destination"
-  | "staging"
-  | "preview"
-  | "receipt"
-  | "sourceEvidence"
-  | "abandoning"
-  | "packageEvidence"
-  | "assembly"
+  "snapshot" | "destination" | "staging" | "preview" | "receipt" | "abandoning" | "assembly"
 > & {
-  packageEvidence: string | null;
   assembly: string | null;
   snapshot: string;
   destination: string;
   staging: string | null;
   preview: string | null;
-  sourceEvidence: string | null;
   receipt: string | null;
   abandoning: number;
 };
@@ -179,14 +160,7 @@ export class MediaExports {
       cache: DerivedCache;
       worker: MediaWorker;
       files: Pick<ManagedFiles, "externalDirectory">;
-      recording?: {
-        store: RevisionStore;
-        preview: PreviewInspection;
-        processing: SourceProcessing;
-        package: PackageOwners;
-        files: Pick<ManagedFiles, "recordingDirectory">;
-      };
-      project?: {
+      project: {
         store: ProjectStore;
         preview: ProjectPreviewInspection;
         audio?: MediaAudioInspection;
@@ -213,24 +187,8 @@ export class MediaExports {
     CREATE INDEX IF NOT EXISTS export_intents_status_projection ON export_intents(exportId,(${statusSnapshotSql}),targetKind,targetId,kind,destination,receipt,abandoning,
       (assembly IS NOT NULL),(staging IS NOT NULL),stagingCleared);`);
   }
-  private recording() {
-    if (!this.owners.recording)
-      throw new CatalogError(
-        "UNSUPPORTED_TARGET",
-        "Recording exports are unavailable in this service",
-      );
-    return this.owners.recording;
-  }
-  private project() {
-    if (!this.owners.project)
-      throw new CatalogError(
-        "UNSUPPORTED_TARGET",
-        "Project exports are unavailable in this service",
-      );
-    return this.owners.project;
-  }
   private projectAudio() {
-    const audio = this.project().audio;
+    const audio = this.owners.project.audio;
     if (!audio)
       throw new CatalogError("NOT_READY", "Project audio exports are unavailable", {}, true);
     return audio;
@@ -250,32 +208,24 @@ export class MediaExports {
       ? this.projectAudio().prepareExport(
           input as Parameters<MediaAudioInspection["prepareExport"]>[0],
         )
-      : this.project().preview.prepare(input as Parameters<ProjectPreviewInspection["prepare"]>[0]);
+      : this.owners.project.preview.prepare(
+          input as Parameters<ProjectPreviewInspection["prepare"]>[0],
+        );
   }
   private projectPackage() {
-    const packages = this.project().package;
+    const packages = this.owners.project.package;
     if (!packages)
       throw new CatalogError("NOT_READY", "Project packages are unavailable in this service");
     return packages;
   }
-  private packageDirectory(intent: Pick<Intent, "targetKind" | "targetId">, signal?: AbortSignal) {
-    return intent.targetKind === "project"
-      ? this.projectPackage().exportDirectory()
-      : this.recording().files.recordingDirectory(intent.targetId, signal);
+  private owner(intent: Pick<Intent, "targetId">): ExportOwner {
+    return { kind: "project", projectId: intent.targetId };
   }
-  private owner(intent: Pick<Intent, "targetKind" | "targetId">): ExportOwner {
-    return intent.targetKind === "recording"
-      ? { kind: "recording", recordingId: intent.targetId }
-      : { kind: "project", projectId: intent.targetId };
-  }
-  private assertOwner(intent: Pick<Intent, "targetKind" | "targetId">) {
-    if (intent.targetKind === "recording") this.recording().store.get(intent.targetId);
-    else this.project().store.get(intent.targetId);
+  private assertOwner(intent: Pick<Intent, "targetId">) {
+    this.owners.project.store.get(intent.targetId);
   }
   private deleting(owner: ExportOwner) {
-    return owner.kind === "recording"
-      ? this.recording().store.isDeleting(owner.recordingId)
-      : this.project().store.isDeleting(owner.projectId);
+    return this.owners.project.store.isDeleting(owner.projectId);
   }
   private matches(job: Job, intent: Intent) {
     return (
@@ -294,16 +244,11 @@ export class MediaExports {
     return {
       ...row,
       abandoning: row.abandoning === 1,
-      // A selection stored without a transcript field selected none.
-      packageEvidence: row.packageEvidence
-        ? { transcript: null, ...JSON.parse(row.packageEvidence) }
-        : null,
       assembly: row.assembly ? JSON.parse(row.assembly) : null,
       snapshot: JSON.parse(row.snapshot),
       destination: JSON.parse(row.destination),
       staging: row.staging ? JSON.parse(row.staging) : null,
       preview: row.preview ? JSON.parse(row.preview) : null,
-      sourceEvidence: row.sourceEvidence ? JSON.parse(row.sourceEvidence) : null,
       receipt: row.receipt ? JSON.parse(row.receipt) : null,
     };
   }
@@ -366,8 +311,7 @@ export class MediaExports {
         JOIN jobs j ON j.targetKind=i.targetKind AND j.targetId=i.targetId AND j.artifact=? AND j.inputSha256=job_input_digest(i.exportId) AND j.input=i.exportId
         WHERE ${cleanupPendingSql} AND i.abandoning=0
         AND j.state IN ('failed','canceled','ready','unavailable')
-        AND ${this.owners.recording ? "NOT (i.targetKind='recording' AND EXISTS(SELECT 1 FROM recording_deletions d WHERE d.recordingId=i.targetId))" : "i.targetKind<>'recording'"}
-        AND ${this.owners.project ? "NOT (i.targetKind='project' AND EXISTS(SELECT 1 FROM projects p WHERE p.projectId=i.targetId AND p.deletedAt IS NOT NULL))" : "i.targetKind<>'project'"}
+        AND NOT EXISTS(SELECT 1 FROM projects p WHERE p.projectId=i.targetId AND p.deletedAt IS NOT NULL)
         AND NOT EXISTS(SELECT 1 FROM jobs r WHERE r.targetKind=j.targetKind AND r.targetId=j.targetId AND r.revisionId=j.revisionId
           AND r.artifact=? AND r.inputSha256=job_input_digest(i.exportId || '/' || j.attemptId) AND r.input=i.exportId || '/' || j.attemptId)
         ORDER BY i.exportId LIMIT 32`,
@@ -398,23 +342,9 @@ export class MediaExports {
     return errors;
   }
 
-  retainsSource(recordingId: string, generation: string): boolean {
-    return !!this.owners.catalog.catalog
-      .prepare(
-        `SELECT 1 FROM export_intents
-      WHERE receipt IS NULL AND targetKind='recording' AND targetId=? AND sourceEvidence IS NOT NULL
-      AND json_extract(sourceEvidence,'$.generation')=? LIMIT 1`,
-      )
-      .get(recordingId, generation);
-  }
   private hasPreparedInput(intent: Intent): boolean {
     // A staged attempt may already have committed; reconcile before asking dependencies again.
-    if (
-      intent.receipt ||
-      intent.assembly ||
-      (intent.staging && (intent.preview || intent.packageEvidence?.index))
-    )
-      return true;
+    if (intent.receipt || intent.assembly || (intent.staging && intent.preview)) return true;
     if (intent.preview) {
       const read = this.owners.cache.acquire(intent.preview.cacheId);
       if (read) {
@@ -442,35 +372,16 @@ export class MediaExports {
       jobId: string | null;
       published: { generation: number; preview: { cacheId: string; bytes: number } } | null;
     };
-    if (intent.targetKind === "project") {
-      if (intent.kind === "processed-package") return { state: "ready" };
-      if (intent.kind === "audio") {
-        const audio = this.projectAudio().resumeExport(intent.snapshot as PinnedProjectAudioExport);
-        ready = {
-          ...audio,
-          published: audio.published
-            ? { generation: audio.published.generation, preview: audio.published.audio }
-            : null,
-        };
-      } else ready = this.project().preview.resume(intent.snapshot as PinnedProjectPreview);
-    } else {
-      if (!intent.sourceEvidence) {
-        this.recording().processing.prepare(intent.targetId);
-        const source = this.recording().processing.status(intent.targetId);
-        if (source.state !== "ready" || !source.published) return this.dependency(source);
-        intent.sourceEvidence = source.published.evidence;
-        this.owners.catalog.catalog
-          .prepare("UPDATE export_intents SET sourceEvidence=? WHERE exportId=?")
-          .run(JSON.stringify(intent.sourceEvidence), intent.exportId);
-      }
-      if (intent.kind === "processed-package") return this.admitPackage(intent);
-      ready = this.recording().preview.request({
-        recordingId: intent.targetId,
-        revisionId: intent.snapshot.revisionId,
-        sourceEvidence: intent.sourceEvidence,
-        rendition: "source",
-      });
-    }
+    if (intent.kind === "processed-package") return { state: "ready" };
+    if (intent.kind === "audio") {
+      const audio = this.projectAudio().resumeExport(intent.snapshot as PinnedProjectAudioExport);
+      ready = {
+        ...audio,
+        published: audio.published
+          ? { generation: audio.published.generation, preview: audio.published.audio }
+          : null,
+      };
+    } else ready = this.owners.project.preview.resume(intent.snapshot as PinnedProjectPreview);
     if (ready.state !== "ready" || !ready.published) return this.dependency(ready);
     intent.preview = {
       cacheId: ready.published.preview.cacheId,
@@ -482,80 +393,6 @@ export class MediaExports {
       .run(JSON.stringify(intent.preview), intent.exportId);
     return { state: "ready" };
   }
-  retainsScenes(recordingId: string, generation: string): boolean {
-    return this.retainsPackageEvidence(recordingId, generation, "scenes");
-  }
-  retainsIndex(recordingId: string, generation: string): boolean {
-    return this.retainsPackageEvidence(recordingId, generation, "index");
-  }
-  retainsTranscript(recordingId: string, generation: string): boolean {
-    return this.retainsPackageEvidence(recordingId, generation, "transcript");
-  }
-  private retainsPackageEvidence(
-    recordingId: string,
-    generation: string,
-    kind: keyof PackageEvidence,
-  ) {
-    return !!this.owners.catalog.catalog
-      .prepare(
-        `SELECT 1 FROM export_intents
-      WHERE receipt IS NULL AND targetKind='recording' AND targetId=? AND packageEvidence IS NOT NULL
-      AND json_extract(packageEvidence,?)=? LIMIT 1`,
-      )
-      .get(recordingId, `$.${kind}.generation`, generation);
-  }
-  private savePackageEvidence(intent: Intent) {
-    this.owners.catalog.catalog
-      .prepare("UPDATE export_intents SET packageEvidence=? WHERE exportId=?")
-      .run(JSON.stringify(intent.packageEvidence), intent.exportId);
-  }
-  private admitPackage(intent: Intent): ReturnType<JobAdmission> {
-    const owners = this.recording().package;
-    const source = intent.sourceEvidence;
-    if (!source) throw new CatalogError("INVALID_EVIDENCE", "Package source is not selected");
-    intent.packageEvidence ??= { scenes: null, index: null, transcript: null };
-    // Acquired narration, never a caller flag, makes the transcript required.
-    if (owners.source.hasAudio(source, "narration") && !intent.packageEvidence.transcript) {
-      owners.transcript.prepare(intent.targetId);
-      const transcript = owners.transcript.status(intent.targetId);
-      // Unprepared models start no job, so there is nothing to wait on; the caller must act.
-      if (transcript.state === "failed" || transcript.state === "unavailable")
-        throw transcript.reason === "model_not_prepared"
-          ? new CatalogError(
-              "MODEL_NOT_PREPARED",
-              "Narrated export needs a transcript; prepare speech models, then retry the export",
-              {},
-              true,
-            )
-          : new CatalogError(
-              "DEPENDENCY_FAILED",
-              `Narrated export needs a transcript, which failed (${transcript.reason}); retry transcription, then retry the export`,
-              { dependency: transcript.jobId },
-              transcript.retryable,
-            );
-      if (transcript.state !== "ready" || !transcript.published) return this.dependency(transcript);
-      intent.packageEvidence.transcript = transcript.published.transcript;
-      this.savePackageEvidence(intent);
-    }
-    if (!intent.packageEvidence.scenes) {
-      owners.scenes.prepare(intent.targetId);
-      const scenes = owners.scenes.status(intent.targetId);
-      if (scenes.state !== "ready" || !scenes.published) return this.dependency(scenes);
-      intent.packageEvidence.scenes = scenes.published.evidence;
-      this.savePackageEvidence(intent);
-    }
-    if (!intent.packageEvidence.index) {
-      const index = owners.index.request({
-        recordingId: intent.targetId,
-        revisionId: intent.snapshot.revisionId,
-        evidence: { source, scenes: intent.packageEvidence.scenes },
-      });
-      if (index.state !== "ready" || !index.published) return this.dependency(index);
-      intent.packageEvidence.index = index.published.evidence;
-      this.savePackageEvidence(intent);
-    }
-    return { state: "ready" };
-  }
   private saveAssembly(intent: Intent) {
     this.owners.catalog.catalog
       .prepare("UPDATE export_intents SET assembly=? WHERE exportId=?")
@@ -564,9 +401,9 @@ export class MediaExports {
   private async cleanupAssembly(intent: Intent): Promise<void> {
     const reservation = intent.assembly;
     if (!reservation) return;
-    let parent: Awaited<ReturnType<ManagedFiles["recordingDirectory"]>> | undefined;
+    let parent: Awaited<ReturnType<ProjectPackages["exportDirectory"]>> | undefined;
     try {
-      parent = await this.packageDirectory(intent);
+      parent = await this.projectPackage().exportDirectory();
       if (
         parent.identity.dev !== reservation.parent.dev ||
         parent.identity.ino !== reservation.parent.ino
@@ -590,19 +427,9 @@ export class MediaExports {
     prepare: (file: { readonly fd: number }, bytes: number) => Promise<void>,
   ) {
     await this.cleanupAssembly(intent);
-    const owners = intent.targetKind === "recording" ? this.recording().package : null;
-    const source = intent.sourceEvidence,
-      scenes = intent.packageEvidence?.scenes,
-      index = intent.packageEvidence?.index,
-      transcript = intent.packageEvidence?.transcript ?? null;
-    if (
-      owners &&
-      (!source || !scenes || !index || (!transcript && owners.source.hasAudio(source, "narration")))
-    )
-      throw new JobDependencyLost("Package evidence is not admitted");
-    const parent = await this.packageDirectory(intent, signal);
+    const parent = await this.projectPackage().exportDirectory();
     const workspaces: Awaited<ReturnType<typeof provisionPackageWorkspace>>[] = [];
-    let archive: Awaited<ReturnType<typeof assemblePackage>> | undefined;
+    let archive: Awaited<ReturnType<ProjectPackages["assemble"]>> | undefined;
     try {
       signal.throwIfAborted();
       this.requireActive(this.require(intent.exportId));
@@ -624,27 +451,12 @@ export class MediaExports {
       }
       const input = workspaces[0]!,
         zip = workspaces[1]!;
-      archive = owners
-        ? await assemblePackage(
-            {
-              snapshot: intent.snapshot as Snapshot,
-              source: source!,
-              scenes: scenes!,
-              index: index!,
-              transcript,
-            },
-            { ...owners, store: this.recording().store, worker: this.owners.worker },
-            parent,
-            input,
-            zip,
-            signal,
-          )
-        : await this.projectPackage().assemble(
-            intent.snapshot as PinnedProjectPackage,
-            input,
-            zip,
-            signal,
-          );
+      archive = await this.projectPackage().assemble(
+        intent.snapshot as PinnedProjectPackage,
+        input,
+        zip,
+        signal,
+      );
       intent.assembly.bytes = archive.receipt.bytes;
       this.saveAssembly(intent);
       await checkWorkspace(input);
@@ -706,9 +518,9 @@ export class MediaExports {
         "INVALID_PARAMS",
         "Export needs a UUID identity and destination filename",
       );
-    const targetKind = "projectId" in request ? "project" : "recording";
-    const targetId = "projectId" in request ? request.projectId : request.recordingId;
-    if (request.settings && (targetKind !== "project" || request.kind === "processed-package"))
+    const targetKind = "project";
+    const targetId = request.projectId;
+    if (request.settings && request.kind === "processed-package")
       throw new CatalogError("INVALID_PARAMS", "Output settings require a project media export");
     const settingsRequest =
       request.kind === "audio"
@@ -730,11 +542,7 @@ export class MediaExports {
       this.requireActive(existing);
       this.assertOwner(existing);
       if (!existing.receipt) {
-        if (
-          existing.targetKind === "project" &&
-          existing.kind !== "processed-package" &&
-          !this.hasPreparedInput(existing)
-        ) {
+        if (existing.kind !== "processed-package" && !this.hasPreparedInput(existing)) {
           const prepared = await this.prepareProjectMedia(
             existing.kind,
             existing.snapshot as PinnedProjectPreview | PinnedProjectAudioExport,
@@ -756,7 +564,7 @@ export class MediaExports {
       return this.status(existing.exportId);
     }
     const preparedPreview =
-      targetKind === "project" && request.kind !== "processed-package"
+      request.kind !== "processed-package"
         ? await this.prepareProjectMedia(request.kind, {
             projectId: targetId,
             revisionId: request.revisionId,
@@ -764,23 +572,20 @@ export class MediaExports {
           })
         : undefined;
     const snapshot =
-      preparedPreview?.snapshot ??
-      (targetKind === "project"
-        ? this.projectPackage().pin(targetId, request.revisionId)
-        : this.recording().store.pinPackageSnapshot(targetId, request.revisionId).snapshot);
+      preparedPreview?.snapshot ?? this.projectPackage().pin(targetId, request.revisionId);
     const selected = await this.owners.files.externalDirectory(
       request.directory,
       this.lifetime.signal,
     );
     this.lifetime.signal.throwIfAborted();
     this.requireAdmission(request.exportId);
-    this.assertOwner({ targetKind, targetId });
+    this.assertOwner({ targetId });
     // Another request may have won while metadata/directory checks awaited. Replay its pin.
     if (this.find(request.exportId)) return this.prepareIntent(request);
     const destination = { ...selected, leaf: request.leaf };
     const persist = () => {
       this.requireAdmission(request.exportId);
-      this.assertOwner({ targetKind, targetId });
+      this.assertOwner({ targetId });
       const existing = this.find(request.exportId);
       if (existing) {
         if (existing.request !== key)
@@ -811,7 +616,7 @@ export class MediaExports {
           JSON.stringify(snapshot),
           JSON.stringify(destination),
         );
-      if (targetKind === "project" && request.kind === "processed-package") {
+      if (request.kind === "processed-package") {
         const pinned = snapshot as PinnedProjectPackage;
         this.projectPackage().checkPinned(pinned);
         for (const resource of pinned.resources) {
@@ -838,41 +643,26 @@ export class MediaExports {
     });
     return this.status(request.exportId);
   }
-  private ownerFields(intent: Pick<Intent, "targetKind" | "targetId">) {
-    return intent.targetKind === "recording"
-      ? { recordingId: intent.targetId }
-      : { projectId: intent.targetId };
-  }
   list(
     input: {
-      recordingId?: string | undefined;
       projectId?: string | undefined;
       unfinishedOnly?: boolean | undefined;
       limit?: number | undefined;
       cursor?: ExportCursor | undefined;
     } = {},
   ) {
-    const recordingId = input.recordingId ?? null,
-      projectId = input.projectId ?? null,
+    const projectId = input.projectId ?? null,
       unfinishedOnly = input.unfinishedOnly ?? false,
       limit = input.limit ?? 100;
-    if (recordingId !== null && projectId !== null)
-      throw new CatalogError("INVALID_PARAMS", "Choose one export owner filter");
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 1000)
       throw new CatalogError("INVALID_PARAMS", "Export page limit must be1–1000");
     if (
       input.cursor &&
-      (input.cursor.recordingId !== recordingId ||
-        input.cursor.projectId !== projectId ||
-        input.cursor.unfinishedOnly !== unfinishedOnly)
+      (input.cursor.projectId !== projectId || input.cursor.unfinishedOnly !== unfinishedOnly)
     )
       throw new CatalogError("INVALID_CURSOR", "Export cursor does not match filters");
     const owner: ExportOwner | undefined =
-      recordingId !== null
-        ? { kind: "recording", recordingId }
-        : projectId !== null
-          ? { kind: "project", projectId }
-          : undefined;
+      projectId !== null ? { kind: "project", projectId } : undefined;
     // Keep the bounded ID page outside the lookup; SQLite may otherwise scan every summary.
     const rows = this.owners.catalog.catalog
       .prepare(
@@ -901,9 +691,9 @@ export class MediaExports {
     })[];
     const exports = rows
       .slice(0, limit)
-      .map(({ exportId, targetKind, targetId, kind, revisionId, state, ...lifecycle }) => ({
+      .map(({ exportId, targetId, kind, revisionId, state, ...lifecycle }) => ({
         exportId,
-        ...this.ownerFields({ targetKind, targetId }),
+        projectId: targetId,
         kind,
         revisionId,
         ...summarize(lifecycle, state),
@@ -913,7 +703,6 @@ export class MediaExports {
       nextCursor:
         rows.length > limit
           ? {
-              recordingId,
               projectId,
               unfinishedOnly,
               afterExportId: exports.at(-1)!.exportId,
@@ -946,8 +735,8 @@ export class MediaExports {
     const intent = {
       ...row,
       snapshot: JSON.parse(row.snapshot) as
-        | Snapshot
         | PinnedProjectPreview
+        | PinnedProjectAudioExport
         | PackageSnapshotSummary,
       destination: JSON.parse(row.destination) as Intent["destination"],
       receipt: row.receipt ? (JSON.parse(row.receipt) as PublicationReceipt) : null,
@@ -962,7 +751,7 @@ export class MediaExports {
       kind: intent.kind,
       ...summarize(intent, current?.state ?? null),
       recovery,
-      ...this.ownerFields(intent),
+      projectId: intent.targetId,
       snapshot: intent.snapshot,
       // A restarted client can describe an unfinished export from this alone; output still
       // names only a committed file.
@@ -1023,18 +812,10 @@ export class MediaExports {
     // An acknowledged commit never becomes a second export because the user moved/deleted it.
     if (intent.receipt)
       return cleanupPending(intent) ? this.recover(exportId) : this.status(exportId);
-    if (
-      intent.targetKind === "project" &&
-      intent.kind === "audio" &&
-      !this.hasPreparedInput(intent)
-    ) {
+    if (intent.kind === "audio" && !this.hasPreparedInput(intent)) {
       await this.projectAudio().retryExport(intent.snapshot as PinnedProjectAudioExport);
     }
-    if (
-      intent.targetKind === "project" &&
-      intent.kind === "video" &&
-      !this.hasPreparedInput(intent)
-    ) {
+    if (intent.kind === "video" && !this.hasPreparedInput(intent)) {
       const pinned = intent.snapshot as PinnedProjectPreview;
       const repairable = (job: Job) => {
         if (job.state !== "failed" || !job.retryable) return false;
@@ -1049,7 +830,7 @@ export class MediaExports {
           this.owners.jobs.job(job.errorDetails.dependency).artifact === "pointer-presentation"
         );
       };
-      const prepared = await this.project().preview.prepare(pinned);
+      const prepared = await this.owners.project.preview.prepare(pinned);
       prepared.submit(() => {
         this.requireAdmission(exportId);
         this.requireActive(this.require(exportId));
@@ -1064,9 +845,9 @@ export class MediaExports {
         )
           failure = this.owners.jobs.job(failure.errorDetails.dependency);
         if (repairable(failure)) {
-          const current = await this.project().preview.request(pinned);
+          const current = await this.owners.project.preview.request(pinned);
           if (current.jobId && repairable(this.owners.jobs.job(current.jobId)))
-            await this.project().preview.retry(pinned);
+            await this.owners.project.preview.retry(pinned);
         }
       }
     }

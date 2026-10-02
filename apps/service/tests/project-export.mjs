@@ -1,8 +1,9 @@
+import { operationSchema } from "@screenrec/protocol";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { outputPresets } from "@screenrec/composition";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
@@ -726,5 +727,176 @@ test("abandonment during preview retry cannot resurrect an export job", async (t
       .prepare("SELECT artifact,input FROM jobs WHERE input=?")
       .all(request.exportId),
     [],
+  );
+});
+
+test("export discovery pages pinned summaries without admitting work and binds cursor filters", async (t) => {
+  const f = await fixture(t, { admission: false });
+  const ids = [1, 2, 3].map((value) => `${value}0000000-0000-4000-8000-000000000000`);
+  for (const exportId of ids)
+    await f.exports.create({
+      kind: "video",
+      exportId,
+      projectId: f.projectId,
+      directory: f.output,
+      leaf: exportId + ".mp4",
+    });
+  const page = f.exports.list({ limit: 2, unfinishedOnly: true });
+  assert.deepEqual(page.nextCursor, {
+    projectId: null,
+    unfinishedOnly: true,
+    afterExportId: ids[1],
+  });
+  assert.deepEqual(
+    page.exports.map((row) => row.exportId),
+    ids.slice(0, 2),
+  );
+  assert.deepEqual(page.exports[0], {
+    exportId: ids[0],
+    projectId: f.projectId,
+    kind: "video",
+    revisionId: f.placed.revision.id,
+    state: "queued",
+    abandoning: false,
+    cleanupPending: false,
+  });
+  assert.throws(() => f.exports.list({ cursor: page.nextCursor }), /cursor.*filters/i);
+  assert.throws(
+    () =>
+      f.exports.list({
+        unfinishedOnly: true,
+        projectId: f.projectId,
+        cursor: page.nextCursor,
+      }),
+    /cursor.*filters/i,
+  );
+  assert.deepEqual(
+    f.exports
+      .list({ unfinishedOnly: true, cursor: page.nextCursor })
+      .exports.map((row) => row.exportId),
+    ids.slice(2),
+  );
+  const continuation = { unfinishedOnly: true, cursor: page.nextCursor };
+  assert.deepEqual(
+    operationSchema.parse({ operation: "export.list", params: continuation }).params,
+    continuation,
+  );
+  const arrival = "00000000-0000-4000-8000-000000000000";
+  await f.exports.create({
+    kind: "video",
+    exportId: arrival,
+    projectId: f.projectId,
+    directory: f.output,
+    leaf: "new.mp4",
+  });
+  assert.deepEqual(
+    f.exports
+      .list({ unfinishedOnly: true, cursor: page.nextCursor })
+      .exports.map((row) => row.exportId),
+    [ids[2]],
+  );
+  assert.equal(f.exports.list({ unfinishedOnly: true }).exports[0].exportId, arrival);
+  assert.deepEqual(f.exports.list({ projectId: randomUUID() }).exports, []);
+  await f.exports.abandon(arrival);
+  await f.exports.abandon(ids[1]);
+  assert.deepEqual(
+    f.exports.list({}).exports.map((row) => row.exportId),
+    [ids[0], ids[2]],
+  );
+  assert.deepEqual(await readdir(f.output), []);
+  assert.equal(f.exports.status(ids[0]).state, "queued");
+});
+
+test("an acknowledged export leaves only its file and never needs the destination again", async (t) => {
+  let nativeCalls = 0;
+  const f = await fixture(t, {
+    wrap:
+      (run) =>
+      async (...args) => {
+        nativeCalls++;
+        return run(...args);
+      },
+  });
+  const exportId = randomUUID();
+  await f.exports.create({
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "moved.mp4",
+  });
+  await f.jobs.idle();
+  assert.deepEqual(await readdir(f.output), ["moved.mp4"]);
+  const moved = f.output + "-moved";
+  t.after(() => rm(moved, { recursive: true, force: true }));
+  await rename(f.output, moved);
+  const before = nativeCalls;
+  assert.equal((await f.exports.retry(exportId)).state, "committed");
+  assert.equal(
+    f.exports.status(exportId).state,
+    "committed",
+    JSON.stringify(f.exports.status(exportId)),
+  );
+  await f.exports.abandon(exportId);
+  assert.equal(nativeCalls, before);
+  assert.throws(() => f.exports.status(exportId), { code: "NOT_FOUND" });
+  assert.deepEqual(await readdir(moved), ["moved.mp4"]);
+});
+
+test("a lost staging retirement after commit is confirmed absent by explicit recovery", async (t) => {
+  let lose = true;
+  const f = await fixture(t, {
+    wrap:
+      (run) =>
+      async (op, ...args) => {
+        const result = await run(op, ...args);
+        if (op === "publication.retire" && lose) {
+          lose = false;
+          throw new Error("lost retirement response");
+        }
+        return result;
+      },
+  });
+  const exportId = randomUUID();
+  await f.exports.create({
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "retired.mp4",
+  });
+  await f.jobs.idle();
+  assert.deepEqual(await readdir(f.output), ["retired.mp4"]);
+  const pending = f.exports.status(exportId);
+  assert.deepEqual([pending.state, pending.cleanupPending], ["committed", true]);
+  const recovered = await f.exports.retry(exportId);
+  await f.jobs.idle();
+  assert.ok(recovered.recovery.jobId);
+  assert.equal(f.exports.status(exportId).cleanupPending, false);
+  assert.deepEqual(f.exports.list({ unfinishedOnly: true }).exports, []);
+});
+
+test("concurrent request replay shares one intent and conflicting reuse is rejected", async (t) => {
+  const f = await fixture(t),
+    exportId = randomUUID();
+  const request = {
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "once.mp4",
+  };
+  const results = await Promise.all([f.exports.create(request), f.exports.create(request)]);
+  assert.equal(results[0].jobId, results[1].jobId);
+  await f.jobs.idle();
+  await assert.rejects(
+    f.exports.create({ ...request, leaf: "different.mp4" }),
+    (e) => e.code === "REQUEST_CONFLICT",
+  );
+  assert.equal(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 1);
+  assert.equal(
+    f.exports.status(exportId).state,
+    "committed",
+    JSON.stringify(f.exports.status(exportId)),
   );
 });

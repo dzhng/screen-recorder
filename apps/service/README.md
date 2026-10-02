@@ -79,6 +79,14 @@ written — closes the listener through the same path EOF uses, so the promised
 cleanup is not lost to a race between the two pipes. `service.health` takes no
 parameters and refuses the ones it is given.
 
+## Project publication
+
+[Media exports](src/exports.ts) publish only explicit project requests. Each intent
+pins its project revision and destination before execution; replay and recovery
+use that intent even after edits or a lost acknowledgement. Private staging and
+package workspaces stay owned until cleanup is confirmed, while committed external
+files remain independent of project deletion.
+
 ## Editable package ownership
 
 Project export uses the existing durable publication owner. Archive extraction and
