@@ -46,8 +46,9 @@ and claim match. Any necessary new
 human task must identify the missing fact and explain why existing material
 cannot establish it. Open release claims do not stop independent toolkit work.
 
-The installed copy remains a separately verified artifact. A source change does
-not imply installation, and this handoff does not authorize an installed-app switch.
+The installed copy remains a separately verified artifact. Follow the
+[active plan's check authorization](../agent-editing/README.md#next-agent-prompt)
+for candidate validation and replacement of the installed app.
 The original [verification gates](verification.md) remain requirements; a plan
 rewrite cannot convert an unmeasured claim or failed score into a pass.
 

@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: complete the remaining release acceptance when its prerequisites are available.**
+**Next pickup: prepare the remaining release checks and qualify independent speech references.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
 media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
@@ -78,13 +78,20 @@ rejected. No personal keep/remove judgment is a development prerequisite. Any
 necessary human task must name the missing fact and explain why existing evidence
 cannot establish it.
 
-Isolated model work is authorized; preserve original prepared files, runtime homes,
-receipts and accepted recipes. No new capture, audible playback, native windows,
-Claude run, configured CLI-review retry, frozen-worker replacement or installed-app
-switch is authorized. Preserve [worker bytes](assets/acceptance-maintenance/native-worker-preservation.json)
-and installed span transactions until explicit cutover. Capture publishes facts;
-the caller authors projects and edits. No migration or obsolete-owner deletion
-begins before its prerequisites.
+Necessary checks are authorized, including brief hardware capture, audio playback,
+native presentation and candidate validation. The user will identify a quiet
+computer window; reserve heavy and timing-sensitive checks for that window.
+Prepare the candidate and reference data independently. Source independent speech
+labels through the developer's research; do not assign the user another recording
+or timestamp-entry task.
+
+Preserve original prepared files, runtime homes, receipts, accepted recipes and
+[frozen worker bytes](assets/acceptance-maintenance/native-worker-preservation.json).
+Candidate checks use isolated state. Prepare a reviewable installable candidate
+before requesting replacement of the user's installed app. Preserve installed
+span transactions until explicit cutover. Capture publishes facts; the caller
+authors projects and edits. No migration or obsolete-owner deletion begins before
+its preservation prerequisites.
 
 Keep this pickup, checklist and owning Status lines consistent. Continue independent
 implementation while acceptance remains open. Full release requires broader speech

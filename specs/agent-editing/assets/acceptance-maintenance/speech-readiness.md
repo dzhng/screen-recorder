@@ -14,11 +14,14 @@ repetitions. The independent timing examples in
 [12l](../12l-independent-supplied-text-timing/README.md) do not supply that missing
 broader reference.
 
-The next useful quality prerequisite is a complete independent acoustic reference
-for the already fixed 12j source cohort, including omitted words and ordinary
-neighbors. It needs no new capture or personal removal decisions. Neither ASR nor
-alignment may manufacture its own reference, and labeling only recognized words
-would bias the denominator. Once qualified labels exist, the
+The next useful quality prerequisite is a complete independent acoustic reference,
+including omitted words and ordinary neighbors. The developer owns qualifying
+existing independently labeled material for the unmet coverage requirements;
+absence of acoustic labels for 12j does not require a user annotation task or
+prevent qualification of another corpus. Preserve 12j's fixed lexical evidence
+and report new corpus scope separately. Neither ASR nor alignment may manufacture
+its own reference, and labeling only recognized words would bias the denominator.
+Once qualified labels exist, the
 [shared evaluator](../../../../packages/test-harness/speech/evaluate.mjs) can score
 existing predictions. Missing reference data remains a fact, not another model
 trial or an automatic assignment to the user.
