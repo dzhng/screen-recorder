@@ -1,0 +1,65 @@
+{
+  "observation": "complete",
+  "nativeStoredByteClockFormatCorrespondence": "pass",
+  "fullReaderFactParity": "different",
+  "requests": 197,
+  "sourcePayloadBytes": 17410,
+  "savedVerification": "saved-checks.json",
+  "actualArchive": "manifest.json",
+  "processes": [
+    {
+      "label": "compile",
+      "pid": 58057,
+      "elapsedSeconds": 7.5707439160000005,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "cursor",
+      "pid": 58357,
+      "elapsedSeconds": 1.0159295000000004,
+      "exitCode": 0,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    }
+  ],
+  "deltas": [
+    {
+      "decodePosition": 0,
+      "presentationOrdinal": 0,
+      "generatedLacks": "ResetDecoderBeforeDecoding buffer attachment"
+    },
+    {
+      "decodePosition": 195,
+      "presentationOrdinal": 196,
+      "generatedLacks": "TrimDurationAtEnd = 1/1000000 s buffer attachment",
+      "outputDuration": {
+        "generated": {
+          "value": 33334,
+          "scale": 1000000
+        },
+        "fullReader": {
+          "value": 33333,
+          "scale": 1000000
+        }
+      },
+      "outputTimingDuration": "same one-microsecond difference; rawDuration unchanged"
+    }
+  ],
+  "comparisonExclusion": "bufferOrdinal only",
+  "review": {
+    "shape": "frozen evidence and reused references only; no production owner or maintained harness",
+    "diff": "all archive members rehashed; exact differences retained without normalization",
+    "docs": "verdicts separated; root owns shared leaf and handoff"
+  },
+  "limits": [
+    "Single immutable stored input; no marker-equivalence or transfer-duration policy qualified",
+    "No writer/pixel decode/adoption/live capture/backlog/recovery/performance claim",
+    "Saved verification performed without native replay; root tool terminal 27768 exit 0 is supplied by root"
+  ]
+}

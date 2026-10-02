@@ -1,0 +1,55 @@
+{
+  "status": "pass",
+  "scope": "Saved values only; no source mutation/native replay",
+  "bindingsVerified": 376,
+  "cacheUnchangedFiles": 307,
+  "ownedPIDsAbsent": [
+    58057,
+    58357
+  ],
+  "requestsReturned": 197,
+  "nativeCorrespondence": "pass",
+  "sourcePayloadBytes": 17410,
+  "fullReaderFactParity": "different",
+  "differences": [
+    {
+      "decodePosition": 0,
+      "fields": [
+        "bufferShouldPropagate"
+      ]
+    },
+    {
+      "decodePosition": 195,
+      "fields": [
+        "bufferShouldPropagate",
+        "clocks",
+        "outputTiming"
+      ]
+    }
+  ],
+  "preciseDeltas": [
+    {
+      "decodePosition": 0,
+      "presentationOrdinal": 0,
+      "missingGeneratedAttachment": "ResetDecoderBeforeDecoding"
+    },
+    {
+      "decodePosition": 195,
+      "presentationOrdinal": 196,
+      "missingGeneratedAttachment": "TrimDurationAtEnd 1/1000000s",
+      "generatedOutputDuration": 33334,
+      "fullReaderOutputDuration": 33333,
+      "timescale": 1000000,
+      "outputTimingDurationSameDelta": true
+    }
+  ],
+  "observation": "complete",
+  "limits": [
+    "No marker equivalents/transfer/filter policy qualified",
+    "No writer/pixel decode/canonical adoption/live/backlog/recovery/performance"
+  ],
+  "rootToolTerminal": {
+    "session": 27768,
+    "exitCode": 0
+  }
+}
