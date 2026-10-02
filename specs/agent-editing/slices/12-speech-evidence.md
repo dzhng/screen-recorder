@@ -62,6 +62,10 @@ parity while broader quality remains open; that does not pass these measurements
 No editorial-removal policy is selected. The
 recording owner's personal keep/remove judgment is not an acceptance gate.
 
+The [readiness audit](../assets/acceptance-maintenance/speech-readiness.md) names
+which missing facts can reuse saved outputs and which need independent reference,
+listening or resource evidence. More numerical examples do not resolve those gaps.
+
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 
 ## Visual acceptance

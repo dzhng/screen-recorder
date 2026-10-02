@@ -37,6 +37,9 @@ The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.m
 improves the fixed example's timing without an individual regression; parent 12
 remains open and no speech recipe is adopted. [Root saved-data checks](assets/12l-independent-supplied-text-timing/merged.json)
 retain sample, clock, text and signed-edge evidence without another run.
+The [speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
+identifies missing independent references and release evidence; another example
+is not an implementation prerequisite for the unchanged selected baseline.
 
 Camera stop still needs a supported critical-path mechanism. [The dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
 separates fragment APIs from physical prefix stability and the independent

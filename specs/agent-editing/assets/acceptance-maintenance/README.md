@@ -33,6 +33,11 @@ and real-narration preservation evidence is already banked there. Model-dependen
 retiming follows independently judged speech evidence and the existing prepared
 audio owner. No new engine or policy is selected here.
 
+The [speech-readiness audit](speech-readiness.md) separates unchanged baseline
+implementation from missing acoustic references, listening and warm walkthrough
+coverage. It identifies saved-output scoring after complete independent labels,
+without another model trial or an automatic human assignment.
+
 The [finite audio-domain audit](audio-domain.md) distinguishes asset admission
 from executable composition and raw-window restrictions. Remaining representative
 work is identified in its dated follow-up; the proposed low/high integral-rate
