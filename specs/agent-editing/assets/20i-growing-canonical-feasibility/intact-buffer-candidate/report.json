@@ -1,0 +1,78 @@
+{
+  "status": "pass",
+  "scope": "One tiny independent passthrough-container mechanism; no production adoption",
+  "attempts": {
+    "compile": 1,
+    "candidateNative": 1,
+    "sourceCodecOrNativeInventoryReplay": 0,
+    "acceptedOwnershipReplay": 0
+  },
+  "processes": [
+    {
+      "label": "compile",
+      "pid": 74506,
+      "exitCode": 0,
+      "elapsedSeconds": 14.895550209010253,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    },
+    {
+      "label": "canonical",
+      "pid": 74842,
+      "exitCode": 0,
+      "elapsedSeconds": 9.337010332994396,
+      "terminal": true,
+      "waited": true,
+      "parentAbsent": true,
+      "streamsFullyDrained": true
+    }
+  ],
+  "observed": {
+    "intactAcceptedBuffers": 201,
+    "mediaSamples": 197,
+    "markerOrdinals": [
+      0,
+      198,
+      199,
+      200
+    ],
+    "candidateFence": 29,
+    "activeFragments": [
+      2,
+      6
+    ],
+    "mediaAdmissions": [
+      59,
+      175
+    ],
+    "wholeBufferBatchEnds": [
+      60,
+      176,
+      198
+    ],
+    "closedBufferAndMediaCounts": [
+      201,
+      197
+    ],
+    "all197PictureLogicalFormatSupportEqual": true,
+    "fullMediaFactsExclusion": "Only bufferOrdinal; both attachment modes and raw/output clocks retained",
+    "actualQueryChildren": 6
+  },
+  "checksArchiveMember": "saved-checks.json",
+  "protectedBindingCount": 358,
+  "unchangedWarmCacheFiles": 307,
+  "originalFailedPrototypeUnchanged": true,
+  "limits": [
+    "Tiny retained fixture only; no physical capture or encoder run",
+    "No interruption/recovery/bounded backlog/sustained throughput claim",
+    "Both complete production ordered digests unexecuted; adoption and unchanged stop boundary remain open",
+    "Computed endpoints retain existing SampleTiming.assetEnd decode-duration/mapping-clipping meaning; no independent SDK display-duration guarantee"
+  ],
+  "review": {
+    "shape": "Existing native nil-settings reader/writer seam and frozen owners; no new maintained harness/parser/production abstraction",
+    "diff": "Full source buffers forwarded unchanged; complete originals and comparison operands precede refusals; ordinal exclusion explicit",
+    "docs": "Scoped candidate pass separated from prior failed attempt and production prerequisites"
+  }
+}
