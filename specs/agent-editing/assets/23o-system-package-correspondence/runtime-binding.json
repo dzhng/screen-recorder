@@ -1,0 +1,13 @@
+{
+  "scope": "Available current JS/emission authority rechecked after closed runs; not exhaustive loaded-module evidence",
+  "authority": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/successor-ed94019f/runtime-authority.json",
+    "bytes": 147794,
+    "sha256": "9a3ce48ad034cd531e3f9c55d7d343281a03bc66c79e13cc6ccf36c0c7c8ccc6"
+  },
+  "matchedBindings": 675,
+  "mismatches": [],
+  "actualEntry": "packages/test-harness/editing/source-acquisition-service.mjs",
+  "actualNative": "/tmp/screenrec-09c-native-presented-worker",
+  "installedRuntimeAndInputs": "prestart.json; prestart-correspondence.json"
+}

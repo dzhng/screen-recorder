@@ -97,6 +97,10 @@ below serves that one goal.
   unchanged. Persist outcomes and cleanup observations before trap postconditions
   so instrumentation failure cannot erase the evidence it was meant to collect.
 
+- **Process observers preserve the API they observe.** Keep callback and
+  promisified return behavior intact. Give each resumed producer a distinct output
+  location so its local counters cannot overwrite predecessor requests or results.
+
 ## Tests run on someone's live machine
 
 A suite that grabs the desktop is a suite people stop running. Whatever the test

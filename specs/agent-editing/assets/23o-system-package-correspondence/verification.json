@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "scope": "Independent saved-data correspondence; authored legacy inspection fixture, not automatic recording export or installed cutover",
+  "frames": 14400,
+  "matchedAvailableFrames": 6208,
+  "exactUnavailableFrames": 8192,
+  "legacyPCM": "bcd75b078a597ac3990aa62b7cca2f9c691269213d67ffd31323d2b67c40c49a",
+  "projectPCM": "aae63c5bb939b1afdc560b2635abadb91e31ced08a8bdca077293c395f57a0d4",
+  "splitPCM": "aae63c5bb939b1afdc560b2635abadb91e31ced08a8bdca077293c395f57a0d4",
+  "sampleDifference": 0,
+  "recordingRowsAdmitted": 0,
+  "legacyPolicy": "Nearest duration and source origin; mono selected system role",
+  "projectPolicy": "Absolute-floor output clock [33600,48000); stereo unity mono duplication",
+  "policyDifference": "This selected window has the same sample membership; no general rounding equivalence claimed",
+  "mutationControls": [
+    "filled acquisition hole",
+    "one-sample source phase",
+    "incorrect right channel"
+  ],
+  "producerLimit": "Original public producer later failed before split dispatch; its successful cases are verified from saved output. The successful successor performs only the previously unexecuted split."
+}
