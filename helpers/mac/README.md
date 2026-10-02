@@ -70,6 +70,12 @@ publication can then fail or be canceled without reopening inputs or closing an
 encoder again. NativeCapture keeps both journal leases until publication settles
 or explicit discard ends that authority.
 
+Closed primary and camera sources publish independently, so a ready source does not
+inherit its sibling's publication delay. Final stop joins both before releasing
+source authority. The primary source journal freezes on its existing writer queue;
+subsequent take lifecycle reports can grow the live journal without changing that
+source's evidence.
+
 Camera verification can advance on private, immutable snapshots while acquisition
 continues. An IDR is a checkpoint only after native storage, written mapping and
 actual decoded pictures agree through the closing picture. Both ordered picture

@@ -1,6 +1,8 @@
 import Foundation
 
-if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PUBLICATION_OVERLAP"] != nil {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_SOURCE_PUBLICATION_OVERLAP_OUTPUT"] {
+    try await runSourcePublicationOverlapTest(output: output)
+} else if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PUBLICATION_OVERLAP"] != nil {
     try await runProbeCameraPixelPublicationTests(widths: [32])
     try await runCameraPublicationClippedSupportTest()
     try await runCameraPublicationPrefixTests()
@@ -88,6 +90,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_CAMERA_PUBLICATION_OVERLAP"] !
   try await runSelectedCameraInputTests()
   try await runCameraLivePublicationTests()
   try await runCameraSourcePublicationTests()
+  try await runSourcePublicationOverlapTest()
   try await runIndependentPublicationTests()
   try await runSharedInterruptionDuringFinishTests()
   try await runSourcePublicationRecoveryTests()

@@ -309,19 +309,13 @@ package enum CaptureSourcePublication {
         return try encoder.encode(a) == encoder.encode(b)
     }
 
-    package static func publish(kind: CapturePublishedSource.Kind, durationUs: Int64,
-        originHostUs: Int64?, tracks: [CapturedTrack], diagnostic: CaptureFailure?,
-        lease: CaptureJournalLease, layout: Int) async throws -> CapturePublishedSource {
-        try lease.synchronize()
-        if try lease.hasMember(receiptFile) {
-            let receipt = try read(lease: lease)
-            guard receipt.source.kind == kind else { throw invalid("Source publication kind changed.") }
-            try await verifyStored(receipt, lease: lease)
-            try Task.checkCancellation()
-            return receipt.source
-        }
-        let journalFile = kind == .primary ? "source.journal.jsonl" : "capture.journal.jsonl"
-        if kind == .primary, try !lease.hasMember(journalFile) {
+    /// Live publication calls this on its writer queue so lifecycle appends cannot tear the snapshot.
+    /// Offline callers hold exclusive authority and use the same freeze before publishing evidence.
+    package static func freezePrimaryJournal(lease: CaptureJournalLease, layout: Int) throws {
+        // An existing receipt must reverify its own snapshot, never reconstruct missing authority.
+        if try lease.hasMember(receiptFile) { return }
+        let journalFile = "source.journal.jsonl"
+        if try !lease.hasMember(journalFile) {
             let summary = try summary(lease: lease, descriptor: lease.descriptor, layout: layout)
             guard summary.finished, !summary.incompleteTail, summary.invalidAtSequence == nil,
                 let prefix = summary.validatedPrefix else { throw invalid("Source completion is not durably recorded.") }
@@ -340,6 +334,21 @@ package enum CaptureSourcePublication {
                 }
             }
         }
+    }
+
+    package static func publish(kind: CapturePublishedSource.Kind, durationUs: Int64,
+        originHostUs: Int64?, tracks: [CapturedTrack], diagnostic: CaptureFailure?,
+        lease: CaptureJournalLease, layout: Int) async throws -> CapturePublishedSource {
+        try lease.synchronize()
+        if try lease.hasMember(receiptFile) {
+            let receipt = try read(lease: lease)
+            guard receipt.source.kind == kind else { throw invalid("Source publication kind changed.") }
+            try await verifyStored(receipt, lease: lease)
+            try Task.checkCancellation()
+            return receipt.source
+        }
+        let journalFile = kind == .primary ? "source.journal.jsonl" : "capture.journal.jsonl"
+        if kind == .primary { try freezePrimaryJournal(lease: lease, layout: layout) }
         let descriptor = try lease.openMember(journalFile)
         defer { close(descriptor) }
         let summary = try summary(lease: lease, descriptor: descriptor, layout: layout)

@@ -585,6 +585,22 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             continuation.resume(returning: result)
         }
     }
+    /// Joins the complete snapshot on the journal's existing writer queue before releasing authority.
+    package func freezePublicationJournal() async throws {
+        guard let lease = packedJournalLease else { return }
+        try Task.checkCancellation()
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, any Error>) in
+            queue.async {
+                do {
+                    try lease.synchronize()
+                    try CaptureSourcePublication.freezePrimaryJournal(lease: lease, layout: 2)
+                    continuation.resume()
+                } catch { continuation.resume(throwing: error) }
+            }
+        }
+        try Task.checkCancellation()
+    }
+
     package func recordPublishedResult(_ result: CaptureResult) -> CaptureResult {
         queue.sync { recordFinished(result) }
     }

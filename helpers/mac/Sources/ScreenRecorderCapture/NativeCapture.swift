@@ -247,65 +247,15 @@ public final class NativeCapture {
                 reportPublication(generation)
             }
             guard let closedResult else { throw CaptureFailure("INVALID_STATE", "Writer did not close.") }
-            var camera: CapturedCameraSource?
-            var publicationError: (any Error)?
-            if let closedCamera {
-                do {
-                    let value = try await CameraMedia.publish(closedCamera)
-                    camera = value
-                    if value.durationUs > 0, let journal = closedCamera.journal {
-                        let evidence = try await CaptureSourcePublication.publish(kind: .camera,
-                            durationUs: value.durationUs, originHostUs: value.hostOriginUs,
-                            tracks: value.tracks, diagnostic: value.failure, lease: journal.lease, layout: 1)
-                        publication?.camera = .published(evidence)
-                    } else {
-                        publication?.camera = .unavailable(CaptureFailure(bounded: value.failure
-                            ?? CaptureFailure("NO_CAMERA", "Camera has no published source support.")))
-                    }
-                } catch {
-                    let outcome = publicationOutcome(error, previous: publication?.camera)
-                    publication?.camera = outcome
-                    let reason = CaptureFinalizationError(error)
-                    if reason.retryable { publicationError = error }
-                    else {
-                        let failure = CaptureFailure(reason.code, reason.message)
-                        closedCamera.terminalFailure = failure
-                        camera = CapturedCameraSource(directory: closedCamera.directory.path,
-                            result: closedCamera.result(receipt: nil, reason: failure))
-                    }
-                }
-                reportPublication(generation)
-            }
-            var result = closedResult
-            do {
-                if case .unavailable(let reason) = publication?.primary {
-                    result = closedResult.withFailure(CaptureFailure(reason.code, reason.message))
-                } else {
-                    result = try await publish(closedResult, from: sink)
-                    if !primaryCompletionRecorded {
-                        primaryCompletionRecorded = true
-                        result = sink.recordPublishedResult(result)
-                    }
-                    if result.durationUs > 0, let lease = sink.packedJournalLease {
-                        let evidence = try await CaptureSourcePublication.publish(kind: .primary,
-                            durationUs: result.durationUs, originHostUs: result.hostOriginUs,
-                            tracks: result.tracks, diagnostic: result.failure, lease: lease, layout: 2)
-                        publication?.primary = .published(evidence)
-                    } else {
-                        publication?.primary = .unavailable(CaptureFailure(bounded: result.failure
-                            ?? CaptureFailure("INVALID_MEDIA", "Primary has no published source support.")))
-                    }
-                }
-            } catch {
-                let outcome = publicationOutcome(error, previous: publication?.primary)
-                publication?.primary = outcome
-                let reason = CaptureFinalizationError(error)
-                if reason.retryable { publicationError = publicationError ?? error }
-                else { result = result.withFailure(CaptureFailure(reason.code, reason.message)) }
-            }
-            reportPublication(generation)
-            if let publicationError { throw publicationError }
-            result = result.withFailure(companionFailure).withCamera(camera)
+            // Distinct closed source directories and leases allow each source to become usable
+            // without waiting for its sibling. Join both before releasing either authority.
+            async let cameraPublication = publishCameraSource(generation: generation)
+            async let primaryPublication = publishPrimarySource(closedResult, from: sink, generation: generation)
+            let camera = await cameraPublication
+            let primary = await primaryPublication
+            // Error precedence is stable regardless of which source finished first.
+            if let publicationError = camera.error ?? primary.error { throw publicationError }
+            let result = primary.result.withFailure(companionFailure).withCamera(camera.camera)
             lifecycleSequence = sink.note(result.state,
                 reason: result.failure?.code ?? (result.cleanupFailure == nil ? nil : "CLEANUP_PENDING"))
             outputSize = nil
@@ -327,6 +277,74 @@ public final class NativeCapture {
         let result = try await task.value
         guard let result else { throw CaptureFailure("INVALID_STATE", "The take was discarded.") }
         return result
+    }
+
+    private func publishCameraSource(generation: UUID) async -> (camera: CapturedCameraSource?, error: (any Error)?) {
+        var camera: CapturedCameraSource?
+        var publicationError: (any Error)?
+        if let closedCamera {
+            do {
+                let value = try await CameraMedia.publish(closedCamera)
+                camera = value
+                if value.durationUs > 0, let journal = closedCamera.journal {
+                    let evidence = try await CaptureSourcePublication.publish(kind: .camera,
+                        durationUs: value.durationUs, originHostUs: value.hostOriginUs,
+                        tracks: value.tracks, diagnostic: value.failure, lease: journal.lease, layout: 1)
+                    publication?.camera = .published(evidence)
+                } else {
+                    publication?.camera = .unavailable(CaptureFailure(bounded: value.failure
+                        ?? CaptureFailure("NO_CAMERA", "Camera has no published source support.")))
+                }
+            } catch {
+                let outcome = publicationOutcome(error, previous: publication?.camera)
+                publication?.camera = outcome
+                let reason = CaptureFinalizationError(error)
+                if reason.retryable { publicationError = error }
+                else {
+                    let failure = CaptureFailure(reason.code, reason.message)
+                    closedCamera.terminalFailure = failure
+                    camera = CapturedCameraSource(directory: closedCamera.directory.path,
+                        result: closedCamera.result(receipt: nil, reason: failure))
+                }
+            }
+            reportPublication(generation)
+        }
+        return (camera, publicationError)
+    }
+
+    private func publishPrimarySource(_ closedResult: CaptureResult, from sink: CaptureWriter,
+        generation: UUID) async -> (result: CaptureResult, error: (any Error)?) {
+        var publicationError: (any Error)?
+        var result = closedResult
+        do {
+            if case .unavailable(let reason) = publication?.primary {
+                result = closedResult.withFailure(CaptureFailure(reason.code, reason.message))
+            } else {
+                result = try await publish(closedResult, from: sink)
+                if !primaryCompletionRecorded {
+                    primaryCompletionRecorded = true
+                    result = sink.recordPublishedResult(result)
+                }
+                if result.durationUs > 0, let lease = sink.packedJournalLease {
+                    try await sink.freezePublicationJournal()
+                    let evidence = try await CaptureSourcePublication.publish(kind: .primary,
+                        durationUs: result.durationUs, originHostUs: result.hostOriginUs,
+                        tracks: result.tracks, diagnostic: result.failure, lease: lease, layout: 2)
+                    publication?.primary = .published(evidence)
+                } else {
+                    publication?.primary = .unavailable(CaptureFailure(bounded: result.failure
+                        ?? CaptureFailure("INVALID_MEDIA", "Primary has no published source support.")))
+                }
+            }
+        } catch {
+            let outcome = publicationOutcome(error, previous: publication?.primary)
+            publication?.primary = outcome
+            let reason = CaptureFinalizationError(error)
+            if reason.retryable { publicationError = error }
+            else { result = result.withFailure(CaptureFailure(reason.code, reason.message)) }
+        }
+        reportPublication(generation)
+        return (result, publicationError)
     }
 
     private func reportPublication(_ generation: UUID) {

@@ -32,7 +32,7 @@ final class CameraReaderStarts: @unchecked Sendable {
     private let directoryReplacement: IMP
     private let log: FileHandle?
     init(directory: URL, blockPublication: Bool = false, logURL: URL? = nil,
-        diagnosticDirectory: URL? = nil) throws {
+        diagnosticDirectory: URL? = nil, beforeReading: (@Sendable (URL) -> Void)? = nil) throws {
         if let diagnosticDirectory {
             try FileManager.default.createDirectory(at: diagnosticDirectory, withIntermediateDirectories: false)
         }
@@ -52,6 +52,10 @@ final class CameraReaderStarts: @unchecked Sendable {
         let log = self.log
         let callback: @convention(block) (AVAssetReader) -> Bool = { reader in
             counter.values.withLock { $0.active += 1 }
+            if let asset = reader.asset as? AVURLAsset,
+                let scope = Self.resolved(directory), let path = Self.resolved(asset.url), path.hasPrefix(scope + "/") {
+                beforeReading?(asset.url)
+            }
             let started = forward(reader, #selector(AVAssetReader.startReading))
             if let asset = reader.asset as? AVURLAsset,
                 let scope = Self.resolved(directory), let path = Self.resolved(asset.url), path.hasPrefix(scope + "/") {
