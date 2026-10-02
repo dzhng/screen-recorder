@@ -1,0 +1,104 @@
+{
+  "archive": {
+    "bytes": 735850,
+    "sha256": "25073759d45cd734d39ea5de3532a6d91c88e60e58bc9df25ba644e2ad065e6e"
+  },
+  "members": {
+    "authority.json": {
+      "bytes": 27937,
+      "sha256": "6d5743c9ff8ef8770c982939b17defb80b5c8398011ef8adfac36a81fba3aff0"
+    },
+    "control.py": {
+      "bytes": 4192,
+      "sha256": "05dd0ddc3c96d4754a7facd3995666cb6e4aa3513867eb46ae7335a5595646dc"
+    },
+    "controller-verdict.json": {
+      "bytes": 130,
+      "sha256": "e79865780e8a58fd62add346b8dc5467dd157f5bd1daf8c083e37b2fcfc885ba"
+    },
+    "interrupt.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "interrupt.stdout": {
+      "bytes": 91,
+      "sha256": "d6711c4946a1b45652fd4feee497958684aa104b55fb5b8196c88615aae754da"
+    },
+    "interrupted/camera/capture.journal.jsonl": {
+      "bytes": 367,
+      "sha256": "a1646291a4cdfe1fcac4dc8786aeb6a88ea44a32987c606958376c0432801dfe"
+    },
+    "interrupted/failure.json": {
+      "bytes": 103,
+      "sha256": "f0597bd0e220ecae667cf9f8e46c56ce14ce72607671ac3c24cf03d2d3664096"
+    },
+    "interrupted/first.json": {
+      "bytes": 99047,
+      "sha256": "acc41fa68f52ce9339c531fb0d51596a7de51c43b34f598fcf4bf6361361fdbe"
+    },
+    "ordinary/accepted-mappings.json": {
+      "bytes": 43379,
+      "sha256": "4a4e9ca16d1346bbc9a03470b420bce64eff813b545865c17390d1213260c6e5"
+    },
+    "ordinary/camera/camera.mapping.jsonl": {
+      "bytes": 36679,
+      "sha256": "0b6e2a247ee9a316e4fa021b36aaab07d76eca48dd5f58320069c10d25922aae"
+    },
+    "ordinary/camera/camera.raw.mov": {
+      "bytes": 26557,
+      "sha256": "f45e6c4ee6916942ddb372359d467a0b70dc544abea4c282589553f42b1f7138"
+    },
+    "ordinary/camera/capture.journal.jsonl": {
+      "bytes": 367,
+      "sha256": "4c6eb8e23e94b4f4eb2219596e005ae59171d00e7125d8fc6d88bb6272c72403"
+    },
+    "ordinary/closed.json": {
+      "bytes": 721787,
+      "sha256": "697131340bd458b712f9ceda0c3c829bb1221832d82053afb13878d9692a0c11"
+    },
+    "ordinary/extension-2.json": {
+      "bytes": 659477,
+      "sha256": "e88a100d7c63aab65998579f36e2c84df9d7fa9bcb68a66c8cf633c9b6af7b7a"
+    },
+    "ordinary/first.json": {
+      "bytes": 110020,
+      "sha256": "dfb70950ca860360682452752c09bd49fb29000a27118d7daa9a76745ba99935"
+    },
+    "ordinary/timestamps.jsonl": {
+      "bytes": 36679,
+      "sha256": "0b6e2a247ee9a316e4fa021b36aaab07d76eca48dd5f58320069c10d25922aae"
+    },
+    "ordinary/verdict.json": {
+      "bytes": 222,
+      "sha256": "22cb1039e4a023ef8f6bc09878148a7188f33763cc0eb4caedf1ccaed5003297"
+    },
+    "ordinary.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ordinary.stdout": {
+      "bytes": 99,
+      "sha256": "85e95b44204a7d77165e34da88d50776ae668257412898197c1d92dd5bff178d"
+    },
+    "plan.json": {
+      "bytes": 2026,
+      "sha256": "311ea9688822846d9e309c7817b0ab45cc34976fe52e579aa4e7b850304ab59b"
+    },
+    "processes.json": {
+      "bytes": 1514,
+      "sha256": "02ec14019ed3f0c47c7856192241cca8f397a3bff8d0718524173d6ecd580aa4"
+    },
+    "report.json": {
+      "bytes": 4640,
+      "sha256": "db991e0853553a8eb9a2447c2e16d85cc2be911042dc58322739ee1db04cdc49"
+    },
+    "termination.json": {
+      "bytes": 208,
+      "sha256": "17330b94fcd0e654032c48751ca97d448a100eedc5d31a9ffa27556c62f3305b"
+    },
+    "tool-session.json": {
+      "bytes": 290,
+      "sha256": "be10578e603bcef62d5da3d6a2da7cf8816698b4a70829ae2214bca62f829b9e"
+    }
+  }
+}

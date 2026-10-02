@@ -1,0 +1,94 @@
+{
+  "status": "ordinary-scoped-pass-interruption-prerequisite-failed",
+  "generalRawPrefixStabilityQualified": false,
+  "canonicalQualified": false,
+  "ordinary": {
+    "status": "pass",
+    "firstDecodedPictures": 30,
+    "laterDecodedPictures": 180,
+    "closedDecodedPictures": 197,
+    "committedPictures": 29,
+    "offeredFrames": 210,
+    "acceptedFrames": 197,
+    "actualActiveExtensions": 2,
+    "fullOrderedTuples": "first29 exact PTS/native digestPTS/dimensions/full visibleBGRA/native presentation endpoints equal after secondextension and closure",
+    "fullClosedMapping": "all197 accepted ordinals and native PTS checked; writer backpressure retained rather than assuming210 accepted",
+    "uncommittedTail": "first snapshot ordinal29 and every later picture stayed uncommitted by this experiment",
+    "ordinaryRawBytes": 26557
+  },
+  "interrupted": {
+    "status": "provisional-prefix-comparison-failed-before-intentional-kill",
+    "firstDecodedPictures": 27,
+    "candidatePrefixPictures": 26,
+    "reportedMismatchOrdinal": 24,
+    "exactFailure": {
+      "error": "ProbeFailure(message: \"committed tuple differs at ordinal 24\")",
+      "status": "fail"
+    },
+    "processExitCode": 1,
+    "SIGKILLSent": false,
+    "recoveryDispatched": false,
+    "laterSnapshotRetained": false,
+    "rawMOVRetained": false,
+    "limits": "Comparison throws before the later snapshot save; existing defer writer.discard/cancelWriting removes failed pending MOV. Pinned execution reports ordinal24 but saved evidence cannot identify its changed field or independently reconstruct the failed second tuple. No new decoder or recreation followed. The feed aborted before its planned completion, so the final admission inventory was not saved; no interrupted offered/accepted totals are claimed.",
+    "acceptedMappingInventoryRetained": false
+  },
+  "processes": [
+    {
+      "label": "ordinary",
+      "pid": 8018,
+      "terminal": true,
+      "exitCode": 0,
+      "elapsedSeconds": 7.870449500000001,
+      "stdioBytes": {
+        "stdout": 99,
+        "stderr": 0
+      },
+      "controllerFailure": null
+    },
+    {
+      "label": "interrupt",
+      "pid": 8630,
+      "terminal": true,
+      "exitCode": 1,
+      "elapsedSeconds": 6.779229624999999,
+      "stdioBytes": {
+        "stdout": 91,
+        "stderr": 0
+      },
+      "controllerFailure": "interrupt prerequisite not reached"
+    }
+  ],
+  "controllerExitCode": 1,
+  "exactQualifiedBinary": {
+    "path": "/tmp/screenrec-20g-raw-prefix/compile-diagnostic/prefix-probe",
+    "bytes": 4518720,
+    "sha256": "1fad5456ffd509c1aaeca7173bbd0cfbe64ac65bf47e059cf6d66c4d912638a2"
+  },
+  "all114PinsUnchangedAfterPhysicalExecution": true,
+  "noCompilationOrRetryOrTailAdjustment": true,
+  "limits": [
+    "Ordinary proof is one tiny authored fixture case; it does not establish general prefix stability or a universal one-picture boundary.",
+    "The separate candidate failed before commitment; intentional interruption and recovered-prefix equality remain unverified.",
+    "No canonical movie/traversal, full digest adoption, throughput, bounded backlog, stop deadline, capture devices, recording-row publication or full release acceptance."
+  ],
+  "review": {
+    "shape": "Physical controller dispatches only exact retained binary/media argv, preserves native owners and prior setup outcomes; no production owner or wrapper added.",
+    "diff": "All114 pins unchanged; actual ordinary success and distinct pre-kill failure retained without changing bounds or tail; missing failure output states acknowledged.",
+    "docs": "Own supplement reports scoped29-picture ordinary equality and26-picture candidate failure separately, with precise evidence limitations."
+  },
+  "choices": [
+    {
+      "verdict": "sound",
+      "confidence": "low",
+      "choice": "Dropping only the initial fragment last picture was the conservative candidate boundary for the fixed experiment.",
+      "why": "Sound only as a bounded candidate hypothesis: ordinary29-picture prefix survives, but distinct26-picture candidate fails at ordinal24. No general boundary rule can be adopted; no tail tuning authorized."
+    },
+    {
+      "verdict": "unsound",
+      "confidence": "high",
+      "choice": "The frozen probe compares the later snapshot before saving it, and error cleanup cancels/removes pending raw output.",
+      "why": "A failed comparison retains ordinal text but loses the exact later tuple/raw needed to identify which field changed. This is an experiment-evidence limitation, not a production-contract change; no frozen-source repair or physical retry performed."
+    }
+  ]
+}
