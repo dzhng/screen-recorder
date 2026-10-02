@@ -174,6 +174,10 @@
   retries the interrupted import once after reopening the same private library.
   Both acquisitions reach ready, the primary receipt stays unchanged and owned
   processes close. No capture, automatic project or installed verdict follows.
+- [Canonical service composition](23-canonical-service/README.md) makes the default
+  repository entry use the qualified fresh project service. Original red,
+  lifecycle/process guards and focused merged-tree proof are retained. Installed
+  state, shared-contract cleanup and final acceptance remain separate.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.

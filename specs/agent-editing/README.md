@@ -22,14 +22,19 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: make the canonical service entry use the fresh project composition.**
-The default repository build still selects the old recording-editing composition.
-Replace that composition with the already qualified project service, remove its
-separate development entry and verify the default process through an isolated
-home. This implementation pass is underway in the managed `service-composition`
-worktree; inspect its branch and actual test state before overlapping that owner.
-Then remove obsolete editing targets and consumers through
-[cutover](slices/23-cutover.md), preserving capture and source evidence.
+**Next pickup: remove obsolete recording-composition selectors and native consumers.**
+The [canonical service pass](assets/23-canonical-service/README.md) now makes the
+default repository build use the qualified project composition and removes the
+separate development entry. Recordings own capture/source lifetime; projects own
+editable composition, revisions, preview and export. Remove obsolete recording
+editing/media selectors and their native readers together through
+[cutover](slices/23-cutover.md), preserving capture, source admission, inspection
+and deletion. Do not retain an unusable advertised selector or restore an old
+engine for a legacy fixture. Preserve valuable fixture guarantees under the
+actual remaining contracts.
+
+That shared-contract pass is underway in the managed `service-composition`
+worktree; inspect its branch and actual test state before overlapping its owner.
 
 Missing broader speech labels and physical synchronization remain release
 acceptance gaps, not prerequisites for isolated cutover implementation. The
@@ -87,7 +92,7 @@ No migration or obsolete-owner deletion begins before its prerequisites.
 | --- | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical pause/resume/stop, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
-| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired edits/history, signed isolated candidate, actual menu/readiness and representative presenter pixels | Remaining preservation, continuous playback and installed switching/obsolete-owner removal |
+| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired edits/history, mapped recovery, canonical default service, signed isolated candidate, actual menu/readiness and representative presenter pixels | Shared-contract/obsolete-owner removal, continuous playback and installed switching |
 | [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
 | [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |
 

@@ -7031,3 +7031,16 @@ code still needs its affected checks and final integrated acceptance; this choic
 does not make historical tests into fresh executions or turn numerical checks into
 listening evidence. It avoids adding a new release gate where the plan left only
 verification method open.
+
+## Canonical service diagnostics
+
+**Sound, high confidence — retain the qualified owner's shutdown error instead of an old log wrapper.**
+If another process holds the fresh catalog during shutdown, the service still
+reports the catalog lock error and closes its other owners. The reused project
+composition writes that error directly, without the old composition's
+`shutdown failed:` prefix. The plan specified failure visibility and process
+closure without prescribing that stderr prefix. Keeping a second startup/logger
+path just to reproduce the prefix would preserve an obsolete owner. Future
+structured operation errors retain their codes; diagnostics consumers must use
+the reported reason rather than assume the removed prefix. This named output
+difference belongs to the canonical-entry pass.

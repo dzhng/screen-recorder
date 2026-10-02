@@ -11,7 +11,10 @@ through composed native controllers; remaining preservation rows stay separate.
 are now exercised in a signed isolated candidate; [representative presenter pixels](../assets/acceptance-maintenance/presenter-pixels.json)
 pass with a standalone capture-only override. Ordinary protected-app screenshots,
 continuous A/V/pointer preservation and installed release acceptance remain separate.
-Installed switching and obsolete-owner deletion have not started.
+The [canonical service composition](../assets/23-canonical-service/README.md)
+now uses the fresh project owner through the default entry and removes its
+separate development entry. Broader obsolete-owner removal and installed switching
+remain incomplete.
 The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md)
 maps saved outcomes and actual service/native-consumer cases without adding another
 UI or repeating accepted media cohorts. [Pinned preview/export recovery](../assets/acceptance-maintenance/cutover-outcomes.md#pinned-previewexport-and-recovery)
@@ -48,13 +51,14 @@ all permitted differences explicit and use the existing one-owner architecture;
 preparation does not authorize installed switching, obsolete-owner deletion or
 migration. Actual unresolved physical/lifecycle claims retain their disposition.
 
-The immediate implementation pass makes the canonical service entry compose the
-already qualified fresh project service and removes its separate development
-entry. Verify that default process in an isolated home while preserving the old
-catalog and media. This changes repository build behavior; it does not replace
-the installed app. Missing inherited acoustic or physical acceptance does not
-block this port. Obsolete editing-owner deletion still requires the matched
-verified preservation guarantees and removal of their actual consumer dependencies.
+The canonical entry is now verified in an isolated home while preserving old
+catalog/media sentinels. The next pass removes obsolete recording-composition
+selectors and corresponding native readers together: recordings retain source
+lifetime, while projects own editable composition and media delivery. Legacy
+fixtures must preserve valuable source/project guarantees rather than restore
+the deleted engine. Missing inherited acoustic or physical acceptance does not
+block this port. Obsolete editing-owner deletion still requires matched verified
+preservation guarantees and removal of actual consumer dependencies.
 
 The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 
