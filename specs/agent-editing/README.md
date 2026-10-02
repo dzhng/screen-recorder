@@ -26,8 +26,8 @@ repository developers read or edit it from that perspective.
 The fixed-image stage probe stopped before rendering on a pinned-SDK API spelling
 error. A successor changes only that spelling; review its source/pins before one
 compile and one bounded diagnostic using the retained objects. Preserve the
-failed attempt and frozen worker. Finish the user's obsolete-worktree/tmp/Docker
-cleanup first, protecting required evidence and active paths.
+failed attempt and frozen worker. Obsolete workspace cleanup is complete;
+required native/scenario evidence and original source locators remain retained.
 
 [12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
 all words correspond and the existing marked timing limits pass. Its original
@@ -46,10 +46,9 @@ started no timing; do not poll the host. Remaining physical/lifecycle,
 presentation and installed prerequisites belong to
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md).
 
-Keep the iteration loop bounded: run the smallest affected contract gate, reuse
-retained evidence, and expand checks only for changed shared behavior or a named
-unresolved risk. Bank required authority once; avoid duplicate packaging and
-status narration. Independent implementation can proceed in parallel.
+Apply the [project principles](../../AGENTS.md) to iteration speed and verification.
+The active plan supplies specific requirements; it does not authorize repeating
+accepted expensive checks without a changed contract or named unresolved risk.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
