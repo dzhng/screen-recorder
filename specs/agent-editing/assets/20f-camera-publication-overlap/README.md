@@ -27,3 +27,7 @@ interruption/premature EOF followed by fallback publication remains unobserved;
 retained-take adoption, working-memory cost and completed-stop latency remain
 unverified. Original evidence and frozen workers are unchanged. Routine setup
 failures and compiled scratch artifacts remain at the recorded outside-repo paths.
+
+[Root integration](merged.json) independently checks all changed source bindings,
+executed artifacts, packet payloads, terminal processes and complete physical
+receipt fields. It repeats no native control or performance cohort.

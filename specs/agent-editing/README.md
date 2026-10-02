@@ -22,14 +22,23 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualified camera-publication overlap.**
-Implement the bounded scheduling correction in the existing camera publication
-owner under the [dependency audit](assets/acceptance-maintenance/stop-dependencies.md).
-Prove closed-source qualification, complete digest/support preservation, raw-first
-failure precedence and partial-prefix fallback on compact fixtures before any
-retained-take measurement. Full verification must finish before publication.
-The saved digest cost already exceeds ten seconds per stream; overlap alone
-cannot establish the completed-stop target. Physical/live acceptance remains open.
+**Next pickup: [independent source MCP caller coverage](slices/25c-source-mcp-caller.md).**
+Prepare one tiny isolated fixture and give a fresh external caller the consumer
+skill, public SDK/connection coordinates and an explicit technical brief. Verify
+schema discovery, revision-pinned inspection, replay/stale refusal and complete
+cached image delivery through an unconfigured SDK. Reuse existing preparation,
+service and output owners; repeat no accepted synthesis or thirteen-effect journey.
+This advances source MCP use; installed/default discovery and full release
+acceptance remain separate.
+
+[20f camera scheduling](slices/20f-camera-publication-overlap.md) is integrated:
+compact digest/support, generic prefix, failure order, recovery and actual
+concurrent-reader cancellation pass. The [merged record](assets/20f-camera-publication-overlap/merged.json)
+checks source/runtime bindings and saved results without a replay. Qualified
+metadata followed by a physically shorter decode and successful prefix fallback
+remains unobserved; retained-take adoption/measurement is withheld. The saved
+digest cost exceeds ten seconds per stream, so overlap does not establish the
+completed-stop target. Physical/live acceptance remains open.
 
 The [PNG correction](slices/23l2-project-png-publication.md) now passes all fourteen
 saved composition requests through an isolated native worker: complete reference
@@ -57,11 +66,11 @@ broader speech quality and adoption remain open. The
 [CLI selection correction](slices/24z13-cli-delivery-selection.md) passes the
 merged consumer gate and retains one selected socket through dispatch/delivery.
 
-The [next coordinated preflight](assets/24z-current-preparation/next-window-preflight.json)
-found unrelated active compilation/analysis after PNG integration. No service or
-timing started. The cardinality fixture needs no preparation replay. The picture
-cache identity change has a fresh service emission; rebind that changed module
-before timing. Revisit [24z timing](assets/24z-current-preparation/README.md)
+The [post-camera preflight](assets/24z-current-preparation/post-camera-preflight.json)
+found unrelated active compilation/rendering. No service or timing started.
+[Successor runtime qualification](assets/24z-current-preparation/successor-readiness.json)
+rechecks the current emitted code, SDK and retained fixture: no build or preparation
+replay is needed. Revisit [24z timing](assets/24z-current-preparation/README.md)
 only in a changed coordinated window with one fresh preflight. Do not poll the host.
 Remaining physical/lifecycle, presentation and installed prerequisites belong to
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md).
@@ -268,6 +277,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
+- [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation; qualified interruption/adoption/performance remain open
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
@@ -345,6 +355,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z12 — Complete MCP media-envelope admission](slices/24z12-mcp-media-admission.md) — merged140 consumer gate; whole-batch deferral before consumption, with complete metadata/live tokens
 - [x] [24z13 — CLI delivery retains service selection](slices/24z13-cli-delivery-selection.md) — merged84 consumer checks; no rediscovery or operation replay during delivery
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
+- [ ] [25c — Independent source MCP caller](slices/25c-source-mcp-caller.md) — compact source checkpoint; installed/release acceptance separate
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

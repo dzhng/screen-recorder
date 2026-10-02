@@ -60,6 +60,17 @@ reported process CPU values. The prepared fixture remains available; no p95 samp
 or polling followed this deferral.
 
 A [later coordinated window](next-window-preflight.json) after the PNG correction
-also deferred before service startup on unrelated compilation/analysis. The
-prepared fixture and current emitted runtime remain ready; no build, preparation
-replay or timing occurred. This is a distinct window, not polling the earlier one.
+also deferred before service startup on unrelated compilation/analysis. The prepared fixture remains ready; the later picture cache identity change
+requires successor runtime qualification, not fixture replay. This is a distinct window, not polling the earlier one.
+
+[Successor readiness](successor-readiness.json) qualifies the current root runtime:
+both changed production source/emission pairs belong to accepted CLI selection and
+picture-cache corrections. All other bindings, SDK files and scenario consumers
+remain pinned; cursor queries do not use the picture renderer. The full independent
+successor binding list stays outside Git at the recorded durable path. No build or
+fixture replay is necessary.
+
+The [post-camera window](post-camera-preflight.json) found unrelated compilation
+and background rendering after owned processes settled. Dispatch was deferred
+before service/query/timing started. No polling, timer or measurement retry followed;
+the unchanged p95 and final scale gate remain open.

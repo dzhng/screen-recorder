@@ -14,6 +14,10 @@ Literal occurrence text and the supplied human cuts need no new narration ASR.
 Source execution, numerical/visual checks, listening and installed acceptance have
 separate verdicts; the source journey cannot silently close the parent release gate.
 
+[25c](25c-source-mcp-caller.md) isolates the representative source MCP caller
+checkpoint without repeating25b. Its explicit-socket scope leaves this parent's
+installed/default-discovery and full release requirements unchanged.
+
 ## Contract
 
 A fresh external agent completes a bounded fixture brief using the consumer skill

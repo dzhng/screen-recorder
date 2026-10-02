@@ -1,0 +1,58 @@
+{
+  "argv": [
+    "ps",
+    "-axo",
+    "pid,ppid,etime,pcpu,rss,command"
+  ],
+  "startedAt": "2026-10-02T03:03:31.009143+00:00",
+  "endedAt": "2026-10-02T03:03:31.207221+00:00",
+  "exit": 0,
+  "stderr": "",
+  "raw": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/successor-ed94019f/whole-host-preflight.txt",
+    "bytes": 262289,
+    "sha256": "78c500e46b5e5b1953dc431d786b5d5b5683de8d31d9410d4d886cbec546dac2"
+  },
+  "scope": "One fresh changed window after camera compiler/control/integration and read-only runtime lanes are terminal. No service/query/measure/profile started; no polling.",
+  "criteria": {
+    "rejectIf": [
+      "Active compile/build/simulation/benchmark/model-inference/media-render/archive workload",
+      "Unrelated process at or above100percent CPU"
+    ],
+    "method": "One complete inventory; no polling or retry"
+  },
+  "qualified": false,
+  "decision": "DEFER before service/query/timing/profile dispatch",
+  "observations": [
+    {
+      "pid": 19851,
+      "process": "Unrelated battlegame rustc compilation",
+      "cpuPercent": 230.7
+    },
+    {
+      "pid": 9899,
+      "process": "Unrelated background Blender render",
+      "cpuPercent": 200.7
+    },
+    {
+      "pid": 18680,
+      "process": "Unrelated background Blender assembly",
+      "cpuPercent": 85.1
+    },
+    {
+      "pid": 19906,
+      "process": "Unrelated scene producer",
+      "cpuPercent": 47.9
+    }
+  ],
+  "actualMeasureDispatches": 0,
+  "actualTimingCollections": 0,
+  "runtimeSuccessor": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/successor-ed94019f/runtime-authority.json",
+    "bytes": 147794,
+    "sha256": "9a3ce48ad034cd531e3f9c55d7d343281a03bc66c79e13cc6ccf36c0c7c8ccc6"
+  },
+  "ownedLanes": "Camera compile/matrix/cancellation and integration terminal; read-only review/runtime lanes terminal. Root performed only read-only requalification and this one snapshot.",
+  "preparedNamespace": "/private/tmp/sr-source-cardinality-9n1Avz",
+  "preservation": "Original authorities/cohorts unchanged; no build, preparation replay, timer, polling or runtime dispatch."
+}

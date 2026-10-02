@@ -1,0 +1,130 @@
+{
+  "scope": "Read-only current-production successor binding; no build, fixture replay, service, profile, timing or host preflight",
+  "at": "2026-10-02T03:01:24.483869+00:00",
+  "root": "/Users/david/dev/screen-recorder",
+  "rootHEAD": "ed94019f6d97db46cd164d5794b6edefd3c52463",
+  "originalAuthority": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/runtime-authority.json",
+    "bytes": 155411,
+    "sha256": "22a99e1c5cfa8549c511ac0e3bb1f73867a593b4de999646baf5c19b8fb80e71"
+  },
+  "originalAuthorityPreserved": true,
+  "sameBindings": 669,
+  "totalBindings": 675,
+  "successorBindings": [
+    {
+      "path": "packages/core/src/frame-inspection.test.ts",
+      "previousSHA256": "9916f46bf0a0d6ba000926c397ad9f2ebadedd929ae817c1ab7536f4f91153b7",
+      "bytes": 14309,
+      "sha256": "99bf49114bc27c04c5c2847e4d1961c3e921f92a186bc5d55de749859f16d19e",
+      "loadedProduction": false
+    },
+    {
+      "path": "apps/service/src/project-render.ts",
+      "previousSHA256": "41a1c3ba1f2b520ce733bae652628235ed01394c2e1b0f7b45aebd7182a65395",
+      "bytes": 17653,
+      "sha256": "590b3ddba17fa04095e7ed63d786b277eeba2c4cfb51aac77aebf78feb86c617",
+      "loadedProduction": true
+    },
+    {
+      "path": "apps/service/dist/project-render.js",
+      "previousSHA256": "c449583e8fc4930ac9ff11f1eda92ac56c3f2a92e0177be511b73375dd71fd0c",
+      "bytes": 15546,
+      "sha256": "f0a01ea149cbe44607e57b6cb47b7b63c1982f8871503290dc354cccbbdacbad",
+      "loadedProduction": true
+    },
+    {
+      "path": "apps/cli/src/main.test.ts",
+      "previousSHA256": "8d80d51abd66eb649223616cad1663ba72b3111ba317f3867d8f6b91f97e080e",
+      "bytes": 41709,
+      "sha256": "0dfaba2c1ddf5a7aed5e492c020e6b14326df172f5e6b581fc84e6060ec5eacd",
+      "loadedProduction": false
+    },
+    {
+      "path": "apps/cli/src/main.ts",
+      "previousSHA256": "4a448456221f6a409cf4bda53467f40a7744645be70e9bff5cf71f242c1b36da",
+      "bytes": 10879,
+      "sha256": "2d457d37303b5d46f3a393391c02ba8b57e0a9fc1687bb3df995a102a0301aca",
+      "loadedProduction": true
+    },
+    {
+      "path": "apps/cli/dist/main.js",
+      "previousSHA256": "fcc9b816e92424a8cf4d1237dd529bf1ac5fd22efd011f18c6e2d29e8714be9e",
+      "bytes": 10274,
+      "sha256": "58220bd20b5a86e705589b968692d1b5a88bcc30f6216e595878f1cf4ed0c995",
+      "loadedProduction": true
+    }
+  ],
+  "v17": [
+    {
+      "path": "apps/service/src/project-render.ts",
+      "v17AlreadyPresent": true,
+      "onlyVersionChanged": true
+    },
+    {
+      "path": "apps/service/dist/project-render.js",
+      "v17AlreadyPresent": true,
+      "onlyVersionChanged": true
+    }
+  ],
+  "scenarioConsumers": [
+    {
+      "path": "packages/test-harness/editing/source-cardinality.mjs",
+      "bytes": 31500,
+      "sha256": "a097b9952a316b89f238a0460a1a418bc9e3bd022e077d946f4c48b6a89c9a9e",
+      "matchesOriginal": true
+    },
+    {
+      "path": "packages/test-harness/editing/source-cardinality-fixture.mjs",
+      "bytes": 9777,
+      "sha256": "6870a1faa4bbcb1f57046408518fb72c11971a6c869c474037063f6f8e5c2e64",
+      "matchesOriginal": true
+    },
+    {
+      "path": "packages/test-harness/editing/source-evidence-fixture.mjs",
+      "bytes": 8424,
+      "sha256": "d0396f4bcee302ed2d8a8b41f7f796c0477a5d0a2e74a5158baf01805bc00bed",
+      "matchesOriginal": true
+    },
+    {
+      "path": "packages/test-harness/editing/evidence-service.mjs",
+      "bytes": 8399,
+      "sha256": "b051b650abb014ff6a038209b608b5a6637ea268b838972aedda8abd3bbfd5bd",
+      "matchesOriginal": true
+    },
+    {
+      "path": "packages/test-harness/editing/first-preview-transport.mjs",
+      "bytes": 931,
+      "sha256": "8019635aacb4fbfa537d9f37a5af1eb50b87ef10ae4b50d23c40de8077d3e644",
+      "matchesOriginal": true
+    },
+    {
+      "path": "packages/test-harness/editing/service-cpu-profile.mjs",
+      "bytes": 4503,
+      "sha256": "5230d3b117939871144da1b0d6378a96cdd249cd68461c4789e937a332b89673",
+      "matchesOriginal": true
+    }
+  ],
+  "SDKMatched": 86,
+  "SDKTotal": 86,
+  "node": {
+    "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+    "bytes": 119133456,
+    "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+  },
+  "frozenWorker": {
+    "path": "/private/tmp/screenrec-09c-native-presented-worker",
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "fixture": {
+    "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/current/fixture.json",
+    "bytes": 4268875,
+    "sha256": "831158858e2ffdaab77b1bfeec51dbfc3c9314f8f1d6b2b1247d93e10323a259"
+  },
+  "home": "/private/tmp/sr-source-cardinality-9n1Avz",
+  "homePresent": true,
+  "fixtureReplayRequired": false,
+  "buildRequired": false,
+  "reason": "cursor.raw dispatches ProjectEvidenceInspection from source capture metadata; it does not demand or key cached pictures. Both new production pairs are already emitted. Changed source tests are not loaded."
+}

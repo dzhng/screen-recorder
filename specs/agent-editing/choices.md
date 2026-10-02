@@ -6484,3 +6484,22 @@ The [external lexical diagnostic ledger](assets/12j-external-lexical-diagnostic/
 owns enriched full-utterance sampling, original human-checked transcripts and a
 lexical-only shared scorer. Root accepts these choices while retaining sampling
 bias, fragment ambiguity and the separate untouched timed-acceptance contract.
+
+## Camera publication scheduling
+
+The [20f reviewed decisions](assets/20f-camera-publication-overlap/choices.md)
+record one-segment qualification, the shared native timing walk, joined raw-first
+arbitration and observation-only cancellation. No qualified physical-interruption
+or performance claim is adopted from the compact controls.
+
+## Independent source MCP fixture
+
+**Sound — medium confidence: use a tiny still-image hold for the representative
+MCP checkpoint.** Parent25 names discovery, revision/replay/error handling and
+media delivery but leaves its compact MCP fixture open. A fresh caller splits one
+explicit one-second image clip, checks both revisions and receives the already
+accepted raw-source PNG. This exercises those interfaces without generating
+speech or replaying the complete thirteen-effect journey. It constrains only this
+verification fixture; no product default, editorial rule, installed discovery or
+new integrated-output quality is inferred. The later installed gate keeps its
+original coverage.

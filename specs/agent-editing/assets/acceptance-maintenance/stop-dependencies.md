@@ -1,11 +1,14 @@
 # Camera publication dependency audit
 
-Read-only source audit after MCP media integration. No candidate, build or runtime
-measurement was performed. The ten-second completed-stop requirement remains
+Read-only source audit at its original baseline after MCP media integration.
+The later [20f implementation](../../slices/20f-camera-publication-overlap.md)
+adds scoped scheduling preservation; its qualified decoder-interruption gap and
+performance adoption remain open. This audit itself performed no build or runtime
+measurement. The ten-second completed-stop requirement remains
 failed; this is a prospective scheduling seam, not an accepted optimization.
 
 The [publication owner](../../../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift)
-currently scans raw pictures, exports their physically established support, then
+at that baseline scans raw pictures, exports their physically established support, then
 scans the canonical candidate. Each digest includes exact ordered timestamps,
 dimensions and every visible BGRA byte. Preserve that representation and the
 [existing component measurements](../20e-camera-digest-components/README.md).

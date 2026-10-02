@@ -2,6 +2,11 @@
 
 Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is verified offline; a real user-shortened take is retained under [fixtures](../../../fixtures/screen-camera-timing/README.md), with ordinary import verified. Graceful probe stop is offline-verified; [20e2](20e2-camera-presentation.md) corrects camera admission/presentation and verifies saved-take recovery. [Physical-event evidence](../assets/20-physical-sync/README.md) matches flashes/beeps, but camera visibility and measurement uncertainty do not establish the one-frame bound. The [bounded camera hashing pass](../assets/20e-camera-picture-hashing/README.md) preserves complete decoded-picture verification while reducing offline fresh publication to a23.970-second mean; it still exceeds ten seconds. Physical timing and interruption acceptance remain open. Dependencies: [00](./00-corpus.md).
 
+The [20f scheduling correction](20f-camera-publication-overlap.md) now overlaps
+the complete raw/canonical scans for qualified closed inputs. Compact preservation
+and actual reader cancellation pass; qualified physical-prefix interruption,
+retained-take adoption/measurement, peak decoder memory and stop latency remain open.
+
 ## Contract
 
 Establish a measured shared-clock strategy for synchronized production acceptance
