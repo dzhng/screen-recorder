@@ -129,5 +129,8 @@ separates tested standalone formats from future codec support.
 metadata only within one synchronous phase. Batched acquisition rows decode on
 use, keeping an earlier source refusal ahead of later malformed metadata.
 Checkpoint publication ends that phase; the reader resolves dependencies again
-before returning a continuation. Scene preparation keeps per-source admission
+before returning a continuation. [Project evidence](../../packages/core/src/project-evidence.ts)
+returns complete dependency metadata on the first page and its immutable manifest
+reference on continuations, so pagination carries source facts once while keeping
+every freshness check. Scene preparation keeps per-source admission
 order rather than making batch fetching an eager validation step.

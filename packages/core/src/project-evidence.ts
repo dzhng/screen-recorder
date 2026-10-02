@@ -552,6 +552,7 @@ export class ProjectEvidenceInspection {
               events: mergeEvents(manifest, plan, state, limit, this.options.events!),
             }
           : { ...mergeTranscript(manifest, plan, state, limit, this.options.records), events: [] };
+      const dependencies = cursor ? { manifestId } : manifest.dependencies;
       const coverage = manifest.coverage
         ? {
             manifestId,
@@ -570,7 +571,7 @@ export class ProjectEvidenceInspection {
           projectId: input.projectId,
           revisionId: manifest.query.revisionId,
           state: "ready",
-          dependencies: manifest.dependencies,
+          dependencies,
           coverage,
           page: {
             rows: merged.events,
@@ -603,7 +604,7 @@ export class ProjectEvidenceInspection {
         projectId: input.projectId,
         revisionId: manifest.query.revisionId,
         state: "ready",
-        dependencies: manifest.dependencies,
+        dependencies,
         ...(coverage ? { coverage } : {}),
         page: { ...merged, nextCursor },
       };

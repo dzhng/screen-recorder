@@ -34,6 +34,7 @@ import {
 import {
   ProjectEvidenceInspection,
   type ProjectEvidenceInput,
+  type ProjectEvidenceCursor,
   type ProjectTranscriptRow,
 } from "./project-evidence.js";
 const cleanup: (() => Promise<void>)[] = [];
@@ -428,12 +429,21 @@ const clip = (
     placement: { kind: "project", range: { startUs: start, endUs: end } },
   },
 });
+function dependencyRows(
+  dependencies: Awaited<ReturnType<ProjectEvidenceInspection["get"]>>["dependencies"],
+) {
+  if (!Array.isArray(dependencies)) throw new Error("Expected complete dependency metadata");
+  return dependencies;
+}
+
 async function pages(f: Awaited<ReturnType<typeof fixture>>, input: ProjectEvidenceInput) {
   const rows: ProjectTranscriptRow[] = [];
-  let cursor: unknown;
+  let cursor: ProjectEvidenceCursor | undefined;
   for (let n = 0; n < 2000; n++) {
     const result = await f.evidence.get({ ...input, ...(cursor === undefined ? {} : { cursor }) });
     if (!result.page) throw new Error("Not ready");
+    if (cursor) expect(result.dependencies).toEqual({ manifestId: cursor.manifestId });
+    else if (input.cursor === undefined) dependencyRows(result.dependencies);
     rows.push(...result.page.rows);
     if (!result.page.nextCursor) return rows;
     cursor = result.page.nextCursor;
@@ -540,12 +550,12 @@ test("empty projects, ready zero-word sources and unavailable models remain dist
   await f.ready(zero);
   const ready = await f.evidence.get(zero);
   expect(ready.page).toEqual({ rows: [], nextCursor: null });
-  expect(ready.dependencies[0]!.transcript!.wordCount).toBe(0);
+  expect(dependencyRows(ready.dependencies)[0]!.transcript!.wordCount).toBe(0);
   const speech = f.create([track("a"), clip(f.asset.id, "speech", "a", 0, 1000)]);
   f.modelState.ready = false;
   const unavailable = await f.evidence.get(speech);
   expect(unavailable.page).toBeNull();
-  expect(unavailable.dependencies[0]).toMatchObject({
+  expect(dependencyRows(unavailable.dependencies)[0]).toMatchObject({
     transcript: null,
     reason: "model_not_prepared",
   });
@@ -777,7 +787,7 @@ test("no audio tracks and a source with no acquired support have different evide
   ]);
   await f.ready(empty);
   const unavailable = await f.evidence.get(empty);
-  expect(unavailable.dependencies[0]).toMatchObject({
+  expect(dependencyRows(unavailable.dependencies)[0]).toMatchObject({
     state: "unavailable",
     reason: "no_audio",
     transcript: null,
@@ -920,13 +930,15 @@ async function matches(
 ) {
   await f.ready(input);
   const entries = [];
-  let cursor: unknown;
+  let cursor: ProjectEvidenceCursor | undefined;
   for (let n = 0; n < 2000; n++) {
     const result = await f.evidence.search({
       ...input,
       ...(cursor === undefined ? {} : { cursor }),
     });
     if (!result.page) throw new Error("Not ready");
+    if (cursor) expect(result.dependencies).toEqual({ manifestId: cursor.manifestId });
+    else if (input.cursor === undefined) dependencyRows(result.dependencies);
     entries.push(...result.page.entries);
     if (!result.page.nextCursor) return entries;
     cursor = result.page.nextCursor;
@@ -1107,7 +1119,7 @@ function observeSourceMetadata(f: Awaited<ReturnType<typeof fixture>>) {
     },
   };
 }
-test("cursor dependency validation shares metadata within each fresh phase", async () => {
+test("cursor continuations reference complete manifest dependencies within each fresh validation phase", async () => {
   const f = await fixture();
   const captures = await Promise.all([
     f.capture([cursorSample(600)]),
@@ -1122,9 +1134,15 @@ test("cursor dependency validation shares metadata within each fresh phase", asy
   const query = { ...input, domain: "cursor" as const, limit: 1 };
   await f.ready(query);
   const first = await f.evidence.cursor(query);
+  const manifestId = first.page!.nextCursor!.manifestId;
+  const manifest = JSON.parse(
+    await readFile(join(f.home, "cache/derived", `${manifestId}.cache`), "utf8"),
+  );
+  expect(first.dependencies).toEqual(manifest.dependencies);
   const { work, restore } = observeSourceMetadata(f);
   try {
     const next = await f.evidence.cursor({ ...query, cursor: first.page!.nextCursor });
+    expect(next.dependencies).toEqual({ manifestId });
     expect(next.page!.rows).toMatchObject([
       {
         acquisitionId: captures[1]!.id,
@@ -1202,7 +1220,7 @@ test("scene-enabled continuation validation shares source metadata within each f
         },
       },
     ]);
-    expect(next.dependencies).toEqual(first.dependencies);
+    expect(next.dependencies).toEqual({ manifestId: first.coverage!.manifestId });
     expect(next.coverage).toEqual({ manifestId: first.coverage!.manifestId });
     expect(next.page!.nextCursor).not.toBeNull();
     expect(work).toEqual({ headers: 2, segments: 2, acquisitions: 2 });
@@ -1356,9 +1374,13 @@ test("capture source and project reads preserve raw clocks, exact retimes and mi
   const second = await f.evidence.events({ ...input, limit: 500, cursor: result.page!.nextCursor });
   expect(second.page!.rows.map((row) => row.kind)).toEqual(["geometry", "cut"]);
   expect(
-    result.dependencies.map((d) => d.capture!.coverage.find((c) => c.kind === "pause")!.state),
+    dependencyRows(result.dependencies).map(
+      (d) => d.capture!.coverage.find((c) => c.kind === "pause")!.state,
+    ),
   ).toEqual(["ready", "unavailable"]);
-  expect(result.dependencies.find((d) => d.capture!.evidence)?.capture!.coverage).toContainEqual({
+  expect(
+    dependencyRows(result.dependencies).find((d) => d.capture!.evidence)?.capture!.coverage,
+  ).toContainEqual({
     kind: "unplaced_geometry",
     state: "unavailable",
     reason: "no_source_time",
@@ -1584,7 +1606,7 @@ test("empty capture observations remain ready and audio occurrences receive only
   }
   const result = await f.evidence.events(input);
   expect(result.page!.rows.map((row) => [row.kind, row.projectAtUs])).toEqual([["pause", 200]]);
-  expect(result.dependencies[0]!.capture!.coverage).toContainEqual({
+  expect(dependencyRows(result.dependencies)[0]!.capture!.coverage).toContainEqual({
     kind: "geometry",
     state: "unavailable",
     reason: "requires_captured_video",
@@ -1646,10 +1668,12 @@ async function eventPages(f: Awaited<ReturnType<typeof fixture>>, input: Project
     await f.jobs.idle();
   }
   const rows = [];
-  let cursor: unknown;
+  let cursor: ProjectEvidenceCursor | undefined;
   for (let n = 0; n < 1000; n++) {
     const result = await f.evidence.events({ ...input, ...(cursor ? { cursor } : {}) });
     if (!result.page) throw new Error("events not ready");
+    if (cursor) expect(result.dependencies).toEqual({ manifestId: cursor.manifestId });
+    else if (input.cursor === undefined) dependencyRows(result.dependencies);
     rows.push(...result.page.rows);
     if (!result.page.nextCursor) return { rows, result };
     cursor = result.page.nextCursor;
@@ -1832,8 +1856,8 @@ test("project-native cuts page without source evidence, survive historical heads
     ["cut", 200],
     ["cut", 400],
   ]);
-  expect(all.result.dependencies).toEqual([]);
   const first = await f.evidence.events({ ...input, limit: 1 });
+  expect(first.dependencies).toEqual([]);
   expect(first.coverage).toMatchObject({ cuts: { state: "ready", basis: "revision" } });
   expect(first.page!.rows[0]).toMatchObject({
     before: { kind: "silence" },
@@ -1875,7 +1899,9 @@ test("known-unavailable source prefixes do not delay ready editorial cuts", asyn
   );
   expect(first.page!.nextCursor).not.toBeNull();
   expect(first.coverage).toMatchObject({ cuts: { state: "ready", basis: "revision" } });
-  expect(first.dependencies.every((dependency) => dependency.state === "unavailable")).toBe(true);
+  expect(
+    dependencyRows(first.dependencies).every((dependency) => dependency.state === "unavailable"),
+  ).toBe(true);
 });
 
 test("fractional capture mapping stays exact through integer filtering and project projection", async () => {
