@@ -6947,3 +6947,15 @@ specified immutable source evidence without prescribing the queue boundary.
 Future lifecycle reporting must preserve this single writer owner. No cached
 success or skipped verification is introduced; queue-owned copy IO may briefly
 delay another journal append.
+
+**Sound, high confidence — camera publication owns its verification wait.**
+A camera reader can still be checking an immutable acquisition snapshot after the
+physical encoder closes. The primary source has no need for that camera proof,
+so camera publication now waits for it while primary publication proceeds. The
+closed camera retains the same verification object and final byte identities;
+the wait occurs before checking cancellation, so even an already-canceled Stop
+cannot return with that reader running. Direct lease publishers retain their
+own idempotent join. The plan required independent usable sources without fixing
+this internal placement. This landed in `e9f0597e` and constrains future
+cancellation and discard to retain the same joined lifetime. It does not reduce
+the camera's own proof work or claim the physical shutdown budget is met.

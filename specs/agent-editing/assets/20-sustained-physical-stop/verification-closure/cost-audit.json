@@ -1,0 +1,73 @@
+{
+  "scope": "Read-only remaining Stop work audit; code-derived counts on first successful continuing closure/publication, not elapsed stage measurements",
+  "sourceCommit": "e9f0597e",
+  "finding": {
+    "priority": "high user-visible deadline failure, cost owner unassigned",
+    "trigger": "Stop a sustained selected-camera take",
+    "owner": "CameraMedia.Verification and existing camera/source publication owners",
+    "evidence": "Two separately retained physical failures; second has no pre-Stop verification range snapshot or stage timings",
+    "acceptanceSeam": "One bounded fresh Verification and camera publication on retained source, with actual priming and complete picture/support parity",
+    "disposition": "Measure remaining proof before changing validation or running hardware again"
+  },
+  "fixture": {
+    "rawBytes": 359951002,
+    "canonicalBytes": 359966072,
+    "pictures": 6145
+  },
+  "amplification": {
+    "completeInventoryVisits": {
+      "expression": "3 * N: intended support, final raw inventory, final canonical inventory",
+      "count": 18435
+    },
+    "rawCompressedSamples": {
+      "expression": "N: revalidate committed prefix, append tail only",
+      "count": 6145
+    },
+    "canonicalCompressedSamples": {
+      "expression": "C: revalidate the already committed canonical prefix",
+      "count": null,
+      "reason": "No before-Stop committed count retained in physical case"
+    },
+    "rawWholeFileHashes": {
+      "count": 6,
+      "bytes": 2159706012,
+      "boundaries": [
+        "physical closure pin",
+        "closed-source publication pin",
+        "closed marker",
+        "camera publisher input identity",
+        "pre-receipt unchanged check",
+        "post-receipt unchanged check"
+      ]
+    },
+    "canonicalWholeFileHashes": {
+      "count": 4,
+      "bytes": 1439864288,
+      "boundaries": [
+        "completed continuing candidate identity",
+        "camera receipt identity",
+        "source receipt member identity",
+        "source member verification"
+      ]
+    }
+  },
+  "dismissals": [
+    "Prefix and final identity checks bind complete bytes across mutable snapshots/publication boundaries; size/mtime substitutes weaken mutation detection",
+    "Pixel scans resume at committed IDR fences; complete-take redecode is not inherent in the continuing path",
+    "Existing packed-row picture hash has prior measured no-useful-provider/debug-release speedup",
+    "One worker and coalesced latest checkpoint do not form an accumulating task queue",
+    "Unchanged snapshot and stale notification cases already have their own corrections and red/green proofs",
+    "Finite native cursor traversal and compressed sample counts progress or refuse; writer backpressure has its own bound",
+    "Saved file mtimes and the 4.838940-second interval between two old Stop readers mix operations and do not establish stage duration"
+  ],
+  "nextTrial": {
+    "question": "After a usable checkpoint is primed, what does complete camera publication cost?",
+    "inputs": "Private APFS clone of retained physical raw/mapping/closed marker/journal; no prior receipts or canonical candidate",
+    "prime": "Fresh Verification; request complete written mapping; join; require actual raw and canonical reader starts",
+    "publication": "One CameraMedia.publish with continuing verifier; require resumed raw and canonical ranges, no full-scan fallback, exact picture digest/support/count/clocks/binding/pauses",
+    "timing": "Clone/eligibility, priming and publication separately; unprofiled first attempt",
+    "wholeProcessDeadlineSeconds": 90,
+    "stoppingCondition": "First terminal result or fixed deadline; no unchanged retry",
+    "limits": "Does not measure physical SDK drain, primary publication or AppKit/service quit; donor complete journal suffix can change new receipt provenance while preserving original prefix"
+  }
+}

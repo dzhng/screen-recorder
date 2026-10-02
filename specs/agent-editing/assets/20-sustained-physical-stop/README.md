@@ -24,8 +24,11 @@ The [independent publication correction](scheduling/README.md) subsequently
 qualified source readiness, validation and recovery through the same owner.
 Its [changed-candidate physical confirmation](independent-confirmation/README.md)
 also failed the original deadline. Both attempts remain separately pinned;
-neither establishes a causal speedup. The next correction examines the continuing
-camera-verification join inside physical closure before another recording.
+neither establishes a causal speedup. The
+[verification ownership correction](verification-closure/README.md) subsequently
+qualifies primary readiness and cancellation while the camera reader is held.
+Remaining camera publication cost needs a bounded retained-source measurement
+before another recording.
 No unchanged recapture is queued. These checks establish no iPhone
 synchronization, physical event onset, perceptual quality or installed release
 acceptance.

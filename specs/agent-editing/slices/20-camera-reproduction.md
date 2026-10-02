@@ -36,8 +36,11 @@ settles while primary publication remains pending; later successful cleanup is
 not a deadline pass. [Independent source publication](../assets/20-sustained-physical-stop/scheduling/README.md)
 subsequently passes its controlled readiness/recovery contract, but the
 [changed-candidate confirmation](../assets/20-sustained-physical-stop/independent-confirmation/README.md)
-also fails the original deadline. The next correction isolates the continuing
-verification join inside camera closure; public `inputsClosed` alone does not
+also fails the original deadline. The
+[verification ownership correction](../assets/20-sustained-physical-stop/verification-closure/README.md)
+now proves independent primary readiness and joined cancellation; physical
+closure and final identity pins stay intact. Measure remaining publication on the
+retained source before another confirmation. Public `inputsClosed` alone does not
 identify hardware drainage. No unchanged recapture or budget relaxation is queued.
 
 ## Contract
