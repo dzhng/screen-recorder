@@ -22,48 +22,27 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify compressed-source buffer admission.**
-[20i](slices/20i-growing-canonical-feasibility.md) now passes its actual query-first
-termination/reaping fixture. Its canonical attempt stopped before writer creation
-at a combined source-buffer guard; the failed operand remains unknown.
-[Root checks](assets/20i-growing-canonical-feasibility/execution/merged.json) preserve
-that split verdict. The SDK allows markers/grouping the guard excluded. Review and
-freeze one metadata-only whole-buffer observation before changing copy logic.
-Use the same immutable input; no raw-writer replay or canonical retry is selected.
+**Next pickup: qualify an intact-buffer canonical copy.**
+[20i](slices/20i-growing-canonical-feasibility.md) now observes the complete
+compressed-reader stream, including markers with no media data or format.
+Review and freeze a corrected prototype that forwards every buffer intact,
+with media membership tracked separately. Preserve the original failed attempt;
+use the same immutable input and fixed candidate settings. No raw-writer replay
+or production adoption follows from the admission observation.
 
-[20h](slices/20h-camera-idr-fence.md) now qualifies both fixed raw cases: complete
-decoded IDR fences preserve the selected preceding pictures through active
-extension and closure or interruption/reopening. [Root saved-data checks](assets/20h-camera-idr-fence/execution/merged.json)
-also compare a later eligible fence without another native run. Timeout cleanup
-remains unqualified: Foundation assigned query children their own process groups.
-The original [20g failure](slices/20g-camera-raw-prefix.md) and missing operands
-remain unchanged; do not infer its cause or tune the discarded tail. Preserve
-native clock differences, codec conformance limits and unknown cursor flags.
-General raw-prefix stability, canonical production and independent complete
-traversals, backlog and stop performance remain open.
+Camera publication is the current implementation priority. The [raw IDR proof](slices/20h-camera-idr-fence.md)
+qualifies its fixed cases; the [stop dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
+owns the remaining canonical traversal, backlog and completed-stop prerequisites.
+Keep native clock differences, codec limits, unknown flags and failed evidence intact.
 
-The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
-improves the fixed example's timing without an individual regression; parent 12
-remains open and no speech recipe is adopted. [Root saved-data checks](assets/12l-independent-supplied-text-timing/merged.json)
-retain sample, clock, text and signed-edge evidence without another run.
-The [speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
-identifies missing independent references and release evidence; another example
-is not an implementation prerequisite for the unchanged selected baseline.
-
-Camera stop still needs a supported critical-path mechanism. [The dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
-separates fragment APIs from physical prefix stability and the independent
-canonical traversal. A raw-prefix pass would establish only its own prerequisite;
-no encoding, digest, source identity, deadline or production strategy changes.
-
-[24z timing](assets/24z-current-preparation/README.md) requires a changed coordinated
-window and one fresh preflight: the [latest snapshot](assets/24z-current-preparation/post-idr-preflight.json)
-found an unrelated active render pipeline after the prior jobs were absent, so no
-service or measurement started.
-Do not poll the host or replay preparation. Consumer ports proceed only where
+Independent work proceeds only from a missing implementation owner. The
+[speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
+separates the selected baseline from missing acceptance references;
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-identifies a missing owner; another menu or chooser does not prove presentation
-or authorize installed switching. Do not turn pending acceptance or accepted
-cohorts into another implementation pass.
+separates source ports from presentation and installed switching. Neither pending
+acceptance nor an accepted cohort creates another implementation pass.
+[Scale timing](assets/24z-current-preparation/README.md) awaits a genuinely changed
+coordinated window after its rejected preflight; do not poll or replay preparation.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -269,7 +248,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
 - [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — ordinary scoped prefix passes; separate candidate fails before interruption, with later operands missing
 - [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
-- [ ] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — ownership fixture passes; compressed-input guard refuses before writer, with individual operands missing
+- [ ] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — ownership and intact compressed-reader observation pass; corrected canonical copy remains unqualified
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)

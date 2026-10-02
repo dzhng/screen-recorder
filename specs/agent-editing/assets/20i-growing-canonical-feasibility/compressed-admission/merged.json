@@ -1,0 +1,48 @@
+{
+  "status": "saved-data-pass",
+  "checkedUTC": "2026-10-02T07:34:06.972378+00:00",
+  "scope": "No compiler/native replay",
+  "protectedPins": 147,
+  "cacheFilesUnchanged": 307,
+  "processesTerminalReapedAbsent": [
+    [
+      "compile",
+      37733,
+      0
+    ],
+    [
+      "admission",
+      37907,
+      0
+    ]
+  ],
+  "completeBuffers": 201,
+  "mediaSamples": 197,
+  "markers": [
+    0,
+    198,
+    199,
+    200
+  ],
+  "all197RawBytesAndExactNativeIndexedClocks": "equal",
+  "mediaPayloadBytes": 17410,
+  "completeEOF": true,
+  "newObservationDoesNotRecoverHistoricalOperands": true,
+  "writerOrPixelDecode": false,
+  "verifiedArchiveMembers": {
+    "preparation": 13,
+    "execution": 227
+  },
+  "rootChecks": [
+    {
+      "toolChunk": "cd338d",
+      "exitCode": 0,
+      "scope": "147 current pins/cache307/actual process outcomes/all197 source bytes and indexed clocks/EOF201"
+    },
+    {
+      "scope": "All preparation13/execution227 archived member hashes, safe paths and archive bytes",
+      "toolChunk": "b365df",
+      "exitCode": 0
+    }
+  ]
+}

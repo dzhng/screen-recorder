@@ -3,11 +3,12 @@
 Status: [actual preparation result](../assets/20i-growing-canonical-feasibility/README.md)
 qualifies query-first termination/reaping, but the canonical attempt refused its
 first compressed input before constructing a writer. Its combined guard omitted
-the individual failed fields; container feasibility remains unqualified. The
+the individual failed fields. The separate complete compressed-reader observation
+passes with markers retained; container feasibility remains unqualified. The
 original executed sources and failure stay frozen. Production adoption remains
 under camera publication.
 
-## Next required fact
+## Compressed-reader admission
 
 Observe the complete compressed-buffer stream from the same immutable input,
 without a writer or pixel decoding. The SDK permits zero-sample markers and
@@ -29,6 +30,20 @@ compile bound is 150 seconds total, native observation is 15 seconds, at most
 512 returned buffers/400 media samples/2 MiB payload, and 1 MiB per stdio stream.
 Preserve partial facts before any refusal. This qualifies admission observations,
 not a corrected canonical attempt or new production mechanism.
+
+The [complete admission observation](../assets/20i-growing-canonical-feasibility/compressed-admission/README.md)
+now reaches EOF with intact media and marker buffers. Saved-data review compares
+every media payload with its original native extent and verifies exact indexed
+clocks and size. The leading marker has neither media data nor format; this new
+observation does not recover the historical failed operands.
+
+The next prototype forwards the complete buffer stream without filtering or
+rebuilding markers. Media membership and batch boundaries use per-sample native
+facts, separately from buffer ordinal. A batch must end at a whole-buffer boundary;
+never split grouped buffers to fit the experiment. Preserve terminal markers
+before closure and compare both attachment modes as well as media facts. Review
+and freeze this corrected prototype separately before one canonical invocation;
+the original failed sources remain unchanged.
 
 ## Contract
 
