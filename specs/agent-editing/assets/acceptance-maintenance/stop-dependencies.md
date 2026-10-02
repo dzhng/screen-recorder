@@ -96,3 +96,28 @@ Another implementation needs a concrete way to remove or move critical-path work
 while preserving both ordered digests. Its first proof belongs on the tiny existing
 fixtures, including interruption/cancellation/recovery, before a full retained-take
 run. No new benchmark or relaxed deadline follows from this audit.
+
+## Native fragment feasibility
+
+SDK inspection distinguishes two mechanisms. `AVAssetWriterDelegate` segment data
+is not an observer on the current MOV writer: it requires the content-type
+initializer, suppresses ordinary file writing and ignores `movieFragmentInterval`.
+The streaming MPEG-4 profiles can also force sync samples. Substituting that route
+would change writer/container ownership and potentially encoding; it is not selected.
+See the [segment-writing explanation](https://developer.apple.com/videos/play/wwdc2020/10011/)
+and the installed SDK's `AVAssetWriter.h` delegate contract.
+
+[AVFragmentedAsset](https://developer.apple.com/documentation/avfoundation/avfragmentedasset)
+and its minder instead support inspection of appended QuickTime fragments.
+That is a possible raw-reader seam, not proof of stable decoded-picture meaning.
+Normal closure can defragment the file, and segment summaries do not establish
+complete presentation order or BGRA values. A tiny prerecorded prefix-versus-closed
+comparison must establish those facts before any incremental implementation.
+
+The canonical traversal has a separate dependency: its physical MOV is created
+by bounded passthrough export after closure. Reading raw fragments twice cannot
+verify that file. An already-reading mutable composition cannot be extended safely;
+the SDK reader contract declares such mutation undefined. A successful raw-prefix
+test would resolve only the first traversal's feasibility, leaving canonical
+production, complete ordered digests, tail/backlog, recovery and stop performance
+unproved. No encoding, digest or deadline change is selected.
