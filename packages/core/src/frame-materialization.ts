@@ -3,12 +3,8 @@ import { CatalogError } from "./catalog.js";
 import { planFrameTrail, type FrameOverlay } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
 import type { SourceEvidenceMetadata, SourceTrailRead } from "./evidence.js";
-import {
-  editedToSource,
-  sourceToEdited,
-  type TimeRange,
-  type TimelineRevision,
-} from "./timeline.js";
+import { editedToSource, sourceToEdited, type TimelineRevision } from "./timeline.js";
+import { type TimeRange } from "./presentation-time.js";
 
 export const framePolicy = "frame-v4";
 

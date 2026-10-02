@@ -2,7 +2,7 @@ import type { SourceFrameArtifact } from "./frame-inspection.js";
 import type { SceneEvidenceStore } from "./scene-evidence.js";
 import type { SourceSceneChunk } from "./source-scene-chunks.js";
 import type { SourceIndexIdentity } from "./source-index.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 import { scenePolicy } from "./scenes.js";
 import { compareSceneSampleClocks } from "./source-scenes.js";
 import { sourceIndexChunks } from "./source-index-selection.js";

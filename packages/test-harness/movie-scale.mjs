@@ -10,10 +10,10 @@ import { SourceEvidenceStore, recordingEvidenceOwner } from "../../packages/core
 import { planAudioTracks } from "../../packages/core/dist/audio.js";
 import {
   createRevision,
-  renderPlan,
   editedToSource,
   sourceToEdited,
 } from "../../packages/core/dist/timeline.js";
+import { renderPlan } from "../../packages/core/dist/presentation-time.js";
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";
 
 const dir =

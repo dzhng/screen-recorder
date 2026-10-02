@@ -5,11 +5,8 @@ import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { renderFrames } from "./fixtures/render-frames.mjs";
-import {
-  createOriginalRevision,
-  createRevision,
-  renderPlan,
-} from "../../../packages/core/dist/timeline.js";
+import { createOriginalRevision, createRevision } from "../../../packages/core/dist/timeline.js";
+import { renderPlan } from "../../../packages/core/dist/presentation-time.js";
 const root = resolve(import.meta.dirname, "../../..");
 const out =
   process.env.SCREENREC_RENDER_EVIDENCE ??

@@ -41,7 +41,7 @@ import type { DerivedCache } from "./cache.js";
 import { CatalogError } from "./catalog.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
 import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const receiptSchema = z.object({

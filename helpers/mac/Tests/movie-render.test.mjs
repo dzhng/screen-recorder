@@ -4,11 +4,8 @@ import { mkdtempSync, mkdirSync, readdirSync, readFileSync, writeFileSync, rmSyn
 import { tmpdir } from "node:os";
 import { join, isAbsolute } from "node:path";
 import { test, after } from "node:test";
-import {
-  createOriginalRevision,
-  createRevision,
-  renderPlan,
-} from "../../../packages/core/dist/timeline.js";
+import { createOriginalRevision, createRevision } from "../../../packages/core/dist/timeline.js";
+import { renderPlan } from "../../../packages/core/dist/presentation-time.js";
 import { renderFrames } from "./fixtures/render-frames.mjs";
 const native =
   process.env.SCREENREC_NATIVE ??
@@ -528,15 +525,9 @@ test("two-cuts resampling endpoint excludes neighboring native frames and refuse
     spans: ranges.map(([startUs, endUs]) => ({ startUs, endUs })),
     tracks: [{ ...allTracks[0], source: damaged }, allTracks[1]],
   });
-  assert.equal(
-    failure.error?.code,
-    "NATIVE_DECODE_FAILED",
-    JSON.stringify(failure),
-  );
+  assert.equal(failure.error?.code, "NATIVE_DECODE_FAILED", JSON.stringify(failure));
   assert(!readdirSync(dir).includes("endpoint-truncated.wav"));
-  assert(
-    !readdirSync(dir).some((name) => name.startsWith(".screenrec-output-")),
-  );
+  assert(!readdirSync(dir).some((name) => name.startsWith(".screenrec-output-")));
   reports.push({
     name: "two-cuts-quantized-endpoint",
     inputRate: 44100,

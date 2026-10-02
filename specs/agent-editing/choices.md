@@ -7044,3 +7044,19 @@ path just to reproduce the prefix would preserve an obsolete owner. Future
 structured operation errors retain their codes; diagnostics consumers must use
 the reported reason rather than assume the removed prefix. This named output
 difference belongs to the canonical-entry pass.
+
+## Presentation timing ownership
+
+**Sound, high confidence — keep source-range mapping with numeric presentation timing.**
+When a caller previews a project with recorded pointer evidence, the native worker
+needs each selected source range paired with its cumulative playback range. That
+small mapping was implemented inside the old recording-edit interpreter, so
+deleting the interpreter would also break project pointer preparation. The mapping
+now lives with the existing presentation-time arithmetic, and all consumers import
+it directly. Its numbers and native request shape stay unchanged; no forwarding
+module, new editing model or compatibility alias remains. The plan required one
+owner and obsolete interpreter removal without choosing the numeric helper's home.
+This placement lets source and project presentation survive that removal without
+depending on recording revision history. The decision belongs to the presentation
+timing prerequisite pass; it adds one package export and no dependency or persisted
+format.

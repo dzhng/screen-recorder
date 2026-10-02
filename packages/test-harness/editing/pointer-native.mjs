@@ -18,7 +18,7 @@ import {
   prepareCompositionPointers,
   pointerPreparationLimits,
 } from "../../core/dist/composition-pointer.js";
-import { renderPlan } from "../../core/dist/timeline.js";
+import { renderPlan } from "../../core/dist/presentation-time.js";
 
 const out = resolve(process.argv[2] ?? "");
 assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);

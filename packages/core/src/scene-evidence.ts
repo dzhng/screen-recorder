@@ -27,7 +27,7 @@ import {
 import { normalizeSourceSceneChunk, type SourceSceneChunk } from "./source-scene-chunks.js";
 import { sourceScenePolicy, sceneSampleSourceTime } from "./source-scenes.js";
 import { compare, fromTime } from "@screenrec/composition";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 export type SceneOwner = Extract<JobOwner, { kind: "recording" | "asset" }>;
 export type SceneEvidenceIdentity = {

@@ -13,7 +13,7 @@ import type {
   ProjectIndexRecords,
   projectIndexPlan,
 } from "./project-index.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 async function* observedChunks(
   records: SceneEvidenceStore,

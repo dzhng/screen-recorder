@@ -14,7 +14,8 @@ import type { DerivedCache } from "./cache.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import { planAudioTracks, type AudioTrackPlan, type NativeAudio } from "./audio.js";
-import { renderPlan, type RenderSpan, type TimelineRevision } from "./timeline.js";
+import { type TimelineRevision } from "./timeline.js";
+import { renderPlan, type RenderSpan } from "./presentation-time.js";
 
 /**
  * A preview auditions an edit, so it is rendered as a bounded rendition rather than at the

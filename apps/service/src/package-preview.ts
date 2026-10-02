@@ -12,7 +12,7 @@ import {
   type PreviewRenderer,
   type RenderedMovie,
 } from "@screenrec/core/preview";
-import { renderPlan } from "@screenrec/core/timeline";
+import { renderPlan } from "@screenrec/core/presentation-time";
 import { PackageMediaContext, type PackageTarget } from "./package-media.js";
 
 /**

@@ -17,12 +17,8 @@ import { constants } from "node:fs";
 import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { journalRows } from "../../apps/macos/tests/fixtures/generated-capture.mjs";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import {
-  createOriginalRevision,
-  createRevision,
-  eventProjector,
-  renderPlan,
-} from "@screenrec/core/timeline";
+import { createOriginalRevision, createRevision, eventProjector } from "@screenrec/core/timeline";
+import { renderPlan } from "@screenrec/core/presentation-time";
 import { mediaWorker } from "../../apps/service/dist/worker.js";
 import { renderDeadlineMs, withRenderedMedia } from "../../apps/service/dist/render.js";
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";

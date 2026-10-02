@@ -6,7 +6,8 @@ import { z } from "zod";
 import { fileAccess, type FileAccess } from "./files.js";
 import { CatalogError } from "./catalog.js";
 import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordered-pages.js";
-import type { TimeRange, TimelineRevision } from "./timeline.js";
+import type { TimelineRevision } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 import {
   transcriptGaps,
   recordingTranscriptIdentity,

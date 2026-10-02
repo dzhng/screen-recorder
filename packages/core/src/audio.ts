@@ -11,7 +11,8 @@ import {
   type DerivativeSubmission,
 } from "./derivative-inspection.js";
 import type { DerivedCache } from "./cache.js";
-import { trimSpans, type TimeRange, type TimelineRevision } from "./timeline.js";
+import { trimSpans, type TimelineRevision } from "./timeline.js";
+import { type TimeRange } from "./presentation-time.js";
 import type { SourceEvidenceMetadata, SourceAudioRead } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 

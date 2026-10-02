@@ -1,5 +1,5 @@
 import { z } from "zod";
-export type TimeRange = Readonly<{ startUs: number; endUs: number }>;
+import { renderPlan, type RenderSpan, type TimeRange } from "./presentation-time.js";
 export type TimelineRevision = Readonly<{
   id: string;
   parentId: string | null;
@@ -74,15 +74,6 @@ export function createRevision(
     sourceDurationUs: parent.sourceDurationUs,
     durationUs,
     spans: freezeSpans(spans),
-  });
-}
-export type RenderSpan = Readonly<{ source: TimeRange; playback: TimeRange }>;
-export function renderPlan(revision: Pick<TimelineRevision, "spans">): readonly RenderSpan[] {
-  let atUs = 0;
-  return revision.spans.map((source) => {
-    const playback = { startUs: atUs, endUs: atUs + (source.endUs - source.startUs) };
-    atUs = playback.endUs;
-    return { source, playback };
   });
 }
 function keepPlayback(

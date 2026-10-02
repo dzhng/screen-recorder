@@ -7,10 +7,9 @@ import {
   projectWords,
   TimelineError,
   trimSpans,
-  type RenderSpan,
-  type TimeRange,
   type TimelineRevision,
 } from "./timeline.js";
+import { type RenderSpan, type TimeRange } from "./presentation-time.js";
 import { recordingTranscriptIdentity } from "./transcript.js";
 import type {
   TranscriptIdentity,

@@ -69,6 +69,16 @@ format bump and refuses prior formats without migration; preserve refusal and
 unchanged old-catalog bytes in the surviving boundary tests. Project revisions,
 capture/source lifetime and useful low-level media primitives survive both passes.
 
+The source-range-to-playback plan now belongs to the existing numeric
+presentation-time owner. Project pointer preparation and source readers consume
+it directly rather than depend on the recording revision interpreter. The range
+and plan shapes and cumulative microsecond arithmetic are unchanged; this is a
+dependency removal, not a second composition model. Before/after focused
+presentation-evidence and timeline tests pass all 16 cases, including separated
+source spans and complete physical-empty support. Core build and affected
+type checks cover the direct imports; no media render or installed acceptance is
+claimed by this refactor.
+
 The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 
 [23b](23b-export-recovery-preservation.md) adds the bounded matched public acknowledgement-loss/restart checkpoint using the retained cached movies.
@@ -106,8 +116,9 @@ consumer checks do not authorize installed switching or establish visual accepta
 [23i](23i-service-process-parity.md) prepares the executable app-owned project
 service through the existing composition owner and shared socket authority.
 Bundled process/control/CLI/MCP checks preserve startup ownership and recovery.
-The shared error mapper is extracted without changing its meaning; the default
-installed composition and app bundler remain in place.
+The shared error mapper retains its meaning. The later canonical-entry pass makes
+the default repository bundle consume this owner; the installed copy has not been
+replaced.
 
 ## Acceptance
 

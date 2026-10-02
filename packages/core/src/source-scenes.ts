@@ -12,7 +12,7 @@ import {
 } from "@screenrec/composition";
 import { isDeepStrictEqual } from "node:util";
 import type { CompositionAssetBinding } from "./project-window.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 import { CatalogError } from "./catalog.js";
 import { compareVisualRasters, scenePolicy, sceneSampleTimes } from "./scenes.js";
 

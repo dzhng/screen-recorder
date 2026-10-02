@@ -1,4 +1,17 @@
 import { z } from "zod";
+export type TimeRange = Readonly<{ startUs: number; endUs: number }>;
+export type RenderSpan = Readonly<{ source: TimeRange; playback: TimeRange }>;
+export function renderPlan(
+  input: Readonly<{ spans: readonly TimeRange[] }>,
+): readonly RenderSpan[] {
+  let atUs = 0;
+  return input.spans.map((source) => {
+    const playback = { startUs: atUs, endUs: atUs + (source.endUs - source.startUs) };
+    atUs = playback.endUs;
+    return { source, playback };
+  });
+}
+
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 export const presentationTimeSchema = z.strictObject({
   value: z

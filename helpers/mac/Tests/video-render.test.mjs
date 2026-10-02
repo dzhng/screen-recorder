@@ -14,11 +14,8 @@ import {
 import { tmpdir } from "node:os";
 import { join, isAbsolute } from "node:path";
 import { test, after } from "node:test";
-import {
-  createOriginalRevision,
-  createRevision,
-  renderPlan,
-} from "../../../packages/core/dist/timeline.js";
+import { createOriginalRevision, createRevision } from "../../../packages/core/dist/timeline.js";
+import { renderPlan } from "../../../packages/core/dist/presentation-time.js";
 import { renderFrames } from "./fixtures/render-frames.mjs";
 const native =
   process.env.SCREENREC_NATIVE ??

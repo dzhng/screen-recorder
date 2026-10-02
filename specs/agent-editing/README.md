@@ -35,6 +35,10 @@ actual remaining contracts.
 
 That shared-contract pass is underway in the managed `service-composition`
 worktree; inspect its branch and actual test state before overlapping its owner.
+The active pointer bridge's numeric range/plan dependency has been separated from
+the obsolete recording interpreter; [cutover](slices/23-cutover.md) records this
+prerequisite and its focused proof. Preserve that direct presentation owner when
+deleting the old core family.
 
 Missing broader speech labels and physical synchronization remain release
 acceptance gaps, not prerequisites for isolated cutover implementation. The

@@ -3,7 +3,8 @@ import type { EvidenceIdentity, RawCursorSample } from "./evidence.js";
 import type { RecordingSceneEvidenceIdentity } from "./scene-evidence.js";
 import { scenePolicy } from "./scenes.js";
 import { trailPolicy } from "./trails.js";
-import { renderPlan, type RenderSpan, type TimelineRevision, type TimeRange } from "./timeline.js";
+import { type TimelineRevision } from "./timeline.js";
+import { renderPlan, type RenderSpan, type TimeRange } from "./presentation-time.js";
 
 export const selectionPolicy = Object.freeze({
   id: "sampled-evidence-selection-v2",

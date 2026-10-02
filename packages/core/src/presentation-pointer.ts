@@ -12,7 +12,7 @@ import {
   floorMicroseconds,
   type PresentationInstant,
 } from "./presentation-time.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 /** Integer times here are cursor-query cutoffs. Exact event support stays with the caller;
  * a fractional movie event does not claim its picture supports the earlier integer cutoff. */

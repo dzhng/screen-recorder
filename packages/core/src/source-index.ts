@@ -29,7 +29,7 @@ import {
 } from "./frame-inspection.js";
 import type { IndexDomain } from "./screenshot-index.js";
 import { sourceIndexPolicy, type SourceIndexReason } from "./source-index-selection.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 import { validateSceneSampleClock, type SourceVisualPoint } from "./source-scenes.js";
 export type SourceIndexIdentity = SourceSelection & {
   generation: string;

@@ -1,7 +1,7 @@
 import type { PageBound, PageQuery } from "./ordered-pages.js";
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, RecordRow, RawCursorSample, SourceGeometry } from "./evidence.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 export const evidenceIndexes = [
   "cursor",

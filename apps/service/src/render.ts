@@ -11,7 +11,7 @@ import {
   type PresentationReceipt,
 } from "@screenrec/core/presentation-evidence";
 import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
-import type { RenderSpan } from "@screenrec/core/timeline";
+import type { RenderSpan } from "@screenrec/core/presentation-time";
 import { O_EXLOCK, O_SHLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 

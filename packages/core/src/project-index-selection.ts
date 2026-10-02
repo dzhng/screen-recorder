@@ -20,7 +20,7 @@ import { CatalogError } from "./catalog.js";
 import { selectionPolicy } from "./selection.js";
 import { observedSceneBoundary, type SourceSceneChunk } from "./source-scene-chunks.js";
 import type { SceneSampleClock } from "./source-scenes.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 export const projectIndexPolicy = Object.freeze({
   id: "project-picture-selection-v2",

@@ -13,7 +13,7 @@ import { retainedPublicationSchema, type JobExecution, type JobQueue } from "./j
 import { planAudioTracks } from "./audio.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import { sourceArtifact, sourcePolicy, type SourceProcessing } from "./processing.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 import type { Models } from "./models.js";
 import {
   transcriptPolicy,

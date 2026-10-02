@@ -24,7 +24,7 @@ import type {
 import type { SourceEvidenceReader } from "@screenrec/core/evidence-read";
 import type { PresentationReceipt } from "@screenrec/core/presentation-evidence";
 import { prepareCompositionPointers } from "@screenrec/core/composition-pointer";
-import { renderPlan } from "@screenrec/core/timeline";
+import { renderPlan } from "@screenrec/core/presentation-time";
 export type NativeAudioCapabilities = { rnnoise?: string; retime?: string };
 /** An absent/older worker leaves authoring and retained reads usable. */
 export async function nativeAudioCapabilities(

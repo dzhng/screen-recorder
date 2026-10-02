@@ -5,8 +5,8 @@ import {
   cutSpans,
   trimSpans,
   type TimelineRevision,
-  type TimeRange,
 } from "./timeline.js";
+import { type TimeRange } from "./presentation-time.js";
 import { CaptureStore, isSettled, type Recording } from "./capture-store.js";
 export type EditRequest = { requestId: string; expectedRevisionId: string } & (
   | { operation: "cut"; ranges: readonly TimeRange[] }

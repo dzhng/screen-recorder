@@ -16,7 +16,7 @@ import {
   type PresentationTime,
   type PresentationInstant,
 } from "./presentation-time.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 export type CursorPoint = { atSourceUs: number; x: number; y: number };
 export type FrameOverlay = { trail: CursorPoint[][]; trailUs: number; pointer: CursorPoint | null };

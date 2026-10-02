@@ -8,7 +8,8 @@ import { setTimeout as delay } from "node:timers/promises";
 import { join } from "node:path";
 import { app, temporary, launchReady, socketPath } from "./harness.mjs";
 import { callLocal } from "@screenrec/client";
-import { createRevision, renderPlan } from "@screenrec/core/timeline";
+import { createRevision } from "@screenrec/core/timeline";
+import { renderPlan } from "@screenrec/core/presentation-time";
 const native = new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url)
   .pathname;
 const evidence = process.env.SCREENREC_CAPTURE_RENDER_EVIDENCE;

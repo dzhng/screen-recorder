@@ -7,10 +7,11 @@ import {
   comparePresentationTimes as compare,
   microsecondTime as micros,
   roundedMicroseconds as rounded,
+  renderPlan,
+  type TimeRange,
 } from "./presentation-time.js";
 import { isAbsolute } from "node:path";
 import { CatalogError } from "./catalog.js";
-import { renderPlan, type TimeRange } from "./timeline.js";
 
 type PresentationRead = {
   stat(): Promise<BigIntStats>;

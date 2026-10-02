@@ -23,7 +23,7 @@ import {
 import { selectSource, sourceSelectionKey, type SourceSelection } from "./source-selection.js";
 import { projectIndexPolicy, type ProjectIndexCandidate } from "./project-index-selection.js";
 import type { IndexDomain } from "./screenshot-index.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 export type ProjectIndexIdentity = Pick<
   ProjectFrameArtifact,

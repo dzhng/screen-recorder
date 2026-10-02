@@ -1,5 +1,5 @@
 import { CatalogError } from "./catalog.js";
-import type { TimeRange } from "./timeline.js";
+import type { TimeRange } from "./presentation-time.js";
 
 /** Measured visual change, not recognition of a scene's meaning. */
 export const scenePolicy = Object.freeze({

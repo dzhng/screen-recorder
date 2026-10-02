@@ -1,6 +1,6 @@
 import { CatalogError } from "@screenrec/core/catalog";
 import { fileSubdirectory } from "@screenrec/core/files";
-import type { TimeRange } from "@screenrec/core/timeline";
+import type { TimeRange } from "@screenrec/core/presentation-time";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
 import type { RecordingTranscriptMetadata } from "@screenrec/core/transcript";
 import { FileTranscript, validateTranscriptPages } from "@screenrec/core/transcript-pages";
