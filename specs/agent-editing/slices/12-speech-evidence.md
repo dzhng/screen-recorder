@@ -42,11 +42,11 @@ No semantic editing service or complete-filler-recall guarantee is introduced.
 
 Freeze current output and hand-labeled audible targets/protected words. Measure filler recall, repetition representation and boundary error. Test an external agent using transcript plus targeted waveform/spectrogram/audio; lack of listening capability is reported. Forced alignment may improve supplied-text timing but cannot discover omitted text by itself.
 
-Create this planned probe in this slice:
-
-```sh
-node packages/test-harness/editing/speech-reproduction.mjs --corpus real-narration
-```
+The [retained corpus evidence](../assets/12-speech/README.md) and
+[independent utterance diagnostic](12j-external-lexical-diagnostic.md) provide
+bounded checks through the selected speech owner. Use the existing shared
+[measurement owner](../../../packages/test-harness/speech/evaluate.mjs); do not
+create a parallel scorer or pass text-only references through timing acceptance.
 
 ## Acceptance
 
@@ -120,3 +120,10 @@ Neither change improves the recorded historical speech timing scores.
 [Bounded external lexical-reference qualification](../assets/12-lexical-reference-qualification/README.md)
 retains one independently verified human text source whose missing interval
 authority prevents an executable small fixture. It adds no quality pass.
+
+The [independent utterance diagnostic](12j-external-lexical-diagnostic.md) adds
+human-checked lexical coverage over 24 complete acted utterances, including 41
+explicit filler labels. It retains every recognition miss and eight negative
+utterances. Sampling is enriched, one voice supplies the material, pretraining
+exclusion is unknown and no independent acoustic edges are supplied. This broadens
+lexical characterization without closing held-out timing, listening or adoption.

@@ -1,6 +1,54 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { evaluate } from "./evaluate.mjs";
+import { alignWords, evaluate, evaluateLexical } from "./evaluate.mjs";
+
+test("lexical matching retains repeated occurrences without inventing word times", () => {
+  const expected = ["I", "I", "uh", "return"].map((text) => ({ text }));
+  const actual = ["I", "RETURN."].map((text) => ({ text }));
+  const matches = alignWords(expected, actual);
+  assert.equal(matches.length, 2);
+  assert(matches.some(([i, j]) => i === 3 && j === 1));
+  assert(matches.some(([i, j]) => (i === 0 || i === 1) && j === 0));
+  assert.deepEqual(alignWords(expected, expected), [
+    [3, 3],
+    [2, 2],
+    [1, 1],
+    [0, 0],
+  ]);
+  assert.deepEqual(
+    expected,
+    ["I", "I", "uh", "return"].map((text) => ({ text })),
+  );
+});
+
+test("lexical diagnostics count omissions and extra fillers separately from timing acceptance", () => {
+  const reference = [
+    { text: "I" },
+    { text: "I" },
+    { text: "um", filler: true },
+    { text: "return" },
+  ];
+  const prediction = [{ text: "I" }, { text: "RETURN." }, { text: "UH." }];
+  const result = evaluateLexical(reference, prediction);
+  assert.equal(result.omittedWords.length, 2);
+  assert(result.omittedWords.includes(2));
+  assert(result.omittedWords.some((i) => i === 0 || i === 1));
+  assert.deepEqual(result.extraWords, [2]);
+  assert.deepEqual(result.fillers, {
+    um: { labeled: 1, matched: 0, missed: 1, extra: 0 },
+    uh: { labeled: 0, matched: 0, missed: 0, extra: 1 },
+  });
+  assert.equal(result.referenceWords, 4);
+  assert.equal(result.matchedWords, 2);
+  assert.equal("status" in result, false);
+  assert.equal("boundaries" in result, false);
+  assert.deepEqual(evaluateLexical([{ text: "uh" }], [{ text: "uh" }]).fillers.uh, {
+    labeled: 0,
+    matched: 0,
+    missed: 0,
+    extra: 1,
+  });
+});
 
 const sub95Metrics = {
   truePositive: 30,

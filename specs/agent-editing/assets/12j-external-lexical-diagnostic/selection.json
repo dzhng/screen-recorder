@@ -1,0 +1,461 @@
+{
+  "source": {
+    "repo": "amaai-lab/DisfluencySpeech",
+    "revision": "b7da294fe3a70dd96df6640893f2a5dfc2c87638",
+    "file": "/tmp/screenrec-12-external-corpus-qualification/original/data/test-00000-of-00001.parquet",
+    "bytes": 70868626,
+    "sha256": "e78837be393206fc0ae6a0cefb4ec8c942c3e26401640eb8af67cf0dac21b4b0",
+    "licenseDeclaration": "Apache-2.0; pinned publisher README",
+    "split": "test",
+    "rows": 250
+  },
+  "reader": {
+    "duckdb": "1.4.4"
+  },
+  "selection": "Source-order rows with>=2 explicit F uh/um tokens until>=40, plus first8 rows with no such label; fixed before any inference. This is a density-enriched diagnostic, not natural prevalence or full lexical/timing acceptance.",
+  "positiveRows": 16,
+  "negativeRows": 8,
+  "explicitFillers": 41,
+  "durationSeconds": 164.90263038548753,
+  "selectedRows": [
+    {
+      "rowIndex": 0,
+      "originalPath": "1019.wav",
+      "wavBytes": 345924,
+      "wavSHA256": "573a381f9dbad4ce2a03454805c90fc93c3939402062d87147eae3359511b052",
+      "pcmSHA256": "6bde42cf235fca91856d0aacafd3eca9eaa54e5995b07a3ce9d0a7a0cf7c85b8",
+      "samples": 172940,
+      "sampleRate": 22050,
+      "durationSeconds": 7.843083900226757,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "Yeah. <laughter> {D Well, } rabbits are darling. That would be fun if you could get them trained. Otherwise they're pretty smelly <laughter>.",
+      "transcriptA": "Yeah. Well, rabbits are darling. That would be fun if you could get them trained. Otherwise they're pretty smelly.",
+      "transcriptB": "Yeah. rabbits are darling. That would be fun if you could get them trained. Otherwise they're pretty smelly.",
+      "transcriptC": "Yeah. rabbits are darling. That would be fun if you could get them trained. Otherwise they're pretty smelly."
+    },
+    {
+      "rowIndex": 1,
+      "originalPath": "1039.wav",
+      "wavBytes": 225804,
+      "wavSHA256": "c5be948ac5080487a43cf27cd1733441731d003634592e2daf5c5d6aecb46443",
+      "pcmSHA256": "cc5b372bbe65b35d80b2a5ef17e47a3a9837b1c87732b25b4c6f9510f3e39980",
+      "samples": 112880,
+      "sampleRate": 22050,
+      "durationSeconds": 5.119274376417233,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "{D Well, } McNeil  , [ Neil-, + ] and Lehrer, - I guess he's leaving, one of them is leaving.",
+      "transcriptA": "Well, McNeil. Neil-, and Lehrer, I guess he's leaving, one of them is leaving.",
+      "transcriptB": "McNeil, Neil-, and Lehrer, I guess he's leaving, one of them is leaving.",
+      "transcriptC": "McNeil, and Lehrer, I guess he's leaving, one of them is leaving."
+    },
+    {
+      "rowIndex": 2,
+      "originalPath": "1059.wav",
+      "wavBytes": 303084,
+      "wavSHA256": "9c9e9e14f9e66c029b61420356641d13793a7196957f79c418ba8b611dc12627",
+      "pcmSHA256": "8bc3046c9c6cbfb4bc5c0918225be18e24af6135e50785f6365e277ecf07fc42",
+      "samples": 151520,
+      "sampleRate": 22050,
+      "durationSeconds": 6.871655328798186,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "{D Well, } [ I don't want to, + I don't want this to ] be a unilateral <laughter> conversation {C but, } <gasp> yes, we do.",
+      "transcriptA": "Well, I don't want to, I don't want this to be a unilateral conversation but, yes, we do.",
+      "transcriptB": "I don't want to, I don't want this to be a unilateral conversation but, yes, we do.",
+      "transcriptC": "I don't want this to be a unilateral conversation but, yes, we do."
+    },
+    {
+      "rowIndex": 4,
+      "originalPath": "1099.wav",
+      "wavBytes": 255024,
+      "wavSHA256": "4ef30b2fefa9f6e0f3aec9afd9d23a5a0a6752c446d51dca32ccefe9fa5475ac",
+      "pcmSHA256": "24a17fbcfd9a14c86c41f86f793efab814d21b80c9e69e5958fcc73b2bb92703",
+      "samples": 127490,
+      "sampleRate": 22050,
+      "durationSeconds": 5.781859410430839,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "{C Because } women are in every field now, {E I mean } I can't think of a field that they're not involved in.",
+      "transcriptA": "Because women are in every field now, I mean I can't think of a field that they're not involved in.",
+      "transcriptB": "Because women are in every field now, I can't think of a field that they're not involved in.",
+      "transcriptC": "Because women are in every field now, I can't think of a field that they're not involved in."
+    },
+    {
+      "rowIndex": 5,
+      "originalPath": "1119.wav",
+      "wavBytes": 276944,
+      "wavSHA256": "a465aff1146084926275601cd3b3df3c941f2b2a9473b9b03e88de7534c52263",
+      "pcmSHA256": "56f7e4afc07466e7628d192406a8b4b0eba21780fcbfd0c5928cca6453cec609",
+      "samples": 138450,
+      "sampleRate": 22050,
+      "durationSeconds": 6.27891156462585,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "Yeah, I think it's getting better, not worse. {D Well, } I should probably get back to my job <laughter>.",
+      "transcriptA": "Yeah, I think it's getting better, not worse. Well, I should probably get back to my job.",
+      "transcriptB": "Yeah, I think it's getting better, not worse. I should probably get back to my job.",
+      "transcriptC": "Yeah, I think it's getting better, not worse. I should probably get back to my job."
+    },
+    {
+      "rowIndex": 6,
+      "originalPath": "1139.wav",
+      "wavBytes": 177464,
+      "wavSHA256": "757cb6841e703859143916fe23dde2a8b0156c91e638f922cbfafe93db2ac66a",
+      "pcmSHA256": "63284dbf4c50662601cb77904a54bf28f4fbf9a13bd728d1da0fb8792210ccca",
+      "samples": 88710,
+      "sampleRate": 22050,
+      "durationSeconds": 4.023129251700681,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "They go, {D well } they got a lot of benefits that would go with it {C so. } -",
+      "transcriptA": "They go, well they got a lot of benefits that would go with it so.",
+      "transcriptB": "They go, they got a lot of benefits that would go with it so.",
+      "transcriptC": "They go, they got a lot of benefits that would go with it so."
+    },
+    {
+      "rowIndex": 7,
+      "originalPath": "1159.wav",
+      "wavBytes": 260364,
+      "wavSHA256": "f642a36188281af156bd453c52937818062df17f77ce4edf66c53cd598d7fbd7",
+      "pcmSHA256": "d02f2b543b37327c5422f5c5050d1faf70f35dcf87bd75d065b13f9de246e7e0",
+      "samples": 130160,
+      "sampleRate": 22050,
+      "durationSeconds": 5.902947845804989,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "-- what it is for us to make mark off models, {D you know. } It's like, <laughter> Jesus Christ. -",
+      "transcriptA": "what it is for us to make mark off models, you know. It's like, Jesus Christ.",
+      "transcriptB": "what it is for us to make mark off models, It's like, Jesus Christ.",
+      "transcriptC": "what it is for us to make mark off models, It's like, Jesus Christ."
+    },
+    {
+      "rowIndex": 8,
+      "originalPath": "1179.wav",
+      "wavBytes": 197764,
+      "wavSHA256": "54754f124ace750e9e97313aee951e9c27433ad5239721ae2cba5afe6da26846",
+      "pcmSHA256": "9608d877af9b1ec247cbaadef666ced9bb5dcea6a16faedc18a5e3a1b8afaca1",
+      "samples": 98860,
+      "sampleRate": 22050,
+      "durationSeconds": 4.48344671201814,
+      "fillers": {
+        "uh": 0,
+        "um": 0
+      },
+      "annotated": "Other than that he gets scared to death. If you shut that door he goes into hiding.",
+      "transcriptA": "Other than that he gets scared to death. If you shut that door he goes into hiding.",
+      "transcriptB": "Other than that he gets scared to death. If you shut that door he goes into hiding.",
+      "transcriptC": "Other than that he gets scared to death. If you shut that door he goes into hiding."
+    },
+    {
+      "rowIndex": 15,
+      "originalPath": "1299.wav",
+      "wavBytes": 190944,
+      "wavSHA256": "4de2683e78ae5c74e5a96df1b0891f266b05e99e80c952305f89a3285e5d34c7",
+      "pcmSHA256": "dff62f64106cfdc9e06b14e100c16feed8752b54f676184354561e4f835a2874",
+      "samples": 95450,
+      "sampleRate": 22050,
+      "durationSeconds": 4.328798185941043,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "{D See, } {F uh, } {F uh, } - [ [ I, + I, ] + when I ] went, I thought the food was not good.",
+      "transcriptA": "See, uh, uh, I, I, when I went, I thought the food was not good.",
+      "transcriptB": "I, I, when I went, I thought the food was not good.",
+      "transcriptC": "when I went, I thought the food was not good."
+    },
+    {
+      "rowIndex": 19,
+      "originalPath": "1379.wav",
+      "wavBytes": 309084,
+      "wavSHA256": "774cee136fe624ffaf0012810b5d2c1b846444caaa05d6b1e9f6696c3b93f877",
+      "pcmSHA256": "6988d2a3ea37b3cc481b02a12570ecffa7a04ec7a1978b9565c44a63450f08e3",
+      "samples": 154520,
+      "sampleRate": 22050,
+      "durationSeconds": 7.007709750566893,
+      "fillers": {
+        "uh": 4,
+        "um": 0
+      },
+      "annotated": "{F Uh, } {F uh, } {F uh, } {D well, } not that much <laughter>.  Just, {F uh, }  - {E I mean, } I wasn't a great asset to them or anything <laughter>.",
+      "transcriptA": "Uh, uh, uh, well, not that much. Just, uh, I mean, I wasn't a great asset to them or anything.",
+      "transcriptB": "not that much. Just, I wasn't a great asset to them or anything.",
+      "transcriptC": "not that much. Just, I wasn't a great asset to them or anything."
+    },
+    {
+      "rowIndex": 26,
+      "originalPath": "1499.wav",
+      "wavBytes": 363584,
+      "wavSHA256": "d32f316d8fd46b6fb26f704ca7a9c363ecbbc12ce27eed21c596a0f371681491",
+      "pcmSHA256": "ac40d5b4fe09b8ee2d18bdc6dfe16db1bddcc82b04a9fe3095245ddbd5cdab8e",
+      "samples": 181770,
+      "sampleRate": 22050,
+      "durationSeconds": 8.243537414965987,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "For instance, that, - {C and } [ I could, + {D you know, } I could ] envision a society where that would happen and make an interesting, {F uh, } {F uh, } story or whatever.",
+      "transcriptA": "For instance, that, and I could, you know, I could envision a society where that would happen and make an interesting, uh, uh, story or whatever.",
+      "transcriptB": "For instance, that, and I could, I could envision a society where that would happen and make an interesting, story or whatever.",
+      "transcriptC": "For instance, that, and I could envision a society where that would happen and make an interesting, story or whatever."
+    },
+    {
+      "rowIndex": 38,
+      "originalPath": "1719.wav",
+      "wavBytes": 326944,
+      "wavSHA256": "9e947c8292c37fae0d4c7a95be2946654a661eba72f505632dc5c00a924d87b6",
+      "pcmSHA256": "d5cfd3f01638b5fd4fe7856ca3b1570fe8c15e222c0434cedbb5bc93e8edd4c1",
+      "samples": 163450,
+      "sampleRate": 22050,
+      "durationSeconds": 7.412698412698413,
+      "fillers": {
+        "uh": 3,
+        "um": 0
+      },
+      "annotated": "{C And } we go to, {F uh, } places out in, - {F uh, } {F uh, } let's see [ what's that, + what's that ] state north of us, that state -- - -- yeah. that one. That one.",
+      "transcriptA": "And we go to, uh, places out in, uh, uh, let's see what's that, what's that state north of us, that state yeah. that one. That one.",
+      "transcriptB": "And we go to, places out in, let's see what's that, what's that state north of us, that state yeah. that one. That one.",
+      "transcriptC": "And we go to, places out in, let's see what's that state north of us, that state yeah. that one. That one."
+    },
+    {
+      "rowIndex": 39,
+      "originalPath": "1739.wav",
+      "wavBytes": 376364,
+      "wavSHA256": "22e28d992f53cf6443a97fb95e7ccd3ed81d11473ab46e058c5f478dc7eb6ace",
+      "pcmSHA256": "8e3afce46513b57908ad813338f4b9547440bce18b1a4abf832cc76943c8ac55",
+      "samples": 188160,
+      "sampleRate": 22050,
+      "durationSeconds": 8.533333333333333,
+      "fillers": {
+        "uh": 4,
+        "um": 0
+      },
+      "annotated": "{F Uh, } the story was, - {F uh, } though it tended to be a little one sided -- -- {F uh, } it was good. {F Uh, } [ it was, + it was ] believable.",
+      "transcriptA": "Uh, the story was, uh, though it tended to be a little one sided uh, it was good. Uh, it was, it was believable.",
+      "transcriptB": "the story was, though it tended to be a little one sided it was good. it was, it was believable.",
+      "transcriptC": "the story was, though it tended to be a little one sided it was good. it was believable."
+    },
+    {
+      "rowIndex": 44,
+      "originalPath": "1819.wav",
+      "wavBytes": 470874,
+      "wavSHA256": "af1bdb43a85f4310040321b5ffc6b81a5d7e9dbc9410245c602c3eb258f4ad52",
+      "pcmSHA256": "0d98bc797dbe8214eb60901ed0d231644b1e8e0bbba8125593fbfd10308361ed",
+      "samples": 235415,
+      "sampleRate": 22050,
+      "durationSeconds": 10.676417233560091,
+      "fillers": {
+        "uh": 6,
+        "um": 0
+      },
+      "annotated": "[ Do, + do ] you feel as though there should be, {F uh, } <throat_clearing> [ more, + {F uh, } [ was + ] {E [ or, + or ] } more, ] {F uh, } you might say transgressions that would be enforceable [ by, + {F uh, } by, ] {F uh, } {F uh, } capital punishment?",
+      "transcriptA": "Do, do you feel as though there should be, uh, more, uh, was or, or more, uh, you might say transgressions that would be enforceable by, uh, by, uh, uh, capital punishment?",
+      "transcriptB": "Do, do you feel as though there should be, more, was more, you might say transgressions that would be enforceable by, by, capital punishment?",
+      "transcriptC": "do you feel as though there should be, more, you might say transgressions that would be enforceable by, capital punishment?"
+    },
+    {
+      "rowIndex": 53,
+      "originalPath": "1979.wav",
+      "wavBytes": 283124,
+      "wavSHA256": "4a9151f2345c24550f4a38edc693ac56acd28b71b531f2ff842afbdc543324f0",
+      "pcmSHA256": "1de1fa34bad4b6c550fd883e80d8e3daa517632c392f3e079fe24fd81d19c7ac",
+      "samples": 141540,
+      "sampleRate": 22050,
+      "durationSeconds": 6.419047619047619,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "{F Uh, } my husband and I had this great desire to go see a comedy [ {C and, } + {C and, } ] {F uh, } we ended up going to see GREEN CARD.",
+      "transcriptA": "Uh, my husband and I had this great desire to go see a comedy and, and, uh, we ended up going to see GREEN CARD.",
+      "transcriptB": "my husband and I had this great desire to go see a comedy and, and, we ended up going to see GREEN CARD.",
+      "transcriptC": "my husband and I had this great desire to go see a comedy and, we ended up going to see GREEN CARD."
+    },
+    {
+      "rowIndex": 64,
+      "originalPath": "2179.wav",
+      "wavBytes": 264944,
+      "wavSHA256": "181fb918c0cab45e1a122360bf0c7b1859bc8bafb6f7a277cab2cbcfbd8aefaf",
+      "pcmSHA256": "60247b4f48eeb0231a8cd3a00f8ba8caeace1a47172ea05a4c55a276aa22cbb2",
+      "samples": 132450,
+      "sampleRate": 22050,
+      "durationSeconds": 6.006802721088436,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "Yeah, {D well, } I really like Vivaldi. {F Uh, } he's, {F uh, } definitely [ one of the, + one of the ] top of that era.",
+      "transcriptA": "Yeah, well, I really like Vivaldi. Uh, he's, uh, definitely one of the, one of the top of that era.",
+      "transcriptB": "Yeah, I really like Vivaldi. he's, definitely one of the, one of the top of that era.",
+      "transcriptC": "Yeah, I really like Vivaldi. he's, definitely one of the top of that era."
+    },
+    {
+      "rowIndex": 80,
+      "originalPath": "2459.wav",
+      "wavBytes": 402664,
+      "wavSHA256": "2ce1b3abb01992265fe2d2a747909b927c81f2a50334711400f28fc4adc117f1",
+      "pcmSHA256": "40d4db9e77805b3549ebb3dd9c834ae90f7124bb1e434633c569f23d03395929",
+      "samples": 201310,
+      "sampleRate": 22050,
+      "durationSeconds": 9.1297052154195,
+      "fillers": {
+        "uh": 0,
+        "um": 2
+      },
+      "annotated": "{C So } it's, {F um, } real easy access [ from, + from ] south of Baltimore [ like, + {F um, } like ] the airport or more importantly for the Orioles from Washington D C.",
+      "transcriptA": "So it's, um, real easy access from, from south of Baltimore like, um, like the airport or more importantly for the Orioles from Washington D C.",
+      "transcriptB": "So it's, real easy access from, from south of Baltimore like, like the airport or more importantly for the Orioles from Washington D C.",
+      "transcriptC": "So it's, real easy access from south of Baltimore like the airport or more importantly for the Orioles from Washington D C."
+    },
+    {
+      "rowIndex": 83,
+      "originalPath": "2519.wav",
+      "wavBytes": 270884,
+      "wavSHA256": "e8593f8f2ac72dbebf8e2be5a48f04e4d172924fcd79afa26f7cace0535d001a",
+      "pcmSHA256": "af62403f4ae693b9af4aedfae77d542608f1b20b00359be697ec260c5623400e",
+      "samples": 135420,
+      "sampleRate": 22050,
+      "durationSeconds": 6.141496598639455,
+      "fillers": {
+        "uh": 1,
+        "um": 1
+      },
+      "annotated": "{F Um, } {C so } it's really, {D you know, } - [ it's, + it's ] fun [ to, + to ] do that. {F Uh, } I think that's unbelievable.",
+      "transcriptA": "Um, so it's really, you know, it's, it's fun to, to do that. Uh, I think that's unbelievable.",
+      "transcriptB": "so it's really, it's, it's fun to, to do that. I think that's unbelievable.",
+      "transcriptC": "so it's really, it's fun to do that. I think that's unbelievable."
+    },
+    {
+      "rowIndex": 84,
+      "originalPath": "2539.wav",
+      "wavBytes": 309564,
+      "wavSHA256": "9d5948637079fb48a9008cc32eddc962b774f37223f9991fdedebd7c66829617",
+      "pcmSHA256": "f5adea92b119c709537eb8c2b492cd7444b54d8e7579c596310cadd568645704",
+      "samples": 154760,
+      "sampleRate": 22050,
+      "durationSeconds": 7.01859410430839,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "[ There was, + {F uh, } I understand there was ] a really good basketball [ bo-, + book ] called, {F uh, } A SEASON ON THE BRINK.",
+      "transcriptA": "There was, uh, I understand there was a really good basketball b-, book called, uh, A SEASON ON THE BRINK.",
+      "transcriptB": "There was, I understand there was a really good basketball bo-, book called, A SEASON ON THE BRINK.",
+      "transcriptC": "I understand there was a really good basketball book called, A SEASON ON THE BRINK."
+    },
+    {
+      "rowIndex": 85,
+      "originalPath": "2559.wav",
+      "wavBytes": 282104,
+      "wavSHA256": "de46df0a56506f40aa16939820dc6c3ac9b8f3c721c61ef0a63f40ff51963a65",
+      "pcmSHA256": "873d9591f216aef59fe9a02125bd78f588a58ff75652ceed553300843550450f",
+      "samples": 141030,
+      "sampleRate": 22050,
+      "durationSeconds": 6.395918367346939,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "It's a mud dog. It's, {F uh, } a cross between a catfish and, {F uh, } I don't know what, a salamander.",
+      "transcriptA": "It's a mud dog. It's, uh, a cross between a catfish and, uh, I don't know what, a salamander.",
+      "transcriptB": "It's a mud dog. It's, a cross between a catfish and, I don't know what, a salamander.",
+      "transcriptC": "It's a mud dog. It's, a cross between a catfish and, I don't know what, a salamander."
+    },
+    {
+      "rowIndex": 93,
+      "originalPath": "2699.wav",
+      "wavBytes": 247024,
+      "wavSHA256": "05940743e2a4100bc22fe2b819c0e3f0867b80cd384a27570fda4f7686775164",
+      "pcmSHA256": "8cbfb05a4ef6e7843ca9565c4fdb183e7c265ea8a91a21d3fa9661f410b3edd5",
+      "samples": 123490,
+      "sampleRate": 22050,
+      "durationSeconds": 5.600453514739229,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "[ {C And then, } + {C and then, } ] {F uh, } <lipsmack>, {F uh, } the blond headed girl that used to be on NEWHART.",
+      "transcriptA": "And then, and then, uh, , uh, the blond headed girl that used to be on NEWHART.",
+      "transcriptB": "And then, and then,, the blond headed girl that used to be on NEWHART.",
+      "transcriptC": "and then,, the blond headed girl that used to be on NEWHART."
+    },
+    {
+      "rowIndex": 103,
+      "originalPath": "2879.wav",
+      "wavBytes": 304364,
+      "wavSHA256": "d2ca04a092cfa507bd30563836a5981136fb1fb5a3c91a53cc677a1ba428f611",
+      "pcmSHA256": "b2e1b09c401bb5ae2cb4519801c95c8ad0a0211df4d8f3f3b646f50393e68965",
+      "samples": 152160,
+      "sampleRate": 22050,
+      "durationSeconds": 6.900680272108843,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "I'm not sure executing them, {F uh, } does anymore than keeping them in jail, {C but, } {F uh, } - it doesn't {C but, } it costs less.",
+      "transcriptA": "I'm not sure executing them, uh, does anymore than keeping them in jail, but, uh, it doesn't but, it costs less.",
+      "transcriptB": "I'm not sure executing them, does anymore than keeping them in jail, but, it doesn't but, it costs less.",
+      "transcriptC": "I'm not sure executing them, does anymore than keeping them in jail, but, it doesn't but, it costs less."
+    },
+    {
+      "rowIndex": 105,
+      "originalPath": "2919.wav",
+      "wavBytes": 464200,
+      "wavSHA256": "298f079214b3371d159685b0726e1760a9b648892006d19870cc4d4ac4a3f5b2",
+      "pcmSHA256": "629f12c4daafc2284a14086a2cb042a8d1f12c8f519461927e05e1e510e19816",
+      "samples": 232078,
+      "sampleRate": 22050,
+      "durationSeconds": 10.525079365079366,
+      "fillers": {
+        "uh": 2,
+        "um": 0
+      },
+      "annotated": "This is pretty [ un-, + unseasonal, ] {C but, } {F uh, } at least, we, - {D you know, } [ [ it, + it, ] + it ] feels good, it gets, {F uh, } - everybody doesn't have cabin fever today. It's nice to get, out and about.",
+      "transcriptA": "This is pretty un-, unseasonal, but, uh, at least, we, you know, it, it, it feels good, it gets, uh, everybody doesn't have cabin fever today. It's nice to get, out and about.",
+      "transcriptB": "This is pretty un-, unseasonal, but, at least, we, it, it, it feels good, it gets, everybody doesn't have cabin fever today. It's nice to get, out and about.",
+      "transcriptC": "This is pretty unseasonal, but, at least, we, it feels good, it gets, everybody doesn't have cabin fever today. It's nice to get, out and about."
+    },
+    {
+      "rowIndex": 121,
+      "originalPath": "3199.wav",
+      "wavBytes": 364224,
+      "wavSHA256": "69385b435297719fd3683125176c6a679e0f776b82bc6f5c4c36d8daf21d353f",
+      "pcmSHA256": "eb8ba0e640ac8c44f5a63f86457f2086abe1d2b8d90fa63d09caefe57bfb9d4b",
+      "samples": 182090,
+      "sampleRate": 22050,
+      "durationSeconds": 8.258049886621315,
+      "fillers": {
+        "uh": 1,
+        "um": 1
+      },
+      "annotated": "Yeah, hope I'm going to do it this year because, {F um, } {F uh, } having a kid this fall, {C so } it's like -- -- so much for going to lots of baseball games.",
+      "transcriptA": "Yeah, hope I'm going to do it this year because, um, uh, having a kid this fall, so it's like so much for going to lots of baseball games.",
+      "transcriptB": "Yeah, hope I'm going to do it this year because, having a kid this fall, so it's like so much for going to lots of baseball games.",
+      "transcriptC": "Yeah, hope I'm going to do it this year because, having a kid this fall, so it's like so much for going to lots of baseball games."
+    }
+  ],
+  "limits": [
+    "One human speaker acting SwDA scripts, not spontaneous or multiplevoice coverage",
+    "Publisher manual transcript checking; no manually verified acoustic word edges supplied",
+    "No model-unseen/pretraining exclusion established",
+    "Annotated transcript and transcriptA differences retained; none repaired from predictions",
+    "No recognition, alignment, edit or listening occurred"
+  ]
+}

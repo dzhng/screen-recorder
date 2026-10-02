@@ -6479,3 +6479,8 @@ complete RGBA output and the merged source bindings.
   the corrected behavior. The plan did not name the new identity value. This adds
   no cache owner, storage format, migration or automatic edit and leaves movie and
   audio identities unchanged.
+
+The [external lexical diagnostic ledger](assets/12j-external-lexical-diagnostic/choices.md)
+owns enriched full-utterance sampling, original human-checked transcripts and a
+lexical-only shared scorer. Root accepts these choices while retaining sampling
+bias, fragment ambiguity and the separate untouched timed-acceptance contract.

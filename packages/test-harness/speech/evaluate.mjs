@@ -1,4 +1,4 @@
-const token = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}']/gu, "");
+export const normalizeWord = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}']/gu, "");
 function percentile(values, p) {
   if (!values.length) return null;
   const sorted = [...values].sort((a, b) => a - b);
@@ -8,42 +8,39 @@ function percentile(values, p) {
 }
 
 // Sequence alignment preserves repeated occurrences; a bag of words hides omissions.
-function align(expected, actual) {
+export function alignWords(expected, actual, tieCost = () => -1) {
   const width = actual.length + 1;
   const steps = new Uint8Array((expected.length + 1) * width);
   let previous = Uint32Array.from({ length: width }, (_, i) => i);
-  let previousTiming = new Float64Array(width);
+  let previousTieCost = new Float64Array(width);
   for (let i = 1; i <= expected.length; i++) {
     const row = new Uint32Array(width);
-    const timing = new Float64Array(width);
+    const tieCostRow = new Float64Array(width);
     row[0] = i;
     for (let j = 1; j < width; j++) {
-      const same = token(expected[i - 1].text) === token(actual[j - 1].text);
+      const same = normalizeWord(expected[i - 1].text) === normalizeWord(actual[j - 1].text);
       const costs = [previous[j - 1] + (same ? 0 : 1), previous[j] + 1, row[j - 1] + 1];
-      // Timing breaks text-alignment ties; it never excuses a transcription error.
-      const distances = [
-        previousTiming[j - 1] +
-          (same
-            ? Math.abs(expected[i - 1].start - actual[j - 1].start) +
-              Math.abs(expected[i - 1].end - actual[j - 1].end)
-            : 0),
-        previousTiming[j],
-        timing[j - 1],
+      // Prefer more exact matches on text-only ties. A boundary-aware caller can
+      // supply its distance instead; neither policy excuses a lexical error.
+      const tieCosts = [
+        previousTieCost[j - 1] + (same ? tieCost(expected[i - 1], actual[j - 1]) : 0),
+        previousTieCost[j],
+        tieCostRow[j - 1],
       ];
       let best = 0;
       for (let choice = 1; choice < 3; choice++) {
         if (
           costs[choice] < costs[best] ||
-          (costs[choice] === costs[best] && distances[choice] < distances[best])
+          (costs[choice] === costs[best] && tieCosts[choice] < tieCosts[best])
         )
           best = choice;
       }
       row[j] = costs[best];
-      timing[j] = distances[best];
+      tieCostRow[j] = tieCosts[best];
       steps[i * width + j] = best;
     }
     previous = row;
-    previousTiming = timing;
+    previousTieCost = tieCostRow;
   }
   const matches = [];
   let i = expected.length,
@@ -53,11 +50,37 @@ function align(expected, actual) {
     if (step === 0) {
       i--;
       j--;
-      if (token(expected[i].text) === token(actual[j].text)) matches.push([i, j]);
+      if (normalizeWord(expected[i].text) === normalizeWord(actual[j].text)) matches.push([i, j]);
     } else if (step === 1) i--;
     else j--;
   }
   return matches;
+}
+
+export function evaluateLexical(reference, prediction) {
+  const matches = alignWords(reference, prediction);
+  const expectedMatched = new Set(matches.map(([i]) => i));
+  const actualMatched = new Set(matches.map(([, j]) => j));
+  const fillers = Object.fromEntries(
+    ["um", "uh"].map((term) => {
+      const labeled = reference.filter(
+        (word) => word.filler === true && normalizeWord(word.text) === term,
+      ).length;
+      const matched = matches.filter(
+        ([i]) => reference[i].filler === true && normalizeWord(reference[i].text) === term,
+      ).length;
+      const extra = prediction.filter((word) => normalizeWord(word.text) === term).length - matched;
+      return [term, { labeled, matched, missed: labeled - matched, extra }];
+    }),
+  );
+  return {
+    referenceWords: reference.length,
+    predictedWords: prediction.length,
+    matchedWords: matches.length,
+    omittedWords: reference.flatMap((_, i) => (expectedMatched.has(i) ? [] : [i])),
+    extraWords: prediction.flatMap((_, i) => (actualMatched.has(i) ? [] : [i])),
+    fillers,
+  };
 }
 
 function validateWords(words, duration) {
@@ -66,7 +89,7 @@ function validateWords(words, duration) {
   for (const word of words) {
     if (
       typeof word.text !== "string" ||
-      !token(word.text) ||
+      !normalizeWord(word.text) ||
       !Number.isFinite(word.start) ||
       !Number.isFinite(word.end) ||
       word.start < 0 ||
@@ -98,7 +121,7 @@ export function evaluate(dataset, runs) {
     pending = [],
     errors = [],
     perClip = [];
-  const terms = new Set(dataset.fillerTerms.map(token));
+  const terms = new Set(dataset.fillerTerms.map(normalizeWord));
   if (
     new Set(
       runs.map((run) =>
@@ -146,10 +169,15 @@ export function evaluate(dataset, runs) {
     )
       pending.push(`Inference provenance pending: ${clip.id}`);
     validateWords(run.words, clip.duration);
-    const matches = align(clip.words, run.words);
+    const matches = alignWords(
+      clip.words,
+      run.words,
+      (expected, actual) =>
+        Math.abs(expected.start - actual.start) + Math.abs(expected.end - actual.end),
+    );
     const expectedMatched = new Set(matches.map(([i]) => i));
     const predictedFillers = run.words
-      .map((w, i) => (terms.has(token(w.text)) ? i : -1))
+      .map((w, i) => (terms.has(normalizeWord(w.text)) ? i : -1))
       .filter((i) => i >= 0);
     const fillerMatches = matches.filter(
       ([i, j]) => clip.words[i].filler === true && predictedFillers.includes(j),

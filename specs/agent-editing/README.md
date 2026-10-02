@@ -41,6 +41,12 @@ old derivatives while regenerating current demand. Frozen/installed workers rema
 unchanged. No sampler, accepted public-delivery cohort or movie cohort was repeated;
 installed adoption, full movie parity and release acceptance remain separate.
 
+[12j independent utterance evidence](slices/12j-external-lexical-diagnostic.md)
+is now banked: selected Parakeet preserves 37/41 explicit fillers and matches
+487/507 reference words across 24 complete human-checked acted utterances.
+All misses remain visible. This adds lexical authority, not independent timing,
+spontaneous speaker diversity, model-unseen or listening acceptance.
+
 [12i supplied-text alignment](slices/12i-retained-sentence-alignment.md) is banked:
 all words correspond and the existing marked timing limits pass. Its original
 producer failed the runner's inventory assertion; independent saved-data
@@ -196,6 +202,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech-evidence primitives](slices/12-speech-evidence.md)
 - [x] [12h — Unchanged retained-sentence recognition](slices/12h-retained-sentence-recognition.md) — one case banked; timing fails and parent 12 remains open
+- [x] [12j — Independent utterance lexical diagnostic](slices/12j-external-lexical-diagnostic.md) — full bounded source/results qualified; broader timing/listening/held-out remain open
 - [x] [12i — Retained-sentence supplied-text alignment](slices/12i-retained-sentence-alignment.md) — numerical case qualified separately from original producer inventory failure; parent 12 remains open
 - [x] [12g — Evaluator best-effort filler policy](slices/12g-evaluator-policy.md) — scorer contract only; parent speech quality remains open
 - [x] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)

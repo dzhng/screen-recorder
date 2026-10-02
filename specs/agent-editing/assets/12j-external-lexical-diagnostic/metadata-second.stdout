@@ -1,0 +1,2 @@
+{"event":"native-started","pid":77662}
+{"event":"native-closed","pid":77662,"terminal":{"code":0,"signal":null,"closedAt":"2026-10-02T02:36:14.145Z"},"completed":false,"error":"AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n      empty: false,\n      endUs: {\n        denominator: 441,\n        numerator: 3458800000\n      },\n+     mediaDurationUs: {\n+       denominator: 441,\n+       numerator: 3458800000\n+     },\n+     mediaStartUs: 0,\n      startUs: 0\n    }\n  ]\n"}

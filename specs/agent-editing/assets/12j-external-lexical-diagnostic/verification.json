@@ -1,0 +1,251 @@
+{
+  "status": "Scoped lexical diagnostic complete; no timing, held-out, listening or adoption verdict",
+  "ownedAuthority": "/Users/david/.codex/artifacts/screen-recorder/speech-corpora/disfluency-speech-b7da294f",
+  "scratchLocator": "/tmp/screenrec-12-external-corpus-qualification",
+  "parquet": {
+    "repo": "amaai-lab/DisfluencySpeech",
+    "revision": "b7da294fe3a70dd96df6640893f2a5dfc2c87638",
+    "file": "/tmp/screenrec-12-external-corpus-qualification/original/data/test-00000-of-00001.parquet",
+    "bytes": 70868626,
+    "sha256": "e78837be393206fc0ae6a0cefb4ec8c942c3e26401640eb8af67cf0dac21b4b0",
+    "licenseDeclaration": "Apache-2.0; pinned publisher README",
+    "split": "test",
+    "rows": 250
+  },
+  "selection": {
+    "utterances": 24,
+    "seconds": 164.90263038548753,
+    "positiveRows": 16,
+    "negativeRows": 8,
+    "densityEnriched": true,
+    "explicitFillers": 41,
+    "sourceOrderFrozenBeforeInference": true,
+    "speaker": "one human actor rereading conversational scripts"
+  },
+  "result": {
+    "fillers": {
+      "uh": {
+        "labeled": 37,
+        "matched": 34,
+        "missed": 3,
+        "extra": 0
+      },
+      "um": {
+        "labeled": 4,
+        "matched": 3,
+        "missed": 1,
+        "extra": 0
+      }
+    },
+    "words": {
+      "referenceWords": 507,
+      "predictedWords": 505,
+      "matchedWords": 487
+    },
+    "nativePeakResidentBytesReported": 127762432,
+    "elapsedSeconds": 42.224
+  },
+  "actualTerminals": {
+    "workerPID": 80226,
+    "worker": {
+      "code": 0,
+      "signal": null,
+      "closedAt": "2026-10-02T02:38:04.249Z"
+    },
+    "producerSession": 27809,
+    "producerExit": 0
+  },
+  "models": {
+    "fileCount": 22,
+    "bytes": 464414912,
+    "beforeAllPinsMatch": true,
+    "afterAllPinsMatch": true,
+    "writeDenied": true,
+    "noPreparationOrCopies": true
+  },
+  "worker": {
+    "bytes": 30148624,
+    "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928"
+  },
+  "currentScorer": {
+    "bytes": 10410,
+    "sha256": "a841656161b6adad6bf9f096088585f115ec8746b434b224809e33e88bce1dd7"
+  },
+  "currentTests": {
+    "bytes": 14078,
+    "sha256": "458f543d0caaf5c946884cb01a3c4a293a23415dd5a05a7ec68a05029152c17e"
+  },
+  "savedQualification": {
+    "all24CurrentLexicalObjectsEqualRecordedResults": true,
+    "all24SourceWAVAndPCMHashesIndependentlyChecked": true,
+    "all250HeadersAndCompletePCMPayloadsQualifiedBeforeSelection": true
+  },
+  "scorerIdentityLimit": "Executed scorer imported the repository module; its exact bytes were not separately captured at dispatch. Later local-variable renaming is not presented as that binary identity. Current saved-only reevaluation reproduces all24 complete lexical objects exactly.",
+  "metadataFailures": "Two exact-support preflight assertions failed before recognition: integer endpoint assumption, then omitted native segment fields. Actual worker closes0 and zero speech calls retained separately; no inference retry.",
+  "limits": [
+    "No independently audible word boundaries",
+    "No source population prevalence, spontaneous multiplevoice or verified model-unseen claim",
+    "Row84 bo-/b- ambiguity retained; no output-driven reference repair",
+    "No silence, technical-name or join listening proof",
+    "Reported native resident metric is not a complete model-process/OS-footprint certification",
+    "No selected model, production edit or full acceptance change"
+  ],
+  "payloads": {
+    "metadata-first.json": {
+      "bytes": 6353,
+      "sha256": "f08e4a076377148a5ce686408518d5c40e62984ec83ba45d973f674c522fe168"
+    },
+    "metadata-first.stdout": {
+      "bytes": 345,
+      "sha256": "abd48bca40cb68ca34744dab52738a735df027d464e8dcfbc2b5809201565669"
+    },
+    "metadata-second.json": {
+      "bytes": 6552,
+      "sha256": "173c54dec538aa0e9cd1941a55df87cfaca83568fb4debad1183b10f3647168a"
+    },
+    "metadata-second.stdout": {
+      "bytes": 544,
+      "sha256": "e6651a495d5666f20641b6ff4c9545d20b42832d2ee3d205124636c4e48d9c6b"
+    },
+    "native.stderr": {
+      "bytes": 58804,
+      "sha256": "449d54391acd004939d8911119ca5fedf2a7f3ffa45c4a20febfd06459f0b973"
+    },
+    "native.stdout": {
+      "bytes": 23410,
+      "sha256": "4a6625d2d9f80a0d3371334ec5b80cc155b086e85658be4f81c41f25e653124f"
+    },
+    "producer-first-metadata.mjs": {
+      "bytes": 8370,
+      "sha256": "51d7a44f1e2b5f59357a7e5e80e5a2242fc2832e5ec9fa94794df26fbd10ad35"
+    },
+    "producer-second-metadata.mjs": {
+      "bytes": 8615,
+      "sha256": "d05605e61c5c9ba1d47339b0d25e21f05a5e10470c82130b92d8dee7ed4500a8"
+    },
+    "producer.mjs": {
+      "bytes": 8727,
+      "sha256": "47bca367c31da55e1b3b2cd0bc42e024a7521b0016d57e1074e0e36fb687e273"
+    },
+    "producer.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "producer.stdout": {
+      "bytes": 4088,
+      "sha256": "579722d41ac38e79d6a428e919faba7f971a57d71cbf3e9a917664e96c334cea"
+    },
+    "publisher-README.md": {
+      "bytes": 3128,
+      "sha256": "1b6c1503faf82a18afe330276f5e22033a31d2e02b3168241bd5a9a1f6fb3313"
+    },
+    "qualifier.py": {
+      "bytes": 3373,
+      "sha256": "5724311bbede58aefefd8249fafc59db8927ad5c443e049e3b233f83d369b1ee"
+    },
+    "raw/000.raw.jsonl": {
+      "bytes": 7384,
+      "sha256": "a9f87efa0a2d9b1f6d06b006a099f6bdc763e8a62d4d99be446534b7d4364c01"
+    },
+    "raw/001.raw.jsonl": {
+      "bytes": 5488,
+      "sha256": "a691083924144ec8cd29172b1ffb648264f77f5d3fcbe6a7ea7ccc0d1381eae7"
+    },
+    "raw/002.raw.jsonl": {
+      "bytes": 6378,
+      "sha256": "ae41f5f46a4d6ab8b70fbfe9faabe88f2192eb0ec02343f53a09995e0d883cf7"
+    },
+    "raw/004.raw.jsonl": {
+      "bytes": 6874,
+      "sha256": "91b0074746c59823583d03ae3f43266a7a47e2d2305a8d58da905b4e9e56d89f"
+    },
+    "raw/005.raw.jsonl": {
+      "bytes": 5906,
+      "sha256": "b0f965d3d52adb1de750a9946173852e4bb5081df52be7635d2c0b75b775f085"
+    },
+    "raw/006.raw.jsonl": {
+      "bytes": 4905,
+      "sha256": "8f999b3f6e2f65bf0b75a6a591e67696f12b5a530909293335d0896682d40341"
+    },
+    "raw/007.raw.jsonl": {
+      "bytes": 5472,
+      "sha256": "83df7208f477effc6f28b6059f74a25b96a954ca669dcc45f9d8e9958a3938d8"
+    },
+    "raw/008.raw.jsonl": {
+      "bytes": 5789,
+      "sha256": "f681e0947748149f19d744f51be61cdd637bfd9f6b93ac45c72867d39b6386b0"
+    },
+    "raw/015.raw.jsonl": {
+      "bytes": 4937,
+      "sha256": "41c014814c8db844b8865ac15aaa9d20409d4db4501a5a7fd20bdc27bf92c9d6"
+    },
+    "raw/019.raw.jsonl": {
+      "bytes": 6453,
+      "sha256": "4b23f2e537e2df50972daee57ac18f02c01acc7ca104bd0a46ff0d29c1019d7a"
+    },
+    "raw/026.raw.jsonl": {
+      "bytes": 8521,
+      "sha256": "6bec7882d50bd58294c1d0bcddec536be8709dd8656dd25ed53eff84a48b37c3"
+    },
+    "raw/038.raw.jsonl": {
+      "bytes": 9067,
+      "sha256": "7c3dcaaddc72cf9072be81c8de88eacab7a8404e6f949b05791e90486763f45f"
+    },
+    "raw/039.raw.jsonl": {
+      "bytes": 7744,
+      "sha256": "04e13f2d6a63b5f8dba545c1f3bf537fe9752420436ba266c50e07b9af4eb685"
+    },
+    "raw/044.raw.jsonl": {
+      "bytes": 10214,
+      "sha256": "b783402a5439ffa42c685eb45a6aa91f1f999b468db66a89c3e4df7b864b345b"
+    },
+    "raw/053.raw.jsonl": {
+      "bytes": 7767,
+      "sha256": "c0022a75f2381cc087e99384392d35b4c93297b1394984ba9d7ed82ef8cff119"
+    },
+    "raw/064.raw.jsonl": {
+      "bytes": 7058,
+      "sha256": "e8ffe299c28236e6437307721ee203ae200a649f6c8b85ee39a17a9dffe137e8"
+    },
+    "raw/080.raw.jsonl": {
+      "bytes": 9393,
+      "sha256": "0ce79b89b101e6d32e671cb48e208799875cc8e0a07095018823c26b1f77c19f"
+    },
+    "raw/083.raw.jsonl": {
+      "bytes": 6649,
+      "sha256": "e43ceafa47c71f558fad8fce74a5726a76562af80e984bda7512445bb1fd0a85"
+    },
+    "raw/084.raw.jsonl": {
+      "bytes": 6309,
+      "sha256": "47ca9cb611857599dfce4414c082517f0afda745925d76b601ebe5bce47f9c43"
+    },
+    "raw/085.raw.jsonl": {
+      "bytes": 6917,
+      "sha256": "64cc697e6d109e99c9abba6909cb678ddef8d025e5470ab556989676eda29cdb"
+    },
+    "raw/093.raw.jsonl": {
+      "bytes": 5649,
+      "sha256": "19e8b62020316d9215284e0307252350b151589bedca758fc36a1ceb595f204e"
+    },
+    "raw/103.raw.jsonl": {
+      "bytes": 7511,
+      "sha256": "393339e80937caac2b9ae4048727c37aa876fb8413eed181c4dab12acbfa4f32"
+    },
+    "raw/105.raw.jsonl": {
+      "bytes": 11092,
+      "sha256": "0161ca45d8fc7b6d53f3f0e005f7672eae429d4a0b795815528bb2a0617052fd"
+    },
+    "raw/121.raw.jsonl": {
+      "bytes": 9886,
+      "sha256": "b955c2103df1c99f13541dd4f0655f1a031b965ed07546365464c1a53b5cbed2"
+    },
+    "report.json": {
+      "bytes": 446463,
+      "sha256": "6cb5eb01a757662d4018a937436251e57e74e5b77ea1de6ccfb6c40a13e2f6d4"
+    },
+    "selection.json": {
+      "bytes": 24023,
+      "sha256": "6cd107f797a8855f249979730b398470434fea7266eace79db9d9b5d007835bc"
+    }
+  }
+}

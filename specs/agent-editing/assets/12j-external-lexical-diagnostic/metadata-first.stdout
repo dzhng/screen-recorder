@@ -1,0 +1,2 @@
+{"event":"native-started","pid":76066}
+{"event":"native-closed","pid":76066,"terminal":{"code":0,"signal":null,"closedAt":"2026-10-02T02:35:11.173Z"},"completed":false,"error":"AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   denominator: 441,\n+   numerator: 3458800000\n+ }\n- 7843084\n"}
