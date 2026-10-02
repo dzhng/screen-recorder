@@ -6921,3 +6921,29 @@ the sustained-drain fixture choice unspecified; this supplies that missing
 physical dimension without assigning the user another recording task. The
 failure remains a failure and calls for a focused correction before recapture.
 Future synchronization work must still use its own event and uncertainty evidence.
+
+## Independent captured-source scheduling
+
+**Sound, high confidence — publish siblings independently and join both before release.**
+When camera verification takes longer than primary screen/audio publication, the
+caller can use the primary source as soon as its own proof is complete. The native
+owner now starts the two source publications together, reports each actual result
+and waits for both before releasing their journals. Reversing their serial order
+would merely make the other source wait. The plan left execution ordering open;
+this choice removes that artificial dependency without adding a scheduler or
+changing source contracts. If both fail, the existing camera-first error precedence
+remains stable regardless of completion order. Primary audio roles retain their
+sequential platform budget. This landed in `3d2ed80d`; its physical deadline
+benefit is unproved, and the changed-candidate confirmation remains red.
+
+**Sound, high confidence — freeze source evidence through the queue that appends it.**
+A publication update can append to the live take journal while the primary source
+is being proved. The writer's existing queue therefore copies and validates the
+primary source's immutable journal prefix before publication. Later take reports
+remain legal without becoming part of that already-published proof. This uses the
+existing publication owner, joins the queued copy before cancellation can release
+authority and never rebuilds missing evidence for an existing receipt. The plan
+specified immutable source evidence without prescribing the queue boundary.
+Future lifecycle reporting must preserve this single writer owner. No cached
+success or skipped verification is introduced; queue-owned copy IO may briefly
+delay another journal append.

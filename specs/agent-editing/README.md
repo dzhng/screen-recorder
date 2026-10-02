@@ -22,17 +22,20 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: fix the sustained Stop critical path through the existing native lifecycle.**
-[One isolated public physical capture](assets/20-sustained-physical-stop/README.md)
-passed 200 seconds of active media and pause/resume, but failed the unchanged
-ten-second completed-stop deadline. The camera published while the primary
-screen/microphone source was still pending. Later complete sources, zero dropped
-samples and clean shutdown remain separate from that failure. The initial
-pre-capture socket-path setup error also remains separate; no unchanged recapture
-is queued. A focused test-first correction is evaluating independent source
-publication after physical closure, preserving full validations and source
-recovery/cancellation. Primary audio roles remain sequential. Qualify the source
-change before preparing a distinct signed candidate and one physical confirmation.
+**Next pickup: separate camera verification from physical closure through the existing native lifecycle.**
+[Independent source publication](assets/20-sustained-physical-stop/scheduling/README.md)
+now qualifies both directions of source readiness, full validation and recovery.
+The [changed signed candidate](assets/20-sustained-physical-stop/independent-confirmation/README.md)
+still fails the unchanged ten-second sustained-stop deadline: every reply through
+9.926739 seconds remains finalizing with `inputsClosed` false and neither source
+published. Camera closure joins continuing verification before setting that flag;
+the observation does not isolate SDK drainage. Write a focused regression holding
+an actual continuing camera reader, then move its join to camera publication while
+preserving reader lifetime, closure identity pins, cancellation and recovery.
+Primary audio roles stay sequential. Prove the changed contract cheaply before
+another distinct candidate confirmation. Both original physical failures and the
+separate pre-capture socket-path error remain intact; no unchanged recapture or
+deadline relaxation is queued.
 
 [The first retained-picture comparison](assets/20-camera-picture-correspondence/README.md)
 selected the native sample but failed exact complete-pixel equality. The second

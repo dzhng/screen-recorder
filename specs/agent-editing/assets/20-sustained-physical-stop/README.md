@@ -20,11 +20,12 @@ measurements or proof that quitting changed scheduling. Before-stop internal
 verification counts were not retained and cannot be invented from the final
 picture count.
 
-The existing native lifecycle publishes camera and primary sources sequentially
-after closure. The next correction evaluates independent source publication
-through that owner, retaining each source's full validation, cancellation, retry,
-recovery and journal lifetime. It does not parallelize primary audio roles or
-raise the deadline. A focused regression and preserved output/recovery behavior
-must precede a changed-candidate physical confirmation. No unchanged recapture
-is queued. This test establishes no iPhone synchronization, physical event onset,
-perceptual quality or installed release acceptance.
+The [independent publication correction](scheduling/README.md) subsequently
+qualified source readiness, validation and recovery through the same owner.
+Its [changed-candidate physical confirmation](independent-confirmation/README.md)
+also failed the original deadline. Both attempts remain separately pinned;
+neither establishes a causal speedup. The next correction examines the continuing
+camera-verification join inside physical closure before another recording.
+No unchanged recapture is queued. These checks establish no iPhone
+synchronization, physical event onset, perceptual quality or installed release
+acceptance.

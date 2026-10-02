@@ -33,8 +33,12 @@ The [sustained public physical capture](../assets/20-sustained-physical-stop/REA
 now reaches more than 200 active seconds with pause/resume and no dropped samples,
 but fails the unchanged ten-second completed-stop deadline. Camera publication
 settles while primary publication remains pending; later successful cleanup is
-not a deadline pass. The next source correction addresses that critical path,
-with no unchanged recapture or timing-budget relaxation.
+not a deadline pass. [Independent source publication](../assets/20-sustained-physical-stop/scheduling/README.md)
+subsequently passes its controlled readiness/recovery contract, but the
+[changed-candidate confirmation](../assets/20-sustained-physical-stop/independent-confirmation/README.md)
+also fails the original deadline. The next correction isolates the continuing
+verification join inside camera closure; public `inputsClosed` alone does not
+identify hardware drainage. No unchanged recapture or budget relaxation is queued.
 
 ## Contract
 
