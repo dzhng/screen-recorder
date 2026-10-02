@@ -165,3 +165,26 @@ are true at every refresh sample, so these answers supply no safe-prefix certifi
 All interior owner endpoints equal the next presentation timestamp in this fixture;
 no timing correction is justified from it. A codec-defined bound would need its
 own dependency, storage and endpoint argument before a new physical candidate.
+
+## Independent growing canonical candidate
+
+The existing [compressed movie copy](../../../../helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift)
+uses native reader and writer inputs with nil output settings and an actual source
+format description. That supplies a supported passthrough seam for a distinct
+growing MOV; it does not establish stable prefixes or identical remux metadata.
+The current owner handles completed MP4 video with audio, so it is not already an
+incremental camera publication owner.
+
+The next canonical prerequisite can use the retained tiny closed movie, without
+another raw writer case: append fixed IDR-aligned compressed batches exactly once
+in decode order, then verify the candidate's own physical prefix through another
+active extension and closure. Compare every final decoded picture, clock and
+support endpoint with the frozen input. Preserve format/parameter/color/transform
+semantics and exact final support. Presentation-order slicing is insufficient when
+samples reorder. A raw-prefix verdict cannot substitute for this candidate's own
+complete bytes and decoded traversal.
+
+This source audit selects no production architecture. Candidate interruption,
+final-tail handling, bounded backlog, raw-first failure precedence and the stop
+deadline remain separate proofs. If adoption becomes justified, share the existing
+compressed-copy primitive; camera lifetime and publication stay with CameraMedia.

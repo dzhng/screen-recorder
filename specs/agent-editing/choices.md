@@ -6674,3 +6674,17 @@ its next presentation timestamp. Treating the large value as a bug would replace
 truthful held-picture support with a guessed short duration. The general API meaning
 still needs qualification; this one fixture does not justify a speculative fix or
 explain the missing historical failed tuple.
+
+## Growing canonical feasibility
+
+**Sound, medium confidence — qualify a distinct compressed candidate before moving its verification into capture.**
+The stop path currently creates a canonical movie after the raw writer closes, so
+its complete picture scan cannot start earlier. A second writer could copy encoded
+samples into its own growing movie without choosing another encoder or aliasing
+the raw file. The existing movie muxer already uses the native compressed-copy
+seam. This is a candidate to qualify, not an adopted camera pipeline: copied
+samples must arrive once in decode order, and the candidate must prove its own
+bytes, colors, timing and support through append and closure. Assembled exports
+or a second raw-file name would not supply that independent physical proof.
+Camera publication remains with its current owner; interruption, backlog and the
+unchanged stop deadline require later evidence.
