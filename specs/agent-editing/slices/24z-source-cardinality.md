@@ -4,8 +4,10 @@ Status: **open**. Historical correctness and owner attribution are retained;
 the original timed cohort is red under recorded contention. Material24z1–12 owner
 and delivery corrections are integrated. [Current preparation](../assets/24z-current-preparation/README.md)
 uses a fresh format22 public fixture and passes untimed current-production
-correctness. The next action is one root-coordinated measurement after all lanes
-are terminal and one fresh whole-host preflight. No latency pass is claimed.
+correctness. The [current measurement](../assets/24z-current-preparation/user-window.json)
+returns complete correct output but exceeds the unchanged p95 budget. The next
+action is a focused metadata-read correction, then one successor measurement.
+No latency pass is claimed.
 Dependencies: [24x](24x-evidence-continuations.md), [24y](24y-source-event-duration.md).
 Final production acceptance remains with [23](23-cutover.md).
 

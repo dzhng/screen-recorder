@@ -1,5 +1,25 @@
 # Current cardinality fixture readiness
 
+The [current user-window measurement](user-window.json) preserves one actual
+unchanged measurement and subsequent CPU attribution. Both arms return complete
+correct output but fail the 250 ms p95 target: 329.164 ms at 512 sources and
+538.998 ms at 1,024. The user offered a relatively free window with some load;
+the recorded browser renderer means this is not an isolated-host claim. A focused
+metadata-read correction is next, with fresh validation kept on both sides of
+checkpoint publication. Preparation and accepted correctness need no replay.
+
+Both current CPU profiles completed; their producer remains exit1 because the
+original harness also applies its latency assertion after profiling. The
+[sample summary](user-window-profile-summary.json) retains idle, inspector and GC
+work and overlapping inclusive frames. It supports owner investigation, not a
+latency verdict or attribution of the failure to background load. The
+[archive](user-window.tar.gz) retains executed producers, reports, profiles,
+pages, checkpoint/manifest files and actual terminal records. Two setup failures
+preceded the qualified profile and remain recorded. All 774 runtime/input pins
+match before and after; queries invoke no native media or inference operations.
+
+The remaining paragraphs describe earlier preparation and deferred windows.
+
 This packet prepares the existing [cardinality scenario](../../../../packages/test-harness/editing/source-cardinality.mjs)
 against current production owners from `edc309d2`. The preserved historical seed
 is format20; the current owner requires format22. A new isolated library was

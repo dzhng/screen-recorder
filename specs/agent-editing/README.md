@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: prepare the remaining release checks and qualify independent speech references.**
+**Next pickup: correct the measured source-query overhead, then prepare the release candidate.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
 media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
@@ -48,12 +48,18 @@ separates the selected baseline from missing acceptance references;
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
 separates source ports from presentation and installed switching. Neither pending
 acceptance nor an accepted cohort creates another implementation pass.
-[Scale timing](assets/24z-current-preparation/README.md) awaits a genuinely changed
-coordinated window after its rejected preflight; do not poll or replay preparation.
-The post-20m owner audit found no missing source port in 12/23/24/25. Speech needs
+[Scale timing](assets/24z-current-preparation/README.md) now has an actual current
+measurement: correct complete output, but both arms exceed the unchanged 250 ms
+p95 target. Its two-query CPU profile identifies repeated metadata reads in the
+existing source-selection owner. Batch reads within each synchronous validation
+phase, preserving failure precedence and fresh checks after checkpoint publication;
+prove the affected contracts before one successor measurement. Reuse preparation.
+The post-20m audit found no missing source port; the new measurement supplies a
+specific performance correction. Speech needs
 independent acoustic references; capture needs physical uncertainty/drain evidence;
 consumer/caller acceptance needs concrete presentation and installed adoption.
-The existing scale measure remains ready for its separately coordinated window.
+Candidate assembly and independent reference qualification can proceed separately;
+keep builds and timing-sensitive checks from competing for the machine.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |

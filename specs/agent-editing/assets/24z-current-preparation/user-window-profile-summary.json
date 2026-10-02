@@ -1,0 +1,729 @@
+{
+  "scope": "Sample attribution of two current queries; inclusive frames overlap. Includes idle, GC and inspector overhead; no elapsed-time causality or SLA claim.",
+  "arms": [
+    {
+      "arm": 512,
+      "profile": {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/user-window-20261002-191516/profile-qualified/case/service-512.cpuprofile",
+        "bytes": 66068,
+        "sha256": "4deaa8903e2b3f84380fa74d8956b24aba545566e4a0255ff695f05ee6b39c6e"
+      },
+      "exclusive": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 70.709
+        },
+        {
+          "function": "get",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 53.042
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/acquisitions.js",
+          "line": 348,
+          "column": 8,
+          "sampledMs": 26.125
+        },
+        {
+          "function": "post",
+          "url": "node:inspector",
+          "line": 115,
+          "column": 7,
+          "sampledMs": 23.542
+        },
+        {
+          "function": "digest",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 31,
+          "column": 16,
+          "sampledMs": 19.959
+        },
+        {
+          "function": "prepare",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 15.042
+        },
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 11.375
+        },
+        {
+          "function": "encodeJsonLine",
+          "url": "file:///Users/david/dev/screen-recorder/packages/protocol/dist/framing.js",
+          "line": 17,
+          "column": 31,
+          "sampledMs": 10.792
+        },
+        {
+          "function": "acquire",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 271,
+          "column": 12,
+          "sampledMs": 8.501
+        },
+        {
+          "function": "run",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 8.374
+        },
+        {
+          "function": "all",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 7.542
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 7.458
+        },
+        {
+          "function": "boundSourceEvidenceResponse",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 7,
+          "column": 44,
+          "sampledMs": 6.332
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 5.125
+        },
+        {
+          "function": "inst._zod.run",
+          "url": "file:///Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod/v4/core/schemas.js",
+          "line": 97,
+          "column": 25,
+          "sampledMs": 4.208
+        },
+        {
+          "function": "runChecks",
+          "url": "file:///Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod/v4/core/schemas.js",
+          "line": 34,
+          "column": 27,
+          "sampledMs": 3.834
+        },
+        {
+          "function": "selectSourceSupport",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/source-selection.js",
+          "line": 69,
+          "column": 36,
+          "sampledMs": 3.749
+        },
+        {
+          "function": "freeze",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/model.js",
+          "line": 7,
+          "column": 16,
+          "sampledMs": 2.542
+        },
+        {
+          "function": "(anonymous)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 2.542
+        },
+        {
+          "function": "Hash",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 2.541
+        },
+        {
+          "function": "Hash",
+          "url": "node:internal/crypto/hash",
+          "line": 90,
+          "column": 14,
+          "sampledMs": 2.541
+        },
+        {
+          "function": "inverse",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/source-projection.js",
+          "line": 105,
+          "column": 21,
+          "sampledMs": 2.459
+        },
+        {
+          "function": "rational",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/rational.js",
+          "line": 2,
+          "column": 25,
+          "sampledMs": 2.042
+        },
+        {
+          "function": "inst._zod.parse",
+          "url": "file:///Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod/v4/core/schemas.js",
+          "line": 829,
+          "column": 23,
+          "sampledMs": 1.917
+        },
+        {
+          "function": "read",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 1.333
+        }
+      ],
+      "inclusive": [
+        {
+          "function": "(root)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 338.875
+        },
+        {
+          "function": "read",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 342,
+          "column": 15,
+          "sampledMs": 208.373
+        },
+        {
+          "function": "processTicksAndRejections",
+          "url": "node:internal/process/task_queues",
+          "line": 72,
+          "column": 35,
+          "sampledMs": 184.249
+        },
+        {
+          "function": "runMicrotasks",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 159.332
+        },
+        {
+          "function": "(anonymous)",
+          "url": "file:///Users/david/dev/screen-recorder/apps/service/dist/index.js",
+          "line": 125,
+          "column": 23,
+          "sampledMs": 159.332
+        },
+        {
+          "function": "serve",
+          "url": "file:///Users/david/dev/screen-recorder/apps/service/dist/project-service.js",
+          "line": 1103,
+          "column": 23,
+          "sampledMs": 159.332
+        },
+        {
+          "function": "handle",
+          "url": "file:///Users/david/dev/screen-recorder/apps/service/dist/project-service.js",
+          "line": 532,
+          "column": 24,
+          "sampledMs": 158.54
+        },
+        {
+          "function": "cursor",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 334,
+          "column": 17,
+          "sampledMs": 158.248
+        },
+        {
+          "function": "validate",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 384,
+          "column": 30,
+          "sampledMs": 105.292
+        },
+        {
+          "function": "dependencies",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 137,
+          "column": 17,
+          "sampledMs": 96.708
+        },
+        {
+          "function": "(anonymous)",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 44,
+          "column": 31,
+          "sampledMs": 96.708
+        },
+        {
+          "function": "resolveMany",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/source-events.js",
+          "line": 36,
+          "column": 16,
+          "sampledMs": 96.708
+        },
+        {
+          "function": "resolveMany",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 42,
+          "column": 16,
+          "sampledMs": 96.708
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/source-selection.js",
+          "line": 27,
+          "column": 8,
+          "sampledMs": 96.333
+        },
+        {
+          "function": "resolve",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 39,
+          "column": 12,
+          "sampledMs": 84.458
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/acquisitions.js",
+          "line": 348,
+          "column": 8,
+          "sampledMs": 79.001
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 70.709
+        },
+        {
+          "function": "get",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 53.042
+        },
+        {
+          "function": "request",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 187,
+          "column": 12,
+          "sampledMs": 43.458
+        },
+        {
+          "function": "plan",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 92,
+          "column": 9,
+          "sampledMs": 32.125
+        },
+        {
+          "function": "query",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 40,
+          "column": 10,
+          "sampledMs": 29.25
+        },
+        {
+          "function": "digest",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 31,
+          "column": 16,
+          "sampledMs": 26.167
+        },
+        {
+          "function": "mergeEvents",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-events.js",
+          "line": 12,
+          "column": 28,
+          "sampledMs": 23.792
+        },
+        {
+          "function": "fn",
+          "url": "node:internal/util",
+          "line": 498,
+          "column": 14,
+          "sampledMs": 23.667
+        },
+        {
+          "function": "start",
+          "url": "file:///Users/david/dev/screen-recorder/packages/test-harness/editing/service-cpu-profile.mjs",
+          "line": 74,
+          "column": 23,
+          "sampledMs": 23.667
+        }
+      ]
+    },
+    {
+      "arm": 1024,
+      "profile": {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/user-window-20261002-191516/profile-qualified/case/service-1024.cpuprofile",
+        "bytes": 59880,
+        "sha256": "e0435dd06b0eddef15136f3c2f3780303c037e4f25fe2df17d806d29288193e9"
+      },
+      "exclusive": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 140.041
+        },
+        {
+          "function": "get",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 88.333
+        },
+        {
+          "function": "prepare",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 41.459
+        },
+        {
+          "function": "post",
+          "url": "node:inspector",
+          "line": 115,
+          "column": 7,
+          "sampledMs": 40.084
+        },
+        {
+          "function": "digest",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 31,
+          "column": 16,
+          "sampledMs": 33.75
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/acquisitions.js",
+          "line": 348,
+          "column": 8,
+          "sampledMs": 25.126
+        },
+        {
+          "function": "encodeJsonLine",
+          "url": "file:///Users/david/dev/screen-recorder/packages/protocol/dist/framing.js",
+          "line": 17,
+          "column": 31,
+          "sampledMs": 18.833
+        },
+        {
+          "function": "acquire",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 271,
+          "column": 12,
+          "sampledMs": 18.624
+        },
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 13.749
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 12.583
+        },
+        {
+          "function": "run",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 11.419
+        },
+        {
+          "function": "boundSourceEvidenceResponse",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 7,
+          "column": 44,
+          "sampledMs": 9.999
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/source-selection.js",
+          "line": 27,
+          "column": 8,
+          "sampledMs": 7.583
+        },
+        {
+          "function": "(anonymous)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 6.292
+        },
+        {
+          "function": "digest",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 5.0
+        },
+        {
+          "function": "intersectAll",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/model.js",
+          "line": 31,
+          "column": 29,
+          "sampledMs": 4.208
+        },
+        {
+          "function": "inst._zod.run",
+          "url": "file:///Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod/v4/core/schemas.js",
+          "line": 97,
+          "column": 25,
+          "sampledMs": 3.75
+        },
+        {
+          "function": "rational",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/rational.js",
+          "line": 2,
+          "column": 25,
+          "sampledMs": 3.75
+        },
+        {
+          "function": "all",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 3.75
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 2.542
+        },
+        {
+          "function": "serializedFraction",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/rational.js",
+          "line": 42,
+          "column": 28,
+          "sampledMs": 2.542
+        },
+        {
+          "function": "utf8Slice",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 2.542
+        },
+        {
+          "function": "fromTime",
+          "url": "file:///Users/david/dev/screen-recorder/packages/composition/dist/rational.js",
+          "line": 37,
+          "column": 25,
+          "sampledMs": 2.5
+        },
+        {
+          "function": "inst._zod.parse",
+          "url": "file:///Users/david/dev/screen-recorder/node_modules/.bun/zod@4.6.5/node_modules/zod/v4/core/schemas.js",
+          "line": 1171,
+          "column": 23,
+          "sampledMs": 2.5
+        },
+        {
+          "function": "Hash",
+          "url": "node:internal/crypto/hash",
+          "line": 90,
+          "column": 14,
+          "sampledMs": 2.459
+        }
+      ],
+      "inclusive": [
+        {
+          "function": "(root)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 538.209
+        },
+        {
+          "function": "read",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 342,
+          "column": 15,
+          "sampledMs": 309.542
+        },
+        {
+          "function": "processTicksAndRejections",
+          "url": "node:internal/process/task_queues",
+          "line": 72,
+          "column": 35,
+          "sampledMs": 258.876
+        },
+        {
+          "function": "runMicrotasks",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 218.792
+        },
+        {
+          "function": "(anonymous)",
+          "url": "file:///Users/david/dev/screen-recorder/apps/service/dist/index.js",
+          "line": 125,
+          "column": 23,
+          "sampledMs": 217.5
+        },
+        {
+          "function": "handle",
+          "url": "file:///Users/david/dev/screen-recorder/apps/service/dist/project-service.js",
+          "line": 532,
+          "column": 24,
+          "sampledMs": 217.5
+        },
+        {
+          "function": "serve",
+          "url": "file:///Users/david/dev/screen-recorder/apps/service/dist/project-service.js",
+          "line": 1103,
+          "column": 23,
+          "sampledMs": 217.5
+        },
+        {
+          "function": "cursor",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 334,
+          "column": 17,
+          "sampledMs": 216.625
+        },
+        {
+          "function": "validate",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 384,
+          "column": 30,
+          "sampledMs": 189.832
+        },
+        {
+          "function": "dependencies",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 137,
+          "column": 17,
+          "sampledMs": 169.958
+        },
+        {
+          "function": "(anonymous)",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 44,
+          "column": 31,
+          "sampledMs": 169.958
+        },
+        {
+          "function": "resolveMany",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/source-events.js",
+          "line": 36,
+          "column": 16,
+          "sampledMs": 169.958
+        },
+        {
+          "function": "resolveMany",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 42,
+          "column": 16,
+          "sampledMs": 169.958
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/source-selection.js",
+          "line": 27,
+          "column": 8,
+          "sampledMs": 167.458
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 140.041
+        },
+        {
+          "function": "get",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/acquisitions.js",
+          "line": 348,
+          "column": 8,
+          "sampledMs": 136.876
+        },
+        {
+          "function": "get",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 88.333
+        },
+        {
+          "function": "resolve",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/capture-source-read.js",
+          "line": 39,
+          "column": 12,
+          "sampledMs": 55.208
+        },
+        {
+          "function": "digest",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 31,
+          "column": 16,
+          "sampledMs": 42.5
+        },
+        {
+          "function": "request",
+          "url": "file:///Users/david/dev/screen-recorder/packages/core/dist/project-evidence.js",
+          "line": 187,
+          "column": 12,
+          "sampledMs": 41.875
+        },
+        {
+          "function": "prepare",
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "sampledMs": 41.459
+        },
+        {
+          "function": "post",
+          "url": "node:inspector",
+          "line": 115,
+          "column": 7,
+          "sampledMs": 40.126
+        },
+        {
+          "function": "fn",
+          "url": "node:internal/util",
+          "line": 498,
+          "column": 14,
+          "sampledMs": 40.126
+        },
+        {
+          "function": "(anonymous)",
+          "url": "node:internal/util",
+          "line": 499,
+          "column": 24,
+          "sampledMs": 40.126
+        },
+        {
+          "function": "start",
+          "url": "file:///Users/david/dev/screen-recorder/packages/test-harness/editing/service-cpu-profile.mjs",
+          "line": 74,
+          "column": 23,
+          "sampledMs": 40.084
+        }
+      ]
+    }
+  ]
+}

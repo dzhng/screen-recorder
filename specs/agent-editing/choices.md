@@ -6790,3 +6790,26 @@ without choosing their retention policy. Keeping every view would accumulate
 large media throughout the take; keeping none would lose the failing tail.
 This choice applies only to the test's scratch evidence, adds no product storage
 policy, and records the copy overhead in its measurement.
+
+## Current source-query window
+
+**Sound, medium confidence — measure the window the user offered and disclose its load.**
+The user says the computer is relatively free but still has some load. One browser
+renderer uses roughly a CPU core at the recorded preflight. The run proceeds in
+that offered window and retains its failing latency values; it does not call the
+host isolated or attribute the failure to the browser. The plan had expected an
+isolated preflight, while the user's newer authorization explicitly accepts some
+load. This choice supplies useful current output and profiling evidence without
+changing the speed target. A later performance claim must retain its own observed
+conditions.
+
+**Sound, high confidence — bind the existing short profile to the actual current runtime.**
+After a current query fails its speed target, the existing profiling entry still
+expects historical sources and a historical native executable. A private copy of
+that entry binds the exact current fixture, emitted code, SDK and native files
+that produced the failure. Its imports point to those pinned original helpers;
+query scoring, output checks and limits stay unchanged. The historical runtime
+and report remain intact. The plan left this current profile binding unspecified.
+This adds no product API or production runner; its executed source is retained
+with the diagnostic so future work can distinguish current attribution from the
+historical experiment.
