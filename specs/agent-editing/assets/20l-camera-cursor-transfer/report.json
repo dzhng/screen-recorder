@@ -1,0 +1,346 @@
+{
+  "status": "pass",
+  "scope": "Fixed197 unchanged cursor-sample transfer; no live capture/adoption/backlog/stop claim",
+  "execution": {
+    "phaseBoundSeconds": 180,
+    "elapsedSeconds": 6.118669584,
+    "processes": [
+      {
+        "label": "compile",
+        "argv": [
+          "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+          "-package-name",
+          "mac",
+          "-swift-version",
+          "6",
+          "-parse-as-library",
+          "-target",
+          "arm64-apple-macosx26.0",
+          "-sdk",
+          "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+          "-module-cache-path",
+          "/tmp/screenrec-23l2-png-publication/module-cache",
+          "-I",
+          "/tmp/screenrec-20f-camera-overlap/final/Modules",
+          "/tmp/screenrec-20h-idr-fence/Observation.swift",
+          "/tmp/screenrec-20l-cursor-transfer/References.swift",
+          "/tmp/screenrec-20l-cursor-transfer/BufferFacts.swift",
+          "/tmp/screenrec-20l-cursor-transfer/Transfer.swift",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/AudioSourceReader.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/CompositionAsset.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/CompositionProcessing.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/DescriptorAudioType.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ExactRange.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ExactTime.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/FontFile.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/FontProbe.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/MediaInput.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/MediaProbe.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/NativeFailure.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/OutputFile.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ProcessResources.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/SampleTiming.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/ScalarProgram.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/StillImageSource.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/TimeSpan.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderMedia.objects/VideoDisplay.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraCaptureInput.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraMedia.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CameraWriter.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureAudioMaterializer.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureAudioPublication.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureClock.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureClockIngress.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureExclusion.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureGeneration.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureInputSession.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureJournal.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureJournalLease.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureMediaInspection.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CapturePCM.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureSourcePublication.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureStreamInputs.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureTermination.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureTypes.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CaptureWriter.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/ClosedCameraSource.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/CursorGeometry.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/HeldTailFrame.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/JournalPCM.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/NativeCapture.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/PCMContainerTime.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/SelectedCaptureProbe.swift.o",
+          "/tmp/screenrec-20f-camera-overlap/final/ScreenRecorderCapture.objects/SelectedCaptureRequest.swift.o",
+          "-o",
+          "/tmp/screenrec-20l-cursor-transfer/canonical-probe",
+          "-driver-time-compilation",
+          "-Xfrontend",
+          "-debug-time-expression-type-checking",
+          "-Xfrontend",
+          "-debug-time-function-bodies"
+        ],
+        "pid": 70917,
+        "startedUTC": "2026-10-02T08:33:28.357896+00:00",
+        "boundSeconds": 150,
+        "terminal": true,
+        "streamsFullyDrained": true,
+        "waited": true,
+        "parentAbsent": true,
+        "exitCode": 0,
+        "elapsedSeconds": 2.8397412920000003,
+        "stdioBytes": {
+          "stdout": 0,
+          "stderr": 62092
+        },
+        "stdioCapBytes": 1048576,
+        "byteQueries": [],
+        "queryAbsence": []
+      },
+      {
+        "label": "transfer",
+        "argv": [
+          "/tmp/screenrec-20l-cursor-transfer/canonical-probe",
+          "canonical",
+          "/tmp/screenrec-20l-cursor-transfer/case",
+          "/tmp/screenrec-20g-raw-prefix/physical-continuation/ordinary/camera/camera.raw.mov",
+          "/tmp/screenrec-20h-idr-fence/audit/snapshot-projection.json",
+          "/tmp/screenrec-20g-native-cursor/case/result.json",
+          "/tmp/screenrec-20h-idr-fence/codec.py",
+          "/tmp/screenrec-20i-canonical/canonical/source-codec.json",
+          "/tmp/screenrec-20k-cursor-buffers/case",
+          "/tmp/screenrec-20i-compressed-admission/case"
+        ],
+        "pid": 71085,
+        "startedUTC": "2026-10-02T08:33:31.202436+00:00",
+        "boundSeconds": 15,
+        "terminal": true,
+        "streamsFullyDrained": true,
+        "waited": true,
+        "parentAbsent": true,
+        "exitCode": 0,
+        "elapsedSeconds": 2.438262375,
+        "stdioBytes": {
+          "stdout": 241,
+          "stderr": 0
+        },
+        "stdioCapBytes": 1048576,
+        "byteQueries": [
+          {
+            "path": "/tmp/screenrec-20l-cursor-transfer/case/active-6-logical-comparison.json.process.json",
+            "receipt": {
+              "argv": [
+                "/usr/bin/python3",
+                "/tmp/screenrec-20h-idr-fence/codec.py",
+                "compare",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-2-codec.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-6-codec.json",
+                "29",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-6-logical-comparison.json"
+              ],
+              "exitCode": 0,
+              "groupID": 71388,
+              "parentPID": 71085,
+              "pid": 71388,
+              "started": 812622812.913299,
+              "terminal": true,
+              "terminationReason": "NSTaskTerminationReason(rawValue: 1)",
+              "waited": true
+            }
+          },
+          {
+            "path": "/tmp/screenrec-20l-cursor-transfer/case/closed-prefix-logical-comparison.json.process.json",
+            "receipt": {
+              "argv": [
+                "/usr/bin/python3",
+                "/tmp/screenrec-20h-idr-fence/codec.py",
+                "compare",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-2-codec.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/closed-codec.json",
+                "29",
+                "/tmp/screenrec-20l-cursor-transfer/case/closed-prefix-logical-comparison.json"
+              ],
+              "exitCode": 0,
+              "groupID": 71436,
+              "parentPID": 71085,
+              "pid": 71436,
+              "started": 812622813.582081,
+              "terminal": true,
+              "terminationReason": "NSTaskTerminationReason(rawValue: 1)",
+              "waited": true
+            }
+          },
+          {
+            "path": "/tmp/screenrec-20l-cursor-transfer/case/all197-source-logical-comparison.json.process.json",
+            "receipt": {
+              "argv": [
+                "/usr/bin/python3",
+                "/tmp/screenrec-20h-idr-fence/codec.py",
+                "compare",
+                "/tmp/screenrec-20i-canonical/canonical/source-codec.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/closed-codec.json",
+                "197",
+                "/tmp/screenrec-20l-cursor-transfer/case/all197-source-logical-comparison.json"
+              ],
+              "exitCode": 0,
+              "groupID": 71429,
+              "parentPID": 71085,
+              "pid": 71429,
+              "started": 812622813.290523,
+              "terminal": true,
+              "terminationReason": "NSTaskTerminationReason(rawValue: 1)",
+              "waited": true
+            }
+          },
+          {
+            "path": "/tmp/screenrec-20l-cursor-transfer/case/closed-codec.json.process.json",
+            "receipt": {
+              "argv": [
+                "/usr/bin/python3",
+                "/tmp/screenrec-20h-idr-fence/codec.py",
+                "/tmp/screenrec-20l-cursor-transfer/case/candidate.mov",
+                "/tmp/screenrec-20l-cursor-transfer/case/closed.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/closed-formats.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/closed-codec.json"
+              ],
+              "exitCode": 0,
+              "groupID": 71428,
+              "parentPID": 71085,
+              "pid": 71428,
+              "started": 812622813.195491,
+              "terminal": true,
+              "terminationReason": "NSTaskTerminationReason(rawValue: 1)",
+              "waited": true
+            }
+          },
+          {
+            "path": "/tmp/screenrec-20l-cursor-transfer/case/active-2-codec.json.process.json",
+            "receipt": {
+              "argv": [
+                "/usr/bin/python3",
+                "/tmp/screenrec-20h-idr-fence/codec.py",
+                "/tmp/screenrec-20l-cursor-transfer/case/fragment-2.mov",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-2.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-2-formats.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-2-codec.json"
+              ],
+              "exitCode": 0,
+              "groupID": 71336,
+              "parentPID": 71085,
+              "pid": 71336,
+              "started": 812622812.440289,
+              "terminal": true,
+              "terminationReason": "NSTaskTerminationReason(rawValue: 1)",
+              "waited": true
+            }
+          },
+          {
+            "path": "/tmp/screenrec-20l-cursor-transfer/case/active-6-codec.json.process.json",
+            "receipt": {
+              "argv": [
+                "/usr/bin/python3",
+                "/tmp/screenrec-20h-idr-fence/codec.py",
+                "/tmp/screenrec-20l-cursor-transfer/case/fragment-6.mov",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-6.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-6-formats.json",
+                "/tmp/screenrec-20l-cursor-transfer/case/active-6-codec.json"
+              ],
+              "exitCode": 0,
+              "groupID": 71385,
+              "parentPID": 71085,
+              "pid": 71385,
+              "started": 812622812.825289,
+              "terminal": true,
+              "terminationReason": "NSTaskTerminationReason(rawValue: 1)",
+              "waited": true
+            }
+          }
+        ],
+        "queryAbsence": [
+          {
+            "pid": 71388,
+            "receipt": "/tmp/screenrec-20l-cursor-transfer/case/active-6-logical-comparison.json.process.json",
+            "terminalReceipt": true,
+            "waitedReceipt": true,
+            "absent": true
+          },
+          {
+            "pid": 71436,
+            "receipt": "/tmp/screenrec-20l-cursor-transfer/case/closed-prefix-logical-comparison.json.process.json",
+            "terminalReceipt": true,
+            "waitedReceipt": true,
+            "absent": true
+          },
+          {
+            "pid": 71429,
+            "receipt": "/tmp/screenrec-20l-cursor-transfer/case/all197-source-logical-comparison.json.process.json",
+            "terminalReceipt": true,
+            "waitedReceipt": true,
+            "absent": true
+          },
+          {
+            "pid": 71428,
+            "receipt": "/tmp/screenrec-20l-cursor-transfer/case/closed-codec.json.process.json",
+            "terminalReceipt": true,
+            "waitedReceipt": true,
+            "absent": true
+          },
+          {
+            "pid": 71336,
+            "receipt": "/tmp/screenrec-20l-cursor-transfer/case/active-2-codec.json.process.json",
+            "terminalReceipt": true,
+            "waitedReceipt": true,
+            "absent": true
+          },
+          {
+            "pid": 71385,
+            "receipt": "/tmp/screenrec-20l-cursor-transfer/case/active-6-codec.json.process.json",
+            "terminalReceipt": true,
+            "waitedReceipt": true,
+            "absent": true
+          }
+        ]
+      }
+    ]
+  },
+  "controller": {
+    "status": "pass",
+    "scope": "197 unchanged cursor buffers: candidate own active prefix and closed pixels/support/full-reader facts; no live/adoption"
+  },
+  "candidate": {
+    "appendedMedia": "197",
+    "committedPictures": "29",
+    "forwardedBuffers": "197",
+    "scope": "Cursor-generated unchanged197 buffer transfer: own active prefix/full pixels/support and original full-reader facts; no live/adoption",
+    "status": "pass"
+  },
+  "independentRootReview": {
+    "status": "pass",
+    "scope": "saved-value independent root review; no native replay",
+    "pins": 578,
+    "unchangedCacheFiles": 307,
+    "terminalReapedAbsentProcesses": 2,
+    "terminalReapedAbsentByteQueries": 6,
+    "generatedBuffersAndSuccessfulUnmodifiedForwards": 197,
+    "allSourceAppendedClosedPacketsEqual": true,
+    "completeClosedMediaFactsEqualOriginalReaderExcludingOrdinalOnly": true,
+    "all197PicturesExactIncludingBGRAAndClocks": true,
+    "supportExact": true,
+    "activeAndClosedPrefixPictures": 29,
+    "observedCandidatePictures": [
+      38,
+      158,
+      197
+    ],
+    "nativeRetryCount": 0,
+    "allEncodedLogicalOperandsEqual": true
+  },
+  "review": {
+    "static": "Independent peer clean before execution",
+    "shape": "Existing fixed observer/writer reused; no new product mechanism",
+    "diff": "Only source acquisition and saved comparison authority changed",
+    "docs": "Owning slice states narrow proof and next production integration"
+  },
+  "nativeExecutions": 1,
+  "nativeRetries": 0,
+  "sourceBaselineReplays": 0
+}
