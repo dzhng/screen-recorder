@@ -21,9 +21,13 @@ timeout path remains unqualified; the separately qualified supervisor is retaine
 now qualifies one distinct intact-buffer growing MOV case; [20j](20j-camera-range-digests.md)
 qualifies fixed range/digest-state continuation. [20k](20k-camera-cursor-buffers.md)
 and [20l](20l-camera-cursor-transfer.md) qualify stored samples and unchanged fixed
-transfer. [20m](20m-camera-continuing-verification.md) owns continuing production
-verification next. No production strategy,
-physical synchronization or stop improvement follows from these tiny cases.
+transfer. [20m](20m-camera-continuing-verification.md) now connects continuing
+verification to production capture; its focused consumers verify pre-stop work,
+same-candidate publication and failure/retry preservation. Its retained four-minute
+replay preserves all 4,428 pictures and completes the durable stop result in
+6.683 seconds. This passes the ten-second target on that prerecorded path;
+physical input drain, AppKit shutdown and general performance remain open.
+None of these prerecorded cases establishes physical synchronization.
 
 ## Contract
 

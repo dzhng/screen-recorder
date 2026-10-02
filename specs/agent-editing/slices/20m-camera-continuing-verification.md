@@ -3,8 +3,14 @@
 Status: [focused production consumers](../assets/20m-camera-continuing-verification/live-integration.json)
 verify live range advancement, same-candidate publication, delayed and fractional
 clocks, retry, discard and permanent-failure cleanup. Both full scanners and live
-work consume continuing state through the unchanged digest. Sustained advancement,
-backlog, memory and the original completed-stop deadline remain unverified.
+work consume continuing state through the unchanged digest. [The retained
+250-second prerecorded replay](../assets/20m-camera-continuing-verification/retained-stop.json)
+preserves all 4,428 pictures, starts 47 ranges per reader before Stop, and reaches
+its durable result in 6.683 seconds, within the
+original ten-second target. Peak sampled RSS is 173,277,184 bytes; the published
+movie is the same private candidate inode observed before Stop. This completes
+the controlled implementation/measurement scope. Physical input drain, device
+synchronization, AppKit shutdown and general performance remain parent gates.
 
 ## Contract
 
@@ -25,16 +31,25 @@ row has been written, with no synchronous decode on the ingress queue. Observati
 synchronization remains with the existing close boundary; speculative eligibility
 does not add a per-frame disk synchronization policy.
 
+Written observation boundaries never regress when file events race capture rows.
+An unchanged media version and already-considered written boundary cause no new
+snapshot work. Mapping snapshots isolate the written prefix with the same owned
+filesystem-clone primitive; only the private clone is truncated. Optional work
+that cannot advance retains full-scan publication, with a diagnostic explaining
+the fallback.
+
 Existing full-scan consumers, fractional support, partial-source diagnostics,
 failure order and publication replay remain preserved. Range advancement and live
 ownership now run through CameraWriter and ClosedCameraSource. Use retained inputs
 and saved qualified snapshots; no source-baseline replay, new capture or full-suite
-gate. Next establish sustained progress and bounded stop work on the retained take,
-with actual complete digests, resource use and elapsed stop time.
+gate. The retained replay supplies complete digest/support acceptance, resource
+observations and elapsed stop time for this production owner.
 
-The complete contract also needs sustained advancement, bounded backlog and the
-original completed-stop deadline. State extraction or fixed range equality alone
-does not close these requirements or the capture parent gates.
+The retained replay observes sustained advancement and bounded final tails;
+the owner still permits only one worker and one replaceable pending request.
+This is one complete prerecorded result, not a distribution or proof of physical
+capture shutdown. State extraction or fixed range equality alone could not have
+closed these requirements, and capture parent gates remain open.
 
 ## Current integration regression
 

@@ -1,6 +1,11 @@
 # 20g — unchanged raw camera fragment-prefix feasibility
 
-Status: mixed physical result; general prefix stability remains unqualified.
+Status: bounded experiment concluded with mixed physical evidence; the
+one-picture-tail hypothesis is rejected, and general prefix stability remains
+unqualified by this experiment. [20h](20h-camera-idr-fence.md) and
+[20m](20m-camera-continuing-verification.md) own the independently qualified
+successor mechanism. This historical failure is not a release acceptance pass or
+an active replay task.
 The original setup deadline is retained. A separate compile-only diagnostic
 qualified the unchanged executable, then the physical continuation reused it.
 The ordinary case preserves its complete 29-picture prefix through extension and

@@ -1,0 +1,1407 @@
+{
+  "archive": {
+    "path": "retained-stop.tar.gz",
+    "bytes": 1073851,
+    "sha256": "db5f82fc9b8de92a37d12bf33b4e29959247142d05b1ee97438c35cf90b8df6b"
+  },
+  "members": [
+    {
+      "member": "checkpoint-red/CameraMedia.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/CameraMedia.swift",
+      "bytes": 73037,
+      "sha256": "b7675b7fd25ed7e1ddb25c5f24534f411af42c7a398a28a814d8488858b5557c"
+    },
+    {
+      "member": "checkpoint-red/Modules/ScreenRecorderCapture.abi.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/Modules/ScreenRecorderCapture.abi.json",
+      "bytes": 149,
+      "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+    },
+    {
+      "member": "checkpoint-red/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/Probe.swift",
+      "bytes": 98,
+      "sha256": "4f9bfd588118d70b5829a95773a2cea697baec7b40e90906f433a217b574a555"
+    },
+    {
+      "member": "checkpoint-red/module.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/module.stderr",
+      "bytes": 2576,
+      "sha256": "65a111c0422df634be4884fc7f4b64d92b5d18a25e442457b14ffa4bf9b0c7b4"
+    },
+    {
+      "member": "checkpoint-red/module.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/module.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/plan.json",
+      "bytes": 14789,
+      "sha256": "bf4b141afceb469978f515978334afb24613f9a1c080c3992d8bdc1ce472aed4"
+    },
+    {
+      "member": "checkpoint-red/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/processes.json",
+      "bytes": 4953,
+      "sha256": "ae6f361b97de7120f743fa37a762c757ea8a1699bf4e0859a063dfe3c8013478"
+    },
+    {
+      "member": "checkpoint-red/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "checkpoint-red-fixed/CameraMedia.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/CameraMedia.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red-fixed/CameraMedia.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/CameraMedia.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red-fixed/CameraMedia.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/CameraMedia.swift",
+      "bytes": 73034,
+      "sha256": "5aba3c30451b001a9986a1cad573b8c211bfa1478496eba72e9515849f22f5cc"
+    },
+    {
+      "member": "checkpoint-red-fixed/Modules/ScreenRecorderCapture.abi.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/Modules/ScreenRecorderCapture.abi.json",
+      "bytes": 149,
+      "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+    },
+    {
+      "member": "checkpoint-red-fixed/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/Probe.swift",
+      "bytes": 98,
+      "sha256": "4f9bfd588118d70b5829a95773a2cea697baec7b40e90906f433a217b574a555"
+    },
+    {
+      "member": "checkpoint-red-fixed/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red-fixed/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red-fixed/module.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/module.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red-fixed/module.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/module.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-red-fixed/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/plan.json",
+      "bytes": 14831,
+      "sha256": "a7b41734d94a0de8d6f9c4630ebc1e5e4ec0d8642faa8ad8bfa5d682b64688db"
+    },
+    {
+      "member": "checkpoint-red-fixed/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/processes.json",
+      "bytes": 16272,
+      "sha256": "639b0aa2d33e16d627743e7e7d506ed2df13b2187b14d3e068c7beab38461240"
+    },
+    {
+      "member": "checkpoint-red-fixed/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "checkpoint-red-fixed/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/test.stderr",
+      "bytes": 136,
+      "sha256": "b10ef98ef7106cc3a3b7e1de6c647af8a20b798c5e2f2db97525b2f4d663be04"
+    },
+    {
+      "member": "checkpoint-red-fixed/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-wakeups-red/CameraLivePublicationTests.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/CameraLivePublicationTests.swift",
+      "bytes": 12598,
+      "sha256": "582a1efe76f626cdacddd267d308a4d86438abbfda890b60993ddca9ad9c0278"
+    },
+    {
+      "member": "checkpoint-wakeups-red/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/Probe.swift",
+      "bytes": 256,
+      "sha256": "e058bb8c8f4df9fa82abb93fae12aadd39e79bb2e169b1e244cf0e2bbeb10752"
+    },
+    {
+      "member": "checkpoint-wakeups-red/case/screen/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/case/screen/capture.journal.jsonl",
+      "bytes": 212,
+      "sha256": "74a3d8db37cb2b2afe65490017aff559aa14b4d9815c5cac63d683a4ec53fff2"
+    },
+    {
+      "member": "checkpoint-wakeups-red/case/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/case/timestamps.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-wakeups-red/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-wakeups-red/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-wakeups-red/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/plan.json",
+      "bytes": 5661,
+      "sha256": "dc056ec70a3f7d3f6476725e8acf6954a27548e60f0d44aee2a604b6bd0dfad4"
+    },
+    {
+      "member": "checkpoint-wakeups-red/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/processes.json",
+      "bytes": 6351,
+      "sha256": "d709e10b2d0edf89870a9706b05fc8e9ee251b46f5e5c3763fe7406a2ace082b"
+    },
+    {
+      "member": "checkpoint-wakeups-red/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "checkpoint-wakeups-red/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/test.stderr",
+      "bytes": 94,
+      "sha256": "849aa86f67b036c054b34fc99abdce3e830a687ef3764338352fc102f99763d2"
+    },
+    {
+      "member": "checkpoint-wakeups-red/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red/test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/before-stop-camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/before-stop-camera.raw.mov",
+      "bytes": 10981,
+      "sha256": "fc61212ca7c6b7d34bbdcb7204337c316ae0844cd9433071573b0a979cb5fd51"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/before-stop-timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/before-stop-timestamps.jsonl",
+      "bytes": 113555,
+      "sha256": "d5ccbe5b57912605da3bf5e6993d4c2073a7130243e98497ac6fe88a3b91caa2"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/before-stop.json",
+      "bytes": 378,
+      "sha256": "c25bfbf5507b2bbb08ae08e33c91d3d9e312c0a1f81741bb6f79ee9bc0833739"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/camera/capture.journal.jsonl",
+      "bytes": 367,
+      "sha256": "885c8b1a45714a4a3a5958d6fd257d4466daab86a2fbdc5d246d0c74091a85b7"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/screen/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/screen/capture.journal.jsonl",
+      "bytes": 533,
+      "sha256": "5246cf94f6a5b49ca8dd55d7fc38af98e461d9efd214eb0e82534e57bd7bdf5e"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/stable-media.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/stable-media.json",
+      "bytes": 495,
+      "sha256": "7a41d66fd199f49a953e90476df9884b9f9ccdf9fc98da9042c87a19e34e1089"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/timestamps.jsonl",
+      "bytes": 113555,
+      "sha256": "d5ccbe5b57912605da3bf5e6993d4c2073a7130243e98497ac6fe88a3b91caa2"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/case/unverified-before-stop.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/case/unverified-before-stop.mov",
+      "bytes": 9446,
+      "sha256": "1ea2c5cf1636e15cd0dba137eeaa60693a860020f59caa07f40f2ce6430bb951"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/plan.json",
+      "bytes": 172,
+      "sha256": "ad58994999bae9dd323e7f67625321de62482ad0b5bacdeaf7a042a91c5fd0ff"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/processes.json",
+      "bytes": 450,
+      "sha256": "e35760c3fd8c074229481215a8c72612d77b3cb72b20d9c05fe86b8e91b8f81f"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/test.stderr",
+      "bytes": 116,
+      "sha256": "465ba6fba36c5fa252b5875ed941fa3d4cfad4ec17ec4f67a0b02659c8e6bbe1"
+    },
+    {
+      "member": "checkpoint-wakeups-red-fixed/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "choices.md",
+      "original": "/tmp/screenrec-camera-live-stop-scale/choices.md",
+      "bytes": 2455,
+      "sha256": "958e8f22689a7b937853cb35b138a75fd8ae1579651dc8822920509f26469fd1"
+    },
+    {
+      "member": "final/CameraLivePublicationTests.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/CameraLivePublicationTests.swift",
+      "bytes": 13250,
+      "sha256": "31ac99653102b7c410d7699c7a4bfe1ed171a4e1c0745d9280345d432c3a49c3"
+    },
+    {
+      "member": "final/CameraMedia.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/CameraMedia.swift",
+      "bytes": 72935,
+      "sha256": "016bb583056f9ed1ba45916a827c2510448017eba521645a62e176b5a74fd826"
+    },
+    {
+      "member": "final/CameraReaderStarts.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/CameraReaderStarts.swift",
+      "bytes": 9177,
+      "sha256": "f68e1cc3df47806933f708564b79786a21cf9862230313cea19f1443af10693a"
+    },
+    {
+      "member": "final/PrerecordedCaptureInput.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/PrerecordedCaptureInput.swift",
+      "bytes": 14885,
+      "sha256": "20139941c35385f0ec827b6df6b8c53f17e4bf95ddfda74392350ca9e25969bc"
+    },
+    {
+      "member": "final/SelectedCaptureStopScale.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/SelectedCaptureStopScale.swift",
+      "bytes": 7429,
+      "sha256": "635dc0c3a3dc266dd995afcae2cfc61895055e0d69cae61dad471e9889b3a258"
+    },
+    {
+      "member": "final/candidate-identity.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/candidate-identity.json",
+      "bytes": 874,
+      "sha256": "39ffff6e7210ccda8ad1eaae110b2ca16d7728050389e2f87fdaa09c497f6e6d"
+    },
+    {
+      "member": "final/report.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/report.json",
+      "bytes": 9257,
+      "sha256": "add9f9ed280135f3ef94a8e1614075c60b84abe879644867dd596c7e5dcd8a9d"
+    },
+    {
+      "member": "final/unverified-media-pins.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/final/unverified-media-pins.json",
+      "bytes": 1917,
+      "sha256": "663c34f702805a61bb19317b60fd9d36f91df6f26ca6f76cf99b56af440897a6"
+    },
+    {
+      "member": "measured/CameraLivePublicationTests.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/CameraLivePublicationTests.swift",
+      "bytes": 13250,
+      "sha256": "31ac99653102b7c410d7699c7a4bfe1ed171a4e1c0745d9280345d432c3a49c3"
+    },
+    {
+      "member": "measured/CameraReaderStarts.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/CameraReaderStarts.swift",
+      "bytes": 9177,
+      "sha256": "f68e1cc3df47806933f708564b79786a21cf9862230313cea19f1443af10693a"
+    },
+    {
+      "member": "measured/PrerecordedCaptureInput.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/PrerecordedCaptureInput.swift",
+      "bytes": 14885,
+      "sha256": "20139941c35385f0ec827b6df6b8c53f17e4bf95ddfda74392350ca9e25969bc"
+    },
+    {
+      "member": "measured/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/Probe.swift",
+      "bytes": 304,
+      "sha256": "af76a67c8d3a94eeac9b76c81c321fbd8ef1175db4b2d8949320f06225896532"
+    },
+    {
+      "member": "measured/SelectedCaptureStopScale.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/SelectedCaptureStopScale.swift",
+      "bytes": 7429,
+      "sha256": "635dc0c3a3dc266dd995afcae2cfc61895055e0d69cae61dad471e9889b3a258"
+    },
+    {
+      "member": "measured/active.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/active.json",
+      "bytes": 402,
+      "sha256": "be482ca93db1fbbe9bf4b74c0f01cf55de92ea3b847e347c94f25c5c5a2f9ef8"
+    },
+    {
+      "member": "measured/after.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/after.json",
+      "bytes": 21647,
+      "sha256": "d9cfc690e233e1db726a681ba9da71a71c6c0bdcbf05214396887ae18c3245b6"
+    },
+    {
+      "member": "measured/before.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/before.json",
+      "bytes": 21647,
+      "sha256": "d9cfc690e233e1db726a681ba9da71a71c6c0bdcbf05214396887ae18c3245b6"
+    },
+    {
+      "member": "measured/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/before-stop.json",
+      "bytes": 582,
+      "sha256": "de0ae7e3f00f0e383c3078bd04ef39fbc7c46736b205109a2f1286b30f5e5a5d"
+    },
+    {
+      "member": "measured/case/measurement.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/measurement.json",
+      "bytes": 872,
+      "sha256": "b9b4d66d453f912db1e8df094baee5c2d7df819763da225d78a61607bc97f388"
+    },
+    {
+      "member": "measured/case/reader-starts.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/reader-starts.json",
+      "bytes": 52721,
+      "sha256": "93f33cec752c787ca76f63c83c5bfb96763499621d4c8ff6c5af705a651c04cd"
+    },
+    {
+      "member": "measured/case/reader-starts.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/reader-starts.jsonl",
+      "bytes": 52720,
+      "sha256": "e1e9111456f96fae67c36da5238bda68e437977be48a70ab0a611b40b8e5967f"
+    },
+    {
+      "member": "measured/case/screen-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/screen-result.json",
+      "bytes": 869,
+      "sha256": "336ec228d888536c34119fc243645a21625c6c5e6b67619a19107f7840ab9e94"
+    },
+    {
+      "member": "measured/case/take/camera/camera.closed.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/camera.closed.json",
+      "bytes": 97,
+      "sha256": "b748d63e22a652d9fefbd72200680625800789dbcb411f7aa491b76752e03244"
+    },
+    {
+      "member": "measured/case/take/camera/camera.mapping.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/camera.mapping.jsonl",
+      "bytes": 4115373,
+      "sha256": "ba96af0a9bcaef3cccab741bbb1a7cae5f782c1ff0e47067ff5ca0e560c08bba"
+    },
+    {
+      "member": "measured/case/take/camera/camera.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/camera.publication.json",
+      "bytes": 903,
+      "sha256": "ac4eb6be62144f0a1c17b81119263eb720e69d6ce0dd92a5f7435254318db2c4"
+    },
+    {
+      "member": "measured/case/take/camera/capture-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/capture-result.json",
+      "bytes": 460,
+      "sha256": "d3a92cb7ae32153307026b8a432d42772408224fb9fc6b8e14a263d199c04dde"
+    },
+    {
+      "member": "measured/case/take/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/capture.journal.jsonl",
+      "bytes": 878,
+      "sha256": "f1b2c2f1713807e060bd56bdffb7b5bcbf08f3c3b13f3e6c213f418cfe5d1a60"
+    },
+    {
+      "member": "measured/case/take/camera/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/source.publication.json",
+      "bytes": 642,
+      "sha256": "6c457163a69dbe303beb51a9f8b1cce961bf082ea5e7cf824bf11be385c7bded"
+    },
+    {
+      "member": "measured/case/take/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/capture.journal.jsonl",
+      "bytes": 1108,
+      "sha256": "5b4b35ac0bf9f9e3037f3001f5fbee5145cc5b7e39ae29dc9a01587390373d70"
+    },
+    {
+      "member": "measured/case/take/source.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/source.journal.jsonl",
+      "bytes": 1045,
+      "sha256": "3f6807d5cca6cb7f87b7d5c84f3ddba09a954b04401d28d6966765bccd29ed4d"
+    },
+    {
+      "member": "measured/case/take/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/source.publication.json",
+      "bytes": 406,
+      "sha256": "02d4038ab4b06fb48830d4a58fe34b6dbbbc66b018e4a7dc25b9b508b90fee6a"
+    },
+    {
+      "member": "measured/case/take/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/case/take/timestamps.jsonl",
+      "bytes": 4115373,
+      "sha256": "ba96af0a9bcaef3cccab741bbb1a7cae5f782c1ff0e47067ff5ca0e560c08bba"
+    },
+    {
+      "member": "measured/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "measured/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "measured/measure.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/measure.py",
+      "bytes": 3290,
+      "sha256": "053ccf30542fde4571294834cef80ce850bfa3f0ae3cd7c675aad20938c44e1e"
+    },
+    {
+      "member": "measured/native.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/native.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "measured/native.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/native.stdout",
+      "bytes": 76,
+      "sha256": "91d1f3d4d7adb964f40f7ed670c27ee439f26ff41dacb6cb5e7e3e027dc5da25"
+    },
+    {
+      "member": "measured/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/plan.json",
+      "bytes": 5539,
+      "sha256": "562535eedd8b03b67777c0dbda4734160276a9e3aa2a092c1deb0b8a1b095c39"
+    },
+    {
+      "member": "measured/preservation.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/preservation.json",
+      "bytes": 50,
+      "sha256": "7268d4c2ee58cf9c89899200a6cb5fc2c7b871d453a810389bc156d4d93a6450"
+    },
+    {
+      "member": "measured/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/processes.json",
+      "bytes": 5950,
+      "sha256": "fc4736c7b4e4a98856c2a87fbd0806f66add8ae538f23e8ca606005527c828e2"
+    },
+    {
+      "member": "measured/rss.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/rss.json",
+      "bytes": 67734,
+      "sha256": "20c7eb9f073456c4a6fdc6a7f3b6f5d30590b242a62aa35c711696e149b38a60"
+    },
+    {
+      "member": "measured/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "measured/terminal.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/measured/terminal.json",
+      "bytes": 612,
+      "sha256": "315f1284fc966ec37f6923b04d92d6af029aff5690aaf629512075d9d3006f60"
+    },
+    {
+      "member": "review.md",
+      "original": "/tmp/screenrec-camera-live-stop-scale/review.md",
+      "bytes": 2253,
+      "sha256": "2537ff2816d97757e9dd95be47f691e06252bee9128145803c34d5f2fd969101"
+    },
+    {
+      "member": "scale-smoke/CameraReaderStarts.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/CameraReaderStarts.swift",
+      "bytes": 9177,
+      "sha256": "f68e1cc3df47806933f708564b79786a21cf9862230313cea19f1443af10693a"
+    },
+    {
+      "member": "scale-smoke/PrerecordedCaptureInput.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/PrerecordedCaptureInput.swift",
+      "bytes": 14766,
+      "sha256": "2e4c2da5093686adb6ec9cc1174b37bbb0b81cf621a25e6e20e12913bb768bf3"
+    },
+    {
+      "member": "scale-smoke/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/Probe.swift",
+      "bytes": 304,
+      "sha256": "af76a67c8d3a94eeac9b76c81c321fbd8ef1175db4b2d8949320f06225896532"
+    },
+    {
+      "member": "scale-smoke/RecoveryFixtures.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/RecoveryFixtures.swift",
+      "bytes": 9326,
+      "sha256": "586bebe4b487064b64af49b3fbcb49ab2c47731d464c8adc78dc904267e7bdb7"
+    },
+    {
+      "member": "scale-smoke/SelectedCaptureStopScale.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/SelectedCaptureStopScale.swift",
+      "bytes": 7009,
+      "sha256": "9eb666b3819aaa95131508282c1c3a18bf9e8cc189467ac47f09e58defa4d23d"
+    },
+    {
+      "member": "scale-smoke/attribution.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/attribution.json",
+      "bytes": 12979,
+      "sha256": "109d4624f584a8f435a72c15a9d403d2b55408318a5f7ae9758da7e5a5fe925a"
+    },
+    {
+      "member": "scale-smoke/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/before-stop.json",
+      "bytes": 301,
+      "sha256": "4ef005f2056d5c70badad889d720951043a1f179e9139de322555d2f35a73321"
+    },
+    {
+      "member": "scale-smoke/case/reader-starts.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/reader-starts.json",
+      "bytes": 2887,
+      "sha256": "29c38604b17e2a2dd69569ac7bd06c9a6a603c301b454c3dacc823cd642b8a4f"
+    },
+    {
+      "member": "scale-smoke/case/reader-starts.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/reader-starts.jsonl",
+      "bytes": 2886,
+      "sha256": "4ffab943b7dd33418cfdc67206eefc377c1b8ce636fe747d5edb3dfd96e54ae8"
+    },
+    {
+      "member": "scale-smoke/case/screen-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/screen-result.json",
+      "bytes": 854,
+      "sha256": "94fd0c524baab9ba35c6001d742f5f910b9332eb01ce94749f090a8638af03da"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/.screenrec-output-99F33530-5976-4FAD-9B5D-76669985E6BC/camera.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/.screenrec-output-99F33530-5976-4FAD-9B5D-76669985E6BC/camera.mov",
+      "bytes": 16926,
+      "sha256": "79a60024f3a50a956df2d037d9532bc565847d81563d7fc9cec71da0828033a7"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/camera.closed.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/camera.closed.json",
+      "bytes": 93,
+      "sha256": "97ca6e663a6cd8be44f79b3dbb338535d8b9d275313d0dfadd17351880c5fc84"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/camera.mapping.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/camera.mapping.jsonl",
+      "bytes": 198215,
+      "sha256": "c266738deeeaf6fa2e8e066efa0280e65a4ede20978080169116fc19d12a9ce2"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/camera.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/camera.publication.json",
+      "bytes": 889,
+      "sha256": "8c4df3440c12e7b4ce63463cc0db6a5de2175d4749bd0a6e5169d53d3556e220"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/camera.raw.mov",
+      "bytes": 16356,
+      "sha256": "f7b6b87118a95f3c51b5271d4d4448b15bdf1ab5b339de42672f254ae5bfe837"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/capture-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/capture-result.json",
+      "bytes": 451,
+      "sha256": "9c3ad556911ff2659682faefdd1f91b8b9dc519bca7cf8f283553f8b007b30d0"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/capture.journal.jsonl",
+      "bytes": 865,
+      "sha256": "3207f0b191b6b1f238403b1f53a2c53b5ae65bde2013949f938e7f60893dae61"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/source.publication.json",
+      "bytes": 635,
+      "sha256": "d96a5bfb2ef9d8ac7efa8c916efd042aff363b5fc97cc8bc1477eeee6e6431e3"
+    },
+    {
+      "member": "scale-smoke/case/take/camera/video.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/camera/video.mov",
+      "bytes": 16926,
+      "sha256": "79a60024f3a50a956df2d037d9532bc565847d81563d7fc9cec71da0828033a7"
+    },
+    {
+      "member": "scale-smoke/case/take/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/capture.journal.jsonl",
+      "bytes": 1095,
+      "sha256": "befaf3731f363abe49c0d70aaf1cee96a9d6cf38ded0f4d8ffb09acc5e33a150"
+    },
+    {
+      "member": "scale-smoke/case/take/source.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/source.journal.jsonl",
+      "bytes": 1032,
+      "sha256": "0a3ced84a5111ca96ed35ece56c888d216315282aab3ede37ec3474292e75978"
+    },
+    {
+      "member": "scale-smoke/case/take/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/source.publication.json",
+      "bytes": 400,
+      "sha256": "2a4da1455c18d5682f25e8e716097c54e3c43a6b5265992faf315da890baea03"
+    },
+    {
+      "member": "scale-smoke/case/take/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/timestamps.jsonl",
+      "bytes": 198215,
+      "sha256": "c266738deeeaf6fa2e8e066efa0280e65a4ede20978080169116fc19d12a9ce2"
+    },
+    {
+      "member": "scale-smoke/case/take/video.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/take/video.mov",
+      "bytes": 16257,
+      "sha256": "5dd875815a2f3d07818a3b1fc1e83a13aa3d26c98aeb1865415c340063507db5"
+    },
+    {
+      "member": "scale-smoke/case/unverified-reader-views/unverified-before-stop-camera.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/unverified-reader-views/unverified-before-stop-camera.mov",
+      "bytes": 10110,
+      "sha256": "d3a26ae24d44d4e6f707b11c8f0c74f8872b0a13c9d057d01c735014bbf934e1"
+    },
+    {
+      "member": "scale-smoke/case/unverified-reader-views/unverified-before-stop-camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/unverified-reader-views/unverified-before-stop-camera.raw.mov",
+      "bytes": 11685,
+      "sha256": "6c3da10e83336010c75bc30d4c60d7dc59be9fd9022a8c2c50c31bf16ad59f31"
+    },
+    {
+      "member": "scale-smoke/case/unverified-reader-views/unverified-canonical-acquisition-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/unverified-reader-views/unverified-canonical-acquisition-0.mov",
+      "bytes": 10110,
+      "sha256": "d3a26ae24d44d4e6f707b11c8f0c74f8872b0a13c9d057d01c735014bbf934e1"
+    },
+    {
+      "member": "scale-smoke/case/unverified-reader-views/unverified-canonical-stop-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/unverified-reader-views/unverified-canonical-stop-0.mov",
+      "bytes": 11689,
+      "sha256": "938aea96ecf837821d42033aa6576995075e3e4e4e7ec585a14a195ffeb89cc2"
+    },
+    {
+      "member": "scale-smoke/case/unverified-reader-views/unverified-raw-acquisition-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/unverified-reader-views/unverified-raw-acquisition-0.mov",
+      "bytes": 10391,
+      "sha256": "0b5c9b3f38ced7c097e2f08ef154effbec064e0e59c19eeaa747547954894548"
+    },
+    {
+      "member": "scale-smoke/case/unverified-reader-views/unverified-raw-stop-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/case/unverified-reader-views/unverified-raw-stop-0.mov",
+      "bytes": 16356,
+      "sha256": "3f641678862031d4d5754b6d429c0c3011af88193124f02bd69207a98510c73f"
+    },
+    {
+      "member": "scale-smoke/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "scale-smoke/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "scale-smoke/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/plan.json",
+      "bytes": 5779,
+      "sha256": "3b0d15376a709c91b934c948d81b22a84a06422d30f8a5805aec13028905493b"
+    },
+    {
+      "member": "scale-smoke/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/processes.json",
+      "bytes": 6471,
+      "sha256": "67c46aa96085a0b582cbcd3210712b8b6b8f3ac3d3f01ffc4b565342ca41369b"
+    },
+    {
+      "member": "scale-smoke/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "scale-smoke/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/test.stderr",
+      "bytes": 158,
+      "sha256": "0f6fa69dc7d1cade4df4cd8774e94c1077f0008c8e47fbdac392b0a6a3c467a7"
+    },
+    {
+      "member": "scale-smoke/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "scale-smoke-paced/PrerecordedCaptureInput.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/PrerecordedCaptureInput.swift",
+      "bytes": 14885,
+      "sha256": "20139941c35385f0ec827b6df6b8c53f17e4bf95ddfda74392350ca9e25969bc"
+    },
+    {
+      "member": "scale-smoke-paced/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/Probe.swift",
+      "bytes": 304,
+      "sha256": "af76a67c8d3a94eeac9b76c81c321fbd8ef1175db4b2d8949320f06225896532"
+    },
+    {
+      "member": "scale-smoke-paced/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/before-stop.json",
+      "bytes": 307,
+      "sha256": "84536762510d5c83d3a0c2b1b159deee2bdc164336c0922e94759e8aa88d7732"
+    },
+    {
+      "member": "scale-smoke-paced/case/measurement.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/measurement.json",
+      "bytes": 873,
+      "sha256": "984d3746f25c9aeff525a1be02e98a083a58a95286ee28ccc9b92f27609ec81f"
+    },
+    {
+      "member": "scale-smoke-paced/case/reader-starts.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/reader-starts.json",
+      "bytes": 2954,
+      "sha256": "00daddb5ed5c2141c9d2555e7ca4249d544d8237caba212d7559cbfb3293ae20"
+    },
+    {
+      "member": "scale-smoke-paced/case/reader-starts.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/reader-starts.jsonl",
+      "bytes": 2953,
+      "sha256": "826f760557a758403fdd5121bedfd967f6a281f3452e5a5701a0959e41448b47"
+    },
+    {
+      "member": "scale-smoke-paced/case/screen-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/screen-result.json",
+      "bytes": 860,
+      "sha256": "37c3a1f260c341294479f2c6fc849232f6c7b8d80ca83cab594f5cd4060effbe"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/.screenrec-output-9514B4D7-672A-4432-85AE-28F5349E02BE/camera.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/.screenrec-output-9514B4D7-672A-4432-85AE-28F5349E02BE/camera.mov",
+      "bytes": 16554,
+      "sha256": "9bb960a6708dfa891efa82c9ada6f73f2a76d6ef090333d61e9c32fbb09dce9b"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/camera.closed.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/camera.closed.json",
+      "bytes": 93,
+      "sha256": "7e205acee96aac83779015a6fea64f750396dc76c7f4d29749b73e8a10506da1"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/camera.mapping.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/camera.mapping.jsonl",
+      "bytes": 198379,
+      "sha256": "422225ad7bc57c66cef64a48409ea0249ab9cbc99b03401dcfcafa8397a558d0"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/camera.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/camera.publication.json",
+      "bytes": 889,
+      "sha256": "60daa6cff53cd1ceb6587a43e34bccf6fc8b2948c8e9435c7c628fb7549690f8"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/camera.raw.mov",
+      "bytes": 16117,
+      "sha256": "d4819f533b9680626a3a03161835969a747698b731afc10339b8d695ce4ed542"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/capture-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/capture-result.json",
+      "bytes": 451,
+      "sha256": "8dfce2eb8e6cf597fe4d94f52ba116ee6fa59a7271bd6087919b9216beccf0ba"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/capture.journal.jsonl",
+      "bytes": 865,
+      "sha256": "4a925b56a5b12d01797328b11e9e27deb984c913f92096b57d193f9811aa65d6"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/source.publication.json",
+      "bytes": 635,
+      "sha256": "75e197a14e5e7e5580516d448002c55131ed027a21a1c17712031ff1738a96b5"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/camera/video.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/camera/video.mov",
+      "bytes": 16554,
+      "sha256": "9bb960a6708dfa891efa82c9ada6f73f2a76d6ef090333d61e9c32fbb09dce9b"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/capture.journal.jsonl",
+      "bytes": 1095,
+      "sha256": "6bf28323d7fd5e8a9228b1605e83e22ca9c0837b5387bbe7419e4de384c89a72"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/source.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/source.journal.jsonl",
+      "bytes": 1032,
+      "sha256": "3dbfc5d05c73e4d35b8aa99657aeda516a606589158eb550682621b2b2761dff"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/source.publication.json",
+      "bytes": 400,
+      "sha256": "0b5c1f530352865e8ec85d81c145e8e77d20cc54c4fa4891fd96cf3bd81e374c"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/timestamps.jsonl",
+      "bytes": 198379,
+      "sha256": "422225ad7bc57c66cef64a48409ea0249ab9cbc99b03401dcfcafa8397a558d0"
+    },
+    {
+      "member": "scale-smoke-paced/case/take/video.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/take/video.mov",
+      "bytes": 16165,
+      "sha256": "86fcc9da2bb8566be19ba4485b7c8765da8cc76b2d88092713e19fe787d0040c"
+    },
+    {
+      "member": "scale-smoke-paced/case/unverified-reader-views/unverified-before-stop-camera.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/unverified-reader-views/unverified-before-stop-camera.mov",
+      "bytes": 9774,
+      "sha256": "21b943e27ce262c7a290693dd514f69eec918e17c5b0635407c330d7998aae6f"
+    },
+    {
+      "member": "scale-smoke-paced/case/unverified-reader-views/unverified-before-stop-camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/unverified-reader-views/unverified-before-stop-camera.raw.mov",
+      "bytes": 11431,
+      "sha256": "61311b64c39e4489171f330b7a9341dfc91dd8988492828de3c95e8df134977a"
+    },
+    {
+      "member": "scale-smoke-paced/case/unverified-reader-views/unverified-canonical-acquisition-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/unverified-reader-views/unverified-canonical-acquisition-0.mov",
+      "bytes": 9774,
+      "sha256": "21b943e27ce262c7a290693dd514f69eec918e17c5b0635407c330d7998aae6f"
+    },
+    {
+      "member": "scale-smoke-paced/case/unverified-reader-views/unverified-canonical-stop-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/unverified-reader-views/unverified-canonical-stop-0.mov",
+      "bytes": 10827,
+      "sha256": "08fe69dcf861db7f5b6bab6f13a3ea085b29b8a916d29cd5202c100c445cab93"
+    },
+    {
+      "member": "scale-smoke-paced/case/unverified-reader-views/unverified-raw-acquisition-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/unverified-reader-views/unverified-raw-acquisition-0.mov",
+      "bytes": 10225,
+      "sha256": "7473c0e48d5477e000a2f9685d7d1dcd9fe61abcefd8513a69f2e3a0fea0e79e"
+    },
+    {
+      "member": "scale-smoke-paced/case/unverified-reader-views/unverified-raw-stop-0.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/case/unverified-reader-views/unverified-raw-stop-0.mov",
+      "bytes": 16117,
+      "sha256": "d4819f533b9680626a3a03161835969a747698b731afc10339b8d695ce4ed542"
+    },
+    {
+      "member": "scale-smoke-paced/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "scale-smoke-paced/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "scale-smoke-paced/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/plan.json",
+      "bytes": 5803,
+      "sha256": "33f52bf1268dbefe3d5c6c7e2f66bcecf6a3784633fc2af727d38322c7addeab"
+    },
+    {
+      "member": "scale-smoke-paced/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/processes.json",
+      "bytes": 6493,
+      "sha256": "06611986f80e60340bfb41eb86b75acb3198daeda8c265a62411ddc7f86fe376"
+    },
+    {
+      "member": "scale-smoke-paced/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "scale-smoke-paced/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/test.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "scale-smoke-paced/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/scale-smoke-paced/test.stdout",
+      "bytes": 76,
+      "sha256": "a56be996e7b417272dfe5694cd38708677d63a4a53115cbacc0738229a13d7c8"
+    },
+    {
+      "member": "settled/CameraLivePublicationTests.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/CameraLivePublicationTests.swift",
+      "bytes": 13250,
+      "sha256": "31ac99653102b7c410d7699c7a4bfe1ed171a4e1c0745d9280345d432c3a49c3"
+    },
+    {
+      "member": "settled/CameraMedia.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/CameraMedia.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/CameraMedia.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/CameraMedia.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/CameraMedia.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/CameraMedia.swift",
+      "bytes": 72935,
+      "sha256": "016bb583056f9ed1ba45916a827c2510448017eba521645a62e176b5a74fd826"
+    },
+    {
+      "member": "settled/CameraReaderStarts.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/CameraReaderStarts.swift",
+      "bytes": 9177,
+      "sha256": "f68e1cc3df47806933f708564b79786a21cf9862230313cea19f1443af10693a"
+    },
+    {
+      "member": "settled/Modules/ScreenRecorderCapture.abi.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/Modules/ScreenRecorderCapture.abi.json",
+      "bytes": 149,
+      "sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728"
+    },
+    {
+      "member": "settled/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/Probe.swift",
+      "bytes": 293,
+      "sha256": "226f3460d10c2eda47ed14dd72efba22ce4350bab4aed6261201c07556f9e9de"
+    },
+    {
+      "member": "settled/SelectedCaptureStopScale.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/SelectedCaptureStopScale.swift",
+      "bytes": 7009,
+      "sha256": "9eb666b3819aaa95131508282c1c3a18bf9e8cc189467ac47f09e58defa4d23d"
+    },
+    {
+      "member": "settled/case/before-stop-camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/before-stop-camera.raw.mov",
+      "bytes": 10981,
+      "sha256": "d138b3b9a132e8544f2093ae4a60c2e079c4387746911d324e1b41c6901023b6"
+    },
+    {
+      "member": "settled/case/before-stop-timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/before-stop-timestamps.jsonl",
+      "bytes": 113555,
+      "sha256": "8cd9edb41566b832f4e137ddcac2720ff057f09bbbeffb7062950feb2041b2ad"
+    },
+    {
+      "member": "settled/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/before-stop.json",
+      "bytes": 357,
+      "sha256": "33fd7718365788471c69dba94e09687974e6d00f3c1b9638832b28d4e68a9b8f"
+    },
+    {
+      "member": "settled/case/camera/.screenrec-output-4B41DFEA-6D17-4137-BBA9-E0628AD44A74/camera.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/.screenrec-output-4B41DFEA-6D17-4137-BBA9-E0628AD44A74/camera.mov",
+      "bytes": 16044,
+      "sha256": "84d391f9af8ed7f02017baca551c2d55e1d59451b644ae5f81ec73c1058c9ab1"
+    },
+    {
+      "member": "settled/case/camera/camera.closed.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/camera.closed.json",
+      "bytes": 93,
+      "sha256": "48e0830f5ee0048585381a2fd5236ab66628e0ad3ef803598f1071ed82109833"
+    },
+    {
+      "member": "settled/case/camera/camera.mapping.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/camera.mapping.jsonl",
+      "bytes": 113555,
+      "sha256": "8cd9edb41566b832f4e137ddcac2720ff057f09bbbeffb7062950feb2041b2ad"
+    },
+    {
+      "member": "settled/case/camera/camera.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/camera.publication.json",
+      "bytes": 879,
+      "sha256": "b4fa1fce26515fcd406a2d23c289bca97d23a6b030775ff3ed9ba0c46e0156ad"
+    },
+    {
+      "member": "settled/case/camera/camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/camera.raw.mov",
+      "bytes": 15699,
+      "sha256": "56c33f02195cf74b7004b5dae6e502f00b825a467c269f1d860a13bc65a51a82"
+    },
+    {
+      "member": "settled/case/camera/capture-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/capture-result.json",
+      "bytes": 446,
+      "sha256": "48b4fee43163eb06a3d12fd2dab46e3e90986865082713189412698f7e4c7f2a"
+    },
+    {
+      "member": "settled/case/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/capture.journal.jsonl",
+      "bytes": 855,
+      "sha256": "c28849ae1fbba5f0f04f99430890c5d54fa9445d0c075ccfe478baf0a590ff1b"
+    },
+    {
+      "member": "settled/case/camera/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/source.publication.json",
+      "bytes": 635,
+      "sha256": "b84fc5ed92a5b8c0d2a65684b97738a5f518de0330842d01ba09bfc7479cf823"
+    },
+    {
+      "member": "settled/case/camera/video.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/camera/video.mov",
+      "bytes": 16044,
+      "sha256": "84d391f9af8ed7f02017baca551c2d55e1d59451b644ae5f81ec73c1058c9ab1"
+    },
+    {
+      "member": "settled/case/screen/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/screen/capture.journal.jsonl",
+      "bytes": 1094,
+      "sha256": "d51db06d7503baca833c94ad2227d5f11d8f30c8b6ae967bf437c61a6e37befd"
+    },
+    {
+      "member": "settled/case/screen/source.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/screen/source.journal.jsonl",
+      "bytes": 1031,
+      "sha256": "3db9f487e81a99bafe26de8496516d588e594c6c057dbfa82fb6107a43369512"
+    },
+    {
+      "member": "settled/case/screen/source.publication.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/screen/source.publication.json",
+      "bytes": 399,
+      "sha256": "41ab742c098212517bddbba1a8270c84c958607ac71b77469a2893e9ba882e5d"
+    },
+    {
+      "member": "settled/case/screen/video.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/screen/video.mov",
+      "bytes": 2527,
+      "sha256": "8af245f76a2e8d37e783de41733ff13cfddbfc2ee05af2ce3431d51140254472"
+    },
+    {
+      "member": "settled/case/stable-media.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/stable-media.json",
+      "bytes": 495,
+      "sha256": "fa85e7f62167a8fa2ad5a49c36ed1ba1c7ad2962a2698870cdc5ada14331c0c4"
+    },
+    {
+      "member": "settled/case/stop-result.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/stop-result.json",
+      "bytes": 838,
+      "sha256": "b748f4d8064e26adad9bc40518aae4b1ad3c530b8f845eadd9f41811092caf68"
+    },
+    {
+      "member": "settled/case/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/timestamps.jsonl",
+      "bytes": 113555,
+      "sha256": "8cd9edb41566b832f4e137ddcac2720ff057f09bbbeffb7062950feb2041b2ad"
+    },
+    {
+      "member": "settled/case/unverified-before-stop.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/case/unverified-before-stop.mov",
+      "bytes": 9446,
+      "sha256": "f296c7b72374fedba9daba1ad63414e0e974ee4124aebec8e3f9693ba96397f6"
+    },
+    {
+      "member": "settled/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/module.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/module.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/module.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/module.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/plan.json",
+      "bytes": 14798,
+      "sha256": "b90d766148f6f0dfb55bf30c32ff02955a507bbc0c6415e021b75065bf7bf466"
+    },
+    {
+      "member": "settled/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/processes.json",
+      "bytes": 16240,
+      "sha256": "a0485dfc5b4b51e4a2c502f60f56f47e8f48234179d36d1dfb08bd898dbaf7ce"
+    },
+    {
+      "member": "settled/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "settled/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/test.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "settled/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/settled/test.stdout",
+      "bytes": 136,
+      "sha256": "56461edd70fa792db89889c2c94fa4498716a25a51538c41b19a0da40a9e22ca"
+    },
+    {
+      "member": "stable-red/CameraLivePublicationTests.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/CameraLivePublicationTests.swift",
+      "bytes": 12037,
+      "sha256": "d284ddb76c7c03b29dc1106f1896fa7e7118a24cfee8f1467d68f2ca0066108b"
+    },
+    {
+      "member": "stable-red/CameraReaderStarts.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/CameraReaderStarts.swift",
+      "bytes": 7136,
+      "sha256": "9f7fad29a6c9572531a703737fb82f4c3aa811b563daf702ee86e56226d4019c"
+    },
+    {
+      "member": "stable-red/Probe.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/Probe.swift",
+      "bytes": 259,
+      "sha256": "d72ee6f4b688adb2cc08b0d7d98adbc26bcdb614d8c2bab45895554a880634ce"
+    },
+    {
+      "member": "stable-red/case/before-stop-camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/before-stop-camera.raw.mov",
+      "bytes": 10981,
+      "sha256": "4baa94cc47b8b299a1e72e718c8388ec5882ee85a789268c2a395dc63357756e"
+    },
+    {
+      "member": "stable-red/case/before-stop-timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/before-stop-timestamps.jsonl",
+      "bytes": 113555,
+      "sha256": "e12d7d1ff7bca0027ede956b1be4e1d8e355411f0fdb0995951cc4894d477ce6"
+    },
+    {
+      "member": "stable-red/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/before-stop.json",
+      "bytes": 360,
+      "sha256": "2a099c50d8ccb95360590b07280de3cd6c457b18b9028bc97f6025cf18313186"
+    },
+    {
+      "member": "stable-red/case/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/camera/capture.journal.jsonl",
+      "bytes": 367,
+      "sha256": "a7d862d08b2c3fd6514481a940de760da8577c59650fcd030000e313f5834f57"
+    },
+    {
+      "member": "stable-red/case/screen/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/screen/capture.journal.jsonl",
+      "bytes": 533,
+      "sha256": "9adc8d12d89d73c3c82680caaebacfadfbab4d38cefcfa0a9ed14f09aa875e94"
+    },
+    {
+      "member": "stable-red/case/stable-media.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/stable-media.json",
+      "bytes": 304,
+      "sha256": "d05794e9802ec9b80bbf9966153d5986e886e67184027a8313ffd034c194c074"
+    },
+    {
+      "member": "stable-red/case/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/timestamps.jsonl",
+      "bytes": 117223,
+      "sha256": "38b6667382b65fbf115ef7d41845c43350c8bbf3fc1531e874e27d871df62b5d"
+    },
+    {
+      "member": "stable-red/case/unverified-before-stop.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/case/unverified-before-stop.mov",
+      "bytes": 9446,
+      "sha256": "4ad47e7be06188622a993da19fbccb3df5eeab0bb588885a28c22814f8fd0ee5"
+    },
+    {
+      "member": "stable-red/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "stable-red/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "stable-red/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/plan.json",
+      "bytes": 5668,
+      "sha256": "fcaac58050ed6c9eb94ebecdc30f5837c4e659b6c354dc53d8d4cdb39fb806f5"
+    },
+    {
+      "member": "stable-red/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/processes.json",
+      "bytes": 6356,
+      "sha256": "56142b1be1361f510e26d2f35f92962cb95dfc466fbd3574e3bd20f3332eef22"
+    },
+    {
+      "member": "stable-red/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "stable-red/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/test.stderr",
+      "bytes": 104,
+      "sha256": "62870c7e8f3a0b8044cca1621bdf22ff04578754e40084971a78b89b7c530023"
+    },
+    {
+      "member": "stable-red/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-red/test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "stable-versions-red/CameraLivePublicationTests.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/CameraLivePublicationTests.swift",
+      "bytes": 12197,
+      "sha256": "2b34a6f112c83f00af5a408af2cd40b54c4cd24ab94166db9ee4f4ef76d085ad"
+    },
+    {
+      "member": "stable-versions-red/CameraReaderStarts.swift",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/CameraReaderStarts.swift",
+      "bytes": 7952,
+      "sha256": "dd813363bd8e169c357998817a4290580e5cd407f098f2759d6410634cfdc7ae"
+    },
+    {
+      "member": "stable-versions-red/case/before-stop-camera.raw.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/before-stop-camera.raw.mov",
+      "bytes": 10981,
+      "sha256": "b26c2e0dbc0aabcafab2cd25ca4f323c23396a7a6704b9b1e1b2e5bc3563ca35"
+    },
+    {
+      "member": "stable-versions-red/case/before-stop-timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/before-stop-timestamps.jsonl",
+      "bytes": 113555,
+      "sha256": "75267f74ecf690799ff5f501630da886c2d42fb41a4938738efab41c1d4600d6"
+    },
+    {
+      "member": "stable-versions-red/case/before-stop.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/before-stop.json",
+      "bytes": 369,
+      "sha256": "46c297231b22b80d8b44378f1d868c613b9792d299f61960f2466938dc6fc18c"
+    },
+    {
+      "member": "stable-versions-red/case/camera/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/camera/capture.journal.jsonl",
+      "bytes": 367,
+      "sha256": "38e69f0fddd0e32d9dbaee50bf28e081526af0661b1d817e9f43fd3594820043"
+    },
+    {
+      "member": "stable-versions-red/case/screen/capture.journal.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/screen/capture.journal.jsonl",
+      "bytes": 533,
+      "sha256": "98294161bc2bdb6dfc525e87d90afe2ef2bca6d8498080ba16cde9e590fa756e"
+    },
+    {
+      "member": "stable-versions-red/case/stable-media.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/stable-media.json",
+      "bytes": 1727,
+      "sha256": "a7adb202a28af70391a66d2053b9fa54f72cba5fd8246cab00e53026c1ed6262"
+    },
+    {
+      "member": "stable-versions-red/case/timestamps.jsonl",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/timestamps.jsonl",
+      "bytes": 117223,
+      "sha256": "55af8c6d50b887eb0404afab7dc100f0df346ccd888b9a92291970b2c1084ad8"
+    },
+    {
+      "member": "stable-versions-red/case/unverified-before-stop.mov",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/case/unverified-before-stop.mov",
+      "bytes": 9446,
+      "sha256": "182a3c068f3225e9084ea4da6d5bfc150cb2f0590b232e0103c995802955a244"
+    },
+    {
+      "member": "stable-versions-red/link.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "stable-versions-red/link.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/link.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "member": "stable-versions-red/plan.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/plan.json",
+      "bytes": 5695,
+      "sha256": "598f2c464ddd45ea2a2be750d245057b8132d72784b0cd629abac0baaa1db4f6"
+    },
+    {
+      "member": "stable-versions-red/processes.json",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/processes.json",
+      "bytes": 6385,
+      "sha256": "1e30a11dcda33c49f71b4aa3e1aa77d2313dcbb102e8419050c91fc4869af41d"
+    },
+    {
+      "member": "stable-versions-red/run.py",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/run.py",
+      "bytes": 1163,
+      "sha256": "f90183f125f9d36bffd4329e6994856d8021d2db9473496a6f2efdc014876a66"
+    },
+    {
+      "member": "stable-versions-red/test.stderr",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/test.stderr",
+      "bytes": 107,
+      "sha256": "1019371357f959db29ae39bf80959470187871b4bb523d4b4806a7487b571441"
+    },
+    {
+      "member": "stable-versions-red/test.stdout",
+      "original": "/tmp/screenrec-camera-live-stop-scale/stable-versions-red/test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

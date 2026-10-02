@@ -6779,3 +6779,14 @@ work but left this internal refusal bound unspecified. Refusal returns to normal
 publication; it does not establish that stop completes within ten seconds.
 The value remains an internal guard whose drain and backlog cost must be measured,
 not a new caller setting or a relaxed release requirement.
+
+**Sound, medium confidence — keep bounded diagnostic movies for the stop measurement.**
+During the long prerecorded check, each new reader records its actual time range.
+The test keeps only the two latest immutable movie views for each media role and
+for recording versus stop, plus separate copies taken immediately before Stop.
+Older log entries retain their clocks, but their rotating movie paths do not
+promise that the older movie still exists. The plan required failure operands
+without choosing their retention policy. Keeping every view would accumulate
+large media throughout the take; keeping none would lose the failing tail.
+This choice applies only to the test's scratch evidence, adds no product storage
+policy, and records the copy overhead in its measurement.

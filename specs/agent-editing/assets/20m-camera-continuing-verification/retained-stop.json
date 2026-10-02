@@ -1,0 +1,201 @@
+{
+  "status": "verified retained prerecorded continuing verification and durable stop",
+  "codeCommit": "83968bf9",
+  "delegatedCommit": "1736de42cd2c532e9e6d59d64a6f4cccfe5e9d30",
+  "report": {
+    "member": "final/report.json",
+    "bytes": 9257,
+    "sha256": "add9f9ed280135f3ef94a8e1614075c60b84abe879644867dd596c7e5dcd8a9d"
+  },
+  "measurement": {
+    "acquisitionWallSeconds": 250.281731791,
+    "activeDiagnosticSnapshotSeconds": 0.000396625,
+    "cameraEndUs": 246167243,
+    "cameraFirstUs": 200000,
+    "cameraOmittedSamples": 1,
+    "cameraPictureSHA256": "e3dc1745ed061be585580cd1bc3ab01125d11881469d5a6af80e33a29ef69b5e",
+    "height": 1080,
+    "offeredPictures": 4428,
+    "preStopCanonicalReaderStarts": 47,
+    "preStopRawReaderStarts": 47,
+    "publishedActiveCandidate": true,
+    "readerViewRetentionSeconds": 0.609479217,
+    "representedPictures": 4428,
+    "scope": "Native-rate prerecorded screen/camera replay; microphone disabled; no AppKit quit timer or physical devices",
+    "source": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+    "sourceDurationSeconds": 250.148103,
+    "stopToDurableResultSeconds": 6.68346475,
+    "width": 1920
+  },
+  "terminal": {
+    "pid": 57975,
+    "command": [
+      "/tmp/screenrec-camera-live-stop-scale/measured/probe",
+      "/tmp/screenrec-camera-live-stop-scale/measured/case",
+      "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov"
+    ],
+    "start": "2026-10-02T10:24:54.134514+00:00",
+    "wholeProcessBoundSeconds": 420,
+    "sampledRSSBoundBytes": 4294967296,
+    "sampleIntervalSeconds": 0.25,
+    "exitCode": 0,
+    "terminal": true,
+    "waited": true,
+    "end": "2026-10-02T10:29:11.650104+00:00",
+    "elapsedSeconds": 257.5120232090121,
+    "guardOutcome": "within-bounds",
+    "peakSampledRSSBytes": 173277184
+  },
+  "protectedBindings": {
+    "beforeEqualsAfter": true,
+    "bindings": 95
+  },
+  "executedSourceBindings": [
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift",
+      "bytes": 72935,
+      "sha256": "016bb583056f9ed1ba45916a827c2510448017eba521645a62e176b5a74fd826"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraReaderStarts.swift",
+      "bytes": 9177,
+      "sha256": "f68e1cc3df47806933f708564b79786a21cf9862230313cea19f1443af10693a"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/CameraLivePublicationTests.swift",
+      "bytes": 13250,
+      "sha256": "31ac99653102b7c410d7699c7a4bfe1ed171a4e1c0745d9280345d432c3a49c3"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/SelectedCaptureStopScale.swift",
+      "bytes": 7429,
+      "sha256": "635dc0c3a3dc266dd995afcae2cfc61895055e0d69cae61dad471e9889b3a258"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/PrerecordedCaptureInput.swift",
+      "bytes": 14885,
+      "sha256": "20139941c35385f0ec827b6df6b8c53f17e4bf95ddfda74392350ca9e25969bc"
+    }
+  ],
+  "exactDigestBody": {
+    "unchanged": true,
+    "bytes": 1255,
+    "sha256": "d42f4aa3749572283c53e3720a07583fd9712fccc0e5b6c2a397513463f94473"
+  },
+  "samePublishedCandidate": {
+    "device": 16777230,
+    "inode": 341961919,
+    "bytes": 412159705,
+    "beforeStopBytes": 406325209,
+    "publicHardlink": true
+  },
+  "actualStopReaderRanges": {
+    "raw": [
+      {
+        "retainedView": "/tmp/screenrec-camera-live-stop-scale/measured/case/unverified-reader-views/unverified-raw-stop-0.mov",
+        "phase": "stop",
+        "url": "/private/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/.camera-snapshot-344E8243-8CEE-4DBE-B269-CF29520472A4/camera.raw.mov",
+        "hostUs": 220394678216,
+        "rangeStart": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 241033500
+        },
+        "started": true,
+        "rangeEnd": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 246167243
+        },
+        "retentionSeconds": 0.00028375,
+        "role": "raw"
+      },
+      {
+        "phase": "stop",
+        "url": "/private/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/camera.raw.mov",
+        "hostUs": 220399517156,
+        "rangeStart": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 246033900
+        },
+        "started": true,
+        "rangeEnd": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 246167243
+        },
+        "retentionSeconds": 1.1083e-05,
+        "role": "raw"
+      }
+    ],
+    "canonical": [
+      {
+        "retainedView": "/tmp/screenrec-camera-live-stop-scale/measured/case/unverified-reader-views/unverified-canonical-stop-0.mov",
+        "phase": "stop",
+        "url": "/private/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/.camera-snapshot-344E8243-8CEE-4DBE-B269-CF29520472A4/camera.mov",
+        "hostUs": 220396810394,
+        "rangeStart": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 239366700
+        },
+        "started": true,
+        "rangeEnd": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 245467190
+        },
+        "retentionSeconds": 0.000290666,
+        "role": "canonical"
+      },
+      {
+        "phase": "stop",
+        "url": "/private/tmp/screenrec-camera-live-stop-scale/measured/case/take/camera/.screenrec-output-DBFB2C83-FF8A-4E69-9158-A2DB03AE213C/camera.mov",
+        "hostUs": 220399517268,
+        "rangeStart": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 244367100
+        },
+        "started": true,
+        "rangeEnd": {
+          "flags": 1,
+          "epoch": 0,
+          "timescale": 1000000,
+          "value": 246167243
+        },
+        "retentionSeconds": 9.709e-06,
+        "role": "canonical"
+      }
+    ]
+  },
+  "review": "All shape/diff/docs findings resolved; no new dependency, production owner or public operation. Existing clone decision retained; bounded test diagnostic retention banked in choices.",
+  "artifactManifest": "retained-stop-manifest.json",
+  "archiveMembers": 233,
+  "limits": [
+    "One retained prerecorded consumer; no physical device drain/AppKit/installed action/general latency claim.",
+    "Native sampled RSS is sampled, not an absolute peak bound proof.",
+    "The smoke-to-full link adds only pre-stop candidate stat JSON; same production object and preserved numerical/output oracles.",
+    "Two retained immutable reader views per role/phase are rotating slots; historical events do not imply every earlier view remains.",
+    "No old baseline, full suite, encoder retuning, deadline/cap change, capture/audio/model or frozen worker build."
+  ],
+  "receiptBindingsVerified": {
+    "completeFiles": [
+      "raw",
+      "canonical",
+      "closed",
+      "observations"
+    ],
+    "journalPrefixBytes": 376,
+    "journalFinalBytes": 878,
+    "journalLimit": "Camera receipt binds the validated pre-terminal journal prefix; source finalization appends the finished record afterward."
+  }
+}

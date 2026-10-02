@@ -1,0 +1,196 @@
+{
+  "priority": "P2",
+  "owner": "CameraMedia.Verification.advance",
+  "trigger": "Each accepted mapping row requests work while raw and private canonical file versions remain unchanged.",
+  "observedCode": "Scratch directory creation and complete written-mapping copy occur before both media-version no-op checks.",
+  "amplification": "If each worker iteration finishes before the next callback, written observation prefixes are recopied once per frame: quadratic cumulative mapping bytes. At 4,428 frames and about 4 MiB final observations the upper estimate is about 9 GiB of writes, before coalescing; longer legitimate takes grow this cost. This is a code-derived upper estimate, not a runtime I/O measurement.",
+  "correction": "Check raw/canonical versions and pending mapping eligibility before creating scratch or copying observations. Preserve file-event catch-up and written-row eligibility changes.",
+  "acceptance": "A tiny production consumer must preserve exact live/final output and demonstrate bounded/no-op snapshot work for an unchanged media interval; then use one retained-take measurement.",
+  "disposition": "Resolved in the measured candidate: cheap eligibility checks precede scratch creation; written mapping snapshots reuse owned COW cloning and truncate only the private clone to the written byte boundary.",
+  "relatedSchedulingFinding": {
+    "priority": "P2",
+    "owner": "Verification.watch/request",
+    "trigger": "A file event reads the old lastWritten tuple, ingress records a newer tuple, then the event calls request with its stale tuple.",
+    "impact": "Unconditional assignment can regress lastWritten and pending. After the final callback, later file notifications can keep waking an old boundary, increasing final-tail work. Complete closed-source verification still protects publication.",
+    "acceptance": "Written byte boundary never regresses; even a stale notification schedules the current newest boundary. Preserve equal-boundary file-event catch-up.",
+    "disposition": "Resolved in the measured candidate: request selects the greatest written byte boundary under its existing control lock, and stale/equal notifications still enqueue that current boundary."
+  },
+  "focusedEvidence": {
+    "snapshotRed": {
+      "process": {
+        "pid": 54385,
+        "exitCode": 1,
+        "terminal": true,
+        "waited": true,
+        "timeout": false,
+        "elapsedSeconds": 1.700504042004468
+      },
+      "actual": {
+        "after": [
+          [
+            10981,
+            1790936504,
+            938049435
+          ],
+          [
+            9446,
+            1790936504,
+            887489314
+          ]
+        ],
+        "before": [
+          [
+            10981,
+            1790936504,
+            938049435
+          ],
+          [
+            9446,
+            1790936504,
+            887489314
+          ]
+        ],
+        "mappingBytes": 113555,
+        "mappingFrames": 215,
+        "settled": [
+          [
+            10981,
+            1790936504,
+            938049435
+          ],
+          [
+            9446,
+            1790936504,
+            887489314
+          ]
+        ],
+        "snapshotCreations": 3
+      },
+      "output": {
+        "path": "/tmp/screenrec-camera-live-stop-scale/checkpoint-wakeups-red-fixed/test.stderr",
+        "bytes": 116,
+        "sha256": "465ba6fba36c5fa252b5875ed941fa3d4cfad4ec17ec4f67a0b02659c8e6bbe1"
+      }
+    },
+    "schedulingRed": {
+      "process": {
+        "pid": 49711,
+        "exitCode": -5,
+        "terminal": true,
+        "waited": true,
+        "timeout": false,
+        "elapsedSeconds": 0.6541536670119967
+      },
+      "output": {
+        "path": "/tmp/screenrec-camera-live-stop-scale/checkpoint-red-fixed/test.stderr",
+        "bytes": 136,
+        "sha256": "b10ef98ef7106cc3a3b7e1de6c647af8a20b798c5e2f2db97525b2f4d663be04"
+      }
+    },
+    "green": {
+      "process": {
+        "pid": 50737,
+        "exitCode": 0,
+        "terminal": true,
+        "waited": true,
+        "timeout": false,
+        "elapsedSeconds": 2.2001351670187432
+      },
+      "actual": {
+        "after": [
+          [
+            10981,
+            1790936347,
+            268415404
+          ],
+          [
+            9446,
+            1790936347,
+            223724739
+          ]
+        ],
+        "before": [
+          [
+            10981,
+            1790936347,
+            268415404
+          ],
+          [
+            9446,
+            1790936347,
+            223724739
+          ]
+        ],
+        "mappingBytes": 113555,
+        "mappingFrames": 215,
+        "settled": [
+          [
+            10981,
+            1790936347,
+            268415404
+          ],
+          [
+            9446,
+            1790936347,
+            223724739
+          ]
+        ],
+        "snapshotCreations": 0
+      },
+      "output": {
+        "path": "/tmp/screenrec-camera-live-stop-scale/settled/test.stdout",
+        "bytes": 136,
+        "sha256": "56461edd70fa792db89889c2c94fa4498716a25a51538c41b19a0da40a9e22ca"
+      }
+    },
+    "replayRed": {
+      "process": {
+        "pid": 51308,
+        "exitCode": -5,
+        "terminal": true,
+        "waited": true,
+        "timeout": false,
+        "elapsedSeconds": 7.834005290991627
+      },
+      "attribution": {
+        "path": "/tmp/screenrec-camera-live-stop-scale/scale-smoke/attribution.json",
+        "bytes": 12979,
+        "sha256": "109d4624f584a8f435a72c15a9d403d2b55408318a5f7ae9758da7e5a5fe925a"
+      },
+      "limit": "The initial catch-up burst is directly recorded; one backpressure refusal occurred. No global load or scheduler cause is inferred."
+    },
+    "replayGreen": {
+      "process": {
+        "pid": 55789,
+        "exitCode": 0,
+        "terminal": true,
+        "waited": true,
+        "timeout": false,
+        "elapsedSeconds": 8.589684415986994
+      },
+      "measurement": {
+        "acquisitionWallSeconds": 7.558625209,
+        "activeDiagnosticSnapshotSeconds": 0.000939,
+        "cameraEndUs": 7533263,
+        "cameraFirstUs": 200000,
+        "cameraOmittedSamples": 1,
+        "cameraPictureSHA256": "85c03a03ea7dac1ee86c336bf8cf0483ac9b0ae3b598de48a34da0efc9b9e6d4",
+        "height": 16,
+        "offeredPictures": 215,
+        "preStopCanonicalReaderStarts": 1,
+        "preStopRawReaderStarts": 1,
+        "publishedActiveCandidate": true,
+        "readerViewRetentionSeconds": 0.007110333,
+        "representedPictures": 215,
+        "scope": "Native-rate prerecorded screen/camera replay; microphone disabled; no AppKit quit timer or physical devices",
+        "source": "/tmp/screenrec-camera-live-publication/final/live-case/identity/camera/camera.raw.mov",
+        "sourceDurationSeconds": 7.333263,
+        "stopToDurableResultSeconds": 0.719083625,
+        "width": 32
+      },
+      "limit": "32x16 prerecorded fixture only; no retained-take or physical-device deadline claim."
+    }
+  },
+  "retainedMeasurement": "retained-stop.json",
+  "integratedCommit": "83968bf9"
+}

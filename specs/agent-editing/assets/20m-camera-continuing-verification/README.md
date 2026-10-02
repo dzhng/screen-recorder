@@ -6,8 +6,8 @@ unchanged picture digest. Focused publication consumers preserve pixels, fractio
 support, partial-source diagnostics, failure selection and receipt replay. The merged
 source matches the executed source; all owned processes are terminal and absent.
 
-This pass does not advance across snapshots or move verification into capture.
-Range advancement, qualified snapshot binding, lifetime integration, backlog and
+State extraction alone does not advance across snapshots or move verification
+into capture. Later live integration supplies that behavior; backlog and
 completed-stop performance remain with the owning slice.
 
 [The live baseline](live-baseline-red.json) is an expected regression failure:
@@ -35,3 +35,20 @@ A closing refresh picture proves physical decoder progress but remains outside
 the committed hash and transferred prefix: its open-fragment timing can still
 change. Its later qualified version belongs to the next range or final tail.
 These tiny cases do not establish sustained throughput, memory or stop latency.
+
+[The runtime review](runtime-overhead-review.json) binds focused red/green checks
+for unnecessary snapshot work and stale written-boundary notifications. It also
+retains the tiny stop replay's initial startup burst and corrected pacing result.
+The correction preserves every offered picture and the original clock/placement
+checks. [The retained-take measurement](retained-stop.json) preserves all 4,428 pictures and
+finishes its durable result in 6.683 seconds, with 47 ranges starting per reader
+before Stop. Its original input and 95 runtime/source bindings remain unchanged.
+The measured path uses prerecorded input drain; physical acquisition/shutdown and
+general performance remain separate.
+
+[Its manifest](retained-stop-manifest.json) binds the compact executed sources,
+process records, complete observation rows, actual reader ranges, receipt and
+resource samples in the archive. Root verified all 233 members, the five changed
+source counterparts, all 95 protected runtime/input pins and actual candidate/public
+inode identity without repeating capture, compilation or verification scans.
+Large encoded diagnostic views stay outside Git with their recorded byte pins.

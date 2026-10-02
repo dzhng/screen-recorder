@@ -200,4 +200,9 @@ its own later encoded media, and speculative finish errors retain raw-first fall
 The saved conservative SDK may-order answers cannot supply negative eligibility.
 [Focused production consumers](../20m-camera-continuing-verification/live-integration.json)
 now verify pre-stop work, same-candidate publication and lifecycle/failure preservation.
-These compact passes do not establish sustained backlog or the completed-stop deadline.
+The later retained four-minute replay advances each reader 47 times before Stop,
+preserves all 4,428 pictures and completes its durable result in 6.683 seconds.
+That meets the ten-second target for the prerecorded production path. Final raw
+and canonical tails start at 246.033900 and 244.367100 seconds and both finish at
+246.167243 seconds. Physical device drain, AppKit shutdown and general performance
+remain unverified; the earlier audits and failed measurements stay historical.

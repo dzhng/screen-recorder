@@ -22,19 +22,24 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: prove sustained camera verification and completed-stop performance.**
+**Next pickup: complete the remaining release acceptance when its prerequisites are available.**
 [20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
 transfer, including complete finished pixels, timing/support and original-reader
 media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
 advancement to the capture lifetime. [Focused production checks](assets/20m-camera-continuing-verification/live-integration.json)
 verify both pre-stop readers, same-candidate publication, delayed/fractional clocks,
 retry, discard and failure cleanup. Both existing full scanners consume the same state.
-Preserve both ordered digests and recovery behavior.
-Reuse all saved source and prefix/range authorities.
+The [retained 250-second replay](assets/20m-camera-continuing-verification/retained-stop.json)
+preserves all 4,428 pictures, runs both verification
+streams before Stop and completes its durable result in 6.683 seconds. This closes
+20m's controlled implementation/measurement scope; physical input drain, device
+synchronization, AppKit shutdown and general performance remain open. Preserve
+both ordered digests and recovery behavior; reuse this result without another run.
 
-Camera publication is the current implementation priority. The [raw IDR proof](slices/20h-camera-idr-fence.md)
+The [raw IDR proof](slices/20h-camera-idr-fence.md)
 qualifies its fixed cases; the [stop dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
-owns the remaining canonical traversal, backlog and completed-stop prerequisites.
+records the historical prerequisites; 20m supplies continuing production work and
+the retained replay. Do not repeat that resolved experiment for physical acceptance.
 Keep native clock differences, codec limits, unknown flags and failed evidence intact.
 
 Independent work proceeds only from a missing implementation owner. The
@@ -45,6 +50,10 @@ separates source ports from presentation and installed switching. Neither pendin
 acceptance nor an accepted cohort creates another implementation pass.
 [Scale timing](assets/24z-current-preparation/README.md) awaits a genuinely changed
 coordinated window after its rejected preflight; do not poll or replay preparation.
+The post-20m owner audit found no missing source port in 12/23/24/25. Speech needs
+independent acoustic references; capture needs physical uncertainty/drain evidence;
+consumer/caller acceptance needs concrete presentation and installed adoption.
+The existing scale measure remains ready for its separately coordinated window.
 
 | Owner | Current evidence | Remaining contract |
 | --- | --- | --- |
@@ -248,13 +257,13 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
 - [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
-- [ ] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — ordinary scoped prefix passes; separate candidate fails before interruption, with later operands missing
+- [x] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — experiment concluded with mixed evidence; one-picture-tail hypothesis rejected, superseded by20h/20m qualification; no physical acceptance claim
 - [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
 - [x] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed intact-buffer prefix/closure and all197 correspondence pass; live production/backlog/recovery/stop remain open
-- [x] [20j — Resume decoded camera verification](slices/20j-camera-range-digests.md) — fixed ranges and both continuing digest projections pass; live production/transfer/backlog/stop remain open
+- [x] [20j — Resume decoded camera verification](slices/20j-camera-range-digests.md) — fixed ranges and both continuing digest projections pass;20m supplies production lifetime and retained-stop proof
 - [x] [20k — Cursor-bounded compressed camera samples](slices/20k-camera-cursor-buffers.md) — stored native bytes/clocks/format pass; full-reader boundary differences retained
-- [x] [20l — Unchanged cursor-sample camera transfer](slices/20l-camera-cursor-transfer.md) — fixed active-prefix/full-output proof; live adoption/backlog/stop remain open
-- [ ] [20m — Continuing camera verification in the publication owner](slices/20m-camera-continuing-verification.md)
+- [x] [20l — Unchanged cursor-sample camera transfer](slices/20l-camera-cursor-transfer.md) — fixed active-prefix/full-output proof;20m supplies production adoption and retained-stop proof
+- [x] [20m — Continuing camera verification in the publication owner](slices/20m-camera-continuing-verification.md) — retained prerecorded sustained advancement and 6.683-second durable stop; physical lifecycle remains with parents20/21
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [21a — Public camera discovery and permission facts](slices/21a-camera-discovery.md)
 - [x] [21b — Closed camera sources and retryable publication](slices/21b-camera-source-publication.md)
