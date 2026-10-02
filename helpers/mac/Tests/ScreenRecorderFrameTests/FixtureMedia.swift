@@ -218,6 +218,10 @@ struct FixtureImage {
         return (totals.red / counted, totals.green / counted, totals.blue / counted)
     }
 
+    func hasSamePixels(as other: FixtureImage) -> Bool {
+        width == other.width && height == other.height && pixels == other.pixels
+    }
+
     /// Mean absolute difference per colour channel, 0...1, against an image of the same size.
     func difference(to other: FixtureImage) -> Double {
         precondition(

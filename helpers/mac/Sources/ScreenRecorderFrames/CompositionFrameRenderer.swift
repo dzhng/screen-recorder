@@ -1,5 +1,3 @@
-@preconcurrency import AVFoundation
-import CoreImage
 import Foundation
 import ScreenRecorderMedia
 
@@ -51,19 +49,10 @@ public enum CompositionFrameRenderer {
             canvas: request.canvas, bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
-        let buffer = try await pictures.render(frame) { _ in
-            var buffer: CVPixelBuffer?
-            guard
-                CVPixelBufferCreate(
-                    nil, request.canvas.width, request.canvas.height, kCVPixelFormatType_32BGRA,
-                    [kCVPixelBufferIOSurfacePropertiesKey as String: [:]] as CFDictionary,
-                    &buffer) == kCVReturnSuccess, let buffer
-            else { throw NativeFailure.decodeFailed("Cannot allocate picture buffer.") }
-            return buffer
-        }
+        let composed = try await pictures.image(frame)
         try pictures.finishPointers()
         // Orientation and composition are complete. Only the established delivery bound remains.
-        let image = FrameImage(oriented: CIImage(cvPixelBuffer: buffer), maxLongEdge: edge)
+        let image = FrameImage(oriented: composed, maxLongEdge: edge)
         let bytes = try image.publishPNG(
             to: output, context: pictures.context, maxEncodedBytes: limit)
         return Result(

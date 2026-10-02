@@ -111,6 +111,11 @@ public final class CompositionPictureExecutor {
         let visual: [Frame.Node]
         let pointers: [PointerRasterKey]
     }
+    private struct PreparedPicture {
+        let key: RasterKey
+        let surfaces: [CompositionProcessing.Target: CIImage]
+        let pointerRows: [PreparedPointers.Row]
+    }
     private final class Reader {
         let source: PresentationSource
         let binding: String
@@ -184,10 +189,45 @@ public final class CompositionPictureExecutor {
         self.fonts = fontBindings
     }
 
+    func image(_ frame: Frame) async throws -> CIImage {
+        try compose(await prepare(frame))
+    }
+
     func render(_ frame: Frame, allocate: (CVPixelBuffer?) async throws -> CVPixelBuffer)
-        async throws
-        -> CVPixelBuffer
+        async throws -> CVPixelBuffer
     {
+        let prepared = try await prepare(frame)
+        // Consume source and pointer evidence even when an already validated graph holds its pixels.
+        if let retainedRaster, retainedRaster.key == prepared.key {
+            return try await allocate(retainedRaster.buffer)
+        }
+        let image = try compose(prepared)
+        let destination = try await allocate(nil)
+        context.render(
+            image, to: destination,
+            bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
+            colorSpace: color)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferColorPrimariesKey,
+            kCVImageBufferColorPrimaries_ITU_R_709_2,
+            .shouldPropagate)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferTransferFunctionKey,
+            kCVImageBufferTransferFunction_ITU_R_709_2,
+            .shouldPropagate)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferYCbCrMatrixKey,
+            kCVImageBufferYCbCrMatrix_ITU_R_709_2,
+            .shouldPropagate)
+        // Reuse pixels only when physical samples and every compiled operation agree.
+        retainedRaster = (prepared.key, destination)
+        rasterized += 1
+        return destination
+    }
+
+    private func prepare(_ frame: Frame) async throws -> PreparedPicture {
         try Task.checkCancellation()
         guard frame.layers.count <= 256, !frame.visual.isEmpty, frame.visual.count <= 10_000 else {
             throw Self.invalid("Compiled picture graph exceeds execution bounds.")
@@ -279,8 +319,6 @@ public final class CompositionPictureExecutor {
             reservedPixels += pixels
         }
         coverageMasks = coverageMasks.filter { requiredMasks.contains($0.key) }
-        let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
-        let transparent = CIImage(color: .clear).cropped(to: canvasRect)
         var surfaces: [CompositionProcessing.Target: CIImage] = [:]
         var keys: [LayerKey] = []
         pictures = []
@@ -414,16 +452,19 @@ public final class CompositionPictureExecutor {
         }
         outputIsKnownOpaque =
             backgroundIsOpaque && frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
-        let rasterKey = RasterKey(layers: keys, visual: frame.visual, pointers: pointerKeys)
-        // Identical keys also identify an already-validated graph. Every new evidence row
-        // was consumed above, but held pixels need neither glyph nor primitive rasterization.
-        if let retainedRaster, retainedRaster.key == rasterKey {
-            return try await allocate(retainedRaster.buffer)
-        }
+        return PreparedPicture(
+            key: RasterKey(layers: keys, visual: frame.visual, pointers: pointerKeys),
+            surfaces: surfaces, pointerRows: pointerRows)
+    }
+
+    private func compose(_ prepared: PreparedPicture) throws -> CIImage {
+        let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
+        let transparent = CIImage(color: .clear).cropped(to: canvasRect)
+        var surfaces = prepared.surfaces
         var pointerRow = 0
         var seen = Set<CompositionProcessing.Target>()
         var image = transparent
-        for node in frame.visual {
+        for node in prepared.key.visual {
             guard seen.insert(node.target).inserted, node.operations.count <= 1024,
                 ["clip", "track", "group", "output"].contains(node.target.kind),
                 node.target.kind == "output" ? node.target.id == nil : node.target.id != nil
@@ -449,7 +490,7 @@ public final class CompositionPictureExecutor {
                     image = try apply(operation, to: image)
                     continue
                 }
-                let row = pointerRows[pointerRow]
+                let row = prepared.pointerRows[pointerRow]
                 pointerRow += 1
                 if let overlay = row.overlay, let width = row.width, let height = row.height,
                     let at = row.captureUs,
@@ -470,29 +511,7 @@ public final class CompositionPictureExecutor {
         guard surfaces.count == 1 else {
             throw Self.invalid("Visual graph has unconsumed surfaces.")
         }
-        let destination = try await allocate(nil)
-        context.render(
-            image, to: destination,
-            bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
-            colorSpace: color)
-        CVBufferSetAttachment(
-            destination, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
-        CVBufferSetAttachment(
-            destination, kCVImageBufferColorPrimariesKey,
-            kCVImageBufferColorPrimaries_ITU_R_709_2,
-            .shouldPropagate)
-        CVBufferSetAttachment(
-            destination, kCVImageBufferTransferFunctionKey,
-            kCVImageBufferTransferFunction_ITU_R_709_2,
-            .shouldPropagate)
-        CVBufferSetAttachment(
-            destination, kCVImageBufferYCbCrMatrixKey,
-            kCVImageBufferYCbCrMatrix_ITU_R_709_2,
-            .shouldPropagate)
-        // Reuse pixels only when physical samples and every compiled operation agree.
-        retainedRaster = (rasterKey, destination)
-        rasterized += 1
-        return destination
+        return image
     }
 
     private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {

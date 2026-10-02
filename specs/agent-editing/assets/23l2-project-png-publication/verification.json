@@ -1,0 +1,49 @@
+{
+  "base": "21ebf2ad34bab5bc0c30aba76fc164edaef4cecb",
+  "nativeRed": {
+    "workerPid": 10939,
+    "workerExit": 0,
+    "driverSession": 14350,
+    "driverExit": 1,
+    "changedPixels": 4907,
+    "changedRGBSamples": 4966
+  },
+  "candidateGreen": {
+    "entry": "CompositionFrameRenderer.write; static public entry, not a replacement native worker",
+    "pid": 22919,
+    "exit": 0,
+    "driverSession": 48267,
+    "driverExit": 0,
+    "completeRGBABytes": 24585600,
+    "completeRGBASha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0",
+    "actualPngSha256": "b5736bc1e2340bdf6347b54f0301d76654161fddcf5d04778e94354185d339ed",
+    "allRGBAEqual": true
+  },
+  "regression": "Tiny asymmetric complete RGBA test failed at its preservation assertion against frozen objects (child17755 exit-5); passes against candidate.",
+  "movieControl": {
+    "finalPid": 28970,
+    "exit": 0,
+    "advancingFrameRecords": true,
+    "verified": [
+      "held buffer identity and one allocation/rasterization",
+      "source image reader reuse",
+      "Rec.709 attachment values",
+      "geometry invalidation and opaque-black shifted BGRA sample"
+    ],
+    "fullActivePixelsComparedAgainstBaseline": false
+  },
+  "sourceAtCandidateCompilation": {
+    "CompositionFrameRenderer.swift": {
+      "bytes": 3093,
+      "sha256": "e1b540f714a8d8cb686171b9a8e4d41ad205fa9513a42a0026a80dbf3fb6bcb6"
+    },
+    "CompositionPictureExecutor.swift": {
+      "bytes": 34417,
+      "sha256": "fc2d11d36f2fdf64290b8db94b921f2b29e0320d930e0bc88f6bc1fae3aca509"
+    }
+  },
+  "materialAuthority": "Exact baseline/candidate PNG and RGBA bytes equal graph-terminal/graph-direct outputs retained by ../23l-image-color-stages/evidence.tar.gz; original fixed source and samples remain in that owner.",
+  "rawRun": "/tmp/screenrec-23l2-png-publication",
+  "failureLimits": "Routine Python setup errors and missing manual compiler package-name were retained outside Git; corrected recipe uses original package-name mac and one owned module cache. First geometry control had an unchanged coverage polygon under a translated affine; failed source/output/log retained, footprint corrected without changing production or predicate.",
+  "releaseLimits": "No candidate worker transport, full movie pixel comparison, historical decoder cause, full frame matrix, model/capture or release acceptance claimed."
+}
