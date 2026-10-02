@@ -30,7 +30,9 @@ Bounded publisher-document qualification found no execution-ready replacement.
 [Buckeye](https://buckeyecorpus.osu.edu/php/corpusTran.php) has trained human
 word/phone corrections and preserves fillers/restarts, but its
 [license](https://buckeyecorpus.osu.edu/License.pdf) limits research/educational use
-and restricts commercial product use. [Switchboard](https://catalog.ldc.upenn.edu/LDC97S62)
+and restricts commercial product use. Research use by a licensed user is
+allowed in principle, but the publisher requires a signed/submitted agreement
+and registered, email-activated access; that authority is unestablished here. [Switchboard](https://catalog.ldc.upenn.edu/LDC97S62)
 has a [commercial licensing route](https://catalog.ldc.upenn.edu/license/ldc-for-profit-membership.pdf)
 and [corrected alignments](https://isip.piconepress.com/projects/switchboard/),
 but applicable access is unestablished. Its
@@ -48,7 +50,20 @@ under CC BY 4.0 and supplies human-checked transcripts with disfluencies. Its
 states that word and phoneme times come from automatic forced alignment; human
 review covered transcript completeness and speech-segment boundaries. It is
 license-qualified lexical material, not independently reviewed word-edge truth.
-No audio or annotation download, inference or broader corpus search followed.
+The [frozen lexical selection](../12-ami-lexical-reference/README.md) now retains
+complete human-checked word references and original annotation inputs. No audio
+was acquired and no model was run. Its automatic word times remain locators only;
+this preparation does not supply the missing independent acoustic reference.
+
+[The bounded access qualification](speech-reference-access.json) retains the
+additional L2-ARCTIC findings. Its scripted source was curated to remove
+repetitions/false starts, so more read-sentence examples cannot supply the missing
+disfluent reference. The separate spontaneous suitcase subset has promising
+manual review, but exact filler/neighbor coverage is unverified and no directly
+linked small annotation-only artifact was available. Publisher access requires
+a form and emailed link. No form, account, contact or license submission occurred.
+Do not repeat generic corpus qualification or inference against automatic times;
+independent reference acquisition currently needs an established access route.
 
 The [accepted explicit cut](../12e-labeled-cleanup/README.md) already preserves its
 marked protected words, original PCM and undo; its listening verdict applies to

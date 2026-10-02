@@ -6889,3 +6889,35 @@ pixels; it does not claim direct protected-app screenshots, installed acceptance
 continuous playback or listening. Future review must preserve that named difference
 and those limits rather than disable capture exclusion in the product. Banked in
 the presenter-pixels acceptance packet.
+
+## Independent transcript reference selection
+
+**Sound, high confidence — keep transcript text separate from automatic word times.**
+When a corpus publisher has people check the words but a program assign each
+word's time, those words can independently test recognition while the times
+cannot independently test our timing program. The AMI packet therefore keeps
+human-checked words and occurrence IDs in a lexical reference, and preserves
+publisher times in a separate locator file. The selection includes complete
+segments with ordinary neighbors and zero-uh/um controls before any model output
+is examined. It assigns no unwanted-repetition, required-word or removal intent.
+The plan required independent reference data without prescribing its source;
+this adds licensed lexical availability without another model trial or invented
+acoustic truth. Future timing work still needs independently reviewed edges,
+and future model evaluation must not treat publisher “unseen” metadata as proof
+of exclusion from model training. No engine, scorer or selected recipe changes.
+Banked in the AMI reference-preparation packet.
+
+## Sustained physical fixture
+
+**Sound, high confidence — test sustained shutdown with a separate explicit capture.**
+The saved four-minute iPhone take can test replay and clock evidence, but cannot
+recreate a live device draining at Stop. The accepted short capture also cannot
+show sustained shutdown cost. With the user's permission to run necessary checks
+and the offered computer window, the developer therefore captured one isolated
+205-second built-in-camera/microphone/display fixture with pause/resume. This is
+an explicit test selection, not a fallback for the original iPhone or an editing
+project. Original sources and the installed library stayed intact. The plan left
+the sustained-drain fixture choice unspecified; this supplies that missing
+physical dimension without assigning the user another recording task. The
+failure remains a failure and calls for a focused correction before recapture.
+Future synchronization work must still use its own event and uncertainty evidence.

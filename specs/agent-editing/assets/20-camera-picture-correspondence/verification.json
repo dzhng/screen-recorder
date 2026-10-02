@@ -1,0 +1,206 @@
+{
+  "scope": "One retained camera picture exact-pixel diagnostic; second planned picture was not requested",
+  "passed": false,
+  "reason": "Complete decoded RGBA differs; clocks alone do not establish cross-decoder picture/color equivalence",
+  "nativeProcess": {
+    "argv": [
+      "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/screenrec-native"
+    ],
+    "boundSeconds": 30,
+    "startedAt": "2026-10-02T21:03:02.627219+00:00",
+    "terminal": true,
+    "pid": 65140,
+    "timedOut": false,
+    "exitCode": 0,
+    "waited": true,
+    "elapsedSeconds": 0.1860350000206381,
+    "endedAt": "2026-10-02T21:03:02.816125+00:00"
+  },
+  "pixelProcesses": [
+    {
+      "argv": [
+        "/tmp/screenrec-21e-image-pixels",
+        "/tmp/screenrec-two-camera-correspondence/confirm-01.png",
+        "/tmp/screenrec-two-camera-correspondence/reference-1428.rgba"
+      ],
+      "boundSeconds": 10,
+      "startedAt": "2026-10-02T21:03:02.817363+00:00",
+      "terminal": true,
+      "pid": 65142,
+      "timedOut": false,
+      "exitCode": 0,
+      "waited": true,
+      "elapsedSeconds": 0.0758780839969404,
+      "endedAt": "2026-10-02T21:03:02.894887+00:00"
+    },
+    {
+      "argv": [
+        "/tmp/screenrec-21e-image-pixels",
+        "/tmp/screenrec-two-camera-correspondence/native-1428.png",
+        "/tmp/screenrec-two-camera-correspondence/native-1428.rgba"
+      ],
+      "boundSeconds": 10,
+      "startedAt": "2026-10-02T21:03:02.898735+00:00",
+      "terminal": true,
+      "pid": 65143,
+      "timedOut": false,
+      "exitCode": 0,
+      "waited": true,
+      "elapsedSeconds": 0.038865833019372076,
+      "endedAt": "2026-10-02T21:03:02.939279+00:00"
+    }
+  ],
+  "producerTerminal": {
+    "producerPid": 65138,
+    "argv": [
+      "python3",
+      "/tmp/screenrec-two-camera-correspondence/run.py"
+    ],
+    "actualToolExitCode": 1,
+    "toolChunkId": "9b386a",
+    "terminal": true,
+    "observedBy": "exec_command completion, not report inference",
+    "meaning": "Stopped after first complete pixel inequality; no second native request"
+  },
+  "actualNativeSample": {
+    "endTimescale": 1000000,
+    "endValue": "83663563",
+    "originUs": 4147523,
+    "timescale": 1000000,
+    "value": "83596893"
+  },
+  "fullPixelComparison": {
+    "bytesExpected": 8294400,
+    "referenceBytes": 8294400,
+    "nativeBytes": 8294400,
+    "equal": false,
+    "differentSamples": 6212665,
+    "differentPixels": 2073600,
+    "firstDifferentByte": 0
+  },
+  "completePrivateOperands": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/retained-camera-picture-correspondence",
+  "privateOriginalManifestSHA256": "838b04ee75af6cac6bd05b7030d486e91273cc68d62717c21b269c4386fa3290",
+  "sourceAndRuntimePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 20440544,
+      "sha256": "a4070e67788c38ffd4d966d7fa010a9ed80dbe1e870278af1e14ca46031e7c99"
+    },
+    {
+      "path": "/tmp/screenrec-21e-image-pixels",
+      "bytes": 91832,
+      "sha256": "f70abec32be67626724512428addbf0fb248dcdfbb0f4db55056a8b603fabaf4"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/fixtures/screen-camera-timing/camera/camera.raw.mov",
+      "bytes": 424848170,
+      "sha256": "dbeb5b1b8f9490d7bd0bad15f2fa006188c41e129904e264fd313bc9374af805"
+    }
+  ],
+  "inputsUnchanged": true,
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 11992,
+    "sha256": "10f22c54e9958e9d361cfee27449e6c931fba74e1176ba1b8798ed1bb6c279c2",
+    "members": [
+      {
+        "file": "confirmation-frames.json",
+        "bytes": 3978,
+        "sha256": "d5df4dfd55e2eece4b9a3e12abeddc1353a4985f3b47a21c24059280f716e5cf"
+      },
+      {
+        "file": "historical-artifact-manifest.json",
+        "bytes": 17632,
+        "sha256": "aa65df026fc08c1691110db7fc155bfab11ff836b52ea38313ce6a8b5bea9033"
+      },
+      {
+        "file": "historical-native-consumer.json",
+        "bytes": 5681,
+        "sha256": "28399e438e81ded7e9be0f2a6050bdfe40407352cdded82cdecc95e900e5605f"
+      },
+      {
+        "file": "manifest.json",
+        "bytes": 5110,
+        "sha256": "838b04ee75af6cac6bd05b7030d486e91273cc68d62717c21b269c4386fa3290"
+      },
+      {
+        "file": "native-1428.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "native-1428.stdout",
+        "bytes": 518,
+        "sha256": "716de38014ecbaf094542bea167d5090513cacede662c0add4f65123af1487e0"
+      },
+      {
+        "file": "native-pixels-1428.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "native-pixels-1428.stdout",
+        "bytes": 204,
+        "sha256": "77713ffb9a6157d0c22d8249a4f0d7515019ccf50be27de24f98271c4e1ef761"
+      },
+      {
+        "file": "plan.json",
+        "bytes": 2983,
+        "sha256": "998d424b00931a59fbb0d5b89b54853bc255700a1d7f80de0fe129d3d62ed282"
+      },
+      {
+        "file": "producer-terminal.json",
+        "bytes": 339,
+        "sha256": "6ac6e0598c387a146ea48c849aa1ae5765de4e915fad19ba801b23cc11dbd7a7"
+      },
+      {
+        "file": "producer.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "producer.stdout",
+        "bytes": 288,
+        "sha256": "4e5f863b77e724c77f4c06d5ad016bbe655e6b9afae78cb8a74792adb0e33464"
+      },
+      {
+        "file": "reference-pixels-1428.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "reference-pixels-1428.stdout",
+        "bytes": 208,
+        "sha256": "d4c17f3f83f004f07659b40a5095b1fc3aced61c6c84bcc464c5aa4493cb2f21"
+      },
+      {
+        "file": "report.json",
+        "bytes": 7357,
+        "sha256": "726729b2d1340479bee7be0c565027b16980e528177ab0e4c537e33156462b60"
+      },
+      {
+        "file": "request-1428.json",
+        "bytes": 555,
+        "sha256": "0310d90da0cfb949bc4dd313798d5e59bcc77be3c245585b01d1da016892a5a1"
+      },
+      {
+        "file": "request-1429.json",
+        "bytes": 555,
+        "sha256": "e6d1ce8d42ddfb0feb0dfedd85c7569e7d51f99f382a0cf56a1dd0fc65684dc6"
+      },
+      {
+        "file": "run.py",
+        "bytes": 4663,
+        "sha256": "b061b7d3724e4a4376be5b6fbc60e7a522161cf7a4f7af4e3b2628579df96a05"
+      }
+    ]
+  },
+  "limits": [
+    "Original image/RGBA bytes remain private; exact complete operand hashes retained",
+    "No tolerance, cause attribution or physical onset/drift pass",
+    "Historical full-PNG producer lacks per-picture PTS, full argv and executable hash; separate gray clocks cannot fill this gap",
+    "Historical PNG BT709-related tags and native sRGB declare different conversion paths, not proof of the mismatch cause",
+    "Direct visual observation is compatible with similar scene landmarks, not proof of exact picture identity"
+  ],
+  "productChanges": 0
+}

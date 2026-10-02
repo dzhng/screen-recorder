@@ -22,109 +22,76 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: materialize the bounded licensed lexical reference set.**
-[20l](slices/20l-camera-cursor-transfer.md) qualifies unchanged cursor-sample
-transfer, including complete finished pixels, timing/support and original-reader
-media facts. [20m](slices/20m-camera-continuing-verification.md) now connects range
-advancement to the capture lifetime. [Focused production checks](assets/20m-camera-continuing-verification/live-integration.json)
-verify both pre-stop readers, same-candidate publication, delayed/fractional clocks,
-retry, discard and failure cleanup. Both existing full scanners consume the same state.
-The [retained 250-second replay](assets/20m-camera-continuing-verification/retained-stop.json)
-preserves all 4,428 pictures, runs both verification
-streams before Stop and completes its durable result in 6.683 seconds. This closes
-20m's controlled implementation/measurement scope; physical input drain, device
-synchronization, AppKit shutdown and general performance remain open. Preserve
-both ordered digests and recovery behavior; reuse this result without another run.
-The [brief physical stop](assets/20m-camera-continuing-verification/physical-stop.json)
-adds one built-in-camera pause/resume and graceful AppKit shutdown: complete
-screen/camera results and successful exit within 1.17 seconds of Stop, with zero
-dropped samples. It does not establish sustained physical performance or synchronization.
+**Next pickup: fix the sustained Stop critical path through the existing native lifecycle.**
+[One isolated public physical capture](assets/20-sustained-physical-stop/README.md)
+passed 200 seconds of active media and pause/resume, but failed the unchanged
+ten-second completed-stop deadline. The camera published while the primary
+screen/microphone source was still pending. Later complete sources, zero dropped
+samples and clean shutdown remain separate from that failure. The initial
+pre-capture socket-path setup error also remains separate; no unchanged recapture
+is queued. A focused test-first correction is evaluating independent source
+publication after physical closure, preserving full validations and source
+recovery/cancellation. Primary audio roles remain sequential. Qualify the source
+change before preparing a distinct signed candidate and one physical confirmation.
 
-The [raw IDR proof](slices/20h-camera-idr-fence.md)
-qualifies its fixed cases; the [stop dependency audit](assets/acceptance-maintenance/stop-dependencies.md)
-records the historical prerequisites; 20m supplies continuing production work and
-the retained replay. Do not repeat that resolved experiment for physical acceptance.
-Keep native clock differences, codec limits, unknown flags and failed evidence intact.
+[The first retained-picture comparison](assets/20-camera-picture-correspondence/README.md)
+selected the native sample but failed exact complete-pixel equality. The second
+request was not dispatched. Prepare an encoded-sample identity/clock binding
+before any further bounded decoder comparison; do not infer identity from equal
+ordinals or borrow a timestamp from another producer. The
+[capture owner](slices/20m-camera-continuing-verification.md) already passes
+continuing verification and retained replay; do not repeat those proofs.
 
-Independent work proceeds only from a missing implementation owner. The
-[speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
-separates the selected baseline from missing acceptance references;
-[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-separates source ports from presentation and installed switching. Neither pending
-acceptance nor an accepted cohort creates another implementation pass.
-[Source-cardinality queries](assets/24z-current-preparation/manifest-reference.json)
-now pass the unchanged speed target with complete output. The first page carries
-full dependencies; continuations reference its immutable manifest, and every
-source remains freshly validated before reading and after checkpoint publication.
-[The inspection contract](contracts.md#inspection-exports-and-supported-media)
-and external caller skill describe that named response-format change. Reuse this
-proof and the original fixture; broader final scale remains open.
-The post-20m audit found no missing source port; the scoped query correction is complete. Speech needs
-independent acoustic references; capture needs physical uncertainty/drain evidence;
-consumer/caller acceptance needs concrete presentation and installed adoption.
-Candidate assembly and independent reference qualification can proceed separately;
-keep builds and timing-sensitive checks from competing for the machine.
-The private project-service candidate builds, signs and passes isolated bundled
-health, empty project-list and graceful-shutdown checks. Installed adoption and
-presentation/preservation acceptance remain separate.
-[Actual native menu/window and movie readiness](assets/acceptance-maintenance/native-presentation.json)
-now pass in an isolated clone of saved media. External screenshots cannot establish
-visible player pixels: a [controlled window](assets/acceptance-maintenance/window-capture-control.json)
-reproduces the blank capture under the same sharing mode. Preserve that limitation,
-not a false player-defect claim. The [signed successor](assets/acceptance-maintenance/candidate-successor.json)
-is prepared without replacing the original staged or installed app.
-[Unchanged presenter pixels](assets/acceptance-maintenance/presenter-pixels.json)
-now pass with a documented capture-only override in a standalone test; complete
-source boundaries and aspect fit pass unprimed review. The ordinary product keeps
-capture exclusion. Reuse the scoped query, candidate, capture and presenter proofs.
-The next speech pass uses publisher human-checked transcript annotations to
-qualify lexical categories before any audio download/inference; automatic word
-times and unknown training overlap do not establish independent acoustic truth.
+The [speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
+and [access qualification](assets/acceptance-maintenance/speech-reference-access.json)
+own the independent acoustic-reference prerequisite. AMI supplies frozen
+human-checked lexical text, but automatic times do not answer it. The promising
+spontaneous reference needs an established publisher access route; no form or
+license was submitted. Do not repeat generic qualification, read-sentence trials
+or inference before independent intervals and category coverage are available.
+No alternate speech recipe is selected. This prerequisite does not block the
+independent capture/preservation work above.
 
+Then complete preservation and installed cutover through the
+[consumer owner](slices/23-cutover.md), followed by final scale and the independent
+installed caller. [Cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
+owns the remaining mappings. Prepare a concrete reviewable candidate before
+requesting installed replacement; preserve the installed library and span history.
+No migration or obsolete-owner deletion begins before its prerequisites.
 
-
-| Owner | Current evidence | Remaining contract |
+| Owner | Banked scope | Remaining release contract |
 | --- | --- | --- |
-| [09c audio export](slices/09c-audio-only-export.md) / [23i process](slices/23i-service-process-parity.md) | [Merged public delivery/lifecycle](assets/09c-23i-merged/README.md); later [24z4](slices/24z4-prepared-bindings.md)/[24z5](slices/24z5-service-asset-presence.md) pass both original audio-preservation deadlines | General performance and installed release acceptance |
-| [24z owner corrections](slices/24z-source-cardinality.md) | [24z1–5 source/prepared owners](assets/implementation-pickup.md), [24z6 append runs](slices/24z6-composition-appends.md), [24z7 event metadata/public clocks](slices/24z7-source-event-resolution.md), [24z8 worker support](slices/24z8-source-frame-support.md), [24z9 index plans](slices/24z9-source-index-plan-resolution.md) preserve scoped output/work contracts; [24z10 relocation](slices/24z10-portable-index-relocation.md) preserves full fixture values; [24z11](slices/24z11-operation-result-delivery.md)/[24z12](slices/24z12-mcp-media-admission.md) preserve default-client result/media delivery | [Current source-cardinality p95 passes](assets/24z-current-preparation/manifest-reference.json); general final scale remains open; no original whole-setup timing pass |
-| [12 speech evidence](slices/12-speech-evidence.md) | Selected baseline, actual model preparation and saved human comparisons remain banked | Broader lexical/acoustic coverage, omitted text, protected words/joins and held-out timing; no replacement selected |
-| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | [Controlled allocation-to-project behavior](assets/21f3-public-camera-selection/merged-verification.json), retained originals/journals/recovery | Physical synchronization, live lifecycle and completed-stop deadline |
-| [23 consumer cutover](slices/23-cutover.md) | Scoped source/headless ports, process ownership and paired edit/history preservation verified | Remaining preservation correspondence, concrete presentation, installed switching and obsolete-owner removal after prerequisites |
-| [25 external caller](slices/25-agent-acceptance.md) | [Source CLI workflow](slices/25b-fresh-caller.md) and [independent source MCP](slices/25c-source-mcp-caller.md) complete their declared brief, recovery and delivery scopes | Installed/default discovery and full listening/physical/final release gates;25c closes compact source MCP only |
+| [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief physical pause/resume/stop and saved support | Physical event uncertainty/synchronization, failed sustained stop and remaining live lifecycle |
+| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired edits/history, signed isolated candidate, actual menu/readiness and representative presenter pixels | Remaining preservation, continuous playback and installed switching/obsolete-owner removal |
+| [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
+| [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |
 
-[The evidence index](assets/integrated-evidence.md) owns the banked results and
-limits; [implementation pickup](assets/implementation-pickup.md) owns source/runtime
-identities. Reuse complete outputs, original failures and actual terminal records.
-A new experiment must answer one necessary unresolved technical question with fixed
-inputs and a stopping condition. A numerical example does not close the parent
-speech gate; a metadata predicate does not close physical capture or stop performance.
+[The evidence index](assets/integrated-evidence.md) owns results and limits;
+[implementation pickup](assets/implementation-pickup.md) owns source/runtime pins.
+Reuse complete outputs, original failures and actual terminal records. The query
+contract returns full dependencies on the first page and immutable manifest
+references on continuations; every source remains freshly validated. Preserve
+that named response-format difference across callers. The private signed
+[candidate successor](assets/acceptance-maintenance/candidate-successor.json)
+and [presenter proof](assets/acceptance-maintenance/presenter-pixels.json) retain
+their exact scope: capture-enabled test pixels are separate from protected-app
+screenshots and installed/continuous playback.
 
-Apply the [project principles](../../AGENTS.md) to iteration speed. Reuse the
-retained four-minute take, journals, saved marks and accepted retiming/denoise/voice.
-The selected 200 ms ambience loop retains its tolerated slight seam; 250 ms is
-rejected. No personal keep/remove judgment is a development prerequisite. Any
-necessary human task must name the missing fact and explain why existing evidence
-cannot establish it.
+Apply the [project principles](../../AGENTS.md): narrow checks for everyday work,
+one full run when implementation is finished. Heavy/timing-sensitive checks use
+the offered computer window. Every experiment needs one necessary unresolved
+question, fixed inputs and a stopping condition. Missing acceptance alone does
+not create another implementation owner or model trial.
 
-Necessary checks are authorized, including brief hardware capture, audio playback,
-native presentation and candidate validation. The user will identify a quiet
-computer window; reserve heavy and timing-sensitive checks for that window.
-Prepare the candidate and reference data independently. Source independent speech
-labels through the developer's research; do not assign the user another recording
-or timestamp-entry task.
-
-Preserve original prepared files, runtime homes, receipts, accepted recipes and
-[frozen worker bytes](assets/acceptance-maintenance/native-worker-preservation.json).
-Candidate checks use isolated state. Prepare a reviewable installable candidate
-before requesting replacement of the user's installed app. Preserve installed
-span transactions until explicit cutover. Capture publishes facts; the caller
-authors projects and edits. No migration or obsolete-owner deletion begins before
-its preservation prerequisites.
-
-Keep this pickup, checklist and owning Status lines consistent. Continue independent
-implementation while acceptance remains open. Full release requires broader speech
-coverage, physical synchronization/live stop, complete consumer cutover, final scale
-and independent installed MCP caller proof.
+Preserve originals, journals, saved marks, accepted retiming/denoise/voice, the
+selected 200 ms ambience and [frozen worker](assets/acceptance-maintenance/native-worker-preservation.json).
+The 250 ms ambience is rejected. Candidate checks use isolated state. Capture
+publishes facts; the caller authors projects and edits. Necessary checks are
+authorized; independent speech reference qualification is the developer's work,
+not another user recording, timestamp-entry or personal keep/remove assignment.
+Keep this pickup, checklist and owning Status lines consistent. All remaining
+release contracts must be resolved before closing the spec.
 
 ## Outcome and boundaries
 

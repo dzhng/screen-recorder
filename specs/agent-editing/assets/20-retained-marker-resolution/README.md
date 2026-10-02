@@ -38,6 +38,11 @@ coordinate diagnostic: they do not prove those positions contain the same
 pictures or improve physical precision. No fitted drift or additional alignment
 is used.
 
+The [bounded first-picture comparison](../20-camera-picture-correspondence/README.md)
+now selects one saved native sample but fails complete pixel equality to the
+historical full-frame image. Its separate color paths and missing historical
+per-picture clock remain unresolved; the second request was not dispatched.
+
 Further threshold tuning cannot supply missing event identities or physical onset
 evidence. The remaining concrete link is same-picture correspondence at marker
 ordinals across decoders, alongside the unresolved physical onset bound. No

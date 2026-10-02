@@ -28,8 +28,10 @@ queries pass their [24y matched duration checkpoint](24y-source-event-duration.m
 with an explicitly configured bounded SDK receiver. Its default-client limitation
 is historical: [complete-result delivery](24z11-operation-result-delivery.md) and
 [MCP media admission](24z12-mcp-media-admission.md) now pass their scoped default
-consumer checks without increasing transport bounds. [24z](24z-source-cardinality.md) targets the still-unmeasured source-selection
-cardinality dimension through the existing query/admission owners. These isolated fixed-cardinality query-family checks do not establish
+consumer checks without increasing transport bounds. [24z](24z-source-cardinality.md) now passes its declared source-selection
+cardinality query gate through the existing query/admission owners, with complete
+results and default clients; [its retained measurement](../assets/24z-current-preparation/manifest-reference.json)
+owns the exact scope and response-format difference. These isolated query-family checks do not establish
 final post-cutover budgets, arbitrary source/routing/history cardinality or all
 external client capacities. The retained300-second audio streaming gate now passes unchanged in
 [24s](24s-audio-stream-budget.md), including its original debug deadline, sampled

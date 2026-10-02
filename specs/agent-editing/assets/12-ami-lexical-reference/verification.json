@@ -1,0 +1,212 @@
+{
+  "scope": "Independent source/lexical-reference correspondence only; no audio, inference, score, acoustic or release verdict",
+  "status": "pass",
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 239940,
+    "sha256": "a8127cc23d01d35c55a3c3fba76237f59792b4ca3b0ba1782df0c6777f4ac96d",
+    "members": [
+      {
+        "file": "acquisition.json",
+        "bytes": 2005,
+        "sha256": "ccb703c386d9fca7d08a1c7b61c7036019551c371752b9a8e7d591412d6470b8"
+      },
+      {
+        "file": "contract-pins.json",
+        "bytes": 1089,
+        "sha256": "e4f0939034ca757b3d45d840c99d57e38df377ec5c7254053fad1df585594e94"
+      },
+      {
+        "file": "manifest.json",
+        "bytes": 12405,
+        "sha256": "883b2bb55e48629f81b96f6b529d14b3f0577834a7b8522577cab95d2b932e8c"
+      },
+      {
+        "file": "materialize.py",
+        "bytes": 8203,
+        "sha256": "74a812b53d75618d6549ddb14610c4e56d93a7e4ff45f24aac6d7b44b95d12bd"
+      },
+      {
+        "file": "materialize.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "materialize.stdout",
+        "bytes": 508,
+        "sha256": "82f73e9029da1bfecca5a2766883769c9a587d58d0af9b09ba83869234ec78cf"
+      },
+      {
+        "file": "original/00README_MANUAL.txt",
+        "bytes": 2394,
+        "sha256": "001292e9082f0f403a155dd5e7e4a8d5ac6542dbf37b19a12c7b6030fabdd350"
+      },
+      {
+        "file": "original/LICENCE.txt",
+        "bytes": 13197,
+        "sha256": "d52fd9c7c19eec9f0bec3107554c10937203e261259d73b01637a61501fec7f7"
+      },
+      {
+        "file": "original/MANIFEST_MANUAL.txt",
+        "bytes": 13480,
+        "sha256": "8cd111124993b52a718fe0c081dcd03f8a032669a752f372883ea55e48e078da"
+      },
+      {
+        "file": "original/corpusResources/meetings.xml",
+        "bytes": 119064,
+        "sha256": "8ab6cdcf03ed863e839418f31c7380392397a2eed892d73b9bc1b438c7ec520a"
+      },
+      {
+        "file": "original/namedEntities/ES2004a.A.ne.xml",
+        "bytes": 1773,
+        "sha256": "72c89e2d99d8321df20961d1a154611746b13b2ed3743a502feaaacbb0e6b5f7"
+      },
+      {
+        "file": "original/namedEntities/ES2004a.B.ne.xml",
+        "bytes": 6851,
+        "sha256": "c82855e7b216a52878f684c1d513b160bb27f3aa52ce728d05b4a45bb536132e"
+      },
+      {
+        "file": "original/namedEntities/ES2004a.C.ne.xml",
+        "bytes": 3426,
+        "sha256": "a2ea28da8363ae0ed749ba9e098ddb0fa5af1a2eb7611c3a72c2e0ca3af98a85"
+      },
+      {
+        "file": "original/namedEntities/ES2004a.D.ne.xml",
+        "bytes": 3330,
+        "sha256": "cbf4f79f7f162ca62953e3a736657fad33d59f11f5f4602fa3cdf988fe7e11b4"
+      },
+      {
+        "file": "original/segments/ES2004a.A.segments.xml",
+        "bytes": 10232,
+        "sha256": "fdba87577fb6f36139a0f62d5c249921635b53bec92ed127cdfee959f6a8cb2c"
+      },
+      {
+        "file": "original/segments/ES2004a.B.segments.xml",
+        "bytes": 19951,
+        "sha256": "130b464da1979e2b269c6b860eb046ac26e2d13b7482752d9befe3146bfc17f4"
+      },
+      {
+        "file": "original/segments/ES2004a.C.segments.xml",
+        "bytes": 11557,
+        "sha256": "fc1cdb6c1fd673d35caa84190a85c827db08da60bdcb2a856eca785f4a3b8bde"
+      },
+      {
+        "file": "original/segments/ES2004a.D.segments.xml",
+        "bytes": 18503,
+        "sha256": "1ecca19454d5c92b92c8c1825935b24262a355778c7138492dbacf10db9aa83d"
+      },
+      {
+        "file": "original/words/ES2004a.A.words.xml",
+        "bytes": 32225,
+        "sha256": "3b91765c8985e7c2652f1004832c00840e88bad4c3213296192b9fd741d675cc"
+      },
+      {
+        "file": "original/words/ES2004a.B.words.xml",
+        "bytes": 107451,
+        "sha256": "0e24646b84f2772bb3ca28e666df5f7ba48cde647589f7ae8f85e2724ff5cbc3"
+      },
+      {
+        "file": "original/words/ES2004a.C.words.xml",
+        "bytes": 45192,
+        "sha256": "07c25c4831fdc91cdff736ebf27c1380d0a7ef98e9835e33b15d44797fed7fd1"
+      },
+      {
+        "file": "original/words/ES2004a.D.words.xml",
+        "bytes": 82827,
+        "sha256": "e085188b2f4855808911934c309ba965c283e54371044c9086185f27913d44f8"
+      },
+      {
+        "file": "publisher/annotationpresent.html",
+        "bytes": 74480,
+        "sha256": "0bc08fa2a6c722f88ee72c8a432b57037bb5114dac4f1dfd81e1922d611fa19e"
+      },
+      {
+        "file": "publisher/annotations.headers",
+        "bytes": 257,
+        "sha256": "101672124288ea950736b8967e54815e35d2b4accb71654190388b8c30970f46"
+      },
+      {
+        "file": "publisher/download.html",
+        "bytes": 15189,
+        "sha256": "a1e4125b1045aa40103e61c96b0a0304f85ff4da39e1f29f589c1c50e786b828"
+      },
+      {
+        "file": "publisher/speech-transcription-manual.v1.2.pdf",
+        "bytes": 247773,
+        "sha256": "af4626d322f3ca580fb54e16e164ac34f3df5907b4e9da353e7be56453260440"
+      },
+      {
+        "file": "publisher/transcription.html",
+        "bytes": 11358,
+        "sha256": "b972c697783745e271e8d24a3330e8575c2d721a420128495d7ce519669959ad"
+      },
+      {
+        "file": "qualification.md",
+        "bytes": 5839,
+        "sha256": "d4eb7ef455c39acc8dfa37b809e661df53891648a3e88cef98ae25c98ea6b9c1"
+      },
+      {
+        "file": "selected/adjacent-repetitions.json",
+        "bytes": 2919,
+        "sha256": "59f46083be0e5a76652eb5eaa29144c8635bd860247a8dda19397ef9ae1510cb"
+      },
+      {
+        "file": "selected/counts.json",
+        "bytes": 508,
+        "sha256": "82f73e9029da1bfecca5a2766883769c9a587d58d0af9b09ba83869234ec78cf"
+      },
+      {
+        "file": "selected/publisher-anchors.json",
+        "bytes": 207794,
+        "sha256": "082e781aac6c6d678b0064ef11daa0de4c046637d89a0cd951fa79b6cf80f622"
+      },
+      {
+        "file": "selected/reference.json",
+        "bytes": 149164,
+        "sha256": "039f0a8635213b3f4290c0a0a5e82f662faf2bb775d87f02b771910adba370de"
+      },
+      {
+        "file": "selected/transcripts.txt",
+        "bytes": 4185,
+        "sha256": "8ebc2667a8a6080f7f2e8c2fa70873189494f1dafa134312ddad7f2ab9de13bb"
+      },
+      {
+        "file": "verification.json",
+        "bytes": 1035,
+        "sha256": "619b0eb24e627058f96f37497aec6ba4a537dd3b73a8853677564335f4ce2569"
+      }
+    ]
+  },
+  "publisherArchive": {
+    "url": "https://groups.inf.ed.ac.uk/ami/AMICorpusAnnotations/ami_public_manual_1.6.2.zip",
+    "bytes": 22887865,
+    "sha256": "b56e5babb2496b8795deeeda7e71178d7fbc9963f94276cf2a3f4b56ebbc9f9d",
+    "retainedPrivatePath": "/Users/david/.cache/screen-recorder/verification/ami-lexical-reference-20261002/original/ami_public_manual_1.6.2.zip"
+  },
+  "selectedReference": {
+    "sha256": "039f0a8635213b3f4290c0a0a5e82f662faf2bb775d87f02b771910adba370de",
+    "segments": 25,
+    "words": 714,
+    "literalFillers": {
+      "um": 23,
+      "uh": 17
+    },
+    "speakerIdentities": [
+      "FEE013",
+      "FEE016",
+      "MEE014",
+      "MEO015"
+    ]
+  },
+  "verified": "All original manifest/member hashes and CRCs, complete segment child ranges/nonlexical nodes, lexical text/order/attributes and unique occurrence IDs; no human times, required/removal labels or acceptance assignments invented",
+  "limits": [
+    "Human-checked words; original automatic word times retained separately as locators only",
+    "Single meeting and deliberately filler-enriched selection, not natural prevalence",
+    "No signal/crop/channel/audio-hash validation; no audio fetched",
+    "Model-training exclusion unestablished; publisher visibility=unseen does not prove it",
+    "No independent acoustic edges, protected-word audition, warm-resource or release acceptance"
+  ],
+  "productChanges": 0,
+  "privateOriginalManifestSHA256": "883b2bb55e48629f81b96f6b529d14b3f0577834a7b8522577cab95d2b932e8c"
+}

@@ -1,0 +1,319 @@
+{
+  "scope": "One actual staged bundled public CLI capture of explicitly selected built-in camera, built-in microphone and display; sustained stop/publication/AppKit/service quit only. No iPhone substitute, physical event sync, drift, installed acceptance or general performance verdict.",
+  "passed": false,
+  "deadlineSeconds": 10,
+  "physicalAttempts": 1,
+  "activeObservedSeconds": 205.16636954102432,
+  "durableSourceDurationUs": {
+    "source": 205296095,
+    "camera": 205264943
+  },
+  "pause": [
+    {
+      "atSourceUs": 100133651,
+      "elapsedPauseUs": 2090415
+    }
+  ],
+  "dropCounts": {
+    "source": [
+      {
+        "role": "narration",
+        "samples": 19242,
+        "droppedSamples": 0,
+        "omittedSamples": 197
+      },
+      {
+        "role": "video",
+        "samples": 6030,
+        "droppedSamples": 0,
+        "omittedSamples": 61
+      }
+    ],
+    "camera": [
+      {
+        "role": "video",
+        "samples": 6130,
+        "droppedSamples": 0,
+        "omittedSamples": 64
+      }
+    ]
+  },
+  "stopAckSeconds": 0.059905541012994945,
+  "lastBeforeDeadline": {
+    "state": "finalizing",
+    "inputsClosed": true,
+    "primaryState": null,
+    "cameraState": "published",
+    "admissions": [
+      {
+        "kind": "primary",
+        "state": null
+      },
+      {
+        "kind": "camera",
+        "state": "running"
+      }
+    ]
+  },
+  "afterCleanup": {
+    "state": "complete",
+    "lifecycleSequence": 19670,
+    "finalizationError": null,
+    "inputsClosed": true,
+    "primaryState": "published",
+    "cameraState": "published",
+    "appPid": 66591,
+    "appExitCode": 0,
+    "appReaped": true,
+    "servicePid": 66593,
+    "servicePidAbsent": true,
+    "socketAbsent": true,
+    "publicationAndAppExitObservedBeforeRunElapsedSeconds": 219.19069491699338
+  },
+  "phaseEvidence": {
+    "stopWall": "2026-10-02T21:09:44.729388+00:00",
+    "cleanupWall": "2026-10-02T21:09:54.817112+00:00",
+    "cleanupAfterStopSeconds": 10.087723970413208,
+    "files": [
+      {
+        "path": "camera/camera.raw.mov",
+        "mtimeNs": 1790975384874864866,
+        "ctimeNs": 1790975384874864866,
+        "birthtime": 1790975178.0894704,
+        "mtimeAfterStopSeconds": 0.1454768180847168
+      },
+      {
+        "path": "camera/capture-result.json",
+        "mtimeNs": 1790975392206608180,
+        "ctimeNs": 1790975392206701554,
+        "birthtime": 1790975392.20654,
+        "mtimeAfterStopSeconds": 7.477220296859741
+      },
+      {
+        "path": "camera/video.mov",
+        "mtimeNs": 1790975390234457611,
+        "ctimeNs": 1790975392199921332,
+        "birthtime": 1790975179.3491075,
+        "mtimeAfterStopSeconds": 5.5050694942474365
+      },
+      {
+        "path": "camera/capture.journal.jsonl",
+        "mtimeNs": 1790975392206813344,
+        "ctimeNs": 1790975392206813344,
+        "birthtime": 1790975178.085431,
+        "mtimeAfterStopSeconds": 7.4774253368377686
+      },
+      {
+        "path": "camera/camera.mapping.jsonl",
+        "mtimeNs": 1790975384814503364,
+        "ctimeNs": 1790975384814503364,
+        "birthtime": 1790975177.352209,
+        "mtimeAfterStopSeconds": 0.08511543273925781
+      },
+      {
+        "path": "camera/source.publication.json",
+        "mtimeNs": 1790975392491954153,
+        "ctimeNs": 1790975392492211233,
+        "birthtime": 1790975392.4918804,
+        "mtimeAfterStopSeconds": 7.762566089630127
+      },
+      {
+        "path": "camera/camera.closed.json",
+        "mtimeNs": 1790975389386473610,
+        "ctimeNs": 1790975389386820439,
+        "birthtime": 1790975389.3864207,
+        "mtimeAfterStopSeconds": 4.657085657119751
+      },
+      {
+        "path": "camera/camera.publication.json",
+        "mtimeNs": 1790975392049530426,
+        "ctimeNs": 1790975392049876297,
+        "birthtime": 1790975392.0494695,
+        "mtimeAfterStopSeconds": 7.320142507553101
+      },
+      {
+        "path": "source/narration.publication.json",
+        "mtimeNs": 1790975393235166568,
+        "ctimeNs": 1790975394110604327,
+        "birthtime": 1790975393.235112,
+        "mtimeAfterStopSeconds": 8.505778551101685
+      },
+      {
+        "path": "source/video.mov",
+        "mtimeNs": 1790975384865655211,
+        "ctimeNs": 1790975384865655211,
+        "birthtime": 1790975177.3336706,
+        "mtimeAfterStopSeconds": 0.13626718521118164
+      },
+      {
+        "path": "source/narration.mov",
+        "mtimeNs": 1790975393019582334,
+        "ctimeNs": 1790975394110559744,
+        "birthtime": 1790975392.9703562,
+        "mtimeAfterStopSeconds": 8.290194272994995
+      },
+      {
+        "path": "source/capture.journal.jsonl",
+        "mtimeNs": 1790975394892189597,
+        "ctimeNs": 1790975394892189597,
+        "birthtime": 1790975177.282671,
+        "mtimeAfterStopSeconds": 10.162801504135132
+      },
+      {
+        "path": "source/source.publication.json",
+        "mtimeNs": 1790975394891639603,
+        "ctimeNs": 1790975394891949349,
+        "birthtime": 1790975394.8915691,
+        "mtimeAfterStopSeconds": 10.162251710891724
+      },
+      {
+        "path": "source/source.journal.jsonl",
+        "mtimeNs": 1790975394254809923,
+        "ctimeNs": 1790975394258533301,
+        "birthtime": 1790975394.2534535,
+        "mtimeAfterStopSeconds": 9.525421857833862
+      },
+      {
+        "path": "camera/.screenrec-output-65F65892-4BEF-44EC-8A94-B4A6B226AF51/camera.mov",
+        "mtimeNs": 1790975390234457611,
+        "ctimeNs": 1790975392199921332,
+        "birthtime": 1790975179.3491075,
+        "mtimeAfterStopSeconds": 5.5050694942474365
+      }
+    ]
+  },
+  "preStopVerification": {
+    "rangeCount": null,
+    "verifiedPictureCount": null,
+    "reason": "No before-stop internal verification cursor/range snapshot was retained. BeforeStop captures public recording/device status only; final6130-picture receipt cannot prove before-stop progress.",
+    "cameraCandidateBirthTimeBeforeStop": true
+  },
+  "candidatePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "bytes": 6378736,
+      "sha256": "8065f68306348e301714311077049f04f3ea56caf764a2bdea1831528beb6328"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 20440544,
+      "sha256": "a4070e67788c38ffd4d966d7fa010a9ed80dbe1e870278af1e14ca46031e7c99"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 4264481,
+      "sha256": "55dd55ffcb45b0f0eda71d7c4ce4acc74d714c8171fc1364b8f2dfa814965fd6"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1157361,
+      "sha256": "1db05a47b04b89e72529433ea97d56570d8ace18366252590be7d1262a8880e3"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/manifest-reference/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    }
+  ],
+  "candidatePinsUnchanged": true,
+  "privateCompleteReport": "/Users/david/.cache/screen-recorder/verification/project-candidate-20261002/sustained-physical-stop-short/report.json",
+  "privateCompleteReportSHA256": "336b5b7c94a02ff62c8573ffffdc85c5f347fef7493b22a875bb6a62b6aaa9b9",
+  "privateMediaPins": [],
+  "archive": {
+    "file": "evidence.tar.xz",
+    "bytes": 11516,
+    "sha256": "7dc08efbf5ea9acad7324dc02e03337b3635087a82e660ff1381c7de550b0e90",
+    "members": [
+      {
+        "file": "physical/run.py",
+        "bytes": 11507,
+        "sha256": "6acf693c07c9a4ae9f6c779c71dbc7e2e2d46f8e04d8d04bd7dc34944e5ce754"
+      },
+      {
+        "file": "physical/request.json",
+        "bytes": 294,
+        "sha256": "ebffc4788215baa61aa3432b7375a0f66bf2458165013551d17f959e1bc24021"
+      },
+      {
+        "file": "physical/setup.json",
+        "bytes": 240,
+        "sha256": "73c9c866d7d9724ff152752723af5eb76ddc5da03dabaa7aaabeb278b7219ee6"
+      },
+      {
+        "file": "physical/compact-report.json",
+        "bytes": 10189,
+        "sha256": "458bb43fd72db1548b577ef45387372e564965f27d80327bac1e49ac5207e9d2"
+      },
+      {
+        "file": "physical/summarize.py",
+        "bytes": 5395,
+        "sha256": "f3342d5131f73c538a81f1b5bd0c0cedaca6638307b4d29c11d88dad5f5b5e4e"
+      },
+      {
+        "file": "physical/post-cleanup-file-times.json",
+        "bytes": 3530,
+        "sha256": "e4f7edd8b723436a90b9649163ed24e5e34ce58a1cdb93045ad99e3cb9090deb"
+      },
+      {
+        "file": "physical/post-cleanup-jobs.json",
+        "bytes": 1219,
+        "sha256": "3430725f01fb178f7d1bc3ea673c97dbb3d8a50c2de596fa915fd489e6240dde"
+      },
+      {
+        "file": "physical/post-cleanup-recording-row.json",
+        "bytes": 4238,
+        "sha256": "71dceb3a73d010284d3da312a327c5f1482d2f17994e1886d2232d6d1c849bc0"
+      },
+      {
+        "file": "physical/active-process-tree.json",
+        "bytes": 357,
+        "sha256": "a5d2b1514bd552ae7b6eca49b179b8d5284eac87e24fb309b7244fb7c038675d"
+      },
+      {
+        "file": "physical/app.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "physical/app.stderr",
+        "bytes": 438,
+        "sha256": "4061d1267a474c60e4a03bb1ee2b2456eb4fdf341abb9de8bb978b1e59f43ef7"
+      },
+      {
+        "file": "physical/evidence-pins.json",
+        "bytes": 3210,
+        "sha256": "a81e9f7fcaae0387958d51c4691de2255ee1201d7c9c7b6816e915ce06d257fb"
+      },
+      {
+        "file": "setup-failure/run.py",
+        "bytes": 11457,
+        "sha256": "a8f0ec56dc166369a6805cde7e3a83dc326d7f3c5b0d42a289066407ed76240f"
+      },
+      {
+        "file": "setup-failure/report.json",
+        "bytes": 4995,
+        "sha256": "e41b4a66987b19f3c72c7bb72dee514e201429edfe326fea9ac9a0ed0d5ab7b4"
+      },
+      {
+        "file": "setup-failure/app.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "setup-failure/app.stderr",
+        "bytes": 1665,
+        "sha256": "36397aea2be28764e6e8134d13cd17c0d6676647813b0cc9a97a716f00665738"
+      }
+    ]
+  },
+  "limits": [
+    "No physical event alignment, drift, image/audible quality, iPhone or installed-app acceptance",
+    "No before-stop verified-range/picture count",
+    "No exact completed-stop or app-exit timestamp beyond the failed10s deadline; cleanup finished before private evidence work concluded",
+    "No additional capture, retry, recovery restart or additional native decode after the first physical result",
+    "File mtimes and reconstructed poll lowerbounds are not decoder-stage durations or causal scheduling attribution",
+    "No second physical capture or deadline relaxation",
+    "Raw private window inventory, cursor positions and captured media excluded from Git"
+  ],
+  "productChanges": 0
+}

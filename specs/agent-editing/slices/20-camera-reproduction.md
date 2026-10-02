@@ -29,6 +29,13 @@ replay preserves all 4,428 pictures and completes the durable stop result in
 physical input drain, AppKit shutdown and general performance remain open.
 None of these prerecorded cases establishes physical synchronization.
 
+The [sustained public physical capture](../assets/20-sustained-physical-stop/README.md)
+now reaches more than 200 active seconds with pause/resume and no dropped samples,
+but fails the unchanged ten-second completed-stop deadline. Camera publication
+settles while primary publication remains pending; later successful cleanup is
+not a deadline pass. The next source correction addresses that critical path,
+with no unchanged recapture or timing-budget relaxation.
+
 ## Contract
 
 Establish a measured shared-clock strategy for synchronized production acceptance

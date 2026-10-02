@@ -1,0 +1,97 @@
+{
+  "scope": "Publisher-document qualification only; no new corpus/audio/inference/license or access request",
+  "l2Arctic": {
+    "qualification": "Scripted source curation removes repetitions/false starts; extra read examples cannot supply missing disfluent intervals. Separate spontaneous suitcase subset has promising manual review but exact filler/full-neighbor coverage unverified. No directly linked small annotation-only artifact was found; publisher access requires form/email process. Existing12k/12l references/authority remain unchanged.",
+    "originalManifestSHA256": "c607094a481a7db68b6c4c4630dfdc1189b69664bb1b8bc2d6f6bfe55eec7db4"
+  },
+  "buckeye": {
+    "qualification": "Research use is allowed to the Licensee, not an unrestricted public grant. Separate signature/submission, registration/email activation and login access remain unestablished. Private evaluation alone does not establish license compliance; no form/account/license/contact submitted.",
+    "sources": [
+      "https://buckeyecorpus.osu.edu/License.pdf",
+      "https://buckeyecorpus.osu.edu/php/registration.php",
+      "https://buckeyecorpus.osu.edu/php/speech.php",
+      "https://buckeyecorpus.osu.edu/php/faq.php"
+    ],
+    "evidence": "Primary pages read through web tools; no saved Buckeye packet or content hashes claimed"
+  },
+  "archive": {
+    "file": "speech-reference-access.tar.xz",
+    "bytes": 673984,
+    "sha256": "abab8783b5d1f3a4440b5994b0e80db8f1b0015e733aa854b04d19c2bf65533d",
+    "members": [
+      {
+        "file": "link-inventory.json",
+        "bytes": 3574,
+        "sha256": "b4bca7afbf2bc6bb8e47e14e6bb4bb3cc024450e6d238a478e300556384f124b"
+      },
+      {
+        "file": "manifest.json",
+        "bytes": 2335,
+        "sha256": "c607094a481a7db68b6c4c4630dfdc1189b69664bb1b8bc2d6f6bfe55eec7db4"
+      },
+      {
+        "file": "publisher/acquisition.json",
+        "bytes": 2528,
+        "sha256": "2641da05903da49f01c2b99bb73d44574aeec26d7bc74e379e1f041476adb814"
+      },
+      {
+        "file": "publisher/corpus.html",
+        "bytes": 74118,
+        "sha256": "2e9bc85b6d4cf3ae69b5fb6e5d14384fc99fe1b931095cd6418cc6ee167aa8e3"
+      },
+      {
+        "file": "publisher/corpus.html.headers",
+        "bytes": 1190,
+        "sha256": "47a463cf23a0945861e1854a0de20d1b4862a540c728dfe715fa0d50e86a0774"
+      },
+      {
+        "file": "publisher/corpus.html.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "publisher/docs.html",
+        "bytes": 59222,
+        "sha256": "19b2143b7ed97a507b42caeaefca081acf286999fa7bfcfba2b86bd89d78e062"
+      },
+      {
+        "file": "publisher/docs.html.headers",
+        "bytes": 1192,
+        "sha256": "c0400f1af67a193571db557da5cbdeef6cb170404f9426c108d0946f8b97b8af"
+      },
+      {
+        "file": "publisher/docs.html.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "publisher/zhao2018interspeech.pdf",
+        "bytes": 669368,
+        "sha256": "559fccde588abf1aeea336833a17464d389200eb6c3a8acee3b9ac742a42fb6d"
+      },
+      {
+        "file": "publisher/zhao2018interspeech.pdf.headers",
+        "bytes": 929,
+        "sha256": "c423feb7528beb401adf4a35dc377107cec85ce89405de103487af9dbe546971"
+      },
+      {
+        "file": "publisher/zhao2018interspeech.pdf.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "qualification.md",
+        "bytes": 4865,
+        "sha256": "98d3e62688602eb0f5b198ab96e4e42dde7a11b3526d021e54165cbfbccbabf8"
+      },
+      {
+        "file": "retained-reference-pins.json",
+        "bytes": 861,
+        "sha256": "56b4d0cdcef861c295e5f1c3a2154f71162040a9f67a05981b9823b0939a9d30"
+      }
+    ]
+  },
+  "productChanges": 0,
+  "speechQualityVerdict": null,
+  "eligibleInference": false
+}
