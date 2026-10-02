@@ -158,3 +158,10 @@ Before considering a dependency-based candidate, preserve both complete operands
 failed media and actual sync/dependency, DTS/PTS, storage and segment facts.
 Preparation of that observer does not authorize replaying the failed tail rule,
 incremental adoption or a new performance measurement.
+
+The [closed native inventory](../20g-camera-raw-prefix/native-cursor-qualification/README.md)
+now exposes actual refresh samples and reordering. Both self-boundary “may” queries
+are true at every refresh sample, so these answers supply no safe-prefix certificate.
+All interior owner endpoints equal the next presentation timestamp in this fixture;
+no timing correction is justified from it. A codec-defined bound would need its
+own dependency, storage and endpoint argument before a new physical candidate.

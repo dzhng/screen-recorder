@@ -18,3 +18,5 @@ timing projection, logs and actual terminal receipts in the archive. Its frozen
 saved-data checker compares every value and rejects altered membership/positions;
 it performs no native replay. Original media and pixel tuples remain bound to the
 physical packet. No production mechanism or maintained harness was added.
+[Root verification](merged.json) and independent review inspect complete saved
+values and bindings without repeating native work.

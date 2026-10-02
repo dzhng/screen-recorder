@@ -105,3 +105,23 @@ runs. Check complete saved values afterward without replay. If native facts are
 absent or contradictory, report that limitation and stop; do not tune the tail or
 select a production mechanism. Useful facts may support a separately planned
 candidate, but cannot themselves establish prefix stability or stop performance.
+
+## Metadata result
+
+The [native packet](../assets/20g-camera-raw-prefix/native-cursor-qualification/README.md)
+qualifies all 197 rows and 589 same-track queries without decoding pictures or
+writing media. Its source/grid differences remain explicit. Seven actual full-sync
+samples are observed, but both self-reordering “may” predicates are true at each;
+the API has not certified an append-safe boundary. Dependency knowledge is partly
+unknown and refresh zero supplies no guarantee.
+
+Independent saved-data review finds every interior owner endpoint equal to the
+next presentation PTS, including the long hold. No timing bug is demonstrated by
+this fixture; the general decode-duration interpretation remains unproved.
+The original failed tuple's changed field is still unavailable.
+
+Next investigate whether the retained codec data and primary contracts provide a
+finite dependency/reordering bound with complete-byte and endpoint conditions.
+This source-only question may justify a separately fixed candidate; it is not
+permission to tune the discarded tail, alter writer settings or adopt incremental
+verification. Canonical correspondence, recovery/backlog and stop remain open.

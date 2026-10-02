@@ -6656,3 +6656,21 @@ inventory without decoding or writing media. It preserves unknown flags and the
 timing owner's decode-duration meaning instead of treating configuration as an
 observed refresh boundary. The result may justify a new candidate; it does not
 approve that candidate or change the required digests and stop deadline.
+
+## Native camera fact interpretation
+
+**Sound, high confidence — preserve clock differences and conservative answers.**
+The writer's native clock rounds some source timestamps. The metadata comparison
+uses the existing clock owner for correspondence while retaining every original
+tick and flag; it does not pretend the representations are byte-identical. Native
+refresh flags exist, but the reordering queries still answer “may” on those rows.
+Those facts remain observations rather than a silent permission to commit pixels.
+This constrains any future prefix algorithm without changing the writer or digest.
+
+**Sound, high confidence — leave the timing owner unchanged without a demonstrated defect.**
+One native decode duration is much longer than a normal frame, but it exactly spans
+the gap to the next presented picture. Every other interior endpoint also matches
+its next presentation timestamp. Treating the large value as a bug would replace
+truthful held-picture support with a guessed short duration. The general API meaning
+still needs qualification; this one fixture does not justify a speculative fix or
+explain the missing historical failed tuple.

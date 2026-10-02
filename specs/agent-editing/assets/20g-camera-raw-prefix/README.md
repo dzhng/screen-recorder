@@ -9,6 +9,9 @@ ordinary prefix but reports a distinct pre-interruption mismatch. Lost later
 operands and raw output leave the changed field unknown. Recovery never ran.
 The [successor observer](observer-preparation/README.md) qualifies failure
 retention through its real filesystem entry, without another media case.
+The [native cursor packet](native-cursor-qualification/README.md) records complete
+metadata availability on the retained closed movie. Its conservative answers do
+not certify prefix safety.
 
 The [slice](../../slices/20g-camera-raw-prefix.md) owns the fixed question, clocks,
 conservative uncommitted tail and bounds. The [report](report.json) records exact

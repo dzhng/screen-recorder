@@ -1,0 +1,23 @@
+{
+  "scope": "Root saved archive/checker and independent full-row review; no native replay",
+  "archiveMembersChecked": 27,
+  "currentProtectedPinsChecked": 123,
+  "completeMembershipRows": 197,
+  "sameTrackUnmovedCursors": 197,
+  "orderingPredicates": 589,
+  "all196InteriorOwnerEndsEqualNextPresentationPTS": true,
+  "noTimingDefectDemonstrated": true,
+  "endpointGeneralPresentationMeaningUnproved": true,
+  "nativeFullSyncOrdinals": [
+    0,
+    29,
+    58,
+    87,
+    116,
+    145,
+    174
+  ],
+  "historicalFailedTupleFieldStillUnknown": true,
+  "activePrefixStabilityQualified": false,
+  "productionStrategySelected": false
+}

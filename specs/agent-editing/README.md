@@ -22,7 +22,7 @@ The external caller makes every editorial decision. The consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) describes that caller's workflow;
 repository developers read or edit it from that perspective.
 
-**Next pickup: qualify native cursor facts on the retained closed camera fixture.**
+**Next pickup: investigate a supported codec boundary before another camera case.**
 [20g](slices/20g-camera-raw-prefix.md) compiled with the retained working cache,
 then reused that binary for the separately authorized physical cases. One ordinary
 prefix stayed identical; the separate case failed before intentional interruption.
@@ -32,9 +32,13 @@ retain this distinction. Preserve originals; do not retry the same tail rule or
 infer a codec cause.
 The [observer qualification](assets/20g-camera-raw-prefix/observer-preparation/README.md)
 now proves durable operands and bounded failed bytes through its real filesystem
-entry; native cursor values remain unexercised. Follow the slice's metadata-only
-plan on existing media before proposing an active-prefix boundary. No decode,
-writer, new capture or physical-case replay follows from this preparation.
+entry. [Native metadata qualification](assets/20g-camera-raw-prefix/native-cursor-qualification/README.md)
+now covers every retained sample, with original clock rounding exposed. Both
+reordering “may” queries remain true even at each observed full-sync sample;
+they do not certify a boundary. Investigate codec-defined dependency/reordering
+limits and complete-byte conditions from retained bytes and primary contracts.
+No tail tuning, settings change or new media case is selected. Canonical production
+and its independent complete traversal remain separate unsolved dependencies.
 
 The [12l supplied-text comparison](slices/12l-independent-supplied-text-timing.md)
 improves the fixed example's timing without an individual regression; parent 12
