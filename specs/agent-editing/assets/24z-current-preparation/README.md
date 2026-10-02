@@ -79,3 +79,11 @@ The [post-correspondence window](post-correspondence-preflight.json) rechecks th
 current runtime/fixture after the system-audio proof and camera metadata check.
 Its one whole-host inventory still finds unrelated compilation and rendering, so
 service/query/timing/profile dispatch remains zero. No polling or retry follows.
+
+The [post-IDR window](post-idr-preflight.json) follows one targeted check showing
+the nine previous blocking PIDs absent. That changed external condition justified
+one separately coordinated inventory with owned heavy work held. An unrelated
+active scene/browser render pipeline still rejects the window. Full private records
+are banked without changing the original snapshots; no preparation, service,
+query, profile or timing ran. Absence does not establish historical job exit codes,
+and this inventory supplies no latency-causality claim.

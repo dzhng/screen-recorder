@@ -1,0 +1,138 @@
+{
+  "argv": [
+    "ps",
+    "-axo",
+    "pid,ppid,etime,pcpu,rss,command"
+  ],
+  "startedAt": "2026-10-02T07:07:28.754995+00:00",
+  "endedAt": "2026-10-02T07:07:28.803778+00:00",
+  "exit": 0,
+  "raw": {
+    "path": "/tmp/screenrec-24z-coordinated-window-20261002-070728/whole-host-preflight.txt",
+    "bytes": 244810,
+    "sha256": "8865bbdb04351560567c0db49ba23e56eace2d39eadeacad57ac122326dbeb21"
+  },
+  "stderr": {
+    "path": "/tmp/screenrec-24z-coordinated-window-20261002-070728/ps.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "criteria": {
+    "rejectIf": [
+      "Active compile/build/simulation/benchmark/model-inference/media-render/archive workload",
+      "Unrelated process at or above100percent CPU"
+    ],
+    "method": "One complete inventory, manual whole-host review; no polling or retry"
+  },
+  "actualMeasureDispatches": 0,
+  "actualTimingCollections": 0,
+  "qualified": false,
+  "decision": "DEFER before service/query/timing/profile dispatch",
+  "observations": [
+    {
+      "pid": 3173,
+      "ppid": 81052,
+      "etime": "00:11",
+      "cpuPercent": 14.8,
+      "rssKiB": 1129808,
+      "name": "browser renderer child"
+    },
+    {
+      "pid": 79508,
+      "ppid": 70336,
+      "etime": "20:20",
+      "cpuPercent": 0.0,
+      "rssKiB": 13184,
+      "name": "visual-run Python parent"
+    },
+    {
+      "pid": 81050,
+      "ppid": 79508,
+      "etime": "19:18",
+      "cpuPercent": 0.0,
+      "rssKiB": 3120,
+      "name": "bun scene launcher"
+    },
+    {
+      "pid": 81051,
+      "ppid": 81050,
+      "etime": "19:18",
+      "cpuPercent": 28.6,
+      "rssKiB": 1120656,
+      "name": "scene.mjs Node"
+    },
+    {
+      "pid": 81052,
+      "ppid": 81051,
+      "etime": "19:17",
+      "cpuPercent": 17.9,
+      "rssKiB": 253376,
+      "name": "owned headless browser"
+    },
+    {
+      "pid": 81059,
+      "ppid": 81052,
+      "etime": "19:17",
+      "cpuPercent": 17.6,
+      "rssKiB": 404928,
+      "name": "browser GPU child"
+    }
+  ],
+  "classification": {
+    "rejectedBy": "Active unrelated visual-render/scene workload",
+    "basis": "Saved one-shot command inventory shows visual-run parent -> bun -> scene.mjs -> headless browser, with active Node/GPU/renderer CPU. This satisfies heavy-render workload rejection independently of100percent rule.",
+    "unrelatedAtOrAbove100PercentCount": 0,
+    "noLatencyCausalityClaim": true
+  },
+  "ownedLanes": "Root reported native/services/checks/push terminal;20i held compile/native/heavy hashing/archive. This snapshot discovers an unrelated active workload; root lane closure alone is insufficient.",
+  "preservation": "One separately coordinated fresh inventory after nine prior blocking PIDs became absent; no polling/retry or measurement dispatch.",
+  "priorJobRevalidation": {
+    "requested": 9,
+    "observed": 0,
+    "absenceDoesNotEstablishHistoricalExitCodes": true,
+    "receipt": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/prior-job-receipt.json"
+  },
+  "privateAuthority": {
+    "directory": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728",
+    "byteIdenticalBankedFiles": [
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/whole-host-preflight.txt",
+        "bytes": 244810,
+        "sha256": "8865bbdb04351560567c0db49ba23e56eace2d39eadeacad57ac122326dbeb21",
+        "originalPath": "/tmp/screenrec-24z-coordinated-window-20261002-070728/whole-host-preflight.txt"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/ps.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "originalPath": "/tmp/screenrec-24z-coordinated-window-20261002-070728/ps.stderr"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/classification.json",
+        "bytes": 2809,
+        "sha256": "e4b77894ff22c3b0e3354bbbaca3b9922fbe87ea0e7271ccde5b7fbbd6ddad8f",
+        "originalPath": "/tmp/screenrec-24z-coordinated-window-20261002-070728/classification.json"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/prior-job-receipt.json",
+        "bytes": 1033,
+        "sha256": "fd9a445401f3f352989cd8322f5dd2b84c69924727a255f118edb5284aad99ca",
+        "originalPath": "/tmp/screenrec-24z-prior-jobs-20261002-070512/receipt.json"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/prior-job.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "originalPath": "/tmp/screenrec-24z-prior-jobs-20261002-070512/ps.stdout"
+      },
+      {
+        "path": "/Users/david/.cache/screen-recorder/verification/source-cardinality-current-edc309d2/coordinated-window-20261002-070728/prior-job.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "originalPath": "/tmp/screenrec-24z-prior-jobs-20261002-070512/ps.stderr"
+      }
+    ]
+  },
+  "runtimePreparationReplayed": false,
+  "measurementInputsAndGateUnchanged": true
+}

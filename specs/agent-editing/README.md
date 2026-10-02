@@ -53,8 +53,9 @@ canonical traversal. A raw-prefix pass would establish only its own prerequisite
 no encoding, digest, source identity, deadline or production strategy changes.
 
 [24z timing](assets/24z-current-preparation/README.md) requires a changed coordinated
-window and one fresh preflight: the [latest snapshot](assets/24z-current-preparation/post-correspondence-preflight.json)
-found unrelated compilation/rendering, so no service or measurement started.
+window and one fresh preflight: the [latest snapshot](assets/24z-current-preparation/post-idr-preflight.json)
+found an unrelated active render pipeline after the prior jobs were absent, so no
+service or measurement started.
 Do not poll the host or replay preparation. Consumer ports proceed only where
 [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
 identifies a missing owner; another menu or chooser does not prove presentation
