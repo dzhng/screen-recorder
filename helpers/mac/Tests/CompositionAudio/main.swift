@@ -3,7 +3,6 @@ import Darwin
 import ScreenRecorderAudio
 import ScreenRecorderMedia
 
-@main
 struct CompositionAudioTests {
     static func main() async {
         do { try await dispatch() }
@@ -13,6 +12,10 @@ struct CompositionAudioTests {
         }
     }
     static func dispatch() async throws {
+        if CommandLine.arguments.dropFirst().first == "--resampling-endpoints" {
+            try await verifyResamplingEndpoints()
+            return
+        }
         if CommandLine.arguments.dropFirst().first == "--exact-time" {
             try verifyExactTimeCarrier()
             return
@@ -106,6 +109,7 @@ struct CompositionAudioTests {
             try await uncovered.consume { _ in preconditionFailure("Uncovered state emitted PCM") }
             preconditionFailure("Silent branch hid missing prepared coverage")
         } catch let failure as NativeFailure { precondition(failure.code == "INVALID_REQUEST") }
+        try await verifyResamplingEndpoints()
         print(
             "PASS composition stream rebases window samples, awaits bounded blocks, rejects second consumption and propagates sink cancellation without a report"
         )
@@ -156,3 +160,5 @@ func verifyExactTimeCarrier() throws {
     precondition(String(decoding: whole, as: UTF8.self) == "2")
     print("PASS exact signed carrier and nonnegative selection decoding")
 }
+
+await CompositionAudioTests.main()
