@@ -7,8 +7,9 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { RevisionStore } from "@screenrec/core/library";
+import { DerivedCache } from "@screenrec/core/cache";
+import { Catalog } from "@screenrec/core/catalog";
+import { AssetStore } from "@screenrec/core/assets";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
@@ -27,21 +28,6 @@ function ffmpeg(args) {
 // Independent source truth: three large, labelled frames with binary blocks. The fixture's
 // numbered pixels are drawn before encoding; no decoder metadata participates in this oracle.
 async function fixture(home) {
-  const store = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
-  const recording = store.allocate().recording;
-  store.ingestLifecycle(recording.recordingId, {
-    sourceId: recording.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "generated sparse media",
-    sourceDurationUs: 6000000,
-  });
-  store.close();
-  const directory = join(home, "recordings", recording.recordingId, "source");
-  await mkdir(directory, { recursive: true });
   const glyphs = ["111101101101111", "010110010010111", "111001111100111"];
   for (let index = 0; index < 3; index++) {
     const rgb = Buffer.alloc(width * height * 3, 32);
@@ -66,7 +52,7 @@ async function fixture(home) {
       Buffer.concat([Buffer.from(`P6\n${width} ${height}\n255\n`), rgb]),
     );
   }
-  const source = join(directory, "video.mov");
+  const source = join(home, "video.mov");
   ffmpeg([
     "-framerate",
     "1/2",
@@ -103,7 +89,34 @@ async function fixture(home) {
     JSON.parse(truth.stdout).frames.map((frame) => Number(frame.pts_time)),
     [0, 2, 4],
   );
-  return { recording, source };
+  const library = join(home, "library");
+  await mkdir(library, { recursive: true, mode: 0o700 });
+  const catalog = new Catalog(join(library, "catalog.sqlite"));
+  try {
+    const assets = new AssetStore(catalog, library);
+    await assets.recover();
+    const asset = await assets.import(source, { kind: "generated" }, async () => ({
+      originUs: 0,
+      streams: [
+        {
+          id: "track:1",
+          kind: "video",
+          codec: "h264",
+          decodable: true,
+          startUs: 0,
+          endUs: 6000000,
+          segments: [{ startUs: 0, endUs: 6000000, empty: false }],
+          width,
+          height,
+          orientedWidth: width,
+          orientedHeight: height,
+        },
+      ],
+    }));
+    return { selection: { assetId: asset.id, streamId: "track:1" }, source };
+  } finally {
+    catalog.close();
+  }
 }
 
 function assertNumberedPixels(file, expected) {
@@ -134,9 +147,9 @@ function assertNumberedPixels(file, expected) {
   assert.ok(rgb[bottom + 2] > 200 && rgb[bottom] < 60, "blue corner must remain bottom-right");
 }
 
-test("sparse numbered frames preserve public timing, full resolution, cuts and regeneration after restart", async () => {
+test("sparse source pictures preserve containing-sample timing, full resolution and regeneration after restart", async () => {
   const home = temporary("/tmp/scr-sparse-public-");
-  const { recording, source } = await fixture(home);
+  const { selection, source } = await fixture(home);
   const hash = async () =>
     createHash("sha256")
       .update(await readFile(source))
@@ -158,17 +171,13 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
       return response;
     }, 20000);
   const params = {
-    recordingId: recording.recordingId,
-    revisionId: "r0",
+    ...selection,
     atUs: 1000000,
-    clean: true,
     maxLongEdge: 8192,
   };
   const tie = await frame(params);
   assert.equal(tie.published.frame.requestedSourceUs, 1000000);
   assert.equal(tie.published.frame.actualSourceUs, 0);
-  assert.equal(tie.published.frame.actualPlaybackUs, 0);
-  assert.equal(tie.published.frame.distanceUs, 1000000);
   assert.deepEqual([tie.published.frame.width, tie.published.frame.height], [width, height]);
   assert.deepEqual(
     [tie.published.frame.sourceWidth, tie.published.frame.sourceHeight],
@@ -178,24 +187,17 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
   assert.equal(start.published.frame.actualSourceUs, 0);
   const end = await frame({ ...params, atUs: 5999999 });
   assert.equal(end.published.frame.actualSourceUs, 4000000);
-  assert.equal(end.published.frame.distanceUs, 1999999);
   const resized = await frame({ ...params, maxLongEdge: 1600 });
   assert.deepEqual([resized.published.frame.width, resized.published.frame.height], [1600, 900]);
 
-  const edited = await call("edit.cut", {
-    recordingId: recording.recordingId,
-    expectedRevisionId: "r0",
-    requestId: randomUUID(),
-    ranges: [{ startUs: 1000000, endUs: 3000000 }],
-  });
-  const boundaryParams = { ...params, revisionId: edited.revision.id, atUs: 1000000 };
+  const boundaryParams = { ...params, atUs: 3000000 };
   const boundary = await frame(boundaryParams);
-  assert.deepEqual(boundary.published.frame.kept, { startUs: 3000000, endUs: 6000000 });
-  assert.equal(boundary.published.frame.requestedPlaybackUs, 1000000);
   assert.equal(boundary.published.frame.requestedSourceUs, 3000000);
-  assert.equal(boundary.published.frame.actualSourceUs, 4000000);
-  assert.equal(boundary.published.frame.actualPlaybackUs, 2000000);
-  assert.equal(boundary.published.frame.distanceUs, 1000000);
+  assert.equal(boundary.published.frame.actualSourceUs, 2000000);
+  const sample = boundary.published.frame.sample;
+  assert.equal(Number(sample.value) / sample.timescale, 2);
+  assert.equal(Number(sample.endValue) / sample.endTimescale, 4);
+  assert.equal(sample.originUs, 0);
 
   const output = join(home, "full-resolution.png");
   const cliResult = spawnSync(
@@ -216,7 +218,7 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
   assert.deepEqual(JSON.parse(cliResult.stdout).data.published, boundary.published);
   const png = await readFile(output);
   assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [width, height]);
-  assertNumberedPixels(output, 2);
+  assertNumberedPixels(output, 1);
   const client = new Client({ name: "sparse-frame-proof", version: "1" });
   try {
     await client.connect(
@@ -239,7 +241,7 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
 
   const batchParams = {
     ...boundaryParams,
-    atUs: [1000000, 0, 1000000, 3999999, 0, 1000000, 3999999, 0],
+    atUs: [3000000, 0, 3000000, 5999999, 0, 3000000, 5999999, 0],
   };
   const batch = await waitFor(async () => {
     const value = await call("frame.batch", batchParams);
@@ -251,7 +253,7 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
   }, 20000);
   assert.deepEqual(
     batch.items.map((item) => item.data.published.frame.actualSourceUs),
-    [4000000, 0, 4000000, 4000000, 0, 4000000, 4000000, 0],
+    [2000000, 0, 2000000, 4000000, 0, 2000000, 4000000, 0],
   );
   const batchOutput = join(home, "batch-output");
   const batchCli = (output) =>
@@ -274,7 +276,10 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
   const deliveredItems = JSON.parse(delivered.stdout).data.items;
   const images = await Promise.all(deliveredItems.map((item) => readFile(item.data.output)));
   for (const [index, item] of deliveredItems.entries())
-    assertNumberedPixels(item.data.output, [1, 4, 7].includes(index) ? 0 : 2);
+    assertNumberedPixels(
+      item.data.output,
+      [1, 4, 7].includes(index) ? 0 : [3, 6].includes(index) ? 2 : 1,
+    );
   const colliding = JSON.parse(batchCli(batchOutput).stdout);
   assert.ok(colliding.data.items.every((item) => !item.ok));
   assert.deepEqual(await readFile(deliveredItems[0].data.output), images[0]);
@@ -300,27 +305,23 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
     await batchClient.close();
   }
 
-  // Change current revision before restart; regeneration must stay with the explicitly pinned one.
-  const newer = await call("edit.cut", {
-    recordingId: recording.recordingId,
-    expectedRevisionId: edited.revision.id,
-    requestId: randomUUID(),
-    ranges: [{ startUs: 0, endUs: 500000 }],
-  });
   instance.kill("SIGTERM");
   await waitFor(() => !instance.running, 15000);
   assert.equal((await instance.exited).code, 0);
   // Exercise actual cache eviction under a smaller budget while the service is stopped.
-  const catalog = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
+  const library = join(home, "library");
+  const catalog = new Catalog(join(library, "catalog.sqlite"));
+  const assets = new AssetStore(catalog, library);
+  const ownerCheck = (owner) => {
+    assert.equal(owner.kind, "asset");
+    assert.ok(assets.has(owner.assetId));
+  };
   try {
-    const cache = new DerivedCache(catalog, home, recordingCacheOwnerCheck(catalog));
+    const cache = new DerivedCache(catalog, library, ownerCheck);
     await cache.reconcile();
     // Other producers may retain observations too. Make the target frame the oldest item
     // explicitly so this test controls eviction independently of background admission timing.
-    for (const row of catalog.catalog
+    for (const row of catalog
       .prepare("SELECT id FROM derived_cache WHERE id != ? ORDER BY id")
       .all(boundary.published.frame.cacheId)) {
       const read = cache.acquire(row.id);
@@ -329,8 +330,8 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
     }
     const constrained = new DerivedCache(
       catalog,
-      home,
-      recordingCacheOwnerCheck(catalog),
+      library,
+      ownerCheck,
       cache.bytes - boundary.published.frame.bytes,
     );
     await constrained.reconcile();
@@ -341,15 +342,13 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
   }
   ({ instance } = await launchReady(home));
   const regenerated = await frame(boundaryParams);
-  assert.equal(regenerated.revisionId, edited.revision.id);
+  assert.equal(regenerated.assetId, selection.assetId);
+  assert.equal(regenerated.streamId, selection.streamId);
+  assert.equal(regenerated.jobId, boundary.jobId);
   assert.equal(regenerated.published.generation, boundary.published.generation + 1);
   assert.notEqual(regenerated.published.frame.cacheId, boundary.published.frame.cacheId);
-  assert.equal(regenerated.published.frame.actualSourceUs, 4000000);
-  assert.equal(regenerated.published.frame.actualPlaybackUs, 2000000);
-  assert.equal(
-    (await call("revision.get", { recordingId: recording.recordingId })).revision.id,
-    newer.revision.id,
-  );
+  assert.equal(regenerated.published.frame.actualSourceUs, 2000000);
+
   assert.deepEqual(await readFile(regenerated.published.frame.file), png);
   const replay = await frame(boundaryParams);
   assert.deepEqual(replay.published, regenerated.published);

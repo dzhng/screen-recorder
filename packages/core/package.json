@@ -28,10 +28,6 @@
       "types": "./dist/cache.d.ts",
       "default": "./dist/cache.js"
     },
-    "./frames": {
-      "types": "./dist/frames.d.ts",
-      "default": "./dist/frames.js"
-    },
     "./audio": {
       "types": "./dist/audio.d.ts",
       "default": "./dist/audio.js"
@@ -55,14 +51,6 @@
     "./scene-processing": {
       "types": "./dist/scene-processing.d.ts",
       "default": "./dist/scene-processing.js"
-    },
-    "./frame-materialization": {
-      "types": "./dist/frame-materialization.d.ts",
-      "default": "./dist/frame-materialization.js"
-    },
-    "./selection": {
-      "types": "./dist/selection.d.ts",
-      "default": "./dist/selection.js"
     },
     "./screenshot-index": {
       "types": "./dist/screenshot-index.d.ts",
