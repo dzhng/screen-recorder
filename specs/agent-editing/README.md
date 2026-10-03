@@ -59,8 +59,11 @@ the current portable scene store. Shared raster/pointer JavaScript is unchanged.
 Preserve portable generations, exact time and render-workspace lifetimes. Remove
 orphan recording media/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
-owners. The [caller audit](assets/23-owner-fixture-ports/caller-cutover-audit.json)
-owns the explicit personal-release caller cutover. The
+owners. The
+[explicit caller checkpoint](assets/23-owner-fixture-ports/personal-release-caller-verification.json)
+ports source discovery, explicit project authoring, history and fresh package
+adoption. Eight controlled, schema-validated cases pass through the merged caller;
+real installed/media acceptance remains open. The
 [batch response bank](assets/23-owner-fixture-ports/batch-owner-contract-verification.json)
 closes shared CLI/MCP recording/package response branches; merged source MCP
 delivery passes its selected duplicate/partial-failure case.

@@ -78,9 +78,12 @@ remains deferred. The
 [compiled pointer checkpoint](../assets/23-owner-fixture-ports/composition-pointer-readability-verification.json)
 preserves inherited delivery floors and crop caps through current geometry;
 full-size and clean frames are unchanged. Tiny crops retain the established
-rasterization limit. Remaining core media/span owners, native audio/movie/lifetime
-guarantees and the personal-release caller precede actual schema removal. Preserve
-valuable source/project guarantees through current owners. Missing inherited acoustic
+rasterization limit. The
+[explicit caller checkpoint](../assets/23-owner-fixture-ports/personal-release-caller-verification.json)
+ports the personal-release harness through controlled, validated operation
+replies; installed and real media execution remain open. Remaining core media/span
+owners and native audio/movie/lifetime guarantees precede actual schema removal.
+Preserve valuable source/project guarantees through current owners. Missing inherited acoustic
 or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.
 

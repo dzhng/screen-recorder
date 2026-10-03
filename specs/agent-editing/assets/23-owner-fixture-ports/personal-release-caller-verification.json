@@ -1,0 +1,72 @@
+{
+  "checkpoint": "explicit personal-release caller",
+  "originalCommits": [
+    "d2e3fc16caff9b7309cf0b2b74a8ad31b4e8fdc1",
+    "5c9517bd772855902dfaf1bbf9b3646519f5e612"
+  ],
+  "mainCommits": [
+    "a7668ffc",
+    "0df3703e"
+  ],
+  "archive": {
+    "file": "personal-release-caller-evidence.tar.gz",
+    "bytes": 22749,
+    "sha256": "ac6a7fd2b5d990d08f361fce0dc2bafa177798b4f023aa6eb3d8f44dd80f83e3",
+    "hashedPayloads": 20,
+    "manifest": "manifest.json inside archive"
+  },
+  "sourcePins": [
+    {
+      "path": "packages/test-harness/package.json",
+      "sha256": "144153666cb679374b41594f1fed91c48331580b4f396a9e72516219d5520c79"
+    },
+    {
+      "path": "packages/test-harness/personal-release.mjs",
+      "sha256": "ebb5450c8c776eec8b97166f03d7f1c5b5e5ec84188b25168542e0215379a213"
+    },
+    {
+      "path": "packages/test-harness/personal-release.test.mjs",
+      "sha256": "b7dbfff0a52cf3c0a2bb812f3f416b66af73ec706032a8dc7311ab63bb9f1036"
+    },
+    {
+      "path": "packages/test-harness/personal-release-cli-fixture.mjs",
+      "sha256": "f25ac3a7029e1862c71b824e3fb724aae0641e519ed8dc2dbe179dbbb3a86016"
+    }
+  ],
+  "implementationReports": [
+    "actor/red-green.md",
+    "actor/followup-red-green.md"
+  ],
+  "rootReview": "root-review.json inside archive",
+  "contract": "Capture facts discover admitted asset/stream/acquisition bindings. Caller-selected source cuts author an explicit project; source evidence never chooses edits. Project-owned history, media, export and fresh adoption use current operations.",
+  "proof": {
+    "actorTests": 8,
+    "actorBuild": "5 dependency-aware tasks; retained stdout and transcribed terminal outcomes",
+    "mergedTests": 8,
+    "mergedProcess": "merged/process.json",
+    "mergedTerminal": {
+      "pid": 79142,
+      "exitCode": 0,
+      "waited": true,
+      "endedAt": 1791000441.5439239,
+      "deadlineExpired": false
+    },
+    "actualInputValidation": "@screenrec/protocol operationSchema",
+    "dependencyLock": "one workspace composition dependency; frozen Bun install with scripts disabled passes"
+  },
+  "preservation": [
+    "normalized acquisition.available stays in asset time; offset converted once into project cut time",
+    "invalid/overlapping cuts refuse before expensive transcript/index/media work",
+    "per-item errors/canceled jobs/package terminal states stop without no-progress polling",
+    "frame sample lies in admitted support",
+    "audio padding preserved across acquisition gaps, with exact unavailable metadata",
+    "one preview request waits and drains delivery",
+    "fresh package project/revision inspection after adoption; admission closed"
+  ],
+  "limits": [
+    "Controlled CLI responses only; no live service or installed/default discovery",
+    "No real transcript, decoder, render, library or listening acceptance",
+    "Historical red notes and build outcomes are transcribed; merged positive process journal is contemporaneous",
+    "Earlier wrong availability premise and rejected audio clamp are fixture/review mistakes, not product failures"
+  ]
+}

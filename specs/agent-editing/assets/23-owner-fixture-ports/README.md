@@ -42,6 +42,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Source-picture orientation, fidelity, byte bounds and aliases | [Raw pictures](source-native-pictures-verification.json) |
 | Portable scene semantics, orphan carrier closure and source-cache scale caller | [Current owners](source-cache-carrier-closure-verification.json) |
 | Delivered cursor/trail readability and crop sizing | [Compiled pictures](composition-pointer-readability-verification.json) |
+| Caller-selected cuts, source/project clocks and adopted inspection | [Explicit caller](personal-release-caller-verification.json) |
 
 ## Ownership and proof limits
 
@@ -74,7 +75,8 @@ full-size and clean output; tight crop glyphs match the established reference bu
 remain difficult to recognize at 32 pixels. No new sizing recipe is introduced.
 
 Remaining obligations include orphan core media/span owners, current-source scale
-execution, audio/movie numerical and lifetime contracts, caller cutover and the
-actual schema purge. Installed switching, continuous playback, physical capture
+execution, audio/movie numerical and lifetime contracts and the actual schema
+purge. The explicit caller harness uses current operations through controlled
+replies; installed and actual media execution remain open. Installed switching, continuous playback, physical capture
 and speech/listening acceptance remain separate release gates. No source recording
 or accepted audition is changed by these fixture ports.

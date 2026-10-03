@@ -7508,3 +7508,15 @@ floors and cap. Full-size and unannotated frames are unchanged. Independent
 comparison resolves the suspected crop regression against the old renderer;
 its tiny 32-pixel glyph remains difficult to recognize. Focused executable proof
 does not establish every transform or installed playback.
+
+
+**Sound, high confidence — the caller fixture requires explicit cuts before preparation.**
+The release journey receives a caller-selected plan and rejects invalid support
+or overlapping mapped ranges before transcript, index or media work. Search and
+filler classifications remain evidence. The caller compares normalized availability
+in asset time and converts each cut once into the authored project clock. This
+choice belongs to `d2e3fc16` and `5c9517bd`; it preserves the product's zero-editorial
+decision boundary without adding a toolkit policy. Audio excerpts retain their
+requested context across support gaps and record unavailable intervals. A proposed
+context clamp was rejected after inspecting the actual audio owner. Controlled
+caller checks pass; no personal editing or installed/media acceptance is implied.
