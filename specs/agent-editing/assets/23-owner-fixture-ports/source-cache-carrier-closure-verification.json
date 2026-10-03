@@ -1,0 +1,36 @@
+{
+  "checkpoint": "source-cache-carrier-closure",
+  "commit": "bf84214ffbbde71ff799ab1085cdd60a83ab9482",
+  "archive": {
+    "file": "source-cache-carrier-closure-evidence.tar.gz",
+    "bytes": 118413,
+    "sha256": "c44eef90424d554c1e154bddb75b9493285268b929190707339a728dd94553eb",
+    "payloads": 110
+  },
+  "manifest": "source-cache-carrier-closure-manifest.json",
+  "authoritativeReport": "report.json inside archive",
+  "coverage": "coverage.json inside archive",
+  "review": "review.md and choices.md inside archive",
+  "rootVerification": {
+    "allArchivePayloadsMatched": 110,
+    "allCurrentSourceAndDeletionPinsMatched": 12,
+    "settledDiffReviewed": true
+  },
+  "proof": {
+    "currentSceneTests": 16,
+    "setupFailure": "Donor disposal double-close; distinct from semantic validator control",
+    "intentionalRed": "Bypassing current semantic validator admits a hostile matching-hash stage; restored owner passes",
+    "sharedRuntime": "scenes, trails and presentation-pointer emitted JavaScript byte-identical",
+    "compileOnly": [
+      "current 30-minute source-cache caller syntax",
+      "core/service/harness types and builds",
+      "default service entry bundle"
+    ]
+  },
+  "contract": "Portable scene semantics and continuity belong to SceneEvidenceStore.stagePortable; generic member integrity belongs to ProjectPackages. Current-source cache caller preserves CLI bytes, file identity, LRU eviction, restart, retry generation and source hashes.",
+  "limits": [
+    "30-minute cache/native scale not executed",
+    "No installed app launch, recording, model inference or full suite",
+    "Obsolete frame/audio/SourceProcessing and schema families remain pending their own closure"
+  ]
+}

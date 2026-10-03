@@ -7480,3 +7480,31 @@ refusal without specifying this obsolete representation's fate. This choice
 belongs to `7acb8ef5`; the test now targets the current support digest, and the
 old annotated-generation semantics retire explicitly. Generic file safety and
 published source/project generation identity remain independently protected.
+
+
+**Sound, medium confidence — the scale cache caller admits a selected source.**
+The preserved generated input enters through the public asset import job. The
+caller discovers its video stream and requests that source directly. Manufacturing
+recording rows and canceled evidence jobs would restore removed prerequisites.
+This choice belongs to `bf84214f`; the cache, CLI, eviction, restart and source-hash
+oracles stay intact. Syntax and current contract correspondence pass; the
+30-minute execution remains deferred to the scale gate.
+
+**Sound, high confidence — portable scene semantics belong to the current staged store.**
+A self-consistent archive hash cannot validate its scene grid, clock or predecessor
+continuity. Those checks now exercise the managed store that admits portable
+source generations. Generic member integrity remains with the project archive
+owner. This choice belongs to `bf84214f`; standalone scene/event carriers and their
+orphan adapter retire after their useful guarantees are mapped to current owners.
+Raw capture facts and shared raster/pointer algorithms survive.
+
+**Sound, medium confidence — delivered cursor size follows the compiled geometry.**
+A source-sized cursor raster shrinks through the clip, its ancestors and final
+image delivery. The existing executor traces that same geometry back to the
+visible source region and passes its smallest-axis delivery scale to the existing
+sizing owner. This choice belongs to `8d423c29`; no cursor recipe, history or
+constant changes. Actual reductions, crop and rotated coverage preserve the old
+floors and cap. Full-size and unannotated frames are unchanged. Independent
+comparison resolves the suspected crop regression against the old renderer;
+its tiny 32-pixel glyph remains difficult to recognize. Focused executable proof
+does not establish every transform or installed playback.

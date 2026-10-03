@@ -21,7 +21,7 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: port the stale source-cache caller, then remove orphan recording-edit owners and schema.**
+**Next pickup: remove orphan recording media/span owners through their remaining contract map, then purge the recording revision schema.**
 The [canonical service](assets/23-canonical-service/README.md),
 [shared contracts](assets/23-composition-contract/README.md) and
 [fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
@@ -49,13 +49,15 @@ The [generic index bank](assets/23-owner-fixture-ports/generic-index-owner-purge
 closes the recording index domain/page carrier and preserves current retained
 readers, PNG lifetime and portable adoption. Generic source storage and raw
 provenance remain. The macOS deletion fixture is ported with syntax/compile scope;
-runtime restart acceptance remains open. The old `frame-cache-scale.mjs` consumer
-is unported and not functional; its current-source cache/retry/eviction port comes
-before deleting its old imports, with scale execution deferred to its named gate.
-Transfer remaining orphan scene/event carrier semantic oracles to current stores.
-Preserve portable generations, shared raster/pointer algorithms, exact time and
-render-workspace lifetimes. Remove orphan
-recording media/span classes and `RevisionStore` through the current dependency
+runtime restart acceptance remains open. The
+[source-cache/carrier checkpoint](assets/23-owner-fixture-ports/source-cache-carrier-closure-verification.json)
+ports the scale companion to explicit public asset import and selected-source
+inspection, preserving cache, CLI, eviction, restart and retry oracles. Its
+30-minute execution remains deferred. Standalone scene/event carriers and their
+orphan adapter are removed; matching-hash semantics and chunk continuity now use
+the current portable scene store. Shared raster/pointer JavaScript is unchanged.
+Preserve portable generations, exact time and render-workspace lifetimes. Remove
+orphan recording media/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
 owners. The [caller audit](assets/23-owner-fixture-ports/caller-cutover-audit.json)
 owns the explicit personal-release caller cutover. The
@@ -69,11 +71,16 @@ separate current shared primitives from obsolete engines.
 [decode callers](assets/23-owner-fixture-ports/source-native-consumers-verification.json),
 [descriptor/parent lifetime](assets/23-owner-fixture-ports/source-native-lifetime-verification.json)
 and [raw-picture oracles](assets/23-owner-fixture-ports/source-native-pictures-verification.json)
-now use current owners. Cursor/trail readability under downscaling remains a real
-gap: the compositor supplies unit delivery scale. Keep the old pixel floors and
-prove the correction through current compiled output before deleting that oracle.
-Authored crop/pointer and remaining audio/movie guarantees still precede old native
-registration removal. Historical maps are prerequisites, not verification runs.
+now use current owners. The
+[compiled pointer checkpoint](assets/23-owner-fixture-ports/composition-pointer-readability-verification.json)
+preserves existing pointer/core/halo floors through actual delivery size and
+compiled geometry, including authored and ancestor reduction. Crop and rotated
+coverage preserve the established size cap; the tiny glyph remains difficult to
+recognize at 32 pixels. Complete comparisons and an independent visual review
+preserve full-size and clean output. This is focused test-executable proof;
+production-worker and installed acceptance remain separate. Remaining audio/movie
+and old-family lifetime guarantees still precede native registration removal.
+Historical maps are prerequisites, not verification runs.
 
 The final joint purge removes the actual recording revision field from its type,
 queries and schema, bumps the fresh catalog format and refuses prior formats

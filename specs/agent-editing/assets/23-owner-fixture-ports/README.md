@@ -40,6 +40,8 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Owned imported media and cursor decode clock conversion | [Native consumers](source-native-consumers-verification.json) |
 | Descriptor release and observed unfinished work on parent death | [Native lifetime](source-native-lifetime-verification.json) |
 | Source-picture orientation, fidelity, byte bounds and aliases | [Raw pictures](source-native-pictures-verification.json) |
+| Portable scene semantics, orphan carrier closure and source-cache scale caller | [Current owners](source-cache-carrier-closure-verification.json) |
+| Delivered cursor/trail readability and crop sizing | [Compiled pictures](composition-pointer-readability-verification.json) |
 
 ## Ownership and proof limits
 
@@ -50,9 +52,10 @@ recording is not thereby an edit interpreter; trace its actual consumers.
 
 Portable resources keep the current authority and validation owner. Retaining an
 unconsumed page format solely for a test would create another representation to
-maintain. The generic index checkpoint uses managed portable source generations;
-its remaining scene carrier has an orphan consumer chain and needs its unique
-semantic oracles transferred before removal.
+maintain. Generic index and scene resources use managed portable source
+generations. Their semantic and continuity oracles run at the current staged
+store; standalone scene/event page formats and their orphan adapter are removed.
+Shared raster and pointer algorithms keep their existing owners.
 
 Controlled metadata and fixed valid PNGs establish ownership, paging and refusal.
 Actual worker checks establish only their named decoder, pixel or lifetime scope.
@@ -65,12 +68,13 @@ parent-lifetime contract promises no final publication or reply; it does not
 promise Swift defer execution after a hard exit. Generic descriptor lifetime
 remains live even where the retired PNG input/output handle pair has no caller.
 
-Remaining obligations include orphan core/event carriers, current-source scale,
-compiled pointer/crop/readability, audio/movie numerical contracts, caller cutover
-and the actual schema purge. Downscaled cursor/trail readability is currently
-unproved: the compositor supplies unit delivery scale, while the old renderer
-accounted for delivery reduction. Preserve those pixel floors through the
-current compositor before removing the old oracle. Installed switching,
-continuous playback, physical capture and speech/listening acceptance remain
-separate release gates. No source recording or accepted audition is changed by
-these fixture ports.
+The current compositor supplies actual delivery reduction and visible source
+geometry to the existing cursor/trail sizing owner. Complete comparisons preserve
+full-size and clean output; tight crop glyphs match the established reference but
+remain difficult to recognize at 32 pixels. No new sizing recipe is introduced.
+
+Remaining obligations include orphan core media/span owners, current-source scale
+execution, audio/movie numerical and lifetime contracts, caller cutover and the
+actual schema purge. Installed switching, continuous playback, physical capture
+and speech/listening acceptance remain separate release gates. No source recording
+or accepted audition is changed by these fixture ports.

@@ -1,0 +1,72 @@
+{
+  "checkpoint": "compiled pointer readability",
+  "originalCommit": "8d423c296dc7301305bf41bc5b58443fed21cb90",
+  "mainCommit": "0a7c3711",
+  "archive": {
+    "file": "composition-pointer-readability-evidence.tar.gz",
+    "bytes": 12980876,
+    "sha256": "5e9a37326c69fad0e4cb55ccaa1db0aa82b71eaf899338b1b3928f6a95dafdd3",
+    "hashedPayloads": 658,
+    "manifest": "checkpoint-manifest.json inside archive",
+    "note": "All656 original hashed payloads retained; macOS AppleDouble filesystem metadata excluded. Original report and final test executable unchanged."
+  },
+  "rootVisualReview": "root-visual-review.json inside archive",
+  "sourceBindings": [
+    {
+      "path": "helpers/mac/README.md",
+      "sha256": "05448d797dd250e0132eb4c4264fe887691888f87b0d76e20b86b994d4f88612",
+      "gitBlob": "299121f28724425e5020c41a61757a7a1cfe8076"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift",
+      "sha256": "85bd5dee7844717280d816ac43a83ec8c6b3b7acc5e1a714e3877ec392151187",
+      "gitBlob": "f20c583bd514f0ad63c098046f753e3b89c84384"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift",
+      "sha256": "cb0a45dadb520db5a62f3a9b5b58300a54d5afc71f17b354f21ff75acf91ac82",
+      "gitBlob": "6ad548e3320a29a3da4260848ebb381b88f4790d"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift",
+      "sha256": "4369961bd436b9f69216b9747fb331110601f002fc5746263cf52659b18c997a",
+      "gitBlob": "18d8c0b63489af702ce36ff2e377a3e8399c5089"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/CompositionPNGTests.swift",
+      "sha256": "50feebe7263eb4ac875976a965eb4348f5f88aeffea25272267ee6a42317d113",
+      "gitBlob": "4eef14c05eb9d80d761b9f4255f208b0690ede44"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/CompositionPointerTests.swift",
+      "sha256": "34fcfffb90b9c296ce6fadb07e2eeff041180b1e28f205cdd2f1eb5316254a97",
+      "gitBlob": "cd568e3d83441e3c11bd892f7db0c4f33ca0227c"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift",
+      "sha256": "5a2c39f13faecda9b2bda45682eb1718fcebf7645d0ea8c1fda747274516846b",
+      "gitBlob": "628331fb7c27d998dcb6c79db11b46d9d8931781"
+    }
+  ],
+  "finalTestExecutable": {
+    "path": "final/ScreenRecorderFrameTests",
+    "sha256": "e3b2bd112b709245f588d0c3d7e636f6c149122138226a9aea3f1723e38bad26"
+  },
+  "proof": {
+    "actualCurrentTestExecutable": "six delivery/authored/ancestor/full/crop/rotated-coverage gates; final18 PNGs match inspected candidate",
+    "behavioralRed": "unchanged compositor fails inherited pointer/core/halo floors; crop/coverage visibility mutants fail existing cap",
+    "unaffectedOutput": "all six clean pictures and full-size annotations byte-identical",
+    "affectedPrefix": "source pictures, exact presentation, composition PNG/movie fixture identity and tagged-buffer reuse"
+  },
+  "contract": "Current compositor supplies actual delivery reduction and visible source geometry to the existing cursor/trail sizing owner. Recipes, temporal evidence and constants remain unchanged.",
+  "limits": [
+    "Tiny32x32 cropped glyph preserves established output but remains difficult to recognize",
+    "Thumbnail minimum increases pointer size relative to scene content, preserving existing readability policy",
+    "Focused test executable execution is distinct from production-worker and installed release execution",
+    "Source-only color/crop rasterization differs from direct old reference; annotation masks agree",
+    "No full suite, recording, model inference, installed switching or public movie export",
+    "Remaining native audio/movie and old-family retirement remain separate"
+  ],
+  "implementationReport": "report.json inside archive",
+  "visualVerdictAuthority": "root-visual-review.json inside archive records the later independent reference follow-up and supersedes only the frozen implementation report\u2019s pending tiny-crop verdict. Existing32-pixel recognition limit remains."
+}

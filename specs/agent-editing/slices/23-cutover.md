@@ -70,11 +70,17 @@ are removed. Public service/transport guarantees, transcript processing and
 scene/index producer removal now have their current-owner banks in
 [fixture closure](../assets/23-owner-fixture-ports/README.md).
 The generic recording index carrier is also removed, with current source/project
-lifetime and portable proof. Remaining orphan core/event carriers, native engines
-and the personal-release caller precede actual schema removal. The old macOS
-`frame-cache-scale.mjs` consumer still requires a current-source port; producer
-removal does not prove that script works. Preserve valuable source/project
-guarantees rather than restore the deleted engine. Missing inherited acoustic
+lifetime and portable proof. The
+[source-cache/carrier checkpoint](../assets/23-owner-fixture-ports/source-cache-carrier-closure-verification.json)
+removes standalone scene/event carriers after transferring their semantic oracles
+and ports the scale companion to public asset/stream selection. Scale execution
+remains deferred. The
+[compiled pointer checkpoint](../assets/23-owner-fixture-ports/composition-pointer-readability-verification.json)
+preserves inherited delivery floors and crop caps through current geometry;
+full-size and clean frames are unchanged. Tiny crops retain the established
+rasterization limit. Remaining core media/span owners, native audio/movie/lifetime
+guarantees and the personal-release caller precede actual schema removal. Preserve
+valuable source/project guarantees through current owners. Missing inherited acoustic
 or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.
 
