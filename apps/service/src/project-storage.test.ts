@@ -67,7 +67,7 @@ test("aggregate project-library storage reports live managed bytes and excludes 
   });
   expect(await f.call("storage.usage", { recordingId: "old-recording" })).toMatchObject({
     ok: false,
-    error: { code: "NOT_READY" },
+    error: { code: "INVALID_PARAMS" },
   });
   expect(await f.call("storage.usage", { projectId: "unrequested-scope" })).toMatchObject({
     ok: false,

@@ -21,22 +21,27 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: run the once-at-implementation-end repository gate, then close
-only unmatched current runtime/release contracts.** Core/schema closure
+**Next pickup: finish fixture/capture failures from the one implementation-end
+repository gate, then close unmatched runtime/release contracts.** Core/schema closure
 removes recording revisions from the actual type, query and schema. The fresh
 catalog is format23 and refuses prior catalogs without migration or byte mutation.
 Projects retain their edit/history owner; capture/source facts and raw provenance
 remain intact. The [owner closure registry](assets/23-owner-fixture-ports/README.md)
 is the canonical bank of preserved guarantees and precise proof limits. Native
 engine closure is integrated and its exact pinned worker passes current
-source/audio/preview service and native cleanup smoke. The broad gate is next;
-it has not run yet. Automated temporary capture fixtures in that default gate
+source/audio/preview service and native cleanup smoke. The broad gate has run;
+its [recovery bank](assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
+separates retained package passes, focused repairs and unfinished acceptance.
+Current candidate source enumeration reports zero displays; do not repeat positive
+capture/UI fixtures until source availability changes. Automated temporary capture fixtures in that default gate
 are authorized, distinct from repeating the unchanged physical marker/Stop
 experiment or asking the user for another recording.
 
 Continue in this order:
 
-1. Finish only unmatched native/media contracts through current owners, with
+1. Complete current caller-fixture corrections and remaining default failures.
+   Reuse passed package/native cohorts. Generated movie timing and lifetime now pass;
+   exact SDK finishing remains qualified separately. Then finish unmatched native/media contracts through current owners, with
    retained or generated inputs: movie/lifetime, source restart, scene/pointer,
    audio/preview and actual native cleanup. Preserve their numerical, byte and
    lifetime assertions. Syntax, controlled edges and test executables do not

@@ -1,0 +1,204 @@
+{
+  "checkpoint": "Implementation-end default gate recovery",
+  "base": "e9090034",
+  "formatterCheckpoint": "2e273ed0",
+  "status": "Incomplete repository gate; successful cohorts retained, root corrections pass, remaining caller/capture scope stays open",
+  "archive": {
+    "file": "default-gate-recovery-evidence.tar.gz",
+    "bytes": 8982856,
+    "sha256": "78cdea50dc4fae2ae4990c65abe1efe90a3b4f7e11d19033333898752aab9985",
+    "payloads": 136
+  },
+  "finalCallerPins": [
+    {
+      "path": "apps/service/src/project-storage.test.ts",
+      "bytes": 4850,
+      "sha256": "f37ad7dc679a746cf90784880b2710e455370bceb914086b9c142b32e8a71e70"
+    },
+    {
+      "path": "packages/core/src/portable-index.test.ts",
+      "bytes": 7800,
+      "sha256": "8141a4b3edd9a83fdeb626a18327fe7c6bd782d6d216e88c69b9153632a2b580"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureJournalLeaseTests.swift",
+      "bytes": 5696,
+      "sha256": "47cea5c2ce020ec9eafd727bb8f725edb33a6c31211a3ec08249a9ae54d89371"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/NativeCaptureInputTests.swift",
+      "bytes": 17294,
+      "sha256": "bbbfe260d36eabb3398245077716008e7c418f449c1f40e3f525d0aa403cfcd2"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderCaptureTests/SourcePublicationRecoveryTests.swift",
+      "bytes": 25951,
+      "sha256": "5a7f6073734e820b00befc956ebe33456aa98249ac203663ec375a03ba09be3d"
+    },
+    {
+      "path": "helpers/mac/Tests/render-membership.mjs",
+      "bytes": 9338,
+      "sha256": "a78e1bf669a41377cd87bb03a57ade4b28593ebe5e5923af9fe86882fc5c1259"
+    },
+    {
+      "path": "helpers/mac/Tests/video-render.test.mjs",
+      "bytes": 9859,
+      "sha256": "a2ac222eecea654b1b75705f6d9fe42acc664ab9623ab8ae6d1b5f7893e6a7f1"
+    },
+    {
+      "path": "packages/test-harness/render-timing.mjs",
+      "bytes": 17857,
+      "sha256": "846489129d4f6111c189cc4fdfd71c7e19d3e11b11430d3be5515cbf6806d4aa"
+    },
+    {
+      "path": "apps/macos/tests/library-preview-bridge.test.mjs",
+      "bytes": 11200,
+      "sha256": "b2a6bda4ad2656de277a8ffb444543e3f073cf3cd0c19a40ee13bd8b37a42aa9"
+    },
+    {
+      "path": "packages/test-harness/movie-lifetime.mjs",
+      "bytes": 17325,
+      "sha256": "ce5537e9dcf34126af8abd8d1c3077c981454fa53b77a86dcf88996db784454f"
+    }
+  ],
+  "candidate": {
+    "buildCheckpoint": "e9090034 plus2e273ed0 formatter-only paths",
+    "operands": [
+      {
+        "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+        "bytes": 6298128,
+        "sha256": "2de81ba3676a8e52cb7787b8103dd91e803b1dbb67c20f565881e8740b3c6d73"
+      },
+      {
+        "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "bytes": 19931920,
+        "sha256": "cd61f880baee5f9e7df4f0a158429ca0e65a6cbd83fbc5d7d773c1e190e4f384"
+      },
+      {
+        "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+        "bytes": 4079323,
+        "sha256": "d8336b61ef2955ee1bf390290954f05f85aab82106bd58c66036cca15965ee83"
+      },
+      {
+        "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+      },
+      {
+        "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+        "bytes": 1149959,
+        "sha256": "27261720f7156aaa3cf754db7039e82e3f252a326cafc0b8a8de7724405035b8"
+      }
+    ],
+    "scope": "built isolated candidate, not installed switch"
+  },
+  "broadAttempt": {
+    "exitCode": 1,
+    "seconds": 22.368605136871338,
+    "core": {
+      "passed": 674,
+      "failed": 1,
+      "skipped": 1,
+      "failure": "portable-index default deadline with fixture setup moved into timed case"
+    },
+    "compositionPassed": 272,
+    "protocolPassed": 20,
+    "clientPassed": 21,
+    "workbenchPassed": 1,
+    "serviceCliMacosHarness": "interrupted; resumed only those cohorts"
+  },
+  "resumed": {
+    "servicePassed": 200,
+    "cliPassed": 58,
+    "typesTasksPassed": 13,
+    "macosBuildExitCode": 0,
+    "swiftDefaultGroupsPassed": [
+      "Capture",
+      "Frame",
+      "SourceAudio",
+      "CompositionAudio",
+      "SelectedAudio",
+      "Speech",
+      "Controls"
+    ],
+    "swiftGroupEvidence": "Shell conjunction reached the native Node stage after every unchanged default Swift command exited zero; no standalone per-command exit journal claimed.",
+    "nativeNode": {
+      "passed": 77,
+      "failed": 1,
+      "failedCaseFocusedPass": true,
+      "failure": "missing existsSync test import"
+    },
+    "macosNode": {
+      "passed": 56,
+      "failed": 19,
+      "skipped": 1,
+      "qualification": "Original complete cohort; subsequent focused fixes do not relabel its original verdict."
+    },
+    "harness": {
+      "sharedNativeConformance": true,
+      "nodePassed": 30
+    }
+  },
+  "focusedRoot": {
+    "portableIndex": {
+      "passed": 1,
+      "boundary": "Restored approved24z10 setup hook;260candidates/520coverage/allordinarytransactions/defaultdeadlines unchanged"
+    },
+    "storage": {
+      "passed": 2,
+      "contract": "Strict aggregate request rejects recordingId before lookup withINVALID_PARAMS"
+    },
+    "swiftSelfLaunch": "Three test children use loaded executable URL; package cwd/args/env/coverage unchanged",
+    "videoSupport": "Missing failure-path import repaired; literal span plans match all11 old/current generated plans (transcribed tool observation, not separately retained execution journal)",
+    "renderTiming": {
+      "passed": 1,
+      "nativeSha256": "479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d",
+      "reportMember": "retained-generated-render-timing/report.json",
+      "contract": "Exact4/6s pictures/PTS, complete source byte preservation, corrupt pointer refusal, AAC<.01 and late public cancellation after successful native return without publication or staging",
+      "cancellation": "Caller starts joining job.cancel; persisted canceled state precedes response release; drain reply precedes exact workspace check. Samejob/generation and nullpublication rule out implicit retry.",
+      "sdkFinishing": "Not proved by this gate"
+    },
+    "movieLifetime": {
+      "passed": 1,
+      "contract": "Actualassemblyabort/deadline,reap before reclaim,orphan prep/render locks,restart reuse,descriptor-parent replacement,source bytes and1sAAC success",
+      "directAbort": "Exact supplied signal.reason; no public error contract changed",
+      "sdkFinishing": "Exact writer-finishing/sibling-pump phase remains historical qualification"
+    },
+    "libraryBridge": {
+      "defaultCurrentCandidatePassed": true,
+      "explicitFrozenWorkerCurrentServicePassed": true,
+      "contract": "Actual current metadata plus unchanged complete historical replies and existing negative control; inert presenter, no movie playback",
+      "workerSha256Default": "cd61f880baee5f9e7df4f0a158429ca0e65a6cbd83fbc5d7d773c1e190e4f384",
+      "workerSha256Explicit": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+      "finalSourceQualification": "After default execution the original historical pin assertion was restored only for the explicit override. Default path unchanged; syntax and pin identity checked."
+    }
+  },
+  "availability": {
+    "ok": true,
+    "displayCount": 0,
+    "windowCount": 24,
+    "loginwindowCount": 2,
+    "cameraCount": 2,
+    "microphoneCount": 2,
+    "captureStarted": false,
+    "diagnostics": "(node:32752) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\nscreenrec: service ready pid=32752 socket=/tmp/sr-displays-Rd9qPB/run/service.sock\nscreenrec: service health status=ready pid=32752 node=v24.14.0\n",
+    "qualification": "Source availability observed without capture; unrelated window titles/device names omitted."
+  },
+  "review": {
+    "independentRootFixtureReview": "clean, including late-cancel ownership/finally cleanup and exact literal plans",
+    "configuredCodexReview": "Prior configured-model failures do not produce a review verdict; no unchanged retry or model override",
+    "shape": "No production change; retired fixture wrappers/imports removed, no new resolver/hook/deadline",
+    "format": "27 paths exactly equal formatter output fromHEAD; protected model profile retains original registered digest",
+    "lint": "Exit0 with existing warnings; no clean-warning claim"
+  },
+  "limits": [
+    "No full-suite green or installed switch. Current app/service/worker operands are isolated built candidate; app-backed media uses its sibling release worker, not SCREENREC_NATIVE env override.",
+    "Original intermediate render failures retain console/process records but their mutable intermediate JS sources were not snapshotted; exact final source is pinned.",
+    "Capture/UI positive frame evidence unavailable while candidate reports zero displays; no capture started by source observation. Unrelated window titles/device names omitted.",
+    "No model/listening/physical marker/Stop experiment rerun. Accepted original media and auditions unchanged."
+  ],
+  "rootVerification": {
+    "allArchivePayloadsMatched": 136,
+    "manifestAdditionalFile": true
+  }
+}

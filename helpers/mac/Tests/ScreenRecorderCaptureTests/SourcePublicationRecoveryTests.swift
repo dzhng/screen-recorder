@@ -203,7 +203,7 @@ private func actualCrashRecovery(root: URL) async throws {
     try await RecoveryFixture.writeVariableDurationVideo(to: source, timesUs: (0..<90).map { Int64($0) * 33333 }, keyFrameInterval: 1, endUs: 3000000)
     for mode in ["both", "camera-only", "pause"] {
         let directory = root.appendingPathComponent("crash-\(mode)")
-        let child = Process(); child.executableURL = URL(fileURLWithPath: CommandLine.arguments[0])
+        let child = Process(); child.executableURL = Bundle.main.executableURL
         child.arguments = [source.path, directory.path, mode]
         var environment = ProcessInfo.processInfo.environment
         environment.removeValue(forKey: "SCREENREC_SOURCE_RECOVERY_OUTPUT")

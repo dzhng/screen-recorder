@@ -51,6 +51,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Capture facts without recording edits, source jobs and prior-catalog refusal | [Core/schema](core-owner-verification.json), [contract map](core-owner-contract-map.md) |
 | Current native engines, selected PCM and preserved small movie/picture contracts | [Native owner closure](native-owner-purge-verification.json), [dispositions](native-owner-dispositions.md) |
 | Current production worker, source/audio/preview delivery and native cleanup | [Service smoke](current-worker-service-verification.json) |
+| One implementation-end repository run, focused recovery and current movie contracts | [Default gate recovery](default-gate-recovery-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -113,8 +114,8 @@ Audio and preview callers now author explicit source/project targets. Recording
 audio, preview and derivative owners are removed. Current preview tests preserve
 explicit retry without polling-triggered retries; generic render file and attempt
 lifetimes remain unchanged. Forty earlier current-owner cases, one final relocated
-report case and sixteen controlled render cases pass. Two unchanged native cleanup
-cases and actual macOS media bodies remain unrun.
+report case and sixteen controlled render cases pass. The service smoke below owns
+subsequent actual media and cleanup execution.
 
 The [core/schema closure](core-owner-verification.json) removes those orphan
 processing/span owners and the actual recording revision field. Prior-format
@@ -128,9 +129,10 @@ also executes source restart, audio and preview delivery and two native cleanup
 cases. Receipt clocks and path identity follow current contracts. Source-attached
 pointer history survives cuts and trims; source pauses still reset held state.
 
-Remaining obligations include unmatched movie/lifetime phases,
-current-source scale execution, unmatched movie/lifetime contracts and the actual
-schema purge. The explicit caller harness uses current operations through controlled
-replies; installed and actual media execution remain open. Installed switching, continuous playback, physical capture
+The default recovery bank executes current generated movie timing, cancellation
+and process lifetime; exact SDK finishing stays separately qualified. Remaining
+obligations include current-source scale, unfinished capture/caller fixtures and
+release scope. The explicit caller harness uses current operations through controlled
+replies. Installed switching, continuous playback, physical capture
 and speech/listening acceptance remain separate release gates. No source recording
 or accepted audition is changed by these fixture ports.

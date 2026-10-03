@@ -74,7 +74,7 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
         let crashedChild = mode == "interrupted-before-publication" && !child
         if crashedChild {
             let process = Process()
-            process.executableURL = URL(fileURLWithPath: CommandLine.arguments[0])
+            process.executableURL = Bundle.main.executableURL
             var environment = ProcessInfo.processInfo.environment
             environment["SCREENREC_NATIVE_PUBLICATION_CHILD"] = "1"
             process.environment = environment

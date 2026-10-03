@@ -1,10 +1,17 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync, rmSync, mkdirSync, readdirSync } from "node:fs";
+import {
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+  rmSync,
+  mkdirSync,
+  readdirSync,
+  existsSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, isAbsolute } from "node:path";
 import { test, after } from "node:test";
-import { createOriginalRevision, createRevision } from "../../../packages/core/dist/timeline.js";
 import { renderPlan } from "../../../packages/core/dist/presentation-time.js";
 import { renderFrames } from "./fixtures/render-frames.mjs";
 const native =
@@ -75,19 +82,10 @@ for (const kind of ["leading", "internal"]) {
     kind,
   ]);
 }
-function planFor(duration, spans) {
-  return renderPlan(
-    createRevision(createOriginalRevision(duration), spans, {
-      id: "fixture",
-      operation: "cut",
-      createdAt: "fixture",
-    }),
-  );
-}
 test("presentation evidence and source grids agree on the displayed physical support", () => {
   const source = join(directory, "sparse.mov"),
     output = join(directory, "held.jsonl");
-  const plan = planFor(6000000, [{ startUs: 750000, endUs: 1250000 }]);
+  const plan = renderPlan({ spans: [{ startUs: 750000, endUs: 1250000 }] });
   const result = JSON.parse(
     run(
       native,
@@ -160,10 +158,7 @@ test("presentation evidence and source grids agree on the displayed physical sup
 function supportRequest(sourceName, name, ranges, maxBytes = 16 * 1024 * 1024) {
   const source = join(directory, sourceName + ".mov"),
     output = join(directory, name + ".jsonl");
-  const plan = planFor(
-    6000000,
-    ranges.map(([startUs, endUs]) => ({ startUs, endUs })),
-  );
+  const plan = renderPlan({ spans: ranges.map(([startUs, endUs]) => ({ startUs, endUs })) });
   return {
     output,
     result: JSON.parse(
@@ -253,13 +248,12 @@ test("presentation evidence memory stays bounded while streamed output grows", a
   for (const count of [100, 5000]) {
     const source = join(directory, "dense.mov"),
       output = join(directory, `stream-${count}.jsonl`);
-    const plan = planFor(
-      200000,
-      Array.from({ length: count }, (_, index) => ({
+    const plan = renderPlan({
+      spans: Array.from({ length: count }, (_, index) => ({
         startUs: index * 20,
         endUs: index * 20 + 1,
       })),
-    );
+    });
     const statistics = join(directory, `memory-${count}.txt`);
     const result = JSON.parse(
       run(

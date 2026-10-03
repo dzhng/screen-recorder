@@ -41,23 +41,27 @@ test(
   "actual source metadata pages and composed historical preview consumption",
   { timeout: 90000 },
   async () => {
-    assert(
-      process.env.SCREENREC_23K_SERVICE &&
-        process.env.SCREENREC_23K_CONFIG &&
-        process.env.SCREENREC_23K_NATIVE,
-      "Supply explicitly pinned source service/config/frozen worker; this test selects no installed defaults",
-    );
+    const candidate = join(repository, "dist/ScreenRecorder.app/Contents");
     const out = process.env.SCREENREC_23K_EVIDENCE
       ? realpathSync(process.env.SCREENREC_23K_EVIDENCE)
       : mkdtempSync(join(tmpdir(), "screenrec-consumer-bridge-"));
     try {
-      const service = pin(process.env.SCREENREC_23K_SERVICE),
-        worker = pin(process.env.SCREENREC_23K_NATIVE);
-      assert.equal(
-        worker.sha256,
-        "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+      const service = pin(
+          process.env.SCREENREC_23K_SERVICE ?? join(candidate, "Resources/service/main.mjs"),
+        ),
+        worker = pin(process.env.SCREENREC_23K_NATIVE ?? join(candidate, "MacOS/screenrec-native"));
+      // The explicit override reproduces the retained historical worker cohort.
+      if (process.env.SCREENREC_23K_NATIVE)
+        assert.equal(
+          worker.sha256,
+          "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
+        );
+      const config = JSON.parse(
+        readFileSync(
+          process.env.SCREENREC_23K_CONFIG ?? join(candidate, "Resources/service/runtime.json"),
+          "utf8",
+        ),
       );
-      const config = JSON.parse(readFileSync(process.env.SCREENREC_23K_CONFIG, "utf8"));
       const home = join(out, "home"),
         build = join(out, "consumer");
       mkdirSync(home, { mode: 0o700 });

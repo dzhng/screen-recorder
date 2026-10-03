@@ -7729,3 +7729,15 @@ Gap: The default formatting command previously included these frozen byte operan
 Reach: Updating a published profile or inventory remains an explicit artifact change, rather than a side effect of formatting. This introduces no runtime option or alternative profile.
 
 Verdict: **sound**. Artifact identity takes precedence over cosmetic whitespace. Confidence: **high**.
+
+## Default-gate fixture ownership — implementation-end recovery
+
+### Use the built candidate for the current library/preview check
+
+An ordinary repository test run builds a candidate app, then checks the actual metadata service and the native library/preview controllers. This fixture now uses that candidate's service configuration and worker by default, and hashes every producer before execution. It keeps the complete archived historical replies as the separate controller-input reference; those replies do not require a historical producer for the live metadata half. An explicitly supplied historical worker still must match the original frozen digest. The alternative required private environment paths in every ordinary run and failed before checking any contract.
+
+Gap: The composed historical check was included in the default suite while its executable inputs could only be supplied externally.
+
+Reach: A fresh repository build can execute this same coverage without selecting the installed app or its library. Historical reproduction keeps its pinned-worker guard. No product configuration or discovery rule changes.
+
+Verdict: **sound**. The producer matches the gate's scope while historical input fidelity remains independently pinned. Confidence: **high**.

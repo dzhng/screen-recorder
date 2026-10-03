@@ -23,7 +23,7 @@ func runCaptureJournalLeaseTests() throws {
     }
     func contend(_ directory: URL) throws -> Int32 {
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: CommandLine.arguments[0])
+        process.executableURL = Bundle.main.executableURL
         process.arguments = [directory.path]
         var environment = ProcessInfo.processInfo.environment
         environment["SCREENREC_JOURNAL_LEASE_CHILD"] = "1"

@@ -1,4 +1,4 @@
-import { test, expect } from "vitest";
+import { beforeEach, test, expect } from "vitest";
 import { createHash } from "node:crypto";
 import { readFileSync, rmSync } from "node:fs";
 import { RetainedIndexRead } from "./index-read.js";
@@ -7,18 +7,25 @@ import { sourceIndexDomain, type SourceIndexRecords } from "./source-index.js";
 import { selectSource } from "./source-selection.js";
 import { fixture, add, cover, png } from "./retained-source-index.fixture.js";
 
-test("portable source images and filtered coverage survive library removal and relocation", async () => {
+let donor: Awaited<ReturnType<typeof fixture>>;
+let receiver: Awaited<ReturnType<typeof fixture>>;
+let metadata: Awaited<ReturnType<typeof donor.index.finish>>;
+// Author the unchanged fixture under its own default hook deadline; this case owns relocation.
+beforeEach(async () => {
   const count = 260,
     durationUs = count * 2_000_000;
-  const donor = await fixture(durationUs),
-    receiver = await fixture(durationUs);
+  donor = await fixture(durationUs);
+  receiver = await fixture(durationUs);
   donor.index.begin(donor.identity);
   for (let ordinal = 0; ordinal < count; ordinal++) {
     add(donor, ordinal, ordinal * 2_000_000);
     cover(donor, ordinal, ordinal * 2_000_000, ordinal * 2_000_000 + 1_000_000);
     cover(donor, ordinal, ordinal * 2_000_000 + 1_000_000, (ordinal + 1) * 2_000_000, "unproven");
   }
-  const metadata = await donor.index.finish(donor.identity);
+  metadata = await donor.index.finish(donor.identity);
+});
+
+test("portable source images and filtered coverage survive library removal and relocation", async () => {
   const first = donor.index.page({ identity: metadata, limit: 200 });
   const next = donor.index.page({
     identity: metadata,

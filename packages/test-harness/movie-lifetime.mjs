@@ -330,7 +330,10 @@ test(
         return result;
       };
       const pending = projectMovieRenderer(checked, attempts).render(request, controller.signal);
-      const rejected = assert.rejects(pending, { code: "CANCELED" });
+      const rejected = assert.rejects(pending, (error) => {
+        assert.equal(error, controller.signal.reason);
+        return true;
+      });
       partial = await until(() => assemblyFile(attempts));
       observedPid = await until(nativePid);
       controller.abort();

@@ -220,7 +220,6 @@ test(
       lateRelease = Promise.withResolvers();
     let firstMovie = true,
       armLate = false,
-      cancelAfterNativeJob,
       service;
     const worker = async (operation, params, options) => {
       if (operation === "media.renderCompositionMovie" && firstMovie) {
@@ -228,6 +227,7 @@ test(
         started.resolve();
         await gate.promise;
         assert.ok(params.pointers, "Explicit pointer step must supply its prepared receipt");
+        await mkdir(join(home, "refused-attempts"), { mode: 0o700 });
         await assert.rejects(
           withRenderAttempt(
             run,
@@ -252,18 +252,14 @@ test(
         assert.deepEqual(await readdir(join(home, "refused-attempts")), []);
         report.pointerReceiptChecked = true;
       }
-      if (operation === "media.renderCompositionMovie" && armLate) {
-        armLate = false;
+      const late = operation === "media.renderCompositionMovie" && armLate;
+      if (late) armLate = false;
+      const result = await run(operation, params, options);
+      if (late) {
+        assert.equal(result.ok, true, JSON.stringify(result));
+        report.lifetime.push({ kind: "late-job-cancel", actualNativeReply: true, consumed: false });
         lateEntered.resolve();
         await lateRelease.promise;
-      }
-      const result = await run(operation, params, options);
-      if (operation === "media.renderCompositionMovie" && cancelAfterNativeJob) {
-        assert.equal(result.ok, true, JSON.stringify(result));
-        const jobId = cancelAfterNativeJob;
-        cancelAfterNativeJob = undefined;
-        await call("job.cancel", { jobId });
-        report.lifetime.push({ kind: "late-job-cancel", actualNativeReply: true, consumed: false });
       }
       return result;
     };
@@ -375,7 +371,7 @@ test(
         expectedRevisionId: cut.revision.id,
         requestId: "undo",
       });
-      assert.notEqual(undo.revision.id, first.revisionId);
+      assert.notEqual(undo.id, first.revisionId);
       gate.resolve();
       const save = async (params, expected) => {
         const retained = await preview(params);
@@ -424,7 +420,7 @@ test(
           pts: [0, 1000000, 2000000, 3000000, 4000000, 5000000],
         },
       );
-      assert.equal(secondSaved.retained.revisionId, undo.revision.id);
+      assert.equal(secondSaved.retained.revisionId, undo.id);
       const replay = await preview({ projectId, revisionId: first.revisionId });
       try {
         assert.deepEqual(replay.published, firstSaved.retained.published);
@@ -439,21 +435,28 @@ test(
       // A changed explicit revision permits observing late cancellation without reusing a cached movie.
       const next = await call("edit.apply", {
         projectId,
-        expectedRevisionId: undo.revision.id,
+        expectedRevisionId: undo.id,
         requestId: "late-cancel",
         operations: [{ operation: "canvas.set", canvas: { background: "#010101ff" } }],
       });
       armLate = true;
       const pending = await call("preview.get", { projectId, revisionId: next.revision.id });
       await lateEntered.promise;
-      cancelAfterNativeJob = pending.jobId;
-      lateRelease.resolve();
+      const renderingJob = await call("job.get", { jobId: pending.jobId });
+      const canceling = call("job.cancel", { jobId: pending.jobId });
+      void canceling.catch(() => {});
       await until(
         async () => (await call("job.get", { jobId: pending.jobId })).state === "canceled",
       );
+      lateRelease.resolve();
+      await canceling;
       const canceled = await call("preview.get", { projectId, revisionId: next.revision.id });
       assert.equal(canceled.published, null);
-      assert.equal(canceled.state, "canceled");
+      assert.equal(canceled.state, "not_requested");
+      assert.equal(canceled.jobId, pending.jobId);
+      const canceledJob = await call("job.get", { jobId: pending.jobId });
+      assert.equal(canceledJob.state, "canceled");
+      assert.equal(canceledJob.generation, renderingJob.generation);
       assert.equal(
         report.renders.some((render) => render.revisionId === next.revision.id),
         false,

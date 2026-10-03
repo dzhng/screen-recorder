@@ -5,7 +5,6 @@ import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { renderFrames } from "./fixtures/render-frames.mjs";
-import { createOriginalRevision, createRevision } from "../../../packages/core/dist/timeline.js";
 import { renderPlan } from "../../../packages/core/dist/presentation-time.js";
 const root = resolve(import.meta.dirname, "../../..");
 const out =
@@ -71,33 +70,26 @@ run("swiftc", [
 ]);
 run(join(out, "gap-maker"), [join(out, "dense.mov"), join(out, "gap.mov")]);
 const cases = [
-  ["dense-subframe", "dense", 200000, [{ startUs: 10000, endUs: 20000 }], [0]],
+  ["dense-subframe", "dense", [{ startUs: 10000, endUs: 20000 }], [0]],
   [
     "dense-two-spans",
     "dense",
-    200000,
     [
       { startUs: 10000, endUs: 20000 },
       { startUs: 43333, endUs: 53333 },
     ],
     [0, 1],
   ],
-  ["sparse-held", "sparse", 6000000, [{ startUs: 500000, endUs: 510000 }], [0]],
-  ["empty-edit", "gap", 300000, [{ startUs: 50000, endUs: 60000 }], null],
+  ["sparse-held", "sparse", [{ startUs: 500000, endUs: 510000 }], [0]],
+  ["empty-edit", "gap", [{ startUs: 50000, endUs: 60000 }], null],
 ];
 const report = { kind: "generated native membership feasibility", sources: {}, cases: [] };
-for (const [name, sourceName, duration, spans, expectedFrames] of cases) {
+for (const [name, sourceName, spans, expectedFrames] of cases) {
   const source = join(out, sourceName + ".mov"),
     bytes = await readFile(source),
     directory = join(out, name);
   await mkdir(directory);
-  const original = createOriginalRevision(duration, "fixture");
-  const revision = createRevision(original, spans, {
-    id: name,
-    operation: "cut",
-    createdAt: "fixture",
-  });
-  const plan = renderPlan(revision);
+  const plan = renderPlan({ spans });
   const request = { source, outputDirectory: directory, plan };
   await writeFile(join(directory, "request.json"), JSON.stringify(request, null, 2));
   run(join(out, "probe"), [join(directory, "request.json")]);
@@ -178,7 +170,7 @@ for (const [name, sourceName, duration, spans, expectedFrames] of cases) {
       decoded.writer.matches.map((x) => x.sourceFrame),
       expectedFrames,
     );
-    assert.equal(ledger.writer.durationUs, revision.durationUs);
+    assert.equal(ledger.writer.durationUs, plan.at(-1).playback.endUs);
   } else {
     assert.equal(ledger.membership.fullyProven, false);
     assert.ok(decoded.writer.unsupported);
