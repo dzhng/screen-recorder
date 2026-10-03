@@ -37,5 +37,8 @@ so the documented adversarial fallback covers the six frames and enlarged crops.
 That historical fallback is not an unprimed review. A later
 [fresh review](fresh-visual-review/README.md) accepts the unchanged sampled fixture
 content while retaining visible layout findings and its temporal limits.
-Unheard integrated audio, physical synchronization,
-installed switching and full release/scale acceptance remain unverified.
+[Personal switching](../23-owner-fixture-ports/personal-release-verification.json)
+is now complete. Unheard integrated audio, physical synchronization and full
+release/scale acceptance remain unverified. The separate
+[temporal review](temporal-review/README.md) adds saved encoded-frame boundary
+observations without rerendering this workflow.

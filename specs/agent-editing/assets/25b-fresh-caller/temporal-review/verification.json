@@ -1,0 +1,353 @@
+{
+  "status": "Saved workflow temporal boundary and comparison/contact-sheet requirement verified within sampled scope",
+  "movie": {
+    "sha256": "eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774",
+    "archive": "../media.tar.gz",
+    "member": "blobs/eabe99f982a4ac61b133008ce77bfc9e2dc08b5e58579e7e8832b7c7a28eb774.mp4",
+    "revision": "191943db-0f9a-4904-9463-8abbde18dc42",
+    "revisionSha256": "c250e6f2447e111fe4dfc64c6d5a1161925f3e888452082590698a3e3ac8020d",
+    "geometry": [
+      1280,
+      720
+    ],
+    "fps": "30/1",
+    "frames": 578
+  },
+  "frames": [
+    {
+      "frameIndex": 0,
+      "pts": 0.0,
+      "exactClock": "0/30",
+      "file": "frame-000.png",
+      "bytes": 142821,
+      "sha256": "16f6bbeb9e0d7b0271ec22682d37dfe51d04be8d4b196e5bc7d49630aa0c626b"
+    },
+    {
+      "frameIndex": 193,
+      "pts": 6.433333,
+      "exactClock": "193/30",
+      "file": "frame-193.png",
+      "bytes": 10100,
+      "sha256": "23f261ddebdeb2377ddea2fdb4eb5be1852b9803c02dc94c5f179cc3413080d1"
+    },
+    {
+      "frameIndex": 347,
+      "pts": 11.566666,
+      "exactClock": "347/30",
+      "file": "frame-347.png",
+      "bytes": 10664,
+      "sha256": "4e619ddd942437c70f3cebdd8924af63b1d8be702865e622df11531261052d94"
+    },
+    {
+      "frameIndex": 348,
+      "pts": 11.6,
+      "exactClock": "348/30",
+      "file": "frame-348.png",
+      "bytes": 258265,
+      "sha256": "aafe8ab8987c4e775b8e7a986d4da742361f6a0cd2ddd502f4af8102f0061213"
+    },
+    {
+      "frameIndex": 362,
+      "pts": 12.066666,
+      "exactClock": "362/30",
+      "file": "frame-362.png",
+      "bytes": 269077,
+      "sha256": "750b965bd10858cc64a457e2c5406254ec1c528da63a4a2e0e9a02f8a6f8dd7e"
+    },
+    {
+      "frameIndex": 363,
+      "pts": 12.1,
+      "exactClock": "363/30",
+      "file": "frame-363.png",
+      "bytes": 277310,
+      "sha256": "de95ead8106ff39e29a6f15468e61274ced9ee74776458f8bd2e95c22ff47f00"
+    },
+    {
+      "frameIndex": 377,
+      "pts": 12.566666,
+      "exactClock": "377/30",
+      "file": "frame-377.png",
+      "bytes": 308571,
+      "sha256": "a5033c2a3080e5d6f9a38ce19660c4130ac2b6b4f1188dea0576800b8ab4ba88"
+    },
+    {
+      "frameIndex": 378,
+      "pts": 12.6,
+      "exactClock": "378/30",
+      "file": "frame-378.png",
+      "bytes": 309565,
+      "sha256": "ebbe638238d717d6375e602163317d36110651dc545e8a3ce346542e750d6b1e"
+    },
+    {
+      "frameIndex": 392,
+      "pts": 13.066666,
+      "exactClock": "392/30",
+      "file": "frame-392.png",
+      "bytes": 314133,
+      "sha256": "6bcdbdac8b436d4476f16f5c55fb819a321528032770d7acabf11519272a90a1"
+    },
+    {
+      "frameIndex": 393,
+      "pts": 13.1,
+      "exactClock": "393/30",
+      "file": "frame-393.png",
+      "bytes": 304147,
+      "sha256": "bdfe58ba89d377d1c5e12b3e676387a696a49e96bf52648d2394fdd66ae3d936"
+    },
+    {
+      "frameIndex": 405,
+      "pts": 13.5,
+      "exactClock": "405/30",
+      "file": "frame-405.png",
+      "bytes": 301382,
+      "sha256": "3b7f5cdb7a7faa2b387255919b04cd64cda6f4d6dc60198adcdebff65dc1dffe"
+    },
+    {
+      "frameIndex": 407,
+      "pts": 13.566666,
+      "exactClock": "407/30",
+      "file": "frame-407.png",
+      "bytes": 300525,
+      "sha256": "1316f28c362cf7b029a73dc09627f7731cb999091a476bd5c77a2a42a5c6b208"
+    },
+    {
+      "frameIndex": 408,
+      "pts": 13.6,
+      "exactClock": "408/30",
+      "file": "frame-408.png",
+      "bytes": 106638,
+      "sha256": "c076cb0450faa364f0858927d3c1b9d20cce4be4460bf19ef4a7b2ae8581a2de"
+    },
+    {
+      "frameIndex": 486,
+      "pts": 16.2,
+      "exactClock": "486/30",
+      "file": "frame-486.png",
+      "bytes": 104676,
+      "sha256": "1d0778c8a82186341d8013d0abe85c1c8707f1b5b5b194a1bf5b377919b7b460"
+    },
+    {
+      "frameIndex": 487,
+      "pts": 16.233333,
+      "exactClock": "487/30",
+      "file": "frame-487.png",
+      "bytes": 110853,
+      "sha256": "36f48a5a75dec47e9fe6e902c89137ee35a80d0ec81dffff1f059cdd5668a649"
+    },
+    {
+      "frameIndex": 495,
+      "pts": 16.5,
+      "exactClock": "495/30",
+      "file": "frame-495.png",
+      "bytes": 111343,
+      "sha256": "90ca173a406b15964899a1b40c11b5f5314db295583ac2405a820a72a1c5054f"
+    },
+    {
+      "frameIndex": 503,
+      "pts": 16.766666,
+      "exactClock": "503/30",
+      "file": "frame-503.png",
+      "bytes": 111343,
+      "sha256": "90ca173a406b15964899a1b40c11b5f5314db295583ac2405a820a72a1c5054f"
+    },
+    {
+      "frameIndex": 504,
+      "pts": 16.8,
+      "exactClock": "504/30",
+      "file": "frame-504.png",
+      "bytes": 111343,
+      "sha256": "90ca173a406b15964899a1b40c11b5f5314db295583ac2405a820a72a1c5054f"
+    },
+    {
+      "frameIndex": 505,
+      "pts": 16.833333,
+      "exactClock": "505/30",
+      "file": "frame-505.png",
+      "bytes": 105010,
+      "sha256": "976285faee259192774ed17217b81376637353151e9082eef9aa4dc604d511e8"
+    },
+    {
+      "frameIndex": 577,
+      "pts": 19.233333,
+      "exactClock": "577/30",
+      "file": "frame-577.png",
+      "bytes": 104633,
+      "sha256": "d0ede9b6b527d0decafce4d3be267cbf981c2c6cb20bfbc8e8e61116239c1568"
+    }
+  ],
+  "target": {
+    "scope": "Saved output, no changed product render",
+    "target": "Both selected movie sources and readable requested captions are visible at their authored windows; still only first second; selected screen numeral remains visible during bounded zoom. Caller owns layout. No extra fade/smooth-return requirement.",
+    "nativeSize": [
+      1280,
+      720
+    ],
+    "supplementarySheets": "Panels640x360; originals and2x nearest-neighbor detail crops retained",
+    "movieColor": "FFmpeg decoded declared bt709 limited-range encoded output; lossless PNG references are native archived frames. Difference telemetry is diagnostic, not an encoded pixel-equality gate.",
+    "matches": {
+      "final-contrast-interlude-start": 348,
+      "final-contrast-interlude-middle": 377,
+      "final-contrast-interlude-end": 405,
+      "final-contrast-paid-start": 487,
+      "final-contrast-paid-middle": 495,
+      "final-contrast-paid-end": 503
+    },
+    "completeCaptureSet": [
+      "frame-000.png",
+      "frame-193.png",
+      "frame-347.png",
+      "frame-348.png",
+      "frame-362.png",
+      "frame-363.png",
+      "frame-377.png",
+      "frame-378.png",
+      "frame-392.png",
+      "frame-393.png",
+      "frame-405.png",
+      "frame-407.png",
+      "frame-408.png",
+      "frame-486.png",
+      "frame-487.png",
+      "frame-495.png",
+      "frame-503.png",
+      "frame-504.png",
+      "frame-505.png",
+      "frame-577.png"
+    ],
+    "cropBounds": {
+      "caption": [
+        300,
+        590,
+        1000,
+        720
+      ],
+      "landmark": [
+        670,
+        340,
+        1120,
+        620
+      ],
+      "inset": [
+        870,
+        0,
+        1280,
+        250
+      ],
+      "still": [
+        20,
+        20,
+        210,
+        160
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "name": "final-contrast-paid-start",
+      "distance": 0.01151,
+      "grayscale": {
+        "mae": 1.98092,
+        "rmse": 2.74085,
+        "diffRatio16": 0.00046,
+        "diffRatio32": 1e-05,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.00012
+      }
+    },
+    {
+      "name": "final-contrast-paid-end",
+      "distance": 0.0114,
+      "grayscale": {
+        "mae": 1.97992,
+        "rmse": 2.73524,
+        "diffRatio16": 0.00043,
+        "diffRatio32": 1e-05,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.00011
+      }
+    },
+    {
+      "name": "final-contrast-paid-middle",
+      "distance": 0.0114,
+      "grayscale": {
+        "mae": 1.97992,
+        "rmse": 2.73524,
+        "diffRatio16": 0.00043,
+        "diffRatio32": 1e-05,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.00011
+      }
+    },
+    {
+      "name": "final-contrast-interlude-middle",
+      "distance": 0.01013,
+      "grayscale": {
+        "mae": 2.31096,
+        "rmse": 4.26765,
+        "diffRatio16": 0.00586,
+        "diffRatio32": 0.00127,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.00219
+      }
+    },
+    {
+      "name": "final-contrast-interlude-start",
+      "distance": 0.00741,
+      "grayscale": {
+        "mae": 2.25035,
+        "rmse": 4.08747,
+        "diffRatio16": 0.00586,
+        "diffRatio32": 0.00029,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.00187
+      }
+    },
+    {
+      "name": "final-contrast-interlude-end",
+      "distance": 0.00505,
+      "grayscale": {
+        "mae": 2.04963,
+        "rmse": 3.6183,
+        "diffRatio16": 0.00034,
+        "diffRatio32": 0,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.00011
+      }
+    }
+  ],
+  "verdict": "Requested membership, half-open caption/still boundaries, landmark visibility and readable contained captions pass at all sampled boundaries. Existing overlap remains a visible caller-layout limitation; no editorial retuning or compositor change. Codec/profile differences are diagnostics, not a new tolerance or pixel-equality gate.",
+  "unprimedReview": "unprimed-review.json",
+  "limits": [
+    "Discreteframes do not prove uninterrupted membership/playback smoothness, source identity, audio alignment, physical synchronization or entire zoom trajectory",
+    "Saved output is historical25b worker, not current installed integrated rendering",
+    "Camera picture perspective/softness/motion does not establish its underlying cause"
+  ],
+  "execution": "Archive-only selected20-frame decode0.481s; audio excluded, no production render/model/capture/publicedit replay",
+  "choiceAudit": "Uses existing globalframeclock, saved revision and declared fixture requirements. No new fade or auto-layout requirement; prior caller-owned layout disposition retained.",
+  "authority": {
+    "directory": "/Users/david/.codex/artifacts/screen-recorder/25-temporal-review-2026-10-03",
+    "archive": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/25-temporal-review-2026-10-03/temporal-review-evidence.tar.gz",
+      "bytes": 21057706,
+      "sha256": "a50661d0f6defade1d92d08437a19812a6c1a1622aef62550af2bd681ae78183",
+      "payloads": 149,
+      "everyPayloadRehashed": true
+    },
+    "sourceMovie": "Unchanged canonical25bmedia archive; not duplicated into packet",
+    "nativeReferences": "Six frozen reference aliases in packet and canonical25b archive; identities in original fresh-visual-review/inventory.json",
+    "preview": "preview-checkpoint.json; separate background Preview instance, original windows untouched"
+  },
+  "previewCleanup": {
+    "time": "2026-10-03T19:44:38.741265+00:00",
+    "owned": [
+      {
+        "pid": 8406,
+        "identity": "/System/Applications/Preview.app/Contents/MacOS/Preview",
+        "signal": "SIGTERM"
+      }
+    ],
+    "response": "No new user response; verdict follows saved evidence and fresh critique, not silence",
+    "priorWindowsUntouched": true,
+    "ownedProcessGone": true
+  }
+}

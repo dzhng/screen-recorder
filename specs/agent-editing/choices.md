@@ -8368,3 +8368,44 @@ distinct from original child-process journals; neither stands in for the other.
 
 Verdict: **sound**. The verdict follows the requested contract and keeps every
 observed failure visible. Confidence: **high**.
+
+
+### Prove installed voice execution with one unchanged frozen request
+
+When: installed voice runtime checkpoint.
+
+The choice: An external caller launched from an ordinary directory must be able
+to synthesize through the app’s managed Python runtime, not depend on this checkout.
+The checkpoint prepares the existing local model/runtime through the public owner,
+then requests the already frozen word `paid` once and compares its complete PCM.
+Delivering an old generated asset would not exercise that execution path; a new
+voice recipe or quality campaign would answer a different question.
+
+The gap: Installed inference needed a concrete bounded input after the source-only
+path audit; the plan did not choose that input or require another whole workflow.
+
+The reach: This supplies one installed execution case without choosing a new model,
+changing defaults or generalizing its voice quality. ASR remains a separate scope.
+
+Verdict: **sound**. It isolates the missing packaging/runtime contract and preserves
+the accepted recipe. Confidence: **high**.
+
+### Review authored temporal boundaries in the saved encoded output
+
+When: saved workflow temporal review.
+
+The choice: To check a caption’s start, examine the last encoded frame before its
+authored boundary and the first frame after it, using the movie’s existing frame
+clock. Do the same for its end and the still/zoom windows. Compare existing
+same-clock PNG references and preserve full frames beside enlarged details.
+Six interior stills alone would not reveal a caption leaking beyond its window.
+
+The gap: Whole-workflow acceptance called for a temporal contact sheet but did not
+choose the boundary samples. The source output and authored revision already exist.
+
+The reach: The packet establishes those discrete boundaries. It does not invent
+smooth fades, retune caller-owned layout, prove uninterrupted playback or replace
+listening. The global clock and source references remain unchanged.
+
+Verdict: **sound**. It adds the missing observations without repeating rendering
+or changing the requested content. Confidence: **high**.

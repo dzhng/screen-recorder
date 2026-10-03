@@ -1,0 +1,175 @@
+{
+  "status": "One actual installed frozen voice request and complete CLI/default SDK delivery pass",
+  "scope": "One installed frozen voice runtime/CWD/PATH integration check; no ASR, tuning, acoustic or listening acceptance",
+  "installation": {
+    "scope": "Developer preparation before test; existing installer, no build, personal app untouched",
+    "app": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/installation/Applications/Screen Recorder.app",
+    "launcher": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/installation/bin/screenrec",
+    "exit": 0,
+    "pid": 6099,
+    "sourcePins": [
+      {
+        "relativePath": "Contents/MacOS/screenrec-native",
+        "bytes": 19979280,
+        "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55"
+      },
+      {
+        "relativePath": "Contents/Resources/service/main.mjs",
+        "bytes": 4078021,
+        "sha256": "197df7baa07fc2f45603f1579b36757b9a2fcb919eccb0e6c08864d1688ae959"
+      },
+      {
+        "relativePath": "Contents/Resources/cli/main.mjs",
+        "bytes": 1148904,
+        "sha256": "594d122c51aa005091a2c7a497f77c5b539b4be912fad07bc756188d110b907e"
+      },
+      {
+        "relativePath": "Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+      }
+    ],
+    "personalProcesses": "85563     1 /Users/david/Applications/Screen Recorder.app/Contents/MacOS/ScreenRecorder\n85565 85563 /Users/david/.nvm/versions/node/v24.14.0/bin/node /Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs\n",
+    "personalProcessesUnchanged": true
+  },
+  "runtime": {
+    "producerPid": 6505,
+    "terminal": {
+      "pid": 6505,
+      "execSession": 23428,
+      "exitCode": 0,
+      "provenance": "Transcribed functions.write_stdin terminal tool result; not an original separately saved tool-return blob"
+    },
+    "ownership": {
+      "app": {
+        "pid": 6515,
+        "ppid": 1,
+        "command": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/installation/Applications/Screen Recorder.app/Contents/MacOS/ScreenRecorder"
+      },
+      "service": {
+        "pid": 6519,
+        "ppid": 6515,
+        "command": "/Users/david/.nvm/versions/node/v24.14.0/bin/node /Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/installation/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+      },
+      "health": {
+        "status": "ready",
+        "pid": 6519,
+        "socketPath": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/home/run/service.sock",
+        "home": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/home",
+        "node": "24.14.0",
+        "uptimeMs": 104
+      }
+    },
+    "serviceCwd": "p6519\nfcwd\nn/\n",
+    "budgetsSeconds": {
+      "preparation": 180,
+      "worker": 600,
+      "jobPoll": 620,
+      "overall": 900
+    },
+    "inferenceRequests": 1,
+    "preparationMs": 63048.008458,
+    "generationMs": 23013.642041,
+    "elapsedMs": 90907.3885,
+    "checks": {
+      "exactPrivateColdOwnership": true,
+      "frozenReceipt": true,
+      "completePublicPcmParity": true,
+      "managedPythonObserved": true,
+      "personalProcessIdentitiesUnchanged": true,
+      "privateChildrenGone": true,
+      "installedPinsUnchanged": true
+    },
+    "mcpChild": {
+      "pid": 7575,
+      "code": 0,
+      "signal": null,
+      "time": "2026-10-03T19:32:29.248Z"
+    }
+  },
+  "model": {
+    "modelId": "qwen3-tts-icl-v1",
+    "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+    "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+    "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+    "pins": {
+      "runtime": "mlx-audio",
+      "runtimeVersion": "0.5.6",
+      "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+      "decoder": "qwen3-tts-icl-v1",
+      "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+      "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f"
+    }
+  },
+  "result": {
+    "assetId": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+    "streamId": "track:1",
+    "frames": 21120,
+    "sampleRate": 24000,
+    "channels": 1,
+    "durationUs": 880000,
+    "receipt": {
+      "profileId": "qwen3-tts-icl-v1",
+      "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+      "stopReason": "eos",
+      "generatedTokens": 11
+    },
+    "requestSha256": "e25833157501ca7a631a0baece2c173540cd98e8efd5de1edd637cefdebb8f17"
+  },
+  "delivery": {
+    "frozenContainerBytes": 84538,
+    "deliveredContainerBytes": 88576,
+    "pcmBytes": 84480,
+    "pcmSha256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+    "frames": 21120,
+    "sampleRate": 24000,
+    "channels": 1,
+    "cliMcpContainerEquality": true,
+    "completePcmFrozenEquality": true
+  },
+  "authority": {
+    "directory": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03",
+    "archive": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/installed-voice-evidence.tar.gz",
+      "bytes": 452977,
+      "sha256": "52ec760812977f65486657fc86e19d6ec574f5f7b1cffa9291813fc7ce615e35",
+      "payloads": 392,
+      "manifestSha256": "704841148f7119650fb7bf25adb64612d11536e08167f68661b29c914a1ca21c",
+      "allPayloadsRehashedByRoot": true
+    },
+    "inputAuthority": "Frozen19 voice case plus immutable existing local model/runtime source; genuine public model.prepare, no copied readiness receipt",
+    "preflight": "report.json retains missing prior private-installation prerequisite; root separately prepared unchanged candidate, no model attempt failed/repeated"
+  },
+  "limits": [
+    "One frozen word/runtime recipe, not broad voice or acoustic acceptance",
+    "No ASR inference, listening or new reference acquisition",
+    "Private installed app scope, same backend/native/CLI bytes as current personal candidate",
+    "Personal process identities unchanged; no byte/content snapshot of personal bundle/preferences during this run",
+    "Resource observations are process identity and phase clocks, not peak RSS or universal latency"
+  ],
+  "request": {
+    "text": "paid",
+    "referenceText": "Okay, so this is the recorder workbench.",
+    "seed": "18",
+    "referenceAssetId": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+    "generation": {
+      "temperature": 0.9,
+      "top_k": 50,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "max_tokens": 256,
+      "lang_code": "english",
+      "stream": false
+    }
+  },
+  "cleanup": {
+    "removed": [
+      "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/home",
+      "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/tmp",
+      "/Users/david/.codex/artifacts/screen-recorder/installed-voice-2026-10-03/installation"
+    ],
+    "sourcePolicy": "Only new owned stopped fixture state/install; persistent model/runtime sources and frozen audio untouched",
+    "completePacket": "installed-voice-evidence.tar.gz",
+    "time": "2026-10-03T19:44:39.660741+00:00"
+  }
+}

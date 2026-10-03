@@ -26,9 +26,15 @@ owns installed identity, scratch CLI/default SDK query proof, ordinary empty-lib
 startup and cleanup. The user clarified that the old library was disposable fixture
 state. Its duplicate was removed; the canonical recording remains unchanged.
 
-**Next pickup: reconcile the remaining release gates against the current banks.**
-The stopped acoustic and physical-marker campaigns below remain stopped. Do not
-repeat completed cohorts or manufacture load to fill the remaining gaps.
+**Current reconciliation:** the bounded paired-frame contract is complete. The
+[saved temporal review](assets/25b-fresh-caller/temporal-review/README.md) now covers
+caption/still/zoom boundaries, and [installed voice execution](assets/23-owner-fixture-ports/current-installed-voice-verification.json)
+passes one unchanged synthesis request and complete public PCM delivery.
+
+**Next pickup: remaining release evidence and whole-spec closeout.** The
+[gate reconciliation](assets/acceptance-maintenance/release-gates.md) names the
+actual missing facts and their stopping conditions. Do not reopen stopped campaigns,
+repeat completed cohorts or manufacture load.
 
 The [canonical registry](assets/23-owner-fixture-ports/README.md) owns current
 results and exact limitations. Reuse the passed long learned-processing bank,
@@ -48,9 +54,9 @@ separate completed banks; neither supplies a full release verdict.
 | Owner | Remaining acceptance |
 | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
-| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical uncertainty/synchronization and broader lifecycle scope |
-| [23 cutover](slices/23-cutover.md) | Broader presentation/listening |
-| [24 scale](slices/24-scale.md) | Known heavy-build contention and broader load scope |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical sync bound and actual device-loss/selection observations |
+| [23 cutover](slices/23-cutover.md) | Integrated listening and continuous presentation |
+| [24 scale](slices/24-scale.md) | Original storage deadline under heavy native-build contention |
 | [25 caller](slices/25-agent-acceptance.md) | Full release scope |
 
 The implementation-end repository run has already occurred. Reuse matched
@@ -277,9 +283,9 @@ implementation readiness from acceptance prerequisites.
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
-- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; all saved references now match complete production-worker pixels and PNGs; personal installed/default-library acceptance remains separate
+- [x] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; all saved references match complete production-worker pixels/PNGs, default delivery/closure and actual installed candidate binding pass; parent release remains open
 - [x] [23l1 — Fixed-image composition stage boundary](slices/23l1-image-color-stages.md) — diagnostic complete; historical decoder cause remains open
-- [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image and all fourteen saved native video PNGs verified; installed adoption and full movie parity remain open
+- [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image and all fourteen saved native video PNGs verified; installed candidate binding now recorded; broader movie presentation remains separate
 - [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality remains open and positive system has separate 23o proof
 - [x] [23n — Registered transcription-model readiness](slices/23n-parakeet-model-readiness.md) — genuine readiness and separate merged failure controls pass
 - [x] [23o — Positive system package/project correspondence](slices/23o-system-package-correspondence.md) — authored public fixture, complete PCM/hole/split proof; automatic export/live/installed scope stays open
@@ -326,7 +332,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z13 — CLI delivery retains service selection](slices/24z13-cli-delivery-selection.md) — merged84 consumer checks; no rediscovery or operation replay during delivery
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [x] [25c — Independent source MCP caller](slices/25c-source-mcp-caller.md) — compact source checkpoint; installed/release acceptance separate
-- [x] [25d — Fresh installed caller checkpoint](slices/25d-installed-caller.md) — bounded private installation and retained-package bridge; personal replacement/full release separate
+- [x] [25d — Fresh installed caller checkpoint](slices/25d-installed-caller.md) — bounded private installation and retained-package bridge; personal replacement now executed, full release remains open
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

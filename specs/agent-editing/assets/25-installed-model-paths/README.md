@@ -6,6 +6,9 @@ bundle and retained preparation results. No checkout-relative or Finder-PATH
 model locator defect was found: native transcription loads managed weights,
 and voice execution uses the adopted runtime's absolute executable and scripts.
 
-This is source and packaging evidence. Fresh installed inference remains
-unmeasured; delivery of an already generated package asset does not establish it.
+This audit is source and packaging evidence. A separate
+[installed voice execution bank](../23-owner-fixture-ports/current-installed-voice-verification.json)
+now proves one frozen request through actual preparation, inference and complete
+CLI/default MCP delivery. It does not establish installed ASR or broader quality;
+retained generated-asset delivery remains a distinct contract.
 No model execution, acquisition or new fallback was part of this audit.

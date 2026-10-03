@@ -1,14 +1,15 @@
 # 23l — Paired public edited frames
 
-Status: scoped numeric verification executed. Paired join/tail membership,
+Status: complete for the bounded paired-frame contract. Paired join/tail membership,
 complete legacy/raw pixels and CLI/MCP delivery pass. The
 [PNG successor](../assets/23l2-native-png-correspondence/README.md) now matches every
 selected reference RGBA byte across all fourteen saved native requests. Independent
 visual review finds no concrete defect within that static scope. The
 [current production-worker adoption](../assets/23-owner-fixture-ports/current-production-png-verification.json)
 now reproduces all fourteen frozen native requests with complete receipt/RGBA
-and encoded-PNG equality. Personal installed/default-library and full release
-acceptance remain separate.
+and encoded-PNG equality. The [approved personal switch](../assets/23-owner-fixture-ports/personal-release-verification.json)
+binds the installed worker/service/CLI to those candidate bytes and verifies
+ordinary empty-library startup. Full release acceptance remains separate.
 [Evidence](../assets/23l-paired-edited-frames/README.md) owns complete outcomes and
 producer identities. This narrows the remaining frame row in the
 [saved correspondence](../assets/acceptance-maintenance/cutover-outcomes.md#frame-membership-and-presentation).
@@ -222,6 +223,6 @@ The [PNG successor](23l2-project-png-publication.md) closes the saved native pix
 mismatch. Reuse its complete source/reference correspondence and the unchanged
 public delivery proof. Current picture demand carries a new renderer cache identity,
 so earlier PNG derivatives cannot satisfy the corrected implementation. Installed
-switching and broader acceptance remain with the parent; do not infer adoption
-from an isolated worker. Preserve originals, frozen workers, models and installed
-library. Root owns shared hub integration and the remaining release matrix.
+switching is now recorded by its actual release bank; broader acceptance remains
+with the parent. Preserve canonical originals and frozen evidence; the duplicate
+old library was disposed of at the user’s explicit instruction.

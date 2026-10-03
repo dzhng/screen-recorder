@@ -75,11 +75,13 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Fresh private installed edit/replay/refusal/image and retained-package audio continuity | [Installed caller](current-installed-caller-verification.json) |
 | Complete fourteen-request frozen PNG parity on the production worker | [Production PNG adoption](current-production-png-verification.json) |
 | Approved personal replacement, empty startup and isolated installed cached query | [Personal release](personal-release-verification.json) |
+| One unchanged installed voice inference and complete CLI/default MCP PCM | [Installed voice](current-installed-voice-verification.json) |
 
 The [fresh saved-workflow review](../25b-fresh-caller/fresh-visual-review/README.md)
 accepts its named sampled content and retains visible layout limits. The
 [installed model-path audit](../25-installed-model-paths/README.md) found no
-checkout-relative execution defect; fresh installed inference remains unmeasured.
+checkout-relative execution defect. The separate installed voice bank now supplies
+one actual inference; ASR and broader model acceptance remain unmeasured.
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and

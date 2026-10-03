@@ -4,7 +4,8 @@ Status: scoped fresh private installed caller and retained-package bridge passed
 The [canonical bank](../assets/23-owner-fixture-ports/current-installed-caller-verification.json)
 binds the frozen archive, independently checked payloads, original requests,
 complete replies, delivered bytes and precise qualifications. Parent25 remains
-open for personal replacement and full release acceptance.
+open for full release acceptance; [personal replacement](../assets/23-owner-fixture-ports/personal-release-verification.json)
+is now executed.
 
 ## Contract
 
@@ -61,6 +62,6 @@ the consumer skill or rerun the product.
 
 This checkpoint supplies installed discovery, revision/replay/error delivery and
 retained-package continuity. Listening, physical synchronization, broader
-presentation/scale, personal replacement and full release acceptance retain
+presentation/scale and full release acceptance retain
 their separate owners and verdicts. Reuse this evidence without repeating the
 source workflow or accepted media generation merely to change a status line.

@@ -1,0 +1,37 @@
+{
+  "reviewer": "/root/temporal_visual_critique",
+  "scope": "Fresh unprimed inspection of all20 fullframes, all50 detail crops,3 sheets and6 same-clock reference/matched pairs",
+  "findings": [
+    {
+      "variable": "interlude/source/caption membership",
+      "confidence": "high",
+      "observed": "Screen2, camera3 and Primitive fixture present348..407 at supplied samples, absent347/408; still present377, absent378 onward"
+    },
+    {
+      "variable": "bounded zoom",
+      "confidence": "high",
+      "observed": "Screen enlarges toward392, complete numeral2 remains visible;393 returns abruptly to prior size; camera and caption stay fixed",
+      "requirement": "No smooth return was requested"
+    },
+    {
+      "variable": "caption/layer overlap",
+      "confidence": "high",
+      "observed": "Literal captions readable and unclipped. Primitive fixture overlaps source Signal2 status; inset covers heading/instructions. Both local collisions are shared by references; required numerals stay complete"
+    },
+    {
+      "variable": "paid occurrence support",
+      "confidence": "high",
+      "observed": "Absent486, visible487/495/503/504, absent505/577; readable on open light space"
+    },
+    {
+      "variable": "same-clock references",
+      "confidence": "medium/high",
+      "observed": "Composition, glyph placement, landmarks and layer boundaries preserved; encoded frames have subtle tonal/ringing/softness differences. No substantive local geometry or content disagreement"
+    }
+  ],
+  "limits": [
+    "Discreteframes do not prove uninterrupted membership/playback smoothness, source identity, audio alignment, physical synchronization or entire zoom trajectory",
+    "Saved output is historical25b worker, not current installed integrated rendering",
+    "Camera picture perspective/softness/motion does not establish its underlying cause"
+  ]
+}

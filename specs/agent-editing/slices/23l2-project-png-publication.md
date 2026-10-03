@@ -1,7 +1,7 @@
 # Project PNG publication target
 
 Status: implementation and focused output verification complete; full paired-frame
-release acceptance remains open.
+contract now closes under [23l](23l-paired-edited-frames.md); broader release remains open.
 
 Publish project pictures directly from the canonical compiled graph through the
 existing FrameImage PNG owner. Available CV-backed video surfaces first establish the same canonical
@@ -26,8 +26,9 @@ candidate worker, with exact metadata and complete selected-reference pixels.
 The [current production-worker bank](../assets/23-owner-fixture-ports/current-production-png-verification.json)
 replays those same requests through the built official candidate, retaining exact
 receipts, full selected-reference RGBA and historical candidate PNG bytes.
-The prior unprimed static review therefore remains applicable. Personal installed,
-motion/listening and broader release acceptance remain separate.
+The prior unprimed static review therefore remains applicable. The
+[personal switch](../assets/23-owner-fixture-ports/personal-release-verification.json)
+now binds the installed candidate; motion/listening and broader release remain separate.
 
 Current demanded pictures use the existing renderer implementation identity to
 separate derivatives produced before this output correction. The cache owner

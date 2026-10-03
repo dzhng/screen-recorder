@@ -9,6 +9,11 @@ bounded discovery/split/replay/error/PNG checkpoint and retained-package
 adoption/audio bridge. [Personal replacement](../assets/23-owner-fixture-ports/personal-release-verification.json)
 is now executed; full release remains open. These scoped passes do not supply
 listening or physical synchronization.
+The [saved temporal visual review](../assets/25b-fresh-caller/temporal-review/README.md)
+now verifies the required boundary/contact-sheet scope. The
+[installed voice bank](../assets/23-owner-fixture-ports/current-installed-voice-verification.json)
+proves one frozen synthesis request and complete public delivery without
+repeating the source workflow or acoustic trials.
 [Input preparation](../assets/25-input-preparation/README.md) and
 [registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
 [focused CLI discovery](../assets/25-cli-discovery/README.md),
