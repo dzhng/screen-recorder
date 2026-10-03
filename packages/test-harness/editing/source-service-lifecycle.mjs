@@ -21,11 +21,7 @@ try {
     /ENOTDIR/,
     "Cleanup must preserve the startup diagnostic",
   );
-  assert.notEqual(
-    failed.child.exitCode,
-    null,
-    "Failed startup left a child running",
-  );
+  assert.notEqual(failed.child.exitCode, null, "Failed startup left a child running");
   const home = join(directory, "healthy");
   await mkdir(home);
   service = new JourneyService(home, { trace: [] });
@@ -36,9 +32,7 @@ try {
     assert.equal(service.child.connected, false);
     await service.stop(crash);
   }
-  console.log(
-    "Startup failure diagnostic, graceful stop, crash and restart passed",
-  );
+  console.log("Startup failure diagnostic, graceful stop, crash and restart passed");
 } finally {
   await service?.stop();
   await rm(directory, { recursive: true, force: true });

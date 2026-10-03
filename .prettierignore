@@ -1,2 +1,6 @@
 # Captured byte-for-byte by the text fidelity lab; formatting would change the rendered fixture.
 helpers/mac/Tests/TextFidelity/browser.html
+# Published model inventories and frozen vendor provenance retain their original bytes.
+packages/core/src/model-data/voice-profile-v1.json
+packages/core/src/model-data/voice-runtime.json
+helpers/stretch/Sources/CSignalsmith/vendor/sources.json

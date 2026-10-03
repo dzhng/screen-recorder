@@ -7717,3 +7717,15 @@ Gap: Removing only the public role overload would leave a dead two-track mixer i
 Reach: One source owns decoding and unit gain; composition owns authored summation and processing. Default SourceAudio and exact old/current PCM controls pass.
 
 Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
+
+## Repository format boundary — implementation-end verification
+
+### Preserve published artifact bytes during formatting
+
+When the formatter reaches the registered voice profile, rearranging whitespace changes its file digest even though the parsed settings are equal. The runtime artifact publishes those exact bytes, so formatting the source would break its identity check without changing any voice setting. The existing formatter ignore file now also protects the two published model metadata files and frozen vendor provenance. Ordinary code still uses the formatter. The existing captured HTML exception remains intact.
+
+Gap: The default formatting command previously included these frozen byte operands.
+
+Reach: Updating a published profile or inventory remains an explicit artifact change, rather than a side effect of formatting. This introduces no runtime option or alternative profile.
+
+Verdict: **sound**. Artifact identity takes precedence over cosmetic whitespace. Confidence: **high**.

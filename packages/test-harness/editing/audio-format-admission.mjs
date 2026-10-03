@@ -36,9 +36,13 @@ try {
     ["flac", "flac"],
   ]) {
     const path = join(out, `source.${extension}`);
-    await run("ffmpeg", ["-v", "error", "-nostdin", "-i", source, "-ac", "2", "-c:a", codec, path], {
-      timeout: 30000,
-    });
+    await run(
+      "ffmpeg",
+      ["-v", "error", "-nostdin", "-i", source, "-ac", "2", "-c:a", codec, path],
+      {
+        timeout: 30000,
+      },
+    );
     const external = join(out, `external.${extension}`);
     await copyFile(path, external);
     const admission = await call(
@@ -72,7 +76,10 @@ try {
     for (;;) {
       inspected = await call("audio.get", selection);
       if (["ready", "failed", "unavailable"].includes(inspected.state)) break;
-      assert(Date.now() < deadline, `Selected ${extension} audio did not finish: ${JSON.stringify(inspected)}`);
+      assert(
+        Date.now() < deadline,
+        `Selected ${extension} audio did not finish: ${JSON.stringify(inspected)}`,
+      );
       await new Promise((r) => setTimeout(r, 50));
     }
     const item = {

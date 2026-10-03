@@ -11,9 +11,9 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@screenrec/composition": "workspace:*",
     "@screenrec/core": "workspace:*",
-    "@screenrec/protocol": "workspace:*",
-    "@screenrec/composition": "workspace:*"
+    "@screenrec/protocol": "workspace:*"
   },
   "devDependencies": {
     "@screenrec/client": "workspace:*"

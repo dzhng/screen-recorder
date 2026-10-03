@@ -30,9 +30,9 @@ Encoding is a separate loss. The same recorded frame, canvas and native color
 policy at two requested H.264 bitrates produced:
 
 | Requested bitrate | Fixed samples passing | Channels over four levels | Maximum error | Movie bytes | Elapsed seconds | Peak RSS bytes |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| 4 Mbps | 19/25 | 9.92% | 89 | 47,578 | 1.334 | 88,702,976 |
-| 40 Mbps | 25/25 | 1.38% | 56 | 88,411 | 1.186 | 88,817,664 |
+| ----------------- | --------------------: | ------------------------: | ------------: | ----------: | --------------: | -------------: |
+| 4 Mbps            |                 19/25 |                     9.92% |            89 |      47,578 |           1.334 |     88,702,976 |
+| 40 Mbps           |                 25/25 |                     1.38% |            56 |      88,411 |           1.186 |     88,817,664 |
 
 The higher bitrate reduces error but still fails the whole-image four-level gate.
 The elapsed times are single observations including evidence generation, not a
@@ -56,7 +56,6 @@ physical-camera fidelity. The [independent visual critique](../../../specs/agent
 confirms the conversion result and identifies encoding artifacts. Physical/listening
 gates remain open. This is research harness code; no production executor or default was
 changed, and no capture, playback or installed application was exercised.
-
 
 The [explicit Rec.709 follow-up](../../../specs/agent-editing/assets/06-rec709/README.md)
 uses matched RGB color-space attachments and writer metadata. The current runner

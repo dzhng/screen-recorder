@@ -1,63 +1,63 @@
-import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
-import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { resolve, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { signalSupport, tonePitch } from './stretch-measurements.mjs';
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { execFileSync, spawnSync } from "node:child_process";
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { resolve, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { signalSupport, tonePitch } from "./stretch-measurements.mjs";
 
 // Recover only missing isolated PCM; every plot input is hash checked before admission.
-const root = fileURLToPath(new URL('../../../', import.meta.url));
+const root = fileURLToPath(new URL("../../../", import.meta.url));
 assert.equal(
   process.argv.length,
   5,
-  'native reference, Signalsmith reference, fresh output required',
+  "native reference, Signalsmith reference, fresh output required",
 );
-const [reference, frozen, destination] = process.argv.slice(2).map(path => resolve(path));
+const [reference, frozen, destination] = process.argv.slice(2).map((path) => resolve(path));
 assert.ok(
   reference && frozen && destination,
-  'native reference, Signalsmith reference, fresh output required',
+  "native reference, Signalsmith reference, fresh output required",
 );
-assert.ok(!existsSync(destination), 'Choose a fresh output directory');
+assert.ok(!existsSync(destination), "Choose a fresh output directory");
 mkdirSync(destination, { recursive: true });
-const hash = b => createHash('sha256').update(b).digest('hex');
-const reportPath = join(root, 'specs/agent-editing/assets/13a-support-review/report.json');
+const hash = (b) => createHash("sha256").update(b).digest("hex");
+const reportPath = join(root, "specs/agent-editing/assets/13a-support-review/report.json");
 const corrected = JSON.parse(readFileSync(reportPath));
-const vendor = join(root, 'helpers/stretch/Sources/CSignalsmith/vendor');
-const dependency = JSON.parse(readFileSync(join(vendor, 'sources.json')));
+const vendor = join(root, "helpers/stretch/Sources/CSignalsmith/vendor");
+const dependency = JSON.parse(readFileSync(join(vendor, "sources.json")));
 for (const file of dependency.files)
   assert.equal(hash(readFileSync(join(vendor, file.path))), file.sha256);
-const cpp = join(root, 'packages/test-harness/editing/stretch/Signalsmith.cpp');
+const cpp = join(root, "packages/test-harness/editing/stretch/Signalsmith.cpp");
 assert.equal(hash(readFileSync(cpp)), corrected.cppSha256);
 const run = (command, args) =>
   execFileSync(command, args, { timeout: 60000, maxBuffer: 40 * 1024 * 1024 });
-const executable = join(destination, 'signalsmith');
-run('clang++', ['-std=c++17', '-O2', '-I', join(vendor, '..'), cpp, '-o', executable]);
+const executable = join(destination, "signalsmith");
+run("clang++", ["-std=c++17", "-O2", "-I", join(vendor, ".."), cpp, "-o", executable]);
 const evidence = {
   protocol: 1,
   correctedReportSha256: hash(readFileSync(reportPath)),
   cppSha256: corrected.cppSha256,
   runnerSha256: hash(readFileSync(fileURLToPath(import.meta.url))),
   dependency,
-  compiler: run('clang++', ['--version']).toString(),
+  compiler: run("clang++", ["--version"]).toString(),
   executableSha256: hash(readFileSync(executable)),
   loaded: [],
   endpoints: [],
   tones: [],
   admission: [],
   shortPitch: [],
-  listening: 'UNVERIFIED',
+  listening: "UNVERIFIED",
 };
 function checked(path, expected) {
-  assert.equal(typeof expected, 'string', `Missing trusted hash for ${path}`);
+  assert.equal(typeof expected, "string", `Missing trusted hash for ${path}`);
   const bytes = readFileSync(path);
   assert.equal(hash(bytes), expected, path);
   evidence.loaded.push({ path, sha256: expected, frames: bytes.length / 4 });
   return bytes;
 }
-function render(input, output, n, m, mode = 'exact', block = 0) {
+function render(input, output, n, m, mode = "exact", block = 0) {
   return JSON.parse(
-    run(executable, [input, output, '0', String(n), String(m), mode, String(block)]),
+    run(executable, [input, output, "0", String(n), String(m), mode, String(block)]),
   );
 }
 for (const row of corrected.endpoints) {
@@ -73,7 +73,7 @@ for (const row of corrected.endpoints) {
     writeFileSync(input, bytes);
     checked(input, isolated.inputSha256);
     const paths = {};
-    for (const mode of ['exact', 'tail']) {
+    for (const mode of ["exact", "tail"]) {
       const name = `${id}-${isolated.side}-${mode}.f32`,
         old = join(frozen, name);
       const path = existsSync(old) ? old : join(destination, name);
@@ -82,7 +82,7 @@ for (const row of corrected.endpoints) {
       assert.deepEqual(
         signalSupport(output, {
           nominal: isolated.sourceFrame / row.speed,
-          offset: mode === 'tail' ? row.exact.outputLatency : 0,
+          offset: mode === "tail" ? row.exact.outputLatency : 0,
         }),
         isolated[mode],
       );
@@ -101,8 +101,8 @@ for (const row of corrected.endpoints) {
     });
   }
 }
-for (const row of corrected.results.filter(row => row.case === 'tone')) {
-  const input = join(reference, 'tone-input.f32'),
+for (const row of corrected.results.filter((row) => row.case === "tone")) {
+  const input = join(reference, "tone-input.f32"),
     exact = join(frozen, `tone-${row.speed}-exact.f32`);
   checked(input, row.inputSha256);
   checked(exact, row.sha256);
@@ -124,7 +124,7 @@ for (const block of [5760, 256])
       writeFileSync(input, Buffer.alloc(n * 4));
       const execution = spawnSync(
         executable,
-        [input, output, '0', String(n), String(m), 'exact', String(block)],
+        [input, output, "0", String(n), String(m), "exact", String(block)],
         { timeout: 60000 },
       );
       assert.equal(execution.error, undefined);
@@ -153,7 +153,7 @@ for (const block of [5760, 256]) {
   bytes.writeFloatLE(0.375);
   writeFileSync(input, bytes);
   const output = join(destination, `identity-${block}-exact.f32`);
-  const metadata = render(input, output, 1, 1, 'exact', block);
+  const metadata = render(input, output, 1, 1, "exact", block);
   assert.deepEqual(readFileSync(output), bytes);
   assert.equal(metadata.identityBypass, true);
   evidence.identity.push({
@@ -175,7 +175,7 @@ for (const frames of [4800, 480]) {
   for (const speed of [0.8, 0.9, 1, 1.25]) {
     const wanted = Math.floor(frames / speed),
       path = join(destination, `short-120hz-${frames}frames-${speed}-exact.f32`);
-    const metadata = render(lowInput, path, frames, wanted, 'exact', 256),
+    const metadata = render(lowInput, path, frames, wanted, "exact", 256),
       bytes = readFileSync(path);
     assert.equal(bytes.length, wanted * 4);
     signalSupport(bytes);
@@ -190,11 +190,11 @@ for (const frames of [4800, 480]) {
       outputSha256: hash(bytes),
       metadata,
       pitch,
-      pitchGatePassed: pitch.status === 'measured' && pitch.errorPercent < 1,
+      pitchGatePassed: pitch.status === "measured" && pitch.errorPercent < 1,
     });
   }
 }
-writeFileSync(join(destination, 'evidence.json'), JSON.stringify(evidence, null, 2) + '\n');
+writeFileSync(join(destination, "evidence.json"), JSON.stringify(evidence, null, 2) + "\n");
 console.log(
   JSON.stringify({
     destination,

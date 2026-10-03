@@ -56,9 +56,7 @@ export async function pointerFixture(home) {
   ];
   await writeFile(
     join(donor, "capture.journal.jsonl"),
-    records
-      .map((r, i) => JSON.stringify({ ...r, sequence: i + 1 }) + "\n")
-      .join(""),
+    records.map((r, i) => JSON.stringify({ ...r, sequence: i + 1 }) + "\n").join(""),
   );
   return { donor, records };
 }

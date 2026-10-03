@@ -4,13 +4,7 @@ import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { randomUUID } from "node:crypto";
 import { parseArgs } from "node:util";
-import {
-  JourneyService,
-  poll,
-  run,
-  root,
-  hash,
-} from "./source-evidence-fixture.mjs";
+import { JourneyService, poll, run, root, hash } from "./source-evidence-fixture.mjs";
 import { pointerFixture } from "./pointer-fixture.mjs";
 import { sourceSurface, stackSurface, expectedRgba } from "./layers-oracle.mjs";
 
@@ -24,8 +18,7 @@ const report = {
   trace: [],
   references: [],
   cases: [],
-  scope:
-    "Pointer alpha/support geometry and exact output rotation; no encoded color acceptance",
+  scope: "Pointer alpha/support geometry and exact output rotation; no encoded color acceptance",
 };
 const service = new JourneyService(home, report, join(out, "native")),
   call = service.call.bind(service);
@@ -206,9 +199,7 @@ try {
   const acquisition = await call("acquisition.get", {
     acquisitionId: imported.target.acquisitionId,
   });
-  const binding = acquisition.bindings.find((value) =>
-    value.sourceRoles.includes("video"),
-  );
+  const binding = acquisition.bindings.find((value) => value.sourceRoles.includes("video"));
   const source = {
     assetId: binding.assetId,
     streamId: binding.streamId,
@@ -306,9 +297,7 @@ try {
           })),
         ];
         for (const [stageIndex, stage] of sequence.entries()) {
-          surface = cached(
-            stackSurface(surface, stage.steps, canvas, stageIndex === 0),
-          );
+          surface = cached(stackSurface(surface, stage.steps, canvas, stageIndex === 0));
           if (index !== 0 && stage.name !== "outer") continue;
           const expected = expectedRgba(surface),
             result = await picture(
@@ -333,10 +322,7 @@ try {
               y * canvas.width * 4,
               ((y + 1) * canvas.width - 1) * 4,
             );
-          assert.ok(
-            error(shifted, result.rgba, true) > 2,
-            "One-pixel shift escaped alpha gate",
-          );
+          assert.ok(error(shifted, result.rgba, true) > 2, "One-pixel shift escaped alpha gate");
           assert.ok(
             error(Buffer.alloc(expected.length), result.rgba, true) > 2,
             "Missing pointer escaped alpha gate",

@@ -206,22 +206,48 @@ try {
   );
   report.checks.preview = preview;
   const selectedRange = { startUs: 1050001, endUs: 1350001 };
-  const rangePreview = await poll(() => call("preview.get", { ...selection, range: selectedRange },
-    { output: join(out, "range-preview.mp4") }), (v) => v.state === "ready", "clipped pointer preview");
+  const rangePreview = await poll(
+    () =>
+      call(
+        "preview.get",
+        { ...selection, range: selectedRange },
+        { output: join(out, "range-preview.mp4") },
+      ),
+    (v) => v.state === "ready",
+    "clipped pointer preview",
+  );
   const movieRequests = [];
   for (const name of await readdir(join(out, "native"))) {
     if (!name.endsWith(".json")) continue;
-    const path = join(out, "native", name), request = JSON.parse(await readFile(path, "utf8"));
+    const path = join(out, "native", name),
+      request = JSON.parse(await readFile(path, "utf8"));
     if (request.operation === "media.renderCompositionMovie")
-      movieRequests.push({ ...request, rows: (await readFile(path.replace(/\.json$/, "-pointers.jsonl"), "utf8")).trim().split("\n").map(JSON.parse) });
+      movieRequests.push({
+        ...request,
+        rows: (await readFile(path.replace(/\.json$/, "-pointers.jsonl"), "utf8"))
+          .trim()
+          .split("\n")
+          .map(JSON.parse),
+      });
   }
   const fullRows = movieRequests.find((v) => v.request.range.startUs === 0).rows;
-  const rangeRows = movieRequests.find((v) => v.request.range.startUs === selectedRange.startUs).rows;
+  const rangeRows = movieRequests.find(
+    (v) => v.request.range.startUs === selectedRange.startUs,
+  ).rows;
   assert.equal(rangeRows[0].sampleAtUs, 1000000);
-  assert.deepEqual(rangeRows, fullRows.filter((row) => rangeRows.some((r) => r.frameIndex === row.frameIndex)));
-  report.checks.range = { request: selectedRange, preview: rangePreview, preparedRows: rangeRows,
-    firstFloorSelectedSample: 1000000, exactFullRangePreparation: true,
-    scope: "Prepared source/pointer rows only; thin encoded colored-trail acceptance remains open under slice06" };
+  assert.deepEqual(
+    rangeRows,
+    fullRows.filter((row) => rangeRows.some((r) => r.frameIndex === row.frameIndex)),
+  );
+  report.checks.range = {
+    request: selectedRange,
+    preview: rangePreview,
+    preparedRows: rangeRows,
+    firstFloorSelectedSample: 1000000,
+    exactFullRangePreparation: true,
+    scope:
+      "Prepared source/pointer rows only; thin encoded colored-trail acceptance remains open under slice06",
+  };
 
   const exportId = randomUUID();
   await call("export.create", {
@@ -444,22 +470,41 @@ try {
     "Clip edits should not duplicate source preparation",
   );
   report.checks.repeated = { replay, historyGeneration: historyBeforeRepeat.generation };
-  const repeatedPreview = await poll(() => call("preview.get", { projectId, revisionId: repeated.revision.id },
-    { output: join(out, "repeated-preview.mp4") }), (v) => v.state === "ready", "repeated source preview");
+  const repeatedPreview = await poll(
+    () =>
+      call(
+        "preview.get",
+        { projectId, revisionId: repeated.revision.id },
+        { output: join(out, "repeated-preview.mp4") },
+      ),
+    (v) => v.state === "ready",
+    "repeated source preview",
+  );
   let repeatedRows;
   for (const name of await readdir(join(out, "native"))) {
     if (!name.endsWith(".json")) continue;
-    const path = join(out, "native", name), observed = JSON.parse(await readFile(path, "utf8"));
-    if (observed.operation === "media.renderCompositionMovie" && observed.request.range.endUs === 9000000)
-      repeatedRows = (await readFile(path.replace(/\.json$/, "-pointers.jsonl"), "utf8")).trim().split("\n").map(JSON.parse);
+    const path = join(out, "native", name),
+      observed = JSON.parse(await readFile(path, "utf8"));
+    if (
+      observed.operation === "media.renderCompositionMovie" &&
+      observed.request.range.endUs === 9000000
+    )
+      repeatedRows = (await readFile(path.replace(/\.json$/, "-pointers.jsonl"), "utf8"))
+        .trim()
+        .split("\n")
+        .map(JSON.parse);
   }
   const firstUse = repeatedRows.find((r) => r.sampleAtUs === 3000000 && r.status === "picture");
   const repeatedUse = repeatedRows.find((r) => r.sampleAtUs === 7000000 && r.status === "picture");
   assert.equal(firstUse.requestedSourceUs, 1000000);
   assert.equal(repeatedUse.requestedSourceUs, firstUse.requestedSourceUs);
   assert.deepEqual(repeatedUse.overlay, firstUse.overlay);
-  report.checks.repeated.preview = { status: repeatedPreview, firstUse, repeatedUse,
-    sourceHistorySurvivesBackwardReplay: true };
+  report.checks.repeated.preview = {
+    status: repeatedPreview,
+    firstUse,
+    repeatedUse,
+    sourceHistorySurvivesBackwardReplay: true,
+  };
 
   const beforeRestart = await evictHistory();
   await service.stop();

@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "zod": "4.6.5",
-    "@screenrec/composition": "workspace:*"
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
   }
 }

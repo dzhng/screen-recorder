@@ -85,7 +85,10 @@ const baseCases = [
     videoBitrate: 40_000_000,
   },
 ];
-const cases = [...baseCases, ...baseCases.map((c) => ({ ...c, name: c.name + "-rec709", outputProfile: "rec709" }))];
+const cases = [
+  ...baseCases,
+  ...baseCases.map((c) => ({ ...c, name: c.name + "-rec709", outputProfile: "rec709" })),
+];
 const report = {
   sourceCommit: run("git", ["-C", root, "rev-parse", "HEAD"]).toString().trim(),
   invocation: process.argv.slice(1),

@@ -16,8 +16,7 @@ const report = {
   passed: false,
   trace: [],
   checks: {},
-  scope:
-    "Public pointer edit lifecycle PNGs; encoded color gates remain separate",
+  scope: "Public pointer edit lifecycle PNGs; encoded color gates remain separate",
 };
 const service = new JourneyService(home, report, join(out, "native")),
   call = service.call.bind(service);
@@ -100,12 +99,7 @@ async function project(source, steps = pointerSteps, sourceRange = range) {
 async function picture(selection, atUs, name) {
   const file = join(out, name + ".png");
   const receipt = await poll(
-    () =>
-      call(
-        "frame.get",
-        { ...selection, atUs, maxLongEdge: 256 },
-        { output: file },
-      ),
+    () => call("frame.get", { ...selection, atUs, maxLongEdge: 256 }, { output: file }),
     (value) => value.state === "ready",
     name,
   );
@@ -116,16 +110,13 @@ async function importPointer(directory, mirrored) {
   const { donor, records } = await pointerFixture(directory);
   if (mirrored) {
     records[0].data.sessionID = "authored-mirrored-pointer";
-    for (const row of records.find((row) => row.event === "cursorSamples").data
-      .samples) {
+    for (const row of records.find((row) => row.event === "cursorSamples").data.samples) {
       row.x = 256 - row.x;
       row.globalX = 256 - row.globalX;
     }
     await writeFile(
       join(donor, "capture.journal.jsonl"),
-      records
-        .map((row, i) => JSON.stringify({ ...row, sequence: i + 1 }) + "\n")
-        .join(""),
+      records.map((row, i) => JSON.stringify({ ...row, sequence: i + 1 }) + "\n").join(""),
     );
   }
   const pending = await call("acquisition.import", {
@@ -140,9 +131,7 @@ async function importPointer(directory, mirrored) {
   const acquisition = await call("acquisition.get", {
     acquisitionId: imported.target.acquisitionId,
   });
-  const binding = acquisition.bindings.find((value) =>
-    value.sourceRoles.includes("video"),
-  );
+  const binding = acquisition.bindings.find((value) => value.sourceRoles.includes("video"));
   return {
     assetId: binding.assetId,
     streamId: binding.streamId,
@@ -158,10 +147,7 @@ try {
     replacementSource.assetId,
     "Control must share the exact media asset",
   );
-  assert.notEqual(
-    originalSource.acquisitionId,
-    replacementSource.acquisitionId,
-  );
+  assert.notEqual(originalSource.acquisitionId, replacementSource.acquisitionId);
   const original = await project(originalSource),
     reference = await project(replacementSource);
   const clipId = original.labels.clip,
@@ -180,29 +166,14 @@ try {
     },
   ]);
   let current = selected(original.selection.projectId, replaced);
-  assert.deepEqual(
-    (await call("processing.get", { ...current, target })).steps,
-    before.steps,
-  );
+  assert.deepEqual((await call("processing.get", { ...current, target })).steps, before.steps);
   const comparisons = [];
   for (const atUs of [700000, 1000000, 1500000]) {
     const a = await picture(original.selection, atUs, `original-${atUs}`),
-      b = await picture(
-        reference.selection,
-        atUs,
-        `replacement-reference-${atUs}`,
-      ),
+      b = await picture(reference.selection, atUs, `replacement-reference-${atUs}`),
       actual = await picture(current, atUs, `replaced-${atUs}`);
-    assert.notEqual(
-      a.sha256,
-      b.sha256,
-      "Wrong-acquisition control must visibly differ",
-    );
-    assert.equal(
-      actual.sha256,
-      b.sha256,
-      "Replacement did not select its new pointer history",
-    );
+    assert.notEqual(a.sha256, b.sha256, "Wrong-acquisition control must visibly differ");
+    assert.equal(actual.sha256, b.sha256, "Replacement did not select its new pointer history");
     comparisons.push({
       original: a,
       reference: b,
@@ -237,11 +208,7 @@ try {
       current = selected(current.projectId, disabled);
     }
     const state = await call("revision.get", { projectId: current.projectId });
-    const beforePicture = await picture(
-      current,
-      1000000,
-      `rollback-before-${enabled}`,
-    );
+    const beforePicture = await picture(current, 1000000, `rollback-before-${enabled}`);
     const error = await edit(
       current,
       [
@@ -264,11 +231,7 @@ try {
       state,
       "Rejected batch changed the project head or document",
     );
-    const afterPicture = await picture(
-      current,
-      1000000,
-      `rollback-after-${enabled}`,
-    );
+    const afterPicture = await picture(current, 1000000, `rollback-after-${enabled}`);
     assert.equal(afterPicture.sha256, beforePicture.sha256);
     rollback.push({ enabled, error, state, beforePicture, afterPicture });
   }
@@ -284,20 +247,13 @@ try {
     },
   ]);
   current = selected(current.projectId, reset);
-  assert.deepEqual(
-    (await call("processing.get", { ...current, target })).steps,
-    [],
-  );
+  assert.deepEqual((await call("processing.get", { ...current, target })).steps, []);
   const raw = await project(physical, []);
   const resetComparisons = [];
   for (const atUs of [700000, 1500000]) {
     const actual = await picture(current, atUs, `reset-${atUs}`),
       expected = await picture(raw.selection, atUs, `raw-${atUs}`);
-    assert.equal(
-      actual.sha256,
-      expected.sha256,
-      "Reset retained clip processing",
-    );
+    assert.equal(actual.sha256, expected.sha256, "Reset retained clip processing");
     assert.notEqual(
       actual.sha256,
       comparisons.find((row) => row.actual.atUs === atUs).actual.sha256,
@@ -336,24 +292,17 @@ try {
       target: { kind: "clip", id: tail.id },
     })
   ).steps;
-  const settings = (steps) =>
-    steps.map(({ enabled, processor }) => ({ enabled, processor }));
+  const settings = (steps) => steps.map(({ enabled, processor }) => ({ enabled, processor }));
   assert.deepEqual(settings(tailSteps), settings(prefixSteps));
   assert.ok(
-    tailSteps.every(
-      (step) => !prefixSteps.some((original) => original.id === step.id),
-    ),
+    tailSteps.every((step) => !prefixSteps.some((original) => original.id === step.id)),
     "Copied tail must own its step IDs",
   );
   const heldReference = await project(replacementSource, pointerSteps, {
     kind: "hold",
     atUs: 999999,
   });
-  const expectedHold = await picture(
-    heldReference.selection,
-    1000000,
-    "padding-hold-reference",
-  );
+  const expectedHold = await picture(heldReference.selection, 1000000, "padding-hold-reference");
   const paddingComparisons = [];
   for (const atUs of [1000000, 1500000, 1900000]) {
     const actual = await picture(paddedSelection, atUs, `padded-tail-${atUs}`);
@@ -394,11 +343,7 @@ try {
   const trimmedSelection = selected(trimProject.selection.projectId, trimmed),
     trimComparisons = [];
   for (const atUs of [1000000, 1100000, 1500000]) {
-    const expected = await picture(
-        original.selection,
-        atUs,
-        `trim-reference-${atUs}`,
-      ),
+    const expected = await picture(original.selection, atUs, `trim-reference-${atUs}`),
       actual = await picture(trimmedSelection, atUs, `trimmed-${atUs}`);
     assert.equal(
       actual.sha256,
@@ -410,16 +355,10 @@ try {
   const noTrail = await project(
     originalSource,
     pointerSteps.map((step) =>
-      step.processor.type === "pointer"
-        ? { processor: { type: "pointer", trailUs: 0 } }
-        : step,
+      step.processor.type === "pointer" ? { processor: { type: "pointer", trailUs: 0 } } : step,
     ),
   );
-  const omittedHistory = await picture(
-    noTrail.selection,
-    1000000,
-    "trim-omitted-history-control",
-  );
+  const omittedHistory = await picture(noTrail.selection, 1000000, "trim-omitted-history-control");
   assert.notEqual(
     omittedHistory.sha256,
     trimComparisons[0].actual.sha256,
@@ -474,26 +413,16 @@ try {
     const previous = await call("revision.get", {
       projectId: historySelection.projectId,
     });
-    const beforePicture = await picture(
-      historySelection,
-      1000000,
-      `history-${scope}-before`,
-    );
+    const beforePicture = await picture(historySelection, 1000000, `history-${scope}-before`);
     const request = {
       projectId: historySelection.projectId,
       expectedRevisionId: historySelection.revisionId,
       requestId: randomUUID(),
-      operations: [
-        { operation: "processing.set", target: processingTarget, steps },
-      ],
+      operations: [{ operation: "processing.set", target: processingTarget, steps }],
     };
     const applied = await call("edit.apply", request);
     const appliedSelection = selected(historySelection.projectId, applied);
-    const afterPicture = await picture(
-      appliedSelection,
-      1000000,
-      `history-${scope}-after`,
-    );
+    const afterPicture = await picture(appliedSelection, 1000000, `history-${scope}-after`);
     assert.notEqual(
       afterPicture.sha256,
       beforePicture.sha256,
@@ -515,11 +444,7 @@ try {
     );
     assert.deepEqual(undone.document, previous.revision.document);
     const undoSelection = selected(historySelection.projectId, undone),
-      undoPicture = await picture(
-        undoSelection,
-        1000000,
-        `history-${scope}-undo`,
-      );
+      undoPicture = await picture(undoSelection, 1000000, `history-${scope}-undo`);
     assert.equal(
       undoPicture.sha256,
       beforePicture.sha256,
@@ -531,8 +456,7 @@ try {
       "Old request replay lost original receipt after undo",
     );
     assert.equal(
-      (await call("project.get", { projectId: historySelection.projectId }))
-        .currentRevisionId,
+      (await call("project.get", { projectId: historySelection.projectId })).currentRevisionId,
       undone.id,
       "Replay mutated the current head",
     );
@@ -544,11 +468,7 @@ try {
     });
     assert.deepEqual(restored.document, applied.revision.document);
     historySelection = selected(historySelection.projectId, restored);
-    const restoredPicture = await picture(
-      historySelection,
-      1000000,
-      `history-${scope}-restored`,
-    );
+    const restoredPicture = await picture(historySelection, 1000000, `history-${scope}-restored`);
     assert.equal(
       restoredPicture.sha256,
       afterPicture.sha256,

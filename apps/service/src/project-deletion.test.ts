@@ -266,5 +266,10 @@ test("deletion drains canceled executors before releasing shared media; interrup
 
 function projectStoreFixture(catalog: Catalog, assets: AssetStore, home: string) {
   const acquisitions = new AcquisitionStore(catalog);
-  return new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions);
+  return new ProjectStore(
+    catalog,
+    assets,
+    new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)),
+    acquisitions,
+  );
 }

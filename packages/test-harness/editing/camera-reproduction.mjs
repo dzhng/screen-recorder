@@ -6,22 +6,51 @@ import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
 const { values } = parseArgs({
-  options: { case: { type: "string" }, out: { type: "string" }, live: { type: "boolean" },
-    action: { type: "string" }, request: { type: "string" }, app: { type: "string" } },
+  options: {
+    case: { type: "string" },
+    out: { type: "string" },
+    live: { type: "boolean" },
+    action: { type: "string" },
+    request: { type: "string" },
+    app: { type: "string" },
+  },
 });
 if (values.action) {
   assert.equal(values.case, "shared-clock");
-  assert.ok(["validate", "recover", "status", "sources", "permission-camera", "permission-screen", "permission-microphone", "capture"].includes(values.action), "Unknown probe action");
-  assert.equal(Boolean(values.live), values.action === "capture", "Only explicit --live --action capture activates sources");
-  assert.ok(values.app, "Select the reviewed app executable explicitly; this command never builds or installs it");
-  if (["validate", "capture", "recover"].includes(values.action)) assert.ok(values.request, "Select the complete request file");
+  assert.ok(
+    [
+      "validate",
+      "recover",
+      "status",
+      "sources",
+      "permission-camera",
+      "permission-screen",
+      "permission-microphone",
+      "capture",
+    ].includes(values.action),
+    "Unknown probe action",
+  );
+  assert.equal(
+    Boolean(values.live),
+    values.action === "capture",
+    "Only explicit --live --action capture activates sources",
+  );
+  assert.ok(
+    values.app,
+    "Select the reviewed app executable explicitly; this command never builds or installs it",
+  );
+  if (["validate", "capture", "recover"].includes(values.action))
+    assert.ok(values.request, "Select the complete request file");
   const args = ["--probe", "selected-devices", values.action];
   if (values.request) args.push(resolve(values.request));
   const result = spawnSync(resolve(values.app), args, { stdio: "inherit", timeout: 3_660_000 });
   assert.ifError(result.error);
   process.exit(result.status ?? 1);
 }
-assert.ok(!values.live, "Live reproduction requires explicit --action capture, --app and --request");
+assert.ok(
+  !values.live,
+  "Live reproduction requires explicit --action capture, --app and --request",
+);
 assert.equal(values.case, "shared-clock");
 assert.ok(values.out, "Select an evidence output directory");
 const root = new URL("../../../", import.meta.url).pathname;
