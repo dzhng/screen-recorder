@@ -8,25 +8,20 @@ import ScreenRecorderMedia
 import ScreenRecorderAudio
 #endif
 
-#if DEBUG
-// Integer recording observations cannot encode a positive sub-microsecond hole whose endpoints
-// project to the same label. Raw selected-source reports still retain that exact physical hole.
-let physicalMissing = AudioSourceReport(gain: 1, sampleRate: 48_000, channels: 1, unavailable: [
-    ExactRange(startUs: ExactTime(1, 4), endUs: ExactTime(1, 3)),
-    ExactRange(startUs: ExactTime(7, 2), endUs: ExactTime(9, 2)),
-])
-let recordingMissing = try AudioTrackReport(role: .narration, source: physicalMissing)
-precondition(recordingMissing.unavailable == [TimeSpan(startUs: 4, endUs: 5)],
-    "Recording receipts must omit empty projected holes while retaining observable gaps")
-precondition(physicalMissing.unavailable.count == 2)
-let tinyIsland = AudioSourceReport(gain: 1, sampleRate: 48_000, channels: 1, unavailable: [
-    ExactRange(startUs: ExactTime(0), endUs: ExactTime(3, 5)),
-    ExactRange(startUs: ExactTime(7, 10), endUs: ExactTime(2)),
-])
-let islandReceipt = try AudioTrackReport(role: .narration, source: tinyIsland)
-precondition(islandReceipt.unavailable == [TimeSpan(startUs: 0, endUs: 1), TimeSpan(startUs: 1, endUs: 2)],
-    "A collapsed readable island must preserve the existing touching observation pieces")
+// These opt-in consumers execute only their selected source; the default suite stays small.
+if let plan = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_SELECTED_PLAN"] {
+    try await writeSelectedReference(plan)
+    exit(0)
+}
+if let source = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_STREAM_SOURCE"],
+    let value = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_STREAM_SECONDS"],
+    let seconds = Int64(value),
+    let path = ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"] {
+    try await streamingProof(source: source, seconds: seconds, evidence: URL(fileURLWithPath: path))
+    exit(0)
+}
 
+#if DEBUG
 // A seek is an interior point in an already selected native cell, including negative
 // presentation origins and phases whose denominator cannot combine into CMTimeScale.
 for rate in [8000, 44100, 48000, 192000] {

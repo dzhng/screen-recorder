@@ -11,7 +11,8 @@ const out =
 assert.ok(isAbsolute(out));
 await mkdir(out, { recursive: true });
 assert.deepEqual(await readdir(out), []);
-const executable = new URL("../.build/debug/ScreenRecorderAudioTests", import.meta.url).pathname;
+const executable = new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url)
+  .pathname;
 function run(command, args, env = process.env) {
   const result = spawnSync(command, args, {
     env,
@@ -23,10 +24,9 @@ function run(command, args, env = process.env) {
   assert.equal(result.status, 0, result.stderr);
   return result.stdout;
 }
-async function hash(file, start, end) {
+async function hash(file) {
   const hash = createHash("sha256");
-  for await (const chunk of createReadStream(file, start === undefined ? {} : { start, end }))
-    hash.update(chunk);
+  for await (const chunk of createReadStream(file)) hash.update(chunk);
   return hash.digest("hex");
 }
 async function wave(file) {
@@ -84,7 +84,7 @@ for (const seconds of [10, 300]) {
   const report = JSON.parse(
     run(executable, [], {
       ...process.env,
-      SCREENREC_AUDIO_EVIDENCE: out,
+      SCREENREC_SOURCE_AUDIO_EVIDENCE: out,
       SCREENREC_AUDIO_STREAM_SOURCE: source,
       SCREENREC_AUDIO_STREAM_SECONDS: String(seconds),
     }),
@@ -139,27 +139,6 @@ assert.ok(
   "Native memory must not scale with retained output duration",
 );
 assert.equal(await hash(source), before);
-const baseline = [];
-if (process.env.SCREENREC_AUDIO_BASELINE) {
-  const excerpts = join(out, "excerpts");
-  await mkdir(excerpts);
-  run(executable, [], { ...process.env, SCREENREC_AUDIO_EVIDENCE: excerpts });
-  for (const entry of await readdir(process.env.SCREENREC_AUDIO_BASELINE, {
-    withFileTypes: true,
-  })) {
-    if (!entry.isFile() || !entry.name.endsWith(".wav")) continue;
-    const previous = join(process.env.SCREENREC_AUDIO_BASELINE, entry.name),
-      current = join(excerpts, entry.name);
-    const a = await wave(previous),
-      b = await wave(current);
-    assert.deepEqual(b.format, a.format);
-    assert.equal(b.bytes, a.bytes);
-    const pcmHash = await hash(current, b.start, b.start + b.bytes - 1);
-    assert.equal(pcmHash, await hash(previous, a.start, a.start + a.bytes - 1));
-    baseline.push({ file: entry.name, pcmBytes: b.bytes, pcmSha256: pcmHash, exact: true });
-  }
-  assert.ok(baseline.length > 0);
-}
-const report = { sourceSha256: before, sourceUnchanged: true, scale, baseline };
+const report = { sourceSha256: before, sourceUnchanged: true, scale };
 await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-console.log(JSON.stringify({ out, scale, baselineComparisons: baseline.length }, null, 2));
+console.log(JSON.stringify({ out, scale }, null, 2));

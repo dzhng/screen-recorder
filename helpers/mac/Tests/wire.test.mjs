@@ -78,3 +78,25 @@ test("a changed directory identity reports the same final failure through every 
     rmSync(home, { recursive: true, force: true });
   }
 });
+
+test("retired recording render operations refuse without opening media", () => {
+  const operations = ["media.frame", "media.visualSamples", "media.audio", "media.renderMovie"];
+  const result = spawnSync(executable, [], {
+    input:
+      operations
+        .map((operation) => JSON.stringify({ id: operation, operation, params: {} }))
+        .join("\n") + "\n",
+    encoding: "utf8",
+    timeout: 5000,
+  });
+  assert.ifError(result.error);
+  assert.equal(result.status, 0, result.stderr);
+  const responses = result.stdout.trim().split("\n").map(JSON.parse);
+  assert.equal(responses.length, operations.length);
+  for (const [index, response] of responses.entries()) {
+    assert.equal(response.id, operations[index]);
+    assert.equal(response.ok, false);
+    assert.equal(response.error.code, "UNKNOWN_OPERATION");
+    assert.equal(response.error.retryable, false);
+  }
+});

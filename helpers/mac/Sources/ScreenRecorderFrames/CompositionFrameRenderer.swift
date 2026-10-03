@@ -47,7 +47,7 @@ public enum CompositionFrameRenderer {
         else { throw NativeFailure("INVALID_REQUEST", "Invalid compiled picture or image limits.") }
         let pictures = try CompositionPictureExecutor(
             canvas: request.canvas, deliveredSize: FrameImage.delivered(
-                width: request.canvas.width, height: request.canvas.height, maxLongEdge: edge, even: false),
+                width: request.canvas.width, height: request.canvas.height, maxLongEdge: edge),
             bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }

@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import frozenWorkers from "../../../specs/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import { verifyMixedCodecRates } from "./audio-mixed-codec-rates.mjs";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
@@ -19,10 +21,20 @@ import { applyBatch, createCompiler, validateComposition } from "../../compositi
 assert.equal(process.argv.slice(2).join(" "), "--case music-and-replacement");
 const worker = process.env.SCREENREC_NATIVE;
 assert(worker, "Set SCREENREC_NATIVE to the built native worker");
+const baseline = process.env.SCREENREC_BASELINE_NATIVE;
+assert(baseline, "Set SCREENREC_BASELINE_NATIVE to the frozen pre-cutover worker");
+const pin = frozenWorkers.files.find(
+  (entry) => entry.scope === "canonical worker used by retained package/native/archive proofs",
+);
+assert.equal(
+  createHash("sha256").update(readFileSync(baseline)).digest("hex"),
+  pin.sha256,
+  "Historical PCM reference worker must match the retained provenance manifest",
+);
 const scratch = mkdtempSync(join(tmpdir(), "sr-mix-"));
 let sequence = 0;
-function call(operation, params, expectedError) {
-  const child = spawnSync(worker, [], {
+function call(operation, params, expectedError, executable = worker) {
+  const child = spawnSync(executable, [], {
     input: JSON.stringify({ id: String(++sequence), operation, params }) + "\n",
     encoding: "utf8",
     timeout: 30000,
@@ -718,20 +730,26 @@ try {
   const fractional = render(fractionalOrigin);
   assert.deepEqual(fractional.samples, reference48);
   evidence.checks.push("fractional retained-run origin follows nearest native source selection");
+  // This comparison attests migration parity against a separately frozen old worker.
   const phaseCases = [];
   for (const sourceStartUs of [500000, 500001, 500010, 500011, 500020, 500021]) {
-    const frozen = call("media.audio", {
-      output: join(scratch, `frozen-${sourceStartUs}.wav`),
-      spans: [{ startUs: sourceStartUs, endUs: sourceStartUs + 500000 }],
-      tracks: [
-        {
-          role: "narration",
-          source: a.binding.path,
-          sourceOffsetUs: 0,
-          available: [{ startUs: 0, endUs: 2000000 }],
-        },
-      ],
-    });
+    const frozen = call(
+      "media.audio",
+      {
+        output: join(scratch, `frozen-${sourceStartUs}.wav`),
+        spans: [{ startUs: sourceStartUs, endUs: sourceStartUs + 500000 }],
+        tracks: [
+          {
+            role: "narration",
+            source: a.binding.path,
+            sourceOffsetUs: 0,
+            available: [{ startUs: 0, endUs: 2000000 }],
+          },
+        ],
+      },
+      undefined,
+      baseline,
+    );
     const expected = wave(frozen.file, true, 1).flatMap((value) => [value, value]);
     for (const projectStartUs of [0, 10001]) {
       const phaseDoc = {

@@ -1,20 +1,6 @@
 import Foundation
 import ScreenRecorderMedia
 
-/// Crop rectangle in oriented source-image pixels, origin at the top left.
-public struct FrameCrop: Codable, Sendable, Equatable {
-    public let x: Int
-    public let y: Int
-    public let width: Int
-    public let height: Int
-    public init(x: Int, y: Int, width: Int, height: Int) {
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-    }
-}
-
 /// One pointer position the core chose, in oriented source-video pixels with a top-left origin.
 /// `atSourceUs` is the sample's own time, never the requested frame time.
 public struct CursorPoint: Codable, Sendable, Equatable {
@@ -65,71 +51,6 @@ public enum FrameLimits {
     /// A 60 Hz sampler fills a ten-second trail with 600 points; this leaves headroom for denser
     /// evidence while keeping one request's drawing work and memory bounded.
     public static let maximumTrailPoints = 1_200
-}
-
-public struct FrameRequest: Sendable {
-    public let atSourceUs: Int64
-    public let kept: TimeSpan
-    public let output: URL
-    /// Drawn in source pixels before the crop, so overlay coordinates and crop coordinates are read
-    /// in the same geometry. Absent means a clean frame.
-    public let overlay: FrameOverlay?
-    public let crop: FrameCrop?
-    public let maxLongEdge: Int
-    public let maxEncodedBytes: Int
-
-    public init(
-        atSourceUs: Int64, kept: TimeSpan, output: URL, overlay: FrameOverlay? = nil,
-        crop: FrameCrop? = nil, maxLongEdge: Int = FrameLimits.defaultLongEdge,
-        maxEncodedBytes: Int = FrameLimits.maximumEncodedBytes
-    ) {
-        self.atSourceUs = atSourceUs
-        self.kept = kept
-        self.output = output
-        self.overlay = overlay
-        self.crop = crop
-        self.maxLongEdge = maxLongEdge
-        self.maxEncodedBytes = maxEncodedBytes
-    }
-}
-
-/// The sample actually chosen inside the kept interval. `actualSourceUs` is the sample's own
-/// presentation timestamp, never the requested time.
-public struct FrameSelection: Sendable, Equatable {
-    public let actualSourceUs: Int64
-    public let distanceUs: Int64
-}
-
-/// What the renderer actually drew. Times are echoed from the supplied points so a consumer can
-/// check the picture against the evidence the core selected.
-public struct RenderedOverlay: Codable, Sendable, Equatable {
-    public let trailPoints: Int
-    public let trailStartUs: Int64?
-    public let trailEndUs: Int64?
-    public let pointerSourceUs: Int64?
-
-    public init(_ overlay: FrameOverlay) {
-        let points = overlay.trail.flatMap { $0 }
-        trailPoints = points.count
-        trailStartUs = points.first?.atSourceUs
-        trailEndUs = points.last?.atSourceUs
-        pointerSourceUs = overlay.pointer?.atSourceUs
-    }
-}
-
-public struct DecodedFrame: Codable, Sendable, Equatable {
-    public let file: String
-    public let mediaType: String
-    public let requestedSourceUs: Int64
-    public let actualSourceUs: Int64
-    public let distanceUs: Int64
-    public let width: Int
-    public let height: Int
-    public let sourceWidth: Int
-    public let sourceHeight: Int
-    public let crop: FrameCrop?
-    public let overlay: RenderedOverlay?
-    public let bytes: Int
 }
 
 extension FrameOverlay {

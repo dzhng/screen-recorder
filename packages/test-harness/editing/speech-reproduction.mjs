@@ -1,3 +1,4 @@
+import historicalPacket from "../../../specs/agent-editing/assets/12d-complete-sentence/manifest.json" with { type: "json" };
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, mkdirSync, mkdtempSync } from "node:fs";
@@ -29,6 +30,15 @@ if (values.prepare) {
   );
   process.exit(0);
 }
+const historicalAudio = process.env.SCREENREC_BASELINE_NATIVE;
+if (
+  !historicalAudio ||
+  createHash("sha256").update(readFileSync(historicalAudio)).digest("hex") !==
+    historicalPacket.native.sha256
+)
+  throw new Error(
+    "Historical audition clips require SCREENREC_BASELINE_NATIVE pinned by the retained 12d manifest",
+  );
 const modelRequest = await models.nativeRequest(); // No preparation or network fallback on an ordinary run.
 const binary = values.native ?? process.env.SCREENREC_NATIVE;
 if (!binary) throw new Error("Pass --native or SCREENREC_NATIVE for the existing project worker");
@@ -61,13 +71,13 @@ const track = {
   available: [{ startUs: samples[0].data.startUs, endUs: samples.at(-1).data.endUs }],
 };
 const calls = [];
-function invoke(id, operation, params) {
+function invoke(id, operation, params, executable = binary) {
   const request = { id, operation, params };
   save(id + "-request.json", request);
   const start = performance.now();
   const result = spawnSync(
     "/usr/bin/sandbox-exec",
-    ["-p", "(version 1)(allow default)(deny network*)", resolve(binary)],
+    ["-p", "(version 1)(allow default)(deny network*)", resolve(executable)],
     {
       input: JSON.stringify(request) + "\n",
       encoding: "utf8",
@@ -125,14 +135,20 @@ for (const [id, window] of [
     ],
   ]) {
     const name = id + "-" + variant;
-    invoke(name, "media.audio", {
-      tracks: [{ role: "narration", ...track }],
-      spans,
-      output: join(output, name + ".wav"),
-    });
+    invoke(
+      name,
+      "media.audio",
+      {
+        tracks: [{ role: "narration", ...track }],
+        spans,
+        output: join(output, name + ".wav"),
+      },
+      historicalAudio,
+    );
     clips.push({
       id: name,
       file: name + ".wav",
+      historicalWorkerSha256: historicalPacket.native.sha256,
       sha256: hash(join(output, name + ".wav")),
       spans,
       targetProvenance: target,

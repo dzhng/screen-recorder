@@ -1,3 +1,4 @@
+import historicalPacket from "../../../specs/agent-editing/assets/12d-complete-sentence/manifest.json" with { type: "json" };
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -12,6 +13,11 @@ const { values } = parseArgs({ options: { native: { type: "string" }, out: { typ
 assert.ok(values.native && values.out, "Pass --native and a fresh --out directory");
 const binary = resolve(values.native),
   out = resolve(values.out);
+assert.equal(
+  createHash("sha256").update(readFileSync(binary)).digest("hex"),
+  historicalPacket.native.sha256,
+  "This historical sentence packet requires the worker pinned by its retained 12d manifest",
+);
 mkdirSync(out); // Refuse replacing any previous evidence packet.
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const json = (path) => JSON.parse(readFileSync(path, "utf8"));

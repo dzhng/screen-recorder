@@ -68,21 +68,6 @@ struct ExcerptLayout {
 }
 
 enum ExcerptValidation {
-    /// Rejects everything the excerpt owner cannot execute honestly, before any media is opened.
-    static func check(
-        tracks: [AudioTrackPlan], spans: [TimeSpan], maximumDurationUs: Int64,
-        maximumSpans: Int = AudioLimits.maximumSpans,
-        maximumAvailableIntervals: Int = AudioLimits.maximumAvailableIntervals
-    ) throws {
-        try check(tracks: tracks, maximumAvailableIntervals: maximumAvailableIntervals)
-        try check(spans: spans, maximumDurationUs: maximumDurationUs, maximumSpans: maximumSpans)
-    }
-
-    static func check(spans: [TimeSpan], maximumDurationUs: Int64, maximumSpans: Int) throws {
-        try check(spans: spans.map(ExactRange.init), maximumDurationUs: maximumDurationUs,
-            maximumSpans: maximumSpans)
-    }
-
     static func check(spans: [ExactRange], maximumDurationUs: Int64, maximumSpans: Int) throws {
         guard !spans.isEmpty else {
             throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
@@ -100,21 +85,6 @@ enum ExcerptValidation {
         for span in spans { total = try total.adding(span.endUs.subtract(span.startUs)) }
         guard try total.compare(ExactTime(Int128(maximumDurationUs))) != .orderedDescending else {
             throw NativeFailure("LIMIT_EXCEEDED", "Excerpt exceeds its duration limit.")
-        }
-    }
-
-    /// Rejects track plans that cannot be read honestly, before any media is opened.
-    static func check(tracks: [AudioTrackPlan], maximumAvailableIntervals: Int) throws {
-        guard !tracks.isEmpty else {
-            throw NativeFailure("INVALID_REQUEST", "An excerpt reads at least one planned track.")
-        }
-        // Capture stores one file per role, so uniqueness is also what bounds the plan's size.
-        guard Set(tracks.map(\.role)).count == tracks.count else {
-            throw NativeFailure(
-                "INVALID_REQUEST", "Each track role may appear once in an excerpt plan.")
-        }
-        for track in tracks {
-            try checkSourceFields(track.selection, maximumIntervals: maximumAvailableIntervals)
         }
     }
 

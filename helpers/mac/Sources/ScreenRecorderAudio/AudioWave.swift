@@ -2,22 +2,7 @@
 import Foundation
 import ScreenRecorderMedia
 
-/// The public excerpt remains capped; all retained-audio mixing belongs to AudioPCMStream.
-public enum AudioExcerpts {
-    public static func write(_ request: AudioExcerptRequest) async throws -> AudioExcerpt {
-        try ExcerptValidation.check(
-            tracks: request.tracks, spans: request.spans,
-            maximumDurationUs: AudioLimits.maximumExcerptUs)
-        let stream = try await AudioPCMStream.open(tracks: request.tracks, spans: request.spans)
-        let bytes = try await AudioWave.write(stream, to: request.output)
-        return AudioExcerpt(
-            file: request.output.path, mediaType: "audio/wav", sampleRate: stream.format.sampleRate,
-            channels: stream.format.channels, frames: stream.frames, durationUs: stream.durationUs,
-            bytes: bytes, spans: request.spans, tracks: try zip(request.tracks, stream.reports).map { try AudioTrackReport(role: $0.role, source: $1) })
-    }
-}
-
-/// Lossless sink shared with the internal streaming proof. Consumption finishes before publication.
+/// Lossless selected-source sink. Consumption finishes before publication.
 public enum AudioWave {
     public static func write(_ stream: AudioPCMStream, to output: URL) async throws -> Int {
         let writer = try AudioWaveWriter(
