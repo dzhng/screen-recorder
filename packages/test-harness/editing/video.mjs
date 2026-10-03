@@ -1,7 +1,6 @@
 import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -636,62 +635,6 @@ const ancestorExclusion = {
   maximumDecodedChannel: Math.max(...anchorPixels),
 };
 
-const preservation = [];
-if (process.env.SCREENREC_BASELINE_NATIVE) {
-  for (const [name, source, spans] of [
-    [
-      "old-cuts",
-      join(frozen, "tagged-a.mov"),
-      [
-        [0, 500000],
-        [1000000, 1500000],
-      ],
-    ],
-    ["old-empty-edit", join(frozen, "empty-edit.mov"), [[0, 1250000]]],
-  ]) {
-    const directory = join(out, name);
-    await mkdir(directory);
-    let at = 0;
-    const plan = spans.map(([startUs, endUs]) => {
-      const span = {
-        source: { startUs, endUs },
-        playback: { startUs: at, endUs: at + endUs - startUs },
-      };
-      at = span.playback.endUs;
-      return span;
-    });
-    const pixels = [];
-    for (const [label, binary] of [
-      ["baseline", process.env.SCREENREC_BASELINE_NATIVE],
-      ["current", native],
-    ]) {
-      const output = join(directory, label + ".mp4");
-      const request = {
-        id: "preservation",
-        operation: "media.renderMovie",
-        params: { source, output, plan, tracks: [] },
-      };
-      const result = JSON.parse(run(binary, [], JSON.stringify(request) + "\n"));
-      assert.equal(result.ok, true, JSON.stringify(result));
-      const raw = ff([
-        "-i",
-        output,
-        "-map",
-        "0:v:0",
-        "-fps_mode",
-        "passthrough",
-        "-pix_fmt",
-        "rgb24",
-        "-f",
-        "rawvideo",
-        "pipe:1",
-      ]);
-      pixels.push(createHash("sha256").update(raw).digest("hex"));
-    }
-    assert.equal(pixels[0], pixels[1], `${name} changed decoded existing-renderer pixels`);
-    preservation.push({ name, decodedPixelSHA256: pixels[0] });
-  }
-}
 const resources = [];
 let cancellation = null;
 if (!args.includes("--temporal-only")) {
@@ -798,7 +741,6 @@ await save(join(out, "report.json"), {
   negatives,
   resources,
   cancellation,
-  preservation,
 });
 console.log(
   JSON.stringify({ out, cases: results.length, refusals: negatives.length, passed: true }),

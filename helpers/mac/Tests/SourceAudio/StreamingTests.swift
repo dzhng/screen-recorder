@@ -6,14 +6,14 @@ import ScreenRecorderMedia
 
 func streamingProof(source: String, seconds: Int64, evidence: URL) async throws {
     let span = TimeSpan(startUs: 0, endUs: seconds * 1_000_000)
-    let track = AudioTrackPlan(
-        role: .narration, source: source, sourceOffsetUs: 0, available: [span])
+    let selected = AudioSourceSelection(
+        source: source, sourceOffsetUs: ExactTime(0), available: [ExactRange(span)])
     let spans = [
         TimeSpan(startUs: 0, endUs: 168_583),
         TimeSpan(startUs: 200_000, endUs: 372_750),
         TimeSpan(startUs: 400_000, endUs: span.endUs),
     ]
-    let stream = try await AudioPCMStream.open(tracks: [track], spans: spans)
+    let stream = try await AudioPCMStream.open(source: selected, spans: spans.map(ExactRange.init))
     precondition(stream.format.sampleRate == 48_000 && stream.format.channels == 2)
     let expectedFrames = seconds * 48_000 - 2_816
     precondition(stream.frames == expectedFrames)
@@ -57,15 +57,15 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
         lastCount = block.frameCount
     }
     precondition(seen == expectedFrames && maximumError < 0.00001)
-    // Independent WAVE consumer of the same stream; it is also the production excerpt sink.
-    let waveStream = try await AudioPCMStream.open(tracks: [track], spans: spans)
+    // Independent WAVE consumer of the same stream; it is also the production selected-source sink.
+    let waveStream = try await AudioPCMStream.open(source: selected, spans: spans.map(ExactRange.init))
     let wave = evidence.appendingPathComponent("stream-\(seconds).wav")
     let bytes = try await AudioWave.write(waveStream, to: wave)
     let readback = try AVAudioFile(forReading: wave)
     precondition(readback.length == expectedFrames)
 
     enum SinkFailure: Error { case intentional }
-    let failed = try await AudioPCMStream.open(tracks: [track], spans: [span])
+    let failed = try await AudioPCMStream.open(source: selected, spans: [ExactRange(span)])
     var accepted = 0
     var completed = false
     do {
@@ -90,28 +90,6 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
         withJSONObject: report, options: [.prettyPrinted, .sortedKeys])
     try data.write(to: evidence.appendingPathComponent("stream-\(seconds).json"))
     print(String(decoding: data, as: UTF8.self))
-}
-
-/// Lossless reference for generated movie plans, using the same bounded production stream.
-func writePlanReference(_ path: String) async throws {
-    struct Plan: Decodable {
-        let tracks: [AudioTrackPlan]
-        let spans: [TimeSpan]
-        let output: String
-    }
-    let plan = try JSONDecoder().decode(
-        Plan.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
-    let stream = try await AudioPCMStream.open(tracks: plan.tracks, spans: plan.spans)
-    let bytes = try await AudioWave.write(stream, to: URL(fileURLWithPath: plan.output))
-    let report: [String: Any] = [
-        "frames": stream.frames, "sampleRate": stream.format.sampleRate,
-        "channels": stream.format.channels, "bytes": bytes,
-        "tracks": try JSONSerialization.jsonObject(with: JSONEncoder().encode(zip(plan.tracks, stream.reports).map { try AudioTrackReport(role: $0.role, source: $1) })),
-    ]
-    print(
-        String(
-            data: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
-            encoding: .utf8)!)
 }
 
 /// Selected-source PCM uses the production stream and WAVE sink without a recording role.

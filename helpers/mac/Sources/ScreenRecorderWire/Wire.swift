@@ -34,14 +34,11 @@ public enum NativeWire {
             "media.audioCapabilities": media { _ in ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation] },
             "media.outputCapabilities": media { _ in try OutputSettings.inventory() },
             "media.probe": media { try json(await ProbeOperation.execute($0)) },
-            "media.frame": media { try json(await FrameOperation.execute($0)) },
-            "media.visualSamples": media { try json(await FrameOperation.visualSamples($0)) },
             "media.presentationEvidence": media {
                 try json(await PresentationEvidenceOperation.execute($0))
             },
             "media.renderCompositionFrame": media { try json(await CompositionFrameOperation.execute($0)) },
             "media.renderCompositionVideo": media { try json(await CompositionVideoOperation.execute($0)) },
-            "media.renderMovie": media { try json(await MovieOperation.execute($0)) },
             "media.renderCompositionMovie": media { try json(await CompositionMovieOperation.execute($0)) },
             "media.validateCompositionAudio": media { try await CompositionAudioOperation.validate($0) },
             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
@@ -53,7 +50,6 @@ public enum NativeWire {
             "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
             "media.convertSelectedAudio": media { try json(await SelectedAudioConversionOperation.execute($0)) },
             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },
-            "media.audio": media { try json(await AudioOperation.execute($0)) },
             "media.recover": media { params in
                 let request = try WireRequest.decode(RecoveryRequest.self, from: params)
                 guard !request.directory.isEmpty else {

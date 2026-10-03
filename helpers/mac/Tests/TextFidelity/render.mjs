@@ -3,13 +3,16 @@ import { spawn } from "node:child_process";
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
-import { createOriginalRevision } from "../../../../packages/core/dist/timeline.js";
-import { renderPlan } from "../../../../packages/core/dist/presentation-time.js";
+import {
+  createCompiler,
+  validateComposition,
+  resolveOutputSettings,
+} from "../../../../packages/composition/dist/index.js";
 const [directory, label, native] = process.argv.slice(2);
 assert.ok(directory && label && native);
 const out = join(directory, label);
 mkdirSync(out, { recursive: false });
-const sourceFrames = join(directory, "source");
+const sourceFrames = join(directory, "source-compiled");
 mkdirSync(sourceFrames, { recursive: true });
 const captures = JSON.parse(readFileSync(join(directory, "capture.json"))),
   results = [];
@@ -64,50 +67,139 @@ async function run(command, args, input) {
   assert.equal(status, 0, stderr);
   return { stdout, stderr };
 }
-async function frame(source, output, atSourceUs, durationUs) {
-  const r = JSON.parse(
+async function probe(path) {
+  const result = JSON.parse(
+    (
+      await run(
+        native,
+        [],
+        JSON.stringify({
+          id: "probe",
+          operation: "media.probe",
+          params: { path },
+        }) + "\n",
+      )
+    ).stdout,
+  );
+  assert.equal(result.ok, true, JSON.stringify(result));
+  const video = result.data.streams.filter((stream) => stream.kind === "video");
+  assert.equal(video.length, 1, "Text-fidelity fixtures must provide exactly one video stream");
+  const stream = video[0];
+  return {
+    stream,
+    asset: { assetId: path, streamId: stream.id, path, originUs: result.data.originUs },
+    available: stream.segments
+      .filter((segment) => !segment.empty)
+      .map(({ startUs, endUs }) => ({ startUs, endUs })),
+  };
+}
+async function frame(binding, output, atUs) {
+  const result = JSON.parse(
     (
       await run(
         native,
         [],
         JSON.stringify({
           id: "frame",
-          operation: "media.frame",
+          operation: "media.sourceFrame",
           params: {
-            source,
+            asset: binding.asset,
+            available: binding.available,
             output,
-            atSourceUs,
-            kept: { startUs: 0, endUs: durationUs },
+            atUs,
             maxLongEdge: 8192,
           },
         }) + "\n",
       )
     ).stdout,
   );
-  assert.equal(r.ok, true, JSON.stringify(r));
-  return r.data;
+  assert.equal(result.ok, true, JSON.stringify(result));
+  return result.data;
 }
 for (const capture of captures) {
   const source = join(directory, capture.name + ".mov"),
     output = join(out, capture.name + ".mp4"),
     before = sha(source),
-    durationUs = 4_000_000,
-    plan = renderPlan(createOriginalRevision(durationUs));
+    durationUs = 4_000_000;
+  const selected = await probe(source);
+  const range = { startUs: 0, endUs: durationUs };
+  const canvas = {
+    width: selected.stream.orientedWidth,
+    height: selected.stream.orientedHeight,
+    fps: { numerator: 60, denominator: 1 },
+    background: "#000000ff",
+  };
+  const document = {
+    canvas,
+    tracks: [{ id: "video", kind: "video", order: 0 }],
+    groups: [],
+    syncGroups: [],
+    processing: [],
+    clips: [
+      {
+        id: "source",
+        trackId: "video",
+        assetId: selected.asset.assetId,
+        streamId: selected.asset.streamId,
+        source: { kind: "range", range },
+        placement: { kind: "project", range },
+      },
+    ],
+  };
+  const compiler = createCompiler(
+    validateComposition(document, [
+      {
+        id: selected.asset.assetId,
+        streams: [
+          {
+            id: selected.stream.id,
+            kind: "video",
+            width: canvas.width,
+            height: canvas.height,
+            bounds: { startUs: selected.stream.startUs, endUs: selected.stream.endUs },
+            available: selected.available,
+          },
+        ],
+      },
+    ]),
+    "text-fidelity",
+  );
+  const frames = [
+    ...compiler
+      .videoWindow({
+        range,
+        rendition: { sampleRate: 48000, channels: 2 },
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      })
+      .frames(),
+  ];
+  const framesFile = join(out, capture.name + ".frames.jsonl");
+  writeFileSync(framesFile, frames.map((frame) => JSON.stringify(frame) + "\n").join(""));
+  const request = {
+    id: "render",
+    operation: "media.renderCompositionVideo",
+    params: {
+      output,
+      frames: framesFile,
+      range,
+      canvas,
+      settings: resolveOutputSettings(),
+      processing: [],
+      assets: [selected.asset],
+    },
+  };
+  writeFileSync(join(out, capture.name + "-request.json"), JSON.stringify(request, null, 2));
   const started = Date.now(),
-    runResult = await run(
-      "/usr/bin/time",
-      ["-l", native],
-      JSON.stringify({
-        id: "render",
-        operation: "media.renderMovie",
-        params: { source, output, plan, tracks: [] },
-      }) + "\n",
-    ),
+    runResult = await run("/usr/bin/time", ["-l", native], JSON.stringify(request) + "\n"),
     elapsedMs = Date.now() - started;
+  writeFileSync(join(out, capture.name + "-response.json"), runResult.stdout);
+  writeFileSync(join(out, capture.name + "-native.log"), runResult.stderr);
   const result = JSON.parse(runResult.stdout);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(result.data.durationUs, durationUs);
   assert.equal(sha(source), before);
+  assert.equal(result.data.frames, frames.length);
+  const renderedSource = await probe(output);
   const states = [];
   for (const [state, at] of [
     ["top", 600000],
@@ -119,23 +211,39 @@ for (const capture of captures) {
     const id = capture.name + "-" + state;
     const ref = join(sourceFrames, id + ".png"),
       refReceipt = join(sourceFrames, id + ".json");
+    const compiled = frames.find(
+      (frame) => frame.visibleRange.startUs <= at && at < frame.visibleRange.endUs,
+    );
+    assert.ok(compiled, "Every review timestamp must address a compiled output frame");
+    const layer = compiled.layers.find((layer) => layer.kind === "video");
+    assert.ok(layer && layer.availability === "available");
     if (!existsSync(ref)) {
-      const receipt = await frame(source, ref, at, durationUs);
-      writeFileSync(refReceipt, JSON.stringify(receipt, null, 2));
-    }
-    const sourceReceipt = JSON.parse(readFileSync(refReceipt)),
-      rendered = await frame(
-        output,
-        join(out, id + ".png"),
-        sourceReceipt.actualSourceUs,
-        durationUs,
+      const receipt = await frame(selected, ref, layer.sourceUs);
+      writeFileSync(
+        refReceipt,
+        JSON.stringify(
+          { ...receipt, projectSampleUs: compiled.sampleAtUs, sourceSHA256: before },
+          null,
+          2,
+        ),
       );
+    }
+    const sourceReceipt = JSON.parse(readFileSync(refReceipt));
+    assert.equal(sourceReceipt.sourceSHA256, before, "Reference source bytes must stay pinned");
+    assert.equal(
+      sourceReceipt.projectSampleUs,
+      compiled.sampleAtUs,
+      "Reference must use the same CFR phase",
+    );
+    const rendered = await frame(renderedSource, join(out, id + ".png"), compiled.sampleAtUs);
     assert.equal(rendered.width, sourceReceipt.width);
     assert.equal(rendered.height, sourceReceipt.height);
-    assert.ok(Math.abs(rendered.actualSourceUs - sourceReceipt.actualSourceUs) <= 1);
+    assert.equal(rendered.actualSourceUs, compiled.visibleRange.startUs);
     states.push({
       state,
       sourceUs: sourceReceipt.actualSourceUs,
+      projectSampleUs: compiled.sampleAtUs,
+      visibleRange: compiled.visibleRange,
       renderedUs: rendered.actualSourceUs,
       width: rendered.width,
       height: rendered.height,
@@ -159,6 +267,7 @@ for (const capture of captures) {
   assert.equal(metadata.streams[0].height, result.data.height);
   results.push({
     capture,
+    canvas,
     sourceSHA256: before,
     outputSHA256: sha(output),
     receipt: { ...result.data, file: capture.name + ".mp4" },

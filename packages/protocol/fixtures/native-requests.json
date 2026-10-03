@@ -92,15 +92,6 @@
     }
   },
   {
-    "name": "movie bound outside the image limit",
-    "line": "{\"id\":\"movie-bound-1\",\"operation\":\"media.renderMovie\",\"params\":{\"source\":\"/nonexistent/screenrec/recordings/fixture/source/video.mov\",\"output\":\"/nonexistent/screenrec/recordings/fixture/preview/movie.mp4\",\"plan\":[{\"source\":{\"startUs\":0,\"endUs\":1000000},\"playback\":{\"startUs\":0,\"endUs\":1000000}}],\"tracks\":[],\"maxLongEdge\":0}}",
-    "expected": {
-      "id": "movie-bound-1",
-      "ok": false,
-      "code": "INVALID_RANGE"
-    }
-  },
-  {
     "name": "ping after invalid lines",
     "line": "{\"id\":\"after-1\",\"operation\":\"system.ping\",\"params\":{}}",
     "expected": {

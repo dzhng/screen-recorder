@@ -29,6 +29,9 @@ assert.deepEqual(readdirSync(out), [], "Evidence directory must start empty");
 const executable =
   process.env.SCREENREC_NATIVE ??
   fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+const selectedReference =
+  process.env.SCREENREC_SOURCE_AUDIO_TESTS ??
+  fileURLToPath(new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url));
 const cli = join(cache, "source", ".build", "release", "fluidaudiocli");
 const pinned = JSON.parse(
   readFileSync(
@@ -199,7 +202,7 @@ for (const word of words) {
 assert.ok(data.segments.slice(0, 2).every((segment) => segment.wordCount > 0));
 assert.equal(data.segments[2].wordCount, 0);
 
-// Parity: the same interval, exported by the worker's own excerpt, through the pinned CLI.
+// Parity: the same selected interval and conditioning, through the pinned CLI.
 const cliSha256 = sha256(readFileSync(cli));
 const provenance = JSON.parse(readFileSync(join(cache, "provenance.json"), "utf8"));
 assert.equal(cliSha256, provenance.binarySha256, "Pinned CLI changed since preparation");
@@ -213,10 +216,13 @@ const normalize = (text) =>
 const parity = [];
 for (const line of lines.filter((line) => line.state === "transcribed")) {
   const wav = join(out, `interval-${line.ordinal}.wav`);
-  worker("media.audio", {
-    output: wav,
-    spans: [line.source],
-    tracks: [{ role: "narration", ...track }],
+  const referencePlan = join(out, `interval-${line.ordinal}-source.json`);
+  await writeFile(
+    referencePlan,
+    JSON.stringify({ output: wav, spans: [line.source], source: track }),
+  );
+  run(offline[0], [...offline.slice(1), selectedReference], {
+    env: { ...process.env, SCREENREC_AUDIO_SELECTED_PLAN: referencePlan },
   });
   const report = join(out, `cli-${line.ordinal}.json`);
   run(offline[0], [
@@ -274,6 +280,7 @@ const evidence = {
   runtimeRevision: provenance.revision,
   modelRevision: provenance.modelRevision,
   cliSha256,
+  selectedReferenceSha256: sha256(readFileSync(selectedReference)),
   modelFiles: files,
   narration: {
     sourceOffsetUs: offsetUs,

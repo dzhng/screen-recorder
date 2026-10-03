@@ -1,10 +1,11 @@
+import frozenWorkers from "../../../specs/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import { pointerCases } from "./pointer-cases.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { randomUUID, createHash } from "node:crypto";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 import { Catalog, CatalogError } from "../../core/dist/catalog.js";
@@ -22,6 +23,18 @@ import { renderPlan } from "../../core/dist/presentation-time.js";
 
 const out = resolve(process.argv[2] ?? "");
 assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
+const baseline = process.env.SCREENREC_BASELINE_NATIVE;
+assert.ok(baseline, "Set SCREENREC_BASELINE_NATIVE to the frozen pre-cutover worker");
+const pin = frozenWorkers.files.find(
+  (entry) => entry.scope === "canonical worker used by retained package/native/archive proofs",
+);
+assert.equal(
+  createHash("sha256")
+    .update(await readFile(baseline))
+    .digest("hex"),
+  pin.sha256,
+  "Historical pointer reference worker must match the retained provenance manifest",
+);
 await mkdir(out);
 const run = (program, args, input) => {
   const result = spawnSync(program, args, {
@@ -341,7 +354,7 @@ try {
   const legacyFile = join(out, "legacy-matched.png");
   const legacy = JSON.parse(
     run(
-      process.env.SCREENREC_BASELINE_NATIVE ?? process.env.SCREENREC_NATIVE,
+      baseline,
       [],
       JSON.stringify({
         id: "legacy",
@@ -536,6 +549,35 @@ try {
       assets: requests.get("identity").assets,
       pointers,
     });
+    if (range.startUs === 0) {
+      const changing = join(out, "pointer-mutation");
+      await mkdir(changing);
+      const file = join(changing, "pointers.jsonl");
+      await writeFile(file, await readFile(pointers.file));
+      const requestFile = join(changing, "request.json");
+      await writeFile(
+        requestFile,
+        JSON.stringify({
+          output: join(changing, "unpublished.mp4"),
+          frames,
+          range,
+          canvas,
+          settings: resolveOutputSettings(),
+          processing: nativeProcessing(window.processing()),
+          assets: requests.get("identity").assets,
+          pointers: { ...pointers, file },
+          audio: { range: { start: 0, end: 96000 }, clips: [] },
+        }),
+      );
+      const result = run(
+        process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
+          join(dirname(process.env.SCREENREC_NATIVE), "ScreenRecorderCompositionVideoTests"),
+        [requestFile, "media.renderCompositionMovie", "mutate-pointers"],
+      );
+      await writeFile(join(changing, "observer.log"), result);
+      assert.ok(result.startsWith("PASS"));
+      negatives.push({ name: "prepared-pointers-changed-after-preflight", unpublished: true });
+    }
     assert.equal(receipt.durationUs, range.endUs - range.startUs);
     assert.equal(receipt.frames, compiled.length);
     const references = prefix + "-references";

@@ -64,8 +64,7 @@ public enum SourceFrameRenderer {
             throw NativeFailure("INVALID_RESPONSE", "Decoded source picture has no physical clock.")
         }
         let actualUs = try ExactTime(stamp).subtract(request.asset.originUs).sample(1_000_000, nearest: true)
-        let image = try FrameImage(buffer: buffer, transform: source.transform, overlay: nil,
-            agedFromUs: 0, crop: nil, maxLongEdge: edge)
+        let image = try FrameImage(buffer: buffer, transform: source.transform, maxLongEdge: edge)
         let bytes = try image.publishPNG(to: output,
             context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit)
         return Result(file: request.output, assetId: request.asset.assetId,

@@ -1,3 +1,4 @@
+import frozenWorkers from "../../../specs/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -12,6 +13,14 @@ const { values } = parseArgs({
 });
 for (const name of ["native", "baseline", "models", "out"])
   assert.ok(values[name], `Pass --${name}`);
+const baselinePin = frozenWorkers.files.find(
+  (entry) => entry.scope === "canonical worker used by retained package/native/archive proofs",
+);
+assert.equal(
+  createHash("sha256").update(readFileSync(values.baseline)).digest("hex"),
+  baselinePin.sha256,
+  "Selected-source transcription reference must use the retained canonical worker",
+);
 const out = resolve(values.out);
 mkdirSync(out, { recursive: true });
 assert.deepEqual(readdirSync(out), [], "Use a fresh evidence directory");
@@ -119,7 +128,7 @@ try {
         plan,
         JSON.stringify({ source: selection, spans: available, output: selectedWav }),
       );
-      run(join(root, "helpers/mac/.build/debug/ScreenRecorderAudioTests"), [], {
+      run(join(root, "helpers/mac/.build/debug/ScreenRecorderSourceAudioTests"), [], {
         env: {
           ...process.env,
           SCREENREC_AUDIO_SELECTED_PLAN: plan,

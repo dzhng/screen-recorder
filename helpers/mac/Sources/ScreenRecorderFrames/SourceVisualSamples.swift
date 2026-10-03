@@ -99,8 +99,7 @@ public enum SourceVisualSamples {
             }
             if thumbnail?.buffer !== buffer {
                 thumbnail = try autoreleasepool {
-                    let image = try FrameImage(buffer: buffer, transform: source.transform,
-                        overlay: nil, agedFromUs: 0, crop: nil, maxLongEdge: 64)
+                    let image = try FrameImage(buffer: buffer, transform: source.transform, maxLongEdge: 64)
                     return (buffer, image.width, image.height, image.rgb(context: context).base64EncodedString())
                 }
             }

@@ -3,6 +3,12 @@ import CoreImage
 import Foundation
 import ScreenRecorderMedia
 
+/// Source-to-presentation spans consumed by prepared pointer evidence.
+public struct VideoRenderSpan: Codable, Sendable {
+    public let source: TimeSpan
+    public let playback: TimeSpan
+}
+
 /// One owner for sequential movie presentation membership. Unlike still selection,
 /// the retained moment belongs to a sample's support, not its nearest timestamp.
 public final class PresentationSource {
@@ -56,13 +62,6 @@ public final class PresentationSource {
             throw NativeFailure("INVALID_REQUEST", "Render plan has invalid source ranges.")
         }
         return through
-    }
-
-    convenience init(source: URL, plan: [VideoRenderSpan]) async throws {
-        _ = try Self.duration(of: plan)
-        try await self.init(
-            source: source, streamId: nil, startUs: nil,
-            endUs: plan.last!.source.endUs)
     }
 
     static func prepare(source: URL, streamId: String?) async throws -> Media {
@@ -153,48 +152,6 @@ public final class PresentationSource {
         guard reader.startReading() else {
             throw NativeFailure.decodeFailed("Cannot start sequential presentation read.")
         }
-    }
-
-    /// Metadata-only preflight: container timescales can be much finer than actual
-    /// transitions. Including unused ticks can falsely reject an exact audio mux.
-    func movieClock(plan: [VideoRenderSpan]) throws -> MovieClock {
-        var clock = MovieClock()
-        var firstSegment = 0
-        for span in plan {
-            let start = time(microseconds: span.source.startUs)
-            let end = time(microseconds: span.source.endUs)
-            while firstSegment < segments.count
-                && CMTimeRangeGetEnd(segments[firstSegment].timeMapping.target) <= start
-            { firstSegment += 1 }
-            for segment in segments[firstSegment...] {
-                if segment.timeMapping.target.start >= end { break }
-                let range = segment.timeMapping.target
-                let begin = CMTimeMaximum(start, range.start)
-                let through = CMTimeMinimum(end, CMTimeRangeGetEnd(range))
-                guard begin < through else { continue }
-                try clock.include(begin)
-                try clock.include(through)
-                guard !segment.isEmpty else { continue }
-                let mapping = SourceSegment(media: segment.timeMapping.source, asset: range)
-                guard
-                    let cursor = track.makeSampleCursor(
-                        presentationTimeStamp: mapping.mediaTime(ofAsset: begin))
-                else {
-                    throw NativeFailure("UNAVAILABLE", "Cannot inspect movie presentation clock.")
-                }
-                repeat {
-                    let at = mapping.assetTime(ofMedia: cursor.presentationTimeStamp)
-                    if at >= through { break }
-                    if at >= begin { try clock.include(at) }
-                    if let supportEnd = assetEnd(ofSamplePresentedAt: at, in: occupied, of: track),
-                        supportEnd > begin
-                    {
-                        try clock.include(CMTimeMinimum(supportEnd, through))
-                    }
-                } while cursor.stepInPresentationOrder(byCount: 1) == 1
-            }
-        }
-        return clock
     }
 
     deinit { reader.cancelReading() }

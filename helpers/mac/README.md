@@ -11,8 +11,8 @@ belongs where is:
   between them: how a media file or inherited handle is opened, how asset time maps to media time,
   the half-open microsecond span, the one failure type and new-output publication.
 - **ScreenRecorderFrames** and **ScreenRecorderAudio** decode, draw, mix and encode exactly what
-  they are given. They never interpret edits, choose cursor history or decide cuts: the timeline,
-  trail and scene owners live in `packages/core`.
+  they are given. They never interpret edits, choose cursor history or decide cuts: the composition compiler and source-evidence owners live in
+  `packages/composition` and `packages/core`.
 - **ScreenRecorderWire** is the worker boundary: request decoding, the operation table, and the
   operations that exist only in the worker (recovery, evidence export, archives, storage).
 - **ScreenRecorderNative** is the `screenrec-native` executable around that boundary.
@@ -314,29 +314,23 @@ the journal's integrity markers: `finished` is the journal's claim, not a new va
 
 ## Frames, renders and audio
 
-Frame selection works inside a kept interval the timeline owner supplies. Sample cursor timestamps
-are media time and are compared in asset time through the shared mapping, so selection and recovery
-cannot disagree about where a sample sits; the exact native timestamp is kept for decoding, and the
-response reports the actual sample time and distance. An overlay is drawn in source pixels before
-the crop and long-edge bound, so overlay points and crops share one geometry. The core supplies
-every point already clipped at pause, cut, scene and geometry boundaries; native draws nothing
-between two runs, because a gap between them is a gap in the evidence. Output pixels are half-open
-everywhere: a coordinate equal to the width is past the raster. Clean visual observations reuse the
-same selection and decoding, reusing a held frame's pixels while keeping each request's own
-timestamp, and accept explicit timestamps rather than a cadence or scene policy.
+Source reads address one admitted stream in its original clock. The decoder resolves the
+physical sample supporting that instant and preserves its exact native timestamp; acquisition
+masks can exclude support but cannot create it. Clean observations reuse held pixels while
+retaining each request's own time. Frame selection, geometry, fades and mixing in an authored
+output belong to the composition compiler and its explicit processing graph.
 
-Movie rendering executes a render plan without interpreting it. Retained source spans are ascending
-and never touch, because adjacent retained spans are one span, and video and audio refuse the same
-malformed plan through one rule. Explicit empty edits render as the default player's opaque black;
-an unexplained gap never inherits the previous image. Presentation evidence walks the same
-sequential decode and publishes bounded JSONL records. Cuts that retain the same decoded sample
-reuse its thumbnail, while each interval retains its exact timing record. Thumbnail retention is
-bounded to the current sample and clears on empty edits.
+Pointer evidence is prepared separately from that graph. Native drawing consumes only the
+supplied runs, draws nothing across missing observations and measures coordinates in half-open
+source pixels. A coordinate equal to the source width lies outside the raster. Presentation
+evidence walks bounded sequential decoding and publishes exact support intervals as JSONL;
+thumbnail retention is bounded to the current sample and clears on physical empty edits.
 
-Recording excerpts read only where the caller's acquisition evidence and the file's own occupied segments
-agree; everywhere else is reported unavailable and silent, because a container decodes padding for
-holes nothing was captured over. Joins between retained spans get short ramps, and every span
-boundary is quantized from cumulative playback time so rounding never accumulates across spans.
+Selected-source audio reads only where caller-supplied support and occupied container segments
+agree. Other regions remain explicitly unavailable and silent. A source window preserves its
+native support origin; selected transcription spans retain their cumulative sample clock and
+join conditioning through [the source stream](Sources/ScreenRecorderAudio/AudioPCMStream.swift).
+That conditioning belongs to speech input, independently of authored composition processing.
 
 Composition audio consumes the composition compiler's independent sample schedule
 and ordered processing tree. Its source decoder selects an actual admitted stream;
@@ -349,7 +343,7 @@ native boundary does not itself make public rendering ready.
 ## Speech
 
 **ScreenRecorderSpeech** is the only target that links FluidAudio, with its traits disabled, and
-only the worker reaches it. It transcribes each readable narration interval on its own, through
+only the worker reaches it. It transcribes each readable selected-source interval on its own, through
 the same audio stream owner, so unavailable time is never heard as silence and every word maps back
 into the interval it came from. The request pins every model file by size and digest, and nothing
 loads until the directory holds exactly those files. FluidAudio would purge and re-download a model

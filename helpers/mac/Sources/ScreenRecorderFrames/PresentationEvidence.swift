@@ -139,8 +139,7 @@ public enum PresentationEvidence {
                     if let buffer = selected.buffer {
                         if thumbnail?.buffer !== buffer {
                             let image = try FrameImage(
-                                buffer: buffer, transform: presentation.transform, overlay: nil,
-                                agedFromUs: 0, crop: nil, maxLongEdge: 64)
+                                buffer: buffer, transform: presentation.transform, maxLongEdge: 64)
                             thumbnail = (
                                 buffer, image.width, image.height,
                                 image.rgb(context: context).base64EncodedString()

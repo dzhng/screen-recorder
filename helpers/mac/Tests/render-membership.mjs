@@ -185,41 +185,6 @@ for (const [name, sourceName, duration, spans, expectedFrames] of cases) {
   }
   report.cases.push({ name, source: sourceName, plan, ledger, decoded });
 }
-const native =
-  process.env.SCREENREC_NATIVE ?? join(root, "helpers/mac/.build/debug/screenrec-native");
-report.inspection = [];
-for (const [sourceName, atUs, kept] of [
-  ["dense", 15000, { startUs: 10000, endUs: 20000 }],
-  ["gap", 50000, { startUs: 50000, endUs: 60000 }],
-  ["gap", 50000, { startUs: 0, endUs: 300000 }],
-]) {
-  const source = join(out, sourceName + ".mov");
-  for (const operation of ["media.frame", "media.visualSamples"]) {
-    const params =
-      operation === "media.frame"
-        ? {
-            source,
-            kept,
-            atSourceUs: atUs,
-            output: join(out, `inspection-${report.inspection.length}.png`),
-          }
-        : { source, kept, atSourceUs: [atUs] };
-    const result = JSON.parse(
-      run(native, [], JSON.stringify({ id: "inspection", operation, params }) + "\n"),
-    );
-    if (kept.startUs > 0) assert.equal(result.error?.code, "UNAVAILABLE");
-    else {
-      assert.equal(result.ok, true);
-      assert.equal(
-        operation === "media.frame"
-          ? result.data.actualSourceUs
-          : result.data.samples[0].actualSourceUs,
-        0,
-      );
-    }
-    report.inspection.push({ source: sourceName, operation, atUs, kept, result });
-  }
-}
 // Opt in after the short membership gate: real-time playback needs an idle host.
 if (process.env.SCREENREC_RENDER_PLAYBACK === "1") {
   run("swiftc", [
