@@ -1,4 +1,11 @@
-import { validateManifest } from "@screenrec/core/package-manifest";
+import {
+  projectPackageManifest,
+  parseProjectPackageManifest,
+  resourceMetadataMember,
+  resourceMembers,
+} from "@screenrec/core/project-package";
+import { resolveProjectPackageMetadata } from "../dist/project-package-metadata.js";
+import { fixture as projectFixture } from "./fixtures/project-export.mjs";
 import { fork, execFileSync } from "node:child_process";
 import { once } from "node:events";
 import { fileURLToPath } from "node:url";
@@ -22,18 +29,17 @@ import { join, dirname, resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { fileIdentity } from "@screenrec/core/files";
 import { archiveLimits } from "@screenrec/core/package-archive";
-import { archiveContents } from "../../macos/tests/fixtures/archive-contents.mjs";
 import { writeArchive } from "../dist/archive-write.js";
 import { mediaWorker } from "../dist/worker.js";
 import { Publication } from "../dist/publication.js";
 import { admitArchive } from "../dist/archive-input.js";
-import { verifyPackageArchive } from "../dist/package-archive.js";
+import { openPackageArchive } from "../dist/package-archive.js";
 const worker = mediaWorker({
   SCREENREC_NATIVE:
     process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native"),
 });
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
-async function fixture(t, contents = archiveContents()) {
+async function fixture(t, contents) {
   const root = await realpath(await mkdtemp("/tmp/screenrec-zip-write-"));
   const paths = Object.fromEntries(
     ["input", "scratch", "stage", "output", "read"].map((name) => [name, join(root, name)]),
@@ -72,14 +78,37 @@ async function fixture(t, contents = archiveContents()) {
   return { root, paths, handles, input, workspace, members, contents };
 }
 test("streamed ZIP publishes through the existing no-clobber owner and independent reader", async (t) => {
-  const f = await fixture(t);
+  const project = await projectFixture(t);
+  const pinned = project.packages.pin(project.projectId);
+  const contents = Object.fromEntries(
+    pinned.snapshot.revisions.map((revision) => [
+      `revisions/${revision.ordinal}.json`,
+      JSON.stringify(revision),
+    ]),
+  );
+  for (const resource of pinned.resources) {
+    const metadata = resourceMetadataMember(resource);
+    contents[metadata.reference.metadata.path] = metadata.body;
+    assert.equal(resource.kind, "asset");
+    const [member] = resourceMembers(resource);
+    contents[member.path] = await readFile(project.assets.path(resource.asset.id));
+  }
+  const inventory = Object.entries(contents).map(([path, bytes]) => ({
+    path,
+    bytes: Buffer.byteLength(bytes),
+    sha256: sha(bytes),
+  }));
+  contents["manifest.json"] = JSON.stringify(
+    projectPackageManifest(pinned.snapshot, pinned.resources, inventory),
+  );
+  const f = await fixture(t, contents);
   const zip = await writeArchive(f.input, f.workspace, worker);
   t.after(() => zip.close());
   assert.equal(zip.receipt.expandedBytes, f.input.bytes);
   assert.equal(zip.receipt.sha256, sha(await readFile(join(f.paths.scratch, "payload.zip"))));
   const publication = await Publication.open(f.paths.stage, f.paths.output, worker);
   try {
-    await publication.prepare(zip.file, "capture.zip", zip.receipt.bytes);
+    await publication.prepare(zip.file, "project.zip", zip.receipt.bytes);
     assert.equal((await publication.commit()).state, "committed");
     await publication.acknowledge();
   } finally {
@@ -87,16 +116,32 @@ test("streamed ZIP publishes through the existing no-clobber owner and independe
   }
   await zip.close();
   assert.deepEqual(await readdir(f.paths.scratch), []);
-  const archive = admitArchive(join(f.paths.output, "capture.zip"));
+  const archive = admitArchive(join(f.paths.output, "project.zip"));
   try {
-    const result = await verifyPackageArchive(archive, f.handles.read, worker, {
-      validate: validateManifest,
-    });
-    assert.equal(result.manifest.snapshot.revisionId, "r0");
-    assert.equal(
-      result.manifest.inventory.find((entry) => entry.role === "video").sha256,
-      sha(f.contents["source/video.mov"]),
+    const result = await openPackageArchive(
+      archive,
+      { directory: f.paths.read, handle: f.handles.read },
+      worker,
+      {
+        validate: parseProjectPackageManifest,
+        resolve: resolveProjectPackageMetadata,
+        inlineRevisions: false,
+      },
     );
+    try {
+      assert.deepEqual(result.manifest.snapshot, JSON.parse(JSON.stringify(pinned.snapshot)));
+      const member = resourceMembers(pinned.resources[0])[0];
+      assert.equal(
+        result.manifest.inventory.find((entry) => entry.path === member.path).sha256,
+        project.asset.id,
+      );
+      assert.deepEqual(
+        await readFile(join(f.paths.read, "content", member.path)),
+        f.contents[member.path],
+      );
+    } finally {
+      await result.close();
+    }
   } finally {
     archive.close();
   }

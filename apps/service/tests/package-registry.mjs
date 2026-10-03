@@ -1,3 +1,4 @@
+import { projectArchiveContents } from "./fixtures/project-archive.mjs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { randomUUID, createHash } from "node:crypto";
@@ -20,16 +21,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setTimeout } from "node:timers/promises";
 import { CaptureStore } from "../../../packages/core/dist/capture-store.js";
-import { AcquisitionStore } from "../../../packages/core/dist/acquisitions.js";
-import { AssetStore } from "../../../packages/core/dist/assets.js";
-import { ProjectStore } from "../../../packages/core/dist/projects.js";
-import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
-import { assetTranscriptOwner } from "../../../packages/core/dist/transcript-processing.js";
-import {
-  parseProjectPackageManifest,
-  projectPackageManifest,
-  resourceMetadataMember,
-} from "../../../packages/core/dist/project-package.js";
+import { parseProjectPackageManifest } from "../../../packages/core/dist/project-package.js";
 import { resolveProjectPackageMetadata } from "../dist/project-package-metadata.js";
 import { JobQueue } from "../../../packages/core/dist/jobs.js";
 import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
@@ -95,77 +87,8 @@ async function fixture(t, options = {}, content = "generated source") {
     await handle.close();
     await rm(home, { recursive: true, force: true });
   });
-  const acquisitions = new AcquisitionStore(store);
-  const assets = new AssetStore(store, home);
-  await assets.recover();
-  const source = join(home, "source.mov");
-  await writeFile(source, content);
-  // Source bytes and probe metadata are controlled; no media decoding is requested.
-  const asset = await assets.import(source, { kind: "import" }, async () => ({
-    originUs: 0,
-    streams: [
-      {
-        id: "video",
-        kind: "video",
-        codec: "fixture",
-        decodable: true,
-        width: 32,
-        height: 16,
-        orientedWidth: 32,
-        orientedHeight: 16,
-        startUs: 0,
-        endUs: 100,
-        segments: [{ startUs: 0, endUs: 100, empty: false }],
-      },
-    ],
-  }));
-  const projects = new ProjectStore(
-    store,
-    assets,
-    new TranscriptStore(store, home, assetTranscriptOwner(assets, acquisitions)),
-    acquisitions,
-  );
-  const created = projects.create({
-    requestId: "create",
-    title: "Portable fixture",
-    canvas: {
-      width: 32,
-      height: 16,
-      fps: { numerator: 30, denominator: 1 },
-      background: "#000000ff",
-    },
-  });
-  projects.apply(created.project.projectId, {
-    requestId: "place",
-    expectedRevisionId: created.revision.id,
-    operations: [
-      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
-      {
-        operation: "place",
-        clip: {
-          trackId: { label: "video" },
-          assetId: asset.id,
-          streamId: "video",
-          source: { kind: "range", range: { startUs: 0, endUs: 100 } },
-          placement: { kind: "project", range: { startUs: 0, endUs: 100 } },
-        },
-      },
-    ],
-  });
-  const snapshot = JSON.parse(JSON.stringify(projects.snapshot(created.project.projectId)));
-  const resource = { kind: "asset", ...assets.portable(asset.id) };
-  const metadata = resourceMetadataMember(resource);
-  const mediaPath = `assets/${asset.fileName}`;
-  const files = { [mediaPath]: content, [metadata.reference.metadata.path]: metadata.body };
-  for (const [ordinal, revision] of snapshot.revisions.entries())
-    files[`revisions/${ordinal}.json`] = JSON.stringify(revision);
-  const inventory = Object.entries(files).map(([path, value]) => ({
-    path,
-    bytes: Buffer.byteLength(value),
-    sha256: createHash("sha256").update(value).digest("hex"),
-  }));
-  const manifest = projectPackageManifest(snapshot, [resource], inventory);
-  files["manifest.json"] = JSON.stringify(manifest);
+  const { assets, acquisitions, projects, snapshot, asset, mediaPath, files } =
+    await projectArchiveContents(store, home, [content]);
   const input = join(home, "input.zip");
   async function writeArchive() {
     await writeFile(join(home, "files.json"), JSON.stringify(files));
@@ -174,6 +97,7 @@ async function fixture(t, options = {}, content = "generated source") {
       join(home, "files.json"),
       input,
       "valid",
+      mediaPath,
     ]);
   }
   await writeArchive();
