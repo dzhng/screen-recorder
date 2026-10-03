@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+
 /** Shared deep/wide routing fixture, including ordered reciprocal gain stacks. */
 export function routingTopology(depth, width) {
   const topology = [];
@@ -34,4 +36,15 @@ export function routingTopology(depth, width) {
       })),
     });
   return topology;
+}
+
+/** Authored long-project layout: sequential clips, then one overlapping clip per lane. */
+export function longRoutingPlacements(seconds, occurrences, width) {
+  const durationUs = seconds * 1e6, sequential = occurrences - width, tailUs = durationUs - 1e6;
+  assert(seconds > 1 && sequential > 0);
+  return Array.from({ length: occurrences }, (_, i) => ({
+    lane: i < sequential ? i % width : i - sequential,
+    startUs: i < sequential ? Math.floor(i * tailUs / sequential) : tailUs,
+    endUs: i < sequential ? Math.floor((i + 1) * tailUs / sequential) : durationUs,
+  }));
 }

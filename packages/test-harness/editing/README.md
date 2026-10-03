@@ -38,3 +38,11 @@ checks pinned publication and recovery through those same public transports.
 [Preview evidence](../../../specs/agent-editing/assets/09-first-preview/README.md)
 and [export evidence](../../../specs/agent-editing/assets/09-first-export/README.md)
 separate decoded-media checks, visual review and explicitly controlled faults.
+
+The [learned routing fixture](denoise-topology.mjs) keeps output-tap duration
+separate from the complete connected learned-state domain. Its dry oracle comes
+from authored source placements; the frozen independent C recipe supplies the
+learned oracle. [PCM comparisons](denoise-pcm.mjs) stream long outputs with exact
+sample checks and bounded diagnostics. A retained project tap must consume its
+matching prepared receipt; importing an older processed WAV supplies source media,
+not proof that the current processing graph ran.
