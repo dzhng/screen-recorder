@@ -31,8 +31,47 @@ outputs; native hashes were observed retrospectively. They are explicitly not
 a contemporaneous process journal. Root verified all archived payloads and the
 six committed source blobs without repeating these checks.
 
-Remaining publication admission/lifetime, package workspaces, retained resource
-pins, mutation refusal and actual bundled startup ordering must be accounted for
+The [later publication lifetime bank](publication-lifetime-verification.json)
+retains the [32-case affected run and failure controls](publication-lifetime-evidence.tar.gz).
+It transfers the remaining destination admission/deletion guarantees and closes
+the replay and receipt-hash gaps identified in existing cases. The map keeps
+resource-reference and pinned retry combinations separate from these transfers.
+Early post-restart individual results are transcribed; subsequent logs are
+contemporaneous. Neither is relabelled as a fresh run of the earlier whole cohort.
+
+The [capture lifetime bank](capture-lifetime-verification.json) preserves
+[all original parameter rows and process records](capture-lifetime-evidence.tar.gz)
+on actual capture facts. Source finalization creates no editing revision. Its
+shutdown assertion now observes an event-loop turn while recovery remains held,
+so a missing drain fails rather than escaping a microtask-only check. The initial
+false green is retained separately. The restored implementation passes all 14
+cases; production code and the actual recording field/schema are unchanged.
+
+The [pinned retry bank](publication-pinned-verification.json) preserves the
+[affected export run](publication-pinned-evidence.tar.gz) across held preparation,
+concurrent edits, cancellation and preview eviction. These combinations remain
+bound to the original project revision and bytes. Portable resource-reference
+lifetime is a separate pending contract.
+
+The [source fixture bank](capture-source-verification.json) maps all source-only
+claims from the old mixed library suite onto capture facts. Its
+[originals, controls and terminal proof](capture-source-evidence.tar.gz) retain
+the full lifecycle journal, discovery, transaction rollback, deletion and format
+refusal. All 21 cases pass; deliberate production faults fail at the intended
+oracles and exact production bytes are restored. The old suite remains until
+the obsolete interpreter and its remaining consumers can be removed together.
+
+The [package publication bank](package-publication-verification.json) retains
+[actual workspace and process-death proofs](package-publication-evidence.tar.gz)
+through the current package owner. Explicit exports retain an asset until commit;
+canonical reopen/adoption preserves its bytes. Failed private cleanup stays
+counted and retryable without accessing acknowledged external files. Five actual
+process-death boundaries retain recovery obligations. The changed shared fixture
+passes its affected 59-case cohort. This asset-only checkpoint does not establish
+generation cleanup, surviving native-child recovery or positive media inspection.
+
+Remaining retained-generation resource pins, native workspace-child recovery,
+substitution/member mutation refusal and actual bundled startup ordering must be accounted for
 before the old fixture and package family can be removed. Aggregate library
 storage replaces the obsolete per-recording allocation query; external committed
 files remain excluded. Neither port changes that storage policy.

@@ -4,7 +4,9 @@
 
 The following original declarations were transferred by `204bc1ad`, integrated
 as `bfe782fe`, and passed in the combined 41-case run. This table supersedes
-these rows in the initial inventory below. Other pending rows remain pending.
+these rows in the initial inventory below. The later lifetime checkpoint
+`29d4f907`, integrated as `3d1f5d8c`, adds nine ports and completes two existing
+assertion gaps; its affected 32-case run passes. Other pending rows remain pending.
 The frozen original inventory and source/report identities stay in the
 [publication bank](publication-verification.json). Changed line numbers are
 historical locators, not current executable ownership.
@@ -34,6 +36,34 @@ historical locators, not current executable ownership.
 | 1159 | Transferred: abandon/delete/close drain | `project-export-lifetime.mjs` |
 | 1590 | Transferred: canceled late publication | `project-export-lifetime.mjs` |
 | 1628 | Transferred: active cache descriptor | `project-export-lifetime.mjs` |
+| 1693 | Transferred: committed history survives | `project-export-lifetime.mjs` |
+| 1941 | Transferred: one unsafe export staging entry | `project-export-lifetime.mjs` |
+| 1979 | Transferred: an unreadable unrelated destination | `project-export-lifetime.mjs` |
+| 1742 | Transferred: lost retirement acknowledgement | `project-export-lifetime.mjs` |
+| 1318 | Transferred: canceled intents keep exact-retry pins | `project-export-lifetime.mjs` |
+| 1885 | Transferred: managed source directories cannot | `project-export-lifetime.mjs` |
+| 2217 | Transferred: export kind is persisted | `project-export.mjs` |
+| 3298 | Transferred: shutdown fences and drains | `project-export-lifetime.mjs` |
+| 2145 | Transferred: abandonment drains in-flight | `project-export-lifetime.mjs` |
+| 1278 | Completed existing port: polling and export retry leave | `project-export.mjs` |
+| 1536 | Completed existing port: project export pins an omitted revision | `project-export.mjs` |
+
+The [later lifetime bank](publication-lifetime-verification.json) owns those
+exact source identities and failure controls. The [pinned retry bank](publication-pinned-verification.json) completes V1372,
+V1501 and V1817 at `8533350d`, with 22 affected cases passing. The
+[package publication bank](package-publication-verification.json) completes
+V2391 and the five V3018 process-death rows at `e97012e8`; its changed shared
+fixture passes the affected 59-case cohort. Resource-reference portions of
+V1005/1061/1212, surviving native writer, unsafe workspace/mutated member and
+actual bundled startup guarantees remain pending.
+
+| Original V line | Current disposition | Current suite in `apps/service/tests/` |
+| --- | --- | --- |
+| 1372 | Completed existing port: regenerated exporter attempt and generation | `project-export.mjs` |
+| 1501 | Transferred: waiting export remains pinned through concurrent edit | `project-export.mjs` |
+| 1817 | Transferred: canceled, evicted and edited export retains exact old bytes | `project-export.mjs` |
+| 2391 | Transferred: counted committed workspace cleanup without republishing | `project-package-export.mjs` |
+| 3018 create/copy/write/commit/cleanup | Transferred: five actual process-death workspace boundaries | `project-package-export.mjs` |
 
 ## Initial inventory and correspondence
 

@@ -7122,3 +7122,33 @@ work and private directories alive for the next case. The plan required real
 process-death proof without choosing the helper's failure cleanup. This decision
 belongs to `bfe782fe` and applies only to test resource lifetime; it does not add
 a production retry or change a publication boundary.
+
+**Sound, medium confidence — keep one source queue policy local to its lifetime fixture.**
+A capture deletion test holds native recovery open while another capture's
+source job waits. That job names a capture with no editing revision. The fixture
+now checks the real capture store's availability, deletion and physical activity,
+and returns the explicit null revision identity. It does not use the abandoned
+recording-edit target policy. The plan left fixture wiring open; creating a new
+production policy helper for this single consumer would add an owner the product
+does not need. This choice belongs to `fc05469a`; future queue fixtures must use
+their actual source or project identity rather than borrow an editing interpreter.
+
+**Sound, high confidence — observe shutdown after an event-loop turn while its worker stays held.**
+When shutdown must wait for recovery, the test keeps that recovery promise open
+and observes whether shutdown has returned. A single promise callback can run
+before an incorrectly early shutdown has resumed, making the check meaningless.
+One event-loop turn lets such a return become observable while the worker remains
+held. There is no sleep or elapsed-time threshold. The plan required the drain
+guarantee without prescribing how the test observes it. This choice belongs to
+`fc05469a`; releasing the held worker and draining the service in failure cleanup
+keeps the test from leaving work alive after an assertion fails.
+
+**Sound, medium confidence — inject a real late database failure with valid capture input.**
+A terminal capture report attaches its source duration and then writes its state.
+If the second write fails, callers must still see the original capture facts.
+The source fixture uses a SQLite trigger to refuse that later write, submits a
+valid report, then removes the trigger and successfully submits the same report.
+The alternative malformed input would make the proof depend on where validation
+or argument binding happens. The plan required atomic rollback without choosing
+the failure seam. This decision belongs to `ada67e60`; it keeps the real database
+and transaction owner in the test without a production fault hook or fake store.

@@ -188,8 +188,13 @@
   lifetimes and publication recovery/storage to actual project/source fixtures.
   The terminal 14-case registry and 41-case publication runs pass; root verified
   archived payloads and committed source identities without repeating them.
-  Outstanding lifetime/workspace/resource-pin guarantees remain in the matched
-  map before obsolete-owner deletion; no media or release acceptance follows.
+  Later destination-lifetime ports pass their affected 32 cases, and all 14
+  capture lifetime rows now use actual capture facts. The strengthened held-worker
+  shutdown oracle catches the deliberate missing-drain fault. Preview pin
+  combinations pass 22 affected cases; source lifecycle fixtures pass 21; actual
+  package cleanup/process-death ports pass the changed fixture's 59-case cohort.
+  Outstanding generation/native-child/mutation/startup guarantees remain in the map before obsolete-owner
+  deletion; no media or release acceptance follows.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.

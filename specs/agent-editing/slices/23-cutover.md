@@ -57,8 +57,10 @@ now remove obsolete recording-composition selectors/native actions and the
 recording export branch. Recordings retain source lifetime; projects own editable
 composition and media delivery. The project cursor producer, strict schema and
 native opaque replay agree. The [fixture preservation checkpoint](../assets/23-owner-fixture-ports/README.md)
-rehomes registry and publication recovery/storage guarantees. Remaining lifetime,
-workspace and resource-pin ports precede orphan package-owner deletion and actual
+rehomes registry/publication/capture lifetimes, preview pin combinations, package
+workspace recovery and source lifecycle fixtures. Remaining generation references,
+native-child/mutation and bundled startup ports precede
+orphan package-owner deletion and actual
 core/schema removal. Preserve valuable
 source/project guarantees rather than restore the deleted engine. Missing
 inherited acoustic or physical acceptance does not block these ports; matched

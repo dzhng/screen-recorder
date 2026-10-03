@@ -32,10 +32,15 @@ source/project deletion safeguards survive. The numeric presentation plan also
 has its own existing owner, independent of the obsolete recording interpreter.
 
 The [fixture preservation checkpoint](assets/23-owner-fixture-ports/README.md)
-ports the shared registry and publication recovery/storage guarantees to actual
-project/source owners. Continue remaining publication admission/lifetime,
-package workspace and resource-pin guarantees in the managed `service-composition`
-worktree on `codex/package-owner-purge`. Its matched map governs deletion of the
+ports registry, publication/capture lifetimes, preview pin combinations and
+source-only core lifecycle fixtures to actual project/source owners. Package
+workspace cleanup and process-death recovery are also transferred. Continue
+retained-generation resource references, surviving native workspace children,
+member/substitution refusal and bundled startup guarantees in the managed
+`service-composition` worktree on `codex/package-owner-purge`. In parallel, remove
+mixed core dependencies and port generic fixtures from `RevisionStore` to their
+actual source/project owners; editing/history belongs to `ProjectStore`.
+The matched map governs deletion of the
 obsolete recording package/span consumers. Keep generic archive/registry,
 workspace, native publication and source-lifetime contracts. The broader old
 fixtures remain pending; do not restore an old production engine.

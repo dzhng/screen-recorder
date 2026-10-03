@@ -1,0 +1,130 @@
+{
+  "base": "29d4f90749e36d8e0fa1748b3c27b9ab7f460448",
+  "commit": "e750df33d7d2609caef2b28565e2cb74bd0e3a9d",
+  "source": {
+    "path": "apps/service/tests/project-export.mjs",
+    "sha256": "d76f3fc0c327fcfdb3d5ac4dbc83643f122084e4c03c5516d90a8e18da7efe36",
+    "gitBlob": "92f19e619f8d316d91d5a1f1b60768f049edebc7"
+  },
+  "verification": {
+    "tests": 22,
+    "passed": 22,
+    "exitCode": 0,
+    "durationMs": 3066.318833,
+    "log": "owner-suite.log"
+  },
+  "dispositions": [
+    {
+      "legacyLine": 1372,
+      "state": "complete",
+      "contract": "exporter attempt identity and generation advance after admitted preview disappears",
+      "red": "generation increment removed:1not2",
+      "logs": "attempt-*"
+    },
+    {
+      "legacyLine": 1501,
+      "state": "complete currentowner equivalent;recording historyordinal/sourcegeneration obsolete",
+      "contract": "waiting export pins projectrevision while heavy lane held, later edit cannot alter published revision/canvas",
+      "red": "dependency admission forced ready:queuednotwaiting",
+      "logs": "waiting-*"
+    },
+    {
+      "legacyLine": 1817,
+      "state": "complete",
+      "contract": "canceled queued intent retains original revision through eviction+edit; regeneration publishes exact originalbytes",
+      "red": "resume uses currentprojectrevision:failednotcommitted",
+      "logs": "canceled-*",
+      "ineffectiveControl": "firstmutation changed retry-preflight only and passed because actualadmission stillused pinnedrevision; not counted as falsification"
+    }
+  ],
+  "checks": [
+    "lint clean",
+    "format clean",
+    "diffcheck clean"
+  ],
+  "remaining": [
+    "V1005/1061/1212 currentpackage resourcepinlifetime",
+    "V3361bundled startupordering",
+    "projectpackageworkspaces/resourcepins/copyreceiptandpositivepackage-mediafailurecontracts"
+  ],
+  "limits": "No production sourcechange/native rebuild/fullsuite/media/model/capture/install; controlledrenderer exactbytes, actualnative publication.",
+  "review": "Root clean comparison of old unique assertions; no new architecture decision.",
+  "rootReview": {
+    "commit": "e750df33",
+    "review": "clean",
+    "sourceMatchesGitBlob": true,
+    "integration": "8533350d; exact committed source matches; focused22-case proof reused"
+  },
+  "archive": {
+    "path": "publication-pinned-evidence.tar.gz",
+    "bytes": 8940,
+    "sha256": "d8a885dc63e7e0d6c7bf1588b080ecd3802d7d294a4dc3c6de09d9bffa580d92",
+    "members": [
+      {
+        "path": "pinned-next-29d4f907/attempt-green1.log",
+        "bytes": 393,
+        "sha256": "1b4ab45154d9fddaa8a0f1145cc6a8bdbffa1d0aade2c7aafa7ae8c4c37a2fdf"
+      },
+      {
+        "path": "pinned-next-29d4f907/attempt-green2.log",
+        "bytes": 393,
+        "sha256": "a05ab210231017ab24ec7c15f5413d970f704054c8128160981e097f9148e468"
+      },
+      {
+        "path": "pinned-next-29d4f907/attempt-red.log",
+        "bytes": 1105,
+        "sha256": "26ac7951f48db7224d4b583b360f860f5172cf22d99f2de6eb1adffcbcae827d"
+      },
+      {
+        "path": "pinned-next-29d4f907/canceled-green1.log",
+        "bytes": 396,
+        "sha256": "71e7b6f37625d3207c2f4875ea2a07a1d61e675ebd99fd65b54440d5fab90ec1"
+      },
+      {
+        "path": "pinned-next-29d4f907/canceled-green2.log",
+        "bytes": 396,
+        "sha256": "3380bd28206ee5680fb1e715a0be687f02bd35278342aa42ddc5e7d3a56fdd81"
+      },
+      {
+        "path": "pinned-next-29d4f907/canceled-red.log",
+        "bytes": 397,
+        "sha256": "a4c838290b51baa6e6c476af15cf52ed70612c5d97ed94fcc82b0c58e0ead99c"
+      },
+      {
+        "path": "pinned-next-29d4f907/canceled-red2.log",
+        "bytes": 1164,
+        "sha256": "9f06c8d92521081f495a9207a9bb3d0810da778c34bb01335daf2adb760e98de"
+      },
+      {
+        "path": "pinned-next-29d4f907/owner-suite.log",
+        "bytes": 2456,
+        "sha256": "16ce32cc5b3f0a7e20040d40b7c002877e8e43adf20ad4cdadd8d00d967b7bb2"
+      },
+      {
+        "path": "pinned-next-29d4f907/project-export.mjs",
+        "bytes": 29524,
+        "sha256": "d76f3fc0c327fcfdb3d5ac4dbc83643f122084e4c03c5516d90a8e18da7efe36"
+      },
+      {
+        "path": "pinned-next-29d4f907/report.json",
+        "bytes": 2099,
+        "sha256": "8741a6513b69d010c68334a1c2bd3130c7416462b0107a08ecd2c454b76960c2"
+      },
+      {
+        "path": "pinned-next-29d4f907/waiting-green1.log",
+        "bytes": 380,
+        "sha256": "bad8b249e0d724a0e9e766339fa73a6cfa9c6e170bb556193d228e411604eec4"
+      },
+      {
+        "path": "pinned-next-29d4f907/waiting-green2.log",
+        "bytes": 381,
+        "sha256": "0b4c57e005053f11e10f00df0c554d5dfc009bc6679f54c73f014b704a68d2bb"
+      },
+      {
+        "path": "pinned-next-29d4f907/waiting-red.log",
+        "bytes": 1133,
+        "sha256": "fa7df6f9ce86d9d81ed3b434be6863573e5f5e694d932d4f64a2f27aa86a92a9"
+      }
+    ]
+  }
+}

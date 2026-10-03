@@ -1,0 +1,260 @@
+{
+  "commit": "1c9f46a69d8720ebc2a62fd68d3e4900f496332e",
+  "parent": "e750df33d7d2609caef2b28565e2cb74bd0e3a9d",
+  "scope": "Actual ProjectPackages asset-only publication pins, open/adopt, committed workspace cleanup, and five SIGKILL gaps. No generation/media-positive claims. No legacy deletion.",
+  "files": {
+    "apps/service/tests/fixtures/project-export.mjs": "fcf7f29a64e49bc42fc09632e9c362d6d50faa8933c0cf917bc5ead4e047abd5",
+    "apps/service/tests/fixtures/project-export-crash.mjs": "517dfcc6be73524d1c1c4c19e916b6dbc9c4d806c4dde2ecbb5cfa6306d58845",
+    "apps/service/tests/project-package-export.mjs": "f5349cebc672d0da9d6cdba51d28e1f5a0f20532350ec5fde1facf7cc1e2bc4e"
+  },
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test apps/service/tests/project-export.mjs apps/service/tests/project-export-lifetime.mjs apps/service/tests/project-export-recovery.mjs apps/service/tests/project-export-storage.mjs apps/service/tests/project-package-export.mjs",
+    "exitCode": 0,
+    "passed": 59,
+    "failed": 0,
+    "durationMs": 26362.174708,
+    "log": "owner-suites.log"
+  },
+  "mutations": [
+    {
+      "case": "resource pin retained at admission",
+      "fault": "omit ResourceReferences.retain in MediaExports.create",
+      "red": "resource-pin-red.log",
+      "restored": "resource-pin-green.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "committed assembly cleanup",
+      "fault": "return from cleanupAssembly whenever intent has receipt",
+      "green": "cleanup-green.log",
+      "red": "cleanup-red.log",
+      "restored": "cleanup-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "actual SIGKILL at create",
+      "fault": "omit cleanupAssembly in MediaExports.reconcile",
+      "green": "crash-create-green.log",
+      "red": "crash-create-red.log",
+      "restored": "crash-create-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "actual SIGKILL at copy",
+      "fault": "omit cleanupAssembly in MediaExports.reconcile",
+      "green": "crash-copy-green.log",
+      "red": "crash-copy-red.log",
+      "restored": "crash-copy-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "actual SIGKILL at write",
+      "fault": "omit cleanupAssembly in MediaExports.reconcile",
+      "green": "crash-write-green.log",
+      "red": "crash-write-red.log",
+      "restored": "crash-write-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "actual SIGKILL at commit",
+      "fault": "omit cleanupAssembly in MediaExports.reconcile",
+      "green": "crash-commit-green.log",
+      "red": "crash-commit-red.log",
+      "restored": "crash-commit-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "actual SIGKILL at cleanup",
+      "fault": "omit cleanupAssembly in MediaExports.reconcile",
+      "green": "crash-cleanup-green.log",
+      "red": "crash-cleanup-red.log",
+      "restored": "crash-cleanup-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    }
+  ],
+  "notes": [
+    "All faults applied only to isolated dist/exports.js and restored exactly. Production source unchanged.",
+    "copy gap is after input copy completion and before native archive.write, reflecting current copyImportedFile owner.",
+    "Workspace byte totals are independent recursive filesystem lengths; shared library bytes replace legacy recording-scoped attribution.",
+    "External renderer/transcriber throw when called; archive/publication native workers and all package/domain owners are real. No native rebuild, media encoding, model download, or UI.",
+    "owner-fixture-red.log is fixture construction red; owner-fixture-green1.log is a failed assertion shape experiment, not successful evidence.",
+    "No package-media-failures, resource generation lifetime or surviving native writer coverage claimed."
+  ],
+  "gitBlobs": {
+    "apps/service/tests/fixtures/project-export.mjs": "0f7abc52e315f08b3ae15d68a3279d1c471ed5a8",
+    "apps/service/tests/fixtures/project-export-crash.mjs": "59e29f6a26b9b6ca290b3cda4518d2fa57e9b4f5",
+    "apps/service/tests/project-package-export.mjs": "186b972cad94c797161407a9af765cb8298d14f2"
+  },
+  "review": "Root read-only three-file review clean; verified scope asset-only archive publication/lifetime, no media/generation claims.",
+  "rootIntegration": {
+    "commit": "e97012e8",
+    "review": "clean",
+    "allThreeSourceBlobsMatch": true,
+    "checksReused": "59-case affected shared fixture cohort, once; no further run",
+    "clarification": "Scene sampler/transcriber throw if requested; preview/movie renderer still returns controlled bytes in the shared fixture. This is not actual media rendering/decoding evidence."
+  },
+  "archive": {
+    "path": "package-publication-evidence.tar.gz",
+    "bytes": 14445,
+    "sha256": "a0250bfc50f49afaf3518fcddec434702ff6ff4dc45115d5c3c8b2109a8fe22e",
+    "members": [
+      {
+        "path": "project-package-next-e750df33/cleanup-green.log",
+        "bytes": 392,
+        "sha256": "ce645b8dd9fdb0709c05fc07dcb7748e3695ec062d00bacadf4dd969a8abdaad"
+      },
+      {
+        "path": "project-package-next-e750df33/cleanup-red.log",
+        "bytes": 1681,
+        "sha256": "98159dfb2bf3fca8e97d781e0e9747fd54cc108f1579e9d3bc08695e44f3e50c"
+      },
+      {
+        "path": "project-package-next-e750df33/cleanup-restored.log",
+        "bytes": 393,
+        "sha256": "d57d68a573c91051e7654482628ba1663811a78426808e52dbbfc05b17885e10"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-cleanup-green.log",
+        "bytes": 559,
+        "sha256": "a4d54dce158ab4d77155adb530a9128cc370bf92921f1b4af49baf3abe543e65"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-cleanup-red.log",
+        "bytes": 1846,
+        "sha256": "a4a91fe6f0df4a9a2b855ecf7ea66734447875061340fd80f43dd3b5644a58e8"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-cleanup-restored.log",
+        "bytes": 559,
+        "sha256": "c5dd6f748a56b3a2f9dea423fa33aca1edd7509b7669c5f7964b4a6164a22882"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-commit-green.log",
+        "bytes": 557,
+        "sha256": "c029dd246df9fc8766f022a31fbde40506f8087db05949df823bacff28fbe1cc"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-commit-red.log",
+        "bytes": 1839,
+        "sha256": "5fe827f3654fd8e588449ec79a09c08f82e24bfdd22b06a82d865b067d660246"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-commit-restored.log",
+        "bytes": 557,
+        "sha256": "2deb13f2059ea136b33bee15462bdd5349e69f127b14f3ba409252e31382bcd3"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-copy-green.log",
+        "bytes": 556,
+        "sha256": "d404d386831cf7027baa47eff32cb0065c7a81c7f3d03057cc2c2ffa695e3258"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-copy-red.log",
+        "bytes": 1814,
+        "sha256": "94869b5e4fe08e9d7bede3a6423b91a4670f46224b56c0e4dcfe21b2b7a5219e"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-copy-restored.log",
+        "bytes": 553,
+        "sha256": "0842949a56db3b1a200245d9ac4767899786e712b8dd5ed772c554c72b5aea74"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-create-green.log",
+        "bytes": 556,
+        "sha256": "b897f559229c5bfe2e78aba09a950669f0e3e217bf99a68aa6881d8ab944c5fb"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-create-red.log",
+        "bytes": 1681,
+        "sha256": "31dfb8afda00435ece4de71411fa6ec2869510adeedd0dab40c61d7192ff9de6"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-create-restored.log",
+        "bytes": 558,
+        "sha256": "741a91d379b5915f8f6ffa8af453f6978548654ea96955abfd2f406f675c5cd8"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-write-green.log",
+        "bytes": 557,
+        "sha256": "705e4e6bb13c227a052ca4b3d0ac9def9d16d04c755732380c0967637f1f3faf"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-write-red.log",
+        "bytes": 1814,
+        "sha256": "b1e80435292b4b97fd89492a8d10a5c33c322ff10c69f1df42ac2db5c7576d4c"
+      },
+      {
+        "path": "project-package-next-e750df33/crash-write-restored.log",
+        "bytes": 556,
+        "sha256": "5dd168f1dc0090a4a74f70c68ceca3ac8391fbd0fee6904b1e711fda1f0f9423"
+      },
+      {
+        "path": "project-package-next-e750df33/dispositions.md",
+        "bytes": 976,
+        "sha256": "1fa1787fd120c72531ec347bf4b42ef94e29adc63ae8dfe9bd447c4cf8ffa751"
+      },
+      {
+        "path": "project-package-next-e750df33/owner-adoption-green.log",
+        "bytes": 393,
+        "sha256": "58c12ea83a48d94aa2d212d6cb4190cebc85275404d810eda45de96d81f6909f"
+      },
+      {
+        "path": "project-package-next-e750df33/owner-fixture-green1.log",
+        "bytes": 1483,
+        "sha256": "48b7a33f3d88fa3271beb0503d3728a504e4b9271e2ea8ea8045574a70747577"
+      },
+      {
+        "path": "project-package-next-e750df33/owner-fixture-green2.log",
+        "bytes": 392,
+        "sha256": "314964b22923079cff68484feaaa91ca69d4ba8c99610d5a7f74038a5633e67c"
+      },
+      {
+        "path": "project-package-next-e750df33/owner-fixture-red.log",
+        "bytes": 1446,
+        "sha256": "e9aca2465d3523b0ce2c87f07547c723bc724489b2cac0ffaaf29f1a9f9b3696"
+      },
+      {
+        "path": "project-package-next-e750df33/owner-suites.log",
+        "bytes": 9206,
+        "sha256": "8a8f1717e4fdc5987d44ac64bcdf0a624884404857b4b10a0e161f4326e00785"
+      },
+      {
+        "path": "project-package-next-e750df33/report.json",
+        "bytes": 4476,
+        "sha256": "0f0d17a6a33ac24e2d7a10aac4d93bffe58cd1d58b8844198196583b450cbf63"
+      },
+      {
+        "path": "project-package-next-e750df33/resource-pin-green.log",
+        "bytes": 391,
+        "sha256": "8e82e47e42cb91db281565b113f25eed0e231d1dd39906dcad8a4e2c00a0930c"
+      },
+      {
+        "path": "project-package-next-e750df33/resource-pin-red.log",
+        "bytes": 1346,
+        "sha256": "9e120097f9d4872f0908a790130ee8b55c9176bdc0df6dd9cd10a569b952b555"
+      },
+      {
+        "path": "project-package-next-e750df33/source/apps/service/tests/fixtures/project-export-crash.mjs",
+        "bytes": 4699,
+        "sha256": "517dfcc6be73524d1c1c4c19e916b6dbc9c4d806c4dde2ecbb5cfa6306d58845"
+      },
+      {
+        "path": "project-package-next-e750df33/source/apps/service/tests/fixtures/project-export.mjs",
+        "bytes": 11455,
+        "sha256": "fcf7f29a64e49bc42fc09632e9c362d6d50faa8933c0cf917bc5ead4e047abd5"
+      },
+      {
+        "path": "project-package-next-e750df33/source/apps/service/tests/project-package-export.mjs",
+        "bytes": 6881,
+        "sha256": "f5349cebc672d0da9d6cdba51d28e1f5a0f20532350ec5fde1facf7cc1e2bc4e"
+      }
+    ]
+  }
+}
