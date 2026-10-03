@@ -7,6 +7,8 @@ import { mkdir, mkdtemp, readFile, readdir, realpath, rm, stat, writeFile } from
 import { join, resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
 import { callLocal } from "@screenrec/client";
+import { encodeJsonLine } from "@screenrec/protocol";
+import { createConnection } from "node:net";
 import { startProjectService } from "../dist/project-service.js";
 import { native, nativeBinary, until } from "./fixtures/project-export.mjs";
 
@@ -103,6 +105,15 @@ async function adoptedMedia(t, kind) {
       );
       return state.state === "ready" && state;
     });
+  for (const params of [{ limit: 501 }, { unfinishedOnly: "yes" }, { typo: true }]) {
+    const result = await callLocal(service.socketPath, {
+      id: randomUUID(),
+      operation: "export.list",
+      params,
+    });
+    assert.equal(result.ok, false, JSON.stringify({ params, result }));
+    assert.equal(result.error.code, "INVALID_PARAMS");
+  }
   const admitted = await call("asset.import", { path: input, requestId: randomUUID() });
   const imported = await ready(() => call("job.get", { jobId: admitted.jobId }));
   const asset = await call("asset.get", { assetId: imported.result.assetId });
@@ -155,7 +166,29 @@ async function adoptedMedia(t, kind) {
   home = join(root, "recipient");
   await mkdir(home);
   service = await startProjectService({ home, ...serviceOptions });
-  const opening = await call("package.open", { path: archive });
+  assert.deepEqual((await call("package.status")).admissions, []);
+  await new Promise((resolve, reject) => {
+    const socket = createConnection(service.socketPath);
+    const timeout = setTimeout(
+      () => socket.destroy(new Error("Lost package reply deadline")),
+      3000,
+    );
+    socket.once("error", reject);
+    socket.once("connect", () =>
+      socket.write(
+        encodeJsonLine({ id: randomUUID(), operation: "package.open", params: { path: archive } }),
+      ),
+    );
+    // Recover the admission through public discovery without parsing its discarded reply.
+    socket.once("data", () => socket.destroy());
+    socket.once("close", () => {
+      clearTimeout(timeout);
+      resolve();
+    });
+  });
+  const { admissions } = await call("package.status");
+  assert.equal(admissions.length, 1, JSON.stringify(admissions));
+  const [opening] = admissions;
   const opened = await ready(() => call("package.status", { admissionId: opening.id }));
   const requestId = randomUUID();
   const adopted = await ready(() =>
