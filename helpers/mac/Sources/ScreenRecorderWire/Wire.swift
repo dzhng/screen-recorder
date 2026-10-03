@@ -26,13 +26,17 @@ public enum NativeWire {
         var table: [String: Operation] = [
             "system.ping": Operation(
                 run: { params in
-                    guard params.isEmpty else {
-                        throw NativeFailure("INVALID_REQUEST", "system.ping requires empty params.")
-                    }
+                    try WireRequest.requireEmpty(params)
                     return ["platform": "macos"]
                 }, unexpected: { NativeFailure("INVALID_REQUEST", $0.localizedDescription) }),
-            "media.audioCapabilities": media { _ in ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation] },
-            "media.outputCapabilities": media { _ in try OutputSettings.inventory() },
+            "media.audioCapabilities": media { params in
+                try WireRequest.requireEmpty(params)
+                return ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation]
+            },
+            "media.outputCapabilities": media { params in
+                try WireRequest.requireEmpty(params)
+                return try OutputSettings.inventory()
+            },
             "media.probe": media { try json(await ProbeOperation.execute($0)) },
             "media.presentationEvidence": media {
                 try json(await PresentationEvidenceOperation.execute($0))

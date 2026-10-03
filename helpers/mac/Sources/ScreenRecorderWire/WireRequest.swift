@@ -6,6 +6,10 @@ import ScreenRecorderMedia
 /// something to ignore, at any depth. The type's own `Codable` shape is the single statement of
 /// which fields exist, so no operation restates its key sets.
 enum WireRequest {
+    static func requireEmpty(_ params: [String: Any]) throws {
+        guard params.isEmpty else { throw invalid("This operation requires empty params.") }
+    }
+
     static func decode<Request: Codable>(_ type: Request.Type, from params: [String: Any]) throws
         -> Request
     {

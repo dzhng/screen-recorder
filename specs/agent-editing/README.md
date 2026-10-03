@@ -36,6 +36,14 @@ passes one unchanged synthesis request and complete public PCM delivery.
 actual missing facts and their stopping conditions. Do not reopen stopped campaigns,
 repeat completed cohorts or manufacture load.
 
+Whole-spec source review found two small boundary defects, now corrected:
+capability queries reject unread parameters, and CLI help defers exact-time
+admission to each operation's schema. The
+[focused verification](assets/acceptance-maintenance/native-capability-verification.json)
+retains the red/green result and unchanged accepted discovery contents. Its
+incremental native build does not close the heavy-compilation storage condition.
+The installed release bank remains bound to its original executable.
+
 The [canonical registry](assets/23-owner-fixture-ports/README.md) owns current
 results and exact limitations. Reuse the passed long learned-processing bank,
 combined scale, current pointer/trail, cancellation and muted-player banks.

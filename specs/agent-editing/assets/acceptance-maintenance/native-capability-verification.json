@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "scope": "Strict empty-parameter capability requests; valid discovery contents unchanged.",
+  "baseCommit": "9b839582",
+  "observedAt": "2026-10-03T19:58:50.759Z",
+  "before": {
+    "path": "dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+    "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55"
+  },
+  "after": {
+    "path": "helpers/mac/.build/release/screenrec-native",
+    "sha256": "ada0bb8ad2ed4792d0554eb9d261911bbef49b580c32c0f12fc78c8d8fc13711"
+  },
+  "operands": [
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/native-capability-2026-10-03/requests.jsonl",
+      "bytes": 801,
+      "sha256": "576b216c4d739d822ae9064a296e9f2f4417d627b00741d1cfa8e2ed8b9196f8"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/native-capability-2026-10-03/before.stdout",
+      "bytes": 87016,
+      "sha256": "79bbad11a7528d7e878eca77f6af2c7f86fea0c85b9f8cb4829ed934c2c14e97"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/native-capability-2026-10-03/before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/native-capability-2026-10-03/after.stdout",
+      "bytes": 29898,
+      "sha256": "aaeac4dfb84415ef43c0c4de8796a47fd19248d5a39ddb4a97b3263fa7b360b7"
+    },
+    {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/native-capability-2026-10-03/after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "checks": {
+    "regressionRed": {
+      "exitCode": 1,
+      "reason": "Unexpected parameters incorrectly returned success."
+    },
+    "wireFile": {
+      "exitCode": 0,
+      "passed": 4
+    },
+    "acceptedReplyComparison": {
+      "passed": 3,
+      "normalization": "Only audio.formats collection ordering. OutputSettings.inventory iterates a Swift dictionary of strategies; no ordering contract is advertised.",
+      "initialRawComparison": {
+        "exitCode": 1,
+        "reason": "Same supported AAC strategies appeared in different collection order."
+      }
+    },
+    "rejectedUnexpectedRequests": 6,
+    "nativeBuild": {
+      "exitCode": 0,
+      "reportedSeconds": 8.43,
+      "work": "Incremental Wire/Native compile and link; not heavy compilation."
+    },
+    "storage": {
+      "exitCode": 0,
+      "passed": 1,
+      "defaultDeadlineMs": 5000,
+      "runnerDurationMs": 507,
+      "qualification": "Heavy compilation was not independently observed; original gap stays open.",
+      "initialInvocation": {
+        "exitCode": 1,
+        "reason": "Duplicate maxWorkers flags rejected before any test. Corrected direct Vitest invocation."
+      }
+    },
+    "cliHelp": {
+      "exitCode": 0,
+      "passed": 3
+    }
+  },
+  "personalInstallation": "Untouched; installed evidence remains bound to its original candidate."
+}

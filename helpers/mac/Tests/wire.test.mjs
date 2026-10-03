@@ -41,6 +41,30 @@ test("the native process answers every shared conformance line in order", () => 
   }
 });
 
+test("capability queries reject parameters they do not read", () => {
+  const operations = ["media.audioCapabilities", "media.outputCapabilities"];
+  const result = spawnSync(executable, [], {
+    input:
+      operations
+        .map((operation) =>
+          JSON.stringify({ id: operation, operation, params: { unexpected: true } }),
+        )
+        .join("\n") + "\n",
+    encoding: "utf8",
+    timeout: 5000,
+  });
+  assert.ifError(result.error);
+  assert.equal(result.status, 0, result.stderr);
+  const responses = result.stdout.trim().split("\n").map(JSON.parse);
+  assert.equal(responses.length, operations.length);
+  for (const [index, response] of responses.entries()) {
+    assert.equal(response.id, operations[index]);
+    assert.equal(response.ok, false, JSON.stringify(response));
+    assert.equal(response.error.code, "INVALID_REQUEST");
+    assert.equal(response.error.retryable, false);
+  }
+});
+
 test("a changed directory identity reports the same final failure through every operation family", () => {
   const home = realpathSync(mkdtempSync(join(tmpdir(), "wire-identity-")));
   const directory = openSync(home, "r");

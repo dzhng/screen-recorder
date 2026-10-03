@@ -24,3 +24,9 @@ reconciliation. Arbitrary codec/color equality, every possible source cardinalit
 and unspecified load matrices are not additional completion gates. Future concrete
 failures still belong to their actual owner; pending evidence is not permission
 to weaken a contract or create an indefinite campaign.
+
+The [capability correction](native-capability-verification.json) includes one
+unchanged storage case and an independently required incremental native build.
+The case passed, but heavy compilation was not observed; that original condition
+remains open. Whole-spec source review found and corrected strict empty-parameter
+validation and exact-time help wording without changing media execution.

@@ -223,7 +223,7 @@ async function main() {
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           timeUnits:
-            "Microseconds. Text-placement endpoints also accept exact reduced fractions; other command coordinates remain integers. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
+            "Microseconds. Endpoints accept integers or exact reduced fractions where the operation's input schema permits them. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
           mutations:
             "When the operation schema accepts requestId, supply a stable value and reuse it with identical arguments after an uncertain write. Supply expectedRevisionId only where its schema requires it.",
           operations: capabilities(operation),
