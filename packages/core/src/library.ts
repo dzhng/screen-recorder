@@ -102,37 +102,6 @@ export class RevisionStore extends CaptureStore {
       });
     return JSON.parse(row.content as string) as TimelineRevision;
   }
-  /** Snapshot revision and all history known at admission, even for a historical export. */
-  pinPackageSnapshot(recordingId: string, revisionId?: string) {
-    return this.transaction(() => {
-      const recording = this.readable(recordingId);
-      if (
-        !["complete", "interrupted"].includes(recording.state) ||
-        recording.sourceDurationUs === null
-      )
-        throw settledWithoutVideo(recording);
-      const revision = this.revision(recordingId, revisionId);
-      const throughOrdinal = this.catalog
-        .prepare("SELECT MAX(ordinal) AS ordinal FROM revisions WHERE recordingId=?")
-        .get(recordingId)!.ordinal as number;
-      return {
-        snapshot: {
-          recordingId,
-          sourceId: recording.sourceId,
-          revisionId: revision.id,
-          sourceDurationUs: recording.sourceDurationUs,
-          historyThroughOrdinal: throughOrdinal,
-          capture: {
-            state: recording.state as "complete" | "interrupted",
-            createdAt: recording.createdAt,
-            interruptionReason: recording.interruptionReason,
-            interruptionMessage: recording.interruptionMessage,
-          },
-        },
-        historyCursor: { recordingId, afterOrdinal: -1, throughOrdinal },
-      };
-    });
-  }
   edit(recordingId: string, request: EditRequest): TimelineRevision {
     return this.transaction(() => {
       this.readable(recordingId);

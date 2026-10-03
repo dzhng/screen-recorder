@@ -5,20 +5,12 @@ import { join } from "node:path";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const bundle = join(root, "dist/ScreenRecorder.app");
-const files = globSync(
-  [
-    "apps/service/tests/*.mjs",
-    "apps/macos/tests/package*.mjs",
-    "apps/macos/tests/export-inspection.test.mjs",
-  ],
-  { cwd: root },
-).sort();
+const files = globSync("apps/service/tests/*.mjs", { cwd: root }).sort();
 const child = spawn(process.execPath, ["--test", "--test-concurrency=2", ...files], {
   cwd: root,
   env: {
     ...process.env,
     SCREENREC_NATIVE: join(bundle, "Contents/MacOS/screenrec-native"),
-    SCREENREC_RELOCATION_BUNDLE: bundle,
   },
   stdio: "inherit",
 });

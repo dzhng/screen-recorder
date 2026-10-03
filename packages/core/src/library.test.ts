@@ -47,16 +47,6 @@ test("terminal diagnostics survive reopen and duplicate delivery without a video
   expect(
     reopened.ingestLifecycle(take.recordingId, { ...event, message: "duplicate" }),
   ).toMatchObject(expected);
-  const withVideo = reopened.allocate().recording;
-  reopened.ingestLifecycle(withVideo.recordingId, {
-    ...event,
-    sourceId: withVideo.sourceId,
-    sourceDurationUs: 100,
-  });
-  expect(reopened.pinPackageSnapshot(withVideo.recordingId).snapshot.capture).toMatchObject({
-    interruptionReason: event.reason,
-    interruptionMessage: event.message,
-  });
 });
 test("new incomplete allocation remains latest ahead of a finalized older take", () => {
   const { store } = fixture();

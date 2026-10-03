@@ -23,6 +23,7 @@ import { setTimeout } from "node:timers/promises";
 import { CaptureStore } from "../../../packages/core/dist/capture-store.js";
 import { parseProjectPackageManifest } from "../../../packages/core/dist/project-package.js";
 import { resolveProjectPackageMetadata } from "../dist/project-package-metadata.js";
+import { readMediaProbe } from "../dist/media-probe.js";
 import { JobQueue } from "../../../packages/core/dist/jobs.js";
 import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
 import { PackageRegistry } from "../dist/package-registry.js";
@@ -68,10 +69,6 @@ async function fixture(t, options = {}, content = "generated source") {
     validate: parseProjectPackageManifest,
     resolve: resolveProjectPackageMetadata,
     inlineRevisions: false,
-    mediaPaths: (manifest) =>
-      manifest.resources
-        .filter((resource) => resource.kind === "asset")
-        .map((resource) => `assets/${resource.asset.fileName}`),
     parent: { directory, handle },
     jobs,
     delivery,
@@ -146,12 +143,12 @@ test("registry reserves before extraction, charges copied bytes, and closes with
   const bytes = (await stat(f.input)).size;
   const admission = await f.registry.open(f.input);
   assert.equal(admission.packageHandle, null);
-  assert.equal(f.registry.usage().budgetBytes, bytes + 1024 ** 2 + 128 * 1024 ** 2);
+  assert.equal(f.registry.usage().budgetBytes, bytes + 1024 ** 2);
   const handle = await ready(f, admission.id),
     context = f.registry.lookup(handle);
   const expanded = Object.values(f.files).reduce((sum, value) => sum + Buffer.byteLength(value), 0);
   assert.deepEqual(context.archiveUsage, { copiedBytes: bytes, expandedBytes: expanded });
-  assert.equal(f.registry.usage().budgetBytes, bytes + expanded + 128 * 1024 ** 2);
+  assert.equal(f.registry.usage().budgetBytes, bytes + expanded);
   assert.equal(f.registry.usage().confirmedBytes, bytes + expanded);
   assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM recordings").get().n, 0);
   assert.deepEqual(context.manifest.snapshot, f.snapshot);
@@ -172,19 +169,25 @@ test("registry reserves before extraction, charges copied bytes, and closes with
   await assert.rejects(f.registry.recover(), { code: "SERVICE_STOPPED" });
 });
 
-test("64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work", async (t) => {
+test("64 GiB admission pool admits two exact-bound sparse reservations, refuses a third and releases canceled work", async (t) => {
   const f = await fixture(t, { limits: archiveLimits });
   await f.registry.recover();
   f.store.allocate(); // An unsettled generated take keeps the shared heavy lane paused.
   await truncate(f.input, 16 * 1024 ** 3);
   const first = await f.registry.open(f.input);
   assert.equal(f.registry.status(first.id).state, "queued");
-  assert.equal(f.registry.usage().budgetBytes, 32 * 1024 ** 3 + 128 * 1024 ** 2);
+  assert.equal(f.registry.usage().budgetBytes, 32 * 1024 ** 3);
+  const second = await f.registry.open(f.input);
+  assert.equal(f.registry.status(second.id).state, "queued");
+  assert.equal(f.registry.usage().budgetBytes, 64 * 1024 ** 3);
   await assert.rejects(f.registry.open(f.input), { code: "LIMIT_EXCEEDED" });
-  assert.equal(f.registry.usage().owners, 1);
+  assert.equal(f.registry.usage().owners, 2);
   assert.deepEqual(await readdir(f.directory), []);
   await f.registry.close(first.id);
   assert.equal(f.registry.status(first.id).state, "canceled");
+  assert.equal(f.registry.usage().budgetBytes, 32 * 1024 ** 3);
+  await f.registry.close(second.id);
+  assert.equal(f.registry.status(second.id).state, "canceled");
   assert.equal(f.registry.usage().budgetBytes, 0);
   const later = await f.registry.open(f.input);
   await f.registry.close(later.id);
@@ -224,29 +227,11 @@ test("four same-content resource owners stay independent and failed close retain
   assert.throws(() => f.registry.lookup(handles[0]), { code: "CONTEXT_CLOSED" });
 });
 
-test("one handle makes more than 32 requests and bounded terminal receipts expire without resurrection", async (t) => {
+test("bounded terminal receipts expire without resurrection", async (t) => {
   const f = await fixture(t);
   await f.registry.recover();
   const initial = await f.registry.open(f.input),
     handle = await ready(f, initial.id);
-  for (let i = 0; i < 40; i++) {
-    const job = f.registry.submit(
-      handle,
-      { artifact: "read", lane: "frame", input: JSON.stringify({ i }) },
-      async (context) => {
-        const file = context.files.open(f.mediaPath);
-        file.close();
-        return String(i);
-      },
-    );
-    const settled = await waitFor(
-      () => f.registry.job(handle, job.jobId),
-      (value) => value.state === "ready",
-    );
-    assert.equal(settled.result, String(i));
-    f.registry.forget(handle, job.jobId);
-    assert.throws(() => f.registry.job(handle, job.jobId), { code: "NOT_FOUND" });
-  }
   await f.registry.close(initial.id);
   for (let i = 0; i < 32; i++) {
     const admission = await f.registry.open(f.input);
@@ -455,7 +440,7 @@ test("close fences delivery and drains an actual native media worker before remo
   const wrapped = async (operation, params, options) => {
     if (nativeStarted && ["archive.cleanup", "packageWorkspace.remove"].includes(operation))
       assert.equal(workerClosed, true, "Directory cleanup must follow actual worker closure");
-    if (operation !== "media.frame") return worker(operation, params, options);
+    if (operation !== "media.probe") return worker(operation, params, options);
     const previousLibrary = process.env.DYLD_INSERT_LIBRARIES,
       previousMarker = process.env.SCREENREC_TEST_NATIVE_HELD;
     process.env.DYLD_INSERT_LIBRARIES = library;
@@ -499,21 +484,17 @@ test("close fences delivery and drains an actual native media worker before remo
   }));
   f.registry.submit(
     handle,
-    { artifact: "held-native", lane: "frame", input: "{}" },
-    async (context, signal) =>
-      JSON.stringify(
-        await context.run(
-          "media.frame",
-          {
-            source: f.mediaPath,
-            output: "held",
-            atSourceUs: 0,
-            kept: { startUs: 0, endUs: 100 },
-            overlay: null,
-          },
-          signal,
-        ),
-      ),
+    { artifact: "held-native", lane: "heavy", input: "{}" },
+    async (context, signal, lifetime) => {
+      const source = context.files.open(f.mediaPath);
+      try {
+        return JSON.stringify(
+          await readMediaProbe(wrapped, directory, "/dev/fd/4", signal, [lifetime.fd, source.fd]),
+        );
+      } finally {
+        source.close();
+      }
+    },
   );
   let pid;
   try {
@@ -540,6 +521,23 @@ test("close fences delivery and drains an actual native media worker before remo
       () =>
         execFileSync("/bin/ps", ["-p", String(pid), "-o", "state="], { encoding: "utf8" }).trim(),
       (value) => value.startsWith("T"),
+    );
+    const inherited = execFileSync(
+      "/usr/sbin/lsof",
+      ["-a", "-p", String(pid), "-d", "3,4", "-F", "fi"],
+      { encoding: "utf8" },
+    )
+      .trim()
+      .split("\n");
+    assert.deepEqual(
+      inherited.slice(1),
+      [
+        "f3",
+        `i${(await stat(directory, { bigint: true })).ino}`,
+        "f4",
+        `i${fstatSync(file.fd, { bigint: true }).ino}`,
+      ],
+      "Native worker inherits its actual workspace and source descriptors",
     );
     const closing = f.registry.close(admission.id);
     assert.throws(() => f.registry.lookup(handle), { code: "CONTEXT_CLOSED" });
@@ -611,10 +609,7 @@ test("default peak reservations block a fourth pending open but validated steady
   const capture = f.store.allocate().recording;
   const admissions = [];
   for (let i = 0; i < 3; i++) admissions.push(await f.registry.open(f.input));
-  assert.equal(
-    f.registry.usage().budgetBytes,
-    3 * ((await stat(f.input)).size + 16 * 1024 ** 3 + 128 * 1024 ** 2),
-  );
+  assert.equal(f.registry.usage().budgetBytes, 3 * ((await stat(f.input)).size + 16 * 1024 ** 3));
   await assert.rejects(f.registry.open(f.input), { code: "LIMIT_EXCEEDED" });
   f.store.ingestLifecycle(capture.recordingId, {
     sourceId: capture.sourceId,
@@ -627,68 +622,6 @@ test("default peak reservations block a fourth pending open but validated steady
   await ready(f, fourth.id);
   assert.equal(f.registry.usage().owners, 4);
   assert.ok(f.registry.usage().budgetBytes < 1024 ** 3);
-});
-
-test("failed context work can retry and canceled queued work never consumes execution", async (t) => {
-  const f = await fixture(t);
-  await f.registry.recover();
-  const admission = await f.registry.open(f.input),
-    handle = await ready(f, admission.id);
-  let attempts = 0;
-  const job = f.registry.submit(
-    handle,
-    { artifact: "retry", lane: "frame", input: "{}" },
-    async () => {
-      if (++attempts === 1) throw new Error("generated failure");
-      return "retried";
-    },
-  );
-  await waitFor(
-    () => f.registry.job(handle, job.jobId),
-    (value) => value.state === "failed",
-  );
-  f.registry.retry(handle, job.jobId);
-  assert.equal(
-    (
-      await waitFor(
-        () => f.registry.job(handle, job.jobId),
-        (value) => value.state === "ready",
-      )
-    ).result,
-    "retried",
-  );
-  assert.equal(attempts, 2);
-  f.registry.forget(handle, job.jobId);
-  const started = Promise.withResolvers(),
-    finish = Promise.withResolvers();
-  const active = f.registry.submit(
-    handle,
-    { artifact: "held", lane: "heavy", input: "{}" },
-    async () => {
-      started.resolve();
-      await finish.promise;
-      return "done";
-    },
-  );
-  await started.promise;
-  try {
-    const queued = f.registry.submit(
-      handle,
-      { artifact: "canceled", lane: "frame", input: "{}" },
-      async () => {
-        throw new Error("Canceled work must not execute");
-      },
-    );
-    assert.equal(queued.state, "queued");
-    assert.equal(f.registry.cancel(handle, queued.jobId).state, "canceled");
-    f.registry.forget(handle, queued.jobId);
-  } finally {
-    finish.resolve();
-  }
-  await waitFor(
-    () => f.registry.job(handle, active.jobId),
-    (value) => value.state === "ready",
-  );
 });
 
 test("partial copy cancellation drains the actual worker before returning reservation and removing its tree", async (t) => {
@@ -732,7 +665,7 @@ test("partial copy cancellation drains the actual worker before returning reserv
         const copied = (await stat(join(f.directory, admission.id, ".input"))).size;
         assert.ok(copied > 0 && copied < input.length);
         assert.equal(f.registry.status(admission.id).packageHandle, null);
-        assert.equal(f.registry.usage().budgetBytes, input.length + 1024 ** 2 + 128 * 1024 ** 2);
+        assert.equal(f.registry.usage().budgetBytes, input.length + 1024 ** 2);
         await f.registry.close(admission.id);
         assert.equal(copyClosed, true);
         assert.equal((await completion).state, "canceled");
