@@ -60,7 +60,7 @@ public enum CompositionVideoRenderer {
         }
         try request.validateOutput(hasAudio: false)
         let pictures = try CompositionPictureExecutor(
-            canvas: canvas, bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
+            canvas: canvas, deliveredSize: (canvas.width, canvas.height), bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "video.mp4")
         defer { output.discard() }
         let writer = try AVAssetWriter(outputURL: output.url, fileType: .mp4)

@@ -103,7 +103,7 @@ func verifyCompositionSourceColors(in directory: URL) async throws {
 func verifyCompositionMovieTerminal(in directory: URL) async throws {
     let source = directory.appendingPathComponent("composition-source.png")
     let request = try compositionPNGRequest(source: source, output: directory.appendingPathComponent("unused.png"))
-    let executor = try CompositionPictureExecutor(canvas: request.canvas, bindings: request.assets)
+    let executor = try CompositionPictureExecutor(canvas: request.canvas, deliveredSize: (request.canvas.width, request.canvas.height), bindings: request.assets)
     var allocations = 0
     func allocate(_ retained: CVPixelBuffer?) async throws -> CVPixelBuffer {
         if let retained { return retained }

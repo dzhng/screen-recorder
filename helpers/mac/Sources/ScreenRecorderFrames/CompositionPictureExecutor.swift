@@ -130,6 +130,7 @@ public final class CompositionPictureExecutor {
     }
     private let preparedPointers: PreparedPointers?
     private let canvas: Canvas
+    private let deliveredSize: (width: Int, height: Int)
     private let assets: [String: CompositionAsset]
     private let fonts: [String: FontAssetBinding]
     private let background: CIImage
@@ -165,7 +166,7 @@ public final class CompositionPictureExecutor {
     private(set) var outputIsKnownOpaque = false
     var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil)
+    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil)
         throws
     {
         self.preparedPointers = try pointers.map(PreparedPointers.init)
@@ -181,6 +182,7 @@ public final class CompositionPictureExecutor {
         self.background = background.image
         self.backgroundIsOpaque = background.opaque
         self.canvas = canvas
+        self.deliveredSize = deliveredSize
         self.assets = assets
         var fontBindings: [String: FontAssetBinding] = [:]
         for font in fonts {
@@ -474,6 +476,7 @@ public final class CompositionPictureExecutor {
         let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
         let transparent = CIImage(color: .clear).cropped(to: canvasRect)
         var surfaces = prepared.surfaces
+        let projections = try pointerProjections(prepared)
         var pointerRow = 0
         var seen = Set<CompositionProcessing.Target>()
         var image = transparent
@@ -506,10 +509,11 @@ public final class CompositionPictureExecutor {
                 let row = prepared.pointerRows[pointerRow]
                 pointerRow += 1
                 if let overlay = row.overlay, let width = row.width, let height = row.height,
-                    let at = row.captureUs,
+                    let at = row.captureUs, let projection = projections[node.target],
+                    projection.scale > 0, !projection.visible.isEmpty,
                     let drawn = try CursorOverlay.image(
                         overlay, agedFromUs: at, width: width, height: height,
-                        visibleLongEdge: Double(max(width, height)), deliveredScale: 1)
+                        visibleLongEdge: projection.longEdge, deliveredScale: projection.scale)
                 {
                     pointerRasterizations += 1
                     var pointer = CIImage(cgImage: drawn)
@@ -606,24 +610,126 @@ public final class CompositionPictureExecutor {
         }
     }
 
+    private static func clampRect(_ operation: Frame.Operation) throws -> CGRect {
+        guard let x = operation.x, let y = operation.y, let width = operation.width,
+            let height = operation.height,
+            [x, y, width, height].allSatisfy({
+                $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds)
+            }), width > 0, height > 0
+        else { throw invalid("Invalid sampling clamp primitive.") }
+        // Compiled bounds name sample centers; Core Image clamps pixel cells.
+        return CGRect(x: x - 0.5, y: y - 0.5, width: width + 1, height: height + 1)
+    }
+
+    private static func affine(_ operation: Frame.Operation) throws -> CGAffineTransform {
+        guard let m = operation.matrix, m.count == 6,
+            m.allSatisfy({ $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds) })
+        else { throw invalid("Invalid affine primitive.") }
+        return CGAffineTransform(a: m[0], b: m[1], c: m[2], d: m[3], tx: m[4], ty: m[5])
+    }
+
+    private func coveragePoints(_ operation: Frame.Operation) throws -> [CGPoint] {
+        guard let points = operation.points, points.count == 4,
+            points.allSatisfy({ $0.x.isFinite && $0.y.isFinite }),
+            operation.width == Double(canvas.width), operation.height == Double(canvas.height)
+        else { throw Self.invalid("Invalid polygon coverage primitive.") }
+        return points.map { CGPoint(x: $0.x, y: $0.y) }
+    }
+
+    /// Source-space visibility and source-to-delivery scale follow the same compiled geometry
+    /// as the pixels. A pointer's geometry prefix makes this context independent of step order.
+    private struct PointerProjection {
+        var visible: [CGPoint]
+        var matrix: CGAffineTransform
+        var scale: Double {
+            let determinant = matrix.a * matrix.d - matrix.b * matrix.c
+            let squared = matrix.a * matrix.a + matrix.b * matrix.b + matrix.c * matrix.c + matrix.d * matrix.d
+            let maximum = (squared + sqrt(max(0, squared * squared - 4 * determinant * determinant))) / 2
+            return maximum > 0 ? abs(determinant) / sqrt(maximum) : 0
+        }
+        var longEdge: Double {
+            let xs = visible.map(\.x), ys = visible.map(\.y)
+            return max((xs.max() ?? 0) - (xs.min() ?? 0), (ys.max() ?? 0) - (ys.min() ?? 0))
+        }
+        static func polygon(_ rect: CGRect) -> [CGPoint] {
+            [CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+             CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)]
+        }
+        mutating func intersect(_ boundary: [CGPoint]) {
+            guard boundary.count >= 3 else { visible = []; return }
+            let area = boundary.indices.reduce(CGFloat(0)) { sum, index in
+                let a = boundary[index], b = boundary[(index + 1) % boundary.count]
+                return sum + a.x * b.y - b.x * a.y
+            }
+            let sign: CGFloat = area >= 0 ? 1 : -1
+            for index in boundary.indices {
+                let a = boundary[index], b = boundary[(index + 1) % boundary.count]
+                func distance(_ p: CGPoint) -> CGFloat {
+                    sign * ((b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x))
+                }
+                let input = visible
+                visible = []
+                guard var previous = input.last else { return }
+                var previousDistance = distance(previous)
+                for point in input {
+                    let currentDistance = distance(point)
+                    if (currentDistance >= 0) != (previousDistance >= 0) {
+                        let fraction = previousDistance / (previousDistance - currentDistance)
+                        visible.append(CGPoint(x: previous.x + fraction * (point.x - previous.x),
+                                               y: previous.y + fraction * (point.y - previous.y)))
+                    }
+                    if currentDistance >= 0 { visible.append(point) }
+                    previous = point
+                    previousDistance = currentDistance
+                }
+            }
+        }
+    }
+
+    private func pointerProjections(_ prepared: PreparedPicture) throws -> [CompositionProcessing.Target: PointerProjection] {
+        guard !prepared.pointerRows.isEmpty else { return [:] }
+        let canvasPolygon = PointerProjection.polygon(CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height))
+        var contexts: [CompositionProcessing.Target: PointerProjection] = [:]
+        var sources: [CompositionProcessing.Target: PointerProjection] = [:]
+        guard let last = prepared.key.visual.last else { return sources }
+        contexts[last.target] = PointerProjection(visible: canvasPolygon,
+            matrix: CGAffineTransform(scaleX: Double(deliveredSize.width) / Double(canvas.width),
+                                      y: Double(deliveredSize.height) / Double(canvas.height)))
+        for node in prepared.key.visual.reversed() {
+            guard var projection = contexts.removeValue(forKey: node.target) else { continue }
+            for operation in node.operations.reversed() {
+                switch operation.kind {
+                case "affine":
+                    let matrix = try Self.affine(operation)
+                    if matrix.a * matrix.d - matrix.b * matrix.c == 0 {
+                        projection.visible = []
+                    } else {
+                        projection.visible = projection.visible.map { $0.applying(matrix.inverted()) }
+                    }
+                    projection.matrix = matrix.concatenating(projection.matrix)
+                case "clamp": projection.intersect(PointerProjection.polygon(try Self.clampRect(operation)))
+                case "coverage": projection.intersect(try coveragePoints(operation))
+                default: break
+                }
+            }
+            if node.target.kind == "clip", let source = prepared.surfaces[node.target] {
+                projection.intersect(PointerProjection.polygon(source.extent))
+                sources[node.target] = projection
+            } else {
+                // Each parent composites its children into the fixed canvas before its own operations.
+                projection.intersect(canvasPolygon)
+                for input in node.inputs { contexts[input] = projection }
+            }
+        }
+        return sources
+    }
+
     private func apply(_ operation: Frame.Operation, to image: CIImage) throws -> CIImage {
         switch operation.kind {
         case "clamp":
-            guard let x = operation.x, let y = operation.y, let width = operation.width,
-                let height = operation.height,
-                [x, y, width, height].allSatisfy({
-                    $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds)
-                }), width > 0, height > 0
-            else { throw Self.invalid("Invalid sampling clamp primitive.") }
-            // Compiled bounds name sample centers; Core Image clamps pixel cells.
-            return image.clamped(
-                to: CGRect(x: x - 0.5, y: y - 0.5, width: width + 1, height: height + 1))
+            return image.clamped(to: try Self.clampRect(operation))
         case "coverage":
-            guard let points = operation.points, points.count == 4,
-                points.allSatisfy({ $0.x.isFinite && $0.y.isFinite }),
-                let width = operation.width, let height = operation.height,
-                width == Double(canvas.width), height == Double(canvas.height)
-            else { throw Self.invalid("Invalid polygon coverage primitive.") }
+            let points = try coveragePoints(operation)
             let mask: CIImage
             if let cached = coverageMasks[operation] {
                 mask = cached
@@ -664,12 +770,9 @@ public final class CompositionPictureExecutor {
             }
             return image.insertingIntermediate(cache: false)
         case "affine":
-            guard let m = operation.matrix, m.count == 6,
-                m.allSatisfy({ $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds) })
-            else { throw Self.invalid("Invalid affine primitive.") }
-            if m[0] * m[3] - m[1] * m[2] == 0 { return CIImage.empty() }
-            return image.transformed(
-                by: CGAffineTransform(a: m[0], b: m[1], c: m[2], d: m[3], tx: m[4], ty: m[5]))
+            let matrix = try Self.affine(operation)
+            if matrix.a * matrix.d - matrix.b * matrix.c == 0 { return CIImage.empty() }
+            return image.transformed(by: matrix)
         case "opacity":
             guard let opacity = operation.opacity, opacity.isFinite, opacity >= 0, opacity <= 1
             else {

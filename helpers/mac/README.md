@@ -24,6 +24,9 @@ Still PNGs and movie frames execute one compiled picture graph. The
 prepares source evidence and owns that graph. PNG delivery passes the graph to its
 image encoder; movie delivery uses its tagged video buffer. Keeping those targets
 separate avoids quantizing still pictures through the movie color conversion.
+Pointer readability is measured in delivered pixels. The executor carries the final
+delivery size back through compiled geometry so source crops and ancestor transforms
+share the same sizing rule; a reduced thumbnail still caps the mark against visible content.
 
 Composition rendering consumes the compiler's frame stream, including the original
 sample time and clipped visible interval. Native code only resolves physical

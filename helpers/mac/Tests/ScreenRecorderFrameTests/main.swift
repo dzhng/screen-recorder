@@ -16,6 +16,11 @@ try FileManager.default.createDirectory(at: evidence, withIntermediateDirectorie
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
+if CommandLine.arguments.contains("--pointer-readability") {
+    try await verifyCompositionPointerReadability(in: images)
+    exit(0)
+}
+
 try await verifyCompositionPNG(in: images)
 try await verifyCompositionSourceColors(in: images)
 try await verifyCompositionMovieTerminal(in: images)
@@ -26,6 +31,8 @@ if CommandLine.arguments.contains("--exact-picture") { exit(0) }
 
 try await verifySourcePictures(in: images)
 if CommandLine.arguments.contains("--source-pictures") { exit(0) }
+
+try await verifyCompositionPointerReadability(in: images)
 
 func steps(_ count: Int, everyUs: Int64) -> [CMTime] {
     (0..<count).map { CMTime(value: Int64($0) * everyUs, timescale: 1_000_000) }

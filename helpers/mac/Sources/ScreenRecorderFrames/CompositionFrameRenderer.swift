@@ -46,7 +46,9 @@ public enum CompositionFrameRenderer {
             frame.visibleRange.endUs <= TimeSpan.maximumMicroseconds
         else { throw NativeFailure("INVALID_REQUEST", "Invalid compiled picture or image limits.") }
         let pictures = try CompositionPictureExecutor(
-            canvas: request.canvas, bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
+            canvas: request.canvas, deliveredSize: FrameImage.delivered(
+                width: request.canvas.width, height: request.canvas.height, maxLongEdge: edge, even: false),
+            bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let composed = try await pictures.image(frame)
