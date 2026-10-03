@@ -1,0 +1,79 @@
+{
+  "status": "Existing10s and300s selected-source streaming gate passes on unchanged current native source. Movie scale remains separate and red.",
+  "evidence": {
+    "file": "current-streaming-scale-evidence.tar.gz",
+    "bytes": 10008,
+    "sha256": "977e4510dd0aa79ec48fb260471b53b41c869512a040a3f3fade5c0602241a18",
+    "hashedPayloads": 9,
+    "members": 10,
+    "independentlyVerified": true
+  },
+  "actualHelper": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/debug/ScreenRecorderSourceAudioTests",
+    "bytes": 7351344,
+    "sha256": "b9465d1bb31f42435e296de380861a90503bf0143684dfd7e89c3a0b97b3f80e"
+  },
+  "caller": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/Tests/streaming-audio.mjs",
+    "bytes": 5043,
+    "sha256": "9ec22d7756e5748085199cddd7141e829c32887fe250fb9613dd836b8e60745a"
+  },
+  "nativeSourcePinsRevalidated": 116,
+  "environmentQualification": "These callers use their own existing default compiled executables; SCREENREC_NATIVE environment is not their executable selector. No new selector or build added.",
+  "result": {
+    "sourceSha256": "212a0502ddc3e9d1da2e8e795d4d2c7d7f1fd7919808fe7c5ea39ddb548caf2c",
+    "sourceUnchanged": true,
+    "scale": [
+      {
+        "blocks": 60,
+        "channels": 2,
+        "checkedSamples": 2734,
+        "completedAfterFailure": false,
+        "finalBlockFrames": 2048,
+        "frames": 477184,
+        "largestBlockFrames": 8192,
+        "maximumSampleError": 0,
+        "peakNativeRSSBytes": 27213824,
+        "sampleRate": 48000,
+        "seconds": 10,
+        "sinkFailureAfterBlocks": 3,
+        "waveBytes": 3821568,
+        "waveFrames": 477184,
+        "independentlyCountedFrames": 477184,
+        "independentWindowMaximumError": 0
+      },
+      {
+        "blocks": 1759,
+        "channels": 2,
+        "checkedSamples": 9530,
+        "completedAfterFailure": false,
+        "finalBlockFrames": 3840,
+        "frames": 14397184,
+        "largestBlockFrames": 8192,
+        "maximumSampleError": 1.4901161193847656e-08,
+        "peakNativeRSSBytes": 29999104,
+        "sampleRate": 48000,
+        "seconds": 300,
+        "sinkFailureAfterBlocks": 3,
+        "waveBytes": 115181568,
+        "waveFrames": 14397184,
+        "independentlyCountedFrames": 14397184,
+        "independentWindowMaximumError": 4.656612873077393e-10
+      }
+    ]
+  },
+  "originalGates": {
+    "blockFramesMaximum": 8192,
+    "nativeSampleErrorMaximum": 1e-05,
+    "independentWindowErrorMaximum": 1e-06,
+    "longRssMaximum": "short*1.5+16MiB",
+    "consumerFailure": "After3 blocks must not complete."
+  },
+  "limits": [
+    "Independent reader counts complete WAV frames and checks selected analytic windows, not every PCM sample.",
+    "Generated complete WAV/source operands retained privately; archive holds reports, journals and exact source/binary identities without duplicating115MB WAV.",
+    "Actual helperb946 differs from frozen helper12618;116production-source identities are equal, executables remain separately pinned.",
+    "Runner environment/nativeWorker metadata does not choose this script helper. No new selector or native build was introduced.",
+    "No movie/AAC/container/installed or speech quality acceptance implied."
+  ]
+}

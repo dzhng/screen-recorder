@@ -21,8 +21,8 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: finish fixture/capture failures from the one implementation-end
-repository gate, then close unmatched runtime/release contracts.** Core/schema closure
+**Next pickup: fix exact soundtrack presentation support, then resume the failed
+movie-scale gate and unmatched runtime/release contracts.** Core/schema closure
 removes recording revisions from the actual type, query and schema. The fresh
 catalog is format23 and refuses prior catalogs without migration or byte mutation.
 Projects retain their edit/history owner; capture/source facts and raw provenance
@@ -32,15 +32,30 @@ engine closure is integrated and its exact pinned worker passes current
 source/audio/preview service and native cleanup smoke. The broad gate has run;
 its [recovery bank](assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
 separates retained package passes, focused repairs and unfinished acceptance.
-Current candidate source enumeration reports zero displays; do not repeat positive
-capture/UI fixtures until source availability changes. Automated temporary capture fixtures in that default gate
+The [current caller bank](assets/23-owner-fixture-ports/current-caller-fixtures-verification.json)
+closes index/cache, source-history cut and deterministic worker-deletion fixture
+failures. Its physical capture prefixes remain unrun. The
+[selected streaming bank](assets/23-owner-fixture-ports/current-streaming-scale-verification.json)
+passes the original10/300s PCM and memory gates. Movie scale found a real defect:
+floor-counted PCM ends slightly before the requested movie endpoint, and the
+audio track's container presentation also ends early. Preserve both exact track
+presentation and unchanged PCM count; do not widen the duration tolerance.
+The [source lifetime bank](assets/23-owner-fixture-ports/current-source-lifetime-verification.json)
+closes all three retained orphan-workspace, donor and removal cases on the
+unchanged current worker; SDK finishing remains a separate contract.
+Initial zero-display failures remain in the original default bank. After restart,
+[source enumeration](assets/23-owner-fixture-ports/post-restart-source-availability.json)
+reports one display; the failed capture/UI cohort is resuming serially on the
+same isolated candidate. Automated temporary capture fixtures in that default gate
 are authorized, distinct from repeating the unchanged physical marker/Stop
 experiment or asking the user for another recording.
 
 Continue in this order:
 
-1. Complete current caller-fixture corrections and remaining default failures.
-   Reuse passed package/native cohorts. Generated movie timing and lifetime now pass;
+1. Close the soundtrack endpoint defect through the existing native mux owner,
+   with a tiny regression before resuming short/long movie scale. Complete
+   remaining default failures when their input prerequisites are available.
+   Reuse passed package/native cohorts. Generated movie timing and lifetime pass;
    exact SDK finishing remains qualified separately. Then finish unmatched native/media contracts through current owners, with
    retained or generated inputs: movie/lifetime, source restart, scene/pointer,
    audio/preview and actual native cleanup. Preserve their numerical, byte and

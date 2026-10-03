@@ -7751,3 +7751,38 @@ Gap: The old fixture expected completed publication despite cancel-before-public
 Reach: Future observers must distinguish resource release from the service's durable state. No device or service behavior changes.
 
 Verdict: **sound**. The selected branch is exact and ownership remains independently observable. Confidence: **high**.
+
+## Current caller fixture contracts
+
+### Exercise frame edits through an explicitly authored project
+
+The frame fixture now admits captured source facts, verifies that admission made
+no project, then creates its own project for crop and cut requests. A crop is an
+authored geometry step; source inspection retains its separate endpoint contract.
+Requested project time, requested source time and the containing physical sample
+remain distinct. No implicit editing project or recording-revision adapter returns.
+
+Gap: The retired recording frame interface combined evidence and edits in one selector.
+
+Reach: Future fixture authors must express edits through the same public project
+contract as callers. Generated source coverage establishes the downstream path;
+the physical capture precondition remains independently required.
+
+Verdict: **sound**. One existing owner carries each contract. Confidence: **medium** until the physical prefix executes.
+
+### Hold the actual reader at its existing descriptor barrier
+
+The deletion fixture uses the canonical service and a real native reader held
+at the existing descriptor barrier. It requires the reader's actual canceled
+result before fixture cleanup, so a timeout cannot impersonate successful
+cancellation. The helper path resolves relative to the fixture, independent of
+the command's working directory.
+
+Gap: Polling for a fast child could miss it entirely; merely observing eventual
+process death could accept a reader that ignored deletion until its timeout.
+
+Reach: The fixture proves service cancellation and deletion ordering deterministically.
+App host child ownership remains a separate check. No production hook, timeout
+extension or alternate worker operation is introduced.
+
+Verdict: **sound**. Existing injection and lifetime ownership suffice. Confidence: **high**.

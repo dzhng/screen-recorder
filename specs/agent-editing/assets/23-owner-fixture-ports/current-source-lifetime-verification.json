@@ -1,0 +1,80 @@
+{
+  "checkpoint": "Actual current native orphan workspace/donor lifetime",
+  "baseAtInspection": "428e8c489ed919b98b337f6e3093355ae8e5725a",
+  "sourceEdited": false,
+  "workerSha256": "479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d",
+  "existingEvidenceReused": {
+    "23f": "Controlled borrower coordination, current donor-free preservation, native file identity and cleanup remain matched; not rerun.",
+    "sourceNativeLifetime": "Prior generic source-audio descriptor and parentdeath proof does not cover orphan acquisition/donor leases.",
+    "captureSourceCallerFollowup": "Source-lifetime compiled/link checked only; explicitly unrun.",
+    "currentCallerWorkerDeletion": "Live service deletion of a stopped native reader is independently covered; no repetition here."
+  },
+  "actualRun": {
+    "command": [
+      "node",
+      "--test",
+      "--test-concurrency=1",
+      "apps/service/tests/source-lifetime.mjs"
+    ],
+    "cases": 3,
+    "passed": 3,
+    "failed": 0,
+    "runnerDurationMs": 2372.215708,
+    "exitCode": 0,
+    "outerSeconds": 3.106543779373169,
+    "outerWatchdogSeconds": 60,
+    "timedOut": false,
+    "nativeBuild": false,
+    "barrierCompilation": "Existing fixture dylibs compiled with clang; no native worker rebuild."
+  },
+  "contracts": {
+    "cleanup": "After killing driver, still-stopped orphan holds acquisition workspace; recover refuses ACQUISITION_BUSY and leaves generation+journal intact. Kill orphan; fresh service retires stale generation; explicit same-job retry reaches ready generation2; journal remains exact.",
+    "delete": "After driver death both acquisition workspace and recording donor refuse cleanup/removal (ACQUISITION_BUSY and RECORDING_BUSY); journal remains exact. Kill orphan; fresh service public recording.delete succeeds and donor path is absent.",
+    "removal": "Real native directory-removal child is stopped at startup holding inherited donor descriptor; driver death cannot release orphan-held recording lease. RECORDING_BUSY preserves journal; after killing orphan, fresh public deletion succeeds."
+  },
+  "inputMembers": [
+    {
+      "member": "canonical-input/capture.journal.jsonl",
+      "bytes": 914,
+      "sha256": "d6f52d3999042c7c7f7f53a04d41ba0e9537f1f249129ac9474d5e642593ceab"
+    },
+    {
+      "member": "canonical-input/narration.mov",
+      "bytes": 384721,
+      "sha256": "c884ebe5686c9e82e165f1a2ec8b5895d7f50accbb970ee1af885475590f8f9c"
+    },
+    {
+      "member": "canonical-input/narration.publication.json",
+      "bytes": 644,
+      "sha256": "ffec75fb199d794e6592e762e83702c94ac5a125b9dcfc1bf1b7af79c58d1f13"
+    }
+  ],
+  "verification": "584 source, emitted-service/core/client/protocol/composition, fixture, retained-input and worker operand files hash-identical before/after. Existing internal4/5/10s checks unchanged. Every test after-hook resumes/kills its detached group, requires group absence and removes scratch. Postflight found no sampled/reported processes and no source-lifetime scratch homes.",
+  "evidence": [
+    "process.json",
+    "terminal.json",
+    "gate.log",
+    "outcomes/cleanup.json",
+    "outcomes/delete.json",
+    "outcomes/removal.json",
+    "pins-before.json",
+    "postflight.json",
+    "source/",
+    "retained-inputs/"
+  ],
+  "limitations": [
+    "No capture/display/device/model/audio playback/full suite/installed state changes.",
+    "Native descendant ownership across parent death is proved; SDK finishing/drain and physical capture timing remain unverified.",
+    "No byte-quality or performance claim; journal exactness assertions are the retained-byte scope. Native admission on retry ran against retained prerecorded media.",
+    "Original complete worker binary remains outside packet at pinned immutable path; full service dependency operands are referenced by before/after hash inventory.",
+    "No production or fixture correction needed; no new worktree/commit. Root owns shared spec/evidence integration."
+  ],
+  "evidenceArchive": {
+    "file": "current-source-lifetime-evidence.tar.gz",
+    "bytes": 58738,
+    "sha256": "8b5265653a10925efb43255423adb9bb17bb1991b7816b428344b5470509d16a",
+    "hashedPayloads": 21,
+    "independentlyVerified": true
+  },
+  "rootReview": "Existing native descriptor barrier, canonical public service, exact workspace/donor refusal and journal comparisons retained. This is a runtime disposition of existing code, with no new fixture or product owner. Current source-lifetime cases remain separate from live-service deletion and SDK finishing."
+}

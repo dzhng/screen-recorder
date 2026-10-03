@@ -1,0 +1,28 @@
+{
+  "displays": [
+    {
+      "id": 1,
+      "width": 1512,
+      "height": 982
+    }
+  ],
+  "windowCount": 8,
+  "cameraCount": 2,
+  "microphoneCount": 2,
+  "captureStarted": false,
+  "installedStateChanged": false,
+  "process": {
+    "command": [
+      "node",
+      "--input-type=module",
+      "-"
+    ],
+    "pid": 43385,
+    "exitCode": 0,
+    "seconds": 1.0032012920019042,
+    "timedOut": false,
+    "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+  },
+  "actualCandidateReference": "default-gate-recovery-evidence.tar.gz:candidate-operands.json",
+  "qualification": "Post-restart source enumeration only. The app uses its release siblingcd61, not the wrapper SCREENREC_NATIVE value. Unrelated window titles/device names were not retained. Earlier zero-display failures remain in the default recovery bank."
+}

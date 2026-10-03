@@ -53,6 +53,9 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Current production worker, source/audio/preview delivery and native cleanup | [Service smoke](current-worker-service-verification.json) |
 | One implementation-end repository run, focused recovery and current movie contracts | [Default gate recovery](default-gate-recovery-verification.json) |
 | Private donor fixture creation and cancellation ownership corrections | [Capture fixtures](capture-fixture-contracts-verification.json) |
+| Current index/cache, source-history cuts and actual worker cancellation | [Current caller fixtures](current-caller-fixtures-verification.json) |
+| Long selected PCM, independent frame counts and bounded native memory | [Current streaming scale](current-streaming-scale-verification.json) |
+| Orphan acquisition workspace, donor and removal leases across parent death | [Current source lifetime](current-source-lifetime-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -60,8 +63,10 @@ controlled replies prove their contracts without becoming decode or quality proo
 source, capture, recovery and pointer callers to current acquisition/project owners.
 Their syntax, compile-only linking, unchanged pure presentation algorithms and
 three current-owner metrics cases pass;
-actual native scene, scale, trail, orphan-worker and retained paused-movie gates
-remain execution obligations. Historical lab commands in the recording spec are
+subsequent default recovery and current-caller banks own their actual runtime
+verdicts. The current-source-lifetime bank closes the three retained orphan
+workspace/donor/removal cases. Unmatched movie-scale and capture prefixes remain
+execution obligations. Historical lab commands in the recording spec are
 retained evidence, not runnable current entry points.
 
 ## Ownership and proof limits
@@ -97,8 +102,10 @@ remain difficult to recognize at 32 pixels. No new sizing recipe is introduced.
 Recording frame/materialization/selectors are removed after their useful checks
 move to current source/project owners. Service batches isolate bad admissions,
 unreadable cached items and failed jobs without starving valid siblings. The
-native sparse/index callers retain their actual pixel and cache gates, with
-syntax scope until execution.
+native sparse/index callers retain their actual pixel and cache gates; the
+current-caller bank executes them against the isolated built candidate. Its
+generated frame control proves authored crop and delivery contracts but cannot
+substitute for the unexecuted physical capture prefix.
 
 Focused native audio checks preserve physical occupancy, exact PCM and late
 consumer failure. Composition resampling preserves admitted boundary impulses
@@ -107,8 +114,11 @@ they do not establish whole-movie or production-worker acceptance.
 
 Movie lifetime and scale callers now compile explicit composition clips and
 gains. Their duration, AAC phase/error, pixel, source-byte and memory assertions
-remain runtime gates. Syntax and synthetic fixture compilation establish no
-native movie result. Recovered in-process finishing hooks document a historical
+remain runtime gates. Generated timing and lifetime execute in the default
+recovery bank. Selected streaming passes its long gate separately; movie scale
+currently fails because exact audio presentation ends before the movie endpoint.
+Neither PCM rounding nor a wider tolerance repairs that container contract.
+Recovered in-process finishing hooks document a historical
 phase contract; a current process-abort check is not equivalent evidence.
 
 Audio and preview callers now author explicit source/project targets. Recording

@@ -1,0 +1,89 @@
+{
+  "checkpoint": "428e8c489ed919b98b337f6e3093355ae8e5725a",
+  "status": "Focused caller fixture corrections integrated; default repository gate remains incomplete.",
+  "evidence": {
+    "file": "current-caller-fixtures-evidence.tar.gz",
+    "bytes": 137635,
+    "sha256": "f6adcba73f64cf18918e9a9a627189c257b5d97789399294c3c3cf3b6039e213",
+    "hashedPayloads": 124,
+    "members": 125,
+    "independentlyVerified": true
+  },
+  "originalBanks": [
+    {
+      "archiveSha256": "1886061cd9917b3e6cf124cabc7e9b9a7ecf80d4a216351249e094b9252b93ab",
+      "hashedPayloads": 99,
+      "committedPass": "40609d695e7ca0d150eda47ac6934737a0b3fea8"
+    },
+    {
+      "archiveSha256": "80aa3cca0c4c04a1749e4ddb0a5cd38b86268a714960eb8f7ce30909539ca0a9",
+      "hashedPayloads": 20,
+      "committedPass": "e9f4b81355a090ae864fd6077d081d33a688a044"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/capture-exclusion.test.mjs",
+      "bytes": 7592,
+      "sha256": "1e5a1513c6de6d0651c60438ac2a9cdf82ea2d39e15a667221f82258936da862"
+    },
+    {
+      "path": "apps/macos/tests/frame-inspection.test.mjs",
+      "bytes": 10538,
+      "sha256": "d89004f5ea5777aff48f1c5f349e5471419ce283aae03d4e21dfae46fbb2adac"
+    },
+    {
+      "path": "apps/macos/tests/index-inspection.test.mjs",
+      "bytes": 6547,
+      "sha256": "b1e6dd77fc477a4582a6efb6acb593248211b0b4225b6245e669b9b2d5453053"
+    },
+    {
+      "path": "apps/macos/tests/sparse-frame-inspection.test.mjs",
+      "bytes": 13025,
+      "sha256": "1abf78bbeef70c8bad90740380211bb6d9a084ec5f8e1057c6e0fd06f7184707"
+    },
+    {
+      "path": "apps/macos/tests/trail-inspection.test.mjs",
+      "bytes": 16298,
+      "sha256": "e41ca135fb952aa76c5aad2451e077d132a806fd4feae97685e0da3bbeca466f"
+    },
+    {
+      "path": "apps/macos/tests/worker-deletion.test.mjs",
+      "bytes": 12094,
+      "sha256": "62025af494c6c723000f8350bc39a96834901f74f4ac3bbbc5bef02e896909c5"
+    }
+  ],
+  "integration": {
+    "case": "public deletion reaps a live native media worker before removing its recording",
+    "cwd": "apps/macos",
+    "environmentOverrideRemoved": true,
+    "actualWorker": {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/debug/screenrec-native",
+      "bytes": 29989520,
+      "sha256": "bc23e5635d2129b0c96823bb4cf78e5c382b6fe438b316610c7cd5112de98bcb"
+    },
+    "exitCode": 0,
+    "caseMilliseconds": 1120.006042,
+    "cancellationBeforeCleanup": "CANCELED",
+    "sourceAndSiblingPngUnchanged": true,
+    "scope": "Actual canonical in-process service and OS-stopped native reader. App host child ownership is not exercised by this deterministic deletion case."
+  },
+  "reusedPasses": {
+    "indexAndSparse": "Actual isolated candidate releasecd61, original unchanged semantic/pixel/cache/restart checks.",
+    "trailCut": "Actual current debug479, exact cut pixels equal historical pixels at the same source instant; source history survives edits.",
+    "frameDownstream": "Generated source substitute exercises authored project, exact cropRGB, historical revision, CLI/MCP delivery and endpoint refusals; no physical capture claim."
+  },
+  "negativeControl": "Ignoring only the held reader signal passes old PID/directory assertions but fails new exact terminal CANCELED assertion with MEDIA_WORKER_TIMEOUT. Restored reader passes before barrier cleanup.",
+  "unrun": [
+    "capture-exclusion actual capture prefix",
+    "frame-inspection actual capture prefix"
+  ],
+  "limits": [
+    "No full-suite green or release acceptance.",
+    "Initial zero displays caused a capture precondition failure, never a skipped passing test. After restart one display is available; actual capture execution belongs to its subsequent bank.",
+    "No production behavior, installed app, source recording or editorial decision changed.",
+    "Source-history cut expectation follows the existing source-attached contract; no new pointer policy.",
+    "Configured CLI reviewer unavailable; actual independent peer review found the two corrected deletion defects."
+  ],
+  "review": "Root reviewed settled six-path diff and followup; reused existing source/project, Catalog and barrier owners. No production compatibility wrapper, new deadline or timeout masking. Medium confidence remains for the unexecuted physical frame prefix."
+}
