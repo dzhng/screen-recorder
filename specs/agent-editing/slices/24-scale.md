@@ -17,8 +17,14 @@ also passes the original deep/wide five-minute/two-hour query, late-audio,
 queue cancellation/restart and warm-preview contract. Its harness consumes large
 MCP results through the existing delivery API without repeating operations or
 changing transport limits. The configured SDK receiver remains qualified; this
-is not default-client capacity, full-two-hour learned processing, native-build
-contention or installed acceptance. Remaining dimensions stay separate. The
+is not default-client capacity, native-build contention or installed acceptance.
+The [current long learned bank](../assets/23-owner-fixture-ports/current-long-learned-routing-verification.json)
+separately joins full learned execution with that original distributed deep/wide
+routing. Complete authored dry and frozen-C wet PCM comparisons pass, as does
+matching prepared project delivery after restart without fresh learned state.
+Its full operands remain in verified durable local archives; Git retains metadata
+and source bindings, not multi-gigabyte PCM. This closes the named duration/routing
+interaction, not arbitrary learned stacks, listening or broader load. The
 [current reorder query](../assets/23-owner-fixture-ports/current-reorder-query-verification.json)
 combines a two-hour/deep/wide 10k project with independently authored placement
 changes, pinned old queries and undo through default MCP. Its warm query budget
@@ -97,7 +103,7 @@ Harness probes drive the actual public CLI/MCP/service paths. Instrument existin
 
 Separate remaining diagnostic work from final installed acceptance. Do not repeat
 passed child cohorts to create activity. Target missing dimensions: broader
-source/routing/history cardinality, deep/wide long-project interactions, client
+source/routing/history cardinality beyond the retained matched cohorts, client
 receive capacities and known contention-sensitive deadlines. Use their existing
 query/index/decoder/job owners. Isolated diagnosis and fixes may proceed before 23;
 one controlled final production measurement follows actual cutover. Preserve
