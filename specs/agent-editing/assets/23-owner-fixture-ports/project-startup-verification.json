@@ -1,0 +1,140 @@
+{
+  "contract": "V3361 bundled canonical startup initializes derived-cache reconciliation before executing a persisted export waiter",
+  "commit": "b6bc6d5d17fdc19c5f390b85760752f007d9235f",
+  "baseCommit": "3617f7cbae42434d76cee9045fe13d3ad89ab03a",
+  "files": [
+    {
+      "path": "apps/service/tests/project-export-startup.mjs",
+      "sha256": "0b5d264d96b577ca97b9d15caf129df2f0ce3a517a8b41ba5619a1d668c7b559",
+      "gitBlob": "da3c7f15ae20f199156be954fc44c1c1330e2f85"
+    },
+    {
+      "path": "apps/service/tests/fixtures/project-export.mjs",
+      "sha256": "dfe673642082e00676abb71080517311b623c77f554fa497a5a271c91e734adf",
+      "gitBlob": "cd712e87d58b7ce2b2fb9ef34816fa5d37f33a50"
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc",
+      "gitBlob": "cefc7efea29f5c066361c7292926ecb8b54b62c0"
+    },
+    {
+      "path": "apps/service/src/main.ts",
+      "sha256": "298508b264c30496b0d27ecd5c418ad70e26cea9b670a94fee8d74738e4038ea",
+      "gitBlob": "66d67a2136e8a8e7e7d9165a6c5b7bcbf8a9dc14"
+    },
+    {
+      "path": "apps/service/src/exports.ts",
+      "sha256": "cff44beaf2c39e55e44b826c8cb1225776c44f39216a53a78ea4511394b74e1b",
+      "gitBlob": "17ba2829a2481292dc83f3ae3bc5bb053e3a938b"
+    }
+  ],
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+  },
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test apps/service/tests/project-export-startup.mjs",
+    "final": {
+      "log": "owner-suite.log",
+      "exitCode": 0,
+      "passed": 1
+    },
+    "negative": {
+      "log": "startup-red.log",
+      "exitCode": 1,
+      "mutation": "Move cache.reconcile from before queue startup to after queue.start() and captureCoordinator.reconcileStranded in worktree apps/service/dist/project-service.js; bundle mutated canonical entry; all mutations restored.",
+      "expectedFailure": "Persisted waiter export state failed; reason Cache reconciliation is pending"
+    },
+    "restored": {
+      "log": "startup-restored.log",
+      "exitCode": 0
+    },
+    "excluded": [
+      "startup-green1.log: fixture used stale preview renderer after replacement; exploratory setup error",
+      "startup-ineffective-admission-order.log: mutation before queue.start did not change execution ordering and passed; not a negative proof",
+      "excluded-missing-native.log: final command omitted required native override; ENOENT; rerun correctly in owner-suite.log"
+    ]
+  },
+  "scope": [
+    "Actual Bun bundle of canonical service main, actual Node child/socket and native publication boundary",
+    "Prepared cache uses controlled fixture bytes and production implementation identity; verifies readiness/order/pinned revision/exact publication/receipt only",
+    "No rendered video quality, capture, UI activation, media playback, model or full release run",
+    "Private scratch home and output; EOF closes child and asserts owned group gone"
+  ],
+  "review": "Parent read-only review clean; startup output identity, failure control scope, shutdown and process-group cleanup reviewed.",
+  "integratedCommit": "ccf0f768eca4ef4effd9048bdcdd9419a0a00569",
+  "bank": {
+    "archive": "project-startup-evidence.tar.gz",
+    "bytes": 30625,
+    "sha256": "449eac4a1e583d472d79078846835a60729b1666aa77920b235c6aa34cf8da43",
+    "payloads": [
+      {
+        "path": "project-export-startup-3617f7cb/excluded-missing-native.log",
+        "bytes": 1686,
+        "sha256": "1a19dbd76a92d0c64c113793f1d7eb9b93a508c19b369b7bcd87c2f8d332ba92"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/owner-suite.log",
+        "bytes": 403,
+        "sha256": "0854c5f847bb23b219a7204388dccb79ec684b4827dccda1ce6d18ad6f282b43"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/report.json",
+        "bytes": 3319,
+        "sha256": "2167573692e3901d4dadce16f5a88cadf54f90a7fcd9b49638540cbb9c7b9d19"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/source/apps/service/src/exports.ts",
+        "bytes": 47254,
+        "sha256": "cff44beaf2c39e55e44b826c8cb1225776c44f39216a53a78ea4511394b74e1b"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/source/apps/service/src/main.ts",
+        "bytes": 1113,
+        "sha256": "298508b264c30496b0d27ecd5c418ad70e26cea9b670a94fee8d74738e4038ea"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/source/apps/service/src/project-service.ts",
+        "bytes": 51665,
+        "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/source/apps/service/tests/fixtures/project-export.mjs",
+        "bytes": 13577,
+        "sha256": "dfe673642082e00676abb71080517311b623c77f554fa497a5a271c91e734adf"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/source/apps/service/tests/project-export-startup.mjs",
+        "bytes": 4777,
+        "sha256": "0b5d264d96b577ca97b9d15caf129df2f0ce3a517a8b41ba5619a1d668c7b559"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/startup-green1.log",
+        "bytes": 2160,
+        "sha256": "24291a4abee528e89dc2c82fa1bb2bd95df4f344430c5f4916b0e307eef62051"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/startup-green2.log",
+        "bytes": 403,
+        "sha256": "d56a38adc4122926d4e016a93adbc9dca3629c35115aa7425b1046d4f5a5996d"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/startup-ineffective-admission-order.log",
+        "bytes": 403,
+        "sha256": "b00b53f33779c7fe47e6c8d6de421b395663d7b09119b85f023c8ffef736d53f"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/startup-red.log",
+        "bytes": 2938,
+        "sha256": "44b4a0e689d0f5c004aae0a2fb15b8a2aa49665476883573b86d5defc76353ae"
+      },
+      {
+        "path": "project-export-startup-3617f7cb/startup-restored.log",
+        "bytes": 403,
+        "sha256": "c2a3d0c91a66ab1af863c8eea84d0e1fe460d7d65a9bc6df4e91b5fd05e9428e"
+      }
+    ],
+    "rootVerification": "Archive checksum, actual archived final source and committed source hash independently checked; full fixture reviewed; existing one-case terminal proof reused."
+  }
+}

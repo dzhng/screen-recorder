@@ -20,12 +20,13 @@ Historical workers and measurements retain their own identities below.
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
 The [shared-contract/publication bank](23-composition-contract/README.md) records
 the merged project-only composition boundary and exact cursor replay. Legacy
-publication abandonment-reference/normalized-member/startup and real package
-frame/audio retry/drain ports remain in the
+publication real package frame/audio retry/drain and generic archive-writer
+fixture ports remain in the
 [fixture preservation map](23-owner-fixture-ports/README.md); registry,
 recovery/storage/destination, capture lifetime, preview pins, package workspace
 recovery, generation retention, source lifecycle and archive survival/substitution/
-copy-mutation fixture ports are merged.
+copy-mutation, abandonment-reference, normalized-member and bundled-startup
+fixture ports are merged.
 Generic cache/evidence/queue fixtures use capture facts and actual project
 revisions; normalization types and movie
 validation have independent owners. Remaining mixed core dependencies and generic

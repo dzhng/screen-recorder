@@ -125,12 +125,36 @@ native-survivor case passes separately afterward. Owned process-group cleanup
 is registered before the barrier handshake; its missing-handshake path was
 code-reviewed, without a separate fault run. No full final-cohort rerun is claimed.
 
-Remaining abandonment resource-reference clauses, normalized acquisition-member
-mutation, real package frame/audio failure retry and worker drain, and actual
-bundled startup ordering must be accounted for before the old fixture and package
-family can be removed. Aggregate library storage replaces the obsolete
-per-recording allocation query; external committed files remain excluded.
-Neither port changes that storage policy.
+The [abandonment and member bank](package-abandon-verification.json) retains
+[all four exact ports and their failure controls](package-abandon-evidence.tar.gz).
+Late commit releases selected resources while failed private retirement still
+occupies admission capacity. Unsafe staging keeps resource pins and an abandonment
+fence until verified cleanup. Idempotent abandonment forgets old job/publication
+identity and permits a clean export-ID reuse. Normalized acquisition-member growth
+after its frozen receipt pin refuses publication, preserving original journal
+and source asset bytes. The two changed suites pass all 19 affected cases; the
+shared fixture merely exposes existing owners.
+
+The [index policy bank](index-policy-verification.json) and
+[exact declaration and executable-body proof](index-policy-evidence.tar.gz) move
+the unchanged shared sampling defaults to ScreenshotIndex. All seven consumers
+import that definition directly; the old selector keeps its algorithm pending
+mapped removal. All 25 source/project selection and portable-index cases pass.
+The initial partial-edit failures remain separate. Named legacy timeline and
+portable validator dependencies still need removal.
+
+The [bundled startup bank](project-startup-verification.json) and
+[original failures and terminal proof](project-startup-evidence.tar.gz) run the
+canonical entry as a real Bun bundle against a persisted ready cache and waiting
+export. It publishes exact retained bytes and the pinned revision. Moving cache
+reconciliation after queue startup makes that export fail; restoration passes.
+EOF drains the owned process group. Controlled bytes prove ordering and
+publication identity, without a rendered-video verdict.
+
+Remaining real package frame/audio failure retry and worker drain, and the generic
+archive writer's old-manifest fixture must be accounted for before the old fixture and package family can be removed. Aggregate
+library storage replaces the obsolete per-recording allocation query; external
+committed files remain excluded. Neither port changes that storage policy.
 
 Fixture media bytes and probe results are controlled; filesystem/archive and
 canonical metadata owners are real. These checks do not prove media decoding,

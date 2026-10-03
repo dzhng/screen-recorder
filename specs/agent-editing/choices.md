@@ -7194,3 +7194,12 @@ The plan required preserving queue lifetimes without choosing this test seam.
 This choice belongs to `b8ee55c0`; it proves the generic queue guarantee and
 does not authorize live source work through the product. Normal fixture policy
 uses current capture availability and real project revision validation.
+
+**Sound, high confidence — ScreenshotIndex owns shared sampling defaults.**
+Source and project screenshot sampling need the same limits and timing defaults,
+without borrowing a recording edit selector. The exact frozen policy now lives
+with the existing screenshot metadata and coverage owner, and each consumer
+imports it directly. The plan required one owner without prescribing this
+constant's home. This choice belongs to `a1451a3a`; it adds no module, package
+export, wrapper, default or selection rule. The old selector retains its algorithm
+until its remaining consumers are accounted for.

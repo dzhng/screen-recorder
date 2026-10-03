@@ -1,0 +1,187 @@
+{
+  "commit": "3617f7cbae42434d76cee9045fe13d3ad89ab03a",
+  "parent": "0508b09f9f01c07a78f1486dcc648802a39a6b95",
+  "scope": "Exact package resource-reference abandonment clauses V1005/V1061/V1212 and acquisition normalized-member frozen receipt mutation V3266.",
+  "files": {
+    "apps/service/tests/fixtures/project-export.mjs": "dfe673642082e00676abb71080517311b623c77f554fa497a5a271c91e734adf",
+    "apps/service/tests/project-export-lifetime.mjs": "fb679af805b07aff29a944f77fc1bffc3ec4bd8b347eb5e9d3e014965ea060fc",
+    "apps/service/tests/project-package-boundaries.mjs": "a0cbc7e8fac06d297c6003d0222e29a869ff6a5a25f480823b1f6dd3b8758c9e"
+  },
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-timeout=20000 apps/service/tests/project-export-lifetime.mjs apps/service/tests/project-package-boundaries.mjs",
+    "exitCode": 0,
+    "passed": 19,
+    "failed": 0,
+    "durationMs": 3304.189542,
+    "log": "owner-suites.log"
+  },
+  "mutations": [
+    {
+      "case": "late-commit",
+      "fault": "Omit export resource reference release in MediaExports.recordCommit; asset pin remains after actual late commit.",
+      "green": "late-commit-green.log",
+      "red": "late-commit-red.log",
+      "restored": "late-commit-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "unsafe",
+      "fault": "Release export asset references at entry to abandon before native identity-safe staging cleanup; unsafe substitute failure loses the pin.",
+      "green": "unsafe-green.log",
+      "red": "unsafe-red.log",
+      "restored": "unsafe-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "reuse",
+      "fault": "Suppress DELETE FROM artifacts inside JobQueue.forgetJob; second abandonment leaves a stale successful publication lookup.",
+      "green": "reuse-green.log",
+      "red": "reuse-red.log",
+      "restored": "reuse-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "normalized",
+      "fault": "In copyImportedFile, deliberately copy only declared normalized-member prefix without checking input growth/frozen identity; appended newline is silently truncated and export wrongly commits.",
+      "green": "normalized-green.log",
+      "red": "normalized-red.log",
+      "restored": "normalized-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    }
+  ],
+  "notes": [
+    "All deliberate faults applied to isolated emitted JS and restored exactly. No production source changes or old fixture deletion.",
+    "Fixture change exposes only already-existing acquisitions/acquisitionImports return fields; no earlier fixture behavior changed, so no expanded previous cohort rerun.",
+    "V1005 confirms assembly is already null after late commit; failed staging retirement retains admission solely through abandonment despite released asset references.",
+    "V1061 keeps foreign substitute and collision intact with pinned resource, truthful destination/output and retry fence until actual original staging identity returns.",
+    "V1212 twice-abandon removes intent/job/pins/published lookup; same export ID creates new job and publishes separate external ZIP, preserved after second retirement.",
+    "V3266 uses actual AcquisitionImporter/AcquisitionStore/SourceEvidenceStore and acquisition-backed project clip. Controlled external source normalization/probe fixtures avoid media work. Package pin freezes actual normalized receipt bytes, then newline append changes physical size to receipt+1 without rewriting accepted catalog receipt. Actual copy refuses SOURCE_CHANGED; no ZIP; raw journal/source assets remain intact.",
+    "Normalized red control is an actual prefix-only copy defect, not merely ignoring timestamp checks: it silently ignores the extra byte and wrongly commits. V3219 separately covers source mutation during an actual descriptor read.",
+    "normalized-fixture-red.log is missing fixture return-field wiring; normalized-green1.log is missing importer recovery setup, not a successful check. normalized-green2.log precedes explicit pinned-receipt assertions; final normalized-green/restored and 19-case log cover them.",
+    "No model download, media quality/decoding, native rebuild, capture, installed app or full-suite claim. Actual bundled startup and managed source/project frame/audio native retry/drain remain pending."
+  ],
+  "gitBlobs": {
+    "apps/service/tests/fixtures/project-export.mjs": "cd712e87d58b7ce2b2fb9ef34816fa5d37f33a50",
+    "apps/service/tests/project-export-lifetime.mjs": "5419bd9a4df649eb008a887383300f292d785fca",
+    "apps/service/tests/project-package-boundaries.mjs": "36c5cd1245df472d2510a67c890dc51a4a0d555a"
+  },
+  "review": "Root three-file review clean; exact three resource abandonment clauses plus normalized acquisition byte receipt mutation. Final 19/19 reused.",
+  "integratedCommit": "3b0299ef72dcf5c092e0caf8b4b5e935ec74cb38",
+  "bank": {
+    "archive": "package-abandon-evidence.tar.gz",
+    "bytes": 18785,
+    "sha256": "1357c26205145db350cb61a69a23e53f466157bdd194cf076bdd5393f791bf56",
+    "payloads": [
+      {
+        "path": "project-package-abandon-0508b09f/dispositions.md",
+        "bytes": 1035,
+        "sha256": "bb744149d1274a11af37bc414fe5c1e6ecc3b0f2a5d81862b8593985e708917e"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/late-commit-green.log",
+        "bytes": 398,
+        "sha256": "e3363da7130a00a1c3183eacd2769e272b926cddaa460d67352500107d91b206"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/late-commit-red.log",
+        "bytes": 1363,
+        "sha256": "e907d45cf59b109233c7d95d67a18df8e08d648d747a142f0499599cb272d03c"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/late-commit-restored.log",
+        "bytes": 398,
+        "sha256": "d245fda4d0ba3d9f0c815022b80f93860c81480d76dcd506f594f4334bef0887"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/normalized-fixture-red.log",
+        "bytes": 963,
+        "sha256": "b0cc09344d7083469708ddafa6066dc7bd899a4ada1acc81173fc84d4db3bb50"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/normalized-green.log",
+        "bytes": 385,
+        "sha256": "9a52492494c78a54a5590d6f7ef224bd71f5af84fec358b3a3c022717e2daff6"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/normalized-green1.log",
+        "bytes": 1487,
+        "sha256": "350f76b685aaddde0adfb771a887b14746ac2a2fddcdbf2e7ae9a0b9de8689cc"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/normalized-green2.log",
+        "bytes": 387,
+        "sha256": "a2a36c80176558348f7dc7b15d106dfe4df8ff22a465d99929653bb94cd198a0"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/normalized-red.log",
+        "bytes": 2158,
+        "sha256": "83cf19ce30aa6fdc90a5a42776b11a2430fb6f3803aaa012fbc03aeba6626f30"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/normalized-restored.log",
+        "bytes": 388,
+        "sha256": "bb13ad5f4464a05c16e0659765139d9b199a07f12f270e59d2d1b8a164fe6723"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/owner-suites.log",
+        "bytes": 2651,
+        "sha256": "c74fc760018a812a81178eda8bbdb328d5d80f0c2310d2c4a93ebcf382c1647c"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/report.json",
+        "bytes": 4948,
+        "sha256": "b9b712b49480b2ed733525e31e89029875ff95de29eedc1c6686c950dc340f9d"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/reuse-green.log",
+        "bytes": 409,
+        "sha256": "8b550b762b4c05f1f834339e4b49985a249fd9f29db877b28e8958dc2e16b01d"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/reuse-red.log",
+        "bytes": 2211,
+        "sha256": "00778f1689e6f4e9e9d43f628cc79c247f6efc3fc4a243d631031ff2c43304a2"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/reuse-restored.log",
+        "bytes": 407,
+        "sha256": "903f0be479b310628437b02210a3f0549791ae390b1ff1d7d10b1f9299bc7c11"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/source/apps/service/tests/fixtures/project-export.mjs",
+        "bytes": 13577,
+        "sha256": "dfe673642082e00676abb71080517311b623c77f554fa497a5a271c91e734adf"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/source/apps/service/tests/project-export-lifetime.mjs",
+        "bytes": 25466,
+        "sha256": "fb679af805b07aff29a944f77fc1bffc3ec4bd8b347eb5e9d3e014965ea060fc"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/source/apps/service/tests/project-package-boundaries.mjs",
+        "bytes": 13076,
+        "sha256": "a0cbc7e8fac06d297c6003d0222e29a869ff6a5a25f480823b1f6dd3b8758c9e"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/unsafe-green.log",
+        "bytes": 405,
+        "sha256": "32af363d64f772ac2d1727f4307f6e572116ad53dd6595f10028bbc27b163d37"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/unsafe-red.log",
+        "bytes": 1377,
+        "sha256": "a1842ad48b08895381779f31ab375a75519312ac53d19a6cc01e3002f3a3396c"
+      },
+      {
+        "path": "project-package-abandon-0508b09f/unsafe-restored.log",
+        "bytes": 405,
+        "sha256": "a666e700abdc3f430a9ad4334fbcb7a131fe1c3ee8b9df8dc3b5f99e8a2d07f9"
+      }
+    ],
+    "rootVerification": "Archive checksum, actual final archived source and all three committed source pins independently checked. Root read all four cases; prior narrow terminal proof reused."
+  }
+}

@@ -62,8 +62,7 @@ workspace recovery, source lifecycle fixtures and retained-generation references
 Generic cache/evidence/queue fixtures use capture facts and project revisions;
 common source-export types and
 movie validation no longer load their old editing owners. Remaining
-abandonment references, normalized acquisition-member mutation, real package
-frame/audio retry and drain, and bundled startup ports precede
+real package frame/audio retry and drain and generic archive fixture ports precede
 orphan package-owner deletion and actual
 core/schema removal. Preserve valuable
 source/project guarantees rather than restore the deleted engine. Missing

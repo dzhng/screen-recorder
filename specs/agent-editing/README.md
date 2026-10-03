@@ -36,9 +36,10 @@ ports registry, publication/capture lifetimes, preview pin combinations and
 source-only core lifecycle fixtures to actual project/source owners. Package
 workspace cleanup, process-death recovery and retained-generation references are
 also transferred, including surviving archive writers, substituted inputs and
-mutation during source copying. Continue abandonment resource references,
-normalized acquisition-member mutation, real package frame/audio retry and drain,
-and bundled startup guarantees in the managed
+mutation during source copying. Abandonment resource lifetimes and normalized
+acquisition-member receipt refusal and actual bundled startup are also transferred.
+Continue real package frame/audio retry and drain and the remaining generic archive
+fixture in the managed
 `service-composition` worktree on `codex/package-owner-purge`. In parallel, remove
 mixed core dependencies and port generic fixtures from `RevisionStore` to their
 actual source/project owners; generic cache, source evidence and queue fixtures

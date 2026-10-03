@@ -1,0 +1,897 @@
+{
+  "base": "ff79d407",
+  "executionParent": "3b0299ef72dcf5c092e0caf8b4b5e935ec74cb38",
+  "scope": "Exact frozen selectionPolicy moved to existing ScreenshotIndex owner; all7 direct consumers updated, no alias/reexport/newmodule/package export.",
+  "parity": {
+    "policySourceSHA256": "a6c2bdea54b3dc389f8c6b82b6dc19d78892f7ca77b137fce8d35a5cc557f832",
+    "policyEmittedSHA256": "a4c49d42b87fb6973060c24d2cda3cc8423ffadfe9de96b2d4edb15f984cf2d9",
+    "policyBothExact": true,
+    "files": [
+      {
+        "path": "packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "packages/core/dist/screenshot-index.js",
+        "bytes": 39771,
+        "sha256": "5f41dc4acb69a6eb754874183ee72893d44a8ba6d0244ebc5072a0dc0fff2913",
+        "executableBodyExact": true
+      },
+      {
+        "path": "packages/core/dist/selection.js",
+        "bytes": 12624,
+        "sha256": "a66be5db977127d6268671a6272890338b84a6112adb889f0a0fea26fffcaec8",
+        "executableBodyExact": true
+      },
+      {
+        "path": "packages/core/dist/source-index-selection.js",
+        "bytes": 5709,
+        "sha256": "d6343cc47d457f80056e8a3a19691259da09f3db061ffcb45dea9dd20859600b",
+        "executableBodyExact": true
+      },
+      {
+        "path": "packages/core/dist/project-index-selection.js",
+        "bytes": 7092,
+        "sha256": "afe73e07553e483e15b0e3ad9da8fc97fe754295d3b4f241ea4fcb8bd440c0f2",
+        "executableBodyExact": true
+      },
+      {
+        "path": "packages/core/dist/index-pages.js",
+        "bytes": 12254,
+        "sha256": "3ace8e6e9595db9a38920bb0b5a1d285784d43739b6f81c152a12b56a6147b5a",
+        "executableBodyExact": true
+      },
+      {
+        "path": "packages/core/dist/index-processing.js",
+        "bytes": 32182,
+        "sha256": "668fa550fc2652b051d1a9696d2580750b9253c56820d1e976a1988995f8ecda",
+        "executableBodyExact": true
+      }
+    ]
+  },
+  "phases": {
+    "fixture-syntax": {
+      "pid": 70871,
+      "end": 1790990263.1951559,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "lint": {
+      "pid": 70549,
+      "end": 1790990216.771019,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "core-build": {
+      "pid": 70547,
+      "end": 1790990217.713532,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "corrected-selection-portable-files": {
+      "pid": 69870,
+      "end": 1790990186.115596,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "service-types": {
+      "pid": 70870,
+      "end": 1790990263.567389,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "service-build": {
+      "pid": 70869,
+      "end": 1790990263.516774,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "format": {
+      "pid": 70548,
+      "end": 1790990216.771065,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "core-types": {
+      "pid": 70546,
+      "end": 1790990218.140878,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "selection-portable-files": {
+      "pid": 69831,
+      "end": 1790990174.8969338,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false
+    }
+  },
+  "focused": "25 cases across source-index-selection/project-index-selection/portable-index; controlled picture/receipt fixtures only.",
+  "initialFailure": "Partial mechanical edit aborted at incorrect ScreenshotIndexStore import needle before final3consumer updates. Initial69831 portable5cases failed undefined selectionPolicy; no data/render/native dispatch. Corrected remaining direct imports, retained firstfailed source/logs.",
+  "remainingDependencies": [
+    "ScreenshotIndex imports editedToSource/sourceToEdited from timeline for actual recording-domain consumers.",
+    "ScreenshotIndex RevisionStore type still uses inline type import (emits empty library load) until recordingIndexDomain/types mapped.",
+    "ScreenshotIndex MaterializedFrame/SelectedCandidate/SelectionCoverage imports are type-only, not runtime backedges.",
+    "Index pages still validates legacy scene/trail/frame metadata and imports their owners; no complete legacy interpreter removal claim.",
+    "Old selection keeps its executable recorded-span algorithm; only its policy declaration is deleted and directly imported."
+  ],
+  "bound": "Each proof command supervised30s +2s grace; every terminal waited, no bound expiry.",
+  "limits": [
+    "No default/cap/policy ID/metadata/schema changes, native/model/media/capture/installed/fullsuite/performance claim.",
+    "No new test/oracle or repeated physical evidence cohort.",
+    "Known configured-model Codex review environment rejection not retried by parent instruction."
+  ],
+  "integratedCommit": "a1451a3a23b117f75c62c81282a1e85c9dcfe597",
+  "bank": {
+    "archive": "index-policy-evidence.tar.gz",
+    "bytes": 409421,
+    "sha256": "64c040d6fe3083b2915fbfcbeccc4cd1bc7fa52591e7838e4ae15a1389980c1e",
+    "payloads": [
+      {
+        "path": "after/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "after/packages/core/dist/index-pages.js",
+        "bytes": 12254,
+        "sha256": "3ace8e6e9595db9a38920bb0b5a1d285784d43739b6f81c152a12b56a6147b5a"
+      },
+      {
+        "path": "after/packages/core/dist/index-processing.js",
+        "bytes": 32182,
+        "sha256": "668fa550fc2652b051d1a9696d2580750b9253c56820d1e976a1988995f8ecda"
+      },
+      {
+        "path": "after/packages/core/dist/project-index-selection.js",
+        "bytes": 7092,
+        "sha256": "afe73e07553e483e15b0e3ad9da8fc97fe754295d3b4f241ea4fcb8bd440c0f2"
+      },
+      {
+        "path": "after/packages/core/dist/screenshot-index.js",
+        "bytes": 39771,
+        "sha256": "5f41dc4acb69a6eb754874183ee72893d44a8ba6d0244ebc5072a0dc0fff2913"
+      },
+      {
+        "path": "after/packages/core/dist/selection.js",
+        "bytes": 12624,
+        "sha256": "a66be5db977127d6268671a6272890338b84a6112adb889f0a0fea26fffcaec8"
+      },
+      {
+        "path": "after/packages/core/dist/source-index-selection.js",
+        "bytes": 5709,
+        "sha256": "d6343cc47d457f80056e8a3a19691259da09f3db061ffcb45dea9dd20859600b"
+      },
+      {
+        "path": "after/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "after/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "after/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "after/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "after/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "after/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "after/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "before/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6242,
+        "sha256": "9892427a804686cff78ce5494ffb817e0e4ccd811a5a2d3296126e23ade41db9"
+      },
+      {
+        "path": "before/packages/core/dist/index-pages.js",
+        "bytes": 12287,
+        "sha256": "c6a0b97dd216bf73f34ad04cbb1159da98f461e9104fae994d5d4b1d7f88d881"
+      },
+      {
+        "path": "before/packages/core/dist/index-processing.js",
+        "bytes": 32182,
+        "sha256": "d19a53fa60e01385c43f27bd1b591ac165bd2196afabcd07e4a18aac70bfd096"
+      },
+      {
+        "path": "before/packages/core/dist/project-index-selection.js",
+        "bytes": 7085,
+        "sha256": "42e348c838f2f9b2e40ac1465167409d3504d841179d336b055fd2b3b82b4a81"
+      },
+      {
+        "path": "before/packages/core/dist/screenshot-index.js",
+        "bytes": 39463,
+        "sha256": "aeffb6d6f2f51459f6f81f1b45206a515cc00626c6a8040e124e4b63f9633555"
+      },
+      {
+        "path": "before/packages/core/dist/selection.js",
+        "bytes": 12875,
+        "sha256": "0645cb1b9c5907294a94a8186e4978d7a4c52338f8799eaae9ce85d821bb2650"
+      },
+      {
+        "path": "before/packages/core/dist/source-index-selection.js",
+        "bytes": 5702,
+        "sha256": "6da780d53a70e3fc3ec7388f35aa98b74995cb6d6afb4689b8b3861bf8aa4d1d"
+      },
+      {
+        "path": "before/packages/core/src/index-pages.ts",
+        "bytes": 12667,
+        "sha256": "c64a83b71854c5438f296a55d18db55770a65ee62d7a53d162b53e214738c477"
+      },
+      {
+        "path": "before/packages/core/src/index-processing.ts",
+        "bytes": 36155,
+        "sha256": "24a19eeee292db231de538d79c4b544076e7f5a822c2d19f6af27dd4ced66d3a"
+      },
+      {
+        "path": "before/packages/core/src/portable-index.test.ts",
+        "bytes": 19917,
+        "sha256": "409d39b06e8c3c96571b12305fdb305ae6fa814302bd8293919289d63241b017"
+      },
+      {
+        "path": "before/packages/core/src/project-index-selection.ts",
+        "bytes": 8197,
+        "sha256": "9ef6a427f31260ece7efb6de140f38675c723bac82e4bf5aa665c39995bf4bff"
+      },
+      {
+        "path": "before/packages/core/src/screenshot-index.ts",
+        "bytes": 42486,
+        "sha256": "5faf5d60c7a5f92c195f2dca5b28e2d0ae95fc6e233ef345323d5393ac8bb70a"
+      },
+      {
+        "path": "before/packages/core/src/selection.ts",
+        "bytes": 14218,
+        "sha256": "7b5fa92ac50a7a03a08888b523edbfde5703c9d99fbdb8b666e9e092b66b86cd"
+      },
+      {
+        "path": "before/packages/core/src/source-index-selection.ts",
+        "bytes": 6267,
+        "sha256": "2033ad61e82eb50d57cda786ead7aa98d7238aba8d5ff38170c1fca7102cc683"
+      },
+      {
+        "path": "before.json",
+        "bytes": 2299,
+        "sha256": "aa5e2ba035f00c012be1b572f1a433bf1670ce8f2bbb50f86d07ef604864a4ba"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 1213,
+        "sha256": "f85f8aa50640e28565e1e723184811c71ea2195ea58b810c5fb5c8204b27148e"
+      },
+      {
+        "path": "committed-source-check.json",
+        "bytes": 1523,
+        "sha256": "a001334dfbd7da1064c73a19e1b3c2eec50bc6c6b666f6293524e061f1020b5c"
+      },
+      {
+        "path": "core-build/process.json",
+        "bytes": 1605,
+        "sha256": "8d4d04d647269067de1a4ae7237c180b2696515bf11b4bb038e5477740c8e72b"
+      },
+      {
+        "path": "core-build/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "core-build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-build/terminal.json",
+        "bytes": 105,
+        "sha256": "973c1b0a6a6f40344b65b444f00ca9a2e74df231943ad883609a845ebab51f08"
+      },
+      {
+        "path": "core-types/process.json",
+        "bytes": 1610,
+        "sha256": "4d56244abe3318cecaab0c5c92b502c5918a15f5b1db40373af61d7aeaec93ab"
+      },
+      {
+        "path": "core-types/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "core-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-types/terminal.json",
+        "bytes": 105,
+        "sha256": "d081426789e6ac2975e0d927ef8cd8e3637c7821b4c74f2627473b2ffcea4a95"
+      },
+      {
+        "path": "corrected-selection-portable-files/process.json",
+        "bytes": 1735,
+        "sha256": "a307b156d8a2d12d50f41bbf884a265e39a5e9f30940070c0dfa0cc3ec1e2b5e"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "corrected-selection-portable-files/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "corrected-selection-portable-files/stderr",
+        "bytes": 507,
+        "sha256": "ac79267596c5058082939985bee2317167432da828ae75af3dfd85a2a3c31633"
+      },
+      {
+        "path": "corrected-selection-portable-files/stdout",
+        "bytes": 184,
+        "sha256": "a2afd2f975bcdedbdf20e2bc03d986f675d0bdfd0d259a2c2ab53692b32e5891"
+      },
+      {
+        "path": "corrected-selection-portable-files/terminal.json",
+        "bytes": 105,
+        "sha256": "2edc1a905ead3130708f4f35171f962f252364c02c14485151f9f0543ceab059"
+      },
+      {
+        "path": "fixture-syntax/process.json",
+        "bytes": 1612,
+        "sha256": "e7c29f88cc67ccedc38b5bc874b0416ebe837c38ea9a27437d3b5ba69bdda28f"
+      },
+      {
+        "path": "fixture-syntax/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "fixture-syntax/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "fixture-syntax/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "fixture-syntax/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "fixture-syntax/terminal.json",
+        "bytes": 106,
+        "sha256": "97f7b7f9332dab43a72ff85e99976f0e2b17711c94473baa50a35a0881d4752b"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 1950,
+        "sha256": "e91eef864019469bb6321164d1b64fd8552a72a946125c13810a02296fb3a5bf"
+      },
+      {
+        "path": "format/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "format/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "format/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "format/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "format/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "format/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "format/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "format/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 112,
+        "sha256": "d5ce950434062bb61d44711e40f715924a36af4c721850f9c234a28a5f74ee77"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 105,
+        "sha256": "0e77c0fbc1686105cba976214d1c5d4d17bff1aecf3986cec09af2239bb233df"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 1936,
+        "sha256": "7a508e8c184bdaad3352e191697cd538898d4712b67a860c46f93e79b2053c8a"
+      },
+      {
+        "path": "lint/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "lint/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "lint/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "lint/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "lint/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "lint/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "lint/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "lint/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 105,
+        "sha256": "78569f10de4d9023394716980190db55afeb72551b02bf8768de2160c854eec5"
+      },
+      {
+        "path": "parity.json",
+        "bytes": 2878,
+        "sha256": "55b546c02441a619d55ba31a133be83d7f82db3eeb356e78ec64726afc5776d5"
+      },
+      {
+        "path": "review.md",
+        "bytes": 1390,
+        "sha256": "2807c6d0b17298e0077eaea4631460c482e4480984d8f0ce8511944372777316"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1580,
+        "sha256": "8ee11800d24f9f5fe5822452601fb2b237cf0356a1f36244f3f6a65385210ddb"
+      },
+      {
+        "path": "selection-policy.txt",
+        "bytes": 291,
+        "sha256": "a6c2bdea54b3dc389f8c6b82b6dc19d78892f7ca77b137fce8d35a5cc557f832"
+      },
+      {
+        "path": "selection-portable-files/process.json",
+        "bytes": 1734,
+        "sha256": "d201d2955fa3593ac10655c9cf6ec87d02e40a625a1a9bd43c15cf5dd036f161"
+      },
+      {
+        "path": "selection-portable-files/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6242,
+        "sha256": "9892427a804686cff78ce5494ffb817e0e4ccd811a5a2d3296126e23ade41db9"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/index-processing.ts",
+        "bytes": 36155,
+        "sha256": "24a19eeee292db231de538d79c4b544076e7f5a822c2d19f6af27dd4ced66d3a"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19917,
+        "sha256": "409d39b06e8c3c96571b12305fdb305ae6fa814302bd8293919289d63241b017"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "selection-portable-files/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "selection-portable-files/stderr",
+        "bytes": 3886,
+        "sha256": "751ecb71b231ff9483a27ed410a2d5fdbbe694be608d8d98b5a1f059e67c7781"
+      },
+      {
+        "path": "selection-portable-files/stdout",
+        "bytes": 804,
+        "sha256": "801c219b57687117fcf58c43e8a06b5cf6bcf97c51706592d428aa8508ef3036"
+      },
+      {
+        "path": "selection-portable-files/terminal.json",
+        "bytes": 106,
+        "sha256": "6e4f7f33bb6abfec2baa7be5ddcddf6a00bda067b3bc9834b32793cb3694501a"
+      },
+      {
+        "path": "service-build/process.json",
+        "bytes": 1604,
+        "sha256": "699331ab5d5698a223e90f3e2d3221741945cd2c71aa171f865fa0cbff67015c"
+      },
+      {
+        "path": "service-build/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "service-build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-build/terminal.json",
+        "bytes": 105,
+        "sha256": "f68d4ce7e99bc66337647909b18d1f8eb1ec11909964bbb6f2bf471649bdb5a4"
+      },
+      {
+        "path": "service-types/process.json",
+        "bytes": 1609,
+        "sha256": "6632994bfe19161a70765605c9d2eca7a432914bf38ea64b0c3e946a7f8feaaf"
+      },
+      {
+        "path": "service-types/sources/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/index-pages.ts",
+        "bytes": 12636,
+        "sha256": "82af94a6082b301fb59f4a567b6ba7fb161906133716b8b592f36a82ebe4c8ea"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/index-processing.ts",
+        "bytes": 36157,
+        "sha256": "2f8ab8c443432b6d1b483541dbb61a14dd150cc9d331abf9026b6995cf3d6db6"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/portable-index.test.ts",
+        "bytes": 19884,
+        "sha256": "9a9eaeec87c735094f859b34253f305ba0ec28f4cf595ce48f650bcb8cea8dc8"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/project-index-selection.ts",
+        "bytes": 8204,
+        "sha256": "275d3fe03fcdb740c50703698bc1a7a4bb2ccef4d2b15f1444096a81299defd5"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/screenshot-index.ts",
+        "bytes": 42779,
+        "sha256": "7b29bc61df07a8f572f30734057c3922df5b7083f8fab818bb1d1c9e599d43f0"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/selection.ts",
+        "bytes": 13983,
+        "sha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/source-index-selection.ts",
+        "bytes": 6274,
+        "sha256": "feee8f09640f27b056451964f8e16e4de41e6491a54c12fb0b2f155f83835b19"
+      },
+      {
+        "path": "service-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/terminal.json",
+        "bytes": 105,
+        "sha256": "0aba3a5ee471878d0ad211b2ed98f40c8766ce08db6d68910c0084188421b07c"
+      },
+      {
+        "path": "verification.json",
+        "bytes": 6221,
+        "sha256": "0875043f2a47e14de8a8af2789b62665437318c8a43d7766aaec3dfa363451ef"
+      }
+    ],
+    "rootVerification": "All archive member hashes/sizes independently checked, exact eight-path diff reviewed, original corrected scoped checks reused. All eight committed source hashes independently verified."
+  }
+}
