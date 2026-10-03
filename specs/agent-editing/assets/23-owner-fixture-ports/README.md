@@ -46,6 +46,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Independent source-frame failures, retry and delivery ownership | [Frame owner removal](frame-owner-purge-verification.json) |
 | Recorded silence, missing samples and late stream consumer failure | [Native audio](source-native-audio-contracts-verification.json) |
 | Resampling exclusion and admitted source endpoints | [Audio endpoints](composition-audio-endpoints-verification.json) |
+| Current movie lifetime and scale caller contracts | [Movie caller ports](movie-harness-cutover-verification.json) |
 
 ## Ownership and proof limits
 
@@ -87,6 +88,12 @@ Focused native audio checks preserve physical occupancy, exact PCM and late
 consumer failure. Composition resampling preserves admitted boundary impulses
 while excluding adjacent samples. These checks use current test executables;
 they do not establish whole-movie or production-worker acceptance.
+
+Movie lifetime and scale callers now compile explicit composition clips and
+gains. Their duration, AAC phase/error, pixel, source-byte and memory assertions
+remain runtime gates. Syntax and synthetic fixture compilation establish no
+native movie result. Recovered in-process finishing hooks document a historical
+phase contract; a current process-abort check is not equivalent evidence.
 
 Remaining obligations include orphan audio/preview/processing/span owners,
 current-source scale execution, unmatched movie/lifetime contracts and the actual

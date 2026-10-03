@@ -1,0 +1,75 @@
+{
+  "checkpoint": "composition-movie-caller-ports",
+  "commit": "7d6c6c74e3cf0d65a7f6843852876d6ed734e90e",
+  "integratedCommit": "867080a2",
+  "archive": {
+    "file": "movie-harness-cutover-evidence.tar.gz",
+    "bytes": 35840,
+    "sha256": "e2ff8c0f2877a4a3a3079512cba85ff2b107561c1a791534c1fe470627bdf3fb",
+    "payloads": 10,
+    "manifest": "movie-harness-cutover-manifest.json",
+    "reportMember": "movie-harness-cutover-2ab9dbdc/report.json"
+  },
+  "sourcePins": [
+    {
+      "path": "packages/test-harness/movie-lifetime.mjs",
+      "sha256": "ed14a6f593808e927fbd27a98d3ba0df217ecea4c49c2ea8270b9f28ccce9819"
+    },
+    {
+      "path": "packages/test-harness/movie-scale.mjs",
+      "sha256": "d362b6f003ed6b8b2dbb50548a07d482ec9571fa164f024e14e87b0b1ccd3206"
+    }
+  ],
+  "rootVerification": {
+    "allPayloadsMatched": 10,
+    "allCurrentSourcePinsMatched": 2,
+    "settledDiffReviewed": true,
+    "syntaxChecks": [
+      {
+        "argv": [
+          "node",
+          "--check",
+          "packages/test-harness/movie-lifetime.mjs"
+        ],
+        "pid": 98205,
+        "exitCode": 0,
+        "waited": true,
+        "seconds": 0.03071954100050789,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "node",
+          "--check",
+          "packages/test-harness/movie-scale.mjs"
+        ],
+        "pid": 98206,
+        "exitCode": 0,
+        "waited": true,
+        "seconds": 0.03145866700106126,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "contract": "Explicit composition clips and gains carry movie lifetime and AAC/phase/pixel/RSS gates. Rendering uses current projectMovieRenderer and shared attempt ownership.",
+  "proof": {
+    "compiler": "Saved synthetic fixture execution; schema, window/frame/sample counts only. Initial duplicate gain IDs were a setup failure, corrected before final execution.",
+    "actorChecks": "Syntax/lint/format results transcribed in frozen report; root merged syntax has contemporaneous PID/terminal records above."
+  },
+  "intentionalChanges": [
+    "explicit composition asset/clip/source ranges replace recording revision and role planner",
+    "explicit authored .5 audio track gains replace automatic mix-role policy; no implicit join ramps",
+    "cumulative floor 48k sample boundaries replace legacy nearest total; exact requested movie duration remains",
+    "explicit 1fps CFR canvas replaces legacy source-event VFR policy; zero PTS error is checked against compiled visible frame ranges",
+    "current standalone composition WAV operation replaces deleted legacy audio reference mode; independent analytic chirp oracle remains",
+    "Native probe availability intersections preserve exact rational endpoints through composition compare/fromTime"
+  ],
+  "limits": [
+    "No native build or movie/audio/scale harness body execution in this pass",
+    "Original movie and audio-track duration, independent AAC RMS/phase, padding, pixel and RSS gates remain in current callers, pending execution",
+    "Recovered inaccessible in-process finishing/pump hooks are preserved as historical phase evidence; current process abort is not equivalent proof",
+    "Native registration/engine deletion and installed acceptance remain separate"
+  ]
+}

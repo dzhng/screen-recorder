@@ -7549,3 +7549,21 @@ retired policy owner. This choice belongs to `2ab9dbdc`; independent positive an
 negative controls retain the numerical contract, while codec and whole-movie
 guarantees stay with their separate checks. The plan required endpoint preservation
 without requiring the obsolete whole-recording recipe.
+
+**Sound, high confidence — native movie fixtures author their output clock and mix explicitly.**
+The generated long recording contains gaps and numbered pictures. Its current
+fixture chooses a one-frame-per-second project canvas, explicit retained source
+ranges and a gain of one half on each audio track. The old recording renderer
+derived picture events and mixing from recording roles. This choice belongs to
+`7d6c6c74`; it retires that interpreter without introducing a replacement policy.
+The documented composition clock floors absolute audio sample boundaries.
+Original movie duration, audio-track duration, independent signal and memory
+limits stay intact. Native execution remains a separate obligation.
+
+**Sound, high confidence — the WAV comparison uses current composition processing with an independent signal check.**
+The same authored clips produce a standalone WAV and an encoded movie. Comparing
+their decoded audio detects encoding or assembly errors but cannot expose a DSP
+error shared by both outputs. The fixture also compares decoded samples against
+the independently generated chirps, preserving that second authority. This choice
+belongs to `7d6c6c74`; the removed audio executable's recording mix is unnecessary
+as a runtime reference. Historical source and phase evidence remains preserved.

@@ -91,6 +91,10 @@ preserve physical occupancy, late consumer failure, exact PCM and both selected
 source boundaries through focused native executables. Remaining audio/preview,
 processing/span owners and unmatched movie/lifetime guarantees precede actual
 schema removal.
+The [movie caller ports](../assets/23-owner-fixture-ports/movie-harness-cutover-verification.json)
+now use current composition and attempt owners. Their retained duration, AAC,
+pixel and memory checks await native execution; synthetic fixture compilation
+does not close those gates or the historical in-process finishing phase.
 Preserve valuable source/project guarantees through current owners. Missing inherited acoustic
 or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.

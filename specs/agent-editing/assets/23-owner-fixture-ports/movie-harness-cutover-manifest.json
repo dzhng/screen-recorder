@@ -1,0 +1,12 @@
+{
+  "ported-movie-lifetime.mjs": "ed14a6f593808e927fbd27a98d3ba0df217ecea4c49c2ea8270b9f28ccce9819",
+  "diff.patch": "e68322a2c979ddaf9e27d63243065606efe6631108e4187444edf044331933e5",
+  "report.json": "3a1fc7bcfc55270a45a3d61cddea983aecec78356456794ec86b6d0098cfa1a1",
+  "movie-scale.mjs": "7c90b4747f8e71ec272b5d1012d2d39e1e33d230306aabf014738c256da8a725",
+  "recovered-Lifetime.swift": "44e4039b018edcd9f2b0ea2575ee2e5d7bc3429b7851b40fba0bfbc211ed096f",
+  "ported-movie-scale.mjs": "d362b6f003ed6b8b2dbb50548a07d482ec9571fa164f024e14e87b0b1ccd3206",
+  "movie-lifetime.mjs": "7e9dd6ee08b90f7da4a6df279eea71fcea23078c7e7900aff12a63f53796a594",
+  "phase-retirement.txt": "2d9ce0e75fa79b968bcbc9b664dcd2278060d01be3228782ce59d09a13827638",
+  "pure-fixture-check.json": "f1b4f620f3645dc1173fcb5f626e50a18f805af0cfd7c65d59e92990a3b619c1",
+  "pure-fixture-check.mjs": "2f0af0b50e053b70a30a2fc287b159435443e2d5d7858acfdc2bb09d3a7afdf7"
+}

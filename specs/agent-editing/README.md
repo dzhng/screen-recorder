@@ -92,6 +92,12 @@ exact PCM. The [resampling endpoint checkpoint](assets/23-owner-fixture-ports/co
 preserves both admitted boundaries and excludes their adjacent source samples.
 These are focused test-executable results; remaining movie and old-family lifetime
 guarantees still precede native registration removal.
+The [movie caller ports](assets/23-owner-fixture-ports/movie-harness-cutover-verification.json)
+replace recording planning in the lifetime and scale harnesses with explicit
+compositions. Original numerical, pixel and memory gates remain; native execution
+is pending. Compilation of synthetic fixtures establishes no decoder or movie
+quality result. Missing historical finishing hooks remain a separately qualified
+phase obligation.
 Historical maps are prerequisites, not verification runs.
 
 The final joint purge removes the actual recording revision field from its type,
