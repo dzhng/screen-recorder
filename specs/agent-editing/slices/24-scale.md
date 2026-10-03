@@ -6,8 +6,13 @@ edit batching and compact public delivery pass their prerequisites. The
 also passes the original10/300s frame-count, sampled accuracy and memory gates.
 The [current long-frame cache bank](../assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
 passes the unchanged30-minute late-source seek, eviction and restart companion,
-with exact historical input and PNG digests. Complete indexing and exact
-soundtrack movie support remain separate current-runtime gates. The
+with exact historical input and PNG digests. The
+[complete raw-source index bank](../assets/23-owner-fixture-ports/current-complete-source-index-verification.json)
+passes publication/paging/storage and foreground demand on its frozen source
+candidate; sampled RSS and one foreground timing are not general p95 or peak budgets.
+The [current movie-scale bank](../assets/23-owner-fixture-ports/current-movie-scale-verification.json)
+passes exact support and original short/long phase/frame/memory gates. Remaining
+integrated dimensions and installed production acceptance stay separate. The
 [two-hour learned checkpoint](24f-successful-learned-scale.md) passes complete
 PCM comparison; [complete prepared-package transfer](24j-prepared-package-scale.md)
 passes full-file ownership and new receiver edit/undo without repeated DSP.

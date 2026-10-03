@@ -459,9 +459,14 @@ for (const seconds of [10, 300]) {
     const at = toProject(sourceUs),
       start = Math.floor((at * 48000) / 1e6),
       samples = await floats(join(dir, seconds + "-ff.f32"), start, 4096, 2);
+    const occurrence = spans.findIndex((span) => span.startUs <= sourceUs && sourceUs < span.endUs);
+    assert.notEqual(occurrence, -1);
+    // Derive the discrete clock from authored ranges, independently of compiler receipts.
+    const sourceStart = Math.floor((spans[occurrence].startUs * 48000) / 1e6),
+      placementStart = Math.floor((placements[occurrence].startUs * 48000) / 1e6);
     let sum = 0;
     for (let i = 0; i < 4096; i++) {
-      const t = (sourceUs - at) / 1e6 + (start + i) / 48000,
+      const t = (sourceStart + start - placementStart + i) / 48000,
         n = t >= 142 && t < 142.25 ? 0 : 0.1 * Math.sin(2 * Math.PI * (997 * t + 0.85 * t * t));
       for (let c = 0; c < 2; c++) {
         const f = c === 0 ? 1511 : 2111,

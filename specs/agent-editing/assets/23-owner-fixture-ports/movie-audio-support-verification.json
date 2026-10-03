@@ -1,0 +1,100 @@
+{
+  "commit": "dd7d82c5453727ee609640e0574ce196283f6a59",
+  "contract": {
+    "rangeUs": [
+      200000,
+      300020
+    ],
+    "durationUs": 100020,
+    "pcmFrames": 4800,
+    "sampleRate": 48000,
+    "movieTimescale": 6000000,
+    "allMovieTrackEditTicks": 600120,
+    "extraPCM": 0
+  },
+  "oldRed": {
+    "phase": "red",
+    "pid": 39240,
+    "exitCode": 1,
+    "expectedTicks": 600120,
+    "actualSoundTicks": 600000
+  },
+  "platformTrials": {
+    "mutableMovie": "Empty tail is unsupported by SDK track contract; actual header trial kept short sound",
+    "mutableCompositionPassthrough": "Actual explicit trailing empty segment export normalized away exact tail; mdat unchanged",
+    "privateEmptyEdit": "AVFoundation observes exact occupied+empty support; actual4800-frame native PCM SHA unchanged",
+    "originalInspectorCrash": "Actual successful decode preceded Foundation NaN JSON SIGABRT; corrected empty source clock null only"
+  },
+  "final": {
+    "tiny": {
+      "argv": [
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/Users/david/.codex/worktrees/movie-audio-support/screen-recorder/packages/test-harness/editing/composition-movie.mjs",
+        "--fractional-tail"
+      ],
+      "pid": 55840,
+      "start": 1791009453.268658,
+      "exitCode": 0,
+      "end": 1791009455.25272,
+      "seconds": 1.9840621948242188
+    },
+    "affectedCohort": {
+      "argv": [
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "/Users/david/.codex/worktrees/movie-audio-support/screen-recorder/packages/test-harness/editing/composition-movie.mjs"
+      ],
+      "pid": 56118,
+      "start": 1791009474.7801049,
+      "exitCode": 0,
+      "end": 1791009480.997717,
+      "seconds": 6.217613220214844
+    },
+    "headerControl": "generated grammar: EOF/duplicate/beyond-cell/cancel refuse without publication; v1 valid; held inode rejects parent symlink replacement and preserves external sentinel after actual NewFile cleanup",
+    "controlRed": {
+      "argv": [
+        "/Users/david/.cache/screen-recorder/verification/movie-audio-support-a6f96205/positive-size-iso-tail-eof-control/eof-control",
+        "--audio-tail",
+        "/Users/david/.cache/screen-recorder/verification/movie-audio-support-a6f96205/positive-size-iso-tail-eof-control/operands"
+      ],
+      "pid": 58090,
+      "start": 1791009545.230048,
+      "exitCode": -5,
+      "end": 1791009545.985491
+    },
+    "privateMutant": "Accept EOF-sized atom only in separate helper module; trap confirms refusal oracle. Production unchanged."
+  },
+  "runtime": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-audio-support-a6f96205/retained-runtime/screenrec-native",
+      "bytes": 30055136,
+      "sha256": "316d3ac90adbd0d10e31e0ddd21894557aaa81f34a7cbd829b35ef5c5d0f4e38"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-audio-support-a6f96205/retained-runtime/ScreenRecorderCompositionVideoTests",
+      "bytes": 30307136,
+      "sha256": "0c30e46f7643cd85fb2e53a3e0ca082e5c8231e0db6c0694d6254dfaef42c915"
+    }
+  ],
+  "limits": [
+    "No long10/300movie run by this agent; root will run original movie-scale from own debug link",
+    "No standalone audio support change, extra PCM, decoder/encoder/processing/tolerance change",
+    "Generated headers are parser/ownership evidence, not decoder quality",
+    "Only renamed-parent symlink sentinel protected in causal control; inherited NewFile discard real-directory replacement cleanup and later publish URL reopen are outside this correction",
+    "Swift production/helper sources exactly match executed compile pins; final JavaScript producer formatting normalized equal executed source",
+    "Unsupported/ambiguous headers and unrepresentable/more-than-one-cell tails refuse, rather than hide lost audio"
+  ],
+  "peerReview": {
+    "agent": "cutover_checkpoint_review",
+    "verdict": "Numerical/parser shape coherent; inherited NewFile cleanup/publication limits retained",
+    "rootDisposition": "Proceed focused mux commit; general NewFile follow-up separately owned"
+  },
+  "status": "Exact native soundtrack support and tiny/cohort contracts pass; original10/300movie gate subsequently passes in current-movie-scale bank.",
+  "evidence": {
+    "file": "movie-audio-support-evidence.tar.gz",
+    "bytes": 5235938,
+    "sha256": "99fb54a39b9417f35fa29731d99bc654e6d692dd9856ce88ea47c1bf5df4a3c4",
+    "hashedPayloads": 276,
+    "independentlyVerified": true
+  },
+  "rootReview": "Exact v0/v1 clocks, complete floorPCM, immutable media offsets/payloads, fixed-depth64MiB metadata and writer-held file identity verified. Independent peer identified inherited NewFile replacement cleanup/publication bugs; those are separate active owner repairs, not solved by this finalizer."
+}

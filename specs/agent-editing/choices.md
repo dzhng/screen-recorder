@@ -7801,3 +7801,72 @@ and duplicate reports in other states remain visible failures. The product and
 journal format are unchanged.
 
 Verdict: **sound**. State and progress have separate observable contracts. Confidence: **high**.
+
+## Exact movie support and authored sample clocks
+
+### Finalize only the native writer's bounded movie header
+
+When a requested movie ends between audio samples, its floor-counted PCM ends
+slightly earlier. The native mux now declares that fractional remainder as an
+empty presentation segment in the movie header. It leaves encoded audio, video
+and their byte offsets intact. The alternative of adding an audio sample would
+change the declared PCM quota; exporting the movie again would unnecessarily
+rewrite media. The finalizer accepts the native writer's fixed clock grammar,
+with one audio track and a header bounded to 64 MiB. It refuses ambiguous,
+unrepresentable or larger missing intervals instead of concealing lost audio.
+
+When: native soundtrack support pass, `dd7d82c5`.
+
+Gap: The spec required exact presentation and unchanged PCM but did not choose
+how to represent the remainder when the platform exporter omitted it.
+
+Reach: This is a private finalization rule for movies produced here, not a
+general movie repair or import parser. Supporting another writer's grammar
+requires an explicit extension; the metadata memory bound remains visible.
+
+Verdict: **sound**. Bounded header work preserves the media contract and avoids
+a second encoding path. Confidence: **medium**; the fixed grammar and metadata
+ceiling are implementation choices the project now owns.
+
+### Bind finalization to the file the writer created
+
+If another process replaces the staging pathname after the writer opens its
+movie, reopening that pathname could modify unrelated bytes. The mux retains
+the writer's file descriptor, the operating system's handle to that exact file,
+and verifies that its locator still names the same file before finalization.
+Replacing the pathname therefore causes refusal rather than a write to the
+replacement. Cleanup and publication still need their own common owner; this
+rule does not claim to resolve those separate pathname operations.
+
+When: native soundtrack support pass, `dd7d82c5`.
+
+Gap: The plan specified attempt ownership but not how header finalization would
+retain the writer's actual output identity.
+
+Reach: Native movie finalization uses held file identity. It adds no public
+operation, retry policy or generalized filesystem watcher.
+
+Verdict: **sound**. The writer's existing file handle is the relevant authority.
+Confidence: **high**.
+
+### Derive independent audio expectations from authored sample boundaries
+
+A fixture cuts several source ranges and places them next to one another.
+At 48 kHz, the contract floors each authored boundary to a whole sample. Its
+independent signal check now floors the authored source start and placement
+start separately, then maps the output sample back to its source sample.
+Using an unrounded time difference instead compared the correct output with a
+signal about one sample earlier. Reading the compiler's expected PCM would
+instead make this check depend on the implementation it is judging.
+
+When: original movie-scale recovery, after `dd7d82c5`.
+
+Gap: The fixture's analytic signal oracle had not represented the declared
+discrete boundary rule.
+
+Reach: The independent oracle consumes only authored ranges and the declared
+sample rate. The original error limit stays unchanged; no media processing or
+caller-visible timing rule changes.
+
+Verdict: **sound**. The expectation independently expresses the existing
+contract instead of accepting the compiler's own answer. Confidence: **high**.

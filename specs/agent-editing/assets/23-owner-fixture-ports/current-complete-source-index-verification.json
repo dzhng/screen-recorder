@@ -1,0 +1,144 @@
+{
+  "checkpoint": "One actual current raw-source30minute complete index gate",
+  "passed": true,
+  "scope": "Complete raw selected-source scene/index publication, public paging, retainedPNG/storage growth and foreground demand during indexing on immutable releasecd61 candidate.",
+  "sourceAtFreeze": "ad4097a6e9b5d7d1220d6a6dccd5443c98ecd974",
+  "rootRevisionReportedByUnmodifiedHarness": "07943590be068da22fa4d729d2a72531dce22a81",
+  "revisionQualification": "Harness git rev-parse observes shared checkout at launch, not a build claim. Runtime identity is the signed frozen candidate+compiled package manifests; source-specific operators are separately pinned unchanged from080ed72d.",
+  "runtimePins": [
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "bytes": 6298128,
+      "sha256": "2de81ba3676a8e52cb7787b8103dd91e803b1dbb67c20f565881e8740b3c6d73"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 19931920,
+      "sha256": "cd61f880baee5f9e7df4f0a158429ca0e65a6cbd83fbc5d7d773c1e190e4f384"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 4079323,
+      "sha256": "d8336b61ef2955ee1bf390290954f05f85aab82106bd58c66036cca15965ee83"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    }
+  ],
+  "capsule": {
+    "path": "/Users/david/.cache/screen-recorder/verification/raw-source-index-cd61/capsule",
+    "manifest": "capsule-manifest.json",
+    "filesVerifiedUnchanged": 268,
+    "logicalBytes": 38794984,
+    "isolation": "APFS copy-on-write clone of signed app+fourunchangedharnessmodules+compiledworkspacepackage runtimes; externalinstalled dependencies symlinked, no checkout/install/nativebuild. Capsule detached from all mutable primarydist outputs.",
+    "signatureVerifiedBeforeLaunch": true
+  },
+  "input": {
+    "path": "/Users/david/.cache/screen-recorder/verification/frame-cache-long-6eb419eb/video.mov",
+    "bytes": 109211742,
+    "sha256": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+    "readOnly": true,
+    "sameAsHistoricalInput": true,
+    "ownership": "Shared from prior frame-cache bank without newfixture generation. Existing unchangedharness creates disposable donor and managed asset copies as part of actual admission.",
+    "sourceIntegrity": "Existing fullscratchdonor hash matches original; sharedreadonlyinput hash matched after run. No separate final managedasset-file hash added to this unchangedcase."
+  },
+  "result": {
+    "testCases": 1,
+    "passed": 1,
+    "failed": 0,
+    "exitCode": 0,
+    "controlledStop": null,
+    "preparationAndIndexMs": 742979,
+    "indexMs": 695506,
+    "sceneDependencyReadyAtIndexStartMs": 47473,
+    "actualTestMs": 744193.709875,
+    "nodeRunnerMs": 745737.963,
+    "supervisorSeconds": 746.1738479137421,
+    "pages": 25,
+    "candidates": 4936,
+    "coverageCount": 4936,
+    "coverageThroughUs": 1800000000,
+    "sceneChunks": 180,
+    "sceneComparisons": 9000,
+    "sceneBoundaries": 3206,
+    "retainedPngBytes": 175810758,
+    "cacheBytes": 175810758,
+    "serializedRetainedRowBytes": 5374368,
+    "foreground": {
+      "requestedSourceUs": 900000000,
+      "actualSourceUs": 900000000,
+      "elapsedMs": 137.942458000005,
+      "decodedSamples": 1,
+      "readerOpens": 1
+    },
+    "sampledServicePeakKiB": 364224,
+    "sampledWorkerPeakKiB": 32896,
+    "memorySamples": 728
+  },
+  "budgets": {
+    "measurementGuardMs": 2700000,
+    "testGuardMs": 2850000,
+    "outerSupervisorGuardMs": 2865000,
+    "diagnosticNoDurableProgressSeconds": 120,
+    "allOriginalCaseAssertionsAndDeadlinesUnchanged": true,
+    "diagnosticStopUsed": false,
+    "note": "Safety guards are not performance SLA. No parent24p95/preview/RSS acceptance inferred."
+  },
+  "preservedEvidence": {
+    "actualCase": "output/report.json +gate.log",
+    "process": "process.json +terminal.json",
+    "progress": "progress.jsonl has30second durable job/scene/index snapshots; five-second supervisor reads only, no public operation replay or added preparation",
+    "beforeCleanup": "cleanup-55723",
+    "retainedPngHashes": 4936,
+    "pngBytesEqualDeclared": true,
+    "completeDurableRows": 4936,
+    "coverageRows": 4936,
+    "publicPages": "Unmodifiedcase enumerated25pages with advancingcursors and total4936==publishedmetadata; observer saved corresponding durable rows, not extra response replays.",
+    "byteHashObserver": "Read-onlybefore-cleanup hash inventory; no retainedPNG file copies. Runtimecase and hash validation passed separately.",
+    "sourceOperators": "source-operators.json contains6exactunchangednative source owners"
+  },
+  "postflight": {
+    "capsuleFilesVerified": 268,
+    "changed": [],
+    "exactCase": {
+      "sourceSha256After": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+      "inputStillReadOnly": true,
+      "allCandidatesAccountedFor": 4936,
+      "allRetainedPngHashesRecorded": 4936,
+      "allDeclaredSizesMatch": true,
+      "retainedPngBytes": 175810758,
+      "allCandidateTimesWithinRecordedPhysicalSample": true,
+      "coverageContiguousThroughUs": 1800000000,
+      "generationComplete": true,
+      "pages": 25
+    },
+    "ownedObservedProcessesStillRunning": [],
+    "scratchHomeStillExists": false,
+    "observerErrors": [],
+    "originalCaseExitCode": 0,
+    "controlledStop": null,
+    "samplingNote": "Process snapshots are sampled; unchanged harness separately requires owned app/service/native reaping before removing scratch."
+  },
+  "comparison": {
+    "historicalRunMs": 1997893,
+    "historicalCandidates": 6459,
+    "interpretation": "Same source bytes but different recording-era vs rawsource selection/materialization semantics. No causal speedup claim or historicalcandidatecount/PNGparity requirement."
+  },
+  "limits": [
+    "No aggregate fullscene/index decoded-sample or bytes-read measurement: scene native returns perchunkcounts but retainedchunk owner drops the aggregate; onlyforegroundreceipt contains its owncount.",
+    "RSS is sampled, not guaranteed instantaneouspeak/GPU memory; timing is this host/load singletrial.",
+    "No visualquality/selectionusefulness verdict from counts/hash inventory.",
+    "No MovieMux/newworker acceptance, capture/devices/models/inference/installedswitch/fullsuite/learnedDSP.",
+    "No code/fixture change or rerun; root owns sharedspec/evidence integration."
+  ],
+  "evidence": {
+    "file": "current-complete-source-index-evidence.tar.gz",
+    "bytes": 13150104,
+    "sha256": "804e4312031277c1ac63bc9a0499cb7f0ec3152eb52aba8de28f493c2ad47106",
+    "hashedPayloads": 296,
+    "independentlyVerified": true
+  },
+  "rootReview": "Unchanged current raw-source pipeline and pinned frozen candidate. Complete advancing pages match published cardinality; every retained PNG hash/size captured before ordinary cleanup. Existing foreground receipt and safety guard retain their scope; single timing/RSS samples and changed selection policy imply no general performance or historical-output parity."
+}

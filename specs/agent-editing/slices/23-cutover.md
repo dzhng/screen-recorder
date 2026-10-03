@@ -22,8 +22,11 @@ retains original failures and subsequent passes. The
 [current caller bank](../assets/23-owner-fixture-ports/current-caller-fixtures-verification.json)
 executes index/cache, source-history cuts and deletion cancellation; the
 [source lifetime bank](../assets/23-owner-fixture-ports/current-source-lifetime-verification.json)
-executes all three orphan workspace/donor/removal cases. Exact soundtrack
-presentation and installed switching remain incomplete. The
+executes all three orphan workspace/donor/removal cases. The
+[movie support](../assets/23-owner-fixture-ports/movie-audio-support-verification.json)
+and [current movie scale](../assets/23-owner-fixture-ports/current-movie-scale-verification.json)
+banks close exact soundtrack and original short/long movie gates. Staged-output
+namespace ownership and installed switching remain incomplete. The
 [capture/UI retry bank](../assets/23-owner-fixture-ports/current-capture-ui-verification.json)
 closes its thirteen failed named cases, including the physical frame prefix;
 its temporary capture media and UI are removed.
@@ -87,8 +90,10 @@ lifetime and portable proof. The
 removes standalone scene/event carriers after transferring their semantic oracles
 and ports the scale companion to public asset/stream selection. The
 [current long-frame cache bank](../assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
-passes that companion with exact historical input/frame digests; complete index
-publication remains separate. The
+passes that companion with exact historical input/frame digests; the
+[complete raw-source bank](../assets/23-owner-fixture-ports/current-complete-source-index-verification.json)
+also publishes all4,936selected PNGs and25pages on its pinned source candidate.
+Neither establishes new movie or installed scope. The
 [compiled pointer checkpoint](../assets/23-owner-fixture-ports/composition-pointer-readability-verification.json)
 preserves inherited delivery floors and crop caps through current geometry;
 full-size and clean frames are unchanged. Tiny crops retain the established
@@ -111,7 +116,8 @@ The [movie caller ports](../assets/23-owner-fixture-ports/movie-harness-cutover-
 now use current composition and attempt owners. Generated timing and lifetime
 pass in the default recovery bank. Selected-source long streaming passes in its
 [current bank](../assets/23-owner-fixture-ports/current-streaming-scale-verification.json);
-movie scale instead exposed early soundtrack container support and remains red.
+movie scale exposed early soundtrack container support, now repaired and verified
+by the current movie-scale bank with unchanged sample count and numerical limits.
 Neither these scoped passes nor synthetic fixture compilation closes the
 historical in-process finishing phase.
 The [audio/preview checkpoint](../assets/23-owner-fixture-ports/audio-preview-owner-purge-verification.json)

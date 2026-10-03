@@ -1,0 +1,103 @@
+{
+  "status": "Original10/300movie gates pass with corrected authored discrete-clock oracle; limits unchanged.",
+  "evidence": {
+    "file": "current-movie-scale-evidence.tar.gz",
+    "bytes": 34441,
+    "sha256": "dc1595295d420fe7cb733e8a9e7c043bde69345b1d2d1ae8e6ec0cc363613a42",
+    "hashedPayloads": 30,
+    "independentlyVerified": true
+  },
+  "actualWorkerSha256": "316d3ac90adbd0d10e31e0ddd21894557aaa81f34a7cbd829b35ef5c5d0f4e38",
+  "nativeSourcePins": 117,
+  "process": {
+    "command": [
+      "env",
+      "SCREENREC_MOVIE_SCALE_EVIDENCE=/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/movie-scale-authored-clock",
+      "node",
+      "packages/test-harness/movie-scale.mjs"
+    ],
+    "pid": 86440,
+    "exitCode": 0,
+    "seconds": 37.158544709000125,
+    "timedOut": false,
+    "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+  },
+  "environmentQualification": "Runner nativeWorker is an unused environment value; hardcoded callerdefault resolves WTdebuglink to actual316d3ac9 worker.",
+  "exactContainerClocks": [
+    {
+      "seconds": 10,
+      "clock": {
+        "timescale": 6000000,
+        "durationTicks": 58339998,
+        "editListTicks": [
+          58339998,
+          58339998
+        ],
+        "trackTicks": [
+          58339998,
+          58339998
+        ]
+      },
+      "frames": 466719,
+      "rss": 54165504,
+      "wallMs": 697,
+      "maxIndependentRms": 0.0008261120479634793,
+      "videoTiming": {
+        "frames": 10,
+        "maximumErrorUs": 0
+      }
+    },
+    {
+      "seconds": 300,
+      "clock": {
+        "timescale": 6000000,
+        "durationTicks": 1795840020,
+        "editListTicks": [
+          1795840020,
+          1795840020
+        ],
+        "trackTicks": [
+          1795840020,
+          1795840020
+        ]
+      },
+      "frames": 14366720,
+      "rss": 64978944,
+      "wallMs": 15508,
+      "maxIndependentRms": 0.0008261120479634793,
+      "videoTiming": {
+        "frames": 300,
+        "maximumErrorUs": 0
+      }
+    }
+  ],
+  "sourceBytesUnchanged": true,
+  "thresholds": {
+    "aacRms": 0.01,
+    "independentSourceRms": 0.01,
+    "bestLagFramesMaximum": 1,
+    "memory": "long <= short * 1.5 + 16 MiB",
+    "videoTimingErrorUs": 0
+  },
+  "oracleCorrection": {
+    "reason": "A continuous offset compared a9250000us signal at9249979.5us, contradicting the declared cumulativefloor sample clock.",
+    "input": "Authored sourceStart and placementStart floor48k independently of compiler/native receipts.",
+    "retainedRedRms": 0.019155318060434495,
+    "correctedSavedPcmRms": 7.049339809576294e-05,
+    "nativeRerunForDiagnosis": false
+  },
+  "producer": {
+    "executedSourceSha256": "facbe9e32fd44c368976ff96e1882fbf255680ff01e5f6c700a7116d7b25f24b",
+    "finalSourceSha256": "274c8f90cdcc19b0f0b4e1a8c66c58d56ed7dbf8c0e5712c5ad675be39c10406",
+    "formatterVersion": "0.68.0",
+    "exactFormatterOutputEquality": true,
+    "runtimeRerun": "Not needed for this whitespace-only transformation."
+  },
+  "limits": [
+    "IndependentAAC/source errors are sampled windows; completeframe counts and sourcebytes are separately verified.",
+    "No listening/installed/physical capture/whole-workflow visual verdict.",
+    "Generated fullmedia retainedprivately, not duplicated in compactarchive.",
+    "IndependentISO clocks use existing ownrepository reader; missingassert import was a setup-only metadataobserver error, corrected without media rerender.",
+    "NewFile foreign-namespace bugs are active separate fixes; this worker still contains the inherited owner."
+  ]
+}

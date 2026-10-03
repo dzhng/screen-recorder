@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-10-02.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-10-03.
 Product boundary: **zero editorial decisions; only primitives**. The external
 agent using this project makes every editorial decision. Follow the
 [editorial-control contract](architecture.md#editorial-control) when interpreting
@@ -21,8 +21,8 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: fix exact soundtrack presentation support, then resume the failed
-movie-scale gate and unmatched runtime/release contracts.** Core/schema closure
+**Next pickup: finish staged-output namespace ownership, then rebuild the combined
+candidate and close unmatched runtime/release contracts.** Core/schema closure
 removes recording revisions from the actual type, query and schema. The fresh
 catalog is format23 and refuses prior catalogs without migration or byte mutation.
 Projects retain their edit/history owner; capture/source facts and raw provenance
@@ -38,16 +38,24 @@ failures. The [capture/UI retry bank](assets/23-owner-fixture-ports/current-capt
 closes all thirteen previously failed named capture/UI cases, including the
 actual frame-capture prefix. The
 [selected streaming bank](assets/23-owner-fixture-ports/current-streaming-scale-verification.json)
-passes the original10/300s PCM and memory gates. Movie scale found a real defect:
-floor-counted PCM ends slightly before the requested movie endpoint, and the
-audio track's container presentation also ends early. Preserve both exact track
-presentation and unchanged PCM count; do not widen the duration tolerance.
+passes the original10/300s PCM and memory gates. The
+[soundtrack support fix](assets/23-owner-fixture-ports/movie-audio-support-verification.json)
+preserves exact container presentation with unchanged floorPCM. The
+[original movie-scale gate](assets/23-owner-fixture-ports/current-movie-scale-verification.json)
+now passes short/long duration, AAC/source phase, frame timing and memory limits;
+its independent oracle uses the declared authored discrete sample clock.
 The [source lifetime bank](assets/23-owner-fixture-ports/current-source-lifetime-verification.json)
 closes all three retained orphan-workspace, donor and removal cases on the
 unchanged current worker; SDK finishing remains a separate contract.
 The [long-source cache bank](assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
 passes the unchanged30-minute late-seek/cache/restart companion with exact
-historical input and PNG digests; complete indexing remains separate.
+historical input and PNG digests. The
+[complete raw-source index bank](assets/23-owner-fixture-ports/current-complete-source-index-verification.json)
+passes all4,936PNG publications and25pages on the frozen source candidate.
+These source checks retain their separate runtime and performance scope.
+Independent review found that the existing NewFile owner could delete or publish
+a foreign replacement staging directory. Its descriptor-based cleanup and common
+publication correction is active; keep that pass separate from the mux proof.
 Initial zero-display failures remain in the original default bank. Post-restart
 [source enumeration](assets/23-owner-fixture-ports/post-restart-source-availability.json)
 enabled the serial retry cohort; its temporary media and UI are cleaned up.
@@ -57,9 +65,9 @@ experiment or asking the user for another recording.
 
 Continue in this order:
 
-1. Close the soundtrack endpoint defect through the existing native mux owner,
-   with a tiny regression before resuming short/long movie scale. Complete
-   only affected contracts on the rebuilt candidate; do not repeat repaired
+1. Close the staged-output owner correction with its causal replacement controls,
+   then build the combined candidate and check only affected output/publication
+   contracts. Do not repeat repaired
    capture/UI or other passed default cohorts.
    Reuse passed package/native cohorts. Generated movie timing and lifetime pass;
    exact SDK finishing remains qualified separately. Then finish unmatched native/media contracts through current owners, with

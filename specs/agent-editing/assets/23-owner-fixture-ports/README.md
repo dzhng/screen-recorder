@@ -58,6 +58,9 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Orphan acquisition workspace, donor and removal leases across parent death | [Current source lifetime](current-source-lifetime-verification.json) |
 | Actual capture, recovery, journal publication and countdown cancellation | [Current capture/UI retry](current-capture-ui-verification.json) |
 | Thirty-minute source seek, cache identity, LRU eviction and restart | [Current long-frame cache](current-long-frame-cache-verification.json) |
+| Exact soundtrack support without additional PCM or changed packets | [Movie support](movie-audio-support-verification.json) |
+| Original short/long movie duration, phase, pixels and native memory gates | [Current movie scale](current-movie-scale-verification.json) |
+| Complete raw-source scene/index publication, paging and retained PNG growth | [Current complete index](current-complete-source-index-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -68,8 +71,10 @@ three current-owner metrics cases pass;
 subsequent default recovery and current-caller banks own their actual runtime
 verdicts. The current-source-lifetime bank closes the three retained orphan
 workspace/donor/removal cases. The capture/UI retry bank closes its thirteen
-named failures and actual frame prefix. Unmatched movie-scale and complete-index scope remain
-execution obligations. Historical lab commands in the recording spec are
+named failures and actual frame prefix. Current movie scale and complete raw-source
+index now pass in their separate banks. Staged-output namespace ownership,
+continuous presentation and installed scope remain execution obligations.
+Historical lab commands in the recording spec are
 retained evidence, not runnable current entry points.
 
 ## Ownership and proof limits
@@ -119,9 +124,10 @@ they do not establish whole-movie or production-worker acceptance.
 Movie lifetime and scale callers now compile explicit composition clips and
 gains. Their duration, AAC phase/error, pixel, source-byte and memory assertions
 remain runtime gates. Generated timing and lifetime execute in the default
-recovery bank. Selected streaming passes its long gate separately; movie scale
-currently fails because exact audio presentation ends before the movie endpoint.
-Neither PCM rounding nor a wider tolerance repairs that container contract.
+recovery bank. Selected streaming passes its long gate separately. The current
+movie-scale bank now preserves exact soundtrack support and original PCM count,
+with unchanged error/memory limits. Its analytic signal oracle derives source
+sample positions from authored floor clocks rather than unquantized offsets.
 Recovered in-process finishing hooks document a historical
 phase contract; a current process-abort check is not equivalent evidence.
 
@@ -146,7 +152,7 @@ pointer history survives cuts and trims; source pauses still reset held state.
 
 The default recovery bank executes current generated movie timing, cancellation
 and process lifetime; exact SDK finishing stays separately qualified. Remaining
-obligations include current-source scale, unfinished capture/caller fixtures and
+obligations include remaining integrated scale dimensions, staged-output ownership and
 release scope. The explicit caller harness uses current operations through controlled
 replies. Installed switching, continuous playback, physical capture
 and speech/listening acceptance remain separate release gates. No source recording
