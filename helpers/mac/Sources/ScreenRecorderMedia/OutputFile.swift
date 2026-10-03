@@ -11,6 +11,11 @@ public final class NewFile: @unchecked Sendable {
     public let url: URL
     private let requested: String
     private let staging: URL
+    private var parentDirectory: FileHandle?
+    private var stagingDirectory: FileHandle?
+    private let stagingIdentity: stat
+    private var assembledIdentity: stat?
+    private let ownershipLock = NSLock()
 
     /// `name` is what the file is called while assembled: platform writers infer behavior from
     /// its extension, and the published path's own name need not carry one.
@@ -21,10 +26,33 @@ public final class NewFile: @unchecked Sendable {
         let destination = URL(fileURLWithPath: path)
         let staging = destination.deletingLastPathComponent().appendingPathComponent(
             ".screenrec-output-\(UUID().uuidString)")
-        guard mkdir(staging.path, 0o700) == 0 else {
+        let parentFD = open(destination.deletingLastPathComponent().path,
+            O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        guard parentFD >= 0 else {
+            throw NativeFailure("INVALID_OUTPUT", "Cannot retain output parent: \(Self.reason()).")
+        }
+        let parent = FileHandle(fileDescriptor: parentFD, closeOnDealloc: true)
+        guard mkdirat(parentFD, staging.lastPathComponent, 0o700) == 0 else {
+            try? parent.close()
             throw NativeFailure(
                 "INVALID_OUTPUT", "Cannot create private staging beside \(path): \(Self.reason()).")
         }
+        let stageFD = openat(parentFD, staging.lastPathComponent,
+            O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard stageFD >= 0 else {
+            try? parent.close()
+            throw NativeFailure("INVALID_OUTPUT", "Cannot retain private staging: \(Self.reason()).")
+        }
+        let stage = FileHandle(fileDescriptor: stageFD, closeOnDealloc: true)
+        var identity = stat()
+        guard fstat(stageFD, &identity) == 0 else {
+            try? stage.close()
+            try? parent.close()
+            throw NativeFailure("INVALID_OUTPUT", "Cannot inspect private staging: \(Self.reason()).")
+        }
+        parentDirectory = parent
+        stagingDirectory = stage
+        stagingIdentity = identity
         requested = path
         self.staging = staging
         url = staging.appendingPathComponent(name)
@@ -35,40 +63,113 @@ public final class NewFile: @unchecked Sendable {
 
     /// Writes complete bytes as the file.
     public func write(_ data: Data) throws {
-        let descriptor = open(url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
+        ownershipLock.lock()
+        defer { ownershipLock.unlock() }
+        guard let directory = stagingDirectory else {
+            throw NativeFailure("INVALID_OUTPUT", "Output staging is closed.")
+        }
+        let descriptor = openat(directory.fileDescriptor, url.lastPathComponent,
+            O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
         guard descriptor >= 0 else { throw NativeFailure.decodeFailed(
             "Cannot create output: \(Self.reason()).") }
         defer { close(descriptor) }
         try Self.write(data, to: descriptor)
+        var identity = stat()
+        guard fstat(descriptor, &identity) == 0 else {
+            throw NativeFailure.decodeFailed("Cannot identify written output: \(Self.reason()).")
+        }
+        assembledIdentity = identity
     }
 
     /// Makes the finished file visible at the requested path and returns its size. The receipt is
     /// only issued after the path is proven to name the inode this operation assembled.
     public func publish() throws -> Int {
-        try Self.publish(staged: url, at: requested)
+        ownershipLock.lock()
+        defer { ownershipLock.unlock() }
+        guard let stage = stagingDirectory, let parent = parentDirectory else {
+            throw NativeFailure("INVALID_OUTPUT", "Output staging is closed.")
+        }
+        return try Self.publish(stage.fileDescriptor, url.lastPathComponent,
+            parent.fileDescriptor, at: requested, expected: assembledIdentity)
     }
 
     /// A retained attempt can resume publication of the same inode without replacing other bytes.
     package static func publish(staged url: URL, at requested: String) throws -> Int {
-        let descriptor = open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+        let stage = open(url.deletingLastPathComponent().path, O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        guard stage >= 0 else { throw NativeFailure.decodeFailed("Output was not written.") }
+        defer { close(stage) }
+        let parent = open(URL(fileURLWithPath: requested).deletingLastPathComponent().path,
+            O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        guard parent >= 0 else { throw NativeFailure("INVALID_OUTPUT", "Output parent is unavailable.") }
+        defer { close(parent) }
+        return try publish(stage, url.lastPathComponent, parent, at: requested, expected: nil)
+    }
+
+    private static func publish(_ stage: Int32, _ name: String, _ parent: Int32,
+        at requested: String, expected: stat?) throws -> Int {
+        let descriptor = openat(stage, name, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
         guard descriptor >= 0 else { throw NativeFailure.decodeFailed("Output was not written.") }
         defer { close(descriptor) }
         var staged = stat()
         guard fstat(descriptor, &staged) == 0, staged.st_mode & S_IFMT == S_IFREG,
             fsync(descriptor) == 0
         else { throw NativeFailure.decodeFailed("Cannot finish output: \(Self.reason()).") }
-        if link(url.path, requested) != 0 && errno != EEXIST {
+        if let expected, staged.st_dev != expected.st_dev || staged.st_ino != expected.st_ino {
+            throw NativeFailure("INVALID_OUTPUT", "Assembled output changed before publication.")
+        }
+        var retained = stat(), current = stat()
+        guard fstat(parent, &retained) == 0,
+            stat(URL(fileURLWithPath: requested).deletingLastPathComponent().path, &current) == 0,
+            current.st_dev == retained.st_dev, current.st_ino == retained.st_ino
+        else { throw NativeFailure("INVALID_OUTPUT", "Output parent changed before publication.") }
+        let target = URL(fileURLWithPath: requested).lastPathComponent
+        let linked = linkat(stage, name, parent, target, 0)
+        let created = linked == 0
+        if !created && errno != EEXIST {
             throw NativeFailure("INVALID_OUTPUT", "Cannot publish to \(requested): \(Self.reason()).")
         }
-        var published = stat()
-        guard lstat(requested, &published) == 0, published.st_dev == staged.st_dev,
-            published.st_ino == staged.st_ino
-        else { throw NativeFailure("INVALID_OUTPUT", "Output locator changed before its receipt.") }
+        var published = stat(), confirmed = stat()
+        guard fstat(descriptor, &confirmed) == 0, confirmed.st_size == staged.st_size,
+            lstat(requested, &published) == 0, published.st_dev == staged.st_dev,
+            published.st_ino == staged.st_ino, published.st_size == staged.st_size
+        else {
+            var owned = stat()
+            if created, fstatat(parent, target, &owned, AT_SYMLINK_NOFOLLOW) == 0,
+                owned.st_dev == staged.st_dev, owned.st_ino == staged.st_ino {
+                _ = unlinkat(parent, target, 0)
+            }
+            throw NativeFailure("INVALID_OUTPUT", "Output locator changed before its receipt.")
+        }
         return Int(staged.st_size)
     }
 
-    /// Removes the private staging directory. A published file survives through its own link.
-    public func discard() { try? FileManager.default.removeItem(at: staging) }
+    /// Removes only the retained staging inode. A published file survives through its own link.
+    public func discard() {
+        ownershipLock.lock()
+        defer { ownershipLock.unlock() }
+        guard let stage = stagingDirectory, let parent = parentDirectory else { return }
+        stagingDirectory = nil
+        parentDirectory = nil
+        defer { try? stage.close(); try? parent.close() }
+        let stageFD = stage.fileDescriptor, parentFD = parent.fileDescriptor
+        try? DirectoryContents.removeContents(stageFD)
+        // A renamed attempt remains ours; a replacement at its previous name does not.
+        try? DirectoryContents.forEachName(in: parentFD) { name in
+            var current = stat()
+            guard fstatat(parentFD, name, &current, AT_SYMLINK_NOFOLLOW) == 0,
+                current.st_dev == stagingIdentity.st_dev, current.st_ino == stagingIdentity.st_ino
+            else { return true }
+            if unlinkat(parentFD, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
+                throw DirectoryContents.failure("Remove owned staging directory")
+            }
+            return false
+        }
+    }
+
+    deinit {
+        try? stagingDirectory?.close()
+        try? parentDirectory?.close()
+    }
 
     static func write(_ data: Data, to descriptor: Int32) throws {
         try data.withUnsafeBytes { bytes in

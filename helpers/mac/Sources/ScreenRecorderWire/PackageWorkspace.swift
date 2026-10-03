@@ -72,7 +72,7 @@ enum PackageWorkspace {
 
     private static func namesInDirectory(_ fd: Int32, maximum: Int) throws -> [String] {
         var names: [String] = []
-        try Descriptors.forEachName(in: fd, failing: failure) { entry in
+        try DirectoryContents.forEachName(in: fd, failing: failure) { entry in
             let name = String(cString: entry)
             guard UUID(uuidString: name) != nil, name.utf8.count == 36, names.count < maximum else {
                 throw NativeFailure(

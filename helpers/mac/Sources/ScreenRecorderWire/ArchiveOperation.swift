@@ -129,7 +129,7 @@ enum ArchiveOperation {
             try request.identity.check(root)
             try ManagedFiles.lockPrivateDirectory(root)
             if operation == "archive.cleanup" {
-                try ManagedFiles.removeContents(root)
+                try DirectoryContents.removeContents(root)
                 return ["removed": true]
             }
             try requireEmpty()
