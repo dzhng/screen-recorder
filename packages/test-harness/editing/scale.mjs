@@ -1,5 +1,5 @@
 import { reorderQuery } from "./scale-reorder-query.mjs";
-import { routingTopology } from "./routing-topology.mjs";
+import { routingTopology, longRoutingPlacements } from "./routing-topology.mjs";
 import assert from "node:assert/strict";
 import { previewScale } from "./preview-scale.mjs";
 import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
@@ -94,20 +94,17 @@ try {
     const topologyResult = await apply(topology, "topology"),
       tracks = Array.from({ length: width }, (_, i) => topologyResult.edit.labels[`t${i}`]);
     const authored = [];
-    const sequential = occurrences - width,
-      endSequential = durationUs - 1e6;
+    const endSequential = durationUs - 1e6;
+    const placements = longRoutingPlacements(seconds, occurrences, width);
     for (let first = 0; first < occurrences; first += 500) {
       const operations = [];
       for (let i = first; i < Math.min(first + 500, occurrences); i++) {
-        const startUs =
-          i < sequential ? Math.floor((i * endSequential) / sequential) : endSequential;
-        const endUs =
-          i < sequential ? Math.floor(((i + 1) * endSequential) / sequential) : durationUs;
+        const { startUs, endUs, lane } = placements[i];
         operations.push({
           operation: "place",
           ...(queryOnly ? { label: `clip${i}` } : {}),
           clip: {
-            trackId: tracks[i < sequential ? i % width : i - sequential],
+            trackId: tracks[lane],
             assetId: asset.id,
             streamId: asset.streams[0].id,
             source: { kind: "range", range: { startUs: 0, endUs: endUs - startUs } },

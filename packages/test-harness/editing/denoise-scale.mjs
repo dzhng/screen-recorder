@@ -15,6 +15,7 @@ import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { createHash } from "node:crypto";
 import { JourneyService, hash, run } from "./source-evidence-fixture.mjs";
+import { referenceLanes, compareWavePCM } from "./denoise-pcm.mjs";
 import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
 
 const { values } = parseArgs({
@@ -202,13 +203,12 @@ try {
   );
   const period = sourcePeriod(0).subarray(0, periodFrames * 8);
   const referenceAt = performance.now();
-  const referencePaths = [];
+  const referenceInputs = [];
   for (let channel = 0; channel < 2; channel++) {
     const lane = Buffer.alloc(periodFrames * 4);
     for (let frame = 0; frame < periodFrames; frame++)
       period.copy(lane, frame * 4, frame * 8 + channel * 4, frame * 8 + channel * 4 + 4);
-    const input = join(out, `reference-${channel}-input.f32`),
-      output = join(out, `reference-${channel}-raw.f32`);
+    const input = join(out, `reference-${channel}-input.f32`);
     const writer = await open(input, "w");
     try {
       for (let i = 0; i < occurrences; i++)
@@ -216,44 +216,10 @@ try {
     } finally {
       await writer.close();
     }
-    await run(reference, [input, output, "2"], { timeout: 3600000 });
-    assert.equal((await stat(output)).size, (seconds * 48000 + 960) * 4);
-    referencePaths.push(output);
+    referenceInputs.push(input);
   }
-  const references = await Promise.all(referencePaths.map((path) => open(path, "r")));
-  const actual = await open(full, "r");
-  try {
-    const h = Buffer.alloc(4096);
-    await actual.read(h, 0, h.length, 0);
-    const header = waveHeader(h, (await actual.stat()).size);
-    const a = Buffer.alloc(8192 * 8),
-      lanes = [Buffer.alloc(8192 * 4), Buffer.alloc(8192 * 4)];
-    const pcmHash = createHash("sha256");
-    for (let start = 0; start < seconds * 48000; start += 8192) {
-      const count = Math.min(8192, seconds * 48000 - start);
-      assert.equal(
-        (await actual.read(a, 0, count * 8, header.offset + start * 8)).bytesRead,
-        count * 8,
-      );
-      pcmHash.update(a.subarray(0, count * 8));
-      for (let c = 0; c < 2; c++) {
-        assert.equal(
-          (await references[c].read(lanes[c], 0, count * 4, (start + 960) * 4)).bytesRead,
-          count * 4,
-        );
-        for (let frame = 0; frame < count; frame++)
-          assert.equal(
-            a.readUInt32LE(frame * 8 + c * 4),
-            lanes[c].readUInt32LE(frame * 4),
-            `frame ${start + frame} channel ${c}`,
-          );
-      }
-    }
-    report.observations.fullPCMHash = pcmHash.digest("hex");
-  } finally {
-    await actual.close();
-    for (const handle of references) await handle.close();
-  }
+  const referencePaths = await referenceLanes(reference, referenceInputs, seconds * 48000, out);
+  report.observations.fullPCMHash = await compareWavePCM(full, seconds * 48000, referencePaths);
   report.observations.independentReferenceMs = performance.now() - referenceAt;
   report.observations.fullSha256 = await digest(full);
   report.observations.fullBytes = (await stat(full)).size;
