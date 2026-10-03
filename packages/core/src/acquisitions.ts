@@ -11,6 +11,7 @@ import {
   verifySourceEvidence,
   sourcePublicationFiles,
   sourcePublicationMembers as publicationMembers,
+  type SourceExporter,
 } from "./source-admission.js";
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
@@ -51,7 +52,6 @@ import {
   type SourceEvidenceMetadata,
   type SourceEvidenceStore,
 } from "./evidence.js";
-import type { SourceExporter } from "./processing.js";
 import { ResourceReferences, type ResourceOwner } from "./references.js";
 
 const members = [

@@ -6,7 +6,19 @@ import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
 import { copyImportedFile, hashFile, type IdentifiedFile } from "./files.js";
 import { sourceEvidenceRecords, type RecordRow, type SourceEvidenceReceipt } from "./evidence.js";
-import type { SourceExporter } from "./processing.js";
+import type { MediaProbe } from "./assets.js";
+import type { CapturePublishedSource, CaptureSourceAuthority } from "./capture-publication.js";
+
+export type SourceExporter = (
+  directory: string,
+  output: string,
+  signal: AbortSignal,
+  canonical?: Partial<
+    Record<"video" | "narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>
+  >,
+  lifetimes?: readonly number[],
+  sourceAuthority?: CaptureSourceAuthority,
+) => Promise<SourceEvidenceReceipt & { verifiedSourceAuthority?: CapturePublishedSource }>;
 
 const publicationNames = {
   narration: "narration.publication.json",

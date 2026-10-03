@@ -10,7 +10,7 @@ import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";
 import { AssetStore } from "./assets.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { JobQueue } from "./jobs.js";
-import type { SourceExporter } from "./processing.js";
+import type { SourceExporter } from "./source-admission.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {

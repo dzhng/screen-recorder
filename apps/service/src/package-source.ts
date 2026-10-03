@@ -9,8 +9,8 @@ import {
   verifySourceEvidence,
   sourcePublicationMembers,
   type SourceAdmissionFiles,
+  type SourceExporter,
 } from "@screenrec/core/source-admission";
-import type { SourceExporter } from "@screenrec/core/processing";
 import type { RetainedPackage } from "./package-archive.js";
 import { portableIdentities } from "./package-media.js";
 import { sourceExporter } from "./source-export.js";
