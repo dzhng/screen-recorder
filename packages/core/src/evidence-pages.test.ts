@@ -8,7 +8,7 @@ import { planAudioExcerpt } from "./audio.js";
 import { createOriginalRevision } from "./timeline.js";
 import { planFrameTrail } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import {
   FileSourceEvidence,
@@ -17,7 +17,7 @@ import {
 } from "./evidence-pages.js";
 
 const roots: string[] = [];
-const stores = new Set<RevisionStore>();
+const stores = new Set<CaptureStore>();
 afterEach(() => {
   for (const store of stores) store.close();
   stores.clear();
@@ -27,7 +27,7 @@ async function fixture() {
   const root = mkdtempSync(join(tmpdir(), "source-pages-"));
   roots.push(root);
   const library = join(root, "library.sqlite");
-  const store = new RevisionStore(library, { now: () => "", newId: randomUUID });
+  const store = new CaptureStore(library, { now: () => "", newId: randomUUID });
   stores.add(store);
   const recording = store.allocate().recording;
   const identity = {
