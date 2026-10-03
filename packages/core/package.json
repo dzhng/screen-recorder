@@ -4,14 +4,6 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./timeline": {
-      "types": "./dist/timeline.d.ts",
-      "default": "./dist/timeline.js"
-    },
-    "./library": {
-      "types": "./dist/library.d.ts",
-      "default": "./dist/library.js"
-    },
     "./jobs": {
       "types": "./dist/jobs.d.ts",
       "default": "./dist/jobs.js"
@@ -19,10 +11,6 @@
     "./evidence": {
       "types": "./dist/evidence.d.ts",
       "default": "./dist/evidence.js"
-    },
-    "./processing": {
-      "types": "./dist/processing.d.ts",
-      "default": "./dist/processing.js"
     },
     "./cache": {
       "types": "./dist/cache.d.ts",

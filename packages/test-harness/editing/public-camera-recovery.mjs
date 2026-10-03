@@ -108,7 +108,7 @@ try {
       independent.sourceAdmissions.find((source) => source.kind === heldKind).acquisitionId,
       null,
     );
-    assert.equal(independent.currentRevisionId, null);
+    assert.equal(Object.hasOwn(independent, "currentRevisionId"), false);
     const replay = await service.call("capture.start", request);
     assert.equal(replay.recordingId, take.recordingId);
     assert.equal((await service.fixtureCall("inspect")).requests.length, 0);

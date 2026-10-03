@@ -292,7 +292,6 @@ test("deletion waits for running recovery and does not admit recovery for anothe
     await recovering;
     await quiet;
     expect(recoveries).toBe(1);
-    expect(store.deleting(recording.recordingId)?.currentRevisionId).toBeNull();
     expect(store.latest()).toBeNull();
   } finally {
     finish?.({
@@ -511,7 +510,6 @@ test.each(["complete", "interrupted"] as const)(
       expect(store.get(recording.recordingId)).toMatchObject({
         state,
         sourceDurationUs: 20,
-        currentRevisionId: null,
       });
       expect(await readFile(join(source, "sentinel"), "utf8")).toBe("finished media stays");
     } finally {

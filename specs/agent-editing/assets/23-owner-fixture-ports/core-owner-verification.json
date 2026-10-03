@@ -1,0 +1,179 @@
+{
+  "checkpoint": "core recording owner and schema closure",
+  "base": "8e98a26f",
+  "historicalSourceBase": "ccbbd171",
+  "sourcePins": [
+    {
+      "path": "apps/macos/package.json",
+      "bytes": 1051,
+      "sha256": "57876c04e82c4fd08c863328ef896366275661ca7893e5d082dc4eec1d17ab87"
+    },
+    {
+      "path": "apps/service/src/capture-lifetime.test.ts",
+      "bytes": 21192,
+      "sha256": "11080bf4bb25e6794d0a8ac7ee11c788d2b3e79f71b9237a7e86970527bc8352"
+    },
+    {
+      "path": "apps/service/src/capture.test.ts",
+      "bytes": 47453,
+      "sha256": "ccb57f56dd71c7baf88613977bbf96c9d5ea7c495697e6c45ec8e227154a67b6"
+    },
+    {
+      "path": "apps/service/src/operation-errors.ts",
+      "bytes": 677,
+      "sha256": "52954d853cdd76a4a36cbf99e8a2f93b379a09bcbb3464f7fd61fd5b22fa2f31"
+    },
+    {
+      "path": "apps/service/src/project-capture.test.ts",
+      "bytes": 36221,
+      "sha256": "e89fc784e14250f7fbc0bde8afadbba3898474f69483018bb4b80c93ff25fbd8"
+    },
+    {
+      "path": "packages/core/package.json",
+      "bytes": 7782,
+      "sha256": "46fbb6568d565b8d53fb317059a6737fa77c18a7824c200654c3673074228821"
+    },
+    {
+      "path": "packages/core/src/capture-store.test.ts",
+      "bytes": 29342,
+      "sha256": "063c4461060c4655816f6e8ff4d53bd1fc2fc0ff40f90a4ed9eb3268d4e63453"
+    },
+    {
+      "path": "packages/core/src/capture-store.ts",
+      "bytes": 21634,
+      "sha256": "334f0db50c5590cc6fdda44c7e3b167971a9eabe1c6b6314bf7b0286b3ec3fcb"
+    },
+    {
+      "path": "packages/core/src/catalog.ts",
+      "bytes": 2260,
+      "sha256": "35e4738e452661584c9a0567713b334f89ba9789d3951b169ea168e76b29bbe3"
+    },
+    {
+      "path": "packages/core/src/jobs.test.ts",
+      "bytes": 104769,
+      "sha256": "8f0c42b28d7714afdeb519b1f1367bb49cf3541098a62f4ed5729d60151e15e5"
+    },
+    {
+      "path": "packages/core/src/jobs.ts",
+      "bytes": 54683,
+      "sha256": "df6e4d55ebbf9193daab41d05378cd079684dee14aa37e58901a0c021be79ead"
+    },
+    {
+      "path": "packages/core/src/library.test.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/library.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/processing.test.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/processing.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/timeline.test.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/timeline.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/trails.test.ts",
+      "bytes": 42465,
+      "sha256": "804ccb352c4322f208462f44303bf02f6f79cc9bb82264f08ef01608ceab78d4"
+    },
+    {
+      "path": "packages/test-harness/editing/cutover-state.mjs",
+      "deleted": true
+    },
+    {
+      "path": "packages/test-harness/editing/public-camera-recovery.mjs",
+      "bytes": 10989,
+      "sha256": "e9f0292adc95cb53c1024e6339dba87baac2071a1fe9258ddc6873a32c40272d"
+    },
+    {
+      "path": "packages/test-harness/editing/public-camera-selection.mjs",
+      "bytes": 7792,
+      "sha256": "30ebaf1c1ffce392328043b205acb415bc0ceab700f6f3095f3c6d78daa10457"
+    },
+    {
+      "path": "packages/test-harness/editing/webcam.mjs",
+      "bytes": 31531,
+      "sha256": "0c3510b96900d7417f7e15992d21d93bc1572bca3d3d75ad0d02437c2fccb29c"
+    },
+    {
+      "path": "packages/core/fixtures/README.md",
+      "bytes": 547,
+      "sha256": "24ea3712149fdf3301a60ff5e48f5c60cc1712ec859e161b89522ebd2dfc112a"
+    },
+    {
+      "path": "packages/core/fixtures/catalog-format-22.json",
+      "bytes": 5902,
+      "sha256": "29af3bf92e1c4a807c708555d498a1819f9931c83457666d1865bfae2fff0ab2"
+    },
+    {
+      "path": "packages/core/fixtures/catalog-format-22.sqlite",
+      "bytes": 69632,
+      "sha256": "a6d2e8ff5920bb19fbaa9e5abbf750f63c921424b068468d0e7c58c38a04d897"
+    }
+  ],
+  "contractMap": "core-owner-contract-map.md",
+  "catalog": {
+    "current": 23,
+    "prior": 22,
+    "priorSha256": "a6d2e8ff5920bb19fbaa9e5abbf750f63c921424b068468d0e7c58c38a04d897",
+    "priorCreatedByActualOwner": true,
+    "captureRevisionFieldAbsentFromTypeQuerySchema": true,
+    "projectRevisionAndSourceProvenanceUnchanged": true
+  },
+  "proof": {
+    "freshCapture": "Actual red on exposed field, then green after actual schema/query/type removal",
+    "priorRefusal": "Actual red opening frozen prior22, then green after format23 refusal; unchanged bytes",
+    "captureStoreCases": 21,
+    "sourceJobCasesFinal": 13,
+    "captureLifetimeAndProjectCaptureCases": 31,
+    "captureSubprocessCasesFinal": 25,
+    "pointerScheduleCasesFinal": 1,
+    "uniqueFocusedCases": 91,
+    "typeChecks": [
+      "core final",
+      "service",
+      "test-harness final"
+    ],
+    "builds": [
+      "core",
+      "service"
+    ],
+    "setupFailures": [
+      "Subprocess capture file first loaded stale service/dist/operation-errors referencing removed timeline export;25setup failures,31other cases passed. Rebuilt changed service, reran only affected25. Not behavioral red proof.",
+      "Core type check exposed undefined revision.id in earlier literal-span caller fixture; exact header now bound to literal fixture-revision."
+    ]
+  },
+  "review": {
+    "rootShapeDiffDocs": "completed",
+    "independent": "Current domains preserve source/null job identity and project revisions; removed orphan isArtifactBusy/test/attemptfield; all5camera field assertions updated. No extra corruption-only wrapper.",
+    "codexCli": "Prior configured-model400 supplied no verdict; unchanged failing tool was not rerun."
+  },
+  "limits": [
+    "No full suite, capture/device/model/OCR, long media or installed switch.",
+    "Camera callers syntax only; actual camera media remains separate.",
+    "MacOS default now selects current SourceAudio/CompositionAudio/SelectedAudio targets; execution belongs native owner bank.",
+    "Frozen historical comparison harness removed only after exact archive byte correspondence; frozen output scope unchanged."
+  ],
+  "archive": {
+    "file": "core-owner-evidence.tar.gz",
+    "bytes": 199634,
+    "sha256": "968735a606710ab5ee677c3b9cb6090a4a2700a06a71e0b2e6c36401dd9e7cdc",
+    "payloads": 87,
+    "manifest": "manifest.json"
+  },
+  "rootVerification": {
+    "allArchivePayloadsMatched": 87,
+    "currentPins": 25
+  }
+}

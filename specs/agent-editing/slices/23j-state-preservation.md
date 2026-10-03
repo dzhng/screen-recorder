@@ -29,7 +29,7 @@ stream metadata; copy that catalog and its canonical files, then create the test
 project through public commands. Do not manufacture capture fields, edit catalog
 versions, copy model storage or modify donor homes.
 
-[The harness](../../../packages/test-harness/editing/cutover-state.mjs) owns the
+[The frozen harness](../assets/23j-state-preservation/evidence.tar.gz) owns the
 bounded case. Both consumers run their actual service and CLI/MCP compositions in
 isolated homes. A socket proxy withholds a real committed response from the CLI;
 both services then stop and restart before replay. Native calls are fenced before

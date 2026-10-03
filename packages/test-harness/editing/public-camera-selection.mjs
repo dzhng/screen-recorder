@@ -48,7 +48,7 @@ try {
     const take = await service.call("capture.start", request, { transport: "mcp" });
     assert.equal(take.camera.deviceId, request.cameraDeviceId);
     assert.notEqual(take.sourceId, take.camera.sourceId);
-    assert.equal(take.currentRevisionId, null);
+    assert.equal(Object.hasOwn(take, "currentRevisionId"), false);
     const params = { recordingId: take.recordingId };
     const stopped = await service.call("capture.stop", params);
     assert.equal(stopped.publication.inputsClosed, false);
@@ -71,7 +71,7 @@ try {
         value.sourceAdmissions.find((source) => source.kind === companion)?.job?.state === "ready",
       `${companion} ready independently`,
     );
-    assert.equal(independent.currentRevisionId, null);
+    assert.equal(Object.hasOwn(independent, "currentRevisionId"), false);
     assert.equal(
       independent.sourceAdmissions.find((source) => source.kind === pending).acquisitionId,
       null,
@@ -128,7 +128,7 @@ try {
     survived.sourceAdmissions.find((source) => source.kind === "primary").acquisitionId,
     null,
   );
-  assert.equal(survived.currentRevisionId, null);
+  assert.equal(Object.hasOwn(survived, "currentRevisionId"), false);
   report.checks.cameraOnly = survived;
   await service.stop();
   service = undefined;

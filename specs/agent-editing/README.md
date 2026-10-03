@@ -15,153 +15,73 @@ example to the plan; the user kept segmentation outside this run and requested a
 
 ## Next Agent Prompt
 
-Implement the remaining primitives through their existing owners. Read
-[contracts](contracts.md), [architecture](architecture.md),
-[verification](verification.md), [journeys](journeys.md) and [processing](processing.md).
-The external caller makes every editorial decision. Read or edit the consumer
+Implement the remaining primitives through their existing owners. The external
+caller makes every editorial decision. Read the [contracts](contracts.md),
+[architecture](architecture.md), [verification](verification.md),
+[journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: integrate capture/source caller ports, then close processing/span ownership and purge the recording revision schema.**
-The [canonical service](assets/23-canonical-service/README.md),
-[shared contracts](assets/23-composition-contract/README.md) and
-[fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
-Recordings own source lifetime; projects own edits, revisions, preview and export.
-The old recording package family and artifact-retirement branch are removed.
-Generic archive/registry, publication, resource pins and source-deletion
-guarantees remain with their actual owners. Adopted media uses a fresh recipient;
-capture creates facts without authoring a project.
+**Next pickup: integrate the native owner-removal pass, then verify the pinned
+current production worker and default service entry.** Core/schema closure
+removes recording revisions from the actual type, query and schema. The fresh
+catalog is format23 and refuses prior catalogs without migration or byte mutation.
+Projects retain their edit/history owner; capture/source facts and raw provenance
+remain intact. The [owner closure registry](assets/23-owner-fixture-ports/README.md)
+is the canonical bank of preserved guarantees and precise proof limits.
 
-The [public service contract bank](assets/23-owner-fixture-ports/public-service-contracts-verification.json)
-closes the obsolete service suites and their dedicated helpers. Framing refusal,
-committed timeout/replay, source discovery/restart, package-root isolation and
-selected-source transcript/job continuity now use current owners. Existing public
-project replay/history/concurrency proof remains reused. The
-[generic render lifetime bank](assets/23-owner-fixture-ports/generic-render-lifetime-verification.json)
-puts unique cancellation and cleanup guarantees on the shared attempt owner.
-Its orphan preview adapter is removed; the old movie wrapper remains only for
-named native lab consumers awaiting their matched ports.
+Continue in this order:
 
-The [transcript owner bank](assets/23-owner-fixture-ports/transcript-owner-purge-verification.json)
-closes recording-only processing/projection and its paged package carrier.
-The [scene/index producer bank](assets/23-owner-fixture-ports/scene-index-owner-purge-verification.json)
-closes their recording executors while preserving selected-source/project bodies.
-The [generic index bank](assets/23-owner-fixture-ports/generic-index-owner-purge-verification.json)
-closes the recording index domain/page carrier and preserves current retained
-readers, PNG lifetime and portable adoption. Generic source storage and raw
-provenance remain. The macOS deletion fixture is ported with syntax/compile scope;
-runtime restart acceptance remains open. The
-[source-cache/carrier checkpoint](assets/23-owner-fixture-ports/source-cache-carrier-closure-verification.json)
-ports the scale companion to explicit public asset import and selected-source
-inspection, preserving cache, CLI, eviction, restart and retry oracles. Its
-30-minute execution remains deferred. Standalone scene/event carriers and their
-orphan adapter are removed; matching-hash semantics and chunk continuity now use
-the current portable scene store. Shared raster/pointer JavaScript is unchanged.
-Preserve portable generations, exact time and render-workspace lifetimes. Remove
-orphan recording processing/span classes and `RevisionStore` through the current dependency
-map. Source normalization and common movie validation already have independent
-owners. The
-[explicit caller checkpoint](assets/23-owner-fixture-ports/personal-release-caller-verification.json)
-ports source discovery, explicit project authoring, history and fresh package
-adoption. Eight controlled, schema-validated cases pass through the merged caller;
-real installed/media acceptance remains open. The
-[batch response bank](assets/23-owner-fixture-ports/batch-owner-contract-verification.json)
-closes shared CLI/MCP recording/package response branches; merged source MCP
-delivery passes its selected duplicate/partial-failure case.
-The [native consumer audit](assets/23-owner-fixture-ports/native-consumer-audit.json)
-and [matched guarantee map](assets/23-owner-fixture-ports/native-guarantee-map.json)
-separate current shared primitives from obsolete engines.
-[Native source contracts](assets/23-owner-fixture-ports/source-native-contracts-verification.json),
-[decode callers](assets/23-owner-fixture-ports/source-native-consumers-verification.json),
-[descriptor/parent lifetime](assets/23-owner-fixture-ports/source-native-lifetime-verification.json)
-and [raw-picture oracles](assets/23-owner-fixture-ports/source-native-pictures-verification.json)
-now use current owners. The
-[compiled pointer checkpoint](assets/23-owner-fixture-ports/composition-pointer-readability-verification.json)
-preserves existing pointer/core/halo floors through actual delivery size and
-compiled geometry, including authored and ancestor reduction. Crop and rotated
-coverage preserve the established size cap; the tiny glyph remains difficult to
-recognize at 32 pixels. Complete comparisons and an independent visual review
-preserve full-size and clean output. This is focused test-executable proof;
-production-worker and installed acceptance remain separate. The
-[frame owner checkpoint](assets/23-owner-fixture-ports/frame-owner-purge-verification.json)
-removes recording frame/materialization/selectors after current batch failure,
-retry and delivery guarantees are preserved. Sparse/index native caller ports
-retain their pixel/cache gates but have only syntax proof. The
-[native audio checkpoint](assets/23-owner-fixture-ports/source-native-audio-contracts-verification.json)
-preserves recorded silence versus missing samples and late consumer failure with
-exact PCM. The [resampling endpoint checkpoint](assets/23-owner-fixture-ports/composition-audio-endpoints-verification.json)
-preserves both admitted boundaries and excludes their adjacent source samples.
-These are focused test-executable results; remaining movie and old-family lifetime
-guarantees still precede native registration removal.
-The [movie caller ports](assets/23-owner-fixture-ports/movie-harness-cutover-verification.json)
-replace recording planning in the lifetime and scale harnesses with explicit
-compositions. Original numerical, pixel and memory gates remain; native execution
-is pending. Compilation of synthetic fixtures establishes no decoder or movie
-quality result. Missing historical finishing hooks remain a separately qualified
-phase obligation.
-The [audio/preview checkpoint](assets/23-owner-fixture-ports/audio-preview-owner-purge-verification.json)
-removes recording audio, preview and derivative owners. Explicit source/project
-callers retain numerical and media gates; current preview explicit retry and
-controlled shared-render lifetimes pass. Actual macOS media and two native cleanup
-cases remain unrun.
-Historical maps are prerequisites, not verification runs.
+1. Finish only unmatched native/media contracts through current owners, with
+   retained or generated inputs: movie/lifetime, source restart, scene/pointer,
+   audio/preview and actual native cleanup. Preserve their numerical, byte and
+   lifetime assertions. Syntax, controlled edges and test executables do not
+   establish production-worker or installed acceptance.
+2. Check remaining [scale](slices/24-scale.md) dimensions and current scale
+   callers after cutover. Reuse passed child cohorts and matched banks; no
+   original whole-setup timing pass is implied.
+3. Verify continuous A/V/pointer presentation on a concrete isolated candidate,
+   then installed/default discovery and the bounded [caller](slices/25-agent-acceptance.md)
+   checkpoint. Prepare the reviewable candidate before installed replacement.
+   Preserve the installed library and span history; use a deliberately fresh
+   library, with no migration.
 
-The final joint purge removes the actual recording revision field from its type,
-queries and schema, bumps the fresh catalog format and refuses prior formats
-without migration. Preserve refusal and unchanged old catalog bytes; don't hide
-the field in a response adapter or erase frozen source-receipt provenance.
-[Cutover](slices/23-cutover.md) and its matched
-[preservation matrix](verification.md#preservation-matrix) govern removal.
-Missing inherited speech or physical acceptance does not block these isolated
-implementation ports. The installed switch and final release gates remain separate.
+| Owner | Remaining acceptance |
+| --- | --- |
+| [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical event uncertainty/synchronization and remaining lifecycle scope |
+| [23 cutover](slices/23-cutover.md) | Current worker/caller execution, continuous playback and installed switching |
+| [24 scale](slices/24-scale.md) | Missing integrated scale dimensions |
+| [25 caller](slices/25-agent-acceptance.md) | Installed/default discovery and final release scope |
 
-| Owner | Banked scope | Remaining release contract |
-| --- | --- | --- |
-| [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
-| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical lifecycle, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
-| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired state/recovery, canonical service, shared contracts, native menu cells, project publication, package/source owner closure and signed isolated candidate | Remaining core/native/caller fixtures and schema purge, continuous playback and installed switching |
-| [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
-| [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |
+The [evidence index](assets/integrated-evidence.md),
+[implementation pickup](assets/implementation-pickup.md) and
+[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
+own saved inputs, results and unmatched guarantees. Implementation completion and
+release acceptance are distinct: run the repository-wide check once when
+implementation finishes, without indefinitely deferring it for an inherited
+reference-access or physical-uncertainty gap. Keep unfinished acceptance explicit.
 
-Reuse accepted evidence and its limits. [The evidence index](assets/integrated-evidence.md)
-and [implementation pickup](assets/implementation-pickup.md) own source/runtime
-pins; [cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-owns matched guarantees. Prepare a concrete reviewable candidate before requesting
-installed replacement. Preserve the installed library and span history; no migration.
-The final scale and independent installed caller follow cutover.
+Reuse the [sustained Stop/quit](assets/20-sustained-physical-stop/verification-confirmation/README.md)
+result at 9.215 seconds and [saved import/retry](assets/20-sustained-physical-stop/acquisition-recovery/README.md).
+No further recording is queued. The [encoded picture binding](assets/20-camera-picture-correspondence/encoded-binding/README.md)
+proves one packet/frame identity; its historical PNG comparison is optional and
+stopped. [Retained marker analysis](assets/20-retained-marker-resolution/README.md)
+has reached its stopping condition. Do not repeat captures, sweep settings or
+substitute ordinal association for physical timing evidence.
 
-The [sustained Stop/quit confirmation](assets/20-sustained-physical-stop/verification-confirmation/README.md)
-passes the original recipe at 9.215 seconds, and
-[saved acquisition recovery](assets/20-sustained-physical-stop/acquisition-recovery/README.md)
-passes one reopen and explicit interrupted-camera retry. Original failures remain;
-no further Stop recording is queued. These are scoped lifecycle proofs, not
-synchronization or causal speedup. The
-[encoded picture binding](assets/20-camera-picture-correspondence/encoded-binding/README.md)
-proves one current packet/decoded-frame identity. Its optional historical PNG
-comparison is stopped; the [retained marker analysis](assets/20-retained-marker-resolution/README.md)
-already reaches its stopping condition. Do not repeat either analysis, sweep
-settings or turn ordinal/gray-time association into physical timing acceptance.
+The [speech audit](assets/acceptance-maintenance/speech-readiness.md) and
+[reference-access qualification](assets/acceptance-maintenance/speech-reference-access.json)
+own the independent acoustic gap. Do not repeat corpus searches, inference or
+read-sentence trials, choose a replacement recipe, or submit a publisher form or
+license. Reuse saved human marks and accepted auditions, retiming/denoise/voice
+and the selected200ms ambience; the250ms version is rejected.
 
-The [speech-readiness audit](assets/acceptance-maintenance/speech-readiness.md)
-and [reference-access qualification](assets/acceptance-maintenance/speech-reference-access.json)
-own the independent acoustic-reference gap. Human-checked lexical text alone
-supplies no independent onset intervals. Establish the selected publisher access
-route before further qualification/inference; no form or license was submitted.
-Do not repeat generic corpus searches, read-sentence trials or select another
-speech recipe merely because acceptance is missing.
-
-Apply [project principles](../../AGENTS.md): narrow checks for everyday work,
-one full run when implementation is finished. Reuse outputs a change cannot
-invalidate. Every experiment needs a necessary question, fixed inputs and a
-stopping condition. Native-cell screenshots, capture-enabled test pixels and
-source numerical checks remain distinct from installed/continuous acceptance.
-
-Preserve originals, journals, saved marks, accepted retiming/denoise/voice, the
-selected 200 ms ambience and [frozen worker](assets/acceptance-maintenance/native-worker-preservation.json).
-The 250 ms ambience is rejected. Checks use isolated state and are authorized;
-reference qualification is developer work, not another user recording, timestamp
-entry or personal keep/remove assignment. Capture publishes facts; the caller
-explicitly authors projects and edits. Keep this pickup and owning Status lines
-consistent; all remaining release contracts must be resolved before closing.
+Apply [project principles](../../AGENTS.md): narrow checks, unchanged-output reuse
+and bounded experiments. Checks use isolated state and are authorized. Preserve
+originals, journals and the [frozen worker](assets/acceptance-maintenance/native-worker-preservation.json).
+Development never turns a recording into a personal editing assignment. Keep
+this pickup and owning Status lines consistent; close only after the remaining
+contracts have honest dispositions.
 
 ## Outcome and boundaries
 

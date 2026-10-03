@@ -27,7 +27,6 @@ export type Recording = Readonly<{
   interruptionMessage: string | null;
   finalizationError: FinalizationError | null;
   sourceDurationUs: number | null;
-  currentRevisionId: string | null;
 }>;
 /** A capture session reports its device transitions here; core never derives them itself. */
 export type LifecycleEvent = Readonly<{
@@ -56,7 +55,7 @@ const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = 
   canceled: ["canceled"],
 };
 const recordingColumns =
-  "recordingId,sourceId,cameraSourceId,cameraDeviceId,publication,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,interruptionMessage,finalizationError,sourceDurationUs,currentRevisionId";
+  "recordingId,sourceId,cameraSourceId,cameraDeviceId,publication,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,interruptionMessage,finalizationError,sourceDurationUs";
 type RecordingRow = Omit<Recording, "finalizationError" | "camera" | "publication"> & {
   finalizationError: string | null;
   publication: string | null;
@@ -108,7 +107,7 @@ export class CaptureStore extends Catalog {
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
     cameraSourceId TEXT UNIQUE,cameraDeviceId TEXT,publication TEXT,
     allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
-    interruptionReason TEXT,interruptionMessage TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT,
+    interruptionReason TEXT,interruptionMessage TEXT,finalizationError TEXT,sourceDurationUs INTEGER,
     CHECK ((cameraSourceId IS NULL)=(cameraDeviceId IS NULL))
    ) STRICT;
    CREATE INDEX IF NOT EXISTS recordings_state_sequence ON recordings(state,creationSequence);

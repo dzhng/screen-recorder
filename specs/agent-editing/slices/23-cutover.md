@@ -42,14 +42,14 @@ this removal does not migrate or rewrite the retained old library.
 
 Include processing discovery, get/set, routing and all processed inspection/export consumers in the same cutover. Remove old hidden gain/transition assumptions from the new path; do not preserve a second DSP or effect interpreter.
 
-Before deletion, run the preservation matrix through old and new public entry points with matched inputs. Keep source capture/recovery/evidence primitives; refactor mixed modules rather than leave compatibility wrappers. Update app lifecycle, source discovery, job targets, export recovery, product skill and developer docs together. Leave the old library untouched for explicit media import.
+Before removing an owner, reconcile its unmatched guarantees against the preservation matrix and current-owner banks. Reuse matched old/new public results whose inputs and behavior remain valid; run only the missing correspondence. Keep source capture/recovery/evidence primitives; refactor mixed modules rather than leave compatibility wrappers. Update app lifecycle, source discovery, job targets, export recovery, product skill and developer docs together. Leave the old library untouched for explicit media import.
 
 Remaining consumer analysis, isolated ports and matched preservation preparation
 can proceed alongside 12b parity and 21 integration. The dependencies above govern
 final cutover acceptance, not read-only reconciliation or preparatory work. Keep
 all permitted differences explicit and use the existing one-owner architecture;
-preparation does not authorize installed switching, obsolete-owner deletion or
-migration. Actual unresolved physical/lifecycle claims retain their disposition.
+preparation does not establish installed acceptance or authorize migration.
+Owner removal follows verified correspondence and actual consumer closure. Actual unresolved physical/lifecycle claims retain their disposition.
 
 The canonical entry is verified in an isolated home while preserving old
 catalog/media sentinels. The [shared-contract and publication passes](../assets/23-composition-contract/README.md)
@@ -88,9 +88,10 @@ retry and delivery proof; its sparse/index native callers remain syntax-only.
 [Native audio](../assets/23-owner-fixture-ports/source-native-audio-contracts-verification.json)
 and [resampling endpoints](../assets/23-owner-fixture-ports/composition-audio-endpoints-verification.json)
 preserve physical occupancy, late consumer failure, exact PCM and both selected
-source boundaries through focused native executables. Remaining
-processing/span owners and unmatched movie/lifetime guarantees precede actual
-schema removal.
+source boundaries through focused native executables. The [core/schema closure](../assets/23-owner-fixture-ports/core-owner-verification.json)
+removes recording processing/span owners and their revision field, with actual
+prior-format refusal and byte preservation. Unmatched movie/lifetime guarantees
+remain current-runtime obligations.
 The [movie caller ports](../assets/23-owner-fixture-ports/movie-harness-cutover-verification.json)
 now use current composition and attempt owners. Their retained duration, AAC,
 pixel and memory checks await native execution; synthetic fixture compilation
@@ -122,7 +123,7 @@ source spans and complete physical-empty support. Core build and affected
 type checks cover the direct imports; no media render or installed acceptance is
 claimed by this refactor.
 
-The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
+The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend unmatched rows before installed switching; the checkpoint does not imply those consumers have cut over.
 
 [23b](23b-export-recovery-preservation.md) adds the bounded matched public acknowledgement-loss/restart checkpoint using the retained cached movies.
 

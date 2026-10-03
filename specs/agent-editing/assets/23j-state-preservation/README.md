@@ -38,7 +38,10 @@ incorrect assumption that absent-clip removal should refuse. Their transient
 harness versions were not frozen; they are not claimed as independent release
 producers. The final harness and bundle closure are frozen and rehashed.
 
-The source-run invocation is recorded exactly in verification. Reproduce only into
+The source-run invocation is recorded exactly in verification. The exact final
+historical harness is `harness/cutover-state.mjs` inside `evidence.tar.gz`; its
+recording service calls belong to that frozen comparison, not current callers.
+Reproduce only with its frozen producer closure into
 a new owned output directory after building the scoped TS packages and bundling
 the project service/CLI as shown there. Supply the unchanged installed bundle,
 frozen worker and copied retained fixtures. If temporary donor homes are absent,

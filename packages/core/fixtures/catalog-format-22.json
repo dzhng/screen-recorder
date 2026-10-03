@@ -1,0 +1,176 @@
+{
+  "base": "886c24f5",
+  "purpose": "Frozen real prior catalog with caller-authored edit history, for refusal without migration or byte mutation",
+  "format": {
+    "user_version": 22
+  },
+  "recording": {
+    "recordingId": "fixture-1",
+    "sourceId": "fixture-2",
+    "publication": null,
+    "creationSequence": 1,
+    "createdAt": "2026-10-02T00:00:00.000Z",
+    "state": "preparing",
+    "lifecycleSequence": 0,
+    "interruptionReason": null,
+    "interruptionMessage": null,
+    "finalizationError": null,
+    "sourceDurationUs": null,
+    "currentRevisionId": null,
+    "camera": null
+  },
+  "cut": {
+    "id": "fixture-3",
+    "createdAt": "2026-10-02T00:00:00.000Z",
+    "operation": "cut",
+    "parentId": "r0",
+    "ordinal": 1,
+    "sourceDurationUs": 6000000,
+    "durationUs": 5000000,
+    "spans": [
+      {
+        "startUs": 0,
+        "endUs": 1000000
+      },
+      {
+        "startUs": 2000000,
+        "endUs": 6000000
+      }
+    ]
+  },
+  "trim": {
+    "id": "fixture-4",
+    "createdAt": "2026-10-02T00:00:00.000Z",
+    "operation": "trim",
+    "parentId": "fixture-3",
+    "ordinal": 2,
+    "sourceDurationUs": 6000000,
+    "durationUs": 4000000,
+    "spans": [
+      {
+        "startUs": 0,
+        "endUs": 1000000
+      },
+      {
+        "startUs": 2000000,
+        "endUs": 5000000
+      }
+    ]
+  },
+  "rows": {
+    "recordings": [
+      {
+        "creationSequence": 1,
+        "recordingId": "fixture-1",
+        "sourceId": "fixture-2",
+        "cameraSourceId": null,
+        "cameraDeviceId": null,
+        "publication": null,
+        "allocationRequestId": "capture-original",
+        "allocationArguments": "frozen-prior-format",
+        "createdAt": "2026-10-02T00:00:00.000Z",
+        "state": "preparing",
+        "lifecycleSequence": 0,
+        "interruptionReason": null,
+        "interruptionMessage": null,
+        "finalizationError": null,
+        "sourceDurationUs": 6000000,
+        "currentRevisionId": "fixture-4"
+      }
+    ],
+    "revisions": [
+      {
+        "recordingId": "fixture-1",
+        "id": "r0",
+        "ordinal": 0,
+        "content": "{\"id\":\"r0\",\"parentId\":null,\"ordinal\":0,\"operation\":\"original\",\"createdAt\":\"2026-10-02T00:00:00.000Z\",\"sourceDurationUs\":6000000,\"durationUs\":6000000,\"spans\":[{\"startUs\":0,\"endUs\":6000000}]}"
+      },
+      {
+        "recordingId": "fixture-1",
+        "id": "fixture-3",
+        "ordinal": 1,
+        "content": "{\"id\":\"fixture-3\",\"createdAt\":\"2026-10-02T00:00:00.000Z\",\"operation\":\"cut\",\"parentId\":\"r0\",\"ordinal\":1,\"sourceDurationUs\":6000000,\"durationUs\":5000000,\"spans\":[{\"startUs\":0,\"endUs\":1000000},{\"startUs\":2000000,\"endUs\":6000000}]}"
+      },
+      {
+        "recordingId": "fixture-1",
+        "id": "fixture-4",
+        "ordinal": 2,
+        "content": "{\"id\":\"fixture-4\",\"createdAt\":\"2026-10-02T00:00:00.000Z\",\"operation\":\"trim\",\"parentId\":\"fixture-3\",\"ordinal\":2,\"sourceDurationUs\":6000000,\"durationUs\":4000000,\"spans\":[{\"startUs\":0,\"endUs\":1000000},{\"startUs\":2000000,\"endUs\":5000000}]}"
+      }
+    ],
+    "edit_requests": [
+      {
+        "recordingId": "fixture-1",
+        "operation": "cut",
+        "requestId": "explicit-cut",
+        "arguments": "[\"r0\",[[1000000,2000000]]]",
+        "result": "{\"id\":\"fixture-3\",\"createdAt\":\"2026-10-02T00:00:00.000Z\",\"operation\":\"cut\",\"parentId\":\"r0\",\"ordinal\":1,\"sourceDurationUs\":6000000,\"durationUs\":5000000,\"spans\":[{\"startUs\":0,\"endUs\":1000000},{\"startUs\":2000000,\"endUs\":6000000}]}"
+      },
+      {
+        "recordingId": "fixture-1",
+        "operation": "trim",
+        "requestId": "explicit-trim",
+        "arguments": "[\"fixture-3\",[0,4000000]]",
+        "result": "{\"id\":\"fixture-4\",\"createdAt\":\"2026-10-02T00:00:00.000Z\",\"operation\":\"trim\",\"parentId\":\"fixture-3\",\"ordinal\":2,\"sourceDurationUs\":6000000,\"durationUs\":4000000,\"spans\":[{\"startUs\":0,\"endUs\":1000000},{\"startUs\":2000000,\"endUs\":5000000}]}"
+      }
+    ],
+    "undo_stack": [
+      {
+        "recordingId": "fixture-1",
+        "position": 1,
+        "targetId": "r0"
+      },
+      {
+        "recordingId": "fixture-1",
+        "position": 2,
+        "targetId": "fixture-3"
+      }
+    ]
+  },
+  "operands": [
+    {
+      "path": "packages/core/src/catalog.ts",
+      "sha256": "4bf2e2f86003d21e811fcb3e9516c66359798fa28dd4eb0800172be6723ab236"
+    },
+    {
+      "path": "packages/core/dist/catalog.js",
+      "sha256": "f850b6028d3186f410d7fcd7408fd0cda8d420370726cfd1036c3624b8d300e7"
+    },
+    {
+      "path": "packages/core/src/capture-store.ts",
+      "sha256": "8479c426c03d373fb8c5c5508e78a15316045cf3cca43f0a9551840d012c07cf"
+    },
+    {
+      "path": "packages/core/dist/capture-store.js",
+      "sha256": "0209c28fec02ee3f05719d6ef73596d48b5e74600bfbd32d2437988ed1bad9f2"
+    },
+    {
+      "path": "packages/core/src/library.ts",
+      "sha256": "07704cfa726ee3700fcea9c71585f1f1994414538d780008451b134ec2997c34"
+    },
+    {
+      "path": "packages/core/dist/library.js",
+      "sha256": "a2d6a3cb71316d7df577842e13462bf9bc55b54d17e2329b7df5925a8c2ff463"
+    },
+    {
+      "path": "packages/core/src/timeline.ts",
+      "sha256": "ed9660f6d8a73aa6e93f1a3ef4402934c3d457e688e99336902682be100ed42d"
+    },
+    {
+      "path": "packages/core/dist/timeline.js",
+      "sha256": "08e0f7ae9044ff9f40e56da7b554d7ca67e953eea40272562770e200ddfa646a"
+    },
+    {
+      "path": "packages/core/src/presentation-time.ts",
+      "sha256": "1d85bb7ee9d3f5d36c81363ffc3d223723fe430d9862f958f73ede5b2e24870c"
+    },
+    {
+      "path": "packages/core/dist/presentation-time.js",
+      "sha256": "f5024cdf027590559ec42237f32061c51655d760f6dc2c55e1627f1d32975531"
+    }
+  ],
+  "sqlite": {
+    "file": "legacy.sqlite",
+    "sha256": "a6d2e8ff5920bb19fbaa9e5abbf750f63c921424b068468d0e7c58c38a04d897"
+  }
+}

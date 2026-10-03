@@ -823,7 +823,7 @@ test("regenerating an evicted artifact preserves its revision and cannot invalid
     requestId: "edit",
     expectedRevisionId: revisionId,
     operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
-  }).revision;
+  });
   const replacement = queue.regenerate(original.jobId, original.generation);
   expect(replacement).toMatchObject({ target: { revisionId: revisionId }, generation: 2 });
   expect(replacement.attemptId).not.toBe(original.attemptId);
@@ -876,27 +876,6 @@ test("cache regeneration preserves the published artifact when queue admission i
       input: "cached",
     }),
   ).toMatchObject({ state: "ready", published: { generation: 1, result: "still-readable" } });
-});
-
-test("an artifact stays busy while queued and until a canceled executor settles", async () => {
-  const { store, queue, started } = fixture();
-  const recordingId = finished(store);
-  const request = {
-    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
-    artifact: "screenshot-index",
-    lane: "heavy" as const,
-  };
-  const running = queue.submit({ ...request, input: "running" });
-  const queued = queue.submit({ ...request, input: "queued" });
-  const executor = await started(running.attemptId);
-  queue.cancel(running.jobId);
-  expect(queue.isArtifactBusy("screenshot-index")).toBe(true);
-  queue.cancel(queued.jobId);
-  expect(queue.isArtifactBusy("screenshot-index")).toBe(true);
-  expect(queue.isArtifactBusy("source")).toBe(false);
-  executor.finish("late");
-  await queue.idle();
-  expect(queue.isArtifactBusy("screenshot-index")).toBe(false);
 });
 
 test("recording deletion drains only its held attempts and fences queued and late publication", async () => {
@@ -2643,7 +2622,6 @@ test("source-owned recording jobs retain null identity without manufacturing a r
   };
   const job = queue.submit(request);
   expect(job.target).toEqual(request.target);
-  expect(store.get(recording.recordingId).currentRevisionId).toBeNull();
   expect(store.catalog.prepare("SELECT * FROM project_revisions").all()).toEqual([]);
   expect(store.catalog.prepare("SELECT * FROM projects").all()).toEqual([]);
   (await started(job.attemptId)).finish(JSON.stringify({ state: "retained" }));

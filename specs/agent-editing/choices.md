@@ -7624,3 +7624,23 @@ deletion can proceed. The old per-recording processing cleanup policy is retired
 rather than rebuilt beside acquisition recovery. The gap was how to retain the
 valuable cross-process lifetime assertion after its recording-processing owner lost
 its callers. These native checks are ported recipes, not newly observed outcomes.
+
+
+**Sound, high confidence — preserve prior catalog history as immutable input.**
+When new code opens an old recording catalog, it refuses the format before
+creating tables and leaves the file unchanged. The refusal test uses a real
+format-22 catalog containing caller-authored cut, trim, replay and undo state,
+created before its owner was removed. This choice belongs to the core/schema
+closure after `8e98a26f`; the plan required refusal without specifying fixture
+construction. Keeping the immutable file avoids retaining a second edit engine
+solely to generate old test data. Project revision history remains current.
+
+**Sound, high confidence — recording jobs retain source identity alone.**
+A cleanup job for a settled capture persists its capture identity and a null
+revision. A project job persists its explicit project revision. Existing domain
+admission refuses recording edit selectors; new-format decoding follows these
+accepted writers. This choice belongs to the core/schema closure after
+`8e98a26f`; it removes the obsolete original-revision backfill and its unused
+busy observer rather than recreating a recording edit owner. Current capture
+admission and queue capacity keep their existing owners. Frozen comparison
+harnesses remain in their original evidence archives, outside current callers.

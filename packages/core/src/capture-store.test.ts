@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtempSync, rmSync, readFileSync } from "node:fs";
+import { mkdtempSync, rmSync, readFileSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -188,7 +188,6 @@ test("fresh capture settles and reopens without creating a revision or project",
     state: "complete",
     lifecycleSequence: 5,
     sourceDurationUs: 1200,
-    currentRevisionId: null,
   };
   expect(store.ingestLifecycle(recordingId, terminal)).toEqual(expected);
   store.close();
@@ -208,6 +207,13 @@ test("fresh capture settles and reopens without creating a revision or project",
   expect(reopened.latest()).toEqual(expected);
   expect(reopened.list()).toEqual({ recordings: [expected], nextCursor: null });
   expect(reopened.unsettled()).toEqual([]);
+  expect(Object.hasOwn(reopened.get(recordingId), "currentRevisionId")).toBe(false);
+  expect(
+    reopened.catalog
+      .prepare("PRAGMA table_info(recordings)")
+      .all()
+      .map((column) => column.name),
+  ).not.toContain("currentRevisionId");
   expect(
     reopened.catalog
       .prepare(
@@ -303,7 +309,6 @@ test("terminal diagnostics survive reopen and duplicate journal delivery", () =>
   const expected = {
     interruptionReason: event.reason,
     interruptionMessage: event.message,
-    currentRevisionId: null,
     sourceDurationUs: null,
   };
   expect(reopened.get(take.recordingId)).toMatchObject(expected);
@@ -328,11 +333,10 @@ test("new incomplete allocation remains latest ahead of a finalized older take",
   const first = store.allocate().recording;
   store.registerSource(first.recordingId, 20);
   const second = store.allocate().recording;
-  expect(store.latest()).toEqual({ ...second, sourceDurationUs: null, currentRevisionId: null });
+  expect(store.latest()).toEqual({ ...second, sourceDurationUs: null });
   expect(store.get(first.recordingId)).toEqual({
     ...first,
     sourceDurationUs: 20,
-    currentRevisionId: null,
   });
   expect(second.state).toBe("preparing");
   expect(second.lifecycleSequence).toBe(0);
@@ -390,7 +394,6 @@ test("a settled take keeps its outcome when late or contradicting reports arrive
     }),
   ).toThrow(expect.objectContaining({ code: "INVALID_STATE", details: { sourceDurationUs: 8 } }));
   expect(store.get(recordingId)).toEqual(settled);
-  expect(settled.currentRevisionId).toBeNull();
 });
 
 test("a discarded take refuses a source registered after the fact", () => {
@@ -400,9 +403,7 @@ test("a discarded take refuses a source registered after the fact", () => {
   expect(() => store.registerSource(recordingId, 20)).toThrow(
     expect.objectContaining({ code: "INVALID_STATE", details: { state: "canceled" } }),
   );
-  expect(store.get(recordingId)).toEqual(
-    expect.objectContaining({ sourceDurationUs: null, currentRevisionId: null }),
-  );
+  expect(store.get(recordingId)).toEqual(expect.objectContaining({ sourceDurationUs: null }));
 });
 
 test("an event stamped with another capture session leaves the recording untouched", () => {
@@ -443,7 +444,6 @@ test("a completion for a take that never started capturing leaves all source fac
   expect(store.get(recordingId)).toEqual(
     expect.objectContaining({ state: "preparing", sourceDurationUs: null, lifecycleSequence: 0 }),
   );
-  expect(store.get(recordingId).currentRevisionId).toBeNull();
 });
 
 test("recording pages keep newest-first identity across new takes, source updates and relaunch", () => {
@@ -480,7 +480,6 @@ test("recording pages keep newest-first identity across new takes, source update
   expect(rest.recordings[1]).toMatchObject({
     state: "interrupted",
     sourceDurationUs: 20,
-    currentRevisionId: null,
     interruptionReason: "SOURCE_LOST",
   });
   expect(rest.nextCursor).toBeNull();
@@ -534,8 +533,18 @@ test("a catalog in another format, or unstamped with tables, is refused without 
   const reopened = new CaptureStore(path, providers);
   expect(reopened.get(recording.recordingId).sourceDurationUs).toBe(20);
   reopened.close();
+  const prior = join(roots.at(-1)!, "prior.sqlite");
+  copyFileSync(new URL("../fixtures/catalog-format-22.sqlite", import.meta.url), prior);
+  const priorBytes = readFileSync(prior);
+  expect(() => new CaptureStore(prior, providers)).toThrow(
+    expect.objectContaining({
+      code: "UNSUPPORTED_CATALOG",
+      details: { format: 22, supportedFormat: 23 },
+    }),
+  );
+  expect(readFileSync(prior)).toEqual(priorBytes);
   for (const format of [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 2147483647,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2147483647,
   ]) {
     const other = new DatabaseSync(path);
     other.exec(`PRAGMA user_version=${format}`);
@@ -576,7 +585,6 @@ test("deletion intent hides a take and fences replay and late source publication
   expect(store.settleDeletingCapture(recording.recordingId)).toMatchObject({
     state: "canceled",
     sourceDurationUs: 20,
-    currentRevisionId: null,
   });
   expect(store.isDeleting(recording.recordingId)).toBe(true);
   expect(store.unsettled()).toEqual([older]);
@@ -721,7 +729,6 @@ test("a lifecycle write that fails after attaching the source rolls back all cap
     lifecycleSequence: 2,
     sourceDurationUs: 8,
     interruptionReason: "writer_died",
-    currentRevisionId: null,
   });
 });
 
@@ -752,7 +759,6 @@ test("a discarded take leaves discovery while its restart request still names on
   expect(store.get(abandoned.recordingId)).toMatchObject({
     state: "canceled",
     sourceDurationUs: 12,
-    currentRevisionId: null,
   });
   expect(store.isAvailable(abandoned.recordingId)).toBe(false);
 });

@@ -395,7 +395,6 @@ it("recovery keeps diagnostic code and message paired even without usable video"
         ok: true,
         data: {
           state: "interrupted",
-          currentRevisionId: null,
           interruptionReason: completion?.failureCode ?? "ROLE_FAILED",
           interruptionMessage: completion
             ? (completion.failureMessage ?? null)
@@ -485,7 +484,6 @@ it("gives concurrent start requests one capturing take and one honest terminal f
       state: "interrupted",
       interruptionReason: "INVALID_STATE",
       interruptionMessage: "Another take is already capturing.",
-      currentRevisionId: null,
     },
   });
   expect(await service.call("project.list")).toMatchObject({
@@ -566,7 +564,7 @@ it("cancels only the named take, removes its media, and refuses to revive it aft
       state: "complete",
       sourceDurationUs: 9_000_000,
     }),
-  ).toMatchObject({ ok: true, data: { state: "canceled", currentRevisionId: null } });
+  ).toMatchObject({ ok: true, data: { state: "canceled" } });
   expect(await service.call("recording.get", { recordingId: take.recordingId })).toMatchObject({
     ok: true,
     data: { state: "canceled", sourceDurationUs: null },
@@ -657,7 +655,6 @@ it("settles a stranded take with no recoverable video without authoring a projec
         state: "interrupted",
         interruptionReason: "NO_RECOVERABLE_VIDEO",
         sourceDurationUs: null,
-        currentRevisionId: null,
       },
     });
   expect(await service.call("project.list")).toMatchObject({
@@ -1067,7 +1064,6 @@ it(
           recordingId,
           state: "interrupted",
           sourceDurationUs: 6_000_000,
-          currentRevisionId: null,
         },
       });
     expect(await service.call("capture.status")).toMatchObject({

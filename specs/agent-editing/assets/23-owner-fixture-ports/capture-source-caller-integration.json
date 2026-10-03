@@ -1,0 +1,23 @@
+{
+  "checkpoint": "capture/source caller integration",
+  "integratedCommit": "8e98a26f",
+  "commits": [
+    "b17e4143",
+    "34f6cadf",
+    "5a8b0e51"
+  ],
+  "originalBank": "capture-source-caller-verification.json",
+  "followupBank": "capture-source-caller-followup-verification.json",
+  "verifiedPayloads": {
+    "original": 77,
+    "followup": 86
+  },
+  "verifiedFinalCallerPins": 21,
+  "verifiedDeletions": 6,
+  "mergedDocumentation": "Hub and choices preserve additive root movie/audio and caller entries; historical pin hashes refer to producer commits.",
+  "rootFinding": "Core check-types caught leftover revision.id in literal-span pointer schedule case. Root now supplies fixture-revision explicitly and compares actual header against it; unrelated pointer clock/event assertions retained. Final affected case and types saved in core-owner/schema bank.",
+  "limits": [
+    "Only compile/syntax/current pure algorithms and3metrics cases ran. Native/capture/recovery/source-scale bodies remain unrun.",
+    "Original banks remain intact; schema changes afterward require current narrow proofs."
+  ]
+}

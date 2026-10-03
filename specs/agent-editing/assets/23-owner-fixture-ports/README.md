@@ -48,11 +48,14 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Resampling exclusion and admitted source endpoints | [Audio endpoints](composition-audio-endpoints-verification.json) |
 | Current movie lifetime and scale caller contracts | [Movie caller ports](movie-harness-cutover-verification.json) |
 | Explicit audio/preview inspection and shared render consumption | [Audio/preview owner removal](audio-preview-owner-purge-verification.json) |
+| Capture facts without recording edits, source jobs and prior-catalog refusal | [Core/schema](core-owner-verification.json), [contract map](core-owner-contract-map.md) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
-[review corrections](capture-source-caller-followup-verification.json) bind the remaining
+[review corrections](capture-source-caller-followup-verification.json) and
+[integration](capture-source-caller-integration.json) bind the remaining
 source, capture, recovery and pointer callers to current acquisition/project owners.
-Only their syntax and the unchanged pure presentation algorithms ran in that pass;
+Their syntax, compile-only linking, unchanged pure presentation algorithms and
+three current-owner metrics cases pass;
 actual native scene, scale, trail, orphan-worker and retained paused-movie gates
 remain execution obligations. Historical lab commands in the recording spec are
 retained evidence, not runnable current entry points.
@@ -111,7 +114,12 @@ lifetimes remain unchanged. Forty earlier current-owner cases, one final relocat
 report case and sixteen controlled render cases pass. Two unchanged native cleanup
 cases and actual macOS media bodies remain unrun.
 
-Remaining obligations include orphan processing/span owners,
+The [core/schema closure](core-owner-verification.json) removes those orphan
+processing/span owners and the actual recording revision field. Prior-format
+refusal preserves a real old catalog byte-for-byte. Current capture responses,
+source job identity and the surviving pointer schedule pass focused checks.
+
+Remaining obligations include native engine closure,
 current-source scale execution, unmatched movie/lifetime contracts and the actual
 schema purge. The explicit caller harness uses current operations through controlled
 replies; installed and actual media execution remain open. Installed switching, continuous playback, physical capture

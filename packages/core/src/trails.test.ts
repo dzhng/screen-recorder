@@ -586,7 +586,7 @@ test("movie schedule keeps a pointer hidden through A-B-A until a fresh cursor o
       const receipt = await writePointerSchedule(
         {
           presentation,
-          revisionId: revision.id,
+          revisionId: "fixture-revision",
           evidence: f.evidence,
           identity: f.identity,
           output,
@@ -599,7 +599,7 @@ test("movie schedule keeps a pointer hidden through A-B-A until a fresh cursor o
         .trim()
         .split("\n")
         .map((line) => JSON.parse(line));
-      expect(header.revisionId).toBe(revision.id);
+      expect(header.revisionId).toBe("fixture-revision");
       expect(receipt.records).toBe(4);
       expect(
         events.map((row) => [Number(row.at.value) / row.at.timescale, row.pointer?.x ?? null]),

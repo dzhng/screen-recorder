@@ -893,7 +893,6 @@ test("fresh capture allocates and replays through its private controller without
       state: "recording",
       lifecycleSequence: 1,
       sourceDurationUs: null,
-      currentRevisionId: null,
     },
   });
   expect(outputDirectory).toBe(
@@ -929,8 +928,8 @@ test("fresh capture allocates and replays through its private controller without
   await service.close();
   const database = new DatabaseSync(join(home, "library/catalog.sqlite"), { readOnly: true });
   try {
-    expect(database.prepare("SELECT state,currentRevisionId FROM recordings").all()).toEqual([
-      { state: "recording", currentRevisionId: null },
+    expect(database.prepare("SELECT state FROM recordings").all()).toEqual([
+      { state: "recording" },
     ]);
     expect(database.prepare("SELECT projectId FROM projects").all()).toEqual([]);
     expect(

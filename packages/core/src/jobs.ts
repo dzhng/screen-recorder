@@ -2,8 +2,6 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { ResourceReferences, type ResourceKind } from "./references.js";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
-import { isSettled } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
@@ -44,11 +42,11 @@ export type JobOwner =
   | Readonly<{ kind: "acquisition"; acquisitionId: string }>
   | Readonly<{ kind: "project"; projectId: string }>
   | Readonly<{ kind: "recording"; recordingId: string }>;
-/** A null recording revision selects its settled source lifetime; request omission still pins a revision. */
+/** Recording work selects settled source lifetime; only projects carry edit revisions. */
 export type JobTarget =
   | Extract<JobOwner, { kind: "import" | "asset" | "acquisition" }>
   | (Extract<JobOwner, { kind: "project" }> & Readonly<{ revisionId: string }>)
-  | (Extract<JobOwner, { kind: "recording" }> & Readonly<{ revisionId: string | null }>);
+  | (Extract<JobOwner, { kind: "recording" }> & Readonly<{ revisionId: null }>);
 export type JobRequestTarget =
   | Exclude<JobTarget, { kind: "recording" }>
   | (Extract<JobOwner, { kind: "recording" }> & Readonly<{ revisionId?: string | null }>);
@@ -60,33 +58,6 @@ export type JobTargets = {
   isDeleting(owner: JobOwner): boolean;
   isCapturing(): boolean;
 };
-
-/** Existing recording lifetime policy; preparation/project services supply their domain owner instead. */
-export function recordingJobTargets(store: RevisionStore): JobTargets {
-  return {
-    pin(target) {
-      if (target.kind !== "recording")
-        throw new CatalogError("INVALID_REQUEST", "Unsupported job target");
-      if (target.revisionId === null) {
-        const recording = store.get(target.recordingId);
-        if (
-          !isSettled(recording.state) ||
-          recording.state === "canceled" ||
-          store.isDeleting(target.recordingId)
-        )
-          throw new CatalogError(
-            "INVALID_STATE",
-            "Source-owned work requires a settled available recording",
-          );
-        return { ...target, revisionId: null };
-      }
-      return { ...target, revisionId: store.revision(target.recordingId, target.revisionId).id };
-    },
-    isAvailable: (target) => target.kind === "recording" && store.isAvailable(target.recordingId),
-    isDeleting: (owner) => owner.kind === "recording" && store.isDeleting(owner.recordingId),
-    isCapturing: () => store.unsettled().length > 0,
-  };
-}
 
 export type JobRequest = Readonly<{
   target: JobRequestTarget;
@@ -239,8 +210,7 @@ export function ownerFromIdentity(kind: JobOwner["kind"], id: string): JobOwner 
 }
 function targetFrom({ targetKind, targetId, revisionId }: TargetRow): JobTarget {
   const owner = ownerFromIdentity(targetKind, targetId);
-  if (owner.kind === "recording")
-    return { ...owner, revisionId: revisionId === "" ? null : revisionId };
+  if (owner.kind === "recording") return { ...owner, revisionId: null };
   return owner.kind === "project" ? { ...owner, revisionId } : owner;
 }
 function toArtifact({
@@ -349,7 +319,6 @@ export class JobQueue {
       target?: JobOwner;
       context?: ContextState;
       lane: JobLane;
-      artifact: string;
       controller: AbortController;
       done: Promise<void>;
     }
@@ -1056,18 +1025,6 @@ export class JobQueue {
     return this.attempts.has(attemptId);
   }
 
-  /** Work of this artifact is queued, running, or a canceled executor of it is still closing. */
-  isArtifactBusy(artifact: string): boolean {
-    return (
-      [...this.attempts.values()].some((attempt) => attempt.artifact === artifact) ||
-      Boolean(
-        this.store.catalog
-          .prepare("SELECT 1 FROM jobs WHERE artifact=? AND state IN ('queued','running') LIMIT 1")
-          .get(artifact),
-      )
-    );
-  }
-
   /** Called within admission's transaction; published replays no longer need preparation inputs. */
   retainInputs(jobId: string, kind: ResourceKind, ids: readonly string[]): void {
     const job = this.job(jobId);
@@ -1127,49 +1084,6 @@ export class JobQueue {
           .get(...ownerIdentity(owner), artifact, attemptId),
       )
     );
-  }
-
-  /**
-   * Admits original-revision work for the oldest finalized take that never requested it. One take at
-   * a time: while the artifact is busy the backlog waits rather than crowding foreground requests
-   * out of the shared admission budget, and a full queue leaves it for the next call. A dependency
-   * limits the backlog to takes whose original-revision prerequisite is already published.
-   */
-  backfill(
-    request: Pick<JobRequest, "artifact" | "lane" | "input">,
-    dependency?: Pick<JobRequest, "artifact" | "input">,
-  ): void {
-    if (this.isArtifactBusy(request.artifact)) return;
-    const pending = this.store.catalog
-      .prepare(`SELECT recordingId FROM recordings
-      WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
-      AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
-      AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.targetKind='recording' AND jobs.targetId=recordings.recordingId
-        AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.inputSha256=? AND jobs.input=?)
-      ${
-        dependency
-          ? `AND EXISTS (SELECT 1 FROM artifacts WHERE artifacts.targetKind='recording' AND artifacts.targetId=recordings.recordingId
-        AND artifacts.revisionId='r0' AND artifacts.artifact=? AND artifacts.inputSha256=? AND artifacts.input=?)`
-          : ""
-      }
-      ORDER BY creationSequence LIMIT 1`)
-      .get(
-        request.artifact,
-        inputDigest(request.input),
-        request.input,
-        ...(dependency
-          ? [dependency.artifact, inputDigest(dependency.input), dependency.input]
-          : []),
-      ) as { recordingId: string } | undefined;
-    if (!pending) return;
-    try {
-      this.submit({
-        ...request,
-        target: { kind: "recording", recordingId: pending.recordingId, revisionId: "r0" },
-      });
-    } catch (error) {
-      if (!(error instanceof CatalogError && error.code === "LIMIT_EXCEEDED")) throw error;
-    }
   }
 
   private occupied(lane: JobLane): number {
@@ -1416,7 +1330,6 @@ export class JobQueue {
       ...owner,
       jobId: job.jobId,
       lane: job.lane,
-      artifact: job.artifact,
       controller,
       done,
     });

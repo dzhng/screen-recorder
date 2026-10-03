@@ -89,7 +89,7 @@ same admitted sources. Record complete before rows. Submit legacy edit.cut with
 the explicitly authored playback interval **[1,800,000,1,850,000)µs**. Submit the
 equivalent ordinary project remove operation, selecting the picture/narration
 clips and explicit ripple tracks, as in the
-[existing state harness](../../../packages/test-harness/editing/cutover-state.mjs).
+[frozen state harness](../assets/23j-state-preservation/evidence.tar.gz).
 Pin expected revisions and request IDs. The source interval is not chosen from
 filler classification or a semantic judgment about the utterance.
 

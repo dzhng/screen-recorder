@@ -206,7 +206,7 @@ try {
       microphone: true,
     };
     allocated = await call("capture.start", startRequest);
-    assert.equal(allocated.currentRevisionId, null);
+    assert.equal(Object.hasOwn(allocated, "currentRevisionId"), false);
     donor = join(home, "library/recordings", allocated.recordingId, "source");
     cameraDirectory = join(home, "library/recordings", allocated.recordingId, "camera");
     await call("capture.pause", { recordingId: allocated.recordingId });
