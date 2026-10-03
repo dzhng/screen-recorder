@@ -1,9 +1,9 @@
+import { projectServiceFixture, probeFileFixture } from "./project-service.fixture.js";
 import { JobQueue } from "@screenrec/core/jobs";
 import { Models } from "@screenrec/core/models";
 import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
 import { voiceProfile } from "@screenrec/core/voice-profile";
 import { createHash, randomUUID } from "node:crypto";
-import { writeSync } from "node:fs";
 import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { ProjectStore } from "@screenrec/core/projects";
 import { TranscriptStore } from "@screenrec/core/transcript";
@@ -20,9 +20,7 @@ import { DatabaseSync } from "node:sqlite";
 import { AssetStore } from "@screenrec/core/assets";
 import { Catalog } from "@screenrec/core/catalog";
 import { callLocal } from "@screenrec/client";
-import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
 import { startProjectService } from "./project-service.js";
-import type { MediaWorker } from "./worker.js";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();
@@ -43,73 +41,7 @@ const metadata = {
     },
   ],
 };
-function probeFileFixture(home: string, worker: MediaWorker): MediaWorker {
-  return async (operation, params, options) => {
-    // Preserve the real worker's strict wire boundary even when its execution is a fixture.
-    encodeJsonLine({ id: "fixture", operation, params }, REQUEST_FRAME_BYTES);
-    if (operation === "media.audioCapabilities") return { ok: true, data: {} };
-    if (operation === "storage.clearRenderWorkspace") {
-      const parent = params.parent as { name: string } | undefined;
-      if (parent)
-        await rm(join(home, "library", "render", parent.name), { recursive: true, force: true });
-      return { ok: true, data: { removed: true } };
-    }
-    const result = await worker(operation, params, options);
-    if (operation !== "media.probe" || !result.ok) return result;
-    // Model the native file handoff; each test still supplies its own probe result/error.
-    const bytes = Buffer.from(JSON.stringify(result.data));
-    const index = Number(String(params.output).split("/").at(-1)) - 3;
-    writeSync(options!.descriptors![index]!, bytes, 0, bytes.length, 0);
-    return {
-      ok: true,
-      data: {
-        file: params.output,
-        bytes: bytes.length,
-        sha256: createHash("sha256").update(bytes).digest("hex"),
-      },
-    };
-  };
-}
-async function setup(worker: MediaWorker) {
-  const home = await mkdtemp(join(tmpdir(), "asset-service-"));
-  cleanups.push(() => rm(home, { recursive: true, force: true }));
-  const path = join(home, "source.png");
-  await writeFile(path, "image bytes");
-  const service = await startProjectService({
-    home,
-    worker: probeFileFixture(home, worker),
-  });
-  cleanups.push(() => service.close());
-  async function call(operation: string, params: Record<string, unknown>) {
-    const result = await callLocal(service.socketPath, { id: "test", operation, params });
-    if (result.ok && ["job.get", "job.retry", "job.cancel", "asset.import"].includes(operation)) {
-      expect(result.data).not.toHaveProperty("input");
-      expect(result.data).toHaveProperty("inputSha256", expect.stringMatching(/^[a-f0-9]{64}$/));
-    }
-    return result;
-  }
-  async function job(jobId: string, state: string) {
-    const deadline = performance.now() + 3000;
-    for (;;) {
-      const result = await call("job.get", { jobId });
-      expect(result.ok).toBe(true);
-      if (result.ok) {
-        const data = result.data as {
-          state: string;
-          result: { assetId: string } | null;
-          errorCode: string | null;
-        };
-        if (data.state === state) return data;
-        if (["failed", "unavailable", "canceled"].includes(data.state))
-          throw new Error(`Unexpected terminal job: ${JSON.stringify(data)}`);
-      }
-      if (performance.now() >= deadline)
-        throw new Error(`Job never reached ${state}: ${JSON.stringify(result)}`);
-      await delay(10);
-    }
-  }
-  return { home, path, service, call, job };
-}
+const setup = projectServiceFixture.bind(undefined, cleanups);
 test("project service delivers complete operation results through its shared artifact owner", async () => {
   const f = await setup(async (operation) => {
     expect(operation).toBe("storage.clearRenderWorkspace");
@@ -668,7 +600,14 @@ test("selected-source transcript reads report unprepared models without download
   });
   expect(await f.call("transcript.get", selection)).toMatchObject({
     ok: true,
-    data: { ...selection, reason: "model_not_prepared", page: null },
+    data: {
+      ...selection,
+      state: "unavailable",
+      reason: "model_not_prepared",
+      retryable: true,
+      jobId: null,
+      page: null,
+    },
   });
   expect(await f.call("transcript.search", { ...selection, text: "hello" })).toMatchObject({
     ok: true,
