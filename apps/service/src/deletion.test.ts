@@ -1,17 +1,14 @@
-import { RecordingArtifactRetirement } from "./recording-artifact-retirement.js";
+import { CaptureSources } from "./capture-sources.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, mkdir, writeFile, readFile, rm, lstat, symlink } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
-import { RevisionStore } from "@screenrec/core/library";
+import { CaptureStore } from "@screenrec/core/capture-store";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { openSync, fstatSync, readSync, closeSync } from "node:fs";
 import { CatalogError } from "@screenrec/core/catalog";
-import { JobQueue, type JobExecutor, recordingJobTargets } from "@screenrec/core/jobs";
-import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { recordingEvidenceOwner, SourceEvidenceStore } from "@screenrec/core/evidence";
-import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
-import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/screenshot-index";
-import { TranscriptStore, recordingTranscriptOwner } from "@screenrec/core/transcript";
+import { JobQueue, type JobExecutor } from "@screenrec/core/jobs";
 import { CaptureService } from "./capture.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { openDirectoryLease } from "@screenrec/core/files";
@@ -30,19 +27,31 @@ afterEach(async () => {
 });
 async function fixture(
   execute: JobExecutor = async () => "ready",
-  ready = Promise.resolve(),
+  directoryReady = Promise.resolve(),
   existingHome?: string,
 ) {
   const home = existingHome ?? (await mkdtemp("/tmp/screenrec-delete-"));
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "catalog.sqlite"), {
     now: () => "fixture",
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
-  await cache.reconcile();
+  const acquisitions = new AcquisitionStore(store);
   const jobs = new JobQueue({
     store,
-    targets: recordingJobTargets(store),
+    targets: {
+      pin(target) {
+        if (target.kind !== "recording" || target.revisionId !== null)
+          throw new CatalogError(
+            "INVALID_REQUEST",
+            "Source coordinator fixture requires a source job",
+          );
+        store.get(target.recordingId);
+        return { ...target, revisionId: null };
+      },
+      isAvailable: (target) => target.kind === "recording" && store.isAvailable(target.recordingId),
+      isDeleting: (owner) => owner.kind === "recording" && store.isDeleting(owner.recordingId),
+      isCapturing: () => store.isCapturing(),
+    },
     providers: { newId: randomUUID },
     execute,
   });
@@ -57,26 +66,25 @@ async function fixture(
     },
   );
   const delivery = new DerivativeDelivery();
+  const removed: string[] = [];
+  const directoryEntered = deferred<void>();
   const owners = {
     store,
     jobs,
-    cache,
     capture,
     delivery,
-    source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
-    scenes: new SceneEvidenceStore(store, recordingSceneOwner(store)),
-    index: new ScreenshotIndexStore(store, home, recordingIndexDomain(store)),
-    transcripts: new TranscriptStore(store, home, recordingTranscriptOwner(store)),
-    cleanupReady: () => ready,
     // Coordinator tests model native receipts. The native suite owns race/containment proof.
     files: {
       recordingDirectory: async (recordingId: string) => {
+        directoryEntered.resolve();
+        await directoryReady;
         const directory = join(home, "recordings", recordingId);
         const handle = await openDirectoryLease(directory, "exclusive");
         const info = await handle.stat({ bigint: true });
         return { directory, handle, identity: { dev: String(info.dev), ino: String(info.ino) } };
       },
       async removeRecordingDirectory(recordingId: string) {
+        removed.push(recordingId);
         const path = join(home, "recordings", recordingId);
         try {
           if ((await lstat(path)).isSymbolicLink())
@@ -86,15 +94,11 @@ async function fixture(
         }
         await rm(path, { recursive: true, force: true });
       },
-      async removeCacheFiles(ids: string[]) {
-        for (const id of ids)
-          await rm(join(home, "cache", "derived", `${id}.cache`), { force: true });
-      },
     },
   };
   const deletion = new RecordingDeletion({
     ...owners,
-    artifacts: new RecordingArtifactRetirement(owners),
+    sources: new CaptureSources(store, acquisitions, jobs, home, owners.files),
   });
   let closed = false;
   async function closeOwners() {
@@ -124,7 +128,15 @@ async function fixture(
     await writeFile(video, recording.sourceId);
     return { ...recording, directory, video };
   }
-  return { ...owners, deletion, home, take, closeOwners };
+  return {
+    ...owners,
+    deletion,
+    home,
+    take,
+    closeOwners,
+    removed,
+    directoryEntered: directoryEntered.promise,
+  };
 }
 
 test("delete coalesces callers, revokes delivery immediately, and waits for a closing worker", async () => {
@@ -139,14 +151,16 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
   });
   const target = await f.take(),
     sibling = await f.take();
-  const file = f.cache.reserve({ kind: "recording", recordingId: target.recordingId });
-  await writeFile(file.path, "private derivative");
-  await f.cache.publish(file.id);
-  const lease = f.delivery.open({ kind: "recording", id: target.recordingId }, () =>
-    f.cache.acquire(file.id),
-  );
+  const lease = f.delivery.open({ kind: "recording", id: target.recordingId }, () => {
+    const fd = openSync(target.video, "r");
+    return {
+      bytes: fstatSync(fd).size,
+      read: (buffer, position) => readSync(fd, buffer, 0, buffer.length, position),
+      release: () => closeSync(fd),
+    };
+  });
   const request = {
-    target: { kind: "recording" as const, recordingId: target.recordingId, revisionId: "r0" },
+    target: { kind: "recording" as const, recordingId: target.recordingId, revisionId: null },
 
     lane: "frame" as const,
     artifact: "held",
@@ -185,6 +199,7 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
     await expect(second).resolves.toEqual({ recordingId: target.recordingId, deleted: true });
     await expect(lstat(target.directory)).rejects.toMatchObject({ code: "ENOENT" });
     expect(f.store.deleting(target.recordingId)).toBeNull();
+    expect(f.removed).toEqual([target.recordingId]);
     expect(f.jobs.status(request).jobId).toBeNull();
     expect(await readFile(sibling.video, "utf8")).toBe(sibling.sourceId);
     await expect(f.deletion.delete(target.recordingId)).resolves.toMatchObject({ deleted: true });
@@ -195,31 +210,10 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
   }
 });
 
-test("delete removes transcript generations and raw files but never prepared speech models", async () => {
+test("delete removes donor files but never sibling donors or prepared speech models", async () => {
   const f = await fixture();
   const target = await f.take(),
     sibling = await f.take();
-  const transcriptRows = (recordingId: string) =>
-    f.store.catalog
-      .prepare(
-        "SELECT (SELECT COUNT(*) FROM transcript_generations WHERE ownerKind='recording' AND ownerId=?)+(SELECT COUNT(*) FROM transcript_words WHERE ownerKind='recording' AND ownerId=?) AS n",
-      )
-      .get(recordingId, recordingId);
-  for (const take of [target, sibling]) {
-    const generation = join(take.directory, "evidence", "transcript", "attempt");
-    await mkdir(generation, { recursive: true });
-    await writeFile(join(generation, "raw.jsonl"), "{}\n");
-    f.store.catalog
-      .prepare(
-        "INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state) VALUES('recording',?,?,'attempt','{}','{}','{}',1,'complete')",
-      )
-      .run(take.recordingId, take.sourceId);
-    f.store.catalog
-      .prepare(
-        "INSERT INTO transcript_words VALUES('recording',?,'attempt',0,0,1000,0,'hello','speech',0.9,0)",
-      )
-      .run(take.recordingId);
-  }
   const model = join(f.home, "models", "parakeet", "revision", "parakeet-tdt-0.6b-v2");
   await mkdir(model, { recursive: true });
   await writeFile(join(model, "README.md"), "model card");
@@ -228,19 +222,12 @@ test("delete removes transcript generations and raw files but never prepared spe
     recordingId: target.recordingId,
     deleted: true,
   });
-  expect(transcriptRows(target.recordingId)).toEqual({ n: 0 });
   await expect(lstat(target.directory)).rejects.toMatchObject({ code: "ENOENT" });
-  expect(transcriptRows(sibling.recordingId)).toEqual({ n: 2 });
-  expect(
-    await readFile(
-      join(sibling.directory, "evidence", "transcript", "attempt", "raw.jsonl"),
-      "utf8",
-    ),
-  ).toBe("{}\n");
+  expect(await readFile(sibling.video, "utf8")).toBe(sibling.sourceId);
   expect(await readFile(join(model, "README.md"), "utf8")).toBe("model card");
 });
 
-test("startup cleanup completion gates removal; a failed path keeps intent for retry", async () => {
+test("source directory lifetime gates removal; a failed path keeps intent for retry", async () => {
   const ready = deferred<void>();
   const f = await fixture(undefined, ready.promise);
   const target = await f.take(),
@@ -274,7 +261,7 @@ test("startup cleanup completion gates removal; a failed path keeps intent for r
 
 test("startup resumes durable intents and a failed recording does not strand another deletion", async () => {
   const home = await mkdtemp("/tmp/screenrec-delete-restart-");
-  const seed = new RevisionStore(join(home, "library.sqlite"), {
+  const seed = new CaptureStore(join(home, "catalog.sqlite"), {
     now: () => "",
     newId: randomUUID,
   });
@@ -351,7 +338,7 @@ test("capture refusal still waits for a closing worker and preserves retryable i
     throw new CatalogError("INVALID_STATE", "Native closure not proven");
   };
   f.jobs.submit({
-    target: { kind: "recording" as const, recordingId: target.recordingId, revisionId: "r0" },
+    target: { kind: "recording" as const, recordingId: target.recordingId, revisionId: null },
 
     lane: "frame",
     artifact: "held",
@@ -377,12 +364,13 @@ test("capture refusal still waits for a closing worker and preserves retryable i
   }
 });
 
-test("close drains held startup cleanup and aborts before removing files", async () => {
+test("close joins a held source-directory acquisition and aborts before removing files", async () => {
   const ready = deferred<void>();
   const f = await fixture(undefined, ready.promise);
   const target = await f.take();
   const result = f.deletion.delete(target.recordingId);
   void result.catch(() => {});
+  await f.directoryEntered;
   let closed = false;
   const closing = f.deletion.close().then(() => {
     closed = true;

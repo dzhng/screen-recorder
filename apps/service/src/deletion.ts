@@ -5,18 +5,15 @@ import type { JobQueue } from "@screenrec/core/jobs";
 import type { CaptureService } from "./capture.js";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { ManagedFiles } from "./managed-files.js";
-import type { RecordingArtifactRetirement } from "./recording-artifact-retirement.js";
 
 type Owners = {
   store: CaptureStore;
   jobs: JobQueue;
   capture: Pick<CaptureService, "quiesce">;
   delivery: DerivativeDelivery;
-  files: Pick<ManagedFiles, "removeRecordingDirectory" | "recordingDirectory">;
-} & (
-  | { artifacts: RecordingArtifactRetirement; sources?: never }
-  | { sources: CaptureSources; artifacts?: never }
-);
+  files: Pick<ManagedFiles, "removeRecordingDirectory">;
+  sources: CaptureSources;
+};
 type Deleted = { recordingId: string; deleted: true };
 
 /** Orders existing resource owners; the catalog marker is the restart journal. */
@@ -39,35 +36,14 @@ export class RecordingDeletion {
   }
 
   private async remove(recordingId: string): Promise<Deleted> {
-    const { jobs, capture, files, artifacts, sources } = this.owners;
+    const { jobs, capture, sources } = this.owners;
     const signal = this.lifetime.signal;
     try {
-      if (sources) {
-        await jobs.drainOwner({ kind: "recording", recordingId });
-        return await sources.retire(recordingId, signal, async (lifetime) => {
-          await capture.quiesce(recordingId);
-          return this.reclaim(recordingId, signal, lifetime);
-        });
-      }
-      // A refusal from one owner must not abandon another owner's still-running shutdown.
-      const stopped = await Promise.allSettled([
-        jobs.drainOwner({ kind: "recording", recordingId: recordingId }),
-        capture.quiesce(recordingId),
-      ]);
-      for (const result of stopped) if (result.status === "rejected") throw result.reason;
-      await artifacts?.prepare(recordingId, signal);
-      signal.throwIfAborted();
-      const lifetime = await files
-        .recordingDirectory(recordingId, signal)
-        .catch((error: NodeJS.ErrnoException) => {
-          if (error.code === "ENOENT") return undefined;
-          throw error;
-        });
-      try {
-        return await this.reclaim(recordingId, signal, lifetime?.handle);
-      } finally {
-        await lifetime?.handle.close();
-      }
+      await jobs.drainOwner({ kind: "recording", recordingId });
+      return await sources.retire(recordingId, signal, async (lifetime) => {
+        await capture.quiesce(recordingId);
+        return this.reclaim(recordingId, signal, lifetime);
+      });
     } catch (error) {
       if (error instanceof CatalogError)
         throw new CatalogError(error.code, error.message, { ...error.details, recordingId }, true);
@@ -85,12 +61,10 @@ export class RecordingDeletion {
     signal: AbortSignal,
     lifetime?: { readonly fd: number },
   ): Promise<Deleted> {
-    const { jobs, store, files, artifacts, sources } = this.owners;
-    await artifacts?.purge(recordingId, signal, lifetime);
+    const { jobs, store, files, sources } = this.owners;
     await files.removeRecordingDirectory(recordingId, signal, lifetime);
-    await artifacts?.forget(recordingId, signal);
     signal.throwIfAborted();
-    sources?.forget(recordingId);
+    sources.forget(recordingId);
     await jobs.forgetOwner({ kind: "recording", recordingId });
     signal.throwIfAborted();
     store.finishDeletion(recordingId);
