@@ -8340,3 +8340,45 @@ The reach: Reuse this bounded result without manufacturing another build for loa
 the original heavy-contention guarantee stays unverified.
 
 Verdict: **sound**. The claim follows the observed workload. Confidence: **high**.
+
+### Retain complete long PCM locally without multiplying every checkout
+
+When: current long learned-routing bank.
+
+The choice: A reviewer can inspect the requests, source snapshots, reports and
+member hashes from the small Git archive. The complete generated dry and wet
+audio remains in two verified archives under the durable local artifact directory.
+Those files share storage with the verified cache copies. Adding the larger
+archive to ordinary Git would copy it into every parallel checkout.
+
+The gap: The plan requires complete retained operands, but did not specify how
+to distribute a new two-hour full-sample result.
+
+The reach: A cross-machine reviewer needs the named full archives to audit every
+sample; the small Git packet is not a substitute. No generated operand was
+discarded, and this adds no product storage format or dependency.
+
+Verdict: **sound**. Complete evidence remains available without multiplying large
+media during iteration. Confidence: **medium**; local retention requires explicit
+transfer when another machine needs the complete operands.
+
+### Judge the installed caller's required requests separately from extra failures
+
+When: fresh installed external-caller bank.
+
+The choice: The caller received the complete requested image, then tried an
+extra read of its already consumed delivery token. That read failed and the
+outer script exited nonzero. The bank accepts the completed required requests
+while preserving this failure, the separate helper failures and all process
+journals. It does not label the whole script green or extend the token's lifetime.
+
+The gap: The bounded brief did not require that additional read; one script exit
+would otherwise hide the difference between failed delivery and a failed extra
+expectation after delivery.
+
+The reach: Later reviewers must judge each declared contract from its complete
+output and actual terminal evidence. Transcribed outer tool observations remain
+distinct from original child-process journals; neither stands in for the other.
+
+Verdict: **sound**. The verdict follows the requested contract and keeps every
+observed failure visible. Confidence: **high**.

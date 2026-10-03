@@ -34,5 +34,8 @@ installed/default discovery remain separate. The archive retains 464 request and
 reused on script resume; substantive mutations, failures and delivery receipts
 remain retained. The attempted fresh visual-review spawn hit the thread limit,
 so the documented adversarial fallback covers the six frames and enlarged crops.
-It is not an unprimed review. Unheard integrated audio, physical synchronization,
+That historical fallback is not an unprimed review. A later
+[fresh review](fresh-visual-review/README.md) accepts the unchanged sampled fixture
+content while retaining visible layout findings and its temporal limits.
+Unheard integrated audio, physical synchronization,
 installed switching and full release/scale acceptance remain unverified.

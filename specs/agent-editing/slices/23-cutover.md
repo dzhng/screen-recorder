@@ -18,7 +18,14 @@ The [current worker/service smoke](../assets/23-owner-fixture-ports/current-work
 passes its generated-source audio/preview, restart and native cleanup scope.
 The [private installed discovery bank](../assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
 passes ordinary cold discovery and CLI/default MCP with the personal app and state
-preserved. It does not close personal replacement or fresh external-caller acceptance.
+preserved. The [fresh installed caller](../assets/23-owner-fixture-ports/current-installed-caller-verification.json)
+also passes its bounded discovery/edit/delivery and retained-package bridge;
+personal replacement and full release remain separate.
+The [production PNG adoption bank](../assets/23-owner-fixture-ports/current-production-png-verification.json)
+reproduces the fourteen saved real-video requests with complete pixel and PNG
+equality; that finite worker adoption is complete. The
+[personal release plan](../assets/acceptance-maintenance/personal-release-plan.json)
+remains unexecuted and preserves the old library through the proposed switch.
 The implementation-end repository gate has run; its
 [focused recovery bank](../assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
 retains original failures and subsequent passes. The
@@ -52,8 +59,9 @@ its temporary capture media and UI are removed.
 The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md)
 maps saved outcomes and actual service/native-consumer cases without adding another
 UI or repeating accepted media cohorts. [Pinned preview/export recovery](../assets/acceptance-maintenance/cutover-outcomes.md#pinned-previewexport-and-recovery)
-now accounts for the verified original guarantees; installed/default composition
-and continuous presentation remain separate.
+now accounts for the verified original guarantees. Private installed/default
+execution and muted continuous playback have scoped banks; personal switching,
+listening and broader presentation remain separate.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract

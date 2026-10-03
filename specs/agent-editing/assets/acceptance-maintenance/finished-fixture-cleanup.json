@@ -1,0 +1,17 @@
+{
+  "removedOwnedFixtureHomes": [
+    "/private/tmp/sr-learned-topology-7RVb7e",
+    "/private/tmp/sr-learned-topology-D4uqaM",
+    "/private/tmp/sr-learned-topology-NZou55"
+  ],
+  "stagedInputBytes": 161881644,
+  "stagedCatalogSha256": "1adf0cabddb1243f2ec449af7086bd51d0032e26bf816df7d66c596b6073c621",
+  "scope": "Only three finished owned temporary fixtures removed; required complete operands retained in verified full archives and small future query inputs copied/hash-checked first. No personal state, shared runtime/model, source media or active process changed.",
+  "productionPNGTemporaryFiles": {
+    "filesRemoved": 37,
+    "logicalBytesRemoved": 577146845,
+    "basis": "Current unique PNGs and actual requests/receipts/reader terminals retained in root-verified56-payload capsule; original reference arrays remain in the frozen reference archive. Only recomputed/restored raster copies removed; small private logs and reports remain."
+  },
+  "worktreeCleanup": "Both finished attached worktrees archived with recoverable snapshots; integrated long-learned-routing and production-png-adoption branches deleted normally after archive confirmation. Only primary checkout remains.",
+  "completeArchiveAuthority": "../23-owner-fixture-ports/current-long-learned-routing-verification.json fullPayloadArchives; full payloads previously streamed/hashed and durable aliases verified before cleanup"
+}

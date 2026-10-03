@@ -1,0 +1,86 @@
+{
+  "status": "Prepared for review; no personal installation or state changed",
+  "candidateSourceCommit": "e825294c",
+  "candidate": {
+    "sourceBundle": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app",
+    "pins": [
+      {
+        "relativePath": "Contents/MacOS/ScreenRecorder",
+        "bytes": 6320416,
+        "sha256": "722185bfdc3d6e96e9f54210764ca4cf0cba51ee61b06edc31a683472ada964a"
+      },
+      {
+        "relativePath": "Contents/MacOS/screenrec-native",
+        "bytes": 19979280,
+        "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55"
+      },
+      {
+        "relativePath": "Contents/Resources/service/main.mjs",
+        "bytes": 4078021,
+        "sha256": "197df7baa07fc2f45603f1579b36757b9a2fcb919eccb0e6c08864d1688ae959"
+      },
+      {
+        "relativePath": "Contents/Resources/cli/main.mjs",
+        "bytes": 1148904,
+        "sha256": "594d122c51aa005091a2c7a497f77c5b539b4be912fad07bc756188d110b907e"
+      },
+      {
+        "relativePath": "Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+      }
+    ]
+  },
+  "prerequisites": {
+    "passed": [
+      "Private installed default CLI/MCP discovery",
+      "Independent installed caller edit/replay/refusal/complete PNG",
+      "Original retained-package adoption and exact generated PCM delivery",
+      "Original scale budgets and current complete long learned PCM",
+      "Fourteen frozen real-video PNG requests: exact complete RGBA and encoded PNG on production worker"
+    ],
+    "pending": []
+  },
+  "switch": {
+    "app": "/Users/david/Applications/Screen Recorder.app",
+    "launcher": "/Users/david/.local/bin/screenrec",
+    "library": "/Users/david/.screen-recorder",
+    "preservedLibrary": "/Users/david/.screen-recorder.rollback-2026-10-03",
+    "rollbackArtifacts": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03",
+    "steps": [
+      "Verify candidate pins, free rollback locations and exact current app/launcher/library identities; require idle capture before any shutdown",
+      "Gracefully stop only the personal app and join its service",
+      "Preserve and verify the previous signed bundle, launcher and preferences in rollback storage; preserve effective defaults without changing them",
+      "Rename the old library root to the named sibling on the same volume, preserving its contents; create a fresh format23 default root without editing the old catalog",
+      "Run the existing installer directly against the already built bundle, avoiding another build; installer owns signing and app/launcher replacement",
+      "Start the exact installed app through ordinary discovery and verify bundled process identities, ready service, format23 and unchanged old-library manifest",
+      "Perform the named installed cached-query check in scratch state only; stop/join its owned app/service, then restore ordinary personal launch. Preserve the fresh personal library and preferences throughout testing."
+    ]
+  },
+  "userVisibleEffect": "The new app starts with a fresh empty library. Existing recordings remain in the preserved old library and will not automatically appear in the new UI. There is no catalog migration or automatic editing project.",
+  "postSwitchMeasurement": {
+    "fixture": "Reuse the retained current 10000-occurrence/deep-wide project in isolated format23 state; do not regenerate media or rerun DSP",
+    "operation": "Existing complete 250-row cached-query contract through installed CLI/default SDK discovery",
+    "inspectionP95BudgetMs": 250,
+    "limits": "A named installed cached-query measurement is not a new full scale-suite, listening, physical synchronization or inference verdict.",
+    "isolation": "Tests never write the personal library/preferences. Stop the idle newly installed app, cold-launch that same installed bundle through ordinary discovery with an isolated copied format23 fixture home and absolute scratch preferences, perform the bounded cached-query check, join only its owned children, then relaunch the ordinary personal app against the untouched fresh personal root.",
+    "fixturePlan": "post-switch-10k-query-plan.json",
+    "cacheRule": "Copy the stopped catalog and tiny immutable source into scratch state with an empty cache. Existing cache reconciliation/re-admission supplies metadata-only unmeasured warmup; never hardlink cache files or rewrite stored device/inode identities. The named fixture plan owns exact source/query/oracle pins and remaining setup qualification."
+  },
+  "rollback": [
+    "Stop and join the new app/service",
+    "Retain the new format23 root separately",
+    "Restore the old library root to its original path",
+    "Restore the verified previous app and launcher; leave original preferences intact",
+    "Verify old bundle/library identities before ordinary relaunch"
+  ],
+  "acceptanceLimits": [
+    "Broader independent acoustic/reference campaign is stopped",
+    "Physical marker analysis reached its stopping condition",
+    "Integrated listening remains unmeasured",
+    "Fresh installed model inference remains unmeasured",
+    "Heavy native-build contention awaits an independently required build",
+    "Broader movie/color presentation and full release remain separate"
+  ],
+  "executionAuthority": "Review/approval required for replacing the personal app and moving the existing library. This plan is not execution."
+}

@@ -1,0 +1,58 @@
+{
+  "scope": "Read-only future isolated measurement preparation; no service query run or clone performed",
+  "catalog": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/post-switch-10k-fixture/library/catalog.sqlite",
+    "bytes": 161689600,
+    "sha256": "1adf0cabddb1243f2ec449af7086bd51d0032e26bf816df7d66c596b6073c621",
+    "userVersion": 23,
+    "sidecars": [],
+    "observedRunPath": "/private/tmp/sr-learned-topology-NZou55/library/catalog.sqlite"
+  },
+  "query": {
+    "operation": "timeline.events",
+    "params": {
+      "projectId": "7f657b4e-28d1-4625-a470-0bf87ba16859",
+      "revisionId": "4b814711-77df-400a-a117-7d0d9aa9ca09",
+      "range": {
+        "startUs": 0,
+        "endUs": 7200000000
+      },
+      "limit": 250
+    }
+  },
+  "oracle": {
+    "method": "Original rows250: first runtime250-row baseline, then20 complete-row deep-equal repetitions; accumulate pages with remaining limit and pinned cursor; p95 index18 <=250ms",
+    "literal250RowPayloadRetained": false,
+    "runtimeMetricMember": "checkpoint/two-hour/report.json checks.inspection",
+    "sourceMember": "checkpoint/settled-sources/packages/test-harness/editing/denoise-topology.mjs",
+    "fullArchive": "/Users/david/.codex/artifacts/screen-recorder/long-learned-routing-c237044c/long-learned-routing-two-hour-c237044c.tar.gz",
+    "originalCombinedRangeDifference": "Original combined scale excludes final overlap with endUs7199000000; learned current query endUs7200000000. Choose explicitly, never swap silently."
+  },
+  "sourceAsset": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/post-switch-10k-fixture/library/assets/7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4.wav",
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4",
+    "observedRunPath": "/private/tmp/sr-learned-topology-NZou55/library/assets/7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4.wav"
+  },
+  "evidenceManifest": {
+    "path": "/private/tmp/sr-learned-topology-NZou55/library/cache/derived/ad867352-7c63-4275-973b-3d4955d587fc.cache",
+    "bytes": 3794477,
+    "sha256": "048db0a5917736113a1960696adda79dc1780fd31704c01178b2a402a3afed12",
+    "queryDigest": "beca58329923ee8702586108556ffe706cd4fca568167c7c8feccba3311ac45f",
+    "availability": "Historical observation from the removed owned fixture, retained by the full run archive; not staged/copied. The future query regenerates metadata through the existing owner, without rewriting cache identity."
+  },
+  "setupQualification": [
+    "Copy only the stopped format23 catalog into a fresh isolated home, never the personal default library.",
+    "The event query document references only the tiny immutable source asset; current query owner resolves source metadata/cut projections, not learned prepared PCM. The prepared2.7GB asset is a distinct metadata row, not a selected project source.",
+    "Do not hardlink/copy old query cache as if still admitted: DerivedCache.open requires nlink1 and stored dev/ino. Empty copied cache is reconciled by current owner; submitCachedDerivative regenerates missing evidence metadata under same pinned job/retry policy. Obtain ready baseline in unmeasured warmup, then original20 complete-row equal timings. No catalog identity fields are manually rewritten.",
+    "No model,2.7GB learned file,source decode or DSP should be required for this event-only contract. This is source inspection, not a tested startup guarantee; fence native work and retain any setup refusal rather than silently regenerate media.",
+    "No source catalog/cache files were changed and no query,measurement,clone or personal-state operation was performed."
+  ],
+  "setupOwnerSources": [
+    "packages/core/src/cache.ts reconcile/open",
+    "packages/core/src/cached-derivative.ts submitCachedDerivative",
+    "packages/core/src/project-evidence.ts request/execute/read",
+    "packages/core/src/scene-source-read.ts resolve audio requires_video"
+  ],
+  "stagedInputs": "Verified ordinary copies of the stopped catalog and tiny source. No cache, model, learned PCM, service or query was copied/run. Original run paths are historical; current staged paths own future setup."
+}

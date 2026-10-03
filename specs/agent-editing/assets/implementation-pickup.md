@@ -17,201 +17,16 @@ Historical workers and measurements retain their own identities below.
 
 ## Current pickup
 
-Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-The [owner closure registry](23-owner-fixture-ports/README.md) owns current
-shared-contract, publication, core/schema, native and consumer preservation.
-Obsolete recording composition/revision owners are removed. The fresh catalog is
-format23 and refuses earlier catalogs without migration or byte mutation; current
-capture/source facts retain their independent lifetime. Read each bank for its
-actual runtime and claim, rather than rebuilding or rerunning matched cohorts.
-The live handoff owns remaining scale dimensions, broader presentation and
-installed/default-caller work. The current fixed full/clipped colored-trail pair
-passes its original native-sRGB predicate and matched visual review in the
-[canonical bank](23-owner-fixture-ports/current-colored-trail-verification.json);
-historical defaults and wider color/player claims stay separate. The combined
-scale contract passes in its current owner bank.
-The [private installed discovery bank](23-owner-fixture-ports/current-installed-discovery-verification.json)
-passes cold ordinary discovery and CLI/default MCP while preserving the personal
-app and state. It owns the compact next-caller brief and the qualified cached-build
-storage result; personal replacement and full external-caller acceptance remain open.
-The [retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
-qualifies one native sample/packet/decoded-frame identity. PNG selection and the
-finite-view clock gate failed separately; original pixel failure and physical
-onset uncertainty remain. MOV edit-list rounding explains the diagnostic copy's
-clock shift; optional historical PNG equality is stopped. Follow the live handoff
-for remaining consumer preservation; [saved import recovery](20-sustained-physical-stop/acquisition-recovery/README.md)
-now passes its separate scope. Required physical timing gaps remain open.
-Preserve [21f atomic public selection](../slices/21f3-public-camera-selection.md),
-now [merged-verified](21f3-public-camera-selection/merged-verification.json)
-through actual independent recovery/admission and explicit portable project use.
-The historical [owner attribution](24z-owner-profile/README.md) completed
-both bounded collections after restoring omitted static resources. Subsequent
-[24z owner corrections](../slices/24z-source-cardinality.md) and the
-[current preparation and correctness proof](24z-current-preparation/README.md)
-supersede that investigation pickup. The current declared query gate is now
-qualified under its own [runtime manifest](24z-current-preparation/manifest-reference.json);
-do not repeat that cohort because the older worker disappeared. Its historical [startup audit](24z-owner-profile-preparation/dispatch-readiness.json)
-identifies model-owner staging mutation before any query; the user's subsequent
-model-work authorization permits that ordinary isolated startup. No repeated cohort
-or physical acceptance follows from preparation.
-The [native recovery prerequisite](21f3c-source-publication-recovery/merged-verification.json)
-is merged-verified and included in the completed controlled selector gate.
-[Camera support without primary pictures](../slices/21f3b-independent-camera-clock.md)
-and its shared-interruption correction are
-[merged-verified](21f3b-shared-interruption/merged-verification.json).
-[Independent native publication](21f3a-independent-publication/merged-verification.json)
-is merged-verified on its own current-source runner.
-[21f2 merged coordination](21f2-capture-coordination/merged-verification.json)
-passes133 focused checks and the actual scripted CLI/MCP journey. [21e caller-authored projects](21e-capture-project-adoption/README.md)
-are integrated; [merged verification](21e-capture-project-adoption/merged-verification.json)
-passes the public journey through the current capture store with all reviewed
-PNG/WAV bytes unchanged. No project is created by capture.
-[21d source admission](21d-captured-source-adoption/README.md) is
-integrated; [merged verification](21d-captured-source-adoption/merged-verification.json)
-checks complete native source parity and passes the focused native/unit gates.
-Its retained current 21b screen/camera/microphone fixture is available without
-another publication run. The actual four-minute camera scan is complete in its
-historical proof scope and must not be repeated. [21c selected input](21c-selected-camera-input/README.md)
-and [21b closed camera sources](21b-camera-source-publication/README.md) remain verified.
-[Passive discovery 21a](21a-camera-discovery/README.md) passes its controlled
-public/native gates; input/result/source adoption and the caller-authored project
-journey now pass together in 21f3. Capture returns exact
-source facts; existing project/edit operations execute the caller’s explicit
-composition. No capture-finalization layout or automatic project is authorized. Preserve [12b](../slices/12b-speech-processing.md)
-parity for the already selected baseline, including raw evidence, provenance, generations and
-known best-effort filler/timing limits. Broader12 quality characterization and
-any alternate recipe remain separate; do not require a new model winner to
-exercise unchanged primitives.
+The [live handoff](../README.md#next-agent-prompt) owns the next action and
+stopped acceptance branches. The [canonical owner registry](23-owner-fixture-ports/README.md)
+owns current runtime proofs and original failures. Read the named bank before
+rebuilding or rerunning any cohort; historical workers below do not select the
+current runtime.
 
-[Controlled12b integration](12b-public-parity/README.md) and
-[actual selected-source inference parity](12b-public-parity/actual-inference/README.md)
-pass public ingestion, queries, explicit fixture cuts/protected PCM/undo, restart
-and generation refusal. Existing registered model files and preparation receipt
-remain unchanged. The inference fixture's scratch readiness was declared; a separate
-[merged generic-owner checkpoint](12b-public-parity/model-readiness/merged-verification.json)
-now verifies actual preparation/receipt/readiness and public ready-state reopen.
-[Actual public preparation](12b-public-parity/public-model-preparation/README.md)
-also passes absent/preparing/failed/retry/ready and idempotence/reopen through the
-production owner with a verified file-backed fetch edge. Selected-baseline 12b
-adoption is complete, while live Hub availability remains unverified.
-Reuse the accepted bounded parity packet rather than
-rerunning inference or its controlled preparation-state matrix. Broader12 quality
-and installed acceptance remain separate.
-
-[23h native library consumption](../slices/23h-native-library-consumption.md) is
-merged-verified through its [headless consumer checkpoint](23h-native-library-consumption/merged-verification.json).
-[23f source lifetime](../slices/23f-capture-source-lifetime.md) is merged-verified
-through its [current-source checkpoint](23f-capture-source-lifetime/merged-verification.json).
-[23g explicit export requests](../slices/23g-project-export-requests.md) passes the
-merged controller gates; concrete presentation and installed acceptance stay
-under [23](../slices/23-cutover.md).
-[21f1 capture-facts extraction](../slices/21f1-capture-facts.md) is integrated;
-its [merged verification](21f1-capture-facts/merged-verification.json) checks source,
-compiled runtime and archived evidence identities and the focused transaction,
-lifecycle, deletion and fresh-store gates. It does not wire fresh capture routes
-or advertise camera selection.
-[21f2a durable admission](21f2a-capture-admission/README.md) is integrated;
-[merged verification](21f2a-capture-admission/merged-verification.json) passes107
-focused tests and exact source/compiled/packet identities. Admission freezes
-immutable observations inside the acquisition and preserves explicit retry; it
-creates no project. Actual coordinator/control wiring is now merged-verified
-under 21f2 and preserved in the completed 21f3 selector checkpoint.
-[23d native export consumption](23d-export-consumer-parity/README.md) is integrated;
-[merged verification](23d-export-consumer-parity/merged-verification.json) preserves
-recording/project receipt ownership and status recovery through the actual consumer.
-It adds no project authoring interface or installed cutover.
-[20](../slices/20-camera-reproduction.md) retains the unresolved physical question
-and its retained-data stopping condition. None of these preparation passes
-approves synchronized physical capture, live shutdown or installed cutover.
-These historical passes authorize no repeated physical capture or installed-app
-replacement; isolated checks follow the live handoff.
-
-The [generation/ambience matrix](19-acceptance/README.md),
-[finite denoise matrix](denoise-acceptance/README.md),
-[12d packet](../slices/12d-complete-sentence-cleanup.md),
-[12e exact explicit cuts](12e-labeled-cleanup/README.md) and
-[12f word marks](12f-human-marks/README.md) retain their accepted scopes. Preserve
-the chosen 200 ms speech-free loop and tolerated slight seam; its rejected variants
-stay rejected. Reuse saved marks/auditions and the
-[scoped frozen comparison](12-human-frozen-comparison/README.md).
-The personal repetition-intent solicitation is retired. The product makes zero
-editorial decisions; developers verify primitives and external callers choose edits.
-The [consumer-skill review](acceptance-maintenance/consumer-skill-review.json)
-checks that external-caller role without invoking screenrec as a development workflow.
-
-[20e2](../slices/20e2-camera-presentation.md) is integrated and root-verified.
-Acquired timestamps now determine admission independently of nominal duration;
-native display support is bounded by the actual first/terminal picture. The saved
-take recovers4428 exact pictures. [Evidence](20e-camera-presentation/README.md)
-retains final sources, regression reds/greens and public source/preview checks.
-Root rehashed312 members and200 source identities, then reran cadence, media,
-replay and stop checks. Capture-pause-recovery has completed this pass.
-
-13/13a are accepted: corrected A–D listening passes remain tied to exact files,
-and [visual clarity](13a-visual-clarity/README.md) closes the prior plot findings.
-The user leaves room-tone fill and noise reduction as independent editorial choices;
-the [public pause workflows](pause-audio-public/README.md) preserve that scope.
-
-The [bounded mono preparation](14-bounded-stretch/README.md) is integrated. Root
-rebuilt both parity tools in isolated scratch and reran all34 checks plus descriptor
-contracts successfully; root8a, candidate2c and frozen StretchParity1cf hashes are
-unchanged. [14b](../slices/14b-retained-retime-preparation.md) retained preparation,
-[14c](../slices/14c-stereo-stretch.md) coupled stereo, and
-[14d](../slices/14d-pitch-follow.md) pitch-follow are integrated. Root reran14
-preserve checks (including300 runs under256 descriptors),45 follow checks,
-four public-authored cases/20 recipe-bound native plans,23 stereo and34 mono
-regressions. These are scoped numerical/PCM proofs, not new listening acceptance.
-
-Native14e metadata admission and recipe binding are integrated. The isolated Wire
-worker `/tmp/screenrec-native-14e/debug/screenrec-native` has SHA256
-`e85f6a8ca9fa11af714508b955142da49c0bb3c6b8e0e1c45a752ca3964a4595`;
-48 actual Wire checks cover joint stereo consumption, policy/format/physical-run
-admission and stale identity refusal. Async core/service admission is integrated;
-root reran64 focused tests with one existing skip. [Public audio delivery](14e-public-accepted-audio/README.md)
-now matches all four accepted selections through20 full/split/range outputs.
-[14f exact picture sampling](../slices/14f-exact-picture-sampling.md) and the
-[complete public journey](14e-public-retiming/root-review.md) now pass. The frozen14f
-worker is `/tmp/screenrec-exact-native-14f-build/debug/screenrec-native`,
-SHA256 `0525dfb9641d5fc51e2434fcd8d36d84da59010a1357cbd6b87d4e8424aeef76`.
-Root independently repeated the complete journey, including every encoded frame,
-fractional-range phase, independent audio-only edits and receiver retained reads.
-All accepted A–D PCM remains identical. No per-run durable cache was introduced.
-
-[Retimed gain/zoom16](16-retimed-curves/root-verification.json) and
-[muted offscreen playback](16-continuous-playback/README.md) are integrated and
-root-verified. The [preserve-pitch combined temporal15a3 join](15a3c-post-retime-combined/root-verification.json)
-also passes independent PCM, late state and matched full/range AAC checks.
-[Retimed acoustic conformance11](11-retimed-acoustic/README.md) also passes; prepared-package-transfer owns
-the narrow independent-C follow-pitch learned check against retained14d media.
-[Public follow-pitch learned joins](15a3e-follow-learned-public/root-verification.json)
-pass; the finite denoise acceptance above supplies its scoped quality verdicts. [03d preservation](03d-consumer-cutover/README.md)
-records fresh-format reauthoring with identical frozen dry/processed bytes.
-
-Physical20 still lacks its required interval-wide timing/precision proof; the
-retained take itself meets the requested duration. The
-[finer marker diagnostic](20-retained-marker-resolution/README.md) supports more
-candidate flashes, but clipped numbers and partial illumination prevent physical
-onset bounds. Its camera coordinate comparison leaves all threshold residuals
-unchanged. Screen cursor metadata matches acquired timestamps, but different
-decoder frame counts leave same-picture correspondence and physical onset
-uncertainty open. The historical
-[prerecorded stop measurement](20e-selected-device-probe/stop-scale/README.md)
-preserved4428 pictures and took26.915 seconds through actual media closure. The
-[bounded hashing pass](20e-camera-picture-hashing/README.md) removes per-row copies
-while preserving the exact picture digests; fresh offline publication is faster
-but its scope supplies no live shutdown verdict. The later
-[sustained physical confirmation](20-sustained-physical-stop/verification-confirmation/README.md)
-passes one unchanged recipe through both publication and app/service quit;
-independent readiness/cancellation and debug retained-source cost proofs stay
-separate under that owner. No further Stop capture is queued. Original media and
-historical rejected callbacks remain in the Git LFS fixture. Historical workers
-and the installed app stay intact; isolated signed candidates have their own pins.
-
-The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
-integrated and root-verified. The current bank owns compiled-runtime selection;
-this historical pass is no standing rebuild instruction. Existing completed speech/processing, transfer and cutover
-preparatory evidence below remains scoped; do not repeat it instead of resolving
-its remaining quality, retiming or physical prerequisites.
+Capture supplies immutable source facts; projects own caller-authored edits.
+The current format23 catalog refuses older catalogs without migration or byte
+mutation. The personal app/library remains intact; private installed acceptance
+is distinct from the reviewed personal switch.
 
 ## Execution context and scoped evidence
 
@@ -371,8 +186,9 @@ remain unchanged. The scoped runtime evidence does not replace earlier visual ga
 
 [Public preparation](14a-public-preparation/README.md) covers unit-rate/gain
 CLI/MCP, restart/cancel/retry and independent skill use, not model DSP.
-[Native stretch parity](13b-native-stretch-parity/README.md) is integrated; public
-retiming and broad channel/long-input acceptance remain open.
+[Native stretch parity](13b-native-stretch-parity/README.md) and the
+[public retiming checkpoint](14e-public-retiming/root-review.md) retain their
+accepted scopes; broader channel/long-input guarantees remain separate.
 [Discovery](25-discovery-references/README.md) exposes full settings with shared
 CLI/MCP schemas and writable inputs. Its fresh consumer also used capabilities,
 so it is not a help-only proof. Animated-gain skill use passed; its service stopped.
@@ -383,8 +199,9 @@ from exact geometry/timing. [Animated appearance](16-animated-appearance/README.
 does not close continuous playback, delivered retime/gain or speech listening.
 [Deletion](24-deletion-fixture/README.md) retains real edit/restart coverage;
 [CLI test ownership](25-cli-test-ownership/README.md) preserves existing assertions.
-Broad loaded runs retain wall-clock failures: run the broad suite once under
-controlled load at closeout, without widening deadlines. The
+The [implementation-end run and focused recovery](23-owner-fixture-ports/default-gate-recovery-verification.json)
+retain original wall-clock failures. Reuse matched results and rerun only
+invalidated or unmatched contracts without widening deadlines. The
 [job-reference audit](acceptance-maintenance/job-references.md) reuses existing
 retirement ownership, not a new garbage collector.
 

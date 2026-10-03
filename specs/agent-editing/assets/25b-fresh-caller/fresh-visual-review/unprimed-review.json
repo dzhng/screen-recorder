@@ -1,0 +1,79 @@
+{
+  "reviewType": "unprimed read-only visual review",
+  "scope": "Six final-contrast full PNGs and nine exact enlarged caption/inset crops listed in inventory.json. No repo edits, renders, media processing, player inspection or listening.",
+  "target": "Visible independent camera numeral 3 and screen numeral 2; selected screen numeral fully visible during zoom; literal Primitive fixture caption readable and contained; distinctive colored still present at start/middle and absent at end. Paid caption readable over the held sentence page. Styling and layout are caller decisions.",
+  "reviewed": [
+    "final-contrast-interlude-start.png",
+    "final-contrast-interlude-middle.png",
+    "final-contrast-interlude-end.png",
+    "final-contrast-paid-start.png",
+    "final-contrast-paid-middle.png",
+    "final-contrast-paid-end.png",
+    "visual-critique-crops/interlude-start-caption.png",
+    "visual-critique-crops/interlude-middle-caption.png",
+    "visual-critique-crops/interlude-end-caption.png",
+    "visual-critique-crops/interlude-start-inset.png",
+    "visual-critique-crops/interlude-middle-inset.png",
+    "visual-critique-crops/interlude-end-inset.png",
+    "visual-critique-crops/paid-start-caption.png",
+    "visual-critique-crops/paid-middle-caption.png",
+    "visual-critique-crops/paid-end-caption.png"
+  ],
+  "verdict": "Required sampled content, membership and containment are visible. A concrete caption/source-text overlap remains; this is a local readability blemish, so this is not an unconditional claim of flawless layout.",
+  "checks": [
+    {
+      "requirement": "Independent numerals",
+      "observation": "All interlude full frames show a large white 2 in the main screen panel and a separate white 3 in the photographed monitor inset. Both glyphs are complete and recognizable, including endpoints.",
+      "confidence": "high",
+      "result": "pass"
+    },
+    {
+      "requirement": "Screen numeral landmark fully visible during zoom",
+      "observation": "The main 2 and its rectangular black panel remain fully contained at start, middle and end. The middle frame changes source framing slightly, without clipping the numeral or panel.",
+      "confidence": "high",
+      "result": "pass"
+    },
+    {
+      "requirement": "Primitive fixture caption readable and contained",
+      "observation": "The red Primitive fixture string is readable and fully inside the canvas in every interlude frame and caption crop. The final e overlaps the beginning of the underlying white Signal label, making the rightmost glyph locally busier.",
+      "confidence": "high",
+      "result": "required literal content readable; local overlap reported"
+    },
+    {
+      "requirement": "Distinctive still membership",
+      "observation": "A distinctive rectangle with teal, green and narrow red/yellow areas is visible at the upper left in start and middle. It is absent in the end frame.",
+      "confidence": "high",
+      "result": "pass for supplied samples"
+    },
+    {
+      "requirement": "Paid caption over held sentence page",
+      "observation": "Large red paid is complete, readable and separated from adjacent page text near the lower center. The page visibly includes A sentence to identify and the source phrase this is free. Start/middle/end full PNGs are byte-identical; the three paid caption crops are also byte-identical. This supports the held visual sample, not occurrence timing.",
+      "confidence": "high",
+      "result": "pass for sampled visuals"
+    }
+  ],
+  "visibleFindings": [
+    {
+      "id": "caption-source-text-overlap",
+      "confidence": "high",
+      "evidence": "All three interlude full frames and all three interlude caption crops",
+      "observation": "The red final e in fixture crosses the white beginning of Signal. The white source text intrudes into the red glyph's counter and lower stroke. The literal caption can still be read, but the collision is visibly real at native size and obvious in the enlarged crops.",
+      "impact": "Local readability blemish; no clipping or missing caption characters.",
+      "action": "Record the collision explicitly; moving the caller-authored caption or giving it a background would avoid it if clean separation is required. Do not infer authorization for styling changes."
+    },
+    {
+      "id": "inset-background-occlusion",
+      "confidence": "high",
+      "evidence": "All three interlude full frames and inset crops",
+      "observation": "The camera inset covers the right part of the main timing-page heading and portions of the first instruction line. The photographed numeral panel inside the inset has its lower portion cut by the inset's bottom edge, while the 3 itself remains fully visible with space below it.",
+      "impact": "Visible composition cropping/occlusion, including at the end; it does not obscure either required numeral.",
+      "action": "Treat as a reported layout fact under caller discretion, rather than a missing required landmark."
+    }
+  ],
+  "limitations": [
+    "Only supplied sampled stills were reviewed. They cannot establish continuous fade/transition behavior or physical timing.",
+    "No listening, player behavior, installed render freshness, occurrence binding or current runtime behavior can be established from these PNGs.",
+    "Repeated identical image emissions displayed blank previews in the review interface. SHA-256 checks confirmed all three paid full files are identical to the visibly inspected start/middle image, and all three paid crops are identical to the visibly inspected start crop; blank repeated previews are not evidence of black source frames.",
+    "No before/reference image set was supplied. Comparisons used the stated technical target and start/middle/end samples, not an inferred aesthetic target."
+  ]
+}

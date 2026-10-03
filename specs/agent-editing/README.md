@@ -15,89 +15,61 @@ example to the plan; the user kept segmentation outside this run and requested a
 
 ## Next Agent Prompt
 
-Implement the remaining primitives through their existing owners. The external
-caller makes every editorial decision. Read the [contracts](contracts.md),
-[architecture](architecture.md), [verification](verification.md),
-[journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
-[screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
+The product supplies primitives and makes zero editorial decisions. Implement
+through the existing [contracts](contracts.md), [architecture](architecture.md)
+and [processing owner](processing.md); the consumer
+[screenrec skill](../../skills/screenrec/SKILL.md) is for the external caller.
 
-**Next pickup: remaining presentation and fresh installed caller acceptance.**
-The product uses one project composition owner and a fresh format23 catalog; prior catalogs are refused
-without migration or byte mutation. The
-[owner closure registry](assets/23-owner-fixture-ports/README.md) is the canonical
-bank of current preservation results, original failures and exact runtime limits.
-The repository-wide gate has run; reuse its matched passes and repair only affected
-or unmatched contracts. Do not interpret its focused recovery as a full green run.
+**Next pickup: the reviewed personal release.** The
+[production PNG adoption bank](assets/23-owner-fixture-ports/current-production-png-verification.json)
+now reproduces all fourteen saved requests with exact receipt, complete pixel
+and encoded-PNG equality. Reuse that result and the existing visual review;
+no further rendering, build or public edit replay follows from adoption.
 
-Continue in this order:
+The [canonical registry](assets/23-owner-fixture-ports/README.md) owns current
+results and exact limitations. Reuse the passed long learned-processing bank,
+combined scale, current pointer/trail, cancellation and muted-player banks.
+The [fresh installed caller](slices/25d-installed-caller.md) now passes default
+CLI/MCP discovery, edit/replay/refusal/delivery and retained-package continuity;
+do not repeat the thirteen-effect source workflow. The
+[fresh saved visual review](assets/25b-fresh-caller/fresh-visual-review/README.md)
+and [model-path audit](assets/25-installed-model-paths/README.md) have separate
+sampled and source-only verdicts.
 
-1. Reuse the [qualified current colored-trail pair](assets/23-owner-fixture-ports/current-colored-trail-verification.json).
-   Its frozen full/clipped geometry and clocks pass the original strict native-sRGB
-   predicate and fresh matched-frame visual review. A private required video tag
-   and explicit current encoder defaults are declared differences; the historical
-   failure and two setup-only refusals remain intact. No historical encoded-byte
-   equivalence, general color parity or player-display claim follows.
-   Reuse the [current combined scale bank](assets/23-owner-fixture-ports/current-combined-scale-verification.json):
-   original deep/wide long-project queries, exact late audio, queue/restart and
-   warm preview pass unchanged budgets. Its shared harness now consumes complete
-   MCP results through the existing delivery API; it retains its configured SDK
-   receiver and supplies no default-client or full-two-hour DSP claim. Reuse the
-   separate query, movie, streaming, cache and index banks. The known
-   storage deadline under native-build contention waits for an already-required
-   build; do not create a build solely to generate load. Long learned-processing
-   interactions remain distinct from this raw-audio route.
-2. Preserve the newly verified boundaries: SDK finishing cancellation, actual
-   muted same-item playback to its exact endpoint, first sibling video failure
-   under explicitly controlled readiness, and three current white-pointer movie
-   samples moving then holding over one source picture. Controlled readiness is
-   not natural scheduling proof. The paired trail checkpoint is not whole-color,
-   arbitrary gesture, perceptual synchronization or listening acceptance.
-   The observed movie/PNG color difference remains unresolved; no threshold or
-   reference was changed to close it.
-3. Reuse the passed [private installed/default-discovery bank](assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
-   for the bounded [fresh external-caller checkpoint](slices/25-agent-acceptance.md).
-   Its compact next-caller request uses fresh public fixture preparation and the
-   accepted source CLI/MCP recipes, without repeating every effect. Preserve the
-   personal app, library and span history until the reviewed switch; private
-   installation does not establish personal replacement or full caller acceptance.
+Review the [personal release plan](assets/acceptance-maintenance/personal-release-plan.json):
+exact candidate identity, old app/library/preferences preservation, fresh
+format23 state, rollback and named post-switch measurement. Private installation is not personal
+replacement. Current format23 refuses prior catalogs without migration or byte
+mutation; preserve the personal installation until the reviewed switch.
 
 | Owner | Remaining acceptance |
 | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
-| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical event uncertainty/synchronization and remaining lifecycle scope |
-| [23 cutover](slices/23-cutover.md) | Broader source/pointer/color presentation, listening and installed switching |
-| [24 scale](slices/24-scale.md) | Long learned interactions, known contention and final installed measurement |
-| [25 caller](slices/25-agent-acceptance.md) | Fresh installed caller and final release scope |
+| [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical uncertainty/synchronization and broader lifecycle scope |
+| [23 cutover](slices/23-cutover.md) | Broader presentation/listening and personal switching |
+| [24 scale](slices/24-scale.md) | Known heavy-build contention and final production installed measurement |
+| [25 caller](slices/25-agent-acceptance.md) | Personal replacement and full release scope |
 
-The [evidence index](assets/integrated-evidence.md),
-[implementation pickup](assets/implementation-pickup.md) and
-[cutover correspondence](assets/acceptance-maintenance/cutover-preservation.md)
-own saved inputs, results and unmatched guarantees. Implementation completion and
-release acceptance are distinct: run the repository-wide check once when
-implementation finishes, without indefinitely deferring it for an inherited
-reference-access or physical-uncertainty gap. Keep unfinished acceptance explicit.
+The implementation-end repository run has already occurred. Reuse matched
+passes and repair invalidated or unmatched contracts; focused recovery is not a
+full green run. The storage deadline under heavy native compilation waits for an
+independently required build; do not manufacture load or repeat a cached build.
 
-Reuse the [sustained Stop/quit](assets/20-sustained-physical-stop/verification-confirmation/README.md)
-result at 9.215 seconds and [saved import/retry](assets/20-sustained-physical-stop/acquisition-recovery/README.md).
-No further recording is queued. The [encoded picture binding](assets/20-camera-picture-correspondence/encoded-binding/README.md)
-proves one packet/frame identity; its historical PNG comparison is optional and
-stopped. [Retained marker analysis](assets/20-retained-marker-resolution/README.md)
-has reached its stopping condition. Do not repeat captures, sweep settings or
-substitute ordinal association for physical timing evidence.
-
+No new recording is queued. Reuse [sustained Stop/quit](assets/20-sustained-physical-stop/verification-confirmation/README.md),
+[saved recovery](assets/20-sustained-physical-stop/acquisition-recovery/README.md)
+and [encoded picture binding](assets/20-camera-picture-correspondence/encoded-binding/README.md).
+[Retained marker analysis](assets/20-retained-marker-resolution/README.md) reached
+its stopping condition; ordinal association is not physical timing proof.
 The [speech audit](assets/acceptance-maintenance/speech-readiness.md) and
 [reference-access qualification](assets/acceptance-maintenance/speech-reference-access.json)
-own the independent acoustic gap. Do not repeat corpus searches, inference or
-read-sentence trials, choose a replacement recipe, or submit a publisher form or
-license. Reuse saved human marks and accepted auditions, retiming/denoise/voice
-and the selected200ms ambience; the250ms version is rejected.
+own the stopped acoustic campaign. Do not repeat corpus searches, inference,
+read-sentence trials or publisher/license submissions. Reuse saved human marks,
+accepted auditions and the selected200ms ambience; the250ms version is rejected.
 
-Apply [project principles](../../AGENTS.md): narrow checks, unchanged-output reuse
-and bounded experiments. Checks use isolated state and are authorized. Preserve
-originals, journals and the [frozen worker](assets/acceptance-maintenance/native-worker-preservation.json).
-Development never turns a recording into a personal editing assignment. Keep
-this pickup and owning Status lines consistent; close only after the remaining
-contracts have honest dispositions.
+Follow [project principles](../../AGENTS.md): narrow checks, unchanged-output
+reuse, isolated state and preserved originals. Keep owning Status lines and this
+pickup consistent. Unmeasured acceptance stays explicit; no extra editorial work
+or indefinite evidence campaign follows from it.
 
 ## Outcome and boundaries
 
@@ -302,7 +274,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [23i — App-owned project-service process](slices/23i-service-process-parity.md)
 - [x] [23j — Paired public edit-state preservation](slices/23j-state-preservation.md) — complete public state/interval/history correspondence; historical MCP adapter exits remain unverified
 - [x] [23k — Source metadata and composed native consumers](slices/23k-source-consumer-bridge.md) — actual pagination/dispatch and distinct historical readiness consumption
-- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; corrected native composition pixels match all saved references; installed acceptance remains open
+- [ ] [23l — Paired public edited frames](slices/23l-paired-edited-frames.md) — joins/final support/default delivery verified; all saved references now match complete production-worker pixels and PNGs; personal installed/default-library acceptance remains separate
 - [x] [23l1 — Fixed-image composition stage boundary](slices/23l1-image-color-stages.md) — diagnostic complete; historical decoder cause remains open
 - [x] [23l2 — Project PNG publication](slices/23l2-project-png-publication.md) — fixed-image and all fourteen saved native video PNGs verified; installed adoption and full movie parity remain open
 - [x] [23m — Paired partial words and absent acquisition role](slices/23m-paired-partial-words-and-absent-role.md) — complete public partial/absent-role proof; quality remains open and positive system has separate 23o proof
@@ -351,6 +323,7 @@ implementation readiness from acceptance prerequisites.
 - [x] [24z13 — CLI delivery retains service selection](slices/24z13-cli-delivery-selection.md) — merged84 consumer checks; no rediscovery or operation replay during delivery
 - [x] [25b — Fresh source-caller workflow](slices/25b-fresh-caller.md) — complete controlled brief; parent installed/release/listening/physical gates remain open
 - [x] [25c — Independent source MCP caller](slices/25c-source-mcp-caller.md) — compact source checkpoint; installed/release acceptance separate
+- [x] [25d — Fresh installed caller checkpoint](slices/25d-installed-caller.md) — bounded private installation and retained-package bridge; personal replacement/full release separate
 - [ ] [25 — External-caller primitive acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

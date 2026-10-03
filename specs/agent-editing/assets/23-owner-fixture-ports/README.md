@@ -71,6 +71,14 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Current fixed full/clipped fading trail at matched source clocks | [Current colored-trail pair](current-colored-trail-verification.json) |
 | Current combined long-project query, late audio, queue/restart and warm preview | [Combined scale](current-combined-scale-verification.json) |
 | Private installed cold default discovery, CLI/default MCP and personal-state protection | [Installed discovery](current-installed-discovery-verification.json) |
+| Full five-minute/two-hour learned PCM through the original deep/wide graph | [Long learned routing](current-long-learned-routing-verification.json) |
+| Fresh private installed edit/replay/refusal/image and retained-package audio continuity | [Installed caller](current-installed-caller-verification.json) |
+| Complete fourteen-request frozen PNG parity on the production worker | [Production PNG adoption](current-production-png-verification.json) |
+
+The [fresh saved-workflow review](../25b-fresh-caller/fresh-visual-review/README.md)
+accepts its named sampled content and retains visible layout limits. The
+[installed model-path audit](../25-installed-model-paths/README.md) found no
+checkout-relative execution defect; fresh installed inference remains unmeasured.
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
