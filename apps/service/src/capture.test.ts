@@ -1,5 +1,6 @@
-import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { RevisionStore } from "@screenrec/core/library";
+import { JobQueue } from "@screenrec/core/jobs";
+import { CaptureStore } from "@screenrec/core/capture-store";
+import { CatalogError } from "@screenrec/core/catalog";
 import { afterEach, expect, it } from "vitest";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { chmod, mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
@@ -94,23 +95,72 @@ async function temporaryHome(): Promise<string> {
   return home;
 }
 
-/** A stand-in for the packaged native worker, so recovery outcomes are exact and bounded. */
-async function nativeWorker(script: string): Promise<string> {
+/** A controlled worker edge: real child lifetime, scripted files, no media decoding. */
+async function nativeWorker(
+  recoveryScript = `reply({ ok: false, error: { code: "NO_FIXTURE_MEDIA", message: "No scripted media operation", retryable: false, details: {} } });`,
+): Promise<string> {
   const path = join(await temporaryHome(), "screenrec-native");
-  await writeFile(path, `#!/bin/sh\nread line\n${script}\n`);
+  await writeFile(
+    path,
+    `#!${process.execPath}
+import { readFileSync, fstatSync } from "node:fs";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { join } from "node:path";
+const request = JSON.parse(readFileSync(0, "utf8"));
+const reply = result => process.stdout.write(JSON.stringify({ id: request.id, ...result }) + "\\n");
+if (request.operation === "storage.clearRenderWorkspace") reply({ ok: true, data: { removed: true } });
+else if (request.operation === "media.audioCapabilities") reply({ ok: true, data: {} });
+else if (request.operation === "storage.recordingDirectory") {
+  const info = fstatSync(3, { bigint: true });
+  reply({ ok: true, data: { dev: String(info.dev), ino: String(info.ino) } });
+} else if (request.operation === "storage.removeRecordingDirectory") {
+  await rm(join(request.params.home, "recordings", request.params.recordingId), { recursive: true, force: true });
+  reply({ ok: true, data: { removed: true } });
+} else if (request.operation === "storage.removeCacheFiles") {
+  for (const id of request.params.ids) await rm(join(request.params.home, "cache/derived", id + ".cache"), { force: true });
+  reply({ ok: true, data: { removed: true } });
+} else {
+  ${recoveryScript}
+}
+`,
+  );
   await chmod(path, 0o755);
   return path;
 }
 
-/** The takes a service has allocated a directory for, whether or not any of them has media. */
+/** The takes allocated in the canonical library, whether or not they have source media. */
 function takes(home: string): Promise<string[]> {
-  return readdir(join(home, "recordings")).catch(() => []);
+  return readdir(join(home, "library/recordings")).catch(() => []);
 }
 
 function recovers(data: unknown, pauseSeconds = 0): Promise<string> {
-  return nativeWorker(
-    `${pauseSeconds ? `/bin/sleep ${pauseSeconds}\n` : ""}printf '%s\\n' '${JSON.stringify({ id: "recover", ok: true, data })}'`,
-  );
+  return nativeWorker(`
+if (request.operation === "media.cleanupCapture") reply({ ok: true, data: ${JSON.stringify(data)} });
+else if (request.operation === "media.recover") {
+  await new Promise(resolve => setTimeout(resolve, ${pauseSeconds * 1000}));
+  const data = ${JSON.stringify(data)};
+  const sourceId = request.params.sourceAuthority.sourceId;
+  data.inputsClosed = true;
+  if (data.durationUs > 0) {
+    data.journal = { ...data.journal, header: { ...data.journal?.header, sessionID: sourceId } };
+    const journal = Buffer.from(JSON.stringify(data.journal));
+    const video = Buffer.from("scripted source bytes");
+    await mkdir(request.params.directory, { recursive: true });
+    await writeFile(join(request.params.directory, "source.journal.jsonl"), journal);
+    await writeFile(join(request.params.directory, "video.mov"), video);
+    const hash = bytes => createHash("sha256").update(bytes).digest("hex");
+    const source = {
+      kind: "primary", sourceId, sourceDurationUs: data.durationUs, originHostUs: 0,
+      journal: { file: "source.journal.jsonl", bytes: journal.length, sha256: hash(journal), lastSequence: 2, layout: 2 },
+      members: { "video.mov": { bytes: String(video.length), sha256: hash(video) } }
+    };
+    await writeFile(join(request.params.directory, "source.publication.json"), JSON.stringify(source));
+    data.sourcePublication = { state: "published", source };
+  } else data.sourcePublication = { state: "unavailable", error: { code: "NO_SOURCE_MEDIA", message: "Scripted recovery found no source pictures" } };
+  reply({ ok: true, data });
+} else reply({ ok: false, error: { code: "NO_FIXTURE_MEDIA", message: request.operation, retryable: false, details: {} } });
+`);
 }
 
 /**
@@ -127,7 +177,12 @@ async function startService(
 ) {
   const child: ChildProcessWithoutNullStreams = spawn(process.execPath, [entry], {
     cwd: "/",
-    env: { ...process.env, SCREENREC_HOME: home, ...environment },
+    env: {
+      ...process.env,
+      SCREENREC_HOME: home,
+      SCREENREC_NATIVE: await nativeWorker(),
+      ...environment,
+    },
     stdio: ["pipe", "pipe", "pipe"],
   });
   const exit = new Promise<void>((resolve) => child.once("exit", () => resolve()));
@@ -181,7 +236,11 @@ async function startService(
         await once(child.stderr, "data", { signal });
       }
     },
-    kill: () => child.kill("SIGKILL"),
+    async kill() {
+      if (child.exitCode !== null || child.signalCode !== null) return;
+      child.kill("SIGKILL");
+      await exit;
+    },
     /** Pushes one native capture report up the private pipe and waits for its answer. */
     report: (params: Record<string, unknown>) =>
       new Promise<{ ok: boolean; data?: unknown; error?: { code: string } }>((resolve) => {
@@ -330,18 +389,19 @@ it("recovery keeps diagnostic code and message paired even without usable video"
         tracks: [{ failure: { code: "ROLE_FAILED", message: "Role decode failed" } }],
       }),
     });
-    await recovered.waitForDiagnostic(/reconciliation complete/);
-    expect(await recovered.call("recording.get", { recordingId })).toMatchObject({
-      ok: true,
-      data: {
-        state: "interrupted",
-        currentRevisionId: null,
-        interruptionReason: completion?.failureCode ?? "ROLE_FAILED",
-        interruptionMessage: completion
-          ? (completion.failureMessage ?? null)
-          : "Role decode failed",
-      },
-    });
+    await expect
+      .poll(() => recovered.call("recording.get", { recordingId }), { timeout: 5_000 })
+      .toMatchObject({
+        ok: true,
+        data: {
+          state: "interrupted",
+          currentRevisionId: null,
+          interruptionReason: completion?.failureCode ?? "ROLE_FAILED",
+          interruptionMessage: completion
+            ? (completion.failureMessage ?? null)
+            : "Role decode failed",
+        },
+      });
     await recovered.close();
   }
 });
@@ -358,7 +418,7 @@ it("allocates one take per start request and replays a repeated request onto it"
   expect(replay.ok && replay.data).toEqual(first.ok && first.data);
   // One allocation, one native start, one source directory: a lost response opens no second take.
   expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
-  expect(await readdir(join(home, "recordings"))).toHaveLength(1);
+  expect(await readdir(join(home, "library/recordings"))).toHaveLength(1);
 });
 
 it("reports the active source and audio choices through the public status operation", async () => {
@@ -418,7 +478,7 @@ it("gives concurrent start requests one capturing take and one honest terminal f
   expect(refused).toMatchObject({ ok: false, error: { code: "INVALID_STATE" } });
   const failedId = (refused as unknown as { error: { details: { recordingId: string } } }).error
     .details.recordingId;
-  // The refused take keeps its identity and a terminal reason, with no original revision.
+  // A refused take retains its source identity and terminal reason without creating a project.
   expect(await service.call("recording.get", { recordingId: failedId })).toMatchObject({
     ok: true,
     data: {
@@ -428,9 +488,9 @@ it("gives concurrent start requests one capturing take and one honest terminal f
       currentRevisionId: null,
     },
   });
-  expect(await service.call("revision.get", { recordingId: failedId })).toMatchObject({
-    ok: false,
-    error: { code: "UNAVAILABLE" },
+  expect(await service.call("project.list")).toMatchObject({
+    ok: true,
+    data: { projects: [] },
   });
 });
 
@@ -481,7 +541,7 @@ it("cancels only the named take, removes its media, and refuses to revive it aft
     ok: true,
     data: { state: "canceled" },
   });
-  expect(await readdir(join(home, "recordings"))).toEqual([keptId]);
+  expect(await readdir(join(home, "library/recordings"))).toEqual([keptId]);
   expect(await service.call("recording.latest")).toMatchObject({
     ok: true,
     data: { recordingId: keptId },
@@ -534,7 +594,7 @@ it("restarts into a distinct take and answers a replayed restart with that same 
     source: fixtureSource,
   });
   expect(replay.ok && (replay.data as { recordingId: string }).recordingId).toBe(secondId);
-  expect(await readdir(join(home, "recordings"))).toEqual([secondId]);
+  expect(await readdir(join(home, "library/recordings"))).toEqual([secondId]);
   expect(await service.call("recording.get", { recordingId: firstId })).toMatchObject({
     ok: true,
     data: { state: "canceled" },
@@ -550,7 +610,7 @@ it("settles a stranded take from its own recovered media when a service starts a
   });
   if (!started.ok) throw new Error("start failed");
   const recordingId = (started.data as { recordingId: string }).recordingId;
-  abandoned.kill();
+  await abandoned.kill();
 
   const service = await startService(home, capturingPeer(), {
     SCREENREC_NATIVE: await recovers({
@@ -558,29 +618,30 @@ it("settles a stranded take from its own recovered media when a service starts a
       journal: { header: { sessionID: "s" } },
     }),
   });
-  await service.waitForDiagnostic(/reconciliation complete/);
-  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+  await expect
+    .poll(() => service.call("recording.get", { recordingId }), { timeout: 5_000 })
+    .toMatchObject({
+      ok: true,
+      data: {
+        state: "interrupted",
+        interruptionReason: "CAPTURE_INTERRUPTED",
+        sourceDurationUs: 5_000_000,
+      },
+    });
+  // Recovered source facts do not authorize an editing project.
+  expect(await service.call("project.list")).toMatchObject({
     ok: true,
-    data: {
-      state: "interrupted",
-      interruptionReason: "CAPTURE_INTERRUPTED",
-      sourceDurationUs: 5_000_000,
-    },
-  });
-  // A validated prefix registers as an ordinary original revision.
-  expect(await service.call("revision.get", { recordingId })).toMatchObject({
-    ok: true,
-    data: { revision: { id: "r0", spans: [{ startUs: 0, endUs: 5_000_000 }] } },
+    data: { projects: [] },
   });
 });
 
-it("settles a stranded take with no recoverable video without inventing a timeline", async () => {
+it("settles a stranded take with no recoverable video without authoring a project", async () => {
   const home = await temporaryHome();
   const abandoned = await startService(home, capturingPeer());
   const started = await abandoned.call("capture.start", { requestId: "s", source: fixtureSource });
   if (!started.ok) throw new Error("start failed");
   const recordingId = (started.data as { recordingId: string }).recordingId;
-  abandoned.kill();
+  await abandoned.kill();
 
   const service = await startService(home, capturingPeer(), {
     SCREENREC_NATIVE: await recovers(
@@ -588,19 +649,20 @@ it("settles a stranded take with no recoverable video without inventing a timeli
       1.2,
     ),
   });
-  await service.waitForDiagnostic(/reconciliation complete/);
-  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+  await expect
+    .poll(() => service.call("recording.get", { recordingId }), { timeout: 5_000 })
+    .toMatchObject({
+      ok: true,
+      data: {
+        state: "interrupted",
+        interruptionReason: "NO_RECOVERABLE_VIDEO",
+        sourceDurationUs: null,
+        currentRevisionId: null,
+      },
+    });
+  expect(await service.call("project.list")).toMatchObject({
     ok: true,
-    data: {
-      state: "interrupted",
-      interruptionReason: "NO_RECOVERABLE_VIDEO",
-      sourceDurationUs: null,
-      currentRevisionId: null,
-    },
-  });
-  expect(await service.call("revision.get", { recordingId })).toMatchObject({
-    ok: false,
-    error: { code: "UNAVAILABLE", details: { interruptionReason: "NO_RECOVERABLE_VIDEO" } },
+    data: { projects: [] },
   });
 });
 
@@ -610,10 +672,10 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   const started = await abandoned.call("capture.start", { requestId: "s", source: fixtureSource });
   if (!started.ok) throw new Error("start failed");
   const recordingId = (started.data as { recordingId: string }).recordingId;
-  abandoned.kill();
+  await abandoned.kill();
 
   const blind = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await nativeWorker("exit 3"),
+    SCREENREC_NATIVE: await nativeWorker("process.exit(3)"),
   });
   await blind.waitForDiagnostic(/recovery failed/);
   // Failed recovery remains discoverable and retryable without inventing a terminal outcome.
@@ -626,11 +688,12 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   const service = await startService(home, capturingPeer(), {
     SCREENREC_NATIVE: await recovers({ durationUs: 2_000_000, journal: { header: {} } }),
   });
-  await service.waitForDiagnostic(/reconciliation complete/);
-  expect(await service.call("recording.get", { recordingId })).toMatchObject({
-    ok: true,
-    data: { state: "interrupted", sourceDurationUs: 2_000_000 },
-  });
+  await expect
+    .poll(() => service.call("recording.get", { recordingId }), { timeout: 5_000 })
+    .toMatchObject({
+      ok: true,
+      data: { state: "interrupted", sourceDurationUs: 2_000_000 },
+    });
 });
 
 it(
@@ -670,7 +733,7 @@ it(
       .call("capture.start", { requestId: "replay", source: fixtureSource })
       .catch(() => undefined);
     await expect.poll(async () => (await takes(home)).length).toBe(1);
-    abandoned.kill();
+    await abandoned.kill();
     const [recordingId] = await takes(home);
 
     const service = await startService(home, capturingPeer(), {
@@ -699,11 +762,12 @@ it(
         source: { kind: "window", windowId: 8 },
       }),
     ).toMatchObject({ ok: false, error: { code: "REQUEST_CONFLICT" } });
-    await service.waitForDiagnostic(/reconciliation complete/);
-    expect(await service.call("recording.get", { recordingId })).toMatchObject({
-      ok: true,
-      data: { state: "interrupted", sourceDurationUs: 3_000_000 },
-    });
+    await expect
+      .poll(() => service.call("recording.get", { recordingId }), { timeout: 5_000 })
+      .toMatchObject({
+        ok: true,
+        data: { state: "interrupted", sourceDurationUs: 3_000_000 },
+      });
   },
 );
 
@@ -869,7 +933,7 @@ it(
         },
       });
     expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
-    expect(await readdir(join(home, "recordings"))).toEqual([recordingId]);
+    expect(await readdir(join(home, "library/recordings"))).toEqual([recordingId]);
   },
 );
 
@@ -895,7 +959,7 @@ it("refuses a start request ID reused for a different take instead of reinterpre
     });
   // A refused reuse allocates nothing and starts nothing.
   expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
-  expect(await readdir(join(home, "recordings"))).toHaveLength(1);
+  expect(await readdir(join(home, "library/recordings"))).toHaveLength(1);
   const replayed = await service.call("capture.start", request);
   expect(replayed.ok && replayed.data).toEqual(started.ok && started.data);
 });
@@ -1003,7 +1067,7 @@ it(
           recordingId,
           state: "interrupted",
           sourceDurationUs: 6_000_000,
-          currentRevisionId: "r0",
+          currentRevisionId: null,
         },
       });
     expect(await service.call("capture.status")).toMatchObject({
@@ -1015,7 +1079,8 @@ it(
 
 it("resumes persisted queued cleanup only after the recording service owners and recovery are ready", async () => {
   const home = await temporaryHome();
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  await mkdir(join(home, "library"), { mode: 0o700 });
+  const store = new CaptureStore(join(home, "library/catalog.sqlite"), {
     newId: randomUUID,
     now: () => new Date().toISOString(),
   });
@@ -1028,10 +1093,20 @@ it("resumes persisted queued cleanup only after the recording service owners and
     state: "complete",
     sourceDurationUs: 1000000,
   });
-  await mkdir(join(home, "recordings", recordingId), { recursive: true, mode: 0o700 });
+  await mkdir(join(home, "library/recordings", recordingId), { recursive: true, mode: 0o700 });
   const queue = new JobQueue({
     store,
-    targets: recordingJobTargets(store),
+    targets: {
+      pin(target) {
+        if (target.kind !== "recording" || target.revisionId !== null)
+          throw new CatalogError("INVALID_REQUEST", "Cleanup seed requires a source target");
+        store.get(target.recordingId);
+        return { ...target, revisionId: null };
+      },
+      isAvailable: (target) => target.kind === "recording" && store.isAvailable(target.recordingId),
+      isDeleting: (owner) => owner.kind === "recording" && store.isDeleting(owner.recordingId),
+      isCapturing: () => store.isCapturing(),
+    },
     providers: { newId: randomUUID },
     deferExecution: true,
     execute: async () => {
@@ -1053,7 +1128,6 @@ it("resumes persisted queued cleanup only after the recording service owners and
       { role: "system", outcome: "alreadyClear" },
     ]),
   });
-  await service.waitForDiagnostic(/reconciliation complete/);
   await expect
     .poll(() => service.call("job.get", { jobId: job.jobId }))
     .toMatchObject({ ok: true, data: { state: "ready", result: { recordingId, sourceId } } });
