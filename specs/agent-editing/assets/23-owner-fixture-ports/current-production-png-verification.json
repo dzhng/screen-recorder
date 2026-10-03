@@ -1,0 +1,571 @@
+{
+  "status": "PASS fourteen frozen native composition PNG requests through current built production worker",
+  "baseCommit": "b269f4de4e3f11acbaa773ef3654b3660a2062ce",
+  "producer": {
+    "sourceMember": "metadata/producer.py",
+    "pid": 31067,
+    "exitCode": 0,
+    "outerElapsedSeconds": 2.8016070000012405,
+    "terminalMember": "metadata/producer.stdout"
+  },
+  "worker": {
+    "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+    "bytes": 19979280,
+    "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55",
+    "nativePID": 31068,
+    "nativeExitCode": 0,
+    "authorityUnchanged": true,
+    "boundary": "Built official candidate worker invoked directly via JSONL; no app launch or personal installed-default acceptance."
+  },
+  "bounds": {
+    "outerSeconds": 120,
+    "requestSeconds": 30,
+    "pixelReaderSeconds": 30,
+    "retry": false
+  },
+  "inputBindings": {
+    "member": "metadata/address-bindings.json",
+    "requestCount": 14,
+    "changesOnly": [
+      "params.output",
+      "params.assets[0].path"
+    ],
+    "sourcePath": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/video.mov",
+    "sourceBytes": 29414120,
+    "sourceSha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+    "allOtherRequestFieldsDeepEqual": true
+  },
+  "receiptPolicy": "All original data fields exactly equal except file and bytes. File equals fresh output and bytes equals actual encoded size; id/ok preserved. All picture/frame/source clocks,graphs,counters and selection fields remain equal.",
+  "pixelPolicy": {
+    "bytesPerCase": 24585600,
+    "cases": 14,
+    "completeBytesCompared": 344198400,
+    "threshold": "Exact complete RGBA byte equality; no tolerance",
+    "reader": {
+      "sha256": "f70abec32be67626724512428addbf0fb248dcdfbb0f4db55056a8b603fabaf4",
+      "bytes": 91832,
+      "member": "reader/image-pixels"
+    },
+    "referenceRestoration": "Only nine unique exact preexisting RGBA operands and the unchanged reader restored from hash-verified original23l archive. No new reference rendering/profile conversion."
+  },
+  "cases": [
+    {
+      "ordinal": 1,
+      "nativeRowIndex": 6,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "952322"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.3118719160047476,
+      "png": {
+        "bytes": 933434,
+        "sha256": "b5736bc1e2340bdf6347b54f0301d76654161fddcf5d04778e94354185d339ed"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0.rgba",
+        "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "952322"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/31-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/b5736bc1e2340bdf6347b54f0301d76654161fddcf5d04778e94354185d339ed.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0.rgba"
+    },
+    {
+      "ordinal": 2,
+      "nativeRowIndex": 12,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "987470"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08799579199694563,
+      "png": {
+        "bytes": 868396,
+        "sha256": "7f805300857c17c25c28bff3ea8153b889f38779a6f1e9c38f3f371f180aa207"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49.rgba",
+        "sha256": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "987470"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/29-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/7f805300857c17c25c28bff3ea8153b889f38779a6f1e9c38f3f371f180aa207.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49.rgba"
+    },
+    {
+      "ordinal": 3,
+      "nativeRowIndex": 18,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "987470"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08807608299684944,
+      "png": {
+        "bytes": 868396,
+        "sha256": "7f805300857c17c25c28bff3ea8153b889f38779a6f1e9c38f3f371f180aa207"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49.rgba",
+        "sha256": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "987470"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/29-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/7f805300857c17c25c28bff3ea8153b889f38779a6f1e9c38f3f371f180aa207.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49.rgba"
+    },
+    {
+      "ordinal": 4,
+      "nativeRowIndex": 24,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "2960657"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08545445799973095,
+      "png": {
+        "bytes": 811525,
+        "sha256": "d19fd30c8a1763602a5dcd73bf034604205f58b44acd0ceceb2762ac4fb85013"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6.rgba",
+        "sha256": "e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "2960657"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/35-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/d19fd30c8a1763602a5dcd73bf034604205f58b44acd0ceceb2762ac4fb85013.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/e0c431d23994f009e7143586c991dc17f5ad94f51a78f66f448961ddc19920d6.rgba"
+    },
+    {
+      "ordinal": 5,
+      "nativeRowIndex": 30,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "2996894"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.09018370899866568,
+      "png": {
+        "bytes": 806317,
+        "sha256": "1f1e5b0f8f643e6b94af749e48da19caf8e7ade0cdd4ccd10f8000b2ed386a27"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529.rgba",
+        "sha256": "5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "2996894"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/33-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/1f1e5b0f8f643e6b94af749e48da19caf8e7ade0cdd4ccd10f8000b2ed386a27.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529.rgba"
+    },
+    {
+      "ordinal": 6,
+      "nativeRowIndex": 36,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "2996894"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08957237499998882,
+      "png": {
+        "bytes": 806317,
+        "sha256": "1f1e5b0f8f643e6b94af749e48da19caf8e7ade0cdd4ccd10f8000b2ed386a27"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529.rgba",
+        "sha256": "5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "2996894"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/33-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/1f1e5b0f8f643e6b94af749e48da19caf8e7ade0cdd4ccd10f8000b2ed386a27.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/5757505064804728e1572a6817425935d902c79deb40e308a626a6fddf495529.rgba"
+    },
+    {
+      "ordinal": 7,
+      "nativeRowIndex": 42,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "131998157"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.09178675000293879,
+      "png": {
+        "bytes": 791682,
+        "sha256": "adb327d39194b9dd462fd68c766c16f566e3d010daad134efd99eab60acf08f0"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677.rgba",
+        "sha256": "56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "131998157"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/39-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/adb327d39194b9dd462fd68c766c16f566e3d010daad134efd99eab60acf08f0.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/56602db888d784b72ec1659aad33186a2e87c849f017873cb3decc87be741677.rgba"
+    },
+    {
+      "ordinal": 8,
+      "nativeRowIndex": 48,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "952322"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.10081104199343827,
+      "png": {
+        "bytes": 933434,
+        "sha256": "b5736bc1e2340bdf6347b54f0301d76654161fddcf5d04778e94354185d339ed"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0.rgba",
+        "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "952322"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/31-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/b5736bc1e2340bdf6347b54f0301d76654161fddcf5d04778e94354185d339ed.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/e965f56f66365d9a3a7ea743d88fcbcd898d74f36a42e83de6a0d784ce6aa4a0.rgba"
+    },
+    {
+      "ordinal": 9,
+      "nativeRowIndex": 54,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "1976107"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.0848438749962952,
+      "png": {
+        "bytes": 839560,
+        "sha256": "1f5d4dfc6177fa19f5742ba0a9be975bc5ce98837f846a4608d9f78fde7475ca"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550.rgba",
+        "sha256": "d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "1976107"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/43-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/1f5d4dfc6177fa19f5742ba0a9be975bc5ce98837f846a4608d9f78fde7475ca.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550.rgba"
+    },
+    {
+      "ordinal": 10,
+      "nativeRowIndex": 60,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "1976107"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08363054100482259,
+      "png": {
+        "bytes": 839560,
+        "sha256": "1f5d4dfc6177fa19f5742ba0a9be975bc5ce98837f846a4608d9f78fde7475ca"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550.rgba",
+        "sha256": "d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "1976107"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/43-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/1f5d4dfc6177fa19f5742ba0a9be975bc5ce98837f846a4608d9f78fde7475ca.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/d9c750aefa22ee48e0826067d64637b293f3961080d0e6974559da2d1fe5b550.rgba"
+    },
+    {
+      "ordinal": 11,
+      "nativeRowIndex": 66,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "3954490"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08504133299720706,
+      "png": {
+        "bytes": 798634,
+        "sha256": "fe54eec74d21b44ac78cb9fa51f3cc1b44ac6704141f2df1e718dff9c6e48f2a"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89.rgba",
+        "sha256": "9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "3954490"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/47-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/fe54eec74d21b44ac78cb9fa51f3cc1b44ac6704141f2df1e718dff9c6e48f2a.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/9b3b6b99b614331b8b594baa0b4aed076b50d81f56d933a56591737abf4d4f89.rgba"
+    },
+    {
+      "ordinal": 12,
+      "nativeRowIndex": 72,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "4972376"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.09054720799758798,
+      "png": {
+        "bytes": 794258,
+        "sha256": "0604a8bf1d07551174864c72f2bfbfbe8455bc934b18f78cd012992ec06db751"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201.rgba",
+        "sha256": "08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "4972376"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/51-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/0604a8bf1d07551174864c72f2bfbfbe8455bc934b18f78cd012992ec06db751.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201.rgba"
+    },
+    {
+      "ordinal": 13,
+      "nativeRowIndex": 78,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "4972376"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08944654100196203,
+      "png": {
+        "bytes": 794258,
+        "sha256": "0604a8bf1d07551174864c72f2bfbfbe8455bc934b18f78cd012992ec06db751"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201.rgba",
+        "sha256": "08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "4972376"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/51-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/0604a8bf1d07551174864c72f2bfbfbe8455bc934b18f78cd012992ec06db751.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/08cd13a6e2a9651990773fdd50911670f0e0cdacf6676f5f83d85f01c40dc201.rgba"
+    },
+    {
+      "ordinal": 14,
+      "nativeRowIndex": 84,
+      "sample": {
+        "originUs": 0,
+        "timescale": 1000000,
+        "value": "134006597"
+      },
+      "metadataEqual": true,
+      "requestElapsedSeconds": 0.08739454099850263,
+      "png": {
+        "bytes": 792274,
+        "sha256": "13af5279dacf8e0254b49312e2571fa0a95e64bec0cb46b2982637aa021e436b"
+      },
+      "reference": {
+        "file": "/Users/david/.cache/screen-recorder/verification/production-png-adoption-b269f4de/references/3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad.rgba",
+        "sha256": "3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad",
+        "bytes": 24585600,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "134006597"
+        },
+        "savedPNG": "/tmp/screenrec-23l-packet/runs/third/53-project-raw.png"
+      },
+      "rgba": {
+        "bytes": 24585600,
+        "sha256": "3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad",
+        "allBytesEqual": true
+      },
+      "pngMember": "outputs/13af5279dacf8e0254b49312e2571fa0a95e64bec0cb46b2982637aa021e436b.png",
+      "sameEncodedPNGAsHistoricalCandidate": true,
+      "referenceAuthority": "../23l2-native-png-correspondence/report.json case ordinal; original full23l archive ./pixels/3237f8b933f959d71b8aaa6f47d1147fb88925e93b51c4b618ee15bcb2096fad.rgba"
+    }
+  ],
+  "terminals": {
+    "nativeZero": true,
+    "allFourteenPixelReadersZero": true,
+    "recordsMember": "metadata/processes.json",
+    "noTimeoutOrRetry": true,
+    "noTrailingNativeStdout": true,
+    "nativeProcessGone": true
+  },
+  "visualReview": {
+    "authority": "../23l2-native-png-correspondence/review.md",
+    "reuseBasis": "Every complete RGBA and every encoded PNG equals the corresponding accepted historical candidate output; no changed visual output.",
+    "scope": "Reuse prior unprimed static readability verdict only; no new critic, UI/display, motion or photographic quality claim."
+  },
+  "archive": {
+    "path": "production-png-adoption-b269f4de-evidence.tar.gz",
+    "bytes": 6666885,
+    "sha256": "eed2681020cdd36ab5809e3469ab71225b44ef2ccf7c6541df27a80c8b5fc12c",
+    "manifestMember": "manifest.json",
+    "manifestSha256": "6e2eb7994f8a857248edc05467608697a2ee8b731a51631723182afb2557f806",
+    "payloadCount": 56,
+    "fileCountIncludingManifest": 57,
+    "allPayloadsRehashed": true,
+    "uniquePNGCount": 9,
+    "rgbaStorage": "Unchanged complete compared RGBA remains in private verification scratch; Git preserves nine unique PNGs plus exact reader so image decoding reconstructs those bytes. Frozen reference arrays remain in the prior durable archive."
+  },
+  "referenceArchive": {
+    "path": "/Users/david/.codex/artifacts/screen-recorder/23l-paired-edited-frames/f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b/screenrec-23l-evidence-default-final.tar.gz",
+    "sha256": "f3817374022fc0e474361e054ace1a424255ecdf0e08eea76b70b8b879d3c65b"
+  },
+  "scopeLimits": [
+    "Production worker adoption of these14saved native PNG requests only, distinct from isolated ae682ac7 worker proof.",
+    "No current sampler/service/delivery/MCP/CLI or public cut sequence rerun. Their retained evidence remains separate.",
+    "No installed personal-library or default discovery test, listening/speech, new capture/model/movie work, continuous playback or photographic motion claim.",
+    "No full suite, native build, new reference, changed selection/threshold/receipt policy or automatic editorial action.",
+    "The original inherited composition pixel failures and later isolated worker success remain unchanged in their existing banks."
+  ],
+  "review": {
+    "shape": "No production or harness owner changed; replay reuses literal frozen producer and oracles with only built operand/address substitution.",
+    "diff": "All14requests,complete receipts/full RGBA and encoded PNGs matched; unique output storage does not drop samples.",
+    "docs": "Leaf23l/23l2 status names production adoption separately from installed/presentation scope; shared registry/handoff/choices root-owned.",
+    "verdict": "clean"
+  }
+}

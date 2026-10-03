@@ -4,8 +4,11 @@ Status: scoped numeric verification executed. Paired join/tail membership,
 complete legacy/raw pixels and CLI/MCP delivery pass. The
 [PNG successor](../assets/23l2-native-png-correspondence/README.md) now matches every
 selected reference RGBA byte across all fourteen saved native requests. Independent
-visual review finds no concrete defect within that static scope. Installed-worker
-adoption and full release acceptance remain unverified.
+visual review finds no concrete defect within that static scope. The
+[current production-worker adoption](../assets/23-owner-fixture-ports/current-production-png-verification.json)
+now reproduces all fourteen frozen native requests with complete receipt/RGBA
+and encoded-PNG equality. Personal installed/default-library and full release
+acceptance remain separate.
 [Evidence](../assets/23l-paired-edited-frames/README.md) owns complete outcomes and
 producer identities. This narrows the remaining frame row in the
 [saved correspondence](../assets/acceptance-maintenance/cutover-outcomes.md#frame-membership-and-presentation).
