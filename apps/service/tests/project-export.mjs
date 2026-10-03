@@ -145,6 +145,7 @@ test("an evicted admitted preview regenerates through the same dependency job be
   const request = f.request();
   await f.exports.create(request);
   await started.promise;
+  const firstAttempt = f.jobs.job(f.exports.status(request.exportId).jobId);
   const old = (await f.preview.request({ projectId: f.projectId })).published;
   f.projects.apply(f.projectId, {
     requestId: "advance-before-regeneration",
@@ -158,6 +159,9 @@ test("an evicted admitted preview regenerates through the same dependency job be
     if (s.state === "failed") throw new Error(JSON.stringify(s));
     return s.state === "committed" && !s.cleanupPending && s;
   });
+  const lastAttempt = f.jobs.job(ready.jobId);
+  assert.notEqual(lastAttempt.attemptId, firstAttempt.attemptId);
+  assert.equal(lastAttempt.generation, firstAttempt.generation + 1);
   assert.equal(renders, 2);
   assert.equal(
     JSON.parse(await readFile(ready.output, "utf8")).manifest.revisionId,
@@ -731,4 +735,66 @@ test("export kind is persisted and incompatible replay cannot change video inten
   assert.equal(row.kind, "video");
   assert.equal(JSON.parse(row.request)[0], "video");
   assert.equal(f.exports.status(request.exportId).jobId, first.jobId);
+});
+
+test("waiting export pins its revision before a busy heavy lane admits preview work", async (t) => {
+  const f = await fixture(t);
+  const hold = f.jobs.createContext(
+    ({ signal }) =>
+      new Promise((resolve) =>
+        signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+      ),
+  );
+  f.jobs.submitContext(hold, { artifact: "hold", input: "preview-delay", lane: "heavy" });
+  await new Promise(setImmediate);
+  const request = f.request();
+  const requested = await f.exports.create(request);
+  assert.equal(requested.state, "queued");
+  assert.equal(f.jobs.job(requested.jobId).state, "waiting");
+  f.projects.apply(f.projectId, {
+    requestId: "edit-while-waiting",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  });
+  await f.jobs.closeContext(hold);
+  await f.jobs.idle();
+  const result = f.exports.status(request.exportId);
+  assert.equal(result.state, "committed");
+  assert.equal(result.snapshot.revisionId, f.placed.revision.id);
+  const movie = JSON.parse(await readFile(result.output, "utf8"));
+  assert.equal(movie.manifest.revisionId, f.placed.revision.id);
+  assert.equal(movie.manifest.canvas.width, 160);
+});
+
+test("canceled queued export regenerates its evicted preview at the original revision after editing", async (t) => {
+  const f = await fixture(t);
+  await f.preview.request({ projectId: f.projectId });
+  await f.jobs.idle();
+  const preview = (await f.preview.request({ projectId: f.projectId })).published.preview;
+  const original = await readFile(preview.file);
+  const hold = f.jobs.createContext(
+    ({ signal }) =>
+      new Promise((resolve) =>
+        signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+      ),
+  );
+  f.jobs.submitContext(hold, { artifact: "hold", input: "canceled-preview", lane: "heavy" });
+  await new Promise(setImmediate);
+  const request = f.request();
+  await f.exports.create(request);
+  f.exports.cancel(request.exportId);
+  assert.equal(f.exports.status(request.exportId).state, "canceled");
+  f.cache.remove(preview.cacheId);
+  f.projects.apply(f.projectId, {
+    requestId: "edit-after-cancel",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  });
+  await f.jobs.closeContext(hold);
+  await f.exports.retry(request.exportId);
+  await f.jobs.idle();
+  const result = f.exports.status(request.exportId);
+  assert.equal(result.state, "committed");
+  assert.equal(result.snapshot.revisionId, f.placed.revision.id);
+  assert.deepEqual(await readFile(result.output), original);
 });
