@@ -37,12 +37,13 @@ import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import type { SceneProcessing } from "./scene-processing.js";
 import type { SceneEvidenceRead, RecordingSceneEvidenceMetadata } from "./scene-evidence.js";
-import { selectIndex, selectionPolicy } from "./selection.js";
+import { selectIndex } from "./selection.js";
 import { selectionEvidence } from "./selection-evidence.js";
 import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
 import { trailPolicy } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
 import {
+  selectionPolicy,
   encodeIndexRecord,
   type ScreenshotIndexStore,
   type ScreenshotIndexMetadata,

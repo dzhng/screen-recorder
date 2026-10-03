@@ -9,6 +9,7 @@ import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
 import {
+  selectionPolicy,
   validateIndexEntry,
   type ScreenshotIndexIdentity,
   type ScreenshotIndexMetadata,
@@ -22,7 +23,6 @@ import {
   type IndexCoverage,
 } from "./screenshot-index-read.js";
 import { type MaterializedFrame, framePolicy } from "./frame-materialization.js";
-import { selectionPolicy } from "./selection.js";
 import { scenePolicy } from "./scenes.js";
 import { trailPolicy } from "./trails.js";
 import { type TimelineRevision, sourceToEdited } from "./timeline.js";
