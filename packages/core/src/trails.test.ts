@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import type { VisualSampler } from "./scenes.js";
 import { planFrameTrail } from "./trails.js";
@@ -39,7 +39,7 @@ const point = (sourceUs: number, x: number, y = 20, eligibility = "inside", geom
 async function fixture(records: { event: string; data: Record<string, unknown> }[]) {
   const root = mkdtempSync(join(tmpdir(), "trail-plan-"));
   let next = 0;
-  const store = new RevisionStore(join(root, "catalog.sqlite"), {
+  const store = new CaptureStore(join(root, "catalog.sqlite"), {
     now: () => "",
     newId: () => String(++next),
   });

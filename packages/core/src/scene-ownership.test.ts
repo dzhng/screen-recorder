@@ -1,7 +1,7 @@
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";
 import { writeSceneEvidencePages } from "./scene-pages.js";
@@ -72,7 +72,7 @@ function assetAnalysisFor(assetId: string, originUs = -250000) {
 async function fixture() {
   const home = await mkdtemp("/tmp/scene-ownership-");
   let id = "initial";
-  const catalog = new RevisionStore(join(home, "catalog.sqlite"), {
+  const catalog = new CaptureStore(join(home, "catalog.sqlite"), {
     now: () => "fixture",
     newId: () => id,
   });

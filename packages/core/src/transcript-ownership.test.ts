@@ -2,7 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import {
   TranscriptStore,
@@ -240,7 +240,7 @@ test("restart reclamation protects retained generations and the other owner name
 
 test("the retained native recording transcript preserves every inherited word and portable metadata", async () => {
   const home = await mkdtemp("/tmp/transcript-recording-parity-");
-  const library = new RevisionStore(join(home, "catalog.sqlite"), {
+  const library = new CaptureStore(join(home, "catalog.sqlite"), {
     now: () => "fixture",
     newId: randomUUID,
   });
