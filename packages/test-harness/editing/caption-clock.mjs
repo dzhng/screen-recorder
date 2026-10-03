@@ -6,7 +6,7 @@ import { poll, root, run } from "./source-evidence-fixture.mjs";
 
 /** A clipped first picture must keep the full project's caption sample and phase. */
 export async function captionClock({ call, out, font, project, admit, picture, report }) {
-  const media = await admit(join(root, "specs/agent-editing/assets/00-corpus/a.mov"));
+  const media = await admit(join(root, "specs/done/agent-editing/assets/00-corpus/a.mov"));
   const p = await project({
     width: 320,
     height: 100,

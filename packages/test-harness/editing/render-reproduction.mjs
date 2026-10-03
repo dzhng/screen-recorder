@@ -10,7 +10,7 @@ import { spawnSync } from "node:child_process";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const source = join(root, "packages/test-harness/editing/RenderReproduction.swift");
 const timing = join(root, "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift");
-const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
 const args = process.argv.slice(2);
 const platformRate = args.at(-1) === "--platform-rate";
 if (platformRate) args.pop();

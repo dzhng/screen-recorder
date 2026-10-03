@@ -5,7 +5,7 @@ import { bindMarkedSpeech } from "./acceptance-inputs.mjs";
 const marks = JSON.parse(
   await readFile(
     new URL(
-      "../../../specs/agent-editing/assets/12d-human-marks/human-marks.json",
+      "../../../specs/done/agent-editing/assets/12d-human-marks/human-marks.json",
       import.meta.url,
     ),
   ),
@@ -35,7 +35,7 @@ test("human source marks require original byte identity and clock before project
 test("fixture bytes refuse a changed authority without changing the input", async () => {
   const { identifyFile } = await import("./acceptance-inputs.mjs");
   const path = new URL(
-    "../../../specs/agent-editing/assets/19-soft-roomtone-overlap/loop.wav",
+    "../../../specs/done/agent-editing/assets/19-soft-roomtone-overlap/loop.wav",
     import.meta.url,
   ).pathname;
   const before = await identifyFile(path);

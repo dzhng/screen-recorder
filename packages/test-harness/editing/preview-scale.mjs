@@ -7,7 +7,7 @@ import { mask, classify } from "./render-membership.mjs";
 /** Output-size/render-budget proof; the corpus does not claim 1080p source decoding. */
 export async function previewScale(service, out, limits, base, durationUs) {
   const call = (operation, params) => service.call(operation, params, { transport: "mcp" });
-  const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+  const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
   const probe = async (file) =>
     JSON.parse(
       (

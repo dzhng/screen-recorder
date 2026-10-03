@@ -10,7 +10,7 @@ func runCaptureAudioMaterializerTests() async throws {
   var root = URL(fileURLWithPath: #filePath)
   for _ in 0..<5 { root.deleteLastPathComponent() }
   let original = root.appendingPathComponent(
-    "specs/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov")
+    "specs/done/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov")
   let directory = RecoveryFixture.directory("materializer")
   defer { try? FileManager.default.removeItem(at: directory) }
   var hashes: [(String, String)] = []
@@ -232,7 +232,7 @@ func runCaptureAudioMaterializerScaleProbe(output: String, runs: Int) async thro
   var root = URL(fileURLWithPath: #filePath)
   for _ in 0..<5 { root.deleteLastPathComponent() }
   let original = root.appendingPathComponent(
-    "specs/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov")
+    "specs/done/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov")
   let reuse = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_REUSE"]
   if let reuse {
     for name in ["narration.packed.mov", "capture.journal.jsonl", "candidate.mov"] {
@@ -338,7 +338,7 @@ func captureMaterializerFixture(
   var root = URL(fileURLWithPath: #filePath)
   for _ in 0..<5 { root.deleteLastPathComponent() }
   let original = root.appendingPathComponent(
-    "specs/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov")
+    "specs/done/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov")
   let folder = directory.appendingPathComponent(name)
   try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)
   let media =

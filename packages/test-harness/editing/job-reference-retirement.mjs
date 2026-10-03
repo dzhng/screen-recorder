@@ -13,7 +13,7 @@ assert.ok(values.out && process.env.SCREENREC_NATIVE, "Pass --out and SCREENREC_
 const out = resolve(values.out),
   home = join(out, "home");
 await mkdir(out);
-const source = join(root, "specs/agent-editing/assets/00-corpus/a-audio.wav");
+const source = join(root, "specs/done/agent-editing/assets/00-corpus/a-audio.wav");
 const original = await readFile(source),
   assetId = hash(original);
 const report = {

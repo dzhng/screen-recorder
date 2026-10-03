@@ -21,7 +21,7 @@ try {
   const path = join(home, "source.mov"),
     duplicate = join(home, "duplicate.mov");
   await copyFile(
-    new URL("../../../specs/agent-editing/assets/00-corpus/orientation.mov", import.meta.url),
+    new URL("../../../specs/done/agent-editing/assets/00-corpus/orientation.mov", import.meta.url),
     path,
   );
   await copyFile(path, duplicate);

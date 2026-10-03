@@ -1,35 +1,25 @@
 # Recording for AI — personal release spec
 
-Status: original recording implementation and release evidence retained; personal-release
-acceptance remains partial. Last updated: 2026-10-01. The checklist distinguishes
-verified child contracts from unfinished acceptance; the owning slices state the
-actual evidence and limits.
-
-## Next Agent Prompt
-
-The active implementation queue is the
-[agent-operated toolkit handoff](../agent-editing/README.md#next-agent-prompt).
-Follow that queue and its constraints. This recording spec preserves original
-release contracts and evidence; it does not create a second implementation queue
-or a standing request for human tests.
+The original recording implementation and its evidence are retained here. The
+personal app is released and the toolkit spec is closed; see the
+[release disposition](../done/agent-editing/release-closeout.md) for installed identity,
+completed checks and accepted limitations. Historical unchecked items below are
+unverified observations, not an active implementation queue or a request for
+another recording.
 
 The toolkit provides only primitives. The external caller makes every editorial
-decision, and the consumer skill describes that caller's workflow. Repository
-development verifies explicit fixture operations, not a personal cleanup project.
-Reuse saved marks, accepted listening results and the retained four-minute take
-under the active [verification rules](../agent-editing/verification.md#implementation-readiness-and-acceptance).
-Missing acoustic, physical or installed-release evidence stays unverified.
+decision. Repository development verifies explicit fixture operations rather than
+turning a user's recording into a personal editing project.
 
 The original timeline, recording-index, recording-storage and transcription labs
-are historical evidence. Their retired commands are not current entry points; use
-the [current owner proof bank](../agent-editing/assets/23-owner-fixture-ports/README.md)
-and explicit source/project callers for active verification.
+are historical evidence. Their retired commands are not current entry points; the
+[current owner proof bank](../done/agent-editing/assets/23-owner-fixture-ports/README.md)
+retains the source/project caller verification.
 
 ## Original release acceptance
 
-When specifically continuing this release, read its [contracts](contracts.md),
-[architecture](architecture.md) and [verification](verification.md). Inspect the
-owning slice's current evidence before choosing the next check:
+The historical acceptance definitions live in its [contracts](contracts.md),
+[architecture](architecture.md) and [verification](verification.md). The original owners record their observed evidence and limits:
 
 - [Capture and separate audio](slices/01-native-capture.md),
   [recovery](slices/02-interruption-recovery.md) and
@@ -44,18 +34,10 @@ owning slice's current evidence before choosing the next check:
   [processed packages](slices/14d3-processed-package.md) own export and relocated inspection.
 - [Personal release](slices/15-personal-release.md) owns installed acceptance.
 
-These categories retain the original acceptance contracts; they are not
-instructions to repeat every test or solicit another recording. First reuse
-applicable evidence from the active plan; evidence transfers only when its inputs
-and claim match. Any necessary new
-human task must identify the missing fact and explain why existing material
-cannot establish it. Open release claims do not stop independent toolkit work.
-
-The installed copy remains a separately verified artifact. Follow the
-[active plan's check authorization](../agent-editing/README.md#next-agent-prompt)
-for candidate validation and replacement of the installed app.
-The original [verification gates](verification.md) remain requirements; a plan
-rewrite cannot convert an unmeasured claim or failed score into a pass.
+These categories retain the original acceptance contracts. The closed release
+accepts their remaining limitations without changing thresholds or reporting
+unmeasured results as passes. Future concrete defects return to the current
+implementation owners with focused verification.
 
 - [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
 - [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
@@ -156,7 +138,7 @@ The original recording and non-destructive history remain intact.
 ## Original settled scope
 
 This is the original recording release contract. Its deferred capabilities do
-not override the later [toolkit scope](../agent-editing/README.md#outcome-and-boundaries),
+not override the later [toolkit scope](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/README.md#outcome-and-boundaries),
 which now owns composition, webcam and other explicitly planned primitives.
 
 - macOS menu-bar app; display/window/region capture, microphone narration and optional

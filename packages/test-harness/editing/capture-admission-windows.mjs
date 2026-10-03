@@ -42,7 +42,7 @@ const report = {
 for (const rate of [44100, 48000]) {
   const payload = join(
     root,
-    `specs/agent-editing/assets/20a-sparse-storage/run/continuous-${rate}.mov`,
+    `specs/done/agent-editing/assets/20a-sparse-storage/run/continuous-${rate}.mov`,
   );
   const canonical = join(out, `${rate}-canonical`),
     consumer = join(out, `${rate}-consumer`),

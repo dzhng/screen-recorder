@@ -8,7 +8,7 @@ import ScreenRecorderMedia
 /// The positive donor pattern makes every output zero attributable to the declared gap.
 func verifyMixedAVSupport(in directory: URL) async throws {
     let videoURL = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-        .appendingPathComponent("../../../../specs/agent-editing/assets/00-corpus/video-only.mov")
+        .appendingPathComponent("../../../../specs/done/agent-editing/assets/00-corpus/video-only.mov")
         .standardizedFileURL
     func digest(_ data: Data) -> String { SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined() }
     let videoHash = digest(try Data(contentsOf: videoURL))

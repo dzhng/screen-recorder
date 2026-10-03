@@ -97,7 +97,7 @@ try {
   const cases = JSON.parse(
     await readFile(join(root, "packages/test-harness/editing/voice/cases.json")),
   );
-  const frozen = join(root, "specs/agent-editing/assets/18-voice");
+  const frozen = join(root, "specs/done/agent-editing/assets/18-voice");
   const renderer = voiceRenderer(
     mediaWorker({ SCREENREC_NATIVE: resolve(values.native) }),
     models,

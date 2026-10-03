@@ -136,14 +136,14 @@ if (process.argv[2] === "--child") {
         source = join(root, "source");
       execFileSync("tar", [
         "-xzf",
-        resolve("specs/agent-editing/assets/20d-canonical-admission/evidence.tar.gz"),
+        resolve("specs/done/agent-editing/assets/20d-canonical-admission/evidence.tar.gz"),
         "-C",
         source,
         "--strip-components=1",
         "canonical-input",
       ]);
       await copyFile(
-        resolve("specs/agent-editing/assets/00-corpus/video-only.mov"),
+        resolve("specs/done/agent-editing/assets/00-corpus/video-only.mov"),
         join(source, "video.mov"),
       );
       const journal = await readFile(join(source, "capture.journal.jsonl"));

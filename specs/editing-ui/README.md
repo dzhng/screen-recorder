@@ -2,7 +2,7 @@
 
 Status: deferred by the agent-editing discovery, 2026-09-27. The current request
 prioritizes external agents operating through CLI/MCP; existing menu-bar recording
-controls remain. The [agent editing spec](../agent-editing/README.md) owns the active
+controls remain. The [agent editing spec](../done/agent-editing/README.md) owns the active
 plan and its richer composition model.
 
 ## Next Agent Prompt

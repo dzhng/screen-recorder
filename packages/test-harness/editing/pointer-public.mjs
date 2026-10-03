@@ -180,7 +180,7 @@ try {
     (await readFile(file)).equals(
       await readFile(
         new URL(
-          "../../../specs/agent-editing/assets/15-pointer-execution/images/identity.png",
+          "../../../specs/done/agent-editing/assets/15-pointer-execution/images/identity.png",
           import.meta.url,
         ),
       ),
@@ -323,7 +323,7 @@ try {
     const rendered = await picture({ projectId, revisionId }, 1000000, "stack-" + name);
     const reference = await readFile(
       new URL(
-        "../../../specs/agent-editing/assets/15-pointer-execution/images/" + name + ".png",
+        "../../../specs/done/agent-editing/assets/15-pointer-execution/images/" + name + ".png",
         import.meta.url,
       ),
     );
@@ -652,7 +652,7 @@ try {
     hash(
       await readFile(
         new URL(
-          "../../../specs/agent-editing/assets/15-pointer-execution/images/inactive.png",
+          "../../../specs/done/agent-editing/assets/15-pointer-execution/images/inactive.png",
           import.meta.url,
         ),
       ),

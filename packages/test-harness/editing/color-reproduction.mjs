@@ -20,8 +20,8 @@ const source = join(root, "packages/test-harness/editing/RenderReproduction.swif
   timing = join(root, "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift"),
   binary = join(out, "probe");
 run("swiftc", ["-parse-as-library", timing, source, "-o", binary]);
-const corpus = join(root, "specs/agent-editing/assets/00-corpus"),
-  frozen = join(root, "specs/agent-editing/assets/06-render");
+const corpus = join(root, "specs/done/agent-editing/assets/00-corpus"),
+  frozen = join(root, "specs/done/agent-editing/assets/06-render");
 const rotated = join(out, "rotation-only.mov");
 run("ffmpeg", [
   "-v",

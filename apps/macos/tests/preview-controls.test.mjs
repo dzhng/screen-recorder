@@ -19,7 +19,7 @@ test(
         (name) =>
           JSON.parse(
             readFileSync(
-              join(root, "specs/agent-editing/assets/10b-acquisition-skill/fresh", name),
+              join(root, "specs/done/agent-editing/assets/10b-acquisition-skill/fresh", name),
               "utf8",
             ),
           ).data,

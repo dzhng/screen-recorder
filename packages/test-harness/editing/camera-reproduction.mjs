@@ -81,7 +81,7 @@ if (!binary) {
   assert.equal(build.status, 0, build.stderr);
   binary = join(root, "helpers/mac/.build/debug/CameraReproduction");
 }
-const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
 const inputs = [
   {
     role: "screen",

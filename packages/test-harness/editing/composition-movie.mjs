@@ -116,7 +116,7 @@ try {
   ff("-f", "lavfi", "-i", "aevalsrc=0.1*sin(2*PI*997*t):s=44100:d=2", "-c:a", "pcm_s16le", tone);
   const picture = join(scratch, "picture.mov");
   copyFileSync(
-    new URL("../../../specs/agent-editing/assets/00-corpus/a.mov", import.meta.url),
+    new URL("../../../specs/done/agent-editing/assets/00-corpus/a.mov", import.meta.url),
     picture,
   );
   const originalBytes = [picture, tone].map((path) => readFileSync(path));

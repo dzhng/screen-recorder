@@ -21,7 +21,7 @@ assert.ok(
 assert.ok(!existsSync(destination), "Choose a fresh output directory");
 mkdirSync(destination, { recursive: true });
 const hash = (b) => createHash("sha256").update(b).digest("hex");
-const reportPath = join(root, "specs/agent-editing/assets/13a-support-review/report.json");
+const reportPath = join(root, "specs/done/agent-editing/assets/13a-support-review/report.json");
 const corrected = JSON.parse(readFileSync(reportPath));
 const vendor = join(root, "helpers/stretch/Sources/CSignalsmith/vendor");
 const dependency = JSON.parse(readFileSync(join(vendor, "sources.json")));

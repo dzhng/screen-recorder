@@ -25,7 +25,7 @@ const report = {
 };
 const service = new JourneyService(home, report, native),
   call = service.call.bind(service);
-const frozen = join(root, "specs/agent-editing/assets/15-pointer-chain/input");
+const frozen = join(root, "specs/done/agent-editing/assets/15-pointer-chain/input");
 const template = JSON.parse(await readFile(join(frozen, "full.request.json"), "utf8"));
 const decoder = join(home, "decode"),
   pixels = join(home, "pixels");

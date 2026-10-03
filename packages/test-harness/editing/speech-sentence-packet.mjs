@@ -1,4 +1,4 @@
-import historicalPacket from "../../../specs/agent-editing/assets/12d-complete-sentence/manifest.json" with { type: "json" };
+import historicalPacket from "../../../specs/done/agent-editing/assets/12d-complete-sentence/manifest.json" with { type: "json" };
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -25,8 +25,8 @@ const save = (name, value) => writeFileSync(join(out, name), JSON.stringify(valu
 const source = join(root, "fixtures/narrated-workbench/narration.mov");
 const sourceBytes = readFileSync(source);
 assert.equal(hash(sourceBytes), "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c");
-const transcriptPath = join(root, "specs/agent-editing/assets/12-speech/transcript.json");
-const labelPath = join(root, "specs/agent-editing/assets/00-baseline/speech-labels.json");
+const transcriptPath = join(root, "specs/done/agent-editing/assets/12-speech/transcript.json");
+const labelPath = join(root, "specs/done/agent-editing/assets/00-baseline/speech-labels.json");
 const labels = json(labelPath),
   words = json(transcriptPath).filter((w) => /^w(11[1-9]|12[0-3])$/.test(w.id));
 assert.equal(

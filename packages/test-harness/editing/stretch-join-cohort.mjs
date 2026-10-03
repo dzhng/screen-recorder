@@ -79,7 +79,7 @@ const narration = decode(
   "narration",
 );
 const clean = decode(
-  "specs/agent-editing/assets/12c-clean-reference/1272-128104-0000.flac",
+  "specs/done/agent-editing/assets/12c-clean-reference/1272-128104-0000.flac",
   "4e25e22555cd16e90edb0a3b49fdcf1fe652b2a1250ab643634db33895c75b41",
   "clean",
 );

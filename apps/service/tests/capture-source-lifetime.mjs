@@ -39,11 +39,11 @@ assert.deepEqual(
   "Current native sources differ from the compiled worker pins",
 );
 const archive = resolve(
-  "specs/agent-editing/assets/20d6-settled-cleanup/prerecorded-source.tar.xz",
+  "specs/done/agent-editing/assets/20d6-settled-cleanup/prerecorded-source.tar.xz",
 );
 const retained = JSON.parse(
   await readFile(
-    resolve("specs/agent-editing/assets/20d6-settled-cleanup/artifact-hashes.json"),
+    resolve("specs/done/agent-editing/assets/20d6-settled-cleanup/artifact-hashes.json"),
     "utf8",
   ),
 );

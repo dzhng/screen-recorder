@@ -30,7 +30,7 @@ const controller = new AbortController();
 const lifetime = await open(out, "r");
 try {
   const corpus = fileURLToPath(
-    new URL("../../../specs/agent-editing/assets/00-corpus/", import.meta.url),
+    new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url),
   );
   const inputs = ["orientation.mov", "timestamp-gap.mov", "a-audio.wav", "odd-canvas.png"].map(
     (name) => join(corpus, name),

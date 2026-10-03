@@ -37,7 +37,7 @@ const jsonHash = (value) => hash(JSON.stringify(value));
 export async function prepareCardinality(home, out, call) {
   const directory = join(home, "donor");
   await mkdir(directory);
-  const movie = join(root, "specs/agent-editing/assets/10d-public-scenes/authored-source.mov");
+  const movie = join(root, "specs/done/agent-editing/assets/10d-public-scenes/authored-source.mov");
   assert.equal(hash(await readFile(movie)), assetId);
   await copyFile(movie, join(directory, "video.mov"));
   const records = [

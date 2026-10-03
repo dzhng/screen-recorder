@@ -32,7 +32,7 @@ any error and publishes only after success. No preparation owner is added here.
 Stereo interleaved files use one upstream instance with both channels. This keeps
 its shared energy analysis and interchannel phase coupling; two mono processors
 would produce different audio. Offsets and counts remain frames, not channel
-samples. The [stereo proof](../../specs/agent-editing/assets/14c-stereo-stretch/README.md)
+samples. The [stereo proof](../../specs/done/agent-editing/assets/14c-stereo-stretch/README.md)
 pins complete outputs to a direct planar upstream reference and measures the
 upstream channel differences without claiming new listening acceptance.
 
@@ -43,7 +43,7 @@ upstream loop. Counts retain upstream's signed-int domain; an unrepresentable
 seek is refused before upstream's unsafe float-to-int conversion. These are
 representation limits, not a new product duration policy.
 
-The [bounded proof](../../specs/agent-editing/assets/14-bounded-stretch/README.md)
+The [bounded proof](../../specs/done/agent-editing/assets/14-bounded-stretch/README.md)
 compares accepted speech and long runs against the array control, records isolated
 process memory, and exercises cancellation and failure cleanup through Swift.
 

@@ -65,7 +65,7 @@ try {
   if (!assetId) {
     const path = join(donor, "input.wav");
     await copyFile(
-      new URL("../../../specs/agent-editing/assets/00-corpus/a-audio.wav", import.meta.url),
+      new URL("../../../specs/done/agent-editing/assets/00-corpus/a-audio.wav", import.meta.url),
       path,
     );
     const imported = await call("asset.import", { requestId: "input", path });

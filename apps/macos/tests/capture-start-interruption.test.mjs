@@ -45,7 +45,7 @@ test(
             SCREENREC_CONTROLLER_NODE: process.execPath,
             SCREENREC_CONTROLLER_AUDIO: join(
               root,
-              "specs/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov",
+              "specs/done/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov",
             ),
             SCREENREC_CONTROLLER_PEER: join(fixtures, "control-peer.mjs"),
           },

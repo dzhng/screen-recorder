@@ -8,7 +8,7 @@ import test from "node:test";
 
 for (const evidence of ["06-color", "06-rec709"]) {
   const frozen = fileURLToPath(
-    new URL(`../../../specs/agent-editing/assets/${evidence}/`, import.meta.url),
+    new URL(`../../../specs/done/agent-editing/assets/${evidence}/`, import.meta.url),
   );
   const report = JSON.parse(readFileSync(join(frozen, "report.json"), "utf8"));
   const rgb = (name, file) => {

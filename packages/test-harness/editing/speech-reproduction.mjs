@@ -1,4 +1,4 @@
-import historicalPacket from "../../../specs/agent-editing/assets/12d-complete-sentence/manifest.json" with { type: "json" };
+import historicalPacket from "../../../specs/done/agent-editing/assets/12d-complete-sentence/manifest.json" with { type: "json" };
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, mkdirSync, mkdtempSync } from "node:fs";
@@ -52,7 +52,7 @@ const fixture = join(root, "fixtures/narrated-workbench");
 const source = join(fixture, "narration.mov");
 const baselineFolder = join(root, "specs/recording-for-ai/assets/speech/boundaries");
 const marks = json(join(baselineFolder, "marks.json"));
-const labelsPath = join(root, "specs/agent-editing/assets/00-baseline/speech-labels.json");
+const labelsPath = join(root, "specs/done/agent-editing/assets/00-baseline/speech-labels.json");
 const labels = json(labelsPath);
 const baseline = json(join(baselineFolder, "transcript.json")).filter((w) => w.type === "word");
 const journal = readFileSync(join(fixture, "capture.journal.jsonl"), "utf8")

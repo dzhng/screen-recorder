@@ -17,7 +17,7 @@ const home = await mkdtemp(join(tmpdir(), "source-image-public-"));
 const report = { passed: false, trace: [], pictures: [], checks: {} };
 const service = new JourneyService(home, report);
 const call = service.call.bind(service);
-const fixture = join(root, "specs/agent-editing/assets/10d-still-image-native");
+const fixture = join(root, "specs/done/agent-editing/assets/10d-still-image-native");
 const ready = (params) =>
   poll(
     () => call("frame.get", params, { transport: "mcp" }),
@@ -233,7 +233,7 @@ try {
   assert.equal((await ready(selection)).published.generation, restarted.published.generation);
   report.checks.projectDeletion = { rawImagePreserved: true, assetDeletionPublicSurface: false };
 
-  const video = await imported(join(root, "specs/agent-editing/assets/00-corpus/a.mov"));
+  const video = await imported(join(root, "specs/done/agent-editing/assets/00-corpus/a.mov"));
   const videoSelection = {
     assetId: video.id,
     streamId: video.streams.find((stream) => stream.kind === "video").id,

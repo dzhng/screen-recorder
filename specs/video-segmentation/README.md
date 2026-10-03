@@ -1,7 +1,7 @@
 # Generalized video segmentation processor
 
 Status: future-work placeholder, 2026-09-28. Explicitly outside the current
-[agent-editing run](../agent-editing/README.md). The user requested a generalized
+[agent-editing run](../done/agent-editing/README.md). The user requested a generalized
 video processor using something like Meta's SAM 3; person cutouts are one use case,
 not a separate person-only feature. No model or runtime has been selected.
 
@@ -22,7 +22,7 @@ isolate a subject, reveal layers behind it, or constrain supported processing to
 the selected area. For example, a graphic can appear behind a presenter's head
 while their hair and shoulders remain in front.
 
-The [reference-style audit](../agent-editing/assets/reference-style/README.md)
+The [reference-style audit](../done/agent-editing/assets/reference-style/README.md)
 records this effect around 19 and 60–67 seconds in the user's example. The observed
 composite establishes the desired result, not the creator's model or technique.
 

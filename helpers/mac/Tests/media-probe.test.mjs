@@ -8,7 +8,7 @@ import { pathToFileURL } from "node:url";
 const executable =
   process.env.SCREENREC_NATIVE ??
   new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
-const corpus = new URL("../../../specs/agent-editing/assets/00-corpus/", import.meta.url);
+const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url);
 function probe(name, extra = {}) {
   const result = spawnSync(executable, [], {
     input:

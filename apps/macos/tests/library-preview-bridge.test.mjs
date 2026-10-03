@@ -68,7 +68,7 @@ test(
       mkdirSync(build, { mode: 0o700 });
       const archive = join(
         repository,
-        "specs/agent-editing/assets/25b-fresh-caller/evidence.tar.gz",
+        "specs/done/agent-editing/assets/25b-fresh-caller/evidence.tar.gz",
       );
       const producer = JSON.parse(
         readFileSync(join(dirname(archive), "verification.json"), "utf8"),

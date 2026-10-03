@@ -25,7 +25,7 @@ const service = new JourneyService(home, report),
 try {
   await service.start();
   const source = new URL(
-    "../../../specs/agent-editing/assets/00-corpus/a-audio.wav",
+    "../../../specs/done/agent-editing/assets/00-corpus/a-audio.wav",
     import.meta.url,
   ).pathname;
   for (const [extension, codec] of [

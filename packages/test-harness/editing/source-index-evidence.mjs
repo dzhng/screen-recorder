@@ -16,7 +16,7 @@ const out = values.out
   : await mkdtemp(join(tmpdir(), "source-index-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "source-index-public-"));
-const fixture = join(root, "specs/agent-editing/assets/10d-source-frames/visual");
+const fixture = join(root, "specs/done/agent-editing/assets/10d-source-frames/visual");
 const report = {
   passed: false,
   scope:

@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const frozen = fileURLToPath(
-  new URL("../../../specs/agent-editing/assets/06-render/", import.meta.url),
+  new URL("../../../specs/done/agent-editing/assets/06-render/", import.meta.url),
 );
 const verifier = fileURLToPath(new URL("./render-reproduction-verify.mjs", import.meta.url));
 test("frozen native evidence passes and refuses a corrupted output or a failed temporal verdict", async (t) => {

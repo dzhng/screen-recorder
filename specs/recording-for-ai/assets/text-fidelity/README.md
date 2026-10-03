@@ -11,7 +11,7 @@ of a renderer regression.
 
 ## Controlled comparison
 
-[The owned WKWebView fixture](../../../../helpers/mac/Tests/TextFidelity/)
+[The owned WKWebView fixture](../../../../helpers/mac/Tests/TextFidelity)
 uses generated local content, light/dark views and scrolling at two window
 sizes. Only those known windows were captured; both audio roles were disabled.
 The native source and rendered PNGs have matching dimensions and sample times.

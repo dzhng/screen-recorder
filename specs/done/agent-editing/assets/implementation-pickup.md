@@ -1,0 +1,292 @@
+# Implementation pickup
+
+The full toolkit remains incomplete; the approved installed app now uses the current engine.
+Root integrates committed passes and verifies their consumer contracts. Current
+catalog/package formats are fenced by their existing owners; [03d](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/03d-exact-media-admission.md)
+preserves exact physical media facts. The frozen isolated worker used by retained
+checks was `/tmp/screenrec-03d-native-build/debug/screenrec-native`, SHA256
+`45cbe7b92819efa15a1b5d4a974cdcbd26cac6301c041bf6e5818e50f7cf5773`.
+On 2026-10-01 it became unavailable before the 24z profile startup. No identical
+retained copy was found at known recorded runtime paths. Do not replace it or use
+an unverified worker for its cohort. The separately qualified
+[current 24z fixture](24z-current-preparation/README.md) uses the preserved
+`0a9cd72a` worker with its own exact source/runtime bindings. That qualification
+does not restore the missing historical worker or authorize its cohort. Follow the
+live handoff for runtime selection; a scratch build is not a standing prerequisite.
+Historical workers and measurements retain their own identities below.
+
+## Current pickup
+
+The [live handoff](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/README.md#next-agent-prompt) owns the next action and
+stopped acceptance branches. The [canonical owner registry](23-owner-fixture-ports/README.md)
+owns current runtime proofs and original failures. Read the named bank before
+rebuilding or rerunning any cohort; historical workers below do not select the
+current runtime.
+
+Capture supplies immutable source facts; projects own caller-authored edits.
+The current format23 catalog refuses older catalogs without migration or byte
+mutation. The [personal release bank](23-owner-fixture-ports/personal-release-verification.json)
+owns the approved switch, fresh empty library and disposal of duplicate fixture
+state. Canonical originals remain intact; earlier private banks retain their
+historical personal-state protection claims.
+
+## Execution context and scoped evidence
+
+- **Denoise transitions15a3b:** integrated. Combined244 composition/31 native
+  audio/preparation tests and 50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
+  independently preserves the complete split PCM and dry-source samples. No
+  listening or retiming acceptance is inferred.
+- **Source reads24n–24q:** integrated. Combined 16 enforced decoder/metadata
+  controls, 5 descriptor tests, SourceAudio owner, 31 core audio/preparation tests,
+  five-format public preservation and 50 denoise public checks pass. Sparse
+  two-hour selections now read 16,020 bytes with exact PCM. Original read-ahead
+  reds remain retained; arbitrary codec I/O and positive AAC tail-retry execution
+  are not inferred. The release capture-test compiler assertion is separate from
+  the passing debug prerecorded materializer and production release build.
+- **Voice18a/19a/19b:** integrated. Root actual-entry13 and lifecycle30 pass;
+  relocated runtime produces both frozen outputs under donor/network denial.
+  Root reverified all11,427 historical bundle entries and21 archive members.
+  That temporary relocation bundle is now absent; use the exact recovered durable
+  source below for new preparation. Historical evidence remains unchanged.
+  Common preparation19c is integrated; root155 native-enabled focused tests pass.
+  Its complete public managed-copy journey preserves both frozen voice outputs
+  and all306 inherited ASR words/timings. The same-size runtime mutation control
+  refuses altered bytes. Preparation uses independent bounded copies, not COW.
+  The exact pinned model source is
+  `/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519`.
+  Settings19d and repair19d1 are integrated under immutable registration
+  `qwen3-tts-icl-v1`. Final unchanged preparation/lifecycle gates, default/filtered
+  audio parity and numerical controls pass; earlier failures remain retained.
+  [Adoption evidence](19d-voice-adoption/README.md) and root checks distinguish
+  execution correctness from parent listening acceptance. The former
+  `/tmp/screenrec-19d-repaired-managed/home` disappeared after19f.
+  [Exact recovery](19d-runtime-recovery/README.md) restored the registered runtime
+  under `~/.cache/screen-recorder/prepared-sources/voice-runtime-3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001`.
+  The ready durable home is `~/.cache/screen-recorder/verification/voice-runtime-3f20d26c/home`;
+  public preparation/restart and root source/managed inventory rehashes pass.
+  Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
+  [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
+  saved replay, stable explicit origins, queued restart and model-free transfer of
+  generated/reference audio. Preparatory23a/23b and offline20e evidence are
+  retained in their owning packets; current work follows the pickup above.
+  Shared voice metadata is
+  strict and independent of the active execution profile.
+  Candidate native worker there has SHA256
+  `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
+  that historical check kept its root binary frozen8a. Root reproduced a complete
+  converted WAV through the candidate wire entry exactly. Use the current pickup
+  for new runtime selection; this historical identity is not a standing build instruction.
+- **Routing scale24k:** integrated and reverified on root, including89 composition
+  and30 core tests and the full scoped public journey. [Warm1080p preview](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/24l-preview-budget.md) also passes on root.
+  Fixed-size timeline duration-doubling memory also passes [24m](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/24m-query-duration-memory.md).
+  Later decoder/query/history banks own their completed scopes; the live handoff
+  names the remaining integrated dimensions.
+- **History queries24r:** the [public history scale check](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/24r-history-query-scale.md) passes with real compact revisions and fresh services. Existing cursors exclude new edits; fixed250-row query memory remains stable between5,000 and10,000 revisions. This does not close arbitrary document-size, package-history or job-retirement gates.
+- **Streaming24s:** the original debug300-second streaming harness now passes unchanged, including its60-second child deadlines and memory/sample/sink checks. Storage-inventory contention remains separate and unresolved.
+- **Job retirement24t:** integrated;513 real source jobs retire through the existing
+  internal owner with exactly four surviving references, preserved retry IDs and
+  byte-identical audio. Root inspected the retained library and reran owner tests.
+  This is not public asset retirement or physical garbage collection.
+- **Package history24u:** integrated;1,000 complete revisions and all999 undo
+  mappings survive public transfer, with one actual undo and exact donor-unavailable
+  audio. History insertion no longer redundantly rewrites the project head.
+  Existing request limits and atomicity remain unchanged. See the
+  [evidence](24u-package-history-scale/README.md); learned topology has its separate
+  scoped24v proof below.
+- **Learned topology24v:** integrated; complete short-cohort dry/prepared PCM and
+  retained-asset late delivery pass through128 nested groups and32 branches.
+  [Evidence](24v-learned-routing-scale/README.md) combines the original public run
+  with canonical continuation of its same publication. The corrected fresh harness
+  was not rerun end-to-end; syntax, static review and bounded diagnostics were checked.
+  This adds no two-hour topology, listening or source-I/O claim.
+- **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
+  recipe, late PCM and newly authored receiver edit/undo survive donor removal
+  with processing unavailable. No missing original history is inferred.
+- **Waveform memory24w:** integrated; exact250-bucket public reads pass the original
+  latency and less-than2x duration-memory bounds. Two ownership-only checks reuse
+  bounded revision availability rather than hydrate documents. [Evidence](24w-waveform-duration-memory/README.md)
+  retains the original latency red, profiles and six-cohort rerun; no model cache
+  or general host-contention immunity is claimed.
+- **Retained recording23a:** [the integrated checkpoint](23a-recording-project-preservation/README.md)
+  verifies full source PCM, word projection, exports and explicit pointer presentation
+  using the real installed-format baseline in an isolated selected-row copy. Root
+  rehashed all575 archive members and reran saved-output gates. Legacy timing,
+  outer transcript gaps and color-route differences remain explicit; full23 remains
+  open. [Matched export recovery23b](23b-export-recovery-preservation/README.md)
+  preserves both real postcommit receipts and file identities through reply loss,
+  restart and concurrent replay. Root verified all380 archived members and five
+  saved movie hashes without rerunning services. Saved homes remain retained;
+  prepared-package-transfer completed the accepted12d public editing/rendering/undo
+  journey and the retained-input current-worker AAC mixed full/range check; the
+  worktree is released with saved outputs intact.
+- **Shared-library storage23c:** [the isolated preservation pass](23c-project-storage/README.md)
+  reuses the contained scanner for aggregate project-library bytes and cancels
+  scans before shutdown drain. Root reviewed the change, rebuilt the public JS
+  path and passed both merged public regressions. Parent23 and installed switching
+  remain open; no per-project allocation policy is added.
+- **Selected-device preparation20e/20e1:** [the scoped probe](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/20e-selected-device-probe.md)
+  is integrated and offline-verified. Root matched all19 code/test/harness source
+  identities to the reviewed artifacts, rehashed all481 archive members, and ran
+  the rational-clock/drop-callback and shared-ingress/canonical-microphone checks.
+  The camera mapping streams through recovery; a genuine709 sample passes public
+  source reads. The original SMPTE-C refusal remains retained. The
+  [physical follow-up](20e-selected-device-probe/follow-up.md) records subsequent
+  signing and authorized discovery/capture separately from that offline archive.
+  Recording has stopped; the signed probe stays frozen. Current capture work
+  follows the pickup above. Parent20/21 stays open.
+- **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
+  Physical20/21, speech quality, installed cutover23, general24 and autonomous25
+  remain open. Continue dependency-ready work.
+
+Preserve the older project-still-composition worktree's integrated diffs.
+The completed acquisition-picture-journey and noise-prepared-output worktrees
+were recoverably archived at the user's request; do not restore them merely for
+new work. Historical native executables/resources were copied under
+`/tmp/screenrec-preserved-workers` at cleanup; temporary copies must be located and
+rehash-verified before use, not assumed available. The
+[cleanup receipt](maintenance/space-cleanup-2026-09-29.json) records reclaimed
+Docker cache/images, safe branch deletion and exact model recovery. About68GiB free was measured;
+recheck capacity before large work. Root owns this handoff and parent checklist.
+
+## Banked contracts and evidence
+
+Capture [20b](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/20b-exact-capture-audio.md),
+[20c](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/20c-sparse-capture-materialization.md) and
+[20d](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/20d-capture-publication.md) separate admission/journal,
+materialization and publication. The [admission property](20b-time-feasibility/contract-audit.md)
+requires one declared playable timeline; raw timestamp digits are provenance.
+[Storage](20a-sparse-storage/README.md), [clock admission](20b-admission/README.md),
+[accepted-media preservation](20b-journal-failure/README.md),
+[exact mapping journal](20b-pcm-journal/README.md),
+[PCM normalization](20b-pcm-format/README.md) and
+[validated prefix identity](20b-journal-prefix/README.md) have scoped retained
+proofs. Actual prerecorded writer activation now passes the linked native/service gate;
+physical capture acceptance remains separate.
+
+[Native sample addresses](08-native-sample-address/README.md) fix arbitrary-phase
+selection with [root red/green verification](08-native-sample-address/root-verification.json),
+including full/late PCM and the explicit1µs acquisition exclusion. The historical
+[100001µs failure](20b-window-phase/README.md) stays frozen.
+[Fractional-rate execution](08-fractional-rate-refusal/README.md) refuses after a
+localized defect, with cache invalidation; fractional import remains available.
+[Admission boundaries](08-admission-boundaries/README.md) preserve discrete channel
+mapping. [Negative occupied-origin](08-negative-origin/README.md) remains unverified.
+
+Frozen renderer worker: `/tmp/screenrec-native-sample-address`, SHA256
+`910f990be2310daaf82ceb2acfdd6fbe0b510e42645527c9d8bdc7a08a598bc6`.
+Source audio is v4, composition audio v6, movie v16 and transcript decoder v4;
+prepared/acoustic identity follows upstream, picture-only remains v14. This worker
+predates subsequent capture changes, which have separate test-worker receipts.
+Earlier caption/output proofs used `/tmp/screenrec-caption-output-combined-native`,
+SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`.
+Keep those receipts; do not claim all caption/relocation journeys rerun on the
+new renderer. Their proofs include full encoding settings, exact fonts and alpha.
+The linked-denoise combined worker is `/tmp/screenrec-linked-denoise-root-native`,
+SHA256 `8ca6e7a3f403b6298340ad9a131bf4742980a568e819ac3016f1d3386ecec20d`.
+Its composition audio/movie identities are v7/v17; source and picture-only identities
+remain unchanged. The scoped runtime evidence does not replace earlier visual gates.
+
+[Public preparation](14a-public-preparation/README.md) covers unit-rate/gain
+CLI/MCP, restart/cancel/retry and independent skill use, not model DSP.
+[Native stretch parity](13b-native-stretch-parity/README.md) and the
+[public retiming checkpoint](14e-public-retiming/root-review.md) retain their
+accepted scopes; broader channel/long-input guarantees remain separate.
+[Discovery](25-discovery-references/README.md) exposes full settings with shared
+CLI/MCP schemas and writable inputs. Its fresh consumer also used capabilities,
+so it is not a help-only proof. Animated-gain skill use passed; its service stopped.
+Coordinate current runtime use with the current pickup above. Neither consumer tolerances nor numerical PCM checks prove listening.
+
+[Static appearance](09b-encoded-appearance/acceptance.md) distinguishes codec loss
+from exact geometry/timing. [Animated appearance](16-animated-appearance/README.md)
+does not close continuous playback, delivered retime/gain or speech listening.
+[Deletion](24-deletion-fixture/README.md) retains real edit/restart coverage;
+[CLI test ownership](25-cli-test-ownership/README.md) preserves existing assertions.
+The [implementation-end run and focused recovery](23-owner-fixture-ports/default-gate-recovery-verification.json)
+retain original wall-clock failures. Reuse matched results and rerun only
+invalidated or unmatched contracts without widening deadlines. The
+[job-reference audit](acceptance-maintenance/job-references.md) reuses existing
+retirement ownership, not a new garbage collector.
+
+## Remaining acceptance and user feedback
+
+The [current checklist](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/README.md#global-checklist) owns completion; the
+[audio/stretch audit](acceptance-maintenance/README.md) records historical checkpoints.
+08/11,13/14,16 and generic22 acceptance are verified. [18's fixed voice matrix](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/18-voice-reproduction.md)
+and the frozen local denoise and generation/ambience matrices are accepted.
+Current-baseline12b public parity and adoption are complete, distinct from broader12 acoustic
+characterization; any alternate adoption needs its own evidence. Physical20/21,
+cutover23, final24 and external-caller25 acceptance remain open. Segmentation
+stays a future placeholder. Isolated checkpoints do not establish physical capture
+or installed-app cutover.
+
+Current AAC source-repeat provenance is corrected in the
+[archived-byte reinspection](08-11-rate-conformance/aac-repeat-reinspection.md).
+One historical source decode differs before composition. The bounded
+[current-worker cohort](08-11-rate-conformance/current-source-cohort/README.md)
+returns exact PCM for the same retained request eight times; broader
+reproducibility remains unverified. A separate read-only audit confirms a retained
+AAC mixed full/range red on historical6663; the exact current8a composition case
+now passes exact PCM and supports08’s stated contract closure alongside existing
+checks and the accepted12d join. Root rehashed all18 archived members and checked
+complete PCM/request preservation. The historical red and unknown cause remain;
+no universal decoder claim or additional source-only/format cohort follows.
+
+The [annotation integrity fix](12-boundary-context/README.md#annotation-integrity)
+is integrated: compatible redraws retain absolute human marks; changed source,
+origin, word identity or unbound legacy annotations refuse before overwriting.
+Root reran all five focused scorer/CLI regressions. The actual workbench timing
+mismatch is not an origin or punctuation-merger bug: frozen engines disagree about
+the lexical endpoint. The actual human workbench range now resolves that word
+through separate evidence; historical marks/scores remain unchanged. Unmarked
+corpus endpoints remain missing.
+No frozen mark, model or acceptance threshold changed.
+
+The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
+they heard no obvious artifacts but found the unfamiliar cropped words confusing
+and unintelligible. This does not close word retention or intelligibility. No action
+on those clips is required. Future comparisons use complete meaningful sentences
+from their recording, the original alongside, and one clear question.
+
+The earlier fragment-based listening check does not establish word clarity. Complete protected-word
+labels and listening cannot be inferred from ASR, waveform support, byte equality
+or still images. [Voice boundary timing](18-voice-boundary-timing/README.md) retains
+numerical/visual evidence; the [user review](listening-review-2026-09-30.md) accepts
+the current shortened entrance and word context while rejecting the source pause
+as speech-free. Registered execution readiness and public durable generation are
+verified in19d/19f. Reuse existing14a lifecycle owners; do not transfer scoped
+voice approval to unreviewed ambience or speech-processing recipes.
+
+## Recent integrated evidence
+
+[20d7](20d7-terminal-diagnostics/README.md) preserves bounded terminal diagnostics
+through public restart and historical/current package proof in its retained
+catalog19/source-policy-v2 scope. Current schema authority is the owner closure
+registry above; older catalogs remain immutable.
+[20d8](20d8-pause-terminal-boundaries/README.md) verifies both-role pause and
+absent/torn-terminal recovery through native and public owners.
+
+[22c](22c-prepared-recipe-budget/README.md) transfers complete4,000-clip recipes
+and exact PCM with processing unavailable. [Generic22 acceptance](22-acceptance/README.md)
+includes changed learned settings refusing stale retained audio and undo restoring
+it. [24j](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/24j-prepared-package-scale.md) retains exact original two-hour
+recipe authentication and full public transfer with exact complete retained audio.
+
+The [familiar denoise comparison](12c-familiar-sentence/README.md) now has a user
+PASS for complete-sentence word clarity/naturalness. The
+[familiar stretch packet](13a-familiar-sentence/README.md) has accepted0.8×,0.9×
+and1.25× sentence listening; slight0.9× echo is explicitly tolerated. Do not ask
+these comparisons again. The finite denoise matrix is accepted; the saved sentence/neighbor labels pass; remaining corpus boundaries,
+lexical/filler coverage under12 remain open. Current-baseline12b public parity
+is separately ready; no alternate adoption or aggregate quality pass is inferred.
+
+
+The [complete-sentence filler journey](12d-complete-sentence/README.md) now
+reproduces the user-accepted `uh` removal through public CLI/MCP edits and complete
+undo. Root independently verifies full original/candidate/undo PCM and all49
+archived members; saved movie clocks/AAC gates pass. Lossless audio is exactly the
+accepted mono duplicated to stereo. The640×404 sampled visual proof has explicit
+small-text limits. The saved human sentence labels are now reconciled; other corpus labels,
+parent12 technical timing/evidence acceptance remain open. Personal repetition
+intent is outside this development task.
+[12e](12e-labeled-cleanup/README.md) owns the changed two-filler candidate and its
+separate accepted audition.

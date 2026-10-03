@@ -36,7 +36,7 @@ test("empty-edit membership tolerates codec error without admitting visible cont
 test("empty-edit membership accepts the actual frozen black output", () => {
   const file = fileURLToPath(
     new URL(
-      "../../../specs/agent-editing/assets/06-render/empty-edit/bounded-at-250000.png",
+      "../../../specs/done/agent-editing/assets/06-render/empty-edit/bounded-at-250000.png",
       import.meta.url,
     ),
   );

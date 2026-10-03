@@ -195,7 +195,7 @@ private func runLegacyAudioSupportTest() async throws {
     defer { try? FileManager.default.removeItem(at: directory) }
     var root = URL(fileURLWithPath: #filePath)
     for _ in 0..<5 { root.deleteLastPathComponent() }
-    let asset = AVURLAsset(url: root.appendingPathComponent("specs/agent-editing/assets/00-corpus/a-audio.wav"))
+    let asset = AVURLAsset(url: root.appendingPathComponent("specs/done/agent-editing/assets/00-corpus/a-audio.wav"))
     let source = try await asset.loadTracks(withMediaType: .audio)[0]
     let composition = AVMutableComposition()
     let target = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!

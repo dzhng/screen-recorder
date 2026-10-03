@@ -51,7 +51,7 @@ const service = new JourneyService(home, report, captured ? join(out, "native") 
   call = service.call.bind(service);
 const expected = gunzipSync(
   await readFile(
-    join(root, "specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz"),
+    join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz"),
   ),
 );
 async function prepare(selection) {
@@ -138,7 +138,7 @@ async function projectAudio(
   };
 }
 const baseline = gunzipSync(
-  await readFile(join(root, "specs/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz")),
+  await readFile(join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz")),
 );
 const outputTap = (point) => ({ target: { kind: "output" }, point });
 async function movieDelivery(selection, name) {
@@ -197,7 +197,7 @@ async function combinedTemporal(asset) {
   });
   const right = gunzipSync(
     await readFile(
-      join(root, "specs/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
+      join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
     ),
   );
   const mix = (includeSecond) => {
@@ -683,7 +683,7 @@ async function unitRateJourney() {
   });
   const rightExpected = gunzipSync(
     await readFile(
-      join(root, "specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz"),
+      join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz"),
     ),
   );
   assert.equal(rightExpected.length, expected.length);
@@ -698,7 +698,7 @@ async function unitRateJourney() {
   const transitionDry = Buffer.alloc(baseline.length * 2);
   const transitionRight = gunzipSync(
     await readFile(
-      join(root, "specs/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
+      join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
     ),
   );
   for (let frame = 0; frame < baseline.length / 4; frame++) {

@@ -6,7 +6,7 @@ import { comparableSpeechRecords } from "./speech-parity-records.mjs";
 test("complete speech parity permits measured duration changes and refuses changed evidence", async () => {
   const raw = await readFile(
     new URL(
-      "../../../specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected.jsonl",
+      "../../../specs/done/agent-editing/assets/10b-native-selection/selected/first-physical-selected.jsonl",
       import.meta.url,
     ),
   );

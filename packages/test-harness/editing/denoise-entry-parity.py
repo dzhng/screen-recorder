@@ -9,7 +9,7 @@ p.add_argument('--out', type=Path, required=True)
 a = p.parse_args()
 a.out.mkdir(parents=True, exist_ok=False)
 root = Path(__file__).resolve().parents[3]
-assets = root / 'specs/agent-editing/assets'
+assets = root / 'specs/done/agent-editing/assets'
 report = {'publicReadiness': False, 'listening': 'not performed', 'comparisons': [], 'commands': []}
 sha = lambda b: hashlib.sha256(b).hexdigest()
 started = time.monotonic()

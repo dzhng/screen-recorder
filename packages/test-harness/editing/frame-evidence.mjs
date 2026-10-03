@@ -26,7 +26,7 @@ const report = {
 };
 const service = new JourneyService(home, report);
 const call = service.call.bind(service);
-const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
 async function rgb(path) {
   const { stdout } = await run(
     "ffmpeg",

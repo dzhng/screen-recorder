@@ -10,7 +10,7 @@ import { selectSourceMetadata } from "../../core/dist/source-selection.js";
 import { ceil, fromTime } from "../../composition/dist/index.js";
 import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 
-const corpus = new URL("../../../specs/agent-editing/assets/00-corpus/", import.meta.url);
+const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url);
 const worker = mediaWorker();
 const probe = async (path, signal) =>
   nativeResult(await worker("media.probe", { path }, { signal }));

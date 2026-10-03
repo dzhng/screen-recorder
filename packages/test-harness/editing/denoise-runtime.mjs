@@ -55,10 +55,10 @@ function native(operation, params) {
 }
 const identity = native("media.audioCapabilities", {}).rnnoise;
 const source = gunzipSync(
-  readFileSync(root + "/specs/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz"),
+  readFileSync(root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz"),
 );
 const expected = gunzipSync(
-  readFileSync(root + "/specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz"),
+  readFileSync(root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz"),
 );
 function sourceFixture(name, pcm, channels = 1) {
   const path = join(out, name + ".wav"),
@@ -303,11 +303,11 @@ for (const [cohort, directory] of [
 ]) {
   for (const kind of ["reference", "noise", "mixture"]) {
     const pcm = gunzipSync(
-      readFileSync(root + "/specs/agent-editing/assets/" + directory + "/" + kind + ".f32.gz"),
+      readFileSync(root + "/specs/done/agent-editing/assets/" + directory + "/" + kind + ".f32.gz"),
     );
     const expected = gunzipSync(
       readFileSync(
-        root + "/specs/agent-editing/assets/" + directory + "/rnnoise-" + kind + ".f32.gz",
+        root + "/specs/done/agent-editing/assets/" + directory + "/rnnoise-" + kind + ".f32.gz",
       ),
     );
     const name = cohort + "-" + kind;
@@ -449,7 +449,7 @@ compare(
 );
 compare("automation-dry-tail", automatedOutput.subarray(144000 * 4), source.subarray(144000 * 4));
 const rightChannel = gunzipSync(
-  readFileSync(root + "/specs/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
+  readFileSync(root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
 );
 assert.equal(rightChannel.length, source.length);
 const stereo = Buffer.alloc(source.length * 2);
@@ -468,7 +468,7 @@ refuse(
 );
 const rightExpected = gunzipSync(
   readFileSync(
-    root + "/specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz",
+    root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz",
   ),
 );
 function interleave(left, right) {
@@ -559,7 +559,7 @@ refuse(
 );
 const inverted = gain(source, -1),
   invertedExpected = gunzipSync(
-    readFileSync(root + "/specs/agent-editing/assets/12c-channel-relations/inverted-output.f32.gz"),
+    readFileSync(root + "/specs/done/agent-editing/assets/12c-channel-relations/inverted-output.f32.gz"),
   );
 const invertedFixture = sourceFixture("opposite-polarity-stereo", interleave(source, inverted), 2);
 compare(

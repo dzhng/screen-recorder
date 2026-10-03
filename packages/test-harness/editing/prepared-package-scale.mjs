@@ -39,7 +39,7 @@ assert(values.out && process.env.SCREENREC_NATIVE);
 const requestedOutput = resolve(values.out);
 await mkdir(requestedOutput, { recursive: false, mode: 0o700 });
 const out = await realpath(requestedOutput);
-const retained = new URL("../../../specs/agent-editing/assets/24f-learned-scale/", import.meta.url)
+const retained = new URL("../../../specs/done/agent-editing/assets/24f-learned-scale/", import.meta.url)
   .pathname;
 await run("tar", [
   "-xJf",

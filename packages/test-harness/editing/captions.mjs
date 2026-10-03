@@ -32,7 +32,7 @@ const report = {
 const service = new JourneyService(home, report),
   call = service.call.bind(service);
 const ref = (label) => ({ label });
-const fixture = join(root, "specs/agent-editing/assets/17a-text-layout");
+const fixture = join(root, "specs/done/agent-editing/assets/17a-text-layout");
 const frozen = JSON.parse(await readFile(join(fixture, "report.json"), "utf8"));
 async function admit(path) {
   const pending = await call("asset.import", { requestId: randomUUID(), path });
@@ -257,7 +257,7 @@ try {
     }
   }
   if (values.case === "anchors") {
-    const media = await admit(join(root, "specs/agent-editing/assets/00-corpus/a.mov"));
+    const media = await admit(join(root, "specs/done/agent-editing/assets/00-corpus/a.mov"));
     const stream = media.streams.find((stream) => stream.kind === "video");
     const source = {
       kind: "text",

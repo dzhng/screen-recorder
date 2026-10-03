@@ -25,7 +25,7 @@ afterEach(async () => {
 });
 async function retainedReceiptFixture() {
   const archive = new URL(
-    "../../../specs/agent-editing/assets/24y-source-event-duration/sdk-capacity-evidence.tar.gz",
+    "../../../specs/done/agent-editing/assets/24y-source-event-duration/sdk-capacity-evidence.tar.gz",
     import.meta.url,
   ).pathname;
   const raw = execFileSync("tar", ["-xOzf", archive, "place-9500.json"], {

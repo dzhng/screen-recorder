@@ -21,7 +21,7 @@ const out = resolve(values.out);
 await mkdir(out, { recursive: true });
 const packet = values.packet
   ? resolve(values.packet)
-  : join(root, "specs/agent-editing/assets/12d-complete-sentence");
+  : join(root, "specs/done/agent-editing/assets/12d-complete-sentence");
 const manifestBytes = await readFile(join(packet, "manifest.json"));
 const manifest = JSON.parse(manifestBytes);
 const annotationsBytes = await readFile(join(packet, "annotations.json"));

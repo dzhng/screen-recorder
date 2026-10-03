@@ -8,7 +8,7 @@ const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(values.out);
 const out = resolve(values.out),
   root = new URL("../../../", import.meta.url).pathname;
-const frozen = join(root, "specs/agent-editing/assets/20a-capture-owner-gap/run/native");
+const frozen = join(root, "specs/done/agent-editing/assets/20a-capture-owner-gap/run/native");
 const binary = join(root, "helpers/mac/.build/debug/CameraReproduction");
 const hash = (b) => createHash("sha256").update(b).digest("hex");
 const save = (p, v) => writeFileSync(p, JSON.stringify(v, null, 2));
@@ -164,7 +164,7 @@ assert.ok(
   !rounded.equals(rational),
   "Exact rational placement must remain distinct from the rounded control",
 );
-const original = pcm(join(root, "specs/agent-editing/assets/00-corpus/a-audio.wav"));
+const original = pcm(join(root, "specs/done/agent-editing/assets/00-corpus/a-audio.wav"));
 assert.ok(
   rational.subarray(57600 * 4, 67200 * 4).equals(original.subarray(52800 * 4, 62400 * 4)),
   "Late rational read preserves the original sample identities",

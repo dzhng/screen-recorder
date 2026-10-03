@@ -8,7 +8,7 @@ const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(values.out);
 const root = new URL("../../../", import.meta.url).pathname;
 const out = resolve(values.out),
-  corpus = join(root, "specs/agent-editing/assets/00-corpus");
+  corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
     cwd: root,

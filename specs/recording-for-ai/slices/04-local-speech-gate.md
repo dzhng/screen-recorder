@@ -49,7 +49,7 @@ fail evaluation under the selected best-effort policy. A word explicitly labeled
 `required: true` remains a canonical preservation target, including a filler with
 that explicit label. Missing real fixtures or provenance remain pending. Historical
 failed filler trials remain evidence; they do not reopen the selected engine.
-The [scorer policy verification](../../agent-editing/slices/12g-evaluator-policy.md)
+The [scorer policy verification](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/12g-evaluator-policy.md)
 keeps measurements separate from explicit preservation.
 
 ## Decisions delegated and scope firewall

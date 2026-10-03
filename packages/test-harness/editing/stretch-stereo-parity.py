@@ -12,7 +12,7 @@ worker, mono, out = map(lambda s: Path(s).resolve(), sys.argv[1:4])
 record = sys.argv[4:] == ['--record-reference']
 assert len(sys.argv) == 4 or record
 out.mkdir(parents=True, exist_ok=False)
-asset = root / 'specs/agent-editing/assets/14c-stereo-stretch'
+asset = root / 'specs/done/agent-editing/assets/14c-stereo-stretch'
 expected = {} if record else json.loads((asset / 'reference.json').read_text())
 sha = lambda b: hashlib.sha256(b).hexdigest()
 def file_hash(path):

@@ -57,7 +57,7 @@ def frequency(data, channel):
 
 def learned_retained(reference):
     root = Path(__file__).resolve().parents[3]
-    packet = root / 'specs/agent-editing/assets/15a3d-follow-learned-native'
+    packet = root / 'specs/done/agent-editing/assets/15a3d-follow-learned-native'
     retained = out / 'retained'; retained.mkdir()
     manifest = json.loads((packet / 'retained.json').read_text())
     with tarfile.open(packet / 'retained.tar.xz') as archive:
@@ -65,7 +65,7 @@ def learned_retained(reference):
             data = archive.extractfile(entry['path']).read()
             assert hashlib.sha256(data).hexdigest() == entry['sha256']
             (retained / entry['path']).write_bytes(data)
-    frozen_report = json.loads((root / 'specs/agent-editing/assets/14d-pitch-follow/follow.json').read_text())
+    frozen_report = json.loads((root / 'specs/done/agent-editing/assets/14d-pitch-follow/follow.json').read_text())
     frozen = pcm(retained / 'rate-44100-2-9-10.wav')
     dry_hash = next(case['sha256'] for case in frozen_report['checks']
         if case['case'] == 'rate-44100-2-9-10')

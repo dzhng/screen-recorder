@@ -6,7 +6,7 @@ import { hash, root } from "./source-evidence-fixture.mjs";
 // A frozen first segment supplies known words; synthetic PCM only supplies real admitted support.
 // This is a query fixture, not a claim that a recognizer transcribed the synthetic audio.
 export async function transcriptDurationFixture(out, source) {
-  const frozen = join(root, "specs/agent-editing/assets/10b-native-selection/selected");
+  const frozen = join(root, "specs/done/agent-editing/assets/10b-native-selection/selected");
   const raw = await readFile(join(frozen, "first-physical-selected.jsonl"));
   const receipt = await readFile(join(frozen, "first-physical-selected-response.json"));
   const original = JSON.parse(receipt).data;
@@ -31,7 +31,7 @@ export async function transcriptDurationFixture(out, source) {
   await writeFile(receiptFile, selectedReceipt);
   const prior = JSON.parse(
     await readFile(
-      join(root, "specs/agent-editing/assets/10c-public-phrases/project.json"),
+      join(root, "specs/done/agent-editing/assets/10c-public-phrases/project.json"),
       "utf8",
     ),
   );

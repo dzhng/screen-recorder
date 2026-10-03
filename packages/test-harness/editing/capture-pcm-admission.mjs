@@ -32,7 +32,7 @@ const binary = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests")
 const storage = join(root, "helpers/mac/.build/debug/CameraReproduction");
 const reference = join(
   root,
-  "specs/agent-editing/assets/20a-sparse-storage/run/omitted-rational/canonical.mov",
+  "specs/done/agent-editing/assets/20a-sparse-storage/run/omitted-rational/canonical.mov",
 );
 run(binary, [], {
   env: {
@@ -65,7 +65,7 @@ const runs = owner.bankedPlacements.map((p) => {
 const request = {
   payload: join(
     root,
-    "specs/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
+    "specs/done/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
   ),
   output: join(out, "canonical"),
   rate: 48000,
@@ -74,7 +74,7 @@ const request = {
 save(join(out, "storage.request.json"), request);
 run(storage, ["--sparse-storage", join(out, "storage.request.json")]);
 const pcm = (p) => run("ffmpeg", ["-v", "error", "-i", p, "-f", "f32le", "-"]);
-const original = pcm(join(root, "specs/agent-editing/assets/00-corpus/a-audio.wav"));
+const original = pcm(join(root, "specs/done/agent-editing/assets/00-corpus/a-audio.wav"));
 const full = pcm(join(out, "canonical/full.wav")),
   late = pcm(join(out, "canonical/late.wav"));
 assert.equal(full.length, 100800 * 4);

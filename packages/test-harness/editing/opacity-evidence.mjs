@@ -50,7 +50,7 @@ async function picture(selection, name) {
 }
 try {
   await service.start();
-  const source = join(root, "specs/agent-editing/assets/10d-still-image-native/sources/png-6.png");
+  const source = join(root, "specs/done/agent-editing/assets/10d-still-image-native/sources/png-6.png");
   const pending = await call("asset.import", { requestId: randomUUID(), path: source });
   await poll(
     () => call("job.get", { jobId: pending.jobId }),

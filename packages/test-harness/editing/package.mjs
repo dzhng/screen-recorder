@@ -36,7 +36,7 @@ await mkdir(out, { recursive: true });
 out = await realpath(out);
 const scratch = await realpath(await mkdtemp("/tmp/sr-package-"));
 const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
-const corpus = new URL("../../../specs/agent-editing/assets/00-corpus/", import.meta.url).pathname;
+const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url).pathname;
 const run = promisify(execFile),
   hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {

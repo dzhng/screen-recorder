@@ -71,7 +71,7 @@ was added by this checkpoint.
 ## Static image review
 
 The target is the authored frame ID with its red upper-left and green lower-right
-markers in the same orientation. All ten captured PNGs are in [shots](shots/),
+markers in the same orientation. All ten captured PNGs are in [shots](shots),
 including the raw gap duplicates and existing nearest-gap inspection. The four
 source/writer pairs retain full 320×180 framing. [Pixel metrics](pixel-metrics.json)
 show grayscale mean differences of 0.249–1.057, edge-energy ratios 0.983–0.994,

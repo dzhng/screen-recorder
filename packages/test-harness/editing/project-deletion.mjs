@@ -64,7 +64,7 @@ try {
   const projectId = created.project.projectId;
   const imported = await call("asset.import", {
     requestId: "asset",
-    path: new URL("../../../specs/agent-editing/assets/00-corpus/a-audio.wav", import.meta.url)
+    path: new URL("../../../specs/done/agent-editing/assets/00-corpus/a-audio.wav", import.meta.url)
       .pathname,
   });
   let job;

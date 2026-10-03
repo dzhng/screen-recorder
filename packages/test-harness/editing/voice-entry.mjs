@@ -22,7 +22,7 @@ const out = resolve(values.out);
 await mkdir(out, { mode: 0o700 });
 const workspace = join(out, "workspace");
 const root = new URL("../../../", import.meta.url).pathname;
-const frozen = join(root, "specs/agent-editing/assets/18-voice");
+const frozen = join(root, "specs/done/agent-editing/assets/18-voice");
 const cases = JSON.parse(
   await readFile(join(root, "packages/test-harness/editing/voice/cases.json")),
 );
@@ -148,7 +148,7 @@ try {
     assert.deepEqual(replay[0], replay[1]);
     const filteredOracle = execFileSync("/usr/bin/tar", [
       "-xOf",
-      join(root, "specs/agent-editing/assets/19d-voice-settings/evidence.tar.xz"),
+      join(root, "specs/done/agent-editing/assets/19d-voice-settings/evidence.tar.xz"),
       "screenrec-19d-controls/top-p.wav",
     ]);
     assert.equal(

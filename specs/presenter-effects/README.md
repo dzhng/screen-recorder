@@ -2,7 +2,7 @@
 
 Status: **early placeholder**, 2026-10-01. This records desired capabilities and
 visual references, not an implementation-ready plan or a claim of current support.
-It does not replace or reorder the [active toolkit plan](../agent-editing/README.md).
+It does not replace or reorder the [active toolkit plan](../done/agent-editing/README.md).
 
 ## Next planning pickup
 
@@ -71,17 +71,17 @@ layouts, but do not specify transition duration, easing or an exact motion path.
 ## Candidate work areas
 
 These are provisional seams, not approved API names or a scheduled build ladder.
-Reuse [existing ownership](../agent-editing/architecture.md#one-owner-per-concept)
+Reuse [existing ownership](../done/agent-editing/architecture.md#one-owner-per-concept)
 and capability discovery; add only missing primitives.
 
 | Area | Desired capability | First bounded proof |
 | --- | --- | --- |
 | Live monitoring | Preview the explicitly selected camera in a movable window, reusing the capture session where practical. Exclude recorder-owned preview windows from screen capture. | Demonstrate that preview visibility/position does not alter screen or camera source pixels; closing the preview does not end a requested recording. |
-| Independent sources | Preserve screen, camera and audio separately, with honest offsets, gaps and timing provenance. | Reuse the [camera capture contract](../agent-editing/slices/21-webcam.md) and retained synchronization evidence; do not convert controlled proof into physical acceptance. |
-| Layout and motion | Independently crop, scale, place and animate screen and presenter layers; support rounded insets, explicit backgrounds and compositing order. | A caller-authored fixture moves between inset and larger-presenter layouts using existing [geometry](../agent-editing/slices/15-layer-geometry.md) and [curves](../agent-editing/slices/16-keyframes.md), preserving source timing. |
+| Independent sources | Preserve screen, camera and audio separately, with honest offsets, gaps and timing provenance. | Reuse the [camera capture contract](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/21-webcam.md) and retained synchronization evidence; do not convert controlled proof into physical acceptance. |
+| Layout and motion | Independently crop, scale, place and animate screen and presenter layers; support rounded insets, explicit backgrounds and compositing order. | A caller-authored fixture moves between inset and larger-presenter layouts using existing [geometry](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/15-layer-geometry.md) and [curves](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/16-keyframes.md), preserving source timing. |
 | Presenter matte | Explicitly remove a camera background or consume an independently supplied matte/alpha source. | A fixed clip demonstrates hair, face, clothing and moving-edge behavior, with source preservation and bypass. Model/algorithm choice remains open. |
 | Screen effects | Apply caller-selected screen warping, perspective or lens distortion and colored-edge treatment, independently of other layers. | Reproduce one declared screen-shape variable first, then edge treatment separately; establish coordinate mapping and effect order before integration. |
-| Pointer and captions | Offer separately authored pointer styling/motion and timed text, readable across layouts. | Reuse captured pointer evidence and [text timing](../agent-editing/slices/17-text-captions.md). Define whether the source cursor is baked in and prevent unintended duplication; verify mapping through crop, warp and zoom. |
+| Pointer and captions | Offer separately authored pointer styling/motion and timed text, readable across layouts. | Reuse captured pointer evidence and [text timing](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/17-text-captions.md). Define whether the source cursor is baked in and prevent unintended duplication; verify mapping through crop, warp and zoom. |
 
 Composition remains the single owner of authored timing and parameter curves.
 Capture owns acquisition and live monitoring; native execution consumes compiled

@@ -52,7 +52,7 @@ const probe = (path) =>
     ]),
   ).streams[0];
 const refs = corpusReferences((id) =>
-  rgb(join(root, "specs/agent-editing/assets/00-corpus", id + ".mov")),
+  rgb(join(root, "specs/done/agent-editing/assets/00-corpus", id + ".mov")),
 );
 function difference(a, b) {
   assert.equal(a.length, 160 * 128 * 3);

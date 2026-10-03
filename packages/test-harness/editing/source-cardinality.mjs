@@ -263,7 +263,7 @@ try {
     const retained = resolve(values.prepared);
     const manifest = JSON.parse(
       await readFile(
-        join(root, "specs/agent-editing/assets/24z-source-cardinality/manifest.json"),
+        join(root, "specs/done/agent-editing/assets/24z-source-cardinality/manifest.json"),
         "utf8",
       ),
     );

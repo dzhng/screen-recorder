@@ -6,7 +6,7 @@ export async function pointerFixture(home) {
   await mkdir(donor);
   await copyFile(
     new URL(
-      "../../../specs/agent-editing/assets/06-pointer-writer/input/source.mov",
+      "../../../specs/done/agent-editing/assets/06-pointer-writer/input/source.mov",
       import.meta.url,
     ),
     join(donor, "video.mov"),

@@ -42,7 +42,7 @@ def validate(name, value, error=None, file=False):
 
 cap = call('capability', 'media.audioCapabilities', {})
 assert cap['retime'] == RETIME_IMPLEMENTATION
-frozen = json.loads((Path(__file__).resolve().parents[3]/'specs/agent-editing/assets/14c-stereo-stretch/reference.json').read_text())
+frozen = json.loads((Path(__file__).resolve().parents[3]/'specs/done/agent-editing/assets/14c-stereo-stretch/reference.json').read_text())
 for name in ['correlated', 'antiphase', 'distinct-tones', 'coupled-mixture', 'channel-events', 'silent-right']:
     source = out/(name+'.wav'); raw = (references/(name+'-input.f32')).read_bytes(); wave(source, raw)
     for ratio in ['5-4', '4-5']:

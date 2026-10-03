@@ -42,7 +42,7 @@ try {
   const source = join(home, "library", "recordings", take.recordingId, "source");
   await cp(values.fixture, source, { recursive: true });
   await copyFile(
-    resolve("specs/agent-editing/assets/00-corpus/video-only.mov"),
+    resolve("specs/done/agent-editing/assets/00-corpus/video-only.mov"),
     join(source, "video.mov"),
   );
   report.inputs = Object.fromEntries(

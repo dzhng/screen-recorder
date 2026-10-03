@@ -30,7 +30,7 @@ await mkdir(out, { mode: 0o700 });
 const cache = join(out, "cache");
 await mkdir(cache, { mode: 0o700 });
 const root = new URL("../../../", import.meta.url).pathname;
-const frozen = join(root, "specs/agent-editing/assets/18-voice");
+const frozen = join(root, "specs/done/agent-editing/assets/18-voice");
 const cases = JSON.parse(
   await readFile(join(root, "packages/test-harness/editing/voice/cases.json")),
 );

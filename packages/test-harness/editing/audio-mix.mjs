@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import frozenWorkers from "../../../specs/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
+import frozenWorkers from "../../../specs/done/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import { verifyMixedCodecRates } from "./audio-mixed-codec-rates.mjs";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
@@ -432,7 +432,7 @@ try {
     "48k pure split and non-sample-aligned late window preserve full mix samples",
   );
   const videoPath = fileURLToPath(
-    new URL("../../../specs/agent-editing/assets/00-corpus/a.mov", import.meta.url),
+    new URL("../../../specs/done/agent-editing/assets/00-corpus/a.mov", import.meta.url),
   );
   const videoProbe = call("media.probe", { path: videoPath });
   const videoStream = videoProbe.streams.find((s) => s.kind === "video");

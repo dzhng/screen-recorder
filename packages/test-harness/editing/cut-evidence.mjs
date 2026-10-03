@@ -40,7 +40,7 @@ async function pages(params, limit = 1) {
 }
 try {
   await service.start();
-  const media = join(root, "specs/agent-editing/assets/10d-public-scenes/authored-source.mov");
+  const media = join(root, "specs/done/agent-editing/assets/10d-public-scenes/authored-source.mov");
   const assetId = hash(await readFile(media));
   const imported = await call("asset.import", { requestId: "cut-source", path: media });
   await poll(

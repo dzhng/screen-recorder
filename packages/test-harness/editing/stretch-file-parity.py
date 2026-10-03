@@ -11,7 +11,7 @@ root = Path(__file__).resolve().parents[3]
 worker, pointer, out = map(lambda s: Path(s).resolve(), sys.argv[1:])
 out.mkdir(parents=True, exist_ok=False)
 sha = lambda data: hashlib.sha256(data).hexdigest()
-asset = root / 'specs/agent-editing/assets/13a-corrected-selections'
+asset = root / 'specs/done/agent-editing/assets/13a-corrected-selections'
 source = (asset / 'original.wav').read_bytes()
 assert sha(source) == 'afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c'
 pcm = source[44:]
@@ -59,7 +59,7 @@ for case in json.loads((asset / 'report.json').read_text())['results']:
     assert selected == original.read_bytes()
 
 # Frozen leading/trailing impulse phases pin output-seek and reflected-tail behavior.
-for endpoint in json.loads((root / 'specs/agent-editing/assets/13a-support-review/report.json').read_text())['endpoints']:
+for endpoint in json.loads((root / 'specs/done/agent-editing/assets/13a-support-review/report.json').read_text())['endpoints']:
     name = f"endpoint-{endpoint['phase']}-{endpoint['speed']}"
     data = bytearray(72000*4)
     struct.pack_into('<f', data, endpoint['phase']*4, 0.8)

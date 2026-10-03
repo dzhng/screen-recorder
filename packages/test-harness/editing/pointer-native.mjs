@@ -1,4 +1,4 @@
-import frozenWorkers from "../../../specs/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
+import frozenWorkers from "../../../specs/done/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import { pointerCases } from "./pointer-cases.mjs";

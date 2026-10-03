@@ -42,7 +42,7 @@ try {
     await mkdir(directory);
     const request = JSON.parse(
       await readFile(
-        join(root, "specs/agent-editing/assets/06-platform-temporal", name, "request.json"),
+        join(root, "specs/done/agent-editing/assets/06-platform-temporal", name, "request.json"),
       ),
     );
     Object.assign(request, {
@@ -54,7 +54,7 @@ try {
     for (const picture of request.pictures)
       picture.file = join(
         root,
-        "specs/agent-editing/assets",
+        "specs/done/agent-editing/assets",
         basename(picture.file) === "timestamp-gap.mov" ? "00-corpus" : "06-platform-temporal",
         basename(picture.file),
       );

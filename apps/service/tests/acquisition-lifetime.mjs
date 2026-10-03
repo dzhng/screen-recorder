@@ -84,14 +84,14 @@ if (process.argv[2] === "--child") {
       await mkdir(donor);
       execFileSync("tar", [
         "-xzf",
-        resolve("specs/agent-editing/assets/20d-canonical-admission/evidence.tar.gz"),
+        resolve("specs/done/agent-editing/assets/20d-canonical-admission/evidence.tar.gz"),
         "-C",
         donor,
         "--strip-components=1",
         "canonical-input",
       ]);
       await copyFile(
-        resolve("specs/agent-editing/assets/00-corpus/video-only.mov"),
+        resolve("specs/done/agent-editing/assets/00-corpus/video-only.mov"),
         join(donor, "video.mov"),
       );
       const marker = join(root, "held"),

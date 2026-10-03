@@ -20,7 +20,7 @@ def main():
     if not args.verify_only:
         out.mkdir(mode=0o700)
     cases = json.loads((Path(__file__).with_name("cases.json")).read_text())
-    frozen = root / "specs/agent-editing/assets/18-voice"
+    frozen = root / "specs/done/agent-editing/assets/18-voice"
     sentence = "Okay, so this is the recorder workbench."
     if args.tranche == "termination":
         trials = [("frozen-word", cases["replacements"][0]["text"], {}),

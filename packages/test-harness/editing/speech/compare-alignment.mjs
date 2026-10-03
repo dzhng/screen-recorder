@@ -11,11 +11,11 @@ const hash = (path) => createHash("sha256").update(readFileSync(path)).digest("h
 const contract = read(join(folder, "contract.json"));
 const controlPath = join(folder, contract.control);
 assert.equal(hash(controlPath), contract.controlSha256);
-const originalPath = join(root, "specs/agent-editing/assets/12-speech/transcript.json");
+const originalPath = join(root, "specs/done/agent-editing/assets/12-speech/transcript.json");
 assert.equal(hash(originalPath), contract.baselineTranscriptSha256);
 assert.equal(hash(join(folder, "supplied-transcript.json")), contract.candidateTranscriptSha256);
 const marksPath = join(root, "specs/recording-for-ai/assets/speech/boundaries/marks.json");
-const labelsPath = join(root, "specs/agent-editing/assets/00-baseline/speech-labels.json");
+const labelsPath = join(root, "specs/done/agent-editing/assets/00-baseline/speech-labels.json");
 assert.equal(hash(marksPath), contract.marksSha256);
 assert.equal(hash(labelsPath), contract.labelsSha256);
 const original = read(originalPath).filter((row) => row.type === "word");

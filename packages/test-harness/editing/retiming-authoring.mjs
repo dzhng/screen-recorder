@@ -38,7 +38,7 @@ const report = {
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);
-const accepted = join(root, "specs/agent-editing/assets/13a-corrected-selections");
+const accepted = join(root, "specs/done/agent-editing/assets/13a-corrected-selections");
 const source = join(out, "original.wav");
 await copyFile(join(accepted, "original.wav"), source);
 const frozen = JSON.parse(await readFile(join(accepted, "report.json"), "utf8"));

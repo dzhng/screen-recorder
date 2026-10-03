@@ -10,7 +10,7 @@ const { values } = parseArgs({
 assert.ok(values.out);
 const out = resolve(values.out),
   root = new URL("../../../", import.meta.url).pathname;
-const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
 const binary = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests");
 const hash = (b) => createHash("sha256").update(b).digest("hex");
 function run(command, args, options = {}) {

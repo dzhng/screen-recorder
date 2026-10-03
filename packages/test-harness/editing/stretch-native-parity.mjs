@@ -19,7 +19,7 @@ const worker =
   process.env.SCREENREC_STRETCH ?? join(root, "helpers/stretch/.build/release/StretchParity");
 const report = { workerSha256: hash(readFileSync(worker)), checks: [], passed: false };
 const expected = JSON.parse(
-  readFileSync(join(root, "specs/agent-editing/assets/13a-signalsmith/report.json")),
+  readFileSync(join(root, "specs/done/agent-editing/assets/13a-signalsmith/report.json")),
 );
 const vendor = join(root, "helpers/stretch/Sources/CSignalsmith/vendor");
 const dependency = JSON.parse(readFileSync(join(vendor, "sources.json")));
@@ -95,7 +95,7 @@ try {
     }
   }
   for (const item of JSON.parse(
-    readFileSync(join(root, "specs/agent-editing/assets/13a-support-review/report.json")),
+    readFileSync(join(root, "specs/done/agent-editing/assets/13a-support-review/report.json")),
   ).endpoints) {
     const input = Buffer.alloc(72000 * 4);
     input.writeFloatLE(0.8, item.phase * 4);
@@ -108,7 +108,7 @@ try {
     });
   }
   for (const item of JSON.parse(
-    readFileSync(join(root, "specs/agent-editing/assets/13a-endpoint-verification/evidence.json")),
+    readFileSync(join(root, "specs/done/agent-editing/assets/13a-endpoint-verification/evidence.json")),
   ).admission.filter((v) => v.block === 5760)) {
     const id = `admission-${item.speed}-${item.selectedFrames}`,
       file = join(out, id + "-input.f32");

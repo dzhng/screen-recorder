@@ -45,7 +45,7 @@ try {
   }
   const audio = await admit(source);
   const image = await admit(
-    join(root, "specs/agent-editing/assets/10d-still-image-native/sources/png-6.png"),
+    join(root, "specs/done/agent-editing/assets/10d-still-image-native/sources/png-6.png"),
   );
   const created = await call("project.create", {
     requestId: randomUUID(),

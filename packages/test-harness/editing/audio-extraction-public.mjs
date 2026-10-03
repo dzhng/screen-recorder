@@ -108,7 +108,7 @@ async function extract(input) {
 try {
   await service.start();
   const reference = join(home, "reference.wav");
-  await copyFile(join(root, "specs/agent-editing/assets/18-voice/reference.wav"), reference);
+  await copyFile(join(root, "specs/done/agent-editing/assets/18-voice/reference.wav"), reference);
   const bytes = await readFile(reference);
   const asset = await imported(reference, "reference");
   const selected = {

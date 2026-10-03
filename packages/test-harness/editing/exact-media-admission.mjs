@@ -74,7 +74,7 @@ try {
   await verifyMixedMedia({ service, report, out, audio });
   const authority = JSON.parse(
     await readFile(
-      join(root, "specs/agent-editing/assets/03d-physical-authority/authority.json"),
+      join(root, "specs/done/agent-editing/assets/03d-physical-authority/authority.json"),
       "utf8",
     ),
   );
@@ -89,12 +89,12 @@ try {
         ? await readFile(
             join(
               root,
-              "specs/agent-editing/assets/13a-corrected-selections/internal-slower-0.8x.wav",
+              "specs/done/agent-editing/assets/13a-corrected-selections/internal-slower-0.8x.wav",
             ),
           )
         : gunzipSync(
             await readFile(
-              join(root, `specs/agent-editing/assets/03d-physical-authority/${name}.wav.gz`),
+              join(root, `specs/done/agent-editing/assets/03d-physical-authority/${name}.wav.gz`),
             ),
           );
     assert.equal(hash(bytes), authority.cases.find((v) => v.name === name).sourceSha256);

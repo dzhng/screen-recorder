@@ -30,7 +30,7 @@ The identified runtime includes one [source patch](probability-filter.patch) to
 Qwen's probability filter. It preserves valid filtering and the default bypass;
 only an otherwise-empty result from valid finite support restores the first
 maximum-logit candidate. Invalid logits are not fabricated into valid support.
-The [numeric evidence](../../specs/agent-editing/assets/19d1-probability-filter/README.md)
+The [numeric evidence](../../specs/done/agent-editing/assets/19d1-probability-filter/README.md)
 records why a fitted top-p minimum was insufficient. Runtime inventory and the
 entry's source pins identify the patched bytes; the upstream commit alone does
 not identify this execution contract.

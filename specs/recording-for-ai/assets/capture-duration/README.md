@@ -44,7 +44,7 @@ includes the independent rational source-duration assertion.
 The reproduction remains the optional
 [capture/render gate](../../../../apps/macos/tests/capture-video-render.mjs), with
 native generated cases in
-[the capture tests](../../../../helpers/mac/Tests/ScreenRecorderCaptureTests/).
+[the capture tests](../../../../helpers/mac/Tests/ScreenRecorderCaptureTests).
 The isolated app bundle was rebuilt from the changed capture owner before testing;
 the native decoder/render worker was rebuilt separately. These are timing tests,
 not new color, pointer, audio-audition or physical-device claims.

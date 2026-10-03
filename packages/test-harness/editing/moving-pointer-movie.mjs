@@ -151,7 +151,7 @@ test(
         "-xzf",
         join(
           root,
-          "specs/agent-editing/assets/23-owner-fixture-ports/default-gate-recovery-evidence.tar.gz",
+          "specs/done/agent-editing/assets/23-owner-fixture-ports/default-gate-recovery-evidence.tar.gz",
         ),
         "-C",
         inputs,

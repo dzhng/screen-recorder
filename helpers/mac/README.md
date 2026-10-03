@@ -39,7 +39,7 @@ its exact stream and physical timestamp, even when that occurrence's acquisition
 mask excludes existing samples. Physical empty edits also become background;
 unknown physical timing and unavailable attached ancestors still refuse. Decoder
 reuse remains keyed by media, while the exclusion applies to each compiled picture. Profile adoption evidence belongs to the
-[editing spec](../../specs/agent-editing/assets/07-video/README.md).
+[editing spec](../../specs/done/agent-editing/assets/07-video/README.md).
 
 ## Device discovery
 
@@ -109,7 +109,7 @@ verified video support; it never becomes another screen/audio track. Publication
 pins complete raw/observation bytes and preserves native picture presentation,
 positive start, shared pause removal and the physical terminal bound. A successful
 camera publication is verified again when another source still needs retry;
-missing/conflicting camera media remains terminal. The [21b evidence](../../specs/agent-editing/assets/21b-camera-source-publication/README.md)
+missing/conflicting camera media remains terminal. The [21b evidence](../../specs/done/agent-editing/assets/21b-camera-source-publication/README.md)
 records the controlled scope.
 
 Read-only admission uses that same camera verifier on the caller's immutable
@@ -119,7 +119,7 @@ disappear. The receipt's pre-terminal journal prefix binds source identity, shar
 origin and pauses; it permits later terminal appends and does not attest their
 payload. Complete journal retention belongs to source admission. Historical
 unbound receipts without their original digest timescale require actual raw
-authority and cannot silently become portable proof. [21d evidence](../../specs/agent-editing/assets/21d-captured-source-adoption/README.md)
+authority and cannot silently become portable proof. [21d evidence](../../specs/done/agent-editing/assets/21d-captured-source-adoption/README.md)
 separates that boundary from supplied production bindings and future service
 capture allocation. Public device acquisition remains separate work.
 
@@ -342,7 +342,7 @@ Composition audio consumes the composition compiler's independent sample schedul
 and ordered processing tree. Its source decoder selects an actual admitted stream;
 it does not assign recording roles. Parents process summed child PCM, and empty or
 bypassed stacks add no gain policy or join fades. Unavailable regions remain
-explicit in the receipt. The [execution evidence](../../specs/agent-editing/assets/08-audio/README.md)
+explicit in the receipt. The [execution evidence](../../specs/done/agent-editing/assets/08-audio/README.md)
 owns current conformance and the bounded source-resampling context decision; this
 native boundary does not itself make public rendering ready.
 
@@ -381,14 +381,14 @@ remaining support as an empty audio edit, without generating PCM or changing enc
 packets. It finalizes the writer-bound staging inode before publication, preserves media
 offsets, and refuses unsupported or ambiguous movie headers. Its metadata bound keeps
 finalization independent of movie payload size; cancellation or refusal discards the attempt.
-See [native assembly evidence](../../specs/agent-editing/assets/09-assembly/README.md)
+See [native assembly evidence](../../specs/done/agent-editing/assets/09-assembly/README.md)
 for verified behavior and remaining public integration gates.
 
 Standalone audio encoding consumes that completed project PCM through the same
 finite conversion owner. Its audio-only ISO MPEG-4 writer compensates AAC priming
 with an edit list; no picture stream or video encoder is required. Codec packet
 padding is separate from authored content length, and lossless WAV parity does
-not transfer to AAC. The [standalone audio evidence](../../specs/agent-editing/assets/09c-native-audio-file/README.md)
+not transfer to AAC. The [standalone audio evidence](../../specs/done/agent-editing/assets/09c-native-audio-file/README.md)
 records tested renditions, endpoint distortion and source-preserving refusal.
 
 The audio target directly links the [fixed RNNoise dependency](../denoise/README.md).

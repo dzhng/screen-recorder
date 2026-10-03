@@ -14,7 +14,7 @@ export async function sourceEventDurationFixture({ mode, home, out, call }) {
   let directory, sourceRows, normalization;
   const files = {};
   if (mode === "events") {
-    const retained = join(root, "specs/agent-editing/assets/10d-public-scenes");
+    const retained = join(root, "specs/done/agent-editing/assets/10d-public-scenes");
     const movie = await readFile(join(retained, "authored-source.mov"));
     assert.equal(hash(movie), "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e");
     const journal = await readFile(join(retained, "journal.json"));

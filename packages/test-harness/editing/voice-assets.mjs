@@ -138,7 +138,7 @@ try {
   const cases = JSON.parse(
     await readFile(join(root, "packages/test-harness/editing/voice/cases.json")),
   );
-  const frozen = join(root, "specs/agent-editing/assets/18-voice");
+  const frozen = join(root, "specs/done/agent-editing/assets/18-voice");
   const reference = await imported(
     join(frozen, "reference.wav"),
     `voice-reference-${randomUUID()}`,
@@ -392,7 +392,7 @@ try {
   );
 
   const tone = await imported(
-    join(root, "specs/agent-editing/assets/18-voice-roomtone/room-tone.wav"),
+    join(root, "specs/done/agent-editing/assets/18-voice-roomtone/room-tone.wav"),
     `voice-roomtone-${randomUUID()}`,
   );
   const toneDuration = tone.streams[0].endUs - tone.streams[0].startUs;

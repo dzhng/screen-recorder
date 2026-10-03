@@ -34,7 +34,7 @@ const bounds = (r) => ({
 const sourcePaths = [
   join(root, "fixtures/narrated-workbench/narration.mov"),
   join(root, "fixtures/narrated-workbench/video.mov"),
-  join(root, "specs/agent-editing/assets/00-corpus/b.mov"),
+  join(root, "specs/done/agent-editing/assets/00-corpus/b.mov"),
 ];
 function samePCM(actual, expected) {
   assert.equal(Buffer.compare(actual, expected), 0, "Complete lossless PCM must match exactly");

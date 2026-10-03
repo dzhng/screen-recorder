@@ -23,9 +23,9 @@ implement the caller's request; they do not authorize additional edits.
 Development verifies evidence accuracy and execution of explicit fixture edits.
 Using real media as a test fixture does not make editing that recording a product
 deliverable or require its owner to supply personal keep/remove judgments.
-The [editorial-control contract](specs/agent-editing/architecture.md#editorial-control)
+The [editorial-control contract](specs/done/agent-editing/architecture.md#editorial-control)
 defines this boundary for implementation and verification.
-The [bounded implementation trace](specs/agent-editing/assets/acceptance-maintenance/editorial-boundary-audit.md)
+The [bounded implementation trace](specs/done/agent-editing/assets/acceptance-maintenance/editorial-boundary-audit.md)
 records the managed speech-to-edit ownership and the separate retained recording
 policy; source inspection supplies no speech-quality or runtime verdict.
 
@@ -46,10 +46,12 @@ owns executable build and check commands. Use focused package checks for
 everyday work, including commits and merges; full release verification runs
 once, when a spec's implementation is finished.
 
-The [agent editing spec](specs/agent-editing/README.md) owns the active expansion
-plan and next pickup. The [recording spec](specs/recording-for-ai/README.md) retains
-current implementation evidence and unfinished personal-release acceptance.
-Planned capabilities are not claimed as implemented until their named gates pass.
+The [closed editing record](specs/done/agent-editing/README.md) explains the shipped
+architecture, caller boundary and retained evidence. Its
+[release disposition](specs/done/agent-editing/release-closeout.md) records the
+personal release and accepted verification limits. The
+[recording spec](specs/recording-for-ai/README.md) retains capture implementation
+history and evidence.
 
 The product-use [screenrec skill](skills/screenrec/SKILL.md) teaches external
 agents the available CLI workflow; repository development skills live separately

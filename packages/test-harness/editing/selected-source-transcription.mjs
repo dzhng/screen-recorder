@@ -1,4 +1,4 @@
-import frozenWorkers from "../../../specs/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
+import frozenWorkers from "../../../specs/done/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";

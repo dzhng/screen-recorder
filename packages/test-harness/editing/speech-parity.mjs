@@ -32,8 +32,8 @@ assert.deepEqual(await readdir(out), [], "Use a fresh evidence directory");
 const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
 const json = async (path) => JSON.parse(await readFile(path, "utf8"));
 const baseline = await json(join(reference, "manifest.json"));
-const frozen = join(root, "specs/agent-editing/assets/10b-native-selection/selected");
-const prior = await json(join(root, "specs/agent-editing/assets/10c-public-phrases/project.json"));
+const frozen = join(root, "specs/done/agent-editing/assets/10b-native-selection/selected");
+const prior = await json(join(root, "specs/done/agent-editing/assets/10c-public-phrases/project.json"));
 const engine = prior.transcript.dependencies[0].transcript.engine;
 assert.equal(engine.modelDigest, baseline.models.digest);
 for (const [key, value] of Object.entries(baseline.models.pins)) assert.equal(engine[key], value);
@@ -109,7 +109,7 @@ try {
       existingModels.files,
     );
     assert.equal(report.existingModelsBefore.receipt.contents.modelDigest, engine.modelDigest);
-    const archive = join(root, "specs/agent-editing/assets/12b-public-parity/media.tar.xz");
+    const archive = join(root, "specs/done/agent-editing/assets/12b-public-parity/media.tar.xz");
     report.fixtureArchiveSha256 = hash(await readFile(archive));
     await run("tar", ["-xJf", archive, "-C", out, "first.mov"]);
   } else {
@@ -157,7 +157,7 @@ try {
   };
   if (actualInference) {
     const retainedFixture = await json(
-      join(root, "specs/agent-editing/assets/12b-public-parity/fixture.json"),
+      join(root, "specs/done/agent-editing/assets/12b-public-parity/fixture.json"),
     );
     assert.equal(definition.sha256, retainedFixture.sources[0].sha256);
   }

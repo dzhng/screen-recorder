@@ -80,11 +80,11 @@ export async function tutorialInputs(root, mediaRoot, out) {
     authorities[path] = identity;
     return JSON.parse(await readFile(identity.path, "utf8"));
   };
-  const marks = await json("specs/agent-editing/assets/12d-human-marks/human-marks.json");
-  const cleanup = await json("specs/agent-editing/assets/12e-labeled-cleanup/native-report.json");
-  const retime = await json("specs/agent-editing/assets/13a-corrected-selections/report.json");
+  const marks = await json("specs/done/agent-editing/assets/12d-human-marks/human-marks.json");
+  const cleanup = await json("specs/done/agent-editing/assets/12e-labeled-cleanup/native-report.json");
+  const retime = await json("specs/done/agent-editing/assets/13a-corrected-selections/report.json");
   const retimeListening = await json(
-    "specs/agent-editing/assets/13a-corrected-selections/listening.json",
+    "specs/done/agent-editing/assets/13a-corrected-selections/listening.json",
   );
   const take = await json("fixtures/screen-camera-timing/manifest.json");
   const provenance = [];
@@ -99,13 +99,13 @@ export async function tutorialInputs(root, mediaRoot, out) {
     ),
   );
   await json(
-    "specs/agent-editing/assets/12b-public-parity/public-model-preparation/verification.json",
+    "specs/done/agent-editing/assets/12b-public-parity/public-model-preparation/verification.json",
   );
-  const corpus = await json("specs/agent-editing/assets/00-corpus/manifest.json");
-  const font = await json("specs/agent-editing/assets/17a-text-layout/report.json");
-  const voice = await json("specs/agent-editing/assets/19f-public-voice-jobs/report.json");
-  const word = await json("specs/agent-editing/assets/18-voice-roomtone/report.json");
-  const music = await json("specs/agent-editing/assets/08-narration-music/archive.json");
+  const corpus = await json("specs/done/agent-editing/assets/00-corpus/manifest.json");
+  const font = await json("specs/done/agent-editing/assets/17a-text-layout/report.json");
+  const voice = await json("specs/done/agent-editing/assets/19f-public-voice-jobs/report.json");
+  const word = await json("specs/done/agent-editing/assets/18-voice-roomtone/report.json");
+  const music = await json("specs/done/agent-editing/assets/08-narration-music/archive.json");
   assert.equal(cleanup.source.sha256, marks.binding.sourceSha256);
   const snapshotScreen = await identifyFile(join(root, "fixtures/narrated-workbench/video.mov"));
   const entries = [
@@ -118,31 +118,31 @@ export async function tutorialInputs(root, mediaRoot, out) {
     ["workbenchScreen", "fixtures/narrated-workbench/video.mov", "video", snapshotScreen],
     [
       "retimeOriginal",
-      "specs/agent-editing/assets/13a-corrected-selections/original.wav",
+      "specs/done/agent-editing/assets/13a-corrected-selections/original.wav",
       "audio",
       { sha256: retime.sourceSha256 },
     ],
     [
       "voiceContext",
-      "specs/agent-editing/assets/18-voice/context.wav",
+      "specs/done/agent-editing/assets/18-voice/context.wav",
       "audio",
       { sha256: "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45" },
     ],
     [
       "voiceReference",
-      "specs/agent-editing/assets/18-voice/reference.wav",
+      "specs/done/agent-editing/assets/18-voice/reference.wav",
       "audio",
       { sha256: voice.receipts[0].reference.assetId },
     ],
     [
       "pauseLoop",
-      "specs/agent-editing/assets/19-soft-roomtone-overlap/loop.wav",
+      "specs/done/agent-editing/assets/19-soft-roomtone-overlap/loop.wav",
       "audio",
       { sha256: "7fa912f6ced158759e62ed7e5f6577034b731d1ca18fce3e27ac67147f66ff55" },
     ],
     [
       "still",
-      "specs/agent-editing/assets/00-corpus/still-alpha.png",
+      "specs/done/agent-editing/assets/00-corpus/still-alpha.png",
       "image",
       corpus.assets.find((v) => v.path === "still-alpha.png"),
     ],
@@ -170,7 +170,7 @@ export async function tutorialInputs(root, mediaRoot, out) {
     kind: "font",
     ...(await identifyFile(font.cases[0].request.fontPath, { sha256: font.fontSHA256 })),
   });
-  const archive = join(root, "specs/agent-editing/assets/08-narration-music", music.archive);
+  const archive = join(root, "specs/done/agent-editing/assets/08-narration-music", music.archive);
   await identifyFile(archive, music);
   const member = music.files.find((v) => v.path === "final/synthetic-chord-bed.wav");
   assert.ok(member);
@@ -197,17 +197,17 @@ export async function tutorialInputs(root, mediaRoot, out) {
   const comparison = [
     [
       "retime",
-      "specs/agent-editing/assets/13a-corrected-selections/internal-slower-0.8x.wav",
+      "specs/done/agent-editing/assets/13a-corrected-selections/internal-slower-0.8x.wav",
       retimeListening.candidates.find((v) => v.path === "internal-slower-0.8x.wav"),
     ],
     [
       "rawWord",
-      "specs/agent-editing/assets/18-voice/same-take-word.wav",
+      "specs/done/agent-editing/assets/18-voice/same-take-word.wav",
       { sha256: voice.receipts.find((v) => v.text === "paid").published.audio.assetId },
     ],
     [
       "acceptedWordContext",
-      "specs/agent-editing/assets/18-voice-roomtone/word-room-context.wav",
+      "specs/done/agent-editing/assets/18-voice-roomtone/word-room-context.wav",
       { sha256: word.cases.find((v) => v.id === "word").outputs.room.sha256 },
     ],
   ];
@@ -224,7 +224,7 @@ export async function tutorialInputs(root, mediaRoot, out) {
     word,
     voice,
     references,
-    brief: await identifyFile(join(root, "specs/agent-editing/assets/25-fixture-brief/README.md")),
+    brief: await identifyFile(join(root, "specs/done/agent-editing/assets/25-fixture-brief/README.md")),
     screenAuthority: snapshotScreen,
   };
 }

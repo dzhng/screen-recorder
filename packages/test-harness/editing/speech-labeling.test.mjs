@@ -45,7 +45,7 @@ test("original audio supports exact byte ranges for paused word-edge seeking", a
     ]);
     const original = await readFile(
       new URL(
-        "../../../specs/agent-editing/assets/12d-complete-sentence/original.wav",
+        "../../../specs/done/agent-editing/assets/12d-complete-sentence/original.wav",
         import.meta.url,
       ),
     );
@@ -77,7 +77,7 @@ test("explicit packet targets own the word export without inventing default neig
     out = join(scratch, "marks");
   await mkdir(packet);
   const frozen = new URL(
-    "../../../specs/agent-editing/assets/12d-complete-sentence/",
+    "../../../specs/done/agent-editing/assets/12d-complete-sentence/",
     import.meta.url,
   );
   for (const name of ["manifest.json", "original.wav"])

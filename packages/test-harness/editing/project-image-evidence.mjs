@@ -18,7 +18,7 @@ const report = { passed: false, trace: [], pictures: [], checks: {} };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);
 const ref = (label) => ({ label });
-const fixture = join(root, "specs/agent-editing/assets/10d-still-image-native/sources");
+const fixture = join(root, "specs/done/agent-editing/assets/10d-still-image-native/sources");
 async function importImage(name) {
   const path = name.startsWith("/") ? name : join(fixture, name),
     bytes = await readFile(path);

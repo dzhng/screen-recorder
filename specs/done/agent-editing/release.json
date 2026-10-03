@@ -1,0 +1,59 @@
+{
+  "status": "released",
+  "releaseDate": "2026-10-03",
+  "timezone": "America/Los_Angeles",
+  "verifiedAt": "2026-10-03T21:18:51.649Z",
+  "releaseKind": "personal macOS installation",
+  "version": "0.1.0",
+  "app": "/Users/david/Applications/Screen Recorder.app",
+  "launcher": "/Users/david/.local/bin/screenrec",
+  "productSourceCommit": "1b6aa64f",
+  "closeoutBaseCommit": "f362b1f6cf9fa2ae558150a717210ef6a5b09dac",
+  "userAuthorization": "if you're just waiting for me to test the product, just finish up the spec and release the app",
+  "acceptance": "Remaining product testing and broader physical/acoustic/contention evidence are accepted limitations; original results and thresholds are retained without a full-green claim.",
+  "installedPins": [
+    {
+      "path": "Contents/MacOS/screenrec-native",
+      "bytes": 19979296,
+      "sha256": "ada0bb8ad2ed4792d0554eb9d261911bbef49b580c32c0f12fc78c8d8fc13711"
+    },
+    {
+      "path": "Contents/Resources/service/main.mjs",
+      "bytes": 4078122,
+      "sha256": "a93137d27ef7c1204db2eefff0c7a9d91433d3c0f66b3b380f1e27ad0d213327"
+    },
+    {
+      "path": "Contents/Resources/cli/main.mjs",
+      "bytes": 1148901,
+      "sha256": "b8b7fcddd24e4241afc89562208bc7def300a7c541ca6152a966efcfe73c3142"
+    },
+    {
+      "path": "Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    }
+  ],
+  "signature": {
+    "exitCode": 0,
+    "stderr": ""
+  },
+  "health": {
+    "ok": true,
+    "data": {
+      "status": "ready",
+      "pid": 17290,
+      "socketPath": "/Users/david/.screen-recorder/run/service.sock",
+      "home": "/Users/david/.screen-recorder",
+      "node": "24.14.0",
+      "uptimeMs": 4584833
+    },
+    "id": "56b6307e-f838-4b25-852f-893a34cc85db"
+  },
+  "help": {
+    "exitCode": 0,
+    "operationCount": 79,
+    "sha256": "d2c62e5a2986c831e0cf9a319b779469e17dee7e7cef02643722a4b4b7ef52a1"
+  },
+  "library": "No migration, reset or capture performed during closeout; original fixtures retained.",
+  "runtime": "Node 24 is the recorded personal-host prerequisite; models require explicit preparation."
+}

@@ -237,7 +237,7 @@ async function generate(out) {
     const manifest = {
       version: 1,
       invocation:
-        "node packages/test-harness/editing/fixtures.mjs --out specs/agent-editing/assets/00-corpus",
+        "node packages/test-harness/editing/fixtures.mjs --out specs/done/agent-editing/assets/00-corpus",
       sourceCommit: run("git", ["rev-parse", "HEAD"], { cwd: root }).toString().trim(),
       generator: {
         path: "packages/test-harness/editing/fixtures.mjs",

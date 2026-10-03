@@ -74,7 +74,7 @@ try {
       stderr: "pipe",
     }),
   );
-  const retained = join(root, "specs/agent-editing/assets/24z-source-cardinality");
+  const retained = join(root, "specs/done/agent-editing/assets/24z-source-cardinality");
   const manifest = JSON.parse(await readFile(join(retained, "manifest.json"), "utf8"));
   const archive = join(retained, "evidence.tar.gz");
   assert.equal(hash(await readFile(archive)), manifest.archive.sha256);
@@ -85,7 +85,7 @@ try {
   assert.equal(hash(journal), manifest.files["cohort/authored-journal.jsonl"].sha256);
   const donor = join(home, "donor");
   await mkdir(donor, { recursive: true });
-  const movie = join(root, "specs/agent-editing/assets/10d-public-scenes/authored-source.mov");
+  const movie = join(root, "specs/done/agent-editing/assets/10d-public-scenes/authored-source.mov");
   const movieBytes = await readFile(movie),
     assetId = hash(movieBytes);
   assert.equal(assetId, "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e");

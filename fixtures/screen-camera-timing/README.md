@@ -8,7 +8,7 @@ roughly 200 seconds. No further recording is required to use this fixture.
 The retained camera lasts about 246 seconds and screen/microphone about 251 seconds;
 duration is already sufficient for the requested take. Exhaust these originals,
 journals and existing analysis before contemplating a new human recording task.
-[20](../../specs/agent-editing/slices/20-camera-reproduction.md) owns the remaining
+[20](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/20-camera-reproduction.md) owns the remaining
 measurement/lifecycle claims and their uncertainty; an incomplete detector result
 is not proof that the recording is unusable.
 
@@ -27,7 +27,7 @@ The original capture request and journals retain the initially planned longer ta
 the manifest records the user's early stop. Do not silently trim or overwrite the
 originals to make those durations agree. The scheduled five-minute pause did not occur.
 
-[Public import evidence](../../specs/agent-editing/assets/20-physical-import/README.md)
+[Public import evidence](../../specs/done/agent-editing/assets/20-physical-import/README.md)
 verifies all three files, bounded early/middle/late picture delivery and an actual
 microphone excerpt. It does not establish cross-source synchronization or completed
 camera canonical recovery. Treat the footage and audio as personal content.

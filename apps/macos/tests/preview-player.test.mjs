@@ -204,7 +204,7 @@ test(
     const reportFile = join(scratch, "playback.json");
     const archive = fileURLToPath(
       new URL(
-        "../../../specs/agent-editing/assets/23-owner-fixture-ports/default-gate-recovery-evidence.tar.gz",
+        "../../../specs/done/agent-editing/assets/23-owner-fixture-ports/default-gate-recovery-evidence.tar.gz",
         import.meta.url,
       ),
     );

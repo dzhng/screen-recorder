@@ -149,7 +149,7 @@ try {
   async function admit(name) {
     const submitted = await call("asset.import", {
       requestId: name,
-      path: new URL(`../../../specs/agent-editing/assets/00-corpus/${name}`, import.meta.url)
+      path: new URL(`../../../specs/done/agent-editing/assets/00-corpus/${name}`, import.meta.url)
         .pathname,
     });
     const deadline = performance.now() + 30000;

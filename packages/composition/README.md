@@ -24,8 +24,7 @@ preserve derived boundaries. Structural command coordinates,
 holds and project/content curve keys retain their integer constraints; each
 input schema owns admission. Asset stream bounds and availability use the shared asset clock, including any
 leading stream offset. A still image has no invented duration and uses a hold at
-source time zero. Unsupported processing variants are rejected until their typed capability
-slices land. Canvas background is explicit `#RRGGBBAA`.
+source time zero. Unsupported processing variants are rejected by their typed capabilities. Canvas background is explicit `#RRGGBBAA`.
 Text is a video occurrence with a literal source and an exact admitted font face;
 it has no playable stream or source clock. Its existing anchor controls timing,
 and ordinary geometry maps its transparent raster box into the canvas. Shared
@@ -72,8 +71,8 @@ partition/rebase attachments before validating their resulting document.
 
 Odd canvas sizes are valid authoring geometry; codec limits belong to execution.
 Synchronization records preserve unequal offsets and lengths without changing
-placement. The reducer slice owns linked edit expansion. Point queries currently
-scan resolved occurrences; the bounded compiler/index slices own indexed queries.
+placement. The reducer owns linked edit expansion. Point queries scan resolved occurrences;
+the compiler owns indexed window queries.
 
 The [corpus probe](../test-harness/editing/composition.mjs) checks the independent
 membership oracle and prints repeated-source reverse lookup after building this
@@ -119,14 +118,14 @@ rather than treating a descriptor as prepared media. Raw source evidence remains
 separate from target taps.
 
 These are pure schedules and dependency manifests, not native readiness claims.
-The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) records pure
-conformance and names the downstream native/media acceptance owners. Streamed
+The [preservation registry](../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
+records the scoped compiler and downstream native/media proofs. Streamed
 records derive their types from [strict schemas](src/compiled-records.ts), so worker
 adoption cannot silently add a second timing or processing policy.
 
 Resampling context is derived from current retained support, so splitting a clip
 does not reset its filter domain and removing material cannot leave hidden input.
-The [contract](../../specs/agent-editing/processing.md#selected-resampling-context)
+The [contract](../../specs/done/agent-editing/processing.md#selected-resampling-context)
 separates compiler domain ownership from native filter and phase verification.
 
 Authored state continuity is separate from resampling context. The
@@ -142,5 +141,5 @@ capability and input requirements; authoring alone never proves a processor ran.
 The [native state executor](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift)
 uses independent learned state per output channel and publishes only complete paired
 results through the existing prepared-audio owner. The
-[consumer plan](../../specs/agent-editing/slices/15a2-denoise-prepared-consumers.md)
-separates verified numerical delivery from remaining quality and scale acceptance.
+[release disposition](../../specs/done/agent-editing/release-closeout.md)
+distinguishes verified numerical delivery from accepted quality and scale limitations.

@@ -25,7 +25,7 @@ assert.ok(process.env.SCREENREC_NATIVE, "Use an isolated frozen SCREENREC_NATIVE
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "source-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-source-"));
-const frozen = join(root, "specs/agent-editing/assets/10b-native-selection/selected");
+const frozen = join(root, "specs/done/agent-editing/assets/10b-native-selection/selected");
 const report = {
   passed: false,
   scope:

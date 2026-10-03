@@ -52,13 +52,13 @@ const raw = (path) =>
 const json = async (path) => JSON.parse(await readFile(path));
 const hash = (data) => createHash("sha256").update(data).digest("hex");
 const refs = corpusReferences((id) =>
-  raw(join(root, "specs/agent-editing/assets/00-corpus", id + ".mov")),
+  raw(join(root, "specs/done/agent-editing/assets/00-corpus", id + ".mov")),
 );
 const results = [],
   movieMismatches = [],
   correctedMovies = [];
 const corrections = await json(
-  join(root, "specs/agent-editing/assets/15-layer-geometry/corrected-movie-pixels.json"),
+  join(root, "specs/done/agent-editing/assets/15-layer-geometry/corrected-movie-pixels.json"),
 );
 const report = await json(join(rendered, "report.json"));
 const scenarios = caseName

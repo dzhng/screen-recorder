@@ -76,6 +76,6 @@ and [YCbCr conversion-matrix attachment](https://developer.apple.com/documentati
 mechanisms. Their published Markdown documentation was read during this pass;
 the runtime verdict comes from the frozen experiments, not the documentation.
 
-The [platform-rate temporal reproduction](../../../specs/agent-editing/assets/06-platform-temporal/README.md)
+The [platform-rate temporal reproduction](../../../specs/done/agent-editing/assets/06-platform-temporal/README.md)
 runs the same nine cases with `--platform-rate`; the default experiment remains
 unchanged. This establishes temporal conformance, not production encoding quality.

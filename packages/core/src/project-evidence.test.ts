@@ -1462,7 +1462,7 @@ test("actual native-normalized capture observations retain coordinates and half-
   const f = await fixture({ durationUs: 1_000_000, originUs: 0 });
   const body = await readFile(
     new URL(
-      "../../../specs/agent-editing/assets/10c-capture-evidence/native-source-excerpt.jsonl",
+      "../../../specs/done/agent-editing/assets/10c-capture-evidence/native-source-excerpt.jsonl",
       import.meta.url,
     ),
     "utf8",

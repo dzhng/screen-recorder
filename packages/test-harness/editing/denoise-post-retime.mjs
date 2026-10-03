@@ -23,8 +23,8 @@ export async function denoisePostRetime({
       "Accepted retimed PCM plus retained familiar input, explicit Float32 routing/held envelopes, then frozen C RNNoise",
   });
   record.harnessSha256 = hash(await readFile(import.meta.filename));
-  const accepted = join(root, "specs/agent-editing/assets/13a-corrected-selections");
-  const familiar = join(root, "specs/agent-editing/assets/12c-familiar-sentence");
+  const accepted = join(root, "specs/done/agent-editing/assets/13a-corrected-selections");
+  const familiar = join(root, "specs/done/agent-editing/assets/12c-familiar-sentence");
   const frozen = JSON.parse(await readFile(join(accepted, "report.json"), "utf8"));
   const listening = JSON.parse(await readFile(join(accepted, "listening.json"), "utf8"));
   const familiarManifest = JSON.parse(await readFile(join(familiar, "manifest.json"), "utf8"));

@@ -9,7 +9,7 @@ import { hash, poll, root } from "./source-evidence-fixture.mjs";
 /** Public physical-clock parity against the retained mixed fixture and its zero-origin donor. */
 export async function verifyMixedMedia({ service, report, out, audio }) {
   const call = service.call.bind(service);
-  const retained = join(root, "specs/agent-editing/assets/03d-consumer-cutover");
+  const retained = join(root, "specs/done/agent-editing/assets/03d-consumer-cutover");
   const oracle = JSON.parse(gunzipSync(await readFile(join(retained, "mixed-av-oracle.json.gz"))));
   const bytes = gunzipSync(await readFile(join(retained, "mixed-av.mov.gz")));
   assert.equal(hash(bytes), oracle.fixtureSha256);
@@ -74,7 +74,7 @@ export async function verifyMixedMedia({ service, report, out, audio }) {
     await audio(params, name, pcm, { sampleRate: 48000, channels: 1 });
     assert.deepEqual(report.checks[name].ready.published.audio.unavailable, oracle.unavailable);
   }
-  const donorPath = join(root, "specs/agent-editing/assets/00-corpus/video-only.mov");
+  const donorPath = join(root, "specs/done/agent-editing/assets/00-corpus/video-only.mov");
   assert.equal(hash(await readFile(donorPath)), oracle.videoDonorSha256);
   const donor = await imported(donorPath);
   assert.equal(donor.originUs, 0);

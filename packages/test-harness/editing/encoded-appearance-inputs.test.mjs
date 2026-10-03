@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import { assertMatchedInputs } from "./encoded-appearance-inputs.mjs";
 const input = new URL(
-  "../../../specs/agent-editing/assets/15-pointer-chain/input/",
+  "../../../specs/done/agent-editing/assets/15-pointer-chain/input/",
   import.meta.url,
 );
 const records = async (name) =>

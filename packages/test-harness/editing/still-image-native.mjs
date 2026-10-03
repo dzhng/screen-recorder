@@ -147,7 +147,7 @@ try {
   if (values.baseline) {
     const baseline = mediaWorker({ ...process.env, SCREENREC_NATIVE: values.baseline });
     for (const name of ["a.mov", "orientation.mov"]) {
-      const path = join(root, "specs/agent-editing/assets/00-corpus", name);
+      const path = join(root, "specs/done/agent-editing/assets/00-corpus", name);
       const probe = nativeResult(await worker("media.probe", { path }));
       const stream = probe.streams.find((value) => value.kind === "video");
       for (const edge of [33, 1600]) {

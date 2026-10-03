@@ -30,7 +30,7 @@ const out = args[3] ? resolve(args[3]) : await mkdtemp(join(tmpdir(), "screenrec
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-pv-"));
 const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
-const corpus = new URL("../../../specs/agent-editing/assets/00-corpus/", import.meta.url).pathname;
+const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url).pathname;
 const run = promisify(execFile);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {

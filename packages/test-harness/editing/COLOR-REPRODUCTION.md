@@ -1,10 +1,10 @@
 # Native appearance and encoding loss
 
-The [frozen experiment](../../../specs/agent-editing/assets/06-color/report.json)
+The [frozen experiment](../../../specs/done/agent-editing/assets/06-color/report.json)
 supports preserving the platform's decoded source appearance through native Core
 Image color management into an explicitly declared sRGB output. It does **not**
 identify the intended profile of untagged media or accept a production output
-profile. The [runner](./color-reproduction.mjs) reproduces the comparison in a fresh
+profile. The [runner](color-reproduction.mjs) reproduces the comparison in a fresh
 output directory with `node packages/test-harness/editing/color-reproduction.mjs /tmp/fresh-color-run`.
 
 Native appearance is the reference because replacing missing metadata with an
@@ -52,12 +52,12 @@ confirmed to make the test fail, then restored to green.
 Scope is the first frame of an existing captured fixture plus tagged/untagged
 synthetics and one 90° metadata rotation. It does not establish HDR/wide-gamut,
 other orientation/scaling cases, later scene behavior, intended untagged colors or
-physical-camera fidelity. The [independent visual critique](../../../specs/agent-editing/assets/06-color/visual-review/README.md)
+physical-camera fidelity. The [independent visual critique](../../../specs/done/agent-editing/assets/06-color/visual-review/README.md)
 confirms the conversion result and identifies encoding artifacts. Physical/listening
 gates remain open. This is research harness code; no production executor or default was
 changed, and no capture, playback or installed application was exercised.
 
-The [explicit Rec.709 follow-up](../../../specs/agent-editing/assets/06-rec709/README.md)
+The [explicit Rec.709 follow-up](../../../specs/done/agent-editing/assets/06-rec709/README.md)
 uses matched RGB color-space attachments and writer metadata. The current runner
 includes both profile paths. Its first-frame conversion is verified; broader
 color and production encoding-quality policy remain separate open work.

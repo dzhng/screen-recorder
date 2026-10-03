@@ -31,7 +31,7 @@ const out = await realpath(resolve(values.out)),
 const reference = values.reference
   ? await realpath(values.reference)
   : fileURLToPath(
-      new URL("../../../specs/agent-editing/assets/12d-complete-sentence/", import.meta.url),
+      new URL("../../../specs/done/agent-editing/assets/12d-complete-sentence/", import.meta.url),
     );
 const manifestBytes = await readFile(
   join(reference, values.reference ? "report.json" : "manifest.json"),

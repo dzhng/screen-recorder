@@ -22,7 +22,7 @@ assert.ok(process.env.SCREENREC_NATIVE, "Set an isolated frozen native worker");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "project-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-evidence-"));
-const frozen = join(root, "specs/agent-editing/assets/10b-native-selection/selected");
+const frozen = join(root, "specs/done/agent-editing/assets/10b-native-selection/selected");
 const report = {
   passed: false,
   boundary:

@@ -21,12 +21,12 @@ async function adoptedMedia(t, kind) {
   await mkdir(home);
   await mkdir(output);
   const bytes = gunzipSync(
-    await readFile(resolve("specs/agent-editing/assets/03d-consumer-cutover/mixed-av.mov.gz")),
+    await readFile(resolve("specs/done/agent-editing/assets/03d-consumer-cutover/mixed-av.mov.gz")),
   );
   const oracle = JSON.parse(
     gunzipSync(
       await readFile(
-        resolve("specs/agent-editing/assets/03d-consumer-cutover/mixed-av-oracle.json.gz"),
+        resolve("specs/done/agent-editing/assets/03d-consumer-cutover/mixed-av-oracle.json.gz"),
       ),
     ),
   );

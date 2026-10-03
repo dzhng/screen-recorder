@@ -17,8 +17,8 @@ export async function denoiseFollow({
   report,
   out,
 }) {
-  const packet = join(root, "specs/agent-editing/assets/15a3e-follow-learned-public");
-  const earlier = join(root, "specs/agent-editing/assets/14e-public-retiming");
+  const packet = join(root, "specs/done/agent-editing/assets/15a3e-follow-learned-public");
+  const earlier = join(root, "specs/done/agent-editing/assets/14e-public-retiming");
   const inputs = JSON.parse(await readFile(join(packet, "inputs.json"), "utf8"));
   const verification = JSON.parse(await readFile(join(earlier, "root-verification.json"), "utf8"));
   const reportBytes = gunzipSync(await readFile(join(earlier, "root-report.json.gz")));

@@ -67,4 +67,4 @@ until then transcripts report a retryable `model_not_prepared`.
 
 Media operations return actual MCP image/audio content; a returned file path is not
 an image-delivery implementation. Installed-app proof
-remains in [personal release verification](../../specs/recording-for-ai/slices/15-personal-release.md).
+remains in the [personal release record](../../specs/done/agent-editing/release-closeout.md).

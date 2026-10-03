@@ -68,7 +68,7 @@ try {
   const source = join(scratch, "source");
   await cp(resolve(values.fixture), source, { recursive: true });
   await copyFile(
-    join(root, "specs/agent-editing/assets/00-corpus/a.mov"),
+    join(root, "specs/done/agent-editing/assets/00-corpus/a.mov"),
     join(source, "video.mov"),
   );
   const donor = join(scratch, "donor"),

@@ -18,7 +18,7 @@ const out = resolve(values.out),
 let processor = resolve(values.processor);
 mkdirSync(out);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const assets = resolve(import.meta.dirname, "../../../specs/agent-editing/assets");
+const assets = resolve(import.meta.dirname, "../../../specs/done/agent-editing/assets");
 const plan = readFileSync(join(assets, "12c-prepared-output/plan.json"));
 writeFileSync(join(out, "plan.json"), plan);
 const started = Date.now();

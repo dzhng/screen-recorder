@@ -18,9 +18,9 @@ loop and no second daemon.
 The [canonical entry](src/main.ts) composes the fresh-library project service.
 It keeps the prior catalog and media intact; capture supplies source facts and
 the caller explicitly authors projects. The default build uses this same entry.
-Building a candidate does not replace the installed app or migrate its library;
-[cutover](../../specs/agent-editing/slices/23-cutover.md) owns remaining consumer
-removal and installed release acceptance.
+Building a candidate does not replace the installed app or migrate its library.
+The [release record](../../specs/done/agent-editing/release-closeout.md) owns the
+delivered personal installation and its accepted verification limits.
 
 The pipe carries many frames from one trusted peer, unlike the socket's one
 request per connection. An unreadable or oversized control line therefore answers
@@ -99,8 +99,8 @@ byte validation and atomic durable adoption. Package inspection alone does not
 create a managed project. Closing a handle drains its unfinished work; adopted
 projects no longer depend on that handle or donor files.
 
-[Portable-project scope and evidence](../../specs/agent-editing/slices/22-portable-projects.md)
-separate the verified asset-only path from retained owner classes still refused.
+[Portable resources](../../packages/core/src/project-package.ts) define the
+authenticated retained evidence and prepared media carried with project history.
 
 ## Storage observations
 
@@ -129,8 +129,8 @@ queue and atomic destination publication as video. WAV delivery reuses inspectio
 PCM; encoded audio is another rendition in the same audio owner and derived cache.
 Output settings own format meaning, defaults and codec validation. Audio readiness
 never depends on visual preparation, and exporting never edits the document.
-The [audio export contract](../../specs/agent-editing/slices/09c-audio-only-export.md)
-separates tested standalone formats from future codec support.
+The [output settings owner](../../packages/composition/src/output-settings.ts)
+defines admitted standalone formats and the shared encoding controls.
 
 ## Evidence freshness
 

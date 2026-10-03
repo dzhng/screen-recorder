@@ -196,7 +196,7 @@ async function inventory(path) {
 }
 try {
   const source = join(donor, "source.wav");
-  await copyFile(join(root, "specs/agent-editing/assets/18-voice/reference.wav"), source);
+  await copyFile(join(root, "specs/done/agent-editing/assets/18-voice/reference.wav"), source);
   const catalog = new Catalog(":memory:");
   const before = performance.now();
   try {

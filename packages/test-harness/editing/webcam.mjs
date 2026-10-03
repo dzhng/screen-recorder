@@ -603,7 +603,7 @@ try {
 
   const importedAudio = await call("asset.import", {
     requestId: "replacement-audio",
-    path: join(root, "specs/agent-editing/assets/00-corpus/b-audio.wav"),
+    path: join(root, "specs/done/agent-editing/assets/00-corpus/b-audio.wav"),
   });
   const audioReady = await ready(importedAudio.jobId);
   const alternateAudio = await call("asset.get", { assetId: audioReady.result.assetId });
@@ -614,7 +614,7 @@ try {
       "error",
       "-nostdin",
       "-i",
-      join(root, "specs/agent-editing/assets/00-corpus/b-audio.wav"),
+      join(root, "specs/done/agent-editing/assets/00-corpus/b-audio.wav"),
       "-map",
       "0:a:0",
       "-c:a",

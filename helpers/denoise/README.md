@@ -30,8 +30,9 @@ The adapter accepts finite mono float samples at the frozen rate, streams bounde
 frames and preserves state across read chunk boundaries. The caller declares the
 selected count and owns transactional output cleanup if reading, writing or
 cancellation fails. It must not treat preview bounds as the state origin. See the
-[parity contract](../../specs/agent-editing/slices/15a1-denoise-entry-parity.md)
-for the measured recipe; the [runtime contract](../../specs/agent-editing/slices/15a2d-linked-denoise-runtime.md) owns composition integration and its remaining gates.
+[retained parity evidence](../../specs/done/agent-editing/assets/15a1-denoise-entry/README.md)
+for the measured recipe; the [native audio owner](../mac/README.md) explains
+composition state and channel integration.
 
 The vendored upstream code is covered by [COPYING](COPYING). Retain that notice
 with source and binary distribution. Model provenance is retained; broader
