@@ -28,10 +28,11 @@ in the named revision's playback coordinates, with half-open ranges.
 Use a stable mutation `params.requestId` and the same arguments when retrying an
 uncertain write. `--id` identifies the transport request; it is separate from that
 durable mutation identity. Operation failures retain the structured error and exit
-nonzero. A usage error is written the same way an operation failure is — one JSON envelope on
-stdout — so a caller parses one stream whatever went wrong. MCP is the exception: it keeps stdout
-for protocol messages, writes anything else to stderr, and marks operation failures with
-`isError`.
+nonzero. Once argument parsing establishes CLI mode, usage and operation failures
+return one JSON envelope on stdout. Before parsing succeeds, failures use stderr
+because the process cannot yet distinguish CLI from MCP mode. MCP keeps stdout
+for protocol messages, writes diagnostics to stderr, and marks operation failures
+with `isError`.
 
 Small MCP results retain complete JSON text and structured responses. Large results
 return `resultDelivery`, a service-owned lease for the complete UTF-8 operation

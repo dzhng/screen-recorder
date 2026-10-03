@@ -20,6 +20,10 @@ These records retain their original runtime and limits. The canonical registry
 owns current runtime selection; these earlier candidates are not the next queue.
 The [personal release plan](personal-release-plan.json) owns the proposed switch,
 fresh-state behavior, rollback and post-switch measurement; it is not execution.
+The [rollback-copy verification](rollback-backup-verification.json) preserves
+the current signed app, launcher and stable on-disk preferences without stopping
+the app or opening the library. Revalidate them at the approved switch;
+effective defaults and quiescent library facts remain separate.
 [Finished fixture cleanup](finished-fixture-cleanup.json) retains the verified
 archives and compact future query inputs while retiring owned temporary copies.
 

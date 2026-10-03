@@ -728,12 +728,6 @@ trim and stretch replacements keep their single-interval behavior.
   source-sample time and background state distinguish reuse; future image-changing
   processing must extend that identity or disable reuse. This is bounded temporary
   memory inside the existing buffer limit, not another persistent cache.
-- **Sound; medium confidence — Bound the initial native audio admission explicitly.**
-  The first PCM worker admits at most 256 clip records and 10,000 processing nodes
-  per requested window, with an 8 MiB processing-buffer ceiling. Unsupported larger
-  windows refuse before execution instead of allocating an unbounded tree. These
-  are provisional worker limits, not project authoring limits or completion of the
-  long-project contract; slice 24 must resolve scalable streaming before release.
 
 
 ## Public composition preview and movie assembly — 2026-09-27
@@ -2390,8 +2384,9 @@ The existing probe envelope keeps origin zero and no streams for fonts, while a
 separate count makes them discoverable. The admitted collection is capped at 256
 faces to keep metadata within the existing probe cardinality boundary; larger
 collections are explicitly unsupported. The reach: rendering must resolve this
-pair from retained bytes rather than use an installed font by name, and project
-caption references must later retain this ordinary asset dependency. Verdict:
+pair from retained bytes rather than use an installed font by name. Project
+caption references retain this ordinary asset through the shared document
+dependency extractor. Verdict:
 sound, preserving one blob/reference owner and explicit font identity. Confidence:
 high for identity/ownership, medium for the conservative face-count limit.
 ## Slice 22 — Retained project screenshot indexes
@@ -2644,13 +2639,15 @@ contract and can exceed the platform timescale. The corrected requirement is one
 declared CaptureClock admission policy, exact raw provenance retained separately,
 and canonical preservation of admitted sample identities, addresses and support.
 A fixed initial microsecond phase with deterministic native-sample classification
-is approved only as a candidate to test. It must preserve omission, grouping,
-explicit support, pause and window/resampling behavior before rollout; no hidden
-fitting, epsilon merging or reader-specific timeline is authorized. This supersedes
+is the production admission policy. The writer commits the prospective clock only
+after media acceptance; canonical publication and recovery preserve represented
+physical sample addresses. No hidden fitting, epsilon merging or reader-specific
+timeline is authorized. This supersedes
 the earlier raw-PTS equality/coalescence and raw-through-MOV requirements, while
 keeping accepted-versus-durable and canonical publication invariants unchanged.
 Verdict: earlier requirement unsound; corrected observable property sound, high
-confidence. The initial policy's equivalence remains unproven, not silently adopted.
+confidence. Admitted-placement preservation does not establish physical camera
+synchronization or raw-clock equality through a container.
 
 ### Frozen learned native parity: isolated dependency before runtime adoption (sound, scoped)
 
@@ -2676,31 +2673,17 @@ policy, source decoder or automatic quality acceptance. Confidence is high in
 this narrow ownership split; the public target/state contract remains open.
 
 
-### Candidate PCM ties and accepted-state boundary (sound, provisional)
+### PCM ties and accepted-state boundary (sound)
 
-In the bounded 20b prototype, a time halfway between native sample positions rounds
-away from zero, matching the existing microsecond boundary rule. The fixed phase
-is established only when the accepted-buffer method is called; skipped appends do
-not call it. This avoids a failed first buffer silently becoming the reference
-for later captured audio. Actual append/journal transaction wiring is still a
-required integration gate. Confidence is medium for the candidate as a whole:
-its native tracer passes, but public support projection, resampling and recovery
-must be judged before production adoption. No per-reader correction is authorized.
-
-
-### Native stretch parity: complete buffers stay an explicit checkpoint bound (sound, scoped)
-
-When the agent asks this native adapter to stretch selected audio, the adapter
-holds the selected input and result in memory because the pinned upstream exact
-algorithm needs both. The parity checkpoint keeps the research60s mono48k bound;
-it is not a new product duration limit. Cancellation is checked before and after
-the synchronous call, so a canceled result is refused but the algorithm cannot
-stop mid-call. Public integration must solve longer inputs and cancellation
-without silently changing the verified recipe. Confidence is medium for this
-bounded prerequisite, not a claim that it is the final public execution policy.
-The [checkpoint decisions](assets/13b-native-stretch-parity/choices.md) retain
-source ownership, refusal and feedback boundaries; no new renderer or queue owns
-this adapter.
+An input buffer whose native position lies halfway between sample cells rounds
+away from zero under the shared capture clock's named boundary rule. The writer
+calculates a prospective placement, appends media, then commits that clock state.
+A rejected first buffer therefore cannot establish the phase for later audio.
+The capture journal records accepted physical addresses and raw provenance;
+canonical publication determines which bytes are durably represented. This keeps
+one admitted timeline rather than correcting each reader independently.
+Confidence: high for the implemented admission/acceptance ownership; physical
+synchronization remains a separate acceptance question.
 
 ### Retain accepted media before journal writes (sound)
 
@@ -2729,12 +2712,12 @@ offset or a new restriction on ordinary integral-rate audio.
 
 A schema2 journal may say that an audio buffer was accepted even when its last
 physical bytes never reached a usable container. Its new streaming consumer exposes
-those mappings only to the future materializer; ordinary inspection refuses that
+those mappings to the canonical materializer; ordinary inspection refuses that
 layout until canonical publication proves which prefix is represented. The summary
 does not turn mapping records into acquired intervals. This fills the staging gap
-between approved format work and later publication without a permissive alternate
-parser or packet array. Confidence: high for the staged isolation; actual committed
-prefix admission remains an explicit20c/20d obligation.
+between media acceptance and durable publication without a permissive alternate
+parser or packet array. Confidence: high for the implemented boundary; a mapping
+record never substitutes for verified committed-prefix admission.
 
 ### Bind recovery to original validated journal bytes (sound)
 
@@ -4879,8 +4862,10 @@ When: saved human-mark reconciliation and exact cleanup, 2026-09-30. The saved
 labels expose a prefix of the middle filler left by the older accepted cut and
 also mark the opening filler. A separate candidate removes exactly those two
 ranges; it preserves the older files and listening verdict. Its technical
-evidence proves exclusion and retained samples, but its listening record stays
-pending until feedback on these changed bytes. The plan did not specify how a
+evidence proves exclusion and retained samples. The independently recorded
+user listening verdict accepts these exact new candidate bytes, including the
+protected words, endpoints and join; it grants no general speech-quality verdict.
+The plan did not specify how a
 new labeled candidate should coexist with an accepted inherited cut. Replacing
 the old bytes or borrowing their approval would erase a useful comparison.
 This supplies one named-target fixture and leaves automatic discovery, complete

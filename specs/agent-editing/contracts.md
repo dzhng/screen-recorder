@@ -52,7 +52,7 @@ single-AV placement defaults do not authorize a screen/camera layering choice.
 
 ## Captured PCM publication
 
-The planned [capture repair](slices/20b-exact-capture-audio.md) defines one declared admitted source
+The [capture clock](slices/20b-exact-capture-audio.md) defines one declared admitted source
 timeline under CaptureClock, retains exact raw timestamp provenance separately,
 and records exact accepted physical frame addresses in the
 existing capture journal. Accepted appends are not proof of durable payload. Normal
@@ -63,9 +63,9 @@ intervals stay gaps, without stored silence or private reader timing maps.
 [Publication and cleanup](slices/20d-capture-publication.md) must distinguish old
 source files from new unpublished packed staging. Never infer exact old frame maps
 from rounded support, claim ambiguous later audio verified, or delete recoverable
-working bytes on the strength of an unchecked receipt. The new writer path remains
-disabled until canonical admission and recovery are wired and verified. Physical
-camera synchronization remains a separate acceptance gate.
+working bytes on the strength of an unchecked receipt. The writer and recovery
+both use canonical publication; journal mappings alone never authorize admission.
+Physical camera synchronization remains a separate acceptance gate.
 
 ## Project document
 

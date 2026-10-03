@@ -1,5 +1,5 @@
 {
-  "status": "Prepared for review; no personal installation or state changed",
+  "status": "Prepared with verified rollback app/launcher and on-disk preferences copies; personal switch unexecuted, approval pending",
   "candidateSourceCommit": "e825294c",
   "candidate": {
     "sourceBundle": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app",
@@ -50,7 +50,7 @@
     "steps": [
       "Verify candidate pins, free rollback locations and exact current app/launcher/library identities; require idle capture before any shutdown",
       "Gracefully stop only the personal app and join its service",
-      "Preserve and verify the previous signed bundle, launcher and preferences in rollback storage; preserve effective defaults without changing them",
+      "Revalidate the existing verified app/launcher rollback copies and stable on-disk preferences snapshot; take quiescent library facts after graceful stop. Preserve effective defaults without changing them.",
       "Rename the old library root to the named sibling on the same volume, preserving its contents; create a fresh format23 default root without editing the old catalog",
       "Run the existing installer directly against the already built bundle, avoiding another build; installer owns signing and app/launcher replacement",
       "Start the exact installed app through ordinary discovery and verify bundled process identities, ready service, format23 and unchanged old-library manifest",
@@ -82,5 +82,6 @@
     "Heavy native-build contention awaits an independently required build",
     "Broader movie/color presentation and full release remain separate"
   ],
-  "executionAuthority": "Review/approval required for replacing the personal app and moving the existing library. This plan is not execution."
+  "executionAuthority": "Review/approval required for replacing the personal app and moving the existing library. This plan is not execution.",
+  "rollbackPreparation": "rollback-backup-verification.json"
 }

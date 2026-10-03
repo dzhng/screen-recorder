@@ -1,0 +1,38 @@
+{
+  "scope": "Read-only source copying into durable rollback storage; no personal app/service stop, install, library open/rename, defaults API/write, or capture/model/test execution",
+  "backupDirectory": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03",
+  "sourceApp": "/Users/david/Applications/Screen Recorder.app",
+  "copiedApp": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03/previous-app/Screen Recorder.app",
+  "appEntries": 15,
+  "appManifest": "previous-app-manifest.json",
+  "appManifestSha256": "378e6e56f7aa681a8bd84fbfd705da96ebbb31d64c11d00f1fad596eff4a6c03",
+  "allFileBytesModesAndSymlinkTargetsEqual": true,
+  "sourceAppBeforeAfterEqual": true,
+  "launcher": {
+    "source": "/Users/david/.local/bin/screenrec",
+    "backup": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03/previous-launcher/screenrec",
+    "identity": {
+      "mode": 493,
+      "bytes": 152,
+      "kind": "file",
+      "sha256": "d102739422434597aea0bc1df339b0c7c68af0a17c7fb74723f42ede80619ca8"
+    },
+    "sourceBeforeAfterEqual": true
+  },
+  "onDiskPreferences": {
+    "source": "/Users/david/Library/Preferences/com.david.screenrec.personal.plist",
+    "backup": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03/on-disk-preferences/com.david.screenrec.personal.plist",
+    "identity": {
+      "mode": 384,
+      "bytes": 1054,
+      "kind": "file",
+      "sha256": "741535e96101f11d211bef591e1b70d67bca8808d8ce3a04e4eac254a852a792"
+    },
+    "sourceBeforeAfterEqual": true,
+    "qualification": "On-disk file only; no effective CFPreferences snapshot or quiescent library state claimed"
+  },
+  "copiedSignatureVerificationExit": 0,
+  "currentLibraryUntouched": true,
+  "qualification": "Backup captures current static app/launcher and stable on-disk prefs while their app runs. Revalidate source identities at the approved switch; take quiescent library facts then. Approval remains pending.",
+  "privateReceiptSha256": "2905eb6b52a44fa9262b9963e48f91f8daad64675f655cf5545f6556811d07b1"
+}
