@@ -1,14 +1,31 @@
-// The installed personal journey: one real narrated take, read and edited the way an external
-// agent would, then exported both ways and reopened after relocation. It drives the installed
-// `screenrec` CLI over the person's own library and writes its evidence to a scratch directory.
+// The caller journey: inspect one retained capture through its admitted sources, explicitly author
+// a project, apply only caller-supplied cut ranges, then export and adopt the relocated project.
 //
-//   node packages/test-harness/personal-release.mjs [--recording <id>] [--out <directory>]
+//   node packages/test-harness/personal-release.mjs --edit-plan <json> [--recording <id>]
 //
-// It never deletes a recording and never edits anything but the take it names, whose edits are
-// revision history a person can undo.
+// The phrase search is evidence only. This harness never deletes a recording, prepares a model,
+// or infers edit intent from transcript classifications.
 import { execFileSync, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdirSync, mkdtempSync, realpathSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import {
+  add,
+  compare,
+  divide,
+  fromTime,
+  rational,
+  round,
+  subtract,
+  toTime,
+} from "@screenrec/composition";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { parseArgs } from "node:util";
@@ -19,6 +36,7 @@ const { values } = parseArgs({
     out: { type: "string" },
     cli: { type: "string", default: join(homedir(), ".local", "bin", "screenrec") },
     phrase: { type: "string", default: "this is free" },
+    "edit-plan": { type: "string" },
   },
 });
 const out = values.out ?? mkdtempSync("/tmp/screenrec-journey-");
@@ -61,20 +79,20 @@ async function media(operation, params, file, budgetMs = 600_000) {
   }
 }
 
-/** Polls one artifact's readiness, sampling the native worker's memory while it runs. */
-async function ready(recordingId, artifact, budgetMs = 900_000) {
+/** Poll the operation's own readiness contract; model preparation stays explicit. */
+async function ready(operation, params, label, budgetMs = 900_000, measureWorker = false) {
   const deadline = Date.now() + budgetMs;
   let peakResidentBytes = 0,
     startedAt;
   for (;;) {
-    const status = call("processing.status", { recordingId, artifact });
+    const status = call(operation, params);
     if (status.state === "ready")
       return { ...status, peakResidentBytes, elapsedMs: startedAt ? Date.now() - startedAt : 0 };
     if (["failed", "unavailable"].includes(status.state))
-      throw new Error(`${artifact} is ${status.state}: ${status.reason ?? "no reason given"}`);
+      throw new Error(`${label} is ${status.state}: ${status.reason ?? "no reason given"}`);
     startedAt ??= Date.now();
-    peakResidentBytes = Math.max(peakResidentBytes, workerResidentBytes());
-    if (Date.now() > deadline) throw new Error(`${artifact} did not become ready`);
+    if (measureWorker) peakResidentBytes = Math.max(peakResidentBytes, workerResidentBytes());
+    if (Date.now() > deadline) throw new Error(`${label} did not become ready`);
     await wait(500);
   }
 }
@@ -91,77 +109,248 @@ function workerResidentBytes() {
   return peak;
 }
 
-/** Every page of a paged operation, following its own continuation. */
-function pages(operation, params, take = (page) => page.rows ?? page.entries ?? []) {
-  const all = [];
-  let cursor;
-  do {
-    const answer = call(operation, { ...params, ...(cursor ? { cursor } : {}) });
-    const page = answer.page ?? answer;
-    all.push(...take(page));
-    cursor = page.nextCursor;
-  } while (cursor);
+/** Continue a readiness result without losing its pinned generation. */
+function pages(operation, params, first, take = (page) => page.rows ?? page.entries ?? []) {
+  const page = first.page ?? first;
+  const all = [...take(page)];
+  let cursor = page.nextCursor;
+  while (cursor) {
+    const next = call(operation, { ...params, cursor });
+    if (next.state !== "ready" || next.generation !== first.generation)
+      throw new Error(`${operation} continuation changed readiness or generation`);
+    const nextPage = next.page ?? next;
+    all.push(...take(nextPage));
+    cursor = nextPage.nextCursor;
+  }
   return all;
 }
 
+const sourceClockUs = (assetUs, offset) => subtract(fromTime(assetUs), fromTime(offset));
+const projectUs = (assetUs, offset, timelineStart) =>
+  toTime(subtract(sourceClockUs(assetUs, offset), timelineStart));
+const supportsRange = (ranges, selected) =>
+  ranges.some(
+    (range) =>
+      compare(fromTime(range.startUs), fromTime(selected.startUs)) <= 0 &&
+      compare(fromTime(selected.endUs), fromTime(range.endUs)) <= 0,
+  );
+
 const main = async () => {
+  if (!values["edit-plan"])
+    throw new Error(
+      "An explicit edit plan is required: pass --edit-plan with caller-selected ranges",
+    );
+  const editPlan = JSON.parse(readFileSync(values["edit-plan"], "utf8"));
+  if (
+    !editPlan ||
+    typeof editPlan !== "object" ||
+    !Array.isArray(editPlan.cuts) ||
+    editPlan.cuts.length === 0 ||
+    editPlan.cuts.some(
+      (cut) =>
+        !cut ||
+        typeof cut !== "object" ||
+        cut.intent !== "remove" ||
+        !Number.isSafeInteger(cut.sourceRange?.startUs) ||
+        !Number.isSafeInteger(cut.sourceRange?.endUs) ||
+        cut.sourceRange.startUs < 0 ||
+        cut.sourceRange.endUs <= cut.sourceRange.startUs,
+    )
+  )
+    throw new Error("The explicit edit plan must contain caller-selected remove ranges");
   const recordingId = values.recording ?? call("recording.latest")?.recordingId;
   if (!recordingId) throw new Error("No recording to inspect; record a take first");
   const recording = call("recording.get", { recordingId });
   step("recording", {
     recordingId,
     state: recording.state,
-    sourceDurationUs: recording.sourceDurationUs,
-    currentRevisionId: recording.currentRevisionId,
-  });
-  if (!recording.sourceDurationUs) throw new Error("That take holds no media");
-
-  const source = await ready(recordingId, "source");
-  step("source evidence", {
-    generation: source.published?.generation,
-    elapsedMs: source.elapsedMs,
+    sourceAdmissions: recording.sourceAdmissions?.map(({ kind, sourceId, acquisitionId, job }) => ({
+      kind,
+      sourceId,
+      acquisitionId,
+      jobState: job?.state ?? null,
+    })),
   });
 
-  const transcript = await ready(recordingId, "transcript");
-  const engine = transcript.published.transcript.engine;
-  step("transcript", {
-    elapsedMs: transcript.elapsedMs,
-    peakResidentBytes: transcript.peakResidentBytes,
-    // Real time or better is the resource target; narration length is the yardstick.
-    timesRealTime: transcript.elapsedMs / (recording.sourceDurationUs / 1000),
+  const primaryAdmissions =
+    recording.sourceAdmissions?.filter((admission) => admission.kind === "primary") ?? [];
+  if (primaryAdmissions.length !== 1)
+    throw new Error("Choose a capture with exactly one primary source admission");
+  const primary = primaryAdmissions[0];
+  if (!primary?.acquisitionId || !primary.job?.jobId)
+    throw new Error("The settled primary capture has no admitted source job");
+  const sourceJob = await ready(
+    "job.get",
+    { jobId: primary.job.jobId },
+    "primary source admission",
+  );
+  if (sourceJob.state !== "ready") throw new Error("Primary source admission is not ready");
+  const acquisition = call("acquisition.get", { acquisitionId: primary.acquisitionId });
+  const videoBindings = acquisition.bindings.filter((binding) =>
+    binding.sourceRoles.includes("video"),
+  );
+  const narrationBindings = acquisition.bindings.filter((binding) =>
+    binding.sourceRoles.includes("narration"),
+  );
+  if (videoBindings.length !== 1 || narrationBindings.length !== 1)
+    throw new Error("The primary capture must admit exactly one video and narration stream");
+  const [videoBinding] = videoBindings;
+  const [narrationBinding] = narrationBindings;
+  const videoSelection = {
+    assetId: videoBinding.assetId,
+    streamId: videoBinding.streamId,
+    acquisitionId: acquisition.id,
+  };
+  const narrationSelection = {
+    assetId: narrationBinding.assetId,
+    streamId: narrationBinding.streamId,
+    acquisitionId: acquisition.id,
+  };
+  const [videoAsset, audioAsset] = [
+    call("asset.get", { assetId: videoBinding.assetId }),
+    call("asset.get", { assetId: narrationBinding.assetId }),
+  ];
+  const videoStream = videoAsset.streams.find((stream) => stream.id === videoBinding.streamId);
+  const audioStream = audioAsset.streams.find((stream) => stream.id === narrationBinding.streamId);
+  if (videoStream?.kind !== "video" || audioStream?.kind !== "audio")
+    throw new Error("Selected capture bindings do not resolve to a video and audio stream");
+  if (!videoBinding.available.length || !narrationBinding.available.length)
+    throw new Error("Selected capture bindings contain no available source ranges");
+  step("selected source", {
+    acquisitionId: acquisition.id,
+    video: videoSelection,
+    narration: narrationSelection,
+    sourceToAssetOffsetUs: {
+      video: videoBinding.sourceToAssetOffsetUs,
+      narration: narrationBinding.sourceToAssetOffsetUs,
+    },
+  });
+
+  const commonStarts = [videoBinding, narrationBinding].flatMap((binding) =>
+    binding.available.map((range) => sourceClockUs(range.startUs, binding.sourceToAssetOffsetUs)),
+  );
+  const timelineStart = commonStarts.reduce((earliest, value) =>
+    compare(value, earliest) < 0 ? value : earliest,
+  );
+  const projectRange = (range, binding) => ({
+    startUs: projectUs(range.startUs, binding.sourceToAssetOffsetUs, timelineStart),
+    endUs: projectUs(range.endUs, binding.sourceToAssetOffsetUs, timelineStart),
+  });
+  const projectEnd = Math.max(
+    ...[videoBinding, narrationBinding].flatMap((binding) =>
+      binding.available.map((range) =>
+        round(subtract(sourceClockUs(range.endUs, binding.sourceToAssetOffsetUs), timelineStart)),
+      ),
+    ),
+  );
+  for (const cut of editPlan.cuts)
+    if (!supportsRange(narrationBinding.available, cut.sourceRange))
+      throw new Error("An explicit caller-selected cut range is outside narration support");
+  const plannedProjectRanges = editPlan.cuts
+    .map((cut) => ({
+      sourceRange: cut.sourceRange,
+      projectRange: {
+        // edit.remove accepts integer microseconds; convert exact rational capture offsets once.
+        startUs: round(
+          subtract(
+            sourceClockUs(cut.sourceRange.startUs, narrationBinding.sourceToAssetOffsetUs),
+            timelineStart,
+          ),
+        ),
+        endUs: round(
+          subtract(
+            sourceClockUs(cut.sourceRange.endUs, narrationBinding.sourceToAssetOffsetUs),
+            timelineStart,
+          ),
+        ),
+      },
+    }))
+    .sort((left, right) => left.projectRange.startUs - right.projectRange.startUs);
+  if (
+    plannedProjectRanges.some(
+      ({ projectRange }) =>
+        projectRange.startUs < 0 ||
+        projectRange.endUs > projectEnd ||
+        projectRange.endUs <= projectRange.startUs,
+    ) ||
+    plannedProjectRanges.some(
+      ({ projectRange }, index) =>
+        index > 0 && plannedProjectRanges[index - 1].projectRange.endUs > projectRange.startUs,
+    )
+  )
+    throw new Error("Explicit cut ranges must map to disjoint, non-empty project ranges");
+  const removedUs = plannedProjectRanges.reduce(
+    (total, { projectRange }) => total + projectRange.endUs - projectRange.startUs,
+    0,
+  );
+  if (removedUs >= projectEnd)
+    throw new Error("Explicit cuts would remove the entire project timeline");
+  const retainedVideoStarts = videoBinding.available.flatMap((range) => {
+    const { startUs, endUs } = projectRange(range, videoBinding);
+    let cursor = startUs;
+    const retained = [];
+    for (const { projectRange: cut } of plannedProjectRanges) {
+      if (cut.endUs <= cursor || cut.startUs >= endUs) continue;
+      if (cut.startUs > cursor) retained.push(cursor);
+      cursor = Math.max(cursor, cut.endUs);
+    }
+    if (cursor < endUs) retained.push(cursor);
+    return retained.map(
+      (startUs) =>
+        startUs -
+        plannedProjectRanges
+          .filter((cut) => cut.projectRange.endUs <= startUs)
+          .reduce((total, cut) => total + cut.projectRange.endUs - cut.projectRange.startUs, 0),
+    );
+  });
+  if (!retainedVideoStarts.length)
+    throw new Error("Explicit cuts would remove every available video frame");
+  const firstVisibleVideoStart = Math.min(...retainedVideoStarts);
+
+  const transcriptStartedAt = Date.now();
+  const transcriptFirst = await ready(
+    "transcript.get",
+    { ...narrationSelection, limit: 250 },
+    "selected-source transcript",
+    900_000,
+    true,
+  );
+  const rows = pages("transcript.get", { ...narrationSelection, limit: 1000 }, transcriptFirst);
+  const words = rows.filter((row) => row.type === "word");
+  const fillers = words.filter((word) => word.kind === "filler");
+  const transcriptMetadata = transcriptFirst.page.transcript;
+  const engine = transcriptMetadata.engine;
+  const narrationDurationUs = round(
+    narrationBinding.available.reduce(
+      (duration, range) => add(duration, subtract(fromTime(range.endUs), fromTime(range.startUs))),
+      rational(0n),
+    ),
+  );
+  writeFileSync(join(out, "source-transcript.json"), JSON.stringify(rows, null, 2) + "\n");
+  step("source transcript", {
+    generation: transcriptFirst.generation,
+    elapsedMs: Date.now() - transcriptStartedAt,
+    peakResidentBytes: transcriptFirst.peakResidentBytes,
+    timesRealTime: (Date.now() - transcriptStartedAt) / (narrationDurationUs / 1000),
     engine: {
       runtime: engine.runtime,
       model: engine.model,
       encoderPrecision: engine.encoderPrecision,
     },
-  });
-
-  const rows = pages("transcript.get", { recordingId, limit: 1000 });
-  const words = rows.filter((row) => row.type === "word");
-  const fillers = words.filter((word) => word.kind === "filler");
-  writeFileSync(join(out, "transcript.json"), JSON.stringify(rows, null, 2) + "\n");
-  step("transcript rows", {
     words: words.length,
     fillers: fillers.map((word) => [word.id, word.text, word.sourceRange.startUs]),
     gaps: rows.filter((row) => row.type === "gap").map((row) => row.sourceRange),
     text: words.map((word) => word.text).join(" "),
   });
 
-  // The screenshot index reports its own readiness through index.get, not processing.status.
-  const index = await (async () => {
-    const deadline = Date.now() + 900_000;
-    for (;;) {
-      const answer = call("index.get", { recordingId, limit: 1 });
-      if (answer.page) return answer;
-      if (["failed", "unavailable"].includes(answer.state))
-        throw new Error(`index is ${answer.state}: ${answer.reason}`);
-      if (Date.now() > deadline) throw new Error("index did not become ready");
-      await wait(1000);
-    }
-  })();
-  // The index's own cursor carries its generation; the request names only the revision.
-  const selected = pages("index.get", { recordingId, revisionId: index.revisionId, limit: 200 });
-  step("screenshot index", {
+  const sourceIndexFirst = await ready(
+    "index.get",
+    { ...videoSelection, limit: 1 },
+    "selected-source screenshot index",
+  );
+  const selected = pages("index.get", { ...videoSelection, limit: 200 }, sourceIndexFirst);
+  step("source screenshot index", {
+    generation: sourceIndexFirst.generation,
     selected: selected.length,
     reasons: selected.flatMap(
       (entry) => entry.candidate?.reasons?.map((reason) => reason.kind) ?? [],
@@ -171,125 +360,243 @@ const main = async () => {
     const ordinals = selected.slice(0, 2).map((entry) => entry.ordinal ?? entry.candidate.ordinal);
     await media(
       "index.frames",
-      { recordingId, revisionId: index.revisionId, generation: index.generation, ordinals },
+      { ...videoSelection, generation: sourceIndexFirst.generation, ordinals },
       join(out, "index-frame"),
     );
     step("index images", { ordinals, files: `${out}/index-frame*` });
   }
 
-  // An agent asking for a moment the index never selected: halfway through the take.
+  const midpoint = round(
+    divide(
+      add(fromTime(videoStream.bounds.startUs), fromTime(videoStream.bounds.endUs)),
+      rational(2n),
+    ),
+  );
+  await media("frame.batch", { ...videoSelection, atUs: [midpoint] }, join(out, "midpoint-frame"));
+  step("arbitrary source frame", { atUs: midpoint });
+
+  const found = call("transcript.search", {
+    ...narrationSelection,
+    text: values.phrase,
+    limit: 100,
+  });
+  const phrase = found.page?.entries?.[0];
+  step("phrase search evidence", { phrase: values.phrase, entry: phrase ?? null });
+
+  const canvas = {
+    width: Math.min(4096, Math.max(1, Math.round(videoStream.width))),
+    height: Math.min(4096, Math.max(1, Math.round(videoStream.height))),
+    fps: { numerator: 30, denominator: 1 },
+    background: "#000000ff",
+  };
+  const created = call("project.create", {
+    requestId: randomUUID(),
+    title: "Personal release caller project",
+    canvas,
+  });
+  const projectId = created.project.projectId;
+  const videoTrack = "picture";
+  const audioTrack = "narration";
+  const placements = [
+    { operation: "track.add", label: videoTrack, track: { kind: "video", order: 0 } },
+    { operation: "track.add", label: audioTrack, track: { kind: "audio", order: 0 } },
+  ];
+  const placementLabels = [];
+  for (const [kind, binding, selection, track] of [
+    ["picture", videoBinding, videoSelection, videoTrack],
+    ["narration", narrationBinding, narrationSelection, audioTrack],
+  ])
+    for (const [index, range] of binding.available.entries()) {
+      const label = `${kind}-${index}`;
+      placementLabels.push(label);
+      placements.push({
+        operation: "place",
+        label,
+        clip: {
+          ...selection,
+          trackId: { label: track },
+          source: { kind: "range", range },
+          placement: { kind: "project", range: projectRange(range, binding) },
+        },
+      });
+    }
+  const placed = call("edit.apply", {
+    projectId,
+    requestId: randomUUID(),
+    expectedRevisionId: created.revision.id,
+    operations: placements,
+  });
+  let revisionId = placed.revision.id;
+  const projectClips = placementLabels.map((label) => placed.edit.labels[label]);
+  const videoTrackId = placed.edit.labels[videoTrack];
+  const audioTrackId = placed.edit.labels[audioTrack];
+  const originalRevisionId = revisionId;
+  const edit = call("edit.apply", {
+    projectId,
+    requestId: randomUUID(),
+    expectedRevisionId: revisionId,
+    operations: [
+      {
+        operation: "remove",
+        clipIds: projectClips,
+        ranges: plannedProjectRanges.map(({ projectRange }) => projectRange),
+        scope: "selected",
+        ripple: { trackIds: [videoTrackId, audioTrackId] },
+      },
+    ],
+  });
+  revisionId = edit.revision.id;
+  step("explicit project cuts", {
+    projectId,
+    revisionId,
+    sourceRanges: plannedProjectRanges,
+    sourceToAssetOffsetUs: narrationBinding.sourceToAssetOffsetUs,
+  });
+  const stale = call(
+    "edit.apply",
+    {
+      projectId,
+      requestId: randomUUID(),
+      expectedRevisionId: originalRevisionId,
+      operations: [
+        {
+          operation: "remove",
+          clipIds: projectClips,
+          ranges: plannedProjectRanges.map(({ projectRange }) => projectRange),
+          scope: "selected",
+          ripple: { trackIds: [videoTrackId, audioTrackId] },
+        },
+      ],
+    },
+    { allowFailure: true },
+  );
+  if (stale.error?.code !== "STALE_REVISION")
+    throw new Error(`Stale edit was not refused: ${JSON.stringify(stale)}`);
+  step("stale edit refused", { code: stale.error.code });
+
+  const projectTranscriptFirst = await ready(
+    "transcript.get",
+    { projectId, revisionId, trackIds: [audioTrackId], limit: 250 },
+    "project transcript",
+    900_000,
+    true,
+  );
+  const projectRows = pages(
+    "transcript.get",
+    { projectId, revisionId, trackIds: [audioTrackId], limit: 1000 },
+    projectTranscriptFirst,
+  );
+  writeFileSync(join(out, "project-transcript.json"), JSON.stringify(projectRows, null, 2) + "\n");
+  const projectPhrase = call("transcript.search", {
+    projectId,
+    revisionId,
+    trackIds: [audioTrackId],
+    text: values.phrase,
+    limit: 100,
+  });
+  step("project transcript evidence", {
+    generation: projectTranscriptFirst.generation,
+    words: projectRows.filter((row) => row.type === "word").length,
+    phrase: values.phrase,
+    matches: projectPhrase.page?.entries ?? [],
+  });
+
+  const projectIndexFirst = await ready(
+    "index.get",
+    { projectId, revisionId, limit: 1 },
+    "project screenshot index",
+  );
+  const projectIndex = pages("index.get", { projectId, revisionId, limit: 200 }, projectIndexFirst);
+  step("project screenshot index", {
+    generation: projectIndexFirst.generation,
+    selected: projectIndex.length,
+  });
+  if (projectIndex.length) {
+    const ordinals = projectIndex
+      .slice(0, 2)
+      .map((entry) => entry.ordinal ?? entry.candidate.ordinal);
+    await media(
+      "index.frames",
+      {
+        projectId,
+        revisionId,
+        generation: projectIndexFirst.generation,
+        maxLongEdge: projectIndexFirst.page.metadata.maxLongEdge,
+        tap: projectIndexFirst.page.metadata.tap,
+        ordinals,
+      },
+      join(out, "project-index-frame"),
+    );
+    step("project index images", { ordinals });
+  }
+  const projectDurationAfterCuts = projectEnd - removedUs;
+  const projectSampleAtUs = projectIndex[0]?.candidate?.sampleAtUs ?? firstVisibleVideoStart;
   await media(
     "frame.batch",
-    { recordingId, atUs: [Math.floor(recording.sourceDurationUs / 2)] },
-    join(out, "midpoint-frame"),
+    { projectId, revisionId, atUs: [projectSampleAtUs] },
+    join(out, "project-frame"),
   );
-  step("arbitrary frame", { atUs: Math.floor(recording.sourceDurationUs / 2) });
-
-  const found = call("transcript.search", { recordingId, text: values.phrase });
-  const phrase = found.page?.entries?.[0];
-  step("phrase search", { phrase: values.phrase, entry: phrase ?? null });
+  step("project frame", { atUs: projectSampleAtUs });
 
   const clips = [];
-  const clip = async (name, range, revision) => {
-    const padded = {
-      startUs: Math.max(0, range.startUs - 1_500_000),
-      endUs: Math.min(recording.sourceDurationUs, range.endUs + 1_500_000),
+  for (const [index, cut] of plannedProjectRanges.entries()) {
+    const sourceBounds = {
+      startUs: Math.max(0, round(subtract(fromTime(cut.sourceRange.startUs), fromTime(1_500_000)))),
+      endUs: Math.min(
+        round(fromTime(audioStream.bounds.endUs)),
+        round(add(fromTime(cut.sourceRange.endUs), fromTime(1_500_000))),
+      ),
     };
     await media(
       "audio.get",
-      {
-        recordingId,
-        range: padded,
-        track: "narration",
-        ...(revision ? { revisionId: revision } : {}),
-      },
-      join(out, `${name}.wav`),
+      { ...narrationSelection, range: sourceBounds },
+      join(out, `before-cut-${index}.wav`),
     );
-    clips.push({ name, range: padded });
-  };
-
-  let revisionId = recording.currentRevisionId;
-  const cuts = [];
-  if (phrase) {
-    await clip("before-phrase-cut", phrase.sourceRange, revisionId);
-    const edited = call("edit.cut", {
-      recordingId,
-      requestId: randomUUID(),
-      expectedRevisionId: revisionId,
-      ranges: [phrase.sourceRange],
-    });
-    cuts.push({ what: values.phrase, range: phrase.sourceRange, revision: edited.revision.id });
-    step("cut phrase", { from: revisionId, to: edited.revision.id });
-    // The same request against the revision it replaced must be refused, not applied twice.
-    const stale = call(
-      "edit.cut",
-      {
-        recordingId,
-        requestId: randomUUID(),
-        expectedRevisionId: revisionId,
-        ranges: [phrase.sourceRange],
-      },
-      { allowFailure: true },
+    const removedBeforeUs = plannedProjectRanges
+      .filter((prior) => prior.projectRange.endUs <= cut.projectRange.startUs)
+      .reduce((total, prior) => total + prior.projectRange.endUs - prior.projectRange.startUs, 0);
+    const projectBounds = {
+      startUs: Math.max(0, cut.projectRange.startUs - removedBeforeUs - 1_500_000),
+      endUs: Math.min(
+        projectDurationAfterCuts,
+        cut.projectRange.endUs - removedBeforeUs + 1_500_000,
+      ),
+    };
+    await media(
+      "audio.get",
+      { projectId, revisionId, range: projectBounds },
+      join(out, `after-cut-${index}.wav`),
     );
-    step("stale edit refused", { code: stale.error?.code ?? "accepted" });
-    revisionId = edited.revision.id;
+    clips.push({ source: sourceBounds, project: projectBounds });
   }
+  step("audio clips around explicit cuts", { clips });
 
-  if (fillers.length) {
-    const ranges = fillers.map((word) => word.sourceRange);
-    const edited = call("edit.cut", {
-      recordingId,
-      requestId: randomUUID(),
-      expectedRevisionId: revisionId,
-      ranges,
-    });
-    cuts.push({ what: "fillers", ranges, revision: edited.revision.id });
-    step("cut fillers", { count: ranges.length, to: edited.revision.id });
-    revisionId = edited.revision.id;
-  }
-
-  // The same moments in the edited revision: what a person hears across each join.
-  for (const [ordinal, cut] of cuts.entries()) {
-    const at = cut.range ?? cut.ranges[0];
-    await clip(`after-cut-${ordinal}`, { startUs: at.startUs, endUs: at.startUs + 1 }, revisionId);
-  }
-  step("audio clips", { clips: clips.map((item) => item.name) });
-
-  const history = call("revision.history", { recordingId, limit: 50 });
+  const history = call("revision.history", { projectId, limit: 50 });
   const undone = call("edit.undo", {
-    recordingId,
+    projectId,
     requestId: randomUUID(),
     expectedRevisionId: revisionId,
   });
   step("undo", {
     historyEntries: (history.entries ?? history.revisions ?? []).length,
-    now: undone.revision.id,
+    now: undone.id,
   });
   const restored = call("edit.restore", {
-    recordingId,
+    projectId,
     requestId: randomUUID(),
-    expectedRevisionId: undone.revision.id,
+    expectedRevisionId: undone.id,
     targetRevisionId: revisionId,
   });
-  revisionId = restored.revision.id;
+  revisionId = restored.id;
   step("restore", { now: revisionId });
 
-  const preview = await (async () => {
-    const deadline = Date.now() + 600_000;
-    for (;;) {
-      const answer = call(
-        "preview.get",
-        { recordingId, revisionId },
-        { args: ["--output", join(out, "preview.mp4")] },
-      );
-      if (answer.state === "ready") return answer;
-      if (["failed", "unavailable"].includes(answer.state))
-        throw new Error(`preview is ${answer.state}: ${answer.reason}`);
-      if (Date.now() > deadline) throw new Error("preview never became ready");
-      await wait(1000);
-    }
-  })();
-  step("preview", { revisionId, file: join(out, "preview.mp4"), state: preview.state });
+  const preview = await media(
+    "preview.get",
+    { projectId, revisionId },
+    join(out, "preview.mp4"),
+    600_000,
+  );
+  step("preview", { projectId, revisionId, file: join(out, "preview.mp4"), state: preview.state });
 
   const exports = {};
   for (const [kind, leaf] of [
@@ -297,7 +604,7 @@ const main = async () => {
     ["processed-package", "demo.zip"],
   ]) {
     const exportId = randomUUID();
-    call("export.create", { exportId, recordingId, kind, revisionId, directory: out, leaf });
+    call("export.create", { projectId, exportId, kind, revisionId, directory: out, leaf });
     const deadline = Date.now() + 900_000;
     for (;;) {
       const status = call("export.status", { exportId });
@@ -313,7 +620,7 @@ const main = async () => {
     step(`export ${kind}`, exports[kind]);
   }
 
-  // Relocation: the package must answer from its own files, wherever it lands.
+  // Relocation: adoption gives the moved package a fresh durable project identity.
   // Opening a package refuses symlinked path components, and /tmp is one.
   const moved = join(realpathSync(mkdtempSync("/tmp/screenrec-moved-")), "relocated.zip");
   renameSync(exports["processed-package"].output, moved);
@@ -329,33 +636,74 @@ const main = async () => {
   };
   process.once("exit", closeAdmission);
   try {
-    const opened = await (async () => {
-      const deadline = Date.now() + 300_000;
-      for (;;) {
-        const status = call("package.status", { admissionId: admission.id });
-        if (status.state === "ready") return status;
-        if (["failed", "cleanup_failed"].includes(status.state))
-          throw new Error(`package ${status.state}: ${JSON.stringify(status)}`);
-        if (Date.now() > deadline) throw new Error("package never opened");
-        await wait(500);
-      }
-    })();
-    const packaged = pages("transcript.get", {
-      packageHandle: opened.packageHandle,
-      revisionId,
-      limit: 1000,
-    });
-    const libraryRows = pages("transcript.get", { recordingId, revisionId, limit: 1000 });
-    const identical = JSON.stringify(packaged) === JSON.stringify(libraryRows);
+    const opened = await ready(
+      "package.status",
+      { admissionId: admission.id },
+      "package open",
+      300_000,
+    );
+    const adopted = await ready(
+      "package.adopt",
+      { packageHandle: opened.packageHandle, requestId: randomUUID() },
+      "package adoption",
+      900_000,
+    );
+    const adoptedProjectId = adopted.projectId;
+    const adoptedRevisionId = adopted.revisionId;
+    if (!adoptedProjectId || !adoptedRevisionId)
+      throw new Error("Package adoption did not return a project and revision");
+    const adoptedProject = call("project.get", { projectId: adoptedProjectId });
+    if (adoptedProject.currentRevisionId !== adoptedRevisionId)
+      throw new Error("Adopted project head differs from the adopted revision");
+    const adoptedTranscriptFirst = await ready(
+      "transcript.get",
+      { projectId: adoptedProjectId, revisionId: adoptedRevisionId, limit: 250 },
+      "adopted project transcript",
+    );
+    const adoptedRows = pages(
+      "transcript.get",
+      { projectId: adoptedProjectId, revisionId: adoptedRevisionId, limit: 1000 },
+      adoptedTranscriptFirst,
+    );
+    if (JSON.stringify(adoptedRows) !== JSON.stringify(projectRows))
+      throw new Error("Adopted transcript differs from the exported project");
+    const adoptedIndex = await ready(
+      "index.get",
+      { projectId: adoptedProjectId, revisionId: adoptedRevisionId, limit: 1 },
+      "adopted project index",
+    );
+    const adoptedOrdinals = pages(
+      "index.get",
+      { projectId: adoptedProjectId, revisionId: adoptedRevisionId, limit: 200 },
+      adoptedIndex,
+    )
+      .slice(0, 2)
+      .map((entry) => entry.ordinal ?? entry.candidate.ordinal);
+    if (adoptedOrdinals.length)
+      await media(
+        "index.frames",
+        {
+          projectId: adoptedProjectId,
+          revisionId: adoptedRevisionId,
+          generation: adoptedIndex.generation,
+          maxLongEdge: adoptedIndex.page.metadata.maxLongEdge,
+          tap: adoptedIndex.page.metadata.tap,
+          ordinals: adoptedOrdinals,
+        },
+        join(out, "adopted-index-frame"),
+      );
     await media(
       "frame.batch",
-      { packageHandle: opened.packageHandle, atUs: [Math.floor(recording.sourceDurationUs / 3)] },
-      join(out, "package-frame"),
+      { projectId: adoptedProjectId, revisionId: adoptedRevisionId, atUs: [projectSampleAtUs] },
+      join(out, "adopted-project-frame"),
     );
     step("relocated package", {
       path: moved,
-      transcriptMatchesLibrary: identical,
-      newFrameRequested: true,
+      projectId: adoptedProjectId,
+      revisionId: adoptedRevisionId,
+      transcriptRows: adoptedRows.length,
+      indexOrdinals: adoptedOrdinals,
+      projectFrameAtUs: projectSampleAtUs,
     });
   } finally {
     closeAdmission();
