@@ -40,6 +40,8 @@ for (const [directory, executable] of [
     "--product",
     executable,
   ];
+  // Hosted macOS runners have limited memory; avoid simultaneous compiler pressure.
+  if (process.env.CI) args.push("--jobs", "2");
   execFileSync("swift", args, { stdio: "inherit" });
   const bin = execFileSync("swift", [...args, "--show-bin-path"], { encoding: "utf8" }).trim();
   copyFileSync(join(bin, executable), join(macOS, executable));

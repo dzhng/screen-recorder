@@ -59,7 +59,11 @@ struct ServiceBundle {
         operation.addExecutionBlock { [weak operation] in
             guard let operation, !operation.isCancelled else { return }
             let result = NodeRuntime.resolve(
-                recorded: manifest.nodePath, environment: environment, deadline: deadline,
+                recorded: URL(
+                    fileURLWithPath: manifest.nodePath,
+                    relativeTo: manifestURL.deletingLastPathComponent()
+                ).standardizedFileURL.path,
+                environment: environment, deadline: deadline,
                 isCancelled: { operation.isCancelled }
             ).map { node in
                 ServiceBundle(

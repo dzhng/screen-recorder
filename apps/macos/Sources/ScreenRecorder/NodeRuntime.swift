@@ -1,10 +1,9 @@
 import Darwin
 import Foundation
 
-/// Node 24 is an explicit prerequisite of this personal build, so the app resolves an
-/// absolute interpreter itself. A Finder-launched bundle inherits launchd's minimal
-/// PATH rather than the developer shell's, which is why the build records the
-/// interpreter it was built against and PATH is only ever the last resort.
+/// The release bundles Node 24; personal builds may record an installed interpreter.
+/// A Finder launch has a minimal PATH, so the manifest's interpreter is preferred
+/// and PATH is only the last resort.
 ///
 /// Resolution runs real child processes, so it never runs on the main thread and never
 /// waits on one unbounded read or exit. A candidate that answers nothing, or answers

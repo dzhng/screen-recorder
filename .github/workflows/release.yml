@@ -1,0 +1,95 @@
+name: Tagged release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 40
+    outputs:
+      revision: ${{ steps.source.outputs.revision }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          sparse-checkout: |
+            apps
+            packages
+            helpers
+            scripts
+            .github
+      - id: source
+        run: echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version-file: package.json
+      - name: Validate tag and release contracts
+        run: |
+          node scripts/release.mjs validate "$GITHUB_REF_NAME"
+          node --test scripts/release.test.mjs apps/macos/tests/bundled-runtime.test.mjs
+      - name: Prepare pinned build inputs
+        run: node scripts/release.mjs prepare
+      - name: Build app and its dependencies
+        run: |
+          bun install --frozen-lockfile
+          bunx turbo run build --filter=@screenrec/macos --concurrency=1
+      - name: Package and verify relocated release
+        run: |
+          node scripts/release.mjs package "$GITHUB_REF_NAME"
+          node scripts/release-smoke.mjs
+          cp scripts/release-notes.md dist/release/NOTES.md
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release
+          path: |
+            dist/release/*.zip
+            dist/release/SHA256SUMS
+            dist/release/release.json
+            dist/release/NOTES.md
+          if-no-files-found: error
+          retention-days: 7
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: release
+          path: release
+      - name: Publish verified release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_COMMIT: ${{ needs.build.outputs.revision }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release
+          sha256sum --check SHA256SUMS
+          test "$(jq -r .tag release.json)" = "$GITHUB_REF_NAME"
+          test "$(jq -r .revision release.json)" = "$RELEASE_COMMIT"
+          if gh release view "$GITHUB_REF_NAME" --json isDraft > existing.json; then
+            if test "$(jq -r .isDraft existing.json)" = false; then
+              echo "Release is already published; its assets remain unchanged."
+              exit 0
+            fi
+          else
+            extra=()
+            if [[ "$GITHUB_REF_NAME" == v0.* || "$GITHUB_REF_NAME" == *-* ]]; then
+              extra+=(--prerelease)
+            fi
+            gh release create "$GITHUB_REF_NAME" --verify-tag --draft \
+              --title "Screen Recorder $GITHUB_REF_NAME" --notes-file NOTES.md "${extra[@]}"
+          fi
+          gh release upload "$GITHUB_REF_NAME" ./*.zip SHA256SUMS release.json --clobber
+          gh release edit "$GITHUB_REF_NAME" --draft=false

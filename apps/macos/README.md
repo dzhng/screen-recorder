@@ -52,13 +52,12 @@ it a composition: preview and export require an explicitly selected project.
 Recordings expose their source admissions, preparation jobs and deletion separately. Last-good observations survive read errors, and delayed answers
 cannot restore a deleted owner or overwrite a changed page/service generation.
 
-Node 24 is a personal-host prerequisite, not a bundled runtime. A Finder launch
-inherits launchd's minimal environment rather than a developer shell's PATH, so
-the build records the absolute interpreter it validated against and the app
-prefers that, falling back to the standard install locations and only then to
-PATH. Every candidate must answer `--version` with Node 24. Set `SCREENREC_NODE`
-to an absolute path to override; an override that fails is reported rather than
-quietly replaced, which is the whole point of setting one.
+The [tagged release](../../README.md#releases) includes Node 24. Its manifest resolves
+the interpreter relative to the app, so moving the app does not retain a CI runner
+path. Personal source builds may record an installed Node 24 interpreter instead.
+The app prefers that manifest candidate, then standard install locations and PATH.
+Set `SCREENREC_NODE` to an absolute path to override; an invalid override is reported
+rather than quietly replaced.
 
 Probing a candidate runs a real process, so it never runs on the main thread and
 never waits unbounded on one. Each candidate gets its own short budget, its output

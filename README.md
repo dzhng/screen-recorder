@@ -38,6 +38,49 @@ policy; source inspection supplies no speech-quality or runtime verdict.
 
 - [Composition and edits](packages/composition/README.md): owns pure timing, clip identity and atomic edit meaning.
 
+## Releases
+
+Download the versioned app from [GitHub Releases](https://github.com/dzhng/screen-recorder/releases).
+Release ZIPs target Apple Silicon on macOS 26 or newer and include Node, so a
+recipient does not need Bun, Xcode or a developer Node installation. Speech models
+still require explicit preparation. Built binaries stay out of Git; each release
+attaches the package, checksums and a source/runtime receipt to its version tag.
+
+Current builds are ad-hoc signed and **not notarized**. After the first blocked
+launch, use System Settings → Privacy & Security → Open Anyway. Managed Macs may
+prevent that exception. This does not grant screen, microphone or camera access;
+the app requests those permissions only for explicit recording actions.
+
+Quit Screen Recorder before replacing an existing copy. Extract the ZIP and put
+`Screen Recorder.app` in `~/Applications`. Optionally copy
+its `screenrec` launcher into `~/.local/bin` and add that directory to PATH; MCP uses
+that launcher with `mcp` as its argument. For another app location, set
+`SCREENREC_APP` to the app's absolute path. Verify downloads with
+`shasum -a 256 -c SHA256SUMS` before extracting the ZIP.
+
+To release, update the version in [the app manifest](apps/macos/package.json),
+commit it, then create and push the matching tag:
+
+```sh
+git tag -a v0.1.0 -m "Screen Recorder 0.1.0"
+git push origin main
+git push origin v0.1.0
+```
+
+Use the new version instead of the example and never move a published tag. The
+[tagged-release workflow](.github/workflows/release.yml) validates tag/version agreement,
+builds on macOS, checks the relocated package, and publishes only after those
+checks pass. Versions below 1.0 and suffixed versions are marked prereleases.
+[Focused CI](.github/workflows/release-checks.yml) checks release contracts on relevant
+pull requests and main changes without running capture or model inference.
+
+The [release tool](scripts/release.mjs) owns packaging and explicit build-input
+preparation; [pinned inputs](scripts/release-inputs.json) and the existing denoiser
+provenance bind downloaded bytes. Third-party notices ship inside the app; the
+[denoiser documentation](helpers/denoise/README.md) retains the unresolved upstream
+model-license statement. CI uses GitHub's repository token to publish assets;
+no Apple signing credentials are configured, and it never claims notarization.
+
 ## Development
 
 Bun installs and orchestrates; Node 24 runs TypeScript and Swift builds the native
