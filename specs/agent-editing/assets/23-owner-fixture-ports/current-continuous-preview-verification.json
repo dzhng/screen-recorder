@@ -1,0 +1,126 @@
+{
+  "status": "PASS muted six-second continuous native playback only",
+  "base": "72a737a41170e1928b7c344884cbef8107f4fcc6",
+  "commit": "f6427f7bc9ee492e70e1b764af0eb70434451723",
+  "source": {
+    "archive": "specs/agent-editing/assets/23-owner-fixture-ports/default-gate-recovery-evidence.tar.gz",
+    "member": "default-gate-recovery-e9090034/retained-generated-render-timing/6fd2ef65-89b5-470f-b553-a49dbf25e7d3.mp4",
+    "bytes": 167145,
+    "sha256": "dc63ab7c40a57996a91fbc09312c139dc2f85bde97a2ad0c58919b715a68e5df",
+    "numericAuthority": "Already banked complete6s identities[0,1,2,3,4,5]/PTS[0,1M,2M,3M,4M,5M],288000PCMframes,AAC RMS1.7634065807240243e-5; not rerun"
+  },
+  "scope": "Current unchanged PreviewController/PreviewWindow; controlled ready project receipt; actual muted SDK playback. No service/network/backend rendering executed. Listening,current-render moving pointers,perceptual sync,whole visual and installed acceptance remain open.",
+  "green": {
+    "outer": {
+      "argv": [
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "--test",
+        "--test-name-pattern=advances continuously",
+        "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/apps/macos/tests/preview-player.test.mjs"
+      ],
+      "pid": 12701,
+      "start": 1791012376.205046,
+      "exitCode": 0,
+      "end": 1791012386.257447,
+      "seconds": 10.052401065826416
+    },
+    "player": {
+      "binary": "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/green-endpoint/check",
+      "args": [
+        "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/green-endpoint/pinned-movie",
+        "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/green-endpoint/playback.json"
+      ],
+      "pid": 12763,
+      "status": 0,
+      "signal": null,
+      "stdout": "PASS muted pinned current A/V playback advances to end and releases player/window/lease\n",
+      "stderr": ""
+    },
+    "observations": 118,
+    "first": {
+      "itemStatus": 1,
+      "rate": 1,
+      "seconds": 0,
+      "timeControlStatus": 2
+    },
+    "last": {
+      "itemStatus": 1,
+      "rate": 1,
+      "seconds": 6,
+      "timeControlStatus": 2
+    },
+    "endSeconds": 6,
+    "durationSeconds": 6,
+    "exactEndpointPredicate": "CMTimeCompare(player.currentTime(),item.duration)==0",
+    "sameItemRevision": true,
+    "mutedPlayerCount": 1,
+    "closedTokens": [
+      "continuous-token"
+    ],
+    "windowClosed": true,
+    "playerReleased": true,
+    "failures": []
+  },
+  "red": {
+    "outer": {
+      "argv": [
+        "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+        "--test",
+        "--test-name-pattern=advances continuously",
+        "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/paused-control-final.test.mjs"
+      ],
+      "pid": 9050,
+      "start": 1791012127.2927759,
+      "exitCode": 1,
+      "end": 1791012133.8563972,
+      "seconds": 6.563621282577515
+    },
+    "player": {
+      "binary": "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/red-final/check",
+      "args": [
+        "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/red-final/pinned-movie",
+        "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/red-final/playback.json"
+      ],
+      "pid": 9137,
+      "status": null,
+      "signal": "SIGTRAP",
+      "stdout": "",
+      "stderr": "Swift/ErrorType.swift:254: Fatal error: Error raised at top level: check.PlaybackFailure(errorDescription: Optional(\"Player did not advance\"))\n"
+    },
+    "outcome": "Paused after readiness; rate0/time0; actual advance refusal after2s with complete teardown before top-level expected-error SIGTRAP",
+    "sourcePhase": "Before final endpoint assertion/readability correction; paused refusal remains unchanged"
+  },
+  "producer": {
+    "path": "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/apps/macos/tests/preview-player.test.mjs",
+    "bytes": 18851,
+    "sha256": "a35b2ef5bf9cb91669210a72f036878c14c39eb6cad166907f7ae5fd4546829e"
+  },
+  "runtime": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/green-endpoint/check",
+      "bytes": 410440,
+      "sha256": "d4cc693efd7dfa5ea5f07f6470810df7e1298d691e3928e313247aea57d72125"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/continuous-preview-72a737a4/green-endpoint/libScreenRecorderControls.dylib",
+      "bytes": 933152,
+      "sha256": "555be64f79891c6003887ab66fee88a58592208f280f7658afd0b5fe764c7357"
+    }
+  ],
+  "existingCaseBodyByteEqual": true,
+  "existingLeaseLoopRerun": false,
+  "limits": [
+    "Muted audio-bearing media does not prove speaker output/listening/synchronization",
+    "No pointer movie was replayed; current moving-pointer presentation remains open",
+    "No screenshot/pixel critique because production presenter pixels were unchanged and not newly claimed",
+    "No nativeworker/model/capture/newrender/build/fullsuite/installed action"
+  ],
+  "rootReview": "Real same-item advancement/end/exactclock/teardown; muted assignment before play. Controlled receipt is explicit and producer bytes match merged source; no production visual change or new backend claim.",
+  "evidence": {
+    "file": "current-continuous-preview-evidence.tar.gz",
+    "bytes": 1217853,
+    "sha256": "a8e5d18a0de25938c3dbdb8ae98c4d81046eefa64df11e0ba31cd6805e29a46f",
+    "hashedPayloads": 112,
+    "independentlyVerified": true
+  }
+}

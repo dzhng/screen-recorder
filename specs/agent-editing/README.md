@@ -21,7 +21,7 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: exact SDK finishing and continuous presentation, then remaining
+**Next pickup: sibling-pump failure and moving-pointer presentation, then remaining
 scale and installed/default caller contracts.** Core/schema closure
 removes recording revisions from the actual type, query and schema. The fresh
 catalog is format23 and refuses prior catalogs without migration or byte mutation.
@@ -57,6 +57,13 @@ The [staged-output ownership bank](assets/23-owner-fixture-ports/staged-output-o
 closes foreign staging replacement cleanup/publication and verifies the rebuilt
 combined release worker's tiny movie contract. Its bounded cleanup and external
 writer identity limits remain explicit.
+The [finishing cancellation bank](assets/23-owner-fixture-ports/current-movie-finishing-verification.json)
+closes cancellation after SDK finishing begins, on aligned and fractional windows,
+and corrects common Swift cancellation classification. The rebuilt release keeps
+genuine decode refusal distinct. The
+[continuous player bank](assets/23-owner-fixture-ports/current-continuous-preview-verification.json)
+closes muted same-item progress, exact endpoint and teardown on retained media;
+it does not establish listening, moving-pointer or backend integration.
 Initial zero-display failures remain in the original default bank. Post-restart
 [source enumeration](assets/23-owner-fixture-ports/post-restart-source-availability.json)
 enabled the serial retry cohort; its temporary media and UI are cleaned up.
@@ -66,10 +73,10 @@ experiment or asking the user for another recording.
 
 Continue in this order:
 
-1. Finish exact SDK writer-finishing cancellation and sibling-pump failure through
-   the existing movie owner. Continuous playback uses retained encoded media
-   through the actual native presenter. Keep listening and current-render pointer
-   claims separate from player progress. Reuse passed movie, source lifetime,
+1. Finish sibling-pump failure through the existing movie owner, requiring actual
+   overlap and the preserved fail-fast/drain boundary. Moving-pointer presentation
+   needs current rendered output; saved player progress does not close it. Keep
+   listening separate from muted playback. Reuse passed movie, source lifetime,
    capture/UI and default cohorts; preserve their numerical and byte assertions.
    The combined release candidate is built, with affected tiny movie and output
    ownership proof. Test executables alone do not establish installed acceptance.
@@ -89,7 +96,7 @@ Continue in this order:
 | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical event uncertainty/synchronization and remaining lifecycle scope |
-| [23 cutover](slices/23-cutover.md) | Current worker/caller execution, continuous playback and installed switching |
+| [23 cutover](slices/23-cutover.md) | Sibling failure, moving-pointer presentation and installed switching |
 | [24 scale](slices/24-scale.md) | Missing integrated scale dimensions |
 | [25 caller](slices/25-agent-acceptance.md) | Installed/default discovery and final release scope |
 

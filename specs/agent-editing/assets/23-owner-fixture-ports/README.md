@@ -63,6 +63,8 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Complete raw-source scene/index publication, paging and retained PNG growth | [Current complete index](current-complete-source-index-verification.json) |
 | Owned staging replacement, common publication and rebuilt release tiny movie | [Staged output ownership](staged-output-ownership-verification.json) |
 | Deep/wide 10k-project placement invalidation, pinned queries and undo | [Current reorder query](current-reorder-query-verification.json) |
+| Aligned/fractional SDK finishing cancellation and native error classification | [Current finishing](current-movie-finishing-verification.json) |
+| Muted retained-media native playback, exact endpoint and teardown | [Current continuous player](current-continuous-preview-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -75,8 +77,10 @@ verdicts. The current-source-lifetime bank closes the three retained orphan
 workspace/donor/removal cases. The capture/UI retry bank closes its thirteen
 named failures and actual frame prefix. Current movie scale and complete raw-source
 index now pass in their separate banks. The staged-output bank closes replacement
-cleanup/publication and the combined release tiny movie. Exact SDK finishing,
-continuous presentation and installed scope remain execution obligations.
+cleanup/publication and the combined release tiny movie. The current finishing
+bank closes qualified SDK cancellation; the player bank closes muted continuous
+progress/end/teardown. Sibling failure, moving-pointer, listening and installed
+scope remain separate obligations.
 Historical lab commands in the recording spec are
 retained evidence, not runnable current entry points.
 

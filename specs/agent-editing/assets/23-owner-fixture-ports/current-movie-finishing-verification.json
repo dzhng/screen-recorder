@@ -1,0 +1,146 @@
+{
+  "baseCommit": "72a737a41170e1928b7c344884cbef8107f4fcc6",
+  "commit": "aa07b28ea1c3ad332ae07ff0aa7e880e62e14ac9",
+  "contract": "NativeWire preserves actual Swift CancellationError as CANCELED rather than a retryable media decode failure. During eligible actual outer AVAssetWriter finishing, the original SDK call/callback/executor remain unchanged; caller Task cancellation returns only after observed SDK completion, without published output or staging, preserving source bytes.",
+  "productionDelta": "Three lines at common NativeWire.respond catch; no Task.isCancelled substitution, movie-specific error mapper, owner hook/config, MovieMux/Tail change, or model/capture/installed behavior change.",
+  "sourcePins": [
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/Wire.swift",
+      "bytes": 11372,
+      "sha256": "ea12a60349131f09e096a3d5c775782fbc2ab69b79b530289334d6f669bbb784"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionVideo/main.swift",
+      "bytes": 5330,
+      "sha256": "6f764145a5f36d00c2b37862c9077bb6a84e1b16e7221bbd327f29b427ab4d8e"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionVideo/MovieFinishingTests.swift",
+      "bytes": 8747,
+      "sha256": "dceb3d42e92ef81c5bd9b884caee878ff8a55105e8df4937df438da7e400a410"
+    }
+  ],
+  "runtimePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-finishing-cancellation-72a737a4/ScreenRecorderCompositionVideoTests",
+      "bytes": 30003056,
+      "sha256": "d9c143b736bc28578da7a08ea87d440d64cd73c307d065dc03dfde47d991dc7b"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-finishing-cancellation-72a737a4/no-cancel-control",
+      "bytes": 30440528,
+      "sha256": "716e3923cc33d686bb02458062218d203b9314f643fb86bc7c502be69da75cff"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-finishing-cancellation-72a737a4/wire/ScreenRecorderWire.o",
+      "bytes": 2411984,
+      "sha256": "00a560bb432f26da61af5ea972b4147b26ba2b34649ab5ce3248d3515e339499"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-finishing-cancellation-72a737a4/wire/ScreenRecorderWire.swiftmodule",
+      "bytes": 308192,
+      "sha256": "52b72d16438b869b73fc1bfef46bcfd9bc58c039204a9129acf8c1339b6fe39f"
+    }
+  ],
+  "immutableOriginalObjectCount": 410,
+  "greenReusedOriginalObjectCount": 380,
+  "immutableObjectsChanged": 0,
+  "red": {
+    "run": "sdk-started-red-run.json",
+    "reply": "sdk-started-red/finish-cancel-response.json",
+    "observation": "sdk-started-red/finish-cancel-observation.json",
+    "observerSource": "observer-sdk-started-red.swift",
+    "sourceHash": "ac224282a9796307ecca59f10726a3a10e579666a4d4deb81d74f047edfe27f6",
+    "scope": "Original SDK IMP has returned while statuswriting1/completion0; bound caller canceled before callback; SDK completioncompleted2 saw caller canceled; exact actual response NATIVE_DECODE_FAILED mentioning Swift.CancellationError. All callbacks/calls drained/method restored; no output/stage; sources unchanged."
+  },
+  "greens": [
+    {
+      "run": "aligned-green-run.json",
+      "reply": "aligned-green/finish-cancel-response.json",
+      "observation": "aligned-green/finish-cancel-observation.json",
+      "durationUs": 100000,
+      "frames": 2,
+      "pcmFrames": 4800,
+      "scope": "After original SDK IMP, writing/completion0 qualifies. Actual bound Task canceled before SDK completion. Exact CANCELED/retryablefalse; one entered/sdk-started/completion; original completion observed at response and fully drained before restore; no output/stage; donor picture/tone and generated two-row frame bytes unchanged. Aligned duration does not invoke fractional MovieAudioTail."
+    },
+    {
+      "run": "fractional-final-green-run.json",
+      "reply": "fractional-final-green/finish-cancel-response.json",
+      "observation": "fractional-final-green/finish-cancel-observation.json",
+      "durationUs": 100020,
+      "frames": 3,
+      "pcmFrames": 4800,
+      "scope": "Same final precise SDK finishing eligibility/cancel/drain/restore/source/no-publication oracles, including fractional PCM tail branch."
+    },
+    {
+      "run": "classifier-green-run.json",
+      "reply": "classifier-green/cancel-response.json",
+      "scope": "Existing early-staging cancel helper through actual NativeWire movie operation; outer driver separately asserts exact CANCELED/retryablefalse. Helper retains refusal/no-output/stage cleanup assertions."
+    }
+  ],
+  "probeEligibility": "SDK must still report writing after original IMP invocation returns and have no completion event; callback must observe the actual bound caller Task canceled. Synchronous/already-completed or lost timing is nonqualifying, never a pass. No SDK delay/fake completion gate is used.",
+  "priorBankCorrection": {
+    "actualReply": "prior-new-file-native-cancel-response.json",
+    "sha256": "602750045be41bcafc16d7cab164fd5bff35a27a606bd0347d2c40fdf7144ae3",
+    "scope": "Prior NewFile bank helper proved refusal/no output/stage cleanup, not exact CANCELED. Frozen actual response is NATIVE_DECODE_FAILED. Original archive unchanged; root appends canonical qualification."
+  },
+  "status": "Qualified aligned/fractional SDK-finishing cancellation and common Swift cancellation classification pass.",
+  "limits": [
+    "Current own Wire/helper with unchanged dependency objects; actual cancellation measured through NativeWire helper, not a cancellation command added to standalone worker.",
+    "Real after-SDK-start before-callback timing is required; nonqualifying timing never counts as pass.",
+    "No delayed/fabricated SDK completion, production hook, caller task-flag override, sibling-pump or installed claim."
+  ],
+  "currentRelease": {
+    "build": {
+      "command": [
+        "node",
+        "scripts/build-macos.mjs"
+      ],
+      "pid": 13727,
+      "exitCode": 0,
+      "seconds": 9.047829291001108,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "smoke": {
+      "worker": {
+        "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "bytes": 19979280,
+        "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55"
+      },
+      "reports": [
+        {
+          "request": {
+            "id": "ping",
+            "operation": "system.ping",
+            "params": {}
+          },
+          "exit": 0,
+          "stdout": "{\"data\":{\"platform\":\"macos\"},\"id\":\"ping\",\"ok\":true}\n",
+          "stderr": ""
+        },
+        {
+          "request": {
+            "id": "decode-refusal",
+            "operation": "media.probe",
+            "params": {
+              "path": "/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/nonexistent-decoder-control.mov"
+            }
+          },
+          "exit": 0,
+          "stdout": "{\"error\":{\"code\":\"NATIVE_DECODE_FAILED\",\"details\":{},\"message\":\"The operation could not be completed\",\"retryable\":true},\"id\":\"decode-refusal\",\"ok\":false}\n",
+          "stderr": ""
+        }
+      ],
+      "scope": "Actual current release ping and genuine nonexistent-media decode refusal; no cancellation injected/native render/capture/model."
+    },
+    "qualification": "Existing standard build completed. Runner nativeWorker environment is unused; actual smoke explicitly selects built40ece2d2 worker. Genuine decode refusal remains NATIVE_DECODE_FAILED/retryabletrue. No media re-render; source.success processing paths unchanged by catch-only delta."
+  },
+  "evidence": {
+    "file": "current-movie-finishing-evidence.tar.gz",
+    "bytes": 101825,
+    "sha256": "798afd6dea976056dcf39b0a5539bb03a1c113ff50ea6f05e6d3d4ebe305e961",
+    "hashedPayloads": 64,
+    "independentlyVerified": true
+  }
+}

@@ -8000,3 +8000,88 @@ a second general timeline evaluator or a new edit semantic.
 
 Verdict: **sound**. Valid explicit edits expose stale placement data without
 depending on the compiler's own answer. Confidence: **high**.
+
+## Continuous playback and exact finishing cancellation
+
+### Reuse immutable encoded media for the player checkpoint
+
+The six-second generated movie already has independent frame, timestamp and
+audio checks. The new player test extracts that exact movie from its durable
+evidence archive and verifies its digest before and after playback. It controls
+only the ready project/revision/lease receipt while the real native controller,
+window and player advance to the end. Rebuilding the media or repeating the
+backend lease tests would answer questions already covered elsewhere.
+
+When: continuous-player checkpoint, `f6427f7b`.
+
+Gap: The plan required continuous presentation but did not select reusable media
+or the narrow boundary for observing it.
+
+Reach: This test depends on a durable archive member. Closing or relocating the
+spec must preserve or deliberately relocate that fixture address. It does not
+claim a new backend, moving-pointer or listening result.
+
+Verdict: **sound**. The fixture isolates actual player progress without new
+render work. Confidence: **medium**; the archive dependency is a maintenance
+choice rather than a product contract.
+
+### Mute the assigned player before production playback starts
+
+The production window starts playback when its player is assigned. The test
+observes that same assignment synchronously and mutes the player before play,
+then checks the muted player's identity. Counting observer notifications would
+incorrectly reject multiple notifications about the same player. Adding a
+production mute flag solely for this check would expand the product interface.
+
+When: continuous-player checkpoint, `f6427f7b`.
+
+Gap: The test needed actual playback without making sound on the user's machine.
+
+Reach: The test uses the existing main-actor assignment boundary. The production
+controller and presenter remain unchanged, and muted playback supplies no
+speaker or listening claim.
+
+Verdict: **sound**. Observation keeps the test quiet without a production hook.
+Confidence: **medium**; it relies on the existing synchronous assignment boundary.
+
+### Observe real SDK finishing without holding or fabricating completion
+
+A caller cancels after the original writer-finishing method starts and before
+its completion callback arrives. A test-only observer forwards the original
+method and callback on their original executors, identifies the exact mux writer,
+and requires that it is still writing with no completed callback at cancellation.
+It waits for callback drain before restoring observation. Already completed or
+missed timing is not accepted. A fabricated delayed completion would make this
+case easier but could only prove the fabricated boundary.
+
+When: finishing-cancellation checkpoint, `aa07b28e`.
+
+Gap: Process abort and cancellation on method entry did not establish cancellation
+after actual SDK finishing had begun.
+
+Reach: This adds an executable test boundary with an explicit SDK ABI check,
+not a production hook, delay or runtime option. Sibling-pump failure remains a
+different contract.
+
+Verdict: **sound**. Actual SDK progress and drained completion identify the
+required phase. Confidence: **high**.
+
+### Classify the cancellation error once at the shared native boundary
+
+Swift cancellation previously fell through the movie operation's unexpected
+error mapper and became a retryable decode failure. NativeWire now recognizes
+the actual CancellationError type and returns CANCELED with the existing failure
+receipt and operation details. It does not overwrite a genuine decode error
+merely because a task happens to be canceled, and it adds no movie-specific mapper
+or automatic retry. A fresh attempt remains the caller's explicit decision.
+
+When: finishing-cancellation checkpoint, `aa07b28e`.
+
+Gap: The shared responder had no cancellation classification despite operations
+propagating Swift cancellation.
+
+Reach: All native operations share the same typed cancellation meaning while
+their known media, capture and storage errors keep their existing classification.
+
+Verdict: **sound**. One error owner preserves cancellation without hiding real
+operational failures. Confidence: **high**.

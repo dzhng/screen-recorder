@@ -28,7 +28,11 @@ and [current movie scale](../assets/23-owner-fixture-ports/current-movie-scale-v
 banks close exact soundtrack and original short/long movie gates. The
 [staged-output bank](../assets/23-owner-fixture-ports/staged-output-ownership-verification.json)
 closes owned replacement cleanup/publication and rebuilt release tiny movie.
-Exact SDK finishing, continuous playback and installed switching remain incomplete. The
+The [finishing bank](../assets/23-owner-fixture-ports/current-movie-finishing-verification.json)
+closes qualified SDK cancellation on aligned/fractional windows and its common
+error classification. The [continuous player bank](../assets/23-owner-fixture-ports/current-continuous-preview-verification.json)
+closes muted actual playback to the exact endpoint. Sibling failure, moving-pointer
+presentation, listening and installed switching remain separate. The
 [capture/UI retry bank](../assets/23-owner-fixture-ports/current-capture-ui-verification.json)
 closes its thirteen failed named cases, including the physical frame prefix;
 its temporary capture media and UI are removed.
