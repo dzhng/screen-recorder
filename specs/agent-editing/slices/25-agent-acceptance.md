@@ -4,8 +4,10 @@ Status: the [fresh source-caller workflow](25b-fresh-caller.md) is executed and
 verified in its controlled source CLI scope. The [25c independent source MCP
 checkpoint](25c-source-mcp-caller.md) now passes its compact schema/revision/replay/
 error/image-delivery scope. [Private installed/default discovery](../assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
-now passes; fresh installed caller, personal replacement and full release acceptance
-remain open.
+now passes. The [25d fresh installed caller](25d-installed-caller.md) passes its
+bounded discovery/split/replay/error/PNG checkpoint and retained-package
+adoption/audio bridge. Personal replacement and full release acceptance remain
+open; these scoped passes do not supply listening or physical synchronization.
 [Input preparation](../assets/25-input-preparation/README.md) and
 [registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
 [focused CLI discovery](../assets/25-cli-discovery/README.md),

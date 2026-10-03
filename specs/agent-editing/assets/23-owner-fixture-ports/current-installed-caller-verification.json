@@ -1,0 +1,223 @@
+{
+  "status": "PASS scoped fresh private installed caller and retained-package public bridge; original caller failures retained",
+  "sourceCommit": "e825294c",
+  "archive": {
+    "path": "installed-caller-e825294c-evidence.tar.gz",
+    "bytes": 1954626,
+    "sha256": "92777519330a72ec8bbded4db0c6d28d7b35ed302ef50f7b5fbd7c45047e2a24",
+    "payloadManifest": {
+      "path": "installed-caller-e825294c/manifest.json",
+      "bytes": 80477,
+      "sha256": "0238f2ad36526353b0678359a0b1d5a136a25861a9f39fa6fe82195758dbdedd"
+    },
+    "payloadCount": 468,
+    "regularFileCountIncludingManifest": 469,
+    "allPayloadsIndependentlyRehashed": true,
+    "scope": "Frozen current installed caller proof. Full stopped privatehome retained separately; original assetfiles excluded from archive and bound by retained-home-manifest/original25bZIP."
+  },
+  "proofAuthority": {
+    "savedIndependentVerification": "installed-caller-e825294c/independent-verification.json",
+    "originalSavedVerifier": "installed-caller-e825294c/verify-saved.py",
+    "bankCheck": "Saved archive hash, exact manifest membership and every manifest payload size/SHA256 checked once; no product or original large-media reexecution. The saved independent verification previously checked original ZIP/assets and stopped catalog; those bytes remain external authorities, not included in this archive.",
+    "archiveReferences": [
+      {
+        "path": "installed-caller-e825294c/manifest.json",
+        "bytes": 80477,
+        "sha256": "0238f2ad36526353b0678359a0b1d5a136a25861a9f39fa6fe82195758dbdedd"
+      },
+      {
+        "path": "installed-caller-e825294c/independent-verification.json",
+        "bytes": 7323,
+        "sha256": "74f3e52bfa9651fd5b6a0517320040190c3a3c0a09714680249ac6a078b9eb94"
+      },
+      {
+        "path": "installed-caller-e825294c/verify-saved.py",
+        "bytes": 11344,
+        "sha256": "31df5a41c40f0e336f65361e3cc2ccf7cafc1c7ca9dd6cbd18fd2f391d5d0ed6"
+      },
+      {
+        "path": "installed-caller-e825294c/verify-saved-before-header-correction.py",
+        "bytes": 10876,
+        "sha256": "36ff790349306d11d537666b2b6601bdf36b182d0af164fee9f5377b00287c19"
+      },
+      {
+        "path": "installed-caller-e825294c/verification-qualification.json",
+        "bytes": 1055,
+        "sha256": "11f6459d7b518ca2506a134e859e725802633b84635e7473f5422c03654096d2"
+      },
+      {
+        "path": "installed-caller-e825294c/cold-launch.json",
+        "bytes": 1248,
+        "sha256": "61585e6cab247051aa932f7300011e4571590e3d9c3f26f57475de8cf6aa7fa7"
+      },
+      {
+        "path": "installed-caller-e825294c/installed.json",
+        "bytes": 6163,
+        "sha256": "3c5f97918f5b8610dcedd81377de8559de10a3f33faed26e3871862f74186aac"
+      },
+      {
+        "path": "installed-caller-e825294c/candidate-before.json",
+        "bytes": 2558,
+        "sha256": "cb238e385d0b116941db92b423e5766f9be48086b1aa86ae12a57c7dc347b26d"
+      },
+      {
+        "path": "installed-caller-e825294c/preparation-pins.json",
+        "bytes": 2046,
+        "sha256": "588402b9da2431cc2f40799e174a99b65dfb0b048debb53d781ca50430157eb9"
+      },
+      {
+        "path": "installed-caller-e825294c/technical-request.json",
+        "bytes": 2133,
+        "sha256": "609ba78c1ea4eb33b7334bcaff7ea419b58ea3c9bb991f9df66de0bf57ce668a"
+      },
+      {
+        "path": "installed-caller-e825294c/caller-inputs.json",
+        "bytes": 6000,
+        "sha256": "5ec569a28ed3a8964d4293162d8ccc3178a0dfe02ce97745fa9cafa3f55b5595"
+      },
+      {
+        "path": "installed-caller-e825294c/caller/required-request-checks.json",
+        "bytes": 2588,
+        "sha256": "e6ce382969ab78c5972682e3c9a9177f3860653cbc36943b86ad3e34219e438c"
+      },
+      {
+        "path": "installed-caller-e825294c/caller/bridge/bridge-checks.json",
+        "bytes": 5301,
+        "sha256": "55e97f96670cda54057d584ed17031a292cb0c5130d4e67dd20f11a1f3ea37f6"
+      },
+      {
+        "path": "installed-caller-e825294c/caller/terminal-authority.json",
+        "bytes": 15724,
+        "sha256": "0e229345c65c97347be8ae3449716f38857efc9aefe7c9706fd180a257d4bc20"
+      },
+      {
+        "path": "installed-caller-e825294c/process.json",
+        "bytes": 83,
+        "sha256": "a39cf1480a55e9175a6fe77f3c824048c659bfdde0f21b4a4f01e45fe70bb2e6"
+      },
+      {
+        "path": "installed-caller-e825294c/report.json",
+        "bytes": 43888,
+        "sha256": "3ce2eccd00dff438faaaff891cf17fce162fe1f81dc3830ee0236b5e5af4b35d"
+      },
+      {
+        "path": "installed-caller-e825294c/retained-home-manifest.json",
+        "bytes": 5121,
+        "sha256": "e705f3e93e6e69f0fbcbbfaef64f69aa2f690332c09aae330099072bdc6bc284"
+      }
+    ]
+  },
+  "installedContract": {
+    "coldLaunch": "No explicit socket; installed CLI from cwd / launches the private app and app-owned service through default discovery. Fresh format23 library and private absolute preferences; personal installation is preserved.",
+    "coldLaunchReference": "installed-caller-e825294c/cold-launch.json",
+    "callerDiscoveryReference": "installed-caller-e825294c/caller/required-request-checks.json",
+    "defaultMcpSdk": "Unconfigured SDK with no receive-limit overrides, installed launcher mcp from cwd / and no --socket. Consumer-skill use is caller-reported; developer did not invoke it."
+  },
+  "compact": {
+    "allProtectedDocumentAndClipFieldsEqual": true,
+    "exactRequestedSplit": true,
+    "soleCallerMutation": true,
+    "cliAndMcpReplaySameCompleteReceipt": true,
+    "priorRevisionUnchanged": true,
+    "staleRefusalNoMutation": true,
+    "sourceHeaderUnchanged": true,
+    "pngBytes": 329,
+    "pngSHA256": "0c6b78bd6f1ef24e20f2c1cd4a8854511a7fb0be74d6f1a84c5308e7eb5b6b8d",
+    "originalGenerationReused": true,
+    "reference": "installed-caller-e825294c/caller/required-request-checks.json"
+  },
+  "bridge": {
+    "package": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/25b-fresh-caller/primitive-fixture.zip",
+      "bytes": 650728645,
+      "sha256": "45ae2611531762386b09b6850b8ed24061d5b6511e9f52852ef536d5ee5a5616"
+    },
+    "completeHistoryDocuments": 51,
+    "completeHistoryFieldsExceptRemappedIdsEqual": true,
+    "allStoredSegmentsEqualPackage": true,
+    "headerNormalization": "Current public header replaces optional segments with segmentCount; absent image segments mean count0, as defined by AssetStore.describe.",
+    "adoptedCatalogSurvivesClosedHandleAndServiceShutdown": true,
+    "compactProjectUnchanged": true,
+    "wavBytes": 88576,
+    "wavSHA256": "e2f894f3c9479f72de6b937aadec2da8cedcd2b84aaf212a9bdb7c6bdeb23210",
+    "pcmFrames": 21120,
+    "pcmBytes": 84480,
+    "pcmSHA256": "b8d1ad6ac628d9d109970b36383578f7752250618da73e02c7deed1e953cc969",
+    "sampleRate": 24000,
+    "channels": 1,
+    "exactCliMcpReferenceContainers": true,
+    "sourceContainerBytes": 84538,
+    "sourceContainerEqualityClaim": false,
+    "assetIdentityReference": {
+      "path": "installed-caller-e825294c/independent-verification.json",
+      "jsonPointer": "/bridge/assets"
+    },
+    "executionReference": "installed-caller-e825294c/caller/bridge/bridge-checks.json"
+  },
+  "teardown": {
+    "producer": {
+      "pid": 78910,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 652.9736417919994
+    },
+    "mcpChildPidsExitedAndClosed": [
+      79892,
+      80494,
+      83224
+    ],
+    "cliChildExitReceipts": 75,
+    "expectedStaleExit1": [
+      {
+        "path": "caller/different-stale-split.exit.json",
+        "status": 1,
+        "signal": null
+      }
+    ],
+    "privateAppServicePidsGone": [
+      79030,
+      79033
+    ],
+    "personalBeforePreparationAfterEqual": true,
+    "candidatePinsUnchanged": true,
+    "scratchRemoved": true
+  },
+  "qualifications": [
+    "Compact caller outer exit1 is retained: optional second artifact.read used token already consumed/closed by buffered MCP delivery. Complete inline PNG was already received; no product capability refusal.",
+    "Bridge caller help-envelope assertion exit1 and incorrect admission polling143 are retained caller mistakes; later actual same admission/adoption succeeded, with no repeat package.open.",
+    "Outer caller tool-terminal authority is separate from individual CLI receipt and MCP child event authority.",
+    "No full integrated project render, listening, physical synchronization or personal app replacement claim; original650MB package remains external authority.",
+    "Initial independent verifier did not account for current image header segmentCount0 when original package omitted segments. Existing AssetStore stores absent segments as zero rows and describes the count. Corrected expected header accordingly; all complete headers and stored segments then matched. Original failed checker retained; this was not a product run or product failure.",
+    "The requiredRequestCompleted report predates the separately executed bridge: its packageBridgeExecuted:false describes that compact report, not the final bridge. Final bridge authority is caller/bridge/bridge-checks.json.",
+    "The bridge compares complete history fields except fresh remapped project/revision IDs, all fourteen original asset identities and stored segments; the full 650728645-byte original25b ZIP and retained asset bytes are excluded from this small bank.",
+    "Complete text and structured MCP envelopes were compared in the saved verifier. Complete inline image/audio delivery does not require rereading a token already consumed and closed by buffered delivery.",
+    "Transcribed caller/terminal-authority.json preserves outer tool-terminal metadata; original raw tool-return objects were not separately stored. Actual MCP exit/close journals and CLI .exit.json receipts are independent original authority.",
+    "No current whole-project/thirteen-effect render, new visual-quality verdict, synthesis/model inference, listening, physical synchronization, general source-container equivalence, personal replacement or full release acceptance follows."
+  ],
+  "terminalAuthority": {
+    "path": "installed-caller-e825294c/caller/terminal-authority.json",
+    "provenance": "Transcribed observed tool outcomes from the conversation transcript. The original functions.exec/tool return objects were not separately stored; this file is not an independent original raw tool-result blob. No calls were replayed and no product operations were performed to recover these records.",
+    "outerOutcomes": [
+      {
+        "label": "Original compact MCP exercise",
+        "code": 1
+      },
+      {
+        "label": "Bridge initial help-envelope caller",
+        "code": 1
+      },
+      {
+        "label": "Bridge admission polling caller",
+        "code": 143
+      },
+      {
+        "label": "Bridge independent default SDK retained audio caller",
+        "code": 0
+      },
+      {
+        "label": "Final bridge proof/report caller",
+        "code": 0
+      }
+    ]
+  }
+}
