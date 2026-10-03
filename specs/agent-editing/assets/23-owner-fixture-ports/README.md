@@ -202,8 +202,39 @@ The [public detail bank](project-package-public-verification.json) retains
 in the existing adopted-media fixture. A real socket discards package admission's
 reply without parsing it; public discovery recovers exactly one admission and
 adoption uses that identity. The three preserved invalid export-list requests
-remain structured parameter errors. Registry lifetime guarantees must still be
-accounted for before deleting the old package family.
+remain structured parameter errors.
+
+The [package-owner closure bank](package-owner-closure-verification.json) retains
+[removed declarations, explicit dispositions and focused final proof](package-owner-closure-evidence.tar.gz).
+The old recording package adapters, derivative-output manager, wrapper-only
+controls and manifest owner are removed. Current handles retain admitted files
+and hydrated metadata; adoption and managed-source inspection keep their existing
+owners. Registry borrowers drain before those files close, with actual inherited
+native workspace/source descriptors checked. Removing the unused output allowance
+changes reservation accounting explicitly: copied and expanded bytes count against
+the unchanged pool. Generic context scheduling remains with the queue. The
+unchanged extraction body reuses its earlier complete proof; it was not rerun.
+The personal-release script's old selectors remain pending broader caller cutover.
+
+The [captured-source deletion bank](captured-source-deletion-verification.json)
+retains [all eight coordinator guarantees and current lifetime neighbors](captured-source-deletion-evidence.tar.gz).
+Deletion uses only the actual source owner; its unused artifact-retirement branch
+and class are removed. Coalescing, immediate FD delivery revocation, worker drain,
+directory identity, durable retry after a late SQLite failure and close ordering
+survive. Old recording generation destruction and cache-startup waits retire
+explicitly. The shutdown fixture waits for directory acquisition to enter before
+checking that close joins it. Both independent passes integrate without changing
+the source owner's execution order; merged core/service builds pass. Orphan
+ignored module outputs are removed; the merged package checkout and branch are
+retired separately from runtime acceptance.
+
+The [remaining service/core dependency audit](service-dependency-audit.json)
+freezes [matched public guarantees and production reachability](service-dependency-audit-evidence.tar.gz).
+It distinguishes exact current proof from missing socket, discovery and lifecycle
+oracles, and generic algorithms from unused recording-edit branches. This is a
+historical source map, not a runtime pass or permission to delete a file without
+confirming its current consumers. The implementation lane uses it to transfer
+unique guarantees through existing owners.
 
 Most fixture media bytes and probe results are controlled; filesystem/archive
 and canonical metadata owners are real. The adopted media checkpoint additionally

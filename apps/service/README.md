@@ -121,7 +121,6 @@ hold the recording directory through native removal. A ready acquisition owns it
 originals and evidence independently; deleting its donor cannot mutate a project.
 Explicit imports derive managed donor ownership from frozen canonical members,
 so selecting a directory through an alias cannot escape that lifetime.
-The installed recording-editing path retains its separate, real artifact retirement.
 
 ## Standalone audio publication
 

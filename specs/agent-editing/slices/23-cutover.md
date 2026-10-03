@@ -65,10 +65,11 @@ movie validation no longer load their old editing owners. Adopted package
 frame/audio retry and actual native drain now use a fresh recipient; the archive
 writer uses current metadata hydration; hostile archive/budget fixtures use the
 same project authority; lost package replies recover through public discovery.
-Remaining registry lifetime ports precede orphan package-owner deletion and
-actual core/schema removal. Preserve valuable source/project guarantees rather
-than restore the deleted engine. Missing
-inherited acoustic or physical acceptance does not block these ports; matched
+The orphan recording package family, old manifest and artifact-retirement branch
+are removed. Remaining unique public service/transport guarantees and mixed core
+branches precede actual schema removal. Preserve valuable source/project
+guarantees rather than restore the deleted engine. Missing inherited acoustic
+or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.
 
 Keep these implementation checkpoints distinct. First remove obsolete shared

@@ -7248,3 +7248,34 @@ but would remove the process restart, pipe and controller-deadline guarantees.
 The plan required preserving those guarantees without prescribing this updated
 worker fixture. This choice belongs to `00826d81`; the worker is test setup,
 and its scripted bytes establish no physical recording or native media validity.
+
+**Sound, medium confidence — package reservations charge only storage they can use.**
+Opening a large archive reserves space for its copied bytes and extracted files.
+Canonical package handles retain metadata and source files; media work happens
+after adoption through the managed library. The removed inspection engine also
+reserved 128 MiB per handle for private rendered outputs it could create.
+Keeping that allowance after removing the engine would reject two reservations
+that exactly fit the unchanged 64 GiB pool. The plan required retiring the old
+engine without specifying this accounting consequence. This choice belongs to
+`ae0ee473`; two exact 32 GiB reservations fit, a third is refused, and cancellation
+releases their actual charges. Owner limits and copy/extraction bounds remain.
+
+**Sound, medium confidence — shutdown proof waits for actual owned directory work.**
+The old deletion fixture paused an editing-cache startup promise. Current donor
+deletion instead owns source borrowers and directory acquisition. Its fixture
+holds that existing directory callback, first observes that it entered, then
+requests shutdown and checks that shutdown waits without removing source bytes.
+Closing before entry may legitimately abort immediately. The plan required the
+shutdown guarantee without prescribing this causal setup. This choice belongs
+to `3829aa5f`; the old startup gate retires explicitly, with no new production
+promise or observer added.
+
+**Sound, high confidence — deletion revokes a real delivery resource directly.**
+As soon as a donor is marked for deletion, callers must lose any delivery owned
+by it while unfinished work drains. The coordinator fixture opens an actual file
+descriptor over scripted donor bytes through the existing delivery owner, then
+checks immediate token refusal and one final directory removal. Recreating the
+old recording cache pipeline would preserve an unused owner solely for setup.
+The plan required revocation without choosing this fixture resource. This choice
+belongs to `3829aa5f`; it proves generic delivery lifetime, without claiming that
+current source-frame operations issue recording-owned tokens.

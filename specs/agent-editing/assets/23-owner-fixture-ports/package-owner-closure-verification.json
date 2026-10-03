@@ -1,0 +1,484 @@
+{
+  "commit": "ae0ee47311203b28b06487388fd43dee2d44d949",
+  "baseCommit": "cc5d7a9fee578758eeadffe662eff0778556d7df",
+  "contract": "Remove orphan flat recording-package adapters, their output machinery and old manifest owner after transferred publication, archive and adopted-media guarantees",
+  "files": [
+    {
+      "path": "apps/service/README.md",
+      "sha256": "201b2bf39b760706326635612d609502d95e96e1749f902406a7e8479fe51339",
+      "gitBlob": "e45bd5dc81f4967bb79030835f6651d8c37341fd"
+    },
+    {
+      "path": "apps/service/src/package-archive.ts",
+      "sha256": "f18b5b92fb74140e816b0fe9d551e37b4aab08919e511488a75fea6a343c79cc",
+      "gitBlob": "216626ae82b58db4cfc81bb2e8938b2ca5b42965"
+    },
+    {
+      "path": "apps/service/src/package-registry.ts",
+      "sha256": "e3cdc6c9ffdf9454c053d9d447d7d6e05168d85baedda1e99e2746fc7143bf25",
+      "gitBlob": "d40a419101aec20d552f211ec620efc1444d1c4c"
+    },
+    {
+      "path": "apps/service/tests/package-registry.mjs",
+      "sha256": "51e8ac570eb297aecc34c3f99925d8a8c9bfcba4a6084278321781a2aabf4c93",
+      "gitBlob": "8ff4a8af25e653ba5a24c8df3bdaeb92b7b21d3f"
+    },
+    {
+      "path": "packages/core/package.json",
+      "sha256": "8d6f93fb160f5655e2759eba333adfac79f464db40dff4ddbd0597c87c286c13",
+      "gitBlob": "03cfd7328c65d9ec1e9104fb2b3c39183f7be149"
+    },
+    {
+      "path": "packages/core/src/library.test.ts",
+      "sha256": "30225c9a819fe3e4714029a4ed007c9ca0a5bb6c65d9a34c964188a7ef84e446",
+      "gitBlob": "1257f2b9762ffdf3fc0e56ae16baf3a0e74696e6"
+    },
+    {
+      "path": "packages/core/src/library.ts",
+      "sha256": "07704cfa726ee3700fcea9c71585f1f1994414538d780008451b134ec2997c34",
+      "gitBlob": "a860bcdb9f9ca2fbc47df4127d62812c2f4d63d2"
+    },
+    {
+      "path": "packages/test-harness/package-exports.mjs",
+      "sha256": "2b704d62ce18f867ab0fdb000117120fba8bb2c5419747115fb7505ee6322744",
+      "gitBlob": "b99673971dfef7fc78cb506d887f9ef4321d5362"
+    }
+  ],
+  "removedFiles": "removed-files.json",
+  "removedFileCount": 32,
+  "removedLineCount": 10056,
+  "staleWorktreeEmissionsRemoved": [
+    "apps/service/dist/packages.js",
+    "apps/service/dist/packages.d.ts",
+    "apps/service/dist/package-assembly.js",
+    "apps/service/dist/package-assembly.d.ts",
+    "apps/service/dist/package-guide.js",
+    "apps/service/dist/package-guide.d.ts",
+    "apps/service/dist/package-media.js",
+    "apps/service/dist/package-media.d.ts",
+    "apps/service/dist/package-source.js",
+    "apps/service/dist/package-source.d.ts",
+    "apps/service/dist/package-transcript.js",
+    "apps/service/dist/package-transcript.d.ts",
+    "apps/service/dist/package-frames.js",
+    "apps/service/dist/package-frames.d.ts",
+    "apps/service/dist/package-audio.js",
+    "apps/service/dist/package-audio.d.ts",
+    "apps/service/dist/package-preview.js",
+    "apps/service/dist/package-preview.d.ts",
+    "apps/service/dist/timeline-inspection.js",
+    "apps/service/dist/timeline-inspection.d.ts",
+    "packages/core/dist/package-manifest.js",
+    "packages/core/dist/package-manifest.d.ts"
+  ],
+  "extractionFunctionUnchanged": {
+    "sha256": "b267defda38fa39136c652298d6b68214449ed654cc216654f8f89063c4f14c2",
+    "comparison": "actual prepare/extract/verify/cleanup function byte-identical to base; reused 43-case extraction bank at 702cc47c"
+  },
+  "verification": {
+    "coreBuild": {
+      "exitCode": 0,
+      "source": "observed tool terminal; no retained build stdout file"
+    },
+    "serviceBuild": {
+      "exitCode": 0,
+      "source": "observed tool terminal; no retained build stdout file"
+    },
+    "coreTypes": {
+      "exitCode": 0,
+      "log": "core-types.log"
+    },
+    "serviceTypes": {
+      "exitCode": 0,
+      "log": "service-types.log"
+    },
+    "coreOwnerTests": {
+      "exitCode": 0,
+      "passed": 28,
+      "log": "core-owner-tests.log"
+    },
+    "registryAndMedia": {
+      "exitCode": 0,
+      "passed": 15,
+      "log": "registry-media-tests.log"
+    },
+    "writer": {
+      "exitCode": 0,
+      "passed": 1,
+      "log": "writer-test.log"
+    },
+    "nativeBorrowControl": {
+      "redExitCode": 1,
+      "red": "native-borrow-red.log",
+      "restoredExitCode": 0,
+      "restored": "native-borrow-restored.log",
+      "fault": "media-probe emitted code drops first inherited descriptor; actual stopped native fd3/fd4 inode mismatch",
+      "source": "native-borrow-controlled-test.mjs"
+    },
+    "capacityRedGreen": {
+      "redExitCode": 1,
+      "red": "capacity-red.log",
+      "greenExitCode": 0,
+      "green": "capacity-native-green.log",
+      "reason": "Named copy/extraction-only oracle rejects old phantom 128 MiB output reservation before production simplification"
+    },
+    "poolControl": {
+      "redExitCode": 1,
+      "red": "pool-red.log",
+      "restoredExitCode": 0,
+      "restored": "pool-restored.log",
+      "fault": "Registry pool guard omitted; third 32 GiB queued reservation wrongly accepted",
+      "source": "pool-controlled-test.mjs"
+    },
+    "excluded": "excluded-capacity-edit-not-applied.log: edit precondition expected four matches but there were five; test ran unmodified oracle and passed, not failure proof",
+    "controlsRestored": true
+  },
+  "decisions": [
+    "RetainedPackage keeps manifest, admitted FileAccess and copied/extracted byte usage; actual work and closure belong to existing registry/JobQueue owners. No replacement output cache or scheduler.",
+    "Registry no longer charges 128 MiB for derivative outputs absent from canonical package handles. Unchanged 64 GiB pool admits two exact 32 GiB queued reservations, rejects third, and releases charges after cancellation; four-owner bound remains.",
+    "Native-held registry submit borrows actual workspace/source descriptors through current readMediaProbe; lsof asserts native inherited inode identities before close. Actual native drain, pre-expiry namespace revocation and cleanup remain.",
+    "Wrapper-only retry/cancel/forget and more-than-32 derivative request recycling retire with flat adapters; generic context scheduling/cancellation/retry/metadata bounds remain in already banked core jobs suite. Bounded terminal receipt case remains.",
+    "Core removal limited to obsolete package-manifest module/test/export and RevisionStore.pinPackageSnapshot. Its diagnostic projection assertion retires; complete source diagnostic assertion already exists in capture-store.test.ts. No other legacy core owner removed.",
+    "Personal-release script still uses old selectors and remains explicitly pending later caller cutover. Source admission/normalization, current metadata adoption, publication, workspace and inherited native lock owners remain."
+  ],
+  "review": "Parent independently reviewed final archive/registry/lifetime/capacity/README/discovery and core package-manifest export/pin delta: clean; source frozen before commit.",
+  "closureDispositions": "closure-dispositions.md",
+  "adjacentAudit": "independent-contract-audit.md is a saved-operation read-only audit, not the package-family audit.",
+  "bank": {
+    "archive": "package-owner-closure-evidence.tar.gz",
+    "bytes": 249004,
+    "sha256": "5483050290d768831444c2829b90418dfff79f4e8aa926214be0fbcda84fa8fb",
+    "payloads": [
+      {
+        "path": "package-owner-closure-cc5d7a9f/capacity-native-green.log",
+        "bytes": 608,
+        "sha256": "dc25cad430e479270c82b3581e1c182c98bf1602b4a44afa1214d0397819170c"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/capacity-red.log",
+        "bytes": 1200,
+        "sha256": "4038580b8214025d785509c0635d43c964a99bd8cb76f1f293b41d68d9269a37"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/closure-dispositions.md",
+        "bytes": 6459,
+        "sha256": "f72d0739096462d1777d7c042734f58c0dff7d84a86640d556d2dc984e9ab90b"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/closure.diff",
+        "bytes": 442798,
+        "sha256": "e340d798980a57e4dfe9f3c3d1b54da1d57d86b8746b1142b350e2e784312400"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/core-owner-tests.log",
+        "bytes": 979,
+        "sha256": "599ea75e1c71b411e7dca061f2433411bbe4ac4bb3fc93bdd1190a3e386dd5ec"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/core-types.log",
+        "bytes": 29,
+        "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/excluded-capacity-edit-not-applied.log",
+        "bytes": 412,
+        "sha256": "58c91741a09bb48a850750fb15fef0fc84ed84fa9e158239052725346cbb3729"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/independent-audit-source-pins.json",
+        "bytes": 11803,
+        "sha256": "ebb048c4506ff75745a446ca0306d839311799cb06b828e40bba73a5f842ddea"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/independent-contract-audit.md",
+        "bytes": 20938,
+        "sha256": "c5f56544cc88e738c201c5781183e2a91f6064d170abcaad2e45f8e4d5c86c7b"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/native-borrow-controlled-test.mjs",
+        "bytes": 30120,
+        "sha256": "81e4874e8042ac8ab01c5c9a50cbc95e05f2a5805aed220a81015ec4d3f0ae0c"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/native-borrow-green.log",
+        "bytes": 484,
+        "sha256": "c035c66b50db965baee66bc6b8a49ef13b33c2b4ed4ce87439b874fab2076f49"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/native-borrow-red.log",
+        "bytes": 1358,
+        "sha256": "55ac984cca9c26c05c7e21e81bdd9ab3d6552566da3957128cbc3151b1b94aaa"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/native-borrow-restored.log",
+        "bytes": 484,
+        "sha256": "b9bc3cdfde53773dedb09f5fe0667e8a1c97e9bfec7cd44ca9747552f5b5bd5d"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/pool-controlled-test.mjs",
+        "bytes": 27972,
+        "sha256": "51e8ac570eb297aecc34c3f99925d8a8c9bfcba4a6084278321781a2aabf4c93"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/pool-green.log",
+        "bytes": 410,
+        "sha256": "4fbee6908b75a36169338f0432da31749579cc8f3a31d0aa486ca337e3cb70a9"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/pool-red.log",
+        "bytes": 1153,
+        "sha256": "f62b701c4a82e93ebf6c0b6124a044f7607f59fc100170fbb6a93132d9208676"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/pool-restored.log",
+        "bytes": 409,
+        "sha256": "7109bb887f05f92e18b2d10a1ba183a00bee60d247751cb7c4d55bc710098bc2"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/publication-contract-map.md",
+        "bytes": 31501,
+        "sha256": "63186f693cedf5a3cc5a5c041a7b86f78b3c07ed91ad239dbdf938c0f4400d6c"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/registry-media-tests.log",
+        "bytes": 2574,
+        "sha256": "2f69136d3b68057ebbc2d1b4cc1680afaf18ac53dfa50e5cbfa285cb9726e370"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/export-inspection.test.mjs",
+        "bytes": 7802,
+        "sha256": "2eb5204b8410fe28302af0ffc604cc8b4ca20ae61a63121ea84dd36fbcf8037b"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/archive-contents.mjs",
+        "bytes": 2566,
+        "sha256": "419d3f388081b9164467b9f5a95f07a9ce96f84511f973409b2bc88362b2d907"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/package-media-failures.mjs",
+        "bytes": 6831,
+        "sha256": "6466afdab6becd48a23a7a536bf384b17b5a7ef2f7e223f88a2419f1ddd94f2e"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/package-output-reuse.mjs",
+        "bytes": 10039,
+        "sha256": "99faf382bb451bd33ba43607491b32fae7d392dd0c30f8427d530c015a064784"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/retained-archive.mjs",
+        "bytes": 6249,
+        "sha256": "476debb888a9df788166d2761b842fda1540f2bbadab4d649bf38e0929581c28"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/retained-parent-check.mjs",
+        "bytes": 3376,
+        "sha256": "ba6059ccb171b9dcd9b13a0814ec599aa88ac294d9e3c65f619c306061f115ea"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/retained-parent.mjs",
+        "bytes": 1720,
+        "sha256": "a1440ab93fad7dc1d266b6f648f018745e76628df0b90887ba910ac830a59884"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/fixtures/write-archive.mjs",
+        "bytes": 2423,
+        "sha256": "d903f608f9000f802cb05a3a017f0711b49d7f26e8b8b69977be3ac9a08e556b"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-export.mjs",
+        "bytes": 5497,
+        "sha256": "455dc83dbbbfac3e51e61471afc29e1b4a6fb03e9e7f9884399116937c1d44d6"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-audio.mjs",
+        "bytes": 11243,
+        "sha256": "28c120e3930a7d7b92768ad85e620cc42880a56714d44b0941900c1a15d2a2a0"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-cursor.mjs",
+        "bytes": 7177,
+        "sha256": "dd95af2b617bed85de5eaa1b1649d4d57b693a8345fd3b1f10e2904f5f19a4d3"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-export.mjs",
+        "bytes": 6802,
+        "sha256": "026567c5d77a8bbe58c932c5ad53fbc59e6d7cc05bf07ca9cb672735d12e18ee"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-frames.mjs",
+        "bytes": 12407,
+        "sha256": "2a8291a01d589597e8f5fa3b94eb38ab23f40c73948650ab55b6bd6273717efe"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-index.mjs",
+        "bytes": 12020,
+        "sha256": "af32489bd182068b9f9d472a0db83cf3fe7e1f1186ca7cebb98a113c13a76767"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-preview.mjs",
+        "bytes": 4262,
+        "sha256": "89190edf7ceae9a9a48cc044d46c2578876cbf9d81633ef7dc2df00d49d38530"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-public-timeline.mjs",
+        "bytes": 12287,
+        "sha256": "bcebc83833ca02b04f98d24c1ef792f332731a5277e40ee4bc87a73c6ab79ff2"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-relocation.mjs",
+        "bytes": 25866,
+        "sha256": "3a6456c2543c835e5b7b2638ed9c80bd2e4219c0d9e7baf026e69908caa0588c"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/macos/tests/package-retention.mjs",
+        "bytes": 14405,
+        "sha256": "5d02830f0b1ec6b23dad17a6e62c18a16753e993a89ebeb0a37865140be3f9e6"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-assembly.ts",
+        "bytes": 20682,
+        "sha256": "c0495e5027ba9fdb70a17d2906a5b6506851d7c2280072b651f5162664bf2827"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-audio.ts",
+        "bytes": 1624,
+        "sha256": "7512ce09b9547e12d15eeed63206586dad2f816ed498ade0fc2b2cf1df1ade24"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-frames.ts",
+        "bytes": 1872,
+        "sha256": "dc37e764e1ea3cb4ec19dacc31e9b0b9772a285307f24ba635ecea19179de744"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-guide.test.ts",
+        "bytes": 2899,
+        "sha256": "810aafd9b92f2c5a5dc8009668cd1487ab86942f817424c0ef5ecae7525c6520"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-guide.ts",
+        "bytes": 5312,
+        "sha256": "1d4fe0dd2fc124078704e2f009e8fd94833c7e56204e8b2d2e75e54bc6b4756e"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-media.ts",
+        "bytes": 10543,
+        "sha256": "64ac480096f24582e0974eecced139f9688ee9e6062cd892dc55fc500125f663"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-preview.ts",
+        "bytes": 4696,
+        "sha256": "130528b6340e9c629e51c9ab3df7272fbf883c7244e412db4c10da8b9188a210"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/package-transcript.ts",
+        "bytes": 5006,
+        "sha256": "1ce74b4ba404c422dd48bda92fe4b3c3c2dc584cc85b3b877eacd9329508fdb7"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/packages.ts",
+        "bytes": 11790,
+        "sha256": "78ad82c6924035ab9ff65f489eb5edbd523927dbfd9797b2411f93bdae9982f0"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/src/timeline-inspection.ts",
+        "bytes": 3612,
+        "sha256": "20412e8a2e4ab57d9f487ca0117de3b819d6ca6bc46693e69fd4846295a40d76"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/apps/service/tests/video-export.mjs",
+        "bytes": 129778,
+        "sha256": "d750d4141024e2022ca5786c05d1d118cceed415641652d840ad63f1426dffc4"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/packages/core/src/package-manifest.test.ts",
+        "bytes": 16321,
+        "sha256": "f606a6249e36d4f1836ca5a92aadb026f5ebcc44a878ddd47789494c1f2f5360"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed/packages/core/src/package-manifest.ts",
+        "bytes": 16029,
+        "sha256": "c8449bfb3565152ae1f45ccfa737a87da97d237d700007d8dcb9c7add6aaa80c"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/removed-files.json",
+        "bytes": 15767,
+        "sha256": "9cebc8ece57f75f4735dc380fc77227f78b7cd5b9237dbc76505757277aaae2e"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/report.json",
+        "bytes": 7061,
+        "sha256": "1eccb79dfd5f7da816896f0cbd44b7ca03944a66fd20a205b32fe5d40bc73397"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/service-types.log",
+        "bytes": 29,
+        "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/apps/service/README.md",
+        "bytes": 9059,
+        "sha256": "201b2bf39b760706326635612d609502d95e96e1749f902406a7e8479fe51339"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/apps/service/src/package-archive.ts",
+        "bytes": 7822,
+        "sha256": "f18b5b92fb74140e816b0fe9d551e37b4aab08919e511488a75fea6a343c79cc"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/apps/service/src/package-registry.ts",
+        "bytes": 12319,
+        "sha256": "e3cdc6c9ffdf9454c053d9d447d7d6e05168d85baedda1e99e2746fc7143bf25"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/apps/service/tests/package-registry.mjs",
+        "bytes": 27972,
+        "sha256": "51e8ac570eb297aecc34c3f99925d8a8c9bfcba4a6084278321781a2aabf4c93"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/packages/core/package.json",
+        "bytes": 9388,
+        "sha256": "8d6f93fb160f5655e2759eba333adfac79f464db40dff4ddbd0597c87c286c13"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/packages/core/src/library.test.ts",
+        "bytes": 31524,
+        "sha256": "30225c9a819fe3e4714029a4ed007c9ca0a5bb6c65d9a34c964188a7ef84e446"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/packages/core/src/library.ts",
+        "bytes": 8793,
+        "sha256": "07704cfa726ee3700fcea9c71585f1f1994414538d780008451b134ec2997c34"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/source/packages/test-harness/package-exports.mjs",
+        "bytes": 841,
+        "sha256": "2b704d62ce18f867ab0fdb000117120fba8bb2c5419747115fb7505ee6322744"
+      },
+      {
+        "path": "package-owner-closure-cc5d7a9f/writer-test.log",
+        "bytes": 385,
+        "sha256": "4dca4f6eb40dd4b4872df05e2ba7c6d5d25fea842e299a03b85ace1f72200aad"
+      }
+    ],
+    "rootVerification": "Actual archive/registry and snapshot/export source deltas reviewed; all final and removed source pins, every payload and exact extraction body independently checked. Focused post-removal checks and reused extraction proof remain distinct.",
+    "checkpointReview": "Independent acquisition lane reviewed the current handoff, named reservation change, retired semantics and fresh-versus-reused proof scopes without a concrete issue. Root removed the stale service artifact-retirement sentence. No runtime rerun for the checkpoint."
+  },
+  "integratedCommit": "543431f61aeaec2e94bcecca4ade3fe8c25785db",
+  "mergedBuildCheck": {
+    "coreBuild": {
+      "exitCode": 0,
+      "seconds": 0.6023395
+    },
+    "serviceBuild": {
+      "exitCode": 0,
+      "seconds": 0.287356791
+    },
+    "source": "Root actual tool terminal after integrating both independent passes; no native build or runtime suite repeated.",
+    "primaryOrphanOutputsRemoved": 22
+  }
+}

@@ -1,0 +1,992 @@
+{
+  "base": "b13b5893",
+  "scope": "Canonical captured-source deletion coordinator: existing sources arm only; dead artifact retirement removed",
+  "finalSources": [
+    {
+      "path": "apps/service/src/deletion.test.ts",
+      "bytes": 16250,
+      "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+    },
+    {
+      "path": "apps/service/src/deletion.ts",
+      "bytes": 3584,
+      "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+    },
+    {
+      "path": "apps/service/src/recording-artifact-retirement.ts",
+      "deleted": true
+    }
+  ],
+  "sourceArmBodyExactIgnoringWhitespace": true,
+  "declarationsBefore": 8,
+  "declarationsAfter": 8,
+  "coverage": [
+    {
+      "old": "D130",
+      "current": "same title",
+      "preserved": "coalesced callers; immediate delivery revocation on real FD handle; fenced source facts/jobs; actual source-null worker drain; sibling job/file isolation; repeat/missing-id idempotence",
+      "newObservable": "one actual directory removal",
+      "retired": "recording edit-revision job/cache-generation setup"
+    },
+    {
+      "old": "D198",
+      "current": "delete removes donor files but never sibling donors or prepared speech models",
+      "preserved": "donor-only file deletion, sibling source bytes, prepared-model sentinel bytes",
+      "retired": "recording-owned transcript generation/word rows and their raw recording generation tree",
+      "reuse": "capture-source-lifetime ready originals/evidence/authored project history survive deletion+reopen (included current cohort)"
+    },
+    {
+      "old": "D243",
+      "current": "source directory lifetime gates removal; a failed path keeps intent for retry",
+      "preserved": "pending lifetime boundary before unlink; substituted-directory refusal; unchanged sibling bytes; durable marker/retry",
+      "retired": "obsolete RecordingArtifactRetirement.cleanupReady startup gate",
+      "namedCurrentBoundary": "CaptureSources owned recordingDirectory acquisition"
+    },
+    {
+      "old": "D275",
+      "current": "same title",
+      "preserved": "multiple durable intent resume; bad substituted owner does not strand valid deletion; sentinel bytes preserved; explicit retry and empty intent page"
+    },
+    {
+      "old": "D318",
+      "current": "same title",
+      "preserved": "real SQLite BEFORE DELETE trigger after file removal; retryable error with durable marker; close/reopen resume and idempotence"
+    },
+    {
+      "old": "D342",
+      "current": "same title",
+      "preserved": "controlled quiesce refusal does not abandon pending source-null worker drain; source bytes/marker survive; refusal remains retryable",
+      "limit": "quiesce is a controlled coordinator collaborator error, not real native refusal"
+    },
+    {
+      "old": "D380",
+      "current": "close joins a held source-directory acquisition and aborts before removing files",
+      "preserved": "actual entered lifetime work is joined; close refuses new work; aborted deletion retains marker/source bytes",
+      "retired": "obsolete startup cleanupReady wait",
+      "fixtureCorrection": "await actual callback entry before requesting close; no production getter"
+    },
+    {
+      "old": "D407",
+      "current": "same title",
+      "preserved": "close joins held removal receipt before catalog release; durable marker survives abort"
+    }
+  ],
+  "checks": [
+    {
+      "phase": "close-join-red",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/deletion.test.ts",
+          "-t",
+          "close joins a held source-directory"
+        ],
+        "pid": 9115,
+        "start": 1790992639.8310132,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16219,
+            "sha256": "9c7f65792d2d41da3390e1087d92cd1ba306801068e4d313bc8a7847eb0d5f9e"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3581,
+            "sha256": "cc245eb84a30eeab0c37743dcbafd36a254da3c661e08c641cd0aa7fd8d56c48"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 9115,
+        "end": 1790992640.4614248,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "coalescing-red",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/deletion.test.ts",
+          "-t",
+          "delete coalesces callers"
+        ],
+        "pid": 8226,
+        "start": 1790992520.538933,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16007,
+            "sha256": "c3f2dd844d57e33641999a2c3f2fa21ad13afa768d5c0f1454ff68ad63202a81"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 4791,
+            "sha256": "d4c691d6a9310144597d7ca6a9582daace33b9ae1fe2e68fd50e014b1f36bb50"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "bytes": 2008,
+            "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 8226,
+        "end": 1790992521.236524,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "coordinator-cohort",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/deletion.test.ts"
+        ],
+        "pid": 8741,
+        "start": 1790992581.822369,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16066,
+            "sha256": "7a7603915524e1d098662d031fe47733f1ef0ade36736b595c71f9992c50e2cf"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 8741,
+        "end": 1790992582.584382,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "entered-directory-close",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/deletion.test.ts",
+          "-t",
+          "close joins a held source-directory"
+        ],
+        "pid": 8857,
+        "start": 1790992612.562294,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16219,
+            "sha256": "9c7f65792d2d41da3390e1087d92cd1ba306801068e4d313bc8a7847eb0d5f9e"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 8857,
+        "end": 1790992613.1389499,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-cohort",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/deletion.test.ts",
+          "apps/service/src/capture-source-lifetime.test.ts",
+          "apps/service/src/capture-lifetime.test.ts"
+        ],
+        "pid": 9972,
+        "start": 1790992664.515999,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16250,
+            "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 9972,
+        "end": 1790992669.191214,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "format",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxfmt",
+          "--check",
+          "apps/service/src/deletion.ts",
+          "apps/service/src/deletion.test.ts"
+        ],
+        "pid": 9975,
+        "start": 1790992664.518553,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16250,
+            "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 9975,
+        "end": 1790992664.6001222,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "lint",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxlint",
+          "apps/service/src/deletion.ts",
+          "apps/service/src/deletion.test.ts"
+        ],
+        "pid": 9974,
+        "start": 1790992664.516782,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16250,
+            "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 9974,
+        "end": 1790992664.593678,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "service-build",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "apps/service/tsconfig.json"
+        ],
+        "pid": 9976,
+        "start": 1790992664.522727,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16250,
+            "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 9976,
+        "end": 1790992665.096292,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "service-types",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "apps/service/tsconfig.check.json"
+        ],
+        "pid": 9973,
+        "start": 1790992664.516651,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16250,
+            "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 3584,
+            "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "deleted": true
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 9973,
+        "end": 1790992665.373269,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "source-coalescing",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/deletion.test.ts",
+          "-t",
+          "delete coalesces callers"
+        ],
+        "pid": 8034,
+        "start": 1790992499.401696,
+        "sources": [
+          {
+            "path": "apps/service/src/deletion.test.ts",
+            "bytes": 16007,
+            "sha256": "c3f2dd844d57e33641999a2c3f2fa21ad13afa768d5c0f1454ff68ad63202a81"
+          },
+          {
+            "path": "apps/service/src/deletion.ts",
+            "bytes": 4782,
+            "sha256": "e64354f50df16331ffec3209dbe3f226f0096872bcbb71e6b22ae1e37b2d5d39"
+          },
+          {
+            "path": "apps/service/src/recording-artifact-retirement.ts",
+            "bytes": 2008,
+            "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 8034,
+        "end": 1790992500.201516,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    }
+  ],
+  "finalCases": 32,
+  "caseScopes": "8 deletion +10 capture-source-lifetime +14 capture-lifetime",
+  "cohortPid": 9972,
+  "cohortExit": 0,
+  "cohortVitestDurationSeconds": 4.13,
+  "sourceAndEmit": [
+    {
+      "path": "apps/service/src/capture-source-lifetime.test.ts",
+      "bytes": 20770,
+      "sha256": "113f6b55f59d081ef36b9f68bd4175713faa9f0d884a0141751ad498a6d8a5bf",
+      "matchesBase": true
+    },
+    {
+      "path": "apps/service/src/capture-lifetime.test.ts",
+      "bytes": 21306,
+      "sha256": "968961d31619a204b959e178c06bcdf8bc321b9ea9f01fac3cb7af5fdc9ed3d9",
+      "matchesBase": true
+    },
+    {
+      "path": "apps/service/src/capture-sources.ts",
+      "bytes": 7541,
+      "sha256": "d0bfa213b52af1b3cd8ecc256be518a6d76ed6a9f25a06749d52ad466a17d39f",
+      "matchesBase": true
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "bytes": 51665,
+      "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc",
+      "matchesBase": true
+    },
+    {
+      "path": "apps/service/src/capture.ts",
+      "bytes": 35699,
+      "sha256": "ace477b536d810d01c56d7bf8028f870ca10b54090670b982bf052be9dff50f7",
+      "matchesBase": true
+    },
+    {
+      "path": "apps/service/dist/deletion.js",
+      "bytes": 3011,
+      "sha256": "11ce83d615a491194ea5d7a3687fc7d7cc8001407b9647d5a3fc53fb6bdfde01",
+      "phase": "after actual service-build"
+    },
+    {
+      "path": "apps/service/dist/deletion.d.ts",
+      "bytes": 1089,
+      "sha256": "7c587a9799174eb1e052c72b0193d074f360476e35bbe85b5f2f4b82c060200c",
+      "phase": "after actual service-build"
+    }
+  ],
+  "failures": [
+    "Missing coalescing control PID8226 exit1: actual duplicate directory leases produce EAGAIN; original guard restored before branch removal",
+    "First coordinator cohort PID8741 exit1:7pass/1red; shutdown fixture requested abort before directory acquisition had entered. Current sources owner can abort before entry. Awaited actual fixture callback entry; corrected case8857 passed",
+    "Missing close join control PID9115 exit1: entered owned work lets close return too early; exact current owner restored before final32"
+  ],
+  "limits": [
+    "Controlled native/file removal callbacks and quiesce refusal; real directory leases/FD delivery/SQLite transactions and current source owner",
+    "Current public source-lifetime neighbors use existing controlled media fixtures; no native decoding/build/capture/model/inference",
+    "Recording artifact generations and cache startup gate explicitly retired, not recreated or claimed preserved",
+    "No installed library migration/switch or full release/full suite claim",
+    "Local Codex configured-model review environmental failure already banked; no retry. Self/root/acquisition peer review clean"
+  ],
+  "compilerOrphans": [
+    {
+      "path": "apps/service/dist/recording-artifact-retirement.js",
+      "sha256": "6c15f039f21accb314514984f56b529af229f375b68ea26ae3fc8b69f5fc1ffa",
+      "bytes": 1105,
+      "removed": true
+    },
+    {
+      "path": "apps/service/dist/recording-artifact-retirement.d.ts",
+      "sha256": "84c4d5939050c307200316ac74701ec41a087434f7efee605ad7e10b1cfe5707",
+      "bytes": 1315,
+      "removed": true
+    }
+  ],
+  "commit": "3829aa5fc70f615ae9c26b84c854754a54dfdc27",
+  "bank": {
+    "archive": "captured-source-deletion-evidence.tar.gz",
+    "bytes": 83883,
+    "sha256": "e784ded743d89420a214b94648e0e9f3ca58954d1f8ff598f829c8379dbcc7c1",
+    "payloads": [
+      {
+        "path": "before/apps/service/src/deletion.test.ts",
+        "bytes": 17452,
+        "sha256": "19bda31ae602f21b5341b377cd0e0300130fdf28980f0a2a261f9e7d6aba2068"
+      },
+      {
+        "path": "before/apps/service/src/deletion.ts",
+        "bytes": 4782,
+        "sha256": "e64354f50df16331ffec3209dbe3f226f0096872bcbb71e6b22ae1e37b2d5d39"
+      },
+      {
+        "path": "before/apps/service/src/recording-artifact-retirement.ts",
+        "bytes": 2008,
+        "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+      },
+      {
+        "path": "before.json",
+        "bytes": 488,
+        "sha256": "9fa8517bacaf8ca92d95053e02ba0467288da09e0aa119eb3c60f48c73a1b6e1"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 2195,
+        "sha256": "7257fc1918aabd71caa584d178efc7b6b4934fc181be907b0ab2cfdc254e699b"
+      },
+      {
+        "path": "close-join-red/process.json",
+        "bytes": 708,
+        "sha256": "090149fe58ac07a094d254fef4b6285d2a4e411050ebbc6bdedf26b074aa829b"
+      },
+      {
+        "path": "close-join-red/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16219,
+        "sha256": "9c7f65792d2d41da3390e1087d92cd1ba306801068e4d313bc8a7847eb0d5f9e"
+      },
+      {
+        "path": "close-join-red/sources/apps/service/src/deletion.ts",
+        "bytes": 3581,
+        "sha256": "cc245eb84a30eeab0c37743dcbafd36a254da3c661e08c641cd0aa7fd8d56c48"
+      },
+      {
+        "path": "close-join-red/stderr",
+        "bytes": 852,
+        "sha256": "1edc17da76242d4fdcc85e08143b6e65249a3badb9f08f6a730a4fadc5394a0f"
+      },
+      {
+        "path": "close-join-red/stdout",
+        "bytes": 373,
+        "sha256": "07d779f0d0aadb0b6bc0d90c543ac9444b2120ca237bddf953477067ad5098ec"
+      },
+      {
+        "path": "close-join-red/terminal.json",
+        "bytes": 105,
+        "sha256": "0c6aec6b306364e0155bfc1a19c3f78a055b325b9ccbaf2a4a297449274cd2a7"
+      },
+      {
+        "path": "coalescing-red/process.json",
+        "bytes": 778,
+        "sha256": "d10690b3e0e0c5ffddcd06d43655ba03ce4d38c9ec3837d105c86fb595fc3bba"
+      },
+      {
+        "path": "coalescing-red/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16007,
+        "sha256": "c3f2dd844d57e33641999a2c3f2fa21ad13afa768d5c0f1454ff68ad63202a81"
+      },
+      {
+        "path": "coalescing-red/sources/apps/service/src/deletion.ts",
+        "bytes": 4791,
+        "sha256": "d4c691d6a9310144597d7ca6a9582daace33b9ae1fe2e68fd50e014b1f36bb50"
+      },
+      {
+        "path": "coalescing-red/sources/apps/service/src/recording-artifact-retirement.ts",
+        "bytes": 2008,
+        "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+      },
+      {
+        "path": "coalescing-red/stderr",
+        "bytes": 1483,
+        "sha256": "c1ade4fdb4206eda1aac7592d6b5a0ba12540ecd14912906d580173372cdbe7e"
+      },
+      {
+        "path": "coalescing-red/stdout",
+        "bytes": 380,
+        "sha256": "21a6af3213e503a1dd49f724472dd2d804c52dde8d4a79678b66ac38b880f943"
+      },
+      {
+        "path": "coalescing-red/terminal.json",
+        "bytes": 104,
+        "sha256": "97b2ee82ee5b2af99daea352564089d03f7de9897e49f8d12adb61fedeac696a"
+      },
+      {
+        "path": "compiler-orphans/apps/service/dist/recording-artifact-retirement.d.ts",
+        "bytes": 1315,
+        "sha256": "84c4d5939050c307200316ac74701ec41a087434f7efee605ad7e10b1cfe5707"
+      },
+      {
+        "path": "compiler-orphans/apps/service/dist/recording-artifact-retirement.js",
+        "bytes": 1105,
+        "sha256": "6c15f039f21accb314514984f56b529af229f375b68ea26ae3fc8b69f5fc1ffa"
+      },
+      {
+        "path": "compiler-orphans.json",
+        "bytes": 397,
+        "sha256": "c927e4da7d241ebdc989d1758da8a651dbb574c35ef674bb146d43358a61a025"
+      },
+      {
+        "path": "coordinator-cohort/process.json",
+        "bytes": 654,
+        "sha256": "4013adf386d7a5f683b357368807328d38cf5e7ca132abf6ea0a4fba7693bc39"
+      },
+      {
+        "path": "coordinator-cohort/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16066,
+        "sha256": "7a7603915524e1d098662d031fe47733f1ef0ade36736b595c71f9992c50e2cf"
+      },
+      {
+        "path": "coordinator-cohort/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "coordinator-cohort/stderr",
+        "bytes": 852,
+        "sha256": "d09f84e681ed2cdf61c87b5edf49b68ba4c38c62a805fb67acf984b34219159d"
+      },
+      {
+        "path": "coordinator-cohort/stdout",
+        "bytes": 350,
+        "sha256": "2964df85ab18b30b6499b149bab1bab4b7d44ceaa70fae08fdbbf6321938243f"
+      },
+      {
+        "path": "coordinator-cohort/terminal.json",
+        "bytes": 104,
+        "sha256": "bbf57c21275e5198885f8c9b48a676a7a626be6e2e4a05a4552fcefe323bb060"
+      },
+      {
+        "path": "coverage.json",
+        "bytes": 2584,
+        "sha256": "b25eafbdda38ed1422346bcdea03a6ea6b34049859c9c3e68e2a3e288417de32"
+      },
+      {
+        "path": "entered-directory-close/process.json",
+        "bytes": 707,
+        "sha256": "938dbda5aca01c228a55308b978b99eb3abb162d9d59699b6ee2f60552aa5190"
+      },
+      {
+        "path": "entered-directory-close/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16219,
+        "sha256": "9c7f65792d2d41da3390e1087d92cd1ba306801068e4d313bc8a7847eb0d5f9e"
+      },
+      {
+        "path": "entered-directory-close/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "entered-directory-close/stderr",
+        "bytes": 168,
+        "sha256": "a169ef5000e84111df200a74409d01197613930c3036975232c0cb34f5cbf3d7"
+      },
+      {
+        "path": "entered-directory-close/stdout",
+        "bytes": 204,
+        "sha256": "94c9d07cb14b4d09e38aaedf756e2f9443ff5ab54605228091b15906752a3b3e"
+      },
+      {
+        "path": "entered-directory-close/terminal.json",
+        "bytes": 105,
+        "sha256": "a8eb69c909e80e8d10d5cc24aa3bbfe45824497822e3077d83913429c6a20040"
+      },
+      {
+        "path": "final/apps/service/dist/deletion.d.ts",
+        "bytes": 1089,
+        "sha256": "7c587a9799174eb1e052c72b0193d074f360476e35bbe85b5f2f4b82c060200c"
+      },
+      {
+        "path": "final/apps/service/dist/deletion.js",
+        "bytes": 3011,
+        "sha256": "11ce83d615a491194ea5d7a3687fc7d7cc8001407b9647d5a3fc53fb6bdfde01"
+      },
+      {
+        "path": "final/apps/service/src/deletion.test.ts",
+        "bytes": 16250,
+        "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+      },
+      {
+        "path": "final/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "final-cohort/process.json",
+        "bytes": 759,
+        "sha256": "0bcccc8cce95b17ab7a5c86d93dcf0f5217e0821fc4394a6035f1a2b4aeb3bdc"
+      },
+      {
+        "path": "final-cohort/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16250,
+        "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+      },
+      {
+        "path": "final-cohort/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "final-cohort/stderr",
+        "bytes": 504,
+        "sha256": "c095bf9f3d5a953a50b1746ea8093d5ae99935daf3375e9a1a84c85295ca9d5f"
+      },
+      {
+        "path": "final-cohort/stdout",
+        "bytes": 439,
+        "sha256": "d02b4abb4a0118bd628078b0a6e890eb73646aa4e4d0a5d0bd87ae5c68400b13"
+      },
+      {
+        "path": "final-cohort/terminal.json",
+        "bytes": 104,
+        "sha256": "b3d75d2ff77f637605bc43b3bab0ff41a61c34a8abcab6e82a0c9f9332fa1357"
+      },
+      {
+        "path": "finalize.py",
+        "bytes": 11184,
+        "sha256": "9577d5179370e9337c8dced706b6edbbd27f3cca7caf98c30772bb9cb45a3ded"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 693,
+        "sha256": "a1661f65802e864f9f3b3e74581b95b09a8edf24c5cc4ffdf28d9192efa033a7"
+      },
+      {
+        "path": "format/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16250,
+        "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+      },
+      {
+        "path": "format/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 111,
+        "sha256": "d2ade39f31a30fe9415dad6b9b4662c3f1ebf9d78832bfceacf44aa682258661"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 105,
+        "sha256": "f0f6fe4191f4bd2fddcf1c4448b09a1b7333a5a8d91311f58dbbdc71c0755cc4"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 679,
+        "sha256": "d2d0ff26d4b4a981d1e95775538572cd7c8eba6e96b17943baf922a7aa1960f8"
+      },
+      {
+        "path": "lint/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16250,
+        "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+      },
+      {
+        "path": "lint/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 104,
+        "sha256": "9e1821e1931249609a7bdddf966387a3e2b04ba1863159024041897c06c1ff18"
+      },
+      {
+        "path": "pre-close-control.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "pre-coalescing-control.ts",
+        "bytes": 4782,
+        "sha256": "e64354f50df16331ffec3209dbe3f226f0096872bcbb71e6b22ae1e37b2d5d39"
+      },
+      {
+        "path": "report.json",
+        "bytes": 17592,
+        "sha256": "b422a9426aee6e67be566e26492a25e5463c6e37bbde7c4c739cbce195a7fdc5"
+      },
+      {
+        "path": "review.md",
+        "bytes": 1429,
+        "sha256": "22f211a59dd4720be210e981802f9ac5efc78fbca4c49e9d0ac5e942999c2ea8"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1436,
+        "sha256": "aa82ce58d74ae176682eaf99483a478f87dfff860efcd39614b521efe18da6c7"
+      },
+      {
+        "path": "service-build/process.json",
+        "bytes": 643,
+        "sha256": "0f5b6f98672a489d28c0cdc87e713183dff785cb90b4bed794801202d7772584"
+      },
+      {
+        "path": "service-build/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16250,
+        "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+      },
+      {
+        "path": "service-build/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "service-build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-build/terminal.json",
+        "bytes": 104,
+        "sha256": "7c2bd98442ef83146ed7cc70ffe4d7468c4ca82dea34a09e0c5f31e36b5c52dc"
+      },
+      {
+        "path": "service-types/process.json",
+        "bytes": 649,
+        "sha256": "c142cc77f5046a4be08d98bfcafef3fbd5287c3038d0b25dff44ad556aa7ab34"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16250,
+        "sha256": "a4adb9064f939131ddb39b7318b5d0993840830486433feccde5777dea5642fb"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/deletion.ts",
+        "bytes": 3584,
+        "sha256": "7a48c196d6a5aa665f904b6c9bc81184d0ef4b086875c964b99303dc8c2e120d"
+      },
+      {
+        "path": "service-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/terminal.json",
+        "bytes": 104,
+        "sha256": "56420e2dcdee690f76f9149856ba2f2a977738b66cdc1167f517b6c523e7339f"
+      },
+      {
+        "path": "source-coalescing/process.json",
+        "bytes": 778,
+        "sha256": "ea478e72955c0f5bf9d90df8a6474558e9b4015421b127a4746d392957ae5022"
+      },
+      {
+        "path": "source-coalescing/sources/apps/service/src/deletion.test.ts",
+        "bytes": 16007,
+        "sha256": "c3f2dd844d57e33641999a2c3f2fa21ad13afa768d5c0f1454ff68ad63202a81"
+      },
+      {
+        "path": "source-coalescing/sources/apps/service/src/deletion.ts",
+        "bytes": 4782,
+        "sha256": "e64354f50df16331ffec3209dbe3f226f0096872bcbb71e6b22ae1e37b2d5d39"
+      },
+      {
+        "path": "source-coalescing/sources/apps/service/src/recording-artifact-retirement.ts",
+        "bytes": 2008,
+        "sha256": "018ce659dce1deaa37f92ddf42b66c913a8b09976873c738755e830a473eb3d2"
+      },
+      {
+        "path": "source-coalescing/stderr",
+        "bytes": 168,
+        "sha256": "a5d05f43699820084a4615a536fc82956a43726ab3bf6d7aeafbc9f2507703ca"
+      },
+      {
+        "path": "source-coalescing/stdout",
+        "bytes": 194,
+        "sha256": "48295ff7733ccc8ab8da37f1d2e64e6d0318be0ea91002e84fe29779a7b247cd"
+      },
+      {
+        "path": "source-coalescing/terminal.json",
+        "bytes": 104,
+        "sha256": "1d3684de6e0d643ce458e6d8056a641300186e06c0f37c5f31c3402fe13c0815"
+      },
+      {
+        "path": "source.diff",
+        "bytes": 17399,
+        "sha256": "d7ef2d96cbdcab43e14cf94e52f53420830dc43c842e6d291a33dcbf7468cecf"
+      },
+      {
+        "path": "unchanged-owners/apps/service/src/capture-lifetime.test.ts",
+        "bytes": 21306,
+        "sha256": "968961d31619a204b959e178c06bcdf8bc321b9ea9f01fac3cb7af5fdc9ed3d9"
+      },
+      {
+        "path": "unchanged-owners/apps/service/src/capture-source-lifetime.test.ts",
+        "bytes": 20770,
+        "sha256": "113f6b55f59d081ef36b9f68bd4175713faa9f0d884a0141751ad498a6d8a5bf"
+      },
+      {
+        "path": "unchanged-owners/apps/service/src/capture-sources.ts",
+        "bytes": 7541,
+        "sha256": "d0bfa213b52af1b3cd8ecc256be518a6d76ed6a9f25a06749d52ad466a17d39f"
+      },
+      {
+        "path": "unchanged-owners/apps/service/src/capture.ts",
+        "bytes": 35699,
+        "sha256": "ace477b536d810d01c56d7bf8028f870ca10b54090670b982bf052be9dff50f7"
+      },
+      {
+        "path": "unchanged-owners/apps/service/src/project-service.ts",
+        "bytes": 51665,
+        "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc"
+      }
+    ],
+    "rootVerification": "Actual full code delta and all eight dispositions reviewed by root and acquisition peer; all archive members/final committed source pins independently checked. Merged fresh deletion emissions match bank. Existing final 32-case proof reused.",
+    "checkpointReview": "Independent acquisition lane reviewed the current handoff, named reservation change, retired semantics and fresh-versus-reused proof scopes without a concrete issue. Root removed the stale service artifact-retirement sentence. No runtime rerun for the checkpoint."
+  },
+  "integratedCommit": "543431f61aeaec2e94bcecca4ade3fe8c25785db",
+  "mergedBuildCheck": {
+    "coreBuild": {
+      "exitCode": 0,
+      "seconds": 0.6023395
+    },
+    "serviceBuild": {
+      "exitCode": 0,
+      "seconds": 0.287356791
+    },
+    "source": "Root actual tool terminal after integrating both independent passes; no native build or runtime suite repeated.",
+    "primaryOrphanOutputsRemoved": 22
+  }
+}

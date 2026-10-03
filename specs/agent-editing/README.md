@@ -21,57 +21,45 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: preserve legacy fixture guarantees, then remove orphan package owners.**
-The [canonical service](assets/23-canonical-service/README.md) and
-[shared-contract/publication passes](assets/23-composition-contract/README.md) are
-merged. Recordings own source lifetime; projects own composition, revisions,
-preview and export. Native actions and shared selectors now follow that boundary.
-The publication owner accepts projects only, and export continuations carry only
-the project filter. Revision pins, explicit replay/recovery, staging and typed
-source/project deletion safeguards survive. The numeric presentation plan also
-has its own existing owner, independent of the obsolete recording interpreter.
+**Next pickup: finish public service fixtures, then purge old core branches/schema.**
+The [canonical service](assets/23-canonical-service/README.md),
+[shared contracts](assets/23-composition-contract/README.md) and
+[fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
+Recordings own source lifetime; projects own edits, revisions, preview and export.
+The old recording package family and artifact-retirement branch are removed.
+Generic archive/registry, publication, resource pins and source-deletion
+guarantees remain with their actual owners. Adopted media uses a fresh recipient;
+capture creates facts without authoring a project.
 
-The [fixture preservation checkpoint](assets/23-owner-fixture-ports/README.md)
-ports registry, publication/capture lifetimes, preview pin combinations and
-source-only core lifecycle fixtures to actual project/source owners. Package
-workspace cleanup, process-death recovery and retained-generation references are
-also transferred, including surviving archive writers, substituted inputs and
-mutation during source copying. Abandonment resource lifetimes and normalized
-acquisition-member receipt refusal and actual bundled startup are also transferred.
-Adopted package frame/audio retry and actual worker drain now use a fresh
-recipient library. The generic archive writer and hostile extraction/budget
-fixtures use current project metadata. Lost package replies recover through
-public discovery. Preserve the remaining registry lifetime guarantees, then remove
-orphan package owners in the managed `service-composition` worktree on
-`codex/package-owner-purge`. In parallel, remove
-mixed core dependencies and port generic fixtures from `RevisionStore` to their
-actual source/project owners; generic cache, source evidence and queue fixtures
-already use capture facts, including delivery and storage. The default capture
-fixture preserves lifecycle, recovery and admission without automatic projects.
-Next, preserve unique deletion guarantees through the actual captured-source
-owner and remove the obsolete artifact-retirement branch. Transfer the remaining
-public service/transport guarantees together before removing their old fixtures.
-Queue edit-revision cases use actual projects.
-Source normalization types belong to source admission, and common movie receipt
-validation has a separate owner. Editing/history belongs to `ProjectStore`.
-The matched map governs deletion of the
-obsolete recording package/span consumers. Keep generic archive/registry,
-workspace, native publication and source-lifetime contracts. The broader old
-fixtures remain pending; do not restore an old production engine.
+Use the [matched dependency audit](assets/23-owner-fixture-ports/service-dependency-audit.json)
+to transfer the remaining unique public service/transport guarantees as one
+coherent pass: framing and timeout after commit, source discovery and job
+continuity, package-root isolation and selected-source transcript idempotence.
+Existing public project replay/history/concurrency proof is reused; do not
+recreate recording edits or duplicate that matrix. Remove the old service
+fixtures and their dedicated helpers after those guarantees survive.
 
-Then remove mixed old core branches and `RevisionStore`, including the actual
-recording revision field in its type, queries and schema. Do not hide it in a
-response adapter. The joint schema purge bumps the fresh catalog format and
-refuses prior formats without migration; preserve refusal and unchanged old
-catalog bytes. [Cutover](slices/23-cutover.md) owns this sequence and its matched
-[preservation matrix](verification.md#preservation-matrix). Missing inherited
-speech or physical acceptance does not block these isolated implementation ports.
+Then remove recording specializations from the existing transcript, scene and
+index owners, preserving generic readers, portable generations, shared raster/
+pointer algorithms, exact time and render-workspace lifetimes. Remove orphan
+recording media/span classes and `RevisionStore` through the current dependency
+map. Source normalization and common movie validation already have independent
+owners. The personal-release script's old selectors also need caller cutover.
+
+The final joint purge removes the actual recording revision field from its type,
+queries and schema, bumps the fresh catalog format and refuses prior formats
+without migration. Preserve refusal and unchanged old catalog bytes; don't hide
+the field in a response adapter or erase frozen source-receipt provenance.
+[Cutover](slices/23-cutover.md) and its matched
+[preservation matrix](verification.md#preservation-matrix) govern removal.
+Missing inherited speech or physical acceptance does not block these isolated
+implementation ports. The installed switch and final release gates remain separate.
 
 | Owner | Banked scope | Remaining release contract |
 | --- | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical lifecycle, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
-| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired state/recovery, canonical service, shared contracts, native menu cells, project publication and signed isolated candidate | Legacy fixtures/owners/schema purge, continuous playback and installed switching |
+| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired state/recovery, canonical service, shared contracts, native menu cells, project publication, package/source owner closure and signed isolated candidate | Remaining core/service fixtures and schema purge, continuous playback and installed switching |
 | [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
 | [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |
 

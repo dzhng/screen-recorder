@@ -1,0 +1,40 @@
+{
+  "kind": "read-only-contract-and-production-dependency-audit",
+  "baselineCommit": "ea62d9bd91c28da1e950d7ef770e85fc2f4273f6",
+  "verificationRun": false,
+  "scope": [
+    "Seven old service declarations, four old round-trip declarations and dedicated fixtures matched against actual current public guarantees.",
+    "Static canonical production reachability and actual constructed owner branches distinguish generic contracts from orphan recording-edit specializations.",
+    "Source pins are historical; the implementation lane must confirm each consumer at removal time. No deletion, runtime, quality or release claim follows from this map."
+  ],
+  "bank": {
+    "archive": "service-dependency-audit-evidence.tar.gz",
+    "bytes": 20821,
+    "sha256": "8a34708229909adb77f7d3cc397258fb9817f2815cad1daec15b02780c0bb5ce",
+    "payloads": [
+      {
+        "path": "contract-audit.md",
+        "bytes": 20938,
+        "sha256": "c5f56544cc88e738c201c5781183e2a91f6064d170abcaad2e45f8e4d5c86c7b"
+      },
+      {
+        "path": "source-pins.json",
+        "bytes": 11803,
+        "sha256": "ebb048c4506ff75745a446ca0306d839311799cb06b828e40bba73a5f842ddea"
+      },
+      {
+        "path": "core-production-seam.md",
+        "bytes": 19410,
+        "sha256": "c7731745f783732ca572296d495ebfbac3d2df7d208a15090f4aa75800fa2ab1"
+      },
+      {
+        "path": "core-production-pins.json",
+        "bytes": 16119,
+        "sha256": "618e91e8cd58f35d870f364cd2e36ea100208c13e6ace18c0b8ee773483df25c"
+      }
+    ],
+    "rootVerification": "Four frozen audit payloads and 72 historical source pins independently checked. Root read core seam and reviewed the complete reported service residual inventory; implementing lane owns final correspondence checks."
+  },
+  "nextAtBaseline": "Actual captured-source deletion coordinator, grouped residual service/transport guarantees, then old recording branches and final core/schema purge.",
+  "checkpointReview": "Independent acquisition lane found current pickup, retirements and proof limits coherent; historical next field renamed nextAtBaseline to avoid implying completed deletion is pending."
+}
