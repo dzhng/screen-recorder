@@ -2,8 +2,19 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { randomUUID, createHash } from "node:crypto";
 import { join } from "node:path";
-import { mkdir, readFile, readdir, rename, rm, writeFile, stat, chmod } from "node:fs/promises";
-import { fixture } from "./fixtures/project-export.mjs";
+import {
+  mkdir,
+  readFile,
+  readdir,
+  rename,
+  rm,
+  writeFile,
+  stat,
+  chmod,
+  realpath,
+} from "node:fs/promises";
+import { ResourceReferences } from "@screenrec/core/references";
+import { fixture, gate } from "./fixtures/project-export.mjs";
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 test("project deletion needs no removed, moved or replaced export destination", async (t) => {
@@ -528,3 +539,163 @@ test(
     assert.deepEqual(await readdir(f.output), []);
   },
 );
+
+test("late package commit releases resource pins while failed abandonment keeps admission capacity", async (t) => {
+  const entered = gate(),
+    release = gate();
+  t.after(() => release.resolve());
+  let failRetirement = true;
+  const f = await fixture(t, {
+    wrap:
+      (run) =>
+      async (operation, ...args) => {
+        if (operation === "publication.retire" && failRetirement) {
+          failRetirement = false;
+          throw new Error("generated retirement interruption");
+        }
+        const result = await run(operation, ...args);
+        if (operation === "publication.commit") {
+          entered.resolve();
+          await release.promise;
+        }
+        return result;
+      },
+  });
+  const request = { ...f.request(), kind: "processed-package", leaf: "late-retire.zip" };
+  const references = new ResourceReferences(f.catalog);
+  const pins = () =>
+    references
+      .dependencies({ kind: "export", id: request.exportId })
+      .map(({ kind, id }) => [kind, id]);
+  const admitted = () =>
+    f.catalog.catalog
+      .prepare(
+        "SELECT COUNT(*) AS n FROM export_intents WHERE receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL",
+      )
+      .get().n;
+  await f.exports.create(request);
+  await entered.promise;
+  assert.deepEqual(pins(), [["asset", f.asset.id]]);
+  const failed = assert.rejects(
+    f.exports.abandon(request.exportId),
+    /generated retirement interruption/,
+  );
+  release.resolve();
+  await failed;
+  const status = f.exports.status(request.exportId);
+  assert.equal(status.state, "committed");
+  assert.equal(status.abandoning, true);
+  assert.deepEqual(pins(), []);
+  assert.equal(
+    f.catalog.catalog
+      .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+      .get(request.exportId).assembly,
+    null,
+  );
+  assert.equal(admitted(), 1);
+  const output = await readFile(join(f.output, request.leaf));
+  assert.equal(sha(output), status.receipt.sha256);
+  await f.exports.abandon(request.exportId);
+  assert.equal(admitted(), 0);
+  assert.deepEqual(await readdir(f.output), [request.leaf]);
+  assert.deepEqual(await readFile(join(f.output, request.leaf)), output);
+  assert.equal(f.projects.get(f.projectId).projectId, f.projectId);
+  assert.equal(await readFile(f.assets.path(f.asset.id), "utf8"), "source identity");
+});
+
+test("unsafe package staging keeps abandonment fence resource pins and capacity until verified retirement", async (t) => {
+  const f = await fixture(t);
+  const request = { ...f.request(), kind: "processed-package", leaf: "occupied.zip" };
+  const references = new ResourceReferences(f.catalog);
+  const pins = () =>
+    references
+      .dependencies({ kind: "export", id: request.exportId })
+      .map(({ kind, id }) => [kind, id]);
+  const admitted = () =>
+    f.catalog.catalog
+      .prepare(
+        "SELECT COUNT(*) AS n FROM export_intents WHERE receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL",
+      )
+      .get().n;
+  await writeFile(join(f.output, request.leaf), "foreign output");
+  await f.exports.create(request);
+  await f.jobs.idle();
+  assert.equal(f.exports.status(request.exportId).state, "failed");
+  const stage = join(f.output, ".screenrec-export-" + request.exportId),
+    saved = stage + "-saved",
+    substitute = stage + "-substitute";
+  await rename(stage, saved);
+  await mkdir(stage, { mode: 0o700 });
+  await writeFile(join(stage, "foreign"), "preserve substitute");
+  await assert.rejects(f.exports.abandon(request.exportId), { code: "PUBLICATION_CHANGED" });
+  assert.deepEqual(
+    f.exports
+      .list({ unfinishedOnly: true })
+      .exports.map((row) => [row.exportId, row.abandoning, row.cleanupPending]),
+    [[request.exportId, true, true]],
+  );
+  const unfinished = f.exports.status(request.exportId);
+  assert.equal(unfinished.abandoning, true);
+  assert.equal(unfinished.cleanupPending, true);
+  assert.equal(unfinished.output, null);
+  assert.deepEqual(unfinished.destination, {
+    directory: await realpath(f.output),
+    leaf: request.leaf,
+  });
+  assert.deepEqual(pins(), [["asset", f.asset.id]]);
+  assert.equal(admitted(), 1);
+  assert.equal(await readFile(join(stage, "foreign"), "utf8"), "preserve substitute");
+  await assert.rejects(f.exports.retry(request.exportId), { code: "EXPORT_ABANDONING" });
+  await rename(stage, substitute);
+  await rename(saved, stage);
+  await f.exports.abandon(request.exportId);
+  assert.deepEqual(pins(), []);
+  assert.equal(admitted(), 0);
+  assert.equal(await readFile(join(substitute, "foreign"), "utf8"), "preserve substitute");
+  assert.equal(await readFile(join(f.output, request.leaf), "utf8"), "foreign output");
+  assert.equal(await readFile(f.assets.path(f.asset.id), "utf8"), "source identity");
+  assert.equal(f.projects.get(f.projectId).projectId, f.projectId);
+});
+
+test("package abandonment forgets failed identity and permits clean export-id reuse without stale publication", async (t) => {
+  const f = await fixture(t);
+  const request = { ...f.request(), kind: "processed-package", leaf: "foreign.zip" };
+  const references = new ResourceReferences(f.catalog);
+  const pins = () =>
+    references
+      .dependencies({ kind: "export", id: request.exportId })
+      .map(({ kind, id }) => [kind, id]);
+  await writeFile(join(f.output, request.leaf), "foreign output");
+  await f.exports.create(request);
+  await f.jobs.idle();
+  const failed = f.exports.status(request.exportId);
+  assert.equal(failed.state, "failed");
+  const job = f.jobs.job(failed.jobId),
+    identity = { target: job.target, artifact: job.artifact, input: job.input };
+  assert.deepEqual(pins(), [["asset", f.asset.id]]);
+  await f.exports.abandon(request.exportId);
+  await f.exports.abandon(request.exportId);
+  assert.throws(() => f.exports.status(request.exportId), { code: "NOT_FOUND" });
+  assert.throws(() => f.jobs.job(failed.jobId), { code: "NOT_FOUND" });
+  assert.equal(f.jobs.status(identity).published, null);
+  assert.deepEqual(pins(), []);
+  assert.equal(f.projects.get(f.projectId).projectId, f.projectId);
+  assert.equal(await readFile(f.assets.path(f.asset.id), "utf8"), "source identity");
+  assert.equal(await readFile(join(f.output, request.leaf), "utf8"), "foreign output");
+  assert.deepEqual(await readdir(f.output), [request.leaf]);
+  const reused = await f.exports.create({ ...request, leaf: "reused.zip" });
+  assert.notEqual(reused.jobId, failed.jobId);
+  await f.jobs.idle();
+  const committed = f.exports.status(request.exportId);
+  assert.equal(committed.state, "committed", JSON.stringify(committed));
+  const output = await readFile(committed.output);
+  assert.equal(sha(output), committed.receipt.sha256);
+  await f.exports.abandon(request.exportId);
+  assert.equal(f.jobs.status(identity).published, null);
+  assert.throws(() => f.jobs.job(reused.jobId), { code: "NOT_FOUND" });
+  assert.deepEqual(pins(), []);
+  assert.deepEqual((await readdir(f.output)).sort(), [request.leaf, "reused.zip"].sort());
+  assert.deepEqual(await readFile(join(f.output, "reused.zip")), output);
+  assert.equal(await readFile(join(f.output, request.leaf), "utf8"), "foreign output");
+  assert.equal(await readFile(f.assets.path(f.asset.id), "utf8"), "source identity");
+});
