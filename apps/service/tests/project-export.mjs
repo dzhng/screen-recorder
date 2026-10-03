@@ -1,7 +1,7 @@
 import { operationSchema } from "@screenrec/protocol";
 import { outputPresets } from "@screenrec/composition";
 import assert from "node:assert/strict";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 import { readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -39,7 +39,13 @@ test("project export pins an omitted revision, replays it after edits and atomic
     if (s.state === "failed") throw new Error(JSON.stringify(s));
     return s.state === "committed" && !s.cleanupPending && s;
   });
-  const data = JSON.parse(await readFile(ready.output, "utf8"));
+  const bytes = await readFile(ready.output);
+  const cached = (
+    await f.preview.request({ projectId: f.projectId, revisionId: f.placed.revision.id })
+  ).published.preview;
+  assert.deepEqual(bytes, await readFile(cached.file));
+  assert.equal(createHash("sha256").update(bytes).digest("hex"), ready.receipt.sha256);
+  const data = JSON.parse(bytes.toString());
   assert.equal(data.manifest.revisionId, f.placed.revision.id);
   assert.equal(data.manifest.canvas.width, 160);
   assert.deepEqual(await readdir(f.output), [request.leaf]);
@@ -323,6 +329,15 @@ test("polling and export retry leave unrelated failed preview dependencies alone
   await f.exports.create(request);
   await until(() => f.exports.status(request.exportId).state === "failed");
   fail = false;
+  const failedPreview = await f.preview.request({ projectId: f.projectId });
+  const failedAttempt = f.jobs.job(failedPreview.jobId).attemptId;
+  for (let n = 0; n < 10; n++) {
+    await f.exports.create(request);
+    f.exports.status(request.exportId);
+  }
+  await f.jobs.idle();
+  assert.equal(f.jobs.job(failedPreview.jobId).attemptId, failedAttempt);
+  assert.equal(renders, 1);
   f.exports.status(request.exportId);
   await f.preview.request({ projectId: f.projectId });
   await f.exports.retry(request.exportId);
@@ -693,4 +708,27 @@ test("publication uses its known-byte budget instead of the worker's unrelated s
     await readFile(join(f.output, "budget.mp4")),
     await readFile((await f.preview.request({ projectId: f.projectId })).published.preview.file),
   );
+});
+
+test("export kind is persisted and incompatible replay cannot change video intent", async (t) => {
+  const f = await fixture(t);
+  const request = {
+    exportId: randomUUID(),
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "pinned.mp4",
+  };
+  const first = await f.exports.create(request);
+  assert.equal(first.kind, "video");
+  assert.equal((await f.exports.create(request)).jobId, first.jobId);
+  await assert.rejects(f.exports.create({ ...request, kind: "processed-package" }), {
+    code: "REQUEST_CONFLICT",
+  });
+  const row = f.catalog.catalog
+    .prepare("SELECT kind,request FROM export_intents WHERE exportId=?")
+    .get(request.exportId);
+  assert.equal(row.kind, "video");
+  assert.equal(JSON.parse(row.request)[0], "video");
+  assert.equal(f.exports.status(request.exportId).jobId, first.jobId);
 });

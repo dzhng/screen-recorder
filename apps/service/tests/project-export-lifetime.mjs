@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { randomUUID, createHash } from "node:crypto";
 import { join } from "node:path";
-import { mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rename, rm, writeFile, stat, chmod } from "node:fs/promises";
 import { fixture } from "./fixtures/project-export.mjs";
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
@@ -193,3 +193,338 @@ test("deletion drains the exporter and its validated cache descriptor before rem
   assert.deepEqual(await readdir(f.output), []);
   assert.equal(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
 });
+
+test("committed history survives external removal or replacement without silently exporting again", async (t) => {
+  const f = await fixture(t),
+    exportId = randomUUID(),
+    file = join(f.output, "external.mp4");
+  await f.exports.create({
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "external.mp4",
+  });
+  await f.jobs.idle();
+  const committed = await f.exports.status(exportId);
+  await rm(file);
+  const missing = await f.exports.retry(exportId);
+  assert.equal(missing.state, "committed");
+  assert.deepEqual(missing.receipt, committed.receipt);
+  await assert.rejects(readFile(file), { code: "ENOENT" });
+  await writeFile(file, "user replacement");
+  const replaced = await f.exports.retry(exportId);
+  assert.deepEqual(replaced.receipt, committed.receipt);
+  assert.equal(await readFile(file, "utf8"), "user replacement");
+  await f.deletion.delete(f.projectId);
+  assert.equal(await readFile(file, "utf8"), "user replacement");
+});
+
+test("one unsafe export staging entry does not prevent retiring independent intents of the same project", async (t) => {
+  const f = await fixture(t),
+    ids = [randomUUID(), randomUUID()].sort();
+  for (const [i, exportId] of ids.entries()) {
+    await writeFile(join(f.output, `saved-${i}.mp4`), "foreign");
+    await f.exports.create({
+      exportId,
+      projectId: f.projectId,
+      kind: "video",
+      directory: f.output,
+      leaf: `saved-${i}.mp4`,
+    });
+    await f.jobs.idle();
+  }
+  const stage = join(f.output, ".screenrec-export-" + ids[0]);
+  await rename(stage, stage + "-original");
+  await mkdir(stage, { mode: 0o700 });
+  await writeFile(join(stage, "sentinel"), "keep");
+  await assert.rejects(f.deletion.delete(f.projectId), (e) => e.code === "DELETE_FAILED");
+  const discovery = f.exports.list({}).exports;
+  assert.deepEqual(
+    discovery.map((row) => row.exportId),
+    [ids[0]],
+  );
+  const [discovered] = discovery;
+  const detailed = f.exports.status(ids[0]);
+  assert.deepEqual(
+    [detailed.state, detailed.abandoning, detailed.cleanupPending],
+    [discovered.state, discovered.abandoning, discovered.cleanupPending],
+  );
+  assert.equal(await readFile(join(stage, "sentinel"), "utf8"), "keep");
+  await assert.rejects(readdir(join(f.output, ".screenrec-export-" + ids[1])), {
+    code: "ENOENT",
+  });
+});
+
+test("an unreadable unrelated destination never prevents deleting owned private export data", async (t) => {
+  const f = await fixture(t),
+    exportId = randomUUID(),
+    destination = join(f.output, "unreadable.mp4");
+  await writeFile(destination, "unreadable foreign bytes", { mode: 0 });
+  const before = await stat(destination, { bigint: true });
+  await f.exports.create({
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "unreadable.mp4",
+  });
+  await f.jobs.idle();
+  assert.equal(f.exports.status(exportId).state, "failed");
+  await f.deletion.delete(f.projectId);
+  assert.deepEqual(await readdir(f.output), ["unreadable.mp4"]);
+  const after = await stat(destination, { bigint: true });
+  assert.equal(after.ino, before.ino);
+  assert.equal(after.size, before.size);
+  assert.equal(after.mode, before.mode);
+  await chmod(destination, 0o600);
+  assert.equal(await readFile(destination, "utf8"), "unreadable foreign bytes");
+  assert.deepEqual(f.projects.deletionsPage().projectIds, []);
+});
+
+test("lost retirement acknowledgement resumes real project deletion after the staging directory is gone", async (t) => {
+  let lost = true;
+  const f = await fixture(t, {
+      wrap:
+        (run) =>
+        async (op, ...args) => {
+          const result = await run(op, ...args);
+          if (op === "publication.retire" && lost) {
+            lost = false;
+            return {
+              ok: false,
+              error: {
+                code: "MEDIA_WORKER_FAILED",
+                message: "lost retirement response",
+                retryable: true,
+                details: {},
+              },
+            };
+          }
+          return result;
+        },
+    }),
+    exportId = randomUUID();
+  await writeFile(join(f.output, "retained.mp4"), "foreign");
+  await f.exports.create({
+    exportId,
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "retained.mp4",
+  });
+  await f.jobs.idle();
+  assert.equal(f.exports.status(exportId).cleanupPending, true);
+  await assert.rejects(
+    f.deletion.delete(f.projectId),
+    (e) => e.code === "DELETE_FAILED" && /lost retirement response/.test(e.message),
+  );
+  assert.deepEqual(f.projects.deletionsPage().projectIds, [f.projectId]);
+  assert.deepEqual(await readdir(f.output), ["retained.mp4"]);
+  await f.deletion.delete(f.projectId);
+  assert.deepEqual(f.projects.deletionsPage().projectIds, []);
+  assert.equal(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+});
+
+test("canceled intents keep exact-retry pins within a bounded uncommitted allowance", async (t) => {
+  const f = await fixture(t);
+  const hold = f.jobs.createContext(
+    ({ signal }) =>
+      new Promise((resolve) =>
+        signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+      ),
+  );
+  f.jobs.submitContext(hold, { artifact: "held", input: "pin-limit", lane: "heavy" });
+  const ids = [];
+  for (let n = 0; n < 32; n++) {
+    const exportId = randomUUID();
+    ids.push(exportId);
+    await f.exports.create({
+      exportId,
+      projectId: f.projectId,
+      kind: "video",
+      directory: f.output,
+      leaf: `bounded-${n}.mp4`,
+    });
+    f.exports.cancel(exportId);
+  }
+  const overflow = {
+    exportId: randomUUID(),
+    projectId: f.projectId,
+    kind: "video",
+    directory: f.output,
+    leaf: "overflow.mp4",
+  };
+  await assert.rejects(f.exports.create(overflow), { code: "LIMIT_EXCEEDED" });
+  assert.equal(
+    f.catalog.catalog
+      .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL")
+      .get().count,
+    32,
+  );
+  assert.deepEqual(await readdir(f.output), []);
+  await f.exports.abandon(ids[1]);
+  await f.exports.create(overflow);
+  f.exports.cancel(overflow.exportId);
+  await assert.rejects(f.exports.create({ ...overflow, exportId: randomUUID() }), {
+    code: "LIMIT_EXCEEDED",
+  });
+  await f.jobs.closeContext(hold);
+  await f.exports.retry(ids[0]);
+  await f.jobs.idle();
+  assert.equal(f.exports.status(ids[0]).state, "committed");
+  await f.exports.retry(overflow.exportId);
+  await f.jobs.idle();
+  assert.equal(f.exports.status(overflow.exportId).state, "committed");
+  await f.deletion.delete(f.projectId);
+  assert.deepEqual((await readdir(f.output)).sort(), ["bounded-0.mp4", "overflow.mp4"]);
+});
+
+test("managed source directories cannot be selected as allegedly external exports", async (t) => {
+  const f = await fixture(t),
+    exportId = randomUUID();
+  await assert.rejects(
+    f.exports.create({
+      exportId,
+      projectId: f.projectId,
+      kind: "video",
+      directory: join(f.home, "assets"),
+      leaf: "wrong.mp4",
+    }),
+    (e) => e.code === "INVALID_STORAGE",
+  );
+  assert.equal(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+  await f.deletion.delete(f.projectId);
+  assert.deepEqual(f.projects.deletionsPage().projectIds, []);
+  assert.deepEqual(await readdir(f.output), []);
+});
+
+test(
+  "shutdown fences and drains export destination admission before catalog closure",
+  { timeout: 10000 },
+  async (t) => {
+    let release, entered;
+    const held = new Promise((resolve) => {
+      release = resolve;
+    });
+    const atDestination = new Promise((resolve) => {
+      entered = resolve;
+    });
+    const f = await fixture(t, {
+      wrap: (native) => async (operation, params, options) => {
+        if (operation === "storage.externalDirectory") {
+          entered();
+          await held;
+        }
+        return native(operation, params, options);
+      },
+    });
+    const exportId = randomUUID();
+    const pending = f.exports.create({
+      exportId,
+      kind: "video",
+      projectId: f.projectId,
+      directory: f.output,
+      leaf: "shutdown.mp4",
+    });
+    const outcome = pending.then(
+      () => "created",
+      () => "closed",
+    );
+    await atDestination;
+    let closed = false;
+    const closing = f.exports.close().then(() => {
+      closed = true;
+    });
+    try {
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(
+        closed,
+        false,
+        "close must retain the catalog until destination admission drains",
+      );
+    } finally {
+      release();
+      await closing;
+      await outcome;
+    }
+    assert.equal(await outcome, "closed");
+    assert.equal(
+      f.catalog.catalog
+        .prepare("SELECT count(*) AS n FROM export_intents WHERE exportId=?")
+        .get(exportId).n,
+      0,
+    );
+    assert.deepEqual(await readdir(f.output), []);
+  },
+);
+
+test(
+  "abandonment drains in-flight destination admissions before confirming absence",
+  { timeout: 10000 },
+  async (t) => {
+    let release,
+      entered,
+      count = 0;
+    const held = new Promise((resolve) => {
+      release = resolve;
+    });
+    const atDestination = new Promise((resolve) => {
+      entered = resolve;
+    });
+    const f = await fixture(t, {
+      admission: false,
+      wrap: (native) => async (operation, params, options) => {
+        if (operation === "storage.externalDirectory" && ++count <= 2) {
+          if (count === 2) entered();
+          await held;
+        }
+        return native(operation, params, options);
+      },
+    });
+    const request = {
+      exportId: randomUUID(),
+      kind: "video",
+      projectId: f.projectId,
+      directory: f.output,
+      leaf: "abandoned-before-admission.mp4",
+    };
+    const pending = [f.exports.create(request), f.exports.create(request)];
+    const outcomes = Promise.allSettled(pending);
+    await atDestination;
+    assert.throws(() => f.exports.status(request.exportId), { code: "NOT_FOUND" });
+    const removing = f.exports.abandon(request.exportId);
+    let removed = false;
+    void removing.then(() => {
+      removed = true;
+    });
+    try {
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(
+        removed,
+        false,
+        "absence is not final while matching create calls remain active",
+      );
+      assert.equal(f.exports.abandon(request.exportId), removing);
+      await assert.rejects(f.exports.create(request), { code: "EXPORT_ABANDONING" });
+      const other = await f.exports.create({
+        ...request,
+        exportId: randomUUID(),
+        leaf: "other.mp4",
+      });
+      assert.equal(other.state, "queued", "an unrelated admission must remain independent");
+      await f.exports.abandon(other.exportId);
+    } finally {
+      release();
+      await removing;
+      await outcomes;
+    }
+    for (const result of await outcomes) {
+      assert.equal(result.status, "rejected");
+      assert.equal(result.reason.code, "EXPORT_ABANDONING");
+    }
+    assert.throws(() => f.exports.status(request.exportId), { code: "NOT_FOUND" });
+    assert.equal(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+    assert.deepEqual(await readdir(f.output), []);
+  },
+);
