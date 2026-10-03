@@ -21,8 +21,8 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: finish staged-output namespace ownership, then rebuild the combined
-candidate and close unmatched runtime/release contracts.** Core/schema closure
+**Next pickup: exact SDK finishing and continuous presentation, then remaining
+scale and installed/default caller contracts.** Core/schema closure
 removes recording revisions from the actual type, query and schema. The fresh
 catalog is format23 and refuses prior catalogs without migration or byte mutation.
 Projects retain their edit/history owner; capture/source facts and raw provenance
@@ -53,9 +53,10 @@ historical input and PNG digests. The
 [complete raw-source index bank](assets/23-owner-fixture-ports/current-complete-source-index-verification.json)
 passes all4,936PNG publications and25pages on the frozen source candidate.
 These source checks retain their separate runtime and performance scope.
-Independent review found that the existing NewFile owner could delete or publish
-a foreign replacement staging directory. Its descriptor-based cleanup and common
-publication correction is active; keep that pass separate from the mux proof.
+The [staged-output ownership bank](assets/23-owner-fixture-ports/staged-output-ownership-verification.json)
+closes foreign staging replacement cleanup/publication and verifies the rebuilt
+combined release worker's tiny movie contract. Its bounded cleanup and external
+writer identity limits remain explicit.
 Initial zero-display failures remain in the original default bank. Post-restart
 [source enumeration](assets/23-owner-fixture-ports/post-restart-source-availability.json)
 enabled the serial retry cohort; its temporary media and UI are cleaned up.
@@ -65,16 +66,13 @@ experiment or asking the user for another recording.
 
 Continue in this order:
 
-1. Close the staged-output owner correction with its causal replacement controls,
-   then build the combined candidate and check only affected output/publication
-   contracts. Do not repeat repaired
-   capture/UI or other passed default cohorts.
-   Reuse passed package/native cohorts. Generated movie timing and lifetime pass;
-   exact SDK finishing remains qualified separately. Then finish unmatched native/media contracts through current owners, with
-   retained or generated inputs: movie/lifetime, source restart, scene/pointer,
-   audio/preview and actual native cleanup. Preserve their numerical, byte and
-   lifetime assertions. Syntax, controlled edges and test executables do not
-   establish production-worker or installed acceptance.
+1. Finish exact SDK writer-finishing cancellation and sibling-pump failure through
+   the existing movie owner. Continuous playback uses retained encoded media
+   through the actual native presenter. Keep listening and current-render pointer
+   claims separate from player progress. Reuse passed movie, source lifetime,
+   capture/UI and default cohorts; preserve their numerical and byte assertions.
+   The combined release candidate is built, with affected tiny movie and output
+   ownership proof. Test executables alone do not establish installed acceptance.
 2. Check remaining [scale](slices/24-scale.md) dimensions and current scale
    callers after cutover. Reuse passed child cohorts and matched banks; no
    original whole-setup timing pass is implied.

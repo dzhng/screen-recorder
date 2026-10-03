@@ -61,6 +61,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Exact soundtrack support without additional PCM or changed packets | [Movie support](movie-audio-support-verification.json) |
 | Original short/long movie duration, phase, pixels and native memory gates | [Current movie scale](current-movie-scale-verification.json) |
 | Complete raw-source scene/index publication, paging and retained PNG growth | [Current complete index](current-complete-source-index-verification.json) |
+| Owned staging replacement, common publication and rebuilt release tiny movie | [Staged output ownership](staged-output-ownership-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -72,7 +73,8 @@ subsequent default recovery and current-caller banks own their actual runtime
 verdicts. The current-source-lifetime bank closes the three retained orphan
 workspace/donor/removal cases. The capture/UI retry bank closes its thirteen
 named failures and actual frame prefix. Current movie scale and complete raw-source
-index now pass in their separate banks. Staged-output namespace ownership,
+index now pass in their separate banks. The staged-output bank closes replacement
+cleanup/publication and the combined release tiny movie. Exact SDK finishing,
 continuous presentation and installed scope remain execution obligations.
 Historical lab commands in the recording spec are
 retained evidence, not runnable current entry points.
@@ -152,8 +154,10 @@ pointer history survives cuts and trims; source pauses still reset held state.
 
 The default recovery bank executes current generated movie timing, cancellation
 and process lifetime; exact SDK finishing stays separately qualified. Remaining
-obligations include remaining integrated scale dimensions, staged-output ownership and
-release scope. The explicit caller harness uses current operations through controlled
+obligations include remaining integrated scale dimensions and release scope.
+Staged-output cleanup and publication now retain directory identity; their bank
+records the one-parent scan and external writer leaf limits. The explicit caller
+harness uses current operations through controlled
 replies. Installed switching, continuous playback, physical capture
 and speech/listening acceptance remain separate release gates. No source recording
 or accepted audition is changed by these fixture ports.

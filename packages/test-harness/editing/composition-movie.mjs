@@ -13,6 +13,7 @@ import {
   copyFileSync,
   symlinkSync,
   linkSync,
+  readlinkSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
@@ -194,10 +195,15 @@ try {
   ).toString();
   writeFileSync(join(scratch, "tail-controls.log"), tailControls);
   assert(tailControls.startsWith("PASS"));
-  assert(
-    !readdirSync(join(scratch, "tail-controls")).some((name) =>
-      name.startsWith(".screenrec-output-"),
-    ),
+  const tailDirectory = join(scratch, "tail-controls");
+  const replacements = readdirSync(tailDirectory).filter((name) =>
+    name.startsWith(".screenrec-output-"),
+  );
+  assert.equal(replacements.length, 1, "Only the unrelated replacement may survive cleanup");
+  assert.equal(
+    readlinkSync(join(tailDirectory, replacements[0])),
+    join(tailDirectory, "replacement-sentinel"),
+    "Cleanup must preserve the unrelated replacement symlink",
   );
   const fractionalTail = { startUs: 200000, endUs: 300020 };
   for (const range of fractionalTailOnly

@@ -98,7 +98,9 @@ func checkMovieAudioTail(at directory: URL) async throws {
     precondition(!manager.fileExists(atPath: destination.path))
     // The real NewFile cleanup is checked after both failed attempts leave scope.
     output.discard()
-    precondition(!manager.fileExists(atPath: stage.path))
+    let replacement = try manager.destinationOfSymbolicLink(atPath: stage.path)
+    precondition(replacement == sentinel.path, "Cleanup removed or changed the replacement symlink")
+    precondition(!manager.fileExists(atPath: held.path), "Cleanup retained the owned staging entry")
     let surviving = try Data(contentsOf: sentinel.appendingPathComponent("movie.mp4"))
     precondition(surviving == original, "Cleanup removed or changed external sentinel")
     print("PASS fractional-tail header refusal, cancellation, replacement sentinel and staging cleanup")

@@ -7870,3 +7870,89 @@ caller-visible timing rule changes.
 
 Verdict: **sound**. The expectation independently expresses the existing
 contract instead of accepting the compiler's own answer. Confidence: **high**.
+
+## Staged-output directory ownership
+
+### Retire a renamed output within its retained parent
+
+If a private staging directory is renamed and unrelated files appear at its
+former name, cleanup now clears the directory it originally opened. It scans
+the retained parent once to find that same directory by filesystem identity and
+remove its empty entry. It leaves the replacement untouched. If someone moves
+the owned directory outside that parent, cleanup still clears its held contents
+but does not search the filesystem for the empty directory's new name.
+
+When: staged-output ownership pass, `9e2c3efd`.
+
+Gap: The plan required owned cleanup without specifying how to find a renamed
+staging directory or how far cleanup could search.
+
+Reach: Cleanup stays bounded to the original parent and held staging directory.
+It adds no filesystem watcher or global search policy.
+
+Verdict: **sound**. A single local scan preserves unrelated bytes and keeps
+cleanup simple. Confidence: **medium**; movement outside the parent deliberately
+has a narrower retirement guarantee.
+
+### Keep one publisher with the identity each producer actually knows
+
+A direct write knows which file it created, so publication verifies that file's
+identity. A platform writer assembles media through its own URL and provides no
+earlier file identity to NewFile. Both now publish through the same retained
+directory implementation; resuming a retained attempt opens its roots at resume.
+This removes publication through a replacement staging directory but does not
+claim protection against every concurrent replacement of an external writer's
+leaf file. Adding a new writer-registration protocol would be a separate contract.
+
+When: staged-output ownership pass, `9e2c3efd`.
+
+Gap: The plan did not specify how directly written and externally assembled
+files would share publication while retaining different identity evidence.
+
+Reach: Publication has one implementation. Existing native writer-specific
+identity checks remain useful; no unsupported stronger guarantee is advertised.
+
+Verdict: **sound**. Each path uses its available authority without creating a
+second publication protocol. Confidence: **medium**; arbitrary concurrent leaf
+replacement remains outside this correction.
+
+### Undo only a destination link created by the failed publication
+
+Publication links the completed file into the selected parent, then checks the
+exact requested locator before returning its receipt. If that final check fails,
+it removes only a link created by this invocation that still names the selected
+file. A retry that finds the same file already published succeeds, and a failed
+retry never deletes that preexisting file. Removing every destination on failure
+would destroy an earlier successful publication.
+
+When: staged-output ownership pass, `9e2c3efd`.
+
+Gap: The plan required exact receipts and retries but left late failed-receipt
+rollback unspecified.
+
+Reach: Fresh publication and retained retries share no-overwrite and same-file
+idempotence. Unrelated destination occupants are never removed.
+
+Verdict: **sound**. Rollback owns only the new link, not the destination name.
+Confidence: **high**.
+
+### Close handles on release; discard bytes only when explicitly requested
+
+A camera publication can fail after producing useful candidate bytes needed for
+recovery. Releasing its NewFile now closes the retained directory handles but
+keeps those bytes. Explicit discard cleans the owned staging directory. Automatic
+destructor cleanup would silently erase the candidate the camera owner retained.
+Directory scanning and removal use the existing shared filesystem primitive,
+now owned by the media module; recording locks and request identities remain
+with their existing storage owners.
+
+When: staged-output ownership pass, `9e2c3efd`.
+
+Gap: Retained handles needed a release rule, and moving common directory cleanup
+into the media owner needed a boundary that preserved recovery semantics.
+
+Reach: Recovery and discard remain explicit caller decisions. There is one
+directory scanner/remover rather than parallel media and storage copies.
+
+Verdict: **sound**. Handle lifetime does not imply permission to delete retained
+media. Confidence: **high**.

@@ -25,8 +25,10 @@ executes index/cache, source-history cuts and deletion cancellation; the
 executes all three orphan workspace/donor/removal cases. The
 [movie support](../assets/23-owner-fixture-ports/movie-audio-support-verification.json)
 and [current movie scale](../assets/23-owner-fixture-ports/current-movie-scale-verification.json)
-banks close exact soundtrack and original short/long movie gates. Staged-output
-namespace ownership and installed switching remain incomplete. The
+banks close exact soundtrack and original short/long movie gates. The
+[staged-output bank](../assets/23-owner-fixture-ports/staged-output-ownership-verification.json)
+closes owned replacement cleanup/publication and rebuilt release tiny movie.
+Exact SDK finishing, continuous playback and installed switching remain incomplete. The
 [capture/UI retry bank](../assets/23-owner-fixture-ports/current-capture-ui-verification.json)
 closes its thirteen failed named cases, including the physical frame prefix;
 its temporary capture media and UI are removed.

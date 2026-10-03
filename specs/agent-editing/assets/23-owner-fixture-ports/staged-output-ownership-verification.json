@@ -1,0 +1,185 @@
+{
+  "status": "Owned staged-output cleanup/publication corrections pass causal controls and combined current release tiny movie contract.",
+  "commits": [
+    "9e2c3efd80119e534f3ff4adf87f16bc2c978831",
+    "a47e2f9dd3e60d4f2d6d6b4efbe7a0550281b103"
+  ],
+  "implementationEvidence": {
+    "file": "staged-output-ownership-evidence.tar.gz",
+    "bytes": 121666,
+    "sha256": "c32314d4445e273af11126f0ff8e6cac4032fb006225afba246775a990fb71b4",
+    "hashedPayloads": 159,
+    "independentlyVerified": true,
+    "reportMember": "staged-output-lifetime-07943590/report.json"
+  },
+  "combinedEvidence": {
+    "file": "combined-output-ownership-evidence.tar.gz",
+    "bytes": 478328,
+    "sha256": "b09b998051bc1b894589bb71d80bc0456921f0000a9de28df979555a06f9b4a0",
+    "hashedPayloads": 136,
+    "independentlyVerified": true
+  },
+  "causalReds": [
+    "Prior cleanup removed a real foreign replacement sentinel and left owned renamed contents.",
+    "Prior publication returned39foreign bytes rather than20owned bytes.",
+    "Merged old tail cleanup assertion traps because the unrelated replacement symlink correctly survives.",
+    "Old aggregate JavaScript assertion also rejected that required surviving symlink."
+  ],
+  "combinedPasses": {
+    "combined-output-old-expectation": {
+      "command": [
+        "swift",
+        "run",
+        "--package-path",
+        "helpers/mac",
+        "ScreenRecorderCompositionVideoTests",
+        "--audio-tail",
+        "/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/combined-output-old-expectation-operands"
+      ],
+      "pid": 96860,
+      "exitCode": -5,
+      "seconds": 9.050833708999562,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-output-ownership-green": {
+      "command": [
+        "swift",
+        "run",
+        "--package-path",
+        "helpers/mac",
+        "ScreenRecorderCompositionVideoTests",
+        "--audio-tail",
+        "/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/combined-output-ownership-green-operands"
+      ],
+      "pid": 97454,
+      "exitCode": 0,
+      "seconds": 2.010463833998074,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-owned-cleanup": {
+      "command": [
+        "helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests",
+        "--new-file-cleanup",
+        "/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/combined-owned-cleanup-operands"
+      ],
+      "pid": 97713,
+      "exitCode": 0,
+      "seconds": 1.0066941250006494,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-owned-publication": {
+      "command": [
+        "helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests",
+        "--new-file-publish",
+        "/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/combined-owned-publication-operands"
+      ],
+      "pid": 97714,
+      "exitCode": 0,
+      "seconds": 1.0066935419999936,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-release-build": {
+      "command": [
+        "node",
+        "scripts/build-macos.mjs"
+      ],
+      "pid": 97718,
+      "exitCode": 0,
+      "seconds": 34.157964709000225,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-release-movie": {
+      "command": [
+        "env",
+        "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "SCREENREC_COMPOSITION_MOVIE_EVIDENCE=/Users/david/.cache/screen-recorder/verification/implementation-end-e9090034/combined-release-movie-operands",
+        "node",
+        "packages/test-harness/editing/composition-movie.mjs",
+        "--fractional-tail"
+      ],
+      "pid": 98297,
+      "exitCode": 1,
+      "seconds": 1.0187180419998185,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-release-movie-old-cleanup-assertion": {
+      "command": [
+        "env",
+        "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "SCREENREC_COMPOSITION_VIDEO_TESTS=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests",
+        "SCREENREC_KEEP_TEST_FILES=1",
+        "node",
+        "packages/test-harness/editing/composition-movie.mjs",
+        "--fractional-tail"
+      ],
+      "pid": 98937,
+      "exitCode": 1,
+      "seconds": 1.0177140410014545,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    },
+    "combined-release-movie-green": {
+      "command": [
+        "env",
+        "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "SCREENREC_COMPOSITION_VIDEO_TESTS=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests",
+        "SCREENREC_KEEP_TEST_FILES=1",
+        "node",
+        "packages/test-harness/editing/composition-movie.mjs",
+        "--fractional-tail"
+      ],
+      "pid": 99049,
+      "exitCode": 0,
+      "seconds": 2.0119072500019684,
+      "timedOut": false,
+      "nativeWorker": "/Users/david/.codex/artifacts/screen-recorder/current-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+    }
+  },
+  "runtimePins": [
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "bytes": 6320416,
+      "sha256": "87fdb79a6127be74b5d7b7ce17c84920e7cecfa82ec090df474800d24c543049"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "bytes": 19979280,
+      "sha256": "2259aa389304707ff8c060a4b37405cdc6c0af87312ba8cc9206444ec8dac396"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "bytes": 4078021,
+      "sha256": "197df7baa07fc2f45603f1579b36757b9a2fcb919eccb0e6c08864d1688ae959"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+      "bytes": 1148777,
+      "sha256": "49d0554078f49ddef3cef23e92549ee9f90f4d1be7716972bb934c6d842833e7"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/debug/ScreenRecorderCompositionVideoTests",
+      "bytes": 30222304,
+      "sha256": "85b3b12d4a1895a133d5743aa15d3934e31f1fcb3bb65af8d5514af949c34c36"
+    }
+  ],
+  "nativeSourcePins": 113,
+  "producerQualification": "Combined standard Swift helper includes both native owner changes. Release built by existing build-macos entry; installed app untouched. Runner records an unused479 environment value; explicit movie native selector is release2259aa38 and its explicit header helper is debug85b3b12d. No worker dispatch occurs in header-only controls.",
+  "limits": [
+    "The implementation archive binds own Media/Wire/helper, not an aggregate production worker. Historical red dylib was overwritten; no retroactive hash is invented.",
+    "Combined release tiny movie preserves4800PCM,600120ticks at6MHz,unchangedpictureNAL/sourcebytes,AACRMS0.0004929048335833047 under0.01. Larger scale proof remains bound to earlier316d worker; no long re-render for this output-owner change.",
+    "Cleanup scans only the retained parent; external writer leaf identity/concurrent swap fencing remains limited.",
+    "No exact SDK finishing/sibling pump, continuous player, listening, installed switch, capture or full-suite claim.",
+    "Initial release check was setup-only ENOENT because helper is not bundled; explicit existing helper selector then exposed and repaired old aggregate cleanup semantics."
+  ]
+}

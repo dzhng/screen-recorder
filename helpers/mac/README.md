@@ -263,7 +263,13 @@ A new output is either a caller-created writable handle (`/dev/fd/N`), filled in
 that must not exist yet. [NewFile](Sources/ScreenRecorderMedia/OutputFile.swift) assembles a path
 output in a private staging directory beside it and publishes it with one `link`, which never
 replaces a name that appeared meanwhile; nothing partial is ever visible at the path, and a path
-output can never alias a source. A worker killed mid-operation can leave that staging directory
+output can never alias a source. Held directory identity keeps publication and explicit
+discard on the staging this attempt created, even when its name is replaced.
+Discard searches only the retained parent for a renamed owned entry. Releasing
+the owner closes handles without deleting candidates retained for recovery.
+[DirectoryContents](Sources/ScreenRecorderMedia/DirectoryContents.swift) owns the
+shared descriptor-relative scan and removal used by media and storage.
+A worker killed mid-operation can leave that staging directory
 behind, so outputs belong in an attempt directory whose owner removes it.
 
 Export publication to a user's destination is a separate protocol with its own durable receipt:
