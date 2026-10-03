@@ -368,7 +368,13 @@ Composition movie assembly binds both compiler planes once. The existing H.264
 renderer feeds the existing mux, and the bounded composition PCM source feeds
 AAC directly; WAVE export consumes the same source. Window sample positions are
 rebased only at this consumption boundary. Exact movie and edit-list clocks remain
-authoritative when external tools report AAC duration rounded to native samples.
+authoritative when external tools report AAC duration rounded to native samples. A
+floored PCM quota can end less than one sample before the requested picture interval.
+[MovieAudioTail](Sources/ScreenRecorderWire/MovieAudioTail.swift) declares that
+remaining support as an empty audio edit, without generating PCM or changing encoded
+packets. It finalizes the writer-bound staging inode before publication, preserves media
+offsets, and refuses unsupported or ambiguous movie headers. Its metadata bound keeps
+finalization independent of movie payload size; cancellation or refusal discards the attempt.
 See [native assembly evidence](../../specs/agent-editing/assets/09-assembly/README.md)
 for verified behavior and remaining public integration gates.
 

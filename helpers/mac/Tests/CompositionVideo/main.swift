@@ -1,5 +1,10 @@
 import Foundation
-import ScreenRecorderWire
+@testable import ScreenRecorderWire
+
+if CommandLine.arguments[1] == "--audio-tail" {
+    try await checkMovieAudioTail(at: URL(fileURLWithPath: CommandLine.arguments[2]))
+    exit(0)
+}
 
 let requestFile = CommandLine.arguments[1]
 let operation =
