@@ -69,9 +69,11 @@ async function media(operation, params, file, budgetMs = 600_000) {
   for (;;) {
     const answer = call(operation, params, { args: ["--output", file] });
     const items = answer.items ?? [answer];
+    const rejected = items.find((item) => item.ok === false || item.error);
+    if (rejected) throw new Error(`${operation} item ${JSON.stringify(rejected)}`);
     if (items.every((item) => (item.data ?? item).state === "ready")) return answer;
     const stopped = items.find((item) =>
-      ["failed", "unavailable"].includes((item.data ?? item).state),
+      ["failed", "unavailable", "canceled"].includes((item.data ?? item).state),
     );
     if (stopped) throw new Error(`${operation} ${JSON.stringify(stopped)}`);
     if (Date.now() > deadline) throw new Error(`${operation} never became ready`);
@@ -88,7 +90,7 @@ async function ready(operation, params, label, budgetMs = 900_000, measureWorker
     const status = call(operation, params);
     if (status.state === "ready")
       return { ...status, peakResidentBytes, elapsedMs: startedAt ? Date.now() - startedAt : 0 };
-    if (["failed", "unavailable"].includes(status.state))
+    if (["failed", "unavailable", "canceled", "cleanup_failed", "closed"].includes(status.state))
       throw new Error(`${label} is ${status.state}: ${status.reason ?? "no reason given"}`);
     startedAt ??= Date.now();
     if (measureWorker) peakResidentBytes = Math.max(peakResidentBytes, workerResidentBytes());
@@ -366,14 +368,16 @@ const main = async () => {
     step("index images", { ordinals, files: `${out}/index-frame*` });
   }
 
-  const midpoint = round(
-    divide(
-      add(fromTime(videoStream.bounds.startUs), fromTime(videoStream.bounds.endUs)),
-      rational(2n),
-    ),
+  const sourceSupport = videoBinding.available[0];
+  const sourceFrameAtUs = round(
+    divide(add(fromTime(sourceSupport.startUs), fromTime(sourceSupport.endUs)), rational(2n)),
   );
-  await media("frame.batch", { ...videoSelection, atUs: [midpoint] }, join(out, "midpoint-frame"));
-  step("arbitrary source frame", { atUs: midpoint });
+  await media(
+    "frame.batch",
+    { ...videoSelection, atUs: [sourceFrameAtUs] },
+    join(out, "supported-source-frame"),
+  );
+  step("arbitrary source frame", { atUs: sourceFrameAtUs });
 
   const found = call("transcript.search", {
     ...narrationSelection,
@@ -449,7 +453,10 @@ const main = async () => {
   step("explicit project cuts", {
     projectId,
     revisionId,
-    sourceRanges: plannedProjectRanges,
+    sourceRanges: plannedProjectRanges.map(({ sourceRange, projectRange }) => ({
+      sourceRange,
+      projectRange,
+    })),
     sourceToAssetOffsetUs: narrationBinding.sourceToAssetOffsetUs,
   });
   const stale = call(
@@ -540,14 +547,13 @@ const main = async () => {
 
   const clips = [];
   for (const [index, cut] of plannedProjectRanges.entries()) {
+    const paddedStartUs = round(subtract(fromTime(cut.sourceRange.startUs), fromTime(1_500_000)));
+    const paddedEndUs = round(add(fromTime(cut.sourceRange.endUs), fromTime(1_500_000)));
     const sourceBounds = {
-      startUs: Math.max(0, round(subtract(fromTime(cut.sourceRange.startUs), fromTime(1_500_000)))),
-      endUs: Math.min(
-        round(fromTime(audioStream.bounds.endUs)),
-        round(add(fromTime(cut.sourceRange.endUs), fromTime(1_500_000))),
-      ),
+      startUs: Math.max(0, paddedStartUs),
+      endUs: Math.min(round(fromTime(audioStream.bounds.endUs)), paddedEndUs),
     };
-    await media(
+    const beforeCut = await media(
       "audio.get",
       { ...narrationSelection, range: sourceBounds },
       join(out, `before-cut-${index}.wav`),
@@ -567,7 +573,11 @@ const main = async () => {
       { projectId, revisionId, range: projectBounds },
       join(out, `after-cut-${index}.wav`),
     );
-    clips.push({ source: sourceBounds, project: projectBounds });
+    clips.push({
+      source: sourceBounds,
+      sourceUnavailable: beforeCut.published?.audio?.unavailable ?? null,
+      project: projectBounds,
+    });
   }
   step("audio clips around explicit cuts", { clips });
 
@@ -716,7 +726,9 @@ const main = async () => {
   report.out = out;
   writeFileSync(join(out, "journey.json"), JSON.stringify(report, null, 2) + "\n");
   console.log(`\nEvidence in ${out}`);
-  console.log("Listen to the audio clips to judge the cuts, then keep or undo the edits.");
+  console.log(
+    "Caller journey completed. Review journey.json for the operation and evidence record.",
+  );
 };
 
 main().catch((error) => {

@@ -78,6 +78,135 @@ test("search-only intent cannot authorize an edit or start the CLI journey", (t)
   assert.throws(() => readFileSync(trace), { code: "ENOENT" }, "the CLI must not be called");
 });
 
+test("a terminal per-frame error is refused without another media poll", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-frame-error-"));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const trace = join(directory, "calls.jsonl");
+  const editPlan = join(directory, "edit-plan.json");
+  const cli = fileURLToPath(new URL("./personal-release-cli-fixture.mjs", import.meta.url));
+  chmodSync(cli, 0o755);
+  writeFileSync(
+    editPlan,
+    JSON.stringify({
+      cuts: [{ intent: "remove", sourceRange: { startUs: 5300000, endUs: 5400000 } }],
+    }),
+  );
+  const result = spawnSync(
+    process.execPath,
+    [
+      fileURLToPath(new URL("./personal-release.mjs", import.meta.url)),
+      "--cli",
+      cli,
+      "--recording",
+      "fixture-recording",
+      "--edit-plan",
+      editPlan,
+      "--out",
+      join(directory, "evidence"),
+    ],
+    {
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        SCREENREC_CALLER_TRACE: trace,
+        SCREENREC_CALLER_FRAME_ITEM_ERROR: "1",
+      },
+    },
+  );
+
+  assert.equal(result.error, undefined, result.error?.message);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /FRAME_ITEM_ERROR/);
+  const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
+  assert.equal(calls.filter((call) => call.operation === "frame.batch").length, 1);
+});
+
+test("a canceled source job is terminal for readiness polling", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-job-canceled-"));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const trace = join(directory, "calls.jsonl");
+  const editPlan = join(directory, "edit-plan.json");
+  const cli = fileURLToPath(new URL("./personal-release-cli-fixture.mjs", import.meta.url));
+  chmodSync(cli, 0o755);
+  writeFileSync(
+    editPlan,
+    JSON.stringify({
+      cuts: [{ intent: "remove", sourceRange: { startUs: 5300000, endUs: 5400000 } }],
+    }),
+  );
+  const result = spawnSync(
+    process.execPath,
+    [
+      fileURLToPath(new URL("./personal-release.mjs", import.meta.url)),
+      "--cli",
+      cli,
+      "--recording",
+      "fixture-recording",
+      "--edit-plan",
+      editPlan,
+      "--out",
+      join(directory, "evidence"),
+    ],
+    {
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        SCREENREC_CALLER_TRACE: trace,
+        SCREENREC_CALLER_JOB_STATE: "canceled",
+      },
+    },
+  );
+
+  assert.equal(result.error, undefined, result.error?.message);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /canceled/i);
+  const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
+  assert.equal(calls.filter((call) => call.operation === "job.get").length, 1);
+});
+
+test("package cleanup failure is terminal for readiness polling", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-cleanup-failed-"));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const trace = join(directory, "calls.jsonl");
+  const editPlan = join(directory, "edit-plan.json");
+  const cli = fileURLToPath(new URL("./personal-release-cli-fixture.mjs", import.meta.url));
+  chmodSync(cli, 0o755);
+  writeFileSync(
+    editPlan,
+    JSON.stringify({
+      cuts: [{ intent: "remove", sourceRange: { startUs: 5300000, endUs: 5400000 } }],
+    }),
+  );
+  const result = spawnSync(
+    process.execPath,
+    [
+      fileURLToPath(new URL("./personal-release.mjs", import.meta.url)),
+      "--cli",
+      cli,
+      "--recording",
+      "fixture-recording",
+      "--edit-plan",
+      editPlan,
+      "--out",
+      join(directory, "evidence"),
+    ],
+    {
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        SCREENREC_CALLER_TRACE: trace,
+        SCREENREC_CALLER_PACKAGE_STATE: "cleanup_failed",
+      },
+    },
+  );
+
+  assert.equal(result.error, undefined, result.error?.message);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /cleanup_failed/i);
+  const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
+  assert.equal(calls.filter((call) => call.operation === "package.status").length, 1);
+});
+
 test("asset-clock cuts outside the acquired narration support stop before project creation", (t) => {
   const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-support-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
@@ -196,7 +325,7 @@ test("personal release keeps search evidence separate from its explicit source-r
   writeFileSync(
     editPlan,
     JSON.stringify({
-      cuts: [{ intent: "remove", sourceRange: { startUs: 7800000, endUs: 7900000 } }],
+      cuts: [{ intent: "remove", sourceRange: { startUs: 5300000, endUs: 5400000 } }],
     }),
   );
   const result = spawnSync(
@@ -226,6 +355,8 @@ test("personal release keeps search evidence separate from its explicit source-r
 
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /caller journey completed/i);
+  assert.doesNotMatch(result.stdout, /keep or undo the edits/i);
   const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
   assert.ok(calls.some((call) => call.operation === "transcript.search"));
   const previewCalls = calls.filter((call) => call.operation === "preview.get");
@@ -242,6 +373,11 @@ test("personal release keeps search evidence separate from its explicit source-r
     ].includes(call.operation),
   );
   assert.ok(selectors.length > 0);
+  const sourceFrames = calls.filter(
+    (call) => call.operation === "frame.batch" && call.params.assetId === "video-asset",
+  );
+  assert.equal(sourceFrames.length, 1);
+  assert.deepEqual(sourceFrames[0].params.atUs, [1000000]);
   assert.ok(
     selectors.every(
       ({ params }) =>
@@ -270,7 +406,7 @@ test("personal release keeps search evidence separate from its explicit source-r
   assert.equal(removals.length, 2, "one apply plus one stale-revision refusal control");
   assert.deepEqual(
     removals.map((operation) => operation.ranges),
-    [[{ startUs: 7900000, endUs: 8000000 }], [{ startUs: 7900000, endUs: 8000000 }]],
+    [[{ startUs: 5400000, endUs: 5500000 }], [{ startUs: 5400000, endUs: 5500000 }]],
   );
   const projectFrame = calls.find(
     (call) => call.operation === "frame.batch" && call.params.projectId === "fixture-project",
@@ -283,7 +419,21 @@ test("personal release keeps search evidence separate from its explicit source-r
   const postCutAudio = calls.find(
     (call) => call.operation === "audio.get" && call.params.projectId === "fixture-project",
   );
-  assert.deepEqual(postCutAudio.params.range, { startUs: 6400000, endUs: 7900000 });
+  assert.deepEqual(postCutAudio.params.range, { startUs: 3900000, endUs: 7000000 });
+  const preCutAudio = calls.find(
+    (call) => call.operation === "audio.get" && call.params.assetId === "audio-asset",
+  );
+  assert.deepEqual(
+    preCutAudio.params.range,
+    { startUs: 3800000, endUs: 6900000 },
+    "before-cut padding keeps its requested context across an unavailable interval",
+  );
+  assert.deepEqual(preCutAudio.response.data.published.audio.unavailable, [
+    { startUs: 4000000, endUs: 5000000 },
+  ]);
+  const journey = JSON.parse(readFileSync(join(output, "journey.json"), "utf8"));
+  const clipStep = journey.steps.find((step) => step.name === "audio clips around explicit cuts");
+  assert.deepEqual(clipStep.clips[0].sourceUnavailable, [{ startUs: 4000000, endUs: 5000000 }]);
   assert.ok(
     removals.every(
       (operation) =>

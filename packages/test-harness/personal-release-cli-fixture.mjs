@@ -9,6 +9,29 @@ const outputAt = process.argv.indexOf("--output");
 const params = paramsAt < 0 ? {} : JSON.parse(process.argv[paramsAt + 1]);
 const output = outputAt < 0 ? null : process.argv[outputAt + 1];
 const entry = { operation, params, output };
+const tracedCalls = () => {
+  try {
+    return readFileSync(process.env.SCREENREC_CALLER_TRACE, "utf8")
+      .trim()
+      .split("\n")
+      .map(JSON.parse);
+  } catch {
+    return [];
+  }
+};
+const unavailable = (range, support) => {
+  let atUs = range.startUs;
+  const gaps = [];
+  for (const part of support) {
+    if (part.endUs <= atUs) continue;
+    if (part.startUs >= range.endUs) break;
+    if (part.startUs > atUs)
+      gaps.push({ startUs: atUs, endUs: Math.min(part.startUs, range.endUs) });
+    atUs = Math.max(atUs, Math.min(part.endUs, range.endUs));
+  }
+  if (atUs < range.endUs) gaps.push({ startUs: atUs, endUs: range.endUs });
+  return gaps;
+};
 
 try {
   operationSchema.parse({ operation, params });
@@ -31,7 +54,10 @@ if (output) {
 const videoBinding = {
   assetId: "video-asset",
   streamId: "video-stream",
-  available: [{ startUs: 0, endUs: 8000000 }],
+  available: [
+    { startUs: 0, endUs: 2000000 },
+    { startUs: 6000000, endUs: 8000000 },
+  ],
   sourceRoles: ["video"],
   sourceToAssetOffsetUs: 0,
   supportBasis: "physical",
@@ -39,7 +65,10 @@ const videoBinding = {
 const narrationBinding = {
   assetId: "audio-asset",
   streamId: "audio-stream",
-  available: [{ startUs: 0, endUs: 7900000 }],
+  available: [
+    { startUs: 0, endUs: 4000000 },
+    { startUs: 5000000, endUs: 7900000 },
+  ],
   sourceRoles: ["narration"],
   sourceToAssetOffsetUs: -100000,
   supportBasis: "captured-audio",
@@ -91,13 +120,16 @@ switch (operation) {
       ],
     };
     break;
-  case "job.get":
+  case "job.get": {
+    const prior = tracedCalls().filter((item) => item.operation === "job.get").length;
     data = {
       jobId: params.jobId,
-      state: "ready",
+      state: prior === 0 ? (process.env.SCREENREC_CALLER_JOB_STATE ?? "ready") : "failed",
+      reason: prior === 0 ? "fixture terminal job state" : "unexpected repeat poll",
       result: { acquisitionId: "fixture-acquisition" },
     };
     break;
+  }
   case "acquisition.get":
     data = {
       id: params.acquisitionId,
@@ -118,7 +150,10 @@ switch (operation) {
               width: 640,
               height: 360,
               bounds: { startUs: 0, endUs: 8000000 },
-              available: [{ startUs: 0, endUs: 8000000 }],
+              available: [
+                { startUs: 0, endUs: 2000000 },
+                { startUs: 6000000, endUs: 8000000 },
+              ],
             }
           : {
               id: "audio-stream",
@@ -224,12 +259,60 @@ switch (operation) {
   case "edit.restore":
     data = { id: "revision-restored", ordinal: 3, document: { tracks: [], clips: [] } };
     break;
-  case "frame.batch":
   case "index.frames":
-  case "audio.get":
   case "preview.get":
     data = { state: "ready", published: null };
     break;
+  case "audio.get":
+    data = {
+      state: "ready",
+      published: {
+        generation: "audio-generation",
+        audio: {
+          range: params.range,
+          unavailable: params.assetId ? unavailable(params.range, narrationBinding.available) : [],
+        },
+      },
+    };
+    break;
+  case "frame.batch": {
+    const previousFrames = tracedCalls().filter((item) => item.operation === "frame.batch").length;
+    if (
+      (process.env.SCREENREC_CALLER_FRAME_ITEM_ERROR ||
+        (!params.projectId &&
+          params.atUs.some(
+            (atUs) =>
+              !videoBinding.available.some((range) => range.startUs <= atUs && atUs < range.endUs),
+          ))) &&
+      previousFrames === 0
+    ) {
+      data = {
+        items: [
+          {
+            atUs: params.atUs[0],
+            ok: false,
+            error: {
+              code: "FRAME_ITEM_ERROR",
+              message: "Fixture frame sample is outside supported media",
+              retryable: false,
+              details: {},
+            },
+          },
+        ],
+      };
+    } else if (process.env.SCREENREC_CALLER_FRAME_ITEM_ERROR && previousFrames > 0) {
+      data = { state: "failed", reason: "unexpected repeat poll" };
+    } else {
+      data = {
+        items: params.atUs.map((atUs) => ({
+          atUs,
+          ok: true,
+          data: { state: "ready", published: null },
+        })),
+      };
+    }
+    break;
+  }
   case "export.create":
     mkdirSync(params.directory, { recursive: true });
     writeFileSync(join(params.directory, params.leaf), "controlled package fixture");
@@ -254,9 +337,17 @@ switch (operation) {
   case "package.open":
     data = { id: "fixture-admission" };
     break;
-  case "package.status":
-    data = { id: params.admissionId, state: "ready", packageHandle: "fixture-handle" };
+  case "package.status": {
+    const prior = tracedCalls().filter((item) => item.operation === "package.status").length;
+    const state = process.env.SCREENREC_CALLER_PACKAGE_STATE;
+    data =
+      state && prior === 0
+        ? { id: params.admissionId, state, error: { message: "fixture package status" } }
+        : prior > 0
+          ? { id: params.admissionId, state: "failed", reason: "unexpected repeat poll" }
+          : { id: params.admissionId, state: "ready", packageHandle: "fixture-handle" };
     break;
+  }
   case "package.adopt":
     data = { state: "ready", projectId: "adopted-project", revisionId: "adopted-revision" };
     break;
