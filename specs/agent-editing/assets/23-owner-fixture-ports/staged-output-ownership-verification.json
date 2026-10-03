@@ -181,5 +181,10 @@
     "Cleanup scans only the retained parent; external writer leaf identity/concurrent swap fencing remains limited.",
     "No exact SDK finishing/sibling pump, continuous player, listening, installed switch, capture or full-suite claim.",
     "Initial release check was setup-only ENOENT because helper is not bundled; explicit existing helper selector then exposed and repaired old aggregate cleanup semantics."
-  ]
+  ],
+  "priorNativeCancellationQualification": {
+    "claimed": "Implementation archive report described exact CANCELED.",
+    "actual": "Its retained actual NativeWire cancel-response.json is NATIVE_DECODE_FAILED carrying Swift.CancellationError. The helper asserted ok:false, no output and no stage; it did not assert the code.",
+    "disposition": "Frozen archive unchanged. Count that control as cancellation refusal/drain/cleanup only. Exact cancellation classification is a separate active NativeWire correction, exposed by the SDK-finishing probe."
+  }
 }
