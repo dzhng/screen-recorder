@@ -11,7 +11,7 @@ import { DerivedCache } from "@screenrec/core/cache";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 function file(path, contents) {
-  mkdirSync(join(path, ".."), { recursive: true });
+  mkdirSync(join(path, ".."), { recursive: true, mode: 0o700 });
   writeFileSync(path, contents);
   return path;
 }

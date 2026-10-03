@@ -42,7 +42,7 @@ test(
         systemAudio: false,
       });
     const take = await start();
-    const directory = join(home, "recordings", take.recordingId);
+    const directory = join(home, "library", "recordings", take.recordingId);
     await waitFor(() => existsSync(join(directory, "source", "capture.journal.jsonl")), 5_000);
     const cliCall = async (operation, params) => {
       try {
@@ -112,6 +112,6 @@ test(
     } finally {
       await client.close();
     }
-    assert.equal(existsSync(join(home, "recordings", replacement.recordingId)), false);
+    assert.equal(existsSync(join(home, "library", "recordings", replacement.recordingId)), false);
   },
 );
