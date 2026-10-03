@@ -41,7 +41,7 @@ async function heldReportApp(home) {
 // The fake service can delay the app's finalizing report while sending a second native call.
 // This reaches the actual Controller await point without adding a production test hook.
 test(
-  "cancel joins a controller finalization held at its service report",
+  "cancel before publication joins finalization and releases only its own take",
   { timeout: 45_000 },
   async () => {
     const home = temporary("/tmp/scr-native-terminal-");
@@ -79,10 +79,18 @@ test(
     assert.equal(stopped.ok, true, JSON.stringify(stopped));
     assert.equal(canceled.ok, true, JSON.stringify(canceled));
     assert.equal(stopped.data.state, "finalizing");
-    assert.equal(canceled.data.state, "complete");
+    // Native acknowledges discard with its finalizing event; the service owns canceled state
+    // and donor removal. The joined native call must already have released the device.
+    assert.equal(canceled.data.state, "finalizing");
     assert.equal(canceled.data.recordingId, stopped.data.recordingId);
     assert.equal(stopped.data.recordingId, first.recordingId);
     assert.equal(stopped.data.sourceId, first.sourceId);
+    assert.equal(canceled.data.sourceId, first.sourceId);
+    const idle = await native("capture.status");
+    assert.equal(idle.ok, true, JSON.stringify(idle));
+    assert.equal(idle.data.state, "idle");
+    assert.equal(idle.data.recordingId, null);
+    assert.equal(idle.data.sourceId, null);
     const firstJournal = join(first.outputDirectory, "capture.journal.jsonl");
     const finalized = readFileSync(firstJournal);
     const replacement = await native("capture.start", second);
@@ -90,6 +98,7 @@ test(
     await delay(250);
     const running = await native("capture.status");
     assert.equal(running.data.recordingId, second.recordingId);
+    assert.equal(running.data.sourceId, second.sourceId);
     assert.equal(running.data.state, "recording");
     assert.deepEqual(
       readFileSync(firstJournal),
