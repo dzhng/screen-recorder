@@ -174,11 +174,24 @@ func movie(_ sources: [URL], name: String) async throws -> (URL, [String]) {
     let tracks = try await AVURLAsset(url: url).loadTracks(withMediaType: .audio)
     return (url, tracks.map { "track:\($0.trackID)" })
 }
+if CommandLine.arguments.contains("--source-occupancy") {
+    try await verifySourceOccupancy(in: directory)
+    exit(0)
+}
+
+if CommandLine.arguments.contains("--source-stream") {
+    try await verifySourceStream(in: directory)
+    exit(0)
+}
+
 var cases = 0
 try await verifyDescriptorLifetime(
     source: fixture(rate: 48_000, channels: 1, name: "descriptor-lifetime", seconds: 0.1),
     parent: directory)
 if CommandLine.arguments.contains("--descriptor-lifetime") { exit(0) }
+
+try await verifySourceOccupancy(in: directory)
+try await verifySourceStream(in: directory)
 
 for rate in [44_100, 48_000] {
     let clean = try fixture(rate: Double(rate), channels: 2, name: "clean-\(rate)")
