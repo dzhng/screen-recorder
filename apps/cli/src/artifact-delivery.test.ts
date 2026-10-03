@@ -120,7 +120,7 @@ test("selected-image batches preserve ordinal order, duplicates and generation w
     id: "selected",
     ok: true,
     data: {
-      projectId: "recording",
+      projectId: "project",
       revisionId: "r3",
       generation: "retained-1",
       items: [
@@ -154,7 +154,7 @@ test("selected-image batches preserve ordinal order, duplicates and generation w
   expect(result).toMatchObject({
     ok: true,
     data: {
-      projectId: "recording",
+      projectId: "project",
       revisionId: "r3",
       generation: "retained-1",
       items: [
@@ -177,7 +177,7 @@ test("metadata-only selected batches never read bytes or create an output file",
   const f = await fixture(Buffer.from("unused"));
   const output = f.selection.socketPath + ".png";
   const data = {
-    projectId: "recording",
+    projectId: "project",
     revisionId: "r3",
     generation: "pending",
     items: [{ ordinal: 0, ok: true, data: { state: "processing", published: null } }],
@@ -206,7 +206,7 @@ test("timestamp batches preserve timestamp identity on failed media reads", asyn
       id: "time",
       ok: true,
       data: {
-        projectId: "recording",
+        projectId: "project",
         revisionId: "r2",
         items: [{ atUs: 42, ok: true, data: f.result.ok ? f.result.data : null }],
       },
@@ -224,7 +224,7 @@ test("timestamp batches preserve timestamp identity on failed media reads", asyn
     id: "time",
     ok: true,
     data: {
-      projectId: "recording",
+      projectId: "project",
       revisionId: "r2",
       items: [
         {
@@ -252,7 +252,7 @@ test("selected batch metadata cannot masquerade as timestamp batch metadata", as
         id: "wrong",
         ok: true,
         data: {
-          projectId: "recording",
+          projectId: "project",
           revisionId: "r1",
           generation: "index",
           items: [{ atUs: 0, ok: true, data: { state: "processing" } }],
@@ -264,6 +264,32 @@ test("selected batch metadata cannot masquerade as timestamp batch metadata", as
     ),
   ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
   expect(f.reads()).toBe(0);
+});
+
+test.each([
+  { owner: "recording", data: { recordingId: "recording" } },
+  { owner: "package", data: { packageHandle: "package" } },
+])("$owner-owned timestamp batches are rejected before media reads", async ({ owner, data }) => {
+  const f = await fixture(Buffer.from("unused"));
+  await expect(
+    consumeBatch(
+      f.selection,
+      {
+        id: `legacy-${owner}`,
+        ok: true,
+        data: {
+          ...data,
+          revisionId: "r1",
+          items: [{ atUs: 0, ok: true, data: f.result.ok ? f.result.data : null }],
+        },
+      },
+      "atUs",
+      async () => ({}),
+      () => ({ code: "UNEXPECTED", message: "unexpected", retryable: false, details: {} }),
+    ),
+  ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+  expect(f.reads()).toBe(0);
+  expect(f.closes()).toBe(0);
 });
 
 test.each(["video/mp4", "audio/wav"] as const)(

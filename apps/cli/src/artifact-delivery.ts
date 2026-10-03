@@ -266,26 +266,12 @@ export async function artifactFile(
 }
 
 const targetedBatch = <T extends z.ZodRawShape>(fields: T) =>
-  z.union([
-    z.object({
-      ...fields,
-      projectId: z.string(),
-      recordingId: z.never().optional(),
-      packageHandle: z.never().optional(),
-    }),
-    z.object({
-      ...fields,
-      recordingId: z.string(),
-      packageHandle: z.never().optional(),
-      projectId: z.never().optional(),
-    }),
-    z.object({
-      ...fields,
-      packageHandle: z.string(),
-      recordingId: z.never().optional(),
-      projectId: z.never().optional(),
-    }),
-  ]);
+  z.object({
+    ...fields,
+    projectId: z.string(),
+    recordingId: z.never().optional(),
+    packageHandle: z.never().optional(),
+  });
 const sourceBatch = <T extends z.ZodRawShape>(fields: T) =>
   z.object({
     ...fields,
@@ -306,11 +292,11 @@ const frameItems = z
   .max(8);
 const batchResponse = {
   atUs: z.union([
-    ...targetedBatch({ revisionId: z.string(), items: frameItems }).options,
+    targetedBatch({ revisionId: z.string(), items: frameItems }),
     sourceBatch({ items: frameItems }),
   ]),
   ordinal: z.union([
-    ...targetedBatch({ revisionId: z.string(), generation: z.string(), items: indexItems }).options,
+    targetedBatch({ revisionId: z.string(), generation: z.string(), items: indexItems }),
     sourceBatch({ generation: z.string(), items: indexItems }),
   ]),
 };
