@@ -39,28 +39,32 @@ test("bundled source index retains selected images, pinned continuation and cach
   const library = join(home, "library");
   await mkdir(library, { recursive: true, mode: 0o700 });
   const catalog = new Catalog(join(library, "catalog.sqlite"));
-  const assets = new AssetStore(catalog, library);
-  await assets.recover();
-  const asset = await assets.import(video, { kind: "generated" }, async () => ({
-    originUs: 0,
-    streams: [
-      {
-        id: "track:1",
-        kind: "video",
-        codec: "h264",
-        decodable: true,
-        startUs: 0,
-        endUs: 12_000_000,
-        segments: [{ startUs: 0, endUs: 12_000_000, empty: false }],
-        width: 320,
-        height: 180,
-        orientedWidth: 320,
-        orientedHeight: 180,
-      },
-    ],
-  }));
-  const selection = { assetId: asset.id, streamId: "track:1" };
-  catalog.close();
+  let selection;
+  try {
+    const assets = new AssetStore(catalog, library);
+    await assets.recover();
+    const asset = await assets.import(video, { kind: "generated" }, async () => ({
+      originUs: 0,
+      streams: [
+        {
+          id: "track:1",
+          kind: "video",
+          codec: "h264",
+          decodable: true,
+          startUs: 0,
+          endUs: 12_000_000,
+          segments: [{ startUs: 0, endUs: 12_000_000, empty: false }],
+          width: 320,
+          height: 180,
+          orientedWidth: 320,
+          orientedHeight: 180,
+        },
+      ],
+    }));
+    selection = { assetId: asset.id, streamId: "track:1" };
+  } finally {
+    catalog.close();
+  }
   const sourceHash = digest(await readFile(video));
   let { instance } = await launchReady(home);
   const call = async (operation, params) => {

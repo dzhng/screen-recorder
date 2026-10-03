@@ -106,6 +106,7 @@ async function ready(f: Awaited<ReturnType<typeof fixture>>, atUs: number[]) {
   let result = batch(await f.call("frame.batch", { ...f.selection, atUs }));
   for (const item of result.items)
     if (item.ok && item.data.jobId) await f.job(item.data.jobId, "ready");
+  await closeDeliveries(f, result.items);
   result = batch(await f.call("frame.batch", { ...f.selection, atUs }));
   return result;
 }
