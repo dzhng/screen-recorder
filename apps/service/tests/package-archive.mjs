@@ -1,6 +1,8 @@
-import { validateManifest } from "@screenrec/core/package-manifest";
-import { withArchiveCopyBarrier } from "./fixtures/archive-copy-barrier.mjs";
-import { admitArchive } from "../../service/dist/archive-input.js";
+import { parseProjectPackageManifest } from "@screenrec/core/project-package";
+import { Catalog } from "@screenrec/core/catalog";
+import { projectArchiveContents } from "./fixtures/project-archive.mjs";
+import { withArchiveCopyBarrier } from "../../macos/tests/fixtures/archive-copy-barrier.mjs";
+import { admitArchive } from "../dist/archive-input.js";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { execFileSync } from "node:child_process";
@@ -20,24 +22,33 @@ import {
   chmod,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, resolve, dirname } from "node:path";
 import { hash } from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { mediaWorker } from "../../service/dist/worker.js";
-import { verifyPackageArchive } from "../../service/dist/package-archive.js";
+import { mediaWorker } from "../dist/worker.js";
+import { verifyPackageArchive } from "../dist/package-archive.js";
 import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
-import { archiveContents as contents } from "./fixtures/archive-contents.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const native = resolve(
   process.env.SCREENREC_NATIVE ?? join(root, "helpers/mac/.build/debug/screenrec-native"),
 );
 const run = mediaWorker({ SCREENREC_NATIVE: native });
-const fixtureWriter = fileURLToPath(new URL("./fixtures/package-archive.py", import.meta.url));
+const fixtureWriter = fileURLToPath(
+  new URL("../../macos/tests/fixtures/package-archive.py", import.meta.url),
+);
 const results = [];
 
-async function fixture(mode = "valid", files = contents()) {
+async function fixture(mode = "valid", contents) {
   const home = await realpath(await mkdtemp(join(tmpdir(), "screenrec-archive-")));
+  const store = new Catalog(join(home, "catalog.sqlite"));
+  let generated;
+  try {
+    generated = await projectArchiveContents(store, home, contents);
+  } finally {
+    store.close();
+  }
+  const { files, snapshot, mediaPath } = generated;
   const directory = join(home, "workspace");
   await mkdir(directory, { mode: 0o700 });
   const workspace = await open(
@@ -46,9 +57,13 @@ async function fixture(mode = "valid", files = contents()) {
   );
   const archive = join(home, "fixture.zip");
   await writeFile(join(home, "files.json"), JSON.stringify(files));
-  execFileSync("/usr/bin/python3", [fixtureWriter, join(home, "files.json"), archive, mode], {
-    stdio: "pipe",
-  });
+  execFileSync(
+    "/usr/bin/python3",
+    [fixtureWriter, join(home, "files.json"), archive, mode, mediaPath],
+    {
+      stdio: "pipe",
+    },
+  );
   const inputHash = hash("sha256", await readFile(archive));
   return {
     home,
@@ -57,6 +72,8 @@ async function fixture(mode = "valid", files = contents()) {
     archive,
     input: admitArchive(archive),
     files,
+    snapshot,
+    mediaPath,
     async close() {
       assert.equal(hash("sha256", await readFile(archive)), inputHash);
       this.input.close();
@@ -69,21 +86,22 @@ async function inspect(f, options = {}, worker = run) {
   try {
     return await verifyPackageArchive(f.input, f.workspace, worker, {
       ...options,
-      validate: validateManifest,
+      validate: parseProjectPackageManifest,
+      inlineRevisions: false,
     });
   } finally {
     assert.deepEqual(await readdir(f.directory), []);
   }
 }
 
-test("native archive verifies inventory and pinned old revision with all admitted history, then empties workspace", async () => {
+test("native archive verifies inventory and pinned project revision with admitted history, then empties workspace", async () => {
   const f = await fixture();
   try {
     const receipt = await inspect(f);
-    assert.equal(receipt.manifest.snapshot.revisionId, "r0");
+    assert.equal(receipt.manifest.project.currentRevisionId, f.snapshot.project.currentRevisionId);
     assert.deepEqual(
-      receipt.manifest.history.map((r) => r.id),
-      ["r0", "r1"],
+      receipt.manifest.revisions,
+      f.snapshot.revisions.map((revision) => `revisions/${revision.ordinal}.json`),
     );
     assert.equal(
       receipt.expandedBytes,
@@ -153,9 +171,6 @@ test("actual expansion, member, manifest and entry counts enforce exact bounds",
       manifestBytes: Buffer.byteLength(f.files["manifest.json"]),
       entries: Object.keys(f.files).length,
       compressedBytes: (await stat(f.archive)).size,
-      revisionBytes:
-        Buffer.byteLength(f.files["revisions/r0.json"]) +
-        Buffer.byteLength(f.files["revisions/r1.json"]),
       history: 2,
       pathBytes: Math.max(...Object.keys(f.files).map((p) => p.length)),
       componentBytes: Math.max(
@@ -167,7 +182,7 @@ test("actual expansion, member, manifest and entry counts enforce exact bounds",
       await inspect(f, { limits: { ...archiveLimits, [key]: value } });
       await assert.rejects(
         inspect(f, { limits: { ...archiveLimits, [key]: value - 1 } }),
-        (error) => error.code === "LIMIT_EXCEEDED",
+        (error) => error.code === (key === "history" ? "INVALID_PACKAGE" : "LIMIT_EXCEEDED"),
         key,
       );
     }
@@ -217,9 +232,10 @@ test("retained workspace descriptor survives ancestor replacement without touchi
     await writeFile(join(outside, "sentinel"), "untouched");
     await symlink(outside, f.directory);
     const receipt = await verifyPackageArchive(f.input, f.workspace, run, {
-      validate: validateManifest,
+      validate: parseProjectPackageManifest,
+      inlineRevisions: false,
     });
-    assert.equal(receipt.manifest.snapshot.revisionId, "r0");
+    assert.equal(receipt.manifest.project.currentRevisionId, f.snapshot.project.currentRevisionId);
     assert.deepEqual(await readdir(retained), []);
     assert.deepEqual(await readdir(outside), ["sentinel"]);
     assert.equal(await readFile(join(outside, "sentinel"), "utf8"), "untouched");
@@ -233,7 +249,10 @@ test("nonempty workspace admission preserves existing files", async () => {
   try {
     await writeFile(join(f.directory, "sentinel"), "untouched");
     await assert.rejects(
-      verifyPackageArchive(f.input, f.workspace, run, { validate: validateManifest }),
+      verifyPackageArchive(f.input, f.workspace, run, {
+        validate: parseProjectPackageManifest,
+        inlineRevisions: false,
+      }),
       (error) => error.code === "INVALID_STORAGE",
     );
     assert.equal(await readFile(join(f.directory, "sentinel"), "utf8"), "untouched");
@@ -290,7 +309,7 @@ function pauseParserAt(path, action) {
 }
 
 test("killed stopped parser is reaped before cleanup through parent-retained root FD", async () => {
-  const f = await fixture("valid", contents("x".repeat(32 * 1024 * 1024)));
+  const f = await fixture("valid", ["x".repeat(32 * 1024 * 1024)]);
   const controller = new AbortController();
   let stopped;
   const wrapped = pauseParserAt(join(f.directory, ".input"), (pid) => {
@@ -314,15 +333,16 @@ test("killed stopped parser is reaped before cleanup through parent-retained roo
 });
 
 test("inner directory replacement fails without following its symlink outside workspace", async () => {
-  const f = await fixture("deflate", contents("x".repeat(64 * 1024 * 1024)));
+  const f = await fixture("deflate", ["x".repeat(64 * 1024 * 1024), "following source"]);
   const outside = join(f.home, "outside");
   await mkdir(outside);
   await writeFile(join(outside, "sentinel"), "untouched");
   let stopped;
-  const wrapped = pauseParserAt(join(f.directory, "content/source/video.mov"), async (pid) => {
+  const extracted = join(f.directory, "content", f.mediaPath);
+  const wrapped = pauseParserAt(extracted, async (pid) => {
     stopped = pid;
-    await rename(join(f.directory, "content/source"), join(f.directory, "content/retained-source"));
-    await symlink(outside, join(f.directory, "content/source"));
+    await rename(dirname(extracted), join(f.directory, "content/retained-media"));
+    await symlink(outside, dirname(extracted));
   });
   try {
     let failure;
@@ -350,7 +370,7 @@ test("inner directory replacement fails without following its symlink outside wo
 });
 
 test("opened input descriptor retains source bytes across pathname replacement", async () => {
-  const f = await fixture("valid", contents("x".repeat(32 * 1024 * 1024)));
+  const f = await fixture("valid", ["x".repeat(32 * 1024 * 1024)]);
   const pinned = join(f.home, "pinned.zip");
   const originalHash = hash("sha256", await readFile(f.archive));
   let replaced = false;
@@ -420,7 +440,7 @@ test("copy rejects an in-place input change at a confirmed syscall barrier", asy
 });
 
 test("partial copy barrier cancels after actual snapshot bytes and drains the native worker", async () => {
-  const f = await fixture("valid", contents("generated".repeat(32_768)));
+  const f = await fixture("valid", ["generated".repeat(32_768)]);
   try {
     const controller = new AbortController();
     await withArchiveCopyBarrier(
@@ -501,7 +521,10 @@ test("workspace lock survives preparation worker exit and refuses a second open 
   try {
     await inspect(f);
     await assert.rejects(
-      verifyPackageArchive(f.input, other, run, { validate: validateManifest }),
+      verifyPackageArchive(f.input, other, run, {
+        validate: parseProjectPackageManifest,
+        inlineRevisions: false,
+      }),
       (error) => error.code === "INVALID_STORAGE",
     );
     assert.deepEqual(await readdir(f.directory), []);
@@ -520,7 +543,10 @@ test("cleanup ownership loss is explicit and original descriptor supports recove
   };
   try {
     await assert.rejects(
-      verifyPackageArchive(f.input, f.workspace, wrapped, { validate: validateManifest }),
+      verifyPackageArchive(f.input, f.workspace, wrapped, {
+        validate: parseProjectPackageManifest,
+        inlineRevisions: false,
+      }),
       (error) => error.code === "ARCHIVE_CLEANUP_FAILED",
     );
     assert.ok((await readdir(f.directory)).length > 0);

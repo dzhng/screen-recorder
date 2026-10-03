@@ -2,34 +2,36 @@
 import json, struct, sys, zipfile, zlib
 from pathlib import Path
 
-fixture, output, mode = sys.argv[1:]
+fixture, output, mode, media = sys.argv[1:]
 files = json.loads(Path(fixture).read_text())
+source = files[media]
+folder = media.split('/')[0]
 extras = []
 compression = zipfile.ZIP_STORED
-if mode == 'hash': files['source/video.mov'] += '!'
+if mode == 'hash': files[media] += '!'
 if mode == 'deflate': compression = zipfile.ZIP_DEFLATED
 if mode in ['extra', 'bad-central', 'bad-local', 'undercount', 'undercount-bad']:
     extras.append(('unexpected.txt', 'extra', None))
-if mode == 'mac': extras.append(('__MACOSX/source/._video.mov', 'extra', None))
-if mode == 'duplicate': extras.append(('source/video.mov', files['source/video.mov'], None))
-if mode == 'case': extras.append(('SOURCE/video.mov', 'extra', None))
+if mode == 'mac': extras.append(('__MACOSX/' + folder + '/._' + media.split('/')[-1], 'extra', None))
+if mode == 'duplicate': extras.append((media, files[media], None))
+if mode == 'case': extras.append((media.upper(), 'extra', None))
 if mode == 'directory': extras.append(('extra/', '', 0o40700))
-if mode == 'file-directory': extras.append(('source', 'extra', None))
-if mode == 'symlink': extras.append(('source/link', '/tmp/outside', 0o120777))
-if mode == 'fifo': extras.append(('source/fifo', '', 0o010600))
+if mode == 'file-directory': extras.append((folder, 'extra', None))
+if mode == 'symlink': extras.append((folder + '/link', '/tmp/outside', 0o120777))
+if mode == 'fifo': extras.append((folder + '/fifo', '', 0o010600))
 if mode == 'absolute': extras.append(('/outside', 'extra', None))
 if mode == 'parent': extras.append(('../outside', 'extra', None))
-if mode == 'backslash': extras.append(('source\\outside', 'extra', None))
-if mode == 'nul': extras.append(('source/video.movXignored', files['source/video.mov'], None))
+if mode == 'backslash': extras.append((folder + '\\outside', 'extra', None))
+if mode == 'nul': extras.append((media + 'Xignored', files[media], None))
 if mode == 'nul-empty': extras.append(('Xignored', 'extra', None))
 if mode in ['unicode-duplicate', 'unicode-parent', 'unicode-alias']:
-    alias = 'source/video.mov' if mode != 'unicode-parent' else '../outside'
-    if mode == 'unicode-alias': del files['source/video.mov']
+    alias = media if mode != 'unicode-parent' else '../outside'
+    if mode == 'unicode-alias': del files[media]
     info = zipfile.ZipInfo('encoded-name')
     name = info.filename.encode()
     value = b'\x01' + struct.pack('<I', zlib.crc32(name)) + alias.encode()
     info.extra = struct.pack('<HH', 0x7075, len(value)) + value
-    extras.append((info, 'generated source', None))
+    extras.append((info, source, None))
 if mode in ['metadata-many', 'metadata-default']: extras.extend((f'evidence/{i}', '', None) for i in range(150000 if mode == 'metadata-default' else 50000))
 if mode == 'metadata-large':
     info = zipfile.ZipInfo('evidence/padded')
@@ -53,8 +55,8 @@ if mode in ['bad-central', 'undercount-bad']: raw[central:central+4] = b'BAD!'
 if mode == 'bad-local':
     local = struct.unpack_from('<I', raw, central+42)[0]
     raw[local:local+4] = b'BAD!'
-if mode == 'crc': raw[raw.index(b'generated source')] = ord('X')
-if mode == 'nul': raw = raw.replace(b'source/video.movXignored', b'source/video.mov\x00ignored')
+if mode == 'crc': raw[raw.index(source.encode())] = ord('X')
+if mode == 'nul': raw = raw.replace((media + 'Xignored').encode(), (media + '\x00ignored').encode())
 if mode == 'nul-empty': raw = raw.replace(b'Xignored', b'\x00ignored')
 if mode == 'encrypted':
     # Declaration suffices to reject, without requiring an encryption library.
