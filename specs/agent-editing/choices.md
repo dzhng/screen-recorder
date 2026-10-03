@@ -5373,8 +5373,9 @@ When: 21f1 durable capture-facts extraction.
   row shape; the checkpoint had to preserve real installed consumers without
   introducing a migration or a translating wrapper.
 - **Reach:** New capture consumers cannot infer project existence from this field.
-  Its removal belongs to the explicit hard cutover, and the old library remains
-  untouched for deliberate media import.
+  The field and its old consumers were removed at hard cutover. The later
+  approved personal switch disposed of the duplicate old library at the user’s
+  explicit instruction; the canonical source fixture remains intact.
 - **Verdict:** Sound. The temporary field has named live consumers and an explicit
   removal boundary; it does not select a composition or duplicate editing state.
 - **Confidence:** High.

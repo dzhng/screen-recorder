@@ -1,5 +1,5 @@
 {
-  "scope": "Read-only future isolated measurement preparation; no service query run or clone performed",
+  "scope": "Executed isolated installed metadata-only measurement; preparation pins remain the input authority",
   "catalog": {
     "path": "/Users/david/.codex/artifacts/screen-recorder/post-switch-10k-fixture/library/catalog.sqlite",
     "bytes": 161689600,
@@ -46,7 +46,7 @@
     "The event query document references only the tiny immutable source asset; current query owner resolves source metadata/cut projections, not learned prepared PCM. The prepared2.7GB asset is a distinct metadata row, not a selected project source.",
     "Do not hardlink/copy old query cache as if still admitted: DerivedCache.open requires nlink1 and stored dev/ino. Empty copied cache is reconciled by current owner; submitCachedDerivative regenerates missing evidence metadata under same pinned job/retry policy. Obtain ready baseline in unmeasured warmup, then original20 complete-row equal timings. No catalog identity fields are manually rewritten.",
     "No model,2.7GB learned file,source decode or DSP should be required for this event-only contract. This is source inspection, not a tested startup guarantee; fence native work and retain any setup refusal rather than silently regenerate media.",
-    "No source catalog/cache files were changed and no query,measurement,clone or personal-state operation was performed."
+    "Staged source catalog and tiny asset remained unchanged. Installed tests used separate copies with0700 managed directories; scratch homes were removed after all owned processes joined."
   ],
   "setupOwnerSources": [
     "packages/core/src/cache.ts reconcile/open",
@@ -54,5 +54,7 @@
     "packages/core/src/project-evidence.ts request/execute/read",
     "packages/core/src/scene-source-read.ts resolve audio requires_video"
   ],
-  "stagedInputs": "Verified ordinary copies of the stopped catalog and tiny source. No cache, model, learned PCM, service or query was copied/run. Original run paths are historical; current staged paths own future setup."
+  "stagedInputs": "Verified immutable staged catalog and tiny source remain available. No old cache, model or learned PCM was copied; the installed owner regenerated metadata in scratch state.",
+  "executionEvidence": "../23-owner-fixture-ports/personal-release-verification.json",
+  "executionQualification": "The prepared native-work fence was not installed. Only the declared metadata query was requested; sampled process observations do not prove exclusion of all native work. This limitation remains explicit in the execution bank."
 }

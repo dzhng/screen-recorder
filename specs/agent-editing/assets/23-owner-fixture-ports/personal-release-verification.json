@@ -1,0 +1,268 @@
+{
+  "status": "Approved personal switch executed; installed cached250-row contract passes in isolated state",
+  "date": "2026-10-03",
+  "authority": {
+    "userApproval": "approve",
+    "userLibraryCorrection": "you don't have the preserve old library, it's actually just hte fixture I recorded for you that you alreayd have",
+    "disposition": "Replace disposable fixture library with fresh state; canonical fixture media/evidence remains intact. Old root may be held only transiently during switch then removed. App/launcher rollback copies remain available."
+  },
+  "installed": {
+    "app": "/Users/david/Applications/Screen Recorder.app",
+    "launcher": "/Users/david/.local/bin/screenrec",
+    "sourceCommit": "e825294c",
+    "identity": "com.david.screenrec.personal",
+    "pins": [
+      {
+        "relativePath": "Contents/MacOS/ScreenRecorder",
+        "bytes": 6320432,
+        "sha256": "4613bb476df7731cfd201003dbbcc93b55c3a1ad0384f81baee37b17206fcf86",
+        "qualification": "Installer re-signed app executable"
+      },
+      {
+        "relativePath": "Contents/MacOS/screenrec-native",
+        "bytes": 19979280,
+        "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55",
+        "qualification": "Exact candidate bytes"
+      },
+      {
+        "relativePath": "Contents/Resources/service/main.mjs",
+        "bytes": 4078021,
+        "sha256": "197df7baa07fc2f45603f1579b36757b9a2fcb919eccb0e6c08864d1688ae959",
+        "qualification": "Exact candidate bytes"
+      },
+      {
+        "relativePath": "Contents/Resources/cli/main.mjs",
+        "bytes": 1148904,
+        "sha256": "594d122c51aa005091a2c7a497f77c5b539b4be912fad07bc756188d110b907e",
+        "qualification": "Exact candidate bytes"
+      },
+      {
+        "relativePath": "Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0",
+        "qualification": "Exact candidate bytes"
+      }
+    ],
+    "installerExit": {
+      "exit": 0,
+      "node": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "builtAgain": false
+    },
+    "signature": "codesign --verify --strict exit0",
+    "identityEvidence": "Actual PlistBuddy CFBundleIdentifier read after ordinary startup: com.david.screenrec.personal"
+  },
+  "personal": {
+    "home": "/Users/david/.screen-recorder",
+    "format": 23,
+    "health": {
+      "status": "ready",
+      "pid": 85565,
+      "socketPath": "/Users/david/.screen-recorder/run/service.sock",
+      "home": "/Users/david/.screen-recorder",
+      "node": "24.14.0",
+      "uptimeMs": 62
+    },
+    "captureState": "idle",
+    "projectsEmpty": true,
+    "recordingsEmpty": true,
+    "processes": "85565 85563 /Users/david/.nvm/versions/node/v24.14.0/bin/node /Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs\n",
+    "qualification": "Ordinary approved app initialization and read-only status, distinct from scratch tests"
+  },
+  "fixture": {
+    "canonical": [
+      {
+        "oldSource": "/Users/david/.screen-recorder/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/video.mov",
+        "canonicalSource": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/video.mov",
+        "bytes": 29414120,
+        "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+        "equal": true
+      },
+      {
+        "oldSource": "/Users/david/.screen-recorder/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/narration.mov",
+        "canonicalSource": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+        "bytes": 25730774,
+        "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+        "equal": true
+      },
+      {
+        "oldSource": "/Users/david/.screen-recorder/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/capture.journal.jsonl",
+        "canonicalSource": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/capture.journal.jsonl",
+        "bytes": 2574002,
+        "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+        "equal": true
+      }
+    ],
+    "oldLibraryDisposition": "Transient old root removed after successful installed check and ordinary startup; user states this is disposable fixture state",
+    "removed": [
+      "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03/switch/disposable-old-home",
+      "/private/tmp/sr-personal-query-Nbz06J",
+      "/private/tmp/sr-personal-query-sZk9da"
+    ],
+    "rollback": "Previous app/launcher and on-disk preferences copies remain private; no permanent old-library backup or migration"
+  },
+  "query": {
+    "operation": {
+      "operation": "timeline.events",
+      "params": {
+        "projectId": "7f657b4e-28d1-4625-a470-0bf87ba16859",
+        "revisionId": "4b814711-77df-400a-a117-7d0d9aa9ca09",
+        "range": {
+          "startUs": 0,
+          "endUs": 7200000000
+        },
+        "limit": 250
+      }
+    },
+    "inspection": {
+      "samples": [
+        153.59612500000003,
+        151.534042,
+        145.66804100000013,
+        149.19870800000012,
+        140.8047079999999,
+        153.60241600000018,
+        149.2482500000001,
+        151.16791599999988,
+        145.26441700000032,
+        152.81674999999996,
+        146.60975000000008,
+        155.01079200000004,
+        154.62954200000013,
+        149.655667,
+        161.49041699999998,
+        142.370042,
+        148.3717499999998,
+        143.92599999999993,
+        153.03879200000029,
+        146.36462500000016
+      ],
+      "p95Ms": 155.01079200000004,
+      "budgetMs": 250,
+      "rows": 250,
+      "oracle": "First complete runtime row vector;20 deep-equal repetitions, no frozen literal rows"
+    },
+    "defaultSdk": true,
+    "cliCompleteRowsEqual": true,
+    "cliPages": 2,
+    "coldLaunch": {
+      "health": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 85258,
+          "socketPath": "/private/tmp/sr-personal-query-sZk9da/run/service.sock",
+          "home": "/private/tmp/sr-personal-query-sZk9da",
+          "node": "24.14.0",
+          "uptimeMs": 40
+        },
+        "id": "2e501bd4-7758-4a6e-a41b-24be8dd427f2"
+      },
+      "app": {
+        "pid": 85256,
+        "ppid": 1,
+        "rssBytes": 49217536,
+        "command": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/ScreenRecorder"
+      },
+      "service": {
+        "pid": 85258,
+        "ppid": 85256,
+        "rssBytes": 119439360,
+        "command": "/Users/david/.nvm/versions/node/v24.14.0/bin/node /Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+      },
+      "ms": 332.80783400000007
+    },
+    "resources": [
+      {
+        "pid": 85445,
+        "ppid": 1,
+        "rssBytes": 52494336,
+        "command": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/ScreenRecorder"
+      },
+      {
+        "pid": 85466,
+        "ppid": 85445,
+        "rssBytes": 305053696,
+        "command": "/Users/david/.nvm/versions/node/v24.14.0/bin/node /Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+      }
+    ],
+    "sdkProcesses": [
+      {
+        "command": "/Users/david/.local/bin/screenrec",
+        "args": [
+          "mcp"
+        ],
+        "pid": 85262,
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "close": {
+          "code": 0,
+          "signal": null
+        }
+      }
+    ],
+    "scratchStopped": true,
+    "sourcePins": [
+      {
+        "source": "/Users/david/.codex/artifacts/screen-recorder/post-switch-10k-fixture/library/catalog.sqlite",
+        "destination": "/private/tmp/sr-personal-query-sZk9da/library/catalog.sqlite",
+        "sha256": "1adf0cabddb1243f2ec449af7086bd51d0032e26bf816df7d66c596b6073c621"
+      },
+      {
+        "source": "/Users/david/.codex/artifacts/screen-recorder/post-switch-10k-fixture/library/assets/7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4.wav",
+        "destination": "/private/tmp/sr-personal-query-sZk9da/library/assets/7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4.wav",
+        "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+      }
+    ],
+    "inputSourcesUnchanged": true,
+    "firstInlineReadyRepliesRows": [
+      122,
+      122
+    ],
+    "inlineRowsQualification": "Counts describe first two inline ready replies, not the complete first collection; large continuations are consumed through existing resultDelivery. The full250-row baseline is retained separately."
+  },
+  "failedAttempts": [
+    {
+      "receipt": "query-first-attempt.json",
+      "failure": "Cold discovery timed out because fixture library/assets directories were0755; existing AssetStore requires0700",
+      "correction": "Recreated private scratch directories; source catalog identities unchanged"
+    },
+    {
+      "receipt": "query-check.json",
+      "exit": 1,
+      "qualification": "Twenty complete SDK row comparisons and p95 passed; later check incorrectly compared one CLI page with the complete250-row baseline",
+      "correction": "Supplemental CLI accumulated both pages against the same full baseline; no repeated20-sample timing run"
+    }
+  ],
+  "evidence": {
+    "directory": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03/switch",
+    "fullReplies": "Complete query-check.json in verified archive; cli-pages.json and query-baseline.json also retained directly",
+    "producerScope": "Private one-off scripts, not a new product API or standing test",
+    "outerTerminals": "Actual exec observations: query-check attempts exit1, supplemental CLI exit0, personal-start exit0. Not retained raw outer terminal streams.",
+    "archive": {
+      "path": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03/personal-release-evidence.tar.gz",
+      "bytes": 23056872,
+      "sha256": "45615c264e4b8b6d8393ac9b74285bd5d968ef319b9c6c7791df211dd8b701fa",
+      "payloads": 21,
+      "everyPayloadRehashed": true,
+      "exclusions": "Private raw preference snapshots and rollback app are not included"
+    },
+    "rawDuplicateRemoved": {
+      "member": "query-check.json",
+      "bytes": 372537450,
+      "reason": "Every payload was verified in the compressed archive before removing the redundant raw report"
+    }
+  },
+  "limits": [
+    "Metadata-only query; no DSP, capture or fresh inference request",
+    "No native-work fence was installed; process/RSS observations are sampled, not a general peak or media-work exclusion guarantee",
+    "Original250-row vector was not retained: comparison uses first complete runtime baseline and20 exact repetitions",
+    "No listening, physical synchronization, heavy native-build contention, broader color/presentation or full-suite green claim"
+  ],
+  "review": {
+    "verdict": "Clean scoped peer review",
+    "scope": "Shape, diff, docs, installed pins, source pins and complete CLI row comparison; no repeated tests or launches",
+    "choiceAudit": "The user chose fixture disposal. Query isolation, retained oracle, rollback app and scope-by-contract treatment reuse already banked choices; no new product policy."
+  }
+}

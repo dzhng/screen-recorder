@@ -25,6 +25,10 @@ matching prepared project delivery after restart without fresh learned state.
 Its full operands remain in verified durable local archives; Git retains metadata
 and source bindings, not multi-gigabyte PCM. This closes the named duration/routing
 interaction, not arbitrary learned stacks, listening or broader load. The
+[installed cached-query bank](../assets/23-owner-fixture-ports/personal-release-verification.json)
+now closes the named post-switch complete250-row contract through installed
+CLI/default SDK in scratch state. It reuses the retained long project without
+repeating DSP; broader load and heavy-build contention remain separate. The
 [current reorder query](../assets/23-owner-fixture-ports/current-reorder-query-verification.json)
 combines a two-hour/deep/wide 10k project with independently authored placement
 changes, pinned old queries and undo through default MCP. Its warm query budget
@@ -106,7 +110,7 @@ passed child cohorts to create activity. Target missing dimensions: broader
 source/routing/history cardinality beyond the retained matched cohorts, client
 receive capacities and known contention-sensitive deadlines. Use their existing
 query/index/decoder/job owners. Isolated diagnosis and fixes may proceed before 23;
-one controlled final production measurement follows actual cutover. Preserve
+the named installed cached-query measurement is banked after actual cutover. Preserve
 unchanged budgets and report which dimension each result establishes.
 
 Measure deep/wide groups, long stacks, reorder invalidation, retained prepared-output storage and late-window taps. Prove bounded traversal without recursion overflow, cancellation, queue saturation and no disguised full-prefix processing in an ordinary read.

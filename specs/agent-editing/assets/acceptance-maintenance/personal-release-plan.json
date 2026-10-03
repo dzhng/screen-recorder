@@ -1,5 +1,5 @@
 {
-  "status": "Prepared with verified rollback app/launcher and on-disk preferences copies; personal switch unexecuted, approval pending",
+  "status": "Approved switch executed; disposable fixture library removed, fresh format23 personal app running, isolated installed query passes",
   "candidateSourceCommit": "e825294c",
   "candidate": {
     "sourceBundle": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app",
@@ -45,34 +45,32 @@
     "app": "/Users/david/Applications/Screen Recorder.app",
     "launcher": "/Users/david/.local/bin/screenrec",
     "library": "/Users/david/.screen-recorder",
-    "preservedLibrary": "/Users/david/.screen-recorder.rollback-2026-10-03",
     "rollbackArtifacts": "/Users/david/.codex/artifacts/screen-recorder/personal-release-2026-10-03",
     "steps": [
-      "Verify candidate pins, free rollback locations and exact current app/launcher/library identities; require idle capture before any shutdown",
-      "Gracefully stop only the personal app and join its service",
-      "Revalidate the existing verified app/launcher rollback copies and stable on-disk preferences snapshot; take quiescent library facts after graceful stop. Preserve effective defaults without changing them.",
-      "Rename the old library root to the named sibling on the same volume, preserving its contents; create a fresh format23 default root without editing the old catalog",
-      "Run the existing installer directly against the already built bundle, avoiding another build; installer owns signing and app/launcher replacement",
-      "Start the exact installed app through ordinary discovery and verify bundled process identities, ready service, format23 and unchanged old-library manifest",
-      "Perform the named installed cached-query check in scratch state only; stop/join its owned app/service, then restore ordinary personal launch. Preserve the fresh personal library and preferences throughout testing."
+      "Verify candidate pins and idle capture; gracefully stop exact old app/service",
+      "Verify all old source media byte-for-byte against canonical narrated-workbench fixtures",
+      "Hold old fixture root transiently; create fresh private default root without catalog migration",
+      "Run existing installer directly against already built candidate; no new build",
+      "Cold-launch installed app in scratch state with absolute scratch preferences; reuse stopped catalog and tiny source for complete cached query",
+      "Stop and join scratch app/service; start ordinary personal app, confirm empty format23 library and idle capture",
+      "Remove disposable old root and owned query scratch; retain canonical fixture and previous app/launcher rollback artifacts"
     ]
   },
-  "userVisibleEffect": "The new app starts with a fresh empty library. Existing recordings remain in the preserved old library and will not automatically appear in the new UI. There is no catalog migration or automatic editing project.",
+  "userVisibleEffect": "The new app runs with a fresh empty library. The original recording remains in the canonical fixture; the duplicate old library is removed. No automatic editing project or catalog migration.",
   "postSwitchMeasurement": {
     "fixture": "Reuse the retained current 10000-occurrence/deep-wide project in isolated format23 state; do not regenerate media or rerun DSP",
     "operation": "Existing complete 250-row cached-query contract through installed CLI/default SDK discovery",
     "inspectionP95BudgetMs": 250,
     "limits": "A named installed cached-query measurement is not a new full scale-suite, listening, physical synchronization or inference verdict.",
-    "isolation": "Tests never write the personal library/preferences. Stop the idle newly installed app, cold-launch that same installed bundle through ordinary discovery with an isolated copied format23 fixture home and absolute scratch preferences, perform the bounded cached-query check, join only its owned children, then relaunch the ordinary personal app against the untouched fresh personal root.",
+    "isolation": "Tests used copied format23 state and absolute scratch preferences. The ordinary personal root was initialized only after the test app/service joined; no fixture was imported into it.",
     "fixturePlan": "post-switch-10k-query-plan.json",
     "cacheRule": "Copy the stopped catalog and tiny immutable source into scratch state with an empty cache. Existing cache reconciliation/re-admission supplies metadata-only unmeasured warmup; never hardlink cache files or rewrite stored device/inode identities. The named fixture plan owns exact source/query/oracle pins and remaining setup qualification."
   },
   "rollback": [
-    "Stop and join the new app/service",
-    "Retain the new format23 root separately",
-    "Restore the old library root to its original path",
-    "Restore the verified previous app and launcher; leave original preferences intact",
-    "Verify old bundle/library identities before ordinary relaunch"
+    "Stop and join new app/service",
+    "Retain new format23 root separately if needed",
+    "Restore verified previous app/launcher; original preferences remain outside library",
+    "Start the old app with empty old-format state if needed; canonical recording fixture remains available"
   ],
   "acceptanceLimits": [
     "Broader independent acoustic/reference campaign is stopped",
@@ -82,6 +80,7 @@
     "Heavy native-build contention awaits an independently required build",
     "Broader movie/color presentation and full release remain separate"
   ],
-  "executionAuthority": "Review/approval required for replacing the personal app and moving the existing library. This plan is not execution.",
-  "rollbackPreparation": "rollback-backup-verification.json"
+  "executionAuthority": "User approved replacement, then explicitly corrected old-library preservation: it was disposable fixture state already retained as canonical media.",
+  "rollbackPreparation": "rollback-backup-verification.json",
+  "executionEvidence": "../23-owner-fixture-ports/personal-release-verification.json"
 }

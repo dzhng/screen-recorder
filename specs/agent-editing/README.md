@@ -20,11 +20,15 @@ through the existing [contracts](contracts.md), [architecture](architecture.md)
 and [processing owner](processing.md); the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) is for the external caller.
 
-**Next pickup: the reviewed personal release.** The
-[production PNG adoption bank](assets/23-owner-fixture-ports/current-production-png-verification.json)
-now reproduces all fourteen saved requests with exact receipt, complete pixel
-and encoded-PNG equality. Reuse that result and the existing visual review;
-no further rendering, build or public edit replay follows from adoption.
+**Current checkpoint: the approved personal switch is complete.** The
+[release bank](assets/23-owner-fixture-ports/personal-release-verification.json)
+owns installed identity, scratch CLI/default SDK query proof, ordinary empty-library
+startup and cleanup. The user clarified that the old library was disposable fixture
+state. Its duplicate was removed; the canonical recording remains unchanged.
+
+**Next pickup: reconcile the remaining release gates against the current banks.**
+The stopped acoustic and physical-marker campaigns below remain stopped. Do not
+repeat completed cohorts or manufacture load to fill the remaining gaps.
 
 The [canonical registry](assets/23-owner-fixture-ports/README.md) owns current
 results and exact limitations. Reuse the passed long learned-processing bank,
@@ -36,19 +40,18 @@ do not repeat the thirteen-effect source workflow. The
 and [model-path audit](assets/25-installed-model-paths/README.md) have separate
 sampled and source-only verdicts.
 
-Review the [personal release plan](assets/acceptance-maintenance/personal-release-plan.json):
-exact candidate identity, old app/library/preferences preservation, fresh
-format23 state, rollback and named post-switch measurement. Private installation is not personal
-replacement. Current format23 refuses prior catalogs without migration or byte
-mutation; preserve the personal installation until the reviewed switch.
+The [executed release plan](assets/acceptance-maintenance/personal-release-plan.json)
+points to the actual switch and rollback scope. Format23 refuses prior catalogs;
+there was no migration. Private installed proof and personal replacement now have
+separate completed banks; neither supplies a full release verdict.
 
 | Owner | Remaining acceptance |
 | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical uncertainty/synchronization and broader lifecycle scope |
-| [23 cutover](slices/23-cutover.md) | Broader presentation/listening and personal switching |
-| [24 scale](slices/24-scale.md) | Known heavy-build contention and final production installed measurement |
-| [25 caller](slices/25-agent-acceptance.md) | Personal replacement and full release scope |
+| [23 cutover](slices/23-cutover.md) | Broader presentation/listening |
+| [24 scale](slices/24-scale.md) | Known heavy-build contention and broader load scope |
+| [25 caller](slices/25-agent-acceptance.md) | Full release scope |
 
 The implementation-end repository run has already occurred. Reuse matched
 passes and repair invalidated or unmatched contracts; focused recovery is not a

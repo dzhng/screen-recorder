@@ -6,8 +6,9 @@ checkpoint](25c-source-mcp-caller.md) now passes its compact schema/revision/rep
 error/image-delivery scope. [Private installed/default discovery](../assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
 now passes. The [25d fresh installed caller](25d-installed-caller.md) passes its
 bounded discovery/split/replay/error/PNG checkpoint and retained-package
-adoption/audio bridge. Personal replacement and full release acceptance remain
-open; these scoped passes do not supply listening or physical synchronization.
+adoption/audio bridge. [Personal replacement](../assets/23-owner-fixture-ports/personal-release-verification.json)
+is now executed; full release remains open. These scoped passes do not supply
+listening or physical synchronization.
 [Input preparation](../assets/25-input-preparation/README.md) and
 [registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
 [focused CLI discovery](../assets/25-cli-discovery/README.md),

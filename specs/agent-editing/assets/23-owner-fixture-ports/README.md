@@ -74,6 +74,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Full five-minute/two-hour learned PCM through the original deep/wide graph | [Long learned routing](current-long-learned-routing-verification.json) |
 | Fresh private installed edit/replay/refusal/image and retained-package audio continuity | [Installed caller](current-installed-caller-verification.json) |
 | Complete fourteen-request frozen PNG parity on the production worker | [Production PNG adoption](current-production-png-verification.json) |
+| Approved personal replacement, empty startup and isolated installed cached query | [Personal release](personal-release-verification.json) |
 
 The [fresh saved-workflow review](../25b-fresh-caller/fresh-visual-review/README.md)
 accepts its named sampled content and retains visible layout limits. The
@@ -186,6 +187,6 @@ obligations include remaining integrated scale dimensions and release scope.
 Staged-output cleanup and publication now retain directory identity; their bank
 records the one-parent scan and external writer leaf limits. The explicit caller
 harness uses current operations through controlled
-replies. Installed switching, broader continuous A/V presentation, physical capture
+replies. The approved switch has its own bank; broader continuous A/V presentation, physical capture
 and speech/listening acceptance remain separate release gates. No source recording
 or accepted audition is changed by these fixture ports.

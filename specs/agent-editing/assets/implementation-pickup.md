@@ -1,6 +1,6 @@
 # Implementation pickup
 
-The full toolkit remains incomplete; the installed app has not switched engines.
+The full toolkit remains incomplete; the approved installed app now uses the current engine.
 Root integrates committed passes and verifies their consumer contracts. Current
 catalog/package formats are fenced by their existing owners; [03d](../slices/03d-exact-media-admission.md)
 preserves exact physical media facts. The frozen isolated worker used by retained
@@ -25,8 +25,10 @@ current runtime.
 
 Capture supplies immutable source facts; projects own caller-authored edits.
 The current format23 catalog refuses older catalogs without migration or byte
-mutation. The personal app/library remains intact; private installed acceptance
-is distinct from the reviewed personal switch.
+mutation. The [personal release bank](23-owner-fixture-ports/personal-release-verification.json)
+owns the approved switch, fresh empty library and disposal of duplicate fixture
+state. Canonical originals remain intact; earlier private banks retain their
+historical personal-state protection claims.
 
 ## Execution context and scoped evidence
 

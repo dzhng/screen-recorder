@@ -20,12 +20,14 @@ The [private installed discovery bank](../assets/23-owner-fixture-ports/current-
 passes ordinary cold discovery and CLI/default MCP with the personal app and state
 preserved. The [fresh installed caller](../assets/23-owner-fixture-ports/current-installed-caller-verification.json)
 also passes its bounded discovery/edit/delivery and retained-package bridge;
-personal replacement and full release remain separate.
+personal replacement is now banked separately; full release remains open.
 The [production PNG adoption bank](../assets/23-owner-fixture-ports/current-production-png-verification.json)
 reproduces the fourteen saved real-video requests with complete pixel and PNG
 equality; that finite worker adoption is complete. The
 [personal release plan](../assets/acceptance-maintenance/personal-release-plan.json)
-remains unexecuted and preserves the old library through the proposed switch.
+is executed in the [personal release bank](../assets/23-owner-fixture-ports/personal-release-verification.json).
+The user identified the old library as disposable fixture state; its duplicate is
+removed and canonical originals remain intact.
 The implementation-end repository gate has run; its
 [focused recovery bank](../assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
 retains original failures and subsequent passes. The
@@ -52,7 +54,7 @@ passes the original strict native-sRGB mask/centroid and matched-frame visual
 review with frozen geometry and clocks. Only the required private video tag and
 current explicit encoder settings differ; historical encoded-byte equivalence is
 unproved and original failures remain. Whole movie/PNG color parity, general
-gestures, listening and installed switching remain separate. The
+gestures and listening remain separate. The
 [capture/UI retry bank](../assets/23-owner-fixture-ports/current-capture-ui-verification.json)
 closes its thirteen failed named cases, including the physical frame prefix;
 its temporary capture media and UI are removed.
@@ -60,7 +62,7 @@ The [current preservation correspondence](../assets/acceptance-maintenance/cutov
 maps saved outcomes and actual service/native-consumer cases without adding another
 UI or repeating accepted media cohorts. [Pinned preview/export recovery](../assets/acceptance-maintenance/cutover-outcomes.md#pinned-previewexport-and-recovery)
 now accounts for the verified original guarantees. Private installed/default
-execution and muted continuous playback have scoped banks; personal switching,
+execution, personal switching and muted continuous playback have scoped banks;
 listening and broader presentation remain separate.
 Release dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
