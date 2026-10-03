@@ -184,6 +184,12 @@
   The project cursor schema/producer/native replay agree; one merged wire check
   passes. Original failures, native-cell visual limits and retrospective broker
   evidence are explicit. Legacy fixture/core/schema purge remains pending.
+- [Fixture preservation](23-owner-fixture-ports/README.md) rehomes registry
+  lifetimes and publication recovery/storage to actual project/source fixtures.
+  The terminal 14-case registry and 41-case publication runs pass; root verified
+  archived payloads and committed source identities without repeating them.
+  Outstanding lifetime/workspace/resource-pin guarantees remain in the matched
+  map before obsolete-owner deletion; no media or release acceptance follows.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.

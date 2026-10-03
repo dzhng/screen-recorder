@@ -31,12 +31,14 @@ the project filter. Revision pins, explicit replay/recovery, staging and typed
 source/project deletion safeguards survive. The numeric presentation plan also
 has its own existing owner, independent of the obsolete recording interpreter.
 
-The next pass is underway in the managed `service-composition` worktree on
-`codex/package-owner-purge`. Rehome valuable publication, recovery and shared
-package-registry fixtures to actual project/source owners before deleting their
+The [fixture preservation checkpoint](assets/23-owner-fixture-ports/README.md)
+ports the shared registry and publication recovery/storage guarantees to actual
+project/source owners. Continue remaining publication admission/lifetime,
+package workspace and resource-pin guarantees in the managed `service-composition`
+worktree on `codex/package-owner-purge`. Its matched map governs deletion of the
 obsolete recording package/span consumers. Keep generic archive/registry,
 workspace, native publication and source-lifetime contracts. The broader old
-fixtures are pending, not green or permission to restore an old production engine.
+fixtures remain pending; do not restore an old production engine.
 
 Then remove mixed old core branches and `RevisionStore`, including the actual
 recording revision field in its type, queries and schema. Do not hide it in a

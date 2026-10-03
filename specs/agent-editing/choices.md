@@ -7088,3 +7088,37 @@ until the old assembler is deleted. The plan required one owner without choosing
 this helper's home. The move adds no validation rule, forwarding wrapper or
 publication mechanism. Future package consumers share the same directory identity
 contract through that owner. This choice belongs to `6d93a9c4`.
+
+## Project fixture preservation
+
+**Sound, medium confidence — control media edges while keeping publication and archive owners real.**
+When a test asks whether deleting a project preserves an acknowledged external
+file, decoding another movie does not answer that question. The publication
+fixture supplies controlled rendered bytes; the registry fixture admits a small
+file with controlled probe metadata, then authors its project through the actual
+stores. Both still use real catalog, queue, filesystem and native publication or
+archive lifetimes. In the registry deletion case there are no exports, so that
+one external retirement edge is empty; actual export deletion belongs to the
+publication fixture. A rendered source alternative would spend more time without
+changing these lifetime assertions. The plan required preserving guarantees but
+left fixture inputs open. This choice belongs to `cd24e68f` and `bfe782fe`; future
+readers must not treat these byte/lifetime checks as media validity or listening
+evidence. It adds no production behavior.
+
+**Sound, high confidence — one shared publication fixture, local registry authoring.**
+Recovery, storage and deletion tests need the same project, queue and publication
+owner. They now share one fixture so fixes to shutdown or restart setup reach
+every publication case. Registry tests author a different portable archive and
+keep their existing local fixture; forcing both into a universal helper would
+join different responsibilities. The plan left support-code placement open.
+This choice belongs to the fixture preservation passes and keeps one setup owner
+per tested contract without a new production abstraction.
+
+**Sound, high confidence — reap crash-fixture children on a failed handshake.**
+A test deliberately kills its service child at a named publication boundary.
+If that boundary never arrives, the fixture now kills and waits for the actual
+child before reporting failure. Otherwise a failed assertion could leave native
+work and private directories alive for the next case. The plan required real
+process-death proof without choosing the helper's failure cleanup. This decision
+belongs to `bfe782fe` and applies only to test resource lifetime; it does not add
+a production retry or change a publication boundary.

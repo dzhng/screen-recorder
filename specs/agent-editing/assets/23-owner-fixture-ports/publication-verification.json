@@ -1,0 +1,301 @@
+{
+  "baseCommit": "6d93a9c4b0cbad1af6032ea003c30d716049962c",
+  "checkpointCommit": "204bc1add924c10fc48972f4cd59e63220a24008",
+  "scope": "Preserve23 legacy generic publication contracts on actual project owners; original18project cases remain. No production source edits or legacy deletions.",
+  "combined": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-concurrency=2 apps/service/tests/project-export.mjs apps/service/tests/project-export-recovery.mjs apps/service/tests/project-export-storage.mjs apps/service/tests/project-export-lifetime.mjs",
+    "exitCode": 0,
+    "tests": 41,
+    "passed": 41,
+    "durationMs": 7386.4025,
+    "stdout": "owner-suites.log"
+  },
+  "individualProof": {
+    "format": "Transcription of tool results, not original retained stdout logs. Each case green, deliberate production-dist defect red at named assertion, restored green.",
+    "cases": [
+      {
+        "legacyVideoExportLine": 707,
+        "contract": "publication budget",
+        "mutation": "exporter deadline omitted",
+        "observedRed": "publication.prepare native timeout",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1799,
+        "contract": "unregistered allocation crash",
+        "mutation": "allocation identity assignment omitted",
+        "observedRed": "failed instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1665,
+        "contract": "external commit/catalog gap",
+        "mutation": "recovered receipt adoption omitted",
+        "observedRed": "failed instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1782,
+        "contract": "catalog commit/ack gap",
+        "mutation": "committed recovery staging retirement omitted",
+        "observedRed": "private staging directory remains",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 591,
+        "contract": "negative observation refresh",
+        "mutation": "ready recovery regeneration omitted",
+        "observedRed": "failed instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 661,
+        "contract": "cancel recovery after observed commit",
+        "mutation": "abort checked before receipt persistence",
+        "observedRed": "failed instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 614,
+        "contract": "abandon recovery identities",
+        "mutation": "recovery job forget omitted",
+        "observedRed": "missing expected NOT_FOUND exception",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 801,
+        "contract": "isolated recovery retry",
+        "mutation": "failed recovery retry omitted",
+        "observedRed": "failed instead of ready",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 741,
+        "contract": "bounded backlog",
+        "mutation": "recovery admission SQL limit changed32to31",
+        "observedRed": "31 instead of32",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1866,
+        "contract": "unsafe interrupted allocation",
+        "mutation": "project deletion export retirement omitted",
+        "observedRed": "missing expected rejection",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1119,
+        "contract": "abandon crash after private retirement",
+        "mutation": "absent staging treated as requiring open",
+        "observedRed": "EXPORT_CLEANUP_FAILED ENOENT",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1903,
+        "contract": "native partial receipt write",
+        "mutation": "export attempt retry omitted",
+        "observedRed": "failed instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1919,
+        "contract": "native linked receipt crash",
+        "mutation": "prepared receipt commit omitted",
+        "observedRed": "failed instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1934,
+        "contract": "partial receipt deletion",
+        "mutation": "project deletion export retirement omitted",
+        "observedRed": "private staging remains",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 956,
+        "contract": "heavy lane and failed preview",
+        "mutation": "recovery lane changed heavy to frame",
+        "observedRed": "processing instead of queued",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 2004,
+        "contract": "failed export storage",
+        "mutation": "export usage forced zero",
+        "observedRed": "0 instead of26202 bytes",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 2045,
+        "contract": "substituted staging accounting",
+        "mutation": "present-staging errors swallowed",
+        "observedRed": "missing expected rejection",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 2075,
+        "contract": "storage shutdown drain",
+        "mutation": "active observation await omitted",
+        "observedRed": "closed true instead of false",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 2111,
+        "contract": "committed metadata accounting",
+        "mutation": "committed metadata omitted from total",
+        "observedRed": "0 instead of251 bytes",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 885,
+        "contract": "removed/replaced destinations",
+        "mutation": "retirement always opened missing destination",
+        "observedRed": "DELETE_FAILED ENOENT",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1159,
+        "contract": "abandon/delete/close drain",
+        "mutation": "export close active-retirement await omitted",
+        "observedRed": "closed true instead of false; failure-path test finally later tightened",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1590,
+        "contract": "canceled late publication",
+        "mutation": "abort checked before receipt persistence",
+        "observedRed": "canceled instead of committed",
+        "finalGreen": true
+      },
+      {
+        "legacyVideoExportLine": 1628,
+        "contract": "active cache descriptor",
+        "mutation": "cache held-reader eviction guard omitted",
+        "observedRed": "missing expected exception",
+        "finalGreen": true
+      }
+    ]
+  },
+  "sources": [
+    {
+      "path": "apps/service/tests/project-export.mjs",
+      "sha256": "9971780f876a98dc99449b5e2fbb1448904e6f6310dd5087102699b207ff7de7",
+      "bytes": 25073,
+      "gitBlob": "40fbd1d587ccb96749fd596134c98bc816a7e1f8"
+    },
+    {
+      "path": "apps/service/tests/project-export-recovery.mjs",
+      "sha256": "7982bc9e41d3762724dc1e7a5e543a12e70e2afc6018a12ad5f6b77b7272feb4",
+      "bytes": 17192,
+      "gitBlob": "62dad68b1304c764ddd60107453ee8bec25a9317"
+    },
+    {
+      "path": "apps/service/tests/project-export-storage.mjs",
+      "sha256": "130492d19d236313ccde2a335dd86dc432109085756f819921d394ce8f70cc11",
+      "bytes": 5702,
+      "gitBlob": "5c7477902330a610160288322423a03e0fbb1866"
+    },
+    {
+      "path": "apps/service/tests/project-export-lifetime.mjs",
+      "sha256": "39ea95115e9672c1eada65f8fa495f0aacf2b9fe8dcb090f9a4f555ee24fb564",
+      "bytes": 6896,
+      "gitBlob": "364a93ae245691263cdfc6090c27ce6d63cfe15d"
+    },
+    {
+      "path": "apps/service/tests/fixtures/project-export.mjs",
+      "sha256": "71f03df23038024d645824aaf93f6234a662175460b8e92d9ff2f1eb5dc253b2",
+      "bytes": 9345,
+      "gitBlob": "9a89b2b2c99a5f7b4e9e150974e2ae43eb3ddec8"
+    },
+    {
+      "path": "apps/service/tests/fixtures/project-export-crash.mjs",
+      "sha256": "5952db2f6146468685a1f20bf05883904239b9335414899cfe5777c5de86e5b4",
+      "bytes": 4224,
+      "gitBlob": "70345f0d4f3f626293ec523c62129552994875eb"
+    }
+  ],
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "bytes": 27520192,
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "timing": "Retrospective metadata captured after tests; executable reused read-only and not rebuilt."
+  },
+  "checks": {
+    "lint": "oxlint6changedfiles exit0",
+    "format": "oxfmt6changedfiles exit0",
+    "diffCheck": "git diff --check exit0",
+    "discovery": "existing package-exports.mjs apps/service/tests/*.mjs glob includes allnewtestfiles; fixture subdir excluded"
+  },
+  "review": {
+    "independent": "First10 recovery transfers examined; assertions preserved. Child failure reaping finding fixed and included in41-pass final run.",
+    "codexCLI": "Known unsupported gpt6.1sol startup400 already banked in prior pass; root instructed no retry/override.",
+    "root": "Clean final review of remaining recovery tail, storage/lifetime/crash fixture; approved six-path checkpoint; no new reruns requested."
+  },
+  "limitations": [
+    "No full suite/native media cohort/model/capture/installed changes.",
+    "Originalvideo-export suite and legacy leaves remain until outstanding contract map entries are ported.",
+    "Fixture always reconciles cache before starting queue; does not prove bundled-service startup ordering.",
+    "Retired recording-scoped storage total not recreated; aggregate shared/cache accounting and independently measured export bytes replace it."
+  ],
+  "contractMap": "project-export-contract-map-6d93a9c4.md",
+  "gitStatus": "Tracked clean after commit; only authorized immutable root node_modules symlink untracked.",
+  "archive": {
+    "path": "publication-evidence.tar.gz",
+    "sha256": "e06d4859425a55fd3f9a7d821170b61b2476fad7ae29a4b4a2e6dc16ff6f4100",
+    "bytes": 28067,
+    "members": [
+      {
+        "path": "owner-suites.log",
+        "sha256": "faf63b158650d37d30a8a28f1246443026a722e07465c4bef52ecbfaec4aaad5",
+        "bytes": 6294
+      },
+      {
+        "path": "project-export-contract-map-6d93a9c4.md",
+        "sha256": "75dedad1453e1c0c7e94a98cb87a0c42c16ff4032a0f71dfb4ef03181acddf8b",
+        "bytes": 23795
+      },
+      {
+        "path": "report.json",
+        "sha256": "b8fa99730986308622fc92c80c92bf691d011fe39b227c468259c5f83371e33d",
+        "bytes": 9825
+      },
+      {
+        "path": "sources/apps/service/tests/fixtures/project-export-crash.mjs",
+        "sha256": "5952db2f6146468685a1f20bf05883904239b9335414899cfe5777c5de86e5b4",
+        "bytes": 4224
+      },
+      {
+        "path": "sources/apps/service/tests/fixtures/project-export.mjs",
+        "sha256": "71f03df23038024d645824aaf93f6234a662175460b8e92d9ff2f1eb5dc253b2",
+        "bytes": 9345
+      },
+      {
+        "path": "sources/apps/service/tests/project-export-lifetime.mjs",
+        "sha256": "39ea95115e9672c1eada65f8fa495f0aacf2b9fe8dcb090f9a4f555ee24fb564",
+        "bytes": 6896
+      },
+      {
+        "path": "sources/apps/service/tests/project-export-recovery.mjs",
+        "sha256": "7982bc9e41d3762724dc1e7a5e543a12e70e2afc6018a12ad5f6b77b7272feb4",
+        "bytes": 17192
+      },
+      {
+        "path": "sources/apps/service/tests/project-export-storage.mjs",
+        "sha256": "130492d19d236313ccde2a335dd86dc432109085756f819921d394ce8f70cc11",
+        "bytes": 5702
+      },
+      {
+        "path": "sources/apps/service/tests/project-export.mjs",
+        "sha256": "9971780f876a98dc99449b5e2fbb1448904e6f6310dd5087102699b207ff7de7",
+        "bytes": 25073
+      }
+    ]
+  },
+  "rootIntegration": {
+    "commit": "bfe782fe",
+    "verifiedPayloadMembers": 9,
+    "allSixCommittedSourceBlobsMatch": true,
+    "review": "clean",
+    "checksReused": "41-case final terminal run; merged registry type changes emit identical runtime, no rerun warranted"
+  }
+}
