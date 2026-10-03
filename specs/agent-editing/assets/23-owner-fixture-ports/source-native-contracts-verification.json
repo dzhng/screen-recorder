@@ -1,0 +1,2085 @@
+{
+  "commit": "ff66f593b881a58da33859c32cccf7195aa5a527",
+  "base": "cab28df591efffc4ec32bdc7569b02ccf7dda388",
+  "scope": "Four current source native wire/descriptor/grid test ports; no production or native source change",
+  "files": [
+    {
+      "path": "helpers/mac/Tests/source-frame.test.mjs",
+      "bytes": 8873,
+      "sha256": "8db37456f779528183326f671dee91c4dc292bb3cce4f43ce65e48088414ecb2",
+      "gitBlob": "a84821f1477ea7597bad87c63c6c35d90690abad"
+    },
+    {
+      "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+      "bytes": 7761,
+      "sha256": "a00d367943d670f52ffed955972be647d6483628395d2fd20a9e308c78b79eff",
+      "gitBlob": "91b248591e8608ce978522fc7d72fbf459e69be5"
+    },
+    {
+      "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+      "bytes": 12746,
+      "sha256": "eba0143c480183e08a754700eba061407618f787dc1f596457858cb2efef5a75",
+      "gitBlob": "bb9adaeff48df4f593814bb13c2b868f59c5982d"
+    }
+  ],
+  "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+  "binarySHA256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "nativeSourcePins": "native-source-pins.json",
+  "sourceCorrespondence": "Parent confirmed this is current source-matched frozen8a;124 native files unchanged at final hash check. No native rebuild.",
+  "checks": [
+    {
+      "phase": "audio-budget-control",
+      "terminal": {
+        "exit": 1,
+        "end": 1790994973.718656,
+        "seconds": 0.982813835144043,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source audio refuses inherited",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 25344,
+        "start": 1790994972.7358432,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [
+          "budget-error"
+        ],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "audio-budget-green",
+      "terminal": {
+        "exit": 0,
+        "end": 1790994954.2164748,
+        "seconds": 1.0957400798797607,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source audio refuses inherited",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 25079,
+        "start": 1790994953.120736,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "15df38426cbebebf36bd77094329ee87d808fd130acd7dd02d8e92f8bbb957a0"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "audio-budget-restored",
+      "terminal": {
+        "exit": 0,
+        "end": 1790994978.750378,
+        "seconds": 1.044461965560913,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source audio refuses inherited",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 25365,
+        "start": 1790994977.705916,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "final-four",
+      "terminal": {
+        "exit": 0,
+        "end": 1790995081.4455738,
+        "seconds": 1.9136509895324707,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected frame wire|selected source audio fills|selected source audio refuses inherited|selected scene grids deliver all 52",
+          "helpers/mac/Tests/source-frame.test.mjs",
+          "helpers/mac/Tests/source-visual-samples.test.mjs",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 27266,
+        "start": 1790995079.531924,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "8db37456f779528183326f671dee91c4dc292bb3cce4f43ce65e48088414ecb2"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "a00d367943d670f52ffed955972be647d6483628395d2fd20a9e308c78b79eff"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "eba0143c480183e08a754700eba061407618f787dc1f596457858cb2efef5a75"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "frame-wire-control",
+      "terminal": {
+        "exit": 1,
+        "end": 1790994850.3934011,
+        "seconds": 0.19788908958435059,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected frame wire",
+          "helpers/mac/Tests/source-frame.test.mjs"
+        ],
+        "pid": 23919,
+        "start": 1790994850.195512,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [
+          "ignore-nested-field"
+        ],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "frame-wire-green",
+      "terminal": {
+        "exit": 0,
+        "end": 1790994838.4371939,
+        "seconds": 0.83101487159729,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected frame wire",
+          "helpers/mac/Tests/source-frame.test.mjs"
+        ],
+        "pid": 23750,
+        "start": 1790994837.606179,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "frame-wire-restored",
+      "terminal": {
+        "exit": 0,
+        "end": 1790994855.476676,
+        "seconds": 0.20323395729064941,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected frame wire",
+          "helpers/mac/Tests/source-frame.test.mjs"
+        ],
+        "pid": 23931,
+        "start": 1790994855.273442,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "grid-control",
+      "terminal": {
+        "exit": 1,
+        "end": 1790995009.468673,
+        "seconds": 0.25899386405944824,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected scene grids deliver all 52",
+          "helpers/mac/Tests/source-visual-samples.test.mjs"
+        ],
+        "pid": 25915,
+        "start": 1790995009.2096791,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "d45f8146b8e305760e8d7b86c23504b6c8e309834f5cc720b9b9b65171455eee"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [
+          "grid-color"
+        ],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "grid-green",
+      "terminal": {
+        "exit": 0,
+        "end": 1790995005.802701,
+        "seconds": 0.2521798610687256,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected scene grids deliver all 52",
+          "helpers/mac/Tests/source-visual-samples.test.mjs"
+        ],
+        "pid": 25900,
+        "start": 1790995005.5505211,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "d45f8146b8e305760e8d7b86c23504b6c8e309834f5cc720b9b9b65171455eee"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "grid-restored",
+      "terminal": {
+        "exit": 0,
+        "end": 1790995013.554681,
+        "seconds": 0.2660698890686035,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected scene grids deliver all 52",
+          "helpers/mac/Tests/source-visual-samples.test.mjs"
+        ],
+        "pid": 26685,
+        "start": 1790995013.2886112,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "d45f8146b8e305760e8d7b86c23504b6c8e309834f5cc720b9b9b65171455eee"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "unsupported-frame-input-descriptor",
+      "terminal": {
+        "exit": 1,
+        "end": 1790994880.1965802,
+        "seconds": 0.2487931251525879,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source frames retain",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 24639,
+        "start": 1790994879.947787,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "6bbad244ab29b0d0f6aa13e90c506bbbf1ab0d1b7b31696f93e1ef47c242d266"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "wave-descriptor-control",
+      "terminal": {
+        "exit": 1,
+        "end": 1790994930.02108,
+        "seconds": 0.19761300086975098,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source audio fills",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 24992,
+        "start": 1790994929.823467,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "c90a716bbf04937a9e9cd560e01627ffa450e44dc11226c514be19c2060eadb5"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [
+          "descriptor-bytes"
+        ],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "wave-descriptor-green",
+      "terminal": {
+        "exit": 0,
+        "end": 1790994918.881257,
+        "seconds": 0.24968194961547852,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source audio fills",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 24945,
+        "start": 1790994918.631576,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "6559f83a863b6de9cf86ffee74ff57685c3f8aa5147b8f5a90ff20f5a859d221"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    },
+    {
+      "phase": "wave-descriptor-restored",
+      "terminal": {
+        "exit": 0,
+        "end": 1790994934.248818,
+        "seconds": 0.20689892768859863,
+        "waited": true
+      },
+      "process": {
+        "argv": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "--test-name-pattern=selected source audio fills",
+          "helpers/mac/Tests/descriptor-media.test.mjs"
+        ],
+        "pid": 25024,
+        "start": 1790994934.041919,
+        "pins": [
+          {
+            "path": "helpers/mac/Tests/source-frame.test.mjs",
+            "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+          },
+          {
+            "path": "helpers/mac/Tests/source-visual-samples.test.mjs",
+            "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+          },
+          {
+            "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+            "sha256": "c90a716bbf04937a9e9cd560e01627ffa450e44dc11226c514be19c2060eadb5"
+          }
+        ],
+        "binary": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+        "control": [],
+        "observer": "../observe.cjs"
+      }
+    }
+  ],
+  "final": {
+    "passed": 4,
+    "failed": 0,
+    "seconds": 1.914003849029541,
+    "grid": {
+      "elapsedMs": 299.1,
+      "peakRSSBytes": 31916032,
+      "responseBytes": 491289,
+      "samples": 52
+    }
+  },
+  "controls": "Private observe.cjs changes requests/results/owned output bytes at the boundary. These are oracle-sensitivity controls, NOT compiled production guard mutations. Binary and Swift unchanged. Native stdout retained before result mutation.",
+  "fixtures": "First FFmpeg lavfi generation is actual; identical later input commands reuse private content-hashed fixtures. Each operation runs the real frozen worker and records waited status, input/reply/FD identities and retained file hashes. Files <=2MiB copied before cleanup; larger budget fixture retained in shared private fixture cache.",
+  "unsupported": "unsupported-frame-input-descriptor is actual failure of an attempted old capability (exit1 Cannot Open), not regression-control or transferred proof; test removed from final patch per explicit contract retirement.",
+  "review": "Self shape/diff/docs clean; root independent final patch review clean, authorized commit. Independent acquisition_skill_fresh FD trace confirms no live PNG descriptor caller. No repeated known-unavailable configured-model Codex review.",
+  "checksScope": "Only new four selectors; unchanged physical support/codec/truncation suites reused, not rerun. New-tail formatting, three-file oxlint and diffcheck pass. No native rebuild/model/capture/installed/fullsuite.",
+  "contractDisposition": "Retain current source/output path alias refusal, generic MediaInput/MediaDescriptor lifetime, WAVE/probe/source export/archive/publication, and managed retention. Retire only old inherited-video decoder and same-FD PNG input/output subcontracts with the unadopted package engine.",
+  "bank": {
+    "archive": "source-native-contracts-evidence.tar.gz",
+    "bytes": 1249888,
+    "sha256": "10d856cb536c21ab56239fe324f0a482d5e78fe03f6c04f6fb92d516b28e8b35",
+    "payloads": [
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/25345-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/25345-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/25345-1.input",
+        "bytes": 301,
+        "sha256": "7df026ec8d7aa073d332109c7de1eeab0fe48b6facc2bb40333515a2ce84ac91"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/25345-1.native.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/25345-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/25345-1.stdout",
+        "bytes": 162,
+        "sha256": "4f85237dad6d4ec6329eea08dab5ea1e53405f332a2cea6d5d95bc5114ab120f"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/events-25345.jsonl",
+        "bytes": 1029,
+        "sha256": "4a4e59e5425f103f4342306793244331c6566dff54f3b412d69ece149010c353"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/process.json",
+        "bytes": 962,
+        "sha256": "5bbdb4e9b0924527eb244697fb9764b1101d03bc05aa66dab7c9987244cae93d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12538,
+        "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/stdout",
+        "bytes": 1129,
+        "sha256": "cc940f37066815f77b75e86340b2553a180660b6bfe1b2d3f9f49fa494d9cfe0"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-control/terminal.json",
+        "bytes": 84,
+        "sha256": "50d53927b802692a29acdabbad36c5936e82c805735cc471d45045400c3792b4"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/25080-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/25080-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/25080-1.input",
+        "bytes": 301,
+        "sha256": "f178099560fe87bf31aa6e4a7bef847b8685606f8de8e6d5b7aef1b4f5dee59e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/25080-1.native.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/25080-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/25080-1.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/events-25080.jsonl",
+        "bytes": 1030,
+        "sha256": "af69a6f6122a9a2ed3059db5fcd45cdf690231d5eb29e13cc56ad353dfc90f70"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/process.json",
+        "bytes": 939,
+        "sha256": "e322a223b37b45c5b23be771e3a5956052ba23483d2d719338b78d47e2796e5d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 14512,
+        "sha256": "15df38426cbebebf36bd77094329ee87d808fd130acd7dd02d8e92f8bbb957a0"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/stdout",
+        "bytes": 215,
+        "sha256": "ac96cc8bf488942ed2d4058dfc5ff7817b0a6227536ade6546740ef082ad3bc7"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-green/terminal.json",
+        "bytes": 86,
+        "sha256": "4b956250ed0030fe1228a458ae0ca138942aa1d018ee574905da1403e12b1cd9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/25366-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/25366-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/25366-1.input",
+        "bytes": 301,
+        "sha256": "3e24acef74ffd2feeab883fa8347527df363964feed413f204459940d9490452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/25366-1.native.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/25366-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/25366-1.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/events-25366.jsonl",
+        "bytes": 1029,
+        "sha256": "4f2dbe936d4033d8a6acdafb2d515ea539a6e89d6ec2a4a6a7cfb877e3571bab"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/process.json",
+        "bytes": 939,
+        "sha256": "f537d4bbef370e02e3126594341729d36850a361c54249fc0680a984fa796111"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12538,
+        "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/stdout",
+        "bytes": 214,
+        "sha256": "9475076b2c969ef3a7745e2f572313050a72e50a91633ec1f85151c6d66da003"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/audio-budget-restored/terminal.json",
+        "bytes": 84,
+        "sha256": "c0a325d6f99177f5f761345388013f8bede175afc80126ce82c08e920222da2a"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/baseline/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 9089,
+        "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/baseline/helpers/mac/Tests/frames.test.mjs",
+        "bytes": 7383,
+        "sha256": "1f4990c2320d653b3707d342ffa1121d304366e51418c210e2445f2102341f3a"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/baseline/helpers/mac/Tests/source-audio.test.mjs",
+        "bytes": 7453,
+        "sha256": "a946f0d14f33a3a6c77c25f92fe41bcb8f3b0a13be0a9ba39323222568e407c3"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/baseline/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 5941,
+        "sha256": "e9aa6eeb1374dcbc1d3059bfae7f01df5e5a1a37e2016a27227a63ba78a6e247"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/baseline/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/baseline/helpers/mac/Tests/visual-samples.test.mjs",
+        "bytes": 4537,
+        "sha256": "42e72fd1dd66409ef70d9c7341194541104511cc3433f7b3ffa5d3533566ba1b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/descriptor-media.test.mjs.format.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/dispositions.md",
+        "bytes": 3369,
+        "sha256": "0733b74356bad4f554890a1ea5335f1bf01d32aa4ec235a8046f1e5940adc1a4"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12746,
+        "sha256": "eba0143c480183e08a754700eba061407618f787dc1f596457858cb2efef5a75"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8873,
+        "sha256": "8db37456f779528183326f671dee91c4dc292bb3cce4f43ce65e48088414ecb2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 7761,
+        "sha256": "a00d367943d670f52ffed955972be647d6483628395d2fd20a9e308c78b79eff"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-1.input",
+        "bytes": 388,
+        "sha256": "43bd3ddce5693ad3708d4fb9bdd134ea09bcfa752b35b69e160dc4c8fc926e36"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-1.native.stdout",
+        "bytes": 376,
+        "sha256": "66c3315060a2362e96283a287c902a64647cbbbe99b808662eaa90e5f4de2392"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-1.stdout",
+        "bytes": 376,
+        "sha256": "66c3315060a2362e96283a287c902a64647cbbbe99b808662eaa90e5f4de2392"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-2.input",
+        "bytes": 222,
+        "sha256": "24deb6114a2a6c954606a9cf643dafd4d5f99c9e5f24c55993ad3dae63743b4e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-2.native.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-2.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-3.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-3.stdout",
+        "bytes": 105840,
+        "sha256": "4b5b126a2c3300aaa7efa2c27d474e40adcf8aa55efde78ea0bdafbd6c593abb"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-4.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-4.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-5.input",
+        "bytes": 301,
+        "sha256": "abc8a939919e9643e96f2f6b1336ed3c95b6825581f135bb7018725b1b8f6bc8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-5.native.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-5.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27267-5.stdout",
+        "bytes": 156,
+        "sha256": "7e712759119e1cf66abb1bf2a55960cb62816cfac188b25651b06bdabed790a9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-1.input",
+        "bytes": 2318,
+        "sha256": "52c8271968bead43b24bcc4d1b14c47ab863609d6c1aad5ed75d6483bdd74547"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-1.native.stdout",
+        "bytes": 1214,
+        "sha256": "ad809f0fa25c0c905ca6a6b873c5a73e09652cab6fc1c05b824bcbfb4f0045ae"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-1.stdout",
+        "bytes": 1214,
+        "sha256": "ad809f0fa25c0c905ca6a6b873c5a73e09652cab6fc1c05b824bcbfb4f0045ae"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-2.input",
+        "bytes": 387,
+        "sha256": "180abfe198193f718f44e27468627e632a430600a2c2cf7d96edd3172131053a"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-2.native.stdout",
+        "bytes": 140,
+        "sha256": "d8000fec0d853451b0c3eab0098acb5194807564598ded272000087a847d9baf"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27362-2.stdout",
+        "bytes": 140,
+        "sha256": "d8000fec0d853451b0c3eab0098acb5194807564598ded272000087a847d9baf"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27366-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27366-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27366-1.input",
+        "bytes": 694,
+        "sha256": "71ed4282d75256170a73350b094a036300a7ec5f794bfe02ec5e6db5bd322272"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27366-1.native.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27366-1.stderr",
+        "bytes": 777,
+        "sha256": "f1c8b3a077713547727062a577aa21f5f2b7fef3b9574c82e1690aba12b9bf47"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/27366-1.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/artifacts/243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515",
+        "bytes": 10971,
+        "sha256": "243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/artifacts/4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716",
+        "bytes": 4603,
+        "sha256": "4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/artifacts/b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2",
+        "bytes": 4421,
+        "sha256": "b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/artifacts/bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8",
+        "bytes": 352892,
+        "sha256": "bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/artifacts/ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526",
+        "bytes": 109936,
+        "sha256": "ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/events-27267.jsonl",
+        "bytes": 3117,
+        "sha256": "c4248973cc5babd416d80d6090fbf0968f204d6ff4e1fb993f07cfe510e54c89"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/events-27362.jsonl",
+        "bytes": 1436,
+        "sha256": "42cbca8dd52bdced34aedd3de0f12a802ae558634f0edfbf1a466c8983acd97e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/events-27366.jsonl",
+        "bytes": 982,
+        "sha256": "3c38b6cf3bee815cdee14df53b8c4378265300e4bd8b3d96e8e2fc794b56340f"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/process.json",
+        "bytes": 1126,
+        "sha256": "2a404de7f75025198982666e5b6b13451562f2e81d05c78222ac9e4214334c99"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12746,
+        "sha256": "eba0143c480183e08a754700eba061407618f787dc1f596457858cb2efef5a75"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8873,
+        "sha256": "8db37456f779528183326f671dee91c4dc292bb3cce4f43ce65e48088414ecb2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 7761,
+        "sha256": "a00d367943d670f52ffed955972be647d6483628395d2fd20a9e308c78b79eff"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/stdout",
+        "bytes": 596,
+        "sha256": "bf356dce5a92c409de97bd138a16ff60dfcebdaee980dbb12787c77e64f8b65d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final-four/terminal.json",
+        "bytes": 86,
+        "sha256": "aee619bea60b8b9ba9265f688ebcea996b0bc978f32cff8e42c7b6f32c1c3148"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/final.diff",
+        "bytes": 11741,
+        "sha256": "00cca84087be5cf29b0ebf2e3eee38ac7044bba7d01f4fe9dd33e42f9aa41984"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/fixtures/14488ecaf311eb2ee72942af9afa4ffc3fb671efaa51cc8c77e5ba80ab34aefa",
+        "bytes": 352892,
+        "sha256": "bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/fixtures/374af97400f05a840f2e724f943709707ba092c42d25608a3f32a383cf00395a",
+        "bytes": 4603,
+        "sha256": "4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/fixtures/5dbce693152bb376359d099925d1b124f81d4b366a46893668f6c1b362423c36",
+        "bytes": 92160114,
+        "sha256": "ae1fc8fb006df004b2044afd6eb06981ee66f1aecd29d7728e73718b49d623c0"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/fixtures/8cd0389c7f96a3caf0caa130b3c88fe10b06cf2c8395af1b2d9f033c883f3eac",
+        "bytes": 18561,
+        "sha256": "c66283a7dbf185fd3da3d5d7e7f99f3d31c28b70037a7a4764974dfdf7732ef0"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/fixtures/8eb05ad2d8a3d0929148088c16683b702aae121e415a90237db57b4c9c36bcff",
+        "bytes": 10971,
+        "sha256": "243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-1.forwarded-input",
+        "bytes": 2305,
+        "sha256": "57838493db61a76810f0565526c40441190b3e7f2f6d9499551d3550043bfdf6"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-1.input",
+        "bytes": 2318,
+        "sha256": "db605dcc199d69be32df3770f3e18549235c3157d8699faf9c98d77970d75543"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-1.native.stdout",
+        "bytes": 1194,
+        "sha256": "c3cb415b5b5f5506356176c05d25aed92b4b22e64a46a619ee368d42dad68610"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/23920-1.stdout",
+        "bytes": 1194,
+        "sha256": "c3cb415b5b5f5506356176c05d25aed92b4b22e64a46a619ee368d42dad68610"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/artifacts/243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515",
+        "bytes": 10971,
+        "sha256": "243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/artifacts/b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2",
+        "bytes": 4421,
+        "sha256": "b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/events-23920.jsonl",
+        "bytes": 1141,
+        "sha256": "f3ae04e47e60b25532765c2dc1d0c0a5d477e851398c796c714addd246673eab"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/process.json",
+        "bytes": 944,
+        "sha256": "b788a936cb18ac15a18bfdb39e9124cea3baa4df8e26e812c92a5120a177e239"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 9089,
+        "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/stdout",
+        "bytes": 1055,
+        "sha256": "4b86933396ea550a5eb2f2205eee29ac4d67976771deed2f0f9055f288bdf452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-control/terminal.json",
+        "bytes": 87,
+        "sha256": "e67d13dfbda74d9d7fcd4bfe7f994495ef67bd6d3cd3ec2dbca4ddb5ea990f9a"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-1.input",
+        "bytes": 2318,
+        "sha256": "0cc53cf8eafccb8ff886591c7dd47eddebe41a1b420d30cc16262cb5a0296d9a"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-1.stdout",
+        "bytes": 1214,
+        "sha256": "1275c9944e443044082bda6ffad9e4ff35e8e7458f3973f039a418378982ae58"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-2.input",
+        "bytes": 387,
+        "sha256": "205202104000db67f3de503538b302b7e575d37cd473719366a6fbf0544cc8e0"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/23751-2.stdout",
+        "bytes": 140,
+        "sha256": "d8000fec0d853451b0c3eab0098acb5194807564598ded272000087a847d9baf"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/artifacts/243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515",
+        "bytes": 10971,
+        "sha256": "243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/artifacts/b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2",
+        "bytes": 4421,
+        "sha256": "b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/events-23751.jsonl",
+        "bytes": 1437,
+        "sha256": "3b7ad3e5070c4d21846c0b3170f16fae053360e1122b7765bf1fc4df02f05ef9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/process.json",
+        "bytes": 915,
+        "sha256": "189e0b7db2bd209fa1c9f384a9d378b669812c22e842fed0f3d8bbd2856dbf06"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 9089,
+        "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/stdout",
+        "bytes": 219,
+        "sha256": "2acbd5d85a9bf9c3be38006c19af6a006c2ea00cc1cc132d33870a1a305f6715"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-green/terminal.json",
+        "bytes": 84,
+        "sha256": "f5390ba278612ef3541c7a1a7bdab3ad3574a477b80ce4315b92d9379f543a43"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-1.input",
+        "bytes": 2318,
+        "sha256": "fdd2b6094e26b0d8ebf290e827a69ea80f9e7ae16bb59600660ecf4a46f0a2c2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-1.native.stdout",
+        "bytes": 1214,
+        "sha256": "c96345085918817da1e7c191ea4f2b8feb905abb7a1a0f31215d645ba76b86f6"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-1.stdout",
+        "bytes": 1214,
+        "sha256": "c96345085918817da1e7c191ea4f2b8feb905abb7a1a0f31215d645ba76b86f6"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-2.input",
+        "bytes": 387,
+        "sha256": "b6b7d84df7bba111786682129f6db8fb00bbbcc87c821dd9123f41a652377b52"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-2.native.stdout",
+        "bytes": 140,
+        "sha256": "d8000fec0d853451b0c3eab0098acb5194807564598ded272000087a847d9baf"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/23932-2.stdout",
+        "bytes": 140,
+        "sha256": "d8000fec0d853451b0c3eab0098acb5194807564598ded272000087a847d9baf"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/artifacts/243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515",
+        "bytes": 10971,
+        "sha256": "243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/artifacts/b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2",
+        "bytes": 4421,
+        "sha256": "b6e1ccb0d54e493dfb86da5ee2dafc1d654916baaf82df1425a221b1e1065ae2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/events-23932.jsonl",
+        "bytes": 1436,
+        "sha256": "6dec99ba6a38dd1d670fc3015877195e990d6500f1c3f4201d352b718b837b30"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/process.json",
+        "bytes": 915,
+        "sha256": "bc2b28127885c4c1aac674ece3d14a10c7e26d3438a94f0e1867eefeb0008b8e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 9089,
+        "sha256": "780ba30d7c15dceea6f2be51325e96eac8bee7746cf1df5501aa0f9864e0688c"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/stdout",
+        "bytes": 216,
+        "sha256": "b814978809fae31f010895692af929e63621d3fe27fda2188987371139dd2486"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/frame-wire-restored/terminal.json",
+        "bytes": 86,
+        "sha256": "d944e264374ef06ebf32d55c1055052610d01168b4f813c2b2202cf549a43ee8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/25916-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/25916-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/25916-1.input",
+        "bytes": 694,
+        "sha256": "39b3f2940bcfca4095a2670fa943f62fbe943b4e6e2b2b50cb141af28d54b13d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/25916-1.native.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/25916-1.stderr",
+        "bytes": 777,
+        "sha256": "7e31b99bad11fbd89f161ebab8e915f7ecbc997d0d10afa6e965578fb2c3a5d5"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/25916-1.stdout",
+        "bytes": 491289,
+        "sha256": "72ea94edfb7e61cfb777f0c2d1a60e811ea55c8664171efd32484ac2693ee116"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/artifacts/4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716",
+        "bytes": 4603,
+        "sha256": "4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/events-25916.jsonl",
+        "bytes": 982,
+        "sha256": "76a8b0de0a05b8ff56ceee0ab42c2fa3d392619d8efbb4ef37c1346fb86867df"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/process.json",
+        "bytes": 961,
+        "sha256": "860797c527078d3f98d084170b684972697582e3eade2b93c6361c6a5efca487"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12538,
+        "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 7673,
+        "sha256": "d45f8146b8e305760e8d7b86c23504b6c8e309834f5cc720b9b9b65171455eee"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/stdout",
+        "bytes": 1037,
+        "sha256": "2ca61efd1c7485bbb1dbc8d740d9e6b5912c48dc1d620193ed1c0743a9e2d7e6"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-control/terminal.json",
+        "bytes": 86,
+        "sha256": "b31c63389480c88de562361d777ec8982743ffc6c7940021918158b1ac972044"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/25901-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/25901-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/25901-1.input",
+        "bytes": 694,
+        "sha256": "6da39c2114052dc08e4580351973ba8312ab38dff3115174ef52cdf9ebdd50db"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/25901-1.native.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/25901-1.stderr",
+        "bytes": 777,
+        "sha256": "d335cca53b85ed402a70dab3bbac54d972e50e27ea43d231ed3f6ceb895067e3"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/25901-1.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/artifacts/4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716",
+        "bytes": 4603,
+        "sha256": "4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/events-25901.jsonl",
+        "bytes": 983,
+        "sha256": "c5aa0110180abe53b214030493296a9185fe4e80048263380b42165c4bd4991f"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/process.json",
+        "bytes": 941,
+        "sha256": "829a60d660277ccd417191992f0c98349a7ab30e54d737cde190a97822655319"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12538,
+        "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 7673,
+        "sha256": "d45f8146b8e305760e8d7b86c23504b6c8e309834f5cc720b9b9b65171455eee"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/stdout",
+        "bytes": 294,
+        "sha256": "0568d0595ddeb08d06ced4bc876fd5af424de918fdfbe406af4d3c20555e26da"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-green/terminal.json",
+        "bytes": 85,
+        "sha256": "b496c6a0a07555419ed4285174eff411eb1e12828b4e89eb0251bad557d4a1ed"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/26686-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/26686-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/26686-1.input",
+        "bytes": 694,
+        "sha256": "855282c04a575df7b74b36bda4081f6909a1b591dc41f070ba6484f8af1a2330"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/26686-1.native.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/26686-1.stderr",
+        "bytes": 777,
+        "sha256": "9a81ea829fb5c164f3e048cbf54177058266aef9633f97bace2cb48e07abcec5"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/26686-1.stdout",
+        "bytes": 491289,
+        "sha256": "e4589158f1f016f5559f17c5e46c22525050bef2ca5507d1f94f76d35ef8ad48"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/artifacts/4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716",
+        "bytes": 4603,
+        "sha256": "4a7c50320d9f50fea3e86dc9f1b7d13f3073b12d268f55182f013c85fa75b716"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/events-26686.jsonl",
+        "bytes": 982,
+        "sha256": "77837a82898ba96769ac3b4312cf95207f387ffadd82e3a9a24cc0af4c452a7a"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/process.json",
+        "bytes": 941,
+        "sha256": "9ddacb570036cbc307071f7ef01ccaba1ca423ffa07e7b01c3758f8ee420b835"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 12538,
+        "sha256": "e9c1e284a080645565ca1f3a48c2445a82846010f9d4cfebffee43c80ea2ba94"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 7673,
+        "sha256": "d45f8146b8e305760e8d7b86c23504b6c8e309834f5cc720b9b9b65171455eee"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/stdout",
+        "bytes": 294,
+        "sha256": "15d9e698350c3308fc506ddf4d80fb54ec477b930df6c5b7ae500ee3c21188b6"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/grid-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "c25d2cfd57e0a3412e318b40852e95f1a0329d22ba300323bf46beefc4b2e9fc"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/native-source-pins.json",
+        "bytes": 29921,
+        "sha256": "f6cc2fcd0cc6cb5bb14cdcc2dae0854b01f5331e86ac2fca75885d72242cf9af"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/observe.cjs",
+        "bytes": 5405,
+        "sha256": "34bc80585f05eff413e96cf98d199fd4335b47ed8ebf974fa6172cad2f8be9f9"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/report.json",
+        "bytes": 21884,
+        "sha256": "ecc873c1f51e016b35762dc66c517eebb346810183c9274c0d154fc95319f400"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/run.py",
+        "bytes": 1696,
+        "sha256": "fe51c57ee4427e62545da7a3fb4c831c67cda271473fe57850462b65d4b8c212"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/source-frame.test.mjs.format.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/source-visual-samples.test.mjs.format.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-1.input",
+        "bytes": 390,
+        "sha256": "241b4fdd44fe6f113ee8ddc7a6ba709f345734275fd7a3196cfed666c0b6d6aa"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-1.native.stdout",
+        "bytes": 474,
+        "sha256": "964861f90cb1c380887233cc6693e4c357b8bc36ece732aa6df5e6b2a7724e14"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-1.stdout",
+        "bytes": 474,
+        "sha256": "964861f90cb1c380887233cc6693e4c357b8bc36ece732aa6df5e6b2a7724e14"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-2.input",
+        "bytes": 308,
+        "sha256": "16a43dfbf6d786f4f4f65cc795d0d9770c07be4a4719a5f765228ff2d9777cbc"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-2.native.stdout",
+        "bytes": 125,
+        "sha256": "9bce0786db6b59a29c8dc5ae91fa0d604a06d2eee9472d4e7340f7b66a088e04"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/24640-2.stdout",
+        "bytes": 125,
+        "sha256": "9bce0786db6b59a29c8dc5ae91fa0d604a06d2eee9472d4e7340f7b66a088e04"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/artifacts/2a499790091cab29e3dd2549aea7461a515412f296cad9815a525fe7e795b573",
+        "bytes": 16494,
+        "sha256": "2a499790091cab29e3dd2549aea7461a515412f296cad9815a525fe7e795b573"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/artifacts/c66283a7dbf185fd3da3d5d7e7f99f3d31c28b70037a7a4764974dfdf7732ef0",
+        "bytes": 18561,
+        "sha256": "c66283a7dbf185fd3da3d5d7e7f99f3d31c28b70037a7a4764974dfdf7732ef0"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/events-24640.jsonl",
+        "bytes": 1522,
+        "sha256": "2ebbb168dce3a657b112cc56fba2e58809024a592503b12edb7866ba78cbe489"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/process.json",
+        "bytes": 929,
+        "sha256": "fba2261607d231a50cfccea33559a30f750e8df634f8dd4bdfd6506d2069f3e5"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 11063,
+        "sha256": "6bbad244ab29b0d0f6aa13e90c506bbbf1ab0d1b7b31696f93e1ef47c242d266"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/stdout",
+        "bytes": 1133,
+        "sha256": "51b5f31aa9e8b82c554548b8e6ee2c9d84630ce6fbba46a5ef8c7ace70069ffa"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/unsupported-frame-input-descriptor/terminal.json",
+        "bytes": 86,
+        "sha256": "b4ea69d71ed9c1bcebc88d7e72e1768daec62a8b1c8f16b94dd58efefe3708a6"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-1.input",
+        "bytes": 388,
+        "sha256": "ab40fe25bc98f945fc0b47ccf062906722ecdb633f418dcf86b07fbd7b72df5b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-1.native.stdout",
+        "bytes": 376,
+        "sha256": "0c435753ee0d942cfa05bd62c0149f14fca58f601bf216374372047740e1f34d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-1.stdout",
+        "bytes": 376,
+        "sha256": "0c435753ee0d942cfa05bd62c0149f14fca58f601bf216374372047740e1f34d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-2.input",
+        "bytes": 222,
+        "sha256": "24deb6114a2a6c954606a9cf643dafd4d5f99c9e5f24c55993ad3dae63743b4e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-2.native.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/24993-2.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/artifacts/bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8",
+        "bytes": 352892,
+        "sha256": "bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/artifacts/ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526",
+        "bytes": 109936,
+        "sha256": "ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/artifacts/f4410c0633b9cc22cd26799909b3ac7020c26adc186fb8f3f917b72c11bcee53",
+        "bytes": 109936,
+        "sha256": "f4410c0633b9cc22cd26799909b3ac7020c26adc186fb8f3f917b72c11bcee53"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/events-24993.jsonl",
+        "bytes": 1802,
+        "sha256": "32b795937bd8f3f041ade568851a13ef08a442ff1c5b7e54996766da56891941"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/process.json",
+        "bytes": 953,
+        "sha256": "a2374f56cf418451572e5ad638b8bf2b87dd212eaed316dd37d660adf201a1b7"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 13400,
+        "sha256": "c90a716bbf04937a9e9cd560e01627ffa450e44dc11226c514be19c2060eadb5"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/stdout",
+        "bytes": 1519,
+        "sha256": "a4c7f9487e5b9743873e0c9ada0637e227978d1eef68718805d1cbd1b3bb569e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-control/terminal.json",
+        "bytes": 85,
+        "sha256": "2245538700555adca552b4b27eb9235bf73bcc8574c104e09725fc49292c6aea"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-1.input",
+        "bytes": 388,
+        "sha256": "1f40b44ccc1fa8c1db0368316d15c8bf916e49ffeaf6d969ece37251820bc6c2"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-1.native.stdout",
+        "bytes": 376,
+        "sha256": "62c90717990d760b64183c8ea5e0f41f37ae5027e4097d022358b5ae9214f738"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-1.stdout",
+        "bytes": 376,
+        "sha256": "62c90717990d760b64183c8ea5e0f41f37ae5027e4097d022358b5ae9214f738"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-2.input",
+        "bytes": 222,
+        "sha256": "24deb6114a2a6c954606a9cf643dafd4d5f99c9e5f24c55993ad3dae63743b4e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-2.native.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-2.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-3.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/24946-3.stdout",
+        "bytes": 105840,
+        "sha256": "4b5b126a2c3300aaa7efa2c27d474e40adcf8aa55efde78ea0bdafbd6c593abb"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/artifacts/bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8",
+        "bytes": 352892,
+        "sha256": "bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/artifacts/ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526",
+        "bytes": 109936,
+        "sha256": "ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/events-24946.jsonl",
+        "bytes": 2089,
+        "sha256": "a782497ab96f13a29aba00d8e818d6acb2e9d8e56621e03e366c0140ee69091e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/process.json",
+        "bytes": 927,
+        "sha256": "c7fcefcb35246e516632e9f8d16a30d34eb0c4791302544d3bdbaad65c4d2a8e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 13199,
+        "sha256": "6559f83a863b6de9cf86ffee74ff57685c3f8aa5147b8f5a90ff20f5a859d221"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/stdout",
+        "bytes": 211,
+        "sha256": "72871b10e6ac680d47142d4ea3d3965f0f677061579cbf63b81377ef1ea23f79"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-green/terminal.json",
+        "bytes": 86,
+        "sha256": "2426bd21da8e877f3298df9015687b96bdd5f395bf2ffdb9ac426daf5ed15bce"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-0.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-0.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-1.input",
+        "bytes": 388,
+        "sha256": "a9d717572efa203ff8ac9e1f54616db3481abc2eb7cbc1a07e585dc662fd0d44"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-1.native.stdout",
+        "bytes": 376,
+        "sha256": "475f3c311e8d07bb2cfce4ead6a31eb377d630b7a41e582201ff39384421df21"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-1.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-1.stdout",
+        "bytes": 376,
+        "sha256": "475f3c311e8d07bb2cfce4ead6a31eb377d630b7a41e582201ff39384421df21"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-2.input",
+        "bytes": 222,
+        "sha256": "24deb6114a2a6c954606a9cf643dafd4d5f99c9e5f24c55993ad3dae63743b4e"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-2.native.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-2.stdout",
+        "bytes": 288,
+        "sha256": "ecd2f0b9191398e188f3eba0b726a70aac44069de8303c03585a80d4036a631b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-3.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/25025-3.stdout",
+        "bytes": 105840,
+        "sha256": "4b5b126a2c3300aaa7efa2c27d474e40adcf8aa55efde78ea0bdafbd6c593abb"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/artifacts/bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8",
+        "bytes": 352892,
+        "sha256": "bd0d1b870df44e637648c1613190c3e289e9010aed0a618084a525a3d7f22fb8"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/artifacts/ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526",
+        "bytes": 109936,
+        "sha256": "ca53717a1cd99713b5d0e4445b6d3e96d7e3b7fef21d445ce5e9892f9e5ac526"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/events-25025.jsonl",
+        "bytes": 2088,
+        "sha256": "8d43aa1b9cfddb1faf24c5ee85616ad35e0362a53846431f753bd84de10133d7"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/process.json",
+        "bytes": 927,
+        "sha256": "3748bad5f65a0f56e07954392d58d164deec46a6e7e8192fc84d96c55eb51ab7"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/sources/helpers/mac/Tests/descriptor-media.test.mjs",
+        "bytes": 13400,
+        "sha256": "c90a716bbf04937a9e9cd560e01627ffa450e44dc11226c514be19c2060eadb5"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/sources/helpers/mac/Tests/source-frame.test.mjs",
+        "bytes": 8690,
+        "sha256": "3551c9b7bb970bb670fbaeff6b4704bf94d72fa358033fdec1affc80325a97be"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/sources/helpers/mac/Tests/source-visual-samples.test.mjs",
+        "bytes": 5023,
+        "sha256": "bb6f112bb62bd934b33473980f4dc23207fd018b507254add399d6155671f452"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/stdout",
+        "bytes": 212,
+        "sha256": "1de4d1cdf62f0130ef6e42d6f656dc2bf00624c74aeadb9bb97d5b410606854d"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/wave-descriptor-restored/terminal.json",
+        "bytes": 86,
+        "sha256": "4c85795affbffc2f35064d680f4e377ab91309c0a4c8f5733c8961e8c16aec2b"
+      },
+      {
+        "path": "source-native-contracts-cab28df5/worker-preservation.json",
+        "bytes": 1523,
+        "sha256": "b2a756832fa823d5a2cab59487894d28c7c31694dd42fb631af528e2eb760144"
+      }
+    ],
+    "rootVerification": "All archived payloads,124 unchanged native-source pins, frozen worker hash and three committed test blobs independently checked. Root read full test delta and original grid/descriptor assertions; no repeat runtime run. Conflict-free primary integration34a76ca0 preserves exact final test blobs; no runtime rerun."
+  },
+  "integratedCommit": "34a76ca0"
+}

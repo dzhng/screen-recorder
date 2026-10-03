@@ -1,5 +1,5 @@
 {
-  "scope": "Byte-identical offline preservation; no source replacement, build, execution or installed switching",
+  "scope": "Byte-identical preservation step only: no source replacement, build, execution or installed switching during copying. Subsequent verification uses are recorded separately.",
   "files": [
     {
       "scope": "current frozen media worker",
@@ -7,7 +7,7 @@
       "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928/screenrec-native",
       "bytes": 30148624,
       "sha256": "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
-      "executed": false
+      "executedDuringPreservation": false
     },
     {
       "scope": "retained installed recording worker",
@@ -15,7 +15,7 @@
       "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b/screenrec-native",
       "bytes": 11261136,
       "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b",
-      "executed": false
+      "executedDuringPreservation": false
     },
     {
       "scope": "canonical worker used by retained package/native/archive proofs",
@@ -23,7 +23,8 @@
       "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
       "bytes": 27520192,
       "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
-      "executed": false
+      "executedDuringPreservation": false,
+      "subsequentVerification": "specs/agent-editing/assets/23-owner-fixture-ports/source-native-contracts-verification.json; four current native source-operation cases and classified sensitivity/unsupported trials"
     }
   ]
 }

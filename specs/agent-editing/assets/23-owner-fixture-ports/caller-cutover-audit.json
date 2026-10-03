@@ -1,0 +1,38 @@
+{
+  "kind": "read-only-caller-and-PNG-descriptor-contract-audit",
+  "parentCommit": "cab28df5",
+  "verificationRun": false,
+  "scope": [
+    "Shared CLI/MCP current batch owner response validation and explicit captured-source/project/adoption caller workflow.",
+    "PNG path-output and managed-input contract differs from retired direct package descriptor pair; current path alias refusal and other generic descriptor owners remain.",
+    "Pins distinguish parent-commit blobs from one saved reviewed working-tree blob; this is not runtime proof."
+  ],
+  "bank": {
+    "archive": "caller-cutover-audit-evidence.tar.gz",
+    "bytes": 17491,
+    "sha256": "1f3e3bece2c40eb8efa4c92bf00fa6f7e41a145e797b9c3c7d35f72aed47444a",
+    "payloads": [
+      {
+        "path": "caller-cutover-map.md",
+        "bytes": 7942,
+        "sha256": "e9707ff970352428cdfa7dd1cf4379a924fa90abdbb49f9c24409b46f9180c64"
+      },
+      {
+        "path": "correspondence.json",
+        "bytes": 7749,
+        "sha256": "e34f3abb194edba8cbde3cf1232ffb7140b11c6cdccc480c70a62f65fa564124"
+      },
+      {
+        "path": "reviewed-working/apps/service/src/project-service.ts",
+        "bytes": 51576,
+        "sha256": "27b0d12f956a9e14910c46eeb943072aef823af84acdabd71b4465ef537dbfdc"
+      },
+      {
+        "path": "source-pins.sha1",
+        "bytes": 2658,
+        "sha256": "e96fd5e49be843d47957f79dac4c0ea9a207511f1afadcccad04beac1bd6ab63"
+      }
+    ],
+    "rootVerification": "All 31 reviewed source blobs independently checked; the working service source is saved explicitly. Full map read; no runtime execution."
+  }
+}

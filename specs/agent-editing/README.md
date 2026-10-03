@@ -21,7 +21,7 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: purge recording specializations from core evidence owners, then schema.**
+**Next pickup: remove recording specializations from scene/index owners, then schema.**
 The [canonical service](assets/23-canonical-service/README.md),
 [shared contracts](assets/23-composition-contract/README.md) and
 [fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
@@ -41,17 +41,21 @@ puts unique cancellation and cleanup guarantees on the shared attempt owner.
 Its orphan preview adapter is removed; the old movie wrapper remains only for
 named native lab consumers awaiting their matched ports.
 
-Remove recording specializations from the existing transcript, scene and
-index owners, preserving generic readers, portable generations, shared raster/
+The [transcript owner bank](assets/23-owner-fixture-ports/transcript-owner-purge-verification.json)
+closes recording-only processing/projection and its paged package carrier.
+Generic source storage and raw provenance remain. Remove recording specializations
+from scene/index owners, preserving generic readers, portable generations, shared raster/
 pointer algorithms, exact time and render-workspace lifetimes. Remove orphan
 recording media/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
-owners. The personal-release script's old selectors also need caller cutover.
+owners. The [caller audit](assets/23-owner-fixture-ports/caller-cutover-audit.json)
+owns the shared CLI/MCP response cleanup and explicit personal-release caller cutover.
 The [native consumer audit](assets/23-owner-fixture-ports/native-consumer-audit.json)
 and [matched guarantee map](assets/23-owner-fixture-ports/native-guarantee-map.json)
-separate current shared primitives from obsolete engines. Generic render lifetime
-ports can proceed independently; source/descriptor and compiled movie guarantees
-must survive before removing their old native registrations. Historical source
+separate current shared primitives from obsolete engines.
+[Four source native contracts](assets/23-owner-fixture-ports/source-native-contracts-verification.json)
+are added without removing old engines. Remaining direct Swift/source lifetimes
+and compiled movie guarantees must survive before removing their old registrations. Historical source
 maps are prerequisites, not verification runs.
 
 The final joint purge removes the actual recording revision field from its type,

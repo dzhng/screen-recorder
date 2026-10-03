@@ -7327,3 +7327,53 @@ The plan required preserving guarantees without selecting every test seam.
 This choice belongs to `89ed3737`; duplicate abort/startup cases are removed only
 where current cases retain their exact child/staging observations. The old movie
 wrapper remains for identified native labs until those independent ports finish.
+
+
+**Sound, medium confidence — PNG inspection retains managed paths rather than the old descriptor pair.**
+A caller imports source bytes and requests a frame by asset and stream ID. The
+job retains the managed asset while the current native decoder reads its owned
+path, then atomically publishes a new output file. The removed direct package
+inspection engine instead decoded an inherited video file handle and wrote PNGs
+through another handle, so it could work after both names moved. Keeping that
+old internal request shape would require adding unused support to the current
+physical-support decoder. The plan required matching useful guarantees without
+specifying this internal difference. This choice belongs to `34a76ca0`: the old PNG input/output handle pair retires explicitly, including
+its same-handle alias case. Current path alias/no-clobber refusal, owned-source
+independence and generic descriptor lifetimes for audio, probing, source export
+and archive/publication remain. The failed unsupported-input trial is evidence
+of this difference, never a claimed parity pass.
+
+**Sound, high confidence — unchanged native code uses its existing pinned worker.**
+A test adds wire refusals and file-lifetime assertions while the native sources
+remain unchanged. Running the preserved worker against tiny owned fixtures gives
+actual operation feedback without rebuilding that same code. The alternative
+would repeat an expensive build that cannot answer another question. The plan
+required native proof without prescribing this iteration seam. This choice
+belongs to `34a76ca0`; the worker hash, unchanged native
+source pins and terminal results are recorded, while boundary mutations are
+labelled as test-oracle controls. A native source change still requires a build
+and the affected checks; this evidence never stands in for changed code.
+
+
+**Sound, medium confidence — transcript portability keeps raw source evidence rather than edited page files.**
+A caller transfers a project's selected transcript generation. Current adoption
+reads the original raw transcript receipt and reconstructs bounded indexed rows;
+the recipient can use it without preparing speech models. The removed recording
+package instead carried separate mutable word/gap pages, sometimes already
+projected through edits. Keeping that carrier would leave two transcript formats
+and another editor interpretation. The plan required portability without choosing
+this obsolete representation's fate. This choice belongs to `f5d40100`; page-file
+identity and edited-page rules retire explicitly, while raw hashes, bounds,
+ordering, non-overlap, cursor identity and computed project occurrences remain
+with their current owners.
+
+**Sound, high confidence — recording source storage survives removal of recording edits.**
+A stored raw transcript may identify the capture source that produced it, even
+though a project owns every edit. Its generic storage tests still protect
+namespace, cancellation, reclaim and raw provenance using capture facts.
+Deleting them because their identity mentions a recording would erase source
+lifetime proof. The plan required owner removal without prescribing every source
+namespace. This choice belongs to `f5d40100`; the generic store and its existing
+ownership/interruption tests remain byte-identical. Selected-source processing
+requires its actual asset/acquisition domain, and project rows derive from its
+source contract rather than the deleted recording projector.

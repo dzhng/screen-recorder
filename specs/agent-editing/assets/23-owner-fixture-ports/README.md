@@ -276,3 +276,33 @@ remain. The orphan preview adapter is removed. The old movie wrapper and deadlin
 remain for named native labs, pending their matched ports. The focused controlled
 worker suite passes with native opt-ins unrun; its last source difference is a
 type-only import covered by final build/types. No native-quality claim is made.
+
+The [source native contract bank](source-native-contracts-verification.json)
+retains [requests, receipts, fixtures and original outcomes](source-native-contracts-evidence.tar.gz).
+Four added cases cover current frame wire/refusal/replay, selected WAVE descriptor
+parity, operation inspection-budget refusal and the complete bounded color grid.
+The source-matched frozen worker executes these cases; native source is unchanged.
+Boundary result mutations prove oracle sensitivity, not compiled guard faults.
+An attempted inherited video-input request fails and remains separate evidence.
+The old PNG descriptor pair retires with direct package inspection; current path
+alias refusal, managed-source retention and live generic descriptor owners remain.
+No old native registration or test is removed in this checkpoint.
+
+The [caller contract audit](caller-cutover-audit.json) retains the
+[reviewed source identities and map](caller-cutover-audit-evidence.tar.gz).
+It locates the shared CLI/MCP response-validation seam and explicit captured-source
+project/adoption workflow. It also distinguishes the retired PNG descriptor pair
+from current audio, source-export, archive/publication and managed-source lifetimes.
+This is a source audit with one explicitly saved working-tree service blob;
+physical, inference, listening and installed caller acceptance remain open.
+
+The [transcript owner-removal bank](transcript-owner-purge-verification.json)
+retains [matched declarations, source parity and focused final operands](transcript-owner-purge-evidence.tar.gz).
+Selected-source processing, readers, project projection and raw portable adoption
+retain their contracts. The recording-edit projector and paged transcript carrier
+are removed; generic source storage and frozen recording provenance remain.
+Controlled native-format replies preserve refusal, gap/kind/confidence and instant
+normalization. The initial affected cohort precedes later retry/assertion and
+operand-writer changes, whose narrow final proofs remain separately identified.
+Project neighbors and public selected-source reads pass against the compiled core.
+No speech accuracy, native decode, schema purge or installed acceptance is claimed.
