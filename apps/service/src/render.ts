@@ -3,25 +3,8 @@ import { copyFile, lstat, mkdir, mkdtemp, open, realpath } from "node:fs/promise
 import { basename, join } from "node:path";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/catalog";
-import type { AudioTrackPlan } from "@screenrec/core/audio";
-import type { PreviewMovie } from "@screenrec/core/preview";
-import type { writePointerSchedule } from "@screenrec/core/pointer-schedule";
-import type { RenderSpan } from "@screenrec/core/presentation-time";
 import { O_EXLOCK, O_SHLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
-import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
-
-/** The sequential reader may decode discarded prefixes, so budget the last source
- * position, not merely the shorter edited result. Allow realtime work plus startup;
- * add retained playback time for the sequential AAC assembly phase. Other native
- * calls keep the worker's ordinary deadline. */
-export function renderDeadlineMs(plan: readonly RenderSpan[], withAudio = false): number {
-  return Math.min(
-    MAX_MEDIA_TIMEOUT_MS,
-    30_000 +
-      Math.ceil((plan.at(-1)?.source.endUs ?? 0) / 1000) +
-      (withAudio ? Math.ceil((plan.at(-1)?.playback.endUs ?? 0) / 1000) : 0),
-  );
-}
+import { nativeConfirmed, type MediaWorker } from "./worker.js";
 
 type LockedWorkspace = {
   directory: string;
@@ -132,70 +115,6 @@ export async function clearRenderWorkspace(
     signal,
     { lock: "exclusive", inherited: [] },
     async ({ clear }) => clear(),
-  );
-}
-
-/** One service-owned attempt lifetime. The consumer must finish retaining/using
- * successful output before returning. A late native answer never reaches the
- * consumer. The consumer's commit owner must fence/reconcile its own durable side
- * effects; cancellation after consumption cannot undo them. The worker resolves
- * only after actual child close. */
-export async function withRenderedMedia<T>(
-  worker: MediaWorker,
-  request: {
-    source: string;
-    plan: readonly RenderSpan[];
-    tracks: readonly AudioTrackPlan[];
-    /** Bounds the rendition's long edge; absent or null renders at the capture's resolution. */
-    maxLongEdge?: number | null;
-    /** Dedicated private workspace; keep its ancestry stable during path-based rendering. */
-    attemptParent: string;
-    /** Finish all preparation calls before returning; each inherits this workspace lock. */
-    preparePointer?: (
-      directory: string,
-      worker: MediaWorker,
-      signal: AbortSignal,
-    ) => Promise<Awaited<ReturnType<typeof writePointerSchedule>>>;
-  },
-  signal: AbortSignal,
-  consume: (video: PreviewMovie) => Promise<T>,
-): Promise<T> {
-  return withRenderAttempt(
-    worker,
-    request.attemptParent,
-    signal,
-    async (attempt, boundWorker) => {
-      const pointerSchedule = await request.preparePointer?.(attempt, boundWorker, signal);
-      if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
-      const file = join(attempt, "video.mp4");
-      const response = await boundWorker(
-        "media.renderMovie",
-        {
-          source: request.source,
-          plan: request.plan,
-          output: file,
-          tracks: request.tracks,
-          ...(pointerSchedule ? { pointerSchedule } : {}),
-          ...(request.maxLongEdge == null ? {} : { maxLongEdge: request.maxLongEdge }),
-        },
-        { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
-      );
-      if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
-      const receipt = nativeResult(response) as PreviewMovie;
-      if (
-        receipt.file !== file ||
-        receipt.durationUs !== request.plan.at(-1)?.playback.endUs ||
-        receipt.mediaType !== "video/mp4" ||
-        receipt.codec !== "h264"
-      ) {
-        throw new CatalogError(
-          "NATIVE_DECODE_FAILED",
-          "Native media receipt does not match the pinned attempt",
-        );
-      }
-      return receipt;
-    },
-    consume,
   );
 }
 

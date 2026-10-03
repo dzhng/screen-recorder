@@ -7,10 +7,19 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+import { Catalog } from "@screenrec/core/catalog";
+import { AssetStore } from "@screenrec/core/assets";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { ProjectStore } from "@screenrec/core/projects";
+import { TranscriptStore } from "@screenrec/core/transcript";
+import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
+import { DerivedCache } from "@screenrec/core/cache";
+import { temporary, waitFor } from "./harness.mjs";
+import { startPublicService, importAcquisition } from "./fixtures/public-service.mjs";
 import { journalRows } from "./fixtures/generated-capture.mjs";
+const native =
+  process.env.SCREENREC_NATIVE ??
+  new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 function run(command, args, encoding = "utf8") {
   const result = spawnSync(command, args, {
@@ -50,22 +59,10 @@ function pointerPixels(file, second, x, y) {
   return bright;
 }
 
-test("public preview pins its revision and delivers a current-pointer movie through the CLI", async () => {
+test("public project preview pins an explicitly authored pointer movie through edits, delivery and restart", async () => {
   const home = temporary("/tmp/screenrec-public-preview-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
-  const take = store.allocate().recording;
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "generated preview",
-    sourceDurationUs: 4_000_000,
-  });
-  store.close();
-  const source = join(home, "recordings", take.recordingId, "source");
+  const sourceId = randomUUID();
+  const source = join(home, "authored-capture");
   await mkdir(source, { recursive: true });
   run("ffmpeg", [
     "-nostdin",
@@ -97,7 +94,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     geometryEpoch: 1,
   }));
   const rows = journalRows({
-    sourceId: take.sourceId,
+    sourceId,
     width: 320,
     height: 180,
     samples,
@@ -108,9 +105,9 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
   );
   const before = hash("sha256", await readFile(join(source, "video.mov")));
-  let { instance } = await launchReady(home);
+  let service = await startPublicService(home, native);
   const call = async (operation, params = {}) => {
-    const result = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
+    const result = await service.call(operation, params);
     assert.equal(result.ok, true, JSON.stringify(result));
     return result.data;
   };
@@ -121,21 +118,62 @@ test("public preview pins its revision and delivers a current-pointer movie thro
       return result.state === "ready" && result;
     }, 20000);
   try {
-    const initial = await call("preview.get", { recordingId: take.recordingId });
-    const cut = await call("edit.cut", {
-      recordingId: take.recordingId,
-      requestId: randomUUID(),
-      expectedRevisionId: "r0",
-      ranges: [{ startUs: 1000000, endUs: 2000000 }],
+    const { acquisition } = await importAcquisition(service, source);
+    const binding = acquisition.bindings.find((binding) => binding.sourceRoles.includes("video"));
+    assert.ok(binding);
+    const created = await call("project.create", {
+      requestId: "pointer-project",
+      canvas: {
+        width: 320,
+        height: 180,
+        fps: { numerator: 10, denominator: 1 },
+        background: "#000000ff",
+      },
     });
-    const params = { recordingId: take.recordingId, revisionId: initial.revisionId };
+    const projectId = created.project.projectId;
+    const authored = await call("edit.apply", {
+      projectId,
+      requestId: "pointer-clip",
+      expectedRevisionId: created.revision.id,
+      operations: [
+        { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+        {
+          operation: "place",
+          label: "clip",
+          clip: {
+            trackId: { label: "video" },
+            assetId: binding.assetId,
+            streamId: binding.streamId,
+            acquisitionId: acquisition.id,
+            source: { kind: "range", range: { startUs: 0, endUs: 4000000 } },
+            placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+          },
+        },
+        {
+          operation: "processing.set",
+          target: { kind: "clip", id: { label: "clip" } },
+          steps: [{ processor: { type: "pointer", trailUs: 0 } }],
+        },
+      ],
+    });
+    const initial = await call("preview.get", { projectId, revisionId: authored.revision.id });
+    const cut = await call("edit.apply", {
+      projectId,
+      requestId: "cut",
+      expectedRevisionId: authored.revision.id,
+      operations: [
+        {
+          operation: "remove",
+          clipIds: [authored.edit.labels.clip],
+          ranges: [{ startUs: 1000000, endUs: 2000000 }],
+          ripple: { trackIds: [authored.edit.labels.video] },
+        },
+      ],
+    });
+    const params = { projectId, revisionId: initial.revisionId };
     const ready = await preview(params);
-    assert.equal(ready.published.preview.revisionId, "r0");
+    assert.equal(ready.published.preview.revisionId, authored.revision.id);
     assert.equal(ready.published.preview.durationUs, 4_000_000);
-    assert.deepEqual(ready.published.preview.missingRoles, [
-      { role: "narration", reason: "not_requested" },
-      { role: "system", reason: "not_requested" },
-    ]);
     await call("artifact.close", { token: ready.delivery.token });
     const output = join(home, "preview.mp4");
     const result = JSON.parse(
@@ -143,7 +181,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
         cli,
         "preview.get",
         "--socket",
-        socketPath(home),
+        service.socket,
         "--params",
         JSON.stringify(params),
         "--output",
@@ -167,7 +205,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
       await client.connect(
         new StdioClientTransport({
           command: process.execPath,
-          args: [cli, "mcp", "--socket", socketPath(home)],
+          args: [cli, "mcp", "--socket", service.socket],
           stderr: "pipe",
         }),
       );
@@ -211,12 +249,9 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     } finally {
       await client.close();
     }
-    assert.equal(
-      (await call("revision.get", { recordingId: take.recordingId })).revision.id,
-      cut.revision.id,
-    );
+    assert.equal((await call("revision.get", { projectId })).revision.id, cut.revision.id);
     assert.equal(hash("sha256", await readFile(join(source, "video.mov"))), before);
-    const editedParams = { recordingId: take.recordingId, revisionId: cut.revision.id };
+    const editedParams = { projectId, revisionId: cut.revision.id };
     const edited = await preview(editedParams);
     assert.equal(edited.published.preview.durationUs, 3_000_000);
     await call("artifact.close", { token: edited.delivery.token });
@@ -226,7 +261,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
         cli,
         "preview.get",
         "--socket",
-        socketPath(home),
+        service.socket,
         "--params",
         JSON.stringify(editedParams),
         "--output",
@@ -242,31 +277,47 @@ test("public preview pins its revision and delivers a current-pointer movie thro
       "deleted pointer cannot leak across cut",
     );
     assert.ok(pointerPixels(editedFile, 2.1, 200, 40) > 10);
-    instance.kill("SIGTERM");
-    await waitFor(() => !instance.running, 15000);
-    assert.equal((await instance.exited).code, 0);
-    const catalog = new RevisionStore(join(home, "library.sqlite"), {
-      now: () => new Date().toISOString(),
-      newId: randomUUID,
-    });
+    await service.close();
+    const library = join(home, "library"),
+      catalog = new Catalog(join(library, "catalog.sqlite"));
     try {
-      const cache = new DerivedCache(catalog, home, recordingCacheOwnerCheck(catalog), 1);
+      const assets = new AssetStore(catalog, library),
+        acquisitions = new AcquisitionStore(catalog);
+      const projects = new ProjectStore(
+        catalog,
+        assets,
+        new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)),
+        acquisitions,
+      );
+      const cache = new DerivedCache(
+        catalog,
+        library,
+        (owner) => {
+          if (owner.kind === "project") projects.get(owner.projectId);
+          else if (owner.kind === "asset") assert.ok(assets.has(owner.assetId));
+          else acquisitions.get(owner.acquisitionId);
+        },
+        1,
+      );
       await cache.reconcile();
       assert.equal(cache.acquire(edited.published.preview.cacheId), null);
     } finally {
       catalog.close();
     }
-    ({ instance } = await launchReady(home));
+    await writeFile(join(library, "render", "abandoned.mp4"), "unverified abandoned attempt");
+    service = await startPublicService(home, native);
     const regenerated = await preview(editedParams);
     assert.equal(regenerated.published.generation, edited.published.generation + 1);
     assert.equal(regenerated.revisionId, editedParams.revisionId);
+    assert.equal(regenerated.jobId, edited.jobId);
+    assert.deepEqual(await readdir(join(library, "render")), []);
     const regeneratedFile = join(home, "regenerated.mp4");
     const regeneratedDownload = JSON.parse(
       run(process.execPath, [
         cli,
         "preview.get",
         "--socket",
-        socketPath(home),
+        service.socket,
         "--params",
         JSON.stringify(editedParams),
         "--output",
@@ -277,18 +328,15 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     // The MP4 container can change bookkeeping; the decoded edited pointer must not change.
     assert.ok(pointerPixels(regeneratedFile, 2.1, 200, 40) > 10);
     assert.equal(hash("sha256", await readFile(join(source, "video.mov"))), before);
-    // A prior failed attempt may have left private staging after its worker exited.
-    await writeFile(join(home, "run", "render", "abandoned.mp4"), "staged recording bytes");
-    await call("recording.delete", { recordingId: take.recordingId });
-    assert.deepEqual(await readdir(join(home, "run", "render")), []);
-    const revoked = await callLocal(socketPath(home), {
+    await call("project.delete", { projectId });
+    const revoked = await callLocal(service.socket, {
       id: randomUUID(),
       operation: "artifact.read",
       params: { token: regenerated.delivery.token, offset: 0, maxBytes: 1 },
     });
     assert.equal(revoked.ok, false);
     assert.equal(revoked.error.code, "ARTIFACT_EXPIRED");
-    const renewal = await callLocal(socketPath(home), {
+    const renewal = await callLocal(service.socket, {
       id: randomUUID(),
       operation: "artifact.renew",
       params: { token: regenerated.delivery.token },
@@ -296,6 +344,6 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     assert.equal(renewal.ok, false);
     assert.equal(renewal.error.code, "ARTIFACT_EXPIRED");
   } finally {
-    await instance.reap();
+    await service.close();
   }
 });

@@ -16,25 +16,13 @@ import {
 } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
-import {
-  clearRenderWorkspace,
-  renderDeadlineMs,
-  withRenderedFile,
-  withRenderAttempt,
-  withRenderedMedia,
-} from "./render.js";
+import { mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
+import { clearRenderWorkspace, withRenderedFile, withRenderAttempt } from "./render.js";
 
 const homes: string[] = [];
 afterEach(async () => {
   for (const home of homes.splice(0)) await rm(home, { recursive: true, force: true });
 });
-const plan = [
-  {
-    source: { startUs: 90_000_000, endUs: 120_000_000 },
-    playback: { startUs: 0, endUs: 30_000_000 },
-  },
-];
 async function fixture() {
   const home = await mkdtemp("/tmp/screenrec-render-attempt-");
   homes.push(home);
@@ -96,23 +84,7 @@ async function ready(parent: string) {
   }
   throw new Error("Worker never reached staging");
 }
-it("budgets the decoded source prefix instead of the shorter edited output", () => {
-  expect(renderDeadlineMs(plan)).toBe(150_000);
-  expect(renderDeadlineMs(plan, true)).toBe(180_000);
-  const largest = [
-    {
-      source: { startUs: Number.MAX_SAFE_INTEGER - 1, endUs: Number.MAX_SAFE_INTEGER },
-      playback: { startUs: 0, endUs: 1 },
-    },
-  ];
-  expect(renderDeadlineMs(largest)).toBe(MAX_MEDIA_TIMEOUT_MS);
-  const boundary = (MAX_MEDIA_TIMEOUT_MS - 30_000) * 1000;
-  expect(
-    renderDeadlineMs([
-      { source: { startUs: boundary, endUs: boundary + 1 }, playback: { startUs: 0, endUs: 1 } },
-    ]),
-  ).toBe(MAX_MEDIA_TIMEOUT_MS);
-});
+
 it("deadline failure reclaims the closed attempt and preserves its reason", async () => {
   const { parent, run } = await fixture();
   const worker: MediaWorker = (operation, params, options) =>
@@ -224,23 +196,6 @@ it("successful consumption and consumer failure both end their attempt lifetime"
     }),
   ).rejects.toThrow("consumer failed");
   expect(await readdir(parent)).toEqual([]);
-});
-
-it("carries a rendition's bound to the native render and omits it at capture resolution", async () => {
-  const { parent, run } = await fixture();
-  const rendered: Record<string, unknown>[] = [];
-  const worker: MediaWorker = (operation, params, options) => {
-    if (operation === "media.renderMovie") rendered.push(params as Record<string, unknown>);
-    return run(operation, params, options);
-  };
-  const request = { source: "success", plan, tracks: [], attemptParent: parent };
-  const consume = async () => null;
-  const signal = new AbortController().signal;
-  await withRenderedMedia(worker, { ...request, maxLongEdge: 1600 }, signal, consume);
-  await withRenderedMedia(worker, request, signal, consume);
-  expect(rendered.map((params) => params.maxLongEdge)).toEqual([1600, undefined]);
-  // Absent, not null: the native default is "render every captured pixel".
-  expect(Object.keys(rendered[1]!)).not.toContain("maxLongEdge");
 });
 
 it("abort during consumption preserves consumer-owned effects while reclaiming the attempt", async () => {

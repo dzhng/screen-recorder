@@ -605,3 +605,45 @@ test("retiming recipe changes invalidate produced previews and refuse old export
     content.manifest.requirements.filter((item: { kind: string }) => item.kind === "retime"),
   ).toEqual([expect.objectContaining({ implementationId: "retime-v2" })]);
 });
+
+test("failed preview output is reclaimed and requires explicit same-revision retry", async () => {
+  let fail = true;
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      const movie = await renderer.render(request, signal);
+      if (fail) throw new Error("controlled encoder interruption");
+      return movie;
+    },
+  });
+  const input = { projectId: f.projectId, revisionId: f.placed.revision.id };
+  const admitted = await f.preview.request(input);
+  await f.jobs.idle();
+  const failed = await f.preview.request(input);
+  expect(failed).toMatchObject({
+    state: "failed",
+    jobId: admitted.jobId,
+    published: null,
+    retryable: true,
+  });
+  expect(f.cache.bytes).toBe(0);
+  expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
+  fail = false;
+  expect(await f.preview.request(input)).toEqual(failed);
+  const retried = await f.preview.retry(input);
+  expect(retried.jobId).toBe(admitted.jobId);
+  await f.jobs.idle();
+  const ready = await f.preview.request(input);
+  expect(ready).toMatchObject({
+    state: "ready",
+    revisionId: input.revisionId,
+    jobId: admitted.jobId,
+    published: { generation: 2 },
+  });
+  expect(ready.published!.preview.bytes).toBe(
+    (await readFile(ready.published!.preview.file)).length,
+  );
+  expect(
+    JSON.parse(await readFile(ready.published!.preview.file, "utf8")).manifest.canvas,
+  ).toMatchObject({ width: 160, height: 96 });
+});

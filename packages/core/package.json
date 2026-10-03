@@ -28,10 +28,6 @@
       "types": "./dist/cache.d.ts",
       "default": "./dist/cache.js"
     },
-    "./audio": {
-      "types": "./dist/audio.d.ts",
-      "default": "./dist/audio.js"
-    },
     "./scenes": {
       "types": "./dist/scenes.d.ts",
       "default": "./dist/scenes.js"
@@ -80,10 +76,6 @@
       "types": "./dist/rendered-movie.d.ts",
       "default": "./dist/rendered-movie.js"
     },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "default": "./dist/preview.js"
-    },
     "./pointer-schedule": {
       "types": "./dist/pointer-schedule.d.ts",
       "default": "./dist/pointer-schedule.js"
@@ -115,10 +107,6 @@
     "./evidence-read": {
       "types": "./dist/evidence-read.d.ts",
       "default": "./dist/evidence-read.js"
-    },
-    "./derivative-inspection": {
-      "types": "./dist/derivative-inspection.d.ts",
-      "default": "./dist/derivative-inspection.js"
     },
     "./models": {
       "types": "./dist/models.d.ts",

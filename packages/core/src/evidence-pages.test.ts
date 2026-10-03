@@ -4,8 +4,6 @@ import { mkdtempSync, rmSync, writeFileSync, renameSync, readFileSync, symlinkSy
 import { randomUUID } from "node:crypto";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { planAudioExcerpt } from "./audio.js";
-import { createOriginalRevision } from "./timeline.js";
 import { planFrameTrail } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
 import { CaptureStore } from "./capture-store.js";
@@ -128,15 +126,6 @@ test("relocated bounded source pages preserve normalized queries without the ori
     { startUs: 20, endUs: 25 },
   ]);
   expect(expected.pauses).toEqual([{ atSourceUs: 20, elapsedPauseUs: 999, sequence: 6 }]);
-  const input = {
-    ...f.identity,
-    recordingId: f.identity.owner.recordingId,
-    revision: createOriginalRevision(900, ""),
-    range: { startUs: 10, endUs: 25 },
-    track: "mix" as const,
-    sourceEvidence: f.metadata,
-  };
-  const audio = planAudioExcerpt(input, f.evidence, (role) => `/moved/${role}.mov`);
   const sample: VisualSampler = async (request) => ({
     sourceWidth: 10,
     sourceHeight: 10,
@@ -169,7 +158,6 @@ test("relocated bounded source pages preserve normalized queries without the ori
   renameSync(output, moved);
   const reader = new FileSourceEvidence(moved, f.identity);
   expect(observed(reader, f.identity)).toEqual(expected);
-  expect(planAudioExcerpt(input, reader, (role) => `/moved/${role}.mov`)).toEqual(audio);
   expect(
     await planFrameTrail(
       trailRequest,
@@ -217,8 +205,7 @@ test("relocated bounded source pages preserve normalized queries without the ori
           unplacedGeometry: expected.unplaced,
           acquiredAudio: expected.audio,
           trailPlan: trail,
-          audioPlan: audio,
-          parity: { queries: true, trailPlan: true, audioPlan: true },
+          parity: { queries: true, trailPlan: true },
         },
         null,
         2,
