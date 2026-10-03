@@ -1,16 +1,26 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { randomUUID, createHash } from "node:crypto";
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+import { Catalog } from "@screenrec/core/catalog";
+import { ProjectStore } from "@screenrec/core/projects";
+import { AssetStore } from "@screenrec/core/assets";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { TranscriptStore } from "@screenrec/core/transcript";
+import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
+import { DerivedCache } from "@screenrec/core/cache";
+import { temporary, waitFor } from "./harness.mjs";
+import {
+  startPublicService,
+  importAcquisition,
+  connectPublicMcp,
+} from "./fixtures/public-service.mjs";
 
+const native =
+  process.env.SCREENREC_NATIVE ??
+  new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 function ffmpeg(args) {
   const result = spawnSync("ffmpeg", ["-v", "error", ...args], {
@@ -21,357 +31,384 @@ function ffmpeg(args) {
   return result.stdout;
 }
 
-test("public audio preserves cuts, acquisition gaps, pinned revisions and CLI/MCP bytes", async () => {
-  const home = temporary("/tmp/scr-audio-public-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
-  const take = store.allocate().recording;
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "generated two-track audio",
-    sourceDurationUs: 4000000,
-  });
-  store.close();
-  const source = join(home, "recordings", take.recordingId, "source");
-  await mkdir(source, { recursive: true });
-  for (const [role, frequency] of [
-    ["narration", 1000],
-    ["system", 400],
-  ]) {
+async function donor(home, durationUs, roles, requested = roles) {
+  const source = join(home, `donor-${randomUUID()}`);
+  await mkdir(source);
+  const sourceId = randomUUID();
+  ffmpeg([
+    "-f",
+    "lavfi",
+    "-i",
+    `color=c=black:s=100x80:r=1:d=${durationUs / 1e6}`,
+    "-an",
+    "-c:v",
+    "libx264",
+    join(source, "video.mov"),
+  ]);
+  for (const [role, frequency] of roles.map((role) => [role, role === "narration" ? 1000 : 400]))
     ffmpeg([
       "-f",
       "lavfi",
       "-i",
-      `sine=frequency=${frequency}:sample_rate=48000:duration=4`,
+      `sine=frequency=${frequency}:sample_rate=48000:duration=${durationUs / 1e6}`,
       "-c:a",
       "pcm_f32le",
-      join(source, role + ".mov"),
+      join(source, `${role}.mov`),
     ]);
-  }
   const records = [
     {
       event: "header",
       data: {
         schemaVersion: 1,
-        sessionID: take.sourceId,
+        sessionID: sourceId,
         source: { kind: "display", displayID: 1 },
         width: 100,
         height: 80,
-        microphone: true,
-        systemAudio: true,
+        microphone: requested.includes("narration"),
+        systemAudio: requested.includes("system"),
       },
     },
     { event: "origin", data: { hostUs: 1000 } },
-    { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: 2500000 } },
-    { event: "audioSamples", data: { role: "narration", startUs: 3000000, endUs: 4000000 } },
-    { event: "audioSamples", data: { role: "system", startUs: 0, endUs: 4000000 } },
+    ...roles.flatMap((role) =>
+      (durationUs === 4000000 && role === "narration"
+        ? [
+            [0, 2500000],
+            [3000000, 4000000],
+          ]
+        : [[0, durationUs]]
+      ).map(([startUs, endUs]) => ({ event: "audioSamples", data: { role, startUs, endUs } })),
+    ),
     { event: "finished", data: {} },
   ];
   await writeFile(
     join(source, "capture.journal.jsonl"),
     records.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
   );
+  return source;
+}
+function binding(acquisition, role) {
+  const value = acquisition.bindings.find((binding) => binding.sourceRoles.includes(role));
+  assert.ok(value, `Missing explicitly selected ${role} binding`);
+  return { assetId: value.assetId, streamId: value.streamId, acquisitionId: acquisition.id };
+}
+function publicAudioClient(getService) {
+  const request = (operation, params) => getService().call(operation, params);
+  const call = async (operation, params = {}) => {
+    const reply = await request(operation, params);
+    assert.equal(reply.ok, true, JSON.stringify(reply));
+    return reply.data;
+  };
+  const audio = (params, consume) =>
+    waitFor(async () => {
+      const result = await call("audio.get", params);
+      assert.ok(!["failed", "unavailable"].includes(result.state), JSON.stringify(result));
+      if (result.state !== "ready") return false;
+      try {
+        if (consume) await consume(result.published.audio);
+        return result;
+      } finally {
+        await call("artifact.close", { token: result.delivery.token });
+      }
+    }, 20000);
+  return { call, request, audio };
+}
+test("public project audio preserves explicit cuts, captured support, pinned revisions and CLI/MCP bytes", async () => {
+  const home = temporary("/tmp/scr-audio-public-");
+  const source = await donor(home, 4000000, ["narration", "system"]);
   const hashes = async () =>
     Promise.all(
-      ["narration.mov", "system.mov", "capture.journal.jsonl"].map(async (name) =>
+      ["video.mov", "narration.mov", "system.mov", "capture.journal.jsonl"].map(async (name) =>
         createHash("sha256")
           .update(await readFile(join(source, name)))
           .digest("hex"),
       ),
     );
   const original = await hashes();
-  let { instance } = await launchReady(home);
-  const call = async (operation, params = {}) => {
-    const result = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
-    assert.equal(result.ok, true, JSON.stringify(result));
-    return result.data;
-  };
-  const audio = async (params) =>
-    waitFor(async () => {
-      const result = await call("audio.get", params);
-      if (["failed", "unavailable"].includes(result.state)) throw new Error(JSON.stringify(result));
-      if (result.state !== "ready") return false;
-      await call("artifact.close", { token: result.delivery.token });
-      return result;
-    }, 20000);
-  const edited = await call("edit.cut", {
-    recordingId: take.recordingId,
-    expectedRevisionId: "r0",
-    requestId: randomUUID(),
-    ranges: [{ startUs: 1000000, endUs: 2000000 }],
-  });
-  const params = {
-    recordingId: take.recordingId,
-    revisionId: edited.revision.id,
-    range: { startUs: 500000, endUs: 2500000 },
-    track: "mix",
-  };
-  const ready = await audio(params);
-  const excerpt = ready.published.audio;
-  assert.deepEqual(excerpt.spans, [
-    { startUs: 500000, endUs: 1000000 },
-    { startUs: 2000000, endUs: 3500000 },
-  ]);
-  assert.equal(excerpt.durationUs, 2000000);
-  assert.deepEqual(
-    excerpt.tracks.map((t) => [t.role, t.gain]),
-    [
-      ["narration", 0.5],
-      ["system", 0.5],
-    ],
-  );
-  assert.deepEqual(excerpt.tracks[0].unavailable, [{ startUs: 2500000, endUs: 3000000 }]);
-  assert.deepEqual(excerpt.missingRoles, []);
-  const output = join(home, "excerpt.wav");
-  const run = spawnSync(
-    process.execPath,
-    [
-      cli,
-      "audio.get",
-      "--socket",
-      socketPath(home),
-      "--params",
-      JSON.stringify(params),
-      "--output",
-      output,
-    ],
-    { encoding: "utf8", timeout: 20000 },
-  );
-  assert.equal(run.status, 0, run.stdout + run.stderr);
-  const wave = await readFile(output);
-  assert.equal(wave.subarray(0, 4).toString(), "RIFF");
-  const client = new Client({ name: "audio-proof", version: "1" });
+  let service = await startPublicService(home, native);
+  const { call, audio } = publicAudioClient(() => service);
   try {
-    await client.connect(
-      new StdioClientTransport({
-        command: process.execPath,
-        args: [cli, "mcp", "--socket", socketPath(home)],
-        stderr: "pipe",
-      }),
-    );
-    const result = await client.callTool({ name: "audio.get", arguments: params });
-    assert.equal(result.isError, false);
-    assert.deepEqual(result.structuredContent.data.published, ready.published);
-    const content = result.content.find((item) => item.type === "audio");
-    assert.equal(content.mimeType, "audio/wav");
-    assert.deepEqual(Buffer.from(content.data, "base64"), wave);
-  } finally {
-    await client.close();
-  }
-  // Independent sample oracle: the missing narration interval must lose its 1 kHz component.
-  const pcm = ffmpeg(["-i", output, "-f", "f32le", "-ac", "1", "-ar", "48000", "pipe:1"]);
-  assert.equal(pcm.length, 96000 * 4);
-  const amplitude = (second, frequency) => {
-    const start = Math.round(second * 48000),
-      count = 4800;
-    let real = 0,
-      imaginary = 0;
-    for (let i = 0; i < count; i++) {
-      const sample = pcm.readFloatLE((start + i) * 4),
-        angle = (2 * Math.PI * frequency * i) / 48000;
-      real += sample * Math.cos(angle);
-      imaginary += sample * Math.sin(angle);
-    }
-    return (2 * Math.hypot(real, imaginary)) / count;
-  };
-  assert.ok(amplitude(0.2, 1000) > 0.055);
-  assert.ok(amplitude(1.2, 1000) < 0.001);
-  assert.ok(amplitude(1.2, 400) > 0.055);
-  assert.ok(amplitude(1.7, 1000) > 0.055);
-  assert.deepEqual((await audio(params)).published, ready.published);
-  const historical = await audio({ ...params, revisionId: "r0" });
-  assert.deepEqual(historical.published.audio.spans, [{ startUs: 500000, endUs: 2500000 }]);
-  const current = await audio({ recordingId: take.recordingId, range: params.range, track: "mix" });
-  assert.deepEqual(current.published, ready.published);
-  instance.kill("SIGTERM");
-  await waitFor(() => !instance.running, 15000);
-  assert.equal((await instance.exited).code, 0);
-  const catalog = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
-  try {
-    const cache = new DerivedCache(catalog, home, recordingCacheOwnerCheck(catalog), 1);
-    await cache.reconcile();
-    assert.equal(cache.acquire(excerpt.cacheId), null);
-  } finally {
-    catalog.close();
-  }
-  ({ instance } = await launchReady(home));
-  const regenerated = await audio(params);
-  assert.equal(regenerated.published.generation, ready.published.generation + 1);
-  assert.equal(regenerated.revisionId, edited.revision.id);
-  assert.deepEqual(await readFile(regenerated.published.audio.file), wave);
-  assert.deepEqual(await hashes(), original);
-  instance.kill("SIGTERM");
-  await waitFor(() => !instance.running, 15000);
-  assert.equal((await instance.exited).code, 0);
-});
-
-// Generated journals describe acquisition independently of media files, just as capture does.
-async function singleTrackFixture(home, availableRole, missingRequested, writeMedia = true) {
-  const store = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
-  const take = store.allocate().recording;
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "generated single-track audio",
-    sourceDurationUs: 1000000,
-  });
-  store.close();
-  const source = join(home, "recordings", take.recordingId, "source");
-  await mkdir(source, { recursive: true });
-  const records = [
-    {
-      event: "header",
-      data: {
-        schemaVersion: 1,
-        sessionID: take.sourceId,
-        source: { kind: "display", displayID: 1 },
+    const { acquisition } = await importAcquisition(service, source);
+    const created = await call("project.create", {
+      requestId: "audio-project",
+      canvas: {
         width: 100,
         height: 80,
-        microphone: availableRole === "narration" || missingRequested,
-        systemAudio: availableRole === "system" || missingRequested,
+        fps: { numerator: 1, denominator: 1 },
+        background: "#000000ff",
       },
-    },
-    { event: "origin", data: { hostUs: 1000 } },
-    { event: "audioSamples", data: { role: availableRole, startUs: 0, endUs: 1000000 } },
-    { event: "finished", data: {} },
-  ];
-  await writeFile(
-    join(source, "capture.journal.jsonl"),
-    records.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
-  );
-  const media = join(source, `${availableRole}.mov`);
-  const generate = () =>
-    ffmpeg([
-      "-f",
-      "lavfi",
-      "-i",
-      "sine=frequency=1000:sample_rate=48000:duration=1",
-      "-c:a",
-      "pcm_f32le",
-      media,
-    ]);
-  if (writeMedia) generate();
-  return { take, media, generate };
-}
-
-function publicAudioClient(home) {
-  const request = (operation, params) =>
-    callLocal(socketPath(home), { id: randomUUID(), operation, params });
-  const call = async (operation, params) => {
-    const response = await request(operation, params);
-    assert.equal(response.ok, true, JSON.stringify(response));
-    return response.data;
-  };
-  const ready = (params) =>
-    waitFor(async () => {
-      const result = await call("audio.get", params);
-      assert.ok(!["failed", "unavailable"].includes(result.state), JSON.stringify(result));
-      if (result.state !== "ready") return false;
-      await call("artifact.close", { token: result.delivery.token });
-      return result;
-    }, 20000);
-  return { request, call, ready };
-}
-
-test("public audio distinguishes unrequested and unacquired roles and mixes one track at unity", async () => {
-  const home = temporary("/tmp/scr-audio-absence-");
-  const fixtures = [];
-  for (const role of ["narration", "system"])
-    for (const missingRequested of [false, true])
-      fixtures.push({
-        ...(await singleTrackFixture(home, role, missingRequested)),
-        role,
-        missingRequested,
-      });
-  const { instance } = await launchReady(home);
-  const { request, ready } = publicAudioClient(home);
-  for (const { take, media, role, missingRequested } of fixtures) {
+    });
+    const projectId = created.project.projectId;
+    const placed = await call("edit.apply", {
+      projectId,
+      requestId: "audio-tracks",
+      expectedRevisionId: created.revision.id,
+      operations: [
+        ...["narration", "system"].map((role, order) => ({
+          operation: "track.add",
+          label: role,
+          track: { kind: "audio", order },
+        })),
+        ...["narration", "system"].flatMap((role) => [
+          {
+            operation: "place",
+            label: `${role}-clip`,
+            clip: {
+              trackId: { label: role },
+              ...binding(acquisition, role),
+              source: { kind: "range", range: { startUs: 0, endUs: 4000000 } },
+              placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+            },
+          },
+          {
+            operation: "processing.set",
+            target: { kind: "track", id: { label: role } },
+            steps: [{ processor: { type: "gain", gain: 0.5 } }],
+          },
+        ]),
+      ],
+    });
+    const edited = await call("edit.apply", {
+      projectId,
+      requestId: "cut",
+      expectedRevisionId: placed.revision.id,
+      operations: [
+        {
+          operation: "remove",
+          clipIds: [placed.edit.labels["narration-clip"], placed.edit.labels["system-clip"]],
+          ranges: [{ startUs: 1000000, endUs: 2000000 }],
+          ripple: { trackIds: [placed.edit.labels.narration, placed.edit.labels.system] },
+        },
+      ],
+    });
     const params = {
-      recordingId: take.recordingId,
-      range: { startUs: 0, endUs: 1000000 },
-      track: "mix",
+      projectId,
+      revisionId: edited.revision.id,
+      range: { startUs: 500000, endUs: 2500000 },
     };
-    const result = await ready(params);
-    const missing = {
-      role: role === "narration" ? "system" : "narration",
-      reason: missingRequested ? "not_acquired" : "not_requested",
-    };
-    assert.deepEqual(result.published.audio.missingRoles, [missing]);
-    assert.deepEqual(
-      result.published.audio.tracks.map((t) => [t.role, t.gain]),
-      [[role, 1]],
+    const ready = await audio(params),
+      excerpt = ready.published.audio;
+    assert.equal(excerpt.frames, 96000);
+    assert.equal(excerpt.durationUs, 2000000);
+    const right = edited.revision.document.clips.find(
+      (clip) =>
+        clip.assetId === binding(acquisition, "narration").assetId &&
+        clip.source.range.startUs === 2000000,
     );
-    const refused = await request("audio.get", { ...params, track: missing.role });
-    assert.equal(refused.ok, false);
-    assert.equal(refused.error.code, "UNAVAILABLE");
-    assert.deepEqual(refused.error.details.missingRoles, [missing]);
-    // Decode both containers independently: metadata alone cannot prove unity gain.
-    const samples = (path) =>
-      ffmpeg(["-i", path, "-f", "f32le", "-ac", "1", "-ar", "48000", "pipe:1"]);
-    assert.deepEqual(samples(result.published.audio.file), samples(media));
+    assert.ok(right);
+    assert.deepEqual(
+      excerpt.unavailable.filter((item) => item.ranges.length),
+      [{ clipId: right.id, ranges: [{ start: 72000, end: 96000 }] }],
+    );
+    const output = join(home, "excerpt.wav");
+    const delivered = spawnSync(
+      process.execPath,
+      [
+        cli,
+        "audio.get",
+        "--socket",
+        service.socket,
+        "--params",
+        JSON.stringify(params),
+        "--output",
+        output,
+      ],
+      { encoding: "utf8", timeout: 20000 },
+    );
+    assert.equal(delivered.status, 0, delivered.stdout + delivered.stderr);
+    const wave = await readFile(output);
+    assert.equal(wave.subarray(0, 4).toString(), "RIFF");
+    const client = await connectPublicMcp(service.socket, "audio-proof");
+    try {
+      const result = await client.callTool({ name: "audio.get", arguments: params });
+      assert.equal(result.isError, false);
+      assert.deepEqual(result.structuredContent.data.published, ready.published);
+      const content = result.content.find((item) => item.type === "audio");
+      assert.equal(content.mimeType, "audio/wav");
+      assert.deepEqual(Buffer.from(content.data, "base64"), wave);
+    } finally {
+      await client.close();
+    }
+    const pcm = ffmpeg(["-i", output, "-f", "f32le", "-ac", "1", "-ar", "48000", "pipe:1"]);
+    assert.equal(pcm.length, 96000 * 4);
+    const amplitude = (second, frequency) => {
+      const start = Math.round(second * 48000),
+        count = 4800;
+      let real = 0,
+        imaginary = 0;
+      for (let i = 0; i < count; i++) {
+        const sample = pcm.readFloatLE((start + i) * 4),
+          angle = (2 * Math.PI * frequency * i) / 48000;
+        real += sample * Math.cos(angle);
+        imaginary += sample * Math.sin(angle);
+      }
+      return (2 * Math.hypot(real, imaginary)) / count;
+    };
+    assert.ok(amplitude(0.2, 1000) > 0.055);
+    assert.ok(amplitude(1.2, 1000) < 0.001);
+    assert.ok(amplitude(1.2, 400) > 0.055);
+    assert.ok(amplitude(1.7, 1000) > 0.055);
+
+    assert.deepEqual((await audio(params)).published, ready.published);
+    const historical = await audio({ ...params, revisionId: placed.revision.id });
+    assert.notEqual(historical.jobId, ready.jobId);
+    assert.equal(historical.published.audio.revisionId, placed.revision.id);
+    assert.deepEqual(
+      historical.published.audio.unavailable.filter((item) => item.ranges.length),
+      [],
+    );
+    assert.deepEqual((await audio({ projectId, range: params.range })).published, ready.published);
+    await service.close();
+    const library = join(home, "library"),
+      catalog = new Catalog(join(library, "catalog.sqlite"));
+    try {
+      const assets = new AssetStore(catalog, library),
+        acquisitions = new AcquisitionStore(catalog);
+      const projects = new ProjectStore(
+        catalog,
+        assets,
+        new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)),
+        acquisitions,
+      );
+      const cache = new DerivedCache(
+        catalog,
+        library,
+        (owner) => {
+          if (owner.kind === "project") projects.get(owner.projectId);
+          else if (owner.kind === "asset") assert.ok(assets.has(owner.assetId));
+          else acquisitions.get(owner.acquisitionId);
+        },
+        1,
+      );
+      await cache.reconcile();
+      assert.equal(cache.acquire(excerpt.cacheId), null);
+    } finally {
+      catalog.close();
+    }
+    service = await startPublicService(home, native);
+    const regenerated = await audio(params, async (value) => {
+      assert.deepEqual(await readFile(value.file), wave);
+    });
+    assert.equal(regenerated.jobId, ready.jobId);
+    assert.equal(regenerated.published.generation, ready.published.generation + 1);
+    assert.equal(regenerated.revisionId, edited.revision.id);
+    assert.deepEqual(await hashes(), original);
+  } finally {
+    await service.close();
   }
-  instance.kill("SIGTERM");
-  await waitFor(() => !instance.running, 15000);
-  assert.equal((await instance.exited).code, 0);
 });
 
-test("public audio keeps native failure until explicit retry after fixture repair", async () => {
-  const home = temporary("/tmp/scr-audio-retry-");
-  // This deliberately incomplete generated fixture claims acquisition but lacks its container.
-  const { take, media, generate } = await singleTrackFixture(home, "narration", false, false);
-  const { instance } = await launchReady(home);
-  const { call, ready } = publicAudioClient(home);
-  const params = {
-    recordingId: take.recordingId,
-    range: { startUs: 0, endUs: 1000000 },
-    track: "narration",
-  };
-  const failed = await waitFor(async () => {
-    const status = await call("audio.get", params);
-    assert.notEqual(status.state, "ready");
-    return status.state === "failed" && status;
-  }, 20000);
-  assert.equal(failed.dependency, null);
-  assert.equal(failed.published, null);
-  assert.match(failed.reason, /No source media/);
-  assert.equal(failed.retryable, true);
-  generate();
-  const original = createHash("sha256")
-    .update(await readFile(media))
-    .digest("hex");
-  for (let i = 0; i < 3; i++) assert.deepEqual(await call("audio.get", params), failed);
-  const retry = await call("audio.retry", params);
-  assert.equal(retry.jobId, failed.jobId);
-  assert.equal(retry.revisionId, "r0");
-  assert.notEqual(retry.state, "failed");
-  const result = await ready(params);
-  assert.equal(result.jobId, failed.jobId);
-  assert.equal(result.published.audio.durationUs, 1000000);
-  assert.deepEqual(
-    result.published.audio.tracks.map((t) => [t.role, t.gain]),
-    [["narration", 1]],
-  );
-  assert.equal(
-    createHash("sha256")
-      .update(await readFile(media))
-      .digest("hex"),
-    original,
-  );
-  const repeated = await call("audio.retry", params);
-  assert.deepEqual(repeated.published, result.published);
-  await call("artifact.close", { token: repeated.delivery.token });
-  instance.kill("SIGTERM");
-  await waitFor(() => !instance.running, 15000);
-  assert.equal((await instance.exited).code, 0);
+test("public selected audio preserves unity and explicit missing-stream refusal without implicit projects", async () => {
+  const home = temporary("/tmp/scr-audio-absence-"),
+    service = await startPublicService(home, native);
+  const { request, call, audio } = publicAudioClient(() => service);
+  try {
+    for (const role of ["narration", "system"])
+      for (const missingRequested of [false, true]) {
+        const source = await donor(
+          home,
+          1000000,
+          [role],
+          missingRequested ? ["narration", "system"] : [role],
+        );
+        const { acquisition } = await importAcquisition(service, source);
+        const selection = binding(acquisition, role);
+        const samples = (path) =>
+          ffmpeg(["-i", path, "-f", "f32le", "-ac", "1", "-ar", "48000", "pipe:1"]);
+        await audio({ ...selection, range: { startUs: 0, endUs: 1000000 } }, async (value) => {
+          assert.deepEqual(samples(value.file), samples(join(source, `${role}.mov`)));
+        });
+        const absent = role === "narration" ? "system" : "narration";
+        assert.equal(
+          acquisition.evidence.receipt.header[
+            absent === "narration" ? "microphone" : "systemAudio"
+          ],
+          missingRequested,
+        );
+        assert.equal(
+          acquisition.bindings.some((binding) => binding.sourceRoles.includes(absent)),
+          false,
+        );
+        const refused = await request("audio.get", {
+          ...selection,
+          streamId: "missing",
+          range: { startUs: 0, endUs: 1000000 },
+        });
+        assert.equal(refused.ok, false);
+        assert.equal(refused.error.code, "UNSUPPORTED_MEDIA");
+      }
+    assert.deepEqual((await call("project.list", {})).projects, []);
+  } finally {
+    await service.close();
+  }
+});
+
+test("public source audio keeps native failure until explicit retry after restoring exact registered bytes", async () => {
+  const home = temporary("/tmp/scr-audio-retry-"),
+    source = join(home, "tone.mov");
+  ffmpeg([
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=frequency=1000:sample_rate=48000:duration=1",
+    "-c:a",
+    "pcm_f32le",
+    source,
+  ]);
+  const original = await readFile(source),
+    service = await startPublicService(home, native);
+  const { call, audio } = publicAudioClient(() => service);
+  let hidden, registered;
+  try {
+    const imported = await call("asset.import", { requestId: "retry-source", path: source });
+    const job = await waitFor(async () => {
+      const job = await call("job.get", { jobId: imported.jobId });
+      if (["failed", "canceled", "unavailable"].includes(job.state))
+        throw Error(JSON.stringify(job));
+      return job.state === "ready" && job;
+    }, 20000);
+    const asset = await call("asset.get", { assetId: job.result.assetId });
+    const stream = asset.streams.find((stream) => stream.kind === "audio");
+    assert.ok(stream);
+    registered = join(home, "library", "assets", asset.fileName);
+    hidden = registered + ".held";
+    await rename(registered, hidden);
+    const params = {
+      assetId: asset.id,
+      streamId: stream.id,
+      range: { startUs: 0, endUs: 1000000 },
+    };
+    const failed = await waitFor(async () => {
+      const status = await call("audio.get", params);
+      assert.notEqual(status.state, "ready");
+      return status.state === "failed" && status;
+    }, 20000);
+    assert.equal(failed.published, null);
+    assert.equal(failed.retryable, true);
+    assert.ok(failed.reason);
+    await rename(hidden, registered);
+    hidden = undefined;
+    assert.deepEqual(await readFile(registered), original);
+    for (let i = 0; i < 3; i++) assert.deepEqual(await call("audio.get", params), failed);
+    const retry = await call("audio.retry", params);
+    assert.equal(retry.jobId, failed.jobId);
+    assert.notEqual(retry.state, "failed");
+    const samples = (path) =>
+      ffmpeg(["-i", path, "-f", "f32le", "-ac", "1", "-ar", "48000", "pipe:1"]);
+    const result = await audio(params, async (value) => {
+      assert.deepEqual(samples(value.file), samples(source));
+    });
+    assert.equal(result.jobId, failed.jobId);
+    assert.equal(result.published.generation, 2);
+    assert.equal(result.published.audio.frames, 48000);
+    assert.deepEqual(await readFile(registered), original);
+    const repeated = await call("audio.retry", params);
+    assert.deepEqual(repeated.published, result.published);
+    await call("artifact.close", { token: repeated.delivery.token });
+  } finally {
+    try {
+      if (hidden) await rename(hidden, registered);
+    } finally {
+      await service.close();
+    }
+  }
 });

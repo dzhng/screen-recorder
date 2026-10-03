@@ -7,20 +7,12 @@ import { tmpdir } from "node:os";
 import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
-import { RevisionStore } from "@screenrec/core/library";
-import { PresentationEvidence } from "@screenrec/core/presentation-evidence";
-import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
-import { PreviewInspection } from "@screenrec/core/preview";
-import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { SourceProcessing } from "@screenrec/core/processing";
-import { constants } from "node:fs";
-import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
+import { callLocal } from "@screenrec/client";
+import { nativeResult, mediaWorker } from "../../apps/service/dist/worker.js";
+import { startProjectService } from "../../apps/service/dist/project-service.js";
+import { withRenderAttempt } from "../../apps/service/dist/render.js";
 import { journalRows } from "../../apps/macos/tests/fixtures/generated-capture.mjs";
-import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { createOriginalRevision, createRevision, eventProjector } from "@screenrec/core/timeline";
-import { renderPlan } from "@screenrec/core/presentation-time";
-import { mediaWorker } from "../../apps/service/dist/worker.js";
-import { renderDeadlineMs, withRenderedMedia } from "../../apps/service/dist/render.js";
+import { importAcquisition } from "../../apps/macos/tests/fixtures/public-service.mjs";
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";
 const execute = promisify(execFile);
 const native =
@@ -37,29 +29,6 @@ async function until(check) {
     await delay(5);
   }
   throw new Error("Timing lab made no progress");
-}
-async function ready(jobs, id) {
-  await until(() => {
-    const job = jobs.job(id);
-    if (["failed", "unavailable", "canceled"].includes(job.state))
-      throw new Error(job.reason ?? job.state);
-    return job.state === "ready";
-  });
-}
-async function staged(parent) {
-  for (const child of await readdir(parent)) {
-    try {
-      if (
-        (await readdir(join(parent, child))).some(
-          (name) => name.startsWith(".video-render-") || name.startsWith(".movie-render-"),
-        )
-      )
-        return true;
-    } catch (error) {
-      if (error.code !== "ENOENT") throw error;
-    }
-  }
-  return false;
 }
 async function decode(file, frames) {
   const raw = file + ".rgb";
@@ -113,6 +82,20 @@ async function decode(file, frames) {
   };
 }
 async function compareAudio(movie, wave, expectedFrames) {
+  const metadata = JSON.parse(
+    await command("ffprobe", [
+      "-v",
+      "error",
+      "-select_streams",
+      "a:0",
+      "-show_entries",
+      "stream=codec_name,sample_rate,channels",
+      "-of",
+      "json",
+      movie,
+    ]),
+  );
+  assert.deepEqual(metadata.streams, [{ codec_name: "aac", sample_rate: "48000", channels: 2 }]);
   const paths = [];
   for (const [file, suffix] of [
     [movie, ".aac.f32"],
@@ -126,16 +109,16 @@ async function compareAudio(movie, wave, expectedFrames) {
     );
   }
   const [actual, expected] = paths;
-  assert.equal(expected.length, expectedFrames);
-  assert.ok(actual.length >= expectedFrames && actual.length < expectedFrames + 1024);
+  assert.equal(expected.length, expectedFrames * 2);
+  assert.ok(actual.length >= expected.length && actual.length < expected.length + 2048);
   let squared = 0;
-  for (let i = 500; i < expectedFrames - 500; i++) squared += (actual[i] - expected[i]) ** 2;
-  const rms = Math.sqrt(squared / (expectedFrames - 1000));
+  for (let i = 1000; i < expected.length - 1000; i++) squared += (actual[i] - expected[i]) ** 2;
+  const rms = Math.sqrt(squared / (expected.length - 2000));
   assert.ok(rms < 0.01, `Pinned movie AAC differs from retained PCM: ${rms}`);
-  return { presentationFrames: expectedFrames, independentlyDecodedFrames: actual.length, rms };
+  return { presentationFrames: expectedFrames, independentlyDecodedFrames: actual.length / 2, rms };
 }
 test(
-  "pinned movie audio/video plans across pause, undo and terminal render lifetime",
+  "explicit project movie retains exact pictures, captured audio support and AAC through undo and late cancellation",
   { timeout: 60000 },
   async () => {
     const evidence = process.env.SCREENREC_RENDER_TIMING_EVIDENCE;
@@ -143,8 +126,6 @@ test(
     assert.ok(isAbsolute(home));
     await mkdir(home, { recursive: true });
     assert.deepEqual(await readdir(home), []);
-    const attempts = join(home, "attempts");
-    await mkdir(attempts, { mode: 0o700 });
     const source = join(home, "source.mov"),
       frames = renderFrames();
     await writeFile(join(home, "source.rgb"), Buffer.concat(frames));
@@ -189,356 +170,319 @@ test(
       ["narration", "system"].map((role) => readFile(join(home, role + ".mov"))),
     );
     const sourceBefore = await readFile(source);
-    const store = new RevisionStore(join(home, "library.sqlite"), {
-      now: () => new Date().toISOString(),
-      newId: randomUUID,
+    const sourceId = randomUUID(),
+      donor = join(home, "authored-capture");
+    await mkdir(donor);
+    await copyFile(source, join(donor, "video.mov"));
+    for (const role of ["narration", "system"])
+      await copyFile(join(home, `${role}.mov`), join(donor, `${role}.mov`));
+    const pause = { kind: "pause", atSourceUs: 3000000, elapsedPauseUs: 60000000 };
+    const rows = journalRows({
+      sourceId,
+      width: 320,
+      height: 180,
+      samples: [
+        {
+          sourceUs: 500000,
+          x: -10,
+          y: -10,
+          globalX: -10,
+          globalY: -10,
+          buttons: 0,
+          eligibility: "outside",
+          geometryEpoch: 1,
+        },
+      ],
+      pauses: [pause],
     });
-    let jobs;
+    rows[0].data.microphone = true;
+    rows[0].data.systemAudio = true;
+    rows.splice(
+      rows.length - 1,
+      0,
+      { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: 3250000 } },
+      { event: "audioSamples", data: { role: "narration", startUs: 3750000, endUs: 6000000 } },
+      { event: "audioSamples", data: { role: "system", startUs: 0, endUs: 6000000 } },
+    );
+    await writeFile(
+      join(donor, "capture.journal.jsonl"),
+      rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
+    );
+    const gate = Promise.withResolvers(),
+      started = Promise.withResolvers();
+    const run = mediaWorker({ SCREENREC_NATIVE: native });
     const report = {
-      kind: "pinned native render timing and terminal cleanup",
+      kind: "current project movie numerical and late-publication contract",
       renders: [],
       lifetime: [],
     };
-    try {
-      const { recordingId, sourceId } = store.allocate().recording;
-      for (const [sequence, state] of [
-        [1, "recording"],
-        [2, "finalizing"],
-      ])
-        store.ingestLifecycle(recordingId, { sourceId, sequence, state });
-      store.ingestLifecycle(recordingId, {
-        sourceId,
-        sequence: 3,
-        state: "complete",
-        sourceDurationUs: 6000000,
+    const lateEntered = Promise.withResolvers(),
+      lateRelease = Promise.withResolvers();
+    let firstMovie = true,
+      armLate = false,
+      cancelAfterNativeJob,
+      service;
+    const worker = async (operation, params, options) => {
+      if (operation === "media.renderCompositionMovie" && firstMovie) {
+        firstMovie = false;
+        started.resolve();
+        await gate.promise;
+        assert.ok(params.pointers, "Explicit pointer step must supply its prepared receipt");
+        await assert.rejects(
+          withRenderAttempt(
+            run,
+            join(home, "refused-attempts"),
+            options.signal,
+            async (directory, execute) =>
+              nativeResult(
+                await execute(
+                  operation,
+                  {
+                    ...params,
+                    output: join(directory, "refused.mp4"),
+                    pointers: { ...params.pointers, sha256: "0".repeat(64) },
+                  },
+                  options,
+                ),
+              ),
+            async () => assert.fail("Corrupt pointer receipt was consumed"),
+          ),
+          { code: "INVALID_REQUEST" },
+        );
+        assert.deepEqual(await readdir(join(home, "refused-attempts")), []);
+        report.pointerReceiptChecked = true;
+      }
+      if (operation === "media.renderCompositionMovie" && armLate) {
+        armLate = false;
+        lateEntered.resolve();
+        await lateRelease.promise;
+      }
+      const result = await run(operation, params, options);
+      if (operation === "media.renderCompositionMovie" && cancelAfterNativeJob) {
+        assert.equal(result.ok, true, JSON.stringify(result));
+        const jobId = cancelAfterNativeJob;
+        cancelAfterNativeJob = undefined;
+        await call("job.cancel", { jobId });
+        report.lifetime.push({ kind: "late-job-cancel", actualNativeReply: true, consumed: false });
+      }
+      return result;
+    };
+    service = await startProjectService({ home, worker });
+    const endpoint = {
+      call: (operation, params) =>
+        callLocal(service.socketPath, { id: randomUUID(), operation, params }),
+    };
+    const call = async (operation, params = {}) => {
+      const reply = await endpoint.call(operation, params);
+      assert.equal(reply.ok, true, JSON.stringify(reply));
+      return reply.data;
+    };
+    const completed = (jobId) =>
+      until(async () => {
+        const job = await call("job.get", { jobId });
+        if (["failed", "unavailable", "canceled"].includes(job.state))
+          throw Error(JSON.stringify(job));
+        return job.state === "ready" && job;
       });
-      const cut = store.edit(recordingId, {
-        operation: "cut",
-        requestId: randomUUID(),
-        expectedRevisionId: "r0",
-        ranges: [
-          { startUs: 2000000, endUs: 3000000 },
-          { startUs: 4000000, endUs: 5000000 },
+    const preview = async (params) => {
+      const admitted = await call("preview.get", params);
+      await completed(admitted.jobId);
+      if (admitted.delivery) await call("artifact.close", { token: admitted.delivery.token });
+      const ready = await call("preview.get", params);
+      assert.equal(ready.state, "ready");
+      return ready;
+    };
+    try {
+      const { acquisition } = await importAcquisition(endpoint, donor);
+      const binding = (role) => {
+        const binding = acquisition.bindings.find((binding) => binding.sourceRoles.includes(role));
+        assert.ok(binding);
+        return {
+          assetId: binding.assetId,
+          streamId: binding.streamId,
+          acquisitionId: acquisition.id,
+        };
+      };
+      const created = await call("project.create", {
+        requestId: "timing-project",
+        canvas: {
+          width: 320,
+          height: 180,
+          fps: { numerator: 1, denominator: 1 },
+          background: "#000000ff",
+        },
+      });
+      const projectId = created.project.projectId;
+      const placed = await call("edit.apply", {
+        projectId,
+        expectedRevisionId: created.revision.id,
+        requestId: "tracks",
+        operations: [
+          ...["video", "narration", "system"].map((role, order) => ({
+            operation: "track.add",
+            label: role,
+            track: { kind: role === "video" ? "video" : "audio", order },
+          })),
+          ...["video", "narration", "system"].flatMap((role) => [
+            {
+              operation: "place",
+              label: `${role}-clip`,
+              clip: {
+                trackId: { label: role },
+                ...binding(role),
+                source: { kind: "range", range: { startUs: 0, endUs: 6000000 } },
+                placement: { kind: "project", range: { startUs: 0, endUs: 6000000 } },
+              },
+            },
+            {
+              operation: "processing.set",
+              target: { kind: "clip", id: { label: `${role}-clip` } },
+              steps: [
+                {
+                  processor:
+                    role === "video"
+                      ? { type: "pointer", trailUs: 0 }
+                      : { type: "gain", gain: 0.5 },
+                },
+              ],
+            },
+          ]),
         ],
       });
-      const pause = { kind: "pause", atSourceUs: 3000000, elapsedPauseUs: 60000000 };
-      const projectedPause = eventProjector(cut)(pause);
-      assert.equal(projectedPause?.atUs, 2000000);
-      const raw = join(home, "recordings", recordingId, "source");
-      await mkdir(raw, { recursive: true });
-      await copyFile(source, join(raw, "video.mov"));
-      for (const role of ["narration", "system"])
-        await copyFile(join(home, role + ".mov"), join(raw, role + ".mov"));
-      const rows = journalRows({ sourceId, width: 320, height: 180, samples: [], pauses: [pause] });
-      rows[0].data.microphone = true;
-      rows[0].data.systemAudio = true;
-      rows.splice(
-        rows.length - 1,
-        0,
-        { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: 3_250_000 } },
-        {
-          event: "audioSamples",
-          data: { role: "narration", startUs: 3_750_000, endUs: 6_000_000 },
-        },
-        { event: "audioSamples", data: { role: "system", startUs: 0, endUs: 6_000_000 } },
-      );
-      await writeFile(
-        join(raw, "capture.journal.jsonl"),
-        rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
-      );
-      const run = mediaWorker({ SCREENREC_NATIVE: native });
-      const sourceEvidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
-      const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
-      await cache.reconcile();
-      let processing, preview;
-      jobs = new JobQueue({
-        store,
-        targets: recordingJobTargets(store),
-        providers: { newId: randomUUID },
-        execute: (execution) =>
-          execution.job.artifact === "preview"
-            ? preview.execute(execution)
-            : processing.execute(execution),
+      const trackIds = ["video", "narration", "system"].map((role) => placed.edit.labels[role]);
+      const cut = await call("edit.apply", {
+        projectId,
+        expectedRevisionId: placed.revision.id,
+        requestId: "cut",
+        operations: [
+          {
+            operation: "remove",
+            clipIds: ["video", "narration", "system"].map(
+              (role) => placed.edit.labels[`${role}-clip`],
+            ),
+            ranges: [
+              { startUs: 2000000, endUs: 3000000 },
+              { startUs: 4000000, endUs: 5000000 },
+            ],
+            ripple: { trackIds },
+          },
+        ],
       });
-      processing = new SourceProcessing(
-        store,
-        jobs,
-        sourceEvidence,
-        home,
-        async (directory, output, signal) => {
-          const exported = await run("media.sourceEvidence", { directory, output }, { signal });
-          assert.equal(exported.ok, true, JSON.stringify(exported));
-          return exported.data;
-        },
-      );
-      processing.prepare(recordingId);
-      await jobs.idle();
-      const metadata = processing.status(recordingId).published.evidence;
-      assert.deepEqual(
-        sourceEvidence
-          .pauseBoundaries(metadata, { startUs: 0, endUs: 6_000_000 })
-          .map(({ sequence: _sequence, ...event }) => ({ kind: "pause", ...event })),
-        [pause],
-      );
-      report.pause = projectedPause;
-      const gate = Promise.withResolvers(),
-        started = Promise.withResolvers();
-      preview = new PreviewInspection(
-        store,
-        jobs,
-        cache,
-        sourceEvidence,
-        processing,
-        home,
-        async (request, signal) => {
-          started.resolve();
-          await gate.promise;
-          const { revision, plan, tracks } = request;
-          const preparePointer = async (directory, boundWorker, preparationSignal) => {
-            const response = await boundWorker(
-              "media.presentationEvidence",
-              {
-                source: request.source,
-                plan,
-                output: join(directory, "presentation.jsonl"),
-                maxBytes: 10_000_000,
-              },
-              { timeoutMs: renderDeadlineMs(plan) },
-            );
-            assert.equal(response.ok, true, JSON.stringify(response));
-            const presentation = await PresentationEvidence.open(
-              response.data,
-              revision.spans,
-              preparationSignal,
-            );
-            try {
-              return await writePointerSchedule(
-                {
-                  presentation,
-                  revisionId: revision.id,
-                  evidence: sourceEvidence,
-                  identity: request.sourceEvidence,
-                  output: join(directory, "pointer.jsonl"),
-                  maxBytes: 1_000_000,
-                  maxEvents: 100_000,
-                },
-                preparationSignal,
-              );
-            } finally {
-              await presentation.close();
-            }
-          };
-          if (!report.pointerReceiptChecked) {
-            await assert.rejects(
-              withRenderedMedia(
-                run,
-                {
-                  source: request.source,
-                  plan,
-                  tracks,
-                  attemptParent: attempts,
-                  preparePointer: async (...args) => ({
-                    ...(await preparePointer(...args)),
-                    sha256: "0".repeat(64),
-                  }),
-                },
-                signal,
-                async () => assert.fail("Corrupt schedule receipt was consumed"),
-              ),
-              { code: "INVALID_REQUEST" },
-            );
-            report.pointerReceiptChecked = true;
-          }
-          return withRenderedMedia(
-            run,
-            {
-              source: request.source,
-              plan,
-              tracks,
-              attemptParent: attempts,
-              preparePointer,
-            },
-            signal,
-            async (video) => {
-              await copyFile(video.file, request.output, constants.COPYFILE_EXCL);
-              const file = join(home, revision.id + ".mp4");
-              await copyFile(request.output, file);
-              const decoded = await decode(request.output, frames);
-              assert.ok(video.audio, "Pinned movie must include planned audio");
-              assert.equal(video.audio.codec, "aac");
-              assert.equal(video.audio.frames, (revision.durationUs * 48_000) / 1_000_000);
-              assert.deepEqual(
-                video.audio.tracks.map((track) => track.gain),
-                [0.5, 0.5],
-              );
-              const wave = join(home, revision.id + ".wav");
-              const reference = await run(
-                "media.audio",
-                { tracks, spans: revision.spans, output: wave },
-                { signal },
-              );
-              assert.equal(reference.ok, true, JSON.stringify(reference));
-              const audio = await compareAudio(file, wave, video.audio.frames);
-              report.renders.push({
-                revisionId: revision.id,
-                plan,
-                file: basename(file),
-                decoded,
-                audio: { ...audio, tracks: video.audio.tracks },
-              });
-              return { ...video, file: request.output };
-            },
-          );
-        },
-      );
-      const first = preview.request({ recordingId });
+      const first = await call("preview.get", { projectId, revisionId: cut.revision.id });
       await started.promise;
-      const undo = store.edit(recordingId, {
-        operation: "undo",
-        requestId: randomUUID(),
-        expectedRevisionId: cut.id,
+      const undo = await call("edit.undo", {
+        projectId,
+        expectedRevisionId: cut.revision.id,
+        requestId: "undo",
       });
-      assert.notEqual(undo.id, first.revisionId);
+      assert.notEqual(undo.revision.id, first.revisionId);
       gate.resolve();
-      await ready(jobs, first.jobId);
-      assert.equal(report.renders[0].revisionId, cut.id);
-      assert.deepEqual(report.renders[0].decoded, {
-        durationUs: 4000000,
-        identities: [0, 1, 3, 5],
-        pts: [0, 1000000, 2000000, 3000000],
-      });
-      const second = preview.request({ recordingId });
-      await ready(jobs, second.jobId);
-      assert.equal(report.renders[1].revisionId, undo.id);
-      assert.deepEqual(report.renders[1].decoded, {
-        durationUs: 6000000,
-        identities: [0, 1, 2, 3, 4, 5],
-        pts: [0, 1000000, 2000000, 3000000, 4000000, 5000000],
-      });
-      assert.deepEqual(await readdir(attempts), []);
-      const retained = preview.request({ recordingId, revisionId: first.revisionId }).published
-        .preview;
-      const held = cache.acquire(retained.cacheId);
-      assert.ok(held);
-      held.release();
-      assert.deepEqual(await decode(retained.file, frames), report.renders[0].decoded);
-      report.cache = {
-        firstRevision: retained.revisionId,
-        bytes: retained.bytes,
-        readableAfterAttempt: true,
+      const save = async (params, expected) => {
+        const retained = await preview(params);
+        try {
+          const video = retained.published.preview;
+          const file = join(home, `${retained.revisionId}.mp4`);
+          await copyFile(video.file, file);
+          const decoded = await decode(file, frames);
+          assert.deepEqual(decoded, expected);
+          assert.ok(video.audio);
+          assert.equal(video.audio.frames, (video.durationUs * 48000) / 1000000);
+          const pcmPending = await call("audio.get", {
+            projectId,
+            revisionId: retained.revisionId,
+          });
+          await completed(pcmPending.jobId);
+          if (pcmPending.delivery)
+            await call("artifact.close", { token: pcmPending.delivery.token });
+          const pcm = await call("audio.get", { projectId, revisionId: retained.revisionId });
+          try {
+            assert.equal(pcm.published.audio.frames, video.audio.frames);
+            const audio = await compareAudio(file, pcm.published.audio.file, video.audio.frames);
+            report.renders.push({
+              revisionId: retained.revisionId,
+              file: basename(file),
+              decoded,
+              audio,
+            });
+          } finally {
+            await call("artifact.close", { token: pcm.delivery.token });
+          }
+          return { retained, file };
+        } finally {
+          await call("artifact.close", { token: retained.delivery.token });
+        }
       };
-      const cancelRevision = store.edit(recordingId, {
-        operation: "cut",
-        requestId: randomUUID(),
-        expectedRevisionId: undo.id,
-        ranges: Array.from({ length: 500 }, (_, i) => ({
-          startUs: i * 1000 + 1,
-          endUs: i === 499 ? 6000000 : (i + 1) * 1000,
-        })),
-      });
-      const canceled = preview.request({ recordingId });
-      await until(() => staged(attempts));
-      jobs.cancel(canceled.jobId);
-      await jobs.idle();
-      assert.deepEqual(await readdir(attempts), []);
-      assert.equal(jobs.job(canceled.jobId).state, "canceled");
-      assert.equal(
-        preview.request({ recordingId, revisionId: canceled.revisionId }).published,
-        null,
+      const firstSaved = await save(
+        { projectId, revisionId: first.revisionId },
+        { durationUs: 4000000, identities: [0, 1, 3, 5], pts: [0, 1000000, 2000000, 3000000] },
       );
+      const secondSaved = await save(
+        { projectId },
+        {
+          durationUs: 6000000,
+          identities: [0, 1, 2, 3, 4, 5],
+          pts: [0, 1000000, 2000000, 3000000, 4000000, 5000000],
+        },
+      );
+      assert.equal(secondSaved.retained.revisionId, undo.revision.id);
+      const replay = await preview({ projectId, revisionId: first.revisionId });
+      try {
+        assert.deepEqual(replay.published, firstSaved.retained.published);
+        assert.deepEqual(
+          await decode(replay.published.preview.file, frames),
+          report.renders[0].decoded,
+        );
+      } finally {
+        await call("artifact.close", { token: replay.delivery.token });
+      }
+      assert.deepEqual(await readdir(join(home, "library", "render")), []);
+      // A changed explicit revision permits observing late cancellation without reusing a cached movie.
+      const next = await call("edit.apply", {
+        projectId,
+        expectedRevisionId: undo.revision.id,
+        requestId: "late-cancel",
+        operations: [{ operation: "canvas.set", canvas: { background: "#010101ff" } }],
+      });
+      armLate = true;
+      const pending = await call("preview.get", { projectId, revisionId: next.revision.id });
+      await lateEntered.promise;
+      cancelAfterNativeJob = pending.jobId;
+      lateRelease.resolve();
+      await until(
+        async () => (await call("job.get", { jobId: pending.jobId })).state === "canceled",
+      );
+      const canceled = await call("preview.get", { projectId, revisionId: next.revision.id });
+      assert.equal(canceled.published, null);
+      assert.equal(canceled.state, "canceled");
       assert.equal(
-        report.renders.some((render) => render.revisionId === cancelRevision.id),
+        report.renders.some((render) => render.revisionId === next.revision.id),
         false,
       );
-      report.lifetime.push({
-        kind: "queued-job-cancel",
-        nativeStagingObserved: true,
-        consumed: false,
-        attemptsRemaining: 0,
-      });
-      // Enough tiny retained spans to keep a real encoder active while observing its stage.
-      const tiny = renderPlan(
-        createRevision(
-          createOriginalRevision(6000000),
-          Array.from({ length: 4000 }, (_, i) => ({ startUs: i * 1000, endUs: i * 1000 + 1 })),
-          { id: "tiny", operation: "cut", createdAt: "fixture" },
-        ),
-      );
-      for (const kind of ["abort", "deadline", "late-abort"]) {
-        const controller = new AbortController();
-        let observed = false,
-          consumed = false;
-        const worker = async (operation, params, options) => {
-          const response = await run(
-            operation,
-            params,
-            kind === "deadline" && operation !== "storage.clearRenderWorkspace"
-              ? { ...options, timeoutMs: 750 }
-              : options,
-          );
-          if (kind === "late-abort" && operation !== "storage.clearRenderWorkspace") {
-            assert.equal(response.ok, true);
-            controller.abort();
-          }
-          return response;
-        };
-        const pending = withRenderedMedia(
-          worker,
-          {
-            source,
-            plan: kind === "late-abort" ? renderPlan(undo) : tiny,
-            tracks: [],
-            attemptParent: attempts,
-          },
-          controller.signal,
-          async () => {
-            consumed = true;
-          },
+      assert.deepEqual(await readdir(join(home, "library", "render")), []);
+      for (const role of ["narration", "system"]) {
+        assert.deepEqual(
+          await readFile(join(donor, `${role}.mov`)),
+          audioBefore[role === "narration" ? 0 : 1],
         );
-        const rejected = assert.rejects(
-          pending,
-          (error) => error.code === (kind === "deadline" ? "MEDIA_WORKER_TIMEOUT" : "CANCELED"),
+        assert.deepEqual(
+          await readFile(join(home, `${role}.mov`)),
+          audioBefore[role === "narration" ? 0 : 1],
         );
-        if (kind !== "late-abort") {
-          await until(() => staged(attempts));
-          observed = true;
-          if (kind === "abort") controller.abort();
-        }
-        await rejected;
-        assert.equal(consumed, false);
-        assert.deepEqual(await readdir(attempts), []);
-        report.lifetime.push({
-          kind,
-          nativeStagingObserved: observed,
-          consumed,
-          attemptsRemaining: 0,
-        });
       }
-      assert.deepEqual(await readFile(join(raw, "video.mov")), sourceBefore);
-      assert.deepEqual(
-        await Promise.all(
-          ["narration", "system"].map((role) => readFile(join(raw, role + ".mov"))),
-        ),
-        audioBefore,
-      );
       assert.deepEqual(await readFile(source), sourceBefore);
-      assert.deepEqual(
-        await Promise.all(
-          ["narration", "system"].map((role) => readFile(join(home, role + ".mov"))),
-        ),
-        audioBefore,
-      );
+      assert.deepEqual(await readFile(join(donor, "video.mov")), sourceBefore);
       await writeFile(join(home, "report.json"), JSON.stringify(report, null, 2));
       console.log(
         JSON.stringify({
           home,
-          renders: report.renders.map((x) => x.decoded),
+          renders: report.renders.map((render) => render.decoded),
           lifetime: report.lifetime,
         }),
       );
     } finally {
-      await jobs?.close();
-      store.close();
+      gate.resolve();
+      lateRelease.resolve();
+      await service.close();
       if (!evidence) await rm(home, { recursive: true, force: true });
     }
   },
