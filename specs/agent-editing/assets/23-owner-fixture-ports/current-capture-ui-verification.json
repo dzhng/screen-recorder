@@ -1,0 +1,48 @@
+{
+  "commit": "1e46223cc124aa74b5451a7b123df0957ed3c0f8",
+  "baseCommit": "6eb419eb",
+  "primaryStartHead": "428e8c489ed919b98b337f6e3093355ae8e5725a",
+  "worktree": "/Users/david/.codex/worktrees/current-caller-fixture-corrections/screen-recorder",
+  "requestedCases": 13,
+  "qualifyingPasses": 13,
+  "outcomes": "outcomes.json",
+  "scope": "Previously failed automated temporary capture/default UI cases, serial within/across files. Own-window silent captures except two temporary display exclusion takes.",
+  "operands": {
+    "actualCandidate": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app",
+    "nativeSiblingSha256": "cd61f880baee5f9e7df4f0a158429ca0e65a6cbd83fbc5d7d773c1e190e4f384",
+    "nativeOverride": null,
+    "qualification": "Actual app uses its frozen release sibling, not debug479. Existing build/source qualification retained; no rebuild/installed switch."
+  },
+  "pins": {
+    "primarySourceAndHelperPins": 9,
+    "runtimePins": 12,
+    "beforeAfterMatch": true,
+    "finalCorrectedSource": "final-source-pins.json",
+    "qualification": "Primary nine sources/helpers and12runtime bytes unchanged across lane. WT final assertions passed; later changes only move retained diagnostics before early gates/remove unused returned launch bindings."
+  },
+  "retainedReds": [
+    "recording-deletion.stdout",
+    "capture-service-six.stdout",
+    "capture-service-roster-green.stdout"
+  ],
+  "qualifiedIntermediate": "Mixed run exit1 includes named passes; outcomes.json identifies each actual passed case. No whole-file green inferred from those exits.",
+  "actualFramePrefix": true,
+  "frameQualification": "Actual capture/admission and downstream exact crop/clocks/CLI-MCP bytes/history now pass, closing prior generated-only prefix qualification. No visual readability or installed acceptance claim.",
+  "setupQualifications": [
+    "Initial pin script wrong package cwd fixed before any test launch.",
+    "overlay-donor-green is a second cheap red after cwd-blocked edit; actual restored helper proof is overlay-donor-restored-green.",
+    "Initial cleanup substring observer matched its own inspection shell; final executable-identity observer finds no candidate process."
+  ],
+  "cleanup": "cleanup.json confirms no owned candidate processes/new fixture scratch. Temporary full-display/personal capture media removed; only bounded own-fixture delivered/cropped PNGs retained.",
+  "checks": "checks.json: syntax3files, lint without warnings after unused-binding cleanup, format,diff,compile-only local linker passed.",
+  "bounds": "Original case/input-clock/device/permission gates unchanged.210s outer process guard is failsafe with graceful harness cleanup, not a relaxed case deadline.",
+  "fullSuite": "Broader implementation-end suite remains root-owned/incomplete; this closes only13 selected retry cases.",
+  "rootReview": "Settled three-path diff preserves exact native DECODE_FAILED, immutable source journals/member bytes, identity/deletion and canonical no-allocation path. Only adjacent finalizing progress reports collapse for the transition oracle; raw rows, ordered sequence, source identity, publication duration and journal digest remain separately checked. Aggregate storage and recording identity use their respective current contracts. Final diagnostics/unused bindings are behavior-neutral; affected assertions passed before those moves.",
+  "evidenceArchive": {
+    "file": "current-capture-ui-evidence.tar.gz",
+    "bytes": 147655,
+    "sha256": "8e7e3520584f610e80e2aa9a00bc0747121c18c8b0a2a40e837274e882102429",
+    "hashedPayloads": 86,
+    "independentlyVerified": true
+  }
+}

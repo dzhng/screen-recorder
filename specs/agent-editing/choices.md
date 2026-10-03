@@ -7768,7 +7768,7 @@ Reach: Future fixture authors must express edits through the same public project
 contract as callers. Generated source coverage establishes the downstream path;
 the physical capture precondition remains independently required.
 
-Verdict: **sound**. One existing owner carries each contract. Confidence: **medium** until the physical prefix executes.
+Verdict: **sound**. One existing owner carries each contract. Confidence: **high**; the physical prefix now executes through the same authored project contract.
 
 ### Hold the actual reader at its existing descriptor barrier
 
@@ -7786,3 +7786,18 @@ App host child ownership remains a separate check. No production hook, timeout
 extension or alternate worker operation is introduced.
 
 Verdict: **sound**. Existing injection and lifetime ownership suffice. Confidence: **high**.
+
+### Separate finalization progress from lifecycle transitions
+
+Publication can report progress several times while the take remains finalizing.
+The fixture retains every journal row and checks sequence, identity, duration and
+immutable published bytes. Its state-transition comparison collapses only
+adjacent finalizing rows, preserving the exact pause/resume/finalize/complete chain.
+
+Gap: The old assertion counted every progress report as a new lifecycle transition.
+
+Reach: More publication progress cannot masquerade as a different state machine,
+and duplicate reports in other states remain visible failures. The product and
+journal format are unchanged.
+
+Verdict: **sound**. State and progress have separate observable contracts. Confidence: **high**.

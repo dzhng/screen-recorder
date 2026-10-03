@@ -1,0 +1,82 @@
+{
+  "checkpoint": "Current production30minute selected-source frame cache companion",
+  "sourceCommit": "6eb419ebf8b05d53cd3930921e0c6f8333d18aa3",
+  "sourceEdited": false,
+  "runtime": {
+    "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder": "2de81ba3676a8e52cb7787b8103dd91e803b1dbb67c20f565881e8740b3c6d73",
+    "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native": "cd61f880baee5f9e7df4f0a158429ca0e65a6cbd83fbc5d7d773c1e190e4f384",
+    "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs": "d8336b61ef2955ee1bf390290954f05f85aab82106bd58c66036cca15965ee83",
+    "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/runtime.json": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+  },
+  "workerSelection": "App ServiceHost supplies its signed bundle sibling release worker cd61f880\u2026, independently of SCREENREC_NATIVE. Frozen debug479 was not used by this app-backed case.",
+  "input": {
+    "path": "/Users/david/.cache/screen-recorder/verification/frame-cache-long-6eb419eb/video.mov",
+    "bytes": 109211742,
+    "sha256": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "sameHistoricalInput": true,
+  "result": {
+    "passed": 1,
+    "failed": 0,
+    "testMs": 1471.351542,
+    "runnerMs": 1553.517666,
+    "generationSeconds": 3.111720323562622,
+    "caseExitCode": 0,
+    "generationExitCode": 0,
+    "timeoutsChanged": false,
+    "inputGenerationBudgetSeconds": 120,
+    "caseBudgetSeconds": 90,
+    "requestBudgetSeconds": 20
+  },
+  "coverage": [
+    "Actual request at source1200s of a1800s H264 source returns actual1200s.",
+    "Repeated public CLI frame delivery retains cache/generation/physicalfile identity and exactPNG bytes.",
+    "Real1byteLRU budget evicts derivative; app restart plus explicit frame.retry preserves job identity, advances generation1\u21922, uses newcacheId and regenerates exactPNG bytes.",
+    "Fulloriginal-input and independently admitted-source hashes remain unchanged throughout.",
+    "Only frame asset job exists; no auto recordings/projects or source/scene jobs.",
+    "App/service/worker processes and scratch removed by existing after/finally contracts; postflight no observed survivors."
+  ],
+  "priorEvidenceReused": [
+    "24k/l routed500/10k and preview cohorts",
+    "24m/w/x/y/z duration/cardinality checks",
+    "24f/j learned2hour and transfer",
+    "Current short sparse/index cache probes"
+  ],
+  "limits": [
+    "Full30minute index scan not run; no index publication count/work/memory/foreground-under-index conclusion.",
+    "Not a parent24cached250rowp95/warm1080ppreview/4GiBRSS acceptance result.",
+    "No capture/device/modelinference/MovieMux/nativebuild/fullsuite/installedchanges.",
+    "Timing is this host/load single execution, not speedup or latency guarantee.",
+    "Image SHA retained by existing receipt; scratch delivered PNG operands deleted by unchanged harness. No visual quality verdict.",
+    "Immutable generated input retained read-only outside compact evidence archive for reuse; do not regenerate or copy it for downstream checks."
+  ],
+  "hashVerification": {
+    "operandFilesVerified": 137,
+    "changed": [],
+    "observedProcessSurvivors": [],
+    "scratchHomesRemaining": [],
+    "inputSha256After": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+    "historicalInputByteIdentical": true,
+    "inputNowReadOnly": true,
+    "observedNativeProcesses": [
+      [
+        49112,
+        49110,
+        49110,
+        "(screenrec-native)"
+      ]
+    ],
+    "gitStatus": " M packages/test-harness/movie-scale.mjs\n M specs/agent-editing/slices/23-cutover.md\n"
+  },
+  "historicalCachePngSha256": "3858e4fb0c8c64b3a96132258410760011712d8d08836df9e88b833f97975989",
+  "currentCachePngSha256": "3858e4fb0c8c64b3a96132258410760011712d8d08836df9e88b833f97975989",
+  "rootReview": "Existing generated recipe exactly reproduces retained source and late-frame PNG digests. This executes the unchanged cache companion, not full indexing or general parent24 performance. Source stays read-only and product-owned admission copy is verified separately.",
+  "evidenceArchive": {
+    "file": "current-long-frame-cache-evidence.tar.gz",
+    "bytes": 30725,
+    "sha256": "4cdceb44fd4567c1ca1683fd9c0aae33e7cc047e29b17fb858ade43211fafbc5",
+    "hashedPayloads": 20,
+    "independentlyVerified": true
+  }
+}

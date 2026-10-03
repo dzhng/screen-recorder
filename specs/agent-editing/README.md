@@ -34,7 +34,9 @@ its [recovery bank](assets/23-owner-fixture-ports/default-gate-recovery-verifica
 separates retained package passes, focused repairs and unfinished acceptance.
 The [current caller bank](assets/23-owner-fixture-ports/current-caller-fixtures-verification.json)
 closes index/cache, source-history cut and deterministic worker-deletion fixture
-failures. Its physical capture prefixes remain unrun. The
+failures. The [capture/UI retry bank](assets/23-owner-fixture-ports/current-capture-ui-verification.json)
+closes all thirteen previously failed named capture/UI cases, including the
+actual frame-capture prefix. The
 [selected streaming bank](assets/23-owner-fixture-ports/current-streaming-scale-verification.json)
 passes the original10/300s PCM and memory gates. Movie scale found a real defect:
 floor-counted PCM ends slightly before the requested movie endpoint, and the
@@ -43,10 +45,13 @@ presentation and unchanged PCM count; do not widen the duration tolerance.
 The [source lifetime bank](assets/23-owner-fixture-ports/current-source-lifetime-verification.json)
 closes all three retained orphan-workspace, donor and removal cases on the
 unchanged current worker; SDK finishing remains a separate contract.
-Initial zero-display failures remain in the original default bank. After restart,
+The [long-source cache bank](assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
+passes the unchanged30-minute late-seek/cache/restart companion with exact
+historical input and PNG digests; complete indexing remains separate.
+Initial zero-display failures remain in the original default bank. Post-restart
 [source enumeration](assets/23-owner-fixture-ports/post-restart-source-availability.json)
-reports one display; the failed capture/UI cohort is resuming serially on the
-same isolated candidate. Automated temporary capture fixtures in that default gate
+enabled the serial retry cohort; its temporary media and UI are cleaned up.
+Automated temporary capture fixtures in that default gate
 are authorized, distinct from repeating the unchanged physical marker/Stop
 experiment or asking the user for another recording.
 
@@ -54,7 +59,8 @@ Continue in this order:
 
 1. Close the soundtrack endpoint defect through the existing native mux owner,
    with a tiny regression before resuming short/long movie scale. Complete
-   remaining default failures when their input prerequisites are available.
+   only affected contracts on the rebuilt candidate; do not repeat repaired
+   capture/UI or other passed default cohorts.
    Reuse passed package/native cohorts. Generated movie timing and lifetime pass;
    exact SDK finishing remains qualified separately. Then finish unmatched native/media contracts through current owners, with
    retained or generated inputs: movie/lifetime, source restart, scene/pointer,

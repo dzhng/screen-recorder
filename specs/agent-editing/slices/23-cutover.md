@@ -16,8 +16,17 @@ now uses the fresh project owner through the default entry and removes its
 separate development entry. Obsolete core/native owners and the recording revision schema are removed.
 The [current worker/service smoke](../assets/23-owner-fixture-ports/current-worker-service-verification.json)
 passes its generated-source audio/preview, restart and native cleanup scope.
-The once-at-implementation-end repository gate, unmatched current runtime
-contracts and installed switching remain incomplete.
+The implementation-end repository gate has run; its
+[focused recovery bank](../assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
+retains original failures and subsequent passes. The
+[current caller bank](../assets/23-owner-fixture-ports/current-caller-fixtures-verification.json)
+executes index/cache, source-history cuts and deletion cancellation; the
+[source lifetime bank](../assets/23-owner-fixture-ports/current-source-lifetime-verification.json)
+executes all three orphan workspace/donor/removal cases. Exact soundtrack
+presentation and installed switching remain incomplete. The
+[capture/UI retry bank](../assets/23-owner-fixture-ports/current-capture-ui-verification.json)
+closes its thirteen failed named cases, including the physical frame prefix;
+its temporary capture media and UI are removed.
 The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md)
 maps saved outcomes and actual service/native-consumer cases without adding another
 UI or repeating accepted media cohorts. [Pinned preview/export recovery](../assets/acceptance-maintenance/cutover-outcomes.md#pinned-previewexport-and-recovery)
@@ -76,8 +85,10 @@ The generic recording index carrier is also removed, with current source/project
 lifetime and portable proof. The
 [source-cache/carrier checkpoint](../assets/23-owner-fixture-ports/source-cache-carrier-closure-verification.json)
 removes standalone scene/event carriers after transferring their semantic oracles
-and ports the scale companion to public asset/stream selection. Scale execution
-remains deferred. The
+and ports the scale companion to public asset/stream selection. The
+[current long-frame cache bank](../assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
+passes that companion with exact historical input/frame digests; complete index
+publication remains separate. The
 [compiled pointer checkpoint](../assets/23-owner-fixture-ports/composition-pointer-readability-verification.json)
 preserves inherited delivery floors and crop caps through current geometry;
 full-size and clean frames are unchanged. Tiny crops retain the established
@@ -87,7 +98,8 @@ ports the personal-release harness through controlled, validated operation
 replies; installed and real media execution remain open. The
 [frame owner checkpoint](../assets/23-owner-fixture-ports/frame-owner-purge-verification.json)
 removes recording frame/materialization/selectors with current service isolation,
-retry and delivery proof; its sparse/index native callers remain syntax-only.
+retry and delivery proof; its sparse/index native callers now pass against the
+isolated built candidate in the current-caller bank.
 [Native audio](../assets/23-owner-fixture-ports/source-native-audio-contracts-verification.json)
 and [resampling endpoints](../assets/23-owner-fixture-ports/composition-audio-endpoints-verification.json)
 preserve physical occupancy, late consumer failure, exact PCM and both selected
@@ -96,9 +108,12 @@ removes recording processing/span owners and their revision field, with actual
 prior-format refusal and byte preservation. Unmatched movie/lifetime guarantees
 remain current-runtime obligations.
 The [movie caller ports](../assets/23-owner-fixture-ports/movie-harness-cutover-verification.json)
-now use current composition and attempt owners. Their retained duration, AAC,
-pixel and memory checks await native execution; synthetic fixture compilation
-does not close those gates or the historical in-process finishing phase.
+now use current composition and attempt owners. Generated timing and lifetime
+pass in the default recovery bank. Selected-source long streaming passes in its
+[current bank](../assets/23-owner-fixture-ports/current-streaming-scale-verification.json);
+movie scale instead exposed early soundtrack container support and remains red.
+Neither these scoped passes nor synthetic fixture compilation closes the
+historical in-process finishing phase.
 The [audio/preview checkpoint](../assets/23-owner-fixture-ports/audio-preview-owner-purge-verification.json)
 removes those recording owners with explicit current targets and shared render
 lifetimes intact. Controlled current-owner checks pass; actual native caller and

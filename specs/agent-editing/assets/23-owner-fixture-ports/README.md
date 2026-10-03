@@ -56,6 +56,8 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Current index/cache, source-history cuts and actual worker cancellation | [Current caller fixtures](current-caller-fixtures-verification.json) |
 | Long selected PCM, independent frame counts and bounded native memory | [Current streaming scale](current-streaming-scale-verification.json) |
 | Orphan acquisition workspace, donor and removal leases across parent death | [Current source lifetime](current-source-lifetime-verification.json) |
+| Actual capture, recovery, journal publication and countdown cancellation | [Current capture/UI retry](current-capture-ui-verification.json) |
+| Thirty-minute source seek, cache identity, LRU eviction and restart | [Current long-frame cache](current-long-frame-cache-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -65,7 +67,8 @@ Their syntax, compile-only linking, unchanged pure presentation algorithms and
 three current-owner metrics cases pass;
 subsequent default recovery and current-caller banks own their actual runtime
 verdicts. The current-source-lifetime bank closes the three retained orphan
-workspace/donor/removal cases. Unmatched movie-scale and capture prefixes remain
+workspace/donor/removal cases. The capture/UI retry bank closes its thirteen
+named failures and actual frame prefix. Unmatched movie-scale and complete-index scope remain
 execution obligations. Historical lab commands in the recording spec are
 retained evidence, not runnable current entry points.
 
@@ -104,8 +107,9 @@ move to current source/project owners. Service batches isolate bad admissions,
 unreadable cached items and failed jobs without starving valid siblings. The
 native sparse/index callers retain their actual pixel and cache gates; the
 current-caller bank executes them against the isolated built candidate. Its
-generated frame control proves authored crop and delivery contracts but cannot
-substitute for the unexecuted physical capture prefix.
+generated frame control remains separately labelled; the capture/UI retry bank
+now also executes the physical source prefix and the same authored crop/delivery
+contracts, without claiming visual readability or physical marker precision.
 
 Focused native audio checks preserve physical occupancy, exact PCM and late
 consumer failure. Composition resampling preserves admitted boundary impulses

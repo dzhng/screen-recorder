@@ -2,6 +2,12 @@
 
 Status: in progress; compiled-plan delivery, active audio scheduling, independent
 edit batching and compact public delivery pass their prerequisites. The
+[current selected streaming bank](../assets/23-owner-fixture-ports/current-streaming-scale-verification.json)
+also passes the original10/300s frame-count, sampled accuracy and memory gates.
+The [current long-frame cache bank](../assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
+passes the unchanged30-minute late-source seek, eviction and restart companion,
+with exact historical input and PNG digests. Complete indexing and exact
+soundtrack movie support remain separate current-runtime gates. The
 [two-hour learned checkpoint](24f-successful-learned-scale.md) passes complete
 PCM comparison; [complete prepared-package transfer](24j-prepared-package-scale.md)
 passes full-file ownership and new receiver edit/undo without repeated DSP.
