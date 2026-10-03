@@ -42,7 +42,10 @@ admission to each operation's schema. The
 [focused verification](assets/acceptance-maintenance/native-capability-verification.json)
 retains the red/green result and unchanged accepted discovery contents. Its
 incremental native build does not close the heavy-compilation storage condition.
-The installed release bank remains bound to its original executable.
+The installed release bank remains bound to its original executable. The
+[developer update](assets/acceptance-maintenance/personal-correction-update.json)
+records the corrected installed bundle, default-service startup and idle capture;
+it neither resets the library nor repeats model/media acceptance.
 
 The pure composition review also corrected seeded-caption replacement: changing
 that occurrence to media retires text provenance while preserving its identity,

@@ -76,6 +76,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Complete fourteen-request frozen PNG parity on the production worker | [Production PNG adoption](current-production-png-verification.json) |
 | Approved personal replacement, empty startup and isolated installed cached query | [Personal release](personal-release-verification.json) |
 | One unchanged installed voice inference and complete CLI/default MCP PCM | [Installed voice](current-installed-voice-verification.json) |
+| Reviewed capability/replacement corrections applied to the approved personal app | [Developer update](../acceptance-maintenance/personal-correction-update.json) |
 
 The [fresh saved-workflow review](../25b-fresh-caller/fresh-visual-review/README.md)
 accepts its named sampled content and retains visible layout limits. The

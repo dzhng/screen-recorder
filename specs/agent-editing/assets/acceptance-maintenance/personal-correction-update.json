@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "scope": "Developer-applied update to approved personal installation; no library reset or capture.",
+  "sourceCommit": "1b6aa64f",
+  "installedAt": "2026-10-03T20:02:26.987Z",
+  "before": {
+    "appPid": 85563,
+    "servicePid": 85565,
+    "captureState": "idle",
+    "gracefulTermination": "SIGTERM to exact previously observed app PID; both exited."
+  },
+  "pins": [
+    {
+      "path": "Contents/MacOS/screenrec-native",
+      "bytes": 19979296,
+      "sha256": "ada0bb8ad2ed4792d0554eb9d261911bbef49b580c32c0f12fc78c8d8fc13711"
+    },
+    {
+      "path": "Contents/Resources/service/main.mjs",
+      "bytes": 4078122,
+      "sha256": "a93137d27ef7c1204db2eefff0c7a9d91433d3c0f66b3b380f1e27ad0d213327"
+    },
+    {
+      "path": "Contents/Resources/cli/main.mjs",
+      "bytes": 1148901,
+      "sha256": "b8b7fcddd24e4241afc89562208bc7def300a7c541ca6152a966efcfe73c3142"
+    },
+    {
+      "path": "Contents/Resources/service/runtime.json",
+      "bytes": 151,
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+    }
+  ],
+  "installedNativeRefusals": [
+    {
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "This operation requires empty params.",
+        "retryable": false
+      },
+      "id": "media.audioCapabilities",
+      "ok": false
+    },
+    {
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "This operation requires empty params.",
+        "retryable": false
+      },
+      "id": "media.outputCapabilities",
+      "ok": false
+    }
+  ],
+  "installedHelp": "Microseconds. Endpoints accept integers or exact reduced fractions where the operation's input schema permits them. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
+  "signatureExitCode": 0,
+  "verification": {
+    "nativeWirePassed": 4,
+    "cliHelpPassed": 3,
+    "compositionFocusedPassed": 90,
+    "compositionTypesAndBuild": "pass"
+  },
+  "priorEvidence": "Installed voice/query banks retain their original candidate pins. No media, model, broad-suite or quality rerun was made for these corrections.",
+  "after": {
+    "health": {
+      "ok": true,
+      "data": {
+        "status": "ready",
+        "pid": 17290,
+        "socketPath": "/Users/david/.screen-recorder/run/service.sock",
+        "home": "/Users/david/.screen-recorder",
+        "node": "24.14.0",
+        "uptimeMs": 35642
+      },
+      "id": "83b33d95-ed0e-44ab-adf0-08b9f8d6d832"
+    },
+    "capture": {
+      "ok": true,
+      "data": {
+        "device": {
+          "state": "idle",
+          "recordingId": null,
+          "sourceId": null,
+          "elapsedUs": null,
+          "selection": null,
+          "permissions": {
+            "screen": true,
+            "microphone": "authorized",
+            "camera": "not_determined"
+          }
+        },
+        "recording": null
+      },
+      "id": "3d7e775c-c917-48b4-91ae-defddb246f3f"
+    },
+    "appPid": 17287
+  }
+}
