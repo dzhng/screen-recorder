@@ -1,13 +1,19 @@
 import { constants, fstatSync, openSync, readSync } from "node:fs";
 import { openedFile, type OpenedFile } from "./files.js";
 import { CatalogError } from "./catalog.js";
-import type { MaterializedFrame } from "./frame-materialization.js";
+export type RetainedImage = {
+  file: string;
+  bytes: number;
+  mediaType: string;
+  width: number;
+  height: number;
+};
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
 export function openRetainedImage(
   input: string | OpenedFile,
-  frame: Pick<MaterializedFrame, "bytes" | "mediaType" | "width" | "height">,
+  frame: Omit<RetainedImage, "file">,
   expected?: { device: number; inode: number; modified: number },
 ) {
   const file =

@@ -1,4 +1,5 @@
 import { isDeepStrictEqual } from "node:util";
+import type { RetainedImage } from "./retained-image.js";
 import { CatalogError } from "./catalog.js";
 import { planFrameTrail, type FrameOverlay } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
@@ -9,18 +10,13 @@ import { type TimeRange } from "./presentation-time.js";
 export const framePolicy = "frame-v4";
 
 export type FrameCrop = { x: number; y: number; width: number; height: number };
-export type NativeFrame = {
-  file: string;
-  mediaType: string;
+export type NativeFrame = RetainedImage & {
   requestedSourceUs: number;
   actualSourceUs: number;
   distanceUs: number;
-  width: number;
-  height: number;
   sourceWidth: number;
   sourceHeight: number;
   crop?: FrameCrop | null;
-  bytes: number;
   overlay?: {
     trailPoints: number;
     trailStartUs?: number | null;

@@ -9,7 +9,12 @@ import { RevisionStore } from "./library.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { FileSceneEvidence, writeSceneEvidencePages } from "./scene-pages.js";
-import { selectionPolicy, ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
+import {
+  selectionPolicy,
+  ScreenshotIndexStore,
+  recordingIndexDomain,
+  type RecordingIndexRecords,
+} from "./screenshot-index.js";
 import { FileScreenshotIndex, writeScreenshotIndexPages } from "./index-pages.js";
 import { framePolicy } from "./frame-materialization.js";
 import { trailPolicy } from "./trails.js";
@@ -138,7 +143,9 @@ async function fixture(count = 260) {
   await index.finish(identity);
   return { root, original, store, scenes, index, identity, sceneIdentity, revision };
 }
-function framesWithoutPaths(entries: ReturnType<ScreenshotIndexStore["page"]>["entries"]) {
+function framesWithoutPaths(
+  entries: ReturnType<ScreenshotIndexStore<RecordingIndexRecords>["page"]>["entries"],
+) {
   return entries.map((entry) => {
     const { file, ...frame } = entry.frame;
     expect(file).toBeTruthy();

@@ -1,11 +1,10 @@
 import { CatalogError } from "./catalog.js";
 import type {
   IndexRecords,
-  RecordingIndexRecords,
   ScreenshotIndexMetadata,
   ScreenshotIndexEntry,
 } from "./screenshot-index.js";
-export type IndexCoverage<D extends IndexRecords = RecordingIndexRecords> = D["coverage"] & {
+export type IndexCoverage<D extends IndexRecords = IndexRecords> = D["coverage"] & {
   sequence: number;
 };
 export type EntryQuery = { after: number; through?: number; limit: number };
@@ -20,7 +19,7 @@ function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
 /** Entry and coverage continuation semantics shared by live and portable retained indexes. */
-export abstract class ScreenshotIndexReader<D extends IndexRecords = RecordingIndexRecords> {
+export abstract class ScreenshotIndexReader<D extends IndexRecords = IndexRecords> {
   metadata(identity: D["identity"]): ScreenshotIndexMetadata<D> {
     return this.readMetadata(identity);
   }

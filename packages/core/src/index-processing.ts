@@ -21,49 +21,23 @@ import { type SourceSelection } from "./source-selection.js";
 import type { SourceIndexIdentity, SourceIndexRecords } from "./source-index.js";
 import { sourceIndexPolicy } from "./source-index-selection.js";
 import { materializeSourceIndex } from "./source-index-materialization.js";
-import { evidenceRecordingId } from "./evidence.js";
 import {
   RetainedIndexRead,
   validateIndexCoverageCursor,
   type IndexCoverageCursor,
   type IndexReadCursor,
 } from "./index-read.js";
-import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import type { Job, JobAdmission, JobExecution, JobQueue, RetainedArtifact } from "./jobs.js";
-import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
-import type { SourceProcessing } from "./processing.js";
 import type { SceneProcessing } from "./scene-processing.js";
-import type { SceneEvidenceRead, RecordingSceneEvidenceMetadata } from "./scene-evidence.js";
-import { selectIndex } from "./selection.js";
-import { selectionEvidence } from "./selection-evidence.js";
-import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
-import { trailPolicy } from "./trails.js";
-import type { VisualSampler } from "./scenes.js";
 import {
-  selectionPolicy,
   encodeIndexRecord,
   type ScreenshotIndexStore,
   type ScreenshotIndexMetadata,
 } from "./screenshot-index.js";
 
 const artifact = "screenshot-index";
-export type IndexReference = Pick<
-  ScreenshotIndexMetadata,
-  "recordingId" | "revisionId" | "generation"
->;
-export type IndexFrameReference = IndexReference & { ordinal: number };
-export type IndexEvidence = {
-  source: SourceEvidenceMetadata;
-  scenes: RecordingSceneEvidenceMetadata;
-};
-type IndexInput = IndexEvidence & {
-  selectionPolicy: string;
-  framePolicy: string;
-  trailPolicy: string;
-};
 export type SourceIndexReference = SourceSelection & { generation: string };
 type SourceIndexInput = Omit<SourceIndexIdentity, "generation">;
 export type ProjectIndexReference = Pick<
@@ -99,16 +73,6 @@ export type IndexProcessingOptions = {
     projects: ProjectStore;
     index: ScreenshotIndexStore<ProjectIndexRecords>;
   };
-  recording?: {
-    store: RevisionStore;
-    index: ScreenshotIndexStore;
-    source: SourceProcessing;
-    scenes: SceneProcessing;
-    evidence: { source: SourceTrailRead; scenes: SceneEvidenceRead };
-    home: string;
-    render: { decode: FrameDecoder; sample: VisualSampler };
-    retained?: (recordingId: string, generation: string) => boolean;
-  };
 };
 /** Dependency readiness is resolved before index admission to the existing work lanes. */
 export class IndexProcessing {
@@ -124,12 +88,6 @@ export class IndexProcessing {
       CREATE INDEX IF NOT EXISTS source_index_publication ON artifacts(targetKind,targetId,artifact,json_extract(result,'$.generation')) WHERE targetKind='asset' AND artifact='screenshot-index';
     `);
   }
-  private get recording() {
-    if (!this.options.recording)
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording indexes are unavailable");
-    return this.options.recording;
-  }
-
   private get asset() {
     if (!this.options.asset)
       throw new CatalogError("UNSUPPORTED_JOB", "Source indexes are unavailable");
@@ -640,292 +598,16 @@ export class IndexProcessing {
     );
   }
 
-  request(input: {
-    recordingId: string;
-    revisionId?: string | undefined;
-    evidence?: IndexEvidence;
-  }) {
-    const revision = this.recording.store.revision(input.recordingId, input.revisionId);
-    let selected = input.evidence;
-    if (!selected) {
-      this.recording.source.prepare(input.recordingId);
-      this.recording.scenes.prepare(input.recordingId);
-      const source = this.recording.source.status(input.recordingId);
-      const scenes = this.recording.scenes.status(input.recordingId);
-      const dependencies = [
-        { artifact: "source", ...source },
-        { artifact: "scenes", ...scenes },
-      ];
-      if (!source.published || !scenes.published) {
-        const waiting =
-          dependencies.find((item) => ["failed", "unavailable"].includes(item.state)) ??
-          dependencies.find((item) => !item.published)!;
-        return {
-          recordingId: input.recordingId,
-          revisionId: revision.id,
-          state: waiting.state,
-          reason: waiting.reason,
-          retryable: waiting.retryable,
-          jobId: null,
-          published: null,
-          dependencies,
-        };
-      }
-      selected = { source: source.published.evidence, scenes: scenes.published.evidence };
-    }
-    const sourceId = this.recording.store.get(input.recordingId).sourceId;
-    if (
-      evidenceRecordingId(selected.source) !== input.recordingId ||
-      selected.scenes.recordingId !== input.recordingId ||
-      [selected.source, selected.scenes].some((value) => value.sourceId !== sourceId)
-    )
-      throw new CatalogError("INVALID_EVIDENCE", "Index evidence belongs to another source");
-    const options: IndexInput = {
-      ...selected,
-      selectionPolicy: selectionPolicy.id,
-      framePolicy,
-      trailPolicy: trailPolicy.id,
-    };
-    const identity = {
-      target: {
-        kind: "recording" as const,
-        recordingId: input.recordingId,
-        revisionId: revision.id,
-      },
-
-      artifact,
-      input: JSON.stringify(options),
-    };
-    const existing = this.jobs.status(identity);
-    if (!existing.jobId) this.requireSlot();
-    this.jobs.submit({ ...identity, lane: "frame" });
-    const status = this.jobs.status(identity);
-    return {
-      recordingId: input.recordingId,
-      revisionId: revision.id,
-      ...status,
-      published: status.published
-        ? {
-            generation: status.published.generation,
-            evidence: JSON.parse(status.published.result) as ScreenshotIndexMetadata,
-          }
-        : null,
-      dependencies: [],
-    };
-  }
-
-  get(input: {
-    recordingId: string;
-    revisionId?: string | undefined;
-    cursor?: IndexReadCursor<IndexReference> | undefined;
-    limit?: number | undefined;
-  }) {
-    const cursor = input.cursor;
-    if (
-      cursor &&
-      (cursor.recordingId !== input.recordingId ||
-        (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
-    )
-      throw new CatalogError(
-        "ARTIFACT_CHANGED",
-        "Index continuation belongs to another recording or revision",
-      );
-    const status = cursor ? null : this.request(input);
-    if (status && !status.published) return { ...status, page: null };
-    const metadata = cursor ? this.published(cursor) : status!.published!.evidence;
-    return new RetainedIndexRead(this.recording.index, metadata, {
-      recordingId: metadata.recordingId,
-      revisionId: metadata.revisionId,
-      generation: metadata.generation,
-    }).get({ cursor, limit: input.limit });
-  }
-
-  coverage(
-    input: IndexReference & {
-      candidateOrdinal?: number | undefined;
-      cursor?: IndexCoverageCursor<IndexReference> | undefined;
-      limit?: number | undefined;
-    },
-  ) {
-    const reference: IndexReference = {
-      recordingId: input.recordingId,
-      revisionId: input.revisionId,
-      generation: input.generation,
-    };
-    validateIndexCoverageCursor(reference, input);
-    return new RetainedIndexRead(
-      this.recording.index,
-      this.published(reference),
-      reference,
-    ).coverage(input);
-  }
-
-  frame(input: IndexFrameReference) {
-    return this.read(input).frame(input.ordinal);
-  }
-
-  openRead(input: IndexFrameReference) {
-    return this.read(input).openRead(input.ordinal);
-  }
-
-  private read(input: IndexReference) {
-    const reference: IndexReference = {
-      recordingId: input.recordingId,
-      revisionId: input.revisionId,
-      generation: input.generation,
-    };
-    return new RetainedIndexRead(this.recording.index, this.published(reference), reference);
-  }
-
-  /** Public references resolve through queue publication, never merely a completed store row. */
-  published(input: IndexReference) {
-    this.recording.store.revision(input.recordingId, input.revisionId);
-    const row = this.recording.store.catalog
-      .prepare(`SELECT result FROM artifacts WHERE targetKind='recording' AND targetId=? AND revisionId=? AND artifact=?
-        AND json_extract(result,'$.generation')=? LIMIT 1`)
-      .get(input.recordingId, input.revisionId, artifact, input.generation) as
-      | { result: string }
-      | undefined;
-    if (!row)
-      throw new CatalogError(
-        "ARTIFACT_CHANGED",
-        "Screenshot index reference is not published for this revision",
-      );
-    return JSON.parse(row.result) as ScreenshotIndexMetadata;
-  }
-
-  retry(input: { recordingId: string; revisionId?: string | undefined }) {
-    const status = this.request(input);
-    if (!status.jobId) return status;
-    const job = this.jobs.job(status.jobId);
-    if (!["queued", "running", "ready"].includes(job.state)) this.requireSlot();
-    this.jobs.retry(job.jobId);
-    return this.request({ ...input, revisionId: status.revisionId });
-  }
-  private requireSlot() {
-    if (this.jobs.isArtifactBusy(artifact))
-      throw new CatalogError(
-        "LIMIT_EXCEEDED",
-        "Another screenshot index is using the background frame slot",
-        {},
-        true,
-      );
-  }
-
   async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.target.kind === "asset") return this.executeSource({ job, signal });
     if (job.target.kind === "project") return this.executeProject({ job, signal });
-    if (job.target.kind !== "recording" || job.target.revisionId === null)
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing requires a pinned revision");
-    const input = JSON.parse(job.input) as IndexInput;
-    if (
-      job.artifact !== artifact ||
-      input.selectionPolicy !== selectionPolicy.id ||
-      input.framePolicy !== framePolicy ||
-      input.trailPolicy !== trailPolicy.id
-    )
-      throw new CatalogError("UNSUPPORTED_JOB", "Index processor cannot execute this job");
-    const revision = this.recording.store.revision(job.target.recordingId, job.target.revisionId);
-    const sourceId = this.recording.store.get(job.target.recordingId).sourceId;
-    const sourceIdentity = {
-      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
-      sourceId,
-      generation: input.source.generation,
-    };
-    const sceneIdentity = {
-      recordingId: job.target.recordingId,
-      sourceId,
-      generation: input.scenes.generation,
-      policy: input.scenes.policy,
-    };
-    const identity = {
-      recordingId: job.target.recordingId,
-      sourceId,
-      revisionId: revision.id,
-      generation: job.attemptId,
-      sourceIdentity,
-      sceneIdentity,
-      selectionPolicy: input.selectionPolicy,
-      framePolicy: input.framePolicy,
-      trailPolicy: input.trailPolicy,
-    };
-    await this.cleanupRecording(job.target.recordingId, signal);
-    const selection = {
-      revision,
-      sourceIdentity,
-      sceneIdentity,
-      sourceWidth: input.scenes.sourceWidth,
-      sourceHeight: input.scenes.sourceHeight,
-    };
-    try {
-      this.recording.index.begin(identity);
-      for await (const row of selectIndex(
-        selection,
-        selectionEvidence(selection, this.recording.evidence, signal),
-        signal,
-      )) {
-        signal.throwIfAborted();
-        if (row.kind === "coverage") this.recording.index.appendCoverage(identity, row);
-        else {
-          const selectionEndUs = row.reasons.reduce(
-            (end, reason) => (reason.side === "before" ? Math.min(end, reason.eventSourceUs) : end),
-            row.kept.endUs,
-          );
-          const frame = await materializeFrame(
-            {
-              recordingId: job.target.recordingId,
-              sourceId,
-              revision,
-              source: join(
-                this.recording.home,
-                "recordings",
-                job.target.recordingId,
-                "source",
-                "video.mov",
-              ),
-              output: this.recording.index.outputPath(identity, row.ordinal),
-              atUs: row.requestedPlaybackUs,
-              ...(selectionEndUs < row.kept.endUs ? { selectionEndUs } : {}),
-              maxLongEdge: 1600,
-              crop: null,
-              clean: false,
-              trailUs: trailPolicy.defaultUs,
-              sourceEvidence: input.source,
-            },
-            { ...this.recording.render, evidence: this.recording.evidence.source },
-            signal,
-          );
-          this.recording.index.appendCandidate(identity, row, frame);
-        }
-        await setImmediate();
-      }
-      signal.throwIfAborted();
-      const result = await this.recording.index.finish(identity, signal);
-      signal.throwIfAborted();
-      return JSON.stringify(result);
-    } catch (error) {
-      await this.recording.index.remove(identity);
-      throw error;
-    }
-  }
-
-  private cleanupRecording(recordingId: string, signal: AbortSignal) {
-    return this.recording.index.reclaim(
-      { kind: "recording", recordingId },
-      ({ generation }) =>
-        this.jobs.retainsAttempt(
-          { kind: "recording", recordingId: recordingId },
-          artifact,
-          generation,
-        ) || !!this.recording.retained?.(recordingId, generation),
-      signal,
+    throw new CatalogError(
+      "UNSUPPORTED_JOB",
+      "Index processing requires an asset or project target",
     );
   }
+
   async cleanup(signal: AbortSignal): Promise<void> {
-    if (this.options.recording)
-      await this.recording.store.forEachRecording(signal, ({ recordingId }) =>
-        this.cleanupRecording(recordingId, signal),
-      );
     if (this.options.project) {
       let afterSequence = 0;
       for (;;) {

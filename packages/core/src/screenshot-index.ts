@@ -8,7 +8,7 @@ import {
   retainedFileRead,
   type IdentifiedFile,
 } from "./files.js";
-import { openRetainedImage } from "./retained-image.js";
+import { openRetainedImage, type RetainedImage } from "./retained-image.js";
 import {
   ScreenshotIndexReader,
   type EntryQuery,
@@ -55,7 +55,7 @@ export type ScreenshotIndexIdentity = {
 export type IndexRecords = {
   identity: { generation: string };
   candidate: { ordinal: number };
-  frame: Pick<MaterializedFrame, "file" | "bytes" | "mediaType" | "width" | "height">;
+  frame: RetainedImage;
   coverage: { ordinal: number | null };
 };
 export type RecordingIndexRecords = {
@@ -64,14 +64,13 @@ export type RecordingIndexRecords = {
   frame: MaterializedFrame;
   coverage: SelectionCoverage;
 };
-export type ScreenshotIndexMetadata<D extends IndexRecords = RecordingIndexRecords> =
-  D["identity"] & {
-    durationUs: number;
-    candidateCount: number;
-    coverageCount: number;
-    bytes: number;
-  };
-export type ScreenshotIndexEntry<D extends IndexRecords = RecordingIndexRecords> = {
+export type ScreenshotIndexMetadata<D extends IndexRecords = IndexRecords> = D["identity"] & {
+  durationUs: number;
+  candidateCount: number;
+  coverageCount: number;
+  bytes: number;
+};
+export type ScreenshotIndexEntry<D extends IndexRecords = IndexRecords> = {
   candidate: D["candidate"];
   frame: D["frame"];
   coverageCount: number;
@@ -318,7 +317,7 @@ export function recordingIndexDomain(store: RevisionStore): IndexDomain<Recordin
 
 /** Owns retained rows and PNGs; only the job queue can publish a finished generation. */
 export class ScreenshotIndexStore<
-  D extends IndexRecords = RecordingIndexRecords,
+  D extends IndexRecords = IndexRecords,
 > extends ScreenshotIndexReader<D> {
   private readonly home: string;
   private readonly device: number;

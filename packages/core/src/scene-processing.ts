@@ -1,18 +1,13 @@
 import { ceil, fromTime } from "@screenrec/composition";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
-import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
-import { isSettled } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import { retainedPublicationSchema, type JobExecution, type JobQueue } from "./jobs.js";
-import { SourceSceneAnalysis, scenePolicy, type VisualSampler } from "./scenes.js";
+import { scenePolicy } from "./scenes.js";
 import {
-  recordingSceneMetadata,
   sourceSceneDescriptor,
   type SceneEvidenceStore,
-  type RecordingSceneEvidenceMetadata,
   type SceneEvidenceMetadata,
   type SceneEvidenceIdentity,
   type SceneSource,
@@ -41,13 +36,7 @@ export type PortableScenePublication = z.infer<typeof portableScenePublicationSc
 export type SceneProcessingOptions = {
   jobs: JobQueue;
   evidence: SceneEvidenceStore;
-  recording?: {
-    store: RevisionStore;
-    home: string;
-    sample: VisualSampler;
-    retained?: (recordingId: string, generation: string) => boolean;
-  };
-  asset?: {
+  asset: {
     assets: AssetStore;
     acquisitions: AcquisitionStore;
     sample: SourceVisualSampler;
@@ -59,21 +48,13 @@ export type SceneProcessingOptions = {
 export class SceneProcessing {
   private readonly jobs: JobQueue;
   private readonly evidence: SceneEvidenceStore;
-  constructor(private readonly options: SceneProcessingOptions) {
-    if (options.asset && !options.asset.implementationId)
+  private readonly asset: SceneProcessingOptions["asset"];
+  constructor(options: SceneProcessingOptions) {
+    if (!options.asset.implementationId)
       throw new CatalogError("INVALID_PARAMS", "Scene sampler requires an implementation identity");
     this.jobs = options.jobs;
     this.evidence = options.evidence;
-  }
-  private get recording() {
-    if (!this.options.recording)
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording scene analysis is unavailable");
-    return this.options.recording;
-  }
-  private get asset() {
-    if (!this.options.asset)
-      throw new CatalogError("UNSUPPORTED_JOB", "Asset scene analysis is unavailable");
-    return this.options.asset;
+    this.asset = options.asset;
   }
   private selected(selection: SourceSelection): ReturnType<typeof selectSource>;
   private selected(
@@ -87,69 +68,6 @@ export class SceneProcessing {
     if (selected.stream.kind !== "video")
       throw new CatalogError("UNSUPPORTED_MEDIA", "Scene analysis requires a video stream");
     return selected;
-  }
-  private identity(recordingId: string) {
-    return {
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
-      artifact,
-      input: scenePolicy.id,
-    };
-  }
-  status(recordingId: string) {
-    const recording = this.recording.store.get(recordingId);
-    const identity = { recordingId, sourceId: recording.sourceId, sourceRevisionId: "r0" };
-    if (!isSettled(recording.state))
-      return {
-        ...identity,
-        state: "not_requested",
-        reason: "capture_not_finalized",
-        retryable: false,
-        jobId: null,
-        published: null,
-      };
-    if (recording.state === "canceled" || recording.sourceDurationUs === null)
-      return {
-        ...identity,
-        state: "unavailable",
-        reason: "no_usable_video",
-        retryable: false,
-        jobId: null,
-        published: null,
-      };
-    const status = this.jobs.status(this.identity(recordingId));
-    return {
-      ...identity,
-      ...status,
-      published: status.published
-        ? {
-            generation: status.published.generation,
-            evidence: JSON.parse(status.published.result) as RecordingSceneEvidenceMetadata,
-          }
-        : null,
-    };
-  }
-  prepare(recordingId: string): void {
-    const recording = this.recording.store.get(recordingId);
-    if (
-      !isSettled(recording.state) ||
-      recording.state === "canceled" ||
-      recording.sourceDurationUs === null
-    )
-      return;
-    this.jobs.submit({ ...this.identity(recordingId), lane: "heavy" });
-  }
-  resume(): void {
-    if (this.options.recording)
-      this.jobs.backfill({ artifact, input: scenePolicy.id, lane: "heavy" });
-  }
-  retry(recordingId: string) {
-    this.prepare(recordingId);
-    const status = this.status(recordingId);
-    if (!status.jobId && status.state === "ready") return status;
-    if (!status.jobId)
-      throw new CatalogError("UNAVAILABLE", status.reason ?? "Scene evidence unavailable");
-    this.jobs.retry(status.jobId);
-    return this.status(recordingId);
   }
   private sourceIdentity(
     selected: Parameters<typeof sourceSceneDescriptor>[0],
@@ -269,32 +187,26 @@ export class SceneProcessing {
     );
   }
   async cleanup(signal: AbortSignal): Promise<void> {
-    if (this.options.recording)
-      await this.recording.store.forEachRecording(signal, ({ recordingId }) =>
-        this.cleanupRecording(recordingId, signal),
-      );
-    if (this.options.asset) {
-      let afterSequence = 0,
-        failure: unknown;
-      for (;;) {
-        signal.throwIfAborted();
-        const page = this.asset.assets.list({ afterSequence, limit: 100 });
-        for (const asset of page.assets) {
-          try {
-            await this.cleanupAsset(asset.id, signal);
-          } catch (error) {
-            signal.throwIfAborted();
-            failure ??= error;
-          }
+    let afterSequence = 0,
+      failure: unknown;
+    for (;;) {
+      signal.throwIfAborted();
+      const page = this.asset.assets.list({ afterSequence, limit: 100 });
+      for (const asset of page.assets) {
+        try {
+          await this.cleanupAsset(asset.id, signal);
+        } catch (error) {
+          signal.throwIfAborted();
+          failure ??= error;
         }
-        if (!page.nextCursor) break;
-        afterSequence = page.nextCursor.afterSequence;
-        await setImmediate(undefined, { signal });
       }
-      if (failure) throw failure;
+      if (!page.nextCursor) break;
+      afterSequence = page.nextCursor.afterSequence;
+      await setImmediate(undefined, { signal });
     }
+    if (failure) throw failure;
   }
-  private async executeSource({ job, signal }: JobExecution) {
+  async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.target.kind !== "asset" || job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Scene processor cannot execute this job");
     const selection = sourceSelectionSchema.parse(JSON.parse(job.input).selection);
@@ -328,67 +240,10 @@ export class SceneProcessing {
     );
     return JSON.stringify(await this.analyze(identity, source, analysis, signal));
   }
-  private cleanupRecording(recordingId: string, signal: AbortSignal) {
-    return this.evidence.reclaim(
-      { kind: "recording", recordingId },
-      (generation) =>
-        this.jobs.retainsAttempt(
-          { kind: "recording", recordingId: recordingId },
-          artifact,
-          generation,
-        ) || !!this.recording.retained?.(recordingId, generation),
-      signal,
-    );
-  }
-  async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.target.kind === "asset") return this.executeSource({ job, signal });
-    if (job.target.kind !== "recording")
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
-    if (job.artifact !== artifact || job.input !== scenePolicy.id || job.target.revisionId !== "r0")
-      throw new CatalogError("UNSUPPORTED_JOB", "Scene processor cannot execute this job");
-    const recording = this.recording.store.get(job.target.recordingId);
-    if (
-      !isSettled(recording.state) ||
-      recording.state === "canceled" ||
-      recording.sourceDurationUs === null
-    )
-      throw new CatalogError("UNAVAILABLE", "Scene analysis needs finalized video");
-    await this.cleanupRecording(job.target.recordingId, signal);
-    const identity = {
-      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
-      sourceId: recording.sourceId,
-      generation: job.attemptId,
-      policy: scenePolicy.id,
-    };
-    const kept = { startUs: 0, endUs: recording.sourceDurationUs };
-    const source = join(
-      this.recording.home,
-      "recordings",
-      job.target.recordingId,
-      "source",
-      "video.mov",
-    );
-    const analysis = new SourceSceneAnalysis(
-      job.target.recordingId,
-      source,
-      kept.endUs,
-      this.recording.sample,
-    );
-    return JSON.stringify(
-      recordingSceneMetadata(
-        await this.analyze(
-          identity,
-          { kind: "recording", durationUs: kept.endUs },
-          analysis,
-          signal,
-        ),
-      ),
-    );
-  }
   private async analyze(
     identity: SceneEvidenceIdentity,
     source: SceneSource,
-    analysis: SourceSceneAnalysis | SelectedSourceSceneAnalysis,
+    analysis: SelectedSourceSceneAnalysis,
     signal: AbortSignal,
   ) {
     try {

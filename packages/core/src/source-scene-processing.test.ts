@@ -319,7 +319,24 @@ test("sampler execution identity separates work and cleanup preserves all publis
   const other = { ...f.selection, streamId: "v2" };
   f.processing.prepareSource(other);
   await expect.poll(() => f.processing.sourceStatus(other).state).toBe("ready");
+  const metadata = first.published!.evidence;
+  const chunk = f.evidence.sourcePage({ identity: metadata }).chunks[0]!;
+  const abandoned = { ...metadata, generation: "abandoned-attempt" };
+  f.evidence.append(abandoned, metadata.source, chunk);
   await f.processing.cleanup(new AbortController().signal);
+  expect(() => f.evidence.sourcePage({ identity: abandoned })).toThrow("not complete");
+  const generations: string[] = [];
+  await f.evidence.reclaim(metadata.owner, (generation) => {
+    generations.push(generation);
+    return true;
+  });
+  expect(generations.sort()).toEqual(
+    [
+      metadata.generation,
+      second.published!.evidence.generation,
+      f.processing.sourceStatus(other).published!.evidence.generation,
+    ].sort(),
+  );
   expect(f.evidence.sourcePage({ identity: first.published!.evidence }).chunks).toHaveLength(1);
   expect(f.evidence.sourcePage({ identity: second.published!.evidence }).chunks).toHaveLength(1);
   expect(f.requests).toHaveLength(3);
@@ -481,4 +498,36 @@ test("scene query completion does not replace the retained fractional physical d
   await f.reopen();
   expect(f.processing.publishedSource(f.selection)).toEqual(status);
   expect(f.requests).toHaveLength(1);
+});
+
+test("a thirty-minute selected-source scan retains contiguous bounded chunks", async () => {
+  const durationUs = 1_800_000_000;
+  const f = await fixture(durationUs);
+  f.processing.prepareSource(f.selection);
+  await f.jobs.idle();
+  const status = f.processing.sourceStatus(f.selection);
+  expect(status.state).toBe("ready");
+  const metadata = status.published!.evidence;
+  let afterStartUs: number | undefined,
+    total = 0,
+    lastEnd = 0;
+  for (;;) {
+    const page = f.evidence.sourcePage({
+      identity: metadata,
+      limit: 3,
+      ...(afterStartUs === undefined ? {} : { afterStartUs }),
+    });
+    expect(page.chunks.length).toBeLessThanOrEqual(3);
+    for (const chunk of page.chunks) {
+      expect(chunk.range.startUs).toBe(lastEnd);
+      lastEnd = chunk.range.endUs;
+      total++;
+    }
+    if (page.nextStartUs === null) break;
+    afterStartUs = page.nextStartUs;
+  }
+  expect(total).toBe(180);
+  expect(lastEnd).toBe(durationUs);
+  expect(f.requests).toHaveLength(180);
+  expect(f.requests.every((r) => r.atSourceUs.length <= 52)).toBe(true);
 });

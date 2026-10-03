@@ -3,7 +3,6 @@ import { CatalogError } from "./catalog.js";
 import type { ScreenshotIndexReader } from "./screenshot-index-read.js";
 import type {
   IndexRecords,
-  RecordingIndexRecords,
   ScreenshotIndexMetadata,
   ScreenshotIndexStore,
 } from "./screenshot-index.js";
@@ -45,7 +44,7 @@ export function validateIndexCoverageCursor<R extends IndexReadReference>(
 /** Read-only formatting over an admitted retained generation; callers own target resolution/publication. */
 export class RetainedIndexRead<
   R extends IndexReadReference,
-  D extends IndexRecords = RecordingIndexRecords,
+  D extends IndexRecords = IndexRecords,
 > {
   private readonly metadata: ScreenshotIndexMetadata<D>;
   private readonly reference: R;

@@ -35,7 +35,7 @@ function observeSourceMetadata(f: Awaited<ReturnType<typeof fixture>>) {
     const statement = prepare(sql, ...options);
     const key = sql.startsWith("SELECT metadata FROM assets")
       ? "headers"
-      : sql.startsWith("SELECT value FROM asset_segments")
+      : sql.includes(" FROM asset_segments ")
         ? "segments"
         : sql.startsWith("SELECT metadata FROM acquisitions")
           ? "acquisitions"
@@ -169,7 +169,7 @@ test("ready source index requests resolve their complete frame plan once", async
   expect(result).toEqual(before);
   expect(result.published!.evidence).toEqual(delivered.result.page!.metadata);
   expect(f.calls).toBe(calls);
-  expect(work).toEqual({ headers: 6, segments: 6, acquisitions: 3 });
+  expect(work).toEqual({ headers: 6, segments: 3, acquisitions: 3 });
 });
 test("source index execution validates one fresh complete plan before cancellation", async () => {
   const barrier = gate();
@@ -201,7 +201,7 @@ test("source index execution validates one fresh complete plan before cancellati
   expect(delivered.publication.input).toBe(job.input);
   expect(delivered.publication.attemptId).toBe(job.attemptId);
   expect(f.jobs.job(job.jobId).state).toBe("ready");
-  expect(work).toEqual({ headers: 2, segments: 2, acquisitions: 1 });
+  expect(work).toEqual({ headers: 2, segments: 1, acquisitions: 1 });
 });
 test("source index target mismatch refuses before metadata lookup and cancellation", async () => {
   const barrier = gate();
@@ -548,4 +548,70 @@ test("reading an adopted source index preserves its generation without a donor j
   expect(() => f.index.openReadSource(reference)).toThrow();
   await f.jobs.idle();
   expect(f.index.getSource(f.selection).page!.metadata.generation).toBe(original.generation);
+});
+
+test("partial source index pictures stay private until explicit retry publishes complete coverage", async () => {
+  const f = await fixture({
+    beforeFrame: async (n) => {
+      if (n === 2)
+        throw new CatalogError("NATIVE_DECODE_FAILED", "second decoder interrupted", {}, true);
+    },
+  });
+  const { pending } = await f.prepare();
+  const attempt = f.jobs.job(pending.jobId!).attemptId;
+  await f.jobs.idle();
+  expect(f.index.requestSource(f.selection)).toMatchObject({
+    state: "failed",
+    published: null,
+    retryable: true,
+  });
+  expect(f.calls).toBe(2);
+  expect(
+    f.catalog.catalog
+      .prepare("SELECT generation FROM screenshot_index_generations WHERE generation=?")
+      .get(attempt),
+  ).toBeUndefined();
+  f.index.getSource(f.selection);
+  await f.jobs.idle();
+  expect(f.calls).toBe(2);
+  f.index.retrySource(f.selection);
+  await f.jobs.idle();
+  const delivered = await assertSourceIndex(f, f.selection);
+  expect(delivered.publication.attemptId).not.toBe(attempt);
+  expect(f.calls).toBe(5);
+});
+
+test("complete source index files require a published matching generation", async () => {
+  const f = await fixture();
+  await f.prepare();
+  await f.jobs.idle();
+  const result = await assertSourceIndex(f, f.selection);
+  const metadata = result.result.page!.metadata;
+  const reference = { ...f.selection, generation: metadata.generation };
+  expect(f.index.publishedSource(reference)).toEqual(metadata);
+  expect(() => f.index.publishedSource({ ...reference, streamId: "w" })).toThrow(
+    "another selection",
+  );
+  expect(() => f.index.publishedSource({ ...reference, generation: "unknown" })).toThrow(
+    "not published",
+  );
+  const first = f.index.coverageSource({ ...reference, limit: 1 });
+  expect(first.nextCursor).not.toBeNull();
+  expect(() =>
+    f.index.coverageSource({ ...reference, candidateOrdinal: 0, cursor: first.nextCursor! }),
+  ).toThrow("another index or filter");
+  const next = f.index.coverageSource({ ...reference, cursor: first.nextCursor!, limit: 1 });
+  expect(next.coverage[0]!.source.startUs).toBe(first.coverage[0]!.source.endUs);
+  expect(() => f.index.frameSource({ ...reference, ordinal: metadata.candidateCount })).toThrow(
+    "does not exist",
+  );
+  f.catalog.catalog
+    .prepare(
+      "DELETE FROM artifacts WHERE targetKind='asset' AND targetId=? AND artifact='screenshot-index'",
+    )
+    .run(f.selection.assetId);
+  expect(f.retained.page({ identity: metadata }).entries).toEqual(
+    result.result.page!.entries.map(({ reference: _reference, ...entry }) => entry),
+  );
+  expect(() => f.index.publishedSource(reference)).toThrow("not published");
 });

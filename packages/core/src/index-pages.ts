@@ -12,6 +12,7 @@ import {
   selectionPolicy,
   validateIndexEntry,
   type ScreenshotIndexIdentity,
+  type RecordingIndexRecords,
   type ScreenshotIndexMetadata,
   type ScreenshotIndexEntry,
   type ScreenshotIndexStore,
@@ -61,11 +62,13 @@ const coverageSchema = z.strictObject({
   playback: range,
   equality: z.enum(["sampled", "unproven"]),
 });
-type PortableEntry = Omit<ScreenshotIndexEntry, "frame"> & {
+type PortableEntry = Omit<ScreenshotIndexEntry<RecordingIndexRecords>, "frame"> & {
   frame: Omit<MaterializedFrame, "file">;
   image: z.infer<typeof imageSchema>;
 };
-type Row = { kind: "entry"; entry: PortableEntry } | { kind: "coverage"; coverage: IndexCoverage };
+type Row =
+  | { kind: "entry"; entry: PortableEntry }
+  | { kind: "coverage"; coverage: IndexCoverage<RecordingIndexRecords> };
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
@@ -75,7 +78,7 @@ function pinned(identity: ScreenshotIndexIdentity): ScreenshotIndexIdentity {
 function codec(
   revision: TimelineRevision,
   resolveImage: (file: string) => string,
-): OrderedPageCodec<Row, ScreenshotIndexMetadata> {
+): OrderedPageCodec<Row, ScreenshotIndexMetadata<RecordingIndexRecords>> {
   return {
     metadata: metadataSchema,
     orders: { entries: 1, coverage: 1, candidateCoverage: 2 },
@@ -139,7 +142,7 @@ function codec(
   };
 }
 async function copyImage(
-  index: Pick<ScreenshotIndexStore, "openRead">,
+  index: Pick<ScreenshotIndexStore<RecordingIndexRecords>, "openRead">,
   identity: ScreenshotIndexIdentity,
   ordinal: number,
   directory: string,
@@ -154,7 +157,7 @@ async function copyImage(
   }
 }
 export async function writeScreenshotIndexPages(
-  index: Pick<ScreenshotIndexStore, "page" | "coveragePage" | "openRead">,
+  index: Pick<ScreenshotIndexStore<RecordingIndexRecords>, "page" | "coveragePage" | "openRead">,
   identity: ScreenshotIndexIdentity,
   revision: TimelineRevision,
   directory: string,
@@ -211,8 +214,8 @@ export async function writeScreenshotIndexPages(
     signal,
   );
 }
-export class FileScreenshotIndex extends ScreenshotIndexReader {
-  private readonly pages: OrderedPages<Row, ScreenshotIndexMetadata>;
+export class FileScreenshotIndex extends ScreenshotIndexReader<RecordingIndexRecords> {
+  private readonly pages: OrderedPages<Row, ScreenshotIndexMetadata<RecordingIndexRecords>>;
   private readonly root: FileAccess;
   constructor(
     root: string | FileAccess,
@@ -243,7 +246,9 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
       invalid("Index page counts differ from their metadata");
     this.readMetadata(identity);
   }
-  protected readMetadata(identity: ScreenshotIndexIdentity): ScreenshotIndexMetadata {
+  protected readMetadata(
+    identity: ScreenshotIndexIdentity,
+  ): ScreenshotIndexMetadata<RecordingIndexRecords> {
     if (!isDeepStrictEqual(pinned(identity), pinned(this.pages.metadata)))
       invalid("Index identity does not match retained generation");
     return structuredClone(this.pages.metadata);
@@ -262,7 +267,7 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
   protected entryRows(
     identity: ScreenshotIndexIdentity,
     query: EntryQuery,
-  ): ScreenshotIndexEntry[] {
+  ): ScreenshotIndexEntry<RecordingIndexRecords>[] {
     this.readMetadata(identity);
     return this.pages
       .read({
@@ -282,7 +287,10 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
         };
       });
   }
-  protected coverageRows(identity: ScreenshotIndexIdentity, query: CoverageQuery): IndexCoverage[] {
+  protected coverageRows(
+    identity: ScreenshotIndexIdentity,
+    query: CoverageQuery,
+  ): IndexCoverage<RecordingIndexRecords>[] {
     this.readMetadata(identity);
     const ordinal = query.ordinal,
       prefix = ordinal === undefined ? [] : [ordinal];
