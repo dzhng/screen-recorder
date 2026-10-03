@@ -91,8 +91,9 @@ files remain independent of project deletion.
 
 Project export uses the existing durable publication owner. Archive extraction and
 retained handles use a domain-independent bounded registry. Callers supply a required
-manifest validator and explicit media-member authority; project metadata resolves
-through the canonical project parser before readiness.
+manifest validator and hydrate resource metadata through admitted file descriptors
+before readiness. Package handles retain the copied archive and extracted members;
+media inspection belongs to the adopted managed sources and projects.
 The project manifest owns dependency meaning, while asset/project stores own
 byte validation and atomic durable adoption. Package inspection alone does not
 create a managed project. Closing a handle drains its unfinished work; adopted

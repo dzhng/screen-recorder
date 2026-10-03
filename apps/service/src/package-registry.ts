@@ -1,6 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { rm, type FileHandle } from "node:fs/promises";
-import { join } from "node:path";
+import type { FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/catalog";
 import {
   archiveLimits,
@@ -17,7 +16,6 @@ import {
 import { admitArchive, type AdmittedArchive } from "./archive-input.js";
 import {
   openPackageArchive,
-  packageOutputBytes,
   type RetainedPackage,
   type PackageManifestResolution,
 } from "./package-archive.js";
@@ -33,7 +31,6 @@ const packageRegistryLimits = Object.freeze({
   bytes: 64 * 1024 ** 3,
   owners: 4,
   terminal: 32,
-  derivatives: packageOutputBytes,
 });
 type State =
   | "queued"
@@ -69,8 +66,6 @@ type Entry<T extends ArchiveManifest> = Admission & {
   provisionFailure?: unknown;
   provisionStarted: boolean;
   closing?: Promise<void>;
-  /** Files this admission's own work left beside its workspace; they go when it does. */
-  renders: Set<string>;
 };
 const describe = (error: unknown) =>
   (error instanceof Error ? error.message : String(error)).slice(0, 4096);
@@ -91,7 +86,6 @@ export class PackageRegistry<
   constructor(
     private readonly options: PackageManifestResolution<T, Parsed> & {
       parent: { directory: string; handle: FileHandle };
-      mediaPaths?: (manifest: T) => readonly string[];
       inspect?: (
         retained: RetainedPackage<T>,
         signal: AbortSignal | undefined,
@@ -127,9 +121,7 @@ export class PackageRegistry<
         (sum, entry) =>
           sum +
           (entry.retained
-            ? entry.retained.archiveUsage.copiedBytes +
-              entry.retained.archiveUsage.expandedBytes +
-              entry.retained.outputUsage().actualBytes
+            ? entry.retained.archiveUsage.copiedBytes + entry.retained.archiveUsage.expandedBytes
             : 0),
         0,
       ),
@@ -176,7 +168,7 @@ export class PackageRegistry<
       input.close();
       throw new CatalogError("LIMIT_EXCEEDED", "Archive exceeds admission copy limit");
     }
-    const budget = input.bytes + this.limits.expandedBytes + packageRegistryLimits.derivatives;
+    const budget = input.bytes + this.limits.expandedBytes;
     if (this.usage().budgetBytes + budget > this.bytes) {
       input.close();
       throw new CatalogError(
@@ -197,7 +189,6 @@ export class PackageRegistry<
       throw error;
     }
     entry = {
-      renders: new Set<string>(),
       id: randomUUID(),
       state: "queued",
       packageHandle: null,
@@ -234,9 +225,7 @@ export class PackageRegistry<
     if (!result) throw new CatalogError("NOT_FOUND", "Package admission expired or does not exist");
     return result;
   }
-  lookup(
-    handle: string,
-  ): Pick<RetainedPackage<T>, "manifest" | "revisionContents" | "files" | "archiveUsage"> {
+  lookup(handle: string): Pick<RetainedPackage<T>, "manifest" | "files" | "archiveUsage"> {
     return this.ready(handle).retained!;
   }
   submit(handle: string, request: ContextJobRequest, execute: Work<T>): ContextJob {
@@ -246,38 +235,6 @@ export class PackageRegistry<
     const job = this.options.jobs.submitContext(entry.context, request);
     if (!entry.requests.has(job.jobId)) entry.requests.set(job.jobId, execute);
     return job;
-  }
-  /**
-   * A path beside this admission's workspace for work that writes a file the archive seam cannot:
-   * a rendered movie is assembled by AVFoundation at a path, not into a descriptor. The file
-   * belongs to the admission and is removed with it, and the whole parent is cleared at startup,
-   * so a service that dies mid-render leaves nothing behind either.
-   */
-  renderPath(handle: string, leaf: string): string {
-    const entry = this.ready(handle);
-    const path = join(this.options.parent.directory, `${entry.id}-${leaf}`);
-    entry.renders.add(path);
-    return path;
-  }
-  jobs(handle: string): ReturnType<JobQueue["contextJobs"]> {
-    return this.options.jobs.contextJobs(this.ready(handle).context);
-  }
-  openOutput(handle: string, label: string) {
-    return this.ready(handle).retained!.openOutput(label);
-  }
-  job(handle: string, jobId: string): ContextJob {
-    return this.options.jobs.contextJob(this.ready(handle).context, jobId);
-  }
-  retry(handle: string, jobId: string): ContextJob {
-    return this.options.jobs.retryContext(this.ready(handle).context, jobId);
-  }
-  cancel(handle: string, jobId: string): ContextJob {
-    return this.options.jobs.cancelContextJob(this.ready(handle).context, jobId);
-  }
-  forget(handle: string, jobId: string): void {
-    const entry = this.ready(handle);
-    this.options.jobs.forgetContextJob(entry.context, jobId);
-    entry.requests.delete(jobId);
   }
   close(id: string): Promise<void> {
     const entry = this.entries.get(id);
@@ -351,7 +308,7 @@ export class PackageRegistry<
       if (signal.aborted || entry.state !== "opening")
         throw new CatalogError("CANCELED", "Package opening canceled");
       const { copiedBytes, expandedBytes } = entry.retained.archiveUsage;
-      entry.budget = copiedBytes + expandedBytes + packageRegistryLimits.derivatives;
+      entry.budget = copiedBytes + expandedBytes;
       entry.input.close();
       entry.packageHandle = randomUUID();
       entry.state = "ready";
@@ -376,10 +333,6 @@ export class PackageRegistry<
       entry.requests.clear();
       if (entry.packageHandle)
         this.options.delivery.revoke({ kind: "package", id: entry.packageHandle });
-      // Anything this admission rendered for itself is its own to take away: the leases over it
-      // were just revoked, so nothing is reading it.
-      for (const path of entry.renders) await rm(path, { force: true });
-      entry.renders.clear();
       await entry.retained?.close();
       if (entry.workspace) await entry.workspace.remove();
       else if (entry.provisionStarted)
