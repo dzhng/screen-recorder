@@ -1,8 +1,8 @@
 import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
@@ -149,9 +149,33 @@ test("records its own window through the service and leaves one inspectable orig
     (op, params) => succeeds(home, op, params),
     started.recordingId,
   );
+  const records = journal(home, started.recordingId);
+  console.log(
+    JSON.stringify({
+      case: "capture-terminal-reports",
+      stopped,
+      lifecycle: records.filter((row) => row.event === "lifecycle"),
+      clockRows: records.filter((row) =>
+        ["origin", "pauseStarted", "pauseEnded"].includes(row.event),
+      ),
+    }),
+  );
   assert.equal(stopped.state, "complete");
   assert.equal(stopped.recordingId, started.recordingId);
   assert.ok(stopped.sourceDurationUs > 1_000_000, `Short take: ${stopped.sourceDurationUs}us`);
+  const sourceJournalPath = join(
+    home,
+    "library",
+    "recordings",
+    started.recordingId,
+    "source",
+    "source.journal.jsonl",
+  );
+  const sourceJournal = readFileSync(sourceJournalPath);
+  assert.equal(
+    JSON.parse(sourceJournal.toString("utf8").split("\n")[0]).data.sessionID,
+    started.sourceId,
+  );
 
   // A take that has ended has no transition left to make, while stopping it again answers with
   // the outcome it already has.
@@ -182,11 +206,16 @@ test("records its own window through the service and leaves one inspectable orig
   assert.deepEqual((await succeeds(home, "project.list", {})).projects, []);
   assert.deepEqual(sourceFiles(home, started.recordingId), [
     "capture.journal.jsonl",
+    "source.journal.jsonl",
     "source.publication.json",
     "video.mov",
   ]);
 
-  const records = journal(home, started.recordingId);
+  assert.deepEqual(
+    readFileSync(sourceJournalPath),
+    sourceJournal,
+    "Readmission and terminal replays preserve the frozen source journal",
+  );
   // Native stamps the identity the service allocated, so a source directory names its own take.
   assert.equal(records[0].data.sessionID, started.sourceId);
   assert.equal(records[0].data.microphone, false);
@@ -198,10 +227,44 @@ test("records its own window through the service and leaves one inspectable orig
     stopped.sourceDurationUs < (elapsed - Date.parse(started.createdAt)) * 1000 - 400_000,
     `Paused time leaked into the source duration: ${stopped.sourceDurationUs}us`,
   );
-  const reported = records
-    .filter((record) => record.event === "lifecycle")
-    .map((r) => r.data.state);
-  assert.deepEqual(reported, ["recording", "paused", "recording", "finalizing", "complete"]);
+  const lifecycle = records.filter((record) => record.event === "lifecycle");
+  console.log(
+    JSON.stringify({
+      case: "frozen-source-journal",
+      frozenJournal: {
+        bytes: sourceJournal.length,
+        sha256: createHash("sha256").update(sourceJournal).digest("hex"),
+      },
+    }),
+  );
+  for (let index = 1; index < lifecycle.length; index++)
+    assert.ok(
+      lifecycle[index].sequence > lifecycle[index - 1].sequence,
+      "Lifecycle progress stays in the same journal sequence",
+    );
+  assert.ok(
+    lifecycle
+      .filter((record) => record.data.state === "finalizing")
+      .every((record) => record.data.reason == null),
+    "Successful publication progress carries no interruption reason",
+  );
+  assert.equal(stopped.publication.sourceId, started.sourceId);
+  assert.equal(stopped.publication.inputsClosed, true);
+  assert.equal(stopped.publication.primary.state, "published");
+  const publishedSource = stopped.publication.primary.source;
+  assert.equal(publishedSource.sourceId, started.sourceId);
+  assert.equal(publishedSource.sourceDurationUs, stopped.sourceDurationUs);
+  assert.equal(publishedSource.journal.bytes, sourceJournal.length);
+  assert.equal(
+    publishedSource.journal.sha256,
+    createHash("sha256").update(sourceJournal).digest("hex"),
+  );
+  const reported = lifecycle.map((row) => row.data.state);
+  // Publication reports update authority while remaining finalizing; they are not new state transitions.
+  const transitions = reported.filter(
+    (state, index) => state !== "finalizing" || reported[index - 1] !== "finalizing",
+  );
+  assert.deepEqual(transitions, ["recording", "paused", "recording", "finalizing", "complete"]);
 });
 
 test("replays a repeated start onto one take and refuses a concurrent second one", async () => {
@@ -272,6 +335,11 @@ test("cancel discards only its own take's media and restart names a new one", as
   const kept = await succeeds(home, "capture.start", silent("kept", source));
   await delay(1_200);
   await finishCapture((op, params) => succeeds(home, op, params), kept.recordingId);
+  const keptSource = join(home, "library", "recordings", kept.recordingId, "source");
+  const keptBytes = sourceFiles(home, kept.recordingId).map((file) => ({
+    file,
+    bytes: readFileSync(join(keptSource, file)),
+  }));
 
   const discarded = await succeeds(home, "capture.start", silent("discarded", source));
   await delay(600);
@@ -295,9 +363,16 @@ test("cancel discards only its own take's media and restart names a new one", as
   assert.equal((await succeeds(home, "recording.latest")).recordingId, kept.recordingId);
   assert.deepEqual(sourceFiles(home, kept.recordingId), [
     "capture.journal.jsonl",
+    "source.journal.jsonl",
     "source.publication.json",
     "video.mov",
   ]);
+  for (const { file, bytes } of keptBytes)
+    assert.deepEqual(
+      readFileSync(join(keptSource, file)),
+      bytes,
+      `Cancellation preserves kept source member ${file}`,
+    );
 });
 
 test("a service killed mid-capture leaves a take the next service reconciles from its media", async () => {
@@ -319,7 +394,7 @@ test("a service killed mid-capture leaves a take the next service reconciles fro
   instance.kill("SIGTERM");
   await instance.exited;
 
-  const relaunched = await fixtureApp(home);
+  await fixtureApp(home);
   const reconciled = await waitFor(
     async () => {
       const facts = await succeeds(home, "recording.get", { recordingId: started.recordingId });
@@ -358,7 +433,7 @@ test("a take killed as it stops is recovered from the media it had already writt
   await instance.exited;
   await stopping;
 
-  const relaunched = await fixtureApp(home);
+  await fixtureApp(home);
   const reconciled = await waitFor(
     async () => {
       const facts = await succeeds(home, "recording.get", { recordingId: started.recordingId });
@@ -398,7 +473,7 @@ test("a take killed before any media is decodable stays terminal with no admitte
   instance.kill("SIGKILL");
   await instance.exited;
 
-  const relaunched = await fixtureApp(home);
+  await fixtureApp(home);
   const settled = await waitFor(
     async () => {
       const facts = await succeeds(home, "recording.get", { recordingId: started.recordingId });
@@ -412,8 +487,26 @@ test("a take killed before any media is decodable stays terminal with no admitte
     20_000,
     () => "Recovered recording/source facts did not settle",
   );
+  const sourceDirectory = join(home, "library", "recordings", started.recordingId, "source");
+  const retainedJournal = journal(home, started.recordingId);
+  console.log(
+    JSON.stringify({
+      case: "undecodable-container",
+      settled,
+      journalHeader: retainedJournal.find((row) => row.event === "header"),
+      journalCompletion: retainedJournal.filter((row) => ["finished", "error"].includes(row.event)),
+      containerMembers: sourceFiles(home, started.recordingId).map((file) => ({
+        file,
+        bytes: statSync(join(sourceDirectory, file)).size,
+      })),
+    }),
+  );
   assert.equal(settled.state, "interrupted");
-  assert.equal(settled.interruptionReason, "NO_RECOVERABLE_VIDEO");
+  assert.equal(settled.interruptionReason, "DECODE_FAILED");
+  assert.ok(
+    settled.interruptionMessage?.trim().length > 0,
+    "The specific decode failure retains its explanation",
+  );
   assert.equal(settled.sourceDurationUs, null);
   assert.ok(settled.sourceAdmissions.every((source) => source.acquisitionId === null));
 });
@@ -428,7 +521,7 @@ test("a normal quit during capture finalizes the take before the app exits", asy
   assert.deepEqual(await instance.exited, { code: 0, signal: null });
   assert.equal(alive(servicePid), false);
 
-  const relaunched = await fixtureApp(home);
+  await fixtureApp(home);
   // Quit finalized it, so the next service has nothing to reconcile and the take is complete.
   const finished = await waitFor(
     async () => {
@@ -475,7 +568,7 @@ test("a service lost while a take is starting finalizes it instead of capturing 
   instance.kill("SIGTERM");
   await instance.exited;
 
-  const relaunched = await fixtureApp(home);
+  await fixtureApp(home);
   const settled = await waitFor(
     async () => {
       const facts = await succeeds(home, "recording.get", { recordingId });
@@ -578,7 +671,7 @@ test("a start whose answer is lost replays onto its own take instead of starting
   instance.kill("SIGTERM");
   await instance.exited;
 
-  const relaunched = await fixtureApp(home);
+  await fixtureApp(home);
   const settled = await waitFor(
     async () => {
       const facts = await succeeds(home, "recording.get", { recordingId });
