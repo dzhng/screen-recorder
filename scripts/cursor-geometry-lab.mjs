@@ -6,6 +6,8 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { selectSourceMetadata } from "../packages/core/dist/source-selection.js";
+import { fromTime, rational, round, subtract } from "../packages/composition/dist/index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const app = join(root, "dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder");
@@ -185,30 +187,51 @@ function fiducials(image) {
     .sort((left, right) => left.y - right.y || left.x - right.x);
 }
 
-function decodeFrame(sourceFile, atSourceUs, durationUs, file) {
-  const request = {
-    id: "frame",
-    operation: "media.frame",
-    params: {
-      source: sourceFile,
-      output: file,
-      atSourceUs,
-      kept: { startUs: 0, endUs: durationUs },
-      maxLongEdge: 8192,
-    },
-  };
+function native(operation, params) {
   const run = spawnSync(worker, [], {
-    input: `${JSON.stringify(request)}\n`,
+    input: `${JSON.stringify({ id: operation, operation, params })}\n`,
     encoding: "utf8",
     timeout: 60_000,
   });
+  if (run.status !== 0) throw new Error(`Native ${operation} failed: ${run.stderr || run.error}`);
   const reply = JSON.parse(run.stdout.trim().split("\n").pop());
-  if (!reply.ok) throw new Error(`Frame decode failed: ${JSON.stringify(reply.error)}`);
+  if (!reply.ok) throw new Error(`Native ${operation} failed: ${JSON.stringify(reply.error)}`);
   return reply.data;
 }
 
 const durationUs = evidence.capture.durationUs;
 const sourceDirectory = join(output, "source");
+const sourceFile = join(sourceDirectory, "video.mov");
+const metadata = native("media.probe", { path: sourceFile });
+const videos = metadata.streams.filter((stream) => stream.kind === "video" && stream.decodable);
+if (videos.length !== 1) throw new Error("Cursor fixture must contain one decodable video stream.");
+const asset = {
+  assetId: "cursor-geometry",
+  streamId: videos[0].id,
+  path: sourceFile,
+  originUs: metadata.originUs,
+};
+const { track } = selectSourceMetadata({ id: asset.assetId, ...metadata }, sourceFile, undefined, {
+  assetId: asset.assetId,
+  streamId: asset.streamId,
+});
+function decodeFrame(atSourceUs, file) {
+  const frame = native("media.sourceFrame", {
+    asset,
+    available: track.available,
+    atUs: round(subtract(fromTime(atSourceUs), fromTime(asset.originUs))),
+    output: file,
+    maxLongEdge: 8192,
+  });
+  // The worker selects on the asset clock; geometry diagnostics retain the capture clock.
+  return {
+    ...frame,
+    requestedSourceUs: atSourceUs,
+    actualSourceUs: round(
+      rational(BigInt(frame.sample.value) * 1_000_000n, BigInt(frame.sample.timescale)),
+    ),
+  };
+}
 
 /** Sorted the same way on both sides, so a measurement is matched without consulting a prediction. */
 function inReadingOrder(points) {
@@ -244,7 +267,7 @@ const placements = evidence.placements.map((placement, index) => {
     Math.max(settled.sourceUs, Math.min(settled.sourceUs + 200_000, until - 120_000)),
   );
   const file = join(output, `frame-${index}-${placement.label}.png`);
-  const decoded = decodeFrame(join(sourceDirectory, "video.mov"), atSourceUs, durationUs, file);
+  const decoded = decodeFrame(atSourceUs, file);
   return {
     label: placement.label,
     index,
@@ -313,12 +336,7 @@ const calibrations = evidence.calibrations.map((calibration, index) => {
   let recordedPointerBox = null;
   if (measuredOrigin && calibration.sourceUs != null) {
     const file = join(output, `recorded-${index}-${calibration.label}.png`);
-    const decoded = decodeFrame(
-      join(sourceDirectory, "video.mov"),
-      calibration.sourceUs,
-      durationUs,
-      file,
-    );
+    const decoded = decodeFrame(calibration.sourceUs, file);
     const recorded = pixels(file);
     const box = { x: measuredOrigin.x - 20, y: measuredOrigin.y - 20, width: 80, height: 80 };
     // A control box the pointer never occupied gives the compression noise floor to compare against.

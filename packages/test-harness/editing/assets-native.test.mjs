@@ -6,12 +6,26 @@ import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { Catalog } from "../../core/dist/catalog.js";
 import { AssetStore } from "../../core/dist/assets.js";
+import { selectSourceMetadata } from "../../core/dist/source-selection.js";
+import { ceil, fromTime } from "../../composition/dist/index.js";
 import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 
 const corpus = new URL("../../../specs/agent-editing/assets/00-corpus/", import.meta.url);
 const worker = mediaWorker();
 const probe = async (path, signal) =>
   nativeResult(await worker("media.probe", { path }, { signal }));
+async function sourceFrame(asset, streamId, path, output, maxLongEdge) {
+  const { track } = selectSourceMetadata(asset, path, undefined, { assetId: asset.id, streamId });
+  return nativeResult(
+    await worker("media.sourceFrame", {
+      asset: { assetId: asset.id, streamId, path, originUs: asset.originUs },
+      available: track.available,
+      atUs: ceil(fromTime(track.available[0].startUs)),
+      output,
+      ...(maxLongEdge === undefined ? {} : { maxLongEdge }),
+    }),
+  );
+}
 function encode(args) {
   const result = spawnSync(
     process.env.FFMPEG ?? "ffmpeg",
@@ -40,15 +54,7 @@ test("owned imports decode after rename and preserve VFR and orientation", async
     await rename(external, join(directory, "renamed-" + name));
     const stream = asset.streams.find((s) => s.kind === "video");
     const output = join(directory, name + ".png");
-    const decoded = nativeResult(
-      await worker("media.frame", {
-        source: assets.path(asset.id),
-        output,
-        atSourceUs: 0,
-        kept: { startUs: 0, endUs: stream.endUs },
-        maxLongEdge: 1024,
-      }),
-    );
+    const decoded = await sourceFrame(asset, stream.id, assets.path(asset.id), output, 1024);
     assert.equal(decoded.width, name === "orientation.mov" ? 96 : 160);
     assert.equal(decoded.height, name === "orientation.mov" ? 160 : 96);
     if (name === "timestamp-gap.mov") {
@@ -57,15 +63,7 @@ test("owned imports decode after rename and preserve VFR and orientation", async
       assert.equal(stream.samples.count, 6);
     }
     const reference = join(directory, name + ".reference.png");
-    nativeResult(
-      await worker("media.frame", {
-        source: join(directory, "renamed-" + name),
-        output: reference,
-        atSourceUs: 0,
-        kept: { startUs: 0, endUs: stream.endUs },
-        maxLongEdge: 1024,
-      }),
-    );
+    await sourceFrame(asset, stream.id, join(directory, "renamed-" + name), reference, 1024);
     assert.deepEqual(await readFile(output), await readFile(reference));
     if (name === "orientation.mov") {
       const pixels = spawnSync(
@@ -107,17 +105,14 @@ test("baseline audio formats admit owned bytes and actually decode PCM", async (
       startUs: stream.startUs,
       endUs: Math.min(stream.endUs, stream.startUs + 500_000),
     };
+    const { track } = selectSourceMetadata(asset, assets.path(asset.id), undefined, {
+      assetId: asset.id,
+      streamId: stream.id,
+    });
     const audio = nativeResult(
-      await worker("media.audio", {
-        tracks: [
-          {
-            role: "narration",
-            source: assets.path(asset.id),
-            sourceOffsetUs: 0,
-            available: [range],
-          },
-        ],
-        spans: [range],
+      await worker("media.sourceAudio", {
+        source: track,
+        range,
         output: join(directory, extension + ".wav"),
       }),
     );
@@ -152,13 +147,11 @@ test("PNG, JPEG, H264 MP4 and HEVC MP4 admit without replacing original bytes", 
     assert.deepEqual(await readFile(assets.path(asset.id)), before);
     assert.equal(asset.streams[0].decodable, true);
     if (asset.streams[0].kind === "video") {
-      nativeResult(
-        await worker("media.frame", {
-          source: assets.path(asset.id),
-          output: join(directory, asset.id + ".png"),
-          atSourceUs: 0,
-          kept: { startUs: 0, endUs: asset.streams[0].endUs },
-        }),
+      await sourceFrame(
+        asset,
+        asset.streams[0].id,
+        assets.path(asset.id),
+        join(directory, asset.id + ".png"),
       );
     }
   }
