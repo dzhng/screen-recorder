@@ -37,8 +37,12 @@ preserves the first real SDK video refusal while audio is unfinished, with decla
 readiness interleaving and bounded drain; it establishes no natural scheduling claim.
 The [current moving-pointer bank](../assets/23-owner-fixture-ports/current-moving-pointer-verification.json)
 verifies three white-pointer move/hold samples over a held source picture.
-Whole movie/PNG color parity, magenta trails, general gestures, listening and
-installed switching remain separate. The
+The [current colored-trail pair](../assets/23-owner-fixture-ports/current-colored-trail-verification.json)
+passes the original strict native-sRGB mask/centroid and matched-frame visual
+review with frozen geometry and clocks. Only the required private video tag and
+current explicit encoder settings differ; historical encoded-byte equivalence is
+unproved and original failures remain. Whole movie/PNG color parity, general
+gestures, listening and installed switching remain separate. The
 [capture/UI retry bank](../assets/23-owner-fixture-ports/current-capture-ui-verification.json)
 closes its thirteen failed named cases, including the physical frame prefix;
 its temporary capture media and UI are removed.

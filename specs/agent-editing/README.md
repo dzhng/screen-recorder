@@ -21,9 +21,8 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: current full/clipped colored-trail preservation, then remaining
-presentation and installed/default caller acceptance.** The product uses one
-project composition owner and a fresh format23 catalog; prior catalogs are refused
+**Next pickup: remaining presentation and installed/default caller acceptance.**
+The product uses one project composition owner and a fresh format23 catalog; prior catalogs are refused
 without migration or byte mutation. The
 [owner closure registry](assets/23-owner-fixture-ports/README.md) is the canonical
 bank of current preservation results, original failures and exact runtime limits.
@@ -32,13 +31,12 @@ or unmatched contracts. Do not interpret its focused recovery as a full green ru
 
 Continue in this order:
 
-1. Check the retained full/clipped colored-trail pair on the current video-only
-   primitive, preserving the frozen source, graph, clocks and original strict
-   native-sRGB centroid predicate. Current explicit encoder defaults are a named
-   difference from historical implicit defaults, not encoded-byte equivalence.
-   The attempted movie request refused its missing audio/output tap before
-   encoding; it supplies no trail outcome. Use the existing video-only owner
-   rather than alter the frozen graph to satisfy a different operation.
+1. Reuse the [qualified current colored-trail pair](assets/23-owner-fixture-ports/current-colored-trail-verification.json).
+   Its frozen full/clipped geometry and clocks pass the original strict native-sRGB
+   predicate and fresh matched-frame visual review. A private required video tag
+   and explicit current encoder defaults are declared differences; the historical
+   failure and two setup-only refusals remain intact. No historical encoded-byte
+   equivalence, general color parity or player-display claim follows.
    Reuse the [current combined scale bank](assets/23-owner-fixture-ports/current-combined-scale-verification.json):
    original deep/wide long-project queries, exact late audio, queue/restart and
    warm preview pass unchanged budgets. Its shared harness now consumes complete
@@ -52,8 +50,8 @@ Continue in this order:
    muted same-item playback to its exact endpoint, first sibling video failure
    under explicitly controlled readiness, and three current white-pointer movie
    samples moving then holding over one source picture. Controlled readiness is
-   not natural scheduling proof. Pointer placement is not whole-color, magenta
-   trail, arbitrary gesture, perceptual synchronization or listening acceptance.
+   not natural scheduling proof. The paired trail checkpoint is not whole-color,
+   arbitrary gesture, perceptual synchronization or listening acceptance.
    The observed movie/PNG color difference remains unresolved; no threshold or
    reference was changed to close it.
 3. Prepare the concrete candidate for installed/default discovery and the bounded

@@ -8218,3 +8218,64 @@ query timings remain scoped to the original complete-result consumer.
 
 Verdict: **sound**. Observation is declared and the measured reads remain real.
 Confidence: **high**.
+
+
+### Qualify the frozen trail pair under current explicit encoder defaults
+
+A frozen request names H264/Rec709 but omits the old encoder's other settings.
+The current primitive requires resolved settings, so this checkpoint uses the
+existing balanced defaults without overrides. The full and clipped outputs must
+still pass the original strict color mask and subpixel centroid rule. Selecting
+old-looking settings until it passes would invent a historical recipe; accepting
+current paired agreement does not establish old encoded-byte equivalence.
+
+When: current colored-trail evidence checkpoint.
+
+Gap: Historical implicit AVFoundation defaults cannot be reconstructed from the
+retained packet's declared profile alone.
+
+Reach: The [canonical bank](assets/23-owner-fixture-ports/current-colored-trail-verification.json)
+closes this fixed paired current contract while keeping the original failure and
+broader color/player acceptance separate. No threshold, profile recipe or public
+format changes.
+
+Verdict: **sound**. Current production settings answer the paired question without
+inventing historical encoder authority. Confidence: **medium**.
+
+### Use the existing video-only owner for a video-only graph
+
+The first current experiment requested movie composition with an empty audio
+schedule. That owner requires an audio/output tap; the frozen video graph had
+neither and refused before encoding. The corrected decision is the existing registered
+video-only primitive, with no added audio. The refused attempt stays separate;
+it establishes no trail or encoder result and does not justify a product fix.
+
+When: current colored-trail evidence checkpoint.
+
+Gap: The first preparation selected a broader operation than the frozen graph
+supported.
+
+Reach: No second rendering pipeline or audio graph is needed to carry the
+original video/pointer graph through the current native owner.
+
+Verdict: **unsound** original movie-owner selection, corrected through the
+existing video-only owner. Confidence: **high**.
+
+### Port only the required media tag and normalize declared nil omissions
+
+The old frame layers omitted their media kind. Private copies identify them as
+video, backed by the frozen video track; removing that tag reproduces every
+original frame. All geometry, processing, pointer bytes and clocks remain fixed.
+The existing strict settings schema also accounts for Swift's omitted nil fields,
+while every resolved value must equal the plan. Treating either mismatch as a
+pixel defect or accepting arbitrary missing fields would weaken attribution.
+
+When: current colored-trail evidence checkpoint.
+
+Gap: Frozen input and current wire serialization differ in these named fields.
+
+Reach: This is private fixture preparation, not a production compatibility
+adapter or public format change.
+
+Verdict: **sound**. Source-backed tagging and the existing schema preserve the
+actual graph and exact resolved settings. Confidence: **high**.

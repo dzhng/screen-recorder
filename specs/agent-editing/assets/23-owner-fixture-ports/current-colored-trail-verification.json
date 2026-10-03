@@ -1,0 +1,303 @@
+{
+  "status": "Qualified current full/clipped colored-trail pair; historical failure preserved",
+  "archive": "current-colored-trail-evidence.tar.gz",
+  "sha256": "ca8b61eb73a1a12e456b76e5abbe8a9f902b14ddd511c93d28329c594af62d5a",
+  "bytes": 203374,
+  "hashedPayloads": 155,
+  "archiveFilesIncludingManifest": 156,
+  "reportMember": "colored-trail-evidence/report.json",
+  "manifestMember": "colored-trail-evidence/manifest.json",
+  "report": {
+    "status": "Qualified current full/clipped colored-trail pair; historical failure preserved",
+    "baseCommit": "f01edcaa",
+    "sourceSHA256": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+    "currentWorkerSHA256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55",
+    "primitive": "media.renderCompositionVideo",
+    "frozenAuthority": "authority/specs/agent-editing/assets/06-pointer-writer",
+    "formatPort": "Only kind:video added to every private layer; stripping it deep-equals each original frame and preserves remaining field order. Original bytes unchanged.",
+    "settingsQualification": "Current explicit balanced defaults, no overrides. Historical omitted AVFoundation defaults do not establish encoded-byte equivalence. Existing resolvedOutputSettingsSchema normalizes known nil omissions; raw settings retained and every canonical value equal.",
+    "predicate": {
+      "nativePixelDomain": "AVAssetImageGenerator actual CoreMedia709 image -> CG sRGB PNG -> unchanged FrameImagePixels sRGB RGBA",
+      "magenta": "R>G+20 and B>G+10",
+      "count": "strictly greater than20",
+      "centroid": "absolute x and y deltas each strictly less than1pixel",
+      "historicalFailure": "Original native-sRGB centroid x deltas +1.0898395721925027,+1.0618932571930628,-1.0085131002562235 remain red, not superseded or relabelled."
+    },
+    "arms": [
+      {
+        "namespace": "current-colored-trail-4ab4546d",
+        "classification": "wrong movie operation; missing audio/output tap before writer; no trail/encoder result",
+        "producer": {
+          "argv": [
+            "/opt/homebrew/bin/python3",
+            "/Users/david/.cache/screen-recorder/verification/current-colored-trail-4ab4546d/producer.py",
+            "--run"
+          ],
+          "startUTC": "2026-10-03T08:22:41Z",
+          "producerSHA": "43498e3a87affa2072ddfc61f1a03e7224aae813185bc9120aac145f3e01087c",
+          "outerBoundSeconds": 96,
+          "pid": 42754,
+          "exit": 1,
+          "elapsedSeconds": 1.1528134580003098,
+          "endUTC": "2026-10-03T08:22:42Z"
+        },
+        "passed": false,
+        "failure": {
+          "type": "AssertionError",
+          "message": "{\"error\": {\"code\": \"INVALID_REQUEST\", \"details\": {}, \"message\": \"Audio execution requires an audio or output tap.\", \"retryable\": false}, \"id\": \"current-colored-trail-full\", \"ok\": false}"
+        },
+        "protectedPins": 24,
+        "protectedEqual": true,
+        "commands": [
+          {
+            "label": "swift-version",
+            "pid": 42755,
+            "exit": 0
+          },
+          {
+            "label": "reference-compile",
+            "pid": 42756,
+            "exit": 0
+          },
+          {
+            "label": "full-native",
+            "pid": 42762,
+            "exit": 0
+          }
+        ],
+        "referencePictures": 0,
+        "pixelReads": 0
+      },
+      {
+        "namespace": "current-colored-trail-video-4ab4546d",
+        "classification": "video request decoding refused; known missing required layer kind statically located, reply has no CodingPath; no trail/encoder result",
+        "producer": {
+          "argv": [
+            "/opt/homebrew/bin/python3",
+            "/Users/david/.cache/screen-recorder/verification/current-colored-trail-video-4ab4546d/producer.py",
+            "--run"
+          ],
+          "startUTC": "2026-10-03T08:28:03Z",
+          "producerSHA": "e09f89cf70c7ba6a565cb2d1268bc66f21ca37b3aefb3fa4e252305f4b8d1fb5",
+          "outerBoundSeconds": 96,
+          "pid": 53139,
+          "exit": 1,
+          "elapsedSeconds": 0.39976237500013667,
+          "endUTC": "2026-10-03T08:28:03Z"
+        },
+        "passed": false,
+        "failure": {
+          "type": "AssertionError",
+          "message": "{\"error\": {\"code\": \"INVALID_REQUEST\", \"details\": {}, \"message\": \"Invalid parameters: The data couldn\\u2019t be read because it is missing.\", \"retryable\": false}, \"id\": \"current-colored-trail-full\", \"ok\": false}"
+        },
+        "protectedPins": 23,
+        "protectedEqual": true,
+        "commands": [
+          {
+            "label": "full-native",
+            "pid": 53140,
+            "exit": 0
+          }
+        ],
+        "referencePictures": 0,
+        "pixelReads": 0
+      },
+      {
+        "namespace": "current-colored-trail-format-4ab4546d",
+        "classification": "format-only qualified current video pair",
+        "producer": {
+          "argv": [
+            "/opt/homebrew/bin/python3",
+            "/Users/david/.cache/screen-recorder/verification/current-colored-trail-format-4ab4546d/producer.py",
+            "--run"
+          ],
+          "startUTC": "2026-10-03T08:33:54Z",
+          "producerSHA": "cc11e1c0b2969660d1a6da27a865f20a47205342d8c6568d3a1e2cbe60c1e995",
+          "outerBoundSeconds": 96,
+          "pid": 57367,
+          "exit": 0,
+          "elapsedSeconds": 1.5854305419998127,
+          "endUTC": "2026-10-03T08:33:56Z"
+        },
+        "passed": true,
+        "failure": null,
+        "protectedPins": 30,
+        "protectedEqual": true,
+        "commands": [
+          {
+            "label": "full-native",
+            "pid": 57368,
+            "exit": 0
+          },
+          {
+            "label": "full-settings",
+            "pid": 57371,
+            "exit": 0
+          },
+          {
+            "label": "full-reference",
+            "pid": 57372,
+            "exit": 0
+          },
+          {
+            "label": "full-pixels-0",
+            "pid": 57374,
+            "exit": 0
+          },
+          {
+            "label": "full-pixels-1",
+            "pid": 57375,
+            "exit": 0
+          },
+          {
+            "label": "full-pixels-2",
+            "pid": 57376,
+            "exit": 0
+          },
+          {
+            "label": "range-native",
+            "pid": 57377,
+            "exit": 0
+          },
+          {
+            "label": "range-settings",
+            "pid": 57380,
+            "exit": 0
+          },
+          {
+            "label": "range-reference",
+            "pid": 57381,
+            "exit": 0
+          },
+          {
+            "label": "range-pixels-0",
+            "pid": 57383,
+            "exit": 0
+          },
+          {
+            "label": "range-pixels-1",
+            "pid": 57384,
+            "exit": 0
+          },
+          {
+            "label": "range-pixels-2",
+            "pid": 57385,
+            "exit": 0
+          }
+        ],
+        "referencePictures": 6,
+        "pixelReads": 6
+      }
+    ],
+    "comparisons": [
+      {
+        "frameIndex": 10,
+        "full": {
+          "count": 118,
+          "centroid": [
+            83.87288135593221,
+            59.559322033898304
+          ]
+        },
+        "range": {
+          "count": 118,
+          "centroid": [
+            83.87288135593221,
+            59.559322033898304
+          ]
+        },
+        "centroidDelta": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "frameIndex": 11,
+        "full": {
+          "count": 146,
+          "centroid": [
+            100.54794520547945,
+            62.917808219178085
+          ]
+        },
+        "range": {
+          "count": 147,
+          "centroid": [
+            100.34013605442176,
+            62.87074829931973
+          ]
+        },
+        "centroidDelta": [
+          -0.20780915105768827,
+          -0.04705991985835567
+        ]
+      },
+      {
+        "frameIndex": 12,
+        "full": {
+          "count": 118,
+          "centroid": [
+            103.87288135593221,
+            63.559322033898304
+          ]
+        },
+        "range": {
+          "count": 119,
+          "centroid": [
+            103.92436974789916,
+            63.57983193277311
+          ]
+        },
+        "centroidDelta": [
+          0.05148839196695576,
+          0.020509898874806254
+        ]
+      }
+    ],
+    "visual": {
+      "matchedComparison": "current-colored-trail-format-4ab4546d/visual-review/matched-comparison.json",
+      "unprimedCritique": "current-colored-trail-format-4ab4546d/visual-review/unprimed-critique.json",
+      "verdict": "No concrete mismatch in three matched full/clipped pairs. High geometry/bounds confidence, medium-high faint fade; shared compression fringes. Not pixel identity or unshown-frame proof.",
+      "rootVerdict": "current-colored-trail-format-4ab4546d/visual-review/root-verdict.json",
+      "rootCheckpoint": {
+        "ownedPID": 59481,
+        "openedUTCApprox": "2026-10-03T08:38:30Z",
+        "background": true,
+        "otherUserPreviewPID": 20406,
+        "state": "Root accepts the fixed paired contract on the saved numeric and visual evidence; no new user response received during the nonblocking checkpoint.",
+        "closeRule": "Close only owned process59481 after checkpoint; never close user20406.",
+        "closedOwnedPID": 59481,
+        "closedUTC": "2026-10-03T08:43:45.516801+00:00",
+        "userOtherPreviewUntouched": "/System/Applications/Preview.app/Contents/MacOS/Preview"
+      }
+    },
+    "limits": [
+      "Fixed three-frame pair only; no full photographic/movie-PNG color parity, arbitrary gesture, player-display, listening, physical or installed acceptance.",
+      "Original historical RED plus both current setup-only refusals stay immutable.",
+      "No production/test code change, build, reference tuning or runtime repetition during banking.",
+      "Large unchanged current worker and Node runtime retained by original hash/path pointers rather than copied."
+    ],
+    "pointers": {
+      "greenResult": "current-colored-trail-format-4ab4546d/result.json",
+      "greenTerminal": "current-colored-trail-format-4ab4546d/producer-process.json",
+      "preflight": "current-colored-trail-format-4ab4546d/format-preflight.json",
+      "requestShape": "current-colored-trail-format-4ab4546d/request-shape-preflight.json"
+    }
+  },
+  "archiveVerification": "Every payload independently extracted and rehashed after writing; manifest alone excludes its self hash.",
+  "rootVerification": {
+    "protectedPinsIndependentlyChecked": 30,
+    "visualReview": "Saved matched comparison and fresh unprimed critique; no rerender.",
+    "previewCheckpoint": {
+      "ownedPID": 59481,
+      "openedUTCApprox": "2026-10-03T08:38:30Z",
+      "background": true,
+      "otherUserPreviewPID": 20406,
+      "state": "Root accepts the fixed paired contract on the saved numeric and visual evidence; no new user response received during the nonblocking checkpoint.",
+      "closeRule": "Close only owned process59481 after checkpoint; never close user20406.",
+      "closedOwnedPID": 59481,
+      "closedUTC": "2026-10-03T08:43:45.516801+00:00",
+      "userOtherPreviewUntouched": "/System/Applications/Preview.app/Contents/MacOS/Preview"
+    }
+  }
+}

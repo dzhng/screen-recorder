@@ -68,6 +68,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | First sibling video error, actual unfinished audio and bounded drain under controlled readiness | [Controlled sibling pumps](sibling-pump-controlled-verification.json) |
 | Current white-pointer move/hold over a held source picture | [Current moving pointer](current-moving-pointer-verification.json) |
 | Native first-frame decode versus the saved PNG surrogate, diagnostic only | [Native color-path qualification](current-native-movie-color-verification.json) |
+| Current fixed full/clipped fading trail at matched source clocks | [Current colored-trail pair](current-colored-trail-verification.json) |
 | Current combined long-project query, late audio, queue/restart and warm preview | [Combined scale](current-combined-scale-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
@@ -85,9 +86,13 @@ cleanup/publication and the combined release tiny movie. The current finishing
 bank closes qualified SDK cancellation; the player bank closes muted continuous
 progress/end/teardown. The sibling bank exercises actual SDK refusal with
 unfinished audio under declared controlled readiness, not natural scheduling.
-The pointer bank accepts three no-trail white-pointer samples; observed movie/PNG
-color parity, magenta trails, general gestures, listening and installed scope
-remain unresolved. The native first-frame diagnostic supports a saved-PNG
+The pointer bank accepts three no-trail white-pointer samples. The colored-trail
+bank accepts only the fixed full/clipped pair through the unchanged native-sRGB
+predicate and fresh matched-frame critique; original historical failure and both
+setup-only refusals remain. Its private layer tag and current explicit encoder
+defaults are disclosed, not historical encoded-byte equivalence. Observed
+movie/PNG color parity, general gestures, listening and installed scope remain
+unresolved. The native first-frame diagnostic supports a saved-PNG
 surrogate contribution to the observed dark background; it does not approve
 general color equivalence or establish player display.
 Historical lab commands in the recording spec are
