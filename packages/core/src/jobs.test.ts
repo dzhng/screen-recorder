@@ -7,7 +7,9 @@ import { join, dirname } from "node:path";
 import { DerivedCache } from "./cache.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
 import { ResourceReferences } from "./references.js";
-import { RevisionStore } from "./library.js";
+import { CaptureStore, isSettled } from "./capture-store.js";
+import { AssetStore } from "./assets.js";
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import {
   JobDependencyLost,
@@ -17,7 +19,6 @@ import {
   type ContextJob,
   type JobContext,
   type JobTargets,
-  recordingJobTargets,
 } from "./jobs.js";
 
 /** One attempt the queue handed to the executor, held open until the test answers it. */
@@ -36,7 +37,7 @@ const held: Pick<Attempt, "fail">[] = [];
 /** A queue plus the executor it drives, where starting and settling are observed, never waited out. */
 function open(path: string, prefix: string) {
   let id = 0;
-  const store = new RevisionStore(path, {
+  const store = new CaptureStore(path, {
     now: () => "2026-09-15T00:00:00.000Z",
     newId: () => `${prefix}-${++id}`,
   });
@@ -50,12 +51,39 @@ function open(path: string, prefix: string) {
       held.push(attempt);
       waiting.get(job.attemptId)?.();
     });
-  const recordingTargets = recordingJobTargets(store);
+  const projects = projectStoreFixture(store, new AssetStore(store, dirname(path)), dirname(path));
   const targets: JobTargets = {
-    ...recordingTargets,
-    // Managed domain fixtures vouch for their inputs; real owners validate their catalog rows.
-    pin: (target) => (target.kind === "recording" ? recordingTargets.pin(target) : target),
-    isAvailable: (target) => target.kind !== "recording" || store.isAvailable(target.recordingId),
+    pin(target) {
+      if (target.kind === "recording") {
+        if (target.revisionId !== null)
+          throw new CatalogError("NOT_READY", "Unsupported recording job target");
+        const recording = store.get(target.recordingId);
+        if (
+          !isSettled(recording.state) ||
+          recording.state === "canceled" ||
+          store.isDeleting(target.recordingId)
+        )
+          throw new CatalogError(
+            "INVALID_STATE",
+            "Source-owned work requires a settled available recording",
+          );
+        return { ...target, revisionId: null };
+      }
+      if (target.kind === "project") projects.requireRevision(target.projectId, target.revisionId);
+      // Other managed domain fixtures vouch for their inputs; real owners validate their rows.
+      return target;
+    },
+    isAvailable: (target) =>
+      target.kind === "recording"
+        ? store.isAvailable(target.recordingId)
+        : target.kind === "project"
+          ? projects.hasRevision(target.projectId, target.revisionId)
+          : true,
+    isDeleting: (owner) =>
+      owner.kind === "recording"
+        ? store.isDeleting(owner.recordingId)
+        : owner.kind === "project" && projects.isDeleting(owner.projectId),
+    isCapturing: () => store.isCapturing(),
   };
   const queue = new JobQueue({
     store,
@@ -69,7 +97,7 @@ function open(path: string, prefix: string) {
       await new Promise<void>((resolve) => waiting.set(attemptId, resolve));
     return attempts.get(attemptId)!;
   };
-  return { store, queue, attempts, started, targets };
+  return { store, projects, queue, attempts, started, targets };
 }
 
 function fixture(prefix = "run") {
@@ -79,8 +107,8 @@ function fixture(prefix = "run") {
   return { path, ...open(path, prefix) };
 }
 
-/** A finished take: it has a revision to pin, and no capture of it is still outstanding. */
-function finished(store: RevisionStore, sourceDurationUs = 20): string {
+/** A settled source: no capture of it is still outstanding. */
+function finished(store: CaptureStore, sourceDurationUs = 20): string {
   const { recordingId, sourceId } = store.allocate().recording;
   store.ingestLifecycle(recordingId, { sourceId, sequence: 1, state: "recording" });
   store.ingestLifecycle(recordingId, { sourceId, sequence: 2, state: "finalizing" });
@@ -91,6 +119,19 @@ function finished(store: RevisionStore, sourceDurationUs = 20): string {
     sourceDurationUs,
   });
   return recordingId;
+}
+
+function project(projects: ReturnType<typeof projectStoreFixture>) {
+  const created = projects.create({
+    requestId: "create",
+    canvas: {
+      width: 160,
+      height: 96,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  return { projectId: created.project.projectId, revisionId: created.revision.id };
 }
 
 afterEach(async () => {
@@ -104,7 +145,7 @@ test("identical work retains its published result without another automatic atte
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy" as const,
     input: "narration",
@@ -117,7 +158,7 @@ test("identical work retains its published result without another automatic atte
   await queue.idle();
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "transcript",
       input: "narration",
     }),
@@ -127,7 +168,7 @@ test("identical work retains its published result without another automatic atte
     reason: null,
     retryable: false,
     published: {
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "transcript",
       generation: 1,
 
@@ -145,7 +186,7 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
   const { store, queue, path, started } = fixture("first");
   const recordingId = finished(store);
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy",
     input: "narration",
@@ -155,7 +196,7 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
   const relaunched = open(path, "second");
   expect(
     relaunched.queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
 
       artifact: "transcript",
       input: "narration",
@@ -176,7 +217,7 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
   await queue.idle();
   expect(
     relaunched.queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
 
       artifact: "transcript",
       input: "narration",
@@ -188,13 +229,13 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
   await relaunched.queue.idle();
   expect(
     relaunched.queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
 
       artifact: "transcript",
       input: "narration",
     }).published,
   ).toEqual({
-    target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     generation: 2,
 
@@ -204,43 +245,44 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
 });
 
 test("an edit during processing does not move the revision the work was admitted for", async () => {
-  const { store, queue, started } = fixture();
-  const recordingId = finished(store);
+  const { projects, queue, started } = fixture();
+  const { projectId, revisionId } = project(projects);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "project" as const, projectId, revisionId },
     artifact: "transcript",
     lane: "heavy" as const,
     input: "narration",
   };
   const job = queue.submit(request);
   const attempt = await started(job.attemptId);
-  expect(attempt.job.target).toEqual({ kind: "recording", recordingId, revisionId: "r0" });
-  const edited = store.edit(recordingId, {
-    operation: "cut",
-    requestId: "cut-1",
-    expectedRevisionId: "r0",
-    ranges: [{ startUs: 3, endUs: 5 }],
-  });
+  expect(attempt.job.target).toEqual({ kind: "project", projectId, revisionId: revisionId });
+  const edited = projects.apply(projectId, {
+    requestId: "resize-1",
+    expectedRevisionId: revisionId,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  }).revision;
   attempt.finish("transcript-a");
   await queue.idle();
-  expect(store.revision(recordingId).id).toBe(edited.id);
+  expect(projects.revision(projectId).id).toBe(edited.id);
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "project" as const, projectId: projectId, revisionId: revisionId },
       artifact: "transcript",
       input: "narration",
     }).published,
   ).toEqual({
-    target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+    target: { kind: "project" as const, projectId: projectId, revisionId: revisionId },
     artifact: "transcript",
     generation: 1,
 
     input: "narration",
     result: "transcript-a",
   });
-  expect(queue.submit(request).target).toEqual({
-    kind: "recording",
-    recordingId,
+  expect(
+    queue.submit({ ...request, target: { ...request.target, revisionId: edited.id } }).target,
+  ).toEqual({
+    kind: "project",
+    projectId,
     revisionId: edited.id,
   });
 });
@@ -249,20 +291,20 @@ test("one heavy and two frame attempts run at once", async () => {
   const { store, queue, attempts, started } = fixture();
   const recordingId = finished(store);
   const transcript = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy",
     input: "narration",
   });
   const exported = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     lane: "heavy",
     input: "video",
   });
   const frames = ["5s", "6s", "7s"].map((input) =>
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: `frame-${input}`,
       lane: "frame",
       input,
@@ -290,13 +332,13 @@ test("a new heavy job waits while a take is capturing; frame work does not", asy
     state: "recording",
   });
   const transcript = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy",
     input: "narration",
   });
   const frame = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "5s",
@@ -305,7 +347,7 @@ test("a new heavy job waits while a take is capturing; frame work does not", asy
   expect([...attempts.keys()]).toEqual([frame.attemptId]);
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "transcript",
       input: "narration",
     }),
@@ -332,7 +374,7 @@ test("canceling a running job frees its lane only once the work settles", async 
   const { store, queue, attempts, started } = fixture();
   const recordingId = finished(store);
   const first = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy",
     input: "narration",
@@ -342,7 +384,7 @@ test("canceling a running job frees its lane only once the work settles", async 
   expect(running.signal.aborted).toBe(true);
 
   const second = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     lane: "heavy",
     input: "video",
@@ -352,7 +394,7 @@ test("canceling a running job frees its lane only once the work settles", async 
   expect((await started(second.attemptId)).job.jobId).toBe(second.jobId);
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "transcript",
       input: "narration",
     }),
@@ -365,8 +407,15 @@ test("canceling a running job frees its lane only once the work settles", async 
   });
 });
 
-test("work that outlives a discarded take publishes nothing and does not revive it", async () => {
-  const { store, queue, attempts, started } = fixture();
+test("domain-admitted work that outlives a discarded capture publishes nothing and does not revive it", async () => {
+  const { store, queue, attempts, started, targets } = fixture();
+  // This queue-domain control admits live work; current source service admission still refuses it.
+  targets.pin = (target) => {
+    if (target.kind !== "recording" || target.revisionId !== null)
+      throw Error("Source target required");
+    store.get(target.recordingId);
+    return { ...target, revisionId: null };
+  };
   const recording = store.allocate().recording;
   store.ingestLifecycle(recording.recordingId, {
     sourceId: recording.sourceId,
@@ -376,7 +425,7 @@ test("work that outlives a discarded take publishes nothing and does not revive 
   store.registerSource(recording.recordingId, 20);
   const [running, alsoRunning, waiting] = ["5s", "6s", "7s"].map((input) =>
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recording.recordingId },
+      target: { kind: "recording" as const, recordingId: recording.recordingId, revisionId: null },
       artifact: `frame-${input}`,
       lane: "frame",
       input,
@@ -413,7 +462,7 @@ test("waiting work is bounded, while work already admitted still answers", async
   const { store, queue } = fixture();
   const recordingId = finished(store);
   const running = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy",
     input: "narration",
@@ -424,7 +473,7 @@ test("waiting work is bounded, while work already admitted still answers", async
     try {
       queued.push(
         queue.submit({
-          target: { kind: "recording" as const, recordingId: recordingId },
+          target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
           artifact: `frame-${index}`,
           lane: "heavy",
           input: `${index}`,
@@ -441,7 +490,7 @@ test("waiting work is bounded, while work already admitted still answers", async
   expect(queue.job(oldest.jobId).state).toBe("queued");
   expect(
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: oldest.artifact,
       lane: "heavy",
       input: oldest.input,
@@ -451,7 +500,7 @@ test("waiting work is bounded, while work already admitted still answers", async
   queue.cancel(oldest.jobId);
   expect(
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "late",
       lane: "heavy",
       input: "late",
@@ -463,7 +512,7 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const absent = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy",
     input: "narration",
@@ -474,7 +523,7 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   await queue.idle();
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "transcript",
       input: "narration",
     }),
@@ -488,7 +537,7 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   expect(() => queue.retry(absent.jobId)).toThrow(expect.objectContaining({ code: "UNAVAILABLE" }));
 
   const failed = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     lane: "heavy",
     input: "video",
@@ -497,7 +546,7 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   await queue.idle();
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "export",
       input: "video",
     }),
@@ -514,7 +563,7 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   await queue.idle();
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "export",
       input: "video",
     }).published,
@@ -526,7 +575,7 @@ test("an unchanged failed request needs explicit retry, including after reopen",
   const { store, queue, started, path } = fixture();
   const recordingId = finished(store);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     lane: "heavy" as const,
     input: "narration",
@@ -544,48 +593,52 @@ test("an unchanged failed request needs explicit retry, including after reopen",
 });
 
 test("the same parameters on an edited revision never reuse the old running job", async () => {
-  const { store, queue, started } = fixture();
-  const recordingId = finished(store);
+  const { projects, queue, started } = fixture();
+  const { projectId, revisionId } = project(projects);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "project" as const, projectId, revisionId },
     artifact: "frame",
     lane: "frame" as const,
     input: "at=2",
   };
   const first = queue.submit(request);
   await started(first.attemptId);
-  const revision = store.edit(recordingId, {
-    operation: "cut",
-    requestId: "cut",
-    expectedRevisionId: "r0",
-    ranges: [{ startUs: 0, endUs: 3 }],
+  const revision = projects.apply(projectId, {
+    requestId: "resize",
+    expectedRevisionId: revisionId,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  }).revision;
+  const second = queue.submit({
+    ...request,
+    target: { ...request.target, revisionId: revision.id },
   });
-  const second = queue.submit(request);
-  expect(second.target).toEqual({ kind: "recording", recordingId, revisionId: revision.id });
+  expect(second.target).toEqual({ kind: "project", projectId, revisionId: revision.id });
   expect(second.jobId).not.toBe(first.jobId);
 });
 
 test("out-of-order results retain their own revision and input identities", async () => {
-  const { store, queue, started } = fixture();
-  const recordingId = finished(store);
+  const { projects, queue, started } = fixture();
+  const { projectId, revisionId } = project(projects);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "project" as const, projectId, revisionId },
     artifact: "frame",
     lane: "frame" as const,
     input: "at=2",
   };
   const old = queue.submit(request);
   const oldWork = await started(old.attemptId);
-  const edited = store.edit(recordingId, {
-    operation: "cut",
-    requestId: "cut",
-    expectedRevisionId: "r0",
-    ranges: [{ startUs: 0, endUs: 3 }],
+  const edited = projects.apply(projectId, {
+    requestId: "resize",
+    expectedRevisionId: revisionId,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  }).revision;
+  const current = queue.submit({
+    ...request,
+    target: { ...request.target, revisionId: edited.id },
   });
-  const current = queue.submit(request);
   (await started(current.attemptId)).finish("new-revision-pixels");
   // An acknowledged next start proves the preceding result was durably settled.
-  const alternate = queue.submit({ ...request, input: "at=4" });
+  const alternate = queue.submit({ ...request, target: current.target, input: "at=4" });
   (await started(alternate.attemptId)).finish("other-time-pixels");
   oldWork.finish("old-revision-pixels");
   await queue.idle();
@@ -600,18 +653,18 @@ test("out-of-order results retain their own revision and input identities", asyn
     result: "other-time-pixels",
   });
   expect(queue.status(old).published).toMatchObject({
-    target: { revisionId: "r0" },
+    target: { revisionId: revisionId },
     result: "old-revision-pixels",
   });
-  expect(queue.submit({ ...request, target: { ...request.target, revisionId: "r0" } }).jobId).toBe(
-    old.jobId,
-  );
+  expect(
+    queue.submit({ ...request, target: { ...request.target, revisionId: revisionId } }).jobId,
+  ).toBe(old.jobId);
 });
 
 test("a permanent processing error is failed rather than unavailable", async () => {
   const { store, queue, started } = fixture();
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: finished(store) },
+    target: { kind: "recording" as const, recordingId: finished(store), revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "at=2",
@@ -625,7 +678,7 @@ test("a permanent processing error is failed rather than unavailable", async () 
 test("shutdown rejects late success and leaves the attempt explicitly retryable", async () => {
   const { store, queue, started } = fixture();
   const request = {
-    target: { kind: "recording" as const, recordingId: finished(store) },
+    target: { kind: "recording" as const, recordingId: finished(store), revisionId: null },
     artifact: "frame",
     lane: "frame" as const,
     input: "at=2",
@@ -648,7 +701,7 @@ test("shutdown rejects late success and leaves the attempt explicitly retryable"
 test("shutdown still stops running work when the catalog cannot record the interruption", async () => {
   const { path, store, queue, started } = fixture();
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: finished(store) },
+    target: { kind: "recording" as const, recordingId: finished(store), revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "at=3",
@@ -681,7 +734,7 @@ test("shutdown still stops running work when the catalog cannot record the inter
 });
 
 test("an executor submitting dependent work cannot exceed the frame capacity", async () => {
-  const { store, queue: initial } = fixture();
+  const { store, queue: initial, targets } = fixture();
   await initial.close();
   const recordingId = finished(store);
   const started: string[] = [];
@@ -691,7 +744,7 @@ test("an executor submitting dependent work cannot exceed the frame capacity", a
   });
   const queue = new JobQueue({
     store,
-    targets: recordingJobTargets(store),
+    targets,
     providers: {
       newId: (() => {
         let n = 0;
@@ -702,13 +755,13 @@ test("an executor submitting dependent work cannot exceed the frame capacity", a
       started.push(job.input);
       if (job.input === "first") {
         queue.submit({
-          target: { kind: "recording" as const, recordingId: recordingId },
+          target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
           artifact: "frame",
           input: "second",
           lane: "frame",
         });
         queue.submit({
-          target: { kind: "recording" as const, recordingId: recordingId },
+          target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
           artifact: "frame",
           input: "third",
           lane: "frame",
@@ -720,7 +773,7 @@ test("an executor submitting dependent work cannot exceed the frame capacity", a
   });
   queues.push(queue);
   queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     input: "first",
     lane: "frame",
@@ -736,7 +789,7 @@ test("an executor submitting dependent work cannot exceed the frame capacity", a
 test("explicit retry of canceled work waits for its old executor to release capacity", async () => {
   const { store, queue, started, attempts } = fixture();
   const request = {
-    target: { kind: "recording" as const, recordingId: finished(store) },
+    target: { kind: "recording" as const, recordingId: finished(store), revisionId: null },
     artifact: "transcript",
     lane: "heavy" as const,
     input: "narration",
@@ -755,10 +808,10 @@ test("explicit retry of canceled work waits for its old executor to release capa
 });
 
 test("regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication", async () => {
-  const { store, queue, started } = fixture();
-  const recordingId = finished(store);
+  const { projects, queue, started } = fixture();
+  const { projectId, revisionId } = project(projects);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "project" as const, projectId, revisionId },
     artifact: "frame",
     lane: "frame" as const,
     input: "at=10",
@@ -766,17 +819,16 @@ test("regenerating an evicted artifact preserves its revision and cannot invalid
   const original = queue.submit(request);
   (await started(original.attemptId)).finish("frame-one");
   await queue.idle();
-  store.edit(recordingId, {
-    operation: "cut",
+  projects.apply(projectId, {
     requestId: "edit",
-    expectedRevisionId: "r0",
-    ranges: [{ startUs: 0, endUs: 5 }],
-  });
+    expectedRevisionId: revisionId,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  }).revision;
   const replacement = queue.regenerate(original.jobId, original.generation);
-  expect(replacement).toMatchObject({ target: { revisionId: "r0" }, generation: 2 });
+  expect(replacement).toMatchObject({ target: { revisionId: revisionId }, generation: 2 });
   expect(replacement.attemptId).not.toBe(original.attemptId);
   expect(
-    queue.status({ ...request, target: { ...request.target, revisionId: "r0" } }).published,
+    queue.status({ ...request, target: { ...request.target, revisionId: revisionId } }).published,
   ).toBeNull();
   expect(queue.regenerate(original.jobId, original.generation).attemptId).toBe(
     replacement.attemptId,
@@ -789,7 +841,8 @@ test("regenerating an evicted artifact preserves its revision and cannot invalid
     attemptId: replacement.attemptId,
   });
   expect(
-    queue.status({ ...request, target: { ...request.target, revisionId: "r0" } }).published?.result,
+    queue.status({ ...request, target: { ...request.target, revisionId: revisionId } }).published
+      ?.result,
   ).toBe("frame-two");
 });
 
@@ -797,7 +850,7 @@ test("cache regeneration preserves the published artifact when queue admission i
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "cached",
@@ -808,7 +861,7 @@ test("cache regeneration preserves the published artifact when queue admission i
   store.allocate();
   for (let i = 0; i < 32; i++)
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "transcript",
       lane: "heavy",
       input: `pending-${i}`,
@@ -818,7 +871,7 @@ test("cache regeneration preserves the published artifact when queue admission i
   );
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "frame",
       input: "cached",
     }),
@@ -829,7 +882,7 @@ test("an artifact stays busy while queued and until a canceled executor settles"
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "screenshot-index",
     lane: "heavy" as const,
   };
@@ -851,19 +904,19 @@ test("recording deletion drains only its held attempts and fences queued and lat
   const recordingId = finished(store);
   const other = finished(store);
   const target = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "target",
   });
   const sibling = queue.submit({
-    target: { kind: "recording" as const, recordingId: other },
+    target: { kind: "recording" as const, recordingId: other, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "sibling",
   });
   const waiting = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "waiting",
@@ -884,7 +937,7 @@ test("recording deletion drains only its held attempts and fences queued and lat
   expect(() => queue.retry(target.jobId)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
   expect(() =>
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "frame",
       lane: "frame",
       input: "new",
@@ -905,13 +958,13 @@ test("startup skips deletion-marked queued work and runs the next recording", as
   const recordingId = finished(first.store);
   const sibling = finished(first.store);
   const blocked = first.queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "source",
     lane: "heavy",
     input: "gone",
   });
   const next = first.queue.submit({
-    target: { kind: "recording" as const, recordingId: sibling },
+    target: { kind: "recording" as const, recordingId: sibling, revisionId: null },
     artifact: "source",
     lane: "heavy",
     input: "kept",
@@ -929,7 +982,7 @@ test("startup skips deletion-marked queued work and runs the next recording", as
   expect(reopened.queue.job(blocked.jobId).state).toBe("canceled");
   const attempt = await reopened.started(next.attemptId);
   expect([...reopened.attempts.values()].map((value) => value.job.target)).toEqual([
-    { kind: "recording", recordingId: sibling, revisionId: "r0" },
+    { kind: "recording", recordingId: sibling, revisionId: null },
   ]);
   attempt.finish("sibling result");
   await reopened.queue.idle();
@@ -940,7 +993,7 @@ test("intent alone fences an executor resolving before cancellation is requested
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "late",
@@ -958,13 +1011,13 @@ test("forgetting a recording refuses closing executors and removes only its drai
   const recordingId = finished(store),
     sibling = finished(store);
   const own = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     input: "own",
     lane: "frame",
   });
   const other = queue.submit({
-    target: { kind: "recording" as const, recordingId: sibling },
+    target: { kind: "recording" as const, recordingId: sibling, revisionId: null },
     artifact: "frame",
     input: "other",
     lane: "frame",
@@ -1006,7 +1059,7 @@ test("forgetting a large ready history yields and preserves another recording's 
   const recordingId = finished(store),
     sibling = finished(store);
   const other = queue.submit({
-    target: { kind: "recording" as const, recordingId: sibling },
+    target: { kind: "recording" as const, recordingId: sibling, revisionId: null },
     artifact: "frame",
     input: "other",
     lane: "frame",
@@ -1015,7 +1068,7 @@ test("forgetting a large ready history yields and preserves another recording's 
   await queue.idle();
   for (let i = 0; i < 260; i++) {
     const job = queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "frame",
       input: `frame-${i}`,
       lane: "frame",
@@ -1045,7 +1098,7 @@ test("forget refuses intent-marked work still queued behind capture priority", a
   const recordingId = finished(store);
   store.allocate();
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "transcript",
     input: "queued",
     lane: "heavy",
@@ -1093,7 +1146,7 @@ test("library and same-provenance package contexts share FIFO heavy admission an
     a = packageContext(queue),
     b = packageContext(queue);
   const first = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "source",
     lane: "heavy",
     input: "first",
@@ -1101,7 +1154,7 @@ test("library and same-provenance package contexts share FIFO heavy admission an
   const one = queue.submitContext(a.context, packageRequest(recordingId));
   const two = queue.submitContext(b.context, packageRequest(recordingId));
   const last = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "source",
     lane: "heavy",
     input: "last",
@@ -1136,7 +1189,7 @@ test("package serialization spends no frame slot and canceled attempts retain ca
   const two = queue.submitContext(a.context, packageRequest("a2", "frame"));
   const sibling = queue.submitContext(b.context, packageRequest("b", "frame"));
   const library = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "library",
@@ -1251,7 +1304,7 @@ test("library deletion cannot cancel two package contexts with identical provena
     a = packageContext(queue),
     b = packageContext(queue);
   const library = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "source",
     lane: "heavy",
     input: "library",
@@ -1281,7 +1334,7 @@ test("global waiting admission counts both owners and cancellation releases only
     b = packageContext(queue);
   for (let i = 0; i < 16; i++)
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "source",
       lane: "heavy",
       input: String(i),
@@ -1294,7 +1347,7 @@ test("global waiting admission counts both owners and cancellation releases only
   );
   expect(() =>
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "source",
       lane: "heavy",
       input: "overflow",
@@ -1360,7 +1413,7 @@ test("32 deferred jobs leave capacity for their shared prerequisite and never sp
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const dependency = {
-    target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
 
     artifact: "source",
     input: "shared",
@@ -1369,7 +1422,7 @@ test("32 deferred jobs leave capacity for their shared prerequisite and never sp
   let calls = 0;
   const pending = Array.from({ length: 32 }, (_, n) =>
     queue.submitDeferred({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "export",
       input: String(n),
       lane: "heavy",
@@ -1377,7 +1430,7 @@ test("32 deferred jobs leave capacity for their shared prerequisite and never sp
   );
   expect(() =>
     queue.submitDeferred({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "export",
       input: "overflow",
       lane: "heavy",
@@ -1401,7 +1454,7 @@ test("32 deferred jobs leave capacity for their shared prerequisite and never sp
   expect(calls).toBe(32);
   expect(
     queue.status({
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "export",
       input: "0",
     }),
@@ -1417,7 +1470,7 @@ test("a lost prerequisite readmits a deferred job once, and only an explicit ret
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const exporter = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "pinned",
     lane: "heavy",
@@ -1453,7 +1506,7 @@ test("deferred cancellation and restart preserve identity until explicit retry",
   const first = fixture();
   const recordingId = finished(first.store);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "pinned-r0",
     lane: "heavy" as const,
@@ -1482,7 +1535,7 @@ test("deferred cancellation and restart preserve identity until explicit retry",
   expect(next.queue.submitDeferred(request).state).toBe("canceled");
   const retry = next.queue.retry(original.jobId);
   expect(retry.attemptId).not.toBe(original.attemptId);
-  expect(retry.target).toEqual({ kind: "recording", recordingId, revisionId: "r0" });
+  expect(retry.target).toEqual({ kind: "recording", recordingId, revisionId: null });
   expect(retry.state).toBe("running");
   (await next.started(retry.attemptId)).finish("export");
   await next.queue.idle();
@@ -1493,7 +1546,7 @@ test("admission failures stay terminal, isolate siblings, and never retry depend
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const dependency = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "source",
     input: "source",
     lane: "heavy",
@@ -1503,13 +1556,13 @@ test("admission failures stay terminal, isolate siblings, and never retry depend
   );
   await queue.idle();
   const bad = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "bad",
     lane: "heavy",
   });
   const good = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "good",
     lane: "heavy",
@@ -1517,7 +1570,7 @@ test("admission failures stay terminal, isolate siblings, and never retry depend
   queue.startAdmission((job) => {
     if (job.input === "bad") {
       const source = queue.submit({
-        target: { kind: "recording" as const, recordingId: recordingId },
+        target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
         artifact: "source",
         input: "source",
         lane: "heavy",
@@ -1546,7 +1599,7 @@ test("ready admission respects package capacity, FIFO and capture while frame wo
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const blocker = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "source",
     input: "blocker",
     lane: "heavy",
@@ -1557,7 +1610,7 @@ test("ready admission respects package capacity, FIFO and capture while frame wo
     queue.submitContext(context.context, packageRequest(String(n))),
   );
   const deferred = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "after-packages",
     lane: "heavy",
@@ -1573,7 +1626,7 @@ test("ready admission respects package capacity, FIFO and capture while frame wo
   expect(queue.job(deferred.jobId).state).toBe("queued");
   queue.cancelContextJob(context.context, packages[30]!.jobId);
   const frame = queue.submit({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "frame",
     input: "frame",
     lane: "frame",
@@ -1601,7 +1654,7 @@ test("deletion fences waiting jobs before admission and forgets them after drain
   const { store, queue } = fixture();
   const recordingId = finished(store);
   const waiting = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "pending",
     lane: "heavy",
@@ -1628,13 +1681,13 @@ test("dependency owners can cancel a waiting sibling without admitting its stale
   const { store, queue } = fixture();
   const recordingId = finished(store);
   const first = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "first",
     lane: "heavy",
   });
   const sibling = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "sibling",
     lane: "heavy",
@@ -1644,7 +1697,7 @@ test("dependency owners can cancel a waiting sibling without admitting its stale
     visited.push(job.input);
     queue.cancel(sibling.jobId);
     queue.submit({
-      target: { kind: "recording" as const, recordingId: recordingId },
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
       artifact: "source",
       input: "source",
       lane: "heavy",
@@ -1656,7 +1709,7 @@ test("dependency owners can cancel a waiting sibling without admitting its stale
   expect(queue.job(sibling.jobId).state).toBe("canceled");
   queue.retry(first.jobId);
   queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "first",
     lane: "heavy",
@@ -1673,7 +1726,7 @@ test("regeneration re-admits deferred work without an unrelated wake and ignores
     return { state: "ready" };
   });
   const job = queue.submitDeferred({
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "derivative",
     input: "pinned",
     lane: "heavy",
@@ -1694,7 +1747,7 @@ test("single-job retirement drains older canceled attempts before forgetting ide
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const request = {
-    target: { kind: "recording" as const, recordingId: recordingId },
+    target: { kind: "recording" as const, recordingId: recordingId, revisionId: null },
     artifact: "export",
     input: "one",
     lane: "heavy" as const,
@@ -1763,6 +1816,11 @@ test("import preparation needs no recording and retries the frozen input", async
 
 test("managed targets retain distinct kind and revision identities after restart", async () => {
   const first = fixture();
+  first.targets.pin = (target) => {
+    if (target.kind === "recording") throw Error("Managed target required");
+    return target;
+  };
+  first.targets.isAvailable = () => true;
   const targets = [
     { kind: "import" as const, importId: "shared-id" },
     { kind: "asset" as const, assetId: "shared-id" },
@@ -1781,6 +1839,8 @@ test("managed targets retain distinct kind and revision identities after restart
   await first.queue.idle();
   await first.queue.close();
   const reopened = open(first.path, "restarted");
+  reopened.targets.pin = first.targets.pin;
+  reopened.targets.isAvailable = first.targets.isAvailable;
   for (const [index, target] of targets.entries()) {
     const job = reopened.queue.submit({
       target,
@@ -1854,6 +1914,11 @@ test("typed preparation failures survive restart and attempt transitions clear e
 
 test("deleting a project drains every pinned revision without touching a same-named asset", async () => {
   const f = fixture();
+  f.targets.pin = (target) => {
+    if (target.kind === "recording") throw Error("Managed target required");
+    return target;
+  };
+  f.targets.isAvailable = () => true;
   const request = { artifact: "preview", lane: "frame" as const, input: "frozen" };
   const first = f.queue.submit({
     ...request,
@@ -2045,7 +2110,7 @@ test("preparation inputs survive canceled workers and explicit retry but retire 
   const recordingId = finished(store);
   const references = new ResourceReferences(store);
   const request = {
-    target: { kind: "recording" as const, recordingId },
+    target: { kind: "recording" as const, recordingId, revisionId: null },
     artifact: "screenshot-index",
     lane: "heavy" as const,
     input: "frozen-scenes",
@@ -2081,7 +2146,7 @@ test("retryable failures and restart keep inputs while permanent failures releas
   const refs = new ResourceReferences(store);
   const job = queue.submit(
     {
-      target: { kind: "recording", recordingId },
+      target: { kind: "recording", recordingId, revisionId: null },
       artifact: "index",
       lane: "heavy",
       input: "scenes",
@@ -2111,7 +2176,7 @@ test("an older canceled worker pins inputs after a concurrent retry publishes", 
   const refs = new ResourceReferences(store);
   const job = queue.submit(
     {
-      target: { kind: "recording", recordingId },
+      target: { kind: "recording", recordingId, revisionId: null },
       artifact: "frame-index",
       lane: "frame",
       input: "scenes",
@@ -2138,7 +2203,7 @@ test("deleting a drained owner reclaims all ordinary and input reference pages",
   const refs = new ResourceReferences(store);
   const job = queue.submit(
     {
-      target: { kind: "recording", recordingId },
+      target: { kind: "recording", recordingId, revisionId: null },
       artifact: "index",
       lane: "heavy",
       input: "scenes",
@@ -2171,7 +2236,12 @@ test("settling one job cannot release a scene still pinned by another retryable 
   const refs = new ResourceReferences(store);
   const submit = (input: string) =>
     queue.submit(
-      { target: { kind: "recording", recordingId }, artifact: "index", lane: "frame", input },
+      {
+        target: { kind: "recording", recordingId, revisionId: null },
+        artifact: "index",
+        lane: "frame",
+        input,
+      },
       (job) => queue.retainInputs(job.jobId, "scene-generation", ["shared"]),
     );
   const first = submit("first"),
@@ -2196,7 +2266,7 @@ test("cache-loss readmission restores transient inputs transactionally and ready
   const cache = new DerivedCache(f.store, dirname(f.path), () => {});
   await cache.reconcile();
   const request = {
-    target: { kind: "recording" as const, recordingId, revisionId: "r0" },
+    target: { kind: "recording" as const, recordingId, revisionId: null },
     artifact: "prepared",
     input: "pinned",
   };
@@ -2228,7 +2298,7 @@ test("regeneration admission failure rolls back references, attempt and publishe
   const f = fixture();
   const recordingId = finished(f.store);
   const job = f.queue.submit({
-    target: { kind: "recording", recordingId },
+    target: { kind: "recording", recordingId, revisionId: null },
     artifact: "frame",
     lane: "frame",
     input: "pinned",
@@ -2254,7 +2324,7 @@ test("permanent admission size limits fail while transient queue pressure remain
   const { store, queue } = fixture();
   const recordingId = finished(store);
   const request = {
-    target: { kind: "recording" as const, recordingId },
+    target: { kind: "recording" as const, recordingId, revisionId: null },
     artifact: "admission-size",
     lane: "heavy" as const,
   };
@@ -2293,7 +2363,7 @@ test("permanent admission size limits fail while transient queue pressure remain
 test("nested deferred children start without an external wake or recursive admission", async () => {
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
-  const target = { kind: "recording" as const, recordingId };
+  const target = { kind: "recording" as const, recordingId, revisionId: null };
   const outer = queue.submitDeferred({ target, artifact: "outer", input: "pinned", lane: "heavy" });
   let inner: Job | undefined, source: Job | undefined;
   let depth = 0,
@@ -2334,7 +2404,7 @@ test.each(["UNAVAILABLE", "LIMIT_EXCEEDED"] as const)(
   "nested terminal %s admission settles parents without runnable work",
   async (code) => {
     const { store, queue, attempts } = fixture();
-    const target = { kind: "recording" as const, recordingId: finished(store) };
+    const target = { kind: "recording" as const, recordingId: finished(store), revisionId: null };
     const parent = queue.submitDeferred({
       target,
       artifact: "parent",
@@ -2439,7 +2509,7 @@ test("compact job inspection preserves publication and recipe identity through r
   const recordingId = finished(first.store);
   const input = "exact input ".repeat(10000);
   const job = first.queue.submit({
-    target: { kind: "recording", recordingId },
+    target: { kind: "recording", recordingId, revisionId: null },
     artifact: "inspect",
     lane: "frame",
     input,
@@ -2573,7 +2643,9 @@ test("source-owned recording jobs retain null identity without manufacturing a r
   };
   const job = queue.submit(request);
   expect(job.target).toEqual(request.target);
-  expect(() => store.revision(recording.recordingId)).toThrow();
+  expect(store.get(recording.recordingId).currentRevisionId).toBeNull();
+  expect(store.catalog.prepare("SELECT * FROM project_revisions").all()).toEqual([]);
+  expect(store.catalog.prepare("SELECT * FROM projects").all()).toEqual([]);
   (await started(job.attemptId)).finish(JSON.stringify({ state: "retained" }));
   await queue.idle();
   expect(queue.status(request).published).toMatchObject({
@@ -2591,21 +2663,26 @@ test("source-owned recording jobs retain null identity without manufacturing a r
   expect(reopened.queue.status(request).published?.target).toEqual(request.target);
 });
 
-test("source targets stay distinct from omitted and explicit revisions", async () => {
-  const { store, queue, started } = fixture();
+test("source targets stay distinct from explicit project revisions and refuse recording edit selectors", async () => {
+  const { store, projects, queue, started } = fixture();
   const recordingId = finished(store);
+  const target = { kind: "project" as const, ...project(projects) };
   const base = { artifact: "target-proof", lane: "heavy" as const, input: "same input" };
   const source = queue.submit({
     ...base,
     target: { kind: "recording", recordingId, revisionId: null },
   });
-  const revision = queue.submit({ ...base, target: { kind: "recording", recordingId } });
+  const revision = queue.submit({ ...base, target });
   expect(source.target).toEqual({ kind: "recording", recordingId, revisionId: null });
-  expect(revision.target).toEqual({ kind: "recording", recordingId, revisionId: "r0" });
+  expect(revision.target).toEqual(target);
   expect(source.jobId).not.toBe(revision.jobId);
-  expect(
-    queue.submit({ ...base, target: { kind: "recording", recordingId, revisionId: "r0" } }).jobId,
-  ).toBe(revision.jobId);
+  expect(queue.submit({ ...base, target }).jobId).toBe(revision.jobId);
+  expect(() => queue.submit({ ...base, target: { kind: "recording", recordingId } })).toThrow(
+    expect.objectContaining({ code: "NOT_READY" }),
+  );
+  expect(() =>
+    queue.submit({ ...base, target: { kind: "recording", recordingId, revisionId: "r0" } }),
+  ).toThrow(expect.objectContaining({ code: "NOT_READY" }));
   (await started(source.attemptId)).finish("{}");
   (await started(revision.attemptId)).finish("{}");
   await queue.idle();
