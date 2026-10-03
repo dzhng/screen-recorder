@@ -20,6 +20,11 @@ Reuse saved marks, accepted listening results and the retained four-minute take
 under the active [verification rules](../agent-editing/verification.md#implementation-readiness-and-acceptance).
 Missing acoustic, physical or installed-release evidence stays unverified.
 
+The original timeline, recording-index, recording-storage and transcription labs
+are historical evidence. Their retired commands are not current entry points; use
+the [current owner proof bank](../agent-editing/assets/23-owner-fixture-ports/README.md)
+and explicit source/project callers for active verification.
+
 ## Original release acceptance
 
 When specifically continuing this release, read its [contracts](contracts.md),

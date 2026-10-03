@@ -7,9 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.check.json",
     "test": "node dist/bootstrap.js && node --test speech/evaluate.test.mjs editing/speech/annotation-time.test.mjs editing/speech-labeling.test.mjs personal-release.test.mjs",
-    "lab:index": "node --test ../../apps/macos/tests/index-lab.mjs",
     "lab:index-scale": "node --test ../../apps/macos/tests/index-scale.mjs",
-    "lab:storage": "node --test storage.mjs",
     "lab:render-timing": "node --test render-timing.mjs",
     "lab:package-archive": "node --test ../../apps/service/tests/package-archive.mjs",
     "lab:exports": "node package-exports.mjs"

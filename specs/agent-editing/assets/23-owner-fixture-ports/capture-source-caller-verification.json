@@ -1,0 +1,208 @@
+{
+  "checkpoint": "capture/source caller ports",
+  "baseCommit": "886c24f5c65331fdc43ad44d018bc4cd3e87cbeb",
+  "archive": {
+    "file": "capture-source-caller-evidence.tar.gz",
+    "bytes": 326301,
+    "sha256": "01e65cf7918fedde76ce5da2d3d5ef7229f3ab32ff032c0c871bd623dfb5f993",
+    "hashedPayloads": 77,
+    "memberCount": 78,
+    "manifest": "manifest.json"
+  },
+  "implementationReport": "report.json",
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/capture-service.test.mjs",
+      "sha256": "ed24559a7fa5ec379e4625c927b5a8817f1ce41077c547346ad0e49f598c92f9"
+    },
+    {
+      "path": "apps/macos/tests/capture-video-render.mjs",
+      "sha256": "872d5b5d316bb203304f44010c29d41c7ef93af22bf7478eee12bd6f07b8ea32"
+    },
+    {
+      "path": "apps/macos/tests/fixtures/public-service.mjs",
+      "sha256": "7aa13960817d9df6863ae562d385fd2c7637c3698caf47e6754e95cea3eb993b"
+    },
+    {
+      "path": "apps/macos/tests/index-scale.mjs",
+      "sha256": "ed9af8ebbe39fac4f3bc1d4537acdca737b7ca27d40dcc2328223707f9633800"
+    },
+    {
+      "path": "apps/macos/tests/recovery-lab.mjs",
+      "sha256": "bace303ffc3ce4d92bcc896ba79797d3946fe7585ec6de18aa952fd7adb449a0"
+    },
+    {
+      "path": "apps/macos/tests/scene-processing.test.mjs",
+      "sha256": "f72015cf9e895481999d593f2fd897bead3229b569e9cb5f778efa04185edd3f"
+    },
+    {
+      "path": "apps/macos/tests/source-processing.test.mjs",
+      "sha256": "d3264e9af8329f92b3290c8c7142697b04a3189ccd92d2b6e7f09bb9f80bcac2"
+    },
+    {
+      "path": "apps/macos/tests/trail-inspection.test.mjs",
+      "sha256": "3c0164aaeb9c147649c8e69cc2404159882d8275c89589edd051aae5a9c69985"
+    },
+    {
+      "path": "apps/macos/tests/worker-deletion.test.mjs",
+      "sha256": "620b15b63e3de224f368f3b54320aa2f2e207512d19692435dab9cc8caf51d40"
+    },
+    {
+      "path": "apps/service/tests/source-lifetime.mjs",
+      "sha256": "7b94857d827b8af56e7e084ef1d2d4ed2b40883a02a9b6d676dc21a49055030b"
+    },
+    {
+      "path": "fixtures/narrated-workbench/README.md",
+      "sha256": "2fc186a764b318b678f0dcbb87624ca476a6084333d6fcd1978ad7c73a204b9d"
+    },
+    {
+      "path": "package.json",
+      "sha256": "69d8b5d005a135eedffc6d68d7d55ea6b66e41a81dddb01d487eb8c60754c0f1"
+    },
+    {
+      "path": "packages/core/src/presentation-evidence.test.ts",
+      "sha256": "9c884022e01fb71b918b022f6f9a88dd6e31a1ee2d88c74acde2d0efff3e5c81"
+    },
+    {
+      "path": "packages/core/src/trails.test.ts",
+      "sha256": "23b374cd3eb32abb514f6d57db19260b2e50cd0d28c94d6e49c6dc0c7b4fe0d1"
+    },
+    {
+      "path": "packages/test-harness/editing/capture-source-budget.mjs",
+      "sha256": "a5f71200fb512cad30c22c885355d22ff1f5cfec8ffc0d1d386dac5b3e82bdff"
+    },
+    {
+      "path": "packages/test-harness/editing/capture-terminal-boundaries.mjs",
+      "sha256": "5d9925f175daebea92ecf8fcf40458a065982227a1bd193cbeeaaf5bb193bc40"
+    },
+    {
+      "path": "packages/test-harness/load-fixture.mjs",
+      "sha256": "70bb85ef3d65fd78d92ac36152ba56f0e4b837fa407fc32ce5c0b44d52b82b4d"
+    },
+    {
+      "path": "packages/test-harness/package.json",
+      "sha256": "a8afdd99ccebe03fe235346b9758c8d5135662de6d9b94f40c7f1119a4cdc4e1"
+    },
+    {
+      "path": "specs/agent-editing/assets/23-owner-fixture-ports/README.md",
+      "sha256": "12b6dda7dcafd91fd46fae3f0d61bfddb5511ec86058451e85c8fb49ba8f04bf"
+    },
+    {
+      "path": "specs/agent-editing/choices.md",
+      "sha256": "7170d4d5b3152b13f167b9f8e459d9b0ea8e92ae940503d7314e76ae0b6a3b4c"
+    },
+    {
+      "path": "specs/recording-for-ai/README.md",
+      "sha256": "1418a86a7ef9dda94c20ed351ed4392f089300019bd9e2d7623e404c8455886b"
+    }
+  ],
+  "deletedPaths": [
+    "apps/macos/tests/delivery-deletion.test.mjs",
+    "apps/macos/tests/index-lab.mjs",
+    "apps/macos/tests/source-timing.test.mjs",
+    "apps/macos/tests/transcript-service.test.mjs",
+    "packages/test-harness/src/timeline.ts",
+    "packages/test-harness/storage.mjs"
+  ],
+  "proof": {
+    "baseline": {
+      "files": 2,
+      "tests": 39,
+      "process": "baseline-process.json",
+      "terminal": "baseline-terminal.json"
+    },
+    "literalSpanPort": {
+      "files": 2,
+      "tests": 39,
+      "process": "span-final-process.json",
+      "terminal": "span-final-terminal.json",
+      "qualification": "Before formatter-only changes to these two files; no assertion or runtime logic changed afterward."
+    },
+    "finalSyntax": {
+      "files": 13,
+      "report": "final-syntax.json"
+    },
+    "finalLint": {
+      "process": "final-lint-process.json",
+      "terminal": "final-lint-terminal.json"
+    },
+    "finalFormat": {
+      "process": "final-format-process.json",
+      "terminal": "final-format-terminal.json"
+    },
+    "initialSetup": "before-process.json failed resolving zod before tests started; not a red behavior test"
+  },
+  "retired": [
+    {
+      "path": "apps/macos/tests/source-timing.test.mjs",
+      "guarantee": "Normalized cursor/pause integrity and capture/source admission",
+      "currentProof": [
+        "packages/core/src/evidence.test.ts",
+        "packages/test-harness/editing/evidence.mjs",
+        "packages/test-harness/editing/capture-evidence.mjs"
+      ]
+    },
+    {
+      "path": "apps/macos/tests/transcript-service.test.mjs",
+      "guarantee": "Selected-source transcript/public processing; actual speech quality remains a separate acceptance obligation",
+      "currentProof": [
+        "specs/agent-editing/assets/23-owner-fixture-ports/transcript-owner-purge-verification.json",
+        "packages/test-harness/editing/acceptance-voice-ready.mjs"
+      ]
+    },
+    {
+      "path": "apps/macos/tests/delivery-deletion.test.mjs",
+      "guarantee": "Managed public delivery lifetime after donor removal; old donor-revokes-independent-resource policy intentionally retired",
+      "currentProof": [
+        "specs/agent-editing/assets/23-owner-fixture-ports/batch-owner-contract-verification.json",
+        "packages/test-harness/editing/project-deletion.mjs"
+      ]
+    },
+    {
+      "path": "apps/macos/tests/index-lab.mjs",
+      "guarantee": "Current explicit source index policy, PNG paging and portable adoption",
+      "currentProof": [
+        "specs/agent-editing/assets/23-owner-fixture-ports/index-policy-verification.json",
+        "specs/agent-editing/assets/23-owner-fixture-ports/generic-index-owner-purge-verification.json"
+      ]
+    },
+    {
+      "path": "packages/test-harness/storage.mjs",
+      "guarantee": "Public current ownership, inventory and deletion",
+      "currentProof": [
+        "apps/service/tests/project-export-storage.mjs",
+        "packages/test-harness/editing/project-deletion.mjs",
+        "packages/test-harness/editing/capture-sparse-storage.mjs"
+      ]
+    },
+    {
+      "path": "packages/test-harness/src/timeline.ts",
+      "guarantee": "Current authored edit/history mappings; pure raw presentation algorithms remain independent",
+      "currentProof": [
+        "packages/composition/src/edits.test.ts",
+        "packages/test-harness/editing/projects.mjs",
+        "packages/core/src/presentation-evidence.test.ts",
+        "packages/core/src/trails.test.ts"
+      ]
+    }
+  ],
+  "nativePending": [
+    "source-processing path aliases/persisted raw cursor pages",
+    "scene-processing sparse actual native transition pixels at40s/80s +transports/restart",
+    "index-scale 30minute media/cache/RSS/responsiveness",
+    "trail-inspection authored pointer pixels/geometry/pause/cut/refusal/CLI/MCP",
+    "worker-deletion actual stopped native child before donor deletion and sibling resource continuity",
+    "source-lifetime orphan acquisition workspace/donor leases through parent death, retry/deletion",
+    "capture-source-budget actual huge audio interval/native cancellation/reaping",
+    "capture-terminal-boundaries retained native donor terminal recovery/source hashes",
+    "capture-video-render retained paused donor +explicit30fps previews",
+    "capture-service/recovery-lab physical capture/device/recovery"
+  ],
+  "limits": [
+    "No native/media/build/capture/model/full-suite run.",
+    "Syntax does not verify runtime exports, request acceptance, actual readability, lease behavior or media timing.",
+    "Movie caller authors30fps; does not prove retired original-clock movie equivalence.",
+    "Catalogformat22/currentRevisionId and production processing/library/timeline left to root final schema closure.",
+    "Other actors audio/preview/render-timing/evidence-pages/movie-lifetime/scale outside snapshot."
+  ]
+}

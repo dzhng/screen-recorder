@@ -1,9 +1,6 @@
-import { sourcePolicy } from "@screenrec/core/processing";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { scenePolicy } from "@screenrec/core/scenes";
+import { CaptureStore } from "@screenrec/core/capture-store";
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -15,8 +12,8 @@ import { callLocal } from "@screenrec/client";
 import { JsonLineStream, CONTROL_FRAME_BYTES } from "../../../../packages/protocol/dist/index.js";
 const main = fileURLToPath(new URL("../../../service/dist/main.js", import.meta.url));
 const cli = fileURLToPath(new URL("../../../cli/dist/main.js", import.meta.url));
-export async function until(read, message) {
-  const deadline = Date.now() + 15_000;
+export async function until(read, message, timeoutMs = 15_000) {
+  const deadline = Date.now() + timeoutMs;
   do {
     const value = await read();
     if (value) return value;
@@ -112,47 +109,50 @@ export async function connectPublicMcp(socket, name) {
   }
 }
 
-// A real library take sharing only package provenance, with no background fixture work.
-export async function seedPublicRecording(home, snapshot) {
-  const ids = [snapshot.recordingId, snapshot.sourceId];
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+/** Source facts alone; explicit import chooses whether this donor becomes managed media. */
+export async function seedCapture(home, facts) {
+  const library = join(home, "library");
+  await mkdir(library, { recursive: true, mode: 0o700 });
+  const ids = [facts.recordingId, facts.sourceId];
+  const store = new CaptureStore(join(library, "catalog.sqlite"), {
     now: () => "fixture",
     newId: () => ids.shift() ?? randomUUID(),
   });
-  const take = store.allocate().recording;
-  assert.equal(take.recordingId, snapshot.recordingId);
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "same-ID isolation fixture",
-    sourceDurationUs: snapshot.sourceDurationUs,
-  });
-  const jobs = new JobQueue({
-    store,
-    targets: recordingJobTargets(store),
-    providers: { newId: randomUUID },
-    execute: async () => {
-      throw new Error("Seeded canceled work must not execute");
-    },
-  });
-  for (const [artifact, input, lane] of [
-    ["source-evidence", sourcePolicy, "heavy"],
-    ["source-scenes", scenePolicy.id, "frame"],
-  ]) {
-    const job = jobs.submit({
-      target: { kind: "recording", recordingId: take.recordingId, revisionId: "r0" },
-      artifact,
-      input,
-      lane,
+  let take;
+  try {
+    take = store.allocate().recording;
+    assert.equal(take.recordingId, facts.recordingId);
+    store.ingestLifecycle(take.recordingId, {
+      sourceId: take.sourceId,
+      sequence: 1,
+      state: "interrupted",
+      reason: "generated source fixture",
+      sourceDurationUs: facts.sourceDurationUs,
     });
-    jobs.cancel(job.jobId);
+  } finally {
+    store.close();
   }
-  await jobs.close();
-  store.close();
-  await mkdir(join(home, "recordings", take.recordingId, "source"), {
+  await mkdir(join(library, "recordings", take.recordingId, "source"), {
     recursive: true,
     mode: 0o700,
   });
   return take;
+}
+
+/** Explicit acquisition admission; no capture, project, editing or dependency policy is inferred. */
+export async function importAcquisition(service, path, requestId = randomUUID()) {
+  const admitted = await service.call("acquisition.import", { requestId, path });
+  assert.equal(admitted.ok, true, JSON.stringify(admitted));
+  const job = await until(async () => {
+    const reply = await service.call("job.get", { jobId: admitted.data.jobId });
+    assert.equal(reply.ok, true, JSON.stringify(reply));
+    assert.ok(
+      !["failed", "canceled", "unavailable"].includes(reply.data.state),
+      JSON.stringify(reply),
+    );
+    return reply.data.state === "ready" && reply.data;
+  }, "Acquisition admission did not become ready");
+  const reply = await service.call("acquisition.get", { acquisitionId: job.result.acquisitionId });
+  assert.equal(reply.ok, true, JSON.stringify(reply));
+  return { job, acquisition: reply.data };
 }

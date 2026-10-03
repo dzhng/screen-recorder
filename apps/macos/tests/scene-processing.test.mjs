@@ -1,41 +1,21 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { randomUUID, createHash } from "node:crypto";
-import { mkdir, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { callLocal } from "@screenrec/client";
-import { RevisionStore } from "@screenrec/core/library";
 import {
-  SceneEvidenceStore,
-  recordingSceneOwner,
-  recordingSceneIdentity,
-} from "@screenrec/core/scene-evidence";
-import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+  startPublicService,
+  publicCommand,
+  connectPublicMcp,
+  until,
+} from "./fixtures/public-service.mjs";
+import { temporary } from "./harness.mjs";
 
-const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
-test("bundled canonical scene scan retains sparse actual-time transitions and survives restart", async () => {
+// Generated sparse native pixels remain an explicit execution gate.
+test("selected-source scenes retain sparse actual-time transitions across transports and restart", async () => {
   const home = temporary("/tmp/scr-scenes-public-");
-  const open = () =>
-    new RevisionStore(join(home, "library.sqlite"), {
-      now: () => new Date().toISOString(),
-      newId: randomUUID,
-    });
-  const store = open(),
-    take = store.allocate().recording;
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "generated sparse source",
-    sourceDurationUs: 120_000_000,
-  });
-  store.close();
-  const source = join(home, "recordings", take.recordingId, "source");
-  await mkdir(source, { recursive: true });
-  const video = join(source, "video.mov");
+  const video = join(home, "video.mov");
   const generated = spawnSync(
     "ffmpeg",
     [
@@ -77,88 +57,67 @@ test("bundled canonical scene scan retains sparse actual-time transitions and su
       .update(await readFile(video))
       .digest("hex");
   const original = await hash();
-  const { instance } = await launchReady(home);
-  const request = {
-    id: randomUUID(),
-    operation: "processing.status",
-    params: { recordingId: take.recordingId, artifact: "scenes" },
-  };
-  let ready;
-  await waitFor(async () => {
-    const response = await callLocal(socketPath(home), request);
-    assert.equal(response.ok, true, JSON.stringify(response));
-    if (response.data.state === "failed") throw new Error(JSON.stringify(response.data));
-    if (response.data.state !== "ready") return false;
-    ready = response.data;
-    return true;
-  }, 20000);
-  const inspect = open();
+  let service = await startPublicService(home, process.env.SCREENREC_NATIVE);
   try {
-    const evidence = new SceneEvidenceStore(inspect, recordingSceneOwner(inspect)),
-      identity = recordingSceneIdentity(ready.published.evidence);
-    let afterStartUs,
-      total = 0;
-    const transitions = [];
-    for (;;) {
-      const page = evidence.page({
-        identity,
-        limit: 2,
-        ...(afterStartUs === undefined ? {} : { afterStartUs }),
-      });
-      total += page.chunks.length;
-      transitions.push(
-        ...page.chunks
-          .flatMap((chunk) => chunk.comparisons)
-          .filter((pair) => pair.boundary)
-          .map((pair) => pair.actualSourceUs),
+    const pending = await service.call("asset.import", { requestId: randomUUID(), path: video });
+    assert.equal(pending.ok, true, JSON.stringify(pending));
+    const imported = await until(async () => {
+      const response = await service.call("job.get", { jobId: pending.data.jobId });
+      assert.equal(response.ok, true, JSON.stringify(response));
+      assert.ok(
+        !["failed", "canceled", "unavailable"].includes(response.data.state),
+        JSON.stringify(response),
       );
-      if (page.nextStartUs === null) break;
-      afterStartUs = page.nextStartUs;
-    }
-    assert.equal(total, 12);
+      return response.data.state === "ready" && response.data;
+    }, "Sparse video import");
+    const asset = await service.call("asset.get", { assetId: imported.result.assetId });
+    assert.equal(asset.ok, true, JSON.stringify(asset));
+    const streams = asset.data.streams.filter((stream) => stream.kind === "video");
+    assert.equal(streams.length, 1);
+    const params = {
+      assetId: asset.data.id,
+      streamId: streams[0].id,
+      sourceRange: { startUs: 0, endUs: 120_000_000 },
+      limit: 2,
+    };
+    const ready = await until(async () => {
+      const response = await service.call("timeline.events", params);
+      assert.equal(response.ok, true, JSON.stringify(response));
+      assert.ok(!["failed", "unavailable"].includes(response.data.state), JSON.stringify(response));
+      return response.data.state === "ready" && response.data;
+    }, "Sparse source scenes");
+    assert.equal(ready.context.scene.evidence.chunkCount, 12);
+    const transitions = [];
+    let cursor;
+    do {
+      const response = cursor
+        ? await service.call("timeline.events", { ...params, cursor })
+        : { ok: true, data: ready };
+      assert.equal(response.ok, true, JSON.stringify(response));
+      transitions.push(
+        ...response.data.page.rows
+          .filter((row) => row.kind === "scene")
+          .map((row) => row.sourceAtUs),
+      );
+      cursor = response.data.page.nextCursor;
+    } while (cursor);
     assert.deepEqual(transitions, [40_000_000, 80_000_000]);
+    assert.deepEqual(publicCommand(service.socket, "timeline.events", params), ready);
+    const client = await connectPublicMcp(service.socket, "scene-processing-proof");
+    try {
+      const response = await client.callTool({ name: "timeline.events", arguments: params });
+      assert.equal(response.structuredContent.ok, true, JSON.stringify(response));
+      assert.deepEqual(response.structuredContent.data, ready);
+    } finally {
+      await client.close();
+    }
+    await service.close();
+    service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+    const again = await service.call("timeline.events", params);
+    assert.equal(again.ok, true, JSON.stringify(again));
+    assert.deepEqual(again.data, ready);
+    assert.equal(await hash(), original);
   } finally {
-    inspect.close();
+    await service.close();
   }
-  const run = spawnSync(
-    process.execPath,
-    [
-      cli,
-      "processing.status",
-      "--socket",
-      socketPath(home),
-      "--params",
-      JSON.stringify(request.params),
-    ],
-    { encoding: "utf8", timeout: 10000 },
-  );
-  assert.equal(run.status, 0, run.stderr);
-  assert.deepEqual(JSON.parse(run.stdout).data, ready);
-  const client = new Client({ name: "scene-processing-proof", version: "1" });
-  try {
-    await client.connect(
-      new StdioClientTransport({
-        command: process.execPath,
-        args: [cli, "mcp", "--socket", socketPath(home)],
-        stderr: "pipe",
-      }),
-    );
-    const response = await client.callTool({
-      name: "processing.status",
-      arguments: request.params,
-    });
-    assert.equal(response.isError, false);
-    assert.deepEqual(response.structuredContent.data, ready);
-  } finally {
-    await client.close();
-  }
-  instance.kill("SIGTERM");
-  await instance.exited;
-  const { instance: restarted } = await launchReady(home);
-  const again = await callLocal(socketPath(home), { ...request, id: randomUUID() });
-  assert.equal(again.ok, true);
-  assert.deepEqual(again.data, ready);
-  assert.equal(await hash(), original);
-  restarted.kill("SIGTERM");
-  await restarted.exited;
 });

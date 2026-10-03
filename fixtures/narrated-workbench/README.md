@@ -16,8 +16,8 @@ plus the catalog facts a library needs to adopt them. Transcripts, scenes, scree
 exports are derived, so they are not stored: the service prepares them again from this source,
 which is what makes the fixture worth checking against.
 
-`node packages/test-harness/load-fixture.mjs` copies it into a library of its own and prints that
-home and its recording ID, so a check never touches a person's own recordings.
+`node packages/test-harness/load-fixture.mjs` admits it into a library of its own and prints that
+home and its acquisition/source bindings, so a check never touches a person's own recordings.
 
 This take shows a browser on a local fixture page and carries the narrator's voice. Treat it as
 the personal content it is.

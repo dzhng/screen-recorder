@@ -7549,3 +7549,43 @@ retired policy owner. This choice belongs to `2ab9dbdc`; independent positive an
 negative controls retain the numerical contract, while codec and whole-movie
 guarantees stay with their separate checks. The plan required endpoint preservation
 without requiring the obsolete whole-recording recipe.
+
+
+### Capture/source caller ownership pass (886c24f5 baseline)
+
+**Sound, medium confidence — reuse current proofs instead of cloning retired policy labs.**
+When an old recording-index or timeline lab prepares an automatic editing history,
+porting that setup would preserve a second editing owner. This pass retires those
+labs and points at current project edits, source index, source evidence, storage
+and transcript proof banks. Sparse native scene pixels, stopped-worker deletion,
+orphan source lifetimes, trail pixels and capture recovery still have actual native
+callers; their execution remains pending. The gap was which old assertions deserved
+another live gate. This choice constrains later closure to match each unique native
+claim rather than treating syntax as proof or rerunning every obsolete workflow.
+
+**Sound, medium confidence — the movie caller consumes a retained paused take.**
+A caller that checks pause/source intervals now names an existing donor directory,
+admits it explicitly and authors the full and cut projects. It never asks capture
+to make another recording. Its authored canvas uses 30 fps; this checks the current
+composition preview contract when executed, not equivalence to the retired variable
+source-clock movie path. The gap was how to preserve this useful caller while new
+capture was forbidden. Future execution must name an actual paused donor and must
+not claim original-clock timing or listening quality from this syntax-only port.
+
+**Sound, high confidence — source facts and admission stay separate in fixtures.**
+A generated donor first receives capture identity and terminal facts in the canonical
+catalog. The fixture then explicitly imports the source and waits for that job; it
+never creates a project or marks fake preparation jobs canceled. An existing library
+may already contain projects, so importing a take asserts that its project list stays
+unchanged. The gap was the shared setup required by live native callers. The shared
+public-service fixture now owns that setup, while actual edits remain visible at each
+caller. This preserves the product's zero-editorial-decision boundary.
+
+**Sound, medium confidence — current orphan acquisition refusal is workspace-wide.**
+An orphan native child holding an acquisition workspace causes acquisition recovery
+to refuse with ACQUISITION_BUSY; an orphan holding its capture donor causes removal
+to refuse with RECORDING_BUSY. After the actual child is gone, recovery or explicit
+deletion can proceed. The old per-recording processing cleanup policy is retired,
+rather than rebuilt beside acquisition recovery. The gap was how to retain the
+valuable cross-process lifetime assertion after its recording-processing owner lost
+its callers. These native checks are ported recipes, not newly observed outcomes.

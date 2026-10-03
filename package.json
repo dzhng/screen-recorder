@@ -15,7 +15,6 @@
     "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
     "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
     "lab:client-image": "node packages/test-harness/dist/client-image.js",
-    "lab:timeline": "node packages/test-harness/dist/timeline.js",
     "lab:speech-eval": "node scripts/speech-eval.mjs",
     "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
     "lab:workbench": "bun run --cwd apps/workbench dev",
@@ -26,9 +25,7 @@
     "screenrec": "node apps/cli/dist/main.js",
     "install:personal": "bun run build && node scripts/install-personal.mjs",
     "signing-identity": "node scripts/signing-identity.mjs",
-    "lab:index": "bun run --cwd packages/test-harness lab:index",
     "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
-    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
     "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
     "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
     "lab:personal-release": "node packages/test-harness/personal-release.mjs"

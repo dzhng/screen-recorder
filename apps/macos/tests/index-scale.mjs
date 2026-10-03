@@ -8,7 +8,7 @@ import { arch, cpus, platform, release } from "node:os";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
-import { RevisionStore } from "@screenrec/core/library";
+import { until } from "./fixtures/public-service.mjs";
 import { app, launchReady, socketPath, temporary } from "./harness.mjs";
 
 // Explicit long-running lab, excluded from the default native test glob. Build first.
@@ -29,22 +29,7 @@ function run(command, args, timeout = 30_000) {
 }
 
 async function fixture(home) {
-  const store = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => new Date().toISOString(),
-    newId: randomUUID,
-  });
-  const take = store.allocate().recording;
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "generated animated index scale",
-    sourceDurationUs: durationUs,
-  });
-  store.close();
-  const source = join(home, "recordings", take.recordingId, "source");
-  await mkdir(source, { recursive: true });
-  const video = join(source, "video.mov");
+  const video = join(home, "video.mov");
   const input = process.env.SCREENREC_INDEX_SCALE_VIDEO;
   if (input) {
     assert.ok(isAbsolute(input), "Fixture input must be an absolute path");
@@ -83,52 +68,7 @@ async function fixture(home) {
   assert.equal(stream.height, 180);
   assert.equal(stream.avg_frame_rate, "30/1");
   assert.equal(Number(stream.duration), durationUs / 1_000_000);
-  const geometry = {
-    outputWidth: 320,
-    outputHeight: 180,
-    contentScale: 1,
-    scaleFactor: 1,
-    contentRect: { x: 0, y: 0, width: 320, height: 180 },
-    screenRect: { x: 0, y: 0, width: 320, height: 180 },
-  };
-  const rows = [
-    {
-      event: "header",
-      data: {
-        schemaVersion: 1,
-        sessionID: take.sourceId,
-        source: { kind: "window", windowID: 1 },
-        width: 320,
-        height: 180,
-        microphone: false,
-        systemAudio: false,
-      },
-    },
-    { event: "origin", data: { hostUs: 1_000_000 } },
-    { event: "geometry", data: { epoch: 1, hostUs: 1_000_000, sourceUs: 0, geometry } },
-  ];
-  for (let start = 0; start < 9000; start += 30)
-    rows.push({
-      event: "cursorSamples",
-      data: {
-        samples: Array.from({ length: 30 }, (_, j) => ({
-          sourceUs: (start + j) * 200_000,
-          x: -10,
-          y: -10,
-          globalX: -10,
-          globalY: -10,
-          buttons: 0,
-          eligibility: "outside",
-          geometryEpoch: 1,
-        })),
-      },
-    });
-  rows.push({ event: "finished", data: {} });
-  await writeFile(
-    join(source, "capture.journal.jsonl"),
-    rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row })).join("\n") + "\n",
-  );
-  return { take, video, input: input ?? "generated:testsrc2" };
+  return { video, input: input ?? "generated:testsrc2" };
 }
 
 function sampleMemory(servicePid, report) {
@@ -204,7 +144,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     report.nativeExecutableSha256 = await hash(app);
     report.serviceBundleSha256 = await hash(join(dirname(app), "../Resources/service/main.mjs"));
     await save();
-    const { take, video, input } = await fixture(home);
+    const { video, input } = await fixture(home);
     report.sourceHash = await hash(video);
     report.input = input;
     const launched = await launchReady(home);
@@ -213,7 +153,6 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     started = Date.now();
     Object.assign(report, {
       state: "running",
-      recordingId: take.recordingId,
       startedAt: new Date(started).toISOString(),
     });
     await save();
@@ -228,6 +167,17 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
       assert.ok(!["failed", "unavailable"].includes(reply.data.state), JSON.stringify(reply.data));
       return reply.data;
     };
+    const admitted = await call("asset.import", { requestId: randomUUID(), path: video });
+    const imported = await until(async () => {
+      const job = await call("job.get", { jobId: admitted.jobId });
+      assert.notEqual(job.state, "canceled");
+      return job.state === "ready" && job;
+    }, "Scale source import");
+    const asset = await call("asset.get", { assetId: imported.result.assetId });
+    const streams = asset.streams.filter((stream) => stream.kind === "video");
+    assert.equal(streams.length, 1);
+    const selector = { assetId: asset.id, streamId: streams[0].id };
+    Object.assign(report, selector);
     let ready,
       nextCheckpoint = 0,
       nextMemory = 0,
@@ -240,7 +190,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
         nextMemory = now + 1000;
       }
       if (now >= nextCheckpoint || result.state === "ready") {
-        const metrics = await indexScaleMetrics(join(home, "library.sqlite"));
+        const metrics = await indexScaleMetrics(join(home, "library", "catalog.sqlite"));
         const checkpoint = {
           elapsedMs: now - started,
           state: result.state,
@@ -256,7 +206,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
       }
     };
     for (;;) {
-      const result = await call("index.get", { recordingId: take.recordingId, limit: 1 });
+      const result = await call("index.get", { ...selector, limit: 1 });
       if (result.jobId && indexStarted === undefined) {
         indexStarted = Date.now();
         report.indexStartedMs = indexStarted - started;
@@ -269,9 +219,8 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
         let frame;
         do {
           frame = await call("frame.get", {
-            recordingId: take.recordingId,
+            ...selector,
             atUs: 900_000_000,
-            clean: true,
           });
           await observe(result);
           if (frame.state !== "ready") await delay(25, undefined, { signal: t.signal });
@@ -298,9 +247,9 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
       cursor;
     for (;;) {
       const page = await call("index.get", {
-        recordingId: take.recordingId,
+        ...selector,
         limit: 200,
-        ...(cursor ? { cursor } : { revisionId: "r0" }),
+        ...(cursor ? { cursor } : {}),
       });
       assert.equal(page.state, "ready");
       pages++;
@@ -311,7 +260,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     }
     assert.equal(candidates, ready.page.metadata.candidateCount);
     assert.equal(await hash(video), report.sourceHash);
-    const metrics = await indexScaleMetrics(join(home, "library.sqlite"), 5000);
+    const metrics = await indexScaleMetrics(join(home, "library", "catalog.sqlite"), 5000);
     assert.notEqual(
       metrics,
       null,

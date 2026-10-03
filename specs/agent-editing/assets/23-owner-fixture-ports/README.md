@@ -47,6 +47,13 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Recorded silence, missing samples and late stream consumer failure | [Native audio](source-native-audio-contracts-verification.json) |
 | Resampling exclusion and admitted source endpoints | [Audio endpoints](composition-audio-endpoints-verification.json) |
 
+[Capture/source caller ports](capture-source-caller-verification.json) bind the remaining
+source, capture, recovery and pointer callers to current acquisition/project owners.
+Only their syntax and the unchanged pure presentation algorithms ran in that pass;
+actual native scene, scale, trail, orphan-worker and retained paused-movie gates
+remain execution obligations. Historical lab commands in the recording spec are
+retained evidence, not runnable current entry points.
+
 ## Ownership and proof limits
 
 Capture creates source facts; projects own edits. Deleting a capture does not

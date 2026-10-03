@@ -3,7 +3,6 @@ import { mkdtemp, rm, writeFile, open } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { PresentationEvidence } from "./presentation-evidence.js";
-import { createOriginalRevision, createRevision } from "./timeline.js";
 import { observeVisualSamples } from "./scenes.js";
 
 const cleanups: (() => Promise<void>)[] = [];
@@ -23,11 +22,7 @@ const frame = (start: number, end: number, pts: number, shade: number, spanIndex
   height: 8,
   rgbBase64: Buffer.alloc(8 * 8 * 3, shade).toString("base64"),
 });
-const revision = createRevision(
-  createOriginalRevision(2_000_000, "fixture"),
-  [{ startUs: 750_000, endUs: 1_250_000 }],
-  { id: "cut", operation: "cut", createdAt: "fixture" },
-);
+const revision = { spans: [{ startUs: 750_000, endUs: 1_250_000 }], durationUs: 500000 };
 async function fixture(
   records: unknown[] = [
     frame(750_000, 1_000_000, 0, 0),
@@ -110,7 +105,7 @@ test("fractional boundaries use exact integer arithmetic, including clock values
       (BigInt(boundary.value) * 2000000n + BigInt(boundary.timescale)) /
         (2n * BigInt(boundary.timescale)),
     );
-    const pinned = createOriginalRevision(below + 2, "fixture");
+    const pinned = { spans: [{ startUs: 0, endUs: below + 2 }], durationUs: below + 2 };
     const f = await fixture(
       [
         { ...frame(0, 1, 0, 0), end: boundary },
@@ -173,14 +168,13 @@ test("admission rejects gaps, overlaps, false pictures and missing tail coverage
 });
 
 test("retained spans skip deleted time while proving complete explicit empty support", async () => {
-  const pinned = createRevision(
-    createOriginalRevision(3_000_000, "fixture"),
-    [
+  const pinned = {
+    spans: [
       { startUs: 0, endUs: 100_000 },
       { startUs: 2_000_000, endUs: 3_000_000 },
     ],
-    { id: "cuts", operation: "cut", createdAt: "fixture" },
-  );
+    durationUs: 1100000,
+  };
   const f = await fixture(
     [
       frame(0, 100_000, 0, 0),
@@ -199,7 +193,7 @@ test("retained spans skip deleted time while proving complete explicit empty sup
 });
 
 test("history cursor preserves exact physical-empty reset boundaries even when queries skip gaps", async () => {
-  const pinned = createOriginalRevision(2_000_000, "history");
+  const pinned = { spans: [{ startUs: 0, endUs: 2_000_000 }], durationUs: 2_000_000 };
   const rows = [
     frame(0, 400_000, 0, 0),
     {

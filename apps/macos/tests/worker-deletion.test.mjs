@@ -8,7 +8,8 @@ import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
-import { RevisionStore } from "@screenrec/core/library";
+import { CaptureStore } from "@screenrec/core/capture-store";
+import { importAcquisition } from "./fixtures/public-service.mjs";
 import {
   alive,
   app,
@@ -22,7 +23,8 @@ import {
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 async function generated(home, seconds) {
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  await mkdir(join(home, "library"), { recursive: true, mode: 0o700 });
+  const store = new CaptureStore(join(home, "library", "catalog.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -39,7 +41,7 @@ async function generated(home, seconds) {
   } finally {
     store.close();
   }
-  const directory = join(home, "recordings", take.recordingId),
+  const directory = join(home, "library", "recordings", take.recordingId),
     source = join(directory, "source");
   await mkdir(source, { recursive: true });
   const video = join(source, "video.mov");
@@ -115,8 +117,18 @@ test(
       assert.equal(result.ok, true, `${operation}: ${JSON.stringify(result)}`);
       return result.data;
     };
+    const siblingImport = await importAcquisition({ call }, join(sibling.directory, "source"));
+    const binding = siblingImport.acquisition.bindings.find((value) =>
+      value.sourceRoles.includes("video"),
+    );
+    assert.ok(binding);
+    const selector = {
+      assetId: binding.assetId,
+      streamId: binding.streamId,
+      acquisitionId: siblingImport.acquisition.id,
+    };
     const siblingIndex = await waitFor(async () => {
-      const result = await succeeds("index.get", { recordingId: sibling.recordingId, limit: 1 });
+      const result = await succeeds("index.get", { ...selector, limit: 1 });
       if (["failed", "unavailable"].includes(result.state)) throw new Error(JSON.stringify(result));
       return result.state === "ready" && result;
     }, 20_000);
@@ -137,10 +149,12 @@ test(
     };
     const siblingImage = await readSibling(),
       siblingHash = digest(await readFile(sibling.video));
-    const siblingUsage = await succeeds("storage.usage", { recordingId: sibling.recordingId });
     // Seed only after the sibling is ready, so the service's sole native media child is attributable.
     const take = await generated(home, 30);
-    await succeeds("index.get", { recordingId: take.recordingId, limit: 1 });
+    const importJob = await succeeds("acquisition.import", {
+      requestId: randomUUID(),
+      path: join(take.directory, "source"),
+    });
     const native = join(app, "..", "screenrec-native");
     let worker;
     await waitFor(
@@ -164,7 +178,7 @@ test(
       encoding: "utf8",
     }).trim();
     assert.match(state, /T/, "The actual native worker must be stopped before deletion starts");
-    const catalog = new DatabaseSync(join(home, "library.sqlite"), { readOnly: true });
+    const catalog = new DatabaseSync(join(home, "library", "catalog.sqlite"), { readOnly: true });
     let active;
     try {
       catalog.exec("PRAGMA busy_timeout=1000");
@@ -176,19 +190,18 @@ test(
     }
     assert.ok(active.length > 0);
     assert.ok(
-      active.every((job) => job.targetKind === "recording" && job.targetId === take.recordingId),
+      active.every(
+        (job) =>
+          job.targetKind === "acquisition" && job.targetId === importJob.target.acquisitionId,
+      ),
       JSON.stringify(active),
     );
-    assert.ok(
-      active.some((job) =>
-        ["source-evidence", "source-scenes", "screenshot-index"].includes(job.artifact),
-      ),
-    );
+    assert.ok(active.some((job) => job.artifact === "acquisition.import"));
     assert.equal(existsSync(take.directory), true);
     assert.equal(alive(worker.pid), true);
 
-    const usageBefore = await succeeds("storage.usage", { recordingId: take.recordingId });
-    assert.ok(usageBefore.sourceBytes > 0);
+    const recordingBefore = await succeeds("recording.get", { recordingId: take.recordingId });
+    assert.equal(recordingBefore.recordingId, take.recordingId);
     let finished = false,
       observations = 0,
       sawDirectoryRemoved = false;
@@ -219,13 +232,9 @@ test(
       (await call("recording.get", { recordingId: take.recordingId })).error.code,
       "NOT_FOUND",
     );
-    const usageAfter = await call("storage.usage", { recordingId: take.recordingId });
-    assert.equal(usageAfter.ok, false);
-    assert.equal(usageAfter.error.code, "NOT_FOUND");
-    const siblingUsageAfter = await succeeds("storage.usage", { recordingId: sibling.recordingId });
-    const { observedAt: _beforeTime, ...beforeBytes } = siblingUsage;
-    const { observedAt: _afterTime, ...afterBytes } = siblingUsageAfter;
-    assert.deepEqual(afterBytes, beforeBytes);
+    const recordingAfter = await call("recording.get", { recordingId: take.recordingId });
+    assert.equal(recordingAfter.ok, false);
+    assert.equal(recordingAfter.error.code, "NOT_FOUND");
     assert.deepEqual(await readSibling(), siblingImage);
     assert.equal(digest(await readFile(sibling.video)), siblingHash);
     assert.equal((await succeeds("service.health")).status, "ready");
@@ -233,10 +242,8 @@ test(
     const report = {
       generated: true,
       ownedProcessesReaped: true,
-      usageBefore,
-      usageAfter: usageAfter.error.code,
-      siblingUsage,
-      siblingUsageAfter,
+      recordingBefore,
+      recordingAfter: recordingAfter.error.code,
       servicePid,
       workerPid: worker.pid,
       workerStateBeforeDelete: state,
