@@ -1,3 +1,11 @@
+import { ProjectPackages } from "../../dist/project-packages.js";
+import { AcquisitionImporter } from "@screenrec/core/acquisitions";
+import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SceneProcessing } from "@screenrec/core/scene-processing";
+import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
+import { IndexProcessing } from "@screenrec/core/index-processing";
+import { sourceIndexDomain } from "@screenrec/core/source-index";
+import { Models } from "@screenrec/core/models";
 import { ProjectDeletion } from "../../dist/project-deletion.js";
 import { DerivativeDelivery } from "../../dist/delivery.js";
 import { ManagedStorage } from "@screenrec/core/storage";
@@ -58,12 +66,12 @@ export async function fixture(
     assets = new AssetStore(catalog, home);
   await assets.recover();
   const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(
-      catalog,
-      assets,
-      new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)),
-      acquisitions,
-    ),
+  const transcriptRecords = new TranscriptStore(
+    catalog,
+    home,
+    assetTranscriptOwner(assets, acquisitions),
+  );
+  const projects = new ProjectStore(catalog, assets, transcriptRecords, acquisitions),
     cache = new DerivedCache(catalog, home, (owner) => {
       assert.equal(owner.kind, "project");
       projects.get(owner.projectId);
@@ -164,6 +172,57 @@ export async function fixture(
     ),
   );
   const delivery = new DerivativeDelivery();
+  const evidence = new SourceEvidenceStore(catalog, (identity) => {
+    assert.equal(identity.owner.kind, "acquisition");
+    acquisitions.intent(identity.owner.acquisitionId);
+  });
+  const acquisitionImports = new AcquisitionImporter(catalog, acquisitions, assets, evidence, home);
+  const sceneProcessing = new SceneProcessing({
+    jobs,
+    evidence: scenes,
+    asset: {
+      assets,
+      acquisitions,
+      implementationId: "package-fixture-scenes",
+      sample: async () => {
+        throw new Error("Scene rendering was not requested");
+      },
+    },
+  });
+  const models = new Models(home);
+  const transcripts = new TranscriptProcessing({
+    jobs,
+    transcripts: transcriptRecords,
+    models: models.transcription("parakeet"),
+    asset: { assets, acquisitions },
+    transcribe: async () => {
+      throw new Error("Transcription was not requested");
+    },
+  });
+  const sourceIndex = new ScreenshotIndexStore(
+    catalog,
+    home,
+    sourceIndexDomain((selection) => selectSource(assets, acquisitions, selection), scenes, null),
+  );
+  const indexes = new IndexProcessing({ jobs });
+  const packages = new ProjectPackages({
+    directory: home,
+    projects,
+    assets,
+    acquisitions: acquisitionImports,
+    preparedAudio: prepared,
+    sceneRecords: scenes,
+    scenes: sceneProcessing,
+    transcriptRecords,
+    transcripts,
+    indexRecords: sourceIndex,
+    indexes,
+    projectIndexRecords: index,
+    jobs,
+    worker,
+    delivery,
+  });
+  domain.package = packages;
   const deletion = new ProjectDeletion(projects, jobs, cache, files, delivery, exports, index);
   const storage = new ManagedStorage(null, cache, home, (signal) =>
     exports.usage(undefined, signal),
@@ -177,6 +236,7 @@ export async function fixture(
     await deletion.close();
     await exports.close();
     await jobs.close();
+    await packages.close();
     delivery.dispose();
     catalog.close();
   };
@@ -262,6 +322,7 @@ export async function fixture(
     binding,
     deletion,
     storage,
+    packages,
     replaceRenderer(implementationId) {
       preview = new ProjectPreviewInspection(
         projects,

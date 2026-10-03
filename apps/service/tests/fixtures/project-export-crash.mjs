@@ -32,9 +32,13 @@ export async function killExportOwner(f, gap, extra = {}) {
   }
 }
 
-export async function crashFixture(t, gap, wrap) {
+export async function crashFixture(t, gap, wrap, kind = "video") {
   const f = await fixture(t, { admission: false });
-  const request = { ...f.request(), leaf: "recovered.mp4" };
+  const request = {
+    ...f.request(),
+    kind,
+    leaf: kind === "processed-package" ? "recovered.zip" : "recovered.mp4",
+  };
   await f.exports.create(request);
   await f.jobs.idle();
   await f.close();
@@ -100,7 +104,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       wrap:
         (run) =>
         async (op, ...args) => {
-          if (gap === "ack" && op === "publication.acknowledge") {
+          if (
+            (gap === "ack" && op === "publication.acknowledge") ||
+            (gap === "package-copy" && op === "archive.write")
+          ) {
             process.send({ gap });
             await new Promise(() => {});
           }
@@ -108,7 +115,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
           if (
             (gap === "commit" && op === "publication.commit") ||
             (gap === "allocate" && op === "publication.allocate") ||
-            (gap === "abandon" && op === "publication.retire")
+            (gap === "abandon" && op === "publication.retire") ||
+            (gap === "package-create" && op === "packageWorkspace.create") ||
+            (gap === "package-write" && op === "archive.write") ||
+            (gap === "package-commit" && op === "publication.commit") ||
+            (gap === "package-cleanup" && op === "packageWorkspace.remove")
           ) {
             process.send({ gap });
             await new Promise(() => {});
