@@ -1,6 +1,12 @@
 import Foundation
 @testable import ScreenRecorderWire
 
+if ["--pump-control", "--pump-fault"].contains(CommandLine.arguments[1]) {
+    try await checkMoviePumpFailure(requestFile: CommandLine.arguments[2],
+        faultRequested: CommandLine.arguments[1] == "--pump-fault")
+    exit(0)
+}
+
 if CommandLine.arguments[1] == "--finish-cancel" {
     try await checkMovieFinishingCancellation(requestFile: CommandLine.arguments[2])
     exit(0)
