@@ -1,0 +1,107 @@
+{
+  "baseline": "f272b2facf1cb95d8dbb6ccb170269c45fdb88ae",
+  "commit": "7cd42c3cf8f041acdea32a620dd14b5c4cfe6c15",
+  "integratedCommit": "47305aab",
+  "sourcePins": [
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift",
+      "sha256": "fbf2da4f9a34d75bdb085d139cc6414decf620dcd95290534cb0204fd5d8959a",
+      "gitBlob": "681bd278d89199782f38a0bbd415353e222236bc"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/SourcePictureTests.swift",
+      "sha256": "9f8522158c618825f25169340e371383798d2595961e2916b1549c80dd3a9093",
+      "gitBlob": "ab07255588a35ebe36ed6f0e891d3b9eb6fbb922"
+    }
+  ],
+  "scope": "One focused --source-pictures selector executes existing small current CompositionPNG/source-colors/movie-terminal/ExactPresentation prefix plus new selected raw-picture capsules, then exits before old FrameSource body. Source fixtures8 frames each.",
+  "evidence": {
+    "path": "source-native-pictures-evidence.tar.gz",
+    "bytes": 2137503,
+    "sha256": "e3dd34d4398188b3496c2869ff25c9f0518e7e3087b700ce4b6f23eb8a37c3c8",
+    "payloadCount": 76,
+    "report": "report.json",
+    "testSources": "test-source-pins.json",
+    "operands": "operand-pins.json",
+    "sharedNativeManifestBank": "source-native-consumers-evidence.tar.gz",
+    "sharedManifestMember": "source-native-consumers-26351af2/native-source-pins.json",
+    "sharedManifestSHA256": "f6cc2fcd0cc6cb5bb14cdcc2dae0854b01f5331e86ac2fca75885d72242cf9af"
+  },
+  "build": {
+    "process": {
+      "argv": [
+        "swift",
+        "build",
+        "--package-path",
+        "helpers/mac",
+        "--scratch-path",
+        "/Users/david/.codex/worktrees/source-native-consumers/screen-recorder/helpers/mac/.build",
+        "--disable-automatic-resolution",
+        "--skip-update",
+        "--product",
+        "ScreenRecorderFrameTests",
+        "--jobs",
+        "2"
+      ],
+      "pid": 53408,
+      "start": 1790998004.521199
+    },
+    "terminal": {
+      "exit": 0,
+      "seconds": 7.3953821659088135,
+      "waited": true
+    },
+    "binary": "ScreenRecorderFrameTests",
+    "binarySHA256": "d6e525a151d8fa838c9790c1b688c00944d6d8bed85ef8432a97918a8a8d35ab"
+  },
+  "runtime": {
+    "process": {
+      "argv": [
+        "/Users/david/.codex/worktrees/source-native-consumers/screen-recorder/helpers/mac/.build/debug/ScreenRecorderFrameTests",
+        "--source-pictures"
+      ],
+      "pid": 53712,
+      "start": 1790998038.051208,
+      "binarySHA256": "d6e525a151d8fa838c9790c1b688c00944d6d8bed85ef8432a97918a8a8d35ab",
+      "sourceSHA256": "9f8522158c618825f25169340e371383798d2595961e2916b1549c80dd3a9093",
+      "scope": "Existing small current CompositionPNG/ExactPresentation prefix plus new raw-source capsules; exits before legacy FrameSource fixtures and6000-frame body"
+    },
+    "terminal": {
+      "exit": 0,
+      "seconds": 1.635145902633667,
+      "waited": true
+    },
+    "metrics": {
+      "boundedBytes": 1836,
+      "cornerDeltas": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "referenceDifference": 0.021061989379069952,
+      "rgbCornerDeltas": [
+        2.7755575615628914e-17,
+        1.1102230246251565e-16,
+        3.3306690738754696e-16,
+        2.7755575615628914e-17
+      ]
+    }
+  },
+  "limits": [
+    "No native worker build/execution in this pass; changed test executable uses unchanged source-pinned Media/Frames modules",
+    "No whole native/legacy6000-frame runtime, capture, installed app switch, model inference, qualitative visual acceptance or platform random-seek timing equivalence",
+    "Original old raw-picture declarations remain until matched engine removal; no legacy production code or tests deleted in this pass"
+  ],
+  "remaining": [
+    "Legacy crop/overlay/pointer/readability semantics require current authored composition/pointer ownership; this source picture test does not add crop or overlay to sourceFrame",
+    "Other audio/movie numerical contracts and shared types/owners remain as named in previous matched map",
+    "Current CompositionPNG/ExactPresentation/SourceSceneBounds/PresentationEvidence entrypoint consumers must remain during old main body removal"
+  ],
+  "rootVerification": {
+    "allPayloadsMatchFrozenPrivateFiles": 76,
+    "currentTestSourcesMatch": 2,
+    "focusedExecutableHashVerified": true,
+    "scope": "Root complete source review and exact payload/source/executable binding; runtime is original saved actor execution."
+  }
+}

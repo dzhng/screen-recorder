@@ -1,0 +1,55 @@
+{
+  "baseline": "26351af297cefdc7ee0184221c1bde6c21734dba",
+  "commit": "72ae1fab2678866d4e490c0d7e3473aa32548421",
+  "scope": "Two caller/test files; no product/native/capture changes",
+  "sourcePins": [
+    {
+      "path": "packages/test-harness/editing/assets-native.test.mjs",
+      "sha256": "f0f48252af173a08ccba2ca53ae91287c2a60bd1deaf6a24b765d50253d3bc7e",
+      "gitBlob": "4247a6ba4994b70476c5d7329a9e7930648c6ab1"
+    },
+    {
+      "path": "scripts/cursor-geometry-lab.mjs",
+      "sha256": "49b7290ebc41f4124c4d38a111cf87e9fa3a368b5a592d814368a8e6570aa102",
+      "gitBlob": "4cab69a38a9064a0606c7b11927dc3223fdc47d1"
+    }
+  ],
+  "evidence": {
+    "path": "source-native-consumers-evidence.tar.gz",
+    "bytes": 1540211,
+    "sha256": "bd455295052184735030e57d6f8ba9e182e18c46199c4ae285cb56b26c3d343e",
+    "payloadCount": 500,
+    "report": "report.json",
+    "sourceManifest": "source-pins.json",
+    "nativeManifest": "native-source-pins.json",
+    "matchedOutputs": "matched-output.json",
+    "cursorHelper": "cursor-seam/result.json",
+    "choices": "choices.md"
+  },
+  "rootVerification": {
+    "allArchivePayloadsMatchFrozenPrivateFiles": 500,
+    "committedCallerSourcesMatch": 2,
+    "unchangedNativeSourcesMatch": 124,
+    "frozenWorkerSHA256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "completeMatchedMediaPairs": 12,
+    "scope": "Root source review and exact payload/output binding. Actual native execution is the saved actor run, not a repeated root run."
+  },
+  "outcomes": {
+    "affectedNativeCases": "Baseline3/3 and final3/3 with no skips; twelve complete output pairs equal, eight PNG and four WAVE.",
+    "cursorHelper": "Exact final helper extracted without top-level lab/capture; real sourceFrame/probe at origin0 and1250000, exact160x96 PNG and capture-clock labels."
+  },
+  "toolingFailures": [
+    "Initial isolated TypeScript build missing local zod link: configured external immutable dependency symlinks then all five packages built successfully.",
+    "Initial private spawn observer incorrectly expected stderr pipe although service intentionally sets ignore: observer fixed, three idle workers explicitly killed and waited runner exited1. Retained as tooling failure, not behavior regression/control.",
+    "Ported helper initially included undefined maxLongEdge in third format case: service encoder refused INVALID_REQUEST. Omitted absent optional property; same case and final cohort green. No numeric threshold changed."
+  ],
+  "limits": [
+    "Three changed asset declarations passed; zero skips. No full suite, native build, model, capture, installed switching or source edits outside two owned files.",
+    "Four audio formats retain existing frames/rate/size gates; exact baseline/current WAVE bytes are additional matched observation, not a new speech/quality claim.",
+    "Cursor synthetic positive-origin remux probes current support and origin; does not assert equivalence of retired nearest-frame policy with physical support.",
+    "No live capture/cursor geometry qualification; exact helper only tested with synthetic owned fixtures",
+    "Generic direct descriptor duplicate release, raw orientation/reference/PNG-budget capsule, native ParentLifetime-during-decode remain unported",
+    "Other native frame/audio/movie/pointer obligations in earlier matched map remain; no registration or engine removal",
+    "Unchanged unsupported FFV1 case was not rerun"
+  ]
+}

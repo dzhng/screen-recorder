@@ -69,8 +69,9 @@ The orphan recording package family, old manifest and artifact-retirement branch
 are removed. Public service/transport guarantees, transcript processing and
 scene/index producer removal now have their current-owner banks in
 [fixture closure](../assets/23-owner-fixture-ports/README.md).
-Remaining generic recording-index/page/lifetime consumers, native engines and
-the personal-release caller precede actual schema removal. The old macOS
+The generic recording index carrier is also removed, with current source/project
+lifetime and portable proof. Remaining orphan core/event carriers, native engines
+and the personal-release caller precede actual schema removal. The old macOS
 `frame-cache-scale.mjs` consumer still requires a current-source port; producer
 removal does not prove that script works. Preserve valuable source/project
 guarantees rather than restore the deleted engine. Missing inherited acoustic

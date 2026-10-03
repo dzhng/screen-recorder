@@ -17,7 +17,7 @@ function file(path, contents) {
 }
 
 // Seeded crash state: this does not claim a process was killed during a deletion operation.
-// Former recording-edit index/cache retirement is gone; managed asset derivatives stay independent.
+// Capture deletion does not retire managed asset derivatives.
 // Source bytes are generated leftovers, not captured media; no screen or audio access is needed.
 test(
   "bundled startup resumes durable deletion and preserves unrelated files across restart",

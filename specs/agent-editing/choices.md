@@ -7422,3 +7422,61 @@ this response-validation boundary. This choice belongs to `d9b15a48`; current
 selection order, duplicates, per-item errors and lease behavior stay unchanged.
 The private project parser has its current owner's name, with no new protocol
 version or compatibility adapter.
+
+**Sound, high confidence — cursor diagnostics keep the capture clock at the source API boundary.**
+A captured picture can begin at a positive container timestamp. The cursor lab
+already labels its observations on that capture clock, while selected-source
+inspection measures time from the probed asset origin. The helper subtracts that
+origin when requesting a picture and reports the returned exact native sample
+timestamp on the original clock. Adding the origin to an already rounded reply
+could round twice and change a label. The plan required caller cutover without
+specifying this conversion. This choice belongs to `72ae1fab`; one bounded probe
+supplies stream identity and support through the existing source-selection owner.
+It preserves diagnostics without rebuilding availability or selecting another
+stream, and leaves physical geometry qualification to its separate gate.
+
+**Sound, high confidence — owner-death proof observes real work before interruption.**
+A native media worker loses its parent while writing an output. The old fixture
+waited a fixed time during a long video decode; it could not distinguish decode
+from startup. The replacement observes nonzero PCM in the current audio writer's
+private staging file, checks that no reply or final file exists, then kills the
+parent. The independent parent watcher must end that worker within the original
+deadline. The plan required generic worker lifetime without prescribing this
+operand. This choice belongs to `f272b2fa`; a short owned audio fixture replaces
+the expensive video setup. It proves generic parent lifetime, without claiming
+video teardown equivalence or cleanup after a hard process exit. Those private
+files still belong to their caller's attempt.
+
+**Sound, medium confidence — namespace proof deliberately collides two actual owners.**
+A source and project can occupy different namespaces even if their identifier
+text matches. The storage test creates both through their actual owners with one
+chosen identifier, removes the source generation, and checks that the project
+generation and its file survive. Project creation normally generates a UUID;
+source identifiers come from content hashes. A narrowly scoped test-only entropy
+mock supplies the collision during project creation and is restored immediately.
+Using different identifiers could miss a query that forgot the owner kind. The
+plan required retaining namespace isolation without prescribing this setup.
+This choice belongs to `7acb8ef5`; it tests generic storage keys, not public ID
+formatting, and adds no production ID provider or synthetic index domain.
+
+**Sound, high confidence — portable index proof uses the managed generation owner.**
+A recipient adopts retained images and coverage, the donor disappears, and the
+recipient restarts before reading every row and image. The current managed store
+and shared reader carry that lifetime and paging guarantee. Keeping a separate
+unconsumed index page format would preserve another representation only to keep
+an old test running. The plan required portability without prescribing the old
+carrier's fate. This choice belongs to `7acb8ef5`; the old index carrier retires,
+while independent scene semantic oracles await transfer from their orphan chain.
+It preserves raw source provenance without claiming that every source-labelled
+wrapper has a current product consumer.
+
+**Sound, high confidence — receipt refusal follows the current source authority.**
+A stored image must belong to the support selected for its source. The current
+receipt carries a support digest, the hash of those selected ranges; a mismatch
+is refused. The removed recording renderer instead carried its old source
+evidence generation and annotation policy. Adding those fields to current raw
+frames would rebuild a compatibility model. The plan required useful receipt
+refusal without specifying this obsolete representation's fate. This choice
+belongs to `7acb8ef5`; the test now targets the current support digest, and the
+old annotated-generation semantics retire explicitly. Generic file safety and
+published source/project generation identity remain independently protected.

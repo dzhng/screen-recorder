@@ -1,0 +1,143 @@
+{
+  "baseline": "72ae1fab2678866d4e490c0d7e3473aa32548421",
+  "commit": "f272b2facf1cb95d8dbb6ccb170269c45fdb88ae",
+  "contract": "Generic descriptor ownership is verified through selected audio; owner-death cancellation uses observed unfinished sourceAudio rather than old frame decode. Production native sources remain unchanged.",
+  "sourcePins": [
+    {
+      "path": "helpers/mac/Tests/lifetime.test.mjs",
+      "sha256": "58522d99f50debb49117852ebe5f667060580db02419d130d4149523a99ef83e",
+      "gitBlob": "1799802298643d5aa82b7f70722aecfbdf1de34b"
+    },
+    {
+      "path": "helpers/mac/Tests/SourceAudio/main.swift",
+      "sha256": "0e1823f0b344c925eec041232639dc7ebe0ff2bc677cec2d82e63e996a49ffc4",
+      "gitBlob": "66d19067fa98a91e26493e07b565b126eb4652c7"
+    },
+    {
+      "path": "helpers/mac/Tests/SourceAudio/DescriptorLifetimeTests.swift",
+      "sha256": "ca8fc6defdccc39610efa303fa9b3388011893f6542cb7665877d231565ae6a2",
+      "gitBlob": "eebcf82aaea73b9cf178e694d68e48f8dffebdcd"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift",
+      "sha256": "316edcd5a2156941a9ca1c0d7310e286be20420fc986a36f6efc85a3ece41040",
+      "gitBlob": "24ad97722538683e2378727e3a099a7c41835580"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/DescriptorLifetimeTests.swift",
+      "deleted": true
+    }
+  ],
+  "evidence": {
+    "path": "source-native-lifetime-evidence.tar.gz",
+    "bytes": 4031848,
+    "sha256": "f91c1e06548590439fb7fefd7d6bf75d8b4fca4fbe341b95ba8504aaeaa2c4c9",
+    "payloadCount": 36,
+    "report": "report.json",
+    "sharedNativeManifestBank": "source-native-consumers-evidence.tar.gz",
+    "sharedManifestMember": "source-native-consumers-26351af2/native-source-pins.json",
+    "sharedManifestSHA256": "f6cc2fcd0cc6cb5bb14cdcc2dae0854b01f5331e86ac2fca75885d72242cf9af"
+  },
+  "testBuild": {
+    "process": {
+      "argv": [
+        "swift",
+        "build",
+        "--package-path",
+        "helpers/mac",
+        "--scratch-path",
+        "/Users/david/.codex/worktrees/source-native-consumers/screen-recorder/helpers/mac/.build",
+        "--disable-automatic-resolution",
+        "--skip-update",
+        "--product",
+        "ScreenRecorderSourceAudioTests",
+        "--jobs",
+        "2"
+      ],
+      "pid": 51562,
+      "start": 1790997624.1181388
+    },
+    "terminal": {
+      "exit": 0,
+      "seconds": 34.53035116195679,
+      "waited": true
+    },
+    "binary": "ScreenRecorderSourceAudioTests",
+    "binarySHA256": "46f128e9b650095265643480310ad035dbce87b7d038b781ebd0aee6ffd83427",
+    "sourcePins": "test-build-source-pins.json",
+    "scope": "Only ScreenRecorderSourceAudioTests and required Media/Audio/denoise/stretch dependencies. No worker/capture/Frames/FluidAudio build. No inference."
+  },
+  "parent": {
+    "process": {
+      "argv": [
+        "node",
+        "--require",
+        "/Users/david/.cache/screen-recorder/verification/source-native-lifetime-72ae1fab/observe.cjs",
+        "--test",
+        "--test-concurrency=1",
+        "--test-name-pattern=an owner that dies mid-operation",
+        "helpers/mac/Tests/lifetime.test.mjs"
+      ],
+      "pid": 51012,
+      "start": 1790997512.5344808,
+      "sourceSHA256": "58522d99f50debb49117852ebe5f667060580db02419d130d4149523a99ef83e",
+      "binarySHA256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+    },
+    "terminal": {
+      "exit": 0,
+      "seconds": 0.2707691192626953,
+      "waited": true
+    },
+    "observedPCMBytes": 200704,
+    "observedSample": 0.05023634433746338,
+    "parentExitMs": 27,
+    "partialOutputAtCleanupBytes": 266240,
+    "sourceBytes": 46080114,
+    "scope": "Final source unchanged from executed snapshot. Frozen8a real native sourceAudio; idle/startup/orphan cases unchanged and not rerun."
+  },
+  "descriptor": {
+    "process": {
+      "argv": [
+        "/Users/david/.codex/worktrees/source-native-consumers/screen-recorder/helpers/mac/.build/debug/ScreenRecorderSourceAudioTests",
+        "--descriptor-lifetime"
+      ],
+      "pid": 51936,
+      "start": 1790997685.173611,
+      "binarySHA256": "46f128e9b650095265643480310ad035dbce87b7d038b781ebd0aee6ffd83427",
+      "testFiles": [
+        {
+          "path": "helpers/mac/Tests/SourceAudio/main.swift",
+          "sha256": "0e1823f0b344c925eec041232639dc7ebe0ff2bc677cec2d82e63e996a49ffc4"
+        },
+        {
+          "path": "helpers/mac/Tests/SourceAudio/DescriptorLifetimeTests.swift",
+          "sha256": "ca8fc6defdccc39610efa303fa9b3388011893f6542cb7665877d231565ae6a2"
+        }
+      ]
+    },
+    "terminal": {
+      "exit": 0,
+      "seconds": 0.3498570919036865,
+      "waited": true
+    },
+    "samples": 4800,
+    "expectedSHA256": "ef68e0e66285bdd4302addd890bcd9b028ee42c57d2faded084a8cee64bbe670",
+    "actualSHA256": "ef68e0e66285bdd4302addd890bcd9b028ee42c57d2faded084a8cee64bbe670",
+    "scope": "Final test sources equal build/run snapshots. Exact same-process duplicate count2 then caller close/unlink followed by full PCM consume/reference equality and count0 within original3s limit."
+  },
+  "rootVerification": {
+    "allPayloadsMatchFrozenPrivateFiles": 36,
+    "committedSourceOrDeletionBindings": 5,
+    "testExecutableAndExpectedActualPCMHashesVerified": true,
+    "scope": "Exact snapshot/binary/PCM bindings; runtime is the original saved actor execution, not a repeated root run."
+  },
+  "remaining": [
+    "Raw-picture orientation, encoded cap/reference/symlink capsule; pointer/composition crop/readability and other audio/movie obligations remain before engine removal",
+    "No full native suite, no capture/recording/installed switch, no whole source-audio fixture suite run",
+    "SourceAudio main DEBUG recording-report pure checks remain unchanged; this pass does not retire those old policy declarations"
+  ],
+  "limits": [
+    "Parent test preserves no final publication, no result and source hash; abrupt exit can leave private staging and cleanup observer retained its actual unfinished bytes. No private-staging-removal or video-specific teardown/platform-time equivalence claim.",
+    "No production fault mutation or extra unchanged-oracle control run. Tests port existing lifetime assertions; actual nonheader finite/nonzero progress is retained."
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "baseline": "cadb2e30",
+  "commit": "7acb8ef5368dbcc4f25d7f7e6f4d116bf89258c5",
+  "scope": [
+    "generic ScreenshotIndexStore source/project",
+    "current portable source index",
+    "independent source scene carrier oracles",
+    "macOS deletion fixture compile"
+  ],
+  "contract": "Generic retained PNG ownership, paging and managed portable adoption use current source/project domains. Unconsumed recording index specialization and page carrier removed. Source scene carrier semantic oracles await current-store transfer; its remaining event-page consumer is an orphan chain.",
+  "evidence": {
+    "path": "generic-index-owner-purge-evidence.tar.gz",
+    "bytes": 1219182,
+    "sha256": "044e2e4d3dd2e905b20adc34aa61459abdddea531b1148ba2a6fe8ac29ec30e1",
+    "payloadCount": 447,
+    "report": "report.json",
+    "coverage": "coverage.json",
+    "choices": "choices.md",
+    "review": "review.md",
+    "proofToFinal": "proof-final-differences.json"
+  },
+  "proofCounts": {
+    "oldScreenshotDeclarations": 16,
+    "oldScreenshotExpanded": 17,
+    "currentScreenshotDeclarations": 15,
+    "currentScreenshotExpanded": 16,
+    "oldPortableDeclarations": 5,
+    "currentPortableDeclarations": 1,
+    "preservedSceneCarrierDeclarations": 4,
+    "currentAffectedCohort": 42,
+    "finalSelectedAssertions": 2
+  },
+  "limits": [
+    "controlled metadata/valid fixed PNG receipts, not native decode/pixel quality",
+    "current42 earlier source; final2 corrected assertion source; full diff retained",
+    "default service compiled/bundled, not launched",
+    "macOS deletion syntax only; frame-cache-scale untouched pending",
+    "no full suite, native/model/media/capture/UI or installed adoption",
+    "catalog format/schema/recovery unaffected"
+  ],
+  "codeCost": {
+    "paths": 9,
+    "addedLines": 710,
+    "removedLines": 1398,
+    "production": "screenshot-index +5/-202; removed index-pages345 and4package-export lines; test-only fixture excluded from dist"
+  },
+  "rootVerification": {
+    "allArchivePayloadsChecked": 447,
+    "committedSourceOrDeletionBindings": [
+      {
+        "path": "apps/macos/tests/deletion-restart.test.mjs",
+        "bytes": 6150,
+        "sha256": "e753e63e1448ad4a2c7af6c660402241f9adc47454613be641ff13dd5e009391"
+      },
+      {
+        "path": "packages/core/package.json",
+        "bytes": 9147,
+        "sha256": "bb3428e7d534dc9f09374c23b51f27ff9813cfc30d77f968d6dbaf71eb75b60f"
+      },
+      {
+        "path": "packages/core/src/index-pages.ts",
+        "deleted": true
+      },
+      {
+        "path": "packages/core/src/portable-index.test.ts",
+        "bytes": 7515,
+        "sha256": "e15db752be66991d285a882b2640b34c1a4162726780c544e290b79b4cd47244"
+      },
+      {
+        "path": "packages/core/src/screenshot-index.test.ts",
+        "bytes": 15826,
+        "sha256": "294066f2439975ee1601126ae6868af43838d192ca741c7663af6b19e3d333e0"
+      },
+      {
+        "path": "packages/core/src/screenshot-index.ts",
+        "bytes": 35073,
+        "sha256": "7bfc4af418774db71ec5d25bd6fba25315462abe422a80dabb3ff578b5ee6268"
+      },
+      {
+        "path": "packages/core/src/source-index.test.ts",
+        "bytes": 23811,
+        "sha256": "84fcf7601e53489fdf2130ea0e844309abc54df9fbe2b43a0e3332e343bb255f"
+      },
+      {
+        "path": "packages/core/src/retained-source-index.fixture.ts",
+        "bytes": 6132,
+        "sha256": "fe7b8820de7a9c1ca4a5ca0373aa0edbedf25a2a6df29231bdeb657a1fc84232"
+      },
+      {
+        "path": "packages/core/src/scene-pages.test.ts",
+        "bytes": 8113,
+        "sha256": "1f6515a47af60465fc53b264a592307981b9b71323f91b8fff80f420ac384ca1"
+      }
+    ],
+    "currentEmitsChecked": 6,
+    "excludedActualDefaultBundle": {
+      "path": "/Users/david/.cache/screen-recorder/verification/generic-index-owner-purge-cadb2e30/default-entry/main.mjs",
+      "bytes": 4079898,
+      "sha256": "7f3d685c48cb848651fb7c3ed1e353147dfe4691b7a162a87a3c797f29aded3e"
+    },
+    "finalRootDifference": "deletion-restart.test.mjs changes one comment to state capture/asset lifetime invariant; executable code unchanged from7acb8ef5.",
+    "scope": "Exact files, committed bindings and default bundle; no repeated runtime or app launch."
+  }
+}
