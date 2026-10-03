@@ -1,0 +1,451 @@
+{
+  "status": "PASS original combined scale contract through MCP after harness-only complete-result consumer fix",
+  "commit": "f19cae7d987100d475e58644d5b4788d521f5025",
+  "base": "2dc8ab6e7ce1f402796ed42c2c47c46128565105",
+  "process": {
+    "exitCode": 0,
+    "timedOut": false,
+    "seconds": 18.732437499998923,
+    "ended": 1791015149.6663628
+  },
+  "limits": {
+    "inspectionP95Ms": 250,
+    "warmPreviewMs": 15000,
+    "workerRSSBytes": 4294967296
+  },
+  "cases": [
+    {
+      "seconds": 300,
+      "occurrences": 500,
+      "depth": 128,
+      "width": 32,
+      "inspection": {
+        "samples": [
+          11.72508300000004,
+          12.646999999999935,
+          11.455665999999951,
+          12.501250000000027,
+          11.288875000000075,
+          12.30354100000011,
+          11.743124999999964,
+          10.540874999999915,
+          11.225374999999985,
+          11.427165999999943,
+          10.208374999999933,
+          10.882375000000025,
+          9.034875000000056,
+          9.599750000000085,
+          9.230709000000047,
+          9.786833999999999,
+          9.852459000000067,
+          9.081792000000064,
+          9.526124999999979,
+          9.501374999999939
+        ],
+        "p95Ms": 12.501250000000027,
+        "rows": 250,
+        "callsPerSample": 2,
+        "withinBudget": true
+      },
+      "audio": [
+        {
+          "name": "cold",
+          "ms": 347.8622919999999,
+          "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+          "exactPCM": true,
+          "frames": 4800,
+          "peakResidentBytes": 55820288
+        },
+        {
+          "name": "warm",
+          "ms": 109.68329199999994,
+          "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+          "exactPCM": true,
+          "frames": 4800,
+          "peakResidentBytes": 55820288
+        }
+      ]
+    },
+    {
+      "seconds": 7200,
+      "occurrences": 10000,
+      "depth": 128,
+      "width": 32,
+      "inspection": {
+        "samples": [
+          137.869917,
+          138.66183300000012,
+          129.25379199999952,
+          151.21441700000014,
+          134.9373340000002,
+          146.1178749999999,
+          143.25783300000057,
+          135.47566600000027,
+          131.121666,
+          119.20729099999971,
+          124.96541700000034,
+          122.99108299999989,
+          133.12441600000056,
+          128.902333,
+          128.6194999999998,
+          121.55687500000022,
+          120.31720899999982,
+          120.47816700000021,
+          126.05312499999945,
+          124.18404100000043
+        ],
+        "p95Ms": 146.1178749999999,
+        "rows": 250,
+        "callsPerSample": 2,
+        "withinBudget": true
+      },
+      "audio": [
+        {
+          "name": "cold",
+          "ms": 702.9422499999991,
+          "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+          "exactPCM": true,
+          "frames": 4800,
+          "peakResidentBytes": 55967744
+        },
+        {
+          "name": "warm",
+          "ms": 248.65204099999937,
+          "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+          "exactPCM": true,
+          "frames": 4800,
+          "peakResidentBytes": 55967744
+        }
+      ]
+    }
+  ],
+  "queue": {
+    "queued": 32,
+    "refusal": {
+      "code": "LIMIT_EXCEEDED",
+      "message": "Too much work is already waiting; retry once the queue drains",
+      "retryable": true,
+      "details": {
+        "queued": 32
+      }
+    },
+    "cancelAndDrainMs": 399.43829200000073,
+    "successorAfterReleaseMs": 290.3396249999987,
+    "restartRetainedSuccessorAndSource": true,
+    "boundary": "Controlled successful native reply held before publication, not cancellation during native decoding."
+  },
+  "preview": {
+    "renders": [
+      {
+        "name": "cold",
+        "range": {
+          "startUs": 7180000000,
+          "endUs": 7190000000
+        },
+        "readyMs": 2152.761292000001,
+        "deliveryMs": 241.04508400000122,
+        "jobId": "c15b1db8-f84e-4b91-bbb0-7c89389636bd",
+        "sha256": "ec364fcaf59db6b92d1221525cac1be5e7f1778e8b66f226b6c53097efcb46bb"
+      },
+      {
+        "name": "warm",
+        "range": {
+          "startUs": 7190000000,
+          "endUs": 7200000000
+        },
+        "readyMs": 2060.261290999999,
+        "deliveryMs": 252.91470800000025,
+        "jobId": "0ddea440-2a87-45fb-bc3c-0d305deaf61c",
+        "sha256": "a78831e52a422660e02f8661b812f478ea1f8845f152553c0ec89b8337b1c89c"
+      },
+      {
+        "name": "cache-hit",
+        "range": {
+          "startUs": 7190000000,
+          "endUs": 7200000000
+        },
+        "readyMs": 165.52070900000035,
+        "deliveryMs": 261.25216699999874,
+        "jobId": "0ddea440-2a87-45fb-bc3c-0d305deaf61c",
+        "sha256": "a78831e52a422660e02f8661b812f478ea1f8845f152553c0ec89b8337b1c89c"
+      }
+    ],
+    "receipts": [
+      {
+        "range": {
+          "startUs": 7180000000,
+          "endUs": 7190000000
+        },
+        "frameCount": 300,
+        "frames": 480000,
+        "peakResidentBytes": 49659904
+      },
+      {
+        "range": {
+          "startUs": 7190000000,
+          "endUs": 7200000000
+        },
+        "frameCount": 300,
+        "frames": 480000,
+        "peakResidentBytes": 94633984
+      }
+    ],
+    "withinBudget": true,
+    "exact300FrameMembershipAndLocal30fpsClock": true,
+    "exact480000AudioFrames": true,
+    "qualification": "Warm is a distinct uncached10s window in this journey; native workers are per request. No1080p source-decode or perceived A/V quality claim."
+  },
+  "sourceWork": [
+    {
+      "name": "mix-0.json",
+      "requestedSampleRange": {
+        "start": 14395200,
+        "end": 14400000
+      },
+      "selectedClips": 32,
+      "processingNodes": 225,
+      "sourceWork": {
+        "decoded": [
+          {
+            "float32Bytes": 1229312,
+            "frames": 153664,
+            "sampleRate": 48000
+          }
+        ],
+        "descriptorDeliveredBytes": 0,
+        "descriptorInputs": 0,
+        "descriptorReadBytes": 0,
+        "preparedRetimeRuns": 0,
+        "unknownReadInputs": 1
+      }
+    },
+    {
+      "name": "mix-1.json",
+      "requestedSampleRange": {
+        "start": 345595200,
+        "end": 345600000
+      },
+      "selectedClips": 32,
+      "processingNodes": 225,
+      "sourceWork": {
+        "decoded": [
+          {
+            "float32Bytes": 1229312,
+            "frames": 153664,
+            "sampleRate": 48000
+          }
+        ],
+        "descriptorDeliveredBytes": 0,
+        "descriptorInputs": 0,
+        "descriptorReadBytes": 0,
+        "preparedRetimeRuns": 0,
+        "unknownReadInputs": 1
+      }
+    },
+    {
+      "name": "mix-2.json",
+      "requestedSampleRange": {
+        "start": 345556800,
+        "end": 345556848
+      },
+      "selectedClips": 32,
+      "processingNodes": 225,
+      "sourceWork": {
+        "decoded": [
+          {
+            "float32Bytes": 13056,
+            "frames": 1632,
+            "sampleRate": 48000
+          }
+        ],
+        "descriptorDeliveredBytes": 0,
+        "descriptorInputs": 0,
+        "descriptorReadBytes": 0,
+        "preparedRetimeRuns": 0,
+        "unknownReadInputs": 1
+      }
+    },
+    {
+      "name": "mix-3.json",
+      "requestedSampleRange": {
+        "start": 345566400,
+        "end": 345566448
+      },
+      "selectedClips": 32,
+      "processingNodes": 225,
+      "sourceWork": {
+        "decoded": [
+          {
+            "float32Bytes": 13056,
+            "frames": 1632,
+            "sampleRate": 48000
+          }
+        ],
+        "descriptorDeliveredBytes": 0,
+        "descriptorInputs": 0,
+        "descriptorReadBytes": 0,
+        "preparedRetimeRuns": 0,
+        "unknownReadInputs": 1
+      }
+    }
+  ],
+  "sampledServicePeakRSS": 858226688,
+  "actualCarrierCaptures": [
+    {
+      "name": "preview-layout.json",
+      "bytes": 4254298,
+      "sha256": "1d87c39589f7afa59eacd8bdc7abe01ee3b3586b88bcf8939d699cbb1e5480f6",
+      "chunks": 9,
+      "id": "afb3c593-d4ac-4fed-94b9-1736d9bfe32a",
+      "ok": true,
+      "outerLeaseClosed": true,
+      "rawExchangeSha256": "dec41e81dac683dcec07d003509e8ba47ca35e9ce838b1c9217d51bf5c72a3af"
+    },
+    {
+      "name": "query.json",
+      "bytes": 3075691,
+      "sha256": "026da8994d5ee33d80bb9da475856003b10114ca698a02fa119cff7c5323d43d",
+      "chunks": 6,
+      "id": "9e9e633e-0503-4879-8884-3d92fe771775",
+      "ok": true,
+      "outerLeaseClosed": true,
+      "rawExchangeSha256": "332bdbf8c7f7f30600f0f7f26ae86920faa2875ba795d2f0a7ee166eb72bde77"
+    },
+    {
+      "name": "setup.json",
+      "bytes": 2909481,
+      "sha256": "e7a6dad5e071303c9e3a8a2fc4ce87a0387d8516c9dc7242085fbb12ce5a2823",
+      "chunks": 6,
+      "id": "77b50341-205a-41e7-879b-af9823a9aed5",
+      "ok": true,
+      "outerLeaseClosed": true,
+      "rawExchangeSha256": "4305dec152f7856bff0b08103c44265eb36747fc914c7dd64f764f74e7f828bc"
+    }
+  ],
+  "persistedAuthoringRequests": 24,
+  "pins": {
+    "count": 1889,
+    "changedDuringProducer": 0,
+    "workerSha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55",
+    "manifest": "before-pins.json",
+    "postflight": "after-pins.json",
+    "authority": "Actual linked compiled JS, helpers, resolved dependencies, tools and corpus bytes; native .build never selected."
+  },
+  "observer": "Optional exchanges hook only for first delivered setup/query/preview-layout. Raw descriptors and complete bytes independently rechecked from captured chunks after the run. Cold/setup time includes observer overhead;20warm repetitions unobserved.",
+  "transportQualification": "Original JourneyService configured SDK receive bound remains3*RESPONSE_FRAME_BYTES+64KiB, unchanged. This is not a default-SDK capacity claim. Result bytes still maxRESPONSE_FRAME_BYTES-1 and chunks max512KiB.",
+  "sourceAssets": [
+    {
+      "name": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4.wav",
+      "bytes": 192044,
+      "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+    },
+    {
+      "name": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607.mov",
+      "bytes": 197873,
+      "sha256": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607"
+    },
+    {
+      "name": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd.mov",
+      "bytes": 196988,
+      "sha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd"
+    }
+  ],
+  "sourceBytesUnchanged": true,
+  "cleanup": {
+    "temporaryLinksRemoved": [
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/apps/service/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/apps/service/dist",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/apps/cli/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/apps/cli/dist",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/core/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/core/dist",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/client/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/client/dist",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/protocol/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/protocol/dist",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/composition/node_modules",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/composition/dist",
+      "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/test-harness/node_modules"
+    ],
+    "onlyCreatedLinksRemoved": true,
+    "originalScratchRemoved": true,
+    "completeScratchRetained": "retained-home",
+    "renderStagingEmpty": true,
+    "ownedProcessesGone": true
+  },
+  "focusedRegression": {
+    "tests": 1,
+    "deliveryScenarios": 13,
+    "inlineScenarios": 2,
+    "red": "focused/red.log",
+    "green": "focused/green-final.log",
+    "normalTestRegistration": "packages/test-harness/package.json existing test list appended after integration run; no measured code or dependency altered"
+  },
+  "review": {
+    "rootIndependent": "Shared consumer/test and optional observer approved before corrected integration run; final test registration approved.",
+    "local": "syntax,oxlint,diffcheck pass; no production changes; original scale and preview harness files restored byte-equal HEAD"
+  },
+  "preservedReds": [
+    {
+      "phase": "original combined authoring receipt",
+      "archive": "combined-scale-7f717b0d-evidence.tar.gz",
+      "sha256": "b40172c1d9f2d66aa4365b9a6061880b7377d154d302b72f5831fd202f876460"
+    },
+    {
+      "phase": "CLI authoring correction reached large query receipt",
+      "archive": "combined-scale-cli-2dc8ab6e-evidence.tar.gz",
+      "sha256": "0eb1a43b6ba2f04ed2f7158a08f72755d14c9310e2a101c954f17e1a4f98a7f7"
+    },
+    {
+      "phase": "focused original shared consumer returnedundefined",
+      "path": "focused/red.log",
+      "sha256": "3a48da2861d2000eaefeb98c3b7b65288f1a31def7fad95f2bd7470c1eac6c4c"
+    }
+  ],
+  "limitsOfClaim": [
+    "No full2h audio render, learned processing, model inference, capture or native build",
+    "No full suite or installed app measurement",
+    "Native sourceWork decoded-frame counts retained; unknownReadInputs=1 means actual disk input-byte cost is not completely accounted",
+    "Service RSS is sampled;4GiB budget is native non-model worker RSS",
+    "No generalized arbitrary routing/history/source cardinality or native-build contention immunity"
+  ],
+  "producerReportSha256": "8b9a32630c563d12ed5b7925631261c88ccdb9afc813175781da78c8a93fe4bd",
+  "choices": "choices.json",
+  "postRunComment": {
+    "change": "authoring operation \u2192 original operation; queries use this consumer too",
+    "measuredHelperSha256": "d5c810a809db64083a98d05868498a738dbec8d03350a1f46436a5eac354d423",
+    "finalHelperSha256": "2eb456f46e93e64967a73617374911bb01d646d583be62c1b1879299f0987705",
+    "noBehaviorChange": true
+  },
+  "archive": {
+    "archive": "combined-scale-mcp-2dc8ab6e-evidence.tar.gz",
+    "sha256": "8e2fe86144fdd7fb2f7973acc567f38619d04ef5cf846bede16cba8d8321cfe7",
+    "bytes": 10917124,
+    "payloads": 506
+  },
+  "rootVerification": {
+    "archivesIndependentlyRehashed": [
+      {
+        "archive": "combined-scale-7f717b0d-evidence.tar.gz",
+        "sha256": "b40172c1d9f2d66aa4365b9a6061880b7377d154d302b72f5831fd202f876460",
+        "bytes": 3273838,
+        "payloads": 419
+      },
+      {
+        "archive": "combined-scale-cli-2dc8ab6e-evidence.tar.gz",
+        "sha256": "0eb1a43b6ba2f04ed2f7158a08f72755d14c9310e2a101c954f17e1a4f98a7f7",
+        "bytes": 5934402,
+        "payloads": 433
+      },
+      {
+        "archive": "combined-scale-mcp-2dc8ab6e-evidence.tar.gz",
+        "sha256": "8e2fe86144fdd7fb2f7973acc567f38619d04ef5cf846bede16cba8d8321cfe7",
+        "bytes": 10917124,
+        "payloads": 506
+      }
+    ],
+    "review": "Settled shared consumer, one parameterized regression and existing test registration; original combined MCP harness and budgets unchanged. Comment-only postrun change is separately pinned.",
+    "scope": "Current combined raw-audio/query/queue/restart/preview route only; unchanged configured SDK capacity, no learned full2h processing/installed/contention claim."
+  }
+}

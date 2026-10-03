@@ -24,8 +24,9 @@ Obsolete recording composition/revision owners are removed. The fresh catalog is
 format23 and refuses earlier catalogs without migration or byte mutation; current
 capture/source facts retain their independent lifetime. Read each bank for its
 actual runtime and claim, rather than rebuilding or rerunning matched cohorts.
-The live handoff owns the remaining combined-scale, broader presentation and
-installed/default-caller work.
+The live handoff owns remaining scale dimensions, current colored-trail and
+broader presentation, and installed/default-caller work. The combined scale
+contract passes in its current owner bank.
 The [retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
 qualifies one native sample/packet/decoded-frame identity. PNG selection and the
 finite-view clock gate failed separately; original pixel failure and physical

@@ -8153,3 +8153,68 @@ operands; future color work must resolve the actual profiles and complete images
 
 Verdict: **sound**. It preserves the inherited test without manufacturing color
 parity. Confidence: **high**.
+
+### Read large operation results once through the shared journey transport
+
+When a caller submits a large edit or asks for a broad query, MCP can return a
+lease for the complete JSON response instead of its body. The operation has
+already run. The shared test-journey transport now reads bounded chunks through
+the advertised artifact API, verifies the byte count, digest and original response
+identity, and returns the same data or error as an inline response. Switching each
+large call to another transport would leave future large responses unhandled;
+repeating the operation to retrieve its result would risk repeating a mutation.
+The temporary per-call exceptions were removed. The existing protocol defines
+all size and chunk limits; no server, client capacity or production API changed.
+
+When: combined-scale consumer checkpoint, `f19cae7d`.
+
+Gap: The shared fixture transport understood only inline results; the existing
+public delivery contract had no reusable MCP consumer in this harness.
+
+Reach: All journeys sharing the helper can consume complete results, including
+large failures, without changing operation or replay semantics. The focused
+regression runs in the existing package test list.
+
+Verdict: **sound**. One harness consumer follows the existing public contract.
+Confidence: **high**.
+
+### Close the outer result lease while preserving nested media and errors
+
+If reading a complete JSON result fails, the harness still closes that result's
+lease. If closing also fails, it retains both errors for diagnosis. A media lease
+inside the decoded result stays open for its caller to consume; closing the JSON
+snapshot is not permission to close the media it describes. Ignoring the first
+error or closing every token found in the body would hide a delivery failure or
+break a legitimate later media read.
+
+When: combined-scale consumer checkpoint, `f19cae7d`.
+
+Gap: A new result consumer needed an explicit cleanup and error-precedence rule.
+
+Reach: The shared harness owns only its outer response lease, and failure evidence
+remains available even when cleanup also fails.
+
+Verdict: **sound**. Ownership stays narrow and failures remain inspectable.
+Confidence: **high**.
+
+### Capture the first large exchange without adding cost to warm repetitions
+
+The scale observer records the first large setup, query and preview-layout
+exchange, including the descriptor, chunks, complete body and lease closure.
+It disables this existing optional diagnostic hook for warm repetitions. Those
+measurements still include actual chunk retrieval, decoding and validation;
+they exclude copying the same diagnostic body into a growing report. Recording
+every repeated multi-megabyte body would measure report accumulation as well as
+the public query. Cold/setup measurements explicitly include capture overhead.
+
+When: combined-scale consumer checkpoint, `f19cae7d`.
+
+Gap: The earlier failures retained successful operation traces without the actual
+carrier, so their carrier explanation was inference. The new check needed direct
+evidence without changing the repeated measurement's work.
+
+Reach: Saved evidence can independently verify the delivery contract while warm
+query timings remain scoped to the original complete-result consumer.
+
+Verdict: **sound**. Observation is declared and the measured reads remain real.
+Confidence: **high**.

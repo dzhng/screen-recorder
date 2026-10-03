@@ -11,8 +11,14 @@ with exact historical input and PNG digests. The
 passes publication/paging/storage and foreground demand on its frozen source
 candidate; sampled RSS and one foreground timing are not general p95 or peak budgets.
 The [current movie-scale bank](../assets/23-owner-fixture-ports/current-movie-scale-verification.json)
-passes exact support and original short/long phase/frame/memory gates. Remaining
-integrated dimensions and installed production acceptance stay separate. The
+passes exact support and original short/long phase/frame/memory gates. The
+[current combined bank](../assets/23-owner-fixture-ports/current-combined-scale-verification.json)
+also passes the original deep/wide five-minute/two-hour query, late-audio,
+queue cancellation/restart and warm-preview contract. Its harness consumes large
+MCP results through the existing delivery API without repeating operations or
+changing transport limits. The configured SDK receiver remains qualified; this
+is not default-client capacity, full-two-hour learned processing, native-build
+contention or installed acceptance. Remaining dimensions stay separate. The
 [current reorder query](../assets/23-owner-fixture-ports/current-reorder-query-verification.json)
 combines a two-hour/deep/wide 10k project with independently authored placement
 changes, pinned old queries and undo through default MCP. Its warm query budget

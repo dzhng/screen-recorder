@@ -68,6 +68,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | First sibling video error, actual unfinished audio and bounded drain under controlled readiness | [Controlled sibling pumps](sibling-pump-controlled-verification.json) |
 | Current white-pointer move/hold over a held source picture | [Current moving pointer](current-moving-pointer-verification.json) |
 | Native first-frame decode versus the saved PNG surrogate, diagnostic only | [Native color-path qualification](current-native-movie-color-verification.json) |
+| Current combined long-project query, late audio, queue/restart and warm preview | [Combined scale](current-combined-scale-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and

@@ -21,7 +21,7 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: the current combined scale contract, then remaining source
+**Next pickup: current full/clipped colored-trail preservation, then remaining
 presentation and installed/default caller acceptance.** The product uses one
 project composition owner and a fresh format23 catalog; prior catalogs are refused
 without migration or byte mutation. The
@@ -32,10 +32,19 @@ or unmatched contracts. Do not interpret its focused recovery as a full green ru
 
 Continue in this order:
 
-1. Run the existing combined [scale contract](slices/24-scale.md) once on the
-   pinned current release: late-window audio in deep/wide long projects,
-   queue cancellation/restart and bounded preview. Preserve original budgets.
-   Reuse the separate query, movie, streaming, cache and index banks. The known
+1. Check the retained full/clipped colored-trail pair on the current video-only
+   primitive, preserving the frozen source, graph, clocks and original strict
+   native-sRGB centroid predicate. Current explicit encoder defaults are a named
+   difference from historical implicit defaults, not encoded-byte equivalence.
+   The attempted movie request refused its missing audio/output tap before
+   encoding; it supplies no trail outcome. Use the existing video-only owner
+   rather than alter the frozen graph to satisfy a different operation.
+   Reuse the [current combined scale bank](assets/23-owner-fixture-ports/current-combined-scale-verification.json):
+   original deep/wide long-project queries, exact late audio, queue/restart and
+   warm preview pass unchanged budgets. Its shared harness now consumes complete
+   MCP results through the existing delivery API; it retains its configured SDK
+   receiver and supplies no default-client or full-two-hour DSP claim. Reuse the
+   separate query, movie, streaming, cache and index banks. The known
    storage deadline under native-build contention waits for an already-required
    build; do not create a build solely to generate load. Long learned-processing
    interactions remain distinct from this raw-audio route.
@@ -59,7 +68,7 @@ Continue in this order:
 | [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical event uncertainty/synchronization and remaining lifecycle scope |
 | [23 cutover](slices/23-cutover.md) | Broader source/pointer/color presentation, listening and installed switching |
-| [24 scale](slices/24-scale.md) | Current combined route, learned interactions and known contention |
+| [24 scale](slices/24-scale.md) | Long learned interactions, known contention and final installed measurement |
 | [25 caller](slices/25-agent-acceptance.md) | Installed/default discovery and final release scope |
 
 The [evidence index](assets/integrated-evidence.md),
