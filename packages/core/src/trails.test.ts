@@ -13,7 +13,7 @@ import {
 } from "./presentation-pointer-history.js";
 import { PresentationPointer } from "./presentation-pointer.js";
 import { writePointerSchedule } from "./pointer-schedule.js";
-import { createOriginalRevision, createRevision, type TimelineRevision } from "./timeline.js";
+import { type TimeRange } from "./presentation-time.js";
 
 const cleanup: (() => void)[] = [];
 afterEach(() => cleanup.splice(0).forEach((close) => close()));
@@ -418,7 +418,7 @@ const presentationRecord = (start: number, end: number, pts: number | null, shad
       }),
 });
 async function withPresentation(
-  revision: TimelineRevision,
+  revision: Readonly<{ spans: readonly TimeRange[]; durationUs: number }>,
   records: unknown[],
   run: (source: PresentationEvidence) => Promise<void>,
 ) {
@@ -461,11 +461,7 @@ test("presentation pointer shares cut/scene eligibility and identical still deci
     point(800_000, 20),
     point(1_050_000, 30),
   ]);
-  const revision = createRevision(
-    createOriginalRevision(2_000_000, "fixture"),
-    [{ startUs: 750_000, endUs: 1_250_000 }],
-    { id: "cut", operation: "cut", createdAt: "fixture" },
-  );
+  const revision = { spans: [{ startUs: 750_000, endUs: 1_250_000 }], durationUs: 500000 };
   await withPresentation(
     revision,
     [
@@ -527,7 +523,7 @@ test("presentation pointer keeps the same pause, geometry, outside and unknown r
     point(1_020_000, 45, 20, "outside", 2),
     point(1_030_000, 50, 20, "unknownGeometry", 0),
   ]);
-  const revision = createOriginalRevision(2_000_000, "fixture");
+  const revision = { spans: [{ startUs: 0, endUs: 2_000_000 }], durationUs: 2_000_000 };
   await withPresentation(
     revision,
     [presentationRecord(0, 1_000_000, 0), presentationRecord(1_000_000, 2_000_000, 1_000_000)],
@@ -552,7 +548,7 @@ test("presentation pointer keeps the same pause, geometry, outside and unknown r
 
 test("empty presentation has no pointer and a pointer observed over empty time never revives", async () => {
   const f = await fixture([geometry(), point(800_000, 20), point(1_050_000, 30)]);
-  const revision = createOriginalRevision(2_000_000, "fixture");
+  const revision = { spans: [{ startUs: 0, endUs: 2_000_000 }], durationUs: 2_000_000 };
   await withPresentation(
     revision,
     [presentationRecord(0, 1_000_000, null), presentationRecord(1_000_000, 2_000_000, 1_000_000)],
@@ -577,7 +573,7 @@ test("empty presentation has no pointer and a pointer observed over empty time n
 
 test("movie schedule keeps a pointer hidden through A-B-A until a fresh cursor observation", async () => {
   const f = await fixture([geometry(), point(500_000, 20), point(2_500_000, 30)]);
-  const revision = createOriginalRevision(3_000_000, "fixture");
+  const revision = { spans: [{ startUs: 0, endUs: 3_000_000 }], durationUs: 3_000_000 };
   await withPresentation(
     revision,
     [
@@ -655,7 +651,7 @@ test("schedule drains duplicate timestamps across pages and keeps pause/geometry
     point(800_001, 45, 20, "inside", 2),
   ]);
   await withPresentation(
-    createOriginalRevision(1_000_000, "fixture"),
+    { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const { events } = await scheduled(presentation, f);
@@ -683,7 +679,7 @@ test("fractional presentation resets retain exact output time and never borrow t
     const duration = subMicrosecond ? 2 : 1_000_000;
     const f = await fixture([geometry(), point(before, 20), point(after, 40)]);
     await withPresentation(
-      createOriginalRevision(duration, "fixture"),
+      { spans: [{ startUs: 0, endUs: duration }], durationUs: duration },
       [
         { ...presentationRecord(0, 1, 0), end: boundary },
         {
@@ -715,14 +711,13 @@ test("each kept span gets an initial state; deleted and empty observations canno
     point(1_200_000, 40),
     point(1_600_000, 50),
   ]);
-  const revision = createRevision(
-    createOriginalRevision(2_000_000, "fixture"),
-    [
+  const revision = {
+    spans: [
       { startUs: 0, endUs: 500_000 },
       { startUs: 1_000_000, endUs: 2_000_000 },
     ],
-    { id: "cut", operation: "cut", createdAt: "fixture" },
-  );
+    durationUs: 1500000,
+  };
   await withPresentation(
     revision,
     [
@@ -761,7 +756,7 @@ test("schedule budgets, cancellation and publication races never publish partial
       };
     }
     await withPresentation(
-      createOriginalRevision(1_000_000, "fixture"),
+      { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
       [presentationRecord(0, 1_000_000, 0)],
       async (presentation) => {
         const output = join(dirname(presentation.receipt.file), "pointer.jsonl");
@@ -804,11 +799,7 @@ test("a late kept span seeks past deleted cursor history while preserving geomet
     point(750_000, 30, 20, "inside", 2),
     point(750_001, 40, 20, "inside", 2),
   ]);
-  const revision = createRevision(
-    createOriginalRevision(1_000_000, "fixture"),
-    [{ startUs: 750_000, endUs: 1_000_000 }],
-    { id: "late", operation: "cut", createdAt: "fixture" },
-  );
+  const revision = { spans: [{ startUs: 750_000, endUs: 1_000_000 }], durationUs: 250000 };
   await withPresentation(
     revision,
     [presentationRecord(750_000, 1_000_000, 500_000)],
@@ -832,14 +823,13 @@ test("fresh cursor observations exactly at scene and kept boundaries remain elig
     point(1_000_000, 40),
     point(1_500_000, 50),
   ]);
-  const revision = createRevision(
-    createOriginalRevision(2_000_000, "fixture"),
-    [
+  const revision = {
+    spans: [
       { startUs: 0, endUs: 500_000 },
       { startUs: 1_000_000, endUs: 2_000_000 },
     ],
-    { id: "cut", operation: "cut", createdAt: "fixture" },
-  );
+    durationUs: 1500000,
+  };
   await withPresentation(
     revision,
     [
@@ -869,7 +859,7 @@ test("a fractional picture never pulls a future pause into its event", async () 
   ]);
   const boundary = { value: "3", timescale: 5_000_000 };
   await withPresentation(
-    createOriginalRevision(2, "fixture"),
+    { spans: [{ startUs: 0, endUs: 2 }], durationUs: 2 },
     [
       { ...presentationRecord(0, 1, 0), end: boundary },
       { ...presentationRecord(1, 2, 1), start: boundary, sampleTime: boundary },
@@ -889,7 +879,7 @@ test("stale-pointer comparisons retain exact order when cumulative changes share
   const one = { value: "1", timescale: 10_000_000 },
     two = { value: "2", timescale: 10_000_000 };
   await withPresentation(
-    createOriginalRevision(2, "fixture"),
+    { spans: [{ startUs: 0, endUs: 2 }], durationUs: 2 },
     [
       { ...presentationRecord(0, 1, 0), end: one },
       { ...presentationRecord(0, 1, 0, 16), start: one, end: two, sampleTime: one },
@@ -914,7 +904,7 @@ test("sampled pointers preserve immutable lookback, requested clock and held/bac
     point(900_000, 90),
   ]);
   await withPresentation(
-    createOriginalRevision(1_000_000, "source"),
+    { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const h = new PresentationPointerHistory(
@@ -970,7 +960,7 @@ test("sampled pointer visits intervening A-B-A scenes and physical gaps before a
     point(2_500_000, 40),
   ]);
   await withPresentation(
-    createOriginalRevision(3_000_000, "source"),
+    { spans: [{ startUs: 0, endUs: 3_000_000 }], durationUs: 3_000_000 },
     [
       presentationRecord(0, 500_000, 0),
       presentationRecord(500_000, 750_000, 500_000, 255),
@@ -1036,7 +1026,7 @@ test("sampled trails retain pause equality and geometry/outside run breaks", asy
     point(500_000, 50, 20, "inside", 2),
   ]);
   await withPresentation(
-    createOriginalRevision(1_000_000, "source"),
+    { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const h = new PresentationPointerHistory(
@@ -1081,7 +1071,7 @@ test("sampled pointer does not evaluate future invalid geometry or admit later j
     point(900_000, 90, 20, "inside", 2),
   ]);
   await withPresentation(
-    createOriginalRevision(1_000_000, "source"),
+    { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const h = new PresentationPointerHistory(
@@ -1108,7 +1098,7 @@ test("sampled pointer does not evaluate future invalid geometry or admit later j
 test("pointer sampling bounds occurrences and aggregate replay work and honors cancellation", async () => {
   const f = await fixture([geometry(), point(100_000, 10), point(200_000, 20)]);
   await withPresentation(
-    createOriginalRevision(1_000_000, "source"),
+    { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const controller = new AbortController();
@@ -1164,7 +1154,7 @@ test("pointer sampling bounds occurrences and aggregate replay work and honors c
 test("separate pointer histories share the render-attempt occurrence budget", async () => {
   const f = await fixture([geometry(), point(100_000, 10)]);
   await withPresentation(
-    createOriginalRevision(1_000_000, "source"),
+    { spans: [{ startUs: 0, endUs: 1_000_000 }], durationUs: 1_000_000 },
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const budget = pointerHistoryBudget({ maxEvents: 100, maxSamples: 1 });
@@ -1187,7 +1177,7 @@ test("sampled exact pointer membership precedes the integer observation cutoff",
   const f = await fixture([geometry(), point(0, 20), point(1, 80)]);
   const boundary = { value: "3", timescale: 5000000 };
   await withPresentation(
-    createOriginalRevision(2, "fixture"),
+    { spans: [{ startUs: 0, endUs: 2 }], durationUs: 2 },
     [
       { ...presentationRecord(0, 1, 0), end: boundary },
       { ...presentationRecord(1, 2, 1), start: boundary, sampleTime: boundary },

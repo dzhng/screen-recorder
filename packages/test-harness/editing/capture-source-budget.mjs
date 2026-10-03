@@ -7,7 +7,7 @@ import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import {
   startPublicService,
-  seedPublicRecording,
+  seedCapture,
   publicCommand,
 } from "../../../apps/macos/tests/fixtures/public-service.mjs";
 const { values } = parseArgs({
@@ -34,12 +34,12 @@ try {
   const receipt = JSON.parse(
     await readFile(join(values.fixture, "narration.publication.json"), "utf8"),
   );
-  const take = await seedPublicRecording(home, {
+  const take = await seedCapture(home, {
     recordingId: randomUUID(),
     sourceId: receipt.intent.sourceID,
     sourceDurationUs: 10_000_100_001,
   });
-  const source = join(home, "recordings", take.recordingId, "source");
+  const source = join(home, "library", "recordings", take.recordingId, "source");
   await cp(values.fixture, source, { recursive: true });
   await copyFile(
     resolve("specs/agent-editing/assets/00-corpus/video-only.mov"),
@@ -61,9 +61,10 @@ try {
     assert(response.ok, JSON.stringify(response));
     return response.data;
   }
-  const selector = { recordingId: take.recordingId, artifact: "source" };
+  const importParams = { requestId: randomUUID(), path: source };
   const start = performance.now();
-  report.submitted = publicCommand(service.socket, "processing.retry", selector);
+  report.submitted = publicCommand(service.socket, "acquisition.import", importParams);
+  const selector = { jobId: report.submitted.jobId };
   if (values.cancel) {
     const health = await call("service.health", {});
     const deadline = performance.now() + 10000;
@@ -92,7 +93,7 @@ try {
   } else {
     let terminal;
     while (performance.now() - start < 180000) {
-      const status = await call("processing.status", selector);
+      const status = await call("job.get", selector);
       if (["ready", "failed", "canceled"].includes(status.state)) {
         terminal = status;
         break;
@@ -104,16 +105,19 @@ try {
     const expected = values.expect;
     assert.equal(terminal?.state, expected, JSON.stringify(terminal));
     if (expected === "ready") {
-      assert.equal(terminal.published.evidence.receipt.audioIntervals, 100000);
+      const acquisition = await call("acquisition.get", {
+        acquisitionId: terminal.result.acquisitionId,
+      });
+      assert.equal(acquisition.evidence.receipt.audioIntervals, 100000);
       assert.equal(
-        terminal.published.evidence.receipt.publications.narration.canonical.sha256,
+        acquisition.evidence.receipt.publications.narration.canonical.sha256,
         receipt.canonical.sha256,
       );
-      await copyFile(terminal.published.evidence.receipt.file, join(out, "normalized.jsonl"));
+      await copyFile(acquisition.evidence.receipt.file, join(out, "normalized.jsonl"));
       report.normalizedSHA256 = hash(await readFile(join(out, "normalized.jsonl")));
-      report.retained = await call("processing.status", selector);
-      assert.deepEqual(report.retained.published, terminal.published);
-    } else assert.equal(terminal.published, null);
+      report.retained = await call("acquisition.get", { acquisitionId: acquisition.id });
+      assert.deepEqual(report.retained, acquisition);
+    } else assert.equal(terminal.result, null);
     for (const [name, digest] of Object.entries(report.inputs))
       assert.equal(hash(await readFile(join(source, name))), digest);
     report.passed = true;

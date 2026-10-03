@@ -49,6 +49,14 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Current movie lifetime and scale caller contracts | [Movie caller ports](movie-harness-cutover-verification.json) |
 | Explicit audio/preview inspection and shared render consumption | [Audio/preview owner removal](audio-preview-owner-purge-verification.json) |
 
+[Capture/source caller ports](capture-source-caller-verification.json) and their
+[review corrections](capture-source-caller-followup-verification.json) bind the remaining
+source, capture, recovery and pointer callers to current acquisition/project owners.
+Only their syntax and the unchanged pure presentation algorithms ran in that pass;
+actual native scene, scale, trail, orphan-worker and retained paused-movie gates
+remain execution obligations. Historical lab commands in the recording spec are
+retained evidence, not runnable current entry points.
+
 ## Ownership and proof limits
 
 Capture creates source facts; projects own edits. Deleting a capture does not

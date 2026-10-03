@@ -25,6 +25,7 @@ import {
   setDefault,
   socketPath,
   temporary,
+  waitFor,
 } from "./harness.mjs";
 
 const { values } = parseArgs({
@@ -135,11 +136,21 @@ for (const moment of moments) {
   await first.instance.exited;
   await stopping;
 
-  const source = join(home, "recordings", started.recordingId, "source");
+  const source = join(home, "library", "recordings", started.recordingId, "source");
   const second = await app(home);
-  await second.instance.waitFor(/reconciliation complete/);
-  const recovered = await succeeds(home, "recording.get", { recordingId: started.recordingId });
-  const revision = await call(home, "revision.get", { recordingId: started.recordingId });
+  const recovered = await waitFor(
+    async () => {
+      const facts = await succeeds(home, "recording.get", { recordingId: started.recordingId });
+      return (
+        ["complete", "interrupted", "canceled"].includes(facts.state) &&
+        (facts.sourceDurationUs === null ||
+          facts.sourceAdmissions.some((source) => source.kind === "primary")) &&
+        facts
+      );
+    },
+    20_000,
+    () => "Recovered recording/source facts did not settle",
+  );
   second.instance.kill("SIGTERM");
   await second.instance.exited;
 
@@ -172,10 +183,7 @@ for (const moment of moments) {
     lostSeconds: recovered.sourceDurationUs
       ? Number((moment.recordMs / 1000 - recovered.sourceDurationUs / 1_000_000).toFixed(3))
       : null,
-    timeline: revision.ok
-      ? revision.data.revision.spans.map((span) => [seconds(span.startUs), seconds(span.endUs)])
-      : null,
-    timelineUnavailable: revision.ok ? null : revision.error.code,
+    sourceAdmissions: recovered.sourceAdmissions,
     video,
     narration,
   });

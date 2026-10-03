@@ -1,145 +1,177 @@
-import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { spawnSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
 import { createHash, randomUUID } from "node:crypto";
-import { setTimeout as delay } from "node:timers/promises";
-import { join } from "node:path";
-import { app, temporary, launchReady, socketPath } from "./harness.mjs";
-import { callLocal } from "@screenrec/client";
-import { createRevision } from "@screenrec/core/timeline";
+import { join, resolve } from "node:path";
+import { temporary } from "./harness.mjs";
+import {
+  startPublicService,
+  importAcquisition,
+  publicCommand,
+  until,
+} from "./fixtures/public-service.mjs";
 import { renderPlan } from "@screenrec/core/presentation-time";
-const native = new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url)
-  .pathname;
-const evidence = process.env.SCREENREC_CAPTURE_RENDER_EVIDENCE;
-function run(command, args, input) {
-  const r = spawnSync(command, args, {
-    input,
+function run(command, args) {
+  const result = spawnSync(command, args, {
     encoding: "utf8",
     timeout: 30000,
     maxBuffer: 4 * 1024 * 1024,
   });
-  assert.equal(r.error, undefined);
-  assert.equal(r.status, 0, r.stderr);
-  return r.stdout;
+  assert.equal(result.status, 0, result.stderr);
+  return result.stdout;
 }
-const hash = (p) => createHash("sha256").update(readFileSync(p)).digest("hex");
-// Optional native gate: records only the app-owned fixture window; neither audio role is enabled.
+const hash = async (path) =>
+  createHash("sha256")
+    .update(await readFile(path))
+    .digest("hex");
+
+// Explicit retained paused-capture donor; this gate never records another take.
 test(
-  "actual paused silent window capture renders retained source timing",
+  "retained paused capture renders explicit source intervals through current projects",
   { timeout: 60000 },
   async () => {
-    assert.equal(JSON.parse(run(app, ["--probe", "preflight"])).screen, true);
-    const home = temporary("/tmp/screenrec-render-capture-");
-    const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
-    const [, id] = await instance.waitFor(/capture fixture window=(\d+)/);
-    const call = async (operation, params = {}) => {
-      const r = await callLocal(
-        socketPath(home),
-        { id: randomUUID(), operation, params },
-        { timeoutMs: 30000 },
-      );
-      assert.equal(r.ok, true, JSON.stringify(r));
-      return r.data;
-    };
-    const take = await call("capture.start", {
-      requestId: randomUUID(),
-      source: { kind: "window", windowId: Number(id) },
-      microphone: false,
-      systemAudio: false,
-    });
-    const ref = { recordingId: take.recordingId };
-    await delay(1200);
-    await call("capture.pause", ref);
-    await delay(600);
-    await call("capture.resume", ref);
-    await delay(1200);
-    const stopped = await finishCapture(call, ref.recordingId);
-    assert.equal(stopped.state, "complete");
-    const { revision } = await call("revision.get", ref);
-    const source = join(home, "recordings", take.recordingId, "source/video.mov");
-    const before = hash(source);
-    const end = stopped.sourceDurationUs;
+    assert.ok(
+      process.env.SCREENREC_CAPTURE_RENDER_SOURCE,
+      "Name the retained paused-capture source directory",
+    );
+    const donor = resolve(process.env.SCREENREC_CAPTURE_RENDER_SOURCE),
+      source = join(donor, "video.mov");
+    const before = await hash(source),
+      journalBefore = await hash(join(donor, "capture.journal.jsonl"));
     const sourceMetadata = JSON.parse(
       run("ffprobe", [
         "-v",
         "error",
         "-show_entries",
-        "format=duration:stream=time_base,duration_ts",
+        "format=duration:stream=width,height,codec_type,time_base,duration_ts",
         "-of",
         "json",
         source,
       ]),
     );
-    assert.equal(Number(sourceMetadata.format.duration) * 1e6, end);
-    const [numerator, denominator] = sourceMetadata.streams[0].time_base.split("/").map(BigInt);
-    assert.equal(
-      BigInt(sourceMetadata.streams[0].duration_ts) * numerator * 1_000_000n,
-      BigInt(end) * denominator,
-    );
-
-    const spans = [
-      { startUs: 10001, endUs: Math.floor(end / 3) },
-      { startUs: Math.floor(end / 2) + 7, endUs: end - 10001 },
-    ];
-    const edited = createRevision(revision, spans, {
-      id: "probe",
-      operation: "cut",
-      createdAt: "probe",
-    });
-    const results = [];
-    for (const [name, selected] of [
-      ["full-original", revision],
-      ["cut", edited],
-    ]) {
-      const output = join(home, name + ".mp4");
-      const plan = renderPlan(selected);
-      const result = JSON.parse(
-        run(
-          native,
-          [],
-          JSON.stringify({
-            id: "capture-render",
-            operation: "media.renderMovie",
-            params: { source, output, plan, tracks: [] },
-          }) + "\n",
-        ),
+    assert.equal(sourceMetadata.streams.length, 1);
+    const video = sourceMetadata.streams[0],
+      end = Math.round(Number(sourceMetadata.format.duration) * 1e6);
+    const [numerator, denominator] = video.time_base.split("/").map(BigInt);
+    assert.equal(BigInt(video.duration_ts) * numerator * 1_000_000n, BigInt(end) * denominator);
+    const home = temporary("/tmp/screenrec-render-capture-");
+    const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+    const call = async (operation, params) => {
+      const reply = await service.call(operation, params);
+      assert.equal(reply.ok, true, JSON.stringify(reply));
+      return reply.data;
+    };
+    try {
+      const { acquisition } = await importAcquisition(service, donor);
+      assert.ok(
+        acquisition.evidence.receipt.pauseEvents > 0,
+        "Retained donor must contain the pause fixture",
       );
-
-      assert.equal(result.ok, true, JSON.stringify(result));
-      const metadata = JSON.parse(
-        run("ffprobe", [
-          "-v",
-          "error",
-          "-show_entries",
-          "format=duration:stream=width,height,codec_type,nb_read_frames",
-          "-count_frames",
-          "-of",
-          "json",
+      const binding = acquisition.bindings.find((value) => value.sourceRoles.includes("video"));
+      assert.ok(binding);
+      const results = [];
+      for (const [name, spans] of [
+        ["full-original", [{ startUs: 0, endUs: end }]],
+        [
+          "cut",
+          [
+            { startUs: 10001, endUs: Math.floor(end / 3) },
+            { startUs: Math.floor(end / 2) + 7, endUs: end - 10001 },
+          ],
+        ],
+      ]) {
+        const plan = renderPlan({ spans });
+        const created = await call("project.create", {
+          requestId: randomUUID(),
+          canvas: {
+            width: video.width,
+            height: video.height,
+            fps: { numerator: 30, denominator: 1 },
+            background: "#000000ff",
+          },
+        });
+        const projectId = created.project.projectId;
+        const authored = await call("edit.apply", {
+          projectId,
+          requestId: randomUUID(),
+          expectedRevisionId: created.revision.id,
+          operations: [
+            { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+            ...plan.map(({ source, playback }) => ({
+              operation: "place",
+              clip: {
+                assetId: binding.assetId,
+                streamId: binding.streamId,
+                acquisitionId: acquisition.id,
+                trackId: { label: "video" },
+                source: { kind: "range", range: source },
+                placement: { kind: "project", range: playback },
+              },
+            })),
+          ],
+        });
+        const params = { projectId, revisionId: authored.revision.id };
+        const ready = await until(async () => {
+          const status = await call("preview.get", params);
+          assert.ok(!["failed", "unavailable"].includes(status.state), JSON.stringify(status));
+          if (status.state !== "ready") return false;
+          await call("artifact.close", { token: status.delivery.token });
+          return status;
+        }, "Retained capture preview");
+        const output = join(home, `${name}.mp4`);
+        const delivered = publicCommand(service.socket, "preview.get", params, [
+          "--output",
           output,
-        ]),
-      );
-      run("ffmpeg", ["-v", "error", "-i", output, "-f", "null", "-"]);
-      assert.equal(Math.round(Number(metadata.format.duration) * 1e6), plan.at(-1).playback.endUs);
-      assert.equal(metadata.streams.length, 1);
-      const video = metadata.streams[0];
-      assert.equal(video.codec_type, "video");
-      assert.ok(Number(video.nb_read_frames) > 0);
-      assert.equal(Number(video.nb_read_frames), result.data.frameCount);
-      assert.equal(video.width, result.data.width);
-      assert.equal(video.height, result.data.height);
-      assert.equal(hash(source), before);
-      results.push({ name, plan, result, metadata });
+        ]);
+        assert.deepEqual(delivered.published, ready.published);
+        const receipt = ready.published.preview;
+        const metadata = JSON.parse(
+          run("ffprobe", [
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration:stream=width,height,codec_type,nb_read_frames",
+            "-count_frames",
+            "-of",
+            "json",
+            output,
+          ]),
+        );
+        run("ffmpeg", ["-v", "error", "-i", output, "-f", "null", "-"]);
+        assert.equal(
+          Math.round(Number(metadata.format.duration) * 1e6),
+          plan.at(-1).playback.endUs,
+        );
+        assert.equal(metadata.streams.length, 1);
+        assert.equal(metadata.streams[0].codec_type, "video");
+        assert.ok(Number(metadata.streams[0].nb_read_frames) > 0);
+        assert.equal(Number(metadata.streams[0].nb_read_frames), receipt.frameCount);
+        assert.equal(metadata.streams[0].width, receipt.width);
+        assert.equal(metadata.streams[0].height, receipt.height);
+        assert.equal(await hash(source), before);
+        assert.equal(await hash(join(donor, "capture.journal.jsonl")), journalBefore);
+        results.push({ name, plan, receipt, metadata });
+      }
+      if (process.env.SCREENREC_CAPTURE_RENDER_EVIDENCE)
+        await writeFile(
+          process.env.SCREENREC_CAPTURE_RENDER_EVIDENCE,
+          JSON.stringify(
+            {
+              sourceMetadata,
+              results,
+              sourceHash: before,
+              journalHash: journalBefore,
+              sourceUnchanged: true,
+              authoredFPS: 30,
+              capture: "retained donor; no new recording",
+            },
+            null,
+            2,
+          ),
+        );
+    } finally {
+      await service.close();
     }
-    if (evidence)
-      writeFileSync(
-        evidence,
-        JSON.stringify(
-          { stopped, sourceMetadata, results, sourceHash: before, sourceUnchanged: true },
-          null,
-          2,
-        ) + "\n",
-      );
   },
 );
