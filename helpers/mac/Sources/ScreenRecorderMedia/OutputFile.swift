@@ -15,7 +15,7 @@ public final class NewFile: @unchecked Sendable {
     private var stagingDirectory: FileHandle?
     private let stagingIdentity: stat
     private var assembledIdentity: stat?
-    private let cleanup = NSLock()
+    private let ownershipLock = NSLock()
 
     /// `name` is what the file is called while assembled: platform writers infer behavior from
     /// its extension, and the published path's own name need not carry one.
@@ -63,8 +63,8 @@ public final class NewFile: @unchecked Sendable {
 
     /// Writes complete bytes as the file.
     public func write(_ data: Data) throws {
-        cleanup.lock()
-        defer { cleanup.unlock() }
+        ownershipLock.lock()
+        defer { ownershipLock.unlock() }
         guard let directory = stagingDirectory else {
             throw NativeFailure("INVALID_OUTPUT", "Output staging is closed.")
         }
@@ -84,8 +84,8 @@ public final class NewFile: @unchecked Sendable {
     /// Makes the finished file visible at the requested path and returns its size. The receipt is
     /// only issued after the path is proven to name the inode this operation assembled.
     public func publish() throws -> Int {
-        cleanup.lock()
-        defer { cleanup.unlock() }
+        ownershipLock.lock()
+        defer { ownershipLock.unlock() }
         guard let stage = stagingDirectory, let parent = parentDirectory else {
             throw NativeFailure("INVALID_OUTPUT", "Output staging is closed.")
         }
@@ -145,8 +145,8 @@ public final class NewFile: @unchecked Sendable {
 
     /// Removes only the retained staging inode. A published file survives through its own link.
     public func discard() {
-        cleanup.lock()
-        defer { cleanup.unlock() }
+        ownershipLock.lock()
+        defer { ownershipLock.unlock() }
         guard let stage = stagingDirectory, let parent = parentDirectory else { return }
         stagingDirectory = nil
         parentDirectory = nil

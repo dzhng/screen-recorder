@@ -54,18 +54,18 @@ public enum DirectoryContents {
         let fd = openat(parent, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         if fd < 0 {
             if errno == ENOENT { return }
-            throw failure("Open recording directory")
+            throw failure("Open managed directory")
         }
         defer { close(fd) }
         var opened = stat()
         guard fstat(fd, &opened) == 0 else { throw failure("Inspect opened directory") }
         guard opened.st_dev == info.st_dev, opened.st_ino == info.st_ino else {
             throw NativeFailure(
-                "INVALID_STORAGE", "Recording directory changed while opening.", retryable: true)
+                "INVALID_STORAGE", "Managed directory changed while opening.", retryable: true)
         }
         try removeContents(fd, depth: depth)
         if unlinkat(parent, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
-            throw failure("Remove emptied recording directory")
+            throw failure("Remove emptied managed directory")
         }
     }
 
